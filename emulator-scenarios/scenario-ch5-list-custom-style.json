@@ -1,0 +1,50 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "sig_trig_style1",
+      "trigger": true,
+      "actions": [
+        {
+          "type": "string",
+          "state": "sig_custom_style",
+          "logic": "set",
+          "value": "border:2px dashed blue;"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "sig_trig_style2",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sig_custom_style",
+          "type": "s",
+          "logic": "set",
+          "value": "border:3px dotted green; color:red;"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "sig_trig_style3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sig_custom_style",
+          "type": "s",
+          "logic": "set",
+          "value": "border:1px solid red; color:green;"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "s",
+      "state": "sig_custom_style",
+      "value": "color:#eaeaea;"
+    }
+  ]
+}

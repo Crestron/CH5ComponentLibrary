@@ -1,0 +1,166 @@
+{% macro exampleSection(exampleDescription='', exampleHtml='', exampleJs='', exampleCss='', jsBeforeHtml=false) %}
+    <div class="boxtest example">
+        <div class="example-description message is-info">
+            <div class="message-body">
+                {{- exampleDescription|safe -}}
+            </div>
+        </div>
+        <div class="css-container">
+            <style>{{ exampleCss|safe }}</style>
+        </div>
+
+        <div class="columns">
+            <div class="column is-half">
+                <div class="box custom-box">
+                    <div class="tabs is-medium">
+                        <ul>
+                            <li class="is-active"><a>Preview</a></li>
+                        </ul>
+                    </div>
+                    <div class="content preview">
+                        {{- exampleHtml|safe -}}
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="box custom-box editable-code-sections">
+                    <div class="tabs is-medium">
+                        <ul>
+                            <li class="is-active" data-control-block=".block-html"><a>HTML</a></li>
+                            <li data-control-block=".block-js"><a>JS</a></li>
+                            <li data-control-block=".block-css"><a>CSS</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="block block-html">
+                        <pre class="editable-code html" data-language="html">{{ exampleHtml }}</pre>
+                    </div>
+
+                    <div class="block block-js is-hidden">
+                        <pre class="editable-code js" data-language="javascript">{{ exampleJs }}</pre>
+                    </div>
+
+                    <div class="block block-css is-hidden">
+                        <pre class="editable-code css" data-language="css">{{ exampleCss }}</pre>
+                    </div>
+
+                    <button class="button is-info btn-preview">Preview</button>
+                    <label class="label-right"><input type="checkbox" class="execute-js-before-html" {{ "checked" if jsBeforeHtml }}>Execute JS before HTML</label>
+                </div>
+            </div>
+        </div>
+        <div class="js-container" >
+            <script type="text/javascript"></script>
+        </div>
+
+    </div>
+{% endmacro %}
+
+
+{% macro emulatorScenarioSection(jsonScenario='', scenarioDescription='') %}
+    <div class="message emulator-scenario closed">
+        <div class="message-header">
+            <span><i class="fas fa-plus click-to-expand"></i><i class="fas fa-minus click-to-minimize"></i>Emulator Scenario (click to expand)</span>
+        </div>
+        <div class="message-body">
+            <div class="columns">
+                <div class="column is-5">
+                    <div class="bo">
+                        <div class="tabs is-medium">
+                            <ul>
+                                <li class="is-active" data-control-block=".block-html">
+                                    <a class="remove-underline">JSON defining the Emulator Scenario</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="block block-emulator">
+                            <pre class="editable-code json" data-language="json">{{ jsonScenario }}</pre>
+                        </div>
+                        <button class="button is-info btn-load-scenario">Load</button>
+                        <button class="button is-info btn-run-scenario">Run</button>
+                    </div>
+                </div>
+                <div class="column is-7">
+                    <div class="bo">
+                        <div class="tabs is-medium">
+                            <ul>
+                                <li class="is-active">
+                                    <a class="remove-underline">Emulator Scenario</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="content is-small">
+                        <h5>Emulator actions</h5>
+                            <p>Press the <b>Load</b> button to load the scenario. This will also reload all of the existing examples on the page.</p>
+                            <p>Press the <b>Run</b> button to run the scenario. You only need to do this if the scenario (the json) has an <b>onStart</b> key.</p>
+                            {% include '../partials/emulator-scenario-info.njk' %}
+                            {{- scenarioDescription|safe -}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro exampleSectionFromPartials(partialsSubfolders='', exampleFilesPrefix='', jsBeforeHtml=false) %}
+
+    {% set exDescription -%}
+        {%- include '../partials/' + partialsSubfolders + exampleFilesPrefix + '-description.njk' %}
+    {%- endset %}
+    {% set exHtml -%}
+        {%- include '../partials/' + partialsSubfolders + exampleFilesPrefix + '-html.njk' %}
+    {%- endset %}
+    {% set exJs -%}
+        {%- include '../partials/' + partialsSubfolders + exampleFilesPrefix + '-js.njk' %}
+    {%- endset %}
+    {% set exCss -%}
+        {%- include '../partials/' + partialsSubfolders + exampleFilesPrefix + '-css.njk' %}
+    {%- endset %}
+    {% call exampleSection(exDescription, exHtml, exJs, exCss, jsBeforeHtml) %}{% endcall %}
+
+{% endmacro %}
+
+{% macro componentConfigurationSection(jsonConfig='') %}
+    <div class="message component-configuration closed">
+        <div class="message-header">
+            <span><i class="fas fa-plus click-to-expand"></i><i class="fas fa-minus click-to-minimize"></i>Component Configuration (click to expand)</span>
+        </div>
+        <div class="message-body">
+            <div class="columns">
+                <div class="column is-5">
+                    <div class="bo">
+                        <div class="tabs is-medium">
+                            <ul>
+                                <li class="is-active">
+                                    <a class="remove-underline">JSON defining component defaults</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="block block-emulator">
+                            <pre class="editable-code json" data-language="json">{{ jsonConfig }}</pre>
+                        </div>
+                        <button class="button is-info btn-load-config">Load</button>
+                    </div>
+                </div>
+                <div class="column is-7">
+                    <div class="bo">
+                        <div class="tabs is-medium">
+                            <ul>
+                                <li class="is-active">
+                                    <a class="remove-underline">Component Configuration</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="content is-small">
+                            <p>Press the <b>Load</b> button to load the configuration.</p>
+                            {% include '../partials/component-configuration-info.njk' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

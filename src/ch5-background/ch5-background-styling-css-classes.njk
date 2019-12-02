@@ -1,0 +1,31 @@
+---
+title: "ch5-background styling"
+---
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>CSS Class</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ch5-background</td>
+            <td>Added automatically on the ch5-background element</td>
+        </tr>
+        <tr>
+            <td>ch5-background--canvas</td>
+            <td>Added automatically on the all canvas child of ch5-background element</td>
+        </tr>
+        <tr>
+            <td>ch5-background--parent</td>
+            <td>Added automatically on the first parent of the ch5-background element</td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

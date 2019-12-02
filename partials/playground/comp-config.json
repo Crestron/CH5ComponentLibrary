@@ -1,0 +1,36 @@
+{
+  "attributes": {
+    "id":{
+      "btn1":{
+        "label":"Label1",
+        "type":"danger"
+      },
+      "btn2":{
+        "label":"Label2",
+        "shape":"oval"
+      },
+      "volume1":{
+        "size":"4",
+        "noneSelectedPrompt":"Please select an option"
+      }
+    },
+    "component":{
+      "ch5-button":{
+        "label":"Button label",
+        "type":"info",
+        "shape":"rounded-rectangle"
+      }
+    }
+  },
+  "templatevariables": {
+    "id": {
+      "volume1": [
+        {"label":"Down", "fa-icon": "volume-down"},
+        {"label":"Up", "fa-icon": "volume-up"},
+        {"label":"Mute", "fa-icon": "volume-off"},
+        {"label":"Speaker", "fa-icon": "phone-volume"}
+      ]
+    }
+  }
+}
+

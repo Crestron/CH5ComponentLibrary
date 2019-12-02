@@ -1,0 +1,87 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_data_ch5_show_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_show_1",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_data_ch5_show_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_show_2_1",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "data_ch5_show_2_2",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_data_ch5_show_2a",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_show_2_1",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_data_ch5_show_2b",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_show_2_2",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_data_ch5_show_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_show_3",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart":[
+    {
+      "type":"b",
+      "state":"data_ch5_show_1",
+      "value":true
+    },
+    {
+      "type":"b",
+      "state":"data_ch5_show_2_1",
+      "value":true
+    },
+    {
+      "type":"b",
+      "state":"data_ch5_show_2_2",
+      "value":true
+    }
+
+  ]
+}

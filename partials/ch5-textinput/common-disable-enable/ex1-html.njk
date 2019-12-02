@@ -1,0 +1,11 @@
+<p>Toggle the textinput between being <i>enabled</i> / <i>disabled</i>. While the textinput is disabled, no events
+    will not be triggered (pointer-events: none) and the opacity value is lowered.</p>
+<ch5-button label="Click to change the toggle_enabled_or_disabled signal" sendEventOnClick="toggle_enabled_or_disabled"></ch5-button>
+<p>The textinput below is initially disabled via the <b>'disabled'</b> attribute.</p>
+
+<ch5-textinput
+        disabled
+        receiveStateEnable="set_enabled_or_disabled"
+        sendEventOnFocus="input_focused"
+        placeholder="Focus me to send the input_focused signal">
+</ch5-textinput>

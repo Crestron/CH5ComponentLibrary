@@ -1,0 +1,23 @@
+<ch5-button label="Trigger show pulse" sendEventOnClick="trigger_1"></ch5-button>
+
+<p>
+    Click the above button to make the modal visible.
+</p>
+
+<ch5-modal-dialog
+        receiveStateShowPulse="trigger_1"
+        closable
+        mask
+        sendEventOnShow="signal_on_show"
+        sendEventOnBeforeShow="signal_on_before_show"
+        sendEventOnAfterShow="signal_on_after_show"
+        sendEventOnBeforeHide="signal_on_before_hide"
+        sendEventOnAfterHide="signal_on_after_hide"
+        sendEventOnOk="signal_on_ok"
+        sendEventOnCancel="signal_on_cancel">
+    <p>Sample text</p>
+    <ch5-image
+            id="ex1-img"
+            url="https://picsum.photos/200/300/?random">
+    </ch5-image>
+</ch5-modal-dialog>

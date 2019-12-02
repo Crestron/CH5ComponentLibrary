@@ -1,0 +1,11 @@
+var demo = document.getElementById('demo');
+var prev = document.getElementById('prev');
+var next = document.getElementById('next');
+
+prev.addEventListener('click', function() {
+	demo.previousViewChild(); 
+});
+
+next.addEventListener('click', function() {
+	demo.nextViewChild(); 
+});

@@ -1,0 +1,417 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "22",
+      "trigger": true,
+      "actions": [
+        {
+          "type": "b",
+          "state": "22",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "n",
+      "event": "26",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "26",
+          "type": "n",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "29",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "29",
+          "type": "b",
+          "logic": "set",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "30",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "30",
+          "type": "b",
+          "logic": "set",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "31",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "31",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trigger_pos_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "33",
+          "type": "s",
+          "logic": "set",
+          "value": "el-id-1"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trigger_pos_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "33",
+          "type": "s",
+          "logic": "set",
+          "value": "el-id-2"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trigger_pos_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "34",
+          "type": "string",
+          "logic": "set",
+          "value": "bottom-right"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trigger_pos_4",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "34",
+          "type": "string",
+          "logic": "set",
+          "value": "top-left"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "35",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "35",
+          "type": "boolean",
+          "logic": "set",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "n",
+      "event": "37",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "36",
+          "type": "n",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "slider.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "38",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "sliderHigh.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "39",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig1",
+      "trigger": true,
+      "actions": [
+        {"state": "40", "value": 1, "type": "n","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig2",
+      "trigger": true,
+      "actions": [
+        {"state": "40", "value": 2, "type": "n","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "41",
+      "trigger": true,
+      "actions": [
+        {"state": "41", "value": true, "type": "b","logic": "set"},
+        {"state": "42", "value": false, "type": "b","logic": "set"},
+        {"state": "43", "value": false, "type": "b","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "42",
+      "trigger": true,
+      "actions": [
+        {"state": "41", "value": false, "type": "b","logic": "set"},
+        {"state": "42", "value": true, "type": "b","logic": "set"},
+        {"state": "43", "value": false, "type": "b","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "43",
+      "trigger": true,
+      "actions": [
+        {"state": "41", "value": false, "type": "b","logic": "set"},
+        {"state": "42", "value": false, "type": "b","logic": "set"},
+        {"state": "43", "value": true, "type": "b","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "44",
+      "trigger": true,
+      "actions": [
+        {"state": "44", "value": true, "type": "b","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "45",
+      "trigger": true,
+      "actions": [
+        {"state": "45", "value": "John Doe", "type": "s","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "46",
+      "trigger": true,
+      "actions": [
+        {"state": "46", "value": 5, "type": "n","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "47",
+      "trigger": true,
+      "actions": [
+        {"state": "47", "value": 10, "type": "n","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "48",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "48",
+          "type": "number",
+          "logic": "increment",
+          "offset": 5
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "49",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "49",
+          "type": "string",
+          "logic": "set",
+          "value": "[{\"label\":\"Rewind\",\"cssClass\":\"green\"},{\"label\":\"Play\",\"cssClass\":\"blue\"},{\"label\":\"FWD\",\"cssClass\":\"blue\"},{\"label\":\"Stop\",\"cssClass\":\"green\"},{\"label\":\"Record\",\"cssClass\":\"red\"}]"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "50",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "50",
+          "type": "number",
+          "logic": "increment",
+          "offset": 10
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "100",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "100",
+          "type": "object",
+          "logic": "set",
+          "value": {
+            "rcb": {
+              "value": 30,
+              "time": 1000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "200",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "200",
+          "type": "object",
+          "logic": "set",
+          "value": {
+            "rcb": {
+              "value": 50,
+              "time": 1000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "n",
+      "event": "99",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "100",
+          "type": "object",
+          "logic": "link"
+        },
+        {
+          "state": "100",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "n",
+      "event": "199",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "200",
+          "type": "object",
+          "logic": "link"
+        },
+        {
+          "state": "200",
+          "type": "number",
+          "logic": "link"
+        },
+        {
+          "type": "n",
+          "state": "100",
+          "value": 5
+        },
+        {
+          "type": "n",
+          "state": "200",
+          "value": 95
+        }
+      ]
+    }
+  ],
+
+  "onStart": [
+    {
+      "type": "s",
+      "state": "23",
+      "value": "Label received from state - emulator"
+    },
+    {
+      "type": "s",
+      "state": "24",
+      "value": "He<b>ll</b>o <span style='color:red'>World</span><i style='color: blue;'>!</i>"
+    },
+    {
+      "type": "s",
+      "state": "25",
+      "value": "https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg"
+    },
+    {
+      "type": "n",
+      "state": "27",
+      "value": "6"
+    },
+    {
+      "state": "28",
+      "type": "string",
+      "value": "[{\"description\":\"North\"},{\"description\":\"South\"},{\"description\":\"East\"},{\"description\":\"West\"}]"
+    },
+    {
+      "type": "s",
+      "state": "301",
+      "value": "Option 1"
+    },
+    {
+      "type": "s",
+      "state": "302",
+      "value": "Option 2"
+    },
+    {
+      "state": "32",
+      "type": "s",
+      "value": "<span style='color:green'>Hello</span><br/><span style='color:red'>W</span>orld!"
+    },
+    {
+      "state": "48",
+      "type": "n",
+      "value": 10
+    },
+    {
+      "state": "36",
+      "type": "n",
+      "value": -13
+    }
+  ]
+}

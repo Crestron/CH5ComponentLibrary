@@ -1,0 +1,12 @@
+{
+  "templatevariables": {
+    "id": {
+      "volume": [
+          {"label":"Down", "fa-icon": "volume-down"},
+          {"label":"Up", "fa-icon": "volume-up"},
+          {"label":"Mute", "fa-icon": "volume-off"},
+          {"label":"Speaker", "fa-icon": "phone-volume"}
+        ]
+    }
+  }
+}

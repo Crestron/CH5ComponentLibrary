@@ -1,0 +1,340 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigCh5SelectSizeIncrement",
+      "trigger": false,
+      "actions": [
+        {
+          "state": "ch5_select_receive_signal_size",
+          "type": "number",
+          "logic": "increment",
+          "offset": 2
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigCh5SelectSizeIncrementMultiSelect",
+      "trigger": false,
+      "actions": [
+        {
+          "state": "ch5_multi_select_receive_signal_size",
+          "type": "number",
+          "logic": "increment",
+          "offset": 3
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_0_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_0_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_1_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_1_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_2_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_2_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_3_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_3_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_4_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_4_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_5_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_5_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_6_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_6_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_7_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_7_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_8_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_8_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_9_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_9_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_10_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_10_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_11_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_11_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_12_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_12_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_13_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_13_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_14_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_14_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "option_2_15_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_15_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "number",
+      "state": "ch5_select_receive_signal_size",
+      "value": 4
+    },
+    {
+      "type": "number",
+      "state": "ch5_multi_select_receive_signal_size",
+      "value": 2
+    },
+    {
+      "type": "b",
+      "state": "option_2_selected",
+      "value": false
+    },
+    {
+      "type": "b",
+      "state": "option_4_selected",
+      "value": false
+    },
+    {
+      "type": "string",
+      "state": "label_signal_0",
+      "logic": "set",
+      "value": "Option 0"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_1",
+      "logic": "set",
+      "value": "Option 1"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_2",
+      "logic": "set",
+      "value": "Option 2"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_3",
+      "logic": "set",
+      "value": "Option 3"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_4",
+      "logic": "set",
+      "value": "Option 4"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_5",
+      "logic": "set",
+      "value": "Option 5"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_6",
+      "logic": "set",
+      "value": "Option 6"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_7",
+      "logic": "set",
+      "value": "Option 7"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_8",
+      "logic": "set",
+      "value": "Option 8"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_9",
+      "logic": "set",
+      "value": "Option 9"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_10",
+      "logic": "set",
+      "value": "Option 10"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_11",
+      "logic": "set",
+      "value": "Option 11"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_12",
+      "logic": "set",
+      "value": "Option 12"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_13",
+      "logic": "set",
+      "value": "Option 13"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_14",
+      "logic": "set",
+      "value": "Option 14"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_15",
+      "logic": "set",
+      "value": "Option 15"
+    }
+  ]
+}

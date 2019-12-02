@@ -1,0 +1,51 @@
+<div class="playground_btn_container content">
+    <button class="button is-info btn_playground1" type="button">Btn1</button>
+    <button class="button is-info btn_playground2" type="button">Btn2</button>
+</div>
+
+<ch5-button type="success"
+             shape="rectangle"
+             label="ReceiveLabelFromSignal"
+             receiveStateLabel="btn_receive_label"></ch5-button>
+
+<p></p>
+
+<p>
+    Ch5 button with an SVG icon
+    <br>
+    <ch5-button
+            label="SVG Icon"
+            iconClass="svg-icon"
+    ></ch5-button>
+</p>
+
+<p>
+    Ch5 image using an SVG source
+    <br>
+    <ch5-image width="100px" url="https://upload.wikimedia.org/wikipedia/en/9/9f/Twitter_bird_logo_2012.svg">
+    </ch5-image>
+</p>
+
+<p></p>
+
+<div class="row">
+    <p> The following elements are using defaults and template variables defined in the component configuration section</p>
+    <div>
+        <ch5-button></ch5-button>
+        <ch5-button id="btn1"></ch5-button>
+        <ch5-button id="btn2"></ch5-button>
+    </div>
+    <br>
+    <div>
+    {% raw %}
+        <ch5-select id="volume1">
+            <template>
+                <ch5-select-option>
+                    <i class="fas fa-{{fa-icon}}"></i>
+                    <span>{{label}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    {% endraw %}
+    </div>
+</div>

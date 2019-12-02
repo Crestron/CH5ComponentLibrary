@@ -1,0 +1,12 @@
+{
+  "templatevariables": {
+    "id": {
+      "direction_select": [
+          {"description": "North", "fa-icon": "up"},
+          {"description": "South", "fa-icon": "down"},
+          {"description": "East", "fa-icon": "right"},
+          {"description": "West", "fa-icon": "left"}
+        ]
+    }
+  }
+}

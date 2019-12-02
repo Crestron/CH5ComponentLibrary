@@ -1,0 +1,90 @@
+{% raw %}
+
+    <p>In the following example, ch5-buttons are generated using nested ch5-templates with multiple context
+        pairs.</p>
+    <p>It covers a couple of cases, the first ch5-template is used inside the template of the ch5-list,
+        that ch5-template uses the outer template which contains 3 more ch5-templates. The main ch5-template
+        uses
+        context pairs which will influence the value of the <i>sendEventOnClick</i> attribute from the ch5-button.</p>
+    <p>The ch5-list is there to highlight the fact that the <b>{{idx}}</b> can be used, can be handy for more complex
+        scenarios.
+    </p>
+    <h5>Behaviour explanation</h5>
+    <ol>
+        <li>The first ch5-template used inside the ch5-list has multiple context pairs</li>
+        <li>The first 3 pairs handle the value of the sendEventOnClick attribute from the ch5-button, the string which
+            will be replaced in the end is <i>INNER</i>.
+        </li>
+        <li>To get there, the ch5-template uses a template with 3 other ch5-templates. Each of those templates will have
+            the replacement string of their context replaced by the main
+            ch5-template original replacement pair.
+        </li>
+        <li>For the first of the 3 ch5-templates, its context replacement string, <i>BUTTON_prevtrack</i> will become:
+            MediaPlayer[0].prevtrack, the next 2
+            will follow the same logic
+            <ul>
+                <li>BUTTON_play => MediaPlayer[0].play</li>
+                <li>BUTTON_nexttrack => MediaPlayer[0].nexttrack</li>
+            </ul>
+        </li>
+        <li>Each of those 3 ch5-templates use the same template with the <i>ch5-button</i>, their context has been
+            changed and now <i>INNER</i>
+            will be replaced MediaPlayer[0].prevtrack and so on.
+        </li>
+    </ol>
+
+    <p>The labels of the generated ch5-buttons are equal to the final value of their respective <i>sendEventOnClick</i>
+        attribute</p>
+
+    <template id="innerId">
+        <ch5-button class="media-predefined-class template-media-class" sendEventOnClick="INNER.clicked"
+                    label="INNER"></ch5-button>
+    </template>
+
+    <template id="outerId">
+        <div class="media-button-container">
+            <ch5-template templateid="innerId" context="INNER:BUTTON_prevtrack"></ch5-template>
+            <ch5-template templateid="innerId" context="INNER:BUTTON_play"></ch5-template>
+            <ch5-template templateid="innerId" context="INNER:BUTTON_nexttrack"></ch5-template>
+        </div>
+    </template>
+
+    <ch5-list indexid="idx" size="1">
+        <template>
+            <div>
+                <ch5-template templateid="outerId"
+                              context="BUTTON_prevtrack:MediaPlayer[{{idx}}].prevtrack;BUTTON_play:MediaPlayer[{{idx}}].play;BUTTON_nexttrack:MediaPlayer[{{idx}}].nexttrack;">
+                </ch5-template>
+            </div>
+        </template>
+    </ch5-list>
+
+
+    <template id="transportbuttons_nextline">
+        <div class="TRANSBTNS">
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons fast_rewind"
+                        receiveStateSelected="TRANSBTNS.prevtrack_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons play_arrow"
+                        receiveStateSelected="TRANSBTNS.play_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons fast_forward"
+                        receiveStateSelected="TRANSBTNS.nexttrack_selected">
+            </ch5-button>
+        </div>
+    </template>
+
+
+    <ch5-template id="receive"
+                  templateid="transportbuttons_nextline"
+                  context="TRANSBTNS:receive"></ch5-template>
+
+    <div id="textcontent" class="b-red"
+         data-ch5-textcontent="selected_button">
+        [Testing ch5-template]
+    </div>
+
+{% endraw %}

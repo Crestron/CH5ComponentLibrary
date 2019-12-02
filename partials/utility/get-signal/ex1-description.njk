@@ -1,0 +1,14 @@
+{% raw %}
+<h1>Utility function: getState </h1>
+<p>getState(signalType:string, signalName:string, default:boolean|number|string|object):boolean|number|string|object</p>
+<p><b>signalType</b> - a string with the type of the signal valid values: "boolean" | "b" | "number" | "numeric" | "n" | "string" | "s" | "object" | "o"</p>
+<p><b>signalName</b> - a string with the name of the signal </p>
+<p><b>default</b> if present, it is the default value returned if there are signals that have not been initialized</p>
+
+<p> The following functions are also available:<br>
+    getBooleanSignalValue(signalName:string, defaultValue?:boolean):boolean|null<br>
+    getNumericSignalValue(signalName: string, defaultValue?: number|null): number|null<br>
+    getStringSignalValue(signalName: string, defaultValue?: string|null): string|null<br>
+    getObjectSignalValue(signalName: string, defaultValue?: object): object|null
+</p>
+{% endraw %}

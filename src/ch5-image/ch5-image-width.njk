@@ -1,0 +1,18 @@
+---
+title: "ch5-image: width"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {# example 1 #}
+        {% call exampleSectionFromPartials('ch5-image/width/','ex1') %}{% endcall %}
+
+    {# example 2 #}
+        {% call exampleSectionFromPartials('ch5-image/width/','ex2') %}{% endcall %}
+
+    {# example 3 #}
+        {% call exampleSectionFromPartials('ch5-image/width/','ex3') %}{% endcall %}
+
+{% endblock %}

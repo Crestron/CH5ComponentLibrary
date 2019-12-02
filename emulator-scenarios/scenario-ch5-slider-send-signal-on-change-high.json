@@ -1,0 +1,30 @@
+{
+  "cues": [
+    {
+      "type": "number",
+      "event": "slider1.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "slider1.value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "sliderHigh1.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sliderHigh1.value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    }
+  ],
+  "onStart":[
+  ]
+}

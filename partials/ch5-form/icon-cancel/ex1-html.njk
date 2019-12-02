@@ -1,0 +1,26 @@
+<ch5-form
+    cancelButtonLabel="Off"
+    cancelbuttonicon="fa fa-times"> 
+    <h2>Room X</h2>
+     
+    <h5>Do not disturb</h5>             
+    <ch5-toggle 
+        labelOn="On"
+        labelOff="Off"
+        feedbackMode="submit" 
+        receiveStateValue="room_donotdisturb_selected" 
+        sendEventOnClick="room_donotdisturb_clicked">
+    </ch5-toggle> 
+     
+    <br><br>
+
+    <h5>Temperature</h5>
+    <ch5-slider 
+        feedbackMode="submit" 
+        receiveStateValue="room_thermostat_set_fb" 
+        sendEventOnChange="room_thermostat_set" 
+        step="10" 
+        min="0" 
+        max="100"> 
+    </ch5-slider>
+</ch5-form>

@@ -1,0 +1,13 @@
+---
+title: "ch5-list: minWidth, maxWidth, minHeight, maxHeight, itemHeight, itemWidth"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-list/dimensions/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-list/dimensions/','ex2') %}{% endcall %}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+---
+title: "ch5-button: type"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-ch5-button-type.json" %}
+    {%- endset %}
+
+    {% call exampleSectionFromPartials('ch5-button/types/','ex1') %}{% endcall %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-button/types/','ex2') %}{% endcall %}
+
+{% endblock %}

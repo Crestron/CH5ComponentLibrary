@@ -1,0 +1,47 @@
+{% raw %}
+    <h6> Ch5-template used with a ch5-list.</h6>
+    <p>The sizes of all lists are received via the numXYZ signal.</p>
+    <template id="viewXYZ">
+        <ch5-button label="original.label"
+                    sendEventOnClick="original.click"
+                    receiveStateSelected="original.selected"></ch5-button>
+    </template>
+    <ch5-list
+            maxWidth="300px"
+            receiveStateSize="numXYZ"
+            orientation="horizontal"
+            indexId="idx">
+        <template>
+            <ch5-template templateid="viewXYZ"
+                          context="original:xyz_{{idx}}">
+            </ch5-template>
+        </template>
+    </ch5-list>
+
+    <div id="textcontent" class="b-red"
+         data-ch5-textcontent="selected_button_from_list">
+        DIV: Testing ch5-template inside ch5-list
+    </div>
+
+    <br>
+    <h6> Ch5-list used inside of a ch5-template</h6>
+    <ch5-template templateid="viewXYZ2"
+                  context="original:idx">
+    </ch5-template>
+
+    <template id="viewXYZ2">
+        <ch5-list
+                maxWidth="300px"
+                receiveStateSize="numXYZ"
+                orientation="horizontal"
+                indexId="original">
+            <template>
+                <div class="xyz">
+                    <ch5-button label="xyz_{{original}}.label"
+                                sendEventOnClick="xyz_{{original}}.click"
+                                receiveStateSelected="xyz_{{original}}.selected"></ch5-button>
+                </div>
+            </template>
+        </ch5-list>
+    </template>
+{% endraw %}

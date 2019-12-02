@@ -1,0 +1,25 @@
+// The following JS code needs to interpreted before the one from the HTML tab
+CrComLib.Ch5Config.setAttributeForId('btn3', 'shape', 'tab');
+CrComLib.Ch5Config.setAttributeForId('btn3', 'type', 'danger');
+
+// to see the current configuration you can run CrComLib.Ch5Config.getConfig() in the browser console
+var loadConfigBtn = document.getElementById('btn-load-component-config');
+
+loadConfigBtn.addEventListener('click', function () {
+    var requestURL = '/component-configuration/conf-attributes-from-file.json';
+    var request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function () {
+        var confJson = request.response;
+        console.log(confJson);
+        CrComLib.Ch5Config.loadConfig(confJson);
+    };
+    
+    // wait a bit for the config to load, support for async - await or Promises should be added in the future
+    setTimeout(() => {
+        var previewBtn = document.getElementsByClassName('btn-preview');
+        previewBtn[0].click();
+    }, 100);
+});

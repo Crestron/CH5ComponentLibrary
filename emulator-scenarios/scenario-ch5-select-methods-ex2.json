@@ -1,0 +1,57 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "volume_select_0_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_selected_after_click",
+          "type": "number",
+          "logic": "set",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_1_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_selected_after_click",
+          "type": "number",
+          "logic": "set",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_2_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_selected_after_click",
+          "type": "number",
+          "logic": "set",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_3_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_selected_after_click",
+          "type": "number",
+          "logic": "set",
+          "value": 3
+        }
+      ]
+    }
+  ],
+  "onStart": []
+}

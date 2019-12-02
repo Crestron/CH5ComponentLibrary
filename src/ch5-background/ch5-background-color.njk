@@ -1,0 +1,15 @@
+---
+title: "ch5-background: backgroundColor"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {# example 1 #}
+        {% call exampleSectionFromPartials('ch5-background/background-color/','ex1') %}{% endcall %}
+    
+    {# example 2 #}
+        {% call exampleSectionFromPartials('ch5-background/background-color/','ex2') %}{% endcall %}
+
+{% endblock %}

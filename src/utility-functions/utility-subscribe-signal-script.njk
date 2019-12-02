@@ -1,0 +1,20 @@
+---
+title: "Utility function subscribeStateScript"
+---
+
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./partials/utility/subscribe-signal-script/scenario-utility-subscribe-signal-script.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+
+{# example 1 #}
+    {% call exampleSectionFromPartials('utility/subscribe-signal-script/','ex1') %}{% endcall %}
+
+
+{% endblock %}

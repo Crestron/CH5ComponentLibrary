@@ -1,0 +1,19 @@
+<p>Open the browser console to see dirty state when getDirty button is clicked. 
+You can also check dirty state after switching value or clicking on the Submit or Reset buttons</p>
+
+<ch5-toggle
+    id="demo"
+    label="Alarm"
+    labelOn="On"
+    labelOff="Off"
+    feedbackMode="submit"    
+    sendEventOnClick="send_signal_on_submit"
+    receiveStateValue="receive_switch_value"
+    >
+</ch5-toggle>
+
+<br><br>
+
+<button id="button">Submit</button>
+<button id="reset">Reset</button>
+<button id="dirty">getDirty</button>

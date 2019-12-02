@@ -1,0 +1,29 @@
+---
+title: Playground
+description:
+---
+
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+
+
+<p class="notification">Here you can play with the Crestron Components Library and the Emulator by entering/modifying a JSON that defines an Emulator Scenario,
+by modifying component configuration or by adding/modifying HTML, JS and/or CSS</p>
+
+{% set configJson -%}
+    {%- include "./partials/playground/comp-config.json" %}
+{%- endset %}
+{% call componentConfigurationSection(configJson) %}{% endcall %}
+
+{% set scenario1 -%}
+    {%- include "./emulator-scenarios/scenario01.json" %}
+{%- endset %}
+{% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+
+{% call exampleSectionFromPartials('playground/','ex1') %}{% endcall %}
+
+
+{% endblock %}

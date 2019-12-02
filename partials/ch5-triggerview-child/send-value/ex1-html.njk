@@ -1,0 +1,24 @@
+<p>Open the browser console to see that when changing active view a signal with name 'first_child_is_shown', second_child_is_shown or 'third_child_is_shown' is sent.</p>
+
+<ch5-triggerview id="demo" > 
+    <ch5-triggerview-child sendEventOnShow="first_child_is_shown">        
+        <div class="viewcontent">
+            <h1>First View</h1>
+        </div>
+    </ch5-triggerview-child > 
+    <ch5-triggerview-child sendEventOnShow="second_child_is_shown">
+        <div class="viewcontent">
+            <h1>Second View </h1>
+        </div> 
+    </ch5-triggerview-child >
+    <ch5-triggerview-child sendEventOnShow="third_child_is_shown">
+        <div class="viewcontent">
+            <h1>Third View </h1>
+        </div> 
+    </ch5-triggerview-child >  
+</ch5-triggerview>
+
+<br>
+
+<ch5-button id="prev" label="prev"></ch5-button>
+<ch5-button id="next" label="next"></ch5-button>

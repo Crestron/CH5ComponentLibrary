@@ -1,0 +1,63 @@
+{% raw %}
+var onDocumentReady = function($, CrComLib){
+    const updateDirty = (container, selectEl) => {
+        container.innerHTML = selectEl.getDirty();
+    };
+
+    const updateShownSelectedValue = (container, selectEl, multi) => {
+        container.innerHTML = selectEl.getValue();
+    };
+
+    const initActions = (selectSelector, dirtyContainerSelector, selectedValContainerSelector,
+                         submitBtnSelector, resetBtnSelector, setBtnSelector, valForSet,
+                         refreshSelectionBtnSelector) => {
+        let dirtyValContainer = $(dirtyContainerSelector)[0];
+        let select = $(selectSelector)[0];
+        updateDirty(dirtyValContainer, select);
+
+        let selectedValContainer = $(selectedValContainerSelector)[0];
+        updateShownSelectedValue(selectedValContainer, select);
+
+        select.addEventListener('change', (e) => {
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select);
+        });
+
+        select.addEventListener('dirty', (e) => {
+            console.log('dirty event for select id: ' + select.id);
+            updateDirty(dirtyValContainer, select);
+        });
+        select.addEventListener('clean', (e) => {
+            console.log('clean event for select id: ' + select.id);
+            updateDirty(dirtyValContainer, select);
+        });
+
+        let submitBtn = $(submitBtnSelector)[0];
+        submitBtn.addEventListener('click', (e) => {
+            select.submit();
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select);
+        });
+
+        let resetBtn = $(resetBtnSelector)[0];
+        resetBtn.addEventListener('click', (e) => {
+            select.reset();
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select);
+        });
+
+        let setBtn = $(setBtnSelector)[0];
+        setBtn.addEventListener('click', (e) => {
+            select.setValue(valForSet);
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select);
+        });
+    };
+
+    initActions('#volume1', '#dirty-select-1', '#selected-1', '#submit-btn-1', '#reset-btn-1', '#set-btn-1', 3);
+
+};
+
+$(document).ready = onDocumentReady(jQuery, CrComLib);
+
+{% endraw %}

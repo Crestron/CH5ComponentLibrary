@@ -1,0 +1,17 @@
+---
+title: "data-ch5-appendclass"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-data-ch5-appendclass.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {# example 1 #}
+    {% call exampleSectionFromPartials('data-ch5/appendclass/','ex1') %}{% endcall %}
+
+
+{% endblock %}

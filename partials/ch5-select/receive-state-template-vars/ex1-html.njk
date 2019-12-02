@@ -1,0 +1,42 @@
+<div class="row">
+    {% raw %}
+        <p>Initially 4 template variables are loaded (see component configuration).</p>
+        <p>The size / number of select options cannot be <b>higher</b> than the actual number of templates loaded. The
+            size itself will be updated, but the unavailable options will not be shown</p>
+        <ch5-select id="direction_select" size="20" indexId="Index"
+                    receiveStateSize="ch5_select_receive_signal_size"
+                    receiveStateTemplateVars="ch5_select_receive_signal_tmpl_vars"
+                    noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option>
+                    <i class="fas fa-arrow-{{fa-icon}}"></i>
+                    <span> {{description}} | from template {{Index}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    {% endraw %}
+    <p style="margin-top: 24px">
+        Clicking this button will increase the number of select options by 2 (if there are templates available, the
+        ch5-select will display them).
+    </p>
+    <p>
+        <ch5-button type="info" label="Increase size" sendEventOnClick="trigCh5SelectSizeIncrement"></ch5-button>
+    </p>
+    <p style="margin-top: 24px">
+        Clicking this button will decrease the number of select options by 2.
+    </p>
+    <p>
+        <ch5-button type="info" label="Decrease size" sendEventOnClick="trigCh5SelectSizeDecrement"></ch5-button>
+    </p>
+    <p style="margin-top: 24px">
+        Clicking this button will set new template vars (value of the <i>ch5_select_receive_signal_tmpl_vars</i>), 8 in
+        total, therefore the maximum number of select options that can be shown is 8.
+    </p>
+    <p>If you click the <i>Increase size</i> button twice, and then the <i>Update tmpl vars</i>, you will see all the
+        options without needing
+        to increase the size, this is because the size property is updated even if it's bigger than the number of
+        available options, but only the available options are shown.</p>
+    <p>
+        <ch5-button type="success" label="Update tmpl vars" sendEventOnClick="trigCh5SelectTmplVarsUpdate"></ch5-button>
+    </p>
+</div>

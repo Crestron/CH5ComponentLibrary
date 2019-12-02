@@ -1,0 +1,16 @@
+<ch5-button label="Trigger show pulse" sendEventOnClick="trigger_1"></ch5-button>
+
+<p>
+    Click the above button to make the overlay visible. Open up the browser console to event listener in action.
+</p>
+
+<ch5-overlay-panel
+        id="demo"
+        closable
+        receiveStateShowPulse="trigger_1">
+    <p>Sample text</p>
+    <ch5-image
+            id="ex1-img"
+            url="https://picsum.photos/200/300/?random">
+    </ch5-image>
+</ch5-overlay-panel>

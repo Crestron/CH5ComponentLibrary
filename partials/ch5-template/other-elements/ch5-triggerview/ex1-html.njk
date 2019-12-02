@@ -1,0 +1,33 @@
+{% raw %}
+    <h6>Ch5-triggerview used inside a ch5-template, the example is similar to 
+    <a href="ch5-triggerview/events.html">ch5-triggerview/events.</a></h6>
+    <p>Open the browser console to see the result of a Javascript event handler when the visible item is changed.</p>
+
+    <template id="triggerView">
+            <ch5-triggerview class="demo">
+                <ch5-triggerview-child>
+                    <div class="viewcontent">
+                        <h1>First View</h1>
+                    </div>
+                </ch5-triggerview-child>
+                <ch5-triggerview-child>
+                    <div class="viewcontent">
+                        <h1>Second View</h1>
+                    </div>
+                </ch5-triggerview-child>
+                <ch5-triggerview-child>
+                    <div class="viewcontent">
+                        <h1>Third View</h1>
+                    </div>
+                </ch5-triggerview-child>
+            </ch5-triggerview>
+            <br>
+
+            <ch5-button type="secondary" id="prev" label="prev"></ch5-button>
+            <ch5-button type="secondary" id="next" label="next"></ch5-button>
+    </template>
+
+    <ch5-template templateId="triggerView" context="original:replacement">
+
+    </ch5-template>
+{% endraw %}

@@ -1,0 +1,59 @@
+{% raw %}
+    <h3>Ch5-select</h3>
+    <p>
+        <b>size</b> = 3 | <b>data-ch5-appendclass </b>= [201, 202, 203]
+    </p>
+    <div class="content">
+        <ch5-select noneSelectedPrompt="Select" size="3" indexId="Idx" sendEventOnChange="200"
+                    receiveStateValue="200">
+            <template>
+                <ch5-select-option>
+                    <i class="fas fa-address-card" data-ch5-appendclass="201{{Idx}}"></i>
+                    <span class="opt-label">Option {{Idx}}</span>
+                    <span data-ch5-appendclass="201{{Idx}}">, Based on idx: {{Idx}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </div>
+
+    <h3>Ch5-spinner</h3>
+    <b>size</b> = 5 | <b>data-ch5-appendclass </b>= [301, 302, 303, 304, 305]
+    <p>In this example the ch5-spinner contains a ch5-image, click the button below to pass an image url based on the
+        receiveStateUrl of the ch5-image.</p>
+    <p>
+        <ch5-button
+                sendEventOnClick="change_labels"
+                label="Load Images"></ch5-button>
+    </p>
+    <div class="content">
+        <ch5-spinner
+                indexId="idx"
+                size="5"
+                itemHeight="160px">
+            <template>
+                <div>
+                    <label>Item {{idx}}</label>
+                    <ch5-image refreshrate="0" receiveStateUrl="301{{idx}}"></ch5-image>
+                </div>
+            </template>
+        </ch5-spinner>
+    </div>
+
+    <h3>Ch5-list</h3>
+    <b>size</b> = 10 | <b>data-ch5-appendclass </b>= [301 ... 309]
+    <p>The first 3 elements (check emulator scenario) of the ch5-list will have the an additional class (green,
+        red, blue).</p>
+    <div class="content">
+        <ch5-list size="10"
+                  orientation="horizontal"
+                  indexId="idx"
+                  minWidth="250px"
+                  scrollbar="true">
+            <template>
+                <div class="horizontal-list-item" data-ch5-appendclass="201{{idx}}">
+                    <span class="list-item" id="list-item-{{idx}}">item_{{idx}}</span>
+                </div>
+            </template>
+        </ch5-list>
+    </div>
+{% endraw %}

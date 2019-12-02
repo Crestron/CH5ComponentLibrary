@@ -1,0 +1,30 @@
+{
+    "cues": [
+      {
+        "type": "b",
+        "event": "trig1",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_spinner_size",
+            "type": "number",
+            "logic": "set",
+            "value": 10
+          }
+        ]
+      },
+      {
+        "type": "b",
+        "event": "trig2",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_spinner_size",
+            "type": "number",
+            "logic": "set",
+            "value": 30
+          }
+        ]
+      }
+    ]
+}

@@ -1,0 +1,10 @@
+{% raw %}
+<h1>Utility function: subscribeStateScript </h1>
+<p>subscribeStateScript(signalScript:string, callback:Function, default:string):string</p>
+<p><b>signalScript</b> is a string containing JS code. It can contain tokens in the form {{ signalType.signalName }} where
+    signalType can be b(for boolean), s(for string) and n(for number) and signalName is the name of the signal.
+    These tokens will be replaced with the corresponding signal value.</p>
+<p><b>callback</b> is a function that receives one param (the updated and parsed signalScript). It is called each time one
+of the signals (from the signalScript tokens) changes </p>
+<p><b>default</b> if present, it is the default value returned if there are signals that have not been initialized</p>
+{% endraw %}

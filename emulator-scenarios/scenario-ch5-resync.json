@@ -1,0 +1,97 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "change_button_state",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_state_button_element",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "change_switch_value",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_state_toggle_element",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "change_switch_2_value",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_state_toggle_element_2",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "change_button_state_to_true",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "change_button_state",
+          "type": "boolean",
+          "logic": "set",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "slider_value_on_change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "slider_receive_value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "slider1.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "slider1.value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "sliderHigh1.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sliderHigh1.value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "text_input_receive_value",
+      "type": "string",
+      "logic": "set",
+      "value": "Placeholder value here"
+    }
+  ]
+}

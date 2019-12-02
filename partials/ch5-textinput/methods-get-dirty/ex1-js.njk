@@ -1,0 +1,17 @@
+var submitB = document.getElementById("submit");
+var resetB = document.getElementById("reset");
+var getDirtyB = document.getElementById("getDirty");
+var input = document.querySelector('ch5-textinput');
+
+
+submitB.addEventListener('click', function() {
+    input.submit();
+})
+
+resetB.addEventListener('click', function() {
+    input.reset();
+})
+
+getDirtyB.addEventListener('click', function() {
+    input.getDirty();
+})

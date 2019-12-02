@@ -1,0 +1,9 @@
+$('#btn1').click(function(){
+    var img1 = document.querySelector('#ex1-img');
+    var attrVal = img1.getAttribute('show');
+    if ('true'===attrVal || ''===attrVal || null==attrVal || typeof attrVal==='undefined') {
+        img1.setAttribute('show','false');
+    } else {
+        img1.setAttribute('show','true');
+    }
+});

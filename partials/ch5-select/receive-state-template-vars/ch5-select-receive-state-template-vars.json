@@ -1,0 +1,68 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigCh5SelectSizeIncrement",
+      "trigger": false,
+      "actions": [
+        {
+          "state": "ch5_select_receive_signal_size",
+          "type": "number",
+          "logic": "increment",
+          "offset": 2
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigCh5SelectSizeDecrement",
+      "trigger": false,
+      "actions": [
+        {
+          "state": "ch5_select_receive_signal_size",
+          "type": "number",
+          "logic": "decrement",
+          "offset": 2
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigCh5SelectSetSize_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "ch5_select_receive_signal_set_size_1",
+          "type": "number",
+          "logic": "set",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigCh5SelectTmplVarsUpdate",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "ch5_select_receive_signal_tmpl_vars",
+          "type": "string",
+          "logic": "set",
+          "value": "[{\"description\":\"North\",\"fa-icon\":\"up\"},{\"description\":\"South\",\"fa-icon\":\"down\"},{\"description\":\"East\",\"fa-icon\":\"right\"},{\"description\":\"West\",\"fa-icon\":\"left\"},{\"description\":\"North-East\",\"fa-icon\":\"up\"},{\"description\":\"South-West\",\"fa-icon\":\"down\"},{\"description\":\"South-East\",\"fa-icon\":\"right\"},{\"description\":\"North-West\",\"fa-icon\":\"left\"}]"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "number",
+      "state": "ch5_select_receive_signal_size",
+      "value": 4
+    },
+    {
+      "type": "string",
+      "state": "ch5_select_receive_signal_tmpl_vars",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+<ch5-button label="Trigger show pulse" sendEventOnClick="trigger_2"></ch5-button>
+
+<p>
+    Click the above button to make the modal visible.
+</p>
+<p>
+    The contents will be shown even if the size of the modal is not big enough to contain them.
+</p>
+
+<ch5-modal-dialog
+        receiveStateShowPulse="trigger_2"
+        customStyle="width:100px;height:150px;"
+        closable
+        mask
+        overflow="show">
+    <p>Sample text</p>
+    <ch5-image
+            id="ex2-img"
+            url="https://picsum.photos/200/300/?random">
+    </ch5-image>
+    <p>More sample text</p>
+</ch5-modal-dialog>

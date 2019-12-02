@@ -1,0 +1,21 @@
+---
+title: "ch5-slider: stretch"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {# example 1 #}
+        {% call exampleSectionFromPartials('ch5-slider/stretch/','ex1') %}{% endcall %}
+    {# example 2 #}
+        {% call exampleSectionFromPartials('ch5-slider/stretch/','ex2') %}{% endcall %}
+    {# example 3 #}
+        {% call exampleSectionFromPartials('ch5-slider/stretch/','ex3') %}{% endcall %}
+    {# example 4 #}
+        {% call exampleSectionFromPartials('ch5-slider/stretch/','ex4') %}{% endcall %}
+    {# example 5 #}
+        {% call exampleSectionFromPartials('ch5-slider/stretch/','ex5') %}{% endcall %}
+    {# example 6 #}
+    {% call exampleSectionFromPartials('ch5-slider/stretch/','ex6') %}{% endcall %}
+{% endblock %}
