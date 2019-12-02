@@ -10,7 +10,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        //'.build/specs/ch5-triggerviewchild.specs.js',
+       //'.build/specs/ch5-triggerviewchild.specs.js',
         '.build/specs/**/*.specs.js'
     ],
 
