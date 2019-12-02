@@ -1,0 +1,47 @@
+{
+    "cues": [
+      {
+        "type": "b",
+        "event": "trig1",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_switch_value",
+            "type": "boolean",
+            "logic": "set",
+            "value": false
+          }
+        ]
+      },
+      {
+        "type": "b",
+        "event": "trig2",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_switch_value",
+            "type": "boolean",
+            "logic": "set",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "b",
+        "event": "send_switch_value",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_switch_value",
+            "type": "boolean",
+            "logic": "toggle"
+          }
+        ]
+      }
+    ],
+    "onStart":[{
+      "state": "receive_switch_value",
+      "type": "boolean",
+      "value": true
+    }]
+}

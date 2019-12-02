@@ -1,0 +1,179 @@
+{
+  "cues": [
+    {
+      "type": "number",
+      "event": "volume_select_index_1",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "volume_select_index_selected_1",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "volume_select_index_2",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "volume_select_index_selected_2",
+          "type": "number",
+          "logic": "set",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "resetSelection",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_select_index_selected_2",
+          "type": "number",
+          "logic": "set",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_1_on_click_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_select_index_selected_3",
+          "type": "number",
+          "logic": "set",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_2_on_click_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_select_index_selected_3",
+          "type": "number",
+          "logic": "set",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_3_on_click_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_select_index_selected_3",
+          "type": "number",
+          "logic": "set",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_4_on_click_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_select_index_selected_3",
+          "type": "number",
+          "logic": "set",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_1_on_click_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_select_index_selected_4",
+          "type": "number",
+          "logic": "set",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_2_on_click_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_select_index_selected_4",
+          "type": "number",
+          "logic": "set",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_3_on_click_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_select_index_selected_4",
+          "type": "number",
+          "logic": "set",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "volume_select_4_on_click_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_select_index_selected_4",
+          "type": "number",
+          "logic": "set",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "selectOpt3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_3_selected",
+          "type": "boolean",
+          "logic": "set",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "unselectOpt3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_3_selected",
+          "type": "boolean",
+          "logic": "set",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "b",
+      "state": "option_3_selected",
+      "value": false
+    }
+  ]
+}

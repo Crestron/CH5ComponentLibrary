@@ -1,0 +1,46 @@
+{% raw %}
+    <h6>Check the browser console to visualize the events after the submit button is clicked.</h6>
+    <template id="ch5Form">
+
+        <ch5-form>
+            <h2>Room X</h2>
+
+            <h5>Do not disturb</h5>
+            <ch5-toggle
+                    labelOn="On"
+                    labelOff="Off"
+                    feedbackMode="submit"
+                    receiveStateValue="room_donotdisturb_selected"
+                    sendEventOnClick="room_donotdisturb_clicked">
+            </ch5-toggle>
+
+            <br><br>
+
+            <h5>Temperature</h5>
+            <ch5-slider
+                    feedbackMode="submit"
+                    receiveStateValue="room_thermostat_set_fb"
+                    sendEventOnChange="room_thermostat_set"
+                    step="10"
+                    min="0"
+                    max="100">
+            </ch5-slider>
+
+
+            <ch5-select size="4" indexId="idx" mode="panel"
+                        feedbackMode="submit"
+                        sendEventOnChange="select_send_change_signal"
+                        receiveStateValue="select_receive_signal_value"
+                        noneSelectedPrompt="Select">
+                <template>
+                    <ch5-select-option>
+                        <span>Option {{idx}}</span>
+                    </ch5-select-option>
+                </template>
+            </ch5-select>
+            <br><br>
+        </ch5-form>
+    </template>
+
+    <ch5-template templateId="ch5Form" context="original:replacement"></ch5-template>
+{% endraw %}

@@ -1,0 +1,15 @@
+---
+title: "ch5-modal-dialog (inherited from ch5-overlay-panel): stretch"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/stretch/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/stretch/','ex2') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/stretch/','ex3') %}{% endcall %}
+
+{% endblock %}

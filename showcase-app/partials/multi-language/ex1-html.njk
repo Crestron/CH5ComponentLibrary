@@ -1,0 +1,135 @@
+{% raw %}
+<label for="language">Change language</label>
+<select onchange="changeLanguage(this.value)" id="language">
+    <option value="en">en</option>
+    <option value="de">de</option>
+    <option value="cz">cz</option>
+</select>
+<br />
+<br />
+<h4>Subscribe</h4>
+<ch5-textinput
+  placeholder="-+firstname.placeholder+-"
+  feedbackMode="submit"
+  label="-+firstname.label+-"
+  >
+</ch5-textinput>
+<br />
+<ch5-toggle
+  label="-+gender.label+-"
+  labelOn="-+gender.m+-"
+  labelOff="-+gender.f+-"
+>
+</ch5-toggle>
+<br />
+<ch5-button
+  label="-+button.save+-"
+  size="small"
+  type="primary"
+></ch5-button>
+<ch5-button
+  label="-+button.reset+-"
+  size="small"
+  type="danger"
+>
+</ch5-button>
+<div class="components">
+  <h4>All components: </h4>
+
+  <div class="component">
+    <p><strong>Button:</strong></p>
+    <ch5-button
+      label="-+button.save+-">
+    </ch5-button>
+  </div>
+<br />
+<br />
+<h4>data-ch5-textcontent</h4>
+
+    <p>
+        Changes the value of the string signal temperature_in_city to "37 degrees Celsius"
+        <ch5-button sendEventOnClick="trigger_11" label="T1"></ch5-button>
+    </p>
+    <p>
+        Changes the value of the string signal temperature_in_city to "20 degrees Celsius"
+        <ch5-button sendEventOnClick="trigger_21" label="T2"></ch5-button>
+    </p>
+
+    <div id="textcontent-el-1" class="b-red"
+         data-ch5-textcontent="temperature_in_city">
+        DIV: Testing data-ch5-textcontent
+    </div>
+<br />
+<br />
+<br />
+<h4>data-ch5-i18n</h4>
+
+	  <div data-ch5-i18n="-+i18ntext.body+-"></div>
+	  <div data-ch5-i18n="-+[inner=span#test-span]i18ntext.body+-">
+		  <span>Testing with inner html</span><br>
+		  <span id='test-span'></span>
+	  </div>
+	  <img src="ch5image.png" data-ch5-i18n="-+[attr=alt]i18ntext.imagetext+-" />
+<br />
+  <div class="component">
+    <p>Image alt:</p>
+    <ch5-image alt="-+image.alt+-"></ch5-image>
+  </div>
+
+  <div class="component">
+    <p>Select</p>
+    <ch5-select size="5" indexId="idx" noneSelectedPrompt="-+select.noneSelectedPrompt+-">
+        <template>
+            <ch5-select-option>
+                <div>
+                    <span>item_{{idx}}</span>
+                </div>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+  </div>
+
+  <div class="component">
+    <p>Toggle</p>
+    <ch5-toggle
+      label="-+gender.label+-"
+      labelOn="-+gender.m+-"
+      labeloff="-+gender.f+-"
+    ></ch5-toggle>
+  </div>
+
+  <div class="component">
+    <p>Modal Dialog</p>
+    <ch5-modal-dialog
+            receiveStateShowPulse="trigger_1"
+            closable
+            mask
+            title="-+modalDialog.title+-"
+            okButtonLabel="-+modalDialog.okButton+-"
+            cancelButtonLabel="-+modalDialog.cancelButton+-"
+            prompt="-+modalDialog.prompt+-">
+
+        <ch5-image
+                id="ex1-img"
+                url="https://picsum.photos/200/300/?random">
+        </ch5-image>
+    </ch5-modal-dialog>
+    <ch5-button
+        sendEventOnClick="trigger_1"
+        label="-+button.show+-"
+        >
+    </ch5-button>
+  </div>
+  <div class="component">
+    <p>Spinner:</p>
+    <ch5-spinner
+        label="-+spinner.label+- {{idx}}"
+        indexId="idx"
+        size="40"
+        itemHeight="40"
+        visibleItemScroll="3">
+    </ch5-spinner>
+  </div>
+
+</div>
+{% endraw %}

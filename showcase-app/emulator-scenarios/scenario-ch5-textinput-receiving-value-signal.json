@@ -1,0 +1,17 @@
+{
+    "cues": [
+      {
+        "type": "b",
+        "event": "trigger",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "btn_receive_value",
+            "type": "string",
+            "logic": "set",
+            "value": "Hello!"
+          }
+        ]
+      }
+    ]
+  }

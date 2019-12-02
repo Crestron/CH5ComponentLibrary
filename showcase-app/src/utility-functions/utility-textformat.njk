@@ -1,0 +1,18 @@
+---
+title: "Utility function textformat"
+---
+
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./partials/utility/textformat/scenario-utility-textformat.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+{# example 1 #}
+    {% call exampleSectionFromPartials('utility/textformat/','ex1') %}{% endcall %}
+
+{% endblock %}

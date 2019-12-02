@@ -1,0 +1,24 @@
+---
+title: "ch5-select: methods and feedbackMode = 'submit'"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+    <p>This section provides examples for the <strong>ch5-select</strong> methods:
+        <ul style="list-style-type: circle;">
+            <li>submit()</li>
+            <li>reset()</li>
+            <li>getDirty()</li>
+            <li>getValue()</li>
+            <li>setValue() - <i>This method will always set clean values (i.e. dirty is automatically set to false)</i></li>
+        </ul>
+        <br/>
+        <strong>feedbackMode="submit"</strong> is required for <strong>submit, reset and getDirty</strong> methods.
+        In this mode, the signal defined by <code>sendEventOnChange</code> attribute and <code>ch5-select-option.sendEventOnClick</code> attribute
+        will not be sent until the <code>submit()</code> method is called and the signal will only be sent if the visual state of the component is different
+        than that of the actual state of the component.
+        <br/>
+        <strong>feedbackMode="direct"</strong> is the default value and is used in all other examples.
+    </p>
+{% endblock %}

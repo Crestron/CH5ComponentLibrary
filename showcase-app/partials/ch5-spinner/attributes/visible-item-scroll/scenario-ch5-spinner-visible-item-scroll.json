@@ -1,0 +1,56 @@
+{
+  "cues": [
+  ],
+  "onStart":[
+    {
+      "state": "spinner_text1",
+      "type": "string",
+      "value": "item1"
+    },
+    {
+      "state": "spinner_text2",
+      "type": "string",
+      "value": "item2"
+    },
+    {
+      "state": "spinner_text3",
+      "type": "string",
+      "value": "item3"
+    },
+    {
+      "state": "spinner_text4",
+      "type": "string",
+      "value": "item4"
+    },
+    {
+      "state": "spinner_text5",
+      "type": "string",
+      "value": "item5"
+    },
+    {
+      "state": "spinner_text6",
+      "type": "string",
+      "value": "item6"
+    },
+    {
+      "state": "spinner_text7",
+      "type": "string",
+      "value": "item7"
+    },
+    {
+      "state": "spinner_text8",
+      "type": "string",
+      "value": "item8"
+    },
+    {
+      "state": "spinner_text9",
+      "type": "string",
+      "value": "item9"
+    },
+    {
+      "state": "spinner_text10",
+      "type": "string",
+      "value": "item10"
+    }
+  ]
+}

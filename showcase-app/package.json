@@ -1,0 +1,60 @@
+{
+  "name": "showcase-app",
+  "version": "1.0.0",
+  "description": "Showcase app for Crestron Components",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "rimraf dist",
+    "build": "metalsmith",
+    "build:dev": "metalsmith",
+    "build:prod": "echo 'use build:dev' for now",
+    "start": "npm-run-all build:dev && http-server ./dist/ -c-1 -o",
+    "start:ci": "npm-run-all build:dev && http-server ./dist/ -c-1 -p 8082 --silent"
+  },
+  "engines": {
+    "node": ">=8.11",
+    "yarn": ">=1.6.0"
+  },
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "dependencies": {
+    "ace-builds": "1.3.3",
+    "http-server": "0.11.1",
+    "i18next": "^11.9.0",
+    "rimraf": "^2.6.2",
+    "semver": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "10.1.2",
+    "@types/semver": "5.5.0",
+    "autoprefixer": "8.6.5",
+    "bulma": "0.7.1",
+    "cross-env": "5.1.5",
+    "jstransformer-handlebars": "1.1.0",
+    "jstransformer-nunjucks": "0.5.0",
+    "metalsmith": "2.3.0",
+    "metalsmith-assets": "0.1.0",
+    "metalsmith-collections": "0.9.0",
+    "metalsmith-debug": "1.2.0",
+    "metalsmith-in-place": "4.1.1",
+    "metalsmith-layouts": "2.1.0",
+    "metalsmith-markdown": "0.2.2",
+    "metalsmith-permalinks": "0.5.0",
+    "metalsmith-sass": "1.5.1",
+    "metalsmith-static": "0.0.5",
+    "node-sass": "4.9.2",
+    "npm-run-all": "4.1.3",
+    "nunjucks": "3.1.3",
+    "postcss-cli": "5.0.1",
+    "recursive-copy": "2.0.9",
+    "tslint": "5.10.0",
+    "typescript": "2.8.3"
+  },
+  "resolutions": {
+    "**/event-stream": "^4.0.1"
+  }
+}

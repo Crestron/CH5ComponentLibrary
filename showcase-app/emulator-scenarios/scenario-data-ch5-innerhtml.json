@@ -1,0 +1,48 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_innerhtml_signal_1",
+          "type": "s",
+          "logic": "set",
+          "value": "<strong>DIV: </strong><span class=\"c-green\">innerHTML updated using event defined by</span> <span class=\"c-blue\">data-ch5-innerhtml attribute</span>"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_innerhtml_signal_1",
+          "type": "s",
+          "logic": "set",
+          "value": "DIV: Testing data-ch5-innerhtml"
+        }
+      ]
+    }
+
+  ],
+  "onStart":[
+    {
+      "state": "data_ch5_innerhtml_signal_1",
+      "type": "s",
+      "value": "DIV: Testing data-ch5-innerhtml"
+    },
+    {
+      "state": "data_ch5_innerhtml_signal_2",
+      "type": "s",
+      "value": "<span class=\"c-green\">DIV: new el with data-ch5-innerhtml added to DOM</span>"
+    },
+    {
+      "state": "data_ch5_innerhtml_signal_3",
+      "type": "s",
+      "value": "<strong>DIV: </strong><span class=\"c-green\">innerHTML updated</span> <span class=\"c-blue\">for new element with data-ch5-innerhtml attribute</span>"
+    }
+  ]
+}

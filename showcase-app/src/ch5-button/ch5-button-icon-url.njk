@@ -1,0 +1,20 @@
+---
+title: "ch5-button: iconUrl, iconPosition, receiveStateIconUrl"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-ch5-button-icon-url.json" %}
+    {%- endset %}
+
+    {% call exampleSectionFromPartials('ch5-button/icon-url/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-button/icon-url/','ex2') %}{% endcall %}
+    
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-button/icon-url/','ex3') %}{% endcall %}
+
+
+{% endblock %}

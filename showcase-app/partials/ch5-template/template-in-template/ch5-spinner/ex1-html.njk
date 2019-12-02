@@ -1,0 +1,46 @@
+{% raw %}
+    <h6> Ch5-template used with a ch5-spinner.</h6>
+    <template id="spinner-temp">
+        <div class="spinner-template">
+            <i class="ch5-spinner__icon fas fa-plane"></i>
+            <label class="ch5-spinner__label">Item INST</label>
+        </div>
+    </template>
+
+    <ch5-spinner
+            label="item {{idx}}"
+            size="10"
+            itemHeight="40"
+            indexId="idx"
+            visibleItemScroll="3">
+        <template>
+            <ch5-template templateid="spinner-temp"
+                          context="INST:index_{{idx}}">
+            </ch5-template>
+        </template>
+    </ch5-spinner>
+
+    <br>
+    <h6> Ch5-spinner used inside of a ch5-template.</h6>
+    <ch5-template templateid="spinner-temp-inside-ch5-template-2"
+                  context="original:replacement">
+    </ch5-template>
+
+    <template id="spinner-temp-inside-ch5-template-2">
+        <div class="required-wrapper-div">
+            <ch5-spinner
+                    label="item {{original}}"
+                    size="10"
+                    itemHeight="40"
+                    indexId="original"
+                    visibleItemScroll="3">
+                <template>
+                    <div class="spinner-template">
+                        <i class="ch5-spinner__icon fas fa-plane"></i>
+                        <label class="ch5-spinner__label">Item index_{{original}}</label>
+                    </div>
+                </template>
+            </ch5-spinner>
+        </div>
+    </template>
+{% endraw %}

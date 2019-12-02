@@ -1,0 +1,13 @@
+.idea
+.DS_Store
+node_modules
+npm-debug.log
+yarn-error.log
+.env
+dist
+build_bundles
+compiled_bundles
+docs
+coverage
+bower_components
+test-report.xml

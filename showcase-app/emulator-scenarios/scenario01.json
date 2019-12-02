@@ -1,0 +1,135 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "hall_lights_tap",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "hall_lights_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "sig_trig_class1",
+      "trigger": "&change",
+      "actions": [
+        {
+          "type": "string",
+          "state": "sig_custom_class",
+          "logic": "set",
+          "value": "blue-dashed-border bg1"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "sig_trig_class2",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sig_custom_class",
+          "type": "s",
+          "logic": "set",
+          "value": "green-dotted-border bg2"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "sig_trig_class3",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sig_custom_class",
+          "type": "s",
+          "logic": "set",
+          "value": "red-solid-border bg3"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "sig_trig_style1",
+      "trigger": "&change",
+      "actions": [
+        {
+          "type": "string",
+          "state": "sig_custom_style",
+          "logic": "set",
+          "value": "border:2px dashed blue;"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "sig_trig_style2",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sig_custom_style",
+          "type": "s",
+          "logic": "set",
+          "value": "border:3px dotted green; color:red;"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "sig_trig_style3",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sig_custom_style",
+          "type": "s",
+          "logic": "set",
+          "value": "border:1px solid red; color:green;"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "sig_trig_pulse1",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "a_pulse1",
+          "type": "boolean",
+          "logic": "pulse"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "sig_trig_pulse2",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "a_pulse2",
+          "type": "boolean",
+          "logic": "pulse"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "s",
+      "state": "sig_custom_class",
+      "value": "bg1"
+    },
+    {
+      "type": "s",
+      "state": "sig_custom_style",
+      "value": "color:#eaeaea;"
+    },
+    {
+      "type": "b",
+      "state": "hall_lights_selected",
+      "value": true
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+---
+title: "ch5-list: receiveStateScrollTo"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-ch5-list-receive-signal-scroll-to.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-list/receive-signal-scroll-to/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-list/receive-signal-scroll-to/','ex2') %}{% endcall %}
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% raw %}
+(function($, CrComLib){
+    const mutationsParentEl = $('#mutations-parent')[0];
+    const addBtn = $('#add')[0];
+    const updateBtn = $('#update')[0];
+    const removeBtn = $('#remove')[0];
+
+    addBtn.addEventListener('click', () => {
+        const newEl = document.createElement('div');
+        newEl.classList.add('b-red');
+        newEl.setAttribute('id', 'new-el');
+        newEl.setAttribute('debug', '');
+        newEl.textContent = "DIV: Testing data-ch5-appendstyle and DOM mutations";
+
+        if (newEl) {
+            newEl.setAttribute('data-ch5-appendstyle', 'data_ch5_appendstyle_signal_2');
+            CrComLib.publishEvent('s', 'data_ch5_appendstyle_signal_2', null);
+        }
+
+        if (mutationsParentEl.querySelector('#new-el') === null) {
+            mutationsParentEl.appendChild(newEl);
+        }
+    });
+
+    updateBtn.addEventListener('click', () => {
+        const newEl = $('#new-el')[0];
+        if (newEl) {
+             newEl.setAttribute('data-ch5-appendstyle', 'data_ch5_appendstyle_signal_3');
+             CrComLib.publishEvent('s', 'data_ch5_appendstyle_signal_3', null);
+        }
+    });
+
+    removeBtn.addEventListener('click', () => {
+        const newEl = $('#new-el')[0];
+        if (newEl) {
+            mutationsParentEl.removeChild(newEl);
+        }
+    });
+
+})(jQuery,CrComLib);
+{% endraw %}

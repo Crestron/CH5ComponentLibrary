@@ -1,0 +1,29 @@
+---
+title: Join Numbers as Signal Names
+description: receiveSignal* attributes
+---
+
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-join-numbers-receive-sig-attrs.json" %}
+    {%- endset %}
+
+{% call emulatorScenarioSection(scenario1) %}{% endcall %}
+    
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-button/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-list/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-image/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-select/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-toggle/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-overlay-panel/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-modal-dialog/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-slider/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-triggerview/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-textinput/','ex1') %}{% endcall %}
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/receive-signal-attr/ch5-spinner/','ex1') %}{% endcall %}
+
+{% endblock %}

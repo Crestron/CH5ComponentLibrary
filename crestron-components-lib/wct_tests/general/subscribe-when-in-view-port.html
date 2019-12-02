@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-image-refreshRate-intersection-observer">
+    <template>
+        <div id="grandparent">
+            <div id="parent">
+                <ch5-button label="Button1"></ch5-button>
+            </div>
+        </div>
+    </template>
+</test-fixture>
+
+<script>
+    suite('Subscribe HTMLElement to viewport change', function() {
+
+        let grandparent;
+        let parent;
+        let parentCallback;
+
+        setup(() => {
+            grandparent = fixture('ch5-image-refreshRate-intersection-observer');
+            parent = document.querySelector('#parent');
+        });
+
+        test('Subscribe HTMLElement to viewport change', function(done) {
+            parentCallback = function(element, isInViewPort) { 
+                // indirect assertion
+                if (isInViewPort) {
+                    done();
+                } 
+            };
+            
+            CrComLib.subscribeInViewPortChange(parent, parentCallback);
+        });
+    });
+</script>
+</body>
+</html>

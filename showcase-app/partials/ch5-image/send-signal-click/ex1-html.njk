@@ -1,0 +1,15 @@
+<p>
+    Clicking the image will change the value of the signal <b>receive_image_url</b> to a new url ( See Emulator section above )
+</p>
+<p>
+    Clicking the button will change it back to the initial value <ch5-button label="Btn1" sendEventOnClick="trig2"></ch5-button>
+</p>
+
+<ch5-image
+    alt="Backyard image"
+    height="200px"
+    width="300px"
+    url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/point_to_point_tr.jpg"
+    sendEventOnClick="trig1"
+    receiveStateUrl="receive_image_url">
+</ch5-image>

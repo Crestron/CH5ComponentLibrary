@@ -1,0 +1,103 @@
+<div class="row">
+    <p><strong>Example 1: </strong> using sendEventOnChange & receiveStateValue</p>
+    {% raw %}
+        <ch5-select id="volume1"
+                     size="4" indexId="Idx"
+                     sendEventOnChange="volume_select"
+                     receiveStateValue="volume_selected"
+                     feedbackMode="submit"
+                     noneSelectedPrompt="Select">
+             <template>
+                <ch5-select-option>
+                    <i class="fas fa-{{fa-icon}}"></i>
+                    <span>{{label}}</span>
+                </ch5-select-option>
+             </template>
+        </ch5-select>
+    {% endraw %}
+    <p style="margin-top: 24px;">
+        Dirty: <span id="dirty-select-1"></span><br>
+        Selected: <span id="selected-1"></span><br>
+        <ch5-button id="submit-btn-1" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn-1" label="Reset"></ch5-button>
+        <ch5-button id="set-btn-1" label="Set value: 3"></ch5-button>
+    </p>
+</div>
+
+<div class="row">
+    <p><strong>Example 2: </strong> using ch5-select-option.sendEventOnClick & receiveStateValue</p>
+    {% raw %}
+        <ch5-select id="volume2"
+                     size="4" indexId="Idx"
+                     receiveStateValue="volume_selected_after_click"
+                     feedbackMode="submit"
+                     noneSelectedPrompt="Select"
+                     mode="panel">
+             <template>
+                <ch5-select-option sendEventOnClick="volume_select_{{Idx}}_on_click">
+                    <i class="fas fa-{{fa-icon}}"></i>
+                    <span>{{label}}</span>
+                </ch5-select-option>
+             </template>
+        </ch5-select>
+    {% endraw %}
+    <p style="margin-top: 24px;">
+        Dirty: <span id="dirty-select-2"></span><br>
+        Selected: <span id="selected-2"></span><br>
+        <ch5-button id="submit-btn-2" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn-2" label="Reset"></ch5-button>
+        <ch5-button id="set-btn-2" label="Set value: 2"></ch5-button>
+    </p>
+</div>
+
+<div class="row">
+    <p><strong>Example 3: </strong> using ch5-select-option.sendEventOnClick & ch5-select-option.receiveStateSelected</p>
+    {% raw %}
+        <ch5-select id="selectWithReceiveSignalSelected" size="4" indexId="Idx"
+            mode="panel" feedbackMode="submit" noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option sendEventOnClick="item_{{Idx}}_on_click"
+                                    receiveStateSelected="item_{{Idx}}_selected">
+                    <span>Item {{Idx}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    {% endraw %}
+    <p style="margin-top: 24px;">
+        Dirty: <span id="dirty-select-3"></span><br>
+        Selected: <span id="selected-3"></span><br>
+        <ch5-button id="submit-btn-3" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn-3" label="Reset"></ch5-button>
+        <ch5-button id="set-btn-3" label="Set value: 4"></ch5-button>
+    </p>
+</div>
+
+<div class="row">
+    <p><strong>Example 4 </strong> multiselect, ch5-select-option.sendEventOnClick & ch5-select-option.receiveStateSelected</p>
+    <p>
+        <strong>Note:</strong> Option 3 select/unselect will never be confirmed by receiveStateSelected.
+    </p>
+    {% raw %}
+    <ch5-select id="multiselect_ex" size="5" indexId="Idx"
+        multiselect mode="panel" feedbackMode="submit" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option receiveStateSelected="multi_select_opt_{{Idx}}_selected"
+                                sendEventOnClick="multi_select_opt_{{Idx}}_on_click"
+                                receiveStateLabel="label_signal_{{Idx}}">
+                <span>{{label}}</span>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+    <p style="margin-top: 24px;">
+        Dirty: <span id="dirty-select-4"></span><br>
+        Selected: <span id="selected-4"></span>
+        <ch5-button id="update-selection" label="Refresh"></ch5-button><br>
+    </p>
+    <p style="margin-top: 24px;">
+        <ch5-button id="submit-btn-4" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn-4" label="Reset"></ch5-button>
+        <ch5-button id="set-btn-4" label="Set value: [ 2, 4]"></ch5-button>
+    </p>
+</div>
+

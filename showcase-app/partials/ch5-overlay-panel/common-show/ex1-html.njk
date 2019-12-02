@@ -1,0 +1,18 @@
+<ch5-button
+        id="overlay_info"
+        type="text"
+        shape="circle"
+        size="small"
+        sendEventOnClick="overlay_toggle_click"
+        receiveStateSelected="overlay_show"
+        iconClass="material-icons info">
+</ch5-button>
+<span> other stuff covered up</span>
+
+<ch5-overlay-panel
+        dismissable="false"
+        receiveStateShow="overlay_show"
+        positionTo="overlay_info"
+        positionOffset="right-center">
+    <span>This is onscreen help</span>
+</ch5-overlay-panel>

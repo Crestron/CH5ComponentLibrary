@@ -1,0 +1,21 @@
+{
+  "attributes": {
+    "id":{
+      "btn1":{
+        "label":"Label1",
+        "type":"danger"
+      },
+      "btn2":{
+        "label":"Label2",
+        "shape":"circle"
+      }
+    },
+    "component":{
+      "ch5-button":{
+        "label":"Button label",
+        "type":"info",
+        "shape":"rounded-rectangle"
+      }
+    }
+  }
+}

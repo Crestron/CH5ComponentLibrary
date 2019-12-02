@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-image-mutation-observer">
+    <template>
+        <div id="parent">
+            <ch5-image id="image"
+                debug
+                url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg">
+            </ch5-image>
+        </div>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-image-refreshRate-mutation-observer">
+    <template>
+        <div id="parent">
+            <ch5-image id="image"
+                url="https://picsum.photos/200/300/?random">
+            </ch5-image>
+        </div>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-image-disconnect-mutation-observer">
+    <template>
+        <div id="parent">
+            <ch5-image id="image1"
+                url="https://picsum.photos/200/300/?random"
+                refreshrate="5">
+            </ch5-image>
+
+            <ch5-image id="image2"
+                url="https://picsum.photos/200/300/?random"
+                refreshrate="5">
+            </ch5-image>
+        </div>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-image mutation observer', function() {
+
+        let ch5ImageParent;
+        let ch5Image;
+
+        setup(() => {
+            ch5ImageParent = fixture('ch5-image-mutation-observer');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]).then(_ => {
+                ch5Image = document.querySelector('#image');
+            });
+        });
+
+        test('Image visibility when parent has display none', function(done) {
+            expect(ch5Image.elementIsVisible).to.be.equal(true);
+
+            ch5ImageParent.setAttribute('style', 'display: none');
+            flush(function() {
+                expect(ch5Image.elementIsVisible).to.be.equal(false);
+                done();
+            });
+        });
+
+        test('Image visibility when parent has visibility hidden', function(done) {
+            expect(ch5Image.elementIsVisible).to.be.equal(true);
+
+            ch5ImageParent.setAttribute('style', 'visibility: hidden');
+            flush(function() {
+                expect(ch5Image.elementIsVisible).to.be.equal(false);
+                done();
+            });
+        });
+
+        test('Image visibility when component has opacity 0', function(done) {
+            expect(ch5Image.elementIsVisible).to.be.equal(true);
+
+            ch5Image.setAttribute('style', 'opacity: 0');
+            flush(function() {
+                expect(ch5Image.elementIsVisible).to.be.equal(false);
+                done();
+            });
+        });
+    });
+
+    suite('ch5-image mutation observer', function() {
+        let ch5ImageParent;
+        let ch5Image;
+
+        setup(() => {
+            ch5ImageParent = fixture('ch5-image-mutation-observer');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]).then(_ => {
+                ch5Image = document.querySelector('#image');
+                ch5ImageParent.setAttribute('style', 'display: none');
+            });
+        });
+
+        test('Image visibility when parent has display none and afterwards it is removed', function(done) {
+            expect(ch5Image.elementIsVisible).to.be.equal(false);
+
+            ch5ImageParent.setAttribute('style', 'display: block');
+            flush(function() {
+                expect(ch5Image.elementIsVisible).to.be.equal(true);
+                done();
+            });
+        });
+    });
+
+    suite('Image loading affected by mutation observer', function() {
+        let ch5Image;
+        let ch5ImageParent;
+
+        setup(() => {
+            ch5ImageParent = fixture('ch5-image-refreshRate-mutation-observer');
+            ch5Image = document.querySelector('#image');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]);
+        });
+
+        test('Disable image loading if component is not visible', function(done) {
+            expect(ch5Image._show).to.be.equal(true);
+            expect(ch5Image.elementIsVisible).to.be.equal(true);
+            ch5ImageParent.setAttribute('style', 'display: none');
+            flush(function() {
+                expect(ch5Image._show).to.be.equal(false);
+                expect(ch5Image.elementIsVisible).to.be.equal(false);
+                done();
+            });
+        });
+    });
+
+    suite('Disconnect mutation observer', function() {
+        let ch5ImageFirst;
+        let ch5ImageSecond;
+        let ch5ImageParent;
+
+        setup(() => {
+            ch5ImageParent = fixture('ch5-image-disconnect-mutation-observer');
+            ch5ImageFirst = document.querySelector('#image1');
+            ch5ImageSecond = document.querySelector('#image2');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]);
+        });
+
+        test('Disconnect mutation observer after removing components', function(done) {
+            expect(ch5ImageFirst.elementIsVisible).to.be.equal(true);
+            expect(ch5ImageSecond.elementIsVisible).to.be.equal(true);
+
+            ch5ImageParent.removeChild(ch5ImageFirst);
+            ch5ImageParent.removeChild(ch5ImageSecond);
+            flush(function() {
+                expect(ch5ImageSecond._commonMutationObserver.isConnected).to.be.equal(false);
+                done();
+            });
+        });
+    });
+</script>
+</body>
+</html>

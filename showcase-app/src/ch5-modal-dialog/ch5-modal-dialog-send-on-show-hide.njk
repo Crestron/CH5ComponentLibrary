@@ -1,0 +1,11 @@
+---
+title: "ch5-modal-dialog (inherited from ch5-overlay-panel): sendEventOnBeforeShow, sendEventOnShow, sendEventOnAfterShow, sendEventOnBeforeHide, sendEventOnAfterHide"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/send-on-show-hide/','ex1') %}{% endcall %}
+
+{% endblock %}

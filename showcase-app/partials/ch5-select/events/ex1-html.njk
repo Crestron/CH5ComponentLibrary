@@ -1,0 +1,46 @@
+<div class="row">
+    <p>
+        <strong>Note:</strong> Open inspector console to see events logs.
+    </p>
+</div>
+<div class="row">
+    {% raw %}
+        <ch5-select id="volume1"
+                     size="4" indexId="Idx"
+                     sendEventOnChange="volume_select"
+                     receiveStateValue="volume_selected"
+                     noneSelectedPrompt="Select"
+                     sendEventOnFocus="focus_signal">
+             <template>
+                <ch5-select-option>
+                    <i class="fas fa-{{fa-icon}}"></i>
+                    <span>{{label}}</span>
+                </ch5-select-option>
+             </template>
+        </ch5-select>
+    {% endraw %}
+
+</div>
+
+<div class="row">
+    {% raw %}
+    <ch5-select id="multiselect_ex" size="4" indexId="Idx"
+        multiselect mode="panel" feedbackMode="submit" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option receiveStateSelected="multi_select_opt_{{Idx}}_selected"
+                                sendEventOnClick="multi_select_opt_{{Idx}}_on_click"
+                                receiveStateLabel="label_signal_{{Idx}}">
+                <span>{{label}}</span>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+    <p style="margin-top: 24px;">
+        <strong>Note:</strong> Option 3 select/unselect will never be confirmed by receiveStateSelected.
+    </p>
+    <p style="margin-top: 24px;">
+        <ch5-button id="submit-btn" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn" label="Reset"></ch5-button>
+    </p>
+</div>
+

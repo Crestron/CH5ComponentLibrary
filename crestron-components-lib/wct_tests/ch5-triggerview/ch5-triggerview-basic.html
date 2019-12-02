@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-triggerview-fixture">
+    <template>
+        <ch5-triggerview> 
+            <ch5-triggerview-child> First View </ch5-triggerview-child > 
+            <ch5-triggerview-child> Second View </ch5-triggerview-child >
+            <ch5-triggerview-child> Third View </ch5-triggerview-child >  
+        </ch5-triggerview>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-triggerview', function() {
+        let ch5TriggerView;
+        let ch5TriggerViewChild;
+
+        setup(() => {
+            //ch5TriggerView = fixture('ch5-triggerview-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-triggerview')
+            ]).then(_ => {
+                ch5TriggerView = fixture('ch5-triggerview-fixture');
+                ch5TriggerViewChild = document.querySelectorAll('ch5-triggerview-child');
+            });
+        });
+
+        test('should know about all the children', function(done) {
+            setTimeout(() => {
+                expect(ch5TriggerView.getSlidesAsArray()).to.have.length(ch5TriggerViewChild.length);
+                done();
+            })
+        });
+
+        test('should only have one selected child initially', function(done) {
+            setTimeout(() => {
+                expect(ch5TriggerView.getSlidesAsArray().filter(child => child.hasAttribute('selected'))).to.have.lengthOf(1);
+                done();
+            })
+        });
+
+        
+        test('should switch visibility when calling `setActiveViewChild()`', function(done) {
+            
+            setTimeout(() => {
+              
+              const slides = ch5TriggerView.getSlidesAsArray();
+              const firstSlide = slides[0];
+              const secondSlide = slides[1];
+              const thirdSlide = slides[2];
+
+              expect(firstSlide.selected).to.be.equal(true);
+              expect(secondSlide.selected).to.be.equal(false);
+              expect(thirdSlide.selected).to.be.equal(false);
+    
+              ch5TriggerView.setActiveViewChild(secondSlide);
+              // expect(firstSlide.selected).to.be.equal(false);
+              expect(secondSlide.selected).to.be.equal(true);
+              expect(thirdSlide.selected).to.be.equal(false);
+              done();
+            })
+        });
+    });
+</script>
+</body>
+</html>

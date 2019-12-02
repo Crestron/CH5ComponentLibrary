@@ -1,0 +1,19 @@
+<p>Open the browser console to see dirty state when getDirty button is clicked. You can also check dirty state after change handle value or clicking on the Submit or Reset buttons</p>
+
+<ch5-slider
+    id="demo"
+    value="0"
+    step="25"  
+    min="0"
+    max="100"
+    feedbackMode="submit"
+    sendEventOnChange="send_signal_on_submit"
+    receiveStateValue="received_signal_value"
+    >
+</ch5-slider> 
+
+<br><br>
+
+<button id="button">Submit</button>
+<button id="reset">Reset</button>
+<button id="dirty">getDirty</button>

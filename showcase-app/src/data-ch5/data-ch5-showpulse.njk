@@ -1,0 +1,10 @@
+---
+title: "data-ch5-show, data-ch5-showpulse"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+
+{% block content %}
+    {% call exampleSectionFromPartials('data-ch5/showpulse/','ex1') %}{% endcall %}
+{% endblock %}

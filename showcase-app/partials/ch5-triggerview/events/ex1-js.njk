@@ -1,0 +1,31 @@
+var demo = document.getElementById('demo');
+var prev = document.getElementById('prev');
+var next = document.getElementById('next');
+
+prev.disabled = true;
+
+prev.addEventListener('click', function() {
+    demo.previousViewChild();
+});
+
+next.addEventListener('click', function() {
+    demo.nextViewChild();
+});
+
+demo.addEventListener('select', function(e) {
+    console.log('select event with detail: ', e.detail );
+    switch (e.detail) {
+        case 0:
+            prev.disabled = true;
+            next.disabled = false;
+        break;
+        case 2:
+            prev.disabled = false;
+            next.disabled = true;
+        break;
+        default:
+            prev.disabled = false;
+            next.disabled = false;
+        break;
+    }
+});

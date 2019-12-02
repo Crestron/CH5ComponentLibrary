@@ -1,0 +1,141 @@
+{
+  "cues": [
+       {
+      "type": "boolean",
+      "event": "toggle_second_pair_of_template",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "show_second_pair_of_template",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "directv.prevtrack_clicked",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button",
+          "type": "s",
+          "logic": "set",
+          "value": "prev track clicked"
+        },
+        {
+          "state": "receive.prevtrack_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "directv.play_clicked",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button",
+          "type": "s",
+          "logic": "set",
+          "value": "play clicked"
+        },
+        {
+          "state": "receive.play_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "directv.nexttrack_clicked",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button",
+          "type": "s",
+          "logic": "set",
+          "value": "next button clicked"
+        },
+        {
+          "state": "receive.nexttrack_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "directv.record_clicked",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button",
+          "type": "s",
+          "logic": "set",
+          "value": "record button clicked"
+        },
+        {
+          "state": "receive.record_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "directv.stop_clicked",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button",
+          "type": "s",
+          "logic": "set",
+          "value": "stop button clicked"
+        },
+        {
+          "state": "receive.stop_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "directv.pause_clicked",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button",
+          "type": "s",
+          "logic": "set",
+          "value": "pause button clicked"
+        },
+        {
+          "state": "receive.pause_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart":[
+    {
+      "state": "selected_button",
+      "type": "s",
+      "value": "no button clicked"
+    },
+     {
+      "type": "b",
+      "state": "show_second_pair_of_template",
+      "value": true
+    },
+    {
+      "type": "b",
+      "state": "show_button",
+      "value": false
+    }
+  ]
+}

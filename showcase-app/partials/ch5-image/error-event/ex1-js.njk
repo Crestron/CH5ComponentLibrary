@@ -1,0 +1,8 @@
+$('#bad-url').on('click', function(){
+    $('#demo').attr('url', 'http://bad-url-triggers-error-event');
+});
+
+$('#demo').on('error', function(){
+    console.log('image error event');
+    $(this).attr('url', 'http://via.placeholder.com/300x200');
+});

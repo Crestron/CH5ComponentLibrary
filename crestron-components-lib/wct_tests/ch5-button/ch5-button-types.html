@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-button-types-fixture">
+    <template>
+        <ch5-button label="Button1"></ch5-button>
+    </template>
+</test-fixture>
+
+<!--
+<ch5-button type="danger"  label="danger"></ch5-button>
+<ch5-button type="text" label="text"></ch5-button>
+<ch5-button type="warning" label="warning"></ch5-button>
+<ch5-button type="info" label="info"></ch5-button>
+<ch5-button type="success"  label="success"></ch5-button>
+<ch5-button type="default" label="default"></ch5-button>
+<ch5-button type="primary"  label="primary"></ch5-button>
+<ch5-button type="secondary" label="secondary"></ch5-button>
+-->
+
+<script>
+    suite('ch5-button types', function() {
+
+        let ch5Button;
+
+        setup(() => {
+            ch5Button = fixture('ch5-button-types-fixture');
+        });
+
+        test('Default type is "default"', function() {
+            expect(ch5Button.type).to.be.equal('default');
+        });
+
+        const availableTypes = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+
+        availableTypes.forEach((typeName,i)=>{
+            test(`type: "${typeName}"`, function() {
+                ch5Button.setAttribute('type',typeName);
+                expect(ch5Button.getAttribute('type')).to.be.equal(typeName);
+                expect(ch5Button.type).to.be.equal(typeName);
+            });
+        });
+    });
+</script>
+</body>
+</html>

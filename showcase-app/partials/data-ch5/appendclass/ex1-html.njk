@@ -1,0 +1,37 @@
+{% raw %}
+
+    <div class="alarm-system b-blue">
+        Security System mode:
+        <span class="alarm-status"
+              data-ch5-textcontent="security_system_mode_text"
+              data-ch5-appendclass="security_system_mode_class">
+        </span>
+    </div>
+
+    <p>
+        <ch5-button sendEventOnClick="trigger_1" label="Homeowner opens a door"></ch5-button>
+        <ch5-button sendEventOnClick="trigger_2" label="Homeowner enters the code"></ch5-button>
+        <ch5-button sendEventOnClick="trigger_6" label="Arm"></ch5-button>
+    </p>
+
+    <div id="mutations-parent" style="margin-top: 68px;">
+        <p><strong>DOM mutations example</strong></p>
+        <p>
+            <ch5-button id="add" label="Add new el with data-ch5-appendclass attr"></ch5-button>
+        </p>
+        <p>
+            <ch5-button id="update" label="Update data-ch5-appendclass attr"></ch5-button>
+            <span> Open console to see signal subscription updates (no arm, trigger, disarm data-ch5-appendclass signals set for this new value)</span>
+        </p>
+        <p>
+            <ch5-button id="remove" label="Remove el with data-ch5-appendclass attr"></ch5-button>
+        </p>
+        <p>
+            <ch5-button sendEventOnClick="trigger_3" label="Arm"></ch5-button>
+            <ch5-button sendEventOnClick="trigger_4" label="Homeowner opens a door"></ch5-button>
+            <ch5-button sendEventOnClick="trigger_5" label="Homeowner enters the code"></ch5-button>
+        </p>
+
+    </div>
+{% endraw %}
+

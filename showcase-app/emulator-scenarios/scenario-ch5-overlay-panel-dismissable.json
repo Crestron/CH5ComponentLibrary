@@ -1,0 +1,40 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "show_overlay_1",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "show_overlay_2",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart":[
+    {
+      "type":"b",
+      "state":"show_overlay_1",
+      "value":false
+    },
+    {
+      "type":"b",
+      "state":"show_overlay_2",
+      "value":false
+    }
+  ]
+}

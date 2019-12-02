@@ -1,0 +1,22 @@
+var spinner = document.querySelector('ch5-spinner');
+
+spinner.addEventListener('focus', function() {
+  console.log('Spinner has focus');
+});
+
+spinner.addEventListener('blur', function() {
+  console.log('Spinner blur');
+});
+
+spinner.addEventListener('dirty', function() {
+    console.log("%c Spinner is dirty %c","color: red");
+})
+
+spinner.addEventListener('clean', function() {
+    console.log("%c Spinner is clean","color: green");
+})
+
+spinner.addEventListener('change', function(e) {
+  console.log('Spinner changed it\'s value to ' + e.detail.data);
+  console.log('change details', e)
+});

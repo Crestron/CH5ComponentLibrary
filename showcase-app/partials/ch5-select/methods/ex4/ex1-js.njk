@@ -1,0 +1,81 @@
+{% raw %}
+var onDocumentReady = function($, CrComLib){
+    const updateDirty = (container, selectEl) => {
+        container.innerHTML = selectEl.getDirty();
+    };
+
+    const updateShownSelectedValue = (container, selectEl, multi) => {
+        if (multi) {
+            const selectedVals = selectEl.getValue();
+            if (selectedVals.length === 0) {
+                container.innerHTML = '[]';
+            } else {
+                container.innerHTML = '[' + selectedVals.join(', ') + ']';
+            }
+        } else {
+            container.innerHTML = selectEl.getValue();
+        }
+    };
+
+    const initActions = (selectSelector, dirtyContainerSelector, selectedValContainerSelector,
+                         submitBtnSelector, resetBtnSelector, setBtnSelector, valForSet,
+                         refreshSelectionBtnSelector, multi) => {
+        let dirtyValContainer = $(dirtyContainerSelector)[0];
+        let select = $(selectSelector)[0];
+        updateDirty(dirtyValContainer, select);
+
+        let selectedValContainer = $(selectedValContainerSelector)[0];
+        updateShownSelectedValue(selectedValContainer, select, multi);
+
+        select.addEventListener('change', (e) => {
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select, multi);
+        });
+
+        select.addEventListener('dirty', (e) => {
+            console.log('dirty event for select id: ' + select.id);
+            updateDirty(dirtyValContainer, select);
+        });
+        select.addEventListener('clean', (e) => {
+            console.log('clean event for select id: ' + select.id);
+            updateDirty(dirtyValContainer, select);
+        });
+
+        let submitBtn = $(submitBtnSelector)[0];
+        submitBtn.addEventListener('click', (e) => {
+            select.submit();
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select, multi);
+        });
+
+        let resetBtn = $(resetBtnSelector)[0];
+        resetBtn.addEventListener('click', (e) => {
+            select.reset();
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select, multi);
+        });
+
+        let setBtn = $(setBtnSelector)[0];
+        setBtn.addEventListener('click', (e) => {
+            select.setValue(valForSet);
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select, multi);
+        });
+
+        if (multi) {
+            let refreshBtn = $(refreshSelectionBtnSelector)[0];
+            refreshBtn.addEventListener('click', (e) => {
+                updateDirty(dirtyValContainer, select);
+                updateShownSelectedValue(selectedValContainer, select, multi);
+            });
+        }
+    };
+
+    initActions('#multiselect_ex', '#dirty-select-4', '#selected-4',
+                    '#submit-btn-4', '#reset-btn-4', '#set-btn-4', [2, 4], '#update-selection', true);
+
+};
+
+$(document).ready = onDocumentReady(jQuery, CrComLib);
+
+{% endraw %}

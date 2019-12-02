@@ -1,0 +1,16 @@
+{
+    "cues": [
+      {
+        "type": "b",
+        "event": "send_switch_value",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_switch_value",
+            "type": "boolean",
+            "logic": "toggle"
+          }
+        ]
+      }
+    ]
+}

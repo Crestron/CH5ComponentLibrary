@@ -1,0 +1,72 @@
+<div class="row">
+    <p>ch5-select with width and height attributes set</p>
+    {% raw %}
+    <ch5-select minWidth="250px" maxWidth="350px"
+                 minHeight="36px"  maxHeight="48px"
+                 size="5" indexId="idx" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option>
+                <div>
+                    <span>item_{{idx}}</span>
+                </div>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p>ch5-select without width and height attributes</p>
+    {% raw %}
+    <ch5-select size="5" indexId="idx" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option>
+                <div>
+                    <span>item_{{idx}}</span>
+                </div>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<p>ch5-select with <strong>panelScrollHeight</strong> attribute. panelScrollHeight should be a number followed by px, vw, vh or a % value and represents the height of the select panel</p>
+
+<div class="row">
+    {% raw %}
+    <ch5-select id="scroll-h-ex" size="20" indexId="idx" panelScrollHeight="300px" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option>
+                <div>
+                    <span>item_{{idx}}</span>
+                </div>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+
+    <p style="margin-top: 24px">
+        <button id="update-scroll-h" class="button is-info" type="button">Update scroll height from 300px to 150px</button>
+    </p>
+</div>
+
+<p>ch5-select with <strong>resize</strong> attribute. By default select panel width is equal with ch5-select width.
+With resize true, select panel width si given by options width and cannot exceed ch5-select parent width</p>
+
+<div class="row">
+    {% raw %}
+    <ch5-select id="resize-ex" resize maxWidth="250px" size="5" indexId="idx" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option>
+                <div>
+                    <span>item_{{idx}}</span>
+                </div>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+
+    <div style="margin-top: 24px">
+        <button id="toggle-resize" class="button is-info" type="button">Toggle ch5-select resize attribute</button>
+    </div>
+</div>

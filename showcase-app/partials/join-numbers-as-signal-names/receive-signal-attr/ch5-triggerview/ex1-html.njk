@@ -1,0 +1,59 @@
+{% raw %}
+<div class="content">
+    <h3>ch5-triggerview</h3>
+    <div>
+        <h4>receiveStateShowChildIndex</h4>
+        <ch5-button label="Activates Second View" sendEventOnClick="trig1"></ch5-button>
+        <ch5-button label="Activates Third View" sendEventOnClick="trig2"></ch5-button>
+        <ch5-triggerview receiveStateShowChildIndex="40">
+        <ch5-triggerview-child>
+            <div class="viewcontent">
+                <h1>First View</h1>
+            </div>
+        </ch5-triggerview-child>
+        <ch5-triggerview-child>
+            <div class="viewcontent">
+                <h1>Second View</h1>
+            </div>
+        </ch5-triggerview-child>
+        <ch5-triggerview-child>
+            <div class="viewcontent">
+                <h1>Third View</h1>
+            </div>
+        </ch5-triggerview-child>
+    </ch5-triggerview>
+    </div>
+    <br/>
+    <div>
+        <h4>receiveStateShow</h4>
+        <ch5-button type="secondary" shape="tab" label="First"
+                receiveStateSelected="41"
+                sendEventOnClick="41"></ch5-button>
+        <ch5-button type="secondary" shape="tab" label="Second"
+            receiveStateSelected="42"
+            sendEventOnClick="42"></ch5-button>
+        <ch5-button type="secondary" shape="tab" label="Third"
+            receiveStateSelected="43"
+            sendEventOnClick="43"></ch5-button>
+        <div>
+            <ch5-triggerview id="demo">
+                <ch5-triggerview-child receiveStateShow="41">
+                    <div class="viewcontent">
+                        <h1>First View</h1>
+                    </div>
+                </ch5-triggerview-child>
+                <ch5-triggerview-child receiveStateShow="42">
+                    <div class="viewcontent">
+                        <h1>Second View</h1>
+                    </div>
+                </ch5-triggerview-child>
+                <ch5-triggerview-child receiveStateShow="43">
+                    <div class="viewcontent">
+                        <h1>Third View</h1>
+                    </div>
+                </ch5-triggerview-child>
+            </ch5-triggerview>
+        </div>
+    </div>
+</div>
+{% endraw %}

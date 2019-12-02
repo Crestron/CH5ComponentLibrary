@@ -1,0 +1,71 @@
+---
+title: "ch5-select styling"
+---
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>CSS Class</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ch5-select</td>
+                <td>Main class</td>
+            </tr>
+            <tr>
+                <td>ch5-select—-disabled</td>
+                <td>Added automatically based on the disabled attribute or by receiveStateEnable</td>
+            </tr>
+            <tr>
+                <td>ch5-select--selected</td>
+                <td>Applied when item is selected</td>
+            </tr>
+            <tr>
+                <td>ch5-select-pressed</td>
+                <td>Applied while finger on the item being selected</td>
+            </tr>
+            <tr>
+                <td>ch5-select__combo</td>
+                <td>Applied when in 'plain', combobox mode</td>
+            </tr>
+            <tr>
+                <td>ch5-select__combo_trigger</td>
+                <td>Dropdown button</td>
+            </tr>
+            <tr>
+                <td>ch5-select__panel</td>
+                <td>Applied when in 'panel' mode</td>
+            </tr>
+            <tr>
+                <td>ch5-select__panel--open</td>
+                <td>Overlay panel is open</td>
+            </tr>
+            <tr>
+                <td>ch5-select__panel__items</td>
+                <td>List container with items</td>
+            </tr>
+            <tr>
+                <td>ch5-select__panel__item</td>
+                <td>Each item</td>
+            </tr>
+            <tr>
+                <td>ch5-select__panel__item--selected</td>
+                <td>Selected</td>
+            </tr>
+            <tr>
+                <td>ch5-select__panel__item--disabled</td>
+                <td>Item disabled</td>
+            </tr>
+            <tr>
+                <td>ch5-select__main</td>
+                <td>Top line container (holds selected items and combo trigger button)</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+<ch5-form submitId="room_submit_id" cancelId="room_cancel_id"
+    hidesubmitbutton="false"
+    submitbuttonlabel="Submit"
+    submitbuttonicon="fa fa-star"
+    submitbuttontype="success"
+    submitbuttonstyle="border: 1px solid blue"
+    hidecancelbutton="false"
+    cancelbuttonlabel="Cancel"
+    cancelbuttonicon="fa fa-anchor"
+    cancelbuttontype="danger"
+    cancelbuttonstyle="border: 1px solid red"
+> 
+    <h2>Room</h2>             
+    <ch5-toggle 
+        label="Do not disturb"
+        feedbackMode="submit" 
+        receiveStateValue="room_donotdisturb_selected" 
+        sendEventOnClick="room_donotdisturb_clicked">
+    </ch5-toggle> 
+     
+    <br><br>
+
+    <ch5-slider feedbackMode="submit" receiveStateValue="room_thermostat_set_fb" sendEventOnChange="room_thermostat_set" step="10" min="0" max="100"> </ch5-slider>
+
+    <ch5-textinput mask="9,99" feedbackMode="submit" required="true" receiveStateValue="room_special_request_fb" sendEventOnChange="room_special_request"></ch5-textinput>
+    
+    <br><br>
+
+    {# <ch5-button formType="submit" id="room_submit_id" label="Update Room"></ch5-button> 
+    <ch5-button formType="cancel" id="room_cancel_id" label="Revert Changes"></ch5-button>  #}
+</ch5-form>

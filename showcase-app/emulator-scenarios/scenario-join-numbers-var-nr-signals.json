@@ -1,0 +1,70 @@
+{
+  "cues": [
+    {
+      "type": "n",
+      "event": "200",
+      "trigger": "&change",
+      "actions": [
+        {
+          "type": "n",
+          "state": "200",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "change_labels",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "301",
+          "type": "string",
+          "logic": "set",
+          "value": "https://picsum.photos/300/150/?random"
+        },
+        {
+          "state": "302",
+          "type": "string",
+          "logic": "set",
+          "value": "https://picsum.photos/id/433/300/150"
+        },
+         {
+          "state": "303",
+          "type": "string",
+          "logic": "set",
+          "value": "https://picsum.photos/id/450/300/150"
+        },
+         {
+          "state": "304",
+          "type": "string",
+          "logic": "set",
+          "value": "https://picsum.photos/id/200/300/150"
+        },
+         {
+          "state": "305",
+          "type": "string",
+          "logic": "set",
+          "value": "https://picsum.photos/id/566/300/150"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "s",
+      "state": "201",
+      "value": "green"
+    },
+    {
+      "type": "s",
+      "state": "202",
+      "value": "red"
+    },
+    {
+      "type": "s",
+      "state": "203",
+      "value": "blue"
+    }
+  ]
+}

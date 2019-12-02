@@ -1,0 +1,15 @@
+---
+title: "ch5-spinner: size attribute"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./partials/ch5-spinner/attributes/size/scenario-ch5-spinner-size.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-spinner/attributes/size/','ex1') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-spinner/attributes/size/','ex2') %}{% endcall %}
+{% endblock %}

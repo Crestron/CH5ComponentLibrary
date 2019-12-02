@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-background-transitionduration-fixture">
+        <template>
+            <ch5-background transitionduration="2s" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="12">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-background transitionduration', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-transitionduration-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('transitionDuration "2s"', (done) => {
+                flush(() => {
+                    const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                    expect(canvasElm.style.transitionDuration).to.be.equal('2s');
+                    done();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

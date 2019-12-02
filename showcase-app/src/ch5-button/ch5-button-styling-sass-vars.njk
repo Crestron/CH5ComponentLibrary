@@ -1,0 +1,681 @@
+---
+title: "ch5-button styling"
+---
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>SASS variable</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>$ch5-button-font-size-unit</td>
+            <td>the font size unit of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-font-size-value</td>
+            <td>the font size value of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-font-size</td>
+            <td>the font size of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-font-style</td>
+            <td>the font style of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-font-weight</td>
+            <td>the font weight of the button</td>
+        </tr>
+
+        <tr>
+            <td>$ch5-button-icon-padding</td>
+            <td>the padding for icon of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-img-margin</td>
+            <td>the margin for image of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-img-height</td>
+            <td>the height for image of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-img-width</td>
+            <td>the width for image of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-circle-icon-height</td>
+            <td>the height for icon of the button with circle form</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-circle-icon-width</td>
+            <td>the width for icon of the button with circle form</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-circle-icon-line-height</td>
+            <td>the line height for icon of the button with circle form</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-padding</td>
+            <td>the padding for text of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-border-radius</td>
+            <td>the border radius of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-circle-border-radius</td>
+            <td>the border radius of the button with circle form</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-oval-border-radius</td>
+            <td>the border radius of the button with oval form</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-tab-border-radius</td>
+            <td>the border radius of the button with tab form</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-small-font-size-unit</td>
+            <td>the font size unit of the button with x-small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-small-font-size-value</td>
+            <td>the font size value of the button with x-small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-small-font-size</td>
+            <td>the font size of the button with x-small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-small-font-style</td>
+            <td>the font style of the button with x-small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-small-font-weight</td>
+            <td>the font weight of the button with x-small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-small-padding</td>
+            <td>the padding of the button with x-small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-small-font-size-unit</td>
+            <td>the font size unit of the button with small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-small-font-size-value</td>
+            <td>the font size value of the button with small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-small-font-size</td>
+            <td>the font size of the button with small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-small-font-style</td>
+            <td>the font style of the button with small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-small-font-weight</td>
+            <td>the font weight of the button with small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-small-padding</td>
+            <td>the padding of the button with small size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-large-font-size-unit</td>
+            <td>the font size unit of the button with large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-large-font-size-value</td>
+            <td>the font size unit of the button with large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-large-font-size</td>
+            <td>the font size of the button with large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-large-font-style</td>
+            <td>the font style of the button with large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-large-font-weight</td>
+            <td>the font weight of the button with large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-large-padding</td>
+            <td>the padding of the button with large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-large-font-size-unit</td>
+            <td>the font size unit of the button with x-large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-large-font-size-value</td>
+            <td>the font size value of the button with x-large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-large-font-size</td>
+            <td>the font size of the button with x-large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-large-font-style</td>
+            <td>the font style of the button with x-large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-large-font-weight</td>
+            <td>the font weight of the button with x-large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-x-large-padding</td>
+            <td>the padding of the button with x-large size</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-border-color</td>
+            <td>the border color of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-font-color</td>
+            <td>the font color of the button</td>
+        </tr>
+        <!-- default -->
+        <tr>
+            <td>$ch5-button-text-default-border-color</td>
+            <td>the border color for text of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-default-background-color</td>
+            <td>the background color for text of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-default-font-color</td>
+            <td>the font color for text of the button</td>
+        </tr>
+        <!-- default selected color -->
+        <tr>
+            <td>$ch5-button-text-selected-border-color</td>
+            <td>the border color for text of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-selected-background-color</td>
+            <td>the background color for text of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-selected-font-color</td>
+            <td>the font color for text of the selected button</td>
+        </tr>
+        <!-- default pressed color -->
+        <tr>
+            <td>$ch5-button-text-pressed-border-color</td>
+            <td>the border color for text of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-pressed-background-color</td>
+            <td>the background color for text of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-pressed-font-color</td>
+            <td>the font color for text of the pressed button</td>
+        </tr>
+        <!-- default disabled color -->
+        <tr>
+            <td>$ch5-button-text-disabled-border-color</td>
+            <td>the border color for text of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-disabled-background-color</td>
+            <td>the background color for text of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-text-disabled-font-color</td>
+            <td>the font color for text of the disabled button</td>
+        </tr>
+
+        <!--  -------------------------Danger Button ----------------------------- -->
+        <tr>
+            <td>$ch5-button-danger-border-color</td>
+            <td>the border color of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-danger-font-color</td>
+            <td>the font color of the button</td>
+        </tr>
+        <!-- default -->
+        <tr>
+            <td>$ch5-button-danger-default-border-color</td>
+            <td>the border color for danger type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-danger-default-background-color</td>
+            <td>the background color for danger type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-danger-default-font-color</td>
+            <td>the font color for danger type of the button</td>
+        </tr>
+        <!-- danger selected color -->
+        <tr>
+            <td>$ch5-button-danger-selected-border-color</td>
+            <td>the border color for danger type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-danger-selected-background-color</td>
+            <td>the background color for danger type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-danger-selected-font-color</td>
+            <td>the font color for danger type of the selected button</td>
+        </tr>
+        <!-- danger pressed color -->
+        <tr>
+            <td>$ch5-button-danger-pressed-border-color</td>
+            <td>the border color for danger type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-danger-pressed-background-color</td>
+            <td>the background color for danger type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-danger-pressed-font-color</td>
+            <td>the font color for danger type of the pressed button</td>
+        </tr>
+        <!-- danger disabled color -->
+        <tr>
+            <td>$ch5-button-danger-disabled-border-color</td>
+            <td>the border color for danger type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-danger-disabled-background-color</td>
+            <td>the background color for danger type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-danger-disabled-font-color</td>
+            <td>the font color for danger type of the disabled button</td>
+        </tr>
+
+        <!--  -------------------------Warning Button ----------------------------- -->
+        <tr>
+            <td>$ch5-button-warning-border-color</td>
+            <td>the border color of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-warning-font-color</td>
+            <td>the font color of the button</td>
+        </tr>
+        <!-- default -->
+        <tr>
+            <td>$ch5-button-warning-default-border-color</td>
+            <td>the border color for warning type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-warning-default-background-color</td>
+            <td>the background color for warning type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-warning-default-font-color</td>
+            <td>the font color for warning type of the button</td>
+        </tr>
+        <!-- warning selected color -->
+        <tr>
+            <td>$ch5-button-warning-selected-border-color</td>
+            <td>the border color for warning type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-warning-selected-background-color</td>
+            <td>the background color for warning type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-warning-selected-font-color</td>
+            <td>the font color for warning type of the selected button</td>
+        </tr>
+        <!-- warning pressed color -->
+        <tr>
+            <td>$ch5-button-warning-pressed-border-color</td>
+            <td>the border color for warning type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-warning-pressed-background-color</td>
+            <td>the background color for warning type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-warning-pressed-font-color</td>
+            <td>the font color for warning type of the pressed button</td>
+        </tr>
+        <!-- warning disabled color -->
+        <tr>
+            <td>$ch5-button-warning-disabled-border-color</td>
+            <td>the border color for warning type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-warning-disabled-background-color</td>
+            <td>the background color for warning type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-warning-disabled-font-color</td>
+            <td>the font color for warning type of the disabled button</td>
+        </tr>
+
+        <!--  -------------------------Info Button ----------------------------- -->
+        <tr>
+            <td>$ch5-button-info-border-color</td>
+            <td>the border color of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-info-font-color</td>
+            <td>the font color of the button</td>
+        </tr>
+        <!-- default -->
+        <tr>
+            <td>$ch5-button-info-default-border-color</td>
+            <td>the border color for info type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-info-default-background-color</td>
+            <td>the background color for info type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-info-default-font-color</td>
+            <td>the font color for info type of the button</td>
+        </tr>
+        <!-- info selected color -->
+        <tr>
+            <td>$ch5-button-info-selected-border-color</td>
+            <td>the border color for info type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-info-selected-background-color</td>
+            <td>the background color for info type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-info-selected-font-color</td>
+            <td>the font color for info type of the selected button</td>
+        </tr>
+        <!-- info pressed color -->
+        <tr>
+            <td>$ch5-button-info-pressed-border-color</td>
+            <td>the border color for info type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-info-pressed-background-color</td>
+            <td>the background color for info type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-info-pressed-font-color</td>
+            <td>the font color for info type of the pressed button</td>
+        </tr>
+        <!-- info disabled color -->
+        <tr>
+            <td>$ch5-button-info-disabled-border-color</td>
+            <td>the border color for info type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-info-disabled-background-color</td>
+            <td>the background color for info type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-info-disabled-font-color</td>
+            <td>the font color for info type of the disabled button</td>
+        </tr>
+
+        <!--  -------------------------Success Button ----------------------------- -->
+        <tr>
+            <td>$ch5-button-success-border-color</td>
+            <td>the border color of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-success-font-color</td>
+            <td>the font color of the button</td>
+        </tr>
+        <!-- default -->
+        <tr>
+            <td>$ch5-button-success-default-border-color</td>
+            <td>the border color for success type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-success-default-background-color</td>
+            <td>the background color for success type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-success-default-font-color</td>
+            <td>the font color for success type of the button</td>
+        </tr>
+        <!-- success selected color -->
+        <tr>
+            <td>$ch5-button-success-selected-border-color</td>
+            <td>the border color for success type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-success-selected-background-color</td>
+            <td>the background color for success type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-success-selected-font-color</td>
+            <td>the font color for success type of the selected button</td>
+        </tr>
+        <!-- success pressed color -->
+        <tr>
+            <td>$ch5-button-success-pressed-border-color</td>
+            <td>the border color for success type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-success-pressed-background-color</td>
+            <td>the background color for success type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-success-pressed-font-color</td>
+            <td>the font color for success type of the pressed button</td>
+        </tr>
+        <!-- success disabled color -->
+        <tr>
+            <td>$ch5-button-success-disabled-border-color</td>
+            <td>the border color for success type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-success-disabled-background-color</td>
+            <td>the background color for success type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-success-disabled-font-color</td>
+            <td>the font color for success type of the disabled button</td>
+        </tr>
+
+        <!--  -------------------------Default Button ----------------------------- -->
+        <tr>
+            <td>$ch5-button-default-border-color</td>
+            <td>the border color of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-default-font-color</td>
+            <td>the font color of the button</td>
+        </tr>
+        <!-- default -->
+        <tr>
+            <td>$ch5-button-default-default-border-color</td>
+            <td>the border color for default type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-default-default-background-color</td>
+            <td>the background color for default type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-default-default-font-color</td>
+            <td>the font color for default type of the button</td>
+        </tr>
+        <!-- default selected color -->
+        <tr>
+            <td>$ch5-button-default-selected-border-color</td>
+            <td>the border color for default type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-default-selected-background-color</td>
+            <td>the background color for default type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-default-selected-font-color</td>
+            <td>the font color for default type of the selected button</td>
+        </tr>
+        <!-- default pressed color -->
+        <tr>
+            <td>$ch5-button-default-pressed-border-color</td>
+            <td>the border color for default type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-default-pressed-background-color</td>
+            <td>the background color for default type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-default-pressed-font-color</td>
+            <td>the font color for default type of the pressed button</td>
+        </tr>
+        <!-- default disabled color -->
+        <tr>
+            <td>$ch5-button-default-disabled-border-color</td>
+            <td>the border color for default type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-default-disabled-background-color</td>
+            <td>the background color for default type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-default-disabled-font-color</td>
+            <td>the font color for default type of the disabled button</td>
+        </tr>
+
+
+        <!--  -------------------------Primary Button ----------------------------- -->
+        <tr>
+            <td>$ch5-button-primary-border-color</td>
+            <td>the border color of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-primary-font-color</td>
+            <td>the font color of the button</td>
+        </tr>
+        <!-- default -->
+        <tr>
+            <td>$ch5-button-primary-default-border-color</td>
+            <td>the border color for primary type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-primary-default-background-color</td>
+            <td>the background color for primary type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-primary-default-font-color</td>
+            <td>the font color for primary type of the button</td>
+        </tr>
+        <!-- primary selected color -->
+        <tr>
+            <td>$ch5-button-primary-selected-border-color</td>
+            <td>the border color for primary type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-primary-selected-background-color</td>
+            <td>the background color for primary type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-primary-selected-font-color</td>
+            <td>the font color for primary type of the selected button</td>
+        </tr>
+        <!-- primary pressed color -->
+        <tr>
+            <td>$ch5-button-primary-pressed-border-color</td>
+            <td>the border color for primary type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-primary-pressed-background-color</td>
+            <td>the background color for primary type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-primary-pressed-font-color</td>
+            <td>the font color for primary type of the pressed button</td>
+        </tr>
+        <!-- primary disabled color -->
+        <tr>
+            <td>$ch5-button-primary-disabled-border-color</td>
+            <td>the border color for primary type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-primary-disabled-background-color</td>
+            <td>the background color for primary type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-primary-disabled-font-color</td>
+            <td>the font color for primary type of the disabled button</td>
+        </tr>
+
+
+        <!--  -------------------------Secondary Button ----------------------------- -->
+        <tr>
+            <td>$ch5-button-secondary-border-color</td>
+            <td>the border color of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-secondary-font-color</td>
+            <td>the font color of the button</td>
+        </tr>
+        <!-- default -->
+        <tr>
+            <td>$ch5-button-secondary-default-border-color</td>
+            <td>the border color for secondary type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-secondary-default-background-color</td>
+            <td>the background color for secondary type of the button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-secondary-default-font-color</td>
+            <td>the font color for secondary type of the button</td>
+        </tr>
+        <!-- secondary selected color -->
+        <tr>
+            <td>$ch5-button-secondary-selected-border-color</td>
+            <td>the border color for secondary type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-secondary-selected-background-color</td>
+            <td>the background color for secondary type of the selected button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-secondary-selected-font-color</td>
+            <td>the font color for secondary type of the selected button</td>
+        </tr>
+        <!-- secondary pressed color -->
+        <tr>
+            <td>$ch5-button-secondary-pressed-border-color</td>
+            <td>the border color for secondary type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-secondary-pressed-background-color</td>
+            <td>the background color for secondary type of the pressed button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-secondary-pressed-font-color</td>
+            <td>the font color for secondary type of the pressed button</td>
+        </tr>
+        <!-- secondary disabled color -->
+        <tr>
+            <td>$ch5-button-secondary-disabled-border-color</td>
+            <td>the border color for secondary type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-secondary-disabled-background-color</td>
+            <td>the background color for secondary type of the disabled button</td>
+        </tr>
+        <tr>
+            <td>$ch5-button-secondary-disabled-font-color</td>
+            <td>the font color for secondary type of the disabled button</td>
+        </tr>
+
+    </tbody>
+</table>
+
+{% endblock %}

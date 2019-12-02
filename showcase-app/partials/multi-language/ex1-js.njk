@@ -1,0 +1,143 @@
+window.CrComLib.registerTranslationInterface(i18next,'-+','+-');
+
+i18next.init({
+
+  fallbackLng: 'en',
+  language: 'en',
+  debug: true,
+  resources: {
+    en: {
+      translation: {
+        firstname: {
+          placeholder: 'Enter your firstname',
+          label: 'Firstname'
+        },
+        gender: {
+          label: 'Gender',
+          m: 'M',
+          f: 'F'
+        },
+        button: {
+          save: 'Subscribe Now',
+          reset: 'Remove my data',
+          show: 'Show the modal',
+        },
+        temperature:{
+          temp37:'37 degrees Celsius',
+          temp20:'20 degrees Celsius'
+        },
+        image: {
+          alt: "Image Alternative Title"
+        },
+        select: {
+          noneSelectedPrompt: 'Select an item',
+        },
+        modalDialog: {
+          title: 'Modal title',
+          okButton: 'Like',
+          cancelButton: 'Close',
+          prompt: "There's just a placeholder for the image below",
+        },
+        spinner: {
+          label: 'Item'
+        },
+		    i18ntext: {
+          body: 'This is dummy text for data-ch5-i18n attribute testing.',
+          imagetext: 'Placeholder text for image.'
+        }
+      }
+    },
+    de: {
+      translation: {
+        firstname: {
+          placeholder: 'Bitte Ihr Vorname',
+          label: 'Vorname',
+        },
+        gender: {
+          label: 'Geschlecht',
+          m: 'M',
+          f: 'W',
+        },
+        button: {
+          save: 'Abonniere jetzt',
+          reset: 'Entferne meine Daten',
+          show: 'Zeige das Modal',
+        },
+         temperature:{
+          temp37:'37 Grad Celsius',
+          temp20:'20 Grad Celsius'
+        },
+        image: {
+          alt: "Image Alternative Titel",
+        },
+        select: {
+          noneSelectedPrompt: 'Wähle einen Artikel aus',
+        },
+        modalDialog: {
+          title: 'Modal titel',
+          okButton: 'Liebe',
+          cancelButton: 'Schließen',
+          prompt: "Es gibt nur einen Platzhalter für das Bild unten",
+        },
+        spinner: {
+          label: 'Artikel'
+        },
+        i18ntext: {
+          body: 'Dies ist ein Dummy-Text für das Testen von Attributen in data-ch5-i18n.',
+          imagetext : 'Platzhaltertext für Bild.'
+        }
+      },
+    },
+    cz: {
+      translation: {
+        firstname: {
+          placeholder: 'Prosím, své první jméno',
+          label: 'Jméno',
+        },
+        gender: {
+          label: 'Rod',
+          m: 'M',
+          f: 'Z',
+        },
+        button: {
+          save: 'Zaregistrujte se nyní',
+          reset: 'Odebrat data',
+          show: 'Zobrazit modální',
+        },
+         temperature:{
+          temp37:'37 stupňů Celsia',
+          temp20:'20  stupňů Celsia'
+        },
+        image: {
+          alt: "Alternativní název obrázku",
+        },
+        select: {
+          noneSelectedPrompt: 'Vyberte položku',
+        },
+        modalDialog: {
+          title: 'Modální název',
+          okButton: 'Milovat',
+          cancelButton: 'Zavřít',
+          prompt: "Pro níže uvedený obrázek je pouze zástupný symbol",
+        },
+        spinner: {
+          label: 'Položka'
+        },
+        i18ntext: {
+          body: 'Toto je fiktivní text pro testování atributů v datech-ch5-i18n.',
+          imagetext: 'zástupný text pro obrázek.'
+        }
+      },
+    },
+  }
+
+});
+
+
+function changeLanguage(language) {
+
+  if(typeof language !== 'undefined' && language !== '') {
+    i18next.changeLanguage(language);
+  }
+
+}

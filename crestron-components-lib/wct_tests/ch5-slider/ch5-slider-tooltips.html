@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-slider-tooltipShowType-fixture">
+    <template>
+        <ch5-slider></ch5-slider>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-slider-tooltipShowType-invalid-fixture">
+    <template>
+        <ch5-slider tooltipShowType="randomValue"></ch5-slider>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-slider tooltipShowType', function() {
+
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-tooltipShowType-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        test('Default tooltipShowType is "off"', function() {
+            expect(ch5Slider.toolTipShowType).to.be.equal('off');
+        });
+
+        test('Default tooltipShowType has class name: "ch5-slider--tooltip--off"', function() {
+            expect(ch5Slider.className).to.contain('ch5-slider--tooltip--off');
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Default tooltipShowType: "off" rendered noUiSlider', function() {
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+
+        const availabletooltipShowTypes = ['off', 'on', 'auto']
+
+        availabletooltipShowTypes.forEach((tooltipShowTypeName,i)=>{
+            test(`tooltipShowType: "${tooltipShowTypeName}"`, function() {
+                ch5Slider.setAttribute('tooltipShowType',tooltipShowTypeName);
+                expect(ch5Slider.getAttribute('tooltipShowType')).to.be.equal(tooltipShowTypeName);
+                expect(ch5Slider.toolTipShowType).to.be.equal(tooltipShowTypeName);
+            });
+
+            test(`tooltipShowType: "${tooltipShowTypeName}" has class name: "ch5-slider--tooltip--${tooltipShowTypeName}"`, function() {
+                ch5Slider.setAttribute('tooltipShowType',tooltipShowTypeName);
+                expect(ch5Slider.className).to.contain('ch5-slider--tooltip--' + tooltipShowTypeName);
+            });
+
+            // this will test if noUiSlider was rendered with current setup
+            test(`tooltipShowType: "${tooltipShowTypeName}" rendered noUiSlider`, function() {
+                expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            });
+        });
+    });
+
+    suite('ch5-slider invalid tooltipShowType', function() {
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-tooltipShowType-invalid-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        // testing with a random value in a tooltipShowType attribute
+        test('Invalid tooltipShowType should be switched to default "off"', function() {
+            expect(ch5Slider.toolTipShowType).to.be.equal('off');
+        })
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Invalid tooltipShowType rendered noUiSlider with default "off"', function() {
+            expect(ch5Slider.toolTipShowType).to.be.equal('off');
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    })
+</script>
+</body>
+</html>

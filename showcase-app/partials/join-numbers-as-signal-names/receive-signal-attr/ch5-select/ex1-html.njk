@@ -1,0 +1,71 @@
+{% raw %}
+<div class="content">
+    <h3>ch5-select</h3>
+    <div>
+        <h4>receiveStateValue="26"</h4>
+        <ch5-select size="4" indexId="Idx"
+            sendEventOnChange="26"
+            receiveStateValue="26"
+            noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option>
+                <span>Option {{Idx}}</span>
+            </ch5-select-option>
+        </template>
+        </ch5-select>
+    </div>
+    <br/>
+    <div>
+        <h4>receiveStateSize="27"</h4>
+        <ch5-select indexId="Index"
+            receiveStateSize="27"
+            noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option>
+                    <span>Option {{Index}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </div>
+    <br/>
+    <div>
+        <h4>receiveStateTemplateVars="28"</h4>
+         <ch5-select size="4" indexId="Index"
+            receiveStateTemplateVars="28"
+            noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option>
+                    <span>Option {{Index}} - {{description}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </div>
+    
+    <h3>ch5-select-option</h3> 
+    <div>
+        <h4>receiveStateSelected values: 29, 30</h4>
+         <ch5-select size="4" indexId="Index"
+            receiveStateTemplateVars="28"
+            noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option>
+                    <span>Option {{Index}} - {{description}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </div>
+    <br/>
+        <div>
+        <h4>receiveStateLabel values: 301, 302</h4>
+        <ch5-select size="2" indexId="Index" noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option useDefaultTmpl
+                                   receiveStateLabel="301{{Index}}">
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </div>
+    <br/>
+</div>
+
+{% endraw %}

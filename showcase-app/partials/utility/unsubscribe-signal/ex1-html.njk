@@ -1,0 +1,34 @@
+<p>See the JS tab for the code and browser console for messages</p>
+
+<p>
+    Click this button to change the value of the <b>city</b> signal to "Las Vegas", will decrement <b>sig_n</b> by 3 and
+    will toggle <b>sig_b</b>.
+    <ch5-button label="Btn1" sendEventOnClick="trig1"></ch5-button>
+</p>
+<p>
+    Click this button to change the value of the <b>city</b> signal to "New York", will increment <b>sig_n</b> by 5 and
+    will set <b>sig_b</b> to true.
+    <ch5-button label="Btn2" sendEventOnClick="trig2"></ch5-button>
+</p>
+
+<p>
+    The following table will display the values of the signals and update them as they change (if the subscription is kept).
+</p>
+<table class="table">
+    <tr><th>signal</th><th>value</th></tr>
+    <tr>
+        <td>sig_b</td>
+        <td id="s1"></td>
+        <td><ch5-button id="us1" label="Unsubscribe from sig_b"></ch5-button></td>
+    </tr>
+    <tr>
+        <td>sig_n</td>
+        <td id="s2"></td>
+        <td><ch5-button id="us2" label="Unsubscribe from sig_b"></ch5-button></td>
+    </tr>
+    <tr>
+        <td>city</td>
+        <td id="s3"></td>
+        <td><ch5-button id="us3" label="Unsubscribe from city"></ch5-button></td>
+    </tr>
+</table>

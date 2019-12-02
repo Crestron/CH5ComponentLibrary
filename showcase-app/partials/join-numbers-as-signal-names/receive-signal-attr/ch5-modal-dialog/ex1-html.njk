@@ -1,0 +1,41 @@
+{% raw %}
+<div class="content">
+    <h3>ch5-modal-dialog</h3>
+    <p>Inherits ch5-overlay-panel for receiveState attributes.</p>
+    <div>
+        <h4>receiveStateShow</h4>
+        <p>
+            <ch5-button label="Trigger show" sendEventOnClick="35"></ch5-button><br>
+
+            <ch5-modal-dialog 
+                receiveStateShow="35"
+                closable
+            >
+                <span>Sample text</span>
+                <ch5-image
+                        id="ex1-img"
+                        url="https://picsum.photos/200/300/?random">
+                </ch5-image>
+            </ch5-modal-dialog>
+        </p>
+    </div>
+    <br/>
+        <div>
+        <h4>receiveStateShowPulse</h4>
+        <p>
+            <ch5-button label="Trigger show by pulse" sendEventOnClick="sig_pulse_show"></ch5-button><br>
+
+            <ch5-modal-dialog 
+                receiveStateShowPulse="sig_pulse_show"
+                closable
+            >
+                <span>Sample text</span>
+                <ch5-image
+                        id="ex2-img"
+                        url="https://picsum.photos/200/300/?random">
+                </ch5-image>
+            </ch5-modal-dialog>
+        </p>
+    </div>
+</div>
+{% endraw %}

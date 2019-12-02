@@ -1,0 +1,78 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "trig1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receive_slider_value",
+          "type": "number",
+          "logic": "set",
+          "value": -10
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receive_slider_value",
+          "type": "number",
+          "logic": "set",
+          "value": -30
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receive_slider_value",
+          "type": "object",
+          "logic": "set",
+          "value": {
+            "rcb":{
+                "value": -30,
+                "time": 5000
+            }
+        }
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig4",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receive_slider_value",
+          "type": "object",
+          "logic": "set",
+          "value": {
+            "rcb":{
+                "value": -10,
+                "time": 3500
+            }
+        }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "slider_value_on_change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "receive_slider_value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    }
+  ]
+}
