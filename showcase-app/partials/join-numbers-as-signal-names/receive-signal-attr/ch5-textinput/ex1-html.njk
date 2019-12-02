@@ -1,0 +1,31 @@
+{% raw %}
+<div class="content">
+    <h3>ch5-textinput</h3>
+    <div>
+        <h4>receiveStateFocus</h4>
+        <ch5-button
+                type="info"
+                sendEventOnClick="44"
+                label="Focus the input">
+        </ch5-button>
+        <ch5-textinput
+            receiveStateFocus="44"
+            placeholder="Focus on me">
+        </ch5-textinput>
+    </div>
+    <br/>
+    <div>
+        <h4>receiveStateValue</h4>
+        <ch5-button
+                type="info"
+                sendEventOnClick="45"
+                label="Give value to input">
+        </ch5-button>
+        <ch5-textinput
+            receiveStateValue="45"
+            feedbackMode="submit"
+            placeholder="Click the button to get the value">
+        </ch5-textinput>
+    </div>
+</div>
+{% endraw %}

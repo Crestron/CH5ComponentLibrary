@@ -1,0 +1,12 @@
+{
+  "cues": [
+
+  ],
+  "onStart":[
+    {
+      "type":"string",
+      "state":"sig_string",
+      "value":"orange"
+    }
+  ]
+}

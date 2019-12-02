@@ -1,0 +1,33 @@
+<p>
+    Pressing this button wil show the overlay <ch5-button label="Show overlay" sendEventOnClick="trig_show_2"></ch5-button>
+</p>
+<p>
+    This changes the value of the <b>sig_custom_style</b> signal to "border:2px dashed blue;" ( see Emulator Scenario )
+    <ch5-button label="trigger 1" sendEventOnClick="sig_trig_style1"></ch5-button>
+</p>
+<p>
+    This changes the value of the <b>sig_custom_style</b> signal to "border:3px dotted green; color:red;" ( see Emulator Scenario )
+    <ch5-button label="trigger 2" sendEventOnClick="sig_trig_style2"></ch5-button>
+</p>
+<p>
+    This changes the value of the <b>sig_custom_style</b> signal to "border:1px solid red; color:green;" ( see Emulator Scenario )
+    <ch5-button label="trigger 3" sendEventOnClick="sig_trig_style3"></ch5-button>
+</p>
+
+<hr>
+
+
+<ch5-overlay-panel
+        dismissable="false"
+        closable="true"
+        closeIcon="fas fa-power-off"
+        receiveStateCustomStyle="sig_custom_style"
+        customStyle="border:1px solid red;"
+        receiveStateShowPulse="trig_show_2"
+        >
+    <p>Sample text</p>
+    <ch5-image
+            id="ex1-img"
+            url="https://picsum.photos/200/300/?random">
+    </ch5-image>
+</ch5-overlay-panel>

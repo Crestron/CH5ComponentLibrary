@@ -1,0 +1,69 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "trig1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "roomname",
+          "type": "string",
+          "logic": "set",
+          "value": "kitchen"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "roomname",
+          "type": "string",
+          "logic": "set",
+          "value": "bedroom"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "temperature",
+          "type": "n",
+          "logic": "decrement",
+          "offset": 1
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig4",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "temperature",
+          "type": "n",
+          "logic": "increment",
+          "offset": 1
+        }
+      ]
+    }
+
+  ],
+  "onStart": [
+    {
+      "type": "s",
+      "state": "roomname",
+      "value": "bedroom"
+    },
+    {
+      "type": "n",
+      "state": "temperature",
+      "value": 240
+    }
+  ]
+}

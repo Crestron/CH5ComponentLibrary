@@ -1,0 +1,32 @@
+{% raw %}
+<div class="content">
+    <h3>ch5-spinner</h3>
+    <div>
+        <h4>receiveStateValue</h4>
+        <ch5-spinner
+            indexId="idx"
+            label="item {{idx}}"
+            receiveStateValue="46"
+            itemHeight="40"
+            size="7"></ch5-spinner>
+
+        <ch5-button
+            sendEventOnClick="46"
+            label="Select item 5"></ch5-button>
+    </div>
+    <br/>
+    <div>
+        <h4>receiveStateSize</h4>
+        <ch5-spinner
+          label="item {{idx}}"
+          indexId="idx"
+          receiveStateSize="47"
+          itemHeight="40"
+          size="15"></ch5-spinner>
+
+        <ch5-button
+          sendEventOnClick="47"
+          label="Reduce spinner size to 10"></ch5-button>
+    </div>
+</div>
+{% endraw %}

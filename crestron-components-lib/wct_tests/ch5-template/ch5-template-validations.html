@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-temple-validations-fixture">
+    <template id="testTemplateId">
+        <div>
+            Sample Content
+        </div>
+    </template>
+
+    <template id="emptyTemplate">
+
+    </template>
+
+    <ch5-template id="validCh5Template" templateId="testTemplateId" context="original:replacement"></ch5-template>
+    <ch5-template id="validCh5TemplateWithNoContextAttribute" templateId="testTemplateId"></ch5-template>
+    <ch5-template id="validCh5TemplateWithEmptyContextAttribute" templateId="testTemplateId" context=""></ch5-template>
+</test-fixture>
+
+<script>
+  suite('ch5-template-validations', function () {
+
+    let ch5Template;
+    const expectedCh5TemplateTextContent = '\n            Sample Content\n        ';
+
+    setup(() => {
+      return Promise.all([
+        customElements.whenDefined('ch5-template')
+      ]);
+    });
+
+    test('When the attributes provided, template content should be generate', function () {
+      ch5Template = document.getElementById("validCh5Template");
+
+      expect(ch5Template.children[0].tagName).to.be.equal('DIV');
+      expect(ch5Template.children[0].textContent).to.be.equal(expectedCh5TemplateTextContent);
+    });
+
+    test('When the context attribute is not provided, template content should be generated', function () {
+      ch5Template = document.getElementById("validCh5TemplateWithNoContextAttribute");
+
+      expect(ch5Template.children[0].tagName).to.be.equal('DIV');
+      expect(ch5Template.children[0].textContent).to.be.equal(expectedCh5TemplateTextContent);
+    });
+
+    test('When the context attribute is empty, template content should be generated', function () {
+      ch5Template = document.getElementById('validCh5TemplateWithEmptyContextAttribute');
+
+      expect(ch5Template.children[0].tagName).to.be.equal('DIV');
+      expect(ch5Template.children[0].textContent).to.be.equal(expectedCh5TemplateTextContent);
+    });
+  });
+</script>
+</body>
+</html>

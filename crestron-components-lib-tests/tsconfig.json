@@ -1,0 +1,22 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2018",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": ".build",
+    "lib": [
+      "es2018",
+      "dom",
+      "dom.iterable"
+    ],
+    "noStrictGenericChecks": true,
+    "esModuleInterop": true,
+    "strict": false
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

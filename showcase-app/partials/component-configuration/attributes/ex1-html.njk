@@ -1,0 +1,36 @@
+<p>
+    Load the conf-attributes-from-file scenario JSON. In order to load these attributes another scenario needs to be loaded,
+    on the right window uncheck the "Execute JS before HTML" checkbox and click preview, then click the Load Config button below:
+</p>
+<ch5-button id="btn-load-component-config" label="Load config"></ch5-button>
+
+<div class="config-attr-example">
+    <p class="mt30">
+        The following button will have the attributes defined in the components section of the config
+    </p>
+    <ch5-button></ch5-button>
+
+
+    <p class="mt30">
+        The following button will have the attributes defined in the components section of the config and the ones
+        defined
+        in the id section for the id "btn1". The attributes in the id section have priority.
+    </p>
+    <ch5-button id="btn1"></ch5-button>
+
+
+    <p class="mt30">
+        The following button will have the attributes defined in the components section of the config and the ones
+        defined
+        in the id section for the id "btn2". The attributes in the id section have priority.
+    </p>
+    <ch5-button id="btn2"></ch5-button>
+
+
+    <p class="mt30">
+        The following button will have the attributes defined in the components section of the config and the ones
+        defined
+        in the id section for the id "btn3" (see JS tab). The attributes in the id section have priority.
+    </p>
+    <ch5-button id="btn3"></ch5-button>
+</div>

@@ -1,0 +1,16 @@
+{% raw %}
+(function(CrComLib){
+    var el =document.querySelector('#updated-element');
+
+
+    const signalScript="CrComLib.textformat(\"City: {1}, Number: {2}, Number*3: {3}\",\"{{s.city}}\",{{n.sig_n}},{{n.sig_n}}*3)";
+
+    var callback = function(result){
+        console.log(result);
+        el.textContent = result;
+    }
+
+    CrComLib.subscribeStateScript(signalScript, callback, 'defaultValue');
+
+})(CrComLib);
+{% endraw %}

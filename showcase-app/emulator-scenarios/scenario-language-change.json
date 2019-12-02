@@ -1,0 +1,37 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_11",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "temperature_in_city",
+          "type": "s",
+          "logic": "set",
+          "value": "-+temperature.temp37+-"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_21",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "temperature_in_city",
+          "type": "s",
+          "logic": "set",
+          "value": "-+temperature.temp20+-"
+        }
+      ]
+    }
+  ],
+  "onStart":[
+    {
+      "state": "temperature_in_city",
+      "type": "s",
+      "value":  "-+temperature.temp20+-"
+    }
+  ]
+}

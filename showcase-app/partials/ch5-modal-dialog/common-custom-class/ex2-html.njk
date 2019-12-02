@@ -1,0 +1,31 @@
+<p>
+    Pressing this button wil show the modal <ch5-button label="Show modal" sendEventOnClick="trig_show_2"></ch5-button>
+</p>
+
+<p>
+    This changes the value of the <b>sig_custom_class</b> signal to "blue-dashed-border bg1" ( see Emulator Scenario )
+    <ch5-button label="trigger 1" sendEventOnClick="sig_trig_class1"></ch5-button>
+</p>
+<p>
+    This changes the value of the <b>sig_custom_class</b> signal to "green-dotted-border bg2" ( see Emulator Scenario )
+    <ch5-button label="trigger 2" sendEventOnClick="sig_trig_class2"></ch5-button>
+</p>
+<p>
+    This changes the value of the <b>sig_custom_class</b> signal to "red-solid-border bg3" ( see Emulator Scenario )
+    <ch5-button label="trigger 3" sendEventOnClick="sig_trig_class3"></ch5-button>
+</p>
+
+<hr>
+
+<ch5-modal-dialog
+        dismissable="false"
+        receiveStateCustomClass="sig_custom_class"
+        customClass="blue-dashed-border"
+        receiveStateShowPulse="trig_show_2"
+    >
+    <p>Sample text</p>
+    <ch5-image
+            id="ex1-img"
+            url="https://picsum.photos/200/300/?random">
+    </ch5-image>
+</ch5-modal-dialog>

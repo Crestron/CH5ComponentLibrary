@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-image-intersection-observer">
+    <template>
+        <div id="parent">
+            <ch5-image id="image"
+                debug
+                url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg">
+            </ch5-image>
+        </div>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-image-refreshRate-intersection-observer">
+    <template>
+        <div id="parent">
+            <ch5-image id="image"
+                url="https://picsum.photos/200/300/?random"
+                refreshrate="5">
+            </ch5-image>
+        </div>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-image intersection observer not working if refreshRate attribute is not set', function() {
+
+        let ch5ImageParent;
+        let ch5Image;
+
+        setup(() => {
+            ch5ImageParent = fixture('ch5-image-intersection-observer');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]).then(_ => {
+                ch5Image = document.querySelector('#image');
+            });
+        });
+
+        test('Intersection observer is not instantiated', function() {
+            expect(ch5Image).to.not.have.property('viewportCallBack');
+        });
+    });
+
+    suite('ch5-image intersection observer working if refreshRate attribute is set', function() {
+
+        let ch5ImageParent;
+        let ch5Image;
+
+        setup(() => {
+            ch5ImageParent = fixture('ch5-image-refreshRate-intersection-observer');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]).then(_ => {
+                ch5Image = document.querySelector('#image');
+            });
+        });
+
+        test('Intersection observer is instantiated', function() {
+            expect(ch5Image).to.have.property('viewportCallBack');
+            expect(ch5Image._show).to.be.equal(true);
+        });
+
+        test('Component is in viewport and then exists viewport', function(done){
+            expect(ch5Image.elementIsInViewPort).to.be.equal(true);
+
+            ch5Image.setAttribute('style', 'position: absolute; top: -20%; left: 0');
+            flush(function(){
+                expect(ch5Image.elementIsInViewPort).to.be.equal(false);
+
+                done();
+            });
+        });
+
+        test('Unobserve element if it is removed from DOM', function(done){
+            ch5ImageParent.removeChild(ch5Image);
+
+            flush(function() {
+                expect(ch5Image).to.not.have.property('viewportCallback');
+                done();
+            });
+        });
+    });
+</script>
+</body>
+</html>

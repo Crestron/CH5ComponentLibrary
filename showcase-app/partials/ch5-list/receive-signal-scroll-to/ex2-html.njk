@@ -1,0 +1,81 @@
+
+{% raw %}
+<p>
+    Clicking this button will increment the signal for the first list by 5
+    <ch5-button label="Btn1" sendEventOnClick="trigV1"></ch5-button>
+</p>
+<p>
+    Clicking this button will increment the signal for the second list by 10
+    <ch5-button label="Btn1" sendEventOnClick="trigV2"></ch5-button>
+</p>
+<p>
+    Clicking this button will increment the signal for the third list by 15
+    <ch5-button label="Btn1" sendEventOnClick="trigV3"></ch5-button>
+</p>
+
+
+<div class="columns">
+    <div class="column">
+        <ch5-list size="100"
+                   orientation="vertical"
+                   indexId="idx"
+                   minWidth="150px"
+                   maxWidth="165px"
+                   minHeight="100px"
+                   maxHeight="150px"
+                   itemWidth="150px"
+                   itemHeight="75px"
+                   scrollbar="true"
+                   receiveStateScrollTo="sigV1">
+            <template>
+                <div class="vertical-list-item">
+                    <span>item_{{idx}}</span>
+                </div>
+            </template>
+        </ch5-list>
+    </div>
+    <div class="column">
+        <ch5-list size="300"
+                   orientation="vertical"
+                   indexId="idx"
+                   minWidth="150px"
+                   maxWidth="165px"
+                   minHeight="100px"
+                   maxHeight="150px"
+                   itemWidth="150px"
+                   itemHeight="75px"
+                   scrollbar="true"
+                   receiveStateScrollTo="sigV2"
+                   scrollToTime="700">
+            <template>
+                <div class="vertical-list-item">
+                    <span>item_{{idx}}</span>
+                </div>
+            </template>
+        </ch5-list>
+    </div>
+    <div class="column">
+        <ch5-list size="500"
+                   orientation="vertical"
+                   indexId="idx"
+                   minWidth="150px"
+                   maxWidth="165px"
+                   minHeight="100px"
+                   maxHeight="150px"
+                   itemWidth="150px"
+                   itemHeight="75px"
+                   scrollbar="true"
+                   receiveStateScrollTo="sigV3"
+                   scrollToTime="1000">
+            <template>
+                <div class="vertical-list-item">
+                    <span>item_{{idx}}</span>
+                </div>
+            </template>
+        </ch5-list>
+    </div>
+</div>
+
+
+
+{% endraw %}

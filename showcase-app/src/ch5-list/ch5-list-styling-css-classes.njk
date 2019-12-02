@@ -1,0 +1,43 @@
+---
+title: "ch5-list styling"
+---
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+    <p>These css classes are handled by the core ch5-list business logic, you can control some of them via attributes
+        placed on the desired ch5-list tag.</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>CSS Class</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ch5--list</td>
+            <td>Main class, added by default.</td>
+        </tr>
+        <tr>
+            <td>ch5-list--disabled</td>
+            <td>Off by default. Add the "disabled" attribute to the ch5-list tag in order to disable the list</td>
+        </tr>
+        <tr>
+            <td>ch5-list--vertical</td>
+            <td>The list is displayed vertically by default, you can explicitly add the attribute
+                orientation="vertical".
+            </td>
+        </tr>
+        <tr>
+            <td>ch5-list--horizontal</td>
+            <td>Applied when orientation="horizontal" to display the list horizontally.</td>
+        </tr>
+        <tr>
+            <td>ch5-list--scrollbar</td>
+            <td>Applied when scrollbar="true" is added</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+{% endblock %}

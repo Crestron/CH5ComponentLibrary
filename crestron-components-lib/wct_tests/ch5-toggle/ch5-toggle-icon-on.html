@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-toggle-iconOn-fixture">
+    <template>
+        <ch5-toggle
+            label="Alarm"
+            iconon="fas fa-bell"
+            iconOff="fas fa-bell-slash"
+            >
+        </ch5-toggle>
+    </template>
+</test-fixture>
+
+<script>
+
+    suite('ch5-toggle iconOn', function() {
+
+        let ch5Toggle;
+        
+        setup(() => {
+            ch5Toggle = fixture('ch5-toggle-iconOn-fixture');
+        });
+
+        test('iconOn to be a string', function() {
+            expect(ch5Toggle.iconOn).to.be.a('string');
+        });
+
+        test('iconOn is "fas fa-bell"', function() {
+            expect(ch5Toggle.iconOn).to.be.equal('fas fa-bell');
+        });
+
+        test('Internal _elIconOn elem class contains iconOn attribute value', function() {
+            expect(ch5Toggle._elIconOn.className).to.contain('fas fa-bell');
+        });
+
+        test('Internal _elIconOn elem has class "ch5-toggle__on-icon"', function() {
+            expect(ch5Toggle._elIconOn.className).to.contain('ch5-toggle__on-icon');
+        });
+    });
+
+
+</script>
+</body>
+</html>

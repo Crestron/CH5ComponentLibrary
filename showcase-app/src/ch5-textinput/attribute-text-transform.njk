@@ -1,0 +1,15 @@
+---
+title: "ch5-textinput: text-transform attribute"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-ch5-textinput-texttransform.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-textinput/attributes/text-transform/','ex1') %}{% endcall %}
+
+{% endblock %}

@@ -1,0 +1,163 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "s007_sig1_b",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s007_sig2_b",
+          "type": "b",
+          "logic": "link"
+        },
+        {
+          "state": "s007_sig3_b",
+          "type": "b",
+          "logic": "toggle"
+        },
+        {
+          "state": "s007_sig4_n",
+          "type": "n",
+          "logic": "link"
+        },
+        {
+          "state": "s007_sig5_n",
+          "type": "n",
+          "logic": "increment",
+          "offset":10
+        },
+        {
+          "state": "s007_sig6_n",
+          "type": "n",
+          "logic": "decrement",
+          "offset": 11
+        },
+        {
+          "state": "s007_sig7_s",
+          "type": "s",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "n",
+      "event": "s007_sig8_n",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s007_sig9_b",
+          "type": "b",
+          "logic": "link"
+        },
+        {
+          "state": "s007_sig10_b",
+          "type": "b",
+          "logic": "toggle"
+        },
+        {
+          "state": "s007_sig11_n",
+          "type": "n",
+          "logic": "link"
+        },
+        {
+          "state": "s007_sig12_n",
+          "type": "n",
+          "logic": "increment",
+          "offset":10
+        },
+        {
+          "state": "s007_sig13_n",
+          "type": "n",
+          "logic": "decrement",
+          "offset": 11
+        },
+        {
+          "state": "s007_sig14_s",
+          "type": "s",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "s",
+      "event": "s007_sig15_s",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s007_sig16_b",
+          "type": "b",
+          "logic": "link"
+        },
+        {
+          "state": "s007_sig17_b",
+          "type": "b",
+          "logic": "toggle"
+        },
+        {
+          "state": "s007_sig18_n",
+          "type": "n",
+          "logic": "link"
+        },
+        {
+          "state": "s007_sig19_n",
+          "type": "n",
+          "logic": "increment",
+          "offset":10
+        },
+        {
+          "state": "s007_sig20_n",
+          "type": "n",
+          "logic": "decrement",
+          "offset": 11
+        },
+        {
+          "state": "s007_sig21_s",
+          "type": "s",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "s007_sig10_b",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s007_sig22_n",
+          "type": "n",
+          "logic": "increment",
+          "offset": 10
+        }
+      ]
+    },
+    {
+      "type": "n",
+      "event": "s007_sig22_n",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s007_sig23_n",
+          "type": "n",
+          "logic": "link"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "b",
+      "state": "s007_sig1_b",
+      "value": true
+    },
+    {
+      "type": "n",
+      "state": "s007_sig8_n",
+      "value": 100
+    },
+    {
+      "type": "s",
+      "state": "s007_sig15_s",
+      "value": "hello"
+    }
+  ]
+}

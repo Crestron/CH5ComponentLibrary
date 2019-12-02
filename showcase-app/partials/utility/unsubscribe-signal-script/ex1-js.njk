@@ -1,0 +1,28 @@
+{% raw %}
+(function(CrComLib){
+    var el = document.getElementById('updated-element');
+
+
+    // String signals must be quoted if they want to be used as their string value.
+    var signalScriptTemplate = '"{{s.roomname}}" + ":" + ({{n.temperature}}/10).toFixed(1) + "C"';
+    // An alternate way of declaring the above template:
+    // var signalScriptTemplate='CrComLib.textformat(" {1} : {2} C","{{s.roomname}}",({{n.temperature}}/10).toFixed(1))';
+
+    var sigScriptSub = CrComLib.subscribeStateScript(signalScriptTemplate, updateCallback, 'defaultValue');
+
+    var unsubBtn = document.querySelector('#btn-cleanup');
+    unsubBtn.removeEventListener('click',cleanup);
+    unsubBtn.addEventListener('click',cleanup);
+
+
+    function updateCallback(update){
+        console.log("Update received: " + update);
+        el.textContent = update;
+    }
+
+    function cleanup(){
+        CrComLib.unsubscribeStateScript(sigScriptSub);
+    }
+
+})(CrComLib);
+{% endraw %}

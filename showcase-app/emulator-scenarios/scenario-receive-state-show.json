@@ -1,0 +1,26 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "trig1",
+      "trigger": true,
+      "actions": [
+        {"state": "show_first_view_signal", "value": true, "type": "b","logic": "set"},
+        {"state": "show_second_view_signal", "value": false, "type": "b","logic": "set"}
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig2",
+      "trigger": true,
+      "actions": [
+        {"state": "show_first_view_signal", "value": false, "type": "b","logic": "set"},
+        {"state": "show_second_view_signal", "value": true, "type": "b","logic": "set"}
+      ]
+    }
+  ],
+  "onStart":[
+    {"state": "show_first_view_signal", "value": true, "type": "b","logic": "set"},
+    {"state": "show_second_view_signal", "value": false, "type": "b","logic": "set"}
+  ]
+}

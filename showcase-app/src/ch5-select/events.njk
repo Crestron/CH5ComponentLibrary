@@ -1,0 +1,21 @@
+---
+title: "ch5-select: Events"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+    {% include "./emulator-scenarios/scenario-ch5-select-methods-and-events-signals.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% set configJson -%}
+        {%- include "./partials/ch5-select/events/config-tpl-vars.json" %}
+    {%- endset %}
+    {% call componentConfigurationSection(configJson) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-select/events/','ex1') %}{% endcall %}
+
+{% endblock %}

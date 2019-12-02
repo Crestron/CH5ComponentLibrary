@@ -1,0 +1,322 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "multiselect_1_clicked_0",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_1_selected_0",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_1_clicked_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_1_selected_1",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_1_clicked_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_1_selected_2",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_1_clicked_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_1_selected_3",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_2_clicked_0",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_2_selected_0",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_2_clicked_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_2_selected_1",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_2_clicked_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_2_selected_2",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_2_clicked_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_2_selected_3",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_3_clicked_0",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_3_selected_0",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_3_clicked_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_3_selected_1",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_3_clicked_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_3_selected_2",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_3_clicked_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_3_selected_3",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "select_item_0_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "item_selected_after_click",
+          "type": "number",
+          "logic": "set",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "select_item_1_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "item_selected_after_click",
+          "type": "number",
+          "logic": "set",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "select_item_2_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "item_selected_after_click",
+          "type": "number",
+          "logic": "set",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "select_item_3_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "item_selected_after_click",
+          "type": "number",
+          "logic": "set",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_4_clicked_0",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_4_selected_0",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_4_clicked_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_4_selected_1",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_4_clicked_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_4_selected_2",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "multiselect_4_clicked_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multiselect_4_selected_3",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "string",
+      "state": "label_signal_0",
+      "logic": "set",
+      "value": "Option 0"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_1",
+      "logic": "set",
+      "value": "Option 1"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_2",
+      "logic": "set",
+      "value": "Option 2"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_3",
+      "logic": "set",
+      "value": "Option 3"
+    },
+    {
+      "state": "receive_html_script_label_0",
+      "type": "string",
+      "logic": "set",
+      "value": "<span style='color:green'>Option toggle</span> <span style='color:red'>label 0</span>"
+    },
+    {
+      "state": "receive_html_script_label_1",
+      "type": "string",
+      "logic": "set",
+      "value": "<span style='color:green'>Option toggle</span> <span style='color:red'>label 1</span>"
+    },
+    {
+      "state": "receive_html_script_label_2",
+      "type": "string",
+      "logic": "set",
+      "value": "<span style='color:green'>Option toggle</span> <span style='color:red'>label 2</span>"
+    },
+    {
+      "state": "receive_html_script_label_3",
+      "type": "string",
+      "logic": "set",
+      "value": "<span style='color:green'>Option toggle</span> <span style='color:red'>label 3</span>"
+    },
+    {
+      "state": "receive_image_url_0",
+      "type": "string",
+      "logic": "set",
+      "value": "https://imgplaceholder.com/40x40/transparent/757575/glyphicon-star"
+    },
+    {
+      "state": "receive_image_url_1",
+      "type": "string",
+      "logic": "set",
+      "value": "https://imgplaceholder.com/40x40/transparent/757575/glyphicon-picture"
+    },
+    {
+      "state": "receive_image_url_2",
+      "type": "string",
+      "logic": "set",
+      "value": "https://imgplaceholder.com/40x40/transparent/757575/glyphicon-random"
+    },
+    {
+      "state": "receive_image_url_3",
+      "type": "string",
+      "logic": "set",
+      "value": "https://imgplaceholder.com/40x40/transparent/757575/glyphicon-king"
+    }
+  ]
+}

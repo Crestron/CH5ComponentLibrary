@@ -1,0 +1,22 @@
+{
+    "cues": [
+      {
+        "type": "b",
+        "event": "send_background_url",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_background_url",
+            "type": "string",
+            "logic": "set",
+            "value": "https://picsum.photos/id/66/800/800 | https://picsum.photos/id/67/800/800 | https://picsum.photos/id/68/800/800"
+          }
+        ]
+      }
+    ],
+    "onStart":[{
+      "state": "receive_background_url",
+      "type": "string",
+      "value": "https://picsum.photos/id/1/800/800"
+    }]
+}

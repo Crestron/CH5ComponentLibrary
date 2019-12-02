@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-background-refreshRate-fixture">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="12">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-refreshRate-minvalue-fixture">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="5"></ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-refreshRate-maxvalue-fixture">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="7000000"></ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-refreshRate-invalid-fixture">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="randomRefreshRate">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-background refreshRate', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-refreshRate-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Default refreshRate is "600"', () => {
+                ch5Background.removeAttribute('refreshRate');
+                expect(ch5Background.refreshRate).to.be.equal(600);
+            });
+
+            test('refreshRate "12"', () => {
+                expect(ch5Background.refreshRate).to.be.equal(12);
+            });
+        });
+
+        suite('ch5-background refreshRate minimum value', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-refreshRate-minvalue-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Below 10 second refreshRate should switch to "10"', () => {
+                expect(ch5Background.refreshRate).to.be.equal(10);
+            });
+        });
+
+        suite('ch5-background refreshRate maximum value', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-refreshRate-maxvalue-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Above 604800 second refreshRate should switch to "604800"', () => {
+                expect(ch5Background.refreshRate).to.be.equal(604800);
+            });
+        });
+
+        suite('ch5-background refreshRate invalid', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-refreshRate-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Invalid refreshRate should switch to default "600"', () => {
+                expect(ch5Background.refreshRate).to.be.equal(600);
+            });
+        });
+    </script>
+</body>
+
+</html>

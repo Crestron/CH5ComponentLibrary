@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-spinner-size-fixture">
+    <template>
+        <ch5-spinner
+                size="5"
+                >
+        </ch5-spinner>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-spinner-size ', function() {
+
+        let ch5Spinner;
+
+        setup(() => {
+            ch5Spinner = fixture('ch5-spinner-size-fixture');
+        
+            return Promise.all([
+                customElements.whenDefined('ch5-spinner')
+            ]);
+        });
+
+
+        test('Expect attribute size to be "5"', function() {
+            expect(ch5Spinner.getAttribute('size')).to.be.equal('5');
+        });
+
+        // test('Expect property size to be 5', function() {
+        //     expect(ch5Spinner.size).to.be.equal(5);
+        // });
+
+        test('Expect element to have 5 items', function() {
+            customElements.whenDefined('ch5-spinner').then(
+                ()=>{
+                    expect(ch5Spinner.querySelectorAll('.ch5-spinner__item')).to.be.lengthOf(5);
+                }
+            );
+
+        });
+
+
+    });
+</script>
+</body>
+</html>

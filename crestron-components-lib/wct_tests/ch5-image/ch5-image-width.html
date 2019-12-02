@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-image-width-fixture">
+    <template>
+        <ch5-image
+            alt="Backyard image"
+            width="300px"
+            url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg">
+        </ch5-image>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-image-width-invalid-fixture">
+    <template>
+        <ch5-image
+            alt="Backyard image"
+            width="ramdomWidth"
+            url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg">
+        </ch5-image>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-image width', function() {
+
+        let ch5Image;
+
+        setup(() => {
+            ch5Image = fixture('ch5-image-width-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]);
+        });
+
+        test('width to be a string', function() {
+            ch5Image.setAttribute('width', false);
+            expect(ch5Image.width).to.be.a('string');
+        });
+
+        test('width "300px"', function() {
+            expect(ch5Image.width).to.be.equal('300px');
+            expect(ch5Image.style.width).to.be.equal('300px');
+        });
+
+        test('width "50%"', function() {
+            ch5Image.setAttribute('width', '50%');
+            expect(ch5Image.width).to.be.equal('50%');
+            expect(ch5Image.style.width).to.be.equal('50%');
+        });
+
+        test('width "auto"', function() {
+            ch5Image.setAttribute('width', 'auto');
+            expect(ch5Image.width).to.be.equal('auto');
+            expect(ch5Image.style.width).to.be.equal('auto');
+        });
+
+        test('width is reflected in component style width', function(){
+            expect(ch5Image.width).to.be.equal(ch5Image.style.width);
+        });
+    });
+
+    suite('ch5-image invalid width', function() {
+
+        let ch5Image;
+
+        setup(() => {
+            ch5Image = fixture('ch5-image-width-invalid-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]);
+        });
+
+        test('invalid width is ignored', function() {
+            expect(ch5Image.style.width).to.be.equal('');
+        });
+    });
+</script>
+</body>
+</html>

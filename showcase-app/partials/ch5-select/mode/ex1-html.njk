@@ -1,0 +1,31 @@
+<div class="row">
+    <p>mode = plain (default)</p>
+    {% raw %}
+    <ch5-select minWidth="250px" maxWidth="350px"
+                 size="5" indexId="idx" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option>
+                <div>
+                    <span>item_{{idx}}</span>
+                </div>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+{% raw %}
+<div class="row">
+    <p>mode = panel</p>
+    <ch5-select mode="panel" panelScrollHeight="200" minWidth="250px" maxWidth="350px"
+                 size="25" indexId="idx" noneSelectedPrompt="Select">
+         <template>
+            <ch5-select-option>
+                <div>
+                    <span>item_{{idx}}</span>
+                </div>
+            </ch5-select-option>
+         </template>
+    </ch5-select>
+</div>
+{% endraw %}

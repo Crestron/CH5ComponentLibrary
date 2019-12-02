@@ -1,0 +1,11 @@
+var elem = document.getElementById("demo");  
+
+elem.addEventListener('slider', function(e){
+    console.log('slider: ', e.detail);
+});
+elem.addEventListener('slidestart', function(e){
+    console.log('slidestart: ', e.detail);
+});
+elem.addEventListener('slideend', function(e){
+    console.log('slideend: ', e.detail);
+});

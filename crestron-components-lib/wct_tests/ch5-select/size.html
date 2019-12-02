@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-select-size-fixture">
+    <template>
+        <ch5-select
+                size="5"
+                minWidth="250px" maxWidth="350px"
+                minHeight="36px"  maxHeight="48px"
+        >
+            <template>
+                <ch5-select-option>
+                    <div>
+                        <span>item_{{idx}}</span>
+                    </div>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-select-size', function() {
+
+        let ch5Select;
+
+        setup(() => {
+            ch5Select = fixture('ch5-select-size-fixture');
+        });
+
+        test('Expect attribute size to be "5"', function() {
+            expect(ch5Select.getAttribute('size')).to.be.equal('5');
+        });
+
+        test('Expect property size to be 5', function() {
+            expect(ch5Select.size).to.be.equal(5);
+        });
+  
+      test('Expect element to have 5 items', function (done) {
+        setTimeout(() => {
+          expect(ch5Select.querySelectorAll('ch5-select-option')).to.be.lengthOf(5);
+          expect(ch5Select.querySelectorAll('[role="option"]')).to.be.lengthOf(5);
+          done();
+        })
+      });
+  
+      test('Size updated to 7. Expect element to have 7 items', function (done) {
+        setTimeout(() => {
+          ch5Select.setAttribute('size', '7');
+          expect(ch5Select.getAttribute('size')).to.be.equal('7');
+          expect(ch5Select.size).to.be.equal(7);
+          expect(ch5Select.querySelectorAll('ch5-select-option')).to.be.lengthOf(7);
+          done();
+        });
+      });
+
+    });
+</script>
+</body>
+</html>

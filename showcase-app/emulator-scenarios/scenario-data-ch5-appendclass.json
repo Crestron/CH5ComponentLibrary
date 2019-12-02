@@ -1,0 +1,140 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "security_system_mode_class",
+          "type": "s",
+          "logic": "set",
+          "value": "blinking_red"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "security_system_mode_class",
+          "type": "s",
+          "logic": "set",
+          "value": ""
+        },
+        {
+          "state": "security_system_mode_text",
+          "type": "s",
+          "logic": "set",
+          "value": "Unarmed"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_6",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "security_system_mode_class",
+          "type": "s",
+          "logic": "set",
+          "value": ""
+        },
+        {
+          "state": "security_system_mode_text",
+          "type": "s",
+          "logic": "set",
+          "value": "Armed Away"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "security_system_mode_class_2",
+          "type": "s",
+          "logic": "set",
+          "value": "blinking_blue"
+        },
+        {
+          "state": "security_system_mode_text_2",
+          "type": "s",
+          "logic": "set",
+          "value": "Armed Away"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_4",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "security_system_mode_class_2",
+          "type": "s",
+          "logic": "set",
+          "value": "blinking_red"
+        },
+        {
+          "state": "security_system_mode_text_2",
+          "type": "s",
+          "logic": "set",
+          "value": "Warning. Alarm countdown triggered!"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_5",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "security_system_mode_class_2",
+          "type": "s",
+          "logic": "set",
+          "value": "disarmed black"
+        },
+        {
+          "state": "security_system_mode_text_2",
+          "type": "s",
+          "logic": "set",
+          "value": "Disarmed :)"
+        }
+      ]
+    }
+
+  ],
+  "onStart":[
+    {
+      "state": "security_system_mode_text",
+      "type": "s",
+      "value": "Armed Away"
+    },
+    {
+      "state": "security_system_mode_class",
+      "type": "s",
+      "value": ""
+    },
+    {
+      "state": "security_system_mode_text_2",
+      "type": "s",
+      "value": "Unarmed"
+    },
+    {
+      "state": "security_system_mode_class_2",
+      "type": "s",
+      "value": ""
+    },
+    {
+      "state": "security_system_mode_class_3",
+      "type": "s",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+    "firstName":{
+        "label":"Nume",
+        "placeholder":"placeholder pentru nume"
+    },
+    "month":{
+        "label":"Luna",
+        "placeholder":"placeholder pentru luna"},
+    "week":{
+        "label":"Saptamana",
+        "placeholder":"placeholder pentru saptamana"
+    },
+    "email":{        
+        "label":"Adresa de email",
+        "placeholder":"placeholder pentru mail"
+    },
+    "toggle":{        
+        "label":"RO- Toggle label",
+        "labelOn":"RO-On",
+        "labelOff":"RO-Off",
+        "labelAlarm": "RO Alarm",
+        "labelMicrophone": "RO AlaMicrophonerm",
+        "labelRetina": "RO Retina Scan",
+        "labelCircle": "RO Circle Shape",
+        "labelRectangle": "RO Rectangle Shape",
+        "labelVertical": "RO Vertical",
+        "labelHorizontal": "RO Horizontal"
+    },
+    "button":{        
+        "danger":"RO danger",
+        "text":"RO text",
+        "warning":"RO warning",
+        "info":"RO info",
+        "success":"RO success",
+        "default":"RO default",
+        "primary":"RO primary",
+        "secondary":"RO secondary"
+    },
+    "form":{
+        "submitBtn":{
+            "label" :"RO Update Room"
+        },
+        "cancelBtn":{
+            "label" :"RO Revert Changes"
+        }
+    }
+}

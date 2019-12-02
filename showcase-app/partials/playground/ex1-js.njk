@@ -1,0 +1,21 @@
+
+(function(){
+    var btn1 = document.querySelector('.btn_playground1');
+    var btn2 = document.querySelector('.btn_playground2');
+    var sigName='btn_receive_label';
+
+    btn1.removeEventListener('click',btn1Listener);
+    btn2.removeEventListener('click',btn2Listener);
+    btn1.addEventListener('click',btn1Listener);
+    btn2.addEventListener('click',btn2Listener);
+
+    function btn1Listener(){
+        var label1='Label1';
+        CrComLib.publishEvent('s',sigName,label1);
+    }
+
+    function btn2Listener() {
+        var label2=CrComLib.textformat('{1} created on {2}. {1} text populated with {3}','Label',new Date(),'CrComLib.textcontent()');
+        CrComLib.publishEvent('s',sigName,label2);
+    }
+})();

@@ -1,0 +1,20 @@
+---
+title: "ch5-button: receiveStateSelected"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-ch5-button-selected.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-button/selected/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-button/selected/','ex2') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-button/selected/','ex3') %}{% endcall %}
+
+{% endblock %}

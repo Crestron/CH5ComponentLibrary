@@ -1,0 +1,256 @@
+{
+  "cues": [
+  ],
+  "onStart":[
+    {
+      "state": "spinner_text1",
+      "type": "string",
+      "value": "item1"
+    },
+    {
+      "state": "spinner_text2",
+      "type": "string",
+      "value": "item2"
+    },
+    {
+      "state": "spinner_text3",
+      "type": "string",
+      "value": "item3"
+    },
+    {
+      "state": "spinner_text4",
+      "type": "string",
+      "value": "item4"
+    },
+    {
+      "state": "spinner_text5",
+      "type": "string",
+      "value": "item5"
+    },
+    {
+      "state": "spinner_text6",
+      "type": "string",
+      "value": "item6"
+    },
+    {
+      "state": "spinner_text7",
+      "type": "string",
+      "value": "item7"
+    },
+    {
+      "state": "spinner_text8",
+      "type": "string",
+      "value": "item8"
+    },
+    {
+      "state": "spinner_text9",
+      "type": "string",
+      "value": "item9"
+    },
+    {
+      "state": "spinner_text10",
+      "type": "string",
+      "value": "item10"
+    },
+    {
+      "state": "spinner_text11",
+      "type": "string",
+      "value": "item11"
+    },
+    {
+      "state": "spinner_text12",
+      "type": "string",
+      "value": "item12"
+    },
+    {
+      "state": "spinner_text13",
+      "type": "string",
+      "value": "item13"
+    },
+    {
+      "state": "spinner_text14",
+      "type": "string",
+      "value": "item14"
+    },
+    {
+      "state": "spinner_text15",
+      "type": "string",
+      "value": "item15"
+    },
+    {
+      "state": "spinner_text16",
+      "type": "string",
+      "value": "item16"
+    },
+    {
+      "state": "spinner_text17",
+      "type": "string",
+      "value": "item17"
+    },
+    {
+      "state": "spinner_text18",
+      "type": "string",
+      "value": "item18"
+    },
+    {
+      "state": "spinner_text19",
+      "type": "string",
+      "value": "item19"
+    },
+    {
+      "state": "spinner_text20",
+      "type": "string",
+      "value": "item20"
+    },
+    {
+      "state": "spinner_text21",
+      "type": "string",
+      "value": "item21"
+    },
+    {
+      "state": "spinner_text22",
+      "type": "string",
+      "value": "item22"
+    },
+    {
+      "state": "spinner_text23",
+      "type": "string",
+      "value": "item23"
+    },
+    {
+      "state": "spinner_text24",
+      "type": "string",
+      "value": "item24"
+    },
+    {
+      "state": "spinner_text25",
+      "type": "string",
+      "value": "item25"
+    },
+    {
+      "state": "spinner_text26",
+      "type": "string",
+      "value": "item26"
+    },
+    {
+      "state": "spinner_text27",
+      "type": "string",
+      "value": "item27"
+    },
+    {
+      "state": "spinner_text28",
+      "type": "string",
+      "value": "item28"
+    },
+    {
+      "state": "spinner_text29",
+      "type": "string",
+      "value": "item29"
+    },
+    {
+      "state": "spinner_text30",
+      "type": "string",
+      "value": "item30"
+    },
+    {
+      "state": "spinner_text31",
+      "type": "string",
+      "value": "item31"
+    },
+    {
+      "state": "spinner_text32",
+      "type": "string",
+      "value": "item32"
+    },
+    {
+      "state": "spinner_text33",
+      "type": "string",
+      "value": "item33"
+    },
+    {
+      "state": "spinner_text34",
+      "type": "string",
+      "value": "item34"
+    },
+    {
+      "state": "spinner_text35",
+      "type": "string",
+      "value": "item35"
+    },
+    {
+      "state": "spinner_text36",
+      "type": "string",
+      "value": "item36"
+    },
+    {
+      "state": "spinner_text37",
+      "type": "string",
+      "value": "item37"
+    },
+    {
+      "state": "spinner_text38",
+      "type": "string",
+      "value": "item38"
+    },
+    {
+      "state": "spinner_text39",
+      "type": "string",
+      "value": "item39"
+    },
+    {
+      "state": "spinner_text40",
+      "type": "string",
+      "value": "item40"
+    },
+    {
+      "state": "spinner_text41",
+      "type": "string",
+      "value": "item41"
+    },
+    {
+      "state": "spinner_text42",
+      "type": "string",
+      "value": "item42"
+    },
+    {
+      "state": "spinner_text43",
+      "type": "string",
+      "value": "item43"
+    },
+    {
+      "state": "spinner_text44",
+      "type": "string",
+      "value": "item44"
+    },
+    {
+      "state": "spinner_text45",
+      "type": "string",
+      "value": "item45"
+    },
+    {
+      "state": "spinner_text46",
+      "type": "string",
+      "value": "item46"
+    },
+    {
+      "state": "spinner_text47",
+      "type": "string",
+      "value": "item47"
+    },
+    {
+      "state": "spinner_text48",
+      "type": "string",
+      "value": "item48"
+    },
+    {
+      "state": "spinner_text49",
+      "type": "string",
+      "value": "item49"
+    },
+    {
+      "state": "spinner_text50",
+      "type": "string",
+      "value": "item50"
+    }
+  ]
+}

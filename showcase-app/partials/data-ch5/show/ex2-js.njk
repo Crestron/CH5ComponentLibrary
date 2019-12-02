@@ -1,0 +1,25 @@
+(function($, crLib){
+    $('#change-to-ch5-show-3').on('click', () => {
+        $('.custom-dom-changes').each((i, e) => {
+            e.setAttribute('data-ch5-show', 'data_ch5_show_2_2');
+        });
+    });
+
+    $('#remove-ch5-show').on('click', () => {
+        $('.custom-dom-changes').each((i, e) => {
+            e.removeAttribute('data-ch5-show');
+        });
+    });
+
+    $('#add-ch5-show').on('click', () => {
+        $('.custom-dom-changes').each((i, e) => {
+            e.setAttribute('data-ch5-show', 'data_ch5_show_2_1');
+        });
+    });
+
+    $('#rem-ch5-show-el').on('click', () => {
+        $('.custom-dom-changes').each((i, e) => {
+            e.remove();
+        });
+    });
+})(jQuery,CrComLib);

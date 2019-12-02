@@ -1,0 +1,69 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "trig1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "city",
+          "type": "string",
+          "logic": "set",
+          "value": "Las Vegas"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "city",
+          "type": "string",
+          "logic": "set",
+          "value": "New York"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sig_n",
+          "type": "n",
+          "logic": "decrement",
+          "offset": 3
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig4",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sig_n",
+          "type": "n",
+          "logic": "increment",
+          "offset": 5
+        }
+      ]
+    }
+
+  ],
+  "onStart": [
+    {
+      "type": "s",
+      "state": "city",
+      "value": "Hong Kong"
+    },
+    {
+      "type": "n",
+      "state": "sig_n",
+      "value": 0
+    }
+  ]
+}

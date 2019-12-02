@@ -1,0 +1,21 @@
+{
+  "attributes": {
+    "id":{
+      "btn1":{
+        "label":"Btn1",
+        "type":"warning"
+      },
+      "btn2":{
+        "label":"Btn2",
+        "shape":"oval"
+      }
+    },
+    "component":{
+      "ch5-button":{
+        "label":"Default",
+        "type":"info",
+        "shape":"rectangle"
+      }
+    }
+  }
+}

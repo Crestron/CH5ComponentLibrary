@@ -1,0 +1,57 @@
+{% raw %}
+    <p>The following example shows a <b>ch5-list</b> using a <b>ch5-template</b>. The template used then contains
+        another
+        <b>ch5-template</b> <i>"Content from the second ch5-template"</i> and a <b>ch5-button</b>.</p>
+    <template id="template-2">
+        <p>Content from the second ch5-template</p>
+    </template>
+
+    <template id="template-1">
+        <ch5-template receiveStateShow="toggle.template.visibility.for.second.ch5.template"
+                      templateid="template-2" context="OSTUFF:original.ostuff"></ch5-template>
+        <ch5-button type="info" label="original.label From first ch5-template" sendEventOnClick="original.click"
+                    receiveStateSelected="original.selected"></ch5-button>
+    </template>
+
+    <ch5-list size="15" maxHeight="150px" indexId="idx">
+        <template>
+            <ch5-template templateid="template-1"
+                          context="original:xyz_{{idx}}"></ch5-template>
+        </template>
+    </ch5-list>
+
+    <p>Hide main ch5-template using the <i><b>"receiveStateShow"</b></i> attribute.</p>
+
+    <ch5-toggle value=false sendEventOnClick="trigger.toggle_template_visibility"
+                labelOn="Show"
+                labelOff="Hide"
+                handleShape="rectangle"
+                label="Toggle the visibility of the first ch5-template"
+                receiveStateValue="toggle.template.visibility"></ch5-toggle>
+    <br/>
+
+    <ch5-list size="15" maxHeight="150px" indexId="idx">
+        <template>
+            <ch5-template receiveStateShow="toggle.template.visibility" templateid="template-1"
+                          context="original:xyz_{{idx}}"></ch5-template>
+        </template>
+    </ch5-list>
+
+    <p>Hide the second ch5-template (used in all 3 examples here) using the <i><b>"receiveStateShow"</b></i>
+        attribute.</p>
+
+    <ch5-toggle sendEventOnClick="trigger.template.visibility.for.second.ch5.template"
+                labelOn="Show"
+                labelOff="Hide"
+                handleShape="rectangle"
+                receiveStateValue="toggle.template.visibility.for.second.ch5.template"
+                label="Toggle the visibility of the second ch5-template"></ch5-toggle>
+    <br/>
+
+    <ch5-list size="15" maxHeight="150px" indexId="idx">
+        <template>
+            <ch5-template templateid="template-1"
+                          context="original:xyz_{{idx}}"></ch5-template>
+        </template>
+    </ch5-list>
+{% endraw %}

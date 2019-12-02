@@ -1,0 +1,17 @@
+<p>Open the browser console to see that when the second handle is changing a signal named slider_value_high_on_change is sent with slide value.</p>
+
+<ch5-slider
+    value="0"
+    valueHigh="75"
+    step="25"  
+    min="-50"
+    max="100"
+    range="true"
+    toolTipShowType="on"
+    toolTipDisplayType="value"
+    sendEventOnChange="slider1.change"
+    receiveStateValue="slider1.value"
+    sendEventOnChangeHigh="sliderHigh1.change"
+    receiveStateValueHigh="sliderHigh1.value"
+    >
+</ch5-slider> 

@@ -1,0 +1,35 @@
+{% raw %}
+    <p>When using a computed property <b>{{ idx }}</b>, Angular tries to process it as an embedded expression,
+        adding ngNonBindable to the
+        template will force Angular to ignore it.</p>
+
+    <p>For a ch5-spinner, the parent element must have the directive, if the spinner has no custom content i.e. it's not
+        using a template</p>
+    <div ngNonBindable>
+        <ch5-spinner
+                label="item {{idx}}"
+                indexId="idx"
+                size="30"
+                itemHeight="40"
+                endless="true">
+        </ch5-spinner>
+    </div>
+
+    <p>If the ch5-spinner uses a template, the ngNonBindable needs to be added on the template similarly to the
+        ch5-list</p>
+
+    <ch5-spinner
+            label="item {{idx}}"
+            size="7"
+            itemHeight="40"
+            indexId="idx"
+            visibleItemScroll="3">
+        <template ngNonBindable>
+            <div>
+                <i class="ch5-spinner__icon fas fa-plane"></i>
+                <label class="ch5-spinner__label">Item {{idx}}</label>
+            </div>
+        </template>
+    </ch5-spinner>
+
+{% endraw %}
