@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-textinput-stretches-default-fixture">
+    <template>
+        <ch5-textinput label="First Name"></ch5-textinput>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-textinput default stretch', function() {
+
+        let ch5Textinput;
+
+        setup(() => {
+            ch5Textinput = fixture('ch5-textinput-stretches-default-fixture');
+        });
+
+
+        test('Default stretch is "fixed"', function() {
+            expect(ch5Textinput.stretch).to.be.equal('fixed');
+        });
+
+        const availableStretches = ['width', 'content'];
+
+        availableStretches.forEach((stretchName,i)=> {
+            test(`stretch: "${stretchName}"`, function() {
+                ch5Textinput.setAttribute('stretch', stretchName);
+                expect(ch5Textinput.stretch).to.be.equal(stretchName);
+            });
+        });
+
+    });
+    
+</script>
+</body>
+</html>

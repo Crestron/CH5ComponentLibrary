@@ -1,0 +1,44 @@
+{
+  //"defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier"
+  ],
+  "project": "./tsconfig.cjs.json",
+  "exclude": [
+    //"**/src/**/*.ts",
+    "**/node_modules/**/*",
+    "**/coverage/**/*",
+    "node_modules/**/*",
+    "build_bundles/**/*",
+    "compiled_bundles/**/*"
+  ],
+  //"jsRules": {},
+  "rules": {
+    "ordered-imports": false,
+    "interface-over-type-literal": false,
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+//        "allow-pascal-case",
+        "allow-leading-underscore"
+      ]
+    },
+    "object-literal-sort-keys": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ],
+    "no-console": false, // temporary
+    "whitespace": [true, "check-branch", "check-operator", "check-typecast"]
+  }
+  //"rulesDirectory": []
+}

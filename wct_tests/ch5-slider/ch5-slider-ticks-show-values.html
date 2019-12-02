@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-slider-ticks-fixture">
+    <template>
+        <ch5-slider
+            value="25"
+            step="25"  
+            min="0"
+            max="100"
+            ticks='{"0":"-60", "25":"-40", "50":"-20", "75":"-10", "100": "0" }'
+            >
+        </ch5-slider> 
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-slider-ticks-invalid-fixture">
+    <template>
+        <ch5-slider
+            value="25"
+            step="25"  
+            min="0"
+            max="100"
+            ticks='randomTicks'
+            showTickValues="randomValue"
+            >
+        </ch5-slider> 
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-slider ticks', function() {
+
+        let ch5Slider;
+        
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-ticks-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        test('Default showTickValues is "false"', function() {
+            expect(ch5Slider.showTickValues).to.be.equal(false);
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('showTickValues "false" rendered noUiSlider', function() {
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+
+        test('showTickValues "true"', function() {
+            ch5Slider.setAttribute('showTickValues', true);
+            expect(ch5Slider.showTickValues).to.be.equal(true);
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('showTickValues "true" rendered noUiSlider', function() {
+            ch5Slider.setAttribute('showTickValues', true);
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    });
+
+    suite('ch5-slider invalid showTickValues', function() {
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-ticks-invalid-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        // testing with a random value in a showTickValues attribute
+        test('Invalid showTickValues should be switched to default "false"', function() {
+            expect(ch5Slider.showTickValues).to.be.equal(false);
+        })
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Invalid showTickValues rendered noUiSlider with default "false"', function() {
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-slider-min-fixture">
+    <template>
+        <ch5-slider></ch5-slider>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-slider-min-invalid-fixture">
+    <template>
+        <ch5-slider min="randomValue"></ch5-slider>
+    </template>
+</test-fixture>
+
+
+<script>
+
+    suite('ch5-slider min', function() {
+
+        let ch5Slider;
+        
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-min-fixture');
+
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        test('Default min is "0"', function() {
+            expect(ch5Slider.min).to.be.equal(0);
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Default min "0" rendered noUiSlider', function() {
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+
+        test('min "2000"', function() {
+            ch5Slider.setAttribute('min', 2000);
+            expect(ch5Slider.min).to.be.equal(2000);
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('min "2000" rendered noUiSlider', function() {
+            ch5Slider.setAttribute('min', 2000);
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    });
+
+    suite('ch5-slider invalid min', function() {
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-min-invalid-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        // testing with a random value in a min attribute
+        test('Invalid min should be switched to default "0"', function() {
+            expect(ch5Slider.min).to.be.equal(0);
+        })
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Invalid min rendered noUiSlider with default "0"', function() {
+            expect(ch5Slider.min).to.be.equal(0);
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+
+        test('invalid min "2000000" should be switched to default "0"', function() {
+            ch5Slider.setAttribute('min', 2000000);
+            expect(ch5Slider.min).to.be.equal(0);
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('invalid min "2000000" rendered noUiSlider with default "0"', function() {
+            ch5Slider.setAttribute('min', 2000000);
+            expect(ch5Slider.min).to.be.equal(0);
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    })
+
+</script>
+</body>
+</html>

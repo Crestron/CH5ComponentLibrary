@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-image-alt-fixture">
+    <template>
+        <ch5-image
+            alt="Backyard image">
+        </ch5-image>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-image alt', function() {
+
+        let ch5Image;
+
+        setup(() => {
+            ch5Image = fixture('ch5-image-alt-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]);
+        });
+
+        test('alt to be a string', function() {
+            ch5Image.setAttribute('alt', false);
+            expect(ch5Image.alt).to.be.a('string');
+        });
+
+        test('alt "Backyard image"', function() {
+            expect(ch5Image.alt).to.be.equal('Backyard image');
+        });
+
+        test('alt is reflected in image alt', function(){
+            expect(ch5Image.alt).to.be.equal(ch5Image._img.alt);
+        });
+    });
+</script>
+</body>
+</html>

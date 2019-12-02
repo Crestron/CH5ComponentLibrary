@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-slider-orientation-fixture">
+    <template>
+        <ch5-slider></ch5-slider>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-slider-orientation-invalid-fixture">
+    <template>
+        <ch5-slider orientation="randomValue"></ch5-slider>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-slider orientation', function() {
+
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-orientation-fixture');
+
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        test('Default orientation is "horizontal"', function() {
+            expect(ch5Slider.orientation).to.be.equal('horizontal');
+        });
+
+        test('Default orientation has class name: "ch5-slider--orientation--horizontal"', function() {
+            expect(ch5Slider.className).to.contain('ch5-slider--orientation--horizontal');
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Default orientation: "horizontal" rendered noUiSlider', function() {
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+
+        const availableOrientations = ['horizontal', 'vertical']
+
+        availableOrientations.forEach((orientationName,i)=>{
+            test(`orientation: "${orientationName}"`, function() {
+                ch5Slider.setAttribute('orientation',orientationName);
+                expect(ch5Slider.getAttribute('orientation')).to.be.equal(orientationName);
+                expect(ch5Slider.orientation).to.be.equal(orientationName);
+            });
+
+            test(`orientation: "${orientationName}" has class name: "ch5-slider--orientation--${orientationName}"`, function() {
+                ch5Slider.setAttribute('orientation',orientationName);
+                expect(ch5Slider.className).to.contain('ch5-slider--orientation--' + orientationName);
+            });
+
+            // this will test if noUiSlider was rendered with current setup
+            test(`orientation: "${orientationName}" rendered noUiSlider`, function() {
+                expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            });
+        });
+    });
+
+    suite('ch5-slider invalid orientation', function() {
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-orientation-invalid-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        // testing with a random value in a orientation attribute
+        test('Invalid orientation should be switched to default "horizontal"', function() {
+            expect(ch5Slider.orientation).to.be.equal('horizontal');
+        })
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Invalid orientation rendered noUiSlider with default "horizontal"', function() {
+            expect(ch5Slider.orientation).to.be.equal('horizontal');
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    })
+</script>
+</body>
+</html>

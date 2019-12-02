@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-background-url-fixture">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/300">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-background url', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-url-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Url to be a string', () => {
+                ch5Background.setAttribute('url', false);
+                expect(ch5Background.url).to.be.a('string');
+            });
+
+            test('Url "https://picsum.photos/id/1/300/300"', () => {
+                expect(ch5Background.url).to.be.equal('https://picsum.photos/id/1/300/300');
+            });
+        });
+    </script>
+</body>
+
+</html>

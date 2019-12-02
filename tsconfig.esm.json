@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base",
+  "compilerOptions": {
+    "moduleResolution":"node",
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "module": "es6",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+    "outDir": "./compiled_bundles/esm",               /* Redirect output structure to the directory. */
+    "declarationDir": "./compiled_bundles/esm"
+  }
+}

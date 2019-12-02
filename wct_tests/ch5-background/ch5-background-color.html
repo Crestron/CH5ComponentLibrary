@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-background-color-fixture">
+        <template>
+            <ch5-background backgroundcolor="blue"></ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-color-with-url-fixture">
+        <template>
+            <ch5-background backgroundcolor="blue" url="https://picsum.photos/id/1/300/300"></ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-color-invalid-fixture">
+        <template>
+            <ch5-background backgroundcolor="randomColor"></ch5-background>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-background backgroundColor', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-color-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('backgroundColor to be a string', () => {
+                ch5Background.setAttribute('backgroundColor', false);
+                expect(ch5Background.backgroundColor).to.be.a('string');
+            });
+
+            test('backgroundColor "blue"', () => {
+                expect(ch5Background.backgroundColor).to.be.equal('blue');
+            });
+        });
+        suite('ch5-background backgroundColor with url', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-color-with-url-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Url "https://picsum.photos/id/1/300/300"', () => {
+                expect(ch5Background.url).to.be.equal('https://picsum.photos/id/1/300/300');
+            });
+        });
+        suite('ch5-background backgroundColor invalid', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-color-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Invalid backgroundColor should switch to default "black"', (done) => {
+                flush(() => {
+                    const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                    const ctx = canvasElm.getContext('2d');
+                    expect(ctx.fillStyle).to.be.equal('#000000');
+                    done();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
