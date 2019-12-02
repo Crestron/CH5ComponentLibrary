@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-background-imgbackgroundcolor-fixture">
+        <template>
+            <ch5-background imgbackgroundcolor="blue" url="https://picsum.photos/id/1/300/300"></ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-imgbackgroundcolor-invalid-fixture">
+        <template>
+            <ch5-background imgbackgroundcolor="randomColor" url="https://picsum.photos/id/1/300/300"></ch5-background>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-background backgroundColor', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-imgbackgroundcolor-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('imgBackgroundColor to be a string', () => {
+                ch5Background.setAttribute('imgbackgroundcolor', false);
+                expect(ch5Background.imgBackgroundColor).to.be.a('string');
+            });
+
+            test('imgBackgroundColor "blue"', () => {
+                expect(ch5Background.imgBackgroundColor).to.be.equal('blue');
+            });
+        });
+        suite('ch5-background imgbackgroundcolor invalid', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-imgbackgroundcolor-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Invalid imgbackgroundcolor should switch to default "black"', (done) => {
+                flush(() => {
+                    const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                    const ctx = canvasElm.getContext('2d');
+                    expect(ctx.fillStyle).to.be.equal('#000000');
+                    done();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

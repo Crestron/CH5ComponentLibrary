@@ -1,0 +1,82 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigV1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sigV1",
+          "type": "number",
+          "logic": "increment",
+          "offset": 5
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigV2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sigV2",
+          "type": "number",
+          "logic": "increment",
+          "offset": 10
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigV3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sigV3",
+          "type": "number",
+          "logic": "increment",
+          "offset": 15
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigH1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sigH1",
+          "type": "number",
+          "logic": "increment",
+          "offset": 5
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigH2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sigH2",
+          "type": "number",
+          "logic": "increment",
+          "offset": 10
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigH3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sigH3",
+          "type": "number",
+          "logic": "increment",
+          "offset": 15
+        }
+      ]
+    }
+  ]
+}

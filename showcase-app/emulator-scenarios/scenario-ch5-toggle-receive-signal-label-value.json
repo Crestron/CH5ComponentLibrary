@@ -1,0 +1,17 @@
+{
+    "cues": [
+      {
+        "type": "b",
+        "event": "trig1",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_html_script_label",
+            "type": "string",
+            "logic": "set",
+            "value": "<span style='color:green'>Hello</span><br/><span style='color:red'>W</span>orld!"
+          }
+        ]
+      }
+    ]
+  }

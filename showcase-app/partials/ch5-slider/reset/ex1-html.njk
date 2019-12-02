@@ -1,0 +1,17 @@
+<p>When the reset button is clicked, the value | valueHigh property will be change to the <b>initial value</b> or last value on
+    <b>submit</b>.</p>
+<ch5-slider
+        id="demo"
+        value="0"
+        step="25"
+        min="0"
+        max="100"
+        feedbackMode="submit"
+        sendEventOnChange="send_signal_on_submit"
+        receiveStateValue="received_signal_value"
+>
+</ch5-slider>
+
+<br><br>
+<ch5-button id="submit" type="success" label="Submit"></ch5-button>
+<ch5-button id="reset" type="danger" label="Reset"></ch5-button>

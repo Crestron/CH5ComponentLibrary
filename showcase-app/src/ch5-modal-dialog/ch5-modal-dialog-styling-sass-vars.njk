@@ -1,0 +1,184 @@
+---
+title: "ch5-modal-dialog styling"
+---
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SASS variable</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>$ch5-modal-mask-bg-color</td>
+                <td>the background color of the mask element </td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-background-color</td>
+                <td>the background color of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-text-color</td>
+                <td>the text color of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-border-color</td>
+                <td>the border color of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-border-color</td>
+                <td>the color of the modal's border</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-font-size-unit</td>
+                <td>the default font size unit of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-font-size-value</td>
+                <td>the default font size value of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-font-size</td>
+                <td>the default font size of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-font-style</td>
+                <td>the default font style of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-font-weight</td>
+                <td>the default font weight of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-close-icon-color</td>
+                <td>the color of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-close-icon-color-hover</td>
+                <td>the color of the icon at the top of the modal when it is hovered</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-close-icon-background-color</td>
+                <td>the background color of the icon at the top of the modal </td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-close-icon-margin</td>
+                <td>the margin of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-close-icon-padding</td>
+                <td>the padding of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-close-icon-width</td>
+                <td>the width of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-close-icon-font-size</td>
+                <td>the font size of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-close-icon-font-style</td>
+                <td>the font style of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-close-icon-font-weight</td>
+                <td>the font weight of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-default-close-icon-font-size</td>
+                <td>the default font size of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-default-close-icon-font-style</td>
+                <td>the default font style of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-default-close-icon-font-weight</td>
+                <td>the default font weight of the icon at the top of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-contents-font-color</td>
+                <td>the font color of the modal content</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-contents-padding</td>
+                <td>the padding of the modal's content</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-contents-font-size</td>
+                <td>the font size for the content of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-contents-font-style</td>
+                <td>the font style for the content of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-contents-font-weight</td>
+                <td>the font weight for the content of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-title-font-size</td>
+                <td>the font size for the title of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-title-font-style</td>
+                <td>the font style for the title of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-title-font-weight</td>
+                <td>the font weight for the title of the modal</td>
+            </tr>
+
+            <tr>
+                <td>$ch5-modal-prompt-text-font-color</td>
+                <td>the text color for the prompt text of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-prompt-padding</td>
+                <td>the padding for the prompt of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-prompt-icon-margin-right</td>
+                <td>the right margin for the prompt icon of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-prompt-icon-font-size</td>
+                <td>the font size for the prompt icon of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-prompt-icon-font-style</td>
+                <td>the font style for the prompt icon of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-prompt-icon-font-weight</td>
+                <td>the font weight for the prompt icon of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-prompt-text-font-size</td>
+                <td>the font size for the prompt text of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-prompt-text-font-style</td>
+                <td>the font style for the prompt text of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-prompt-text-font-weight</td>
+                <td>the font weight for the prompt text of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-border-radius</td>
+                <td>the border radius of the modal</td>
+            </tr>
+            <tr>
+                <td>$ch5-modal-padding</td>
+                <td>set padding for the modal</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

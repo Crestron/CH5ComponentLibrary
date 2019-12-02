@@ -1,0 +1,18 @@
+---
+title: Join Numbers as Signal Names
+description: ch5-data attributes
+---
+
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+
+{% set scenario1 -%}
+    {%- include "./emulator-scenarios/scenario-join-numbers-data-ch5-attrs.json" %}
+{%- endset %}
+{% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+{% call exampleSectionFromPartials('join-numbers-as-signal-names/ch5-data-attrs/','ex1') %}{% endcall %}
+
+{% endblock %}

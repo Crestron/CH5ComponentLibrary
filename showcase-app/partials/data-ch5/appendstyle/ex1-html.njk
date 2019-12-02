@@ -1,0 +1,30 @@
+{% raw %}
+    <p>
+        <ch5-button sendEventOnClick="trigger_1" label="Update to style 1"></ch5-button>
+        <ch5-button sendEventOnClick="trigger_2" label="Update to style 2"></ch5-button>
+    </p>
+
+    <div class="b-red" data-ch5-appendstyle="data_ch5_appendstyle_signal_1">
+        DIV: Testing data-ch5-appendstyle
+    </div>
+
+    <div id="mutations-parent" style="margin-top: 68px;">
+        <p><strong>DOM mutations example</strong></p>
+        <p>
+            <ch5-button id="add" label="Add new el with data-ch5-appendstyle attr"></ch5-button>
+            <ch5-button sendEventOnClick="trigger_3" label="Update style"></ch5-button>
+        </p>
+        <p>
+            <ch5-button id="update" label="Update data-ch5-appendstyle attr"></ch5-button>
+            <ch5-button sendEventOnClick="trigger_4" label="Update style using new attr"></ch5-button>
+        </p>
+        <p>
+            <ch5-button id="remove" label="Remove el with data-ch5-appendstyle attr"></ch5-button>
+        </p>
+        <p>
+            <ch5-button sendEventOnClick="trigger_5" label="Reset styles"></ch5-button>
+        </p>
+
+    </div>
+{% endraw %}
+

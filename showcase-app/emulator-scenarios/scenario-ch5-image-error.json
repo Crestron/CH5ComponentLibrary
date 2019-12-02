@@ -1,0 +1,17 @@
+{
+    "cues": [
+      {
+        "type": "string",
+        "event": "image_error",
+        "trigger": "&change",
+        "actions": [
+          {
+            "state": "receive_image_url",
+            "type": "string",
+            "logic": "set",
+            "value": "http://via.placeholder.com/300x200"
+          }
+        ]
+      }
+    ]
+  }

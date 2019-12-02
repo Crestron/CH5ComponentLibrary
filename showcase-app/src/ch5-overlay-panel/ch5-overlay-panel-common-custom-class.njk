@@ -1,0 +1,19 @@
+---
+title: "ch5-overlay-panel: customClass, receiveStateCustomClass"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./partials/ch5-overlay-panel/common-custom-class/scenario-ch5-overlay-panel-common-custom-class.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+
+    {% call exampleSectionFromPartials('ch5-overlay-panel/common-custom-class/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-overlay-panel/common-custom-class/','ex2') %}{% endcall %}
+
+{% endblock %}

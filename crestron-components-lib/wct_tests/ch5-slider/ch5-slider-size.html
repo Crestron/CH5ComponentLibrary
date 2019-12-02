@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-slider-size-fixture">
+    <template>
+        <ch5-slider></ch5-slider>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-slider-size-invalid-fixture">
+    <template>
+        <ch5-slider size="randomSize"></ch5-slider>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-slider size', function() {
+
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-size-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        test('Default size is "regular"', function() {
+            expect(ch5Slider.size).to.be.equal('regular');
+        });
+
+        test('Default size has class name: "ch5-slider--size--regular"', function() {
+            expect(ch5Slider.className).to.contain('ch5-slider--size--regular');
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Default size: "regular" rendered noUiSlider', function() {
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+
+        const availablesizes = ['x-small', 'small', 'regular', 'large', 'x-large'];
+
+        availablesizes.forEach((sizeName,i)=>{
+            test(`size: "${sizeName}"`, function() {
+                ch5Slider.setAttribute('size',sizeName);
+                expect(ch5Slider.getAttribute('size')).to.be.equal(sizeName);
+                expect(ch5Slider.size).to.be.equal(sizeName);
+            });
+
+            test(`size: "${sizeName}" has class name: "ch5-slider--size--${sizeName}"`, function() {
+                ch5Slider.setAttribute('size',sizeName);
+                expect(ch5Slider.className).to.contain('ch5-slider--size--' + sizeName);
+            });
+
+            // this will test if noUiSlider was rendered with current setup
+            test(`size: "${sizeName}" rendered noUiSlider`, function() {
+                expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            });
+        });
+    });
+
+    suite('ch5-slider invalid size', function() {
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-size-invalid-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        // testing with a random value in a size attribute
+        test('Invalid size should be switched to default "regular"', function() {
+            expect(ch5Slider.size).to.be.equal('regular');
+        })
+
+        test('Invalid size has default class name: "ch5-slider--size--regular"', function() {
+            expect(ch5Slider.className).to.contain('ch5-slider--size--regular');
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Invalid size rendered noUiSlider with default "regular"', function() {
+            expect(ch5Slider.size).to.be.equal('regular');
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    })
+</script>
+</body>
+</html>

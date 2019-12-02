@@ -1,0 +1,22 @@
+---
+title: "ch5-overlay-panel: receiveStateShow, receiveStateShowPulse, receiveStateHidePulse"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./partials/ch5-overlay-panel/common-show/scenario-ch5-overlay-panel-common-show.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+
+    {% call exampleSectionFromPartials('ch5-overlay-panel/common-show/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-overlay-panel/common-show/','ex2') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-overlay-panel/common-show/','ex3') %}{% endcall %}
+
+{% endblock %}
+

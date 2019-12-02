@@ -1,0 +1,42 @@
+
+<ch5-button label="show overlay" sendEventOnClick="sig_trig_pulse1"></ch5-button>
+<hr>
+<p>
+    Press the buttons below to change the value of receiveStatePositionOffset
+</p>
+<table>
+    <tr>
+        <td><ch5-button label="top-left" sendEventOnClick="trigger_pos_1"></ch5-button></td>
+        <td><ch5-button label="top-center" sendEventOnClick="trigger_pos_2"></ch5-button></td>
+        <td><ch5-button label="top-right" sendEventOnClick="trigger_pos_3"></ch5-button></td>
+    </tr>
+    <tr>
+        <td><ch5-button label="left-center" sendEventOnClick="trigger_pos_4"></ch5-button></td>
+        <td>-</td>
+        <td><ch5-button label="right-center" sendEventOnClick="trigger_pos_5"></ch5-button></td>
+    </tr>
+    <tr>
+        <td><ch5-button label="bottom-left" sendEventOnClick="trigger_pos_6"></ch5-button></td>
+        <td><ch5-button label="bottom-center" sendEventOnClick="trigger_pos_7"></ch5-button></td>
+        <td><ch5-button label="bottom-right" sendEventOnClick="trigger_pos_8"></ch5-button></td>
+    </tr>
+</table>
+
+<div style="height:200px"></div>
+
+
+
+
+<div id="ref-element-1" style="border: 1px solid red;width:150px;height:50px"></div>
+<ch5-overlay-panel
+        receiveStateShowPulse="sig_trig_pulse1"
+        receiveStatePositionOffset="sig_pos_offset"
+        positionTo="ref-element-1"
+        closable
+        dismissable="false">
+    <p>Sample text</p>
+    <ch5-image
+            id="ex1-img"
+            url="https://picsum.photos/150/100/?random">
+    </ch5-image>
+</ch5-overlay-panel>

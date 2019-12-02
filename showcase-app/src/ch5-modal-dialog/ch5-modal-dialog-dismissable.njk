@@ -1,0 +1,13 @@
+---
+title: "ch5-modal-dialog (inherited from ch5-overlay-panel): dismissable"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/dismissable/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/dismissable/','ex2') %}{% endcall %}
+
+{% endblock %}

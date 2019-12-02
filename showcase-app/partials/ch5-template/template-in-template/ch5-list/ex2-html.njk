@@ -1,0 +1,30 @@
+{% raw %}
+    <h6>The next example showcases a ch5-list using a ch5-template which contains another ch5-template and a
+        <i>data-ch5-textcontent</i> attribute.</h6>
+
+    <template id="viewOtherStuff">
+        <div class="otherStuff"><h4 data-ch5-textcontent="OSTUFF"></h4></div>
+    </template>
+
+
+    <template id="viewXYZ3">
+        <div class="xyz">
+            <ch5-template templateid="viewOtherStuff" context="OSTUFF:INST"></ch5-template>
+            <ch5-button label="xyz_INST.label" sendEventOnClick="xyz_INST.click"
+                        receiveStateSelected="xyz_INST.selected"></ch5-button>
+        </div>
+    </template>
+
+    <div>
+        <p>Update content of the <b>third element</b> using data-ch5-textcontent.</p>
+        <ch5-button type="info" label="Update content"
+                    sendEventOnClick="4"></ch5-button>
+    </div>
+    <div>
+        <ch5-list indexId="idx" receiveStateSize="numXYZ" maxHeight="300px">
+            <template>
+                <ch5-template templateid="viewXYZ3" context="INST:{{idx}}"></ch5-template>
+            </template>
+        </ch5-list>
+    </div>
+{% endraw %}

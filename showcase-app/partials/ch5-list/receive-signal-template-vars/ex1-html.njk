@@ -1,0 +1,26 @@
+{% raw %}
+<p>
+    On the first load since the signal is not initialised the template vars are not replaced.
+    Clicking this button will set the signal <b>sigH1</b> to a string containing a JSON array ( see the emulator section )
+    <ch5-button label="Btn1" sendEventOnClick="trigH1"></ch5-button>
+</p>
+
+<ch5-list size="5"
+           orientation="horizontal"
+           indexId="idx"
+           minWidth="250px"
+           maxWidth="500px"
+           minHeight="100px"
+           maxHeight="150px"
+           itemWidth="125px"
+           itemHeight="75px"
+           scrollbar="true"
+           receiveStateTemplateVars="sigH1">
+    <template>
+        <div class="horizontal-list-item">
+            <span class="{{cssClass}}">item_{{idx}} {{label}}</span>
+        </div>
+    </template>
+</ch5-list>
+
+{% endraw %}

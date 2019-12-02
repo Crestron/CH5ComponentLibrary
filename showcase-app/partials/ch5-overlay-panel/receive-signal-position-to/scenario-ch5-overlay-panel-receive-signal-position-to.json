@@ -1,0 +1,57 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "show_overlay_1",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_pos_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sig_pos_to",
+          "type": "string",
+          "logic": "set",
+          "value": "#el-id-1"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_pos_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sig_pos_to",
+          "type": "string",
+          "logic": "set",
+          "value": "#el-id-2"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_pos_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sig_pos_to",
+          "type": "string",
+          "logic": "set",
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "onStart": [
+  ]
+}

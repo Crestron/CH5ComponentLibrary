@@ -1,0 +1,18 @@
+---
+title: "ch5-list: pagedSwipe"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-ch5-list-paged-swipe.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-list/paged-swipe/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-list/paged-swipe/','ex2') %}{% endcall %}
+
+{% endblock %}

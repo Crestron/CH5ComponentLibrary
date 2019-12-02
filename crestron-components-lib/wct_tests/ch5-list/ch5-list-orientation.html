@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-list-orientation-default-fixture">
+    <template>
+        <ch5-list size="5"
+                   indexId="idx">
+            <template>
+                <div class="horizontal-list-item">
+                    <span>item_{{idx}}</span>
+                </div>
+            </template>
+        </ch5-list>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-list-orientation-horizontal-fixture">
+    <template>
+        <ch5-list size="5"
+                   indexId="idx"
+                    orientation="horizontal">
+            <template>
+                <div class="horizontal-list-item">
+                    <span>item_{{idx}}</span>
+                </div>
+            </template>
+        </ch5-list>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-list-orientation-vertical-fixture">
+    <template>
+        <ch5-list size="5"
+                   indexId="idx"
+                    orientation="vertical">
+            <template>
+                <div class="horizontal-list-item">
+                    <span>item_{{idx}}</span>
+                </div>
+            </template>
+        </ch5-list>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-list orientation', function() {
+
+
+        // test('Default orientation is "horizontal".', function() {
+        //     const ch5List = fixture('ch5-list-orientation-default-fixture');
+        //     expect(ch5List.orientation).to.be.equal('horizontal');
+        // });
+
+        test('When the orientation attribute is initially set to horizontal, the orientation property should also have the same value ', function() {
+            const ch5List = fixture('ch5-list-orientation-horizontal-fixture');
+            expect(ch5List.orientation).to.be.equal('horizontal');
+        });
+
+        test('When the orientation attribute is initially set to vertical, the orientation property should also have the same value ', function() {
+            const ch5List = fixture('ch5-list-orientation-vertical-fixture');
+            expect(ch5List.orientation).to.be.equal('vertical');
+        });
+
+        test('When the orientation attribute is programmatically changed to horizontal, the orientation property should also have the same value ', function() {
+            const ch5List = fixture('ch5-list-orientation-default-fixture');
+            ch5List.setAttribute('orientation','horizontal');
+            expect(ch5List.getAttribute('orientation')).to.be.equal('horizontal');
+            expect(ch5List.orientation).to.be.equal('horizontal');
+        });
+
+        test('When the orientation attribute is programmatically changed to vertical, the orientation property should also have the same value ', function() {
+            const ch5List = fixture('ch5-list-orientation-default-fixture');
+            ch5List.setAttribute('orientation','vertical');
+            expect(ch5List.getAttribute('orientation')).to.be.equal('vertical');
+            expect(ch5List.orientation).to.be.equal('vertical');
+        });
+
+    });
+</script>
+</body>
+</html>

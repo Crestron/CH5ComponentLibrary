@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-textinput-text-transform-default-fixture">
+    <template>
+        <ch5-textinput label="First Name"></ch5-textinput>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-textinput-text-transform-on-number-input-fixture">
+    <template>
+        <ch5-textinput 
+        label="First Name"
+        type="number"
+        text-transform="capitalize"></ch5-textinput>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-textinput text-transform', function() {
+
+        let ch5Textinput;
+
+        setup(() => {
+            ch5Textinput = fixture('ch5-textinput-text-transform-default-fixture');
+        });
+
+        test('Default text-transform is "none"', function() {
+            expect(ch5Textinput.textTransform).to.be.equal('none');
+        });
+
+        const availableTextTransform = ['capitalize', 'uppercase', 'lowercase'];
+
+        availableTextTransform.forEach((textTransformName,i)=> {
+            test(`text-transform: "${textTransformName}"`, function() {
+                ch5Textinput.setAttribute('text-transform', textTransformName);
+                expect(ch5Textinput.textTransform).to.be.equal(textTransformName);
+            });
+        });
+
+    });
+
+    suite('ch5-textinput text-transform on number input type', function() {
+
+        let ch5Textinput;
+
+        setup(() => {
+            ch5Textinput = fixture('ch5-textinput-text-transform-on-number-input-fixture');
+        });
+
+        test('Text-transform should not be applied on number input type', function() {
+            expect(ch5Textinput.textTransform).to.be.equal('none');
+        });
+    });
+    
+</script>
+</body>
+</html>

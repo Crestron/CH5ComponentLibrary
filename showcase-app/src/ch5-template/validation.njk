@@ -1,0 +1,9 @@
+---
+title: "ch5-template validation messages"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% call exampleSectionFromPartials('ch5-template/validation/','ex1') %}{% endcall %}
+{% endblock %}

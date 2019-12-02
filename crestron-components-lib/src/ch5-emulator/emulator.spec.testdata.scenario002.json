@@ -1,0 +1,23 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "volume_up_press",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_level",
+          "type": "n",
+          "logic": "set",
+          "value": 65535
+        },
+        {
+          "state": "volume_level_desc",
+          "type": "s",
+          "logic": "set",
+          "value": "Raising Volume!"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "cues": [
+    {
+      "type": "string",
+      "event": "ti.output_1",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "ti.input_1",
+          "type": "string",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "event": "ti.output_2",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "ti.input_2",
+          "type": "string",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "event": "ti.output_3",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "ti.input_3",
+          "type": "string",
+          "logic": "link"
+        }
+      ]
+    }
+,
+    {
+      "type": "string",
+      "event": "ti.output_4",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "ti.input_4",
+          "type": "string",
+          "logic": "link"
+        }
+      ]
+    }    
+    
+  ],
+  "onStart": [
+ ]
+}

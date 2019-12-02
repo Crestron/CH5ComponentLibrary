@@ -1,0 +1,38 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_icon_change_address",
+      "trigger": true,
+      "actions": [
+        {
+          "type": "string",
+          "state": "current_icon",
+          "logic": "set",
+          "value": "fas fa-address-book"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_icon_change_anchor",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "current_icon",
+          "type": "s",
+          "logic": "set",
+          "value": "fas fa-anchor"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "current_icon",
+      "type": "s",
+      "logic": "set",
+      "value": "fas fa-search"
+    }
+  ]
+}

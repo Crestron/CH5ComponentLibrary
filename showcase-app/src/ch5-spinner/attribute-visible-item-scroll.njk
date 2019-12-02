@@ -1,0 +1,17 @@
+---
+title: "ch5-spinner: visibleItemScroll attribute"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./partials/ch5-spinner/attributes/visible-item-scroll/scenario-ch5-spinner-visible-item-scroll.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-spinner/attributes/visible-item-scroll/','ex1') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-spinner/attributes/visible-item-scroll/','ex2') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-spinner/attributes/visible-item-scroll/','ex3') %}{% endcall %}
+
+{% endblock %}

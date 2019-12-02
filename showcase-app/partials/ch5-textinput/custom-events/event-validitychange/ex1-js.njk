@@ -1,0 +1,9 @@
+var form = document.getElementById('validityCheckForm');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+})
+
+form.addEventListener('validitychange', function(data) {
+    console.log(`Validity has been changed, value: ${data.detail.message}, time: ${data.detail.time}`);
+});

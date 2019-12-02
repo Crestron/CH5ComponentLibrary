@@ -1,0 +1,35 @@
+{% raw %}
+(function($, CrComLib){
+    const mutationsParentEl = $('#mutations-parent')[0];
+    const addBtn = $('#add')[0];
+    const updateBtn = $('#update')[0];
+    const removeBtn = $('#remove')[0];
+
+    addBtn.addEventListener('click', () => {
+        const divWithInnerhtmlCustomAttr = document.createElement('div');
+        divWithInnerhtmlCustomAttr.classList.add('b-red');
+        divWithInnerhtmlCustomAttr.setAttribute('id', 'new-el');
+        divWithInnerhtmlCustomAttr.setAttribute('debug', '');
+        divWithInnerhtmlCustomAttr.setAttribute('data-ch5-innerhtml', 'data_ch5_innerhtml_signal_2');
+
+        if (mutationsParentEl.querySelector('#new-el') === null) {
+            mutationsParentEl.appendChild(divWithInnerhtmlCustomAttr);
+        }
+    });
+
+    updateBtn.addEventListener('click', () => {
+        const divWithInnerhtmlCustomAttr = $('#new-el')[0];
+        if (divWithInnerhtmlCustomAttr) {
+            divWithInnerhtmlCustomAttr.setAttribute('data-ch5-innerhtml', 'data_ch5_innerhtml_signal_3');
+        }
+    });
+
+    removeBtn.addEventListener('click', () => {
+        const divWithInnerhtmlCustomAttr = $('#new-el')[0];
+        if (divWithInnerhtmlCustomAttr) {
+            mutationsParentEl.removeChild(divWithInnerhtmlCustomAttr);
+        }
+    });
+
+})(jQuery,CrComLib);
+{% endraw %}

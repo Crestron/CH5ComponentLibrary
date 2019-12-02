@@ -1,0 +1,27 @@
+
+(function(CrComLib){
+    var s1 = document.querySelector('#s1');
+    var s2 = document.querySelector('#s2');
+    var s3 = document.querySelector('#s3');
+
+    var subId1 = CrComLib.subscribeState('b','sig_b',s1Sub);
+    var subId2 = CrComLib.subscribeState('n','sig_n',s2Sub);
+    var subId3 = CrComLib.subscribeState('s','city',s3Sub);
+
+    function s1Sub(v){
+        s1.textContent=v;
+    }
+    function s2Sub(v){
+        s2.textContent=v;
+    }
+    function s3Sub(v){
+        s3.textContent=v;
+    }
+    
+    var s4 = document.querySelector('#errCallback-example');
+    var invalidSubscription = CrComLib.subscribeState('invalid_sig_type','city',s3Sub, errCallbackExample);
+
+    function errCallbackExample(msg){
+        s4.textContent=msg;
+    }
+})(CrComLib);

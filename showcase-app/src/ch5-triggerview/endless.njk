@@ -1,0 +1,12 @@
+---
+title: "ch5-triggerview: endless"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {# example 1 #}
+        {% call exampleSectionFromPartials('ch5-triggerview/endless/','ex1') %}{% endcall %}
+    {# example 2 #}
+        {% call exampleSectionFromPartials('ch5-triggerview/endless/','ex2') %}{% endcall %}
+{% endblock %}

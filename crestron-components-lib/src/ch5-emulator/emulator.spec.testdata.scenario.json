@@ -1,0 +1,79 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "hall_lights_tap",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "hall_lights_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "volume_up_press",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "volume_level",
+          "type": "n",
+          "logic": "rcb",
+          "value": 65535,
+          "time": 5000
+        },
+        {
+          "state": "volume_level_desc",
+          "type": "s",
+          "logic": "set",
+          "value": "Raising Volume!"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "volume_up_press",
+      "trigger": false,
+      "actions": [
+        {
+          "state": "volume_level",
+          "type": "n",
+          "logic": "set",
+          "value": 40000
+        },
+        {
+          "state": "volume_level_desc",
+          "type": "s",
+          "logic": "set",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "volume_level_set",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "volume_level",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "event": "roomname_selected",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "roomname",
+          "type": "s",
+          "logic": "link"
+        }
+      ]
+    }
+  ]
+}

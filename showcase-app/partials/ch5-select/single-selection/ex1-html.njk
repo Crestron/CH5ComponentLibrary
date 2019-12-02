@@ -1,0 +1,96 @@
+<div class="row">
+    <p>On option click, <strong>sendEventOnChange</strong> is sent with option index value. The option is marked as
+    selected on UI, then <strong>receiveStateValue</strong> is expected to confirm the selection within
+    <strong>signalValueSyncTimeout</strong> ms. If receiveStateValue signal is returning other value or the no new
+    value is received, then the selection is reset.</p>
+    {% raw %}
+    <ch5-select id="volume"
+                 size="4" indexId="Idx"
+                 sendEventOnChange="volume_select_index_1"
+                 receiveStateValue="volume_select_index_selected_1"
+                 noneSelectedPrompt="Select">
+         <template>
+            <ch5-select-option>
+                <i class="fas fa-{{fa-icon}}"></i>
+                <span>{{label}}</span>
+            </ch5-select-option>
+         </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p>Examples using <strong>ch5-select-option.sendEventOnClick</strong> instead of
+    <strong>sendEventOnChange</strong></p>
+    {% raw %}
+    <ch5-select id="volume"
+                 size="4" indexId="Idx"
+                 receiveStateValue="volume_select_index_selected_3"
+                 noneSelectedPrompt="Select">
+         <template>
+            <ch5-select-option sendEventOnClick="volume_select_{{Idx}}_on_click_1">
+                <i class="fas fa-{{fa-icon}}"></i>
+                <span>{{label}}</span>
+            </ch5-select-option>
+         </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p>On this example you can also see the custom change event (see console logs)</p>
+    {% raw %}
+    <ch5-select id="volume" class="with-on-change" selectedValue="4"
+                 size="4" indexId="Idx" mode="panel"
+                 receiveStateValue="volume_select_index_selected_4"
+                 noneSelectedPrompt="Select">
+         <template>
+            <ch5-select-option sendEventOnClick="volume_select_{{Idx}}_on_click_2">
+                <i class="fas fa-{{fa-icon}}"></i>
+                <span>{{label}}</span>
+            </ch5-select-option>
+         </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p><strong>receiveStateSelected</strong> example</p>
+    {% raw %}
+    <ch5-select size="4" indexId="Idx" mode="panel" noneSelectedPrompt="Select">
+         <template>
+            <ch5-select-option sendEventOnClick="option_{{Idx}}_on_click"
+                                receiveStateSelected="option_{{Idx}}_selected">
+                <span>Option {{Idx}}</span>
+            </ch5-select-option>
+         </template>
+    </ch5-select>
+    {% endraw %}
+
+    <p style="margin-top: 24px;">
+        <ch5-button label="Select option 3" sendEventOnClick="selectOpt3"></ch5-button>
+        <ch5-button label="Unselect option 3" sendEventOnClick="unselectOpt3"></ch5-button>
+    </p>
+</div>
+
+<div class="row">
+    <p>In this example <strong>receiveStateValue</strong> will always return 2. If you select other option than 2,
+    after signalValueSyncTimeout ms your selection will be reset to previous state.</p>
+    {% raw %}
+    <ch5-select id="volume" selectedValue="4"
+                 size="4" indexId="Idx" mode="panel"
+                 sendEventOnChange="volume_select_index_2"
+                 receiveStateValue="volume_select_index_selected_2"
+                 noneSelectedPrompt="Select">
+         <template>
+            <ch5-select-option>
+                <i class="fas fa-{{fa-icon}}"></i>
+                <span>{{label}}</span>
+            </ch5-select-option>
+         </template>
+    </ch5-select>
+    {% endraw %}
+    <p>Reset selection using receiveStateValue set to 0</p>
+    <p><ch5-button label="Reset selection" sendEventOnClick="resetSelection"></ch5-button></p>
+</div>
+

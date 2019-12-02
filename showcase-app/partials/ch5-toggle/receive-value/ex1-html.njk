@@ -1,0 +1,20 @@
+<div class="content">
+    <p>
+        The buttons change the value of <b>receive_switch_value</b> ( See the Emulator section )
+    </p>
+    <p>
+        <ch5-button label="Disable Alarm" sendEventOnClick="trig1"></ch5-button>
+    </p>
+    <p>
+        <ch5-button label="Enable Alarm" sendEventOnClick="trig2"></ch5-button>
+    </p>
+</div>
+
+<ch5-toggle
+    label="Alarm"
+    labelOn="On"
+    labelOff="Off"
+    sendEventOnClick="send_switch_value"
+    receiveStateValue="receive_switch_value"
+    >
+</ch5-toggle>

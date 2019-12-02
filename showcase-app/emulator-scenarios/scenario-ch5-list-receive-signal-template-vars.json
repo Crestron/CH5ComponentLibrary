@@ -1,0 +1,30 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigV1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sigV1",
+          "type": "string",
+          "logic": "set",
+          "value": "[{\"label\":\"Play\",\"cssClass\":\"green\"},{\"label\":\"Rewind\",\"cssClass\":\"blue\"},{\"label\":\"Stop\",\"cssClass\":\"blue\"},{\"label\":\"FWD\",\"cssClass\":\"green\"},{\"label\":\"Record\",\"cssClass\":\"red\"}]"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigH1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sigH1",
+          "type": "string",
+          "logic": "set",
+          "value": "[{\"label\":\"Rewind\",\"cssClass\":\"green\"},{\"label\":\"Play\",\"cssClass\":\"blue\"},{\"label\":\"FWD\",\"cssClass\":\"blue\"},{\"label\":\"Stop\",\"cssClass\":\"green\"},{\"label\":\"Record\",\"cssClass\":\"red\"}]"
+        }
+      ]
+    }
+  ]
+}

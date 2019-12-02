@@ -1,0 +1,65 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "MediaPlayer[0].prevtrack.clicked",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button",
+          "type": "s",
+          "logic": "set",
+          "value": "prev track clicked"
+        },
+        {
+          "state": "receive.prevtrack_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "MediaPlayer[0].play.clicked",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button",
+          "type": "s",
+          "logic": "set",
+          "value": "play clicked"
+        },
+        {
+          "state": "receive.play_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "MediaPlayer[0].nexttrack.clicked",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button",
+          "type": "s",
+          "logic": "set",
+          "value": "next button clicked"
+        },
+        {
+          "state": "receive.nexttrack_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "selected_button",
+      "type": "s",
+      "value": "no button clicked"
+    }
+  ]
+}

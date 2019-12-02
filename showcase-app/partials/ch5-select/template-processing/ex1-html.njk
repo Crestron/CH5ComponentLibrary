@@ -1,0 +1,167 @@
+<div class="row">
+    <p><strong>Example 1:</strong> ch5-select in mode plain. Each option description is set from global config
+    "templatevariables" (in this case).</p>
+    {% raw %}
+    <ch5-select id="direction_select" size="4" indexId="Index" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option>
+                <div>
+                    <i class="fas fa-arrow-{{fa-icon}}"></i>
+                    <span>item_{{Index}} {{description}}</span>
+                </div>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p><strong>Example 2:</strong> ch5-select, multiselect=false, default template, iconPosition=first</p>
+    {% raw %}
+    <ch5-select id="singleselect-icon-first" size="4" indexId="Index" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option sendEventOnClick="user_select_clicked_{{Index}}" useDefaultTmpl
+                                receiveStateLabel="label_signal_{{Index}}"
+                                receiveStateUrl="receive_image_url_{{Index}}">
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p><strong>Example 3:</strong> ch5-select, multiselect=false, default template, iconPosition=last</p>
+    {% raw %}
+    <ch5-select id="singleselect-icon-last" size="4" indexId="Index" noneSelectedPrompt="Select"
+        mode="panel">
+        <template>
+            <ch5-select-option sendEventOnClick="user_select_clicked_{{Index}}"
+                                useDefaultTmpl iconPosition="last"
+                                receiveStateLabel="label_signal_{{Index}}"
+                                receiveStateUrl="receive_image_url_{{Index}}">
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p><strong>Example 4:</strong> ch5-select, multiselect=true, default template and iconPosition=first</p>
+    <p>
+        <strong>Note: </strong> for all multiselect examples option labels are set using the same receiveStateLabel
+        signals set. Also, receiveStateUrl signals are providing default template image URL.<br><br>
+        Since ch5-toggle has no receiveStateSelected attribute, ch5-select-option.receiveStateSelected is also used
+        to set ch5-toggle.receiveStateValue.<br><br>
+        For multiselect with default template ch5-select-option.sendEventOnClick
+        is not sent by option element, it is assigned to ch5-toggle.
+    </p>
+    {% raw %}
+    <ch5-select id="multiselect_1" size="4" indexId="Index" noneSelectedPrompt="Select"
+        mode="panel" multiselect>
+        <template>
+            <ch5-select-option sendEventOnClick="multiselect_1_clicked_{{Index}}"
+                                receiveStateSelected="multiselect_1_selected_{{Index}}"
+                                useDefaultTmpl
+                                receiveStateLabel="label_signal_{{Index}}"
+                                receiveStateUrl="receive_image_url_{{Index}}">
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p><strong>Example 5:</strong> ch5-select, multiselect=true, default template and iconPosition=last</p>
+    {% raw %}
+    <ch5-select id="multiselect_2" size="4" indexId="Index" noneSelectedPrompt="Select"
+        mode="panel" multiselect>
+        <template>
+            <ch5-select-option sendEventOnClick="multiselect_2_clicked_{{Index}}"
+                                receiveStateSelected="multiselect_2_selected_{{Index}}"
+                                useDefaultTmpl iconPosition="last"
+                                receiveStateLabel="label_signal_{{Index}}"
+                                receiveStateUrl="receive_image_url_{{Index}}">
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p><strong>Example 6:</strong> ch5-select, multiselect=true, default template and receiveStateScriptLabelHTML</p>
+    <p>- receiveStateScriptLabelHTML signal is used to set ch5-toggle label</p>
+    {% raw %}
+    <ch5-select id="multiselect_3" size="4" indexId="Index" noneSelectedPrompt="Select"
+        mode="panel" multiselect>
+        <template>
+            <ch5-select-option sendEventOnClick="multiselect_3_clicked_{{Index}}"
+                                receiveStateSelected="multiselect_3_selected_{{Index}}"
+                                useDefaultTmpl
+                                receiveStateLabel="label_signal_{{Index}}"
+                                receiveStateScriptLabelHTML="receive_html_script_label_{{Index}}"
+                                receiveStateUrl="receive_image_url_{{Index}}">
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+</div>
+
+<div class="row">
+    <p><strong>Example 7:</strong> ch5-select, multiselect=false, feedbackMode=submit and default template.</p>
+    {% raw %}
+        <ch5-select id="default_tmpl_f_submit_single"
+                     size="4" indexId="Idx"
+                     receiveStateValue="item_selected_after_click"
+                     feedbackMode="submit"
+                     noneSelectedPrompt="Select"
+                     mode="panel">
+             <template>
+                <ch5-select-option sendEventOnClick="select_item_{{Idx}}_on_click"
+                                    useDefaultTmpl
+                                    receiveStateLabel="label_signal_{{Idx}}"
+                                    receiveStateUrl="receive_image_url_{{Idx}}">
+                </ch5-select-option>
+             </template>
+        </ch5-select>
+    {% endraw %}
+    <p style="margin-top: 24px;">
+        Dirty: <span id="dirty-select-1"></span><br><br>
+        <ch5-button id="submit-btn-1" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn-1" label="Reset"></ch5-button>
+    </p>
+</div>
+
+<div class="row">
+    <p><strong>Example 8:</strong> ch5-select, multiselect=true, feedbackMode=submit and default template.</p>
+    {% raw %}
+        <ch5-select id="default_tmpl_f_submit_multi"
+                     size="4" indexId="Idx"
+                     feedbackMode="submit"
+                     noneSelectedPrompt="Select options(s)"
+                     mode="panel" multiselect>
+             <template>
+                <ch5-select-option sendEventOnClick="multiselect_4_clicked_{{Idx}}"
+                                    receiveStateSelected="multiselect_4_selected_{{Idx}}"
+                                    useDefaultTmpl
+                                    receiveStateLabel="label_signal_{{Idx}}"
+                                    receiveStateUrl="receive_image_url_{{Idx}}">
+                </ch5-select-option>
+             </template>
+        </ch5-select>
+    {% endraw %}
+    <p style="margin-top: 24px;">
+        Dirty: <span id="dirty-select-2"></span><br><br>
+        <ch5-button id="submit-btn-2" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn-2" label="Reset"></ch5-button>
+    </p>
+</div>
+
+<div class="row">
+    <!-- TODO: remove this after issues are fixed -->
+    <strong>Issues using default template for multiselect:</strong>
+    <ul>
+        <li>using receiveStateScriptLabelHTML, UI looks bad with 2 labels (option label provided by receiveStateLabel) and
+        ch5-toggle label (provided by receiveStateScriptLabelHTML)</li>
+        <li>No way to set on/off ch5-toggle labels, unless we add 2 more new attributes on ch5-select-option</li>
+    </ul>
+</div>

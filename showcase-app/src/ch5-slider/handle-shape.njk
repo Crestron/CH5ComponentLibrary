@@ -1,0 +1,17 @@
+---
+title: "ch5-slider: handleShape"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {# example 1 #}
+        {% call exampleSectionFromPartials('ch5-slider/handle-shape/','ex1') %}{% endcall %}
+    {# example 2 #}
+        {% call exampleSectionFromPartials('ch5-slider/handle-shape/','ex2') %}{% endcall %}
+    {# example 3 #}
+        {% call exampleSectionFromPartials('ch5-slider/handle-shape/','ex3') %}{% endcall %}
+    {# example 4 #}
+        {% call exampleSectionFromPartials('ch5-slider/handle-shape/','ex4') %}{% endcall %}
+{% endblock %}

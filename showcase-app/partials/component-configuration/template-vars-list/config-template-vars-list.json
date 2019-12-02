@@ -1,0 +1,28 @@
+{
+  "attributes": {
+    "component":{
+      "ch5-list":{
+        "size":"5",
+        "orientation":"horizontal",
+        "indexId":"idx",
+        "minWidth":"250px",
+        "maxWidth":"500px",
+        "minHeight":"100px",
+        "maxHeight":"150px",
+        "itemWidth":"125px",
+        "itemHeight":"75px"
+      }
+    }
+  },
+  "templatevariables":{
+    "id":{
+      "list1":[
+        {"label":"Rewind","cssClass":"green"},
+        {"label":"Play","cssClass":"blue"},
+        {"label":"FWD","cssClass":"blue"},
+        {"label":"Stop","cssClass":"green"},
+        {"label":"Record","cssClass":"red"}
+      ]
+    }
+  }
+}

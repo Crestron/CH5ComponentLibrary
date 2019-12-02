@@ -1,0 +1,6 @@
+tsconfig.global.json
+tsconfig.*.json
+tslint.json
+.prettierignore
+src
+*.log

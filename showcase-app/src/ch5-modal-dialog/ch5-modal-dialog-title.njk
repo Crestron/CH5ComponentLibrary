@@ -1,0 +1,11 @@
+---
+title: "ch5-modal-dialog: title"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/title/','ex1') %}{% endcall %}
+
+{% endblock %}

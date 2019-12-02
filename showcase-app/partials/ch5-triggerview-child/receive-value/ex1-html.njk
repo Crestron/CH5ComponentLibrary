@@ -1,0 +1,33 @@
+<div class="content">
+    <p>
+        The buttons change the value of receiveStateShow ( See the Emulator section )
+    </p>
+    <ch5-button type="secondary" shape="tab" label="First" 
+        receiveStateSelected="show_first_view_signal" 
+        sendEventOnClick="trig1"></ch5-button>
+    <ch5-button type="secondary" shape="tab" label="Second" 
+        receiveStateSelected="show_second_view_signal" 
+        sendEventOnClick="trig2"></ch5-button>
+    <ch5-button type="secondary" shape="tab" label="Third" 
+        receiveStateSelected="show_third_view_signal" 
+        sendEventOnClick="trig3"></ch5-button>
+    <div>
+        <ch5-triggerview id="demo"> 
+            <ch5-triggerview-child receiveStateShow="show_first_view_signal">
+                <div class="viewcontent">
+                    <h1>First View</h1>
+                </div>
+            </ch5-triggerview-child> 
+            <ch5-triggerview-child receiveStateShow="show_second_view_signal">
+                <div class="viewcontent">
+                    <h1>Second View</h1>
+                </div>
+            </ch5-triggerview-child>
+            <ch5-triggerview-child receiveStateShow="show_third_view_signal">
+                <div class="viewcontent">
+                    <h1>Third View</h1>
+                </div>
+            </ch5-triggerview-child>  
+        </ch5-triggerview>
+	</div>
+</div>

@@ -1,0 +1,966 @@
+<aside class="menu side-menu">
+    <!--<div class="select">-->
+    <!--{% include "../partials/theme-dropdown.njk" %}-->
+    <!--</div>-->
+    <div class="search">
+        <div class="field">
+            <div class="control has-icons-right">
+                <input id="search-term" class="input" type="text" placeholder="Filter..." value="">
+                <span class="icon is-small is-right">
+                  <i class="fa fa-search"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <p class="menu-label">
+        <a href="{{ siteurl }}index.html">Info</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}index.html">Readme</a>
+        </li>
+    </ul>
+
+
+    <p class="menu-label">
+        <a href="{{ siteurl }}component-configuration/attributes.html">CH5 Component Configuration</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}component-configuration/attributes.html">attributes</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}component-configuration/template-variables-list.html">template variables ch5-list</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}component-configuration/template-variables-select.html">template variables
+                ch5-select</a>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}data-ch5/data-ch5-show.html">CH5 Custom Attributes</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}data-ch5/data-ch5-show.html">data-ch5-show</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}data-ch5/data-ch5-showpulse.html">data-ch5-showpulse / hidepulse</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}data-ch5/data-ch5-textcontent.html">data-ch5-textcontent</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}data-ch5/data-ch5-innerhtml.html">data-ch5-innerhtml</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}data-ch5/data-ch5-appendstyle.html">data-ch5-appendstyle</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}data-ch5/data-ch5-appendclass.html">data-ch5-appendclass</a>
+        </li>
+
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}utility-functions/utility-textformat.html">CH5 Utility Functions</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}utility-functions/utility-textformat.html">textformat</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}utility-functions/utility-subscribe-signal-script.html">subscribeStateScript</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}utility-functions/utility-unsubscribe-signal-script.html">unsubscribeStateScript</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}utility-functions/utility-get-signal.html">getState</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}utility-functions/utility-subscribe-signal.html">subscribeState</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}utility-functions/utility-unsubscribe-signal.html">unsubscribeState</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}utility-functions/utility-publish-signal.html">publishEvent</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}utility-functions/utility-subscribe-in-viewport-change.html">subscribeInViewPortChange</a>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-background/ch5-background-styling-css-classes.html">CH5 Background</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-background/ch5-background-styling-css-classes.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-background/ch5-background-url.html">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-url.html">url</a></li>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-color.html">backgroundColor</a></li>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-repeat.html">repeat</a></li>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-scale.html">scale</a></li>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-refresh-rate.html">refreshRate</a></li>
+                <li>
+                    <a href="{{ siteurl }}ch5-background/ch5-background-img-background-color.html">imgBackgroundColor</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-transition-effect.html">transitionEffect</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-transition-duration.html">transitionDuration</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-background/ch5-background-receive-url.html">Receive State
+                Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-receive-url.html">receiveStateUrl</a></li>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-receive-background-color.html">receiveStateBackgroundColor</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-background/ch5-background-receive-refresh-rate.html">receiveStateRefreshRate</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-button/ch5-button-types.html">CH5 Button</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-button/ch5-button-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-button/ch5-button-styling-sass-vars.html">Sass variables</a></li>
+                <li><a href="{{ siteurl }}ch5-button/ch5-button-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-types.html">Types</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-sizes.html">Sizes</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-shapes.html">Shapes</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-stretches.html">Stretch related</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-icons.html">Icon related</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-icon-url.html">Iconurl related</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-label.html">Label related</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-orientation.html">Orientation</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-selected.html">Selected</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-send-on-click-touch.html">Send Events on Click, on Touch</a>
+        </li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-events.html">Events</a></li>
+        <li><a href="{{ siteurl }}ch5-button/ch5-button-gestureable-container.html">Gestureable Container</a></li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-button/ch5-button-common-disable-enable.html">Common</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-button/ch5-button-common-disable-enable.html">disabled / enabled</a></li>
+                <li><a href="{{ siteurl }}ch5-button/ch5-button-common-custom-class.html">Custom Class</a></li>
+                <li><a href="{{ siteurl }}ch5-button/ch5-button-common-custom-style.html">Custom Style</a></li>
+                <li><a href="{{ siteurl }}ch5-button/ch5-button-common-show.html">show / hide</a></li>
+            </ul>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-form/hide-submit.html">CH5 Form</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a class="menu-label">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-form/ch5-form-styling-sass-vars.html">Sass variables</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-form/hide-submit.html">hideSubmitButton</a></li>
+                <li><a href="{{ siteurl }}ch5-form/label-submit.html">submitButtonLabel</a></li>
+                <li><a href="{{ siteurl }}ch5-form/icon-submit.html">submitButtonIcon</a></li>
+                <li><a href="{{ siteurl }}ch5-form/style-submit.html">submitButtonStyle</a></li>
+                <li><a href="{{ siteurl }}ch5-form/type-submit.html">submitButtonType</a></li>
+                <li><a href="{{ siteurl }}ch5-form/hide-cancel.html">hideCancelButton</a></li>
+                <li><a href="{{ siteurl }}ch5-form/label-cancel.html">cancelButtonLabel</a></li>
+                <li><a href="{{ siteurl }}ch5-form/icon-cancel.html">cancelButtonIcon</a></li>
+                <li><a href="{{ siteurl }}ch5-form/style-cancel.html">cancelButtonStyle</a></li>
+                <li><a href="{{ siteurl }}ch5-form/type-cancel.html">cancelButtonType</a></li>
+                <li><a href="{{ siteurl }}ch5-form/submitid.html">submitId</a></li>
+                <li><a href="{{ siteurl }}ch5-form/cancelid.html">cancelId</a></li>
+            </ul>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-list/ch5-list-orientation.html">CH5 List</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-list/ch5-list-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-list/ch5-list-styling-sass-vars.html">Sass variables</a></li>
+                <li><a href="{{ siteurl }}ch5-list/ch5-list-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li><a href="{{ siteurl }}ch5-list/ch5-list-orientation.html">orientation</a></li>
+        <li><a href="{{ siteurl }}ch5-list/ch5-list-size.html">size</a></li>
+        <li><a href="{{ siteurl }}ch5-list/ch5-list-dimensions.html">dimensions</a></li>
+        <li><a href="{{ siteurl }}ch5-list/ch5-list-endless.html">endless</a></li>
+        <li><a href="{{ siteurl }}ch5-list/ch5-list-buffer-amount.html">bufferAmount</a></li>
+        <li><a href="{{ siteurl }}ch5-list/ch5-list-paged-swipe.html">pagedSwipe</a></li>
+        <li><a href="{{ siteurl }}ch5-list/ch5-list-receive-signal-scroll-to.html">receiveStateScrollTo</a></li>
+        <li><a href="{{ siteurl }}ch5-list/ch5-list-receive-signal-size.html">receiveStateSize</a></li>
+        <li><a href="{{ siteurl }}ch5-list/ch5-list-receive-signal-template-vars.html">receiveStateTemplateVars</a></li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-list/ch5-list-common-disable-enable.html">Common</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-list/ch5-list-common-disable-enable.html">disabled / enabled</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-list/ch5-list-in-angular.html">Angular 2+</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-list/ch5-list-in-angular.html">ngNonBindable directive</a></li>
+            </ul>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-styling-sass-vars.html">CH5 Modal Dialog</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-styling-sass-vars.html">Sass variables</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-styling-css-classes.html">CSS classes</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-closable.html">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-closable.html">closable</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-close-icon.html">closeIcon</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-dismissable.html">dismissable</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-mask.html">mask</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-mask-style.html">maskStyle</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-overflow.html">overflow</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-stretch.html">stretch</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-title.html">title</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-prompt.html">prompt, promptIcon</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-dimensions.html">width, height</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-buttons.html">okButton, cancelButton</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-send-on-show-hide.html">Send
+                Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-send-on-show-hide.html">send events</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label"
+               href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-before-show-event.html">Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-before-show-event.html">beforeshow</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-after-show-event.html">aftershow</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-before-hide-event.html">beforehide</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-after-hide-event.html">afterhide</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-common-custom-class.html">Inherited
+                (common)</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-common-custom-class.html">(common) Custom
+                        Class</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-common-custom-style.html">(common) Custom
+                        Style</a></li>
+                <li><a href="{{ siteurl }}ch5-modal-dialog/ch5-modal-dialog-common-show.html">(common) show/hide</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-image/ch5-image-styling-css-classes.html">CH5 Image</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-image/ch5-image-styling-css-classes.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-styling-sass-vars.html">Sass variables</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-image/ch5-image-url.html">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-url.html">url</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-alt.html">alt</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-width.html">width</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-height.html">height</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-refresh.html">refreshRate</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-image/ch5-image-receive-url.html">Receive State Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-receive-url.html">receiveStateUrl</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-image/ch5-image-authentication.html">Authentication</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-authentication.html">Authentication</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-user.html">user</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-password.html">password</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-image/ch5-image-send-signal-click.html">Send Event
+                Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-send-signal-click.html">sendEventOnClick</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-send-signal-error.html">sendEventOnError</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-send-signal-touch.html">sendEventOnTouch</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-image/ch5-image-click-event.html">Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-click-event.html">click</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-press-event.html">press</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-release-event.html">release</a></li>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-error-event.html">error</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-image/ch5-image-common-disable-enable.html">Common</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-image/ch5-image-common-disable-enable.html">disabled / enabled</a></li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-url.html">CH5 Import HtmlSnippet</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-url.html">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-url.html">url</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-afterload.html">Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-afterload.html">afterLoad</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-showpulse.html">Receive
+                States</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-showpulse.html">receiveStateShowpulse</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-hidepulse.html">receiveStateHidepulse</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-show.html">receiveStateShow</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-send-event-onshow.html">Send Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-import-htmlsnippet/ch5-import-htmlsnippet-send-event-onshow.html">sendEventOnShow</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-closable.html">CH5 Overlay Panel</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-styling-sass-vars.html">Sass variables</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-styling-css-classes.html">CSS classes</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-closable.html">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-closable.html">closable</a></li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-close-icon.html">closeIcon</a></li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-dismissable.html">dismissable</a></li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-overflow.html">overflow</a></li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-position-offset.html">position-offset</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-position-to.html">position-to</a></li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-stretch.html">stretch</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-send-on-show-hide.html">Send
+                Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-send-on-show-hide.html">send events</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label"
+               href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-receive-signal-position-to.html">Receive
+                States</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-receive-signal-position-to.html">receiveStatePositionTo</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-receive-signal-position-offset.html">receiveStatePositionOffset</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label"
+               href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-before-show-event.html">Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-before-show-event.html">beforeshow</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-after-show-event.html">aftershow</a></li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-before-hide-event.html">beforehide</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-after-hide-event.html">afterhide</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-common-custom-class.html">Inherited
+                (common)</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-common-custom-class.html">(common) Custom
+                        Class</a></li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-common-custom-style.html">(common) Custom
+                        Style</a></li>
+                <li><a href="{{ siteurl }}ch5-overlay-panel/ch5-overlay-panel-common-show.html">(common) show/hide</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-select/dimensions.html">CH5 Select</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-select/ch5-select-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-select/ch5-select-styling-sass-vars.html">Sass variables</a></li>
+                <li><a href="{{ siteurl }}ch5-select/ch5-select-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li><a href="{{ siteurl }}ch5-select/dimensions.html">Dimensions</a></li>
+        <li><a href="{{ siteurl }}ch5-select/mode.html">Mode</a></li>
+        <li><a href="{{ siteurl }}ch5-select/template-processing.html">Template processing</a></li>
+        <li><a href="{{ siteurl }}ch5-select/single-selection.html">Single selection</a></li>
+        <li><a href="{{ siteurl }}ch5-select/multi-selection.html">Multi selection</a></li>
+        <li><a href="{{ siteurl }}ch5-select/receive-state-size.html">
+                receiveStateSize</a>
+        </li>
+        <li><a href="{{ siteurl }}ch5-select/receive-state-template-vars.html">
+                receiveStateTemplateVars</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}ch5-select/methods.html">Methods</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-select/methods/ex1.html">sendEventOnChange & receiveStateValue</a></li>
+                <li><a href="{{ siteurl }}ch5-select/methods/ex2.html">sendEventOnClick & receiveStateValue</a></li>
+                <li><a href="{{ siteurl }}ch5-select/methods/ex3.html">sendEventOnClick & receiveStateSelected</a></li>
+                <li><a href="{{ siteurl }}ch5-select/methods/ex4.html">multiselect sendEventOnClick &
+                        receiveStateSelected</a></li>
+            </ul>
+        </li>
+        <li><a href="{{ siteurl }}ch5-select/events.html">Events</a></li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-select/ch5-select-common-disable-enable.html">Common</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-select/ch5-select-common-disable-enable.html">disabled / enabled</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-slider/ch5-slider-styling-sass-vars.html">CH5 Slider</a>
+    </p>
+
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-slider/ch5-slider-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-slider/ch5-slider-styling-sass-vars.html">Sass variables</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/ch5-slider-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-slider/handle-shape.html">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-slider/handle-shape.html">handleShape</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/range.html">range</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/value.html">value</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/noHandle.html">noHandle</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/value-high.html">valueHigh</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/min-max.html">min | max</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/orientation.html">orientation</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/size.html">size</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/handle-size.html">handleSize</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/step.html">step</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/stretch.html">stretch</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/ticks.html">ticks</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/show-tick-values.html">showTickValues</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/tooltip-show-type.html">toolTipShowType</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/tooltip-display-type.html">toolTipDisplayType</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/tapSettable.html">tapSettable</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-slider/send-value.html">SEND EVENT ATTRIBUTES</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-slider/send-value.html">sendEventOnChange</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/send-value-high.html">sendEventOnChangeHigh</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-slider/receive-value.html">RECEIVE STATE ATTRIBUTES</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-slider/receive-value.html">receiveStateValue</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/receive-value-high.html">receiveStateValueHigh</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-slider/slider-events.html">Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-slider/slider-events.html">slider | slidestart | slideend</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/focus-blur-event.html">focus | blur</a></li>
+                {# <li><a href="{{siteurl}}ch5-slider/change-event.html">change</a></li> #}
+                <li><a href="{{ siteurl }}ch5-slider/dirty-event.html">dirty</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-slider/submit-method.html">Methods</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-slider/submit-method.html">submit</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/reset-method.html">reset</a></li>
+                <li><a href="{{ siteurl }}ch5-slider/getdirty-method.html">getDirty</a></li>
+            </ul>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-spinner/attribute-size.html">CH5 Spinner</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-spinner/ch5-spinner-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-spinner/ch5-spinner-styling-sass-vars.html">Sass variables</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/ch5-spinner-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-spinner/attribute-size.html">size</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/attribute-icon-position.html">iconPosition</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/attribute-selected-value.html">selectedValue</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/attribute-item-height.html">itemHeight</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/attribute-visible-item-scroll.html">visibleItemScroll</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/attribute-endless.html">endless</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/attribute-resize.html">resize</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-spinner/event-focus-blur-change-dirty.html">focus/blur/change/dirty</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Receive State Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-spinner/receive-signal-value.html">receiveStateValue</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/receive-signal-size.html">receiveStateSize</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/receive-signal-label.html">receiveStateLabel/receiveStateUrl</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Send Event Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-spinner/send-signal-on-focus.html">sendEventOnFocus</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/send-signal-on-change.html">sendEventOnChange</a></li>
+                <li><a href="{{ siteurl }}ch5-spinner/send-signal-on-overflow-underoverflow.html">sendEventOnOverflow/sendEventOnUnderflow</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Methods</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-spinner/methods-submit.html">submit</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-spinner/ch5-spinner-in-angular.html">Angular 2+</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-spinner/ch5-spinner-in-angular.html">ngNonBindable directive</a></li>
+            </ul>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-triggerview-child/send-value.html">CH5 TriggerViewChild</a>
+    </p>
+
+    <ul class="menu-list">
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-triggerview-child/send-value.html">SEND EVENT ATTRIBUTES</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-triggerview-child/send-value.html">sendEventOnShow</a></li>
+
+            </ul>
+        </li>
+
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-triggerview/receive-value.html">RECEIVE STATE ATTRIBUTES</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-triggerview-child/receive-value.html">receiveStateShow</a></li>
+
+            </ul>
+        </li>
+    </ul>
+
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-template/validation.html">CH5 Template</a>
+    </p>
+
+    <ul class="menu-list">
+        <li><a href="{{ siteurl }}ch5-template/validation.html">Validation messages</a></li>
+        <li><a href="{{ siteurl }}ch5-template/receive-send-signal.html">Send and Receive signals</a></li>
+        <li><a href="{{ siteurl }}ch5-template/context-pairs.html">Context Pairs</a></li>
+        <li><a href="{{ siteurl }}ch5-template/ch5-template-in-template.html">CH5-template inside other templates</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}ch5-template/template-in-template-ch5-list.html">CH5-template inside
+                ch5-components</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-template/template-in-template-ch5-list.html">CH5-List</a></li>
+                <li><a href="{{ siteurl }}ch5-template/template-in-template-ch5-spinner.html">CH5-Spinner</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-template/template-in-template-ch5-select.html">CH5-Select</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ siteurl }}ch5-template/other-elements-ch5-triggerview.html">CH5-components inside
+                ch5-template</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-template/other-elements-ch5-triggerview.html">CH5-Triggerview</a></li>
+                <li><a href="{{ siteurl }}ch5-template/other-elements-ch5-image.html">CH5-Image</a></li>
+                <li><a href="{{ siteurl }}ch5-template/other-elements-ch5-form.html">CH5-Form</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-textinput/attribute-placeholder.html">CH5 Textinput</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-textinput/ch5-textinput-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-textinput/ch5-textinput-styling-sass-vars.html">Sass variables</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/ch5-textinput-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-placeholder.html">placeholder</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-icon.html">icon & iconPosition</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-type.html">type</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-required.html">required</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-minmaxlength.html">minLength & maxLength</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-minmaxvalue.html">minValue & maxValue</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-size.html">size</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-stretch.html">stretch</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-scaling.html">scaling</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-mask.html">mask</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-tabindex.html">tabIndex</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-text-transform.html">text-transform</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/attribute-feedbackmode.html">feedbackMode</a></li>
+                <li>
+                    <a href="{{ siteurl }}ch5-textinput/attribute-signal-value-sync-timeout.html">signalValueSyncTimeout</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Receive State Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-textinput/receive-signal-focus.html">receiveStateFocus</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/receive-signal-value.html">receiveStateValue</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Send Event Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-textinput/send-signal-on-focus.html">sendEventOnFocus</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/send-signal-on-change.html">sendEventOnChange</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/send-signal-on-blur.html">sendEventOnBlur</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label">Custom Event</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-textinput/event-change.html">change</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/event-validitychange.html">validitychange</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/event-keypress.html">keypress</a></li>
+                <li><a href="{{ siteurl }}ch5-textinput/event-dirty.html">dirty</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-image/ch5-image-click-event.html">Common</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-textinput/ch5-textinput-common-disable-enable.html">disabled / enabled</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-toggle/ch5-toggle-styling-sass-vars.html">CH5 Toggle</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-toggle/ch5-toggle-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-toggle/ch5-toggle-styling-sass-vars.html">Sass variables</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/ch5-toggle-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-toggle/label.html">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-toggle/label.html">label</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/label-on-off.html">label on/off</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/icon-on-off.html">icon on/off</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/handleShape.html">handleShape</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/orientation.html">orientation</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/value.html">value</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-toggle/receive-value.html">Received Signal Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-toggle/receive-value.html">receiveStateValue</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/receive-label-value.html" style="word-break: break-all">receiveStateScriptLabelHTML</a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-toggle/send-signal-click.html">Send Event Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-toggle/send-signal-click.html">sendEventOnClick</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-toggle/change-event.html">Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-toggle/change-event.html">change</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/click-event.html">click</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/focus-blur-event.html">focus | blur</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/dirty-event.html">dirty</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-toggle/submit-method.html">Methods</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-toggle/submit-method.html">submit</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/reset-method.html">reset</a></li>
+                <li><a href="{{ siteurl }}ch5-toggle/getdirty-method.html">getDirty</a></li>
+            </ul>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-triggerview/ch5-triggerview-styling-sass-vars.html">CH5 TriggerView</a>
+    </p>
+
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-triggerview/ch5-triggerview-styling-sass-vars.html">Styling</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-triggerview/ch5-triggerview-styling-sass-vars.html">Sass variables</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-triggerview/ch5-triggerview-styling-css-classes.html">CSS classes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-triggerview/endless.html">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-triggerview/endless.html">endless</a></li>
+                <li><a href="{{ siteurl }}ch5-triggerview/gestureable.html">gestureable</a></li>
+                <li><a href="{{ siteurl }}ch5-triggerview/active-view.html">activeView</a></li>
+                <li><a href="{{ siteurl }}ch5-triggerview/disable-animation.html">disableAnimation</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-triggerview/send-value.html">SEND EVENT ATTRIBUTES</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-triggerview/send-value.html">sendEventShow&shy;ChildIndex</a></li>
+
+            </ul>
+        </li>
+
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-triggerview/receive-value.html">RECEIVE STATE ATTRIBUTES</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-triggerview/receive-value.html">receiveStateShow&shy;ChildIndex</a></li>
+
+            </ul>
+        </li>
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-triggerview/events.html">Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-triggerview/events.html">select</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a class="menu-label" href="{{ siteurl }}ch5-triggerview/previous-child-method.html">Methods</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-triggerview/previous-next-child-method.html">previousViewChil |
+                        nextViewChild</a></li>
+                <li><a href="{{ siteurl }}ch5-triggerview/set-active-child-method.html">setActiveViewChild</a></li>
+                <li><a href="{{ siteurl }}ch5-triggerview/set-active-method.html">setActiveView</a></li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <p class="menu-label">
+        <a href="{{ siteurl }}ch5-video/ch5-video-indexid.html">CH5 Video</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}ch5-video/ch5-video-indexid.html">Attributes</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-indexid.html">indexId</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-userid.html">userId</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-snapshot-userid.html">snapShotUserId</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-password.html">password</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-snapshot-password.html">snapShotPassword</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-aspectratio.html">aspectRatio</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-stretch.html">stretch</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-url.html">url</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-sourcetype.html">sourceType</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-snapshot-url.html">snapShotUrl</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-size.html">size</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-controls.html">controls</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-snapshot-refreshrate.html">snapshotRefreshRate</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ siteurl }}ch5-video/ch5-video-afterload.html">Events</a>
+            <ul>
+
+            </ul>
+        </li>
+        <li>
+            <a href="{{ siteurl }}ch5-video/ch5-video-receive-state-showpulse.html">Receive States</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-receive-state-select.html">receiveStateSelect</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-receive-state-play.html">receiveStatePlay</a></li>
+                <li>
+                    <a href="{{ siteurl }}ch5-video/ch5-video-receive-state-snapshot-url.html">receiveStateSnapShotURL</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-receive-state-url.html">receiveStateUrl</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-receive-state-sourcetype.html">receiveStateSourceType</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-receive-state-snapshot-refreshrate.html">receiveStateSnapShotRefreshRate</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-receive-state-userid.html">receiveStateUserId</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-receive-state-snapshot-userid.html">receiveStateSnapShotUserId</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-receive-state-password.html">receiveStatePassword</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-receive-state-snapshot-password.html">receiveStateSnapShotPassword</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ siteurl }}ch5-video/ch5-video-send-event-onshow.html">Send Events</a>
+            <ul>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-onclick.html">sendEventOnClick</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-onerror.html">sendEventOnError</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-state.html">sendEventState</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-snapshot-url.html">sendEventSnapShotUrl</a>
+                </li>
+                <li>
+                    <a href="{{ siteurl }}ch5-video/ch5-video-send-event-selection-change.html">sendEventSelectionChange</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-selection-sourcetype.html">sendEventSelectionSourceType</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-selection-url.html">sendEventSelectionURL</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-error-code.html">sendEventErrorCode</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-error-message.html">sendEventErrorMessage</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-retry-count.html">sendEventRetryCount</a></li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-resolution.html">sendEventResolution</a></li>
+                <li>
+                    <a href="{{ siteurl }}ch5-video/ch5-video-send-event-snapshot-status.html">sendEventSnapShotStatus</a>
+                </li>
+                <li><a href="{{ siteurl }}ch5-video/ch5-video-send-event-snapshot-last-update-time.html">sendStateSnapShotLastUpdateTime</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <p class="menu-label">
+        <a href="{{ siteurl }}join-numbers-as-signal-names/utility-functions.html">Join Numbers as Signal Names</a>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{{ siteurl }}join-numbers-as-signal-names/utility-functions.html">Utility functions</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}join-numbers-as-signal-names/receive-signal-attributes.html">receiveState*
+                attributes</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}join-numbers-as-signal-names/ch5-data-attrs.html">data-ch5-* attributes</a>
+        </li>
+        <li>
+            <a href="{{ siteurl }}join-numbers-as-signal-names/variable-nr-of-signals.html">Variable number of
+                signals</a>
+        </li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}playground.html">Playground</a>
+    </p>
+    <ul class="menu-list">
+        <li><a href="{{ siteurl }}playground.html">Playground</a></li>
+    </ul>
+    <p class="menu-label">
+        <a href="{{ siteurl }}multi-language/language-change.html">Multi Language Support</a>
+    </p>
+    <ul class="menu-list">
+        <li><a href="{{ siteurl }}multi-language/language-change.html">Language Change</a></li>
+    </ul>
+</aside>

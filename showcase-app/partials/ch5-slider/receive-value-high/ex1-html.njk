@@ -1,0 +1,32 @@
+<div class="content">
+    <p>
+        The buttons change the value of <b>receive_slider_value</b> and <b>receive_slide_value_high</b> ( See the Emulator section )
+    </p>
+    <p>
+        <ch5-button label="Value -50" sendEventOnClick="trig1"></ch5-button>
+    </p>
+    <p>
+        <ch5-button label="RCB Value 25" sendEventOnClick="trig2"></ch5-button>
+    </p>
+    <p>
+        <ch5-button label="High Value 50" sendEventOnClick="trig3"></ch5-button>
+    </p>
+    <p>
+        <ch5-button label="RCB High Value 100" sendEventOnClick="trig4"></ch5-button>
+    </p>
+</div>
+<ch5-slider
+    value="0"
+    valueHigh="75"
+    step="25"  
+    min="-50"
+    max="100"
+    range="true"
+    toolTipShowType="on"
+    toolTipDisplayType="value"
+    sendEventOnChange="slider_value_on_change"
+    receiveStateValue="receive_slider_value"
+    sendEventOnChangeHigh="slider_value_high_on_change"
+    receiveStateValueHigh="receive_slider_value_high"
+    >
+</ch5-slider> 

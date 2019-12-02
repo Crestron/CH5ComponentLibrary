@@ -1,0 +1,19 @@
+{% raw %}
+    <p>Toggle the ch5-select between being <i>enabled</i> / <i>disabled</i>. While the select is disabled click / touch
+        events
+        will not be triggered (pointer-events: none) and the opacity value is lowered.</p>
+    <ch5-button label="Click to change the toggle_enabled_or_disabled signal" sendEventOnClick="toggle_enabled_or_disabled"></ch5-button>
+    <p>The ch5-select below is initially disabled via the <b>'disabled'</b> attribute.</p>
+
+    <ch5-select disabled receiveStateEnable="set_enabled_or_disabled" minWidth="250px" maxWidth="350px"
+                minHeight="36px" maxHeight="48px"
+                size="5" indexId="idx" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option>
+                <div>
+                    <span>item_{{idx}}</span>
+                </div>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+{% endraw %}

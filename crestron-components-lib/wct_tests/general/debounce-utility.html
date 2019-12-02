@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<script>
+    suite('Debounce utility tests', function() {
+      let counter;
+      let callbackExecTimes;
+      let counterUpdateCallback;
+      setup(() => {
+          counter = 0;
+          callbackExecTimes = 0;
+          counterUpdateCallback = () => {
+            counter++;
+          };
+      });
+
+      test('counterUpdateCallback will be executed just once even it is called multiple times', function(done) {
+        const debouncer = {};  
+        // scenario: counterUpdateCallback is a function that can be called multiple times in 20 milliseconds
+        // it will run just once
+        while(callbackExecTimes < 10) {
+          CrComLib.debounce(debouncer, counterUpdateCallback, 20);
+          callbackExecTimes++;
+        }
+        
+        setTimeout(() => {
+          expect(callbackExecTimes).to.equal(10);
+          expect(counter).to.equal(1);
+          done();
+        }, 25);
+      });
+
+      test('If debounceTime passed and counterUpdateCallback is still called, debounce restarts', function(done) {
+        const debouncer = {};  
+        // scenario: if debounceTiime passed, debounce job restarts, 
+        // counterUpdateCallback is executed once per 20 milliseconds interval
+        let i = 0;
+        let execInterval = setInterval(() => {
+          CrComLib.debounce(debouncer, counterUpdateCallback, 20);
+          i++;
+          if (i > 5) {
+            clearInterval(execInterval);
+          }
+        }, 5);
+        
+        setTimeout(() => {
+          expect(counter).to.equal(2);
+          done();
+        }, 55);
+      });
+
+    });
+</script>
+</body>
+</html>

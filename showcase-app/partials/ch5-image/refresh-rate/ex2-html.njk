@@ -1,0 +1,17 @@
+<p> The following buttons hide/show two of the ancestors of the ch5-image element by adding/removing a css class defining display:none</p>
+<p>If the ancestor becomes visible again before the refresh interval has passed the ch5-image will display briefly the last image before refeshing a new one </p>
+<p>If at least a refresh interval passed while the ancestor becomes is hidden the ch5-image will override its source with an empty value and display nothing
+until the next refresh</p>
+<ch5-button id="ex2-btn1" label="hide/show grandparent"></ch5-button>
+<ch5-button id="ex2-btn2" label="hide/show parent"></ch5-button>
+
+<div id="grand-parent">
+    <div id="parent">
+        <ch5-image
+                id="ex2-img"
+                debug
+                refreshRate="5"
+                url="https://picsum.photos/200/300/?random">
+        </ch5-image>
+    </div>
+</div>

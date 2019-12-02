@@ -1,0 +1,7 @@
+--compiler ts:tsc
+--reporter spec
+--ui bdd
+--recursive
+--require jsdom-global/register
+compiled_bundles/umd/**/*.spec.js
+

@@ -1,0 +1,26 @@
+{% raw %}
+(function($, CrComLib){
+
+    var code1El = $('#code1');
+    var code2El = $('#code2');
+    var code3El = $('#code3');
+    var res1El = $('#res1');
+    var res2El = $('#res2');
+    var res3El = $('#res3');
+
+    var city="New York";
+
+    var res1Val = CrComLib.textformat('City: {1}',city);
+    var res2Val = CrComLib.textformat('{1} is {2}','Signal', false);
+    var res3Val = CrComLib.textformat(' {3}, a number value: {2} , string from signal: {1}, the number value again: {2} ', CrComLib.getStringSignalValue('sig_string'), 5, 'thirdParam');
+
+    code1El.text("var city='New York';CrComLib.textformat('City: {1}',city);");
+    code2El.text("CrComLib.textformat('{1} is {2}','Signal', false);");
+    code3El.text("CrComLib.textformat(' {3}, a number value: {2} , string from signal: {1}, the number value again: {2} ', CrComLib.getStringSignalValue('sig_string'), 5, 'thirdParam');");
+
+    res1El.text(res1Val);
+    res2El.text(res2Val);
+    res3El.text(res3Val);
+
+})(jQuery,CrComLib);
+{% endraw %}

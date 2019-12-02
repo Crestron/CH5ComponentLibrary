@@ -1,0 +1,27 @@
+---
+title: "ch5-image styling"
+---
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>CSS Class</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ch5-image</td>
+            <td>Added automatically on the first child of the ch5-image element</td>
+        </tr>
+        <tr>
+            <td>ch5-image--disabled</td>
+            <td>Added automatically based on the <i>disabled</i> attribute or by <i>receiveStateEnable</i></td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

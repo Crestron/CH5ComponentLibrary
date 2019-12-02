@@ -1,0 +1,136 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "s008_sig1_b",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s008_sig2_o",
+          "type": "o",
+          "logic": "link"
+        },
+        {
+          "state": "s008_sig3_o",
+          "type": "o",
+          "logic": "set",
+          "value": {
+            "s1":"value1",
+            "n1":101,
+            "b1":true
+          }
+        }
+      ]
+    },
+    {
+      "type": "n",
+      "event": "s008_sig4_n",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s008_sig5_o",
+          "type": "b",
+          "logic": "link"
+        },
+        {
+          "state": "s008_sig6_o",
+          "type": "o",
+          "logic": "set",
+          "value": {
+            "s2":"value2"
+          }
+        }
+      ]
+    },
+    {
+      "type": "s",
+      "event": "s008_sig7_s",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s008_sig8_o",
+          "type": "o",
+          "logic": "link"
+        },
+        {
+          "state": "s008_sig9_o",
+          "type": "o",
+          "logic": "set",
+          "value": {
+            "s3":"value3"
+          }
+        }
+      ]
+    },
+    {
+      "type": "o",
+      "event": "s008_sig10_o",
+      "trigger": {
+        "s1":"value1",
+        "n1":11
+      },
+      "actions": [
+        {
+          "state": "s008_sig11_b",
+          "type": "b",
+          "logic": "set",
+          "value": true
+        },
+        {
+          "state": "s008_sig12_n",
+          "type": "n",
+          "logic": "increment",
+          "offset": 7
+        }
+      ]
+    },
+    {
+      "type": "o",
+      "event": "s008_sig13_o",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s008_sig14_n",
+          "type": "n",
+          "logic": "increment",
+          "offset": 10
+        }
+      ]
+    },
+    {
+      "type": "o",
+      "event": "s008_sig15_o",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "s008_sig16_n",
+          "type": "n",
+          "logic": "increment",
+          "offset": 3
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "b",
+      "state": "s008_sig1_b",
+      "value": true
+    },
+    {
+      "type": "n",
+      "state": "s008_sig4_n",
+      "value": 100
+    },
+    {
+      "type": "s",
+      "state": "s008_sig7_s",
+      "value": "hello"
+    },
+    {
+      "type": "o",
+      "state": "s008_sig15_o",
+      "value": {"nKey":3}
+    }
+  ]
+}

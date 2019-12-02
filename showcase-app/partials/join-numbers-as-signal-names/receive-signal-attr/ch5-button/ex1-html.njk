@@ -1,0 +1,30 @@
+{% raw %}
+<div class="content">
+    <h3>ch5-button</h3>
+    <div>
+        <h4>receiveStateSelected</h4>
+        <ch5-button type="info" label="Toggle selected by sending event '22'"
+            sendEventOnClick="22"></ch5-button>
+        <ch5-button type="success" label="Btn with receiveStateSelected='22'"
+        receiveStateSelected="22"></ch5-button>
+    </div>
+    <br/>
+    <div>
+        <h4>receiveStatelabel</h4>
+        Button with receiveStateLabel attribute set to <b>23</b>
+        <ch5-button type="info"
+            label="ReceiveLabelFromSignal"
+            receiveStateLabel="23"></ch5-button>
+    </div>
+    <br/>
+    <div>
+        <h4>receiveStateScriptLabelHtml</h4>        
+        Button with receiveStateScriptLabelHtml attribute set to <b>24</b><br>
+        <ch5-button type="info"
+            label="ReceiveHtmlScriptLabelFromSignal"
+            receiveStateScriptLabelHtml="24"></ch5-button>
+    </div>
+    <br/>
+
+</div>
+{% endraw %}
