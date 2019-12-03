@@ -333,7 +333,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      */
     receiveStateSnapShotURL: string;
 
-    /**
+	/**
      * @name receivestateplay
      * @documentation
      * [
@@ -346,7 +346,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      */
     receiveStatePlay: string;
 
-    /**
+	/**
      * @name receivestateselect
      * @documentation
      * [
