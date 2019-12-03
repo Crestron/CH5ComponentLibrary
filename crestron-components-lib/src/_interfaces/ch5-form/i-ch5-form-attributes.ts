@@ -15,7 +15,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
 
   /**
    * @name submitbuttonlabel
-   * @documention
+   * @documentation
    * [
    * "`submitbuttonlabel` attribute",
    * "***",
@@ -26,7 +26,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
 
   /**
    * @name submitbuttonicon
-   * @documention
+   * @documentation
    * [
    * "`submitbuttonicon` attribute",
    * "***",
@@ -37,7 +37,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
 
   /**
    * @name submitbuttonstyle
-   * @documention
+   * @documentation
    * [
    * "`submitbuttonStyle` attribute",
    * "***",
@@ -45,7 +45,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * ]
    */
   submitButtonStyle: string;
-    
+
   /**
    * @name submitbuttontype
    * @documentation
@@ -59,7 +59,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
 
   /**
    * @name cancelbuttonlabel
-   * @documention
+   * @documentation
    * [
    * "`cancelbuttonlabel` attribute",
    * "***",
@@ -70,7 +70,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
 
   /**
    * @name cancelbuttonicon
-   * @documention
+   * @documentation
    * [
    * "`cancelbuttonicon` attribute",
    * "***",
@@ -81,7 +81,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
 
   /**
    * @name cancelbuttonstyle
-   * @documention
+   * @documentation
    * [
    * "`cancelbuttonstyle` attribute",
    * "***",
@@ -103,7 +103,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
 
   /**
    * @name submitid
-   * @documention
+   * @documentation
    * [
    * "`submitid` attribute",
    * "***",
@@ -114,7 +114,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
 
   /**
    * @name cancelid
-   * @documention
+   * @documentation
    * [
    * "`cancelId` attribute",
    * "***",
