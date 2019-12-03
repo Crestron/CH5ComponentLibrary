@@ -1,3 +1,4 @@
+$( document ).ready(function() {
 var input = document.querySelector("#phoneNumber input");
 var p = document.createElement('p');
 input.parentNode.parentNode.parentNode.appendChild(p);
@@ -21,7 +22,7 @@ input.addEventListener('blur', function(e) {
 input.addEventListener('maskerror', function(e) {
     this.parentNode.parentNode.parentNode.querySelector('p').classList.remove('hidden');
 
-  
+
   this.parentNode.parentNode.parentNode.querySelector('p').classList.add('invalid-text');
   this.parentNode.parentNode.parentNode.querySelector('p').classList.remove('valid-text');
 
@@ -35,3 +36,4 @@ input.addEventListener('maskcomplete', function(e) {
 
     this.parentNode.parentNode.parentNode.querySelector('p').innerHTML = '<span class="fa fa-check"></span> Phone number is valid';
 })
+});

@@ -1,3 +1,4 @@
+$( document ).ready(function() {
 var input = document.querySelector("#zipCode input");
 var p = document.createElement('p');
 input.parentNode.parentNode.parentNode.appendChild(p);
@@ -35,3 +36,4 @@ input.addEventListener('maskcomplete', function(e) {
 
     this.parentNode.parentNode.parentNode.querySelector('p').innerHTML = '<span class="fa fa-check"></span> Zipcode is valid';
 })
+});
