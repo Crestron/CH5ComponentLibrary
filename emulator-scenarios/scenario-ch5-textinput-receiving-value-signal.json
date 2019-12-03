@@ -2,7 +2,7 @@
     "cues": [
       {
         "type": "b",
-        "event": "trigger",
+        "event": "trig1",
         "trigger": true,
         "actions": [
           {
