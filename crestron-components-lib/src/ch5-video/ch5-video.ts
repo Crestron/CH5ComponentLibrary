@@ -2783,15 +2783,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             return;
         }
 
-        // Return if the current status and last status is same
-        if (this.responseObj.status === this.lastResponseStatus) {
+        // Return if the current status and last status is same, exception while retrying
+        if (this.responseObj.status === this.lastResponseStatus &&
+            (this.responseObj.status !== "retrying" || this.responseObj.status !== "retrying connection")) {
             return;
         }
+
         this.info("Video Response : " + JSON.stringify(this.responseObj));
         const responseStatCode: number = this.responseObj.statusCode;
         this.isVideoReady = true;
-        const responseStatus = this.responseObj.status;
-        switch (responseStatus.toLowerCase()) {
+        const responseStatus = this.responseObj.status.toLowerCase();
+        switch (responseStatus) {
             case 'stopped':
                 this.retryCount = 0;
                 this.isVideoReady = false;
@@ -2842,6 +2844,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.lastUpdatedStatus === 'start') {
                     this.sendEvent(this.sendEventState, 6, 'number');
                 }
+                this.sendEvent(this.sendEventRetryCount, this.retryCount++, 'number');
                 break;
             case 'resizing':
                 this.isVideoReady = false;
@@ -2868,7 +2871,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     if (this.sendEventErrorMessage && this.responseObj.status) {
                         this.sendEvent(this.sendEventErrorMessage, this.responseObj.status, 'string');
                     }
-                    this.sendEvent(this.sendEventRetryCount, this.retryCount++, 'number');
                 }
                 this.isVideoReady = false;
                 this.isImageReady = true;
@@ -2876,8 +2878,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             default:
                 this.isVideoReady = false;
                 this.isImageReady = true;
+                // Try to start the video when the error code is within the below range
                 if (responseStatCode < 0 && responseStatCode >= -1000) {
                     this.publishVideoEvent("start");
+                    this.sendEvent(this.sendEventRetryCount, this.retryCount++, 'number');
+                }
+
+                // Increment the retryCount and send the feedback
+                if (responseStatus === "retrying connection") {
                     this.sendEvent(this.sendEventRetryCount, this.retryCount++, 'number');
                 }
                 break;
