@@ -120,6 +120,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private controlsRight: HTMLElement = {} as HTMLElement;
     private liveCard: HTMLElement = {} as HTMLElement;
     private onScreenPlayStatus: HTMLElement = {} as HTMLElement;
+    private preLoader: HTMLElement = {} as HTMLElement;
     private snapShotTimer: any;
 
     private subscriptionEventList: Subscription[] = [];
@@ -2204,6 +2205,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.snapShotUrl) {
             this.videoImage = document.createElement("img");
         }
+        this.preLoader = document.createElement("div");
+        this.preLoader.classList.add('preLoader');
+        this.videoCanvas.appendChild(this.preLoader);
+        this.preLoader.style.visibility = 'hidden';
+        this.preLoader.style.backgroundColor = "#ff0000";
+        // this.preLoader.style.width = window.innerWidth + "px";
+        // this.preLoader.style.height = window.innerHeight + "px";
     }
 
     /**
@@ -2520,6 +2528,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const doSubscribe = Ch5Video.EVENT_LIST.subscribe((event: Event) => {
             this.subscriptionEventList.push(doSubscribe);
             if (event.type === EVideoWindowEvents.RESIZE_EVENT) {
+                if (this.isFullScreen) {
+                    this.preLoader.style.visibility = 'visible';
+                }
                 this.isOrientationChanged = true;
                 this.videoVisibilityInViewport();
             }
@@ -2777,6 +2788,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const responseStatCode: number = this.responseObj.statusCode;
         this.isVideoReady = true;
         const responseStatus = this.responseObj.status;
+        this.preLoader.style.visibility = 'hidden';
         switch (responseStatus.toLowerCase()) {
             case 'stopped':
                 this.retryCount = 0;
