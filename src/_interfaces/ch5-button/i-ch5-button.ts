@@ -18,7 +18,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * [
  *   "`ch5-button` element",
  *   "***",
- *   "Extension to standard HTML ch5-button element with icons and simple formats."
+ *   "This element is an extension to the standard HTML ch5-button element with icons and simple formats."
  * ]
  * @snippets
  * [
@@ -72,7 +72,7 @@ export interface ICh5Button extends ICh5ButtonAttributes, ICh5Common {
    * [
    * "`onpress` attribute",
    * "***",
-   * "Run when press event is fired"
+   * "Run when a press event is initiated."
    * ]
    * @name onpress
    */
@@ -83,7 +83,7 @@ export interface ICh5Button extends ICh5ButtonAttributes, ICh5Common {
    * [
    * "`onrelease` attribute",
    * "***",
-   * "Run when release event is fired"
+   * "Run when a release event is initiated."
    * ]
    * @name onrelease
    */
@@ -95,8 +95,8 @@ export interface ICh5Button extends ICh5ButtonAttributes, ICh5Common {
    * "`selected` attribute",
    * "***",
    * "Default false.",
-   * "this property reflects the state of the component. If set to true",
-   * "'ch5-button--selected' will be applied as css class on the component"
+   * "This property reflects the state of the component. If set to true, ",
+   * "'ch5-button--selected' will be applied as CSS class on the component."
    * ]
    * @name selected
    */
@@ -107,7 +107,7 @@ export interface ICh5Button extends ICh5ButtonAttributes, ICh5Common {
    * [
    * "`customclassselected` attribute",
    * "***",
-   * "Specify custom class for the selected state of the button"
+   * "Specifies a custom class for the selected state of the button."
    * ]
    * @name customclassselected
    */
