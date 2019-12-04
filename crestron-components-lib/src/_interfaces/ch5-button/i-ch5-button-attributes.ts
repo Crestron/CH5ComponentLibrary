@@ -19,7 +19,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`size` attribute",
      *  "***",
-     *  "Overrides the appearance of the button with alternative css defined in classes defined with ch5-button--size where size is the value of the property.If no `size` is provided, type of `default` is used."
+     *  "Overrides the appearance of the button with alternative CSS that is defined in classes with ch5-button--size, where size is the value of the property. If no `size` is provided, the type `default` is used."
      * ]
      */
     size: TCh5ButtonSize;
@@ -29,7 +29,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`label` attribute",
      * "***",
-     * "Label value"
+     * "The value of the label."
      * ]
      * @name label
      */
@@ -40,7 +40,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`icon` attribute",
      * "***",
-     * "Icon class"
+     * "The class of the icon."
      * ]
      * @name iconclass
      */
@@ -51,9 +51,9 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`iconposition` attribute",
      * "***",
-     * "Default left",
+     * "The default value ie left.",
      * "Valid values: first, last, top, bottom.",
-     * "Icon position relative to the label."
+     * "Sets the icon position relative to the label."
      * ]
      * @name iconposition
      */
@@ -64,7 +64,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`iconurl` attribute",
      * "***",
-     * "Attribute used for add a svg image"
+     * "Used to add a SVG image."
      * ]
      * @name iconurl
      */
@@ -75,10 +75,10 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`orientation` attribute",
      * "***",
-     * "Default 'horizontal'. Valid values horizontal, vertical. Lays out",
-     * "the elements of the control in a horizontal or vertical manner.",
-     * "For vertical alignment it will apply a css class that will rotate the ",
-     * "component -90 degrees ( 270 degrees clockwise, 90 degrees counter clockwise )."
+     * "The default value is 'horizontal'. Valid values: horizontal, vertical. ",
+     * "Set the control elements in a horizontal or vertical orientation.",
+     * "For vertical alignment, a CSS class is applied that will rotate the ",
+     * "component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)."
      * ]
      * @name orientation
      */
@@ -89,8 +89,8 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`shape` attribute",
      * "***",
-     * "Default rounded-rectangle. Valid values: rounded-rectangle,",
-     * "rectangle, tab, circle, oval. Shape of the button."
+     * "The default value is rounded-rectangle. Valid values: rounded-rectangle,",
+     * "rectangle, tab, circle, oval. Sets the shape of the button."
      * ]
      * @name shape
      */
@@ -101,14 +101,14 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`stretch` attribute",
      * "***",
-     * "Default both. Valid values: width, height, both",
-     * "When stretch property is set, the button element inherits the",
-     * "width or/and height of the container. If stretch by height is used,",
-     * "the button will be responsive based on the label length, until",
-     * "reaches the max-width of the container. If stretch width is",
-     * "applied, there is no responsiveness after reaching the maxwidth,",
-     * "the text will overflow. Same if stretch both is used. Note",
-     * "that, if button element shape is 'circle' or 'ova', stretch",
+     * "The default value is both. Valid values: width, height, both.",
+     * "When the stretch property is set, the button element inherits the",
+     * "width and/or height of the container. If stretch by height is used,",
+     * "the button will be responsive based on the label length until",
+     * "it reaches the max-width of the container. If stretch width is",
+     * "applied, there is no responsiveness after reaching the max-width, and",
+     * "the text will overflow. The same applies if stretch both is used.",
+     * "Note that if the button element shape is 'circle' or 'oval', the stretch ",
      * "property will be ignored."
      * ]
      * @name stretch
@@ -120,11 +120,11 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`type` attribute",
      * "***",
-     * "Valid values: default, info, text, danger, warning, success,primary, secondary.",
-     * "overrides the appearance of the button with alternative css",
-     * "defined in classes defined with ch5-button--type where type is",
-     * "the value of the property. If no 'type' is provided, type of",
-     * "'default' is used. "
+     * "Valid values: default, info, text, danger, warning, success, primary, secondary.",
+     * "Overrides the appearance of the button with alternative CSS ",
+     * "defined in classes with ch5-button--type, where type is",
+     * "the value of the property. If no 'type' is provided, the type",
+     * "'default' is used."
      * ]
      * @name type
      */
@@ -135,7 +135,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestateselected` attribute",
      * "***",
-     * "When receive apply true value apply the selected class ( ch5-button--selected"
+     * "When an apply true value is received, this property applies the selected class (ch5-button--selected)."
      * ]
      * @name receivestateselected
      */
@@ -146,7 +146,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestatelabel` attribute",
      * "***",
-     * "When receive apply the value on the label"
+     * "When received, the property applies the value on the label."
      * ]
      * @name receivestatelabel
      */
@@ -157,8 +157,8 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestatescriptlabelhtml` attribute",
      * "***",
-     * "Signal script evaluation will be applied to the",
-     * "button.innerHTML. Allows for multiline, multistyled labels. "
+     * "A signal script evaluation will be applied to the",
+     * "button.innerHTML. Allows for multiline, multistyled labels."
      * ]
      * @name receivestatescriptlabelhtml
      */
@@ -169,10 +169,10 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`sendeventonclick` attribute",
      * "***",
-     * "Sends event on click or tap event (mouse or finger up and down in a small period of time).",
-     * "Use this when control system takes action on rising edge from false to true of boolean digital event.",
-     * "Examples include SIMPL Logic Symbol for Toggle with description of",
-     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'"
+     * "Sends an on-click or tap event (mouse or swipe up and down in a short duration).",
+     * "Use this when the control system takes an action on rising edge from false to true of a boolean digital event.",
+     * "Examples include SIMPL Logic Symbol for Toggle with a description of ",
+     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
      * @name sendeventonclick
      */
@@ -183,10 +183,10 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`sendeventontouch` attribute",
      * "***",
-     * "Sends boolean true event when finger on glass and boolean false event when finger released",
-     * "Use this when control system takes action on level sensitive boolean digital event",
-     * "Examples include SIMPL Logic Symbol for Analog Ramp with description of",
-     * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'"
+     * "Sends a boolean true event upon touching the screen and boolean false event upon released.",
+     * "Use this when control system takes an action on a level-sensitive boolean digital event.",
+     * "Examples include SIMPL Logic Symbol for Analog Ramp with a description of ",
+     * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
      * ]
      * @name sendeventontouch
      */
@@ -205,7 +205,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestateiconclass` attribute",
      * "***",
-     * "The icon class received from Control System"
+     * "Sets the icon class received from the control system."
      * ]
      * @name receivestateiconclass
      */
@@ -216,8 +216,8 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestatetype` attribute",
      * "***",
-     * "when receive stateType value from control system, value is applied to the type attribute.",
-     * "See description of the type attribute."
+     * "When a stateType value is received from the control system, this value is applied to the type attribute.",
+     * "See the description of the type attribute."
      * ]
      * @name receivestatetype
      */
@@ -228,8 +228,8 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestateiconurl` attribute",
      * "***",
-     * "When receive stateIconUrl value from control system, value is applied to the iconUrl attribute.",
-     * "See description of the iconUrl attribute."
+     * "When a stateIconUrl value is received from the control system, this value is applied to the iconUrl attribute.",
+     * "See the description of the iconUrl attribute."
      * ]
      * @name receivestateiconurl
      */
@@ -240,7 +240,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`customclasspressed` attribute",
      * "***",
-     * "Name of CSS class applied while the button is pressed by user."
+     * "Sets the name of the CSS class applied while the button is pressed by the user."
      * ]
      * @name customclasspressed
      */
@@ -251,7 +251,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`customclassdisabled` attribute",
      * "***",
-     * "Name of CSS class applied while the button is disabled."
+     * "Sets the name of the CSS class applied while the button is disabled."
      * ]
      * @name customclassdisabled
      */
