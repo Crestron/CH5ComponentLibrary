@@ -2567,7 +2567,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             subscription.unsubscribe();
         });
         // Stop the Video
-        this.isVideoReady = false;
+        this._receiveStatePlay = "false";
+        this.publishVideoEvent("stop");
     }
 
     /**
