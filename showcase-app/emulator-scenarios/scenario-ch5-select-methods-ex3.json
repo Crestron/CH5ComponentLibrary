@@ -1,0 +1,78 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "item_0_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "item_0_selected",
+          "type": "boolean",
+          "trigger": true,
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "item_1_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "item_1_selected",
+          "type": "boolean",
+          "trigger": true,
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "item_2_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "item_2_selected",
+          "type": "boolean",
+          "trigger": true,
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "item_3_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "item_3_selected",
+          "type": "boolean",
+          "trigger": true,
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "b",
+      "state": "item_0_selected",
+      "value": false
+    },
+    {
+      "type": "b",
+      "state": "item_1_selected",
+      "value": false
+    },
+    {
+      "type": "b",
+      "state": "item_2_selected",
+      "value": false
+    },
+    {
+      "type": "b",
+      "state": "item_3_selected",
+      "value": false
+    }
+  ]
+}

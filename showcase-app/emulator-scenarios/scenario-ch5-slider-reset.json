@@ -1,0 +1,16 @@
+{
+    "cues": [
+      {
+        "type": "number",
+        "event": "send_signal_on_submit",
+        "trigger": "&change",
+        "actions": [
+          {
+            "state": "received_signal_value",
+            "type": "number",
+            "logic": "link"
+          }
+        ]
+      }
+    ]
+}

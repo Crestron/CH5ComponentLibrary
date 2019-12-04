@@ -1,0 +1,45 @@
+<div class="row">
+    <p>
+        <strong>Note:</strong> Each option select/unselect should be confirmed by receiveStateSelected.
+        If selection is confirmed within signalValueSyncTimeout time, the selection will reset to the
+        last confirmed selections. <br><br>
+        In the next demo example only option 2 and 4 will receive receiveStateSelected.
+    </p>
+</div>
+<div class="row">
+    {% raw %}
+    <ch5-select id="multi_select_panel" size="5" indexId="Idx" multiselect mode="panel" noneSelectedPrompt="Select">
+         <template>
+                <ch5-select-option receiveStateSelected="option_{{Idx}}_selected"
+                                    sendEventOnClick="option_{{Idx}}_on_click"
+                                    receiveStateLabel="label_signal_{{Idx}}">
+                    <span>{{label}}</span>
+                </ch5-select-option>
+         </template>
+    </ch5-select>
+    {% endraw %}
+    <p style="margin-top: 24px;">
+        Using receiveStateSelected signal, this btn will trigger option 2 and 4 toggle selection
+    </p>
+    <p><ch5-button label="Toggle 2 and 4 selection" sendEventOnClick="updateSelection"></ch5-button></p>
+</div>
+
+<div class="row">
+    <p>
+        <strong>Multiselect in plain mode</strong>
+    </p>
+</div>
+<div class="row">
+    {% raw %}
+    <ch5-select id="multi_select_plain" size="15" indexId="Idx"
+                 multiselect noneSelectedPrompt="Select option(s)">
+         <template>
+                <ch5-select-option receiveStateSelected="option_2_{{Idx}}_selected"
+                                    sendEventOnClick="option_2_{{Idx}}_on_click"
+                                    receiveStateLabel="label_signal_{{Idx}}">
+                    <span>Option {{Idx}}</span>
+                </ch5-select-option>
+         </template>
+    </ch5-select>
+    {% endraw %}
+</div>

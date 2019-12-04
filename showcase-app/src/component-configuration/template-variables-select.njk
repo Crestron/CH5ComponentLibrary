@@ -1,0 +1,21 @@
+---
+title: "Component Configuration: template variables for ch5-select"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+
+    {#{% set scenario1 -%}#}
+    {#{%- include "./partials/component-configuration/template-vars/scenario-component-config-template-vars.json" %}#}
+    {#{%- endset %}#}
+    {#{% call emulatorScenarioSection(scenario1) %}{% endcall %}#}
+    {% set configJson -%}
+        {%- include "./partials/component-configuration/template-vars-select/config-template-vars-select.json" %}
+    {%- endset %}
+    {% call componentConfigurationSection(configJson) %}{% endcall %}
+
+
+    {% call exampleSectionFromPartials('component-configuration/template-vars-select/','ex1', true) %}{% endcall %}
+
+{% endblock %}

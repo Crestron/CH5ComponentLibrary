@@ -1,0 +1,22 @@
+button1 = document.querySelector('[type="danger"]');
+button2 = document.querySelector('[type="info"]');
+
+button1.addEventListener('press', function(e){
+    console.log('button press event: ', e); 
+});
+
+button1.addEventListener('click', function(e){
+    console.log('button click event: ', e); 
+});
+
+button1.addEventListener('release', function(e){
+    console.log('button release event: ', e); 
+});
+
+button2.addEventListener('focus', function(e){
+    console.log('button focus event: ', e); 
+});
+
+button2.addEventListener('blur', function(e){
+    console.log('button blur event: ', e); 
+});

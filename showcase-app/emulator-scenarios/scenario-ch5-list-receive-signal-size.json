@@ -1,0 +1,42 @@
+{
+  "cues": [
+      {
+        "type": "boolean",
+        "event": "trigV1",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "sigV1",
+            "type": "number",
+            "logic": "increment",
+            "offset": 5
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "event": "trigH1",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "sigH1",
+            "type": "number",
+            "logic": "increment",
+            "offset": 5
+          }
+        ]
+      }
+  ],
+  "onStart": [
+    {
+      "type": "number",
+      "state": "sigV1",
+      "value": 10
+    },
+    {
+      "type": "number",
+      "state": "sigH1",
+      "value": 10
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-triggerview-gestureable-fixture">
+    <template>
+        <ch5-triggerview> 
+            <ch5-triggerview-child> First View </ch5-triggerview-child > 
+            <ch5-triggerview-child> Second View </ch5-triggerview-child >
+            <ch5-triggerview-child> Third View </ch5-triggerview-child >  
+        </ch5-triggerview>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-triggerview-gestureable-invalid-fixture">
+    <template>
+        <ch5-triggerview gestureable="randomgestureable"> 
+            <ch5-triggerview-child> First View </ch5-triggerview-child > 
+            <ch5-triggerview-child> Second View </ch5-triggerview-child >
+            <ch5-triggerview-child> Third View </ch5-triggerview-child >  
+        </ch5-triggerview>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-triggerview gestureable', function() {
+        let ch5TriggerView;
+        let ch5TriggerViewChild;
+
+        setup(() => {
+            ch5TriggerView = fixture('ch5-triggerview-gestureable-fixture');
+            ch5TriggerViewChild = document.querySelectorAll('ch5-triggerview-child');
+        });
+
+        test('Default gestureable is "false"', function() {
+            expect(ch5TriggerView.gestureable).to.be.equal(false);
+        });
+
+        test('gestureable "true"', function() {
+            ch5TriggerView.setAttribute('gestureable', true);
+            expect(ch5TriggerView.gestureable).to.be.equal(true);
+        });
+    });
+
+    suite('ch5-triggerview invalid gestureable', function() {
+        let ch5TriggerView;
+        let ch5TriggerViewChild;
+        
+        setup(() => {
+            ch5TriggerView = fixture('ch5-triggerview-gestureable-invalid-fixture');
+            ch5TriggerViewChild = document.querySelectorAll('ch5-triggerview-child');
+        });
+
+        // testing with a random value in a gestureable attribute
+        test('Invalid gestureable should be switched to default "false"', function() {
+            expect(ch5TriggerView.gestureable).to.be.equal(false);
+        })
+    })
+</script>
+</body>
+</html>

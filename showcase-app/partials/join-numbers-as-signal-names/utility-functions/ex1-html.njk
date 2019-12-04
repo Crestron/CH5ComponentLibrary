@@ -1,0 +1,90 @@
+<div class="content">
+    <details>
+        <summary class="summary-h5">subscribeState and unsubscribeState methods</summary>
+        <i class="info"><b>subscribeState</b>(signalType: TSignalNonStandardTypeName, signalName: string,
+            callback: TAllSignalSubscriptionUpdateCallbacks,
+            errCallback?: TAllSignalSubscriptionUpdateCallbacks): string</i>
+        <i class="info"><b>unsubscribeState</b>(signalType:TSignalNonStandardTypeName, signalName:string,
+            subscriptionId:string):void </i>
+    </details>
+    <p>Target element <i>(div#target)</i> content will be updated using a subscription with a join number state name.
+        The subscription is made using subscribeState utility function
+        (CrComLib.subscribeState('s','22', (value) => {...}).</p>
+
+    <p>
+        <span class="info">* By default state name is `22`, but it can be changed from JS panel code.</span>
+    </p>
+
+    <div id="target">
+        Waiting for state value...
+    </div>
+</div>
+
+<div class="content">
+    <details>
+        <summary class="summary-h5">publishEvent method</summary>
+        <i class="info"><b>publishEvent</b>(signalType:TSignalNonStandardTypeName, signalName:string,
+            value:TSignalValue):void</i>
+    </details>
+    <p>
+        Use the field below to publish its value using event name `22`.
+    </p>
+    <span class="info">  (CrComLib.publishEvent('s','22', textarea.value))</span>
+
+    <div class="flex-wrapper-centered-horizontal">
+        <button id="btn_publish" class="button is-info" type="button">Publish</button>
+        <input id="inputValueForPublishBtn" type="textarea" placeholder="Enter event string value">
+    </div>
+    <span class="info">* Above target div content will be updated (make sure target div subscription is on)</span>
+    <p>
+        <button id="btn_unsub_sig" class="button is-info" type="button">Unsubscribe state 22</button>
+    </p>
+
+</div>
+
+<div class="content">
+    <details>
+        <summary class="summary-h5">getState method</summary>
+        <i class="info"><b>getState</b>&lt;T&gt;(name: string, typeInstance: T, createNewIfNotFound?: boolean):
+            Ch5Signal&lt;T&gt;
+            | null</i>
+    </details>
+    <p>Returns a state (if it exists)</p>
+    <p>Get last 22 state value (CrComLib.getState())</p>
+
+    <div class="flex-wrapper-centered-horizontal">
+        <button id="btn_get_signal" class="button is-info example-section" type="button">Get 22 state value</button>
+        Last state value: <span id="sig_value"></span>
+    </div>
+</div>
+
+{% raw %}
+    <div class="content">
+        <details>
+            <summary class="summary-h5">subscribeStateScript and unsubscribeStateScript methods</summary>
+            <i class="info"><b>subscribeStateScript</b>(signalScript: string,
+                callback: (update: string) => {},
+                defaultValue?: string): string</i>
+            <i class="info"><b>unsubscribeState</b>(signalType:TSignalNonStandardTypeName, signalName:string,
+                subscriptionId:string):void</i>
+        </details>
+        <p>
+            The blue bordered element contains the value of the subscribeStateScript function for the following template
+            string
+            <code>"\" City: {{s.24}}; Number: {{ n.23}}; Number*3: \"+{{ n.23 }}*3 "</code>
+            {#You will need to change both <b>23</b> and <b>24</b> in order for the value to change from the default
+            one.#}
+        </p>
+        <p>
+            <ch5-button type="info" label="Update 23: 'New York' and 24: '5'"
+                        sendEventOnClick="update_script_signals_1"></ch5-button>
+            <ch5-button type="info" label="Update 23: 'London' and 24: '10'"
+                        sendEventOnClick="update_script_signals_2"></ch5-button>
+        </p>
+        <div id="updated-element" style="border:1px solid blue"></div>
+
+        <p style="margin-top: 24px;">
+            <button id="btn_unsub_script" class="button is-info" type="button">Unsubscribe state script</button>
+        </p>
+    </div>
+{% endraw %}

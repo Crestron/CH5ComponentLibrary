@@ -1,0 +1,54 @@
+{% raw %}
+$(document).ready(function(){
+    // CrComLib.subscribeState example
+    const sig22SubKey = CrComLib.subscribeState('s','22', function (value) {
+        console.log('received 22 signal value: ', value);
+        document.getElementById('target').textContent = value;
+    });
+
+    // CrComLib.unsubscribeState example
+    const unsubSig22 = document.querySelector('#btn_unsub_sig');
+    unsubSig22.addEventListener('click', (e) => {
+        CrComLib.unsubscribeState('s', '22', sig22SubKey);
+    });
+
+    // CrComLib.publishEvent example
+    const publishBtn = document.querySelector('#btn_publish');
+    const textarea = document.querySelector('#inputValueForPublishBtn');
+    publishBtn.addEventListener('click', (e) => {
+        if (!textarea.value) {
+            textarea.classList.add('error');
+            return;
+        } else {
+            textarea.classList.remove('error');
+        }
+        console.log('publishing value(using 22 signal): ', textarea.value);
+        CrComLib.publishEvent('s','22', textarea.value);
+    });
+
+    // CrComLib.getValue example
+    const getSigBtn = document.querySelector('#btn_get_signal');
+    const sigValueDisplayEl = document.querySelector('#sig_value');
+    getSigBtn.addEventListener('click', (e) => {
+        const sigValue = CrComLib.getState('s', '22', true);
+        sigValueDisplayEl.textContent = sigValue;
+    });
+
+    // CrComLib.subscribeStateScript example
+    const scriptSubEl = document.querySelector('#updated-element');
+    const signalScript = 'CrComLib.textformat("City: {1}, Number: {2}, Number*3: {3}","{{s.24}}",{{n.23}},{{n.23}}*3)';
+
+    const callback = (result) => {
+        console.log(result);
+        scriptSubEl.textContent = result;
+    }
+
+    const scriptSubKey = CrComLib.subscribeStateScript(signalScript, callback, 'defaultValue');
+
+    // CrComLib.unsubscribeStateScript example
+    const unsubSigScriptBtn = document.querySelector('#btn_unsub_script');
+    unsubSigScriptBtn.addEventListener('click', (e) => {
+        CrComLib.unsubscribeStateScript(scriptSubKey);
+    });
+});
+{% endraw %}

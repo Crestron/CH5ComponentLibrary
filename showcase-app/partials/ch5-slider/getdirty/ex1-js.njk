@@ -1,0 +1,15 @@
+var button = document.getElementById("button");  
+var reset = document.getElementById("reset")
+var slider = document.getElementById("demo")
+
+button.addEventListener('click', function(e){
+    slider.submit();
+});
+
+reset.addEventListener('click', function(e){
+    slider.reset();
+});
+
+dirty.addEventListener('click', function(e){
+    console.log('dirty: ' + slider.getDirty());
+});

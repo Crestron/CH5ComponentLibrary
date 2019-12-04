@@ -1,0 +1,41 @@
+{% raw %}
+(function($, CrComLib){
+    const updateDirty = (container, selectEl) => {
+        container.innerHTML = selectEl.getDirty();
+    };
+
+    const initActions = (selectSelector, dirtyContainerSelector, submitBtnSelector, resetBtnSelector) => {
+        let dirtyValContainer = $(dirtyContainerSelector)[0];
+        let select = $(selectSelector)[0];
+        updateDirty(dirtyValContainer, select);
+
+        select.addEventListener('change', (e) => {
+            updateDirty(dirtyValContainer, select);
+        });
+
+        select.addEventListener('dirty', (e) => {
+            updateDirty(dirtyValContainer, select);
+        });
+
+        select.addEventListener('clean', (e) => {
+            updateDirty(dirtyValContainer, select);
+        });
+
+        let submitBtn = $(submitBtnSelector)[0];
+        submitBtn.addEventListener('click', (e) => {
+            select.submit();
+            updateDirty(dirtyValContainer, select);
+        });
+
+        let resetBtn = $(resetBtnSelector)[0];
+        resetBtn.addEventListener('click', (e) => {
+            select.reset();
+            updateDirty(dirtyValContainer, select);
+        });
+    };
+
+    initActions('#default_tmpl_f_submit_single', '#dirty-select-1', '#submit-btn-1', '#reset-btn-1');
+    initActions('#default_tmpl_f_submit_multi', '#dirty-select-2', '#submit-btn-2', '#reset-btn-2');
+
+})(jQuery,CrComLib);
+{% endraw %}

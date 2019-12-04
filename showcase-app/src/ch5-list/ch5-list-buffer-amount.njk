@@ -1,0 +1,13 @@
+---
+title: "ch5-list: bufferAmount"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    
+    {% call exampleSectionFromPartials('ch5-list/buffer-amount/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-list/buffer-amount/','ex2') %}{% endcall %}
+
+{% endblock %}

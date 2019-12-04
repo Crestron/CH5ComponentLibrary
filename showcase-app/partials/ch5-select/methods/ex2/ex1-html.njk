@@ -1,0 +1,58 @@
+<div class="row">
+    {% raw %}
+        <ch5-select id="volume2"
+                     size="4" indexId="Idx"
+                     receiveStateValue="volume_selected_after_click"
+                     feedbackMode="submit"
+                     noneSelectedPrompt="Select"
+                     mode="panel">
+             <template>
+                <ch5-select-option sendEventOnClick="volume_select_{{Idx}}_on_click">
+                    <i class="fas fa-{{fa-icon}}"></i>
+                    <span>{{label}}</span>
+                </ch5-select-option>
+             </template>
+        </ch5-select>
+    {% endraw %}
+     <br/>
+    <table>
+        <thead>
+            <tr>
+                <td>Property</td>
+                <td>Value</td>
+                <td>Explanation</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dirty</td>
+                <td id="dirty-select-2"></td>
+                <td>Shows whether the selected value has been changed, but not submitted</td>
+            </tr>
+            <tr>
+                <td>Selected</td>
+                <td id="selected-2"></td>
+                <td>Shows the 0-based index of the currently selected value</td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="margin-top: 36px;">
+        <ch5-button id="submit-btn-2" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn-2" label="Reset"></ch5-button>
+        <ch5-button id="set-btn-2" label="Set value: 2"></ch5-button>
+    </p>
+    <p>
+        <ul style="list-style-type: circle">
+            <li>
+                The <strong>Submit</strong> button persists the currently selected values.
+            </li>
+            <li>
+                The <strong>Reset</strong> button reverts the form and its properties to the previously submitted value or the default value if the form has not been submitted yet.
+            </li>
+            <li>
+                The <strong>Set value: 2</strong> button also triggers the submit, thus setting the <strong>dirty</strong> property to false.
+            </li>
+        </ul>
+    </p>
+
+</div>

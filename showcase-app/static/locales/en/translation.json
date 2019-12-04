@@ -1,0 +1,47 @@
+{
+    "firstName":{
+        "label":"First Name translated",
+        "placeholder":"First name translated placeholder"
+    },
+    "month":{
+        "label":"Month translated",
+        "placeholder":"Month translated placeholder"},
+    "week":{
+        "label":"week translated",
+        "placeholder":"week translated placeholder"
+    },
+    "email":{        
+        "label":"Emai translated",
+        "placeholder":"Emai translated placeholder"
+    },
+    "toggle":{        
+        "label":"Toggle label",
+        "labelOn":"On",
+        "labelOff":"Off",
+        "labelAlarm": "Alarm",
+        "labelMicrophone": "AlaMicrophonerm",
+        "labelRetina": "Retina Scan",
+        "labelCircle": "Circle Shape",
+        "labelRectangle": "Rectangle Shape",
+        "labelVertical": "Vertical",
+        "labelHorizontal": "Horizontal"
+    },
+    "button":{        
+        "danger":"danger",
+        "text":"text",
+        "warning":"warning",
+        "info":"info",
+        "success":"success",
+        "default":"default",
+        "primary":"primary",
+        "secondary":"secondary"
+    },
+    "form":{
+        "submitBtn":{
+            "label" :" Update Room"
+        },
+        "cancelBtn":{
+            "label" :" Revert Changes"
+        }
+    }
+}

@@ -1,0 +1,83 @@
+{
+  "cues": [
+    {
+      "type": "n",
+      "event": "s004_c1",
+      "trigger": 120,
+      "actions": [
+        {
+          "state": "s004_a1_b_set",
+          "type": "b",
+          "logic": "set",
+          "value": true
+        },
+        {
+          "state": "s004_a2_b_link",
+          "type": "b",
+          "logic": "link"
+        },
+        {
+          "state": "s004_a3_b_toggle",
+          "type": "b",
+          "logic": "toggle"
+        },
+        {
+          "state": "s004_a4_b_pulse",
+          "type": "b",
+          "logic": "pulse"
+        },
+        {
+          "state": "s004_a5_n_set",
+          "type": "n",
+          "logic": "set",
+          "value": 5
+        },
+        {
+          "state": "s004_a6_n_link",
+          "type": "n",
+          "logic": "link"
+        },
+        {
+          "state": "s004_a7_n_increment",
+          "type": "n",
+          "logic": "increment"
+        },
+        {
+          "state": "s004_a8_n_increment_offset",
+          "type": "n",
+          "logic": "increment",
+          "offset":10
+        },
+        {
+          "state": "s004_a9_n_decrement",
+          "type": "n",
+          "logic": "decrement"
+        },
+        {
+          "state": "s004_a10_n_decrement_offset",
+          "type": "n",
+          "logic": "decrement",
+          "offset": 11
+        },
+        {
+          "state": "s004_a11_n_rcb",
+          "type": "n",
+          "logic": "rcb",
+          "value": 1234,
+          "time": 100
+        },
+        {
+          "state": "s004_a12_s_set",
+          "type": "s",
+          "logic": "set",
+          "value": "Hello!"
+        },
+        {
+          "state": "s004_a13_s_link",
+          "type": "s",
+          "logic": "link"
+        }
+      ]
+    }
+  ]
+}

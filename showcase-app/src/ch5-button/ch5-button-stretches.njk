@@ -1,0 +1,18 @@
+---
+title: "ch5-button: stretch"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+{# example 1 #}
+    {% call exampleSectionFromPartials('ch5-button/stretches/','ex1') %}{% endcall %}
+
+{# example 2 #}
+    {% call exampleSectionFromPartials('ch5-button/stretches/','ex2') %}{% endcall %}
+
+{# example 3 #}
+    {% call exampleSectionFromPartials('ch5-button/stretches/','ex3') %}{% endcall %}
+
+{% endblock %}

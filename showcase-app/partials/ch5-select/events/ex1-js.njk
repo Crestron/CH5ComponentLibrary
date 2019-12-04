@@ -1,0 +1,54 @@
+{% raw %}
+(function($, CrComLib){
+
+    const select1 = $('#volume1')[0];
+    const ex1LogPrefix = '[Example ' + select1.id + '] ';
+    select1.addEventListener('change', (e) => {
+        console.log(ex1LogPrefix + 'change event received', e.detail);
+    });
+
+    select1.addEventListener('dirty', (e) => {
+        console.log(ex1LogPrefix + 'dirty event received');
+    });
+
+    select1.addEventListener('clean', (e) => {
+        console.log(ex1LogPrefix + 'clean event received');
+    });
+
+    select1.addEventListener('focus', (e) => {
+        console.log(ex1LogPrefix + 'focus event received');
+    });
+
+    select1.addEventListener('blur', (e) => {
+        console.log(ex1LogPrefix + 'blur event received');
+    });
+
+    const select2 = $('#multiselect_ex')[0];
+    const ex2LogPrefix = '[Example ' + select2.id + '] ';
+    select2.addEventListener('dirty', (e) => {
+        console.log(ex2LogPrefix + 'dirty event received');
+    });
+    select2.addEventListener('clean', (e) => {
+        console.log(ex2LogPrefix + 'clean event received');
+    });
+
+    select2.addEventListener('focus', (e) => {
+        console.log(ex2LogPrefix + 'focus event received');
+    });
+
+    select2.addEventListener('blur', (e) => {
+        console.log(ex2LogPrefix + 'blur event received');
+    });
+
+    let submitBtn = $('#submit-btn')[0];
+    submitBtn.addEventListener('click', (e) => {
+        select2.submit();
+    });
+
+    let resetBtn = $('#reset-btn')[0];
+    resetBtn.addEventListener('click', (e) => {
+        select2.reset();
+    });
+
+})(jQuery,CrComLib);
+{% endraw %}

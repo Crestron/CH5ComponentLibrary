@@ -1,0 +1,56 @@
+{% raw %}
+    <p>The <b>ch5-template</b> component will throw an error if something common happens, the examples below cover some
+        of common cases.
+        In the following examples, when no error occurs, the template containing the <i>replacement content</i> text
+        will be
+        generated. </p>
+    <i>You will need to open the browser console to visualise the errors, the example below are just for showcase
+        purposes, the ch5-template
+        will not state on the UI the error message.</i>
+
+    <template id="sampleTemplate">
+        <div class="format-content">original content</div>
+    </template>
+
+    <template id="templateWithNoContent">
+    </template>
+
+    <ol>
+        <li>
+            <b>No templateId and context is provided:</b>
+            <ch5-template></ch5-template>
+            <p class="ch5-template-error">[ch5-template] Error: No templateId was provided</p>
+        </li>
+        <li>
+            <b>Template with the id provided in templateId does not exist:</b>
+            <ch5-template templateId="invalidId"></ch5-template>
+            <p class="ch5-template-error">[ch5-template] Error: No template with the id: "invalidId" found</p>
+        </li>
+        <li>
+            <b>The context attribute is optional, therefore the following scenarios are valid:</b>
+            <ch5-template templateId="sampleTemplate"></ch5-template>
+            <ch5-template templateId="sampleTemplate" context></ch5-template>
+            <ch5-template templateId="sampleTemplate" context=""></ch5-template>
+            <br/>
+        </li>
+        <li>
+            <b>Invalid context structure, the template will be generated but nothing will be renamed</b>
+            <ch5-template templateId="sampleTemplate" context=":replacement"></ch5-template>
+            <p class="ch5-template-warning">[ch5-template] Warning: Invalid context pair structure, expected:
+                "original:replacement", but received ",replacement", moving to the next context pair</p>
+        </li>
+        <li>
+            <b>A valid templateId and context is provided:</b>
+            <ch5-template templateId="sampleTemplate" context="original:replacement"></ch5-template>
+            <br/>
+        </li>
+
+        <li>
+            <b>The template provided has no content:</b>
+            <ch5-template templateId="templateWithNoContent" context="original:replacement"></ch5-template>
+            <p class="ch5-template-error">[ch5-template] Error: The provided template with the id:
+                "templateWithNoContent" has no content</p>
+        </li>
+    </ol>
+
+{% endraw %}

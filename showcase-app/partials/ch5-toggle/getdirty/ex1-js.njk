@@ -1,0 +1,16 @@
+var button = document.getElementById("button");  
+var reset = document.getElementById("reset")
+var toggle = document.getElementById("demo")
+var dirty = document.getElementById("dirty")
+
+button.addEventListener('click', function(e){
+    toggle.submit();
+});
+
+reset.addEventListener('click', function(e){
+    toggle.reset();
+});
+
+dirty.addEventListener('click', function(e){
+    console.log('dirty: ' + toggle.getDirty());
+});

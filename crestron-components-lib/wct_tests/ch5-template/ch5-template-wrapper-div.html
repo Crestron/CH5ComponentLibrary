@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-template-wrapper-div-fixture">
+    <template id="template-without-div">
+        <b> First child element</b>
+        <b> Second child element</b>
+    </template>
+
+    <template id="template-with-a-parent-div">
+        <div class="original">
+            <b class="original"> First child element</b>
+            <b class="original"> Second child element</b>
+        </div>
+    </template>
+
+    <ch5-template id="ch5-template-1" templateId="template-without-div" context="original:replacement"></ch5-template>
+    <ch5-template id="ch5-template-2" templateId="template-with-a-parent-div"
+                  context="original:replacement"></ch5-template>
+</test-fixture>
+
+<script>
+  suite('ch5-template-wrapper-div', function () {
+
+    let ch5TemplateWithoutWrapper;
+    let ch5TemplateWithWrapper;
+
+    setup(() => {
+      return Promise.all([
+        customElements.whenDefined('ch5-template')
+      ]);
+    });
+
+    test('Ch5-template should add a wrapper div', function () {
+      ch5TemplateWithoutWrapper = document.getElementById("ch5-template-1");
+
+      expect(ch5TemplateWithoutWrapper.children[0].classList.contains("ch5-template-content-wrapper")).to.be.equal(true);
+      expect(ch5TemplateWithoutWrapper.children[0].children.length).to.be.equal(2);
+    });
+
+    test('After the wrapper div is added, it should replace the innerHTML of the first child as well', function () {
+      ch5TemplateWithWrapper = document.getElementById("ch5-template-2");
+
+      expect(ch5TemplateWithWrapper.children[0].children[0].classList.contains("replacement")).to.be.equal(true);
+    });
+
+    test('The innerHTML of the wrapper div will not be altered', function () {
+      ch5TemplateWithWrapper = document.getElementById("ch5-template-2");
+
+      expect(ch5TemplateWithWrapper.children[0].classList.contains("replacement")).to.be.equal(false);
+      expect(ch5TemplateWithWrapper.children[0].classList.contains("ch5-template-content-wrapper")).to.be.equal(true);
+    });
+  });
+</script>
+</body>
+</html>

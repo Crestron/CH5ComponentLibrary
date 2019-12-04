@@ -1,0 +1,14 @@
+---
+title: "ch5-form: hideCancelButton"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {# example 1 #}
+        {% call exampleSectionFromPartials('ch5-form/hide-cancel/','ex1') %}{% endcall %}
+    {# example 2 #}
+        {% call exampleSectionFromPartials('ch5-form/hide-cancel/','ex2') %}{% endcall %}
+        
+{% endblock %}

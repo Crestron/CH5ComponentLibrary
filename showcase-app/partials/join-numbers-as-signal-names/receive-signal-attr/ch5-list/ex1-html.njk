@@ -1,0 +1,40 @@
+{% raw %}
+<div class="content">
+    <h3>ch5-list</h3>
+    <div>
+        <h4>receiveStateSize</h4>
+        <ch5-button label="Increment list size by 5" sendEventOnClick="48"></ch5-button>
+    </div>
+    <br/>
+    <div>
+        <h4>receiveStateScrollTo</h4>
+        <ch5-button label="Update template vars" sendEventOnClick="49"></ch5-button>
+    </div>
+    <br/>
+    <div>
+        <h4>receiveStateTemplateVars</h4>
+        <ch5-button label="Increment scroll position with 10" sendEventOnClick="50"></ch5-button>
+    </div>
+    <br/>
+    <ch5-list size="10"
+            orientation="horizontal"
+            indexId="idx"
+            minWidth="250px"
+            maxWidth="500px"
+            minHeight="100px"
+            maxHeight="150px"
+            itemWidth="125px"
+            itemHeight="75px"
+            scrollbar="true"
+            receiveStateSize="48"
+            receiveStateTemplateVars="49"
+            receiveStateScrollTo="50">
+        <template>
+            <div class="horizontal-list-item">
+                <span class="{{cssClass}}">item_{{idx}} {{label}}</span>
+            </div>
+        </template>
+    </ch5-list>
+</div>
+
+{% endraw %}

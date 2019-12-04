@@ -1,0 +1,17 @@
+<p>When the reset button is clicked, the value property will be change to the <b>initial value</b> or last value on <b>submit</b>.</p>
+
+<ch5-toggle
+    id="demo"
+    label="Alarm"
+    labelOn="On"
+    labelOff="Off"
+    feedbackMode="submit"
+    sendEventOnClick="send_signal_on_submit"
+    receiveStateValue="receive_switch_value"
+    >
+</ch5-toggle>
+
+<br><br>
+
+<ch5-button id="submit" type="success" label="Submit"></ch5-button>
+<ch5-button id="reset" type="danger" label="Reset"></ch5-button>

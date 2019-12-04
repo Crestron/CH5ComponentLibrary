@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-toggle-iconOff-fixture">
+    <template>
+        <ch5-toggle
+            label="Alarm"
+            iconOn="fas fa-bell"
+            iconOff="fas fa-bell-slash"
+            >
+        </ch5-toggle>
+    </template>
+</test-fixture>
+
+<script>
+
+    suite('ch5-toggle iconOff', function() {
+
+        let ch5Toggle;
+        
+        setup(() => {
+            ch5Toggle = fixture('ch5-toggle-iconOff-fixture');
+        });
+
+        test('iconOff to be a string', function() {
+            expect(ch5Toggle.iconOff).to.be.a('string');
+        });
+
+        test('iconOff is "fas fa-bell-slash"', function() {
+            expect(ch5Toggle.iconOff).to.be.equal('fas fa-bell-slash');
+        });
+
+        test('Internal _elIconOff elem class contains iconOff attribute value', function() {
+            expect(ch5Toggle._elIconOff.className).to.contain('fas fa-bell-slash');
+        });
+
+        test('Internal _elIconOff elem has class "ch5-toggle__off-icon"', function() {
+            expect(ch5Toggle._elIconOff.className).to.contain('ch5-toggle__off-icon');
+        });
+    });
+
+
+</script>
+</body>
+</html>

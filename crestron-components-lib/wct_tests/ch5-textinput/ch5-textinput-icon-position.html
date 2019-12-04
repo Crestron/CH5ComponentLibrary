@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-textinput-icon-position-default-fixture">
+    <template>
+        <ch5-textinput 
+        label="First Name"
+        icon="fa fa-plane"></ch5-textinput>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-textinput-icon-position-other-fixture">
+  <template>
+    <ch5-textinput
+      label="Last Name"
+      icon="fa fa-plane"
+      iconPosition="last"></ch5-textinput>
+  </template>
+</test-fixture>
+
+<test-fixture id="ch5-textinput-icon-position-wrong-fixture">
+  <template>
+    <ch5-textinput
+      label="Last Name"
+      icon="fa fa-plane"
+      iconPosition="ihavearandomposition"></ch5-textinput>
+  </template>
+</test-fixture>
+
+<script>
+    suite('ch5-textinput icon default position attribute', function() {
+    
+        let ch5Textinput;
+    
+        setup(() => {
+            ch5Textinput = fixture('ch5-textinput-icon-position-default-fixture');
+        });
+    
+        test('Default position is "first"', function() {
+            expect(ch5Textinput.getAttribute('iconposition')).to.be.equal('first');
+        });
+    
+    });
+
+    suite('ch5-textinput icon last value for position attribute', function() {
+
+        let ch5Textinput;
+
+        setup(() => {
+            ch5Textinput = fixture('ch5-textinput-icon-position-other-fixture');
+        });
+
+        test('Position now has to be "last"', function() {
+            expect(ch5Textinput.getAttribute('iconposition')).to.be.equal('last');
+        });
+
+    });
+
+    suite('ch5-textinput icon invalid value for iconPosition attribute', function() {
+    
+        let ch5Textinput;
+    
+        setup(() => {
+            ch5Textinput = fixture('ch5-textinput-icon-position-wrong-fixture');
+        });
+    
+        test('Testing with an invalid value, fallback has to be "first"', function() {
+            expect(ch5Textinput.getAttribute('iconposition')).to.be.equal('first');
+        });
+    
+    });
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "overlay_toggle_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "overlay_show",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+  ]
+}

@@ -1,0 +1,12 @@
+---
+title: "ch5-modal-dialog: okButton, cancelButton"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/buttons/','ex1') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-modal-dialog/buttons/','ex2') %}{% endcall %}
+
+{% endblock %}

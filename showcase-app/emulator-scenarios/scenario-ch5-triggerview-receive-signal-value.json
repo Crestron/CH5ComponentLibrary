@@ -1,0 +1,30 @@
+{
+    "cues": [
+      {
+        "type": "b",
+        "event": "trig1",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_index_view",
+            "type": "number",
+            "logic": "set",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "type": "b",
+        "event": "trig2",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_index_view",
+            "type": "number",
+            "logic": "set",
+            "value": 2
+          }
+        ]
+      }
+    ]
+}

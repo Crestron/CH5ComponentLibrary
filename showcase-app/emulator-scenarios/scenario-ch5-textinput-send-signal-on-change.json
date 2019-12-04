@@ -1,0 +1,18 @@
+{
+  "cues": [
+    {
+      "type": "string",
+      "event": "ti.output_1",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "ti.input_1",
+          "type": "string",
+          "logic": "link"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+  ]
+}

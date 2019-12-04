@@ -1,0 +1,32 @@
+<p>See the JS tab for the code and browser console for messages</p>
+
+<p>
+    Click this button to change the value of the <b>roomname</b> signal to "kitchen"
+    <ch5-button label="Btn1" sendEventOnClick="trig1"></ch5-button>
+</p>
+<p>
+    Click this button to change the value of the <b>roomname</b> signal to "bedroom"
+    <ch5-button label="Btn2" sendEventOnClick="trig2"></ch5-button>
+</p>
+<p>
+    Click this button to decrease the temperature
+    <ch5-button label="Btn3" sendEventOnClick="trig3"></ch5-button>
+</p>
+<p>
+    Click this button to increase the temperature
+    <ch5-button label="Btn4" sendEventOnClick="trig4"></ch5-button>
+</p>
+
+
+{% raw %}
+<p>
+    The red bordered element contains the value of the subscribeStateScript function for the following template string
+    <code>'"{{s.roomname}}" + ":" + ({{n.temperature}}/10).toFixed(1) + "C"';</code>
+    {#You will need to change both <b>roomname</b> and <b>temperature</b> in order for the value to change from the default one.#}
+</p>
+<p>
+    Click this button to unsubscribe from the updates
+    <ch5-button id="btn-cleanup" label="Cleanup" type="danger"></ch5-button>
+</p>
+{% endraw %}
+<div id="updated-element"></div>

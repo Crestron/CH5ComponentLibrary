@@ -1,0 +1,34 @@
+
+(function(CrComLib){
+    var s1 = document.querySelector('#s1');
+    var s2 = document.querySelector('#s2');
+    var s3 = document.querySelector('#s3');
+    var us1 = document.querySelector('#us1');
+    var us2 = document.querySelector('#us2');
+    var us3 = document.querySelector('#us3');
+
+
+    var subId1 = CrComLib.subscribeState('b','sig_b',s1Sub);
+    var subId2 = CrComLib.subscribeState('n','sig_n',s2Sub);
+    var subId3 = CrComLib.subscribeState('s','city',s3Sub);
+
+    us1.addEventListener('click',function(){
+        CrComLib.unsubscribeState('b','sig_b',subId1);
+    });
+    us2.addEventListener('click',function(){
+        CrComLib.unsubscribeState('n','sig_n',subId2);
+    });
+    us3.addEventListener('click',function(){
+        CrComLib.unsubscribeState('s','city',subId3);
+    });
+
+    function s1Sub(v){
+        s1.textContent=v;
+    }
+    function s2Sub(v){
+        s2.textContent=v;
+    }
+    function s3Sub(v){
+        s3.textContent=v;
+    }
+})(CrComLib);

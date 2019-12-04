@@ -1,0 +1,16 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "toggle_enabled_or_disabled",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "set_enabled_or_disabled",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ]
+}

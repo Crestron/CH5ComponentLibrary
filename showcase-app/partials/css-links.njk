@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="{{siteurl}}css/normalize.css">
+<link rel="stylesheet" href="{{siteurl}}css/main.css">
+
+{# for icons Font Awesome#}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+{# for icons Material Iocons#}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="stylesheet" href="{{siteurl}}crestron-components-assets/high-contrast-theme.css" class="theme-style">
+{#
+<link rel="stylesheet" href="{{siteurl}}crestron-components-assets/dark-theme.css" id="theme-dark">
+<link rel="stylesheet" href="{{siteurl}}crestron-components-assets/light-theme.css" id="theme-light">
+#}
+
+<script type="text/javascript">
+    {#
+        JS code that creates html link objects with the availale themes
+    #}
+    window.availableThemes = {};
+    window.THEMES_FILE_PATH='{{siteurl}}crestron-components-assets/';
+    window.activeTheme='highContrast';
+
+    (function(){
+        window.availableThemes.highContrast = createThemeLinkHtmlElement('high-contrast');
+        window.availableThemes.light = createThemeLinkHtmlElement('light');
+        window.availableThemes.dark = createThemeLinkHtmlElement('dark');
+
+        function createThemeLinkHtmlElement(themeName) {
+            var themeEl = document.createElement('link'),
+                themesFilePath = window.THEMES_FILE_PATH;
+
+            themeName = themeName.trim();
+            themeEl.rel = 'stylesheet';
+            themeEl.id = 'theme-' + themeName;
+            themeEl.href = themesFilePath + themeName + '-theme.css';
+
+            return themeEl;
+        };
+
+    })();
+</script>

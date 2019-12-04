@@ -1,0 +1,18 @@
+{
+  "cues": [
+    {
+      "type": "number",
+      "event": "slider1.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "slider1.value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    }
+  ],
+  "onStart":[
+  ]
+}

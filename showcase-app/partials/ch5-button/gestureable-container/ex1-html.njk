@@ -1,0 +1,30 @@
+<h1>Button out of gestureable area</h1>
+<ch5-button label="Button" 
+            sendEventOnClick="click_signal" 
+            sendEventOnTouch="touch_signal">
+</ch5-button>
+
+<h1>Button in gestureable content</h1>
+<ch5-triggerview id="demo" gestureable="true" endless="true"> 
+    <ch5-triggerview-child> 
+        <ch5-image
+            url="https://picsum.photos/700/301/?random">
+        </ch5-image> 
+        <ch5-button label="See more" 
+                    sendEventOnClick="click_signal" 
+                    sendEventOnTouch="touch_signal">
+        </ch5-button>
+    </ch5-triggerview-child >
+
+    <ch5-triggerview-child>
+        <ch5-image	
+            url="https://picsum.photos/700/302/?random">
+        </ch5-image> 
+    </ch5-triggerview-child >
+
+    <ch5-triggerview-child>
+        <ch5-image
+            url="https://picsum.photos/700/303/?random">
+        </ch5-image> 
+    </ch5-triggerview-child >
+</ch5-triggerview>

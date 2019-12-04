@@ -1,0 +1,23 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "sig_trig_show1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sig_show1",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "b",
+      "state": "sig_show1",
+      "value": false
+    }
+  ]
+}

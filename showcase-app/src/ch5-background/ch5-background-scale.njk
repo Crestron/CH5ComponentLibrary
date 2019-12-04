@@ -1,0 +1,18 @@
+---
+title: "ch5-background: scale"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {# example 1 #}
+        {% call exampleSectionFromPartials('ch5-background/scale/','ex1') %}{% endcall %}
+    
+    {# example 2 #}
+        {% call exampleSectionFromPartials('ch5-background/scale/','ex2') %}{% endcall %}
+    
+    {# example 3 #}
+        {% call exampleSectionFromPartials('ch5-background/scale/','ex3') %}{% endcall %}
+
+{% endblock %}

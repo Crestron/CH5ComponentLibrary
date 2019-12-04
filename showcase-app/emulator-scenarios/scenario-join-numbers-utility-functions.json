@@ -1,0 +1,71 @@
+{
+  "cues": [
+    {
+      "type": "s",
+      "event": "22",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "22",
+          "type": "s",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "update_script_signals_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "23",
+          "type": "n",
+          "logic": "set",
+          "value": 5
+        },
+        {
+          "state": "24",
+          "type": "s",
+          "logic": "set",
+          "value": "New York"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "update_script_signals_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "23",
+          "type": "n",
+          "logic": "set",
+          "value": 10
+        },
+        {
+          "state": "24",
+          "type": "s",
+          "logic": "set",
+          "value": "London"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "22",
+      "type": "s",
+      "value": "String value received from join number state name: 22 (default/onStart value)"
+    },
+    {
+      "state": "23",
+      "type": "n",
+      "value": 1
+    },
+    {
+      "state": "24",
+      "type": "s",
+      "value": "Paris"
+    }
+  ]
+}

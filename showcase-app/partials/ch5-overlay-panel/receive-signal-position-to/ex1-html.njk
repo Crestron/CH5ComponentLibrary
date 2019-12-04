@@ -1,0 +1,29 @@
+<p>
+    Press this button to change the value of 'sig_pos_to' to '#el-id-1'
+    <br><ch5-button id="el-id-1" label="change" sendEventOnClick="trigger_pos_1"></ch5-button>
+</p>
+
+<div style="height:400px;"></div>
+
+<p>
+    Press this button to change the value of 'sig_pos_to' to '#el-id-2'
+    <br/><ch5-button id="el-id-2" label="change" sendEventOnClick="trigger_pos_2"></ch5-button>
+</p>
+
+
+
+
+<ch5-overlay-panel
+        show="true"
+        receiveStatePositionTo="sig_pos_to"
+        positionOffset="bottom-left"
+        positionTo="el-id-2"
+        closable
+        dismissable="false"
+>
+    <p>Sample text</p>
+    <ch5-image
+            id="ex1-img"
+            url="https://picsum.photos/200/300/?random">
+    </ch5-image>
+</ch5-overlay-panel>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-image-refreshRate-fixture">
+    <template>
+        <ch5-image
+            url="https://picsum.photos/200/300/?random"
+            refreshRate="5">
+        </ch5-image>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-image-refreshRate-invalid-fixture">
+    <template>
+        <ch5-image
+            url="https://picsum.photos/200/300/?random"
+            refreshRate="randomRefreshRate">
+        </ch5-image>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-image refreshRate', function() {
+
+        let ch5Image;
+
+        setup(() => {
+            ch5Image = fixture('ch5-image-refreshRate-fixture');
+            
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]);
+        });
+
+        test('Default refreshRate is "0"', function() {
+            ch5Image.removeAttribute('refreshRate');
+            expect(ch5Image.refreshRate).to.be.equal(0);
+        });
+
+        test('refreshRate "5"', function() {
+            expect(ch5Image.refreshRate).to.be.equal(5);
+        });
+
+    });
+
+    suite('ch5-image refreshRate invalid', function() {
+
+        let ch5Image;
+
+        setup(() => {
+            ch5Image = fixture('ch5-image-refreshRate-invalid-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]);
+        });
+
+        test('Invalid refreshRate should switch to default "0"', function() {
+            expect(ch5Image.refreshRate).to.be.equal(0);
+        });
+    });
+</script>
+</body>
+</html>

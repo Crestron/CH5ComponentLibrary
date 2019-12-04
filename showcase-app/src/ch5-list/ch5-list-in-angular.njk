@@ -1,0 +1,11 @@
+---
+title: "ch5-list: using ngNonBindable"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    
+    {% call exampleSectionFromPartials('ch5-list/in-angular/','ex1') %}{% endcall %}
+
+{% endblock %}

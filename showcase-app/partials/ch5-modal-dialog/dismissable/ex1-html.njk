@@ -1,0 +1,14 @@
+<ch5-button label="Trigger show pulse" sendEventOnClick="trigger_1"></ch5-button>
+
+<p>
+    Click the above button to make the modal visible. Clicking outside the modal will dismiss it by changing its show
+    attribute to false.
+</p>
+
+<ch5-modal-dialog receiveStateShowPulse="trigger_1">
+    <p>Sample text</p>
+    <ch5-image
+            id="ex1-img"
+            url="https://picsum.photos/200/300/?random">
+    </ch5-image>
+</ch5-modal-dialog>
