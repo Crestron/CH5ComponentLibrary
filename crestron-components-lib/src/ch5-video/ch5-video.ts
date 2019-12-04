@@ -547,8 +547,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 selectObjectUrl = Ch5VideoSubscription
                     .replaceAttrIdxPlaceholder(documentContainer, 'receivestateurl', rsVURL, (parseInt(index, 0)), this.indexId as string);
             }
-            this.selectObject.values.url = selectObjectUrl.toString();
-            this.selectObject.subscriptionIds.url = subscribeState('s', selectObjectUrl!.toString(), (resp: any) => {
+            this.selectObject.values.url = String(selectObjectUrl);
+            this.selectObject.subscriptionIds.url = subscribeState('s', String(selectObjectUrl), (resp: any) => {
                 if (resp) {
                     this.sendEvent(this.sendEventSelectionURL, this.url, 'string');
                     this.url = resp;
@@ -578,8 +578,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 selectObjectSourceType = Ch5VideoSubscription
                     .replaceAttrIdxPlaceholder(documentContainer, 'receivestatesourcetype', rsVSType, (parseInt(index, 0)), this.indexId as string);
             }
-            this.selectObject.values.type = selectObjectSourceType.toString();
-            this.selectObject.subscriptionIds.type = subscribeState('s', selectObjectSourceType!.toString(), (resp: any) => {
+            this.selectObject.values.type = String(selectObjectSourceType);
+            this.selectObject.subscriptionIds.type = subscribeState('s', String(selectObjectSourceType), (resp: any) => {
                 if (resp) {
                     this.sourceType = resp;
                     this.sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
@@ -609,8 +609,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 selectObjectUserId = Ch5VideoSubscription
                     .replaceAttrIdxPlaceholder(documentContainer, 'receivestateuserid', rsVUserId, (parseInt(index, 0)), this.indexId as string);
             }
-            this.selectObject.values.user = selectObjectUserId.toString();
-            this.selectObject.subscriptionIds.user = subscribeState('s', selectObjectUserId!.toString(), (resp: any) => {
+            this.selectObject.values.user = String(selectObjectUserId);
+            this.selectObject.subscriptionIds.user = subscribeState('s', String(selectObjectUserId), (resp: any) => {
                 if (resp) {
                     this.userId = resp;
                 } else if (this.hasAttribute('userid')) {
@@ -639,8 +639,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 selectObjectPassword = Ch5VideoSubscription
                     .replaceAttrIdxPlaceholder(documentContainer, 'receivestatepassword', rsVPassword, (parseInt(index, 0)), this.indexId as string);
             }
-            this.selectObject.values.videoPass = selectObjectPassword.toString();
-            this.selectObject.subscriptionIds.videoPass = subscribeState('s', selectObjectPassword!.toString(), (resp: any) => {
+            this.selectObject.values.videoPass = String(selectObjectPassword);
+            this.selectObject.subscriptionIds.videoPass = subscribeState('s', String(selectObjectPassword), (resp: any) => {
                 if (resp) {
                     this.password = resp;
                 } else if (this.hasAttribute('password')) {
@@ -669,8 +669,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 selectObjectSnapShotUrl = Ch5VideoSubscription
                     .replaceAttrIdxPlaceholder(documentContainer, 'receivestatesnapshoturl', rsSIURL, (parseInt(index, 0)), this.indexId as string);
             }
-            this.selectObject.values.snapShotUrl = selectObjectSnapShotUrl.toString();
-            this.selectObject.subscriptionIds.snapShotUrl = subscribeState('s', selectObjectSnapShotUrl!.toString(), (resp: any) => {
+            this.selectObject.values.snapShotUrl = String(selectObjectSnapShotUrl);
+            this.selectObject.subscriptionIds.snapShotUrl = subscribeState('s', String(selectObjectSnapShotUrl), (resp: any) => {
                 if (resp) {
                     this.snapShotUrl = resp;
                     this.sendEvent(this.sendEventSnapShotURL, this.snapShotUrl, 'string');
@@ -696,8 +696,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 selectObjectSnapShotRefreshRate = Ch5VideoSubscription
                     .replaceAttrIdxPlaceholder(documentContainer, 'receivestatesnapshotrefreshrate', rsSIRefreshRate, (parseInt(index, 0)), this.indexId as string);
             }
-            this.selectObject.values.snapShotRefreshRate = selectObjectSnapShotRefreshRate.toString();
-            this.selectObject.subscriptionIds.snapShotRefreshRate = subscribeState('n', selectObjectSnapShotRefreshRate!.toString(), (resp: any) => {
+            this.selectObject.values.snapShotRefreshRate = String(selectObjectSnapShotRefreshRate);
+            this.selectObject.subscriptionIds.snapShotRefreshRate = subscribeState('n', String(selectObjectSnapShotRefreshRate), (resp: any) => {
                 if (resp) {
                     this.snapShotRefreshRate = resp;
                     responseCount++;
@@ -722,8 +722,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 selectObjectSnapShotUserId = Ch5VideoSubscription
                     .replaceAttrIdxPlaceholder(documentContainer, 'receivestatesnapshotuserid', rsSIUserId, (parseInt(index, 0)), this.indexId as string);
             }
-            this.selectObject.values.snapShotUser = selectObjectSnapShotUserId.toString();
-            this.selectObject.subscriptionIds.snapShotUser = subscribeState('s', selectObjectSnapShotUserId!.toString(), (resp: any) => {
+            this.selectObject.values.snapShotUser = String(selectObjectSnapShotUserId);
+            this.selectObject.subscriptionIds.snapShotUser = subscribeState('s', String(selectObjectSnapShotUserId), (resp: any) => {
                 if (resp) {
                     this.snapShotUserId = resp;
                     responseCount++;
@@ -748,8 +748,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 selectObjectSnapShotPassword = Ch5VideoSubscription
                     .replaceAttrIdxPlaceholder(documentContainer, 'receivestatesnapshotpassword', rsSIPassword, (parseInt(index, 0)), this.indexId as string);
             }
-            this.selectObject.values.snapShotPass = selectObjectSnapShotPassword.toString();
-            this.selectObject.subscriptionIds.snapShotPass = subscribeState('s', selectObjectSnapShotPassword!.toString(), (resp: any) => {
+            this.selectObject.values.snapShotPass = String(selectObjectSnapShotPassword);
+            this.selectObject.subscriptionIds.snapShotPass = subscribeState('s', String(selectObjectSnapShotPassword), (resp: any) => {
                 if (resp) {
                     this.snapShotPassword = resp;
                     responseCount++;
@@ -2378,9 +2378,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Refresh the snapshot based on the refresh rate
      */
     private loadImageWithAutoRefresh() {
+        let loginCredentials = "";
+        if (this.snapShotUserId && this.snapShotPassword && !this.snapShotUrl.indexOf("http")) {
+            loginCredentials = this.snapShotUserId + ":" + this.snapShotPassword + "@";
+            this.snapShotUrl = this.snapShotUrl.replace(/\:\/\//, "://" + loginCredentials);
+            this.snapShotUrl = this.snapShotUrl.replace(/http:/i, "ch5-img-auth:");
+            this.snapShotUrl = this.snapShotUrl.replace(/https:/i, "ch5-img-auths:");
+        }
+        
         if (!!this.context) {
             this.context.clearRect(this.position.xPos, this.position.yPos, this.sizeObj.width, this.sizeObj.height);
         }
+
         this.vid.width = this.sizeObj.width;
         this.vid.height = this.sizeObj.height;
         this.context = this.vid.getContext("2d");
