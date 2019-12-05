@@ -388,10 +388,15 @@
                 });
         });
 
-        test('ch5-textinput preconfigured customClass', function() {
-            const ti1 = fixture('ch5-textinput1');
+      test('ch5-textinput preconfigured customClass', function () {
+        const ti1 = fixture('ch5-textinput1');
+        
+        customElements.whenDefined('ch5-textinput1').then(
+          () => {
             expect(ti1.customClass).to.be.equal('c1');
-        });
+          });
+      });
+
         test('ch5-textinput preconfigured customClass from id', function() {
             const ti2 = fixture('ch5-textinput2');
             expect(ti2.customClass).to.be.equal('c2');

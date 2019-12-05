@@ -301,15 +301,15 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
     sendEventSnapShotStatus: string;
 
     /**
-     * @name sendstatesnapshotlastupdatetime
+     * @name sendeventsnapshotlastupdatetime
      * @documentation
      * [
-     * "`sendStateSnapShotLastUpdateTime` attribute",
+     * "`sendEventSnapShotLastUpdateTime` attribute",
      *  "***",
      *  "The timestamp of the last update time of the still image associated with the current source selection."
      * ]
      */
-    sendStateSnapShotLastUpdateTime: string;
+    sendEventSnapShotLastUpdateTime: string;
 
     /**
      * @name receivestateurl
@@ -333,7 +333,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      */
     receiveStateSnapShotURL: string;
 
-    /**
+	/**
      * @name receivestateplay
      * @documentation
      * [
@@ -346,7 +346,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      */
     receiveStatePlay: string;
 
-    /**
+	/**
      * @name receivestateselect
      * @documentation
      * [
