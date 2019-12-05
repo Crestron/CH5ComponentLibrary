@@ -1,0 +1,10 @@
+---
+title: "Common attributes: customClass"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+    {% call exampleSectionFromPartials('common-attributes/custom-class/','ex1', true) %}{% endcall %}
+
+{% endblock %}

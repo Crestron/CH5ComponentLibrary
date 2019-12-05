@@ -1,0 +1,34 @@
+{% raw %}
+<ch5-button label="trigger pulse (to show)" sendEventOnClick="sig_pulse_show"></ch5-button>
+
+<ch5-button label="trigger pulse (to hide)" sendEventOnClick="sig_pulse_hide"></ch5-button>
+
+<hr/>
+<ch5-button type="success" label="remove"       
+             receiveStateShowPulse="sig_pulse_show"
+             receiveStateHidePulse="sig_pulse_hide"></ch5-button>
+<br/>
+<ch5-image
+    url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg"
+    height="200px"
+    receiveStateShowPulse="sig_pulse_show"
+    receiveStateHidePulse="sig_pulse_hide"
+    >
+</ch5-image>             
+<br/>
+<ch5-textinput
+    placeholder="Name"
+    receiveStateShowPulse="sig_pulse_show"
+    receiveStateHidePulse="sig_pulse_hide">
+</ch5-textinput>
+<br/>
+<ch5-spinner
+    label="item {{idx}}"
+    indexId="idx"
+    size="20"
+    itemHeight="20"
+    visibleItemScroll="3"
+    receiveStateShowPulse="sig_pulse_show"
+    receiveStateHidePulse="sig_pulse_hide">
+</ch5-spinner>
+{% endraw %}
