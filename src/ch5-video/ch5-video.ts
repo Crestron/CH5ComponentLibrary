@@ -1292,7 +1292,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.isVideoReady = false;
                     this._receiveStatePlayStatus = "true";
                     this.lastUpdatedStatus = "stop";
-                    this.receiveStatePlay = "true";
                     this.publishVideoEvent("start");
                 } else {
                     this._receiveStatePlayStatus = "false";
@@ -2369,7 +2368,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.snapShotUrl = this.snapShotUrl.replace(/http:/i, "ch5-img-auth:");
             this.snapShotUrl = this.snapShotUrl.replace(/https:/i, "ch5-img-auths:");
         }
-        
+
         if (!!this.context) {
             this.context.clearRect(this.position.xPos, this.position.yPos, this.sizeObj.width, this.sizeObj.height);
         }
@@ -2842,7 +2841,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         this.info("Video Response : " + JSON.stringify(this.responseObj));
         const responseStatCode: number = this.responseObj.statusCode;
-        this.isVideoReady = true;
         const responseStatus = this.responseObj.status.toLowerCase();
         switch (responseStatus.toLowerCase()) {
             case 'stopped':
@@ -2852,7 +2850,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this._receiveStatePlay = "true";
                 this.sendEvent(this.sendEventState, 1, 'number');
                 if (this._receiveStatePlayStatus === "false") {
-                    this.loadImageWithAutoRefresh();    
+                    this.loadImageWithAutoRefresh();
                 }
                 this._receiveStatePlayStatus = "true";
                 // Unsubscribe when stopped
