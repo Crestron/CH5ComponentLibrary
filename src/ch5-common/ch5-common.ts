@@ -1413,7 +1413,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
 
         this._receiveStateEnable = value;
-        this.setAttribute('receivestateenabled', value);
+        this.setAttribute('receivestateenable', value);
 
         const recSigEnableName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateEnable);
         const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigEnableName);
