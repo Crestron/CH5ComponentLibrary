@@ -11,7 +11,7 @@
 
 <test-fixture id="ch5-textinput-icon-position-default-fixture">
     <template>
-        <ch5-textinput 
+        <ch5-textinput
         label="First Name"
         icon="fa fa-plane"></ch5-textinput>
     </template>
@@ -37,17 +37,20 @@
 
 <script>
     suite('ch5-textinput icon default position attribute', function() {
-    
+
         let ch5Textinput;
-    
+
         setup(() => {
             ch5Textinput = fixture('ch5-textinput-icon-position-default-fixture');
         });
-    
-        test('Default position is "first"', function() {
-            expect(ch5Textinput.getAttribute('iconposition')).to.be.equal('first');
+
+      test('Default position is "first"', function (done) {
+        setTimeout(() => {
+          expect(ch5Textinput.getAttribute('iconposition')).to.be.equal('first');
+          done();
+        })
         });
-    
+
     });
 
     suite('ch5-textinput icon last value for position attribute', function() {
@@ -65,19 +68,22 @@
     });
 
     suite('ch5-textinput icon invalid value for iconPosition attribute', function() {
-    
+
         let ch5Textinput;
-    
+
         setup(() => {
             ch5Textinput = fixture('ch5-textinput-icon-position-wrong-fixture');
         });
-    
-        test('Testing with an invalid value, fallback has to be "first"', function() {
-            expect(ch5Textinput.getAttribute('iconposition')).to.be.equal('first');
-        });
-    
+
+      test('Testing with an invalid value, fallback has to be "first"', function (done) {
+        setTimeout(() => {
+          expect(ch5Textinput.getAttribute('iconposition')).to.be.equal('first');
+          done();
+        })
+      });
+
     });
-    
+
 </script>
 </body>
 </html>
