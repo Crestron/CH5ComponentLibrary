@@ -151,4 +151,16 @@ export interface ICh5CommonAttributes {
      * @name appendclasswheninviewport
      */
     appendClassWhenInViewPort: string;
+
+    /**
+     * @documentation
+     * [
+     * "`show` attribute",
+     * "***",
+     * "The visibility of the component depends upon the boolean value. The component is visible ",
+     * "when the value is true and hides when it is false."
+     * ]
+     * @name show
+     */
+    show: boolean;
 }

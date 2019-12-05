@@ -55,6 +55,8 @@ const triggerviewStyles = `
     --ch5-triggerview-fallback-message-color-background: #fff;
 
     --ch5-triggerview__internal__slides-per-view: 1;
+    
+    overflow: hidden;
 }
 
 :host([hidden]) {

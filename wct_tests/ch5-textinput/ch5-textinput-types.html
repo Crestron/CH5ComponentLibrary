@@ -29,9 +29,13 @@
             ch5Textinput = fixture('ch5-textinput-types-fixture');
         });
 
-        test('Default type is "text"', function() {
-            console.log(ch5Textinput.getAttribute('type'));
-            expect(ch5Textinput.getAttribute('type')).to.be.equal('text');
+      test('Default type is "text"', function (done) {
+        setTimeout(() => {
+          console.log(ch5Textinput.getAttribute('type'));
+          expect(ch5Textinput.getAttribute('type')).to.be.equal('text');
+          done();
+        })
+
         });
 
         const availableTypes = ['number', 'text', 'email', 'month', 'week'];
@@ -52,14 +56,17 @@
         });
 
         // testing with a random value in a type attribute
-        test('Invalid type should be switched to "text"', function() {
+        test('Invalid type should be switched to "text"', function(done) {
+
+          setTimeout(() => {
             console.log(ch5Textinput);
             expect(ch5Textinput.querySelector('input').getAttribute('type')).to.be.equal('text');
             expect(ch5Textinput.querySelector('input').type).to.be.equal('text');
+            done();
+          })
         })
     })
 
-    
 </script>
 </body>
 </html>
