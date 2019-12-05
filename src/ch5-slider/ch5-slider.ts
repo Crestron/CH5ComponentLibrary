@@ -512,7 +512,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
                 clearTimeout(this._dirtyTimerHandle);
             }
 
-            if (this._wasRendered) {
+            if (this._wasRendered && !isNil((this._elSlider as noUiSlider.Instance).noUiSlider)) {
                 (this._elSlider as noUiSlider.Instance).noUiSlider.set(value);
             }
         }
