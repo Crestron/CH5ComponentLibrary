@@ -89,7 +89,7 @@ export interface ICh5importHtmlSnippet extends ICh5ImportHtmlSnippetAttributes, 
      * [
      * "`receiveStateShow` attribute",
      * "***",
-     * "The boolean value of the signal determines if the component is visible to the user."
+     * "The boolean value of the signal determines if the component is visible to the user.",
      * "A true value indicates that the component is visible."
      * ]
      * @name receivestateshow

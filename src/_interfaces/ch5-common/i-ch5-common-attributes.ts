@@ -86,7 +86,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`receivestateshow` attribute",
      * "***",
-     * "The boolean value of the signal determines if the component is visible to the user."
+     * "The boolean value of the signal determines if the component is visible to the user.",
      * "A true value indicates that the component is visible."
      * ]
      * @name receivestateshow
@@ -120,7 +120,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`receivestateenable` attribute",
      * "***",
-     * "The boolean value of the signal determines if the component is enabled."
+     * "The boolean value of the signal determines if the component is enabled.",
      * "A true value indicates that the component is enabled. Note that ",
      * "the signal name is provided, and the value of the signal has the opposite",
      * "convention of the 'disabled' attribute. This is to provide consistency with current programming practices. "
