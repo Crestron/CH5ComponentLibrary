@@ -19,7 +19,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`size` attribute",
    * "***",
-   * "Amount of items which can be in a spinner element"
+   * "The number of of items that can be in a spinner element."
    * ]
    * @name size
    */
@@ -30,7 +30,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`label` attribute",
    * "***",
-   * "The label of spinner element"
+   * "The label of the spinner element."
    * ]
    * @name label
    */
@@ -41,14 +41,14 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values are 'first' and 'last'. Default is 'first'.",
-   * "This attribute only applies when a template is not provided",
-   * "and the implied template is in use. ",
-   * "If template is provided, this property is ignored.",
-   * "If direction attribute is 'ltr', as will be typical in locales with left",
-   * "to right language direction, 'first' is equivalent to icon being",
-   * "on the left and text on the right. Conversely, if the direction",
-   * "attribute is 'rtl', the 'first' would have the icon on the right and",
+   * "Valid values: 'first' and 'last'. The default value is 'first'.",
+   * "This attribute only applies when a template is not provided ",
+   * "and the implied template is in use.",
+   * "If a template is provided, this property is ignored.",
+   * "If the direction attribute is 'ltr', as will be typical in locales with",
+   * "left-to-right language direction, 'first' is equivalent to the icon being",
+   * "placed on the left and the text on the right. Conversely, if the direction",
+   * "attribute is 'rtl', 'first' would place the icon on the right and",
    * "the label to its left. Value of 'last' is the opposite of 'first'. "
    * ]
    * @name iconposition
@@ -60,8 +60,8 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`selectedValue` attribute",
    * "***",
-   * "The 1 based index of the selected item. Valid values >=1",
-   * "and <= size"
+   * "The 1-based index of the selected item. Valid values are >=1",
+   * "and <= size."
    * ]
    * @name selectedvalue
    */
@@ -72,10 +72,10 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`itemheight` attribute",
    * "***",
-   * "Height of an item. The value of the height can be in px and vh.",
-   * "We need the item height. If this will not be provided we",
-   * "will calculate base on the first item height.",
-   * "Each item on the list needs to have the same height."
+   * "The height of an item. The value of the height can be in px and vh.",
+   * "The item height is required. If this is not provided,",
+   * "CH5 calculates based on the first item height.",
+   * "Each item on the list must have the same height."
    * ]
    * @name itemheight
    */
@@ -86,14 +86,14 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`visibleitemscroll` attribute",
    * "***",
-   * "Default 3. The number of items to be visible in the",
+   * "The default value is 3. The number of items to show in the",
    * "upper/lower container around the selected item container.",
-   * "This information is needed so we can know how many items",
-   * "to add to the top of the list and to the bottom. If we do not",
-   * "have this value set, that means we have to calculate how",
-   * "many items can fit in the scrollHeight and the probability that",
-   * "one item will not be fully visible is high. If there is a template",
-   * "including this visibleItems will need to adjust on the height of",
+   * "This information is needed to determine how many items",
+   * "are added to the top of the list and to the bottom. If this",
+   * "value is not set, the number of items can fit in scrollHeight",
+   * "must be calculated, which presents a probability that",
+   * "one item will not be fully visible in height. If there is a template",
+   * "including this, visibleItems will need to adjust on the height of",
    * "the template given."
    * ]
    * @name visibleitemscroll
@@ -105,8 +105,8 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   * "Default direct. allow the form submission functionality.",
-   * "direct, submit"
+   * "The default value is 'direct'. Allows the form submission functionality.",
+   * "Valid values: 'direct', 'submit'."
    * ]
    * @name feedbackmode
    */
@@ -117,11 +117,11 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`signalValueSyncTimeout` attribute",
    * "***",
-   * "Default 1500. Defines the time between the user release the",
-   * "handle of the toggle and the time the toggle will check if the",
-   * "value is equal with the value from the signal. If not it will",
-   * "automatically apply the value from the signal. Apply only for",
-   * "feedbackMode direct"
+   * "The default value is 1500. Defines the time between the user releases a ",
+   * "toggle and the time the toggle will check if the ",
+   * "value is equal with the value from the signal. If the value is not equal, it will",
+   * "apply the value from the signal automatically. Apply only for",
+   * "feedbackMode direct."
    * ]
    * @name signalvaluesynctimeout
    */
@@ -132,8 +132,8 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`indexid` attribute",
    * "***",
-   * "Provides the name of the offset identifier to substituted with",
-   * "1 based index of the item in list within the template item",
+   * "Provides the name of the offset identifier to be substituted with",
+   * "a 1-based index of the item in a list within the template item",
    * "surrounded by {{ }} delimiters."
    * ]
    * @name indexid
@@ -178,7 +178,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`receiveStateUrl` attribute",
    * "***",
-   * "Provides the image/icon url."
+   * "Provides the image or icon URL."
    * ]
    * @name receivestateurl
    */
@@ -189,7 +189,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`sendEventOnChange` attribute",
    * "***",
-   * "Send an event when the value of the spinner changes"
+   * "Sends an event when the value of the spinner changes."
    * ]
    * @name sendeventonchange
    */
@@ -200,7 +200,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`sendEventOnFocus` attribute",
    * "***",
-   * "Send event on focus"
+   * "Sends an event on focus."
    * ]
    * @name sendeventonfocus
    */
@@ -211,7 +211,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`sendEventOnOverflow` attribute",
    * "***",
-   * "Send event on overflow ( endless attribute required )"
+   * "Sends an event on overflow (endless attribute required)."
    * ]
    * @name sendeventonoverflow
    */
@@ -222,7 +222,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`sendEventOnUnderflow` attribute",
    * "***",
-   * "Send event on underflow ( endless attribute required )"
+   * "Sends an event on underflow (endless attribute required)."
    * ]
    * @name sendeventonunderflow
    */

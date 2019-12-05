@@ -20,7 +20,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      * [
      * "`templateid` attribute",
      * "***",
-     * "The id of the template to be instantiated"
+     * "The ID of the template to be instantiated."
      * ]
      * @name templateid
      *
@@ -34,7 +34,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      * [
      * "`context` attribute",
      * "***",
-     *  "In format of 'original:replacement;'  original is the value to be replaced, replacement",
+     *  "In the format of 'original:replacement;' original is the value to be replaced, and replacement",
      *  "is the replacement value."
      * ]
      * @name context

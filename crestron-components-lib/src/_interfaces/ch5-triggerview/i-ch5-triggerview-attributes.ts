@@ -17,7 +17,7 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * [
      * "`activeview` attribute",
      * "***",
-     * "Default 0. Which view will be shown. 0-based index."
+     * "The default value is 0. Sets the view that will be shown using a 0-based index."
      * ]
      * @name activeview
      */
@@ -28,8 +28,8 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * [
      * "`sendeventshowchildindex` attribute",
      * "***",
-     * "Send the numeric value of currently visible state.",
-     * "Based on zero-based numbering."
+     * "Sends the numeric value of the currently visible state.",
+     * "Based on 0-based numbering."
      * ]
      * @name sendeventshowchildindex
      */
@@ -41,8 +41,8 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestateshowchildindex` attribute",
      * "***",
-     * "Receipt of the numeric value of this state will make",
-     * "the zero based index of views in the component become visible."
+     * "The receipt of the numeric value of this state will make",
+     * "the 0-based index of views in the component become visible."
      * ]
      * @name receivestateshowchildindex
      */
@@ -53,7 +53,7 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * [
      * "`disableanimation` attribute",
      * "***",
-     * "Disable swipe-like animation when navigating through the ChildViews of the TriggerView"
+     * "Disables the swipe-like animation when navigating through the ChildViews of the TriggerView."
      * ]
      * @name disableanimation
      */

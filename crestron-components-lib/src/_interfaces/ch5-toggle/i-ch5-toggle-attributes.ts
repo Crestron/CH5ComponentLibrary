@@ -19,7 +19,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`label` attribute",
    * "***",
-   * "Label value"
+   * "The label value."
    * ]
    * @name label
    */
@@ -30,7 +30,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`labelon` attribute",
    * "***",
-   * "Custom text to display on the toggle when the toggle is ON"
+   * "Custom text to display on the toggle when the toggle is ON."
    * ]
    * @name labelon
    */
@@ -41,7 +41,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`labeloff` attribute",
    * "***",
-   * "Custom text to display on the toggle when the toggle is OFF"
+   * "Custom text to display on the toggle when the toggle is OFF."
    * ]
    * @name labeloff
    */
@@ -52,7 +52,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`iconon` attribute",
    * "***",
-   * "Specify a custom icon class when the toggle is ON"
+   * "Specifies a custom icon class when the toggle is ON."
    * ]
    * @name iconon
    */
@@ -63,7 +63,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`iconoff` attribute",
    * "***",
-   * "Specify a custom icon class when the toggle is OFF"
+   * "Specifies a custom icon class when the toggle is OFF."
    * ]
    * @name iconoff
    */
@@ -74,8 +74,8 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`handleshape` attribute",
    * "***",
-   * "Default circle. Handle Shape. That will also determine the shape",
-   * "of the component ( rectangle or circle )"
+   * "The default value is 'circle'. Sets the shape that will also determine the shape",
+   * "of the component (rectangle or circle)."
    * ]
    * @name handleshape
    */
@@ -86,10 +86,10 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`orientation` attribute",
    * "***",
-   * "Default 'horizontal'. Valid values horizontal, vertical. Lays out",
-   * "the elements of the control in a horizontal or vertical manner.",
-   * "For vertical alignment it will apply a css class that will rotate the ",
-   * "component -90 degrees ( 270 degrees clockwise, 90 degrees counter clockwise )."
+   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. Sets",
+   * "the control elements in a horizontal or vertical orientation.",
+   * "For vertical alignment, it will apply a CSS class that will rotate the ",
+   * "component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)."
    * ]
    * @name orientation
    */
@@ -100,10 +100,10 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`signalvaluesynctimeout` attribute",
    * "***",
-   * "Default 1500. Defines the time between the user click the",
+   * "The default value is 1500. Defines the time between when the user clicks the",
    * "toggle and the time the toggle will check if the value is equal",
-   * "with the value from the signal. If not it will automatically apply",
-   * "the value from the signal. Apply only for feedbackMode direct "
+   * "with the value from the signal. If the value is not equal, it will apply",
+   * "the value from the signal automatically. Apply only for feedbackMode direct."
    *
    * ]
    * @name signalvaluesynctimeout
@@ -115,8 +115,8 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   * "Default 'direct'. If direct, send and receive of value will be",
-   * "instant. On submit it will send and listen for the first event receive."
+   * "The default value is 'direct'. If direct, value send and receive will be",
+   * "instant. On submit, it will send and listen for the first event received."
    * ]
    * @name feedbackmode
    */
@@ -127,7 +127,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`receivestatescriptlabelhtml` attribute",
    * "***",
-   * "The value of the switch"
+   * "The value of the switch."
    * ]
    * @name receivestatescriptlabelhtml
    */
@@ -138,7 +138,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`receivestatevalue` attribute",
    * "***",
-   * "Receiving value from signal"
+   * "The receiving value from the signal."
    * ]
    * @name receivestatevalue
    */
@@ -148,7 +148,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * @documentation
    * [
    * "`sendeventonclick` attribute",
-   * "Send signal on click or tap event (mouse or finger up and down in a small period of time)"
+   * "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
    * ]
    * @name sendeventonclick
    */

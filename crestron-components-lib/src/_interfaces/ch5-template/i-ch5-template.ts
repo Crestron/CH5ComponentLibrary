@@ -18,7 +18,7 @@ import { ICh5TemplateAttributes } from "./i-ch5-template-attributes";
  *   "`ch5-template` element",
  *   "***",
  *   "The primary functionality of this component is to create new instances",
- *   "of the user provided <template> and substitute event and state names",
+ *   "of the user-provided <template> and to substitute event and state names",
  *   "where indicated by the integrator."
  * ]
  * @snippets
