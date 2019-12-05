@@ -17,7 +17,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`id` attribute",
      * "***",
-     * "This is a standard id HTML attribute"
+     * "This is the standard id HTML attribute."
      * ]
      * @name id
      */
@@ -28,7 +28,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`customclass` attribute",
      * "***",
-     * "Contains a list of classes that are applies in the component. "
+     * "Contains a list of classes that are applied in the component."
      * ]
      * @name customclass
      */
@@ -39,7 +39,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`customstyle` attribute",
      * "***",
-     * "A list of space delimited style classes applied on the component."
+     * "Contains a list of space-delimited style classes applied in the component."
      * ]
      * @name customstyle
      */
@@ -50,8 +50,8 @@ export interface ICh5CommonAttributes {
      * [
      * "`noshowtype` attribute",
      * "***",
-     * "This property will reflect the type of the visibility of the item. See the 'data-ch5-noshow-type'",
-     * "custom HTML attribute for further information"
+     * "This property reflects the visibility type of the item. See the 'data-ch5-noshow-type'",
+     * "custom HTML attribute for further information."
      * ]
      * @name noshowtype
      */
@@ -62,8 +62,8 @@ export interface ICh5CommonAttributes {
      * [
      * "`receivestatecustomclass` attribute",
      * "***",
-     * "the value of this signal will be applied equivalent as a property on 'customClass'.",
-     * "Change of value will remove prior value and then apply new value"
+     * "The value of this signal will be applied as an equivalent property on 'customClass'.",
+     * "This value change will remove the prior value and then apply the new value."
      * ]
      * @name receivestatecustomclass
      */
@@ -74,8 +74,8 @@ export interface ICh5CommonAttributes {
      * [
      * "`receivestatecustomstyle` attribute",
      * "***",
-     * "the value of this signal will be applied equivalent as a property on 'styleClass'.",
-     * "Change of value will remove prior value and then apply new value"
+     * "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+     * "This value change will remove the prior value and then apply the new value."
      * ]
      * @name receivestatecustomstyle
      */
@@ -86,7 +86,8 @@ export interface ICh5CommonAttributes {
      * [
      * "`receivestateshow` attribute",
      * "***",
-     * "While true, the boolean value of the signal determines if the component is seen by user"
+     * "The boolean value of the signal determines if the component is seen by user."
+     * "A true value indicates that the component is visible."
      * ]
      * @name receivestateshow
      */
@@ -97,7 +98,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`'receivestateshowpulse` attribute",
      * "***",
-     * "on transition from false to true, this signal will direct the component to be seen by user"
+     * "On transition from false to true, this signal will reveal the component to view."
      * ]
      * @name receivestateshowpulse
      */
@@ -108,7 +109,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`receivestatehidepulse` attribute",
      * "***",
-     * "on transition from false to true, the signal will direct if the component to no longer be seen"
+     * "On transition from false to true, the signal will hide the component from view."
      * ]
      * @name receivestatehidepulse
      */
@@ -119,8 +120,9 @@ export interface ICh5CommonAttributes {
      * [
      * "`receivestateenable` attribute",
      * "***",
-     * " while true, the boolean value of the signal determines if the component is enabled. Please note",
-     * "the signal name is provided, the value of the signal has the opposite",
+     * "The boolean value of the signal determines if the component is enabled."
+     * "A true value indicates that the component is enabled. Note that ",
+     * "the signal name is provided, and the value of the signal has the opposite",
      * "convention of the 'disabled' attribute. This is to provide consistency with current programming practices. "
      * ]
      * @name receivestateenable
@@ -132,8 +134,8 @@ export interface ICh5CommonAttributes {
      * [
      * "`sendeventonshow` attribute",
      * "***",
-     * "boolean value of true when the component is visible and false when not visible.",
-     * "Note, if component is completely covered by other visible elements, it is still considered visible."
+     * "The boolean value is true when the component is visible and false when hidden.",
+     * "Even if a component is covered completely by other visible elements, it is still considered visible."
      * ]
      * @name sendeventonshow
      */
@@ -144,7 +146,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`appendclasswheninviewport` attribute",
      * "***",
-     * "apply the provided value as class name while the component is visible and remove the class name when not visible"
+     * "Apply the provided value as class name while the component is visible, and remove the class name when the component is hidden."
      * ]
      * @name appendclasswheninviewport
      */
