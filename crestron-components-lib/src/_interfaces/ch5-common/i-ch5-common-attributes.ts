@@ -86,7 +86,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`receivestateshow` attribute",
      * "***",
-     * "The boolean value of the signal determines if the component is seen by user."
+     * "The boolean value of the signal determines if the component is visible to the user."
      * "A true value indicates that the component is visible."
      * ]
      * @name receivestateshow
@@ -98,7 +98,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`'receivestateshowpulse` attribute",
      * "***",
-     * "On transition from false to true, this signal will reveal the component to view."
+     * "On transition from false to true, this signal will reveal the component."
      * ]
      * @name receivestateshowpulse
      */

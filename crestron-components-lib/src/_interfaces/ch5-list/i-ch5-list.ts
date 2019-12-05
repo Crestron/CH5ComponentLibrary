@@ -27,7 +27,7 @@ import { ICh5Gestureable } from "../ch5-common/i-ch5-gestureable";
  * [
  * "`ch5-list` element",
  * "***",
- * " Use to display repetitive items."
+ * " Use to display a list of items."
  * ]
  * @snippets
  * [
@@ -94,7 +94,7 @@ export interface ICh5List extends ICh5Gestureable, ICh5ListAttributes, ICh5Commo
    * [
    * "`scrollbar` attribute",
    * "***",
-   * "Default false. If true show a scrollbar for the list"
+   * "The default value is false. If true, shows a scrollbar for the list."
    * ]
    * @name scrollbar
    */
@@ -105,9 +105,9 @@ export interface ICh5List extends ICh5Gestureable, ICh5ListAttributes, ICh5Commo
    * [
    * "`pageswipe` attribute",
    * "***",
-   * "Default false. If false, swipe gesture moves the list with momentum as",
-   * "expected on 'throwable' lists. If true, a swipe gesture will move the list only",
-   * "the number of visible items at a time, snapping the first visible item to top",
+   * "The default value is false. If false, a swipe gesture moves the list with momentum as",
+   * "expected on 'throwable' lists. If true, a swipe gesture will move the list only ",
+   * "by the number of visible items at a time, snapping the first visible item to top ",
    * "for vertical list or on left for dir='ltr' attribute lists."
    * ]
    * @name pagedswipe
@@ -119,12 +119,12 @@ export interface ICh5List extends ICh5Gestureable, ICh5ListAttributes, ICh5Commo
    * [
    * "`endless` attribute",
    * "***",
-   * "Default false. If false, continued swiping when reach end of list will reveal",
-   * "no entries beyond the last entry. If true, or just added without a value, ", 
-   * "the first entry of the list will",
-   * "virtually follow the last entry of list when reaching the end of the entries.",
-   * "Swiping towards the beginning of list entries will also review the last entry",
-   * "prior to the first entry. "
+   * "The default value is false. If false, continued swiping when reaching the end of a list will reveal",
+   * "no entries beyond the last entry. If true, or if added without a value, ", 
+   * "the first list item will",
+   * "virtually follow the last list item after it is reached.",
+   * "Swiping towards the beginning of list items will also reveal the last item",
+   * "in front of the first item."
    * ]
    * @name endless
    */
