@@ -13,15 +13,15 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Spinner
  * @isattribute false
  * @tagName ch5-spinner
- * @description Ch5 Spinner provides a list of items being possible to go through items by dragging the spinner element.
+ * @description CH5 Spinner provides a list of items where items can be moved between by dragging the spinner element.
  * @documentation
  * [
  * "`ch5-spinner` element",
  * "***",
- * "Functionally the Spinner Component is similar to the Select component. The primary differences are visual representation.",
- * "Visually, Spinner component will present a vertical list of values centered around one central orientated",
- * "item which is considered the single selected item. Swiping up and down on the items will allow the user",
- * "to see other selections and leaving an item in the center chooses the item. "
+ * "Functionally, the Spinner component is similar to the Select component. The primary differences are in the visual representation.",
+ * "The Spinner component presents a vertical list of values centered around one centrally-orientated ",
+ * "item, which is considered the single selected item. Swiping up and down on the items allow the user ",
+ * "to see other selections, and placing an item in the center chooses that item. "
  * ]
  * @snippets
  * [
@@ -85,7 +85,7 @@ export interface ICh5Spinner extends ICh5SpinnerAttributes, ICh5Common {
    * [
    * "`onclean` attribute",
    * "***",
-   * "Run when clean event is fired"
+   * "Runs when a clean event is initiated."
    * ]
    * @name onclean
    */
@@ -96,7 +96,7 @@ export interface ICh5Spinner extends ICh5SpinnerAttributes, ICh5Common {
    * [
    * "`ondirty` attribute",
    * "***",
-   * "Run when dirty event is fired"
+   * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
    */
@@ -107,9 +107,9 @@ export interface ICh5Spinner extends ICh5SpinnerAttributes, ICh5Common {
    * [
    * "`resize` attribute",
    * "***",
-   * "If true, then resize the options panel to fit content width.",
-   * "apply only this css rule “width=fit-content” and/or “width =auto”",
-   * "( depending on the browser agent )"
+   * "If true, the options panel is resized to fit content width.",
+   * "Apply only with the CSS rule “width=fit-content” and/or “width =auto”",
+   * "(depending on the browser agent)."
    * ]
    * @name resize
    */
@@ -120,7 +120,7 @@ export interface ICh5Spinner extends ICh5SpinnerAttributes, ICh5Common {
    * [
    * "`endless` attribute",
    * "***",
-   * "Default false. Infinite spinner. This will trigger that the next",
+   * "The default value is false. Creates an infinite spinner. This will trigger the next",
    * "element after the last to be the first element in the list."
    * ]
    * @name endless
@@ -132,7 +132,7 @@ export interface ICh5Spinner extends ICh5SpinnerAttributes, ICh5Common {
    * [
    * "`autosetitemheight` attribute",
    * "***",
-   * "Adjusts the height of ch5-spinner items automatically"
+   * "Adjusts the height of ch5-spinner items automatically."
    * ]
    * @name autosetitemheight
    */
