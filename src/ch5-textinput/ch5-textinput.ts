@@ -6,21 +6,21 @@
 // under which you licensed this source code.
 
 import _ from "lodash";
-import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
-import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
-import { Ch5TextInputScaling } from "./ch5-textinput-scaling";
-import { Ch5tTextInputMask } from "./ch5-textinput-mask";
-import { Ch5Common } from "../ch5-common/ch5-common";
+import {Ch5CommonInput} from "../ch5-common-input/ch5-common-input";
+import {Ch5Signal, Ch5SignalFactory} from "../ch5-core";
+import {Ch5TextInputScaling} from "./ch5-textinput-scaling";
+import {Ch5tTextInputMask} from "./ch5-textinput-mask";
+import {Ch5Common} from "../ch5-common/ch5-common";
 
-import { TCh5TextInputType } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-type';
-import { TCh5TextInputTextTransform } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-text-transform';
-import { TCh5TextInputStretch } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-stretch';
-import { TCh5TextInputSize } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-size';
-import { TCh5TextInputIconPosition } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-icon-position';
-import { TCh5CommonInputFeedbackModes } from '../_interfaces/ch5-common-input/types';
+import {TCh5TextInputType} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-type';
+import {TCh5TextInputTextTransform} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-text-transform';
+import {TCh5TextInputStretch} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-stretch';
+import {TCh5TextInputSize} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-size';
+import {TCh5TextInputIconPosition} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-icon-position';
+import {TCh5CommonInputFeedbackModes} from '../_interfaces/ch5-common-input/types';
 import HtmlCallback from "../ch5-common/utils/html-callback";
-import { ICh5TextInputAttributes } from "../_interfaces/ch5-textinput";
-import { Ch5RoleAttributeMapping } from "../utility-models";
+import {ICh5TextInputAttributes} from "../_interfaces/ch5-textinput";
+import {Ch5RoleAttributeMapping} from "../utility-models";
 
 export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttributes {
 
@@ -520,11 +520,11 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         return contextAttributes.concat(superAttributes, commonAttributes);
 
     }
-    
+
     public connectedCallback(): void {
-        
+
         this.info('<ch5-textinput/>.connectedCallback()');
-        
+
         Promise.all([
             customElements.whenDefined('ch5-textinput'),
         ]).then(() => {
@@ -532,7 +532,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             if (!this.hasAttribute('role')) {
                 this.setAttribute('role', Ch5RoleAttributeMapping.ch5TextInput);
             }
-            
+
             /**
              * The tabindex global attribute indicates if its element can be focused.
              * Makes available focus and blur events on element
@@ -546,18 +546,18 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             if (!this.hasAttribute('tabindex')) {
                 this.setAttribute('tabindex', '0');
             }
-            
+
             if (!this._wasInstatiated) {
                 this.createInternalHTML();
             }
             this._wasInstatiated = true;
-            
+
             this.initAttributes();
             this.attachEventListeners();
             this._addAriaAttributes();
-            
+
             this.initCommonMutationObserver(this);
-            
+
             this.lastValidState = this.getValid();
             this.info('Ch5TextInput --- Callback loaded');
         });
@@ -565,7 +565,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
     public disconnectedCallback(): void {
         this.info('<ch5-textinput/>.disconnectedCallback()');
-        
+
         this.removeEvents();
         this.unsubscribeFromSignals();
 
@@ -1556,18 +1556,19 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      * @param {string} mask
      */
     public set mask(mask: string) {
-    
+
         this.info('set <ch5-textinput mask="' + mask + '"');
-    
-        if (this.mask !== mask && (mask === undefined || mask === null)) {
-            mask = '';
-        }
+
         if (this.mask === mask) {
             // In Angular the setter is triggered twice, but even so it does not make sense to re-init the
             // mask attribute if the value was not changed
             return;
         }
-        
+
+        if (this.mask !== mask && (mask === undefined || mask === null)) {
+            mask = '';
+        }
+
         this._mask = mask;
         this._elInput.setAttribute('mask',this.mask);
         this._maskInit();
@@ -1815,7 +1816,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             }
         }
     }
-	
+
     public getCssClassDisabled() {
         return this.cssClassPrefix + '--disabled';
     }
@@ -2039,7 +2040,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             container.remove();
         })
     }
-    
+
     /**
      * Generate the inner markup
      *
@@ -2233,7 +2234,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      */
     protected attachEventListeners(): void {
         this.info("<ch5-textinput />.attachEventListeners()");
-        
+
         this._onChangeListener = this._onChange.bind(this);
         this._onBlurListener = this._onBlur.bind(this);
         this._onFocusListener = this._onFocus.bind(this);
@@ -2255,9 +2256,9 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      */
     protected removeEvents(): void {
         this.info("<ch5-textinput />.removeEvents()");
-    
+
         super.removeEventListeners();
-    
+
         if (!_.isEmpty(this._elInput)) {
             this._elInput.removeEventListener('change', this._onChangeListener);
             this._elInput.removeEventListener('focus', this._onFocusListener);
