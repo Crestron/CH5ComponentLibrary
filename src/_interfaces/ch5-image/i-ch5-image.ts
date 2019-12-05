@@ -17,10 +17,10 @@ import { ICh5ImageAttributes } from "./i-ch5-image-attributes";
  * [
  * "`ch5-image` element",
  * "***",
- * "Component to load images. Even with this component, user can use the standard HTML",
- * "<img>tag. This component primarily allows for images to be loaded from a security camera on a polled basis. ",
- * "The implementation of the Image Component in the needs to coordinate request of images to be shared",
- * "between different image components and video components that may be requesting the same image URL. "
+ * "A component to load images. Even with this component, the user can still use the standard HTML ",
+ * "<img> tag. This component allows primarily for images to be loaded from a security camera on a polled basis.",
+ * "The implementation of the Image component is used to coordinate a request of shared images",
+ * "between different image components and video components that may be requesting the same image URL."
  * ]
  * @snippets
  * [
@@ -65,7 +65,7 @@ export interface ICh5Image extends ICh5Common, ICh5ImageAttributes {
    * [
    * "`onpress` attribute",
    * "***",
-   * "Run when press event is fired"
+   * "Run when a press event is initiated."
    * ]
    * @name onpress
    */
@@ -76,7 +76,7 @@ export interface ICh5Image extends ICh5Common, ICh5ImageAttributes {
    * [
    * "`onrelease` attribute",
    * "***",
-   * "Run when release event is fired"
+   * "Run when a release event is initiated."
    * ]
    * @name onrelease
    */

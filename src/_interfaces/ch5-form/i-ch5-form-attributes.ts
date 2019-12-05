@@ -19,7 +19,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`submitbuttonlabel` attribute",
    * "***",
-   * "Represents the label of the submit button"
+   * "Represents the label of the submit button."
    * ]
    */
   submitButtonLabel: string;
@@ -30,7 +30,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`submitbuttonicon` attribute",
    * "***",
-   * "Represents the icon of the submit button"
+   * "Represents the icon of the submit button."
    * ]
    */
   submitButtonIcon: string;
@@ -41,7 +41,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`submitbuttonStyle` attribute",
    * "***",
-   * "Represents the style of the submit button"
+   * "Represents the style of the submit button."
    * ]
    */
   submitButtonStyle: string;
@@ -52,7 +52,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`submitbuttontype` attribute",
    *  "***",
-   *  "Represents the type of the auto-generated 'Submit' button"
+   *  "Represents the type of the auto-generated 'Submit' button."
    * ]
    */
     submitButtonType: TCh5ButtonType;
@@ -63,7 +63,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`cancelbuttonlabel` attribute",
    * "***",
-   * "Represents the label of the cancel button"
+   * "Represents the label of the cancel button."
    * ]
    */
   cancelButtonLabel: string;
@@ -74,7 +74,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`cancelbuttonicon` attribute",
    * "***",
-   * "Represents the icon of the cancel button"
+   * "Represents the icon of the cancel button."
    * ]
    */
   cancelButtonIcon: string;
@@ -85,7 +85,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`cancelbuttonstyle` attribute",
    * "***",
-   * "Represents the style of the cancel button"
+   * "Represents the style of the cancel button."
    * ]
    */
   cancelButtonStyle: string;
@@ -96,7 +96,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`cancelButtonType` attribute",
    *  "***",
-   *  "Represents the type of the auto-generated 'Cancel' button"
+   *  "Represents the type of the auto-generated 'Cancel' button."
    * ]
    */
   cancelButtonType: TCh5ButtonType;
@@ -107,7 +107,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`submitid` attribute",
    * "***",
-   * "Represents the id of the submit button"
+   * "Represents the id of the submit button."
    * ]
    */
   submitId: string;
@@ -118,7 +118,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * [
    * "`cancelId` attribute",
    * "***",
-   * "Represents the id of the cancel button"
+   * "Represents the id of the cancel button."
    * ]
    */
   cancelId: string;
