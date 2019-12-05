@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Observable, fromEvent, merge, pipe } from 'rxjs';
+import { Observable, fromEvent, merge, pipe } from 'rxjs'
 import { debounceTime } from 'rxjs/operators';
 
 // List of window events need to capture while video streaming.
@@ -42,10 +42,10 @@ export class Ch5VideoEventHandler {
 
     public static attachWindowEvents(): Observable<Event> {
         // Add debounceTime in order to avoid multiple resize problem
-        const resizeEvents = fromEvent(window, EVideoWindowEvents.RESIZE_EVENT).pipe(debounceTime(1000));
+        const resizeEvents = fromEvent(window, EVideoWindowEvents.RESIZE_EVENT).pipe(debounceTime(100));
         const orientationchangeEvents = fromEvent(window, EVideoWindowEvents.ORIENTATIONCHANGE_EVENT);
         // Add debounceTime in order to avoid multiple scroll problem
-        const scrollEvents = fromEvent(window, EVideoWindowEvents.SCROLL_EVENT).pipe(debounceTime(1000));
+        const scrollEvents = fromEvent(window, EVideoWindowEvents.SCROLL_EVENT).pipe(debounceTime(100));
         const touchMoveEvents = fromEvent(window, EVideoWindowEvents.TOUCH_MOVE_EVENT);
         const touchEndEvents = fromEvent(window, EVideoWindowEvents.TOUCH_END_EVENT);
 
