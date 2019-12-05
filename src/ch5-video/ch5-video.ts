@@ -119,7 +119,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private faExpand: HTMLElement = {} as HTMLElement;
     private controlsRight: HTMLElement = {} as HTMLElement;
     private liveCard: HTMLElement = {} as HTMLElement;
-    private onScreenPlayStatus: HTMLElement = {} as HTMLElement;
     private snapShotTimer: any;
 
     private subscriptionEventList: Subscription[] = [];
@@ -810,7 +809,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.setAttribute("id", this.getCrId());
         const uID = this.getCrId().split('cr-id-');
         this.ch5UId = parseInt(uID[1], 0);
-        this.calculatePlayorStopIcon();
     }
 
     /**
@@ -1230,18 +1228,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.playValue = newValue;
                 if (this._receiveStatePlay === "true" || this._receiveStatePlay !== "false") {
                     this.unsubscribeRefreshImage();
-                    if (this.querySelector(".video-ctrl")) {
-                        this.onScreenPlayStatus.innerHTML = this.screenPlayIcon;
-                        this.onScreenPlayStatus.classList.remove('stop');
-                        this.onScreenPlayStatus.classList.add('play');
-                    }
                     this.publishVideoEvent("start");
                 } else {
-                    if (this.querySelector(".video-ctrl")) {
-                        this.onScreenPlayStatus.innerHTML = this.screenStopIcon;
-                        this.onScreenPlayStatus.classList.remove('play');
-                        this.onScreenPlayStatus.classList.add('stop');
-                    }
                     this.publishVideoEvent("stop");
                 }
             });
@@ -2182,10 +2170,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControls.appendChild(this.controlsLeft);
         this.vidControls.appendChild(this.controlsRight);
         this.vidControlPanel.appendChild(this.vidControls);
-        // Create buttons on the screen to allow user to click the screen for play or stop
-        this.onScreenPlayStatus = document.createElement("i");
-        this.onScreenPlayStatus.classList.add('video-ctrl');
-        this.videoCanvas.appendChild(this.onScreenPlayStatus);
         this.setControlSize();
         // add primary class
         this.vid.classList.add(this.primaryVideoCssClass);
@@ -2371,28 +2355,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return actionType;
     }
 
-    private calculatePlayorStopIcon() {
-        const iconLeft = this.vid.width / 2;
-        const iconTop = this.vid.height / 2;
-        const screenPlayWidth = getComputedStyle(this.onScreenPlayStatus).width as string;
-        const screenPlayHeight = getComputedStyle(this.onScreenPlayStatus).height as string;
-        const iconWidth = parseInt(screenPlayWidth, 10) / 2;
-        const iconHeight = parseInt(screenPlayHeight, 10) / 2;
-        this.onScreenPlayStatus.style.left = (iconLeft - iconWidth) + "px";
-        this.onScreenPlayStatus.style.top = (iconTop - iconHeight) + "px";
-    }
-
-    private calculateFullScreenPlayorStopIcon() {
-        const iconLeft = window.screen.width / 2;
-        const iconTop = window.screen.height / 2;
-        const screenPlayWidth = getComputedStyle(this.onScreenPlayStatus).width as string;
-        const screenPlayHeight = getComputedStyle(this.onScreenPlayStatus).height as string;
-        const iconWidth = parseInt(screenPlayWidth, 10) / 2;
-        const iconHeight = parseInt(screenPlayHeight, 10) / 2;
-        this.onScreenPlayStatus.style.left = (iconLeft - iconWidth) + "px";
-        this.onScreenPlayStatus.style.top = (iconTop - iconHeight) + "px";
-    }
-
     /**
      * Changes the full screen mode through controls
      */
@@ -2419,7 +2381,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.vid.height = this.originalVideoProperties.height;
             this.classList.remove(this.fullScreenStyleClass);
             this.autoHideControls();
-            this.calculatePlayorStopIcon();
             if (this.controls === 'true') {
                 document.body.removeChild(this.vidControlPanel);
                 this.videoCanvas.style.position = 'relative';
@@ -2482,7 +2443,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.vid.width = window.innerWidth;
             this.vid.height = window.innerHeight;
             this._calculation(this.vid);
-            this.calculateFullScreenPlayorStopIcon();
             if (this.controls === 'true') {
                 this.videoCanvas.removeChild(this.vidControlPanel);
                 document.body.appendChild(this.vidControlPanel);
@@ -2684,7 +2644,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0)));
                     this.info("Video Request (Start) : " + JSON.stringify(this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0))));
-                    this.onScreenPlayStatus.classList.remove('stop');
                     publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                         actionType, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
                     this.info("Background Request (Start) : " + JSON.stringify(
@@ -2793,7 +2752,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const responseStatCode: number = this.responseObj.statusCode;
         this.isVideoReady = true;
         const responseStatus = this.responseObj.status.toLowerCase();
-        switch (responseStatus) {
+        switch (responseStatus.toLowerCase()) {
             case 'stopped':
                 this.retryCount = 0;
                 this.isVideoReady = false;
@@ -2860,7 +2819,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'error':
-                if (responseStatCode < 0 && responseStatCode >= -1000) {
+                if (responseStatCode < 0 && responseStatCode >= -10000) {
                     this.publishVideoEvent("start");
                     if (this.lastUpdatedStatus === 'start') {
                         this.sendEvent(this.sendEventState, 7, 'number');
@@ -2879,7 +2838,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = false;
                 this.isImageReady = true;
                 // Try to start the video when the error code is within the below range
-                if (responseStatCode < 0 && responseStatCode >= -1000) {
+                if (responseStatCode < 0 && responseStatCode >= -10000) {
                     this.publishVideoEvent("start");
                     this.sendEvent(this.sendEventRetryCount, this.retryCount++, 'number');
                 }
