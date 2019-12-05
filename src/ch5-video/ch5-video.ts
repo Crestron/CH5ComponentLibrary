@@ -121,8 +121,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private faExpand: HTMLElement = {} as HTMLElement;
     private controlsRight: HTMLElement = {} as HTMLElement;
     private liveCard: HTMLElement = {} as HTMLElement;
-    private onScreenPlayStatus: HTMLElement = {} as HTMLElement;
-    private preLoader: HTMLElement = {} as HTMLElement;
     private snapShotTimer: any;
 
     private subscriptionEventList: Subscription[] = [];
@@ -513,9 +511,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _sigNameResolution: string = '';
     private _sigNameSnapShotStatus: string = '';
     private _sigNameSnapShotLastUpdateTime: string = '';
-
     private _tmplString: string = '';
-
+    private _receiveStatePlayStatus: string = '';
 
     /**
      * CONSTRUCTOR
@@ -1292,20 +1289,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.playValue = newValue;
                 if (this._receiveStatePlay === "true" || this._receiveStatePlay !== "false") {
                     this.unsubscribeRefreshImage();
-                    if (this.querySelector(".video-ctrl")) {
-                        this.onScreenPlayStatus.innerHTML = this.screenPlayIcon;
-                        this.onScreenPlayStatus.classList.remove('stop');
-                        this.onScreenPlayStatus.classList.add('play');
-                    }
                     this.isVideoReady = false;
+                    this._receiveStatePlayStatus = "true";
                     this.lastUpdatedStatus = "stop";
+                    this.receiveStatePlay = "true";
                     this.publishVideoEvent("start");
                 } else {
-                    if (this.querySelector(".video-ctrl")) {
-                        this.onScreenPlayStatus.innerHTML = this.screenStopIcon;
-                        this.onScreenPlayStatus.classList.remove('play');
-                        this.onScreenPlayStatus.classList.add('stop');
-                    }
+                    this._receiveStatePlayStatus = "false";
                     this.isVideoReady = true;
                     this.lastUpdatedStatus = "start";
                     this.publishVideoEvent("stop");
@@ -2267,13 +2257,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.snapShotUrl) {
             this.videoImage = document.createElement("img");
         }
-        this.preLoader = document.createElement("div");
-        this.preLoader.classList.add('preLoader');
-        this.videoCanvas.appendChild(this.preLoader);
-        this.preLoader.style.visibility = 'hidden';
-        this.preLoader.style.backgroundColor = "#ff0000";
-        // this.preLoader.style.width = window.innerWidth + "px";
-        // this.preLoader.style.height = window.innerHeight + "px";
     }
 
     /**
@@ -2329,6 +2312,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.isOrientationChanged = false;
                 } else {
                     this.calculatePositions();
+                    this.isVideoReady = false;
                     this._receiveStatePlay = 'true';
                     this.isVideoReady = false;
                     this.lastUpdatedStatus = "stop";
@@ -2599,9 +2583,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const doSubscribe = Ch5Video.EVENT_LIST.subscribe((event: Event) => {
             this.subscriptionEventList.push(doSubscribe);
             if (event.type === EVideoWindowEvents.RESIZE_EVENT) {
-                if (this.isFullScreen) {
-                    this.preLoader.style.visibility = 'visible';
-                }
                 this.isOrientationChanged = true;
                 this.videoVisibilityInViewport();
             }
@@ -2638,7 +2619,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             subscription.unsubscribe();
         });
         // Stop the Video
-        this._receiveStatePlay = "false";
+        this.isVideoReady = true;
+        this.lastUpdatedStatus = "start";
         this.publishVideoEvent("stop");
     }
 
@@ -2862,16 +2844,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const responseStatCode: number = this.responseObj.statusCode;
         this.isVideoReady = true;
         const responseStatus = this.responseObj.status.toLowerCase();
-        switch (responseStatus) {
+        switch (responseStatus.toLowerCase()) {
             case 'stopped':
                 this.retryCount = 0;
                 this.isVideoReady = false;
                 this.isImageReady = true;
                 this._receiveStatePlay = "true";
                 this.sendEvent(this.sendEventState, 1, 'number');
-                if (this._indexId || this.receiveStateSelect) {
-                    this.loadImageWithAutoRefresh();
+                if (this._receiveStatePlayStatus === "false") {
+                    this.loadImageWithAutoRefresh();    
                 }
+                this._receiveStatePlayStatus = "true";
                 // Unsubscribe when stopped
                 if (this.videoResponseSubscriptionId) {
                     unsubscribeState('o', 'Csig.video.response', this.videoResponseSubscriptionId);
@@ -2932,7 +2915,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'error':
-                if (responseStatCode < 0 && responseStatCode >= -1000) {
+                if (responseStatCode < 0 && responseStatCode >= -10000) {
                     this.publishVideoEvent("start");
                     if (this.lastUpdatedStatus === 'start') {
                         this.sendEvent(this.sendEventState, 7, 'number');
@@ -2951,8 +2934,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = false;
                 this.isImageReady = true;
                 // Try to start the video when the error code is within the below range
-                if (responseStatCode < 0 && responseStatCode >= -1000) {
-                    this._receiveStatePlay = 'true';
+                if (responseStatCode < 0 && responseStatCode >= -10000) {
+                    this._receiveStatePlay = "true";
                     this.lastResponseStatus = "stop";
                     this.publishVideoEvent("start");
                     this.sendEvent(this.sendEventRetryCount, this.retryCount++, 'number');
