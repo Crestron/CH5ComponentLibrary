@@ -509,7 +509,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _sigNameResolution: string = '';
     private _sigNameSnapShotStatus: string = '';
     private _sigNameSnapShotLastUpdateTime: string = '';
-
+    private _receiveStatePlayStatus: string = '';
 
     /**
      * CONSTRUCTOR
@@ -1228,8 +1228,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.playValue = newValue;
                 if (this._receiveStatePlay === "true" || this._receiveStatePlay !== "false") {
                     this.unsubscribeRefreshImage();
+                    this.isVideoReady = false;
+                    this._receiveStatePlayStatus = "true";
+                    this.lastUpdatedStatus = "stop";
+                    this.receiveStatePlay = "true";
                     this.publishVideoEvent("start");
                 } else {
+                    this._receiveStatePlayStatus = "false";
+                    this.isVideoReady = true;
+                    this.lastUpdatedStatus = "start";
                     this.publishVideoEvent("stop");
                 }
             });
@@ -2235,7 +2242,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.isOrientationChanged = false;
                 } else {
                     this.calculatePositions();
+                    this.isVideoReady = false;
                     this._receiveStatePlay = 'true';
+                    this.lastUpdatedStatus = "stop";
                     this.publishVideoEvent("start");
                 }
             }, 1000);
@@ -2255,7 +2264,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     if (this.isSwipeInterval) {
                         window.clearInterval(this.isSwipeInterval);
                     }
-                    this._receiveStatePlay = 'false';
+                    this.lastUpdatedStatus = "start";
                     this.publishVideoEvent("stop");
                 }
             }
@@ -2280,6 +2289,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Refresh the snapshot based on the refresh rate
      */
     private loadImageWithAutoRefresh() {
+        let loginCredentials = "";
+        if (this.snapShotUserId && this.snapShotPassword && !this.snapShotUrl.indexOf("http")) {
+            loginCredentials = this.snapShotUserId + ":" + this.snapShotPassword + "@";
+            this.snapShotUrl = this.snapShotUrl.replace(/\:\/\//, "://" + loginCredentials);
+            this.snapShotUrl = this.snapShotUrl.replace(/http:/i, "ch5-img-auth:");
+            this.snapShotUrl = this.snapShotUrl.replace(/https:/i, "ch5-img-auths:");
+        }
+        
         if (!!this.context) {
             this.context.clearRect(this.position.xPos, this.position.yPos, this.sizeObj.width, this.sizeObj.height);
         }
@@ -2530,7 +2547,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             subscription.unsubscribe();
         });
         // Stop the Video
-        this.isVideoReady = false;
+        this.isVideoReady = true;
+        this.lastUpdatedStatus = "start";
+        this.publishVideoEvent("stop");
     }
 
     /**
@@ -2758,9 +2777,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = false;
                 this.isImageReady = true;
                 this.sendEvent(this.sendEventState, 1, 'number');
-                if (this._indexId || this.receiveStateSelect) {
-                    this.loadImageWithAutoRefresh();
+                if (this._receiveStatePlayStatus === "false") {
+                    this.loadImageWithAutoRefresh();    
                 }
+                this._receiveStatePlayStatus = "true";
                 // Unsubscribe when stopped
                 if (this.videoResponseSubscriptionId) {
                     unsubscribeState('o', 'Csig.video.response', this.videoResponseSubscriptionId);
