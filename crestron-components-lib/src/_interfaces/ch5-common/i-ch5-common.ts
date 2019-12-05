@@ -25,7 +25,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * [
      * "`class` attribute",
      * "***",
-     * "This is a standard class HTML attribute"
+     * "This is a standard class HTML attribute."
      * ]
      * @name class
      */
@@ -36,7 +36,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * [
      * "`style` attribute",
      * "***",
-     * "This is a standard style HTML attribute"
+     * "This is a standard style HTML attribute."
      * ]
      * @name style
      */
@@ -47,9 +47,9 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * [
      * "`role` attribute",
      * "***",
-     * "Accessibility attribute, implemented by all ch5-components and added automatically if not set by the user. ",
-     * "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog' and so on. ",
-     * "You can override its default value for this ch5-component via this attribute."
+     * "This is an accessibility attribute that is implemented by all ch5-components and added automatically if not set by the user.",
+     * "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so forth. ",
+     * "You can override the default value for this ch5-component via this attribute."
      * ]
      * @name role
      */
@@ -60,7 +60,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * [
      * "`debug` attribute",
      * "***",
-     * "Defaulted to false. Used to get useful developer related information about component behavior"
+     * "The default value is false. Used to obtain useful developer-related information about component behavior."
      * ]
      * @name debug
      */
@@ -71,7 +71,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * [
      * "`disabled` attribute",
      * "***",
-     * "Defaulted to false, this property will direct the component to change CSS and event listeners",
+     * "The default value is false. This property will direct the component to change CSS and event listeners ",
      * "to reflect a disabled state when true."
      * ]
      * @name disabled
