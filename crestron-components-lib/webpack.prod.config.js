@@ -48,10 +48,7 @@ module.exports = function () {
             // },
             umdNamedDefine: true
         },
-
-        devtool: 'nosources-source-map',
         stats: 'verbose',
         performance: { hints: false }
-
     })
 };
