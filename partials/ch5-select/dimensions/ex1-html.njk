@@ -50,6 +50,25 @@
     </p>
 </div>
 
+<p>When <b>mode="panel"</b> is supplied, the height of the panel/dropdown will still be computed based on the <b>panelScrollHeight</b>
+    (if the attribute is provided)</p>
+<i>In the example below, the dropdown height will be 50% of the ch5-select parent, which has a height of 300px (highlighted)</i>
+
+<div class="row" style="height: 300px; border: 1px solid blue;">
+    {% raw %}
+        <ch5-select mode="panel" size="20" indexId="idx" panelScrollHeight="50%"
+                    noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option>
+                    <div>
+                        <span>item_{{idx}}</span>
+                    </div>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    {% endraw %}
+</div>
+
 <p>ch5-select with <strong>resize</strong> attribute. By default select panel width is equal with ch5-select width.
 With resize true, select panel width si given by options width and cannot exceed ch5-select parent width</p>
 
