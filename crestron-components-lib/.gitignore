@@ -6,6 +6,7 @@ yarn-error.log
 .env
 dist
 build_bundles
+build_bundles_dev
 compiled_bundles
 docs
 coverage
