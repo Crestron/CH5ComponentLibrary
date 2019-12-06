@@ -1,0 +1,53 @@
+{% raw %}
+    <p>In the example below, a max-height of <b>200px</b> will be added to the ch5-select dropdown / panel</p>
+    <div class="row">
+        <ch5-select size="20" indexId="idx" panelScrollHeight="200px"
+                    noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option>
+                    <div>
+                        <span>item_{{idx}}</span>
+                    </div>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </div>
+
+    <p>The value of the panelScrollHeight can be changed even after the ch5-select was initialized</p>
+    <div class="row">
+        <ch5-select id="scroll-h-ex" size="20" indexId="idx" panelScrollHeight="5vw" noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option>
+                    <div>
+                        <span>item_{{idx}}</span>
+                    </div>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+        <p style="margin-top: 24px">
+            <button id="update-scroll-h" class="button is-info" type="button">Update scroll height from 300px to 150px
+            </button>
+        </p>
+    </div>
+
+    <p>When <b>mode="panel"</b> is supplied, the <b>height</b> of the dropdown / panel will still be computed based on
+        the
+        <b>panelScrollHeight</b>
+        (if the attribute is provided)</p>
+    <i>In the example below, the dropdown height will be 50% of the ch5-select parent, which has a height of 300px
+        (highlighted), therefore the computed height of the input will be 150px</i>
+
+    <div class="row" style="height: 300px; border: 1px solid blue;">
+        <ch5-select mode="panel" size="20" indexId="idx" panelScrollHeight="50%"
+                    noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option>
+                    <div>
+                        <span>item_{{idx}}</span>
+                    </div>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </div>
+
+{% endraw %}
