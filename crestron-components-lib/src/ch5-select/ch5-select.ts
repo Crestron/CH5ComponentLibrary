@@ -120,7 +120,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
      * @type {number}
      * @private
      */
-    private _panelScrollHeight: number = 0;
+    private _panelScrollHeight: string = "0px";
 
     /**
      * min width of the select panel
