@@ -26,6 +26,7 @@ import HtmlCallback from "../ch5-common/utils/html-callback";
 import { ICh5SelectAttributes } from "../_interfaces/ch5-select/i-ch5-select-attributes";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { isNil } from "lodash";
 
 
 export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
@@ -369,16 +370,17 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
         this.selectedOptionsPanel.innerHTML = this.noneSelectedPrompt as string;
         this._updateCh5SelectDimensions();
 
-        this.setRenderedHeight();
+        this.shouldSetDropdownHeight();
 
         this._createSelectPanel();
         this.attachEventListeners();
     }
 
-    // required for panelScrollHeight if set in % (parent needs to have a height in order for the child to compute a percentage
-    private setRenderedHeight(): void {
-        if (this.panelScrollHeight.toString().includes('%')) {
-            this.style.setProperty('height', `${this.offsetHeight}px`);
+    // required for panelScrollHeight if set in %
+    private shouldSetDropdownHeight(): void {
+        if (this.panelScrollHeight.toString().includes('%') && !isNil(this.parentElement) && this.parentElement.offsetHeight > 0) {
+            // set the height of the panel/dropwdown based on the height of the ch5-select parent
+            this.panelScrollHeight = `${(this.parentElement.offsetHeight / 100) * parseInt(this.panelScrollHeight, 10)}px`;
         }
     }
 
