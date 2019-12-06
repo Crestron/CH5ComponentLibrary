@@ -121,6 +121,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private faExpand: HTMLElement = {} as HTMLElement;
     private controlsRight: HTMLElement = {} as HTMLElement;
     private liveCard: HTMLElement = {} as HTMLElement;
+    private fullScreenOverlay: HTMLElement = {} as HTMLElement;
+    private fullScreenOverlayClick: HTMLElement = {} as HTMLElement;
     private snapShotTimer: any;
 
     private subscriptionEventList: Subscription[] = [];
@@ -513,6 +515,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _sigNameSnapShotLastUpdateTime: string = '';
     private _tmplString: string = '';
     private _receiveStatePlayStatus: string = '';
+    private orientationChangeTimer: any;
 
     /**
      * CONSTRUCTOR
@@ -2256,6 +2259,21 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.snapShotUrl) {
             this.videoImage = document.createElement("img");
         }
+
+        this.fullScreenOverlayClick = document.createElement("div");
+        this.fullScreenOverlayClick.classList.add(this.primaryVideoCssClass);
+        this.fullScreenOverlayClick.classList.add('fullscreen-overlay-click');
+        document.body.appendChild(this.fullScreenOverlayClick);
+        this.fullScreenOverlayClick.style.visibility = 'hidden';
+
+        if (!document.getElementById("fullscreen-overlay")) {
+            this.fullScreenOverlay = document.createElement("div");
+            this.fullScreenOverlay.classList.add(this.primaryVideoCssClass);
+            this.fullScreenOverlay.classList.add('fullscreen-overlay');
+            this.fullScreenOverlay.setAttribute("id", "fullScreenOverlay");
+            document.body.appendChild(this.fullScreenOverlay);
+            this.fullScreenOverlay.style.visibility = 'hidden';
+        }
     }
 
     /**
@@ -2308,7 +2326,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.calculatePositions();
                     }
                     this.publishVideoEvent("resize");
-                    this.isOrientationChanged = false;
                 } else {
                     this.calculatePositions();
                     this.isVideoReady = false;
@@ -2483,6 +2500,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.vidControls.style.marginLeft = (this.originalVideoProperties.videoControlLeft).toString() + "px";
             }
             document.body.style.visibility = "visible";
+            this.fullScreenOverlayClick.style.visibility = 'hidden';
         } else {
             this.fullScreenMode = true;
             this.vidControls.classList.remove(this.lastAddedClass);
@@ -2544,6 +2562,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
             document.body.style.visibility = "hidden";
             this.style.visibility = "visible";
+            this.fullScreenOverlayClick.style.visibility = 'visible';
         }
         this.isVideoReady = true;
         this.publishVideoEvent("resize");
@@ -2578,10 +2597,21 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.videoCanvas.addEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
 
+        this.fullScreenOverlayClick.addEventListener('click', this.manageControls.bind(this));
+
         Ch5Video.EVENT_LIST = Ch5VideoEventHandler.attachWindowEvents();
         const doSubscribe = Ch5Video.EVENT_LIST.subscribe((event: Event) => {
             this.subscriptionEventList.push(doSubscribe);
             if (event.type === EVideoWindowEvents.RESIZE_EVENT) {
+                clearTimeout(this.orientationChangeTimer);
+                if (this.isFullScreen) {
+                    if (!this.isOrientationChanged) {
+                        this.fullScreenOverlay.style.visibility = 'visible';
+                        this.orientationChangeTimer = setTimeout(() => {
+                            this.fullScreenOverlay.style.visibility = 'hidden';
+                        }, 10000);
+                    }
+                }
                 this.isOrientationChanged = true;
                 this.videoVisibilityInViewport();
             }
@@ -2599,6 +2629,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.faExpand.removeEventListener('click', this.fullScreen.bind(this));
         this.videoCanvas.removeEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
+        this.fullScreenOverlay.removeEventListener('click', this.manageControls.bind(this));
     }
 
     /**
@@ -2885,6 +2916,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.sendEvent(this.sendEventState, 2, 'number');
                 this._receiveStatePlay = "false";
                 this.unsubscribeRefreshImage();
+                this.orientationChangeComplete();
                 // Unsubscribe when started
                 if (this.videoResponseSubscriptionId) {
                     unsubscribeState('o', 'Csig.video.response', this.videoResponseSubscriptionId);
@@ -2910,6 +2942,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.isImageReady = false;
                     this.isVideoReady = true;
                     this.unsubscribeRefreshImage();
+                    this.orientationChangeComplete();
                 }
                 break;
             case 'error':
@@ -2946,6 +2979,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
         }
         this.lastResponseStatus = responseStatus;
+    }
+
+    /**
+     * When the Orientation change completes
+     */
+    private orientationChangeComplete() {
+        if (this.isOrientationChanged) {
+            this.fullScreenOverlay.style.visibility = 'hidden';
+            clearTimeout(this.orientationChangeTimer);
+            this.isOrientationChanged = false;
+        }
     }
 
     /**
