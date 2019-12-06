@@ -86,7 +86,6 @@ module.exports = function () {
             new Dotenv()
         ],
 
-        devtool: 'inline-source-map', // 'source-map'
         resolve: {
             extensions: ['.tsx', '.ts', '.js']
         }
