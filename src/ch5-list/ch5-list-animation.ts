@@ -369,11 +369,13 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
             return this._list.sizeResolver.hiddenListSize;
         }
 
+        this._templateHelper.updateViewportSize();
+
         const itemsPerPage = this._list.getItemsPerPage();
         const firstItemSize = this._list.getItemSize();
         const definedListSize = this._list.size || 0;
         const listSize = (definedListSize - itemsPerPage) * firstItemSize; 
-        
+
         return listSize;
     }
 
