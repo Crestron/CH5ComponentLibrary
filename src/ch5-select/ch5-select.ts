@@ -52,9 +52,9 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
     // Ch5SelectOption.ITEM_SELECTED_STYLE_CLASS will be converted to
     // ch5_select_option_1.Ch5SelectOption.ITEM_SELECTED_STYLE_CLASS
     public static ITEM_SELECTED_STYLE_CLASS: string = 'ch5-select__panel__item--selected';
-    
+
     public cssClassPrefix = 'ch5-select';
-    
+
     /**
      * Used only to validate the interface for metadata generation
      * @ignore
@@ -70,7 +70,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
     public receiveStateSizeSubscription: string = '';
     public receiveStateValueSubscription: string = '';
     public receiveStateTemplateVarsSubscription: string = '';
-    
+
     private _optionTemplateHTML: string = '';
 
     /**
@@ -295,7 +295,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
         }
 
         this.setAttribute('data-ch5-id', this.getCrId());
-        
+
         // For ARIA
         if (!this.hasAttribute('role')) {
             this.setAttribute('role', 'listbox');
@@ -323,7 +323,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
         this.info("Callback loaded - ch5-select");
         this._wasInstatiated = true;
       }
-      
+
       Promise.all([
         customElements.whenDefined('ch5-select')
       ]).then(setup);
@@ -369,8 +369,17 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
         this.selectedOptionsPanel.innerHTML = this.noneSelectedPrompt as string;
         this._updateCh5SelectDimensions();
 
+        this.setRenderedHeight();
+
         this._createSelectPanel();
         this.attachEventListeners();
+    }
+
+    // required for panelScrollHeight if set in % (parent needs to have a height in order for the child to compute a percentage
+    private setRenderedHeight(): void {
+        if (this.panelScrollHeight.toString().includes('%')) {
+            this.style.setProperty('height', `${this.offsetHeight}px`);
+        }
     }
 
     private _initOptionTemplate(): void {
@@ -752,7 +761,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
             // click is handled by hammerjs automatically (as tap for mouse actions)
             this._comboTriggerHammer.add(new Hammer.Tap({event: 'tap'}));
             this._comboTriggerHammer.on('tap', this._handleSelectPanelToggle);
-            
+
         }
     }
 
@@ -786,7 +795,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
             this.renderCh5SelectOptions();
         }
     }
-    
+
     // Handle size based on template vars, see showcase example
     public get size() {
         if (this.hasTemplateVars() && this.templateVarsData.length > this._size) {
