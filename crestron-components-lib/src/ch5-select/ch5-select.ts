@@ -28,7 +28,6 @@ import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { isNil } from "lodash";
 
-
 export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
     // Options number can no be > 30
@@ -370,17 +369,24 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
         this.selectedOptionsPanel.innerHTML = this.noneSelectedPrompt as string;
         this._updateCh5SelectDimensions();
 
-        this.shouldSetDropdownHeight();
+        this.shouldComputeDropdownHeight();
 
         this._createSelectPanel();
         this.attachEventListeners();
     }
 
     // required for panelScrollHeight if set in %
-    private shouldSetDropdownHeight(): void {
-        if (this.panelScrollHeight.toString().includes('%') && !isNil(this.parentElement) && this.parentElement.offsetHeight > 0) {
-            // set the height of the panel/dropwdown based on the height of the ch5-select parent
-            this.panelScrollHeight = `${(this.parentElement.offsetHeight / 100) * parseInt(this.panelScrollHeight, 10)}px`;
+    private shouldComputeDropdownHeight(): void {
+        if (this.panelScrollHeight.toString().includes('%') && !isNil(this.parentElement) &&
+            this.parentElement.offsetHeight > 0) {
+            const panelScrollHeightPercentage = parseInt(this.panelScrollHeight, 10);
+            if (panelScrollHeightPercentage > 0) {
+                // set the height of the panel/dropdown based on the height of the ch5-select parent
+                this.panelScrollHeight = `${(this.parentElement.offsetHeight / 100) * panelScrollHeightPercentage}px`;
+            } else {
+                // fallback to 100% maxHeight of the ch5-select parent
+                this.panelScrollHeight = '';
+            }
         }
     }
 
