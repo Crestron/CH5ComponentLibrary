@@ -16,6 +16,7 @@
 - yarn clean:docs - removes the docs folder
 - yarn compile:ts - currently the same as yarn compile:ts:umd with the addition that it clears the compiled_bundles folder
  before running
+- yarn clean:ci:dev - removes the build_bundles_dev folder
 - yarn compile:ts:cjs - uses the typescript (tsc) compiler to output compiled js files and typescript definition files to
 the compiled_bundles/cjs folder
 - yarn compile:ts:esm - uses the tsc compiler to output js files and typescript definition 
@@ -42,6 +43,11 @@ files to the compiled_bundles/amd folder
 - yarn build:prod:amd-no-ce - creates a production bundle in build_bundles/amd-no-ce ( for browsers that do not support customElement )
 - yarn build:dev_all - shortcut for building all development bundles; clears the build_bundles folder first
 - yarn build:prod_all - shortcut for building all production bundles; clears the build_bundles folder first
+- yarn build:ci:dev:amd - creates a development bundle in build_bundles_dev/amd
+- yarn build:ci:dev:cjs - creates a development bundle in build_bundles_dev/cjs
+- yarn build:ci:dev:umd - creates a development bundle in build_bundles_dev/umd
+- yarn build:prod_publish - shortcut for building production bundles: amd, cjs, umd; cleans the build_bundles folder first
+- yarn build:ci:dev_publish - shortcut for building dev bundles for CI: amd, cjs, umd; cleans the build_bundles_dev folder first
 - yarn lint -  runs the linter, does not pass through webpack
 - yarn test:mocha - compiles the typescript files into UMD module then runs the mocha tests
 - yarn doc:html - generates the html documentation in docs/html
