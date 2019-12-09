@@ -22,8 +22,8 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * "***",
  * "The Modal Dialog component is a special-case instance of an overlay panel used primarily",
  * "to display dialog windows and user prompts.",
- * "The modal dialog should generally contains an optional header bar with a title",
- * "an optional message with an optional icon, and optional button 'ok' and 'cancel' buttons. "
+ * "The modal dialog should generally contains an optional header bar with a title, ",
+ * "an optional message with an optional icon, an optional button 'ok', and 'cancel' buttons. "
  * ]
  * @snippets
  * [
@@ -76,7 +76,7 @@ export interface ICh5ModalDialog extends ICh5ModalDialogAttributes, ICh5Common {
    * [
    * "`dismissable` attribute",
    * "***",
-   * "Default 'true'. If false, the panel won't automatically hide if a touch event occurs outside of it"
+   * "The default value is 'true'. If false, the panel will not automatically hide if a touch event occurs outside of it."
    * ]
    * @name dismissable
    */
@@ -87,8 +87,8 @@ export interface ICh5ModalDialog extends ICh5ModalDialogAttributes, ICh5Common {
    * [
    * "`closable` attribute",
    * "***",
-   * "Default 'false'. If true, show a close icon on the corner of the panel, else",
-   * "don't show the close icon"
+   * "The default value is 'false'. If true, shows a close icon on the corner of the panel. If false, ",
+   * "the close icon is not showed."
    * ]
    * @name closable
    */
@@ -99,7 +99,7 @@ export interface ICh5ModalDialog extends ICh5ModalDialogAttributes, ICh5Common {
    * [
    * "`mask` attribute",
    * "***",
-   * "Specifies whether to apply a background mask"
+   * "Specifies whether to apply a background mask."
    * ]
    * @name mask
    */
@@ -110,7 +110,7 @@ export interface ICh5ModalDialog extends ICh5ModalDialogAttributes, ICh5Common {
    * [
    * "`hideokbutton` attribute",
    * "***",
-   * "Default false. If true hide the button."
+   * "The default value is false. If true, the button is hidden."
    * ]
    * @name hideokbutton
    */
@@ -121,7 +121,7 @@ export interface ICh5ModalDialog extends ICh5ModalDialogAttributes, ICh5Common {
    * [
    * "`hidecancelbutton` attribute",
    * "***",
-   * "Default false. If true hide the button."
+   * "The default value is false. If true, the button is hidden."
    * ]
    * @name hidecancelbutton
    */

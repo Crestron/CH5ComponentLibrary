@@ -19,8 +19,8 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * "`ch5-select` element",
  * "***",
  * "The select component enables the user to select one or more choices from a list of options.",
- * "The select component will NOT be a wrapper around the HTML input type select, because we need to",
- * "cover other options that are not available on HTML input type select."
+ * "The select component will not be a wrapper around the HTML input type select because other options",
+ * "must be covered that are not available on HTML input type select."
  * ]
  * @snippets
  * [
@@ -212,7 +212,7 @@ export interface ICh5Select extends ICh5SelectAttributes, ICh5Common {
    * [
    * "`onclean` attribute",
    * "***",
-   * "Run when clean event is fired"
+   * "Runs when a clean event is initiated."
    * ]
    * @name onclean
    */
@@ -223,7 +223,7 @@ export interface ICh5Select extends ICh5SelectAttributes, ICh5Common {
    * [
    * "`ondirty` attribute",
    * "***",
-   * "Run when dirty event is fired"
+   * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
    */
@@ -234,8 +234,8 @@ export interface ICh5Select extends ICh5SelectAttributes, ICh5Common {
    * [
    * "`multiselect` attribute",
    * "***",
-   * "Default of false, true if multiple selections can be selected.",
-   * "If true, the value of the select will be an array of values"
+   * "The default value is false. Set to true if multiple selections can be selected.",
+   * "If true, the value of the selection will be an array of values."
    * ]
    * @name multiselect
    * 
@@ -247,8 +247,8 @@ export interface ICh5Select extends ICh5SelectAttributes, ICh5Common {
    * [
    * "`resize` attribute",
    * "***",
-   * "If true, then resize the options panel to fit content width.",
-   * "The maximum width and height cannot be bigger then parent HTML element"
+   * "If true, the options panel will be resized to fit content width.",
+   * "The maximum width and height cannot be bigger then parent HTML element."
    * ]
    * @name resize
    * 
