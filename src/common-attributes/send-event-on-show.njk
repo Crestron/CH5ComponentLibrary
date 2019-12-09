@@ -1,0 +1,14 @@
+---
+title: "Common attributes: sendEventOnShow"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/common-attributes/send-event-on-show.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('common-attributes/send-event-on-show/','ex1', true) %}{% endcall %}
+{% endblock %}
