@@ -37,7 +37,7 @@
     <i>In the example below, the dropdown height will be 50% of the ch5-select parent, which has a height of 300px
         (highlighted), therefore the computed height of the input will be 150px</i>
 
-    <div class="row" style="height: 300px; border: 1px solid blue;">
+    <div style="height: 300px; border: 1px solid blue;">
         <ch5-select mode="panel" size="20" indexId="idx" panelScrollHeight="50%"
                     noneSelectedPrompt="Select">
             <template>
@@ -48,6 +48,35 @@
                 </ch5-select-option>
             </template>
         </ch5-select>
+    </div>
+
+    <p style="margin-top: 12px; padding-top: 12px; border-top: 1px solid black;">If the provided value of the panelScrollHeight is <b>0</b> (regardless of the measurement unit) the panel height will default
+    to 100% i.e. all the select options will be visible.</p>
+    <div class="row" style="display: flex; justify-content: space-between; flex-direction: row">
+        <div>
+            <ch5-select minWidth="250px" size="20" indexId="idx" panelScrollHeight="0%"
+                        noneSelectedPrompt="Select">
+                <template>
+                    <ch5-select-option>
+                        <div>
+                            <span>item_{{idx}}</span>
+                        </div>
+                    </ch5-select-option>
+                </template>
+            </ch5-select>
+        </div>
+        <div>
+            <ch5-select minWidth="250px" size="20" indexId="idx" panelScrollHeight="0"
+                        noneSelectedPrompt="Select">
+                <template>
+                    <ch5-select-option>
+                        <div>
+                            <span>item_{{idx}}</span>
+                        </div>
+                    </ch5-select-option>
+                </template>
+            </ch5-select>
+        </div>
     </div>
 
 {% endraw %}
