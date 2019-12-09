@@ -26,8 +26,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`handleshape` attribute",
    * "***",
-   * "Default: rounded-rectangle. Valid Values: rectangle, circle, oval,",
-   * "rounded-rectangle. Defines the handle shape."
+   * "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval',",
+   * "'rounded-rectangle'. Defines the handle shape."
    * ]
    * @name handleshape
    */
@@ -38,7 +38,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`value` attribute",
    * "***",
-   * "Initial values of single value or lower value if range=true"
+   * "The initial values of single value or lower value if range=true."
    * ]
    * @name value
    */
@@ -49,7 +49,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`valuehigh` attribute",
    * "***",
-   * "Higher value only applicable if range=true"
+   * "The higher value only applicable if range=true."
    * ]
    * @name valuehigh
    */
@@ -60,7 +60,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`max` attribute",
    * "***",
-   * "Maximum value"
+   * "The maximum value."
    * ]
    * @name max
    */
@@ -71,7 +71,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`min` attribute",
    * "***",
-   * "Minimum value"
+   * "The minimum value."
    * ]
    * @name min
    */
@@ -82,7 +82,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`orientation` attribute",
    * "***",
-   * "Default horizontal. Valid values: horizontal, vertical"
+   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'."
+   * "The orientation of the slider."
    * ]
    * @name orientation
    */
@@ -93,7 +94,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`size` attribute",
    * "***",
-   * "Default regular. Valid values: x-small, small, regular, large, xlarge"
+   * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'."
+   * "The size of the slider."
    * ]
    * @name size
    */
@@ -104,8 +106,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`handlesize` attribute",
    * "***",
-   * "Size of the handle",
-   * "Default regular. Valid values: x-small, small, regular, large, x-large"
+   * "The size of the handle.",
+   * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'x-large'."
    * ]
    * @name handlesize
    */
@@ -116,9 +118,9 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`step` attribute",
    * "***",
-   * "Default 100. Maximum 100.",
+   * "The default value is 100. The maximum value is 100.",
    * "Defines the number of steps values in the slider.",
-   * "If you want quarters 0, 25, 50, 75, 100 then 5 is the numbers of steps"
+   * "For example, if the slider should have quarters 0, 25, 50, 75, 100, then 5 is the numbers of steps."
    * ]
    * @name step
    */
@@ -129,9 +131,9 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`stretch` attribute",
    * "***",
-   * "Default both. Valid Values: width, height, both",
-   * "When stretch property is set, the slider inherits the width or/and",
-   * "height of the container"
+   * "The default value is 'both'. Valid Values: 'width', 'height', 'both'.",
+   * "When the stretch property is set, the slider inherits the width and/or ",
+   * "height of the container."
    * ]
    * @name stretch
    */
@@ -143,11 +145,11 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "`ticks` attribute",
    * "***",
    * "Defines the ticks on the slider.",
-   * "It will be an advanced tick scales: non-linear or logarithmic.",
-   * "You can create sliders with ever-increasing increments by",
+   * "This definition is based on advanced tick scales: non-linear or logarithmic.",
+   * "Sliders can be created with ever-increasing increments b ",
    * "specifying the value for the slider at certain intervals.",
-   * "- The first value define the % position along the length of the slider scale to place a tick mark.",
-   * "- The second value will be the label value to place next to the tick at that position.",
+   * "- The first value defines the % position along the length of the slider scale to place a tick mark.",
+   * "- The second value is the label value to place next to the tick at that position.",
    * "***",
    * "An example would be [[0.0,'-60'], [0.25,'-40'], [0.50,'-20'],[0.75,'-10'], [1.0,'0']]"
    * ]
@@ -160,10 +162,10 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`tooltipshowtype` attribute",
    * "***",
-   * "Default 'off'.  Option to display a tooltip above (horizontal), right(vertical) of the handle.  Valid values are",
-   * "-'off' not displayed",
-   * "-'on' always displayed",
-   * "-'auto' displayed while user interact with the slider"
+   * "The Default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values:",
+   * "-'off': Not displayed",
+   * "-'on': Always displayed",
+   * "-'auto': Displayed while user interacts with the slider"
    * ]
    * @name tooltipshowtype
    */
@@ -174,9 +176,9 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`tooltipdisplaytype` attribute",
    * "***",
-   * "Default: percent. Option of what is displayed in the tooltip. Valid values are:",
-   * "'%' - displayed as percent.",
-   * "'value' - actual value provided"
+   * "The default value is 'percent'. Sets what is displayed in the tooltip. Valid values:",
+   * "'%' - The value is displayed as a percent",
+   * "'value' - The actual value provided"
    * ]
    * @name tooltipdisplaytype
    */
@@ -187,9 +189,9 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`signalvaluesynctimeout` attribute",
    * "***",
-   * "Default 1500. Defines the time (milliseconds) between the user",
-   * "release the handle of the slider and the time the slider will check",
-   * "if the value is equal with the value from the signal. If not it will automatically apply the value from the signal. "
+   * "The default value is 1500. Defines the time (milliseconds) between when the user",
+   * "releases the slider handle and the time the slider will check",
+   * "if the value is equal with the value from the signal. If not, it will automatically apply the value from the signal."
    * ]
    * @name signalvaluesynctimeout
    */
@@ -200,8 +202,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   * "If direct send and receive of value will be instant. On submit it",
-   * "will send and listen for the first event receive."
+   * "If set to direct, value send and receive will be instant. On submit, it",
+   * "will send and listen for the first received event."
    * ]
    * @name feedbackmode
    */
@@ -212,7 +214,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestatevalue` attribute",
    * "***",
-   * "On receive, change the value of the slider handle"
+   * "On receive, changes the value of the slider handle."
    * ]
    * @name receivestatevalue
    */
@@ -223,7 +225,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestatevaluehigh` attribute",
    * "***",
-   * "On receive, change the value of the right slider handle, available when range is true"
+   * "On receive, changes the value of the right slider handle (available when range is true)."
    * ]
    * @name receivestatevaluehigh
    */
@@ -234,7 +236,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonchange` attribute",
    * "***",
-   * "Send signal value on slider change"
+   * "Sends a signal value on slider change."
    * ]
    * @name sendeventonchange
    */
@@ -245,7 +247,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonchangehigh` attribute",
    * "***",
-   * "If range slider is set to true, send signal value high on slider change"
+   * "If a range slider is set to true, sends a signal value high on slider change."
    * ]
    * @name sendeventonchangehigh
    */

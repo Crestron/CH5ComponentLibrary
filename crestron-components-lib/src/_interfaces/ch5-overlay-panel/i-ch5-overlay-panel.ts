@@ -19,7 +19,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * "`ch5-overlay-panel` element",
  * "***",
  * "The overlay panel component provides a content container for other components that",
- * "'pops up' on top of and overlays the main content container."
+ * "'pop up' on top of and overlays the main content container."
  * ]
  * @snippets
  * [
@@ -70,7 +70,7 @@ export interface ICh5OverlayPanel extends ICh5OverlayPanelAttributes, ICh5Common
    * [
    * "`dismissable` attribute",
    * "***",
-   * "Default 'true'. If false, the panel won't automatically hide if a touch event occurs outside of it"
+   * "The default value is 'true'. If false, the panel won't automatically hide if a touch event occurs outside of it."
    * ]
    * @name dismissable
    */
@@ -81,8 +81,8 @@ export interface ICh5OverlayPanel extends ICh5OverlayPanelAttributes, ICh5Common
    * [
    * "`closable` attribute",
    * "***",
-   * "Default 'false'. If true, show a close icon on the corner of the panel, else",
-   * "don't show the close icon"
+   * "The default value is 'false'. If true, shows a close icon on the corner of the panel. If fales,",
+   * "the close icon is not shown."
    * ]
    * @name closable
    */
@@ -93,7 +93,7 @@ export interface ICh5OverlayPanel extends ICh5OverlayPanelAttributes, ICh5Common
    * [
    * "`mask` attribute",
    * "***",
-   * "Specifies whether to apply a background mask"
+   * "Specifies whether or not to apply a background mask."
    * ]
    * @name mask
    */

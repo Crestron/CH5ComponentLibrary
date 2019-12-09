@@ -18,8 +18,8 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * [
  * "`ch5-slider` element",
  * "***",
- * "Component to provide input using dragging of a handle. One or two numeric values can be",
- * "visualized with this component. If two values, two handles provided. "
+ * "A component to provide input by dragging a handle. One or two numeric values can be ",
+ * "visualized with this component. If two values are used, two handles are provided."
  * ]
  * @snippets
  * [
@@ -82,7 +82,7 @@ export interface ICh5Slider extends ICh5SliderAttributes, ICh5Common {
    * [
    * "`onclean` attribute",
    * "***",
-   * "Run when clean event is fired"
+   * "Runs when a clean event is initiated."
    * ]
    * @name onclean
    */
@@ -93,7 +93,7 @@ export interface ICh5Slider extends ICh5SliderAttributes, ICh5Common {
    * [
    * "`ondirty` attribute",
    * "***",
-   * "Run when dirty event is fired"
+   * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
    */
@@ -104,7 +104,7 @@ export interface ICh5Slider extends ICh5SliderAttributes, ICh5Common {
    * [
    * "`range` attribute",
    * "***",
-   * "Default false. If true, the slider will have two handles so two different values can be defined."
+   * "The default value is false. If true, the slider will have two handles so two different values can be defined."
    * ]
    * @name range
    */
@@ -115,7 +115,7 @@ export interface ICh5Slider extends ICh5SliderAttributes, ICh5Common {
    * [
    * "`showtickvalues` attribute",
    * "***",
-   * "Default false. Option to display value labels next to tick marks",
+   * "The default value is false. Provides the ability to display value labels next to tick marks",
    * "at each tick increment."
    * ]
    * @name showtickvalues
@@ -127,7 +127,7 @@ export interface ICh5Slider extends ICh5SliderAttributes, ICh5Common {
    * [
    * "`noHandle` attribute",
    * "***",
-   * "False by default. Option to hide the slider handle."
+   * "The default value is false. Hides the slider handle."
    * ]
    * @name nohandle
    */
@@ -138,7 +138,7 @@ export interface ICh5Slider extends ICh5SliderAttributes, ICh5Common {
    * [
    * "`tapSettable` attribute",
    * "***",
-   * "False by default. Option to set slider value on tap."
+   * "The default value is false. Sets the slider value on tap."
    * ]
    * @name tapsettable
    */
