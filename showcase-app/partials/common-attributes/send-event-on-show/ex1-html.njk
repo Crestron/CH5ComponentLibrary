@@ -1,0 +1,32 @@
+<ch5-button label="toggle show" sendEventOnClick="toggle_btn_visibility"></ch5-button>
+<hr>
+
+{% raw %}
+<ch5-button type="success" label="sendEventOnShow"       
+             receiveStateShow="show_button"
+             sendEventOnShow="button_shown"></ch5-button>
+<br/>
+<ch5-image
+    url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg"
+    height="200px"
+    receiveStateShow="show_button"
+    sendEventOnShow="image_shown"
+    >
+</ch5-image>             
+<br/>
+<ch5-textinput
+    placeholder="Name"
+    receiveStateShow="show_button"
+    sendEventOnShow="textinput_shown">
+</ch5-textinput>
+<br/>
+<ch5-spinner
+    label="item {{idx}}"
+    indexId="idx"
+    size="20"
+    itemHeight="20"
+    visibleItemScroll="3"
+    receiveStateShow="show_button"
+    sendEventOnShow="spinner_shown">
+</ch5-spinner>
+{% endraw %}

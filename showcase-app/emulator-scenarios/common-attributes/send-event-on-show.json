@@ -1,0 +1,24 @@
+{
+    "cues": [
+      {
+        "type": "boolean",
+        "event": "toggle_btn_visibility",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "show_button",
+            "type": "boolean",
+            "logic": "toggle"
+          }
+        ]
+      }
+    ],
+    "onStart": [
+      {
+        "type": "b",
+        "state": "show_button",
+        "value": false
+      }
+    ]
+  }
+  

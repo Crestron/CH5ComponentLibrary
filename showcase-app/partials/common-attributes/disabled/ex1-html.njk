@@ -1,0 +1,104 @@
+{% raw %}
+<h2><code>ch5-button</code></h2>
+<h4>Enabled: </h4>
+<ch5-button label="Enabled button"></ch5-button>
+<hr/>
+<h4>Disabled: </h4>
+<ch5-button label="Disabled button" disabled></ch5-button>
+<hr/>
+
+
+<h2><code>ch5-list</code></h2>
+<h4>Enabled: </h4>
+<ch5-list id="demo-list-1"
+        size="5"
+        orientation="horizontal"
+        indexId="idx">
+    <template>
+        <div class="horizontal-list-item">
+            <span>item_{{idx}}</span>
+        </div>
+    </template>
+</ch5-list>
+<hr/>
+<h4>Disabled: </h4>
+<ch5-list id="demo-list-1"
+        size="5"
+        orientation="horizontal"
+        indexId="idx"
+        disabled>
+    <template>
+        <div class="horizontal-list-item">
+            <span>item_{{idx}}</span>
+        </div>
+    </template>
+</ch5-list>
+<hr/>
+
+<h2><code>ch5-image</code></h2>
+<h4>Enabled: </h4>
+<ch5-image
+    url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg"
+    height="200px">
+</ch5-image>
+<hr/>
+<h4>Disabled: </h4>
+<ch5-image
+    url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg"
+    height="200px"
+    disabled>
+</ch5-image>
+<hr/>
+
+<h2><code>ch5-select</code></h2>
+<h4>Enabled: </h4>
+<ch5-select minWidth="250px" maxWidth="350px"
+            minHeight="36px"  maxHeight="48px"
+            size="5" indexId="idx" noneSelectedPrompt="Select">
+    <template>
+        <ch5-select-option>
+            <div>
+                <span>item_{{idx}}</span>
+            </div>
+        </ch5-select-option>
+    </template>
+</ch5-select>
+<hr/>
+<h4>Disabled: </h4>
+<ch5-select minWidth="250px" maxWidth="350px"
+            minHeight="36px"  maxHeight="48px"
+            size="5" indexId="idx" noneSelectedPrompt="Select" disabled>
+    <template>
+        <ch5-select-option>
+            <div>
+                <span>item_{{idx}}</span>
+            </div>
+        </ch5-select-option>
+    </template>
+</ch5-select>
+<hr/>
+
+<h2><code>ch5-slider</code></h2>
+<h4>Enabled: </h4>
+<ch5-slider></ch5-slider>
+<hr/>
+<h4>Disabled: </h4>
+<ch5-slider disabled></ch5-slider>
+<hr/>
+
+<h2><code>ch5-textinput</code></h2>
+<h4>Enabled: </h4>
+<ch5-textinput placeholder="Name"></ch5-textinput>
+<hr/>
+<h4>Disabled: </h4>
+<ch5-textinput placeholder="Name" disabled></ch5-textinput>
+<hr/>
+
+<h2><code>ch5-toggle</code></h2>
+<h4>Enabled: </h4>
+<ch5-toggle></ch5-toggle>
+<hr/>
+<h4>Disabled: </h4>
+<ch5-toggle disabled></ch5-toggle>
+<hr/>
+{% endraw %}

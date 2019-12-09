@@ -1,0 +1,10 @@
+---
+title: "Common attributes: customStyle"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+    {% call exampleSectionFromPartials('common-attributes/custom-style/','ex1', true) %}{% endcall %}
+
+{% endblock %}
