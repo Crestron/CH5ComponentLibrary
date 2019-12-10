@@ -660,6 +660,8 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
             this.attachEventListeners();
             this.initCommonMutationObserver(this);
+            // by default, disable the custom submit button (if it exists)
+            this.checkIfCustomSubmitShouldBeDisabled(true);
         });
     }
 
@@ -945,6 +947,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         this._inputElements.forEach((element) => {
             if (element.getDirty() === true) {
                 this._submitShouldBeDisable = false;
+                this.checkIfCustomSubmitShouldBeDisabled(this._submitShouldBeDisable);
                 // stop foreach execution since is enough for just element to be dirty in order to enable buttons
                 return;
             }
@@ -952,11 +955,15 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
         // if all elements are clean then disable submit
         this._submitShouldBeDisable = this._inputElements.every((elem) => elem.getDirty() === false);
+        if (this._submitShouldBeDisable) {
+            this.checkIfCustomSubmitShouldBeDisabled(this._submitShouldBeDisable);
+        }
 
         // if an element is invalid then disable the submit
         this._inputElements.forEach(element => {
             if (typeof element.getValid !== 'undefined' && element.getValid() === false) {
                 this._submitShouldBeDisable = true;
+                this.checkIfCustomSubmitShouldBeDisabled(this._submitShouldBeDisable);
                 // stop foreach execution since is enough for just element to be invalid in order to disable buttons
                 return;
             }
@@ -972,13 +979,20 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         this.submitButton.classList.remove(this.cssClassPrefix + '__submit--disabled');
     }
 
+    private checkIfCustomSubmitShouldBeDisabled(disable: boolean) {
+        if (!isNil(this._customSubmitButtonRef)) {
+            // use the same class / css a ch5-button (default submit button) would use
+            disable ? this._customSubmitButtonRef.classList.add('ch5-button--disabled') : this._customSubmitButtonRef.classList.remove('ch5-button--disabled');
+        }
+    }
+
     /**
      * Factory method for Ch5Button
      *
      * @param label
      * @param type
      * @param formType
-     * @param disabled
+     * @param disable
      */
     private _createButton(label: string, type: string, formType: string, disable: boolean = false): Ch5Button {
         const button = new Ch5Button();
