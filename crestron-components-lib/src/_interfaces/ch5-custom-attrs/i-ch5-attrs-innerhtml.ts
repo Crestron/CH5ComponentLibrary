@@ -14,9 +14,9 @@ import { ICustomAttribute } from "./helpers/i-custom-attribute";
  * [  
  *  "`data-ch5-innerhtml` custom attribute",
  *  "***",
- *  "The 'data-ch5-innerhtml' custom HTML attribute allows for dynamic HTML content to be applied to",
- *  "standard HTML elements such as <div>. This is a very powerful construct that when used in a poor",
- *  "manner can lead to functional and performance issues if used to inject badly formed HTML. The",
+ *  "The 'data-ch5-innerhtml' custom HTML attribute allows for dynamic HTML content to be applied to ",
+ *  "standard HTML elements such as <div>. This is a very powerful construct that, when used incorrecly, ",
+ *  "can lead to functional and performance issues if used to inject badly-formed HTML. The ",
  *  "attribute value is signalScript as described in the ch5.subscribeStateScript utility function description."
  * ]
  */
