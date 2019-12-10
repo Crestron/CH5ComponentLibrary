@@ -18,7 +18,7 @@ export interface ICh5CommonInput extends ICh5CommonInputAttributes {
    * [
    * "`onclean` attribute",
    * "***",
-   * "Run when clean event is fired"
+   * "Runs when a clean event is initiated."
    * ]
    * @name onclean
    */
@@ -29,7 +29,7 @@ export interface ICh5CommonInput extends ICh5CommonInputAttributes {
    * [
    * "`ondirty` attribute",
    * "***",
-   * "Run when dirty event is fired"
+   * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
    */
@@ -40,7 +40,7 @@ export interface ICh5CommonInput extends ICh5CommonInputAttributes {
    * [
    * "`required` attribute",
    * "***",
-   * "Specifies that the input element must be filled out before submitting the form"
+   * "Specifies that the input element must be filled out before submitting the form."
    * ]
    * @name required
    */

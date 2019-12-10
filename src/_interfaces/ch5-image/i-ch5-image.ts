@@ -76,7 +76,7 @@ export interface ICh5Image extends ICh5Common, ICh5ImageAttributes {
    * [
    * "`onrelease` attribute",
    * "***",
-   * "Runs when release event is initiated."
+   * "Runs when a release event is initiated."
    * ]
    * @name onrelease
    */
