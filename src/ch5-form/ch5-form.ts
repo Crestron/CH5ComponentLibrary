@@ -195,6 +195,15 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      */
     private _submitShouldBeDisable: boolean = true;
 
+    /**
+     * Custom cancel button ref, if cancelId attr was supplied, used to add and remove events
+     */
+    private _customCancelButtonRef: HTMLButtonElement | null = null;
+
+    /**
+     * Custom submit button ref, if cancelId attr was supplied, used to add and remove events
+     */
+    private _customSubmitButtonRef: HTMLButtonElement | null = null;
 
     public ready: Promise<void>;
 
@@ -545,10 +554,8 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
     public set submitId(value: string) {
         this.info('Ch5Form set submitId("' + value + '")');
 
-        if (this._submitId !== value) {
-            if (value === undefined || value === null || value === '') {
-                value = '';
-            }
+        if (this._submitId !== value && !isNil(value)) {
+            this.setCustomSubmitBtn(value);
 
             this._submitId = value;
             this.setAttribute('submitid', value);
@@ -571,15 +578,40 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
     public set cancelId(value: string) {
         this.info('Ch5Form set cancelId("' + value + '")');
 
-        if (this._cancelId !== value) {
-            if (value === undefined || value === null || value === '') {
-                value = '';
-            }
+        if (this._cancelId !== value && !isNil(value)) {
+            this.setCustomCancelBtn(value);
 
             this._cancelId = value;
             this.setAttribute('cancelid', value);
             this.cancelButton.setAttribute('id', value);
         }
+    }
+
+    /**
+     * Find and set custom cancel btn, keep as reference to handle events
+     */
+    private setCustomCancelBtn(cancelBtnId: string): void {
+        this._customCancelButtonRef = document.getElementById(cancelBtnId) as HTMLButtonElement;
+
+        if (isNil(this._customCancelButtonRef)) {
+            this.info(`Ch5Form Cannot find cancel button with id :${cancelBtnId}`);
+            return;
+        }
+        this._customCancelButtonRef.addEventListener('click', this._onClickCancelButton);
+        this.info(`Ch5Form canel button with ${cancelBtnId} found, events added`);
+    }
+
+    /**
+     * Find and set custom submit btn, keep as reference to handle events
+     */
+    private setCustomSubmitBtn(submitBtnId: string): void {
+        this._customSubmitButtonRef = document.getElementById(submitBtnId) as HTMLButtonElement;
+        if (isNil(this._customSubmitButtonRef)) {
+            this.info(`Ch5Form cannot find submit button with id :${submitBtnId}`);
+            return;
+        }
+        this._customSubmitButtonRef.addEventListener('click', this._onClickSubmitButton);
+        this.info(`Ch5Form submit button with ${submitBtnId} found, events added`);
     }
 
     constructor() {
@@ -636,7 +668,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Useful for running clean up code.
      */
     public disconnectedCallback() {
-        this.removeEventListeners();
+        this.removeEvents();
 
         // disconnect common mutation observer
         this.disconnectCommonMutationObserver();
@@ -674,7 +706,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
             return;
         }
 
-        this.info('ch5-form attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
+        this.info('Ch5Form attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
 
         switch (attr) {
             case 'hidesubmitbutton':
@@ -820,6 +852,13 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
             element.removeEventListener('validitychange', this._checkSubmitShouldBeDisabled);
             element.removeEventListener('clean', this._checkSubmitShouldBeDisabled);
         });
+
+        if (!isNil(this._customSubmitButtonRef)) {
+            this._customSubmitButtonRef.removeEventListener('click', this._onClickSubmitButton);
+        }
+        if (!isNil(this._customCancelButtonRef)) {
+            this._customCancelButtonRef.removeEventListener('click', this._onClickSubmitButton);
+        }
     }
 
     /**
