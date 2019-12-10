@@ -14,15 +14,15 @@ import { isNil } from 'lodash';
 
 
 export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
-    
+
     /**
      * COMPONENT DEFAULT VALUES
      */
 
-    public static SUBMIT_LABEL:string = 'Submit';
-    public static CANCEL_LABEL:string = 'Cancel';
-    public static SUBMIT_TYPE:string = 'default';
-    public static CANCEL_TYPE:string = 'warning';
+    public static SUBMIT_LABEL: string = 'Submit';
+    public static CANCEL_LABEL: string = 'Cancel';
+    public static SUBMIT_TYPE: string = 'default';
+    public static CANCEL_TYPE: string = 'warning';
 
     /**
      * CSS classes
@@ -173,7 +173,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * @type {Ch5CommonInput[]}
      */
     private _inputElements: Ch5CommonInput[] = [];
-    
+
     /**
      * Used to store submit button
      *
@@ -195,14 +195,14 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      */
     private _submitShouldBeDisable: boolean = true;
 
-    
+
     public ready: Promise<void>;
-    
+
     /**
      * Getter inputElements
      * @return {Ch5CommonInput[] }
      */
-    public get inputElements()  {
+    public get inputElements() {
         return this._inputElements;
     }
 
@@ -210,7 +210,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter submitButton
      * @return {Ch5Button }
      */
-    public get submitButton(): Ch5Button  {
+    public get submitButton(): Ch5Button {
         return this._submitButton;
     }
 
@@ -218,7 +218,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter submitButton
      * @param {Ch5Button } value
      */
-    public set submitButton(value: Ch5Button ) {
+    public set submitButton(value: Ch5Button) {
         this._submitButton = value;
     }
 
@@ -227,7 +227,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter cancelButton
      * @return {Ch5Button }
      */
-    public get cancelButton(): Ch5Button  {
+    public get cancelButton(): Ch5Button {
         return this._cancelButton;
     }
 
@@ -235,10 +235,10 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter cancelButton
      * @param {Ch5Button } value
      */
-    public set cancelButton(value: Ch5Button ) {
+    public set cancelButton(value: Ch5Button) {
         this._cancelButton = value;
     }
-    
+
 
     /**
      * ATTR GETTERS AND SETTERS
@@ -257,7 +257,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter hideSubmitButton
      * @param {boolean } value
      */
-    public set hideSubmitButton(value: boolean | string ) {
+    public set hideSubmitButton(value: boolean | string) {
         this.info('Ch5Form set hideSubmitButton("' + value + '")');
 
         const isHidden = this._toBoolean(value);
@@ -274,18 +274,19 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         }
     }
 
-    public get hidesubmitbutton(){
+    public get hidesubmitbutton() {
         return this.hideSubmitButton;
     }
 
-    public set hidesubmitbutton(value: boolean | string ) {
+    public set hidesubmitbutton(value: boolean | string) {
         this.hideSubmitButton = value;
     }
+
     /**
      * Getter submitButtonLabel
      * @return {string }
      */
-    public get submitButtonLabel(): string  {
+    public get submitButtonLabel(): string {
         return this._submitButtonLabel;
     }
 
@@ -293,18 +294,18 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter submitButtonLabel
      * @param {string } value
      */
-    public set submitButtonLabel(value: string ) {
+    public set submitButtonLabel(value: string) {
 
         this.info('Ch5Form set submitButtonLabel("' + value + '")');
-        
-        if (value === undefined  || value === null || value === '') {
+
+        if (value === undefined || value === null || value === '') {
             value = Ch5Form.SUBMIT_LABEL;
         }
 
 
         const trValue = this._getTranslatedValue('submitbuttonlabel', value);
 
-        if (trValue !== this.submitButtonLabel){
+        if (trValue !== this.submitButtonLabel) {
             this._submitButtonLabel = value;
             this.submitButton.setAttribute('label', trValue);
             this.setAttribute('submitbuttonlabel', trValue);
@@ -315,7 +316,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter submitButtonIcon
      * @return {string }
      */
-    public get submitButtonIcon(): string  {
+    public get submitButtonIcon(): string {
         return this._submitButtonIcon;
     }
 
@@ -323,11 +324,11 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter submitButtonIcon
      * @param {string } value
      */
-    public set submitButtonIcon(value: string ) {
+    public set submitButtonIcon(value: string) {
         this.info('Ch5Form set submitButtonIcon("' + value + '")');
-        
+
         if (this._submitButtonIcon !== value) {
-            if (value === undefined  || value === null || value === '') {
+            if (value === undefined || value === null || value === '') {
                 value = '';
             }
 
@@ -343,7 +344,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter submitButtonStyle
      * @return {string }
      */
-    public get submitButtonStyle(): string  {
+    public get submitButtonStyle(): string {
         return this._submitButtonStyle;
     }
 
@@ -351,11 +352,11 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter submitButtonStyle
      * @param {string } value
      */
-    public set submitButtonStyle(value: string ) {
+    public set submitButtonStyle(value: string) {
         this.info('Ch5Form set submitButtonStyle("' + value + '")');
-        
+
         if (this._submitButtonStyle !== value) {
-            if (value === undefined  || value === null || value === '') {
+            if (value === undefined || value === null || value === '') {
                 value = '';
             }
 
@@ -369,7 +370,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter submitButtonType
      * @return {string }
      */
-    public get submitButtonType(): TCh5ButtonType  {
+    public get submitButtonType(): TCh5ButtonType {
         return this._submitButtonType;
     }
 
@@ -377,9 +378,9 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter submitButtonType
      * @param {string } value
      */
-    public set submitButtonType(value: TCh5ButtonType ) {
+    public set submitButtonType(value: TCh5ButtonType) {
         this.info('Ch5Form set submitButtonType("' + value + '")');
-        
+
         if (this._submitButtonType !== value) {
             if (isNil(value)) {
                 value = 'default';
@@ -395,7 +396,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter hideCancelButton
      * @return {boolean }
      */
-    public get hideCancelButton()  {
+    public get hideCancelButton() {
         return this._hideCancelButton;
     }
 
@@ -403,7 +404,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter hideCancelButton
      * @param {boolean } value
      */
-    public set hideCancelButton(value: boolean|string ) {
+    public set hideCancelButton(value: boolean | string) {
         this.info('Ch5Form set hideCancelButton("' + value + '")');
 
         const isHidden = this._toBoolean(value);
@@ -425,7 +426,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter cancelButtonLabel
      * @return {string }
      */
-    public get cancelButtonLabel(): string  {
+    public get cancelButtonLabel(): string {
         return this._cancelButtonLabel;
     }
 
@@ -433,10 +434,10 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter cancelButtonLabel
      * @param {string } value
      */
-    public set cancelButtonLabel(value: string ) {
+    public set cancelButtonLabel(value: string) {
         this.info('Ch5Form set cancelButtonLabel("' + value + '")');
 
-        if (value === undefined  || value === null || value === '') {
+        if (value === undefined || value === null || value === '') {
             value = Ch5Form.CANCEL_LABEL;
         }
 
@@ -453,7 +454,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter cancelButtonIcon
      * @return {string }
      */
-    public get cancelButtonIcon(): string  {
+    public get cancelButtonIcon(): string {
         return this._cancelButtonIcon;
     }
 
@@ -461,11 +462,11 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter cancelButtonIcon
      * @param {string } value
      */
-    public set cancelButtonIcon(value: string ) {
+    public set cancelButtonIcon(value: string) {
         this.info('Ch5Form set cancelButtonIcon("' + value + '")');
-        
+
         if (this._cancelButtonIcon !== value) {
-            if (value === undefined  || value === null || value === '') {
+            if (value === undefined || value === null || value === '') {
                 value = '';
             }
 
@@ -481,7 +482,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter cancelButtonStyle
      * @return {string }
      */
-    public get cancelButtonStyle(): string  {
+    public get cancelButtonStyle(): string {
         return this._cancelButtonStyle;
     }
 
@@ -489,11 +490,11 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter cancelButtonStyle
      * @param {string } value
      */
-    public set cancelButtonStyle(value: string ) {
+    public set cancelButtonStyle(value: string) {
         this.info('Ch5Form set cancelButtonStyle("' + value + '")');
-        
+
         if (this._cancelButtonStyle !== value) {
-            if (value === undefined  || value === null || value === '') {
+            if (value === undefined || value === null || value === '') {
                 value = '';
             }
 
@@ -507,7 +508,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter cancelButtonType
      * @return {string }
      */
-    public get cancelButtonType(): TCh5ButtonType  {
+    public get cancelButtonType(): TCh5ButtonType {
         return this._cancelButtonType;
     }
 
@@ -515,9 +516,9 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter cancelButtonType
      * @param {string } value
      */
-    public set cancelButtonType(value: TCh5ButtonType ) {
+    public set cancelButtonType(value: TCh5ButtonType) {
         this.info('Ch5Form set cancelButtonType("' + value + '")');
-        
+
         if (this._cancelButtonType !== value) {
             if (isNil(value)) {
                 value = 'default';
@@ -533,7 +534,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter submitId
      * @return {string }
      */
-    public get submitId(): string  {
+    public get submitId(): string {
         return this._submitId;
     }
 
@@ -541,11 +542,11 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter submitId
      * @param {string } value
      */
-    public set submitId(value: string ) {
+    public set submitId(value: string) {
         this.info('Ch5Form set submitId("' + value + '")');
-        
+
         if (this._submitId !== value) {
-            if (value === undefined  || value === null || value === '') {
+            if (value === undefined || value === null || value === '') {
                 value = '';
             }
 
@@ -559,7 +560,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Getter cancelId
      * @return {string }
      */
-    public get cancelId(): string  {
+    public get cancelId(): string {
         return this._cancelId;
     }
 
@@ -567,11 +568,11 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * Setter cancelId
      * @param {string } value
      */
-    public set cancelId(value: string ) {
+    public set cancelId(value: string) {
         this.info('Ch5Form set cancelId("' + value + '")');
-        
+
         if (this._cancelId !== value) {
-            if (value === undefined  || value === null || value === '') {
+            if (value === undefined || value === null || value === '') {
                 value = '';
             }
 
@@ -583,11 +584,11 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
     constructor() {
         super(); // always call super() first in the constructor.
-        
+
         this._onClickSubmitButton = this._onClickSubmitButton.bind(this);
         this._onClickCancelButton = this._onClickCancelButton.bind(this);
         this._checkSubmitShouldBeDisabled = this._checkSubmitShouldBeDisabled.bind(this);
-    
+
         // used to create form buttons
         this._initFormButtons();
 
@@ -601,12 +602,12 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
             customElements.whenDefined('ch5-textinput'),
             customElements.whenDefined('ch5-spinner')
         ])
-        .then(_ => {
-            this._linkInputElements();
-            this._linkFormButtons();
-            
-            this._wasInstatiated = true;
-        });
+            .then(_ => {
+                this._linkInputElements();
+                this._linkFormButtons();
+
+                this._wasInstatiated = true;
+            });
     }
 
     /**
@@ -749,23 +750,21 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
             case 'submitid':
                 if (this.hasAttribute('submitid')) {
                     this.submitId = newValue;
-                }
-                else {
+                } else {
                     this.submitId = '';
                 }
                 break;
             case 'cancelid':
                 if (this.hasAttribute('cancelid')) {
                     this.cancelId = newValue;
-                }
-                else {
+                } else {
                     this.cancelId = '';
                 }
                 break;
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
-            }
+        }
     }
 
     /**
@@ -774,7 +773,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      */
     protected initAttributes(): void {
         super.initAttributes();
-        
+
         this._upgradeProperty('hideSubmitButton');
         this._upgradeProperty('submitButtonLabel');
         this._upgradeProperty('submitButtonIcon');
@@ -795,7 +794,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      */
     protected attachEventListeners() {
         super.attachEventListeners();
-        
+
         this.submitButton.addEventListener('click', this._onClickSubmitButton);
         this.cancelButton.addEventListener('click', this._onClickCancelButton);
 
@@ -872,7 +871,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      */
     private _initFormButtons() {
         this.submitButton = this._createButton(Ch5Form.SUBMIT_LABEL, Ch5Form.SUBMIT_TYPE, 'submit', true);
-        this.cancelButton = this._createButton(Ch5Form.CANCEL_LABEL,  Ch5Form.CANCEL_TYPE, 'cancel');
+        this.cancelButton = this._createButton(Ch5Form.CANCEL_LABEL, Ch5Form.CANCEL_TYPE, 'cancel');
     }
 
     /**
@@ -881,7 +880,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * @private
      */
     private _linkFormButtons() {
-        const submit  = this.querySelector("[formtype='submit']") as Ch5Button;
+        const submit = this.querySelector("[formtype='submit']") as Ch5Button;
         const cancel = this.querySelector("[formtype='cancel']") as Ch5Button;
 
         // if there is submit button replace the internal button
@@ -923,7 +922,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
                 return;
             }
         });
-       
+
         if (this._submitShouldBeDisable) {
             this.submitButton.setAttribute('disabled', 'true');
             this.submitButton.classList.add(this.cssClassPrefix + '__submit--disabled');
@@ -942,7 +941,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * @param formType
      * @param disabled
      */
-    private _createButton(label: string, type: string, formType: string, disable:boolean = false): Ch5Button {
+    private _createButton(label: string, type: string, formType: string, disable: boolean = false): Ch5Button {
         const button = new Ch5Button();
 
         button.setAttribute('label', label);
@@ -958,7 +957,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
         return button;
     }
-    
+
 
     /**
      * COMPONENT EVENTS HANDLERS
