@@ -1,0 +1,51 @@
+<div style="padding-top: 24px; border: 1px solid black;">
+    <ch5-form
+            id="demo"
+            submitId="submit_button_id"
+            cancelId="cancel_button_id"
+    >
+        <b>Sample ch5-toggle</b>
+        <ch5-toggle
+                labelOn="On"
+                labelOff="Off"
+                feedbackMode="submit"
+                receiveStateValue="room_donotdisturb_selected"
+                sendEventOnClick="room_donotdisturb_clicked">
+        </ch5-toggle>
+
+        <br><br>
+
+        <b>Sample ch5-slider</b>
+        <ch5-slider
+                feedbackMode="submit"
+                receiveStateValue="room_thermostat_set_fb"
+                sendEventOnChange="room_thermostat_set"
+                step="10"
+                min="0"
+                max="100">
+        </ch5-slider>
+
+        <b>Sample ch5-textinput</b>
+        <ch5-textinput
+                sendEventOnFocus="1"
+                sendeventonblur="2"
+                sendeventonchange="3"
+                placeholder="Test"
+                feedbackmode="submit"
+                receivestatevalue="12">
+        </ch5-textinput>
+
+        <p>Sample ch5-textinput with <b style="color: red;">required input</b> and a minimum length of 10 characters</p>
+        <ch5-textinput
+                minLength="10"
+                required
+                feedbackMode="submit">
+        </ch5-textinput>
+    </ch5-form>
+
+    <p>Custom buttons, in sync with the default ch5-form buttons</p>
+    <p>
+        <button class="custom_submit_btn" id="submit_button_id">Submit</button>
+        <button class="custom_cancel_btn" id="cancel_button_id">Cancel</button>
+    </p>
+</div>
