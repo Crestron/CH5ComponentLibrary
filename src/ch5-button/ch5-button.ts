@@ -1729,19 +1729,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onTapAction() {
-        let sigClick: Ch5Signal<boolean> | null = null;
-
-        if (this._sigNameSendOnClick) {
-
-            sigClick = Ch5SignalFactory.getInstance()
-                .getBooleanSignal(this._sigNameSendOnClick);
-
-            if (sigClick !== null) {
-                sigClick.publish(true);
-                sigClick.publish(false);
-            }
-        }
-
         if (null !== this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
             this.sendValueForOnTouchSignal(false);
@@ -1853,6 +1840,29 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         inEvent.preventDefault();
         inEvent.stopPropagation();
+        
+        // signal is sent here to make sure the button does 
+        // not gain focus when it should not
+
+        // on touch devices, focus is gained onTouchEnd
+        this._sendOnClickSignal();
+    }
+
+    /**
+     * Sends the signal passed via sendEventOnClick or sendEventOnTouch
+     */
+    private _sendOnClickSignal(): void {
+        let sigClick: Ch5Signal<boolean> | null = null;
+
+        if (this._sigNameSendOnClick) {
+            sigClick = Ch5SignalFactory.getInstance()
+                .getBooleanSignal(this._sigNameSendOnClick);
+
+            if (sigClick !== null) {
+                sigClick.publish(true);
+                sigClick.publish(false);
+            }
+        }
     }
 
     private cancelPress() {
@@ -1890,7 +1900,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             return;
         }
         this.sendValueForOnTouchSignal(true);
-        this._intervalIdForOnTouch = window.setInterval(() => {this.sendValueForOnTouchSignal(true);}, Ch5Button.TOUCHTIMEOUT);
+        this._intervalIdForOnTouch = window.setInterval(() => { this.sendValueForOnTouchSignal(true); }, Ch5Button.TOUCHTIMEOUT);
     }
 }
 
