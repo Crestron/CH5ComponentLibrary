@@ -1,49 +1,66 @@
-<div style="padding-top: 24px; border: 1px solid black;">
+<h1>ToDo</h1>
+<ol>
+    <li>Enable/Disable for cancel btn</li>
+    <li>Add / update showcase examples</li>
+</ol>
+
+<div style="padding-top: 24px;">
     <ch5-form
             id="demo"
             submitId="submit_button_id"
             cancelId="cancel_button_id"
     >
-        <b>Sample ch5-toggle</b>
+        <p>
+            <b>Sample ch5-toggle</b>
+        </p>
         <ch5-toggle
                 labelOn="On"
                 labelOff="Off"
                 feedbackMode="submit"
-                receiveStateValue="room_donotdisturb_selected"
-                sendEventOnClick="room_donotdisturb_clicked">
+                receiveStateValue="toggle_receive_state_value"
+                sendEventOnClick="toggle_send_event_on_click">
         </ch5-toggle>
 
         <br><br>
 
-        <b>Sample ch5-slider</b>
+        <p>
+            <b>Sample ch5-slider</b>
+        </p>
         <ch5-slider
                 feedbackMode="submit"
-                receiveStateValue="room_thermostat_set_fb"
-                sendEventOnChange="room_thermostat_set"
+                receiveStateValue="slider_receive_state_value"
+                sendEventOnChange="slider_send_event_on_change"
                 step="10"
                 min="0"
                 max="100">
         </ch5-slider>
 
-        <b>Sample ch5-textinput</b>
+        <p>
+            <b>Sample ch5-textinput</b>
+        </p>
         <ch5-textinput
-                sendEventOnFocus="1"
-                sendeventonblur="2"
-                sendeventonchange="3"
-                placeholder="Test"
+                sendEventOnFocus="textinput_1_send_event_on_focus"
+                sendeventonblur="textinput_1_send_event_on_blur"
+                sendeventonchange="textinput_1_send_event_on_change"
+                placeholder="Test - Placeholder"
                 feedbackmode="submit"
                 receivestatevalue="12">
         </ch5-textinput>
 
-        <p>Sample ch5-textinput with <b style="color: red;">required input</b> and a minimum length of 10 characters</p>
+        <p>
+            <b>Sample ch5-textinput with <b style="color: red;">required input</b> and a minimum length of 10 characters</b>
+        </p>
         <ch5-textinput
+                sendEventOnFocus="textinput_2_send_event_on_focus"
+                sendeventonblur="textinput_2_send_event_on_blur"
+                sendeventonchange="textinput_2_send_event_on_change"
                 minLength="10"
                 required
                 feedbackMode="submit">
         </ch5-textinput>
     </ch5-form>
 
-    <p>Custom buttons, in sync with the default ch5-form buttons</p>
+    <h4 style="padding-top: 24px; border-top: 1px solid black;">Custom buttons, in sync with the default ch5-form buttons</h4>
     <p>
         <button class="custom_submit_btn" id="submit_button_id">Submit</button>
         <button class="custom_cancel_btn" id="cancel_button_id">Cancel</button>
