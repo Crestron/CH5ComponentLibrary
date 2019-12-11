@@ -1,4 +1,4 @@
 #Creston emulator
  
 
-Emulates signals according to a predefined logic 
+Emulates signals according to a predefined logic.
