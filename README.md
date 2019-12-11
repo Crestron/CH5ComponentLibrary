@@ -24,7 +24,7 @@ This folder contains the code that powers the metadata generator.
 
 - ```-p | --path <path>``` Typescript path that contains the exported type definitions (e.g. ```path/to/index/file```)
 - ```-t | --types <names>``` Typescript type names list (in case you wish to pass a list of types to extract metadata from)
-- ```-at | --allTypes``` Flag that tells the generator to just generate for every type reflected (except those marked with ```@ignore```)
+- ```-at | --allTypes``` Flag that tells the generator to generate for every type reflected (except those marked with ```@ignore```)
 - ```-wr | --writeto``` Specifies the path where to write the schema json file.
 
 ## Tech
