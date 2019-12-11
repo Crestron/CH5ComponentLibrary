@@ -775,7 +775,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._elImg.classList.remove('cx-button-icon-pos-top');
         this._elImg.classList.remove('cx-button-icon-pos-bottom');
         this._elImg.classList.add('cx-button-icon-pos-' + this.iconPosition);
-        
+
         // Handle vertical button with iconPosition top or bottom
         if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
             this._elButton.classList.add(`ch5-button--vertical--icon-${this.iconPosition}`)
@@ -1861,6 +1861,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             if (sigClick !== null) {
                 sigClick.publish(true);
                 sigClick.publish(false);
+                this._elButton.blur();
             }
         }
     }
