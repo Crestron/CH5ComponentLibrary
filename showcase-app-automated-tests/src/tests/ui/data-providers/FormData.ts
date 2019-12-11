@@ -55,25 +55,6 @@ export class FormData {
     public static CANCEL_BUTTON_TYPE_ATTRIBUTE_VALUE: string = 'success';
     public static HTML_TEMPLATE_CANCEL_BUTTON_TYPE: string ='<ch5-form cancelButtonType="success"></ch5-form>';
 
-    public static SUBMIT_ID_LABEL_VALUE: string = 'Click Triggered!';
-    public static SUBMIT_ID_TRIGGER_BTN: string = '#trigger_submit';
-    public static SUBMIT_ID_ATTRIBUTE: string = 'submitId';
-    public static SUBMIT_ID_ATTRIBUTE_VALUE: string = 'submit_id';
-    public static HTML_TEMPLATE_SUBMIT_ID: string = '<ch5-form submitId="submit_id"></ch5-form> <button id="trigger_submit">Trigger Submit</button>';
-    public static JS_TEMPLATE_SUBMIT_ID: string =   '$(document).ready(function() {' +
-     'var submitButton = document.getElementById("submit_id");' +
-     'var triggerSubmit = document.getElementById("trigger_submit");' +
-     'triggerSubmit.addEventListener("click", function(){ submitButton.setAttribute("disabled", "false"); submitButton.click(); });' +
-     'submitButton.addEventListener("click", function(){ submitButton.setAttribute("label","Click Triggered!"); });});';
-
-    public static CANCEL_ID_LABEL_VALUE: string = 'Click Triggered!';
-    public static CANCEL_ID_TRIGGER_BTN: string = '#cancel_id';
-    public static CANCEL_ID_ATTRIBUTE: string = 'cancelId';
-    public static CANCEL_ID_ATTRIBUTE_VALUE: string = 'cancel_id';
-    public static HTML_TEMPLATE_CANCEL_ID: string = '<ch5-form cancelId="cancel_id"></ch5-form> <button id="trigger_cancel">Trigger Cancel</button>';
-    public static JS_TEMPLATE_CANCEL_ID: string =   '$(document).ready(function() {var cancelButton = document.getElementById("cancel_id"); var triggerSubmit = document.getElementById("trigger_cancel");' +
-                                                    'triggerSubmit.addEventListener("click", function(){ cancelButton.click(); });   cancelButton.addEventListener("click", function(){ cancelButton.setAttribute("label","Click Triggered!"); });});';
-
     // COMMON ATTRIBUTES AND SIGNALS
     public static ID_ATTRIBUTE: string = 'id';
     public static ID_ATTRIBUTE_VALUE: string = 'id-el';

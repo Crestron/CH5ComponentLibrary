@@ -6,11 +6,10 @@
 
 {# for icons Material Iocons#}
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-<link rel="stylesheet" href="{{siteurl}}crestron-components-assets/high-contrast-theme.css" class="theme-style">
 {#
-<link rel="stylesheet" href="{{siteurl}}crestron-components-assets/dark-theme.css" id="theme-dark">
-<link rel="stylesheet" href="{{siteurl}}crestron-components-assets/light-theme.css" id="theme-light">
+    <link rel="stylesheet" href="{{siteurl}}crestron-components-assets/high-contrast-theme.css" class="theme-style">
+    <link rel="stylesheet" href="{{siteurl}}crestron-components-assets/dark-theme.css" id="theme-dark">
+    <link rel="stylesheet" href="{{siteurl}}crestron-components-assets/light-theme.css" id="theme-light">
 #}
 
 <script type="text/javascript">
@@ -19,7 +18,9 @@
     #}
     window.availableThemes = {};
     window.THEMES_FILE_PATH='{{siteurl}}crestron-components-assets/';
-    window.activeTheme='highContrast';
+    var defaultTheme = localStorage.getItem('showcase-app-theme');
+    defaultTheme = !!defaultTheme ? defaultTheme : 'highContrast';
+    window.activeTheme = defaultTheme;
 
     (function(){
         window.availableThemes.highContrast = createThemeLinkHtmlElement('high-contrast');

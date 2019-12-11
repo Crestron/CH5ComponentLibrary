@@ -1,0 +1,40 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "form.toggle_event",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "form.toggle_state",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "event": "form.text_event",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "form.text_state",
+          "type": "s",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "n",
+      "event": "form.number_event",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "form.number_state",
+          "type": "n",
+          "logic": "link"
+        }
+      ]
+    }
+  ]
+}
