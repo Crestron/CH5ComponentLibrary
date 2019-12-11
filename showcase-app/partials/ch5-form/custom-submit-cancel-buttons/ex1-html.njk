@@ -1,14 +1,16 @@
-<h1>ToDo</h1>
-<ol>
-    <li>Enable/Disable for cancel btn</li>
-    <li>Add / update showcase examples</li>
-</ol>
-
-<div style="padding-top: 24px;">
+<p>In the following examples, custom <b>Cancel / Submit</b> buttons are provided via the <i>cancelId</i> and
+    <i>submitId</i> attributes of
+    the ch5-form.</p>
+<p>These attributes point directly to the buttons added by the user, the value of the cancelId attribute must correspond
+    to the Id of the user added cancel button <i>(custom_cancel_button_id in this example)</i>, the same goes for the submitId
+    <i>(custom_submit_button_id in this example)</i>.</p>
+<p>The default buttons can be hidden using the <i>hideCancelButton</i> and <i>hideSubmitButton</i> attributes.</p>
+<h2>1. Custom Submit</h2>
+<div style="padding-bottom: 24px;">
     <ch5-form
             id="demo"
-            submitId="submit_button_id"
-            cancelId="cancel_button_id"
+            submitId="custom_submit_button_id"
+            hideSubmitButton="true"
     >
         <p>
             <b>Sample ch5-toggle</b>
@@ -42,27 +44,63 @@
                 sendEventOnFocus="textinput_1_send_event_on_focus"
                 sendeventonblur="textinput_1_send_event_on_blur"
                 sendeventonchange="textinput_1_send_event_on_change"
-                placeholder="Test - Placeholder"
                 feedbackmode="submit"
                 receivestatevalue="12">
         </ch5-textinput>
+    </ch5-form>
+
+    <h4 style="padding-top: 24px; color: #3273dc">Custom Submit Button:</h4>
+    <p>
+        <button id="custom_submit_button_id" class="custom-submit-cancel-btns">Submit</button>
+    </p>
+</div>
+
+<h2>2. Custom Cancel</h2>
+<div style="padding-bottom: 24px;">
+    <ch5-form
+            id="demo"
+            cancelId="custom_cancel_button_id"
+            hideCancelButton="true"
+    >
+        <p>
+            <b>Sample ch5-toggle</b>
+        </p>
+        <ch5-toggle
+                labelOn="On"
+                labelOff="Off"
+                feedbackMode="submit"
+                receiveStateValue="example_2_toggle_receive_state_value"
+                sendEventOnClick="example_2_toggle_send_event_on_click">
+        </ch5-toggle>
+
+        <br><br>
 
         <p>
-            <b>Sample ch5-textinput with <b style="color: red;">required input</b> and a minimum length of 10 characters</b>
+            <b>Sample ch5-slider</b>
+        </p>
+        <ch5-slider
+                feedbackMode="submit"
+                receiveStateValue="example_2_slider_receive_state_value"
+                sendEventOnChange="example_2_slider_send_event_on_change"
+                step="10"
+                min="0"
+                max="100">
+        </ch5-slider>
+
+        <p>
+            <b>Sample ch5-textinput</b>
         </p>
         <ch5-textinput
-                sendEventOnFocus="textinput_2_send_event_on_focus"
-                sendeventonblur="textinput_2_send_event_on_blur"
-                sendeventonchange="textinput_2_send_event_on_change"
-                minLength="10"
-                required
-                feedbackMode="submit">
+                sendEventOnFocus="example_2_textinput_1_send_event_on_focus"
+                sendeventonblur="example_2_textinput_1_send_event_on_blur"
+                sendeventonchange="example_2_textinput_1_send_event_on_change"
+                feedbackmode="example_2_submit"
+                receivestatevalue="12">
         </ch5-textinput>
     </ch5-form>
 
-    <h4 style="padding-top: 24px; border-top: 1px solid black;">Custom buttons, in sync with the default ch5-form buttons</h4>
+    <h4 style="padding-top: 24px; color: #3273dc">Custom Cancel Button:</h4>
     <p>
-        <button class="custom_submit_btn" id="submit_button_id">Submit</button>
-        <button class="custom_cancel_btn" id="cancel_button_id">Cancel</button>
+        <button id="custom_cancel_button_id" class="custom-submit-cancel-btns">Cancel</button>
     </p>
 </div>
