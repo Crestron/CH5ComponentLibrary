@@ -196,6 +196,11 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
     private _submitShouldBeDisable: boolean = true;
 
     /**
+     *  Reflect the state of cancel button and submit method
+     */
+    private _cancelShouldBeDisabled: boolean = true;
+
+    /**
      * Custom cancel button ref, if cancelId attr was supplied, used to add and remove events
      */
     private _customCancelButtonRef: HTMLButtonElement | null = null;
@@ -622,7 +627,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
         this._onClickSubmitButton = this._onClickSubmitButton.bind(this);
         this._onClickCancelButton = this._onClickCancelButton.bind(this);
-        this._checkSubmitShouldBeDisabled = this._checkSubmitShouldBeDisabled.bind(this);
+        this._checkIfCancelOrSubmitShouldBeDisabled = this._checkIfCancelOrSubmitShouldBeDisabled.bind(this);
 
         // used to create form buttons
         this._initFormButtons();
@@ -667,6 +672,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
             this.setCustomCancelBtn();
             this.setCustomSubmitBtn();
             this.checkIfCustomSubmitShouldBeDisabled(true);
+            this.checkIfCustomCancelShouldBeDisabled(true);
         });
     }
 
@@ -838,9 +844,9 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         this.cancelButton.addEventListener('click', this._onClickCancelButton);
 
         this._inputElements.forEach(element => {
-            element.addEventListener('dirty', this._checkSubmitShouldBeDisabled);
-            element.addEventListener('validitychange', this._checkSubmitShouldBeDisabled);
-            element.addEventListener('clean', this._checkSubmitShouldBeDisabled);
+            element.addEventListener('dirty', this._checkIfCancelOrSubmitShouldBeDisabled);
+            element.addEventListener('validitychange', this._checkIfCancelOrSubmitShouldBeDisabled);
+            element.addEventListener('clean', this._checkIfCancelOrSubmitShouldBeDisabled);
         });
     }
 
@@ -855,9 +861,9 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         this.cancelButton.removeEventListener('click', this._onClickCancelButton);
 
         this._inputElements.forEach(element => {
-            element.removeEventListener('dirty', this._checkSubmitShouldBeDisabled);
-            element.removeEventListener('validitychange', this._checkSubmitShouldBeDisabled);
-            element.removeEventListener('clean', this._checkSubmitShouldBeDisabled);
+            element.removeEventListener('dirty', this._checkIfCancelOrSubmitShouldBeDisabled);
+            element.removeEventListener('validitychange', this._checkIfCancelOrSubmitShouldBeDisabled);
+            element.removeEventListener('clean', this._checkIfCancelOrSubmitShouldBeDisabled);
         });
 
         if (!isNil(this._customSubmitButtonRef)) {
@@ -916,8 +922,9 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      *  Initialize form buttons
      */
     private _initFormButtons() {
+        // the buttons are disabled by default
         this.submitButton = this._createButton(Ch5Form.SUBMIT_LABEL, Ch5Form.SUBMIT_TYPE, 'submit', true);
-        this.cancelButton = this._createButton(Ch5Form.CANCEL_LABEL, Ch5Form.CANCEL_TYPE, 'cancel');
+        this.cancelButton = this._createButton(Ch5Form.CANCEL_LABEL, Ch5Form.CANCEL_TYPE, 'cancel', true);
     }
 
     /**
@@ -947,7 +954,22 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
      * @private
      * @returns
      */
-    private _checkSubmitShouldBeDisabled() {
+    private _checkIfCancelOrSubmitShouldBeDisabled() {
+        // check cancel button status, without interfering
+        // check if elements are clean
+        const elementsAreClean = this._inputElements.every((elem) => elem.getDirty() === false);
+        this._cancelShouldBeDisabled = elementsAreClean;
+
+        // disable cancel buttons
+        if (this._cancelShouldBeDisabled) {
+            this.cancelButton.setAttribute('disabled', 'true');
+            this.cancelButton.classList.add(this.cssClassPrefix + '__submit--disabled');
+        } else {
+            this.cancelButton.removeAttribute('disabled');
+            this.cancelButton.classList.remove(this.cssClassPrefix + '__submit--disabled');
+        }
+        this.checkIfCustomCancelShouldBeDisabled(this._cancelShouldBeDisabled);
+
         // if an element is dirty then enable the submit
         this._inputElements.forEach((element) => {
             if (element.getDirty() === true) {
@@ -959,7 +981,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         });
 
         // if all elements are clean then disable submit
-        this._submitShouldBeDisable = this._inputElements.every((elem) => elem.getDirty() === false);
+        this._submitShouldBeDisable = elementsAreClean;
         if (this._submitShouldBeDisable) {
             this.checkIfCustomSubmitShouldBeDisabled(this._submitShouldBeDisable);
         }
@@ -988,6 +1010,13 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         if (!isNil(this._customSubmitButtonRef)) {
             // use the same class / css a ch5-button (default submit button) would use
             disable ? this._customSubmitButtonRef.classList.add('ch5-button--disabled') : this._customSubmitButtonRef.classList.remove('ch5-button--disabled');
+        }
+    }
+
+    private checkIfCustomCancelShouldBeDisabled(disable: boolean) {
+        if (!isNil(this._customCancelButtonRef)) {
+            // use the same class / css a ch5-button (default submit button) would use
+            disable ? this._customCancelButtonRef.classList.add('ch5-button--disabled') : this._customCancelButtonRef.classList.remove('ch5-button--disabled');
         }
     }
 
