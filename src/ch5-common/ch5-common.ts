@@ -232,7 +232,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     /**
      * Ch5 internal unique ID with Increment
-     */    
+     */
     protected _ch5Id: number = 0;
 
     /**
@@ -306,6 +306,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     public elementIsInViewPort: boolean = true;
 
     /**
+     * Whenever the target meets a threshold specified for the IntersectionObserver, 
+     * the callback is invoked. The callback receives a list of IntersectionObserverEntry 
+     * objects 
+     */
+    public elementIntersectionEntry: IntersectionObserverEntry = {} as IntersectionObserverEntry;
+
+    /**
      *
      * boolean value - element is visible or not
      */
@@ -334,7 +341,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             if (newValue !== '' && newValue !== this.currentLanguage) {
                 this.currentLanguage = newValue;
                 Object.keys(this.translatableObjects).forEach((propertyToTranslate: string) => {
-                    let propertyReference: {[key: string]: string} = this as {};
+                    let propertyReference: { [key: string]: string } = this as {};
 
                     if (propertyReference[propertyToTranslate as string] === undefined && propertyReference['attrModel' as string] !== undefined) {
                         propertyReference = propertyReference['attrModel' as string] as {};
@@ -381,16 +388,16 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @return {number}
      */
     public static extractMeasurementNumber(sizeValue: string): number {
-      const pattern = new RegExp("^-?\\d+\\.?\\d*");
-      let n: number = 0;
-      if (sizeValue !== null && sizeValue !== undefined) {
-        const matchedValues = sizeValue.match(pattern);
+        const pattern = new RegExp("^-?\\d+\\.?\\d*");
+        let n: number = 0;
+        if (sizeValue !== null && sizeValue !== undefined) {
+            const matchedValues = sizeValue.match(pattern);
 
-        if (matchedValues !== null && matchedValues[0] !== undefined) {
-          n = Number(matchedValues[0]);
+            if (matchedValues !== null && matchedValues[0] !== undefined) {
+                n = Number(matchedValues[0]);
+            }
         }
-      }
-      return n;
+        return n;
     }
 
     /**
@@ -418,11 +425,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
         switch (measurementUnit) {
             case 'vh':
-            _size = Ch5Common.convertVhUnitsToPx(size);
-            break;
+                _size = Ch5Common.convertVhUnitsToPx(size);
+                break;
             case 'vw':
-            _size = Ch5Common.convertVwUnitsToPx(size);
-            break;
+                _size = Ch5Common.convertVwUnitsToPx(size);
+                break;
         }
 
         return Math.round(_size);
@@ -558,7 +565,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         const translationUtility = Ch5TranslationUtility.getInstance();
         const isTranslatableValue = translationUtility.isTranslationIdentifier(valueToTranslate);
         let _value = valueToTranslate;
-        let savedValue =this.translatableObjects[valueToSave];
+        let savedValue = this.translatableObjects[valueToSave];
 
         if (typeof savedValue === 'undefined') {
             savedValue = valueToTranslate;
@@ -573,13 +580,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             const isTranslatableLabel = translationUtility.isTranslationIdentifier(savedValue);
 
             if (!isTranslatableLabel) {
-                if (savedValue !== valueToTranslate){
+                if (savedValue !== valueToTranslate) {
                     savedValue = valueToTranslate;
                 }
                 _value = this._t(valueToTranslate)
 
             } else {
-                if (this._t(savedValue) !== valueToTranslate && translationUtility.hasMultipleIdentifiers(savedValue) ) {
+                if (this._t(savedValue) !== valueToTranslate && translationUtility.hasMultipleIdentifiers(savedValue)) {
                     savedValue = valueToTranslate;
                 }
                 _value = this._t(savedValue);
@@ -629,15 +636,15 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      */
     public info(message?: any, ...optionalParams: any[]): void {
 
-      let ts = '';
+        let ts = '';
 
-      if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
-        ts = (new Date()).toISOString();
-      }
-      
-      if (true === this.isDebug()) {
-          console.info(ts, this.getCrId(), ':', message, optionalParams);
-      }
+        if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
+            ts = (new Date()).toISOString();
+        }
+
+        if (true === this.isDebug()) {
+            console.info(ts, this.getCrId(), ':', message, optionalParams);
+        }
     }
 
     /**
@@ -1079,7 +1086,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             this.gestureable = this.getAttribute('gestureable') as string;
         }
         this.dir = this.getAttribute('dir') || Ch5Common.DIRECTION[0];
-        if (this.hasAttribute('appendclasswheninviewport')){
+        if (this.hasAttribute('appendclasswheninviewport')) {
             this.appendClassWhenInViewPort = this.getAttribute('appendclasswheninviewport') as string;
             subscribeInViewPortChange(this, (isInViewPort: boolean) => {
                 this.updateElementVisibility(isInViewPort);
@@ -1111,7 +1118,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     /**
      * Helper method. For internal use.
      */
-    protected clearStringSignalSubscription(sigName: string|null|undefined, subscriptionKey: string) {
+    protected clearStringSignalSubscription(sigName: string | null | undefined, subscriptionKey: string) {
         let oldSig: Ch5Signal<string> | null = null;
         if (sigName) {
             const subSigName: string = Ch5Signal.getSubscriptionSignalName(sigName);
@@ -1125,7 +1132,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     /**
      * Helper method. For internal use.
      */
-    protected clearBooleanSignalSubscription(sigName: string|null|undefined, subscriptionKey: string) {
+    protected clearBooleanSignalSubscription(sigName: string | null | undefined, subscriptionKey: string) {
         let oldSig: Ch5Signal<boolean> | null = null;
         if (sigName) {
             const subSigName: string = Ch5Signal.getSubscriptionSignalName(sigName);
@@ -1139,7 +1146,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     /**
      * Helper method. For internal use.
      */
-    protected clearNumberSignalSubscription(sigName: string|null|undefined, subscriptionKey: string) {
+    protected clearNumberSignalSubscription(sigName: string | null | undefined, subscriptionKey: string) {
         let oldSig: Ch5Signal<number> | null = null;
         if ('' !== sigName
             && null !== sigName
@@ -1193,9 +1200,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         }
     }
 
-    protected _attributeValueAsString(attrName:string) {
-        let attributeValue='';
-        if (this.hasAttribute(attrName)){
+    protected _attributeValueAsString(attrName: string) {
+        let attributeValue = '';
+        if (this.hasAttribute(attrName)) {
             attributeValue = '' + this.getAttribute(attrName); // convert to string
         }
         return attributeValue;
@@ -1303,7 +1310,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         if (value !== this._disabled) {
             this._disabled = this._toBoolean(value);
             if (this._disabled) {
-                this.setAttribute('disabled','');
+                this.setAttribute('disabled', '');
             } else {
                 this.removeAttribute('disabled');
             }
@@ -1314,7 +1321,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         return this._disabled;
     }
 
-    public set gestureable(value:boolean|string) {
+    public set gestureable(value: boolean | string) {
         this.info('set gestureable(\'' + value + '\')');
         const booleanValue = this._toBoolean(value);
 
@@ -1608,17 +1615,17 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @param {string} attribute the attribute name to invoke incompatibility
      */
     protected invokePropIncompatibility(attribute: string): void {
-      switch (attribute) {
-        case 'pagedSwipe':
-          console.warn(this.definePropIncompatibilityInfo(
-            attribute, 
-            [
-              'size', 
-              'endless'
-            ]
-          ));
-          break;
-      }
+        switch (attribute) {
+            case 'pagedSwipe':
+                console.warn(this.definePropIncompatibilityInfo(
+                    attribute,
+                    [
+                        'size',
+                        'endless'
+                    ]
+                ));
+                break;
+        }
     }
 
     /**
@@ -1628,9 +1635,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @param {string|boolean} str
      * @returns {boolean}
      */
-    protected _toBoolean(val: any) : boolean{
+    protected _toBoolean(val: any): boolean {
         const str = String(val);
-        switch (str.toLowerCase().trim()){
+        switch (str.toLowerCase().trim()) {
             case "true": case "yes": case "1": return true;
             case "false": case "no": case "0": case null: return false;
             default: return Boolean(false);
@@ -1669,8 +1676,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @param {string[]} reasons
      */
     private definePropIncompatibilityInfo(attribute: string, reasons: string[]): string {
-      const reasonsList = reasons.join(',');
-      return `For element #${this.id} - ${attribute} doesn't work as expected. See(${reasonsList})`;
+        const reasonsList = reasons.join(',');
+        return `For element #${this.id} - ${attribute} doesn't work as expected. See(${reasonsList})`;
     }
 
     public updateElementVisibility(visible: boolean) {
