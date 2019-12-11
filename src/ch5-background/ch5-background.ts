@@ -1029,10 +1029,19 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             const leftOffset = this._elCanvas.getBoundingClientRect().left;
             this._videoRes.left = this._videoRes.left - leftOffset;
             this._videoRes.top = this._videoRes.top - topOffset;
-
             if (this._videoRes.top < 0 || this._videoRes.left < 0) {
                 return;
             }
+            // Avoiding negative values and decimal values in video and background
+            if (this._videoRes.left > 0 && this._videoRes.left < 1) {
+                this._videoRes.left = 0;
+            }
+            if (this._videoRes.top > 0 && this._videoRes.top < 1) {
+                this._videoRes.top = 0;
+            }
+            this._videoRes.left = Math.ceil(this._videoRes.left);
+            this._videoRes.top = Math.ceil(this._videoRes.top);
+
             const index = this._videoDimensions.findIndex((item: IVideoResponse) => item.id === this._videoRes.id);
             if (index > -1) {
                 this._videoDimensions[index] = this._videoRes;
