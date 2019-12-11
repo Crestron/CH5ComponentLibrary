@@ -10,7 +10,7 @@ import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 import { Ch5Button } from "../ch5-button/ch5-button";
 import { ICh5FormAttributes } from "../_interfaces/ch5-form";
 import { TCh5ButtonType } from "../_interfaces/ch5-button/types";
-import { isNil } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 
 
 export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
@@ -555,11 +555,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         this.info('Ch5Form set submitId("' + value + '")');
 
         if (this._submitId !== value && !isNil(value)) {
-            this.setCustomSubmitBtn(value);
-
             this._submitId = value;
-            this.setAttribute('submitid', value);
-            this.submitButton.setAttribute('id', value);
         }
     }
 
@@ -579,39 +575,46 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         this.info('Ch5Form set cancelId("' + value + '")');
 
         if (this._cancelId !== value && !isNil(value)) {
-            this.setCustomCancelBtn(value);
-
             this._cancelId = value;
-            this.setAttribute('cancelid', value);
-            this.cancelButton.setAttribute('id', value);
         }
     }
 
     /**
      * Find and set custom cancel btn, keep as reference to handle events
      */
-    private setCustomCancelBtn(cancelBtnId: string): void {
-        this._customCancelButtonRef = document.getElementById(cancelBtnId) as HTMLButtonElement;
-
-        if (isNil(this._customCancelButtonRef)) {
-            this.info(`Ch5Form Cannot find cancel button with id :${cancelBtnId}`);
+    private setCustomCancelBtn(): void {
+        if (isNil(this.cancelId) || isEmpty(this.cancelId)) {
+            // user did not set a custom cancel btn, safe to exit
             return;
         }
+        this.info(`Ch5Form setCustomCancelBtn with id :${this.cancelId} ready`);
+        this._customCancelButtonRef = document.getElementById(this.cancelId) as HTMLButtonElement;
+
+        if (isNil(this._customCancelButtonRef)) {
+            this.info(`Ch5Form Cannot find cancel button with id :${this.cancelId}`);
+            return;
+        }
+        this._customCancelButtonRef.removeEventListener('click', this._onClickCancelButton);
         this._customCancelButtonRef.addEventListener('click', this._onClickCancelButton);
-        this.info(`Ch5Form canel button with ${cancelBtnId} found, events added`);
+        this.info(`Ch5Form canel button with ${this.cancelId} found, events added`);
     }
 
     /**
      * Find and set custom submit btn, keep as reference to handle events
      */
-    private setCustomSubmitBtn(submitBtnId: string): void {
-        this._customSubmitButtonRef = document.getElementById(submitBtnId) as HTMLButtonElement;
+    private setCustomSubmitBtn(): void {
+        if (isNil(this.submitId) || isEmpty(this.submitId)) {
+            // user did not set a custom submit btn, safe to exit
+            return;
+        }
+        this.info(`Ch5Form setCustomSubmitBtn with id :${this.submitId} ready`);
+        this._customSubmitButtonRef = document.getElementById(this.submitId) as HTMLButtonElement;
         if (isNil(this._customSubmitButtonRef)) {
-            this.info(`Ch5Form cannot find submit button with id :${submitBtnId}`);
+            this.info(`Ch5Form cannot find submit button with id :${this.submitId}`);
             return;
         }
         this._customSubmitButtonRef.addEventListener('click', this._onClickSubmitButton);
-        this.info(`Ch5Form submit button with ${submitBtnId} found, events added`);
+        this.info(`Ch5Form submit button with ${this.submitId} found, events added`);
     }
 
     constructor() {
@@ -660,7 +663,9 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
             this.attachEventListeners();
             this.initCommonMutationObserver(this);
-            // by default, disable the custom submit button (if it exists)
+            // set custom cancel/submit buttons if available, disable the custom submit button initially
+            this.setCustomCancelBtn();
+            this.setCustomSubmitBtn();
             this.checkIfCustomSubmitShouldBeDisabled(true);
         });
     }
