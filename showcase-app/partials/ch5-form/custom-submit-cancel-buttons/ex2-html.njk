@@ -1,0 +1,67 @@
+<h2>Custom cancel and submit buttons with default ch5-form buttons</h2>
+<p>In this example the default ch5-form buttons are also kept, to show that the custom ones are in-sync with
+    them.</p>
+<p>Additionally, a ch5-textinput with validation was added, the submit button will only become available once all the
+    validity checks contained in the form have passed.</p>
+<div style="padding-bottom: 24px;">
+    <ch5-form
+            id="demo"
+            submitId="custom_submit_btn_example_2"
+            cancelId="custom_cancel_btn_example_2"
+    >
+        <p>
+            <b>Sample ch5-toggle</b>
+        </p>
+        <ch5-toggle
+                labelOn="On"
+                labelOff="Off"
+                feedbackMode="submit"
+                receiveStateValue="example_3_toggle_receive_state_value"
+                sendEventOnClick="example_3_toggle_send_event_on_click">
+        </ch5-toggle>
+
+        <br><br>
+
+        <p>
+            <b>Sample ch5-slider</b>
+        </p>
+        <ch5-slider
+                feedbackMode="submit"
+                receiveStateValue="example_3_slider_receive_state_value"
+                sendEventOnChange="example_3_slider_send_event_on_change"
+                step="10"
+                min="0"
+                max="100">
+        </ch5-slider>
+
+        <p>
+            <b>Sample ch5-textinput</b>
+        </p>
+        <ch5-textinput
+                sendEventOnFocus="example_3_textinput_1_send_event_on_focus"
+                sendeventonblur="example_3_textinput_1_send_event_on_blur"
+                sendeventonchange="example_3_textinput_1_send_event_on_change"
+                feedbackmode="submit"
+                receivestatevalue="12">
+        </ch5-textinput>
+
+        <p>
+            <b>Sample ch5-textinput with <b style="color: red;">required input</b> and a minimum length of 10
+                characters. Submit will only become available once the value of the ch5-textinput is valid</b>
+        </p>
+        <ch5-textinput
+                sendEventOnFocus="example_3_textinput_2_send_event_on_focus"
+                sendeventonblur="example_3_textinput_2_send_event_on_blur"
+                sendeventonchange="example_3_textinput_2_send_event_on_change"
+                minLength="10"
+                required
+                feedbackMode="submit">
+        </ch5-textinput>
+    </ch5-form>
+
+    <h4 style="padding-top: 24px; color: #3273dc">Custom buttons, in sync with the default ch5-form buttons</h4>
+    <p>
+        <button id="custom_submit_btn_example_2" class="custom-submit-cancel-btns">Submit</button>
+        <button id="custom_cancel_btn_example_2" class="custom-submit-cancel-btns">Cancel</button>
+    </p>
+</div>
