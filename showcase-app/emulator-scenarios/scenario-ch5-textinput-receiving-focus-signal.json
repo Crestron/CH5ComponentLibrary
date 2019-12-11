@@ -12,6 +12,18 @@
           "value": true
         }
       ]
+    },
+    {
+      "type": "b",
+      "event": "trig2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "btn_receive_focus2",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
     }
   ]
 }
