@@ -1,10 +1,11 @@
-var input = document.querySelector('#minLengthForm input[type="text"]');
-var form = document.querySelector('#minLengthForm');
+$(document).ready(() => {
+    var form = document.getElementById('minLengthForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+    })
 
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-})
-
-input.addEventListener('change', function(e) {
-  console.log(e.target.validity);
+    var input = form.querySelector('input[type="text"]');
+    input.addEventListener('change', function(e) {
+      console.log(e.target.validity);
+    })
 })
