@@ -21,6 +21,7 @@ import {
 import { ICh5ButtonAttributes } from "../_interfaces/ch5-button/i-ch5-button-attributes";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import Hammer from 'hammerjs';
+import { isTouchDevice } from "../ch5-core/utility-functions/is-touch-device";
 import { Ch5ButtonPressInfo } from "./ch5-button-pressinfo";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
@@ -1729,6 +1730,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onTapAction() {
+        if (!isTouchDevice()) {
+            this._sendOnClickSignal();
+        }
+
         if (null !== this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
             this.sendValueForOnTouchSignal(false);
@@ -1840,12 +1845,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         inEvent.preventDefault();
         inEvent.stopPropagation();
-        
+
         // signal is sent here to make sure the button does 
         // not gain focus when it should not
 
         // on touch devices, focus is gained onTouchEnd
-        this._sendOnClickSignal();
+        if (isTouchDevice()) {
+            this._sendOnClickSignal();
+        }
     }
 
     /**
