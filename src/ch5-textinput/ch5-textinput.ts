@@ -1357,7 +1357,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         }
 
         this._receiveStateFocusSub = receiveState.subscribe((newValue: boolean) => {
-            if (newValue !== undefined && newValue !== undefined) {
+            if (newValue !== undefined) {
                 this.focusTheInput(newValue);
             }
         });
@@ -2229,7 +2229,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      * Attach event listeners to the elements
      *
      * @protected
-     * @memberof Ch5Textinput
+     * @memberof Ch5TextInput
      * @return {void}
      */
     protected attachEventListeners(): void {
@@ -2240,7 +2240,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         this._onFocusListener = this._onFocus.bind(this);
         this._onKeyPressListener = this._onKeyPress.bind(this);
 
-        this._elInput.addEventListener('change', this._onChangeListener);
+        this._elInput.addEventListener('keyup', this._onChangeListener);
         this._elInput.addEventListener('focus', this._onFocusListener);
         this._elInput.addEventListener('blur', this._onBlurListener);
         this._elInput.addEventListener('input', this._onKeyPressListener);
