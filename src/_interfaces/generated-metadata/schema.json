@@ -244,6 +244,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -743,6 +753,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -1158,6 +1178,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`alt` attribute",
               "***",
               "Defines an alternative text description for the image."
@@ -1507,6 +1537,16 @@
             ],
             "value": [],
             "name": "appendclasswheninviewport"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
           },
           {
             "documentation": [
@@ -1953,6 +1993,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -2083,7 +2133,7 @@
               "When received, positions to this component"
             ],
             "value": [],
-            "name": "receivestatepositionto "
+            "name": "receivestatepositionto"
           },
           {
             "documentation": [
@@ -2338,6 +2388,16 @@
             ],
             "value": [],
             "name": "appendclasswheninviewport"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
           },
           {
             "documentation": [
@@ -2834,6 +2894,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -2924,7 +2994,7 @@
             "documentation": [
               "`scrollheight` attribute",
               "***",
-              "The height of the panel containing the list of options."
+              "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select"
             ],
             "value": [],
             "name": "panelscrollheight"
@@ -3429,6 +3499,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -3687,6 +3767,16 @@
             ],
             "value": [],
             "name": "appendclasswheninviewport"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
           },
           {
             "documentation": [
@@ -4223,6 +4313,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -4704,6 +4804,16 @@
             ],
             "value": [],
             "name": "appendclasswheninviewport"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
           },
           {
             "documentation": [
@@ -5259,6 +5369,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -5629,6 +5749,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -5947,6 +6077,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -6179,6 +6319,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -6390,6 +6540,16 @@
             ],
             "value": [],
             "name": "appendclasswheninviewport"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
           },
           {
             "documentation": [
@@ -6612,6 +6772,16 @@
             ],
             "value": [],
             "name": "appendclasswheninviewport"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
           },
           {
             "documentation": [
@@ -6982,6 +7152,16 @@
           },
           {
             "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [],
+            "name": "show"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -7293,12 +7473,12 @@
           },
           {
             "documentation": [
-              "`sendStateSnapShotLastUpdateTime` attribute",
+              "`sendEventSnapShotLastUpdateTime` attribute",
               "***",
               "The timestamp of the last update time of the still image associated with the current source selection."
             ],
             "value": [],
-            "name": "sendstatesnapshotlastupdatetime"
+            "name": "sendeventsnapshotlastupdatetime"
           },
           {
             "documentation": [

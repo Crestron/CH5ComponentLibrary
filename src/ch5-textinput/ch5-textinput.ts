@@ -6,21 +6,21 @@
 // under which you licensed this source code.
 
 import _ from "lodash";
-import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
-import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
-import { Ch5TextInputScaling } from "./ch5-textinput-scaling";
-import { Ch5tTextInputMask } from "./ch5-textinput-mask";
-import { Ch5Common } from "../ch5-common/ch5-common";
+import {Ch5CommonInput} from "../ch5-common-input/ch5-common-input";
+import {Ch5Signal, Ch5SignalFactory} from "../ch5-core";
+import {Ch5TextInputScaling} from "./ch5-textinput-scaling";
+import {Ch5tTextInputMask} from "./ch5-textinput-mask";
+import {Ch5Common} from "../ch5-common/ch5-common";
 
-import { TCh5TextInputType } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-type';
-import { TCh5TextInputTextTransform } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-text-transform';
-import { TCh5TextInputStretch } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-stretch';
-import { TCh5TextInputSize } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-size';
-import { TCh5TextInputIconPosition } from '../_interfaces/ch5-textinput/types/t-ch5-textinput-icon-position';
-import { TCh5CommonInputFeedbackModes } from '../_interfaces/ch5-common-input/types';
+import {TCh5TextInputType} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-type';
+import {TCh5TextInputTextTransform} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-text-transform';
+import {TCh5TextInputStretch} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-stretch';
+import {TCh5TextInputSize} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-size';
+import {TCh5TextInputIconPosition} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-icon-position';
+import {TCh5CommonInputFeedbackModes} from '../_interfaces/ch5-common-input/types';
 import HtmlCallback from "../ch5-common/utils/html-callback";
-import { ICh5TextInputAttributes } from "../_interfaces/ch5-textinput";
-import { Ch5RoleAttributeMapping } from "../utility-models";
+import {ICh5TextInputAttributes} from "../_interfaces/ch5-textinput";
+import {Ch5RoleAttributeMapping} from "../utility-models";
 
 export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttributes {
 
@@ -71,7 +71,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
     /**
      * Css class postfix
-     * 
+     *
      * @public
      * @static
      * @type {string}
@@ -525,41 +525,45 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
         this.info('<ch5-textinput/>.connectedCallback()');
 
-         // WAI-ARIA Attributes
-        if (!this.hasAttribute('role')) {
-            this.setAttribute('role', Ch5RoleAttributeMapping.ch5TextInput);
-        }
+        Promise.all([
+            customElements.whenDefined('ch5-textinput'),
+        ]).then(() => {
+            // WAI-ARIA Attributes
+            if (!this.hasAttribute('role')) {
+                this.setAttribute('role', Ch5RoleAttributeMapping.ch5TextInput);
+            }
 
-        /**
-         * The tabindex global attribute indicates if its element can be focused.
-         * Makes available focus and blur events on element
-         *
-         * tabindex="0" will take an element and make it focusable. It doesn’t set the element’s position in the tab order,
-         * it just allows a user to focus the element in the order determined by its location with the DOM.
-         *
-         * tabindex="-1" allows you to set an element’s focus with script, but does not put it in the tab order of the page.
-         * This is handy when you need to move focus to something you have updated via script or outside of user action.
-         */
-        if (!this.hasAttribute('tabindex')) {
-            this.setAttribute('tabindex', '0');
-        }
+            /**
+             * The tabindex global attribute indicates if its element can be focused.
+             * Makes available focus and blur events on element
+             *
+             * tabindex="0" will take an element and make it focusable. It doesn’t set the element’s position in the tab order,
+             * it just allows a user to focus the element in the order determined by its location with the DOM.
+             *
+             * tabindex="-1" allows you to set an element’s focus with script, but does not put it in the tab order of the page.
+             * This is handy when you need to move focus to something you have updated via script or outside of user action.
+             */
+            if (!this.hasAttribute('tabindex')) {
+                this.setAttribute('tabindex', '0');
+            }
 
-        if (!this._wasInstatiated){
-            this.createInternalHTML();
-        }
-        this._wasInstatiated = true;
+            if (!this._wasInstatiated) {
+                this.createInternalHTML();
+            }
+            this._wasInstatiated = true;
 
-        this.initAttributes();
-        this.attachEventListeners();
-        this._addAriaAttributes();
+            this.initAttributes();
+            this.attachEventListeners();
+            this._addAriaAttributes();
 
-        this.initCommonMutationObserver(this);
+            this.initCommonMutationObserver(this);
 
-        this.lastValidState = this.getValid();
+            this.lastValidState = this.getValid();
+            this.info('Ch5TextInput --- Callback loaded');
+        });
     }
 
     public disconnectedCallback(): void {
-
         this.info('<ch5-textinput/>.disconnectedCallback()');
 
         this.removeEvents();
@@ -1353,7 +1357,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         }
 
         this._receiveStateFocusSub = receiveState.subscribe((newValue: boolean) => {
-            if (newValue !== undefined && newValue !== undefined) {
+            if (newValue !== undefined) {
                 this.focusTheInput(newValue);
             }
         });
@@ -1555,10 +1559,14 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
         this.info('set <ch5-textinput mask="' + mask + '"');
 
-        if (this.mask !== mask) {
-            if (mask === undefined || mask === null) {
-                mask = '';
-            }
+        if (this.mask === mask) {
+            // In Angular the setter is triggered twice, but even so it does not make sense to re-init the
+            // mask attribute if the value was not changed
+            return;
+        }
+
+        if (this.mask !== mask && (mask === undefined || mask === null)) {
+            mask = '';
         }
 
         this._mask = mask;
@@ -1808,7 +1816,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             }
         }
     }
-	
+
     public getCssClassDisabled() {
         return this.cssClassPrefix + '--disabled';
     }
@@ -2023,7 +2031,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
     }
 
     /**
-     * Method clearComponentContent clean the content of component 
+     * Method clearComponentContent clean the content of component
      * before creating view for ch5-textinput
      */
     protected clearComponentContent() {
@@ -2032,7 +2040,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             container.remove();
         })
     }
-    
+
     /**
      * Generate the inner markup
      *
@@ -2221,11 +2229,10 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      * Attach event listeners to the elements
      *
      * @protected
-     * @memberof Ch5Textinput
+     * @memberof Ch5TextInput
      * @return {void}
      */
     protected attachEventListeners(): void {
-
         this.info("<ch5-textinput />.attachEventListeners()");
 
         this._onChangeListener = this._onChange.bind(this);
@@ -2233,7 +2240,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         this._onFocusListener = this._onFocus.bind(this);
         this._onKeyPressListener = this._onKeyPress.bind(this);
 
-        this._elInput.addEventListener('change', this._onChangeListener);
+        this._elInput.addEventListener('keyup', this._onChangeListener);
         this._elInput.addEventListener('focus', this._onFocusListener);
         this._elInput.addEventListener('blur', this._onBlurListener);
         this._elInput.addEventListener('input', this._onKeyPressListener);
@@ -2250,10 +2257,14 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
     protected removeEvents(): void {
         this.info("<ch5-textinput />.removeEvents()");
 
-        this._elInput.removeEventListener('change', this._onChangeListener);
-        this._elInput.removeEventListener('focus', this._onFocusListener);
-        this._elInput.removeEventListener('blur', this._onBlurListener);
-        this._elInput.removeEventListener('keypress', this._onKeyPressListener);
+        super.removeEventListeners();
+
+        if (!_.isEmpty(this._elInput)) {
+            this._elInput.removeEventListener('change', this._onChangeListener);
+            this._elInput.removeEventListener('focus', this._onFocusListener);
+            this._elInput.removeEventListener('blur', this._onBlurListener);
+            this._elInput.removeEventListener('keypress', this._onKeyPressListener);
+        }
     }
 
     /**

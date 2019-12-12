@@ -59,7 +59,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`scrollheight` attribute",
    * "***",
-   * "The height of the panel containing the list of options."
+   * "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select"
    * ]
    * @name panelscrollheight
    *

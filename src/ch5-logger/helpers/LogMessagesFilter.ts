@@ -17,9 +17,10 @@ import {Ch5Debug} from '../../ch5-core/ch5-debug';
  */
 export class LogMessagesFilter {
 
+    private _regularExpression: string = '';
+
     public level: LogLevelEnum;
     public source: string = Ch5Debug.getConfigKeyValue(Ch5Debug.DEBUG_MESSAGE_FILTER_SOURCE_KEY) as string;
-    public regularExpression: string = '';
 
     /**
      * If there is a configuration for default log level, use it
@@ -32,8 +33,27 @@ export class LogMessagesFilter {
 
     constructor(level?: LogLevelEnum, source?: string, regexStr?: string) {
         this.level = !isNil(level) ? level : LogMessagesFilter.getDefaultLevel();
-        this.regularExpression = regexStr ? regexStr : this.regularExpression;
+        this.regularExpression = regexStr ? regexStr : this._regularExpression;
         this.source = source ? source : this.source;
+    }
+
+    public get regularExpression():string {
+        return this._regularExpression;
+    }
+
+    public set regularExpression(value: string) {
+        if (isNil(value)) {
+            this._regularExpression = '';
+            return;
+        }
+
+        if (value.charAt(0) === '/' && value.charAt(value.length - 1) === '/') {
+            const lastSlashPos = value.lastIndexOf('/');
+            this._regularExpression = value.substr(1).substring(0, lastSlashPos - 1);
+            return;
+        }
+
+        this._regularExpression = value;
     }
 
     public undateSourceFromConfig() {
