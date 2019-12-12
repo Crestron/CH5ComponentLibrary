@@ -33,7 +33,7 @@ export interface ICh5CommonInputAttributes extends ICh5CommonAttributes {
    * [
    * "`signalvaluesynctimeout` attribute",
    * "***",
-   * "The default value is 1500ms. Defines the time between the end of focus (no more user action;
+   * "The default value is 1500ms. Defines the time between the end of focus (no more user action",
    * "for example, for a ch5-toggle this means that the user has released the handle of the toggle)",
    * "and the time the CH5 element will check if the value is equal with the value from the signal.",
    * "If the value is not equal, it will apply the value from the signal automatically. Apply only for feedbackMode direct."

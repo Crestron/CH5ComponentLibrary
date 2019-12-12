@@ -169,7 +169,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`text-transform` attribute",
    * "***",
-   * "Only used for type=text. The default value is 'none'."
+   * "Only used for type=text. The default value is 'none'.",
    * "Valid values: ",
    * "'capitalize' – Makes all first characters of each word uppercase",
    * "'uppercase' – Makes all characters uppercase",
