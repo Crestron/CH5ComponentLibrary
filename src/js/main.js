@@ -152,7 +152,7 @@
         }
         setTheme(initialTheme);
         themeChanger.val(initialTheme);
-
+        themeChanger.show();
         themeChanger.on('change', function () {
             console.log('changed theme');
             var ch5ThemeName = $(this).val();

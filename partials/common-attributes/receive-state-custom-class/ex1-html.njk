@@ -1,0 +1,23 @@
+<ch5-button label="Trigger1" sendEventOnClick="sig_trig_class1"></ch5-button>
+<ch5-button label="Trigger2" sendEventOnClick="sig_trig_class2"></ch5-button>
+<br/><br/>
+
+{% raw %}
+<ch5-button type="success" shape="rectangle" label="customClass attribute" receiveStateCustomClass="sig_custom_class"></ch5-button>
+
+<ch5-image
+    url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg"
+    height="200px"
+    receiveStateCustomClass="sig_custom_class">
+</ch5-image>             
+<br/>
+<br/>
+<ch5-spinner
+    label="item {{idx}}"
+    indexId="idx"
+    size="20"
+    itemHeight="20"
+    visibleItemScroll="3"
+    receiveStateCustomClass="sig_custom_class">
+</ch5-spinner>
+{% endraw %}
