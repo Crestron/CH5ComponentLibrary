@@ -369,6 +369,10 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
             return this._list.sizeResolver.hiddenListSize;
         }
 
+        // TODO
+        this._list.storedOffsetWidth = this._list.offsetWidth;
+        this._list.storedOffsetHeight = this._list.offsetHeight;
+
         const itemsPerPage = this._list.getItemsPerPage();
         const firstItemSize = this._list.getItemSize();
         const definedListSize = this._list.size || 0;
