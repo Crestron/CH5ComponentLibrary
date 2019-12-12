@@ -82,7 +82,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`orientation` attribute",
    * "***",
-   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'."
+   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'.",
    * "The orientation of the slider."
    * ]
    * @name orientation
@@ -94,7 +94,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`size` attribute",
    * "***",
-   * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'."
+   * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'.",
    * "The size of the slider."
    * ]
    * @name size

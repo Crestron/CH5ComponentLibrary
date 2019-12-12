@@ -163,7 +163,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`zIndex` attribute",
      *  "***",
-     *  "The video display moves back and forth with regards to the z-axis.
+     *  "The video display moves back and forth with regards to the z-axis."
      * ]
      */
     zIndex: string;
