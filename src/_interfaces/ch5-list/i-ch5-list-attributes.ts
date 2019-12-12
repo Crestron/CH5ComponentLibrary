@@ -29,8 +29,8 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`orientation` attribute",
    * "***",
-   * "The default value is 'vertical'. Valid values: 'vertical' or 'horizontal'.",
-   * "Positions the control elements in a horizontal or vertical orientation.",
+   * "The default value is 'vertical'. Valid values: 'vertical' or 'horizontal'. ",
+   * "Positions the control elements in a horizontal or vertical orientation. ",
    * "This is done with the CSS overflow property. The overflow property specifies ",
    * "what happens if content overflows an element's box."
    * ]
@@ -43,7 +43,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`bufferammount` attribute",
    * "***",
-   * "The number of elements to be rendered outside of the current container's",
+   * "The number of elements to be rendered outside of the current container's ",
    * "viewport (visible area)."
    * ]
    * @name bufferamount
@@ -55,9 +55,9 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`itemheight` attribute",
    * "***",
-   * "The height of an item. The height value can be in px and vh.",
-   * "The item height is needed for a vertical infinite list. If the height is not provided,",
-   * "the infinite list is calculated based on the first item height.",
+   * "The height of an item. The height value can be in px and vh. ",
+   * "The item height is needed for a vertical infinite list. If the height is not provided, ",
+   * "the infinite list is calculated based on the first item height. ",
    * "Each list item must have the same height."
    * ]
    * @name itemheight
@@ -69,10 +69,10 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`itemwidth` attribute",
    * "***",
-   * "Recommendation: Use the same unit type for all width and height attributes.",
-   * "The width of an item. The height value can be in px and vh.",
+   * "Recommendation: Use the same unit type for all width and height attributes. ",
+   * "The width of an item. The height value can be in px and vh. ",
    * "The item width is needed for a vertical infinite list. If the width is not provided, ",
-   * "the infinite list is calculated based on the first item width.",
+   * "the infinite list is calculated based on the first item width. ",
    * "Each list item must have the same width."
    * ]
    * @name itemwidth
@@ -84,7 +84,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`minWidth` attribute",
    * "***",
-   * "Recommendation: Use the same unit type for all width height attributes.",
+   * "Recommendation: Use the same unit type for all width height attributes. ",
    * "The min width of the list container."
    * ]
    * @name minwidth
@@ -96,7 +96,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`minWidth` attribute",
    * "***",
-   * "Recommendation: Use the same unit type for all width and height attributes.",
+   * "Recommendation: Use the same unit type for all width and height attributes. ",
    * "The max width of the list container."
    * ]
    * @name maxwidth
@@ -108,7 +108,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`minHeight` attribute",
    * "***",
-   * "Recommendation: Use the same unit type for all width and height attributes",
+   * "Recommendation: Use the same unit type for all width and height attributes ",
    * "The min height of the list container."
    * ]
    * @name minheight
@@ -120,7 +120,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`maxHeight` attribute",
    * "***",
-   * "Recommendation: Use the same unit type for all width and height attributes.",
+   * "Recommendation: Use the same unit type for all width and height attributes. ",
    * "The max height of the list container."
    * ]
    * @name maxheight
@@ -145,7 +145,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`indexid` attribute",
    * "***",
-   * "The pattern that will be replaced with the id from the list items iteration.",
+   * "The pattern that will be replaced with the id from the list items iteration. ",
    * "Example: {{ idx }}"
    * ]
    */
@@ -168,8 +168,8 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestatescrollto` attribute",
    * "***",
-   * "Represents the scroll position of the list received from Native.",
-   * "Example: value 10 of receivestatescrollto will scroll the list",
+   * "Represents the scroll position of the list received from Native. ",
+   * "Example: value 10 of receivestatescrollto will scroll the list ",
    * "to the 10th element."
    * ]
    */

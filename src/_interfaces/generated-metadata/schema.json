@@ -6,7 +6,7 @@
           "documentation": [
             "`data-ch5-show` custom attribute",
             "***",
-            "Specifies whether or not an element is visible based upon the value of the state. Works with standard HTML elements.",
+            "Specifies whether or not an element is visible based upon the value of the state. Works with standard HTML elements. ",
             "The data-ch5-noshow-type attribute can be supplied to set how an HTML element will be hidden from view."
           ],
           "value": [],
@@ -17,7 +17,7 @@
             "`data-ch5-noshow-type` custom attribute",
             "***",
             "The 'data-ch5-noshow-type' custom attribute is related to the HTML custom attribute 'data-ch5-show' ",
-            "and overrides the way in which a Component is made invisible.",
+            "and overrides the way in which a Component is made invisible. ",
             "The Crestron Components library will default the 'noshow' type based upon the element type."
           ],
           "value": [
@@ -31,7 +31,7 @@
           "documentation": [
             "`data-ch5-appendclass` custom attribute",
             "***",
-            "The 'data-ch5-appendclass' custom HTML attribute appends the value of a signal to the 'class' attribute",
+            "The 'data-ch5-appendclass' custom HTML attribute appends the value of a signal to the 'class' attribute ",
             "on a standard HTML element. A change in signal value will remove the prior value of the ",
             "signal and append the new value."
           ],
@@ -54,8 +54,8 @@
           "documentation": [
             "`data-ch5-showpulse` custom attribute",
             "***",
-            "Works similarly to data-ch5-show, but does not offer toggle functionality (can only make the elements visible).",
-            "Works with standard HTML elements.",
+            "Works similarly to data-ch5-show, but does not offer toggle functionality (can only make the elements visible). ",
+            "Works with standard HTML elements. ",
             "The data-ch5-noshow-type attribute can be supplied to set how an HTML element will be hidden from view."
           ],
           "value": [],
@@ -78,7 +78,7 @@
             "***",
             "The 'data-ch5-appendstyle' custom HTML attribute appends the value of a signal to the 'style' attribute ",
             "on a standard HTML element. A signal value change will remove the prior value of the ",
-            "signal and append the new value. "
+            "signal and append the new value."
           ],
           "value": [],
           "name": "data-ch5-appendstyle"
@@ -87,8 +87,8 @@
           "documentation": [
             "`data-ch5-hidepulse` custom attribute",
             "***",
-            "Works similarly to data-ch5-show, but does not offer toggle functionality (can only hide the elements).",
-            "Works with standard HTML elements.",
+            "Works similarly to data-ch5-show, but does not offer toggle functionality (can only hide the elements). ",
+            "Works with standard HTML elements. ",
             "The data-ch5-noshow-type attribute can be supplied to set how an HTML element will be hidden from view."
           ],
           "value": [],
@@ -107,7 +107,7 @@
           "documentation": [
             "`data-ch5-i18n` custom attribute",
             "***",
-            "The 'data-ch5-i18n' custom HTML attribute allows for text content translation to be applied to",
+            "The 'data-ch5-i18n' custom HTML attribute allows for text content translation to be applied to ",
             "standard HTML elements."
           ],
           "value": [],
@@ -155,7 +155,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -297,7 +297,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -383,7 +383,7 @@
             "documentation": [
               "`shape` attribute",
               "***",
-              "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle',",
+              "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle', ",
               "'rectangle', 'tab', 'circle', 'oval'. The shape of the button."
             ],
             "value": [
@@ -402,10 +402,10 @@
               "The default value is 'both'. Valid values: 'width', 'height', 'both'.",
               "When the stretch property is set, the button element inherits the ",
               "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it",
-              "reaches the max-width of the container. If stretch=width is",
+              "the button will be responsive based on the label length until it ",
+              "reaches the max-width of the container. If stretch=width is ",
               "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note",
+              "the text will overflow. The same applies if stretch=both is used. Note ",
               "that if the button element shape is 'circle' or 'oval', the stretch ",
               "property will be ignored."
             ],
@@ -424,7 +424,7 @@
               "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
               "Overrides the appearance of the button with alternative CSS ",
               "defined in classes defined with ch5-button--type, where type is ",
-              "the value of the property. If no 'type' is provided, the type of",
+              "the value of the property. If no 'type' is provided, the type of ",
               "'default' is used."
             ],
             "value": [
@@ -461,7 +461,7 @@
             "documentation": [
               "`receivestatescriptlabelhtml` attribute",
               "***",
-              "Allows the signal script evaluation to be applied to the",
+              "Allows the signal script evaluation to be applied to the ",
               "button.inner HTML class. Allows for multiline, multistyled labels."
             ],
             "value": [],
@@ -473,7 +473,7 @@
               "***",
               "Sends an event on click or tap (mouse or swipe up and down quickly).",
               "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of",
+              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
               "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
             ],
             "value": [],
@@ -485,7 +485,7 @@
               "***",
               "Sends a boolean true event when the screen is tapped and a boolean false event when released.",
               "Use this when the control system takes an action on a level-sensitive boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of",
+              "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of ",
               "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
             ],
             "value": [],
@@ -514,7 +514,7 @@
             "documentation": [
               "`receivestateiconurl` attribute",
               "***",
-              "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute.",
+              "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute. ",
               "See description of the iconUrl attribute."
             ],
             "value": [],
@@ -664,7 +664,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -806,7 +806,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -951,9 +951,9 @@
         "documentation": [
           "`ch5-form` element",
           "***",
-          " This component provides a container for which 'input' style components, such as TextEntry,",
-          "Slider, Toggle Switch, Select, and Spinner, can be grouped together to update their send signals upon a",
-          "Submit button press or to revert to their receive signal value upon a Cancel button press. "
+          " This component provides a container for which 'input' style components, such as TextEntry, ",
+          "Slider, Toggle Switch, Select, and Spinner, can be grouped together to update their send signals upon a ",
+          "Submit button press or to revert to their receive signal value upon a Cancel button press."
         ],
         "snippets": [
           {
@@ -1089,7 +1089,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -1270,9 +1270,9 @@
             "documentation": [
               "`sendeventontouch` attribute",
               "***",
-              "Sends a boolean true event when the screen is tapped and boolean false event when released.",
-              "Use this when the control system takes an action on a level-sensitive boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of",
+              "Sends a boolean true event when the screen is tapped and boolean false event when released. ",
+              "Use this when the control system takes an action on a level-sensitive boolean digital event. ",
+              "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of ",
               "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
             ],
             "value": [],
@@ -1282,9 +1282,9 @@
             "documentation": [
               "`sendeventonclick` attribute",
               "***",
-              "Sends an on click or tap event (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle with a description of",
+              "Sends an on click or tap event (mouse or swipe up and down quickly). ",
+              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
+              "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
               "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
             ],
             "value": [],
@@ -1344,7 +1344,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -1375,10 +1375,10 @@
         "documentation": [
           "`ch5-image` element",
           "***",
-          "A component to load images. Even with this component, the user can use the standard HTML",
-          "<img> tag. This component allows for images to be loaded mainly from a security camera on a polled basis.",
+          "A component to load images. Even with this component, the user can use the standard HTML ",
+          "<img> tag. This component allows for images to be loaded mainly from a security camera on a polled basis. ",
           "The implementation of the Image Component in used to coordinate requests of images to be shared ",
-          "between different image components and video components that may be requesting the same image URL. "
+          "between different image components and video components that may be requesting the same image URL."
         ],
         "snippets": [
           {
@@ -1451,7 +1451,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -1593,7 +1593,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -1615,8 +1615,8 @@
             "documentation": [
               "`orientation` attribute",
               "***",
-              "The default value is 'vertical'. Valid values: 'vertical' or 'horizontal'.",
-              "Positions the control elements in a horizontal or vertical orientation.",
+              "The default value is 'vertical'. Valid values: 'vertical' or 'horizontal'. ",
+              "Positions the control elements in a horizontal or vertical orientation. ",
               "This is done with the CSS overflow property. The overflow property specifies ",
               "what happens if content overflows an element's box."
             ],
@@ -1630,7 +1630,7 @@
             "documentation": [
               "`bufferammount` attribute",
               "***",
-              "The number of elements to be rendered outside of the current container's",
+              "The number of elements to be rendered outside of the current container's ",
               "viewport (visible area)."
             ],
             "value": [],
@@ -1640,9 +1640,9 @@
             "documentation": [
               "`itemheight` attribute",
               "***",
-              "The height of an item. The height value can be in px and vh.",
-              "The item height is needed for a vertical infinite list. If the height is not provided,",
-              "the infinite list is calculated based on the first item height.",
+              "The height of an item. The height value can be in px and vh. ",
+              "The item height is needed for a vertical infinite list. If the height is not provided, ",
+              "the infinite list is calculated based on the first item height. ",
               "Each list item must have the same height."
             ],
             "value": [],
@@ -1652,10 +1652,10 @@
             "documentation": [
               "`itemwidth` attribute",
               "***",
-              "Recommendation: Use the same unit type for all width and height attributes.",
-              "The width of an item. The height value can be in px and vh.",
+              "Recommendation: Use the same unit type for all width and height attributes. ",
+              "The width of an item. The height value can be in px and vh. ",
               "The item width is needed for a vertical infinite list. If the width is not provided, ",
-              "the infinite list is calculated based on the first item width.",
+              "the infinite list is calculated based on the first item width. ",
               "Each list item must have the same width."
             ],
             "value": [],
@@ -1665,7 +1665,7 @@
             "documentation": [
               "`minWidth` attribute",
               "***",
-              "Recommendation: Use the same unit type for all width height attributes.",
+              "Recommendation: Use the same unit type for all width height attributes. ",
               "The min width of the list container."
             ],
             "value": [],
@@ -1675,7 +1675,7 @@
             "documentation": [
               "`minWidth` attribute",
               "***",
-              "Recommendation: Use the same unit type for all width and height attributes.",
+              "Recommendation: Use the same unit type for all width and height attributes. ",
               "The max width of the list container."
             ],
             "value": [],
@@ -1685,7 +1685,7 @@
             "documentation": [
               "`minHeight` attribute",
               "***",
-              "Recommendation: Use the same unit type for all width and height attributes",
+              "Recommendation: Use the same unit type for all width and height attributes ",
               "The min height of the list container."
             ],
             "value": [],
@@ -1695,7 +1695,7 @@
             "documentation": [
               "`maxHeight` attribute",
               "***",
-              "Recommendation: Use the same unit type for all width and height attributes.",
+              "Recommendation: Use the same unit type for all width and height attributes. ",
               "The max height of the list container."
             ],
             "value": [],
@@ -1715,7 +1715,7 @@
             "documentation": [
               "`indexid` attribute",
               "***",
-              "The pattern that will be replaced with the id from the list items iteration.",
+              "The pattern that will be replaced with the id from the list items iteration. ",
               "Example: {{ idx }}"
             ],
             "value": [],
@@ -1734,8 +1734,8 @@
             "documentation": [
               "`receivestatescrollto` attribute",
               "***",
-              "Represents the scroll position of the list received from Native.",
-              "Example: value 10 of receivestatescrollto will scroll the list",
+              "Represents the scroll position of the list received from Native. ",
+              "Example: value 10 of receivestatescrollto will scroll the list ",
               "to the 10th element."
             ],
             "value": [],
@@ -1754,7 +1754,7 @@
             "documentation": [
               "`gestureable` attribute",
               "***",
-              "The default value is false. When set to true, gesturing will be supported.",
+              "The default value is false. When set to true, gesturing will be supported. ",
               "Adding this will change the behavior inside of the component."
             ],
             "value": [
@@ -1781,7 +1781,7 @@
               "***",
               "The default value is false. If false, a swipe gesture moves the list with momentum as ",
               "expected on 'throwable' lists. If true, a swipe gesture will move the list only ",
-              "woith the number of visible items, snapping the first visible item to the top",
+              "woith the number of visible items, snapping the first visible item to the top ",
               "for a vertical list or on left for dir='ltr' attribute lists."
             ],
             "value": [
@@ -1794,12 +1794,12 @@
             "documentation": [
               "`endless` attribute",
               "***",
-              "The default value is false. If false, continued swiping when reaching end of list reveals",
+              "The default value is false. If false, continued swiping when reaching end of list reveals ",
               "no items beyond the last. If true, if the attirbute is added without a value, ",
-              "the first list item will",
-              "virtually follow the last item when the end of the list is reached.",
-              "Swiping towards the beginning of the list items will also show the last item",
-              "prior to the first. "
+              "the first list item will ",
+              "virtually follow the last item when the end of the list is reached. ",
+              "Swiping towards the beginning of the list items will also show the last item ",
+              "prior to the first."
             ],
             "value": [
               "false",
@@ -1904,7 +1904,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -2046,7 +2046,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -2059,7 +2059,7 @@
             "documentation": [
               "`closeicon` attribute",
               "***",
-              "A class name of the close icon. It may be a font awesome class"
+              "A class name of the close icon. It may be a font awesome class."
             ],
             "value": [],
             "name": "closeicon"
@@ -2068,8 +2068,8 @@
             "documentation": [
               "`stretch` attribute",
               "***",
-              "Valid values: 'width', 'height', and 'both'. The component will stretch to",
-              "the available width or the available height in the parent component. Using",
+              "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
+              "the available width or the available height in the parent component. Using ",
               "'both' will stretch the component both directions."
             ],
             "value": [
@@ -2085,9 +2085,9 @@
               "`overflow` attribute",
               "***",
               "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
-              "happens if content does or does not overflow the component box.",
+              "happens if content does or does not overflow the component box. ",
               "This is related with stretch property. This property specifies whether to add ",
-              "scrollbars when an element's content is too big to fit in a specified area.",
+              "scrollbars when an element's content is too big to fit in a specified area. ",
               "If 'show' is selected, the overflow is not clipped."
             ],
             "value": [
@@ -2100,7 +2100,7 @@
             "documentation": [
               "`positionto` attribute",
               "***",
-              "If not set, the position will be related to the viewport.",
+              "If not set, the position will be related to the viewport. ",
               "Positions the component related to either a window or an element by id."
             ],
             "value": [],
@@ -2110,8 +2110,8 @@
             "documentation": [
               "`positionoffset` attribute",
               "***",
-              "Valid values 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center',",
-              "'bottom-right', 'left-center', and 'right-center'. Auto-positions the panel offset",
+              "Valid values 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', ",
+              "'bottom-right', 'left-center', and 'right-center'. Auto-positions the panel offset ",
               "to the event element's position."
             ],
             "value": [
@@ -2130,7 +2130,7 @@
             "documentation": [
               "`receivestatepositionto` attribute ",
               "***",
-              "When received, positions to this component"
+              "When received, positions to this component."
             ],
             "value": [],
             "name": "receivestatepositionto"
@@ -2139,7 +2139,7 @@
             "documentation": [
               "`receivestatepositionoffset` attribute",
               "***",
-              "when received, positions offset to this component.",
+              "when received, positions offset to this component. ",
               "See attribute 'positionOffset' for valid values."
             ],
             "value": [],
@@ -2197,7 +2197,7 @@
             "documentation": [
               "`closable` attribute",
               "***",
-              "The default value is 'false'. If true, shows a close icon on the corner of the panel. If fales,",
+              "The default value is 'false'. If true, shows a close icon on the corner of the panel. If fales, ",
               "the close icon is not shown."
             ],
             "value": [
@@ -2222,7 +2222,7 @@
         "documentation": [
           "`ch5-overlay-panel` element",
           "***",
-          "The overlay panel component provides a content container for other components that",
+          "The overlay panel component provides a content container for other components that ",
           "'pop up' on top of and overlays the main content container."
         ],
         "snippets": [
@@ -2302,7 +2302,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -2444,7 +2444,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -2467,7 +2467,7 @@
               "`stretch` attribute",
               "***",
               "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
-              "the available width or the available height in the parent component. Using",
+              "the available width or the available height in the parent component. Using ",
               "'both' will stretch the component both ways."
             ],
             "value": [
@@ -2483,9 +2483,9 @@
               "`overflow` attribute",
               "***",
               "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
-              "happens if content does or does not overflow the component box.",
-              "This is related to the stretch property. This property specifies whether to add",
-              "scrollbars when an element's content is too big to fit in a specified area.",
+              "happens if content does or does not overflow the component box. ",
+              "This is related to the stretch property. This property specifies whether to add ",
+              "scrollbars when an element's content is too big to fit in a specified area. ",
               "If 'show' is selected, the overflow is not clipped."
             ],
             "value": [
@@ -2721,10 +2721,10 @@
         "documentation": [
           "`ch5-modal-dialog` element",
           "***",
-          "The Modal Dialog component is a special-case instance of an overlay panel used primarily",
-          "to display dialog windows and user prompts.",
+          "The Modal Dialog component is a special-case instance of an overlay panel used primarily ",
+          "to display dialog windows and user prompts. ",
           "The modal dialog should generally contains an optional header bar with a title, ",
-          "an optional message with an optional icon, an optional button 'ok', and 'cancel' buttons. "
+          "an optional message with an optional icon, an optional button 'ok', and 'cancel' buttons."
         ],
         "snippets": [
           {
@@ -2805,7 +2805,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -2947,7 +2947,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -2969,7 +2969,7 @@
             "documentation": [
               "`iconposition` attribute",
               "***",
-              "Valid values: 'first' and 'last'. The default value is 'first'.",
+              "Valid values: 'first' and 'last'. The default value is 'first'. ",
               "This attribute only applies when a template is not provided ",
               "and the implied template is in use. If a template is provided, ",
               "this property is ignored."
@@ -2984,7 +2984,7 @@
             "documentation": [
               "`selectedvalud` attribute",
               "***",
-              "The default value is false. Set to true if multiple selections can be selected.",
+              "The default value is false. Set to true if multiple selections can be selected. ",
               "If true, the value of the selection will be an array of values."
             ],
             "value": [],
@@ -2994,7 +2994,7 @@
             "documentation": [
               "`scrollheight` attribute",
               "***",
-              "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select"
+              "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select. "
             ],
             "value": [],
             "name": "panelscrollheight"
@@ -3039,8 +3039,8 @@
             "documentation": [
               "`mode` attribute",
               "***",
-              "Two values are possible as show below. The default value is 'plain'.",
-              "plain - The select menu opens and closes as clicked by user.",
+              "Two values are possible as show below. The default value is 'plain'. ",
+              "plain - The select menu opens and closes as clicked by user. ",
               "panel – The select menu stays open even when not in focus."
             ],
             "value": [
@@ -3065,7 +3065,7 @@
             "documentation": [
               "`signalvaluesynctimeout` attribute",
               "***",
-              "The default valus is 1500. Defines the time between when the user releases the",
+              "The default valus is 1500. Defines the time between when the user releases the ",
               "toggle handle and the time the toggle will check if the ",
               "value is equal with the value from the signal. If the value is not equal, it will ",
               "apply the value from the signal automatically. Apply only for feedbackMode direct."
@@ -3077,8 +3077,8 @@
             "documentation": [
               "`indexid` attribute",
               "***",
-              "Provides the name of the offset identifier to be substituted with",
-              "a 1-based index of the item in a list within the template item",
+              "Provides the name of the offset identifier to be substituted with ",
+              "a 1-based index of the item in a list within the template item ",
               "surrounded by {{ }} delimiters."
             ],
             "value": [],
@@ -3098,7 +3098,7 @@
               "`receivestatevalue` attribute",
               "***",
               "When received, changes the selected value of this selector. This is only applicable for ",
-              "multiselect=false. A 1-based index is expected.",
+              "multiselect=false. A 1-based index is expected. ",
               "Value 0 indicates all will be unselected."
             ],
             "value": [],
@@ -3135,7 +3135,7 @@
             "documentation": [
               "`sendeventonchange` attribute",
               "***",
-              "Sends a signal value on the selected change. Shis is only applicable for multiselect=false.",
+              "Sends a signal value on the selected change. Shis is only applicable for multiselect=false. ",
               "A 1-based index is expected. Value 0 indicates all will be unselected."
             ],
             "value": [],
@@ -3163,7 +3163,7 @@
             "documentation": [
               "`multiselect` attribute",
               "***",
-              "The default value is false. Set to true if multiple selections can be selected.",
+              "The default value is false. Set to true if multiple selections can be selected. ",
               "If true, the value of the selection will be an array of values."
             ],
             "value": [
@@ -3176,7 +3176,7 @@
             "documentation": [
               "`resize` attribute",
               "***",
-              "If true, the options panel will be resized to fit content width.",
+              "If true, the options panel will be resized to fit content width. ",
               "The maximum width and height cannot be bigger then parent HTML element."
             ],
             "value": [
@@ -3189,8 +3189,8 @@
         "documentation": [
           "`ch5-select` element",
           "***",
-          "The select component enables the user to select one or more choices from a list of options.",
-          "The select component will not be a wrapper around the HTML input type select because other options",
+          "The select component enables the user to select one or more choices from a list of options. ",
+          "The select component will not be a wrapper around the HTML input type select because other options ",
           "must be covered that are not available on HTML input type select."
         ],
         "snippets": [
@@ -3410,7 +3410,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -3552,7 +3552,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -3565,7 +3565,7 @@
             "documentation": [
               "`iconposition` attribute",
               "***",
-              "Valid values: 'first' and 'last'. The default value is 'first'.",
+              "Valid values: 'first' and 'last'. The default value is 'first'. ",
               "This attribute only applies when a template is not provided ",
               "and the implied template is in use. If a template is provided, ",
               "this property is ignored."
@@ -3607,7 +3607,7 @@
             "documentation": [
               "`receivestatescriptlabelhtml` attribute",
               "***",
-              "A signal script evaluation will be applied to the",
+              "A signal script evaluation will be applied to the ",
               "button.innerHTML. Allows for multiline, multistyled labels."
             ],
             "value": [],
@@ -3617,8 +3617,8 @@
             "documentation": [
               "`sendeventonclick` attribute",
               "***",
-              "Sends an on click or tap event (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+              "Sends an on click or tap event (mouse or swipe up and down quickly). ",
+              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
               "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
               "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
             ],
@@ -3681,7 +3681,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -3823,7 +3823,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -3836,7 +3836,7 @@
             "documentation": [
               "`handleshape` attribute",
               "***",
-              "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval',",
+              "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval', ",
               "'rounded-rectangle'. Defines the handle shape."
             ],
             "value": [
@@ -3887,7 +3887,7 @@
             "documentation": [
               "`orientation` attribute",
               "***",
-              "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'.",
+              "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. ",
               "The orientation of the slider."
             ],
             "value": [
@@ -3900,7 +3900,7 @@
             "documentation": [
               "`size` attribute",
               "***",
-              "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'.",
+              "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'. ",
               "The size of the slider."
             ],
             "value": [
@@ -3932,8 +3932,8 @@
             "documentation": [
               "`step` attribute",
               "***",
-              "The default value is 100. The maximum value is 100.",
-              "Defines the number of steps values in the slider.",
+              "The default value is 100. The maximum value is 100. ",
+              "Defines the number of steps values in the slider. ",
               "For example, if the slider should have quarters 0, 25, 50, 75, 100, then 5 is the numbers of steps."
             ],
             "value": [],
@@ -3943,7 +3943,7 @@
             "documentation": [
               "`stretch` attribute",
               "***",
-              "The default value is 'both'. Valid Values: 'width', 'height', 'both'.",
+              "The default value is 'both'. Valid Values: 'width', 'height', 'both'. ",
               "When the stretch property is set, the slider inherits the width and/or ",
               "height of the container."
             ],
@@ -3959,11 +3959,11 @@
             "documentation": [
               "`ticks` attribute",
               "***",
-              "Defines the ticks on the slider.",
-              "This definition is based on advanced tick scales: non-linear or logarithmic.",
+              "Defines the ticks on the slider. ",
+              "This definition is based on advanced tick scales: non-linear or logarithmic. ",
               "Sliders can be created with ever-increasing increments b ",
-              "specifying the value for the slider at certain intervals.",
-              "- The first value defines the % position along the length of the slider scale to place a tick mark.",
+              "specifying the value for the slider at certain intervals. ",
+              "- The first value defines the % position along the length of the slider scale to place a tick mark. ",
               "- The second value is the label value to place next to the tick at that position.",
               "***",
               "An example would be [[0.0,'-60'], [0.25,'-40'], [0.50,'-20'],[0.75,'-10'], [1.0,'0']]"
@@ -3975,9 +3975,9 @@
             "documentation": [
               "`tooltipshowtype` attribute",
               "***",
-              "The Default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values:",
-              "-'off': Not displayed",
-              "-'on': Always displayed",
+              "The Default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values: ",
+              "-'off': Not displayed ",
+              "-'on': Always displayed ",
               "-'auto': Displayed while user interacts with the slider"
             ],
             "value": [
@@ -3991,8 +3991,8 @@
             "documentation": [
               "`tooltipdisplaytype` attribute",
               "***",
-              "The default value is 'percent'. Sets what is displayed in the tooltip. Valid values:",
-              "'%' - The value is displayed as a percent",
+              "The default value is 'percent'. Sets what is displayed in the tooltip. Valid values: ",
+              "'%' - The value is displayed as a percent ",
               "'value' - The actual value provided"
             ],
             "value": [
@@ -4005,8 +4005,8 @@
             "documentation": [
               "`signalvaluesynctimeout` attribute",
               "***",
-              "The default value is 1500. Defines the time (milliseconds) between when the user",
-              "releases the slider handle and the time the slider will check",
+              "The default value is 1500. Defines the time (milliseconds) between when the user ",
+              "releases the slider handle and the time the slider will check ",
               "if the value is equal with the value from the signal. If not, it will automatically apply the value from the signal."
             ],
             "value": [],
@@ -4016,7 +4016,7 @@
             "documentation": [
               "`feedbackmode` attribute",
               "***",
-              "If set to direct, value send and receive will be instant. On submit, it",
+              "If set to direct, value send and receive will be instant. On submit, it ",
               "will send and listen for the first received event."
             ],
             "value": [
@@ -4095,7 +4095,7 @@
             "documentation": [
               "`showtickvalues` attribute",
               "***",
-              "The default value is false. Provides the ability to display value labels next to tick marks",
+              "The default value is false. Provides the ability to display value labels next to tick marks ",
               "at each tick increment."
             ],
             "value": [
@@ -4224,7 +4224,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -4366,7 +4366,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -4397,15 +4397,15 @@
             "documentation": [
               "`iconposition` attribute",
               "***",
-              "Valid values: 'first' and 'last'. The default value is 'first'.",
+              "Valid values: 'first' and 'last'. The default value is 'first'. ",
               "This attribute only applies when a template is not provided ",
-              "and the implied template is in use.",
-              "If a template is provided, this property is ignored.",
-              "If the direction attribute is 'ltr', as will be typical in locales with",
-              "left-to-right language direction, 'first' is equivalent to the icon being",
-              "placed on the left and the text on the right. Conversely, if the direction",
-              "attribute is 'rtl', 'first' would place the icon on the right and",
-              "the label to its left. Value of 'last' is the opposite of 'first'. "
+              "and the implied template is in use. ",
+              "If a template is provided, this property is ignored. ",
+              "If the direction attribute is 'ltr', as will be typical in locales with ",
+              "left-to-right language direction, 'first' is equivalent to the icon being ",
+              "placed on the left and the text on the right. Conversely, if the direction ",
+              "attribute is 'rtl', 'first' would place the icon on the right and ",
+              "the label to its left. Value of 'last' is the opposite of 'first'."
             ],
             "value": [
               "first",
@@ -4427,9 +4427,9 @@
             "documentation": [
               "`itemheight` attribute",
               "***",
-              "The height of an item. The value of the height can be in px and vh.",
-              "The item height is required. If this is not provided,",
-              "CH5 calculates based on the first item height.",
+              "The height of an item. The value of the height can be in px and vh. ",
+              "The item height is required. If this is not provided, ",
+              "CH5 calculates based on the first item height. ",
               "Each item on the list must have the same height."
             ],
             "value": [],
@@ -4439,14 +4439,14 @@
             "documentation": [
               "`visibleitemscroll` attribute",
               "***",
-              "The default value is 3. The number of items to show in the",
-              "upper/lower container around the selected item container.",
-              "This information is needed to determine how many items",
-              "are added to the top of the list and to the bottom. If this",
-              "value is not set, the number of items can fit in scrollHeight",
-              "must be calculated, which presents a probability that",
-              "one item will not be fully visible in height. If there is a template",
-              "including this, visibleItems will need to adjust on the height of",
+              "The default value is 3. The number of items to show in the ",
+              "upper/lower container around the selected item container. ",
+              "This information is needed to determine how many items ",
+              "are added to the top of the list and to the bottom. If this ",
+              "value is not set, the number of items can fit in scrollHeight ",
+              "must be calculated, which presents a probability that ",
+              "one item will not be fully visible in height. If there is a template ",
+              "including this, visibleItems will need to adjust on the height of ",
               "the template given."
             ],
             "value": [],
@@ -4456,7 +4456,7 @@
             "documentation": [
               "`feedbackmode` attribute",
               "***",
-              "The default value is 'direct'. Allows the form submission functionality.",
+              "The default value is 'direct'. Allows the form submission functionality. ",
               "Valid values: 'direct', 'submit'."
             ],
             "value": [
@@ -4471,8 +4471,8 @@
               "***",
               "The default value is 1500. Defines the time between the user releases a ",
               "toggle and the time the toggle will check if the ",
-              "value is equal with the value from the signal. If the value is not equal, it will",
-              "apply the value from the signal automatically. Apply only for",
+              "value is equal with the value from the signal. If the value is not equal, it will ",
+              "apply the value from the signal automatically. Apply only for ",
               "feedbackMode direct."
             ],
             "value": [],
@@ -4482,8 +4482,8 @@
             "documentation": [
               "`indexid` attribute",
               "***",
-              "Provides the name of the offset identifier to be substituted with",
-              "a 1-based index of the item in a list within the template item",
+              "Provides the name of the offset identifier to be substituted with ",
+              "a 1-based index of the item in a list within the template item ",
               "surrounded by {{ }} delimiters."
             ],
             "value": [],
@@ -4583,8 +4583,8 @@
             "documentation": [
               "`resize` attribute",
               "***",
-              "If true, the options panel is resized to fit content width.",
-              "Apply only with the CSS rule “width=fit-content” and/or “width =auto”",
+              "If true, the options panel is resized to fit content width. ",
+              "Apply only with the CSS rule 'width=fit-content' and/or 'width =auto' ",
               "(depending on the browser agent)."
             ],
             "value": [
@@ -4597,7 +4597,7 @@
             "documentation": [
               "`endless` attribute",
               "***",
-              "The default value is false. Creates an infinite spinner. This will trigger the next",
+              "The default value is false. Creates an infinite spinner. This will trigger the next ",
               "element after the last to be the first element in the list."
             ],
             "value": [
@@ -4622,10 +4622,10 @@
         "documentation": [
           "`ch5-spinner` element",
           "***",
-          "Functionally, the Spinner component is similar to the Select component. The primary differences are in the visual representation.",
+          "Functionally, the Spinner component is similar to the Select component. The primary differences are in the visual representation. ",
           "The Spinner component presents a vertical list of values centered around one centrally-orientated ",
           "item, which is considered the single selected item. Swiping up and down on the items allow the user ",
-          "to see other selections, and placing an item in the center chooses that item. "
+          "to see other selections, and placing an item in the center chooses that item."
         ],
         "snippets": [
           {
@@ -4718,7 +4718,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -4860,7 +4860,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -4875,9 +4875,9 @@
               "***",
               "The default value is 'direct'. Valid values: 'direct', 'submit'.",
               "***",
-              "- 'direct' updates the trigger change event and sendEventOnChange",
-              "as the user changes.",
-              "- 'submit' triggers a change event and updates the signal in",
+              "- 'direct' updates the trigger change event and sendEventOnChange ",
+              "as the user changes. ",
+              "- 'submit' triggers a change event and updates the signal in ",
               "sendEventOnChange attribute only when the submit() method is called by a Form Component."
             ],
             "value": [
@@ -4890,9 +4890,9 @@
             "documentation": [
               "`signalvaluesynctimeout` attribute",
               "***",
-              "The default value is 1500ms. Defines the time between the end of focus (no more user action",
-              "for example, for a ch5-toggle this means that the user has released the handle of the toggle)",
-              "and the time the CH5 element will check if the value is equal with the value from the signal.",
+              "The default value is 1500ms. Defines the time between the end of focus (no more user action ",
+              "for example, for a ch5-toggle this means that the user has released the handle of the toggle) ",
+              "and the time the CH5 element will check if the value is equal with the value from the signal. ",
               "If the value is not equal, it will apply the value from the signal automatically. Apply only for feedbackMode direct."
             ],
             "value": [],
@@ -4932,10 +4932,10 @@
             "documentation": [
               "`mask` attribute",
               "***",
-              "The background pattern that will be present when the input is focused.",
-              "The following combination of prebuilt definitions are permitted:",
-              "a - alpha caracter",
-              "9 - numeric character",
+              "The background pattern that will be present when the input is focused. ",
+              "The following combination of prebuilt definitions are permitted: ",
+              "a - alpha caracter ",
+              "9 - numeric character ",
               "* - alphanumeric character"
             ],
             "value": [],
@@ -4972,12 +4972,12 @@
             "documentation": [
               "`iconposition` attribute",
               "***",
-              "Valid values: 'first' and 'last'. The default value is 'first'.",
-              "If the direction attribute is 'ltr', as will be typical in locales with a left-to-right language",
-              "direction, 'first' is equivalent to the icon being placed on the left and the text on the",
-              "right.",
+              "Valid values: 'first' and 'last'. The default value is 'first'. ",
+              "If the direction attribute is 'ltr', as will be typical in locales with a left-to-right language ",
+              "direction, 'first' is equivalent to the icon being placed on the left and the text on the ",
+              "right. ",
               "Conversely, if the direction attribute is 'rtl', first' would place the icon on the ",
-              "right and the label to its left. The Value of 'last' is",
+              "right and the label to its left. The Value of 'last' is ",
               "the opposite of 'first'."
             ],
             "value": [
@@ -5021,8 +5021,8 @@
             "documentation": [
               "`minvalue` attribute",
               "***",
-              "Applicable only for type=numeric and feedbackmode='submit'.",
-              "The field will result in an error if the value supplied by user is less than value of the attribute. "
+              "Applicable only for type=numeric and feedbackmode='submit'. ",
+              "The field will result in an error if the value supplied by user is less than value of the attribute."
             ],
             "value": [],
             "name": "minvalue"
@@ -5031,8 +5031,8 @@
             "documentation": [
               "`maxvalue` attribute",
               "***",
-              "Applicable only for type=numeric and feedbackmode='submit'.",
-              "The field will result in an error if the value supplied by user is greater than value of",
+              "Applicable only for type=numeric and feedbackmode='submit'. ",
+              "The field will result in an error if the value supplied by user is greater than value of ",
               "the attribute."
             ],
             "value": [],
@@ -5060,8 +5060,8 @@
               "The default value is 'fixed'. Valid values: 'fixed', 'width', and 'content'.",
               "Sets the width of the input.",
               "***",
-              "Fixed - fixed position (from CSS classes)",
-              "Width - Width of the parent content",
+              "Fixed - fixed position (from CSS classes) ",
+              "Width - Width of the parent content ",
               "Content - Width will be equal to the content width"
             ],
             "value": [
@@ -5075,11 +5075,11 @@
             "documentation": [
               "`text-transform` attribute",
               "***",
-              "Only used for type=text. The default value is 'none'.",
+              "Only used for type=text. The default value is 'none'. ",
               "Valid values: ",
-              "'capitalize' – Makes all first characters of each word uppercase",
-              "'uppercase' – Makes all characters uppercase",
-              "'lowercase' – Makes all characters lowercase",
+              "'capitalize' – Makes all first characters of each word uppercase ",
+              "'uppercase' – Makes all characters uppercase ",
+              "'lowercase' – Makes all characters lowercase ",
               "'none' – Does not change the input"
             ],
             "value": [
@@ -5169,7 +5169,7 @@
             "documentation": [
               "`minimumfontsize` attribute",
               "***",
-              "The minimum font size is applied when the input text exceeds the width of the input text box.",
+              "The minimum font size is applied when the input text exceeds the width of the input text box. ",
               "This will work only if a scaling attribute is set."
             ],
             "value": [],
@@ -5179,8 +5179,8 @@
             "documentation": [
               "`tabIndex` attribute",
               "***",
-              "The tabIndex global attribute indicates that its element",
-              "can be focused and indicates where it places in sequential",
+              "The tabIndex global attribute indicates that its element ",
+              "can be focused and indicates where it places in sequential ",
               "keyboard navigation."
             ],
             "value": [],
@@ -5280,7 +5280,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -5422,7 +5422,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -5435,7 +5435,7 @@
             "documentation": [
               "`feedbackmode` attribute",
               "***",
-              "The default value is 'direct'. If direct, value send and receive will be",
+              "The default value is 'direct'. If direct, value send and receive will be ",
               "instant. On submit, it will send and listen for the first event received."
             ],
             "value": [
@@ -5448,9 +5448,9 @@
             "documentation": [
               "`signalvaluesynctimeout` attribute",
               "***",
-              "The default value is 1500. Defines the time between when the user clicks the",
-              "toggle and the time the toggle will check if the value is equal",
-              "with the value from the signal. If the value is not equal, it will apply",
+              "The default value is 1500. Defines the time between when the user clicks the ",
+              "toggle and the time the toggle will check if the value is equal ",
+              "with the value from the signal. If the value is not equal, it will apply ",
               "the value from the signal automatically. Apply only for feedbackMode direct."
             ],
             "value": [],
@@ -5505,7 +5505,7 @@
             "documentation": [
               "`handleshape` attribute",
               "***",
-              "The default value is 'circle'. Sets the shape that will also determine the shape",
+              "The default value is 'circle'. Sets the shape that will also determine the shape ",
               "of the component (rectangle or circle)."
             ],
             "value": [
@@ -5518,8 +5518,8 @@
             "documentation": [
               "`orientation` attribute",
               "***",
-              "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. Sets",
-              "the control elements in a horizontal or vertical orientation.",
+              "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. Sets ",
+              "the control elements in a horizontal or vertical orientation. ",
               "For vertical alignment, it will apply a CSS class that will rotate the ",
               "component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)."
             ],
@@ -5577,9 +5577,9 @@
             "documentation": [
               "`value` attribute",
               "***",
-              "The default value is false. The initial value of the component.",
-              "When feedbackMode=submit, this property will change to the last",
-              "value submitted. When reset, the value property will be changed to",
+              "The default value is false. The initial value of the component. ",
+              "When feedbackMode=submit, this property will change to the last ",
+              "value submitted. When reset, the value property will be changed to ",
               "the initial value or last value on submit."
             ],
             "value": [
@@ -5593,7 +5593,7 @@
           "`ch5-toggle` element",
           "***",
           "Appears as a two-state switch with easy transition between states. The component has the ",
-          "functionality of an HTML checkbox-type input element. "
+          "functionality of an HTML checkbox-type input element."
         ],
         "snippets": [
           {
@@ -5660,7 +5660,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -5802,7 +5802,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -5834,7 +5834,7 @@
             "documentation": [
               "`receivestateshowchildindex` attribute",
               "***",
-              "The receipt of the numeric value of this state will make",
+              "The receipt of the numeric value of this state will make ",
               "the 0-based index of views in the component become visible."
             ],
             "value": [],
@@ -5853,8 +5853,8 @@
             "documentation": [
               "`gestureable` attribute",
               "***",
-              "The default value is false. When set to true, gesturing will be supported. Adding this will",
-              "change the behavior inside of the component.",
+              "The default value is false. When set to true, gesturing will be supported. Adding this will ",
+              "change the behavior inside of the component. ",
               "Refer to Gesture - Use Cases for more information."
             ],
             "value": [
@@ -5988,7 +5988,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -6060,7 +6060,7 @@
             "documentation": [
               "`sendeventonshow` attribute",
               "***",
-              "Sends a digital pulse when a child view becomes visible. Allows the control system",
+              "Sends a digital pulse when a child view becomes visible. Allows the control system ",
               "to take various actions based on which view is active."
             ],
             "value": [],
@@ -6130,7 +6130,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -6230,7 +6230,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -6372,7 +6372,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -6394,7 +6394,7 @@
             "documentation": [
               "`context` attribute",
               "***",
-              "In the format of 'original:replacement;' original is the value to be replaced, and replacement",
+              "In the format of 'original:replacement;' original is the value to be replaced, and replacement ",
               "is the replacement value."
             ],
             "value": [],
@@ -6404,8 +6404,8 @@
         "documentation": [
           "`ch5-template` element",
           "***",
-          "The primary functionality of this component is to create new instances",
-          "of the user-provided <template> and to substitute event and state names",
+          "The primary functionality of this component is to create new instances ",
+          "of the user-provided <template> and to substitute event and state names ",
           "where indicated by the integrator."
         ],
         "snippets": [
@@ -6454,7 +6454,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -6596,7 +6596,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -6618,15 +6618,15 @@
         "documentation": [
           "`ch5-import-htmlsnippet` element",
           "***",
-          "The component used to load HTML snippets during run time.",
-          "This component allows users to load HTML snippets. The snippets should not contain HTML, HEAD, and BODY tags.",
+          "The component used to load HTML snippets during run time. ",
+          "This component allows users to load HTML snippets. The snippets should not contain HTML, HEAD, and BODY tags. ",
           "Users can modularize the HTML files into pages or sections using this component, ",
           "and the snippet is inserted into the DOM at the respective loction ",
-          "during run time.",
-          "An afterload event occurs when a snippet HTML has been loaded and inserted into the DOM.",
+          "during run time. ",
+          "An afterload event occurs when a snippet HTML has been loaded and inserted into the DOM. ",
           "Afterload is most often used within the ch5-import-htmlsnippet element to execute a script once an HTML ",
-          "snippet has completely loaded all content (including images, script files, CSS files, etc.).",
-          "To import the snippet in Angular, the source directory must be added in angular.json file as follows:",
+          "snippet has completely loaded all content (including images, script files, CSS files, etc.). ",
+          "To import the snippet in Angular, the source directory must be added in angular.json file as follows: ",
           "     \"assets\": [",
           "         \"src/assets/htmlsnippets\" ",
           "     ]"
@@ -6686,7 +6686,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -6971,7 +6971,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -7063,7 +7063,7 @@
             "documentation": [
               "`noshowtype` attribute",
               "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
               "custom HTML attribute for further information."
             ],
             "value": [
@@ -7205,7 +7205,7 @@
             "documentation": [
               "`disabled` attribute",
               "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
               "to reflect a disabled state when true."
             ],
             "value": [
@@ -7272,8 +7272,8 @@
             "documentation": [
               "`aspectRatio` attribute",
               "***",
-              "Sets the width-to-height ration of the video.",
-              "The width and height of the component to be controlled by CSS style classes.",
+              "Sets the width-to-height ration of the video. ",
+              "The width and height of the component to be controlled by CSS style classes. ",
               "Values are 16:9 (default), 4:3, and custom.  When the size of the container does not match the aspect ratio, ",
               "the full height or width should be used and the dimension that is empty should be centered."
             ],
@@ -7287,7 +7287,7 @@
             "documentation": [
               "`stretch` attribute",
               "***",
-              "The default value is false. When true, video will be displayed in the whole component.",
+              "The default value is false. When true, video will be displayed in the whole component. ",
               "When false, video will be displayed as a letter or pillar box based upon the aspect ratio of the video ",
               "feed and the size of the component.  Note: this attribute is independent of aspectRatio."
             ],
@@ -7332,13 +7332,13 @@
             "documentation": [
               "`size` attribute",
               "***",
-              "The display size for the video. The default size is 'small' if not entered.",
+              "The display size for the video. The default size is 'small' if not entered. ",
               "The size options for the aspect ratio 16:9 are 'x-small' (width: 256, height: 144), ",
               "'small' (width: 512, height: 288), 'regular' (width: 768, height: 432), 'large' (width: 1024, ",
-              "height: 576), 'x-large' (width: 1280, height: 720) and 'xx-large' (width: 1920, height: 1080).",
+              "height: 576), 'x-large' (width: 1280, height: 720) and 'xx-large' (width: 1920, height: 1080). ",
               "The size options for the aspect ratio 4:3 are 'x-small' (width: 192, height: 144), ",
               "'small' (width: 384, height: 288), 'regular' (width: 576, height: 432), 'large' (width: 768, ",
-              "height: 576), 'x-large' (width: 960, height: 720) and 'xx-large' (width: 1440, height: 1080).",
+              "height: 576), 'x-large' (width: 960, height: 720) and 'xx-large' (width: 1440, height: 1080). ",
               "The user needs to select the appropriate size to fit the container."
             ],
             "value": [
@@ -7502,7 +7502,7 @@
             "documentation": [
               "`receiveStatePlay` attribute",
               "***",
-              "When defined, this will play video only when the value is true and will stop video when the value is false.",
+              "When defined, this will play video only when the value is true and will stop video when the value is false. ",
               "If not defined, the video will play whenever the component is visible. If defined with a value of false, ",
               "the background of ch5-video--nosource css class is displayed."
             ],
@@ -7513,8 +7513,8 @@
             "documentation": [
               "`receiveStateSelect` attribute",
               "***",
-              "When defined, this will play 0-based index of the video source list.",
-              "A value of <0 or >31 will select no video to play. A Value of 0 to 31 will play the selected video source",
+              "When defined, this will play 0-based index of the video source list. ",
+              "A value of <0 or >31 will select no video to play. A Value of 0 to 31 will play the selected video source ",
               "provided the video source type (see receiveStateVideoSourceType) is valid. When not defined, ",
               "the first video source defined (equivalent of index 0) in the list will be played."
             ],
@@ -7611,20 +7611,20 @@
         "documentation": [
           "`ch5-video` element",
           "***",
-          "Provides an overlay onto a streaming video window.",
+          "Provides an overlay onto a streaming video window. ",
           "Components that should reside above the video that need to be visible and active ",
-          "(such as buttons to control playback, text describing the video,",
+          "(such as buttons to control playback, text describing the video, ",
           "and annotation controls) need to be defined as children elements to this component.",
           "As a background, the <video> tag provided in modern HTML5 browsers will stream HTTP-based protocols ",
-          "such as HLS (HTTP Live Streaming) and DASH (dynamic adaptive Streaming over HTTP).",
+          "such as HLS (HTTP Live Streaming) and DASH (dynamic adaptive Streaming over HTTP). ",
           "These protocols are not employed on the vast majority of security cameras and the design of these protocols ",
-          "specify a great deal of buffering (i.e. time delay) that would not be appropriate for use cases associated with a security camera.",
-          "The implementation of the <ch5-video> component will not attempt to render the streaming video within the HTML rendering engine.",
+          "specify a great deal of buffering (i.e. time delay) that would not be appropriate for use cases associated with a security camera. ",
+          "The implementation of the <ch5-video> component will not attempt to render the streaming video within the HTML rendering engine. ",
           "A three tier approach will be employed.  In the top tier, ",
-          "the HTML component will be responsible for creating invisible rectangles to expose content beneath the HTML rendering engine.",
-          "The second tier will provide a surface (handle to raw buffer to display graphics) that will render the streaming video.",
-          "The top tier and the second tier will coordinate the location and size of rendered video stream.",
-          "The bottom tier is responsible for decoding the video stream and interfacing with the second tier to display the decoded video stream.",
+          "the HTML component will be responsible for creating invisible rectangles to expose content beneath the HTML rendering engine. ",
+          "The second tier will provide a surface (handle to raw buffer to display graphics) that will render the streaming video. ",
+          "The top tier and the second tier will coordinate the location and size of rendered video stream. ",
+          "The bottom tier is responsible for decoding the video stream and interfacing with the second tier to display the decoded video stream. ",
           "The documentation below describes the configuration of the top tier HTML component <ch5-video>."
         ],
         "snippets": [

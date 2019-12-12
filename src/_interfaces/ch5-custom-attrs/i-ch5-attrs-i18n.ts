@@ -15,7 +15,7 @@ import { ICustomAttribute } from "./helpers/i-custom-attribute";
  * [
  * "`data-ch5-i18n` custom attribute",
  * "***",
- * "The 'data-ch5-i18n' custom HTML attribute allows for text content translation to be applied to",
+ * "The 'data-ch5-i18n' custom HTML attribute allows for text content translation to be applied to ",
  * "standard HTML elements."
  * ]
  */

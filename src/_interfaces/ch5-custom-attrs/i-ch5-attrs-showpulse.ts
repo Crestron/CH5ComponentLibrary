@@ -15,8 +15,8 @@ import { ICustomAttribute } from "./helpers/i-custom-attribute";
  * [  
  *  "`data-ch5-showpulse` custom attribute",
  *  "***",
- *  "Works similarly to data-ch5-show, but does not offer toggle functionality (can only make the elements visible).",
- *  "Works with standard HTML elements.",
+ *  "Works similarly to data-ch5-show, but does not offer toggle functionality (can only make the elements visible). ",
+ *  "Works with standard HTML elements. ",
  *  "The data-ch5-noshow-type attribute can be supplied to set how an HTML element will be hidden from view."
  * ]
  */

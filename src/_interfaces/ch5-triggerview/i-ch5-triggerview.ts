@@ -100,8 +100,8 @@ export interface ICh5TriggerView extends ICh5Gestureable, ICh5TriggerviewAttribu
    * [
    * "`gestureable` attribute",
    * "***",
-   * "The default value is false. When set to true, gesturing will be supported. Adding this will",
-   * "change the behavior inside of the component.",
+   * "The default value is false. When set to true, gesturing will be supported. Adding this will ",
+   * "change the behavior inside of the component. ",
    * "Refer to Gesture - Use Cases for more information."
    * ]
    * @name gestureable

@@ -115,9 +115,9 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventontouch` attribute",
    * "***",
-   * "Sends a boolean true event when the screen is tapped and boolean false event when released.",
-   * "Use this when the control system takes an action on a level-sensitive boolean digital event.",
-   * "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of",
+   * "Sends a boolean true event when the screen is tapped and boolean false event when released. ",
+   * "Use this when the control system takes an action on a level-sensitive boolean digital event. ",
+   * "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of ",
    * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
    * ]
    * @name sendeventontouch
@@ -129,9 +129,9 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonclick` attribute",
    * "***",
-   * "Sends an on click or tap event (mouse or swipe up and down quickly).",
-   * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-   * "Examples include the SIMPL Logic Symbol for Toggle with a description of",
+   * "Sends an on click or tap event (mouse or swipe up and down quickly). ",
+   * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
+   * "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
    * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
    * ]   
    * @name sendeventonclick

@@ -31,7 +31,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values: 'first' and 'last'. The default value is 'first'.",
+   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
    * "This attribute only applies when a template is not provided ",
    * "and the implied template is in use. If a template is provided, ",
    * "this property is ignored."
@@ -46,7 +46,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`selectedvalud` attribute",
    * "***",
-   * "The default value is false. Set to true if multiple selections can be selected.",
+   * "The default value is false. Set to true if multiple selections can be selected. ",
    * "If true, the value of the selection will be an array of values."
    * ]
    * @name selectedvalue
@@ -59,7 +59,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`scrollheight` attribute",
    * "***",
-   * "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select"
+   * "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select. "
    * ]
    * @name panelscrollheight
    *
@@ -115,8 +115,8 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`mode` attribute",
    * "***",
-   * "Two values are possible as show below. The default value is 'plain'.",
-   * "plain - The select menu opens and closes as clicked by user.",
+   * "Two values are possible as show below. The default value is 'plain'. ",
+   * "plain - The select menu opens and closes as clicked by user. ",
    * "panel – The select menu stays open even when not in focus."
    * ]
    * @name mode
@@ -141,7 +141,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`signalvaluesynctimeout` attribute",
    * "***",
-   * "The default valus is 1500. Defines the time between when the user releases the",
+   * "The default valus is 1500. Defines the time between when the user releases the ",
    * "toggle handle and the time the toggle will check if the ",
    * "value is equal with the value from the signal. If the value is not equal, it will ",
    * "apply the value from the signal automatically. Apply only for feedbackMode direct."
@@ -156,8 +156,8 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`indexid` attribute",
    * "***",
-   * "Provides the name of the offset identifier to be substituted with",
-   * "a 1-based index of the item in a list within the template item",
+   * "Provides the name of the offset identifier to be substituted with ",
+   * "a 1-based index of the item in a list within the template item ",
    * "surrounded by {{ }} delimiters."
    * ]
    * @name indexid
@@ -182,7 +182,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "`receivestatevalue` attribute",
    * "***",
    * "When received, changes the selected value of this selector. This is only applicable for ",
-   * "multiselect=false. A 1-based index is expected.",
+   * "multiselect=false. A 1-based index is expected. ",
    * "Value 0 indicates all will be unselected."
    * ]
    * @name receivestatevalue
@@ -231,7 +231,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonchange` attribute",
    * "***",
-   * "Sends a signal value on the selected change. Shis is only applicable for multiselect=false.",
+   * "Sends a signal value on the selected change. Shis is only applicable for multiselect=false. ",
    * "A 1-based index is expected. Value 0 indicates all will be unselected."
    * ]
    * @name sendeventonchange

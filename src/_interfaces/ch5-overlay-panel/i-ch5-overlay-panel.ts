@@ -18,7 +18,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * [
  * "`ch5-overlay-panel` element",
  * "***",
- * "The overlay panel component provides a content container for other components that",
+ * "The overlay panel component provides a content container for other components that ",
  * "'pop up' on top of and overlays the main content container."
  * ]
  * @snippets
@@ -81,7 +81,7 @@ export interface ICh5OverlayPanel extends ICh5OverlayPanelAttributes, ICh5Common
    * [
    * "`closable` attribute",
    * "***",
-   * "The default value is 'false'. If true, shows a close icon on the corner of the panel. If fales,",
+   * "The default value is 'false'. If true, shows a close icon on the corner of the panel. If fales, ",
    * "the close icon is not shown."
    * ]
    * @name closable

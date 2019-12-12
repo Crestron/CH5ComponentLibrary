@@ -74,7 +74,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`handleshape` attribute",
    * "***",
-   * "The default value is 'circle'. Sets the shape that will also determine the shape",
+   * "The default value is 'circle'. Sets the shape that will also determine the shape ",
    * "of the component (rectangle or circle)."
    * ]
    * @name handleshape
@@ -86,8 +86,8 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`orientation` attribute",
    * "***",
-   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. Sets",
-   * "the control elements in a horizontal or vertical orientation.",
+   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. Sets ",
+   * "the control elements in a horizontal or vertical orientation. ",
    * "For vertical alignment, it will apply a CSS class that will rotate the ",
    * "component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)."
    * ]
@@ -100,9 +100,9 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`signalvaluesynctimeout` attribute",
    * "***",
-   * "The default value is 1500. Defines the time between when the user clicks the",
-   * "toggle and the time the toggle will check if the value is equal",
-   * "with the value from the signal. If the value is not equal, it will apply",
+   * "The default value is 1500. Defines the time between when the user clicks the ",
+   * "toggle and the time the toggle will check if the value is equal ",
+   * "with the value from the signal. If the value is not equal, it will apply ",
    * "the value from the signal automatically. Apply only for feedbackMode direct."
    *
    * ]
@@ -115,7 +115,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   * "The default value is 'direct'. If direct, value send and receive will be",
+   * "The default value is 'direct'. If direct, value send and receive will be ",
    * "instant. On submit, it will send and listen for the first event received."
    * ]
    * @name feedbackmode

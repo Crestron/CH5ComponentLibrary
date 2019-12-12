@@ -41,15 +41,15 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values: 'first' and 'last'. The default value is 'first'.",
+   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
    * "This attribute only applies when a template is not provided ",
-   * "and the implied template is in use.",
-   * "If a template is provided, this property is ignored.",
-   * "If the direction attribute is 'ltr', as will be typical in locales with",
-   * "left-to-right language direction, 'first' is equivalent to the icon being",
-   * "placed on the left and the text on the right. Conversely, if the direction",
-   * "attribute is 'rtl', 'first' would place the icon on the right and",
-   * "the label to its left. Value of 'last' is the opposite of 'first'. "
+   * "and the implied template is in use. ",
+   * "If a template is provided, this property is ignored. ",
+   * "If the direction attribute is 'ltr', as will be typical in locales with ",
+   * "left-to-right language direction, 'first' is equivalent to the icon being ",
+   * "placed on the left and the text on the right. Conversely, if the direction ",
+   * "attribute is 'rtl', 'first' would place the icon on the right and ",
+   * "the label to its left. Value of 'last' is the opposite of 'first'."
    * ]
    * @name iconposition
    */
@@ -72,9 +72,9 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`itemheight` attribute",
    * "***",
-   * "The height of an item. The value of the height can be in px and vh.",
-   * "The item height is required. If this is not provided,",
-   * "CH5 calculates based on the first item height.",
+   * "The height of an item. The value of the height can be in px and vh. ",
+   * "The item height is required. If this is not provided, ",
+   * "CH5 calculates based on the first item height. ",
    * "Each item on the list must have the same height."
    * ]
    * @name itemheight
@@ -86,14 +86,14 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`visibleitemscroll` attribute",
    * "***",
-   * "The default value is 3. The number of items to show in the",
-   * "upper/lower container around the selected item container.",
-   * "This information is needed to determine how many items",
-   * "are added to the top of the list and to the bottom. If this",
-   * "value is not set, the number of items can fit in scrollHeight",
-   * "must be calculated, which presents a probability that",
-   * "one item will not be fully visible in height. If there is a template",
-   * "including this, visibleItems will need to adjust on the height of",
+   * "The default value is 3. The number of items to show in the ",
+   * "upper/lower container around the selected item container. ",
+   * "This information is needed to determine how many items ",
+   * "are added to the top of the list and to the bottom. If this ",
+   * "value is not set, the number of items can fit in scrollHeight ",
+   * "must be calculated, which presents a probability that ",
+   * "one item will not be fully visible in height. If there is a template ",
+   * "including this, visibleItems will need to adjust on the height of ",
    * "the template given."
    * ]
    * @name visibleitemscroll
@@ -105,7 +105,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   * "The default value is 'direct'. Allows the form submission functionality.",
+   * "The default value is 'direct'. Allows the form submission functionality. ",
    * "Valid values: 'direct', 'submit'."
    * ]
    * @name feedbackmode
@@ -119,8 +119,8 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "***",
    * "The default value is 1500. Defines the time between the user releases a ",
    * "toggle and the time the toggle will check if the ",
-   * "value is equal with the value from the signal. If the value is not equal, it will",
-   * "apply the value from the signal automatically. Apply only for",
+   * "value is equal with the value from the signal. If the value is not equal, it will ",
+   * "apply the value from the signal automatically. Apply only for ",
    * "feedbackMode direct."
    * ]
    * @name signalvaluesynctimeout
@@ -132,8 +132,8 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * [
    * "`indexid` attribute",
    * "***",
-   * "Provides the name of the offset identifier to be substituted with",
-   * "a 1-based index of the item in a list within the template item",
+   * "Provides the name of the offset identifier to be substituted with ",
+   * "a 1-based index of the item in a list within the template item ",
    * "surrounded by {{ }} delimiters."
    * ]
    * @name indexid

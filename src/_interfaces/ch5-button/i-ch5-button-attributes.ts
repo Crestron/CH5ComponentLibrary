@@ -89,7 +89,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`shape` attribute",
      * "***",
-     * "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle',",
+     * "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle', ",
      * "'rectangle', 'tab', 'circle', 'oval'. The shape of the button."
      * ]
      * @name shape
@@ -104,10 +104,10 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * "The default value is 'both'. Valid values: 'width', 'height', 'both'.",
      * "When the stretch property is set, the button element inherits the ",
      * "width and/or height of the container. If stretch=height is used, ",
-     * "the button will be responsive based on the label length until it",
-     * "reaches the max-width of the container. If stretch=width is",
+     * "the button will be responsive based on the label length until it ",
+     * "reaches the max-width of the container. If stretch=width is ",
      * "applied, there is no responsiveness after reaching the max-width, and ",
-     * "the text will overflow. The same applies if stretch=both is used. Note",
+     * "the text will overflow. The same applies if stretch=both is used. Note ",
      * "that if the button element shape is 'circle' or 'oval', the stretch ",
      * "property will be ignored."
      * ]
@@ -123,7 +123,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
      * "Overrides the appearance of the button with alternative CSS ",
      * "defined in classes defined with ch5-button--type, where type is ",
-     * "the value of the property. If no 'type' is provided, the type of",
+     * "the value of the property. If no 'type' is provided, the type of ",
      * "'default' is used."
      * ]
      * @name type
@@ -157,7 +157,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestatescriptlabelhtml` attribute",
      * "***",
-     * "Allows the signal script evaluation to be applied to the",
+     * "Allows the signal script evaluation to be applied to the ",
      * "button.inner HTML class. Allows for multiline, multistyled labels."
      * ]
      * @name receivestatescriptlabelhtml
@@ -171,7 +171,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * "***",
      * "Sends an event on click or tap (mouse or swipe up and down quickly).",
      * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-     * "Examples include the SIMPL Logic Symbol for Toggle a with description of",
+     * "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
      * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
      * @name sendeventonclick
@@ -185,7 +185,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * "***",
      * "Sends a boolean true event when the screen is tapped and a boolean false event when released.",
      * "Use this when the control system takes an action on a level-sensitive boolean digital event.",
-     * "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of",
+     * "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of ",
      * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
      * ]
      * @name sendeventontouch
@@ -228,7 +228,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestateiconurl` attribute",
      * "***",
-     * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute.",
+     * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute. ",
      * "See description of the iconUrl attribute."
      * ]
      * @name receivestateiconurl

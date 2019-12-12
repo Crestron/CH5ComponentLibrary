@@ -18,7 +18,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values: 'first' and 'last'. The default value is 'first'.",
+   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
    * "This attribute only applies when a template is not provided ",
    * "and the implied template is in use. If a template is provided, ",
    * "this property is ignored."
@@ -66,7 +66,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestatescriptlabelhtml` attribute",
      * "***",
-     * "A signal script evaluation will be applied to the",
+     * "A signal script evaluation will be applied to the ",
      * "button.innerHTML. Allows for multiline, multistyled labels."
      * ]
      * @name receivestatescriptlabelhtml
@@ -78,8 +78,8 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
      * [
      * "`sendeventonclick` attribute",
      * "***",
-     * "Sends an on click or tap event (mouse or swipe up and down quickly).",
-     * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+     * "Sends an on click or tap event (mouse or swipe up and down quickly). ",
+     * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
      * "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
      * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]

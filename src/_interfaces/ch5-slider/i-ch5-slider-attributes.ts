@@ -26,7 +26,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`handleshape` attribute",
    * "***",
-   * "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval',",
+   * "The default value is 'rounded-rectangle'. Valid Values: 'rectangle', 'circle', 'oval', ",
    * "'rounded-rectangle'. Defines the handle shape."
    * ]
    * @name handleshape
@@ -82,7 +82,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`orientation` attribute",
    * "***",
-   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'.",
+   * "The default value is 'horizontal'. Valid values: 'horizontal', 'vertical'. ",
    * "The orientation of the slider."
    * ]
    * @name orientation
@@ -94,7 +94,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`size` attribute",
    * "***",
-   * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'.",
+   * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'. ",
    * "The size of the slider."
    * ]
    * @name size
@@ -118,8 +118,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`step` attribute",
    * "***",
-   * "The default value is 100. The maximum value is 100.",
-   * "Defines the number of steps values in the slider.",
+   * "The default value is 100. The maximum value is 100. ",
+   * "Defines the number of steps values in the slider. ",
    * "For example, if the slider should have quarters 0, 25, 50, 75, 100, then 5 is the numbers of steps."
    * ]
    * @name step
@@ -131,7 +131,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`stretch` attribute",
    * "***",
-   * "The default value is 'both'. Valid Values: 'width', 'height', 'both'.",
+   * "The default value is 'both'. Valid Values: 'width', 'height', 'both'. ",
    * "When the stretch property is set, the slider inherits the width and/or ",
    * "height of the container."
    * ]
@@ -144,11 +144,11 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`ticks` attribute",
    * "***",
-   * "Defines the ticks on the slider.",
-   * "This definition is based on advanced tick scales: non-linear or logarithmic.",
+   * "Defines the ticks on the slider. ",
+   * "This definition is based on advanced tick scales: non-linear or logarithmic. ",
    * "Sliders can be created with ever-increasing increments b ",
-   * "specifying the value for the slider at certain intervals.",
-   * "- The first value defines the % position along the length of the slider scale to place a tick mark.",
+   * "specifying the value for the slider at certain intervals. ",
+   * "- The first value defines the % position along the length of the slider scale to place a tick mark. ",
    * "- The second value is the label value to place next to the tick at that position.",
    * "***",
    * "An example would be [[0.0,'-60'], [0.25,'-40'], [0.50,'-20'],[0.75,'-10'], [1.0,'0']]"
@@ -162,9 +162,9 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`tooltipshowtype` attribute",
    * "***",
-   * "The Default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values:",
-   * "-'off': Not displayed",
-   * "-'on': Always displayed",
+   * "The Default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values: ",
+   * "-'off': Not displayed ",
+   * "-'on': Always displayed ",
    * "-'auto': Displayed while user interacts with the slider"
    * ]
    * @name tooltipshowtype
@@ -176,8 +176,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`tooltipdisplaytype` attribute",
    * "***",
-   * "The default value is 'percent'. Sets what is displayed in the tooltip. Valid values:",
-   * "'%' - The value is displayed as a percent",
+   * "The default value is 'percent'. Sets what is displayed in the tooltip. Valid values: ",
+   * "'%' - The value is displayed as a percent ",
    * "'value' - The actual value provided"
    * ]
    * @name tooltipdisplaytype
@@ -189,8 +189,8 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`signalvaluesynctimeout` attribute",
    * "***",
-   * "The default value is 1500. Defines the time (milliseconds) between when the user",
-   * "releases the slider handle and the time the slider will check",
+   * "The default value is 1500. Defines the time (milliseconds) between when the user ",
+   * "releases the slider handle and the time the slider will check ",
    * "if the value is equal with the value from the signal. If not, it will automatically apply the value from the signal."
    * ]
    * @name signalvaluesynctimeout
@@ -202,7 +202,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   * "If set to direct, value send and receive will be instant. On submit, it",
+   * "If set to direct, value send and receive will be instant. On submit, it ",
    * "will send and listen for the first received event."
    * ]
    * @name feedbackmode

@@ -18,22 +18,22 @@ import { ICh5VideoAttributes } from "./i-ch5-video-attributes";
  * [
  * "`ch5-video` element",
  * "***",
- * "Provides an overlay onto a streaming video window.",
+ * "Provides an overlay onto a streaming video window. ",
  * "Components that should reside above the video that need to be visible and active ",
- * "(such as buttons to control playback, text describing the video,",
+ * "(such as buttons to control playback, text describing the video, ",
  * "and annotation controls) need to be defined as children elements to this component.",
  * 
  * "As a background, the <video> tag provided in modern HTML5 browsers will stream HTTP-based protocols ",
- * "such as HLS (HTTP Live Streaming) and DASH (dynamic adaptive Streaming over HTTP).",
+ * "such as HLS (HTTP Live Streaming) and DASH (dynamic adaptive Streaming over HTTP). ",
  * "These protocols are not employed on the vast majority of security cameras and the design of these protocols ",
- * "specify a great deal of buffering (i.e. time delay) that would not be appropriate for use cases associated with a security camera.",
+ * "specify a great deal of buffering (i.e. time delay) that would not be appropriate for use cases associated with a security camera. ",
  * 
- * "The implementation of the <ch5-video> component will not attempt to render the streaming video within the HTML rendering engine.",
+ * "The implementation of the <ch5-video> component will not attempt to render the streaming video within the HTML rendering engine. ",
  * "A three tier approach will be employed.  In the top tier, ",
- * "the HTML component will be responsible for creating invisible rectangles to expose content beneath the HTML rendering engine.",
- * "The second tier will provide a surface (handle to raw buffer to display graphics) that will render the streaming video.",
- * "The top tier and the second tier will coordinate the location and size of rendered video stream.",
- * "The bottom tier is responsible for decoding the video stream and interfacing with the second tier to display the decoded video stream.",
+ * "the HTML component will be responsible for creating invisible rectangles to expose content beneath the HTML rendering engine. ",
+ * "The second tier will provide a surface (handle to raw buffer to display graphics) that will render the streaming video. ",
+ * "The top tier and the second tier will coordinate the location and size of rendered video stream. ",
+ * "The bottom tier is responsible for decoding the video stream and interfacing with the second tier to display the decoded video stream. ",
  * "The documentation below describes the configuration of the top tier HTML component <ch5-video>."
  * 
  * ]

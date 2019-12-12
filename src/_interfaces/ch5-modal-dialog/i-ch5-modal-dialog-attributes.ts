@@ -29,7 +29,7 @@ export interface ICh5ModalDialogAttributes {
      * "`stretch` attribute",
      * "***",
      * "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
-     * "the available width or the available height in the parent component. Using",
+     * "the available width or the available height in the parent component. Using ",
      * "'both' will stretch the component both ways."
      * ]
      * @name stretch
@@ -42,9 +42,9 @@ export interface ICh5ModalDialogAttributes {
      * "`overflow` attribute",
      * "***",
      * "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
-     * "happens if content does or does not overflow the component box.",
-     * "This is related to the stretch property. This property specifies whether to add",
-     * "scrollbars when an element's content is too big to fit in a specified area.",
+     * "happens if content does or does not overflow the component box. ",
+     * "This is related to the stretch property. This property specifies whether to add ",
+     * "scrollbars when an element's content is too big to fit in a specified area. ",
      * "If 'show' is selected, the overflow is not clipped."
      * ]
      * @name overflow

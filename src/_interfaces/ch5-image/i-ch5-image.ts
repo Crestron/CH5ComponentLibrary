@@ -17,10 +17,10 @@ import { ICh5ImageAttributes } from "./i-ch5-image-attributes";
  * [
  * "`ch5-image` element",
  * "***",
- * "A component to load images. Even with this component, the user can use the standard HTML",
- * "<img> tag. This component allows for images to be loaded mainly from a security camera on a polled basis.",
+ * "A component to load images. Even with this component, the user can use the standard HTML ",
+ * "<img> tag. This component allows for images to be loaded mainly from a security camera on a polled basis. ",
  * "The implementation of the Image Component in used to coordinate requests of images to be shared ",
- * "between different image components and video components that may be requesting the same image URL. "
+ * "between different image components and video components that may be requesting the same image URL."
  * ]
  * @snippets
  * [

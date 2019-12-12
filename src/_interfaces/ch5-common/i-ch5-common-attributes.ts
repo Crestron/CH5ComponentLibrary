@@ -50,7 +50,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`noshowtype` attribute",
      * "***",
-     * "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type'",
+     * "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
      * "custom HTML attribute for further information."
      * ]
      * @name noshowtype
