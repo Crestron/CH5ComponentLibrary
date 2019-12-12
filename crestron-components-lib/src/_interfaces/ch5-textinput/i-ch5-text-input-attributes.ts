@@ -19,11 +19,11 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    *  "`mask` attribute",
    *  "***",
-   * "Background pattern that will be present when the input is focus.", 
-   * "We will allow the following combination of prebuild definitions:",
-   * "a - alpha caracter",
-   * "9- numeric character",
-   * "*- alpha numeric character"
+   * "The background pattern that will be present when the input is focused. ", 
+   * "The following combination of prebuilt definitions are permitted: ",
+   * "a - alpha caracter ",
+   * "9 - numeric character ",
+   * "* - alphanumeric character"
    * ]
    * @name mask
    */
@@ -34,7 +34,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`icon` attribute",
    * "***",
-   * "Icon to be show"
+   * "The icon to be shown."
    * ]
    * @name icon
    */
@@ -45,7 +45,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`label` attribute",
    * "***",
-   * "Provides the label for the input"
+   * "Provides the label for the input."
    * ]
    * @name label
    */
@@ -56,7 +56,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`placeholder` attribute",
    * "***",
-   * "Provides the placeholder for the input, it has the default behavior as for input html element"
+   * "Provides the placeholder for the input. This shares the default behavior of the input HMTL element."
    * ]
    * @name placeholder
    */
@@ -67,12 +67,12 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values are 'first' and 'last'. Default is 'first'",
-   * "If direction attribute is 'ltr', as will be typical in locales with left to right language",
-   * "direction, 'first' is equivalent to icon being on the left and text on the",
-   * "right",
-   * " Conversely, if the direction attribute is 'rtl', the 'first' would have the icon on the ",
-   * "right and the label to its left. Value of 'last' is",
+   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
+   * "If the direction attribute is 'ltr', as will be typical in locales with a left-to-right language ",
+   * "direction, 'first' is equivalent to the icon being placed on the left and the text on the ",
+   * "right. ",
+   * "Conversely, if the direction attribute is 'rtl', first' would place the icon on the ",
+   * "right and the label to its left. The Value of 'last' is ",
    * "the opposite of 'first'."
    * ]
    * @name iconposition
@@ -84,7 +84,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`type` attribute",
    * "***",
-   * "Type of the input."
+   * "The type of the input."
    * ]
    * @name type
    */
@@ -95,7 +95,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`minlength` attribute",
    * "***",
-   * "Applicable only in feedbackmode='submit'."
+   * "Applicable only in feedbackmode='submit'. The minimum length of the attribute."
    * ]
    * @name minlength
    */
@@ -106,7 +106,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`maxlength` attribute",
    * "***",
-   * "Applicable only in feedbackmode='submit'."
+   * "Applicable only in feedbackmode='submit'. The maximum length of the attribute"
    * ]
    * @name maxlength
    */
@@ -117,8 +117,8 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`minvalue` attribute",
    * "***",
-   * "Applicable only for type=numeric and feedbackmode='submit', field",
-   * "will be in error if the value supplied by user is less than value of the attribute. "
+   * "Applicable only for type=numeric and feedbackmode='submit'. ",
+   * "The field will result in an error if the value supplied by user is less than value of the attribute."
    * ]
    * @name minvalue
    */
@@ -129,9 +129,9 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`maxvalue` attribute",
    * "***",
-   * "Applicable only for type=numeric and feedbackmode='submit', field",
-   * "will be in error if the value supplied by user is greater than value of",
-   * "the attribute. "
+   * "Applicable only for type=numeric and feedbackmode='submit'. ",
+   * "The field will result in an error if the value supplied by user is greater than value of ",
+   * "the attribute."
    * ]
    * @name maxvalue
    */
@@ -142,7 +142,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`size` attribute",
    * "***",
-   * "Sets the relative size of this Component"
+   * "Sets the relative size of this component."
    * ]
    * @name size
    */
@@ -153,12 +153,12 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`stretch` attribute",
    * "***",
-   * "Default 'fixed'. Valid values 'fixed', 'width', and 'content'.",
-   * "Sets the width of the input",
+   * "The default value is 'fixed'. Valid values: 'fixed', 'width', and 'content'.",
+   * "Sets the width of the input.",
    * "***",
-   * "Fixed - fixed position ( from CSS classes )",
-   * "Width - Width of the parent content",
-   * "Content - Width will be equal to the content width."
+   * "Fixed - fixed position (from CSS classes) ",
+   * "Width - Width of the parent content ",
+   * "Content - Width will be equal to the content width"
    * ]
    * @name stretch
    */
@@ -169,11 +169,12 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`text-transform` attribute",
    * "***",
-   * "Only for type=text, default value 'none'. Valid values",
-   * "'capitalize' – make all first characters of each word uppercase",
-   * "'uppercase' – make all characters uppercase",
-   * "'lowercase' – make all characters lowercase",
-   * "'none' – don't change input"
+   * "Only used for type=text. The default value is 'none'. ",
+   * "Valid values: ",
+   * "'capitalize' – Makes all first characters of each word uppercase ",
+   * "'uppercase' – Makes all characters uppercase ",
+   * "'lowercase' – Makes all characters lowercase ",
+   * "'none' – Does not change the input"
    * ]
    * @name text-transform
    */
@@ -184,7 +185,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`receivestatefocus` attribute",
    * "***",
-   * "When focused, true, when unfocuses, send false"
+   * "When focused, send true. When unfocusesd, send false."
    * ]
    * @name receivestatefocus
    */
@@ -195,7 +196,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`receivestatevalue` attribute",
    * "***",
-   * "When receive change the value of the text input field"
+   * "When recevied, changes the value of the text input field."
    * ]
    * @name receivestatevalue
    */
@@ -206,7 +207,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`sendeventonchange` attribute",
    * "***",
-   * "Send event on value change"
+   * "Sends an event on value change."
    * ]
    * @name sendeventonchange
    */
@@ -217,7 +218,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`sendeventonfocus` attribute",
    * "***",
-   * "Send event on focus"
+   * "Sends an event on focus."
    * ]
    * @name sendeventonfocus
    */
@@ -228,7 +229,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`sendeventonblur` attribute",
    * "***",
-   * "Send event on blur"
+   * "Sends an event on blur."
    * ]
    * @name sendeventonblur
    */

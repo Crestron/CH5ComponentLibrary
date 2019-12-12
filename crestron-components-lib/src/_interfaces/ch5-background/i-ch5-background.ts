@@ -17,11 +17,11 @@ import { ICh5BackgroundAttributes } from './i-ch5-background-attributes';
  * [
  * "`ch5-background` element",
  * "***",
- * "As a background, Standard HTML has a large amount of available styles to provide backgrounds for HTML elements.",
- * "Ch5 Video will be implemented using Alpha Blending  where portions of the HTML will become invisible to allow video",
- * "playing below the HTML layer to be visually inserted into the user's view. As such, to support background images and",
- * "colors of html elements views that will be in CH5 projects, the ch5-background component provides much of the same",
- * "functionality, but works with the video component to make portions of the screen invisible to allow the video to shine through."
+ * "For backgrounds, standard HTML has a many available styles to provide backgrounds for HTML elements.",
+ * "CH5 Video will be implemented using Alpha Blending, where portions of the HTML will become invisible to allow video ",
+ * "playing below the HTML layer to be visible to the user. As such, to support background images and",
+ * "colors of HTML element views that will be in CH5 projects, the ch5-background component provides much of the same",
+ * "functionality, but works with the video component to make portions of the screen invisible to allow the video to appear."
  * ]
  * @snippets
  * [

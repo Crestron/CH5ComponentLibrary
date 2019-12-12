@@ -17,7 +17,7 @@ import { ICh5TriggerViewChildAttributes } from "./i-ch5-triggerview-child-attrib
  * [
  * "`ch5-triggerview-child` attribute",
  * "***",
- * "Each triggerview child is similar to a standalone page, navigating between pages is done via swiping"
+ * "Each TriggerView child is similar to a standalone page, and navigating between pages is done via swiping."
  * ]
  * @snippets
  * [

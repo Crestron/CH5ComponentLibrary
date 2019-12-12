@@ -4,18 +4,18 @@
 ## CSS Classes
 | Name                              | Description                                                          |
 |:--------------------------------- |:-------------------------------------------------------------------- |
-| ch5-list                         | primary class                                                        |
-| ch5-list--disabled               | applied when is disabled                                             |
+| ch5-list                         | The primary class                                                        |
+| ch5-list--disabled               | Applied when the list is disabled                                             |
 |:--------------------------------- |:-------------------------------------------------------------------- |
  
 
  ## Receive signal attributes
 | Name                              | Description                                                          |
 |:--------------------------------- |:-------------------------------------------------------------------- |
-| receiveStateSize                 | Resize the list from initial size                                    |
-| receiveStateScrollTo             | Scroll the first visible item of the list to received                |
-|                                   | value 1 based offset                                                 |
-|receiveStateTemplateVars          |Json encoded array of name/value objects, one per item                |
-|                                   |created from the template                                             |
+| receiveStateSize                 | Resizes the list from its initial size                                    |
+| receiveStateScrollTo             | Scrolls to the first visible item of the list received via a                |
+|                                  | value 1-based offset.                                              |
+|receiveStateTemplateVars          |A JSON-encoded array of name/value objects, one per item                |
+|                                  |created from the template.                                             |
 |:--------------------------------- |:-------------------------------------------------------------------- |
  

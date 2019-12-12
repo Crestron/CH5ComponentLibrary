@@ -14,9 +14,9 @@ import { ICustomAttribute } from "./helpers/i-custom-attribute";
  * [  
  *  "`data-ch5-appendclass` custom attribute",
  *  "***",
- *  "The 'data-ch5-appendclass' custom HTML attribute appends the value of a signal to the 'class' attribute",
- *  "on a standard HTML element. A change in the value of the signal will remove the prior value of the",
- *  "signal and append the new value. "
+ *  "The 'data-ch5-appendclass' custom HTML attribute appends the value of a signal to the 'class' attribute ",
+ *  "on a standard HTML element. A change in signal value will remove the prior value of the ",
+ *  "signal and append the new value."
  * 
  * ]
  */

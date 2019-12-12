@@ -1,14 +1,14 @@
 <h1>ch5-slider ticks</h1>
-<p>Defines the ticks on the slider, value should be a valid JSON.</p> 
-<p>It will be an advanced tick scales: non-linear or logarithmic.</p> 
-<p>You can create sliders with ever-increasing increments by specifying the value for the slider at certain intervals.</p> 
+<p>Defines the ticks on the slider. The value should be a valid JSON string.</p> 
+<p>The slider uses advanced tick scales: non-linear or logarithmic.</p> 
+<p>Sliders can be created with ever-increasing increments by specifying the value for the slider at certain intervals.</p> 
 <ul style="list-style: disc; padding-left: 30px;">
     <li>
-        The first value define the % position along the length of the slider scale to place a tick mark
+        The first value defines the % position along the length of the slider scale to place a tick mark.
     </li>
     <li>
-        The second value will be the label value to place next to the tick at that position.
+        The second value is the label value to place next to the tick at that position.
     </li>
 </ul>
 <p>An example would be <code>ticks='{"0":"-60", "25":"-40", "50":"-20", "75":"-10", "100": "0" }'</code> </p>
-<p class="has-text-danger">When using ticks attributes like min, max and step are ignored</p>
+<p class="has-text-danger">When using ticks, attributes like min, max, and step are ignored.</p>

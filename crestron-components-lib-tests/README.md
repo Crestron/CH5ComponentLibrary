@@ -5,7 +5,7 @@
 # Creston Components library Unit Tests
 
 - Tests are written in typescript
-- Uses mocha, chai and ts-node
+- Uses mocha, chai, and ts-node
 
 ## Requirements
 
@@ -19,8 +19,8 @@
 ### Running the tests
 
 - ```yarn install```
-- ```yarn run test``` - runs all tests from src folder
+- ```yarn run test``` - runs all tests from the src folder
 
 ### Running the tests in Webstorm
 
-- add:``` --require src/tests/dom-mock.js --require ts-node/register``` to extra Mocha options from the edit configuration menu
+- add:``` --require src/tests/dom-mock.js --require ts-node/register``` for extra Mocha options from the edit configuration menu

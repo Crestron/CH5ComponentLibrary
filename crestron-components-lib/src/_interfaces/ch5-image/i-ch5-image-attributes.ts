@@ -16,7 +16,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`alt` attribute",
    * "***",
-   * "Defines an alternative text description of the image"
+   * "Defines an alternative text description for the image."
    * ]
    * @name alt
    */
@@ -26,7 +26,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * @documentation
    * [
    * "`height` attribute",
-   * "The intrinsic height of the image, in pixels. Must be a string of the form Npx or N%"
+   * "The intrinsic height of the image, in pixels. Must be a string of the form Npx or N%."
    * ]
    * @name height
    */
@@ -36,7 +36,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * @documentation
    * [
    * "`width` attribute",
-   * "The intrinsic width of the image, in pixels. Must be a string of the form Npx or N%"
+   * "The intrinsic width of the image, in pixels. Must be a string of the form Npx or N%."
    * ]
    * @name width
    */
@@ -47,8 +47,8 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    *  "`refreshrate` attribute",
    * "***",
-   * "Number of seconds between each refresh of the URL. If 0, the URL will not",
-   * "be refresh."
+   * "The number of seconds between each URL refresh. If 0, the URL will not",
+   * "be refreshed."
    * ]
    * @name refreshrate
    */
@@ -59,7 +59,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`url` attribute",
    * "***",
-   * "Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP"
+   * "Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP."
    * ]
    * @name url
    */
@@ -71,7 +71,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`password` attribute",
    * "***",
-   * "Password for authentication in order to get the image"
+   * "The authentication password required to get the image."
    * ]
    * @name password
    */
@@ -82,7 +82,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`dir` attribute",
    * "***",
-   * "Image direction"
+   * "The image direction."
    * ]
    * @name dir
    */
@@ -93,7 +93,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`user` attribute",
    * "***",
-   * "User for authentication in order to get the image"
+   * "The authentication username required to get the image."
    * ]
    * @name user
    */
@@ -104,7 +104,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestateurl` attribute",
    * "***",
-   * "Image URL passed via state"
+   * "The image URL passed via state."
    * ]
    * @name receivestateurl
    */
@@ -115,10 +115,10 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventontouch` attribute",
    * "***",
-   * "Sends boolean true event when finger on glass and boolean false event when finger released",
-   * "Use this when control system takes action on level sensitive boolean digital event",
-   * "Examples include SIMPL Logic Symbol for Analog Ramp with description of",
-   * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'"
+   * "Sends a boolean true event when the screen is tapped and boolean false event when released. ",
+   * "Use this when the control system takes an action on a level-sensitive boolean digital event. ",
+   * "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of ",
+   * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
    * ]
    * @name sendeventontouch
    */
@@ -129,10 +129,10 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonclick` attribute",
    * "***",
-   * "Sends event on click or tap event (mouse or finger up and down in a small period of time).",
-   * "Use this when control system takes action on rising edge from false to true of boolean digital event.",
-   * "Examples include SIMPL Logic Symbol for Toggle with description of",
-   * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'"
+   * "Sends an on click or tap event (mouse or swipe up and down quickly). ",
+   * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
+   * "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
+   * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
    * ]   
    * @name sendeventonclick
    */
@@ -143,7 +143,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonerror` attribute",
    * "***",
-   * "Sends event on error"
+   * "Sends an event on error."
    * ]
    * @name sendeventonerror
    */
