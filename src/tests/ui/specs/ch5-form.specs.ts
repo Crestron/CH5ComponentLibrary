@@ -131,32 +131,6 @@ describe('Ch5-form', ()=>{
             .checkAttribute(FormData.GENERATED_FORM, FormData.CANCEL_BUTTON_TYPE_ATTRIBUTE, FormData.CANCEL_BUTTON_TYPE_ATTRIBUTE_VALUE);
     });
 
-    it('should have the submitId attribute', () =>{
-        PlaygroundPage
-            .openURL()
-            .inputJsText(FormData.JS_TEMPLATE_SUBMIT_ID)
-            .inputHtmlText(FormData.HTML_TEMPLATE_SUBMIT_ID)
-            .clickPreviewBtn()
-            .checkExistance(FormData.GENERATED_FORM, FormData.GENERATED_FORM_SUBMIT, FormData.GENERATED_FORM_CANCEL)
-            .checkVisibility(FormData.GENERATED_FORM, FormData.GENERATED_FORM_SUBMIT, FormData.GENERATED_FORM_CANCEL)
-            .checkAttribute(FormData.GENERATED_FORM, FormData.SUBMIT_ID_ATTRIBUTE, FormData.SUBMIT_ID_ATTRIBUTE_VALUE)
-            .clickGeneratedElement(FormData.SUBMIT_ID_TRIGGER_BTN)
-            .checkElementText(FormData.GENERATED_FORM_SUBMIT, FormData.SUBMIT_ID_LABEL_VALUE);
-    });
-
-    it('should have the cancelId attribute', () =>{
-        PlaygroundPage
-            .openURL()
-            .inputJsText(FormData.JS_TEMPLATE_CANCEL_ID)
-            .inputHtmlText(FormData.HTML_TEMPLATE_CANCEL_ID)
-            .clickPreviewBtn()
-            .checkExistance(FormData.GENERATED_FORM, FormData.GENERATED_FORM_SUBMIT, FormData.GENERATED_FORM_CANCEL)
-            .checkVisibility(FormData.GENERATED_FORM, FormData.GENERATED_FORM_SUBMIT, FormData.GENERATED_FORM_CANCEL)
-            .checkAttribute(FormData.GENERATED_FORM, FormData.CANCEL_ID_ATTRIBUTE, FormData.CANCEL_ID_ATTRIBUTE_VALUE)
-            .clickGeneratedElement(FormData.CANCEL_ID_TRIGGER_BTN)
-            .checkElementText(FormData.GENERATED_FORM_CANCEL, FormData.CANCEL_ID_LABEL_VALUE);
-    });
-
     it('should have the id common attribute', () =>{
         PlaygroundPage
             .openURL()
