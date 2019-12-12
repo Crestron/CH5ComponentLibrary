@@ -11,7 +11,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 
 export class Ch5CoreIntersectionObserver {
 
-    public static observerTreshhold = 0.20;
+    public static observerTreshhold = [0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.92, 0.94, 0.96, 0.98, 1.00];
     public static observerRootMargin: string = '0px';
     private static _instance: Ch5CoreIntersectionObserver;
     private _intersectionObserverConfig: object;
