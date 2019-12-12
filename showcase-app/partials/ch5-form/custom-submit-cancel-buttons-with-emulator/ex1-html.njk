@@ -1,0 +1,117 @@
+<div>
+    <h2>No Form</h2>
+    <p>Same events are used in all examples, changing the value of the toggle, slider of textinput here will reflect
+        everywhere.</p>
+
+    <ch5-toggle
+            labelOn="On"
+            labelOff="Off"
+            receiveStateValue="form.toggle_state"
+            sendEventOnClick="form.toggle_event">
+    </ch5-toggle>
+
+    <br><br>
+
+    <ch5-slider
+            receiveStateValue="form.number_state"
+            sendEventOnChange="form.number_event">
+    </ch5-slider>
+
+    <br><br>
+
+    <ch5-textinput
+            receiveStateValue="form.text_state"
+            sendEventOnChange="form.text_event"></ch5-textinput>
+    <h5>text value: '<span data-ch5-textcontent="form.text_state"></span>'</h5>
+
+</div>
+
+<hr>
+
+<div>
+
+    <ch5-form
+            submitbuttonlabel="Submit"
+            submitbuttonicon="fa fa-play"
+            submitbuttontype="success"
+            submitbuttonstyle="border: 1px solid blue"
+            cancelbuttonlabel="Cancel"
+            cancelbuttonicon="fa fa-times"
+            cancelbuttontype="danger"
+            cancelbuttonstyle="border: 1px solid red">
+
+        <h2>Form with supplied buttons</h2>
+        <p>Only after submitting the form will the new values of the toggle, slider or textinput will be reflected.</p>
+        <ch5-toggle feedbackmode="submit"
+                    labelOn="On"
+                    labelOff="Off"
+                    receiveStateValue="form.toggle_state"
+                    sendEventOnClick="form.toggle_event">
+        </ch5-toggle>
+
+        <br><br>
+
+        <ch5-slider feedbackmode="submit"
+                    receiveStateValue="form.number_state"
+                    sendEventOnChange="form.number_event">
+        </ch5-slider>
+
+        <br><br>
+
+        <ch5-textinput feedbackmode="submit"
+                       receiveStateValue="form.text_state"
+                       sendEventOnChange="form.text_event"></ch5-textinput>
+        <h5>text value: '<span data-ch5-textcontent="form.text_state"></span>'</h5>
+    </ch5-form>
+</div>
+
+<hr>
+
+
+<div>
+
+    <ch5-form
+            hidesubmitbutton="true"
+            hidecancelbutton="true"
+            submitId="externalFormSubmit"
+            cancelId="externalFormCancel">
+
+        <h2>Form without supplied buttons</h2>
+        <p>Same as the previous example, but custom buttons are used, which use a similar style to the default ch5-form
+            buttons.</p>
+        <ch5-toggle feedbackmode="submit"
+                    labelOn="On"
+                    labelOff="Off"
+                    receiveStateValue="form.toggle_state"
+                    sendEventOnClick="form.toggle_event">
+        </ch5-toggle>
+
+        <br><br>
+
+        <ch5-slider feedbackmode="submit"
+                    receiveStateValue="form.number_state"
+                    sendEventOnChange="form.number_event">
+        </ch5-slider>
+
+        <br><br>
+
+        <ch5-textinput feedbackmode="submit"
+                       receiveStateValue="form.text_state"
+                       sendEventOnChange="form.text_event"></ch5-textinput>
+        <h5>text value: '<span data-ch5-textcontent="form.text_state"></span>'</h5>
+    </ch5-form>
+
+    <ch5-button
+            id="externalFormSubmit"
+            label="Submit"
+            iconclass="fa fa-play"
+            type="success">
+    </ch5-button>
+    <ch5-button
+            id="externalFormCancel"
+            label="Cancel"
+            iconclass="fa fa-times"
+            type="danger">
+    </ch5-button>
+
+</div>

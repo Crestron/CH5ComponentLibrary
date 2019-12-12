@@ -17,7 +17,7 @@
 
 <test-fixture id="ch5-textinput-text-transform-on-number-input-fixture">
     <template>
-        <ch5-textinput 
+        <ch5-textinput
         label="First Name"
         type="number"
         text-transform="capitalize"></ch5-textinput>
@@ -40,9 +40,13 @@
         const availableTextTransform = ['capitalize', 'uppercase', 'lowercase'];
 
         availableTextTransform.forEach((textTransformName,i)=> {
-            test(`text-transform: "${textTransformName}"`, function() {
+            test(`text-transform: "${textTransformName}"`, function(done) {
+
+              setTimeout(() => {
                 ch5Textinput.setAttribute('text-transform', textTransformName);
                 expect(ch5Textinput.textTransform).to.be.equal(textTransformName);
+                done();
+              })
             });
         });
 
@@ -60,7 +64,7 @@
             expect(ch5Textinput.textTransform).to.be.equal('none');
         });
     });
-    
+
 </script>
 </body>
 </html>

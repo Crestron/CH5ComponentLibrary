@@ -32,14 +32,18 @@
         const availableStretches = ['width', 'content'];
 
         availableStretches.forEach((stretchName,i)=> {
-            test(`stretch: "${stretchName}"`, function() {
+            test(`stretch: "${stretchName}"`, function(done) {
+
+              setTimeout(() => {
                 ch5Textinput.setAttribute('stretch', stretchName);
                 expect(ch5Textinput.stretch).to.be.equal(stretchName);
+                done();
+              })
             });
         });
 
     });
-    
+
 </script>
 </body>
 </html>

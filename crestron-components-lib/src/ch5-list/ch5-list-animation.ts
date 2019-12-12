@@ -194,7 +194,7 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
     public fixOffset(coord: number) {
         this._list.info(`ch5-list-animation - fixOffset, coord: ${coord}`);
 
-        const offsetCalculationFactor = this._list.size as number - this._list.getItemsPerPage() as number;
+        const isLtr = this._list.isLtr();
         let maxOffset: number;
         let allowedOffset: number = 0;
 
@@ -204,12 +204,12 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
 
         if (this._list.isHorizontal) {
             if (!isNil(this._list.itemOffsetWidth)) {
-                maxOffset = (this.maxOffsetTranslate as number) + this._list.sizeResolver.hiddenListSize;
+                maxOffset = (this.maxOffsetTranslate as number);
                 allowedOffset = fix(coord, maxOffset, this.minOffsetTranslate);
             }
         } else {
             if (!isNil(this._list.itemOffsetHeight)) {
-                maxOffset = (this.maxOffsetTranslate as number) + offsetCalculationFactor * this._list.itemOffsetHeight;
+                maxOffset = (this.maxOffsetTranslate as number);
                 allowedOffset = fix(coord, maxOffset, this.minOffsetTranslate);
             }
         }
@@ -217,10 +217,20 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
         return allowedOffset;
 
         function fix(_coord: number, _maxOffset: number, _minOffset: number): number {
-            if (_coord < -_maxOffset) {
-                return -_maxOffset;
-            } else if (_coord > _minOffset) {
-                return _minOffset;
+
+            let maxOffsetDistance = _maxOffset;
+            let minOffsetDistance = _minOffset;
+
+            if (!isLtr) {
+                const maxOffsetPlaceholder = maxOffsetDistance;
+                maxOffsetDistance = minOffsetDistance;
+                minOffsetDistance = -maxOffsetPlaceholder;
+            }
+
+            if (_coord < maxOffsetDistance) {
+                return maxOffsetDistance;
+            } else if (_coord > minOffsetDistance) {
+                return minOffsetDistance;
             }
 
             return _coord;

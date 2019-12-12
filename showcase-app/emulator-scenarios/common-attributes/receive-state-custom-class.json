@@ -1,0 +1,30 @@
+{
+    "cues": [
+      {
+        "type": "boolean",
+        "event": "sig_trig_class1",
+        "trigger": true,
+        "actions": [
+          {
+            "type": "string",
+            "state": "sig_custom_class",
+            "logic": "set",
+            "value": "blue-dashed-border background-1"
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "event": "sig_trig_class2",
+        "trigger": "&change",
+        "actions": [
+          {
+            "state": "sig_custom_class",
+            "type": "s",
+            "logic": "set",
+            "value": "green-dotted-border background-2"
+          }
+        ]
+      }
+    ]
+  }

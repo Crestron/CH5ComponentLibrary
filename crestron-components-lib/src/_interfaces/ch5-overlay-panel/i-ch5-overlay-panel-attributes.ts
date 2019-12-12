@@ -85,7 +85,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "***",
    * "When received, positions to this component"
    * ]
-   * @name receivestatepositionto 
+   * @name receivestatepositionto
    */
   receiveStatePositionTo: string;
 

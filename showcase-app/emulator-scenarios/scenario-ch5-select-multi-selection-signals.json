@@ -91,6 +91,18 @@
     },
     {
       "type": "b",
+      "event": "option_2_0_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "option_2_0_selected",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
       "event": "option_2_1_on_click",
       "trigger": true,
       "actions": [

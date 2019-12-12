@@ -1,0 +1,17 @@
+---
+title: "ch5-form: custom submit/cancel, using the emulator to keep the submitted value"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./partials/ch5-form/custom-submit-cancel-buttons-with-emulator/custom-submit-cancel-buttons-with-emulator.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {# example 1 #}
+    {% call exampleSectionFromPartials('ch5-form/custom-submit-cancel-buttons-with-emulator/','ex1') %}{% endcall %}
+
+{% endblock %}
