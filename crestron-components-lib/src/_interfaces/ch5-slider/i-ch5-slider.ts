@@ -115,7 +115,7 @@ export interface ICh5Slider extends ICh5SliderAttributes, ICh5Common {
    * [
    * "`showtickvalues` attribute",
    * "***",
-   * "The default value is false. Provides the ability to display value labels next to tick marks",
+   * "The default value is false. Provides the ability to display value labels next to tick marks ",
    * "at each tick increment."
    * ]
    * @name showtickvalues

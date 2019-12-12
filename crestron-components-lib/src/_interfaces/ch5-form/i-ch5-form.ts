@@ -18,9 +18,9 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * [
  *   "`ch5-form` element",
  *   "***",
- *   " This component provides a container for which 'input' style components, such as TextEntry,",
- *   "Slider, Toggle Switch, Select, and Spinner, can be grouped together to update their send signals upon a",
- *   "Submit button press or to revert to their receive signal value upon a Cancel button press. "
+ *   " This component provides a container for which 'input' style components, such as TextEntry, ",
+ *   "Slider, Toggle Switch, Select, and Spinner, can be grouped together to update their send signals upon a ",
+ *   "Submit button press or to revert to their receive signal value upon a Cancel button press."
  * ]
  * @snippets
  * [

@@ -34,7 +34,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      * [
      * "`context` attribute",
      * "***",
-     *  "In the format of 'original:replacement;' original is the value to be replaced, and replacement",
+     *  "In the format of 'original:replacement;' original is the value to be replaced, and replacement ",
      *  "is the replacement value."
      * ]
      * @name context

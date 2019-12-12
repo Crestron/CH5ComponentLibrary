@@ -17,7 +17,7 @@ export interface ICh5TriggerViewChildAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonshow` attribute",
    * "***",
-   * "Sends a digital pulse when a child view becomes visible. Allows the control system",
+   * "Sends a digital pulse when a child view becomes visible. Allows the control system ",
    * "to take various actions based on which view is active."
    * ]
    * @name sendeventonshow

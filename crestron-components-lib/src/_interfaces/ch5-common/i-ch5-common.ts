@@ -71,7 +71,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * [
      * "`disabled` attribute",
      * "***",
-     * "The default value is false. This property will direct the component to change CSS and event listeners",
+     * "The default value is false. This property will direct the component to change CSS and event listeners ",
      * "to reflect a disabled state when true."
      * ]
      * @name disabled

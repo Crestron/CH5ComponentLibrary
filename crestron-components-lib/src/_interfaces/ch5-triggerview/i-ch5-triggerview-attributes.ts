@@ -41,7 +41,7 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestateshowchildindex` attribute",
      * "***",
-     * "The receipt of the numeric value of this state will make",
+     * "The receipt of the numeric value of this state will make ",
      * "the 0-based index of views in the component become visible."
      * ]
      * @name receivestateshowchildindex

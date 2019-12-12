@@ -19,7 +19,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * "`ch5-toggle` element",
  * "***",
  * "Appears as a two-state switch with easy transition between states. The component has the ",
- * "functionality of an HTML checkbox-type input element. "
+ * "functionality of an HTML checkbox-type input element."
  * ]
  * @snippets
  * [
@@ -79,9 +79,9 @@ export interface ICh5Toggle extends ICh5ToggleAttributes, ICh5Common {
    * [
    * "`value` attribute",
    * "***",
-   * "The default value is false. The initial value of the component.",
-   * "When feedbackMode=submit, this property will change to the last",
-   * "value submitted. When reset, the value property will be changed to",
+   * "The default value is false. The initial value of the component. ",
+   * "When feedbackMode=submit, this property will change to the last ",
+   * "value submitted. When reset, the value property will be changed to ",
    * "the initial value or last value on submit."
    * ]
    * @name value

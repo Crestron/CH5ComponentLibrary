@@ -20,10 +20,10 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * [
  * "`ch5-modal-dialog` element",
  * "***",
- * "The Modal Dialog component is a special-case instance of an overlay panel used primarily",
- * "to display dialog windows and user prompts.",
+ * "The Modal Dialog component is a special-case instance of an overlay panel used primarily ",
+ * "to display dialog windows and user prompts. ",
  * "The modal dialog should generally contains an optional header bar with a title, ",
- * "an optional message with an optional icon, an optional button 'ok', and 'cancel' buttons. "
+ * "an optional message with an optional icon, an optional button 'ok', and 'cancel' buttons."
  * ]
  * @snippets
  * [

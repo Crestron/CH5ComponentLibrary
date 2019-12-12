@@ -18,10 +18,10 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * [
  * "`ch5-spinner` element",
  * "***",
- * "Functionally, the Spinner component is similar to the Select component. The primary differences are in the visual representation.",
+ * "Functionally, the Spinner component is similar to the Select component. The primary differences are in the visual representation. ",
  * "The Spinner component presents a vertical list of values centered around one centrally-orientated ",
  * "item, which is considered the single selected item. Swiping up and down on the items allow the user ",
- * "to see other selections, and placing an item in the center chooses that item. "
+ * "to see other selections, and placing an item in the center chooses that item."
  * ]
  * @snippets
  * [
@@ -107,8 +107,8 @@ export interface ICh5Spinner extends ICh5SpinnerAttributes, ICh5Common {
    * [
    * "`resize` attribute",
    * "***",
-   * "If true, the options panel is resized to fit content width.",
-   * "Apply only with the CSS rule “width=fit-content” and/or “width =auto”",
+   * "If true, the options panel is resized to fit content width. ",
+   * "Apply only with the CSS rule 'width=fit-content' and/or 'width =auto' ",
    * "(depending on the browser agent)."
    * ]
    * @name resize
@@ -120,7 +120,7 @@ export interface ICh5Spinner extends ICh5SpinnerAttributes, ICh5Common {
    * [
    * "`endless` attribute",
    * "***",
-   * "The default value is false. Creates an infinite spinner. This will trigger the next",
+   * "The default value is false. Creates an infinite spinner. This will trigger the next ",
    * "element after the last to be the first element in the list."
    * ]
    * @name endless

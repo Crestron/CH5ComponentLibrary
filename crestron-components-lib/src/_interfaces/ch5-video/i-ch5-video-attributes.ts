@@ -85,8 +85,8 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`aspectRatio` attribute",
      *  "***",
-     *  "Sets the width-to-height ration of the video.",
-     *  "The width and height of the component to be controlled by CSS style classes.",
+     *  "Sets the width-to-height ration of the video. ",
+     *  "The width and height of the component to be controlled by CSS style classes. ",
      *  "Values are 16:9 (default), 4:3, and custom.  When the size of the container does not match the aspect ratio, ",
      *  "the full height or width should be used and the dimension that is empty should be centered."
      * ]
@@ -99,7 +99,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`stretch` attribute",
      *  "***",
-     *  "The default value is false. When true, video will be displayed in the whole component.",
+     *  "The default value is false. When true, video will be displayed in the whole component. ",
      *  "When false, video will be displayed as a letter or pillar box based upon the aspect ratio of the video ",
      *  "feed and the size of the component.  Note: this attribute is independent of aspectRatio."
      * ]
@@ -145,13 +145,13 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`size` attribute",
      *  "***",
-     *  "The display size for the video. The default size is 'small' if not entered.",
+     *  "The display size for the video. The default size is 'small' if not entered. ",
      *  "The size options for the aspect ratio 16:9 are 'x-small' (width: 256, height: 144), ",
      *  "'small' (width: 512, height: 288), 'regular' (width: 768, height: 432), 'large' (width: 1024, ",
-     *  "height: 576), 'x-large' (width: 1280, height: 720) and 'xx-large' (width: 1920, height: 1080).",
+     *  "height: 576), 'x-large' (width: 1280, height: 720) and 'xx-large' (width: 1920, height: 1080). ",
      *  "The size options for the aspect ratio 4:3 are 'x-small' (width: 192, height: 144), ",
      *  "'small' (width: 384, height: 288), 'regular' (width: 576, height: 432), 'large' (width: 768, ",
-     *  "height: 576), 'x-large' (width: 960, height: 720) and 'xx-large' (width: 1440, height: 1080).",
+     *  "height: 576), 'x-large' (width: 960, height: 720) and 'xx-large' (width: 1440, height: 1080). ",
      *  "The user needs to select the appropriate size to fit the container."
      * ]
      */
@@ -339,7 +339,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStatePlay` attribute",
      *  "***",
-     *  "When defined, this will play video only when the value is true and will stop video when the value is false.",
+     *  "When defined, this will play video only when the value is true and will stop video when the value is false. ",
      *  "If not defined, the video will play whenever the component is visible. If defined with a value of false, ",
      *  "the background of ch5-video--nosource css class is displayed."
      * ]
@@ -352,8 +352,8 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateSelect` attribute",
      *  "***",
-     *  "When defined, this will play 0-based index of the video source list.",
-     *  "A value of <0 or >31 will select no video to play. A Value of 0 to 31 will play the selected video source",
+     *  "When defined, this will play 0-based index of the video source list. ",
+     *  "A value of <0 or >31 will select no video to play. A Value of 0 to 31 will play the selected video source ",
      *  "provided the video source type (see receiveStateVideoSourceType) is valid. When not defined, ",
      *  "the first video source defined (equivalent of index 0) in the list will be played."
      * ]

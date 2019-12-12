@@ -15,7 +15,7 @@ import { ICustomAttribute } from "./helpers/i-custom-attribute";
  * [  
  *  "`data-ch5-show` custom attribute",
  *  "***",
- *  "Specifies whether or not an element is visible based upon the value of the state. Works with standard HTML elements.",
+ *  "Specifies whether or not an element is visible based upon the value of the state. Works with standard HTML elements. ",
  *  "The data-ch5-noshow-type attribute can be supplied to set how an HTML element will be hidden from view."
  * ]
  */

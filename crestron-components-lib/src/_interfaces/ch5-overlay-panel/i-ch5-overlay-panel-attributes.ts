@@ -19,7 +19,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * [
    * "`closeicon` attribute",
    * "***",
-   * "A class name of the close icon. It may be a font awesome class"
+   * "A class name of the close icon. It may be a font awesome class."
    * ]
    * @name closeicon
    */
@@ -30,8 +30,8 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * [
    * "`stretch` attribute",
    * "***",
-   * "Valid values: 'width', 'height', and 'both'. The component will stretch to",
-   * "the available width or the available height in the parent component. Using",
+   * "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
+   * "the available width or the available height in the parent component. Using ",
    * "'both' will stretch the component both directions."
    * ]
    * @name stretch
@@ -44,9 +44,9 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "`overflow` attribute",
    * "***",
    * "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
-   * "happens if content does or does not overflow the component box.",
+   * "happens if content does or does not overflow the component box. ",
    * "This is related with stretch property. This property specifies whether to add ",
-   * "scrollbars when an element's content is too big to fit in a specified area.",
+   * "scrollbars when an element's content is too big to fit in a specified area. ",
    * "If 'show' is selected, the overflow is not clipped."
    * ]
    * @name overflow
@@ -58,7 +58,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * [
    * "`positionto` attribute",
    * "***",
-   * "If not set, the position will be related to the viewport.",
+   * "If not set, the position will be related to the viewport. ",
    * "Positions the component related to either a window or an element by id."
    * ]
    * @name positionto
@@ -70,8 +70,8 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * [
    * "`positionoffset` attribute",
    * "***",
-   * "Valid values 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center',",
-   * "'bottom-right', 'left-center', and 'right-center'. Auto-positions the panel offset",
+   * "Valid values 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', ",
+   * "'bottom-right', 'left-center', and 'right-center'. Auto-positions the panel offset ",
    * "to the event element's position."
    * ]
    * @name positionoffset
@@ -83,7 +83,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestatepositionto` attribute ",
    * "***",
-   * "When received, positions to this component"
+   * "When received, positions to this component."
    * ]
    * @name receivestatepositionto
    */
@@ -94,7 +94,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestatepositionoffset` attribute",
    * "***",
-   * "when received, positions offset to this component.",
+   * "when received, positions offset to this component. ",
    * "See attribute 'positionOffset' for valid values."
    * ]
    * @name receivestatepositionoffset
