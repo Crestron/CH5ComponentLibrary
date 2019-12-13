@@ -395,7 +395,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         if (this._list.size !== null) {
 
             const itemSize = this._list.isHorizontal ? this._list.itemOffsetWidth : this._list.itemOffsetHeight;
-            const containerSize = this._list.isHorizontal ? this._list.storedOffsetWidth : this._list.storedOffsetHeight;
+            const containerSize = this._list.sizeResolver.viewPortSize;
 
             // used to extract scrollbar size from containerSize if it is endless
             let divListSize = containerSize;
@@ -560,11 +560,21 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
     /**
      * Updates the viewport size
      * 
+     * @param {number} viewportSize specified value for viewportsize
      */
-    public updateViewportSize() {
-        const listViewportBoundingRect: ClientRect | DOMRect = this._list.getBoundingClientRect();
-        this._list.viewportClientHeight = listViewportBoundingRect.height;
-        this._list.viewportClientWidth = listViewportBoundingRect.width;
+    public updateViewportSize(viewportSize: number = 0) {
+
+        if (!viewportSize) {
+            const listViewportBoundingRect: ClientRect | DOMRect = this._list.getBoundingClientRect();
+            viewportSize = this._list.isHorizontal ? listViewportBoundingRect.width : listViewportBoundingRect.height;
+        }
+
+        if (!this._list.isHorizontal) {
+            this._list.viewportClientHeight = viewportSize;
+            return;
+        }
+        
+        this._list.viewportClientWidth = viewportSize;
     }
 
     /**
