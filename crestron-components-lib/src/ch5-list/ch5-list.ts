@@ -749,7 +749,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
             numberOfItems = this.viewportClientHeight / this.itemOffsetHeight;
         }
 
-        return Math.floor(numberOfItems);
+        return numberOfItems;
     }
 
     /**
