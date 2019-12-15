@@ -1,1 +1,1 @@
-export type TCH5VideoSize = 'x-small' | 'small' | 'regular' | 'large' | 'x-large' | 'xx-large';
+export type TCH5VideoSize = 'x-small' | 'small' | 'large' | 'x-large' | 'xx-large';
