@@ -19,7 +19,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`indexId` attribute",
      *  "***",
-     *  "Provides the name of the offset identifier to be substituted with a 0-based index of the list items within the signal names provided in other attributes surrounded by {{ }} delimiters."
+     *  "Provides the name of the offset identifier to substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters."
      * ]
      */
     indexId: string;
@@ -30,7 +30,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`userId` attribute",
      *  "***",
-     *  "The user ID to access the video along with a password."
+     *  "Userid to access the video along with password."
      * ]
      */
     userId: string;
@@ -41,7 +41,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`snapShotUserId` attribute",
      *  "***",
-     *  "The user ID to access the snapshot along with a password."
+     *  "Userid to access the snapshot along with password."
      * ]
      */
     snapShotUserId: string;
@@ -52,7 +52,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`password` attribute",
      *  "***",
-     *  "The password to access the video along with a user ID."
+     *  "Password to access the video along with userid."
      * ]
      */
     password: string;
@@ -63,7 +63,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`snapShotPassword` attribute",
      *  "***",
-     *  "The password to access the snapshot along with user ID."
+     *  "Password to access the snapshot along with userid."
      * ]
      */
     snapShotPassword: string;
@@ -74,7 +74,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`snapShotRefreshRate` attribute",
      *  "***",
-     *  "The refresh rate of the snapshot."
+     *  "Refresh rate of the snapshot."
      * ]
      */
     snapShotRefreshRate: string;
@@ -85,10 +85,10 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`aspectRatio` attribute",
      *  "***",
-     *  "Sets the width-to-height ration of the video. ",
-     *  "The width and height of the component to be controlled by CSS style classes. ",
-     *  "Values are 16:9 (default), 4:3, and custom.  When the size of the container does not match the aspect ratio, ",
-     *  "the full height or width should be used and the dimension that is empty should be centered."
+     *  "Sets the ratio of width to height of the video.",
+     *  "Width and height of the component to be controlled by css style classes.",
+     *  "Values are 16:9 (default), 4:3, and custom.  When size of container is not match the aspect ratio, ",
+     *  "the full height or the full width should be used and the dimension that is not full should be centered."
      * ]
      */
     aspectRatio: TCH5VideoAspectRatio | string;
@@ -99,8 +99,8 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`stretch` attribute",
      *  "***",
-     *  "The default value is false. When true, video will be displayed in the whole component. ",
-     *  "When false, video will be displayed as a letter or pillar box based upon the aspect ratio of the video ",
+     *  "Default false.  When true, video will be displayed in the whole component.",
+     *  "When false, video will be displayed as letter or pillar box based upon the aspect ratio of the video ",
      *  "feed and the size of the component.  Note: this attribute is independent of aspectRatio."
      * ]
      */
@@ -123,7 +123,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sourceType` attribute",
      *  "***",
-     *  "The video Source type, which can be 'Network', 'HDMI' or 'DM'."
+     *  "Video Source type can be Network, HDMI or DM."
      * ]
      */
     sourceType: TCH5VideoSourceType | string;
@@ -145,14 +145,14 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`size` attribute",
      *  "***",
-     *  "The display size for the video. The default size is 'small' if not entered. ",
-     *  "The size options for the aspect ratio 16:9 are 'x-small' (width: 256, height: 144), ",
-     *  "'small' (width: 512, height: 288), 'regular' (width: 768, height: 432), 'large' (width: 1024, ",
-     *  "height: 576), 'x-large' (width: 1280, height: 720) and 'xx-large' (width: 1920, height: 1080). ",
-     *  "The size options for the aspect ratio 4:3 are 'x-small' (width: 192, height: 144), ",
-     *  "'small' (width: 384, height: 288), 'regular' (width: 576, height: 432), 'large' (width: 768, ",
-     *  "height: 576), 'x-large' (width: 960, height: 720) and 'xx-large' (width: 1440, height: 1080). ",
-     *  "The user needs to select the appropriate size to fit the container."
+     *  "The display size for the video. The default size will be small if not mentioned.",
+     *  "The size options for the aspect ratio 16:9 are x-small (width: 256, height: 144), ",
+     *  "small (width: 512, height: 288), regular (width: 768, height: 432), large (width: 1024, ",
+     *  "height: 576), x-large (width: 1280, height: 720) and xx-large (width: 1920, height: 1080).",
+     *  "The size options for the aspect ratio 4:3 are x-small (width: 192, height: 144), ",
+     *  "small (width: 384, height: 288), regular (width: 576, height: 432), large width: 768, ",
+     *  "height: 576), x-large (width: 960, height: 720) and xx-large (width: 1440, height: 1080).",
+     *  "The user needs to select appropriate size to fit the container."
      * ]
      */
     size: TCH5VideoSize | string;
@@ -163,7 +163,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`zIndex` attribute",
      *  "***",
-     *  "The video display moves back and forth with regards to the z-axis."
+     *  "Display of the video moves front and back w.r.t z-axis."
      * ]
      */
     zIndex: string;
@@ -174,7 +174,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`controls` attribute",
      *  "***",
-     *  "When present, this specifies that video controls like start, stop, and fullscreen should be displayed."
+     *  "When present, it specifies that video controls like start, stop, fullscreen should be displayed."
      * ]
      */
     controls: TCH5VideoControls | string;
@@ -185,7 +185,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventOnClick` attribute",
      *  "***",
-     *  "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
+     *  "Send signal on click or tap event (mouse or finger up and down in a small period of time)."
      * ]
      */
     sendEventOnClick: string;
@@ -196,7 +196,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventSelectionChange` attribute",
      *  "***",
-     *  "Sends a signal on a source selection change."
+     *  "Send signal on source selection change."
      * ]
      */
     sendEventSelectionChange: string;
@@ -207,7 +207,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventSelectionSourceType` attribute",
      *  "***",
-     *  "The current selected source type."
+     *  "Current selected source type."
      * ]
      */
     sendEventSelectionSourceType: string;
@@ -218,7 +218,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventSelectionURL` attribute",
      *  "***",
-     *  "The current selected video URL."
+     *  "Current selected video URL."
      * ]
      */
     sendEventSelectionURL: string;
@@ -229,7 +229,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventSnapShotURL` attribute",
      *  "***",
-     *  "The current selected snapshot URL."
+     *  "Current selected snapshot URL."
      * ]
      */
     sendEventSnapShotURL: string;
@@ -240,7 +240,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventErrorCode` attribute",
      *  "***",
-     *  "The current video error code state."
+     *  "Current state video error code."
      * ]
      */
     sendEventErrorCode: string;
@@ -251,7 +251,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventErrorMessage` attribute",
      *  "***",
-     *  "The current video error message state."
+     *  "Current state video error message."
      * ]
      */
     sendEventErrorMessage: string;
@@ -262,7 +262,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventRetryCount` attribute",
      *  "***",
-     *  "The current video retry count state."
+     *  "Current state video retry count."
      * ]
      */
     sendEventRetryCount: string;
@@ -273,7 +273,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventResolution` attribute",
      *  "***",
-     *  "The current video resolution."
+     *  "Current video resolution."
      * ]
      */
     sendEventResolution: string;
@@ -284,7 +284,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventState` attribute",
      *  "***",
-     *  "The current state of the video associated with the current source selection."
+     *  "Current state of the video associated with the current source selection."
      * ]
      */
     sendEventState: string;
@@ -295,7 +295,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventSnapShotStatus` attribute",
      *  "***",
-     *  "The current state of the snapshot associated with the current source selection."
+     *  "Current state of the snapshot associated with the current source selection."
      * ]
      */
     sendEventSnapShotStatus: string;
@@ -317,7 +317,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateUrl` attribute",
      *  "***",
-     *  "The default value is empty. Defines the video URL as an attribute."
+     *  "Default empty. Defines the video URL as an attribute."
      * ]
      */
     receiveStateUrl: string;
@@ -328,7 +328,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateSnapShotURL` attribute",
      *  "***",
-     *  "Provides the still image URL to use when selection changes to an INDEX value."
+     *  "Provides the still image URL to use when selection changes to INDEX value."
      * ]
      */
     receiveStateSnapShotURL: string;
@@ -339,9 +339,9 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStatePlay` attribute",
      *  "***",
-     *  "When defined, this will play video only when the value is true and will stop video when the value is false. ",
-     *  "If not defined, the video will play whenever the component is visible. If defined with a value of false, ",
-     *  "the background of ch5-video--nosource css class is displayed."
+     *  "When defined, will play video only when the value is true, will stop video when value is false.",
+     *  "If not defined, the video will play whenever the component is visible.  If defined and value of false, ",
+     *  "display background of ch5-video--nosource css class."
      * ]
      */
     receiveStatePlay: string;
@@ -352,8 +352,8 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateSelect` attribute",
      *  "***",
-     *  "When defined, this will play 0-based index of the video source list. ",
-     *  "A value of <0 or >31 will select no video to play. A Value of 0 to 31 will play the selected video source ",
+     *  "When defined, will play 0-based index of the video source list.",
+     *  "Value of < 0 or > 31 will select no video to play Value of 0 to 31 will play the selected video source ",
      *  "provided the video source type (see receiveStateVideoSourceType) is valid. When not defined, ",
      *  "the first video source defined (equivalent of index 0) in the list will be played."
      * ]
@@ -366,7 +366,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateSourceType` attribute",
      *  "***",
-     *  "Provides the video source type when the selection changes to an INDEX value."
+     *  "Provides the video source type when the selection changes to INDEX value."
      * ]
      */
     receiveStateSourceType: string;
@@ -377,7 +377,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateSnapShotRefreshRate` attribute",
      *  "***",
-     *  "Defines the refresh rate for a still image url. 0 indicates no refresh."
+     *  "Defines the refresh rate for a still image url.  0 indicates no refresh."
      * ]
      */
     receiveStateSnapShotRefreshRate: string;
@@ -388,7 +388,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateUserId` attribute",
      *  "***",
-     *  "Provides the user ID for credentials supplied to a camera for a video URL."
+     *  "Provides the userid for credentials supplied to camera for video URL."
      * ]
      */
     receiveStateUserId: string;
@@ -399,7 +399,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateSnapShotUserId` attribute",
      *  "***",
-     *  "Provides the user ID for credentials supplied to a camera for an image URL."
+     *  "provides the userid for credentials supplied to camera for image URL."
      * ]
      */
     receiveStateSnapShotUserId: string;
@@ -410,7 +410,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStatePassword` attribute",
      *  "***",
-     *  "Provides the password for credentials supplied to a camera for a video URL."
+     *  "provides the password for credentials supplied to camera for video URL."
      * ]
      */
     receiveStatePassword: string;
@@ -421,7 +421,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStateSnapShotPassword` attribute",
      *  "***",
-     *  "Provides the password for credentials supplied to a camera for an image URL."
+     *  "Provides the password for credentials supplied to camera for image URL."
      * ]
      */
     receiveStateSnapShotPassword: string;
@@ -432,11 +432,11 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`receiveStatePositionChange` attribute",
      *  "***",
-     *  "The user must add onscroll event listener to the page where the video is added. When ",
-     *  "the user scrolls the page, the event is initiated and a boolean value true is published to indicate ",
-     *  "the video position has changed. When the user stops scrolling, a boolean value of false is published to indicate ",
+     *  "The user needs to add onscroll event listener to the page where the video is added. When ",
+     *  "the user scrolls the page the event is fired and a boolean value true is published to indicate ",
+     *  "the video position has changed. When user stops scrolling a boolean value false is published to indicate ",
      *  "the scroll has stopped. This helps the video component to know the position changes in the page and to ",
-     *  "move the video to a new position. This value is triggered within the UI layer and does not expect ",
+     *  "move the video to a new position. This value is triggered within the UI layer and do not expect ",
      *  "any value from the control system."
      * ]
      */
