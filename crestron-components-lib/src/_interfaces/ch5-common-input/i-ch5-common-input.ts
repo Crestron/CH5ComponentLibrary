@@ -18,7 +18,7 @@ export interface ICh5CommonInput extends ICh5CommonInputAttributes {
    * [
    * "`onclean` attribute",
    * "***",
-   * "Run when the clean event is initiated."
+   * "Runs when a clean event is initiated."
    * ]
    * @name onclean
    */
@@ -29,7 +29,7 @@ export interface ICh5CommonInput extends ICh5CommonInputAttributes {
    * [
    * "`ondirty` attribute",
    * "***",
-   * "Run when the dirty event is initiated."
+   * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
    */

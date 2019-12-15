@@ -19,7 +19,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * [
  * "`ch5-textinput` attribute",
  * "***",
- * "The TextEntry component allows the user to enter textual input. This is an extension of the",
+ * "The TextEntry component allows the user to enter textual input. This is an extension of the ",
  * "input HTML element."
  * ]
  * @snippets
@@ -82,7 +82,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * [
    *  "`onvaliditychange` attribute",
    *  "***",
-   * "Run when validity state of a input has been change"
+   * "Runs when the validity state of a input has been changed."
    * ]
    * @name onvaliditychange
    */
@@ -104,7 +104,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * [
    * "`scaling` attribute",
    * "***",
-   * "Scale the input font size when reaches the edge"
+   * "Scales the input font size when it reaches the edge."
    * ]
    * @name scaling
    */
@@ -116,7 +116,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * "`minimumfontsize` attribute",
    * "***",
    * "The minimum font size is applied when the input text exceeds the width of the input text box. ", 
-   * "This will work only if scaling attribute is set."
+   * "This will work only if a scaling attribute is set."
    * ]
    * @name minimumfontsize
    */
@@ -127,9 +127,9 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * [
    * "`tabIndex` attribute",
    * "***",
-   * "The tabindex global attribute indicates that its element",
-   * "can be focused, and where it participates in sequential",
-   * "keyboard navigation"
+   * "The tabIndex global attribute indicates that its element ",
+   * "can be focused and indicates where it places in sequential ",
+   * "keyboard navigation."
    * ]
    * @name tabindex
    */

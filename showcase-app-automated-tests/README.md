@@ -11,45 +11,45 @@ The reports are generated using [Allure Test Report](http://allure.qatools.ru/).
 
 The tests are currently only configured to run on Chrome.
 
-The tests are configured to run in a headless environment by default, if you want to make the tests visible while running use the specified visible commands.
-The gestures tests are currently not working on Chrome for Mac because of a known issue within chromedriver
+The tests are configured to run in a headless environment by default. If you want to make the tests visible while running, use the specified visible commands.
+The gestures tests are currently not working on Chrome for Mac because of a known issue within chromedriver.
 
-- the issue can be found at <https://bugs.chromium.org/p/chromedriver/issues/detail?id=2144>
-- until the known issue is fixed the gestures tests are not included in the ```yarn run test:all``` command, use ```yarn run test:gestures``` to run them.
+- The issue can be found at <https://bugs.chromium.org/p/chromedriver/issues/detail?id=2144>
+- Until the known issue is fixed, the gestures tests are not included in the ```yarn run test:all``` command, so use ```yarn run test:gestures``` to run them.
 
-## Things to do before running
+## What to do before running
 
 ### Install dependencies
 
-From the current folder (the one containing this readme file) run:
+From the current folder (the one containing this readme file), run:
 
 ```yarn install```
 
 ### Running
 
-Make sure the showcase app is started on port 127.0.0.1:8080. Go to the showcase-app folder and run
+Ensure the showcase app is started on port 127.0.0.1:8080. Go to the showcase-app folder and run
 
 ```yarn start```
 
-From the current folder (the one containing this readme file) run:
+From the current folder (the one containing this readme file), run:
 
-- to run all the tests
+- To run all the tests
 
 ```yarn run test:all```
 ```yarn run test:all-visible``` 
 
 
-- to run only the tests with gestures:
+- To run only the tests with gestures:
 
 ```yarn run test:gestures```
 ```yarn run test:gestures-visible```
 
-- to run only the tests without gestures
+- To run only the tests without gestures
 
 ```yarn test```
 ```yarn run test-visible``` 
 
-- to run a specific spec file:
+- To run a specific spec file:
 
 ```yarn test -- --spec .build/specs/FILE_NAME.specs.js``` 
     (npm test -- --spec .build/specs/ch5-slider.specs.js -> to only run the ch5-slider tests for example)
@@ -57,7 +57,7 @@ From the current folder (the one containing this readme file) run:
     
 ### Reports
 
-From the current folder (the one containing this readme file) run:
+From the current folder (the one containing this readme file), run:
 
-```yarn run reports``` - to generate a report from the folder "allure-results" and open it in the browser
-```yarn run test:all``` - report results in junit xml format in folder "junit-xml" 
+```yarn run reports``` - To generate a report from the folder "allure-results" and open it in the browser
+```yarn run test:all``` - Report results in junit xml format in folder "junit-xml" 

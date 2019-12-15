@@ -19,7 +19,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`size` attribute",
    * "***",
-   * "Initial number of entries in selection. Default to 1, Range 1-30"
+   * "The initial number of entries in a selection. The default value is 1. The accepted range is 1-30."
    * ]
    * @name size
    *
@@ -31,9 +31,9 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values are 'first' and 'last'. Default is 'first'.",
-   * "This attribute only applies when a template is not provided",
-   * "and the implied template is in use. If template is provided,",
+   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
+   * "This attribute only applies when a template is not provided ",
+   * "and the implied template is in use. If a template is provided, ",
    * "this property is ignored."
    * ]
    * @name iconposition
@@ -46,8 +46,8 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`selectedvalud` attribute",
    * "***",
-   * "Default of false, true if multiple selections can be selected.",
-   * "If true, the value of the select will be an array of values"
+   * "The default value is false. Set to true if multiple selections can be selected. ",
+   * "If true, the value of the selection will be an array of values."
    * ]
    * @name selectedvalue
    *
@@ -59,7 +59,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`scrollheight` attribute",
    * "***",
-   * "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select"
+   * "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select. "
    * ]
    * @name panelscrollheight
    *
@@ -71,7 +71,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`minwidth` attribute",
    * "***",
-   * "Min width of the select container"
+   * "The min width of the selection container."
    * ]
    * @name minwidth
    */
@@ -82,7 +82,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`maxwidth` attribute",
    * "***",
-   * "Max width of the select container"
+   * "The max width of the selection container."
    * ]
    * @name maxwidth
    */
@@ -93,7 +93,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`minheight` attribute",
    * "***",
-   * "Min height of the select container"
+   * "The min height of the selection container."
    * ]
    * @name minheight
    */
@@ -104,7 +104,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`maxheight` attribute",
    * "***",
-   * "Max height of the select container"
+   * "The max height of the selection container."
    * ]
    * @name maxheight
    */
@@ -115,9 +115,9 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`mode` attribute",
    * "***",
-   * "Two choices below. Default is 'plain'",
-   * "plain - select menu opens and closes as clicked by user",
-   * "panel – select menu stays open even when not in focus"
+   * "Two values are possible as show below. The default value is 'plain'. ",
+   * "plain - The select menu opens and closes as clicked by user. ",
+   * "panel – The select menu stays open even when not in focus."
    * ]
    * @name mode
    *
@@ -129,7 +129,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   * "Allow the form submission functionality. direct, submit"
+   * "Allows the form submission functionality. Valid values: 'direct', 'submit'."
    * ]
    * @name feedbackmode
    *
@@ -141,10 +141,10 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`signalvaluesynctimeout` attribute",
    * "***",
-   * "Default 1500. Defines the time between the user release the",
-   * "handle of the toggle and the time the toggle will check if the",
-   * "value is equal with the value from the signal. If not it will",
-   * "automatically apply the value from the signal. Apply only for feedbackMode direct"
+   * "The default valus is 1500. Defines the time between when the user releases the ",
+   * "toggle handle and the time the toggle will check if the ",
+   * "value is equal with the value from the signal. If the value is not equal, it will ",
+   * "apply the value from the signal automatically. Apply only for feedbackMode direct."
    * ]
    * @name signalvaluesynctimeout
    *
@@ -156,8 +156,8 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`indexid` attribute",
    * "***",
-   * "Provides the name of the offset identifier to substituted with",
-   * "1 based index of the item in list within the template item",
+   * "Provides the name of the offset identifier to be substituted with ",
+   * "a 1-based index of the item in a list within the template item ",
    * "surrounded by {{ }} delimiters."
    * ]
    * @name indexid
@@ -170,7 +170,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`noneselectedprompt` attribute",
    * "***",
-   * "Showed when none of the items is selected"
+   * "Showed when no items are selected."
    * ]
    * @name noneselectedprompt
    */
@@ -181,9 +181,9 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestatevalue` attribute",
    * "***",
-   * "When receive change the selected value of this selector. this is only applicable for",
-   * "multiselect=false. 1 based index is expected.",
-   * "Value 0 indicates all are be unselected"
+   * "When received, changes the selected value of this selector. This is only applicable for ",
+   * "multiselect=false. A 1-based index is expected. ",
+   * "Value 0 indicates all will be unselected."
    * ]
    * @name receivestatevalue
    *
@@ -195,7 +195,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestatesize` attribute",
    * "***",
-   * "Sets the number of items in this component"
+   * "Sets the number of items in this component."
    * ]
    * @name receivestatesize
    *
@@ -207,7 +207,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestatetemplatevars` attribute",
    * "***",
-   * "Json encoded array of name/value objects, one per item created from the template."
+   * "A JSON-encoded array of name/value objects, with one per item created from the template."
    * ]
    * @name receivestatetemplatevars
    *
@@ -219,7 +219,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`snedsignalonfocus` attribute",
    * "***",
-   * "send signal on focus event. True in focus. False not in focus"
+   * "Send a signal on the focus event. Set to true if in focus and set to false if not in focus."
    * ]
    * @name sendeventonfocus
    *
@@ -231,8 +231,8 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonchange` attribute",
    * "***",
-   * "send signal value on selected change. this is only applicable for multiselect=false.",
-   * "1 based index is expected. Value 0 indicates all are be unselected"
+   * "Sends a signal value on the selected change. Shis is only applicable for multiselect=false. ",
+   * "A 1-based index is expected. Value 0 indicates all will be unselected."
    * ]
    * @name sendeventonchange
    *

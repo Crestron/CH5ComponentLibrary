@@ -18,9 +18,9 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * [
  *   "`ch5-form` element",
  *   "***",
- *   "This component provides a container for which 'input' like components (such as TextEntry,",
- *   "Slider, Toggle Switch, Select, and Spinner) can be grouped together to update their send signals upon a",
- *   "'submit' button press or to revert to their receive signal value upon a 'cancel' button press."
+ *   " This component provides a container for which 'input' style components, such as TextEntry, ",
+ *   "Slider, Toggle Switch, Select, and Spinner, can be grouped together to update their send signals upon a ",
+ *   "Submit button press or to revert to their receive signal value upon a Cancel button press."
  * ]
  * @snippets
  * [
@@ -130,7 +130,7 @@ export interface ICh5Form extends ICh5FormAttributes, ICh5Common {
    * [
    * "`hidesubmitbutton` attribute",
    * "***",
-   * "If the value is true, the submit button is not shown."
+   * "If true, the Submit button is not shown."
    * ]
    */
   hideSubmitButton: TBoolAttribute;
@@ -141,7 +141,7 @@ export interface ICh5Form extends ICh5FormAttributes, ICh5Common {
    * [
    * "`hidecancelbutton` attribute",
    * "***",
-   * "If the value is true, the cancel button is not shown."
+   * "If true, the Cancel button is not shown."
    * ]
    */
   hideCancelButton: TBoolAttribute;

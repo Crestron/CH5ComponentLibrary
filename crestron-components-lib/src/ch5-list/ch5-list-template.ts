@@ -26,7 +26,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 
     /**
      * Tracks the endless attribute
-     * 
+     *
      * @type {boolean}
      */
     public endless: boolean = false;
@@ -81,7 +81,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
     /**
      * Process items (template) for each IDX
      * @param uid  = list id
-     * @param index = idx increment starting from 1
+     * @param index = idx increment starting from 0
      */
     public processTemplate(uid: string, index: number, templateVars: string | null): HTMLElement {
         this._list.info(`ch5-list-template - processTemplate`);
@@ -245,10 +245,12 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         // update first buffered elements
         this._list._bufferedItems.bufferActive = this._list._canUseBufferAmount(firstRenderVisibleItemsNr);
         if (this._list._bufferedItems.bufferActive) {
-            this._list._bufferedItems.bufferForwardStartIndex = firstRenderVisibleItemsNr + 1;
+            // orig: this._list._bufferedItems.bufferForwardStartIndex = firstRenderVisibleItemsNr + 1;
+            this._list._bufferedItems.bufferForwardStartIndex = firstRenderVisibleItemsNr;
             // always init bufferBackwardsStartIndex, even list is not endless
             // we need this when buffered items are created
             if (this._list.size !== null) {
+                // orig: this._list._bufferedItems.bufferBackwardsStartIndex = Number(this._list.size);
                 this._list._bufferedItems.bufferBackwardsStartIndex = Number(this._list.size);
             }
 
@@ -393,7 +395,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         if (this._list.size !== null) {
 
             const itemSize = this._list.isHorizontal ? this._list.itemOffsetWidth : this._list.itemOffsetHeight;
-            const containerSize = this._list.isHorizontal ? this._list.storedOffsetWidth : this._list.storedOffsetHeight;
+            const containerSize = this._list.sizeResolver.viewPortSize;
 
             // used to extract scrollbar size from containerSize if it is endless
             let divListSize = containerSize;
@@ -530,12 +532,10 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         if (this._list.divList.childElementCount > 0) {
             const divListSizeDetails: ClientRect | DOMRect = this._list.divList.getBoundingClientRect();
             const firstItem = this._list.divList.children[0] as HTMLElement;
-            const listViewportBoundingRect: ClientRect | DOMRect = this._list.getBoundingClientRect();
 
             this._list.divListWidth = divListSizeDetails.width;
             this._list.divListHeight = divListSizeDetails.height;
-            this._list.viewportClientHeight = listViewportBoundingRect.height;
-            this._list.viewportClientWidth = listViewportBoundingRect.width;
+            this.updateViewportSize();
 
             setTimeout(() => {
                 // setting the list offset and client sizes
@@ -544,8 +544,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
                 this._list.itemOffsetWidth = firstItem.offsetWidth;
                 this._list.divListWidth = divListSizeDetails.width;
                 this._list.divListHeight = divListSizeDetails.height;
-                this._list.viewportClientHeight = listViewportBoundingRect.height;
-                this._list.viewportClientWidth = listViewportBoundingRect.width;
+                this.updateViewportSize();
             });
 
             if (firstItem instanceof HTMLElement) {
@@ -559,9 +558,29 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
     }
 
     /**
+     * Updates the viewport size
+     * 
+     * @param {number} viewportSize specified value for viewportsize
+     */
+    public updateViewportSize(viewportSize: number = 0) {
+
+        if (!viewportSize) {
+            const listViewportBoundingRect: ClientRect | DOMRect = this._list.getBoundingClientRect();
+            viewportSize = this._list.isHorizontal ? listViewportBoundingRect.width : listViewportBoundingRect.height;
+        }
+
+        if (!this._list.isHorizontal) {
+            this._list.viewportClientHeight = viewportSize;
+            return;
+        }
+        
+        this._list.viewportClientWidth = viewportSize;
+    }
+
+    /**
      * Resolve the endless list when the number of items visible in the list
      * is the same as the list size. Then is not need the list to be endless.
-     * 
+     *
      * @return {void}
      */
     public resolveEndlessViewportSize(): void {
@@ -594,7 +613,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         let pxScrollPosition;
         let direction = 1;
 
-        // horizontal rtl needs special handling; all other cases are the same        
+        // horizontal rtl needs special handling; all other cases are the same
         if ((this._list.isVertical || this._list.direction === Ch5Common.DIRECTION[0]) && position > 0) {
             percentageScrollPosition = 100 - percentageScrollPosition;
             direction = -1;

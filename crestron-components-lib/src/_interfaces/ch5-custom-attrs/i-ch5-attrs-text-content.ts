@@ -15,8 +15,8 @@ import { ICustomAttribute } from "./helpers/i-custom-attribute";
  * [  
  *  "`data-ch5-textcontent` custom attribute",
  *  "***",
- *  "The 'data-ch5-textcontent' custom HTML attribute allows for dynamic text content to be applied to",
- *  "standard HTML elements such as <p> and <h1-6>. The attribute value is signalScript as described in the",
+ *  "The 'data-ch5-textcontent' custom HTML attribute allows for dynamic text content to be applied to ",
+ *  "standard HTML elements such as <p> and <h1-6>. The attribute value is signalScript as described in the ",
  *  "ch5.subscribeStateScript utility function description."
  * ]
  */

@@ -17,7 +17,7 @@ export interface ICh5ModalDialogAttributes {
      * [
      * "`closeicon` attribute",
      * "***",
-     * "A class name of the close icon, it may be a font awesome class"
+     * "A class name of the close icon. It may be a font awesome class."
      * ]
      * @name closeicon
      */
@@ -28,9 +28,9 @@ export interface ICh5ModalDialogAttributes {
      * [
      * "`stretch` attribute",
      * "***",
-     * "Valid values are 'width', 'height', and 'both'. The component will stretch to",
-     * "the available width or the available height in the parent component. Using",
-     * "'both' it will stretch both ways."
+     * "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
+     * "the available width or the available height in the parent component. Using ",
+     * "'both' will stretch the component both ways."
      * ]
      * @name stretch
      */
@@ -41,11 +41,11 @@ export interface ICh5ModalDialogAttributes {
      * [
      * "`overflow` attribute",
      * "***",
-     * "Valid values are 'scroll' and 'show'. The overflow property specifies what",
-     * "happens if content overflows the component box or not.",
-     * "This is related with stretch property. This property specifies whether to add",
-     * "scrollbars when an element's content is too big to fit in a specified area.",
-     * "If 'show' is selected the overflow is not clipped."
+     * "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
+     * "happens if content does or does not overflow the component box. ",
+     * "This is related to the stretch property. This property specifies whether to add ",
+     * "scrollbars when an element's content is too big to fit in a specified area. ",
+     * "If 'show' is selected, the overflow is not clipped."
      * ]
      * @name overflow
      */
@@ -56,7 +56,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`width` attribute",
    * "***",
-   * "The width of the modal dialog, in pixels. Must be a string of the form Npx"
+   * "The width of the modal dialog, in pixels. Must be a string of the form Npx."
    * ]
    * @name width
    */
@@ -67,7 +67,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`height` attribute",
    * "***",
-   * "The height of the modal dialog, in pixels. Must be a string of the form Npx"
+   * "The height of the modal dialog, in pixels. Must be a string of the form Npx."
    * ]
    * @name height
    */
@@ -78,7 +78,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`title` attribute",
    * "***",
-   * "The title of the modal dialog. Must be a string"
+   * "The title of the modal dialog. Must be a string."
    * ]
    * @name title
    */
@@ -89,7 +89,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`maskstyle` attribute",
    * "***",
-   * "Header title text. If absent or empty, hide the title bar"
+   * "The Header title text. If absent or empty, the title bar will be hidden."
    * ]
    * @name maskstyle
    */
@@ -99,7 +99,7 @@ export interface ICh5ModalDialogAttributes {
    * @documentation
    * [
    * "`okbuttonlabel` attribute",
-   * "Ok button text. If absent or empty the default translated 'OK' text will show."
+   * "The OK button text. If absent or empty, the default translated 'OK' text is shown."
    * ]
    * @name okbuttonlabel
    */
@@ -110,7 +110,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`okbuttonicon` attribute",
    * "***",
-   * "Ok button icon. If absent or empty, hide the icon"
+   * "The OK button icon. If absent or empty, the icon is hidden."
    * ]
    * @name okbuttonicon
    */
@@ -121,7 +121,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`okbuttonstyle` attribute",
    * "***",
-   * "Inline style value for the ok button to override theme."  
+   * "The inline style value for the OK button to override the theme."  
    * ]
    * @name okbuttonstyle
    */
@@ -132,8 +132,8 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`cancelbuttonlabel` attribute",
    * "***",
-   * "Cancel button text. If absent or empty the default translated 'Cancel' text",
-   * "will show"
+   * "The Cancel button text. If absent or empty, the default translated 'Cancel' text ",
+   * "is shown."
    * ]
    * @name cancelbuttonlabel
    */
@@ -144,7 +144,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`cancelbuttonicon` attribute",
    * "***",
-   * "Cancel button icon. If absent or empty, hide the icon"
+   * "The Cancel button icon. If absent or empty, the icon is hidden."
    * ]
    * @name cancelbuttonicon
    */
@@ -155,7 +155,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`cancelbuttonstyle` attribute",
    * "***",
-   * "Inline style value for the cancel button to override theme."
+   * "The inline style value for the Cancel button to override the theme."
    * ]
    * @name cancelbuttonstyle
    */
@@ -166,7 +166,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`prompt` attribute",
    * "***",
-   * "Optional Text of message."
+   * "The optional text for a message."
    * ]
    * @name prompt
    */
@@ -177,7 +177,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`prompticon` attribute",
    * "***",
-   * "Icon that appears next to prompt text"
+   * "The icon that appears next to prompt text"
    * ]
    * @name prompticon
    */
@@ -188,7 +188,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`sendeventonbeforeshow` attribute",
    * "***",
-   * "The name of the boolean signal that will be sent to native just before the panel is shown."
+   * "The name of the boolean signal that will be sent to Native just before the panel is shown."
    * ]
    * @name sendeventonbeforeshow
    */
@@ -199,7 +199,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`sendeventonaftershow` attribute",
    * "***",
-   * "The name of the boolean signal that will be sent to native after the panel is shown."
+   * "The name of the boolean signal that will be sent to Native after the panel is shown."
    * ]
    * @name sendeventonaftershow
    */
@@ -210,7 +210,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`sendeventonbeforehide` attribute",
    * "***",
-   * "The name of the boolean signal that will be sent to native before the panel is hidden."
+   * "The name of the boolean signal that will be sent to Native before the panel is hidden."
    * ]
    * @name sendeventonbeforehide
    */
@@ -221,7 +221,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`sendeventonafterhide` attribute",
    * "***",
-   * "The name of the boolean signal that will be sent to native after the panel is hidden."
+   * "The name of the boolean signal that will be sent to Native after the panel is hidden."
    * ]
    * @name sendeventonafterhide
    */
@@ -232,7 +232,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`sendeventonok` attribute",
    * "***",
-   * "The name of the boolean signal that will be sent when the Ok button is pressed"
+   * "The name of the boolean signal that will be sent when the OK button is pressed."
    * ]
    * @name sendeventonok
    */
@@ -243,7 +243,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`sendeventoncancel` attribute",
    * "***",
-   * "The name of the boolean signal that will be sent when the Cancel button is pressed"
+   * "The name of the boolean signal that will be sent when the Cancel button is pressed."
    * ]
    * @name sendeventoncancel
    */

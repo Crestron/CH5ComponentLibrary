@@ -17,8 +17,8 @@ export interface ICh5Gestureable {
    * [
    * "`gestureable` attribute",
    * "***",
-   * "The default value is false. When set to true, gesturing will be supported.",
-   * "Adding this attribute will change the behavior inside of the component."
+   * "The default value is false. When set to true, gesturing will be supported. ",
+   * "Adding this will change the behavior inside of the component."
    * ]
    * @name gestureable
    */

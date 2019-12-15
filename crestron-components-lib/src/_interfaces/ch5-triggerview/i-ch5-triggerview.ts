@@ -19,7 +19,7 @@ import { ICh5Gestureable } from "../ch5-common/i-ch5-gestureable";
  * [
  * "`ch5-triggerview` element",
  * "***",
- * "Container-like component for organizing content into multiple subgroups (ch5-triggerview-child), each ChildView can be viewed as a separate page or tab."
+ * "A container-like component for organizing content into multiple subgroups (ch5-triggerview-child). Each ChildView can be viewed as a separate page or tab."
  * ]
  * @snippets
  * [
@@ -89,7 +89,7 @@ export interface ICh5TriggerView extends ICh5Gestureable, ICh5TriggerviewAttribu
    * [
    * "`endless` attribute",
    * "***",
-   * "Default false. We can call nextChildView method on the last viewchild to open the first-child"
+   * "The default value is false. The nextChildView method can be called on the last ChildView to open the first-child."
    * ]
    * @name endless
    */
@@ -100,9 +100,9 @@ export interface ICh5TriggerView extends ICh5Gestureable, ICh5TriggerviewAttribu
    * [
    * "`gestureable` attribute",
    * "***",
-   * "Default false. When set to true the gesturing will be supported. Adding this will",
-   * "change the behavior inside of the component.",
-   * "You can find more Gesture - Use Cases."
+   * "The default value is false. When set to true, gesturing will be supported. Adding this will ",
+   * "change the behavior inside of the component. ",
+   * "Refer to Gesture - Use Cases for more information."
    * ]
    * @name gestureable
    */
@@ -113,7 +113,7 @@ export interface ICh5TriggerView extends ICh5Gestureable, ICh5TriggerviewAttribu
    * [
    * "`nested` attribute",
    * "***",
-   * "Boolean attribute used to flag that ch5-triggerview is child element on ch5-triggerview-child"
+   * "A boolean attribute used to flag that ch5-triggerview is the child element on ch5-triggerview-child."
    * ]
    * @name nested
    */

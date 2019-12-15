@@ -16,15 +16,15 @@ import { ICh5Common } from "../ch5-common";
  * [
  *    "`ch5-import-htmlsnippet` element",
  *    "***",
- *    "A component to load HTML snippets during runtime.",
- *    "This component allows the users to load HTML snippets. The snippets should not contain HTML, HEAD, and BODY tags.",
+ *    "The component used to load HTML snippets during run time. ",
+ *    "This component allows users to load HTML snippets. The snippets should not contain HTML, HEAD, and BODY tags. ",
  *    "Users can modularize the HTML files into pages or sections using this component, ",
- *    "and it inserts the snippet into the DOM at the respective location ",
- *    "during runtime.",
- *    "The afterload event occurs when an HTML snippet has been loaded and inserted into the DOM.",
+ *    "and the snippet is inserted into the DOM at the respective loction ",
+ *    "during run time. ",
+ *    "An afterload event occurs when a snippet HTML has been loaded and inserted into the DOM. ",
  *    "Afterload is most often used within the ch5-import-htmlsnippet element to execute a script once an HTML ",
- *    "snippet has loaded all content completely (including images, script files, CSS files, an so forth).",
- *    "To import the snippet in Angular, the source directory must be added in the angular.json file as shown below:",
+ *    "snippet has completely loaded all content (including images, script files, CSS files, etc.). ",
+ *    "To import the snippet in Angular, the source directory must be added in angular.json file as follows: ",
  *    "     \"assets\": [",
  *    "         \"src\/assets\/htmlsnippets\" ",
  *    "     ]"
@@ -67,7 +67,7 @@ export interface ICh5importHtmlSnippet extends ICh5ImportHtmlSnippetAttributes, 
      * [
      * "`receiveStateShowPulse` attribute",
      * "***",
-     * "On transition from false to true, this signal will reveal the component."
+     * "On transition from false to true, this signal will direct the component to be visible."
      * ]
      * @name receivestateshowpulse
      */
@@ -78,7 +78,7 @@ export interface ICh5importHtmlSnippet extends ICh5ImportHtmlSnippetAttributes, 
      * [
      * "`receiveStateHidePulse` attribute",
      * "***",
-     * "On transition from false to true, the signal will hide the component from view."
+     * "On transition from false to true, the signal will direct if the component to no longer be visible."
      * ]
      * @name receivestatehidepulse
      */
@@ -89,8 +89,7 @@ export interface ICh5importHtmlSnippet extends ICh5ImportHtmlSnippetAttributes, 
      * [
      * "`receiveStateShow` attribute",
      * "***",
-     * "The boolean value of the signal determines if the component is visible to the user.",
-     * "A true value indicates that the component is visible."
+     * "While true, the boolean value of the signal determines if the component is visible."
      * ]
      * @name receivestateshow
      */
