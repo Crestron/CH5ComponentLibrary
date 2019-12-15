@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { AddInitialTick } from './tick';
+import { Ch5Common } from "../../ch5-common/ch5-common";
 
 export interface IViewportDetails {
     width: number;
@@ -53,6 +54,7 @@ export function GetViewportDetails(): IViewportDetails {
         resized,
         scrolled,
     };
+
 }
 
 // Private functions
@@ -81,4 +83,45 @@ function addHeightElement(): HTMLElement {
     elem.style.height = '100vh';
     document.documentElement.appendChild(elem);
     return elem;
+}
+
+function getAspectRatioWidth(pixelWidth: number, aRatio: any) {
+    let pHeight: number = 0;
+    pHeight = pixelWidth / aRatio.width * aRatio.height;
+    pHeight = parseFloat(pHeight.toFixed(2));
+    return pHeight;
+}
+
+function getAspectRatioHeight(pixelHeight: number, aRatio: any) {
+    let pWidth: number = 0;
+    pWidth = pixelHeight / aRatio.height * aRatio.width;
+    pWidth = parseFloat(pWidth.toFixed(2));
+    return pWidth;
+}
+
+function aspectRatioCalculation(ratioWidth: number, ratioHeight: number, pixelWidth: number, pixelHeight: number) {
+    const pWidth: number = pixelWidth - (pixelWidth % ratioWidth);
+    const pHeight: number = pixelHeight - (pixelHeight % ratioHeight);
+
+    const roundedWidth: number = pWidth - (pWidth % ratioWidth);
+    const roundedHeight: number = pHeight - (pHeight % ratioHeight);
+
+    let pw = roundedWidth;
+    let ph = roundedHeight;
+
+    const aRatio = { width: ratioWidth, height: ratioHeight };
+    ph = getAspectRatioWidth(roundedWidth, aRatio);
+
+    if (ph > pHeight) {
+        ph = roundedHeight;
+        pw = getAspectRatioHeight(roundedHeight, aRatio);
+    }
+
+    return ({ width: pw, height: ph });
+}
+
+export function getAspectRatio(ratioWidth: number, ratioHeight: number, viewPortSize: number) {
+    const pixelVH = Ch5Common.convertVhUnitsToPx(viewPortSize);
+    const pixelVW = Ch5Common.convertVwUnitsToPx(viewPortSize);
+    return aspectRatioCalculation(ratioWidth, ratioHeight, pixelVW, pixelVH);
 }
