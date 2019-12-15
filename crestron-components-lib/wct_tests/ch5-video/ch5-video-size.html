@@ -41,25 +41,8 @@
     </template>
 </test-fixture>
 <script>
-    const aspectRatio16x9 = {
-        "xx-large": { width: 1920, height: 1080 },
-        "x-large": { width: 1280, height: 720 },
-        "large": { width: 1024, height: 576 },
-        "regular": { width: 768, height: 432 },
-        "small": { width: 512, height: 288 },
-        "x-small": { width: 256, height: 144 }
-    };
 
-    const aspectRatio4x3 = {
-        "xx-large": { width: 1440, height: 1080 },
-        "x-large": { width: 960, height: 720 },
-        "large": { width: 768, height: 576 },
-        "regular": { width: 576, height: 432 },
-        "small": { width: 384, height: 288 },
-        "x-small": { width: 192, height: 144 }
-    };
-
-    const  availablesizes = ['x-small', 'small', 'regular', 'large', 'x-large'];
+    const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
     
     suite('ch5-video x-small size', function() {
         let ch5Video;
@@ -91,7 +74,7 @@
             });
         });
 
-        test('Canvas height should be 144 for aspectratio "16:9" and size "x-small"', function(done) {
+        test('Canvas height should be 25vw and 25vh for aspectratio "16:9" and size "x-small"', function(done) {
             flush(function() {
                 let canvasEl = ch5Video.querySelector('canvas');
                 expect(canvasEl.height).to.be.equal(aspectRatio16x9['x-small'].height);
@@ -122,22 +105,6 @@
             expect(ch5Video.size).to.be.a('string');
         });
 
-        test('Canvas height must be 288 for aspectratio "16:9" and size "small"', function(done) {
-            flush(function() {
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.height).to.be.equal(aspectRatio16x9['small'].height);
-                done();
-            });
-        });
-
-        test('Canvas width must be 512 for aspectratio "16:9" and size "small"', function(done) {
-            flush(function() {
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.width).to.be.equal(aspectRatio16x9['small'].width);
-                done();
-            });
-        });
-
          test('controls element should have small class if size attribute having "small" value', function(done) {
                flush(function() {
                   let controls = ch5Video.querySelector('.controls');
@@ -161,21 +128,6 @@
             expect(ch5Video.size).to.be.a('string');
         });
 
-        test('Canvas height must be 576 for aspectratio "4:3" and size "large"', function(done) {
-            flush(function() {
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.height).to.be.equal(aspectRatio4x3['large'].height);
-                done();
-            });
-        });
-
-        test('Canvas width must be 768 for aspectratio "4:3" and size "large"', function(done) {
-            flush(function() {
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.width).to.be.equal(aspectRatio4x3['large'].width);
-                done();
-            });
-        });
 
          test('controls element should have large class if size attribute having "large" value', function(done) {
                flush(function() {
