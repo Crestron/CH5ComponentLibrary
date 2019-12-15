@@ -18,10 +18,10 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`url` attribute",
    * "***",
-   * "Use when one or more image URLs will be used as a background.",
+   * "For when one or more image URLs will be used as the background.",
    * "Supported image types include JPEG, PNG, SVG, and BMP.",
-   * "Motion GIFs are not supported. Multiple RLs can be provided ",
-   * "separated by a | (vertical bar) to have images cycled over time."
+   * "Animated GIFs are not supported. Multiple URLs can be provided ",
+   * "separated by | (vertical bar) to have images cycle over time."
    * ]
    * @name url
    */
