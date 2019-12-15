@@ -17,7 +17,6 @@ export type TAspectRatio = {
     "xx-large": TDimension;
     "x-large": TDimension;
     "large": TDimension;
-    "regular": TDimension;
     "small": TDimension;
     "x-small": TDimension;
 }

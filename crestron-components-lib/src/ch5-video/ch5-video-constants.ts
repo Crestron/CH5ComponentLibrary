@@ -5,28 +5,35 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { TAspectRatio } from "../_interfaces/ch5-video/types";
+import { getAspectRatio } from "../ch5-common/utils/viewport";
 
 /**
- * Aspect Ratio Sizes for 16:9 Resolution
+ * Get the Aspect Ratio of the video based on the viewport size
+ * @param ratioWidth 
+ * @param ratioHeight 
+ * @param size 
  */
-export const aspectRatio16x9: TAspectRatio = {
-    "xx-large": { width: 1920, height: 1080 },
-    "x-large": { width: 1280, height: 720 },
-    "large": { width: 1024, height: 576 },
-    "regular": { width: 768, height: 432 },
-    "small": { width: 512, height: 288 },
-    "x-small": { width: 256, height: 144 }
-}
-
-/**
- * Aspect Ratio Sizes for 4:3 Resolution
- */
-export const aspectRatio4x3: TAspectRatio = {
-    "xx-large": { width: 1440, height: 1080 },
-    "x-large": { width: 960, height: 720 },
-    "large": { width: 768, height: 576 },
-    "regular": { width: 576, height: 432 },
-    "small": { width: 384, height: 288 },
-    "x-small": { width: 192, height: 144 }
+export function aspectRatio(ratioWidth: number, ratioHeight: number, size: string) {
+    let sizeObj: { width: number, height: number };
+    switch (size) {
+        case 'xx-large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 85);
+            break;
+        case 'x-large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 70);
+            break;
+        case 'large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+            break;
+        case 'small':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 40);
+            break;
+        case 'x-small':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 25);
+            break;
+        default:
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+            break;
+    }
+    return sizeObj;
 }
