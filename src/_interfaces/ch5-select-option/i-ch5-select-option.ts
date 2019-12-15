@@ -18,7 +18,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * [
  * "`ch5-select-option` element",
  * "***",
- * "Extension to standard HTML option element"
+ * "An extension to standard HTML option element."
  * ]
  */
 export interface ICh5SelectOption extends ICh5SelectOptionAttributes, ICh5Common {
@@ -27,7 +27,7 @@ export interface ICh5SelectOption extends ICh5SelectOptionAttributes, ICh5Common
      * [
      * "`useDefaultTmpl` attribute",
      * "***",
-     * "Option to initialise ch5-select with the default template"
+     * "Provides the ability to initialise ch5-select with the default template."
      * ]
      * @name usedefaulttmpl
      */

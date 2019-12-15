@@ -16,9 +16,9 @@ import { Ch5AttrShowTypes } from "./types/ch5-attr-show-types";
  * [
  *  "`data-ch5-noshow-type` custom attribute",
  *  "***",
- *  "The 'data-ch5-noshow-type' custom attribute is related to HTML custom attribute 'data-ch5-show'",
- *  "and overrides the way in which a component is made invisible.",
- *  "Crestron Components library will default the 'noshow' type based upon the element type."
+ *  "The 'data-ch5-noshow-type' custom attribute is related to the HTML custom attribute 'data-ch5-show' ",
+ *  "and overrides the way in which a Component is made invisible. ",
+ *  "The Crestron Components library will default the 'noshow' type based upon the element type."
  * ]
  */
 export interface ICh5AttrsNoshowType extends ICustomAttribute<Ch5AttrShowTypes> {

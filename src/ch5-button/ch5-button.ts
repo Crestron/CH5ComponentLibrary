@@ -90,7 +90,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * The first value is considered the default one
      */
-    public static SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+    public static SIZES: TCh5ButtonSize[] = ['', 'regular', 'x-small', 'small', 'large', 'x-large'];
     /**
      * The first value is considered the default one
      */
@@ -190,7 +190,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      *
      * HTML attribute name: size
      */
-    private _size: TCh5ButtonSize = 'regular';
+    private _size: TCh5ButtonSize = '';
 
     /**
      * When stretch property is set, the button element inherits the width or/and height of the container.
@@ -515,7 +515,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         // sizes
         Ch5Button.SIZES.forEach((size: TCh5ButtonSize) => {
-            cssClasses.push(this.cssClassPrefix + '--size-' + size);
+            if ('' !== size) {
+                cssClasses.push(this.cssClassPrefix + '--size-' + size);
+            }
         });
 
         // stretches
@@ -669,7 +671,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.type);
 
         // size
-        setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--size-' + this.size);
+        if ('' !== this.size) {
+            setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--size-' + this.size);
+        }
 
         // stretch
         if ('' !== this.stretch) {
@@ -1778,6 +1782,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onMouseUp() {
         this.cancelPress();
+        // button does not gain focus when its cliked in safari
+        if (isTouchDevice()) {
+            this._sendOnClickSignal();
+        }
     }
 
     private async _onPress(event: TouchEvent) {

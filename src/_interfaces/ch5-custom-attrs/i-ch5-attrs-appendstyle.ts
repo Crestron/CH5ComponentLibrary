@@ -15,8 +15,8 @@ import { ICustomAttribute } from "./helpers/i-custom-attribute";
  *  "`data-ch5-appendstyle` custom attribute",
  *  "***",
  *  "The 'data-ch5-appendstyle' custom HTML attribute appends the value of a signal to the 'style' attribute ",
- *  "on a standard HTML element. A change in the value of the signal will remove the prior value of the",
- *  "signal and append the new value. "
+ *  "on a standard HTML element. A signal value change will remove the prior value of the ",
+ *  "signal and append the new value."
  * 
  * ]
  */

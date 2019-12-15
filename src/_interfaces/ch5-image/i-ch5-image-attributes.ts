@@ -16,7 +16,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`alt` attribute",
    * "***",
-   * "Defines an alternative text description of the image."
+   * "Defines an alternative text description for the image."
    * ]
    * @name alt
    */
@@ -71,7 +71,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`password` attribute",
    * "***",
-   * "The authentication password needed to obtain the image."
+   * "The authentication password required to get the image."
    * ]
    * @name password
    */
@@ -93,7 +93,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`user` attribute",
    * "***",
-   * "The authentication username needed to obtain the image."
+   * "The authentication username required to get the image."
    * ]
    * @name user
    */
@@ -115,9 +115,9 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventontouch` attribute",
    * "***",
-   * "Sends a boolean true event upon touching the screen and boolean false event upon release.",
-   * "Use this when the control system takes action on a level-sensitive boolean digital event.",
-   * "Examples include a SIMPL Logic Symbol for Analog Ramp with a description of ",
+   * "Sends a boolean true event when the screen is tapped and boolean false event when released. ",
+   * "Use this when the control system takes an action on a level-sensitive boolean digital event. ",
+   * "Examples include the SIMPL Logic Symbol for Analog Ramp with a description of ",
    * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
    * ]
    * @name sendeventontouch
@@ -129,9 +129,9 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonclick` attribute",
    * "***",
-   * "Sends an on-click or tap event (mouse or swipe up and down in a short duration).",
-   * "Use this when control system takes action on rising edge from false to true of boolean digital event.",
-   * "Examples include a SIMPL Logic Symbol for Toggle with a description of",
+   * "Sends an on click or tap event (mouse or swipe up and down quickly). ",
+   * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
+   * "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
    * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
    * ]   
    * @name sendeventonclick

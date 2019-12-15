@@ -18,9 +18,9 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values are 'first' and 'last'. Default is 'first'.",
-   * "This attribute only applies when a template is not provided",
-   * "and the implied template is in use. If template is provided,",
+   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
+   * "This attribute only applies when a template is not provided ",
+   * "and the implied template is in use. If a template is provided, ",
    * "this property is ignored."
    * ]
    * @name iconposition
@@ -33,7 +33,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestateselected` attribute",
      * "***",
-     * "When receive apply true value apply the selected class ( ch5-button--selected"
+     * "When received, applies a true value to the selected class (ch5-button--selected)."
      * ]
      * @name receivestateselected
      */
@@ -44,7 +44,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestatelabel` attribute",
      * "***",
-     * "The label / name of this ch5-select-option is received via this attribute"
+     * "The label or name of the ch5-select-option is received via this attribute."
      * ]
      * @name receivestatelabel
      */
@@ -55,7 +55,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestateurl` attribute",
      * "***",
-     * "Provides the image/icon url."
+     * "Provides the image or icon url."
      * ]
      * @name receivestateurl
      */
@@ -66,8 +66,8 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
      * [
      * "`receivestatescriptlabelhtml` attribute",
      * "***",
-     * "Signal script evaluation will be applied to the",
-     * "button.innerHTML. Allows for multiline, multistyled labels. "
+     * "A signal script evaluation will be applied to the ",
+     * "button.innerHTML. Allows for multiline, multistyled labels."
      * ]
      * @name receivestatescriptlabelhtml
      */
@@ -78,10 +78,10 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
      * [
      * "`sendeventonclick` attribute",
      * "***",
-     * "Sends event on click or tap event (mouse or finger up and down in a small period of time).",
-     * "Use this when control system takes action on rising edge from false to true of boolean digital event.",
-     * "Examples include SIMPL Logic Symbol for Toggle with description of",
-     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'"
+     * "Sends an on click or tap event (mouse or swipe up and down quickly). ",
+     * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
+     * "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
+     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
      * @name sendeventonclick
      */

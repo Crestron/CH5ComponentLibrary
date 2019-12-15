@@ -5,8 +5,6 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5List } from "./ch5-list";
-import { Ch5ListTemplate } from "./ch5-list-template";
 import { Ch5ListAbstractHelper } from "./ch5-list-abstract-helper";
 
 export interface ICh5ListBufferedItems {
@@ -88,12 +86,12 @@ export class Ch5ListBufferedItems extends Ch5ListAbstractHelper {
             const maxOffset = (this._list.items.length - this._list.getItemsPerPage()) * this._list.getItemSize();
             const isLtr = this._list.isLtr();
             // if drag orientation is to left and drag position is in the last page of items then append forward buffer items
-            if ((isLtr && newPosition < -maxOffset) 
+            if ((isLtr && newPosition < -maxOffset)
                 || (!isLtr && newPosition < maxOffset)
             ) {
                 this._appendForwardBufferedItemsToList(
-                    newPosition, 
-                    !this._list.isHorizontal, 
+                    newPosition,
+                    !this._list.isHorizontal,
                     this._list.bufferAmount
                 );
             }
@@ -104,20 +102,18 @@ export class Ch5ListBufferedItems extends Ch5ListAbstractHelper {
     private _bufferItemsForward() {
         const size: number = Number(this._list.size);
         const uid: string = this._list.divList.id;
-        const firstRenderVisibleItemsNr = this._list.getFirstRenderVisibleItemsNr();
+        const listChildrenLength = this._list.divList.children.length;
+        const bufferAmountValue = Number(this._list.bufferAmount);
 
-        let lastBufferedIndex: number = this._list.bufferedItems.bufferForwardStartIndex - 1 + Number(this._list.bufferAmount);
-        if (lastBufferedIndex > this._list.bufferedItems.bufferBackwardsStartIndex + firstRenderVisibleItemsNr) {
-            // avoid buffering already buffered elems
-            lastBufferedIndex = this._list.bufferedItems.bufferBackwardsStartIndex + firstRenderVisibleItemsNr;
-        }
+        let lastBufferedIndex: number = listChildrenLength + bufferAmountValue;
+
         if (lastBufferedIndex > size) {
-            // make sure lastBufferedIndex doesn't exceed list size
             lastBufferedIndex = size;
         }
 
-        for (let index = this._list.bufferedItems.bufferForwardStartIndex; index <= lastBufferedIndex; index++) {
-            this._list.bufferedItems.forwardBufferedItems.push(this._list.templateHelper.processTemplate(uid, index, this._list.templateVars));
+        for (let index = listChildrenLength; index < lastBufferedIndex; index++) {
+            const item = this._list.templateHelper.processTemplate(uid, index, this._list.templateVars);
+            this._list.bufferedItems.forwardBufferedItems.push(item);
         }
 
         // prepare next buffer start

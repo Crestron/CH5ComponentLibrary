@@ -17,12 +17,12 @@ export interface ICh5CommonInputAttributes extends ICh5CommonAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
-   *  "The default value is direct. Valid values: 'direct', 'submit'.",
+   *  "The default value is 'direct'. Valid values: 'direct', 'submit'.",
    * "***",
-   * "The 'direct' value triggers a change event and sendEventOnChange",
-   * "as the user changes.",
-   * "The 'submit' value triggers a change event and updates the signal in ",
-   * "the sendEventOnChange attribute only when the submit() method is called by a Form Component."
+   * "- 'direct' updates the trigger change event and sendEventOnChange ",
+   * "as the user changes. ",
+   * "- 'submit' triggers a change event and updates the signal in ",
+   * "sendEventOnChange attribute only when the submit() method is called by a Form Component."
    * ]
    * @name feedbackmode
    */
@@ -33,10 +33,10 @@ export interface ICh5CommonInputAttributes extends ICh5CommonAttributes {
    * [
    * "`signalvaluesynctimeout` attribute",
    * "***",
-   * "The default value is 1500ms. Defines the duration before a timeout (No more user action; ",
-   * "for example, for a ch5-toggle, this means that the user has released the handle of the toggle) ",
-   * "and the time the ch5 element will check if the value is equal to the value from the signal.",
-   * "If not, it will automatically apply the value from the signal. Apply this only for feedbackMode direct."
+   * "The default value is 1500ms. Defines the time between the end of focus (no more user action ",
+   * "for example, for a ch5-toggle this means that the user has released the handle of the toggle) ",
+   * "and the time the CH5 element will check if the value is equal with the value from the signal. ",
+   * "If the value is not equal, it will apply the value from the signal automatically. Apply only for feedbackMode direct."
    * ]
    * @name signalvaluesynctimeout
    */

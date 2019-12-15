@@ -32,10 +32,10 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`backgroundcolor` attribute",
    * "***",
-   * "For when one or more background colors will be used via CSS background-color property ",
-   * "syntax, including color names, #hex codes, rgb(), rgba(), hsl() and hsla().",
-   * "Multiple colors can be provided separated by | (vertical bar) to cycle ",
-   * "colors based on a defined time.",
+   * "Use when one or more background colors will be used via the CSS background-color property ",
+   * "syntax including color names, #hex codes, rgb(), rgba(), hsl() and hsla().",
+   * "Multiple colors can be provided separated by a | (vertical bar) to have colors ",
+   * "cycled based on the time defined.",
    * "This attribute is superseded by the url attribute."
    * ]
    * @name backgroundcolor
@@ -47,11 +47,11 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`repeat` attribute",
    * "***",
-   * "Sets how a background image will be repeated. In the absence of ",
-   * "repeat attribute, no-repeat will be considered as default. Supported values ",
-   * "include no-repeat, repeat-x, repeat-y and repeat.",
-   * "The value repeat-x repeats an image horizontally, repeat-y repeats an image vertically, and repeat ",
-   * "repeats an image both vertically and horizontally. The last image will be clipped if it does not fit."
+   * "The repeat property sets how a background image will be repeated. In the absence of ",
+   * "the repeat attribute, 'no-repeat' will be applied by default. Valid values: 'no-repeat', ",
+   * "'repeat-x', 'repeat-y', and 'repeat'.",
+   * "The value 'repeat-x' repeats image horizontally, 'repeat-y' repeats the image vertically, and 'repeat' ",
+   * "repeats both vertically and horizontally. The last image will be clipped if it does not fit."
    * ]
    * @name repeat
    */
@@ -62,15 +62,15 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`scale` attribute",
    * "***",
-   * "The default value is stretch. Valid values: stretch, fill, fit.",
+   * "The default value is 'stretch'. Valid values: 'stretch', 'fill', 'fit'.",
    * "Defines how an image will fill the component when the ",
    * "component and the image do not have the same aspect ratio.",
-   * "stretch will transform the image to have same aspect ratio as the component, ",
-   * "fill will size the image to leave no extra space ",
+   * "'stretch' will transform the image to have the same aspect ratio as the component, ",
+   * "'fill' will size the image to leave no extra space ",
    * "but will crop off either the top and bottom or left and right to ",
-   * "fill the component completely, and fit will preserve the image aspect ratio, ",
+   * "fill the component completely, and 'fit' will preserve the image aspect ratio by ",
    * "centering the image and leaving either a letter box on the top and bottom or ",
-   * "a pillar box on the left and right. For fit attribute, see related ",
+   * "a pillar box on the left and right. For fit attribute, see the related ",
    * "imgBackgroundColor attribute."
    * ]
    * @name scale
@@ -82,10 +82,10 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    *  "`refreshrate` attribute",
    * "***",
-   * "The default value is 600. Min value is 10 and max value is 604800 ",
-   * "When more than one image is provided in url attribute, ",
-   * "this attribute provides the length of time in seconds that each ",
-   * "image will be displayed. Values outside of min and max ",
+   * "The default value is 600. Min value is 10 and max value is 604800.",
+   * "When more than one image is provided in the url attribute, ",
+   * "this attribute provides the duration in seconds that each ",
+   * "image will be displayed. Values outside of the min and max ",
    * "will be capped at the closest valid value."
    * ]
    * @name refreshrate
@@ -97,9 +97,9 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`imgbackgroundcolor` attribute",
    * "***",
-   * "The default value is black.",
-   * "When the scale attribute has a value of fit, ",
-   * "this attribute defines the color of the pillar box or ",
+   * "The default value is 'black'.",
+   * "Related to the scale attribute having a value of 'fit'. ",
+   * "This attribute defines the color of the pillar box or ",
    * "letter box borders when the image aspect ratio is not the ",
    * "same as the component aspect ratio."
    * ]
@@ -112,10 +112,10 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`transitioneffect` attribute",
    * "***",
-   * "The default value is ease.",
-   * "When more than one image or color is provided in the url or backgroundcolor attribute, ",
-   * "this attribute provides the type of transition using CSS transition-timing-syntax ",
-   * "property syntax. See related attribute transition-duration."
+   * "The default value is 'ease'.",
+   * "When more than one image or color is provided in url or backgroundcolor attribute, ",
+   * "this attribute provide the type of transition using the CSS transition-timing-syntax ",
+   * "property syntax. See the related attribute transition-duration."
    * ]
    * @name transitioneffect
    */
@@ -126,8 +126,8 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`transitionduration` attribute",
    * "***",
-   * "The default value is 1s.",
-   * "when more than one image or color is provided in the url or backgroundcolor attribute, ",
+   * "The default value is '1s'.",
+   * "when more than one image or color is provided in url or backgroundcolor attribute, ",
    * "this attribute provides the duration of the transition ",
    * "using CSS transition-duration syntax."
    * ]

@@ -17,7 +17,7 @@ export interface ICh5TriggerViewChildAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonshow` attribute",
    * "***",
-   * "Sends a digital pulse when a view child becomes visible. Allows the control system",
+   * "Sends a digital pulse when a child view becomes visible. Allows the control system ",
    * "to take various actions based on which view is active."
    * ]
    * @name sendeventonshow
@@ -29,7 +29,7 @@ export interface ICh5TriggerViewChildAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestateshow` attribute",
    * "***",
-   * "When true it will tell the parent component (ch5-triggerview) to hide all the other ChildViews * and only show this one."
+   * "When true, this will tell the parent component (ch5-triggerview) to hide all the other ChildViews and to only show this one."
    * ]
    * @name receivestateshow
    */

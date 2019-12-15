@@ -47,9 +47,9 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * [
      * "`role` attribute",
      * "***",
-     * "This is an accessibility attribute that is implemented by all ch5-components and added automatically if not set by the user.",
-     * "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so forth. ",
-     * "You can override the default value for this ch5-component via this attribute."
+     * "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+     * "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
+     * "The default value for this ch5-component can be overridden via this attribute."
      * ]
      * @name role
      */
@@ -60,7 +60,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * [
      * "`debug` attribute",
      * "***",
-     * "The default value is false. Used to obtain useful developer-related information about component behavior."
+     * "The default value is false. Used to get useful developer-related information about component behavior."
      * ]
      * @name debug
      */
