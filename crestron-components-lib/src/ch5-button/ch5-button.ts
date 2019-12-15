@@ -1782,6 +1782,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onMouseUp() {
         this.cancelPress();
+        // button does not gain focus when its cliked in safari
+        if (isTouchDevice()) {
+            this._sendOnClickSignal();
+        }
     }
 
     private async _onPress(event: TouchEvent) {
