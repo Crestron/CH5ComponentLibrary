@@ -35,10 +35,9 @@
         "&change".
         If it is a
         fixed value then, when the emulator detects that the state or event has changed to the value given in
-        <b>trigger</b>
-        then it
-        also executes the actions for that state or event. If the value is the string "&change", regardless of state or
-        event type, then the
+        <b>trigger</b>,
+        it also executes the actions for that state or event. If the value is the string is "&change", regardless of state or
+        event type, the
         actions are executed on any change in the value of the state or event.
     </p>
 </div>
@@ -49,14 +48,14 @@
     </p>
     <ul>
         <li><b>link</b> - passes the value received on the incoming join through to the outgoing join. Using this
-            between incompatible join types will attempt to cast the value. In the event of a cast failure the value
-            will be set to false, 0 or "" (empty string)
+            between incompatible join types will attempt to cast the value. In the event of a cast failure, the value
+            will be set to false, 0 or "" (empty string).
         </li>
         <li><b>set</b> - assigns a specific value to the join. This requires a 5th key of 'value' and the specific
             value to assign. ie. <code>{"state":"light_level", "type":"n", "logic": "set","value":5}</code>.
-            If the 5th key is omitted, the default value will be sent (false, 0, "" or {})
+            If the 5th key is omitted, the default value will be sent (false, 0, "" or {}).
         </li>
-        <li><b>toggle</b> - (boolean Only) reads the current state and changes it to the opposite state</li>
+        <li><b>toggle</b> - (boolean Only) reads the current state and changes it to the opposite state.</li>
         <li><b>pulse</b> - (boolean Only) value goes high and then low.</li>
         <li><b>increment</b> - (Numeric Only) reads the current value of the analog and adds an offset.
             This logic accepts an optional 5th key of 'offset which determines how many times to increment by. ie.
