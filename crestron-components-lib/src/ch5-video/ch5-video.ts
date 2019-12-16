@@ -323,7 +323,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @type {string}
      * @private
      */
-    private _size: string = 'regular';
+    private _size: string = 'large';
 
     /**
      * The defines zIndex of the video. It works only with picture-in-picture(pip) mode.
@@ -1979,7 +1979,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.hasAttribute('size')) {
                     this.size = newValue;
                 } else {
-                    this.size = 'regular';
+                    this.size = 'large';
                 }
                 break;
             case 'zindex':
@@ -2386,8 +2386,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.lastAddedClass = "x-small";
         } else if (this.size === "small") {
             this.lastAddedClass = "small";
-        } else if (this.size === "regular") {
-            this.lastAddedClass = "regular";
         } else if (this.size === "large") {
             this.lastAddedClass = "large";
         } else if (this.size === "x-large") {
@@ -2764,9 +2762,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * To auto hide the controls after particular time
      */
     private autoHideControls() {
-        /*window.setTimeout(() => {
+        window.setTimeout(() => {
             this.vidControls.style.display = 'none';
-        }, this.autoHideControlPeriod * 1000);*/
+        }, this.autoHideControlPeriod * 1000);
     }
 
     private videoCP(event: Event) {
@@ -3375,118 +3373,123 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     protected initAttributes(): void {
         super.initAttributes();
         if (this.hasAttribute('indexid')) {
-            this._indexId = this.getAttribute('indexid') as string;
+            this.indexId = this.getAttribute('indexid') as string;
         }
         if (this.hasAttribute('userid')) {
-            this._userId = this.getAttribute('userid') as string;
+            this.userId = this.getAttribute('userid') as string;
         }
         if (this.hasAttribute('snapshotuserid')) {
-            this._snapShotUserId = this.getAttribute('snapshotuserid') as string;
+            this.snapShotUserId = this.getAttribute('snapshotuserid') as string;
         }
         if (this.hasAttribute('password')) {
-            this._password = this.getAttribute('password') as string;
+            this.password = this.getAttribute('password') as string;
         }
         if (this.hasAttribute('snapshotpassword')) {
-            this._snapShotPassword = this.getAttribute('snapshotpassword') as string;
+            this.snapShotPassword = this.getAttribute('snapshotpassword') as string;
         }
         if (this.hasAttribute('aspectratio')) {
-            this._aspectRatio = this.getAttribute('aspectratio') as string;
+            const aspRatio: string = this.getAttribute('aspectratio') as string;
+            if (aspRatio === "16:9" || aspRatio === "4:3") {
+                this.aspectRatio = aspRatio;
+            } else {
+                this.aspectRatio = "16:9";
+            }
         }
         if (this.hasAttribute('stretch')) {
-            this._stretch = this.getAttribute('stretch') as any;
+            this.stretch = this.getAttribute('stretch') as any;
         }
         if (this.hasAttribute('snapshoturl')) {
-            this._snapShotUrl = this.getAttribute('snapshoturl') as string;
+            this.snapShotUrl = this.getAttribute('snapshoturl') as string;
         }
         if (this.hasAttribute('url')) {
-            this._url = this.getAttribute('url') as string;
+            this.url = this.getAttribute('url') as string;
         }
         if (this.hasAttribute('sourcetype')) {
-            this._sourceType = this.getAttribute('sourcetype') as string;
+            this.sourceType = this.getAttribute('sourcetype') as string;
         }
         if (this.hasAttribute('sendeventonclick')) {
-            this._sendEventOnClick = this.getAttribute('sendeventonclick') as string;
+            this.sendEventOnClick = this.getAttribute('sendeventonclick') as string;
         }
         if (this.hasAttribute('sendeventselectionchange')) {
-            this._sendEventSelectionChange = this.getAttribute('sendeventselectionchange') as any;
+            this.sendEventSelectionChange = this.getAttribute('sendeventselectionchange') as any;
         }
         if (this.hasAttribute('sendeventselectionsourcetype')) {
-            this._sendEventSelectionSourceType = this.getAttribute('sendeventselectionsourcetype') as string;
+            this.sendEventSelectionSourceType = this.getAttribute('sendeventselectionsourcetype') as string;
         }
         if (this.hasAttribute('sendeventselectionurl')) {
-            this._sendEventSelectionURL = this.getAttribute('sendeventselectionurl') as string;
+            this.sendEventSelectionURL = this.getAttribute('sendeventselectionurl') as string;
         }
         if (this.hasAttribute('sendeventsnapshoturl')) {
-            this._sendEventSnapShotURL = this.getAttribute('sendeventsnapshoturl') as string;
+            this.sendEventSnapShotURL = this.getAttribute('sendeventsnapshoturl') as string;
         }
         if (this.hasAttribute('sendeventstate')) {
-            this._sendEventState = this.getAttribute('sendeventstate') as string;
+            this.sendEventState = this.getAttribute('sendeventstate') as string;
         }
         if (this.hasAttribute('sendeventerrorcode')) {
-            this._sendEventErrorCode = this.getAttribute('sendeventerrorcode') as any;
+            this.sendEventErrorCode = this.getAttribute('sendeventerrorcode') as any;
         }
         if (this.hasAttribute('sendeventerrormessage')) {
-            this._sendEventErrorMessage = this.getAttribute('sendeventerrormessage') as string;
+            this.sendEventErrorMessage = this.getAttribute('sendeventerrormessage') as string;
         }
         if (this.hasAttribute('sendeventretrycount')) {
-            this._sendEventRetryCount = this.getAttribute('sendeventretrycount') as any;
+            this.sendEventRetryCount = this.getAttribute('sendeventretrycount') as any;
         }
         if (this.hasAttribute('sendeventresolution')) {
-            this._sendEventResolution = this.getAttribute('sendeventresolution') as string;
+            this.sendEventResolution = this.getAttribute('sendeventresolution') as string;
         }
         if (this.hasAttribute('sendeventsnapshotstatus')) {
-            this._sendEventSnapShotStatus = this.getAttribute('sendeventsnapshotstatus') as any;
+            this.sendEventSnapShotStatus = this.getAttribute('sendeventsnapshotstatus') as any;
         }
         if (this.hasAttribute('sendeventsnapshotlastupdatetime')) {
-            this._sendEventSnapShotLastUpdateTime = this.getAttribute('sendeventsnapshotlastupdatetime') as any;
+            this.sendEventSnapShotLastUpdateTime = this.getAttribute('sendeventsnapshotlastupdatetime') as any;
         }
         if (this.hasAttribute('receivestatevideocount')) {
-            this._receiveStateVideoCount = this.getAttribute('receivestatevideocount') as any;
+            this.receiveStateVideoCount = this.getAttribute('receivestatevideocount') as any;
         }
         if (this.hasAttribute('receivestateplay')) {
-            this._receiveStatePlay = this.getAttribute('receivestateplay') as any;
+            this.receiveStatePlay = this.getAttribute('receivestateplay') as any;
         }
         if (this.hasAttribute('receivestateselect')) {
-            this._receiveStateSelect = this.getAttribute('receivestateselect') as any;
+            this.receiveStateSelect = this.getAttribute('receivestateselect') as any;
         }
         if (this.hasAttribute('receivestatepositionchange')) {
-            this._receiveStatePositionChange = this.getAttribute('receivestatepositionchange') as any;
+            this.receiveStatePositionChange = this.getAttribute('receivestatepositionchange') as any;
         }
         if (this.hasAttribute('receivestateurl')) {
-            this._receiveStateUrl = this.getAttribute('receivestateurl') as string;
+            this.receiveStateUrl = this.getAttribute('receivestateurl') as string;
         }
         if (this.hasAttribute('receivestatesourcetype')) {
-            this._receiveStateSourceType = this.getAttribute('receivestatesourcetype') as string;
+            this.receiveStateSourceType = this.getAttribute('receivestatesourcetype') as string;
         }
         if (this.hasAttribute('receivestatesnapshoturl')) {
-            this._receiveStateSnapShotURL = this.getAttribute('receivestatesnapshotURL') as string;
+            this.receiveStateSnapShotURL = this.getAttribute('receivestatesnapshotURL') as string;
         }
         if (this.hasAttribute('receivestatesnapshotrefreshrate')) {
-            this._receiveStateSnapShotRefreshRate = this.getAttribute('receivestatesnapshotrefreshrate') as any;
+            this.receiveStateSnapShotRefreshRate = this.getAttribute('receivestatesnapshotrefreshrate') as any;
         }
         if (this.hasAttribute('receivestateuserid')) {
-            this._receiveStateUserId = this.getAttribute('receivestateuserid') as string;
+            this.receiveStateUserId = this.getAttribute('receivestateuserid') as string;
         }
         if (this.hasAttribute('receivestatesnapshotuserid')) {
-            this._receiveStateSnapShotUserId = this.getAttribute('receivestatesnapshotuserid') as string;
+            this.receiveStateSnapShotUserId = this.getAttribute('receivestatesnapshotuserid') as string;
         }
         if (this.hasAttribute('receivestatepassword')) {
-            this._receiveStatePassword = this.getAttribute('receivestatepassword') as string;
+            this.receiveStatePassword = this.getAttribute('receivestatepassword') as string;
         }
         if (this.hasAttribute('receivestatesnapshotpassword')) {
-            this._receiveStateSnapShotPassword = this.getAttribute('receivestatesnapshotpassword') as string;
+            this.receiveStateSnapShotPassword = this.getAttribute('receivestatesnapshotpassword') as string;
         }
         if (this.hasAttribute('size')) {
-            this._size = this.getAttribute('size') as string;
+            this.size = this.getAttribute('size') as string;
         }
         if (this.hasAttribute('zindex')) {
-            this._zIndex = this.getAttribute('zindex') as string;
+            this.zIndex = this.getAttribute('zindex') as string;
         }
         if (this.hasAttribute('controls')) {
-            this._controls = this.getAttribute('controls') as string;
+            this.controls = this.getAttribute('controls') as string;
         }
         if (this.hasAttribute('snapshotrefreshrate')) {
-            this._snapShotRefreshRate = this.getAttribute('snapshotrefreshrate') as string;
+            this.snapShotRefreshRate = this.getAttribute('snapshotrefreshrate') as string;
         }
     }
 }
