@@ -25,6 +25,7 @@ import { isTouchDevice } from "../ch5-core/utility-functions/is-touch-device";
 import { Ch5ButtonPressInfo } from "./ch5-button-pressinfo";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 /**
  * Html Attributes
@@ -1782,8 +1783,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onMouseUp() {
         this.cancelPress();
-        // button does not gain focus when its cliked in safari
-        if (isTouchDevice()) {
+        // button does not gain focus when it's cliked in safari
+        if (isTouchDevice() && isSafariMobile()) {
             this._sendOnClickSignal();
         }
     }
