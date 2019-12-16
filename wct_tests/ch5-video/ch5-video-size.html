@@ -42,7 +42,81 @@
 </test-fixture>
 <script>
 
-    const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
+function getAspectRatioWidth(pixelWidth, aRatio) {
+    let pHeight = 0;
+    pHeight = pixelWidth / aRatio.width * aRatio.height;
+    pHeight = parseFloat(pHeight.toFixed(2));
+    return pHeight;
+}
+
+function getAspectRatioHeight(pixelHeight, aRatio) {
+    let pWidth = 0;
+    pWidth = pixelHeight / aRatio.height * aRatio.width;
+    pWidth = parseFloat(pWidth.toFixed(2));
+    return pWidth;
+}
+function aspectRatioCalculation(ratioWidth, ratioHeight, pixelWidth, pixelHeight) {
+    const pWidth = pixelWidth - (pixelWidth % ratioWidth);
+    const pHeight = pixelHeight - (pixelHeight % ratioHeight);
+
+    const roundedWidth = pWidth - (pWidth % ratioWidth);
+    const roundedHeight = pHeight - (pHeight % ratioHeight);
+
+    let pw = roundedWidth;
+    let ph = roundedHeight;
+
+   const aRatio = { width: ratioWidth, height: ratioHeight };
+    ph = getAspectRatioWidth(roundedWidth, aRatio);
+
+    if (ph > pHeight) {
+        ph = roundedHeight;
+        pw = getAspectRatioHeight(roundedHeight, aRatio);
+    }
+
+   return ({ width: pw, height: ph });
+}
+
+function convertVhUnitsToPx(vh) {
+
+        const height = window.innerHeight || document.documentElement.clientHeight;
+        const convertedValue = (vh * height) / 100;
+        return convertedValue;
+    }
+    function convertVwUnitsToPx(vw) {
+        const width = window.innerWidth || document.documentElement.clientWidth;
+        const convertedValue = (vw * width) / 100;
+        return convertedValue;
+    }
+ function getAspectRatio(ratioWidth, ratioHeight, viewPortSize) {
+    const pixelVH = convertVhUnitsToPx(viewPortSize);
+    const pixelVW = convertVwUnitsToPx(viewPortSize);
+    return aspectRatioCalculation(ratioWidth, ratioHeight, pixelVW, pixelVH);
+}
+ function aspectRatio(ratioWidth, ratioHeight, size) {
+    let sizeObj = {};
+    switch (size) {
+        case 'xx-large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 85);
+            break;
+        case 'x-large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 70);
+            break;
+        case 'large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+            break;
+        case 'small':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 40);
+            break;
+        case 'x-small':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 25);
+            break;
+        default:
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+            break;
+    }
+    return sizeObj;
+}
+const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
     
     suite('ch5-video x-small size', function() {
         let ch5Video;
@@ -74,10 +148,11 @@
             });
         });
 
-        test('Canvas height should be 25vw and 25vh for aspectratio "16:9" and size "x-small"', function(done) {
+        test('Canvas height for aspectratio "16:9" and size "x-small" should be equal to videoSize height', function(done) {
             flush(function() {
+                let videoSize = aspectRatio(16, 9, 'x-small');
                 let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.height).to.be.equal(aspectRatio16x9['x-small'].height);
+                expect(canvasEl.height).to.be.equal(videoSize.height);
                 done();
             });
         });
@@ -104,7 +179,14 @@
         test('ch5-video size a string', function() {
             expect(ch5Video.size).to.be.a('string');
         });
-
+         test('Canvas height for aspectratio "16:9" and size "small" should be equal to videoSize height', function(done) {
+            flush(function() {
+                let videoSize = aspectRatio(16, 9, 'small');
+                let canvasEl = ch5Video.querySelector('canvas');
+                expect(canvasEl.height).to.be.equal(videoSize.height);
+                done();
+            });
+        });
          test('controls element should have small class if size attribute having "small" value', function(done) {
                flush(function() {
                   let controls = ch5Video.querySelector('.controls');
@@ -113,6 +195,7 @@
             });
         });
     });
+    
 
     suite('ch5-video large size', function() {
         let ch5Video;
@@ -127,12 +210,26 @@
         test('ch5-video size a string', function() {
             expect(ch5Video.size).to.be.a('string');
         });
-
-
+         test('Canvas height for aspectratio "4:3" and size "large" should be equal to videoSize height', function(done) {
+            flush(function() {
+                let videoSize = aspectRatio(4, 3, 'large');
+                let canvasEl = ch5Video.querySelector('canvas');
+                expect(canvasEl.height).to.be.equal(videoSize.height);
+                done();
+            });
+        });
+         test('Canvas width for aspectratio "4:3" and size "large" should be equal to videoSize width', function(done) {
+            flush(function() {
+                let videoSize = aspectRatio(4, 3, 'large');
+                let canvasEl = ch5Video.querySelector('canvas');
+                expect(canvasEl.width).to.be.equal(videoSize.width);
+                done();
+            });
+        });
          test('controls element should have large class if size attribute having "large" value', function(done) {
                flush(function() {
                 let controls = ch5Video.querySelector('.controls');
-                expect(controls.className).to.contain(availablesizes[3]);
+                expect(controls.className).to.contain(availablesizes[2]);
                 done();
             });
         });
