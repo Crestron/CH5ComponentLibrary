@@ -7,6 +7,7 @@
 
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core/index";
+import { isSafariMobile } from '../ch5-core/utility-functions/is-safari-mobile';
 import isNil from 'lodash/isNil';
 
 import {
@@ -1782,8 +1783,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onMouseUp() {
         this.cancelPress();
-        // button does not gain focus when its cliked in safari
-        if (isTouchDevice()) {
+        // button does not gain focus when it's cliked in safari mobile
+        if (isTouchDevice() && isSafariMobile()) {
             this._sendOnClickSignal();
         }
     }
