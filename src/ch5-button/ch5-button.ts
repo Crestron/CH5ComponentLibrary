@@ -1735,9 +1735,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onTapAction() {
-        if (!isTouchDevice()) {
             this._sendOnClickSignal();
-        }
 
         if (null !== this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
