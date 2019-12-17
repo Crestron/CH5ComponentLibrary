@@ -21,11 +21,9 @@ import {
 import { ICh5ButtonAttributes } from "../_interfaces/ch5-button/i-ch5-button-attributes";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import Hammer from 'hammerjs';
-import { isTouchDevice } from "../ch5-core/utility-functions/is-touch-device";
 import { Ch5ButtonPressInfo } from "./ch5-button-pressinfo";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 /**
  * Html Attributes
@@ -781,7 +779,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._elImg.classList.remove('cx-button-icon-pos-top');
         this._elImg.classList.remove('cx-button-icon-pos-bottom');
         this._elImg.classList.add('cx-button-icon-pos-' + this.iconPosition);
-
+        
         // Handle vertical button with iconPosition top or bottom
         if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
             this._elButton.classList.add(`ch5-button--vertical--icon-${this.iconPosition}`)
@@ -1735,8 +1733,17 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onTapAction() {
-        if (!isTouchDevice()) {
-            this._sendOnClickSignal();
+        let sigClick: Ch5Signal<boolean> | null = null;
+
+        if (this._sigNameSendOnClick) {
+
+            sigClick = Ch5SignalFactory.getInstance()
+                .getBooleanSignal(this._sigNameSendOnClick);
+
+            if (sigClick !== null) {
+                sigClick.publish(true);
+                sigClick.publish(false);
+            }
         }
 
         if (null !== this._intervalIdForOnTouch) {
@@ -1783,10 +1790,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onMouseUp() {
         this.cancelPress();
-        // button does not gain focus when it's cliked in safari
-        if (isTouchDevice() && isSafariMobile()) {
-            this._sendOnClickSignal();
-        }
     }
 
     private async _onPress(event: TouchEvent) {
@@ -1854,32 +1857,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         inEvent.preventDefault();
         inEvent.stopPropagation();
-
-        // signal is sent here to make sure the button does 
-        // not gain focus when it should not
-
-        // on touch devices, focus is gained onTouchEnd
-        if (isTouchDevice()) {
-            this._sendOnClickSignal();
-        }
-    }
-
-    /**
-     * Sends the signal passed via sendEventOnClick or sendEventOnTouch
-     */
-    private _sendOnClickSignal(): void {
-        let sigClick: Ch5Signal<boolean> | null = null;
-
-        if (this._sigNameSendOnClick) {
-            sigClick = Ch5SignalFactory.getInstance()
-                .getBooleanSignal(this._sigNameSendOnClick);
-
-            if (sigClick !== null) {
-                sigClick.publish(true);
-                sigClick.publish(false);
-                this._elButton.blur();
-            }
-        }
     }
 
     private cancelPress() {
