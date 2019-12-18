@@ -193,7 +193,8 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventSelectionChange` attribute",
      *  "***",
-     *  "Sends a signal on a source selection change."
+     *  "Sends a signal on a source selection change when the source selection ",
+     *  "is updated using the 'receivestateselect' attribute."
      * ]
      */
     sendEventSelectionChange: string;
@@ -215,7 +216,8 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`sendEventSelectionURL` attribute",
      *  "***",
-     *  "The current selected video URL."
+     * "Sends a signal on an url change when the source url ",
+     * "is updated using the 'receiveStateUrl' attribute."
      * ]
      */
     sendEventSelectionURL: string;
