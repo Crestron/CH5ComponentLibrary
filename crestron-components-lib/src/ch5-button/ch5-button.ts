@@ -1735,9 +1735,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onTapAction() {
-        if (!isTouchDevice()) {
             this._sendOnClickSignal();
-        }
 
         if (null !== this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
@@ -1783,10 +1781,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onMouseUp() {
         this.cancelPress();
-        // button does not gain focus when it's cliked in safari
-        if (isTouchDevice() && isSafariMobile()) {
-            this._sendOnClickSignal();
-        }
     }
 
     private async _onPress(event: TouchEvent) {
@@ -1854,14 +1848,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         inEvent.preventDefault();
         inEvent.stopPropagation();
-
-        // signal is sent here to make sure the button does 
-        // not gain focus when it should not
-
-        // on touch devices, focus is gained onTouchEnd
-        if (isTouchDevice()) {
-            this._sendOnClickSignal();
-        }
     }
 
     /**
