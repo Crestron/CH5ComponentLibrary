@@ -16,22 +16,14 @@ export class LogMessage {
     public readonly level: LogLevelEnum = LogLevelEnum.info; // init with lowest log level
     public readonly message: string = '';
     public readonly source: string = '';
-    public canBeDisplayed: boolean = false;
 
     constructor(data: TDataLog, logFilter: LogMessagesFilter) {
 
-        // filter the message / log
-        if (!isNil(logFilter)) {
-            this.canBeDisplayed = logFilter.applyFilter(data);
-        }
-        // populate LogMessage properties only if it can be displayed (no need otherwise)
-        if (this.canBeDisplayed) {
-            const currentDate = new Date();
-            this.date = currentDate;
-            this.message = data.message;
-            this.level = data.level;
-            this.source = data.source;
-        }
+        const currentDate = new Date();
+        this.date = currentDate;
+        this.message = data.message;
+        this.level = data.level;
+        this.source = data.source;
     }
 
     protected getStringTime() {
