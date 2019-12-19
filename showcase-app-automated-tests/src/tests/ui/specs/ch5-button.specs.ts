@@ -16,7 +16,7 @@ describe('Ch5-button', ()=>{
             .goToEditorHtml()
             .inputHtmlText(ButtonData.HTML_TEMPLATE_LABEL)
             .clickPreviewBtn()
-            .checkExistance(ButtonData.GENERATED_BTN)
+            .checkExistance(ButtonData.HTML_TEMPLATE_BTN_CLICKED)
             .checkVisibility(ButtonData.GENERATED_BTN)
             .checkElementHTML(ButtonData.GENERATED_BTN_INNER_HTML, ButtonData.LABEL_CLASS)
             .checkAttribute(ButtonData.GENERATED_BTN, ButtonData.LABEL_ATTRIBUTE, ButtonData.LABEL_ATTRIBUTE_VALUE);           

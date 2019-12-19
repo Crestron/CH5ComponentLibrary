@@ -38,14 +38,14 @@ describe('Ch5 Resync Single CCS Resync - Business logic miscellaneous tests', ()
 
         const modifiedStringState = ch5SignalFactory.getStringSignal('next_state', false);
         expect(modifiedStringState.value).to.equal('');
-        const stateNotFound = ch5SignalFactory.getStringSignal('state_does_not_exist', false);
+        const stateNotFound = ch5SignalFactory.getStringSignal('state_doe_not_exist', false);
         expect(stateNotFound).to.equal(null);
     });
 
     it('On ClearAll will not add Csig.State_Synchronization event to _statesAtDefaultValue', () => {
         publishEvent(Ch5ResyncTestUtilities.resyncEventType, Ch5ResyncTestUtilities.resyncEventName, Ch5ResyncTestUtilities.resyncEventValueOnClearRange);
 
-        expect(ch5ResyncInstance._statesAtDefaultValue.map(x => x.name).indexOf('Csig.State_Synchronization')).to.equal(-1);
+        expect(ch5ResyncInstance._statesAtDefaultValue.map(x => x.name).indexOf('Csig.State_Synchronization')).to.equal(-12);
     });
 
     it('On ClearRange will not add Csig.State_Synchronization event to _statesAtDefaultValue', () => {

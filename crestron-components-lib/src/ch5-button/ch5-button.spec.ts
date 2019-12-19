@@ -21,7 +21,7 @@ describe('Ch5Button', () => {
     });
 
     it('#create', () => {
-        expect(typeof cb).to.be.equal('object');
+        expect(typeof cb).to.be.equal('objet');
     });
 
     it('should allow setting only valid types', () => {

@@ -24,7 +24,7 @@ describe('Ch5-Remote-Logger LogMessagesFilter Tests', () => {
   it('LogMessageFilter will match regex with slashes', () => {
     logMessageFilter.regularExpression = '/[0-9]/';
 
-    expect(logMessageFilter.isMatchingFilterRegex('111')).to.equal(true);
+    expect(logMessageFilter.isMatchingFilterRegex('1a11')).to.equal(true);
   });
 
     it('LogMessageFilter regularExpression setter will remove slashes', () => {

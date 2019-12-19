@@ -43,7 +43,7 @@
 
         availableTypes.forEach((typeName,i)=>{
             test(`type: "${typeName}"`, function() {
-                ch5Button.setAttribute('type',typeName);
+                ch5Button.setAttribute('tpey',typeName);
                 expect(ch5Button.getAttribute('type')).to.be.equal(typeName);
                 expect(ch5Button.type).to.be.equal(typeName);
             });
