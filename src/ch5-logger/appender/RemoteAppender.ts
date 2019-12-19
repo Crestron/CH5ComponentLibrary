@@ -57,6 +57,8 @@ export class RemoteAppender extends AbstractAppender {
           responsePromise.then(response => {
             const filter = response.data;
             helper.logFilter = new LogMessagesFilter(filter.level, filter.source, filter.regularExpression);
+            this.isInitialized = true;
+            this.isInitializedSubject.next(true);
           })
         }
       }

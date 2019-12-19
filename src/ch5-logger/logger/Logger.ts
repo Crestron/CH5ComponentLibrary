@@ -10,12 +10,13 @@ import { TDataLog, TLogMessageType } from "../types/index";
 import { LogMessage } from "../helpers/index";
 import { LogLevelEnum } from "../enums/index";
 import isNil from 'lodash/isNil';
-import {LogMessagesFilter} from "../helpers/LogMessagesFilter";
+import { LogMessagesFilter } from "../helpers/LogMessagesFilter";
 
 export class Logger {
 
     private _appender: AbstractAppender = {} as AbstractAppender;
     private _logFilter: LogMessagesFilter = new LogMessagesFilter();
+    private _messagesQueue: LogMessage[] = [];
 
     public constructor(appender: AbstractAppender, logFilter?: LogMessagesFilter) {
         if (!(appender instanceof AbstractAppender)) {
@@ -33,6 +34,10 @@ export class Logger {
         if (logFilter) {
             this.logFilter = logFilter;
         }
+
+        this._appender.isInitializedSubject.subscribe(() => {
+            this.checkAndAppendMessages();
+        });
     }
 
     // Used to change the log filter
@@ -51,22 +56,22 @@ export class Logger {
 
     public log(...message: TLogMessageType) {
         const formattedMessage = this.formatMessage(0, message.join(' '));
-        this.checkAndAppendMessage(formattedMessage);
+        this.queueMessage(formattedMessage);
     }
 
     public info(...message: TLogMessageType) {
         const formattedMessage = this.formatMessage(1, message.join(' '));
-        this.checkAndAppendMessage(formattedMessage);
+        this.queueMessage(formattedMessage);
     }
 
     public warn(message: string) {
         const formattedMessage = this.formatMessage(2, message);
-        this.checkAndAppendMessage(formattedMessage);
+        this.queueMessage(formattedMessage);
     }
 
     public error(message: string, line?: number) {
         const formattedMessage = this.formatMessage(3, message);
-        this.checkAndAppendMessage(formattedMessage);
+        this.queueMessage(formattedMessage);
     }
 
     public windowErrorListener(error: ErrorEvent | CustomEvent) {
@@ -108,9 +113,32 @@ export class Logger {
         return logMessage;
     }
 
-    private checkAndAppendMessage(logMessage: LogMessage) {
-        if (logMessage.canBeDisplayed) {
-            this.appender.log(logMessage);
+    /**
+     * All messages are queued until the configuration is loaded
+     * After that, the messages are removed in the same order they arrived (FIFO)
+     */
+    private checkAndAppendMessages() {
+        while (this._messagesQueue.length > 0) {
+            if (!this._appender.isInitialized) {
+                return;
+            }
+
+            const firstMessage: LogMessage | undefined = this._messagesQueue.shift();
+
+            // only log message if it passes the filter check
+            if (firstMessage && this.logFilter.applyFilter(firstMessage)) {
+                this.appender.log(firstMessage);
+            }
         }
+    }
+
+    /**
+     * Every message is queued at logging time, but is not displayed
+     * until the configuration is loaded.
+     * @param logMessage 
+     */
+    private queueMessage(logMessage: LogMessage) {
+        this._messagesQueue.push(logMessage);
+        this.checkAndAppendMessages();
     }
 }

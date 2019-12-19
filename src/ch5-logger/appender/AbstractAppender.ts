@@ -8,12 +8,14 @@
  */
 
 import { LogMessage } from '../helpers/index';
-import { Observable, timer } from 'rxjs';
+import { Observable, timer, BehaviorSubject } from 'rxjs';
 import isNil from 'lodash/isNil';
 
 export abstract class AbstractAppender {
 
   private _sendLogTimeOffset: Observable<number> = {} as Observable<number>;
+  public isInitialized: boolean = false;
+  public isInitializedSubject: BehaviorSubject<boolean> = new BehaviorSubject(this.isInitialized);
 
   public constructor(sendLogTimeOffsetInMiliseconds: number) {
     this.sendLogTimeOffset = timer(sendLogTimeOffsetInMiliseconds);
@@ -33,5 +35,5 @@ export abstract class AbstractAppender {
 
   public abstract configObserver(config: {}, hasConfig: boolean): void;
 
-  public abstract log( data: LogMessage ): void;
+  public abstract log(data: LogMessage): void;
 }
