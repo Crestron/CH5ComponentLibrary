@@ -2771,12 +2771,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.lastUpdatedStatus = "start";
             this.publishVideoEvent("stop");
         });
-        // setTimeout(() => {
-            if (Ch5CoreIntersectionObserver.getInstance() instanceof Ch5CoreIntersectionObserver) {
-                Ch5CoreIntersectionObserver.getInstance().unobserve(this);
-                this.isIntersectionObserve = false;
-            }
-        // }, 1000);
+
+        if (Ch5CoreIntersectionObserver.getInstance() instanceof Ch5CoreIntersectionObserver) {
+            Ch5CoreIntersectionObserver.getInstance().unobserve(this);
+            this.isIntersectionObserve = false;
+        }
     }
 
     /**
