@@ -76,76 +76,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public loaderCssClass = 'loader';
     public fullScreenStyleClass = 'fullScreenStyle'
 
-    /*public videoErrorMessages = [
-        {
-            "code": 1,
-            "message": "Miscellaneous transient issue"
-        },
-        {
-            "code": 2,
-            "message": "Connection timeout"
-        },
-        {
-            "code": 3,
-            "message": "No input sync"
-        },
-        {
-            "code": -1,
-            "message": "Miscellaneous error"
-        },
-        {
-            "code": -2,
-            "message": "Hostname could not be resolved"
-        },
-        {
-            "code": -3,
-            "message": "Unsupported source type for this platform"
-        },
-        {
-            "code": -4,
-            "message": "Connection timeout"
-        },
-        {
-            "code": -5,
-            "message": "Invalid credentials"
-        },
-        {
-            "code": -6,
-            "message": "Unsupported streaming protocol"
-        },
-        {
-            "code": -7,
-            "message": "Unsupported codec"
-        },
-        {
-            "code": -1001,
-            "message": "Credentials required"
-        },
-        {
-            "code": -1002,
-            "message": "Hostname invalid"
-        },
-        {
-            "code": -1003,
-            "message": "Unsupported codec"
-        },
-        {
-            "code": -9001,
-            "message": "Unsupported source type"
-        },
-        {
-            "code": -9002,
-            "message": "Invalid URL"
-        },
-        {
-            "code": -9003,
-            "message": "Request for greater than maximum simultaneous sessions per source type"
-        },
-        {
-            "code": -9004,
-            "message": "Request for greater than maximum simultaneous sessions per device"
-        }
-    ];*/
     private videoErrorMessages = new Map<number, string>();
 
     /**
@@ -1397,6 +1327,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (newValue) {
                     if (this.lastLoadedImage) {
                         this.drawSnapShot(this.lastLoadedImage);
+                        this.sendEvent(this.sendEventSnapShotStatus, 1, 'number');
                     }
                     this.isVideoReady = false;
                     this.lastUpdatedStatus = "stop";
@@ -2543,6 +2474,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.sendEvent(this.sendEventSnapShotURL, this.snapShotUrl, 'string');
         const videoRefreshRate = parseInt(this.snapShotRefreshRate, 0);
         if (!isNaN(videoRefreshRate) && videoRefreshRate > 0) {
+            this.unsubscribeRefreshImage();
             this.snapShotTimer = setInterval(() => {
                 if (this.snapShotUserId && this.snapShotPassword && !this.snapShotUrl.indexOf("http")) {
                     this.checkSnapShotUrl();
@@ -2588,7 +2520,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.sendEvent(this.sendEventSnapShotLastUpdateTime, this.rfc3339TimeStamp(), 'string');
         };
         videoImage.onerror = (ev: Event) => {
-            this.info("Error occured while rendering the image" + videoImage.src);
+            this.info("Error occured while rendering the image");
             this.sendEvent(this.sendEventSnapShotStatus, 2, 'number');
         }
         videoImage.src = this.snapShotUrl + "?" + new Date().getTime().toString();
@@ -2625,6 +2557,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.lastUpdatedStatus = "start";
         } else if (!playVal && this.elementIsInViewPort) {
             this.isVideoPublished = true;
+            this.isVideoReady = false;
             this.lastUpdatedStatus = "start";
             actionType = "stop";
         } else if (!playVal && !this.elementIsInViewPort) {
@@ -2675,7 +2608,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
             document.body.style.visibility = "visible";
             this.fullScreenOverlayClick.style.visibility = 'hidden';
-            this.publishVideoEvent("resize");
         } else {
             if (Ch5VideoEventHandler.isPortrait()) {
                 this.isPotraitMode = true;
@@ -2748,10 +2680,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             document.body.style.visibility = "hidden";
             this.style.visibility = "visible";
             this.fullScreenOverlayClick.style.visibility = 'visible';
-            this.publishVideoEvent("fullscreen");
         }
         this.isVideoReady = true;
-
+        this.publishVideoEvent("resize");
     }
 
     /**
@@ -2773,23 +2704,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private videoCP(event: Event) {
         event.stopPropagation();
     }
-
-    /*private sizeXXLarge(){
-        this.setAttribute('size', 'xx-large');
-    }
-    private sizeXLarge(){
-        this.setAttribute('size', 'x-large');
-    }
-    private sizeLarge(){
-        this.setAttribute('size', 'large');
-    }
-    private sizeSmall(){
-        this.setAttribute('size', 'small');
-    }
-    private sizeXSmall(){
-        this.setAttribute('size', 'x-small');
-    }    */
-
+    
     /**
      * Called to bind proper listeners
      */
@@ -2988,7 +2903,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.lastUpdatedStatus = "stop";
                 this.sendEvent(this.sendEventSelectionURL, this._url, 'string');
                 if (!this.isVideoReady && this.lastUpdatedStatus !== 'start' && this.url) {
-
+                    this.vidControls.style.display = 'none';
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.userId, this.password, this.sourceType, this.url));
                     this.info("Video Request (Start) : " + JSON.stringify(this.videoStartObjJSON(actionType,
@@ -3009,7 +2924,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.videoRequestSubscriptionId = subscribeState('o', 'Csig.video.response',
                         this.videoResponse.bind(this), this.errorResponse.bind(this));
                     this.isVideoReady = true;
-                    this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 }
                 break;
             case 'stop':
@@ -3017,6 +2931,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     return;
                 }
                 if (this.lastUpdatedStatus !== 'stop') {
+                    this.vidControls.style.display = 'none';
                     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
                     this.info("Video Request (Stop) : " + JSON.stringify(this.videoStopObjJSON(actionType, this.ch5UId)));
                     if (this.videoResponseSubscriptionId) {
@@ -3025,37 +2940,28 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.videoResponseSubscriptionId = subscribeState('o', 'Csig.video.response',
                         this.videoResponse.bind(this), this.errorResponse.bind(this));
                     this.isVideoReady = false;
-                    this.sendEvent(this.sendEventSnapShotStatus, 1, 'number');
                     this.sendEvent(this.sendEventState, 3, 'number');
                     this.lastUpdatedStatus = actionType;
                 }
                 break;
             case 'resize':
-                this.resizePublishEvent(actionType);
+                publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, this.ch5UId, this.videoTop,
+                    this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.userId, this.password, this.sourceType, this.url));
+                this.info("Video Request (Resize) : " + JSON.stringify(this.videoStartObjJSON(actionType,
+                    this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.userId, this.password, this.sourceType, this.url)));
+                if (this.isOrientationChanged || this.isPosistionChanged) {
+                    publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
+                        actionType, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
+                    this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
+                        this.videoBGObjJSON(actionType, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
+                }
+                subscribeState('o', 'Csig.video.response', this.videoResponse.bind(this), this.errorResponse.bind(this));
+                this.isVideoReady = false;
+                this.lastUpdatedStatus = actionType;
                 break;
-            case 'fullscreen':
-                this.resizePublishEvent(actionType);
-                break;
-
             default:
         }
         this.sendEvent(this.sendEventResolution, this.sizeObj.width + "x" + this.sizeObj.height + "@24fps", 'string');
-    }
-
-    private resizePublishEvent(actionType: string) {
-        publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, this.ch5UId, this.videoTop,
-            this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.userId, this.password, this.sourceType, this.url));
-        this.info("Video Request (Resize) : " + JSON.stringify(this.videoStartObjJSON(actionType,
-            this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.userId, this.password, this.sourceType, this.url)));
-        if (this.isOrientationChanged || this.isPosistionChanged) {
-            publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
-                actionType, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-            this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
-                this.videoBGObjJSON(actionType, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
-        }
-        subscribeState('o', 'Csig.video.response', this.videoResponse.bind(this), this.errorResponse.bind(this));
-        this.isVideoReady = false;
-        this.lastUpdatedStatus = actionType;
     }
 
     /**
@@ -3143,11 +3049,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             case 'started':
                 this.clearSnapShot();
                 this.unsubscribeRefreshImage();
+                this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.cutCanvas2DisplayVideo(this.context);
                 this.retryCount = 0;
                 this.isVideoReady = true;
                 this.isImageReady = false;
                 this.sendEvent(this.sendEventState, 2, 'number');
+                this.vidControls.style.display = 'flex';
                 // Unsubscribe when started
                 if (this.videoResponseSubscriptionId) {
                     unsubscribeState('o', 'Csig.video.response', this.videoResponseSubscriptionId);
@@ -3173,6 +3081,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.isImageReady = false;
                     this.isVideoReady = true;
                     this.orientationChangeComplete();
+                    this.vidControls.style.display = 'flex';
                 }
                 break;
             case 'error':
