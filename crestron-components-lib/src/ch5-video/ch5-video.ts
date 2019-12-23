@@ -2341,7 +2341,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isInitialized = false;
             });
         }
-
         Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
         this.isIntersectionObserve = true;
     }
@@ -2551,6 +2550,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         clearInterval(this.snapShotTimer);
     }
 
+    /**
+     * Clear the existing context
+     */
     private clearSnapShot() {
         if (!!this.context) {
             this.context.clearRect(0, 0, this.sizeObj.width, this.sizeObj.height);
