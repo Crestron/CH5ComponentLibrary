@@ -61,7 +61,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  *            "    sendeventonok=\"${6:signal_on_ok}\"",
  *            "    >",
  *            "    <p>Sample text</p>",
- *            "    <ch5-image id=\"${8:ex1-img}\" url=\"${9:some_server_url}\">",
+ *            "    <ch5-image id=\"${7:ex1-img}\" url=\"${8:some_server_url}\">",
  *           "    </ch5-image>",
  *            "</ch5-modal-dialog>$0"
  *        ]
