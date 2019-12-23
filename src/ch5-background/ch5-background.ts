@@ -880,13 +880,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     /**
      * checking if has scrollbar
      */
-    private isScrollBar(element: any, dir: string) {
+    private isScrollBar(elm: any, dir: string) {
         dir = (dir === 'vertical') ? 'scrollTop' : 'scrollLeft';
-        let res: boolean = !!element[dir];
+        let res: boolean = !!elm[dir];
         if (!res) {
-            element[dir] = 1;
-            res = !!element[dir];
-            element[dir] = 0;
+            elm[dir] = 1;
+            res = !!elm[dir];
+            elm[dir] = 0;
         }
         return res;
     }
