@@ -161,5 +161,4 @@ export interface ICh5CommonAttributes {
      * @name show
      */
     show: boolean;
-    
 }
