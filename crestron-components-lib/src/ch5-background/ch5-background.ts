@@ -878,12 +878,26 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     }
 
     /**
+     * checking if has scrollbar
+     */
+    private isScrollBar(elm: any, dir: string) {
+        dir = (dir === 'vertical') ? 'scrollTop' : 'scrollLeft';
+        let res: boolean = !!elm[dir];
+        if (!res) {
+            elm[dir] = 1;
+            res = !!elm[dir];
+            elm[dir] = 0;
+        }
+        return res;
+    }
+
+    /**
      * Setting canvas dimensions
      */
     private setCanvasDimensions(canvas: HTMLCanvasElement) {
         if (this.parentElement) {
-            canvas.width = this.parentElement.scrollWidth;
-            canvas.height = this.parentElement.scrollHeight;
+            canvas.width = this.isScrollBar(this.parentElement, 'horizontal') ? this.parentElement.scrollWidth : this.parentElement.clientWidth;
+            canvas.height = this.isScrollBar(this.parentElement, 'vertical') ? this.parentElement.scrollHeight : this.parentElement.clientHeight;
         }
     }
 
