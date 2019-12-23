@@ -15,7 +15,8 @@ import {
     TCh5ButtonShape,
     TCh5ButtonSize,
     TCh5ButtonStretch,
-    TCh5ButtonType
+    TCh5ButtonType,
+    TCh5ButtonActionType
 } from '../_interfaces/ch5-button/types';
 
 import { ICh5ButtonAttributes } from "../_interfaces/ch5-button/i-ch5-button-attributes";
@@ -192,6 +193,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * HTML attribute name: size
      */
     private _size: TCh5ButtonSize = '';
+
+    /**
+     * action type of the button
+     *
+     * HTML attribute name: actiontype
+     */
+    private _formType: TCh5ButtonActionType = '';
 
     /**
      * When stretch property is set, the button element inherits the width or/and height of the container.
@@ -908,6 +916,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             'size',
             'stretch',
             'type',
+            'formtype',
 
             'selected',
             'customclassselected',
@@ -955,6 +964,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
         if (this.hasAttribute('type')) {
             this.type = this.getAttribute('type') as TCh5ButtonType;
+        }
+        if (this.hasAttribute('formtype')) {
+            this.formType = this.getAttribute('formtype') as TCh5ButtonActionType;
         }
         let isSelected = false;
         if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
@@ -1144,6 +1156,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                     this.updateCssClasses();
                 }
                 break;
+            case 'formtype':
+                if (this.hasAttribute('formtype')) {
+                    const actionTypeValue = this.getAttribute('formType') as TCh5ButtonActionType;
+                    this.formType = actionTypeValue;
+                }
+                break;
             case 'customclassselected':
                 if (this.hasAttribute('customclassselected')) {
                     this.customClassState = newValue;
@@ -1259,6 +1277,19 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     public get label() {
         return this._label;
+    }
+
+    public set formType(value: TCh5ButtonActionType) {
+        this.info('set formType("' + value + '")');
+        if (!isNil(value)) {
+            this.setAttribute('formType', value);
+        } else {
+            this.removeAttribute('formType');
+        }
+    }
+
+    public get formType(): TCh5ButtonActionType {
+        return this._formType;
     }
 
     public set iconClass(value: string) {
