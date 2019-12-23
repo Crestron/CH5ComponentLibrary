@@ -192,7 +192,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      */
     // * Implementation documentation for developers
     // * "The signal will be sent with value true and reasserted",
-    // * "true every 500ms while the finger is on the",
+    // * "true every 200ms while the finger is on the",
     // * "component. The reassertion is needed to avoid",
     // * "unending ramp should there be a communications error,",
     // * "a failure of the button itself, or any intermediate proxy of",
