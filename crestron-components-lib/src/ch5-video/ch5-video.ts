@@ -517,6 +517,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private isPotraitMode: boolean = false;
     private lastLoadedImage: any;
     private isIntersectionObserve: boolean = false;
+    private vidleft: number = 0;
+    private vidTop: number = 0;
 
     /**
      * CONSTRUCTOR
@@ -1331,7 +1333,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.isVideoReady = false;
                     this.lastUpdatedStatus = "stop";
-                    if (this.elementIntersectionEntry.intersectionRatio > 0.95) {
+                    if (this.elementIntersectionEntry.intersectionRatio > 0.95 && !this.isFullScreen) {
+                        this.publishVideoEvent("start");
+                    } else if (this.isFullScreen) {
                         this.publishVideoEvent("start");
                     }
                 } else {
@@ -2278,6 +2282,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControls.appendChild(this.controlsLeft);
         this.vidControls.appendChild(this.controlsRight);
         this.vidControlPanel.appendChild(this.vidControls);
+        this.vidControls.style.display = 'none';
         this.setControlSize();
         // add primary class
         this.vid.classList.add(this.primaryVideoCssClass);
@@ -2447,7 +2452,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Play when the user clicks on the video or play/stop control button
      */
     private manageControls() {
-        this.isImageReady = false;
+        // this.isImageReady = false;
         if (this.isImageReady) {
             this.vidControls.style.display = 'none';
         } else {
@@ -2500,12 +2505,23 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
+     * Calculate positions of the snapshot
+     */
+    private calculateSnapShotPositions() {
+        const topOffset = this.vid.getBoundingClientRect().top;
+        const leftOffset = this.vid.getBoundingClientRect().left;
+        this.vidleft = this.videoLeft - leftOffset;
+        this.vidTop = this.videoTop - topOffset;
+    }
+
+    /**
      * Draw the snapshot on the canvas
      * @param videoImage 
      */
     private drawSnapShot(videoImage: HTMLImageElement) {
         this.context.beginPath();
-        this.context.drawImage(videoImage, 0, 0, this.sizeObj.width, this.sizeObj.height);
+        this.calculateSnapShotPositions();
+        this.context.drawImage(videoImage, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
         this.context.save();
         this.context.restore();
     }
@@ -2704,7 +2720,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private videoCP(event: Event) {
         event.stopPropagation();
     }
-    
+
     /**
      * Called to bind proper listeners
      */
@@ -2885,6 +2901,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.fromReceiveStatePlay) {
             actionType = this.videoScenariosCheck(this.playValue);
         }
+        this.sendEvent(this.sendEventResolution, this.sizeObj.width + "x" + this.sizeObj.height + "@24fps", 'string');
         this.firstTime = false;
         this.responseObj = [];
         switch (actionType) {
@@ -2903,7 +2920,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.lastUpdatedStatus = "stop";
                 this.sendEvent(this.sendEventSelectionURL, this._url, 'string');
                 if (!this.isVideoReady && this.lastUpdatedStatus !== 'start' && this.url) {
-                    this.vidControls.style.display = 'none';
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.userId, this.password, this.sourceType, this.url));
                     this.info("Video Request (Start) : " + JSON.stringify(this.videoStartObjJSON(actionType,
@@ -2931,7 +2947,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     return;
                 }
                 if (this.lastUpdatedStatus !== 'stop') {
-                    this.vidControls.style.display = 'none';
                     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
                     this.info("Video Request (Stop) : " + JSON.stringify(this.videoStopObjJSON(actionType, this.ch5UId)));
                     if (this.videoResponseSubscriptionId) {
@@ -2961,7 +2976,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
             default:
         }
-        this.sendEvent(this.sendEventResolution, this.sizeObj.width + "x" + this.sizeObj.height + "@24fps", 'string');
     }
 
     /**
@@ -3021,7 +3035,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = false;
                 this.isImageReady = true;
                 this.sendEvent(this.sendEventState, 1, 'number');
-
+                this.vidControls.style.display = 'none';
                 // Unsubscribe when stopped
                 if (this.videoResponseSubscriptionId) {
                     unsubscribeState('o', 'Csig.video.response', this.videoResponseSubscriptionId);
@@ -3075,14 +3089,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isImageReady = true;
                 break;
             case 'resized':
-                if (this.lastUpdatedStatus === "resize") {
-                    this.calculation(this.vid);
-                    this.cutCanvas2DisplayVideo(this.context);
-                    this.isImageReady = false;
-                    this.isVideoReady = true;
-                    this.orientationChangeComplete();
-                    this.vidControls.style.display = 'flex';
-                }
+                this.clearSnapShot();
+                this.unsubscribeRefreshImage();
+                this.calculation(this.vid);
+                this.cutCanvas2DisplayVideo(this.context);
+                this.isImageReady = false;
+                this.isVideoReady = true;
+                this.orientationChangeComplete();
+                this.vidControls.style.display = 'flex';
                 break;
             case 'error':
                 this.info("Error case in Csig.video.response with status code : " + responseStatCode);
