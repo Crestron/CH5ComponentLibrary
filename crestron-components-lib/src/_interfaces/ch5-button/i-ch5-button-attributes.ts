@@ -143,8 +143,8 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`formtype` attribute",
      * "***",
-     * "Valid values: 'cancel' and 'submit'.",
-     * "submit: The value submit,submits the form data.",
+     * "Valid values: 'cancel' and 'submit'. ",
+     * "submit: The value submit,submits the form data. ",
      * "cancel: The value cancel, reset all the controls of form to their initial values."
      * ]
      * @name formtype
