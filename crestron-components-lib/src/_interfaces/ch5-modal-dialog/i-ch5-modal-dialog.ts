@@ -59,10 +59,9 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  *            "    sendeventonbeforehide=\"${4:signal_on_before_hide}\"",
  *            "    sendeventonafterhide=\"${5:signal_on_after_hide}\"",
  *            "    sendeventonok=\"${6:signal_on_ok}\"",
- *            "    sendSignaloncancel=\"${7:signal_on_cancel}\"",
  *            "    >",
  *            "    <p>Sample text</p>",
- *            "    <ch5-image id=\"${8:ex1-img}\" url=\"${9:some_server_url}\">",
+ *            "    <ch5-image id=\"${7:ex1-img}\" url=\"${8:some_server_url}\">",
  *           "    </ch5-image>",
  *            "</ch5-modal-dialog>$0"
  *        ]

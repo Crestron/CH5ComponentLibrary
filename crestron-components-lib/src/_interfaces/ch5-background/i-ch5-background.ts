@@ -37,7 +37,7 @@ import { ICh5BackgroundAttributes } from './i-ch5-background-attributes';
  *      "prefix": "ch5-background:default",
  *      "description": "Crestron Background (Default)",
  *      "body": [
- *        "<ch5-background url=\"${5:http://someServer/background.png}\">",
+ *        "<ch5-background url=\"${1:http://someServer/background.png}\">",
  *         "</ch5-background>$0"
  *        ]
  *    },
@@ -45,17 +45,17 @@ import { ICh5BackgroundAttributes } from './i-ch5-background-attributes';
  *      "prefix": "ch5-background:all-attributes",
  *      "description": "Crestron Background (All Attributes)",
  *      "body": [
- *        "<ch5-background url=\"${5:http://someServer/background.png}\">",
+ *        "<ch5-background url=\"${1:http://someServer/background.png}\"",
  *         "\trefreshrate=\"${2:10}\"",
  *         "\tbackgroundcolor=\"${3:black}\"",
  *         "\trepeat=\"${4|no-repeat,repeat,repeat-x,repeat-y|}\"",
  *         "\tscale=\"${5|stretch,fill,fit|}\"",
  *         "\timgbackgroundcolor=\"${6:black}\"",
  *         "\ttransitioneffect=\"${7:ease}\"",
- *         "\transitionduration=\"${8:1s}\"",
+ *         "\ttransitionduration=\"${8:1s}\"",
  *         "\treceivestateurl=\"${9}\"",
  *         "\treceivestatebackgroundcolor=\"${10}\"",
- *         "\treceivestaterefreshrate=\"${11}\"",
+ *         "\treceivestaterefreshrate=\"${11}\">",
  *         "</ch5-background>$0"
  *        ]
  *    }
