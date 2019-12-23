@@ -6,7 +6,15 @@
 // under which you licensed this source code.
 
 import { ICh5Common, ICh5CommonAttributes } from "../ch5-common";
-import { TCh5ButtonSize, TCh5ButtonIconPosition, TCh5ButtonOrientation, TCh5ButtonShape, TCh5ButtonStretch, TCh5ButtonType } from "./types";
+import {
+    TCh5ButtonSize,
+    TCh5ButtonIconPosition,
+    TCh5ButtonOrientation,
+    TCh5ButtonShape,
+    TCh5ButtonStretch,
+    TCh5ButtonType,
+    TCh5ButtonActionType
+} from "./types";
 
 
 /**
@@ -129,6 +137,19 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * @name type
      */
     type: TCh5ButtonType;
+
+    /**
+     * @documentation
+     * [
+     * "`formtype` attribute",
+     * "***",
+     * "Valid values: 'cancel' and 'submit'.",
+     * "submit: The value submit,submits the form data.",
+     * "cancel: The value cancel, reset all the controls of form to their initial values."
+     * ]
+     * @name formtype
+     */
+    formType: TCh5ButtonActionType;
 
     /**
      * @documentation
