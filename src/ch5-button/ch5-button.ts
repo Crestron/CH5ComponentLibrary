@@ -1158,7 +1158,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 break;
             case 'formtype':
                 if (this.hasAttribute('formtype')) {
-                    const actionTypeValue = this.getAttribute('formType') as TCh5ButtonActionType;
+                    const actionTypeValue = this.getAttribute('formtype') as TCh5ButtonActionType;
                     this.formType = actionTypeValue;
                 }
                 break;
