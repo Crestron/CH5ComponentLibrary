@@ -108,7 +108,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * Time needed for the sendOnTouch to trigger/reinforce
      */
-    public static TOUCHTIMEOUT: number = 500;
+    public static TOUCHTIMEOUT: number = 200;
 
     public static CONTAINERCLASSNAME: string = 'cb-cntr';
 
@@ -268,7 +268,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * The name of the boolean signal that will be sent to native on touch.
      * boolean true while finger is on the glass, digital false when finger is released or “roll out”.
-     * The signal will be sent with value true and reasserted true every 500ms while the finger is on the
+     * The signal will be sent with value true and reasserted true every 200ms while the finger is on the
      * component. The reassertion is needed to avoid unending ramp should there be a communications error, a failure of
      * the button itself or any intermediate proxy of the signal.
      * This signal should not be generated as part of a gesture swipe.
