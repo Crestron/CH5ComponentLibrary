@@ -108,7 +108,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * Time needed for the sendOnTouch to trigger/reinforce
      */
-    public static TOUCHTIMEOUT: number = 500;
+    public static TOUCHTIMEOUT: number = 200;
 
     public static CONTAINERCLASSNAME: string = 'cb-cntr';
 
