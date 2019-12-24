@@ -75,7 +75,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public preLoaderCssClass = 'preLoader';
     public loaderCssClass = 'loader';
     public fullScreenStyleClass = 'fullScreenStyle'
-
     private videoErrorMessages = new Map<number, string>();
 
     /**
