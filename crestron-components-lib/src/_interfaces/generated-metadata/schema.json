@@ -313,6 +313,7 @@
               "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
             ],
             "value": [
+              "",
               "regular",
               "x-small",
               "small",
@@ -2759,7 +2760,6 @@
               "    sendeventonbeforehide=\"${4:signal_on_before_hide}\"",
               "    sendeventonafterhide=\"${5:signal_on_after_hide}\"",
               "    sendeventonok=\"${6:signal_on_ok}\"",
-              "    sendSignaloncancel=\"${7:signal_on_cancel}\"",
               "    >",
               "    <p>Sample text</p>",
               "    <ch5-image id=\"${8:ex1-img}\" url=\"${9:some_server_url}\">",
@@ -3335,8 +3335,8 @@
               "\tindexid=\"${11|idx|}\">",
               "\t<template>",
               "\t\t<ch5-select-option sendeventonclick=\"${12}\"",
-              "\t\t\treceivestateselected=\"${13}\">",
-              "\t\t\receivestatelabel=\"${14}\">",
+              "\t\t\treceivestateselected=\"${13}\"",
+              "\t\t\treceivestatelabel=\"${14}\">",
               "\t\t\t<span>Option {{label}}</span>",
               "\t\t</ch5-select-option>",
               "\t</template>",
@@ -6787,10 +6787,10 @@
             "documentation": [
               "`url` attribute",
               "***",
-              "Use when one or more image URLs will be used as a background.",
+              "For when one or more image URLs will be used as the background.",
               "Supported image types include JPEG, PNG, SVG, and BMP.",
-              "Motion GIFs are not supported. Multiple RLs can be provided ",
-              "separated by a | (vertical bar) to have images cycled over time."
+              "Animated GIFs are not supported. Multiple URLs can be provided ",
+              "separated by | (vertical bar) to have images cycle over time."
             ],
             "value": [],
             "name": "url"
@@ -7003,7 +7003,7 @@
             "prefix": "ch5-background:default",
             "description": "Crestron Background (Default)",
             "body": [
-              "<ch5-background url=\"${5:http://someServer/background.png}\">",
+              "<ch5-background url=\"${1:http://someServer/background.png}\">",
               "</ch5-background>$0"
             ]
           },
@@ -7011,17 +7011,17 @@
             "prefix": "ch5-background:all-attributes",
             "description": "Crestron Background (All Attributes)",
             "body": [
-              "<ch5-background url=\"${5:http://someServer/background.png}\">",
+              "<ch5-background url=\"${1:http://someServer/background.png}\"",
               "\trefreshrate=\"${2:10}\"",
               "\tbackgroundcolor=\"${3:black}\"",
               "\trepeat=\"${4|no-repeat,repeat,repeat-x,repeat-y|}\"",
               "\tscale=\"${5|stretch,fill,fit|}\"",
               "\timgbackgroundcolor=\"${6:black}\"",
               "\ttransitioneffect=\"${7:ease}\"",
-              "\transitionduration=\"${8:1s}\"",
+              "\ttransitionduration=\"${8:1s}\"",
               "\treceivestateurl=\"${9}\"",
               "\treceivestatebackgroundcolor=\"${10}\"",
-              "\treceivestaterefreshrate=\"${11}\"",
+              "\treceivestaterefreshrate=\"${11}\">",
               "</ch5-background>$0"
             ]
           }
@@ -7333,18 +7333,14 @@
               "`size` attribute",
               "***",
               "The display size for the video. The default size is 'small' if not entered. ",
-              "The size options for the aspect ratio 16:9 are 'x-small' (width: 256, height: 144), ",
-              "'small' (width: 512, height: 288), 'regular' (width: 768, height: 432), 'large' (width: 1024, ",
-              "height: 576), 'x-large' (width: 1280, height: 720) and 'xx-large' (width: 1920, height: 1080). ",
-              "The size options for the aspect ratio 4:3 are 'x-small' (width: 192, height: 144), ",
-              "'small' (width: 384, height: 288), 'regular' (width: 576, height: 432), 'large' (width: 768, ",
-              "height: 576), 'x-large' (width: 960, height: 720) and 'xx-large' (width: 1440, height: 1080). ",
+              "The size options for the aspect ratio 16:9 and 4:3 are 'x-small' (width: 25vw, height: 25vh), ",
+              "'small' (width: 40vw, height: 40vh), 'large' (width: 55vw, ",
+              "height: 55vh), 'x-large' (width: 70vw, height: 70vh) and 'xx-large' (width: 85vw, height: 80vh). ",
               "The user needs to select the appropriate size to fit the container."
             ],
             "value": [
               "x-small",
               "small",
-              "regular",
               "large",
               "x-large",
               "xx-large"
@@ -7385,7 +7381,8 @@
             "documentation": [
               "`sendEventSelectionChange` attribute",
               "***",
-              "Sends a signal on a source selection change."
+              "Sends a signal on a source selection change when the source selection ",
+              "is updated using the 'receivestateselect' attribute."
             ],
             "value": [],
             "name": "sendeventselectionchange"
@@ -7403,7 +7400,8 @@
             "documentation": [
               "`sendEventSelectionURL` attribute",
               "***",
-              "The current selected video URL."
+              "Sends a signal on an url change when the source url ",
+              "is updated using the 'receiveStateUrl' attribute."
             ],
             "value": [],
             "name": "sendeventselectionurl"
@@ -7632,7 +7630,7 @@
             "prefix": "ch5-video:default",
             "description": "Provides a view onto a streaming video window. Components that are to reside above the video that need to be visible and active, examples include buttons to control playback, text describing the video, and annotation controls, need to be defined as children elements to this component.",
             "body": [
-              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9,4:3}\" controls=\"${3:true,false}\" size=\"${4:regular,x-small,small,large,x-large,xx-large}\" sourcetype=\"${5:Network,HDMI,DM}\" userid=\"${6}\" snapshotuserid=\"${7}\" password=\"${8}\" snapshotpassword=\"${9}\" snapshoturl=\"${10}\" url=\"${11}\" stretch=\"${12:true,false}\" zindex=\"${13}\" snapshotrefreshrate=\"${14}\">",
+              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9,4:3}\" controls=\"${3:true,false}\" size=\"${4:x-small,small,large,x-large,xx-large}\" sourcetype=\"${5:Network,HDMI,DM}\" userid=\"${6}\" snapshotuserid=\"${7}\" password=\"${8}\" snapshotpassword=\"${9}\" snapshoturl=\"${10}\" url=\"${11}\" stretch=\"${12:true,false}\" zindex=\"${13}\" snapshotrefreshrate=\"${14}\">",
               "</ch5-video>$0"
             ]
           },
@@ -7640,7 +7638,7 @@
             "prefix": "ch5-video:receive-signal",
             "description": "Provides a view onto a streaming video window. Components that are to reside above the video that need to be visible and active, examples include buttons to control playback, text describing the video, and annotation controls, need to be defined as children elements to this component.",
             "body": [
-              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9,4:3}\" controls=\"${3:true,false}\" size=\"${4:regular,x-small,small,large,x-large,xx-large}\" sourcetype=\"${5:Network,HDMI,DM}\" userid=\"${6}\" snapshotuserid=\"${7}\" password=\"${8}\" snapshotpassword=\"${9}\" snapshoturl=\"${10}\" url=\"${11}\" stretch=\"${12:true,false}\" receivestateselect=\"${13}\" receivestatevideourl=\"${14}\" receivestatepositionchange=\"${15}\" receivestatesourcetype=\"${16}\" receivestateuserid=\"${17}\" receivestatepassword=\"${18}\" receivestatesnapshoturl=\"${19}\" receivestatesnapshotrefreshrate=\"${20}\" receivestatesnapshotuserid=\"${21}\" receivestatesnapshotpassword=\"${22}\" receivestateplay=\"${23}\" zindex=\"${24}\" snapshotrefreshrate=\"${25}\" receivestatevideocount=\"${26}\">",
+              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9,4:3}\" controls=\"${3:true,false}\" size=\"${4:x-small,small,large,x-large,xx-large}\" sourcetype=\"${5:Network,HDMI,DM}\" userid=\"${6}\" snapshotuserid=\"${7}\" password=\"${8}\" snapshotpassword=\"${9}\" snapshoturl=\"${10}\" url=\"${11}\" stretch=\"${12:true,false}\" receivestateselect=\"${13}\" receivestatevideourl=\"${14}\" receivestatepositionchange=\"${15}\" receivestatesourcetype=\"${16}\" receivestateuserid=\"${17}\" receivestatepassword=\"${18}\" receivestatesnapshoturl=\"${19}\" receivestatesnapshotrefreshrate=\"${20}\" receivestatesnapshotuserid=\"${21}\" receivestatesnapshotpassword=\"${22}\" receivestateplay=\"${23}\" zindex=\"${24}\" snapshotrefreshrate=\"${25}\" receivestatevideocount=\"${26}\">",
               "</ch5-video>$0"
             ]
           }

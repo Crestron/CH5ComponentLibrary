@@ -6,7 +6,15 @@
 // under which you licensed this source code.
 
 import { ICh5Common, ICh5CommonAttributes } from "../ch5-common";
-import { TCh5ButtonSize, TCh5ButtonIconPosition, TCh5ButtonOrientation, TCh5ButtonShape, TCh5ButtonStretch, TCh5ButtonType } from "./types";
+import {
+    TCh5ButtonSize,
+    TCh5ButtonIconPosition,
+    TCh5ButtonOrientation,
+    TCh5ButtonShape,
+    TCh5ButtonStretch,
+    TCh5ButtonType,
+    TCh5ButtonActionType
+} from "./types";
 
 
 /**
@@ -133,6 +141,19 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
+     * "`formtype` attribute",
+     * "***",
+     * "Valid values: 'cancel' and 'submit'. ",
+     * "submit: The value submit,submits the form data. ",
+     * "cancel: The value cancel, reset all the controls of form to their initial values."
+     * ]
+     * @name formtype
+     */
+    formType: TCh5ButtonActionType;
+
+    /**
+     * @documentation
+     * [
      * "`receivestateselected` attribute",
      * "***",
      * "When received, applies a true value applied by the selected class (ch5-button--selected)."
@@ -192,7 +213,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      */
     // * Implementation documentation for developers
     // * "The signal will be sent with value true and reasserted",
-    // * "true every 500ms while the finger is on the",
+    // * "true every 200ms while the finger is on the",
     // * "component. The reassertion is needed to avoid",
     // * "unending ramp should there be a communications error,",
     // * "a failure of the button itself, or any intermediate proxy of",

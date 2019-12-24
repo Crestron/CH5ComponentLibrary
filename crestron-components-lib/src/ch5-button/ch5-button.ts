@@ -15,7 +15,8 @@ import {
     TCh5ButtonShape,
     TCh5ButtonSize,
     TCh5ButtonStretch,
-    TCh5ButtonType
+    TCh5ButtonType,
+    TCh5ButtonActionType
 } from '../_interfaces/ch5-button/types';
 
 import { ICh5ButtonAttributes } from "../_interfaces/ch5-button/i-ch5-button-attributes";
@@ -108,7 +109,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * Time needed for the sendOnTouch to trigger/reinforce
      */
-    public static TOUCHTIMEOUT: number = 500;
+    public static TOUCHTIMEOUT: number = 200;
 
     public static CONTAINERCLASSNAME: string = 'cb-cntr';
 
@@ -194,6 +195,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _size: TCh5ButtonSize = '';
 
     /**
+     * action type of the button
+     *
+     * HTML attribute name: actiontype
+     */
+    private _formType: TCh5ButtonActionType = '';
+
+    /**
      * When stretch property is set, the button element inherits the width or/and height of the container.
      * If stretch by height is used, the button will be responsive based on the label length, until reaches the
      * max-width of the container.
@@ -268,7 +276,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * The name of the boolean signal that will be sent to native on touch.
      * boolean true while finger is on the glass, digital false when finger is released or “roll out”.
-     * The signal will be sent with value true and reasserted true every 500ms while the finger is on the
+     * The signal will be sent with value true and reasserted true every 200ms while the finger is on the
      * component. The reassertion is needed to avoid unending ramp should there be a communications error, a failure of
      * the button itself or any intermediate proxy of the signal.
      * This signal should not be generated as part of a gesture swipe.
@@ -908,6 +916,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             'size',
             'stretch',
             'type',
+            'formtype',
 
             'selected',
             'customclassselected',
@@ -955,6 +964,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
         if (this.hasAttribute('type')) {
             this.type = this.getAttribute('type') as TCh5ButtonType;
+        }
+        if (this.hasAttribute('formtype')) {
+            this.formType = this.getAttribute('formtype') as TCh5ButtonActionType;
         }
         let isSelected = false;
         if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
@@ -1144,6 +1156,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                     this.updateCssClasses();
                 }
                 break;
+            case 'formtype':
+                if (this.hasAttribute('formtype')) {
+                    const actionTypeValue = this.getAttribute('formtype') as TCh5ButtonActionType;
+                    this.formType = actionTypeValue;
+                }
+                break;
             case 'customclassselected':
                 if (this.hasAttribute('customclassselected')) {
                     this.customClassState = newValue;
@@ -1259,6 +1277,19 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     public get label() {
         return this._label;
+    }
+
+    public set formType(value: TCh5ButtonActionType) {
+        this.info('set formType("' + value + '")');
+        if (!isNil(value)) {
+            this.setAttribute('formType', value);
+        } else {
+            this.removeAttribute('formType');
+        }
+    }
+
+    public get formType(): TCh5ButtonActionType {
+        return this._formType;
     }
 
     public set iconClass(value: string) {

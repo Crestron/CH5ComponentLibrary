@@ -43,7 +43,7 @@ import { ICh5Common } from "../ch5-common";
  *      "prefix": "ch5-import-htmlsnippet:All Attributes",
  *      "description": "Crestron import-htmlsnippet (All Attributes)",
  *      "body": [
- *        "<ch5-import-htmlsnippet url=\"\" receivestateshowpulse=\"\" data-ch5-noshow-type=\"\" receivestatehidepulse=\"\" receivestateshow=\"\" sendeventonshow=\"\">",
+ *        "<ch5-import-htmlsnippet url=\"\" receivestateshowpulse=\"\" receivestatehidepulse=\"\" receivestateshow=\"\" sendeventonshow=\"\">",
  *         "</ch5-import-htmlsnippet>$0"
  *        ]
  *    }
