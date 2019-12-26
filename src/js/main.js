@@ -277,16 +277,17 @@
 
             if (filterTerm!==''){
                 $(".side-menu .menu-list").attr('style','display:block');
-                $(".menu-list li").filter(function(){
+                $("p.menu-label, .menu-list li").filter(function () {
                     var isShown = false;
                     if ($(this).text().toLowerCase().indexOf(filterTerm) > -1) {
                         isShown = true;
                     }
                     $(this).toggle(isShown);
                 });
-                $('p.menu-label').filter(function(){
+                $('p.menu-label').filter(function () {
                     var isShown = false;
-                    if ($(this).next('.menu-list').find('li:visible').length>0) {
+                    if ($(this).find('a:visible').length > 0
+                        || $(this).next('.menu-list').find('li:visible').length > 0) {
                         isShown = true;
                     }
                     $(this).toggle(isShown);
