@@ -28,7 +28,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`customclass` attribute",
      * "***",
-     * "Contains a list of classes that are applies in the component."
+     * "Contains a list of classes that are applied on the component"
      * ]
      * @name customclass
      */
@@ -161,4 +161,20 @@ export interface ICh5CommonAttributes {
      * @name show
      */
     show: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`dir` attribute",
+     * "***",
+     * "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+     * "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+     * "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+     * "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+     * "finds a character with a strong directionality then it applies that directionality to the whole element."
+     * ]
+     * @name dir
+     */
+    dir: string;
+    
 }
