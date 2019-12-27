@@ -137,7 +137,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -251,6 +251,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -439,6 +452,21 @@
               "secondary"
             ],
             "name": "type"
+          },
+          {
+            "documentation": [
+              "`formtype` attribute",
+              "***",
+              "Valid values: 'cancel' and 'submit'. ",
+              "submit: The value submit,submits the form data. ",
+              "cancel: The value cancel, reset all the controls of form to their initial values."
+            ],
+            "value": [
+              "",
+              "cancel",
+              "submit"
+            ],
+            "name": "formtype"
           },
           {
             "documentation": [
@@ -647,7 +675,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -761,6 +789,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -1072,7 +1113,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -1189,6 +1230,19 @@
           },
           {
             "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
+          },
+          {
+            "documentation": [
               "`alt` attribute",
               "***",
               "Defines an alternative text description for the image."
@@ -1239,15 +1293,6 @@
             ],
             "value": [],
             "name": "password"
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "The image direction."
-            ],
-            "value": [],
-            "name": "dir"
           },
           {
             "documentation": [
@@ -1434,7 +1479,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -1548,6 +1593,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -1887,7 +1945,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -2001,6 +2059,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -2285,7 +2356,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -2399,6 +2470,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -2762,7 +2846,7 @@
               "    sendeventonok=\"${6:signal_on_ok}\"",
               "    >",
               "    <p>Sample text</p>",
-              "    <ch5-image id=\"${8:ex1-img}\" url=\"${9:some_server_url}\">",
+              "    <ch5-image id=\"${7:ex1-img}\" url=\"${8:some_server_url}\">",
               "    </ch5-image>",
               "</ch5-modal-dialog>$0"
             ]
@@ -2787,7 +2871,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -2901,6 +2985,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -3392,7 +3489,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -3506,6 +3603,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -3663,7 +3773,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -3777,6 +3887,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -4206,7 +4329,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -4320,6 +4443,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -4700,7 +4836,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -4814,6 +4950,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -5262,7 +5411,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -5376,6 +5525,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -5642,7 +5804,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -5756,6 +5918,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -5970,7 +6145,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -6084,6 +6259,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -6212,7 +6400,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -6329,6 +6517,19 @@
           },
           {
             "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -6436,7 +6637,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -6553,6 +6754,19 @@
           },
           {
             "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -6644,7 +6858,7 @@
             "prefix": "ch5-import-htmlsnippet:All Attributes",
             "description": "Crestron import-htmlsnippet (All Attributes)",
             "body": [
-              "<ch5-import-htmlsnippet url=\"\" receivestateshowpulse=\"\" data-ch5-noshow-type=\"\" receivestatehidepulse=\"\" receivestateshow=\"\" sendeventonshow=\"\">",
+              "<ch5-import-htmlsnippet url=\"\" receivestateshowpulse=\"\" receivestatehidepulse=\"\" receivestateshow=\"\" sendeventonshow=\"\">",
               "</ch5-import-htmlsnippet>$0"
             ]
           }
@@ -6668,7 +6882,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -6782,6 +6996,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
@@ -7045,7 +7272,7 @@
             "documentation": [
               "`customclass` attribute",
               "***",
-              "Contains a list of classes that are applies in the component."
+              "Contains a list of classes that are applied on the component"
             ],
             "value": [],
             "name": "customclass"
@@ -7159,6 +7386,19 @@
             ],
             "value": [],
             "name": "show"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir"
           },
           {
             "documentation": [
