@@ -933,8 +933,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 "z": zIndex
             },
             "alphablend": alphaBlend, // optional, default true, false indicates video displayed above the HTML
-            "starttime": 1543338896525, // milliseconds since 1-1-1970 UTC
-            "endtime": 1543338898525, // 2000 msecs later
+            "starttime": startTime, // milliseconds since 1-1-1970 UTC
+            "endtime": endTime, // 2000 msecs later
             "timing": "linear" // only linear supported initially
         };
     }
@@ -2249,11 +2249,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.videoCanvasElement.classList.add("videoElements");
         this._addDisplayClasses(this.stretch);
         this._addDisplayClasses(this.size);
-        // this.fullScreenOverlayClick = document.createElement("div");
-        // this.fullScreenOverlayClick.classList.add(this.primaryVideoCssClass);
-        // this.fullScreenOverlayClick.classList.add('fullscreen-overlay-click');
-        // document.body.appendChild(this.fullScreenOverlayClick);
-        // this.fullScreenOverlayClick.style.visibility = 'hidden';
 
         if (!document.getElementById("fullscreen-overlay")) {
             this.fullScreenOverlay = document.createElement("div");
@@ -2262,23 +2257,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.fullScreenOverlay.setAttribute("id", "fullScreenOverlay");
             document.body.appendChild(this.fullScreenOverlay);
             this.fullScreenOverlay.style.visibility = 'hidden';
-        }
-    }
-
-    /**
-     * Changing the selected video size 
-     */
-    private setControlSize() {
-        if (this.size === "x-small") {
-            this.lastAddedClass = "x-small";
-        } else if (this.size === "small") {
-            this.lastAddedClass = "small";
-        } else if (this.size === "large") {
-            this.lastAddedClass = "large";
-        } else if (this.size === "x-large") {
-            this.lastAddedClass = "x-large";
-        } else if (this.size === "xx-large") {
-            this.lastAddedClass = "xx-large";
         }
     }
 
@@ -2406,7 +2384,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.isImageReady) {
             this.vidControlPanel.classList.remove(this.showControl);
         } else {
-            this.vidControlPanel.classList.add(this.showControl);
+            if (this.isFullScreen) {
+                this.exitFullScreen();
+            } else {
+                this.vidControlPanel.classList.add(this.showControl);
+            }
         }
         this.sendEvent(this.sendEventOnClick, true, 'boolean');
         this.autoHideControls();
@@ -2538,31 +2520,35 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return actionType;
     }
 
+    private exitFullScreen() {
+        this.fullScreenMode = false;
+        this.controlFullScreen.innerHTML = '';
+        this.controlFullScreen.innerHTML = this.fullScreenIcon;
+        this.isFullScreen = false;
+        this.zIndex = "0";
+        this.sizeObj.width = this.originalVideoProperties.width;
+        this.sizeObj.height = this.originalVideoProperties.height;
+        this.videoTop = this.originalVideoProperties.top;
+        this.videoLeft = this.originalVideoProperties.left;
+        this.vid.width = this.originalVideoProperties.width;
+        this.vid.height = this.originalVideoProperties.height;
+        this.classList.remove(this.fullScreenStyleClass);
+        this.autoHideControls();
+        this.calculation(this.vid);
+        if (this.stretch === "true") {
+            this.vid.height = this.originalVideoProperties.canvasHeight;
+        }
+        document.body.style.visibility = "visible";
+    }
+
     /**
      * Changes the full screen mode through controls
      */
     private fullScreen() {
         if (this.isFullScreen) {
-            this.fullScreenMode = false;
-            this.vidControlPanel.classList.remove("fullScreen");
-            this.controlFullScreen.innerHTML = '';
-            this.controlFullScreen.innerHTML = this.fullScreenIcon;
-            this.isFullScreen = false;
-            this.zIndex = "0";
-            this.sizeObj.width = this.originalVideoProperties.width;
-            this.sizeObj.height = this.originalVideoProperties.height;
-            this.videoTop = this.originalVideoProperties.top;
-            this.videoLeft = this.originalVideoProperties.left;
-            this.vid.width = this.originalVideoProperties.width;
-            this.vid.height = this.originalVideoProperties.height;
-            this.classList.remove(this.fullScreenStyleClass);
-            this.autoHideControls();
-            this.calculation(this.vid);
-            if (this.stretch === "true") {
-                this.vid.height = this.originalVideoProperties.canvasHeight;
-            }
-            document.body.style.visibility = "visible";
+            this.exitFullScreen();
         } else {
+            this.vidControlPanel.classList.remove(this.showControl);
             if (Ch5VideoEventHandler.isPortrait()) {
                 this.isPotraitMode = true;
             } else {
@@ -2651,7 +2637,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.controlFullScreen.removeEventListener('click', this.fullScreen.bind(this));
         this.videoCanvasElement.removeEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
-        this.fullScreenOverlay.removeEventListener('click', this.manageControls.bind(this));
     }
 
     /**
