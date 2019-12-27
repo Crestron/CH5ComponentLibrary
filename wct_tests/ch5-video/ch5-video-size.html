@@ -189,13 +189,6 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
             });
         });
 
-         test('controls element should have x-small class if size attribute having "x-small" value', function(done) {
-               flush(function() {
-                  let controls = ch5Video.querySelector('.controls');
-                    expect(controls.className).to.contain(availablesizes[0]);
-                done();
-            });
-        });
     });
 
     suite('ch5-video small size', function() {
@@ -219,13 +212,7 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
                 done();
             });
         });
-         test('controls element should have small class if size attribute having "small" value', function(done) {
-               flush(function() {
-                  let controls = ch5Video.querySelector('.controls');
-                    expect(controls.className).to.contain(availablesizes[1]);
-                done();
-            });
-        });
+
     });
     
 
@@ -258,13 +245,7 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
                 done();
             });
         });
-         test('controls element should have large class if size attribute having "large" value', function(done) {
-               flush(function() {
-                let controls = ch5Video.querySelector('.controls');
-                expect(controls.className).to.contain(availablesizes[2]);
-                done();
-            });
-        });
+
     });
 
      suite('ch5-video x-large size', function() {
@@ -296,13 +277,7 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
                 done();
             });
         });
-         test('controls element should have large class if size attribute having "x-large" value', function(done) {
-               flush(function() {
-                let controls = ch5Video.querySelector('.controls');
-                expect(controls.className).to.contain(availablesizes[3]);
-                done();
-            });
-        });
+
     });
 
     suite('ch5-video xx-large size', function() {
@@ -334,13 +309,7 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
                 done();
             });
         });
-         test('controls element should have large class if size attribute having "xx-large" value', function(done) {
-               flush(function() {
-                let controls = ch5Video.querySelector('.controls');
-                expect(controls.className).to.contain(availablesizes[4]);
-                done();
-            });
-        });
+
     });
     suite('ch5-video xx-large with aspectratio 4:3', function() {
         let ch5Video;
@@ -371,13 +340,7 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
                 done();
             });
         });
-         test('controls element should have large class if size attribute having "xx-large" value', function(done) {
-               flush(function() {
-                let controls = ch5Video.querySelector('.controls');
-                expect(controls.className).to.contain(availablesizes[4]);
-                done();
-            });
-        });
+
     });
 
 </script>
