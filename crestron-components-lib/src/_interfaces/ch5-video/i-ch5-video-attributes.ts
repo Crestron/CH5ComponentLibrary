@@ -441,4 +441,15 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      */
     receiveStatePositionChange: string;
 
+    /**
+     * @name receivestatevideocount
+     * @documentation
+     * [
+     * "`receiveStateVideoCount` attribute",
+     *  "***",
+     *  "Provides the count of the videos."
+     * ]
+     */
+    receiveStateVideoCount: string;
+
 }
