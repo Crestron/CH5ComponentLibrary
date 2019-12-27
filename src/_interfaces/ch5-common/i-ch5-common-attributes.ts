@@ -28,7 +28,7 @@ export interface ICh5CommonAttributes {
      * [
      * "`customclass` attribute",
      * "***",
-     * "Contains a list of classes that are applies in the component."
+     * "Contains a list of classes that are applied on the component"
      * ]
      * @name customclass
      */
