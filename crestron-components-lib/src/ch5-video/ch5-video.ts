@@ -1322,6 +1322,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getBooleanSignal(sigNameStatePlay);
         if (sigStatePlay) {
             this.subReceiveStatePlay = sigStatePlay.subscribe((newValue: any) => {
+                newValue = !this.isIntersectionObserve ? null : newValue;
                 this.fromReceiveStatePlay = true;
                 this.receiveStatePlayStatus = "true";
                 this.playValue = newValue;
