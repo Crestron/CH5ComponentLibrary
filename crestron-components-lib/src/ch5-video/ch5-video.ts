@@ -509,6 +509,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private vidleft: number = 0;
     private vidTop: number = 0;
     private controlTimer: any;
+    private controlTop: number = -1;
+    private controlLeft: number = -1;
 
     /**
      * CONSTRUCTOR
@@ -559,6 +561,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         let responseCount = 0;
         const documentContainer: HTMLElement = document.createElement('template');
         documentContainer.innerHTML = this._tmplString;
+        console.log(this._receiveStateUrl);
+        console.log(this._receiveStateUserId);
+        console.log(this._receiveStatePassword);
+        console.log(this.getAttribute("receivestateurl"));
+        console.log(this.getAttribute("receivestatesourcetype"));
+        console.log(this.getAttribute("receivestateuserid"));
         if (this.hasAttribute("receivestateurl")) {
             const rsVURL = this.getAttribute("receivestateurl") as string;
             let selectObjectUrl: string | number | undefined = 0;
@@ -1376,7 +1384,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.unSubscribeVideos(this.selectObject);
                         this.isVideoReady = false;
                         this.lastUpdatedStatus = "";
-                        this.subscribeVideos(newValue.toString());
+                        setTimeout(() => {
+                            this.subscribeVideos(newValue.toString());
+                        }, 10000);
                     }
                 }
             });
@@ -2397,6 +2407,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Play when the user clicks on the video or play/stop control button
      */
     private manageControls() {
+        console.log("isImageReady: " + this.isImageReady);
         if (this.isImageReady) {
             this.vidControlPanel.classList.remove(this.showControl);
         } else {
@@ -2873,7 +2884,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private videoResponse(response: any) {
         const isMyObjectEmpty = !Object.keys(response).length;
 
-        this.orientationChangeComplete();
+        // this.orientationChangeComplete();
         if (isMyObjectEmpty) {
             this.isVideoReady = false;
             return;
@@ -2941,8 +2952,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'started':
+                console.log("===Started===");
                 this.clearSnapShot();
                 this.unsubscribeRefreshImage();
+                console.log("===Ended===");
                 this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.cutCanvas2DisplayVideo(this.context);
                 this.retryCount = 0;
@@ -3048,6 +3061,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return { xPos, yPos };
     }
 
+    private setControlDimension(){
+        console.log(this.controlLeft + "; " + this.controlTop);
+        this.vidControlPanel.style.width = this.sizeObj.width + 'px';
+        this.vidControlPanel.style.left = this.controlLeft + 'px';
+        this.vidControlPanel.style.top = this.controlTop + 'px';
+    }
+
     /**
      * Calculate the size and position of the canvas
      * @param video
@@ -3066,6 +3086,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.videoTop = this.position.yPos;
                 this.videoLeft = this.position.xPos;
                 this.sizeObj = displaySize;
+                this.setControlDimension();
             } else {
                 // Set the canvas width and height
                 if (this.aspectRatio === "16:9") {
@@ -3075,6 +3096,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 video.width = this.sizeObj.width;
                 video.height = this.sizeObj.height;
+                this.setControlDimension();
             }
         } else {
             let totalWidth: number = 0;
@@ -3115,6 +3137,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             } else if (displaySize.height < totalHeight) {
                 this.position = this.calculateLetterBoxPadding(totalHeight, displaySize.height);
             }
+
+            console.log(this.position);
+
+            this.controlTop = this.position.yPos;
+            this.controlLeft = this.position.xPos;
+
             // Do not add during fullscreen mode
             if (!this.isFullScreen) {
                 this.position.xPos += offsetLeft;
@@ -3132,6 +3160,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.videoTop = 0;
             }
             this.sizeObj = displaySize;
+            this.setControlDimension();
         }
     }
 
