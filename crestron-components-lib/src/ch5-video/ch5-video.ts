@@ -2535,9 +2535,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.classList.remove(this.fullScreenStyleClass);
         this.autoHideControls();
         this.calculation(this.vid);
-        if (this.stretch === "true") {
-            this.vid.height = this.originalVideoProperties.canvasHeight;
-        }
+        // if (this.stretch === "true") {
+        //     this.vid.height = this.originalVideoProperties.canvasHeight;
+        // }
         document.body.style.visibility = "visible";
     }
 
