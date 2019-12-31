@@ -509,6 +509,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private vidleft: number = 0;
     private vidTop: number = 0;
     private controlTimer: any;
+    private controlTop: number = -1;
+    private controlLeft: number = -1;
 
     /**
      * CONSTRUCTOR
@@ -1376,7 +1378,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.unSubscribeVideos(this.selectObject);
                         this.isVideoReady = false;
                         this.lastUpdatedStatus = "";
-                        this.subscribeVideos(newValue.toString());
+                        setTimeout(() => {
+                            this.subscribeVideos(newValue.toString());
+                        }, 10000);
                     }
                 }
             });
@@ -2397,6 +2401,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Play when the user clicks on the video or play/stop control button
      */
     private manageControls() {
+        if (this.isFullScreen) {
+            this.exitFullScreen();
+            return;
+        }
+
         if (this.isImageReady) {
             this.vidControlPanel.classList.remove(this.showControl);
         } else {
@@ -2532,31 +2541,34 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return actionType;
     }
 
+    private exitFullScreen() {
+        this.fullScreenMode = false;
+        this.vidControlPanel.classList.remove("fullScreen");
+        this.controlFullScreen.innerHTML = '';
+        this.controlFullScreen.innerHTML = this.fullScreenIcon;
+        this.isFullScreen = false;
+        this.zIndex = "0";
+        this.sizeObj.width = this.originalVideoProperties.width;
+        this.sizeObj.height = this.originalVideoProperties.height;
+        this.videoTop = this.originalVideoProperties.top;
+        this.videoLeft = this.originalVideoProperties.left;
+        this.vid.width = this.originalVideoProperties.width;
+        this.vid.height = this.originalVideoProperties.height;
+        this.classList.remove(this.fullScreenStyleClass);
+        this.autoHideControls();
+        this.calculation(this.vid);
+        document.body.style.visibility = "visible";
+        // TODO: Ask Colm regarding sending the Resize
+        // this.isVideoReady = true;
+        // this.publishVideoEvent("resize");
+    }
+
     /**
      * Changes the full screen mode through controls
      */
     private fullScreen() {
-        if (this.isFullScreen) {
-            this.fullScreenMode = false;
-            this.vidControlPanel.classList.remove("fullScreen");
-            this.controlFullScreen.innerHTML = '';
-            this.controlFullScreen.innerHTML = this.fullScreenIcon;
-            this.isFullScreen = false;
-            this.zIndex = "0";
-            this.sizeObj.width = this.originalVideoProperties.width;
-            this.sizeObj.height = this.originalVideoProperties.height;
-            this.videoTop = this.originalVideoProperties.top;
-            this.videoLeft = this.originalVideoProperties.left;
-            this.vid.width = this.originalVideoProperties.width;
-            this.vid.height = this.originalVideoProperties.height;
-            this.classList.remove(this.fullScreenStyleClass);
-            this.autoHideControls();
-            this.calculation(this.vid);
-            if (this.stretch === "true") {
-                this.vid.height = this.originalVideoProperties.canvasHeight;
-            }
-            document.body.style.visibility = "visible";
-        } else {
+        if (!this.isFullScreen) {
+            this.vidControlPanel.classList.remove(this.showControl);
             if (Ch5VideoEventHandler.isPortrait()) {
                 this.isPotraitMode = true;
             } else {
@@ -2645,7 +2657,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.controlFullScreen.removeEventListener('click', this.fullScreen.bind(this));
         this.videoCanvasElement.removeEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
-        this.fullScreenOverlay.removeEventListener('click', this.manageControls.bind(this));
     }
 
     /**
@@ -2873,7 +2884,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private videoResponse(response: any) {
         const isMyObjectEmpty = !Object.keys(response).length;
 
-        this.orientationChangeComplete();
+        // this.orientationChangeComplete();
         if (isMyObjectEmpty) {
             this.isVideoReady = false;
             return;
@@ -2911,6 +2922,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const responseStatus = this.responseObj.status.toLowerCase();
         switch (responseStatus.toLowerCase()) {
             case 'stopped':
+                if (this.isFullScreen) {
+                    this.exitFullScreen();
+                }
                 this.retryCount = 0;
                 this.isVideoReady = false;
                 this.isImageReady = true;
@@ -2968,13 +2982,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isImageReady = true;
                 break;
             case 'resized':
-                this.clearSnapShot();
-                this.unsubscribeRefreshImage();
-                this.calculation(this.vid);
-                this.cutCanvas2DisplayVideo(this.context);
-                this.isImageReady = false;
-                this.isVideoReady = true;
-                this.orientationChangeComplete();
+                if (this.lastUpdatedStatus === "resize") {
+                    this.clearSnapShot();
+                    this.unsubscribeRefreshImage();
+                    this.calculation(this.vid);
+                    this.cutCanvas2DisplayVideo(this.context);
+                    this.isImageReady = false;
+                    this.isVideoReady = true;
+                    this.orientationChangeComplete();
+                }
                 break;
             case 'error':
                 this.info("Error case in Csig.video.response with status code : " + responseStatCode);
@@ -3048,6 +3064,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return { xPos, yPos };
     }
 
+    private setControlDimension() {
+        this.vidControlPanel.style.width = this.sizeObj.width + 'px';
+        this.vidControlPanel.style.left = this.controlLeft + 'px';
+        this.vidControlPanel.style.top = this.controlTop + 'px';
+    }
+
     /**
      * Calculate the size and position of the canvas
      * @param video
@@ -3066,6 +3088,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.videoTop = this.position.yPos;
                 this.videoLeft = this.position.xPos;
                 this.sizeObj = displaySize;
+                this.setControlDimension();
             } else {
                 // Set the canvas width and height
                 if (this.aspectRatio === "16:9") {
@@ -3075,6 +3098,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 video.width = this.sizeObj.width;
                 video.height = this.sizeObj.height;
+                this.setControlDimension();
             }
         } else {
             let totalWidth: number = 0;
@@ -3115,6 +3139,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             } else if (displaySize.height < totalHeight) {
                 this.position = this.calculateLetterBoxPadding(totalHeight, displaySize.height);
             }
+
+            this.controlTop = this.position.yPos;
+            this.controlLeft = this.position.xPos;
+
             // Do not add during fullscreen mode
             if (!this.isFullScreen) {
                 this.position.xPos += offsetLeft;
@@ -3132,6 +3160,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.videoTop = 0;
             }
             this.sizeObj = displaySize;
+            this.setControlDimension();
         }
     }
 
