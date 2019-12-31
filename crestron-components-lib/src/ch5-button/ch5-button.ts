@@ -92,7 +92,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * The first value is considered the default one
      */
-    public static SIZES: TCh5ButtonSize[] = ['', 'regular', 'x-small', 'small', 'large', 'x-large'];
+    public static SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
     /**
      * The first value is considered the default one
      */
@@ -192,7 +192,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      *
      * HTML attribute name: size
      */
-    private _size: TCh5ButtonSize = '';
+    private _size: TCh5ButtonSize = 'regular';
 
     /**
      * action type of the button
@@ -524,9 +524,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         // sizes
         Ch5Button.SIZES.forEach((size: TCh5ButtonSize) => {
-            if ('' !== size) {
-                cssClasses.push(this.cssClassPrefix + '--size-' + size);
-            }
+            cssClasses.push(this.cssClassPrefix + '--size-' + size);
         });
 
         // stretches
@@ -680,9 +678,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.type);
 
         // size
-        if ('' !== this.size) {
-            setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--size-' + this.size);
-        }
+        setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--size-' + this.size);
 
         // stretch
         if ('' !== this.stretch) {
