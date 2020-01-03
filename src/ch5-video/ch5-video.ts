@@ -508,7 +508,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private isIntersectionObserve: boolean = false;
     private vidleft: number = 0;
     private vidTop: number = 0;
-    private isAlphaBlend: boolean = false;
+    private isAlphaBlend: boolean = true;
     private controlTimer: any;
 
     /**
@@ -2777,9 +2777,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.responseObj = [];
         const d = new Date();
         if (this.isFullScreen) {
-            this.isAlphaBlend = true;
-        } else {
             this.isAlphaBlend = false;
+        } else {
+            this.isAlphaBlend = true;
         }
         switch (actionType) {
             case 'start':
