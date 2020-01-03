@@ -16,8 +16,6 @@ import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5
 import { Observable, Subscription } from "rxjs";
 import { aspectRatio } from './ch5-video-constants';
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
-import { getRemoteAppender } from "../ch5-logger/utility/getRemoteAppender";
-import { getLogger } from "../ch5-logger/utility/getLogger";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
@@ -2258,9 +2256,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public connectedCallback() {
         this.info('Ch5Video.connectedCallback()');
-        const appender = getRemoteAppender('10.88.24.189', '8080', false);
-        const logger = getLogger(appender, true);
-        logger.error("Docker : " + logger);
         if (this.isInitialized) {
             this.removeIfTagExist();
             customElements.whenDefined('ch5-video').then(() => {
