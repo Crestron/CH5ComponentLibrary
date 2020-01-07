@@ -438,14 +438,8 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
     public connectedCallback() {
         this.contentCleanUp();
 
-        subscribeInViewPortChange(this, () => {
-            this.info(`Ch5List.subscribeInViewPortChange() with elementIsInViewPort = ${this.elementIsInViewPort}`);
-
-            if (this.elementIsInViewPort) {
-                this.templateHelper.checkAndSetSizes();
-                this.templateHelper.customScrollbar(this.divList);
-            } 
-        });
+        this.templateHelper.checkAndSetSizes();
+        this.templateHelper.customScrollbar(this.divList);
 
         const listInitialization = () => {
             // WAI-ARIA Attributes
