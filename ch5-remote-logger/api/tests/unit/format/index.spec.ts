@@ -1,0 +1,1 @@
+require('./ConsoleMessageFormat.spec');

@@ -29,7 +29,7 @@ export class Ch5VideoSubscription {
 
   public static replaceAttrIdxPlaceholder(n: Element, attrName: string, attrVal: string,
     index: number, indexId: string): string | number | undefined {
-    const placeholder: string = `{{${indexId}}}`;
+    const placeholder: string = `${indexId}`;
     if (attrVal.indexOf(placeholder) > -1) {
       // replace indexId
       const valWithoutIndexIdPlaceholder: string =
@@ -60,7 +60,7 @@ export class Ch5VideoSubscription {
 
   public static replaceIndexIdInTmplElemsContent(documentContainer: HTMLElement, index: number, indexId: string) {
     let html: string = documentContainer.innerHTML;
-    const placeholder: string = `{{${indexId}}}`;
+    const placeholder: string = `${indexId}`;
     if (html.indexOf(placeholder) > -1) {
       // replace all placeholder values with item base 1 index
       html = html.replace(new RegExp(placeholder, 'g'), String(index));
