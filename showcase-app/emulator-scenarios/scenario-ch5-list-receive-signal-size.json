@@ -1,41 +1,67 @@
 {
   "cues": [
-      {
-        "type": "boolean",
-        "event": "trigV1",
-        "trigger": true,
-        "actions": [
-          {
-            "state": "sigV1",
-            "type": "number",
-            "logic": "increment",
-            "offset": 5
-          }
-        ]
-      },
-      {
-        "type": "boolean",
-        "event": "trigH1",
-        "trigger": true,
-        "actions": [
-          {
-            "state": "sigH1",
-            "type": "number",
-            "logic": "increment",
-            "offset": 5
-          }
-        ]
-      }
+    {
+      "type": "boolean",
+      "event": "triggerIncrementVerticalList",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receiveSizeVerticalList",
+          "type": "number",
+          "logic": "increment",
+          "offset": 5
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "triggerDecrementVerticalList",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receiveSizeVerticalList",
+          "type": "number",
+          "logic": "decrement",
+          "offset": 3
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "triggerIncrementHorizontalList",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receiveSizeHorizontalList",
+          "type": "number",
+          "logic": "increment",
+          "offset": 5
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "triggerDecrementHorizontalList",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receiveSizeHorizontalList",
+          "type": "number",
+          "logic": "decrement",
+          "offset": 3
+        }
+      ]
+    }
   ],
   "onStart": [
     {
       "type": "number",
-      "state": "sigV1",
+      "state": "receiveSizeHorizontalList",
       "value": 10
     },
     {
       "type": "number",
-      "state": "sigH1",
+      "state": "receiveSizeVerticalList",
       "value": 10
     }
   ]
