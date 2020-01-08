@@ -1362,7 +1362,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 hasSignalChanged = true;
             }
             if (newVal !== this.customClass && hasSignalChanged) {
-                this.setAttribute('customclass', newVal);
+                // this.setAttribute('customclass', newVal);
+                this.customClass = newVal;
             }
         });
 
