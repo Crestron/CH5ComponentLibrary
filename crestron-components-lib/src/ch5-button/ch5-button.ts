@@ -346,7 +346,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * @memberof Ch5Button
      * @type {string | null}
      */
-    private _receiveStateType: string | null = null;
+    private _sigNameReceiveStateType: string | null = null;
 
     /**
      * Subscription reference for type signal
@@ -557,6 +557,15 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             if (null !== sigLabel) {
                 sigLabel.unsubscribe(this._subReceiveLabel);
                 this._sigNameReceiveLabel = '';
+            }
+        }
+
+        if ('' !== this._subReceiveSignalType && '' !== this._sigNameReceiveStateType) {
+            const receiveTypeSigName: string = Ch5Signal.getSubscriptionSignalName('' + this._sigNameReceiveStateType);
+            const sigType: Ch5Signal<string> | null = csf.getStringSignal(receiveTypeSigName);
+            if (null !== sigType) {
+                sigType.unsubscribe('' + this._subReceiveSignalType);
+                this._sigNameReceiveStateType = '';
             }
         }
 
@@ -1642,16 +1651,29 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set receiveStateIconClass(signalName: string | null) {
-
-        if (this._receiveStateIconClass === signalName || isNil(signalName)) {
+        this.info('set receiveStateIconClass(\'' + signalName + '\')');
+        if (!signalName || this._receiveStateIconClass === signalName) {
             return;
+        }
+        // clean up old subscription
+        if (this._receiveStateIconClass) {
+
+            const oldReceiveStateIconClass: string = Ch5Signal.getSubscriptionSignalName('' + this._receiveStateIconClass);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+                .getStringSignal(oldReceiveStateIconClass);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe('' + this.subReceiveSignalIconClass);
+            }
         }
 
         this._receiveStateIconClass = signalName;
-        this.setAttribute('receivestateiconclass', this.receiveStateIconClass as string);
+        this.setAttribute('receivestateiconclass', signalName);
 
+        // setup new subscription.
+        const receiveSateIconClassSigName: string = Ch5Signal.getSubscriptionSignalName('' + this._receiveStateIconClass);
         const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(this.receiveStateIconClass as string);
+            .getStringSignal(receiveSateIconClassSigName);
 
         if (receiveSignal === null) {
             return;
@@ -1675,15 +1697,29 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set receiveStateIconUrl(signalName: string | null) {
-        if (isNil(signalName) || this._receiveStateIconSvgUrl === signalName) {
+        this.info('set receivestateiconurl(\'' + signalName + '\')');
+        if (!signalName || this._receiveStateIconSvgUrl === signalName) {
             return;
+        }
+        // clean up old subscription
+        if (this._receiveStateIconSvgUrl) {
+
+            const oldReceiveIconUrlSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconSvgUrl);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+                .getStringSignal(oldReceiveIconUrlSigName);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(this.subReceiveSignalSvgUrl as string);
+            }
         }
 
         this._receiveStateIconSvgUrl = signalName;
-        this.setAttribute('receivestateiconurl', this.receiveStateIconUrl as string);
+        this.setAttribute('receivestateiconurl', signalName);
 
+        // setup new subscription.
+        const receiveIconurlSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconSvgUrl);
         const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(this.receiveStateIconUrl as string);
+            .getStringSignal(receiveIconurlSigName);
 
         if (receiveSignal === null) {
             return;
@@ -1695,7 +1731,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public get receiveStateIconUrl(): string | null {
-        return this._receiveStateIconSvgUrl;
+        return this._attributeValueAsString('receivestateiconurl');
     }
 
     public set subReceiveSignalSvgUrl(subscription: string | null) {
@@ -1707,28 +1743,42 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set receiveStateType(signalName: string | null) {
+        this.info('set receiveStateType(\'' + signalName + '\')');
 
-        if (this.receiveStateType === signalName || signalName === null) {
+        if (this._sigNameReceiveStateType === signalName || signalName === null) {
             return;
         }
+        // clean up old subscription
+        if (this._sigNameReceiveStateType) {
 
-        this._receiveStateType = signalName;
+            const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateType);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+                .getStringSignal(oldReceiveStateSigName);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(this._subReceiveSignalType as string);
+            }
+        }
+
+        this._sigNameReceiveStateType = signalName;
         this.setAttribute('receivestatetype', signalName);
 
+        // setup new subscription.
+        const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateType);
         const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(this.receiveStateType as string);
+            .getStringSignal(receiveLabelSigName);
 
         if (receiveSignal === null) {
             return;
         }
 
-        this.subReceiveSignalType = receiveSignal.subscribe((newValue: string) => {
+        this._subReceiveSignalType = receiveSignal.subscribe((newValue: string) => {
             this.type = newValue as TCh5ButtonType;
         });
     }
 
     public get receiveStateType(): string | null {
-        return this._receiveStateType;
+        return this._attributeValueAsString('receivestatetype');
     }
 
     public set subReceiveSignalType(subscription: string | null) {
