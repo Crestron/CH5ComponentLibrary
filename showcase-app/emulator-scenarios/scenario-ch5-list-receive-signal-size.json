@@ -2,7 +2,7 @@
   "cues": [
     {
       "type": "boolean",
-      "event": "triggerIncrementVerticalList",
+      "event": "triggerIncrementVerticalListBy5",
       "trigger": true,
       "actions": [
         {
@@ -15,7 +15,20 @@
     },
     {
       "type": "boolean",
-      "event": "triggerDecrementVerticalList",
+      "event": "triggerIncrementVerticalListBy1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receiveSizeVerticalList",
+          "type": "number",
+          "logic": "increment",
+          "offset": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "triggerDecrementVerticalListBy3",
       "trigger": true,
       "actions": [
         {
@@ -28,7 +41,20 @@
     },
     {
       "type": "boolean",
-      "event": "triggerIncrementHorizontalList",
+      "event": "triggerDecrementVerticalListBy1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receiveSizeVerticalList",
+          "type": "number",
+          "logic": "decrement",
+          "offset": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "triggerIncrementHorizontalListBy5",
       "trigger": true,
       "actions": [
         {
@@ -41,7 +67,20 @@
     },
     {
       "type": "boolean",
-      "event": "triggerDecrementHorizontalList",
+      "event": "triggerIncrementHorizontalListBy1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receiveSizeHorizontalList",
+          "type": "number",
+          "logic": "increment",
+          "offset": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "triggerDecrementHorizontalListBy3",
       "trigger": true,
       "actions": [
         {
@@ -49,6 +88,19 @@
           "type": "number",
           "logic": "decrement",
           "offset": 3
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "triggerDecrementHorizontalListBy1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receiveSizeHorizontalList",
+          "type": "number",
+          "logic": "decrement",
+          "offset": 1
         }
       ]
     }

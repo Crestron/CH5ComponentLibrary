@@ -2051,8 +2051,13 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
     private shouldUpdateListScroll(previousItemsCount: number): void {
         this._items = this._getItems();
         if (this._items.length < previousItemsCount) {
-            const widthOfElementsRemoved = (previousItemsCount - this._items.length) * this.itemOffsetWidth;
-            this.animationHelper.updateDragPosition(this.sizeResolver.fullListSize - widthOfElementsRemoved);
+            if (this.isVertical) {
+                const heightOfElementsRemoved = (previousItemsCount - this._items.length) * this.itemOffsetHeight;
+                this.animationHelper.updateDragPosition(this.sizeResolver.fullListSize - heightOfElementsRemoved);
+            } else if (this.isHorizontal) {
+                const widthOfElementsRemoved = (previousItemsCount - this._items.length) * this.itemOffsetWidth;
+                this.animationHelper.updateDragPosition(this.sizeResolver.fullListSize - widthOfElementsRemoved);
+            }
         }
     }
 
