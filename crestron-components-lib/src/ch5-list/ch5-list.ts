@@ -412,6 +412,8 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
      */
     private _previousEffectiveLayoutIndex = 0;
 
+    private _isListVisible: boolean = true;
+
     public constructor() {
         super();
 
@@ -438,8 +440,15 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
     public connectedCallback() {
         this.contentCleanUp();
 
-        this.templateHelper.checkAndSetSizes();
-        this.templateHelper.customScrollbar(this.divList);
+        subscribeInViewPortChange(this, () => {
+            this.info(`Ch5List.subscribeInViewPortChange() with elementIsInViewPort = ${this.elementIsInViewPort}`);
+
+            if (this.elementIsInViewPort && this._isListVisible) {
+                this.templateHelper.checkAndSetSizes();
+                this.templateHelper.customScrollbar(this.divList);
+                this._isListVisible = false;
+            } 
+        });
 
         const listInitialization = () => {
             // WAI-ARIA Attributes
