@@ -16,8 +16,6 @@ import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5
 import { Observable, Subscription } from "rxjs";
 import { aspectRatio } from './ch5-video-constants';
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
-import { getRemoteAppender } from "../ch5-logger/utility/getRemoteAppender";
-import { getLogger } from "../ch5-logger/utility/getLogger";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
@@ -522,9 +520,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     public constructor() {
         super();
-        const appender = getRemoteAppender('192.168.139.225', '8080', false);
-        const logger = getLogger(appender, true);
-        logger.error("Docker : " + logger);
         // custom release event
         this.errorEvent = new CustomEvent("error", {
             bubbles: true,
@@ -2276,10 +2271,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (!document.getElementById("fullscreen-overlay")) {
             this.fullScreenOverlay = document.createElement("div");
             this.fullScreenOverlay.classList.add(this.primaryVideoCssClass);
-            // this.fullScreenOverlay.classList.add('fullscreen-overlay');
             this.fullScreenOverlay.setAttribute("id", "fullScreenOverlay");
             document.body.appendChild(this.fullScreenOverlay);
-            // this.fullScreenOverlay.style.visibility = 'hidden';
         }
     }
 
@@ -2477,7 +2470,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param videoImage 
      */
     private drawSnapShot(videoImage: HTMLImageElement) {
-        // this.context.beginPath();
         this.calculateSnapShotPositions();
         this.context.drawImage(videoImage, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
         this.context.save();
@@ -2730,11 +2722,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.videoCanvasElement.addEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
         const positionID = document.getElementById(this.onPositionChange);
-        if (positionID) {
-            if (!this.isOrientationChanged && !this.isFullScreen) {
-                // positionID.addEventListener('scroll', this.positionChange.bind(this));
-            }
-        }
 
         Ch5Video.EVENT_LIST = Ch5VideoEventHandler.attachWindowEvents();
         const doSubscribe = Ch5Video.EVENT_LIST.subscribe((event: Event) => {
