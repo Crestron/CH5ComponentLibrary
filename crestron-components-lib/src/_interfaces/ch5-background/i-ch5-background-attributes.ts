@@ -35,7 +35,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "Use when one or more background colors will be used via the CSS background-color property ",
    * "syntax including color names, #hex codes, rgb(), rgba(), hsl() and hsla().",
    * "Multiple colors can be provided separated by a | (vertical bar) to have colors ",
-   * "cycled based on the time defined.",
+   * "cycled based on the time defined. A black color will be used for invalid input.",
    * "This attribute is superseded by the url attribute."
    * ]
    * @name backgroundcolor
