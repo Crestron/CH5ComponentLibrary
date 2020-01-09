@@ -32,6 +32,10 @@ export interface IPUBLISHEVENT {
     credentials?: ICREDENTIALS;
     source?: ISOURCE;
     location?: ILOCATION;
+    alphablend?: boolean;
+    starttime?: number;
+    endtime?: number;
+    timing?: string;
 }
 
 export interface IBACKGROUND {
