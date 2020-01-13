@@ -2052,11 +2052,11 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         this._items = this._getItems();
         if (this._items.length < previousItemsCount) {
             if (this.isVertical) {
-                const heightOfElementsRemoved = (previousItemsCount - this._items.length) * this.itemOffsetHeight;
-                this.animationHelper.updateDragPosition(this.sizeResolver.fullListSize - heightOfElementsRemoved);
+                this.currentYPosition = 0;
+                this.templateHelper.resizeList(this.divList, this.templateVars);
             } else if (this.isHorizontal) {
-                const widthOfElementsRemoved = (previousItemsCount - this._items.length) * this.itemOffsetWidth;
-                this.animationHelper.updateDragPosition(this.sizeResolver.fullListSize - widthOfElementsRemoved);
+                this.currentXPosition = 0;
+                this.templateHelper.resizeList(this.divList, this.templateVars);
             }
         }
     }
