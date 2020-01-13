@@ -119,6 +119,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public cssClassPrefix = 'ch5-button';
     public pressedCssClassPostfix = '--pressed';
     public selectedCssClassPostfix = '--selected';
+    public iosCssClassPostfix = '--ios-vertical';
 
 
     private _elContainer: HTMLElement = {} as HTMLElement;
@@ -126,6 +127,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _elLabel: HTMLElement = {} as HTMLElement;
     private _elIcon: HTMLElement = {} as HTMLElement;
     private _elImg: HTMLImageElement = {} as HTMLImageElement;
+    private _elIosDots: HTMLElement = {} as HTMLElement;
 
     /**
      * Time after that press will be triggered
@@ -486,6 +488,16 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     /**
+     * Called this method if you have to wrap the element
+     * @param el html elemen which you have to wrap
+     * @param wrapper wrapper html element
+     */
+    private wrap(el: any, wrapper: HTMLElement) {
+        el.parentNode.insertBefore(wrapper, el);
+        wrapper.appendChild(el);
+    }
+
+    /**
      * Called when the ch5-button component is disconnected from the DOM
      */
     public disconnectedCallback() {
@@ -652,6 +664,32 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._elContainer.appendChild(this._elButton);
     }
 
+    // adding ellipsis in iOS device with vertical button
+    protected createIosEllipsis() {
+        if (isSafariMobile() && this._elLabel.scrollHeight > this._elButton.clientHeight) {
+            if (this._elLabel.firstElementChild) {
+                this._elLabel.removeChild(this._elLabel.firstElementChild);
+            }
+            this._elContainer.classList.add(this.primaryCssClass + this.iosCssClassPostfix);
+            this._elIosDots = document.createElement('i');
+            this._elIosDots.classList.add('dots');
+            this._elIosDots.innerHTML = '...';
+            this._elLabel.appendChild(this._elIosDots);
+            const wrapper: HTMLElement = document.createElement('span');
+            wrapper.classList.add(this.primaryCssClass + '--ios-label');
+            if (!this._elLabel.closest('.ch5-button--ios-label')) {
+                this.wrap(this._elLabel, wrapper);
+            }
+
+            const btnNodes: any = this._elButton.childNodes;
+            btnNodes.forEach((node: any) => {
+                if (node.className === (this.primaryCssClass + '--ios-label') && node.innerText === '') {
+                    node.remove();
+                }
+            });
+        }
+    }
+
     /**
      * Clear the button content in order to avoid duplication of buttons
      * @return {void}
@@ -697,6 +735,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         // orientation
         if ('vertical' === this.orientation) {
             setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.orientation);
+            if (this.shape !== 'circle') {
+                this.createIosEllipsis();
+            }
         }
 
         const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
@@ -704,10 +745,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
                 if (setOfCssClassesToBeApplied.has(cssClass)) {
                     targetEl.classList.add(cssClass);
-                    // this.info('add CSS class',cssClass);
+                    // this.info('add CSS class', cssClass);
                 } else {
                     targetEl.classList.remove(cssClass);
-                    // this.info('remove CSS class',cssClass);
+                    // this.info('remove CSS class', cssClass);
                 }
             });
         }
