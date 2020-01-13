@@ -1369,14 +1369,14 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
                       // its size. This is calculated on pointer down if the offset translate
                       // is set to undefined
                       this.animationHelper.maxOffsetTranslate = undefined;
-                      this.shouldUpdateListScroll(previousItemsCount);
+                      this.shouldUpdateListAndPosition(previousItemsCount);
                     } else {
                       // TODO: Investigate on RTL direction
                       const bufferAmount = this.bufferAmount || 0;
                       const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
 
                       this.animationHelper.maxOffsetTranslate = -maxOffsetTranslate;
-                      this.shouldUpdateListScroll(previousItemsCount);
+                      this.shouldUpdateListAndPosition(previousItemsCount);
                     }
                 }
                 else if (_newValue > 1000) {
@@ -2046,19 +2046,38 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
     }
 
     /**
-     * Check if the list has decreased in size (fewer elements) and update the scroll
+     * Check if a change in the total number of list items should be handled
      */
-    private shouldUpdateListScroll(previousItemsCount: number): void {
+    private shouldUpdateListAndPosition(previousItemsCount: number): void {
         this._items = this._getItems();
+        // list total items have decreased
         if (this._items.length < previousItemsCount) {
             if (this.isVertical) {
-                this.currentYPosition = 0;
-                this.templateHelper.resizeList(this.divList, this.templateVars);
+                this.resetListAndPosition();
             } else if (this.isHorizontal) {
-                this.currentXPosition = 0;
-                this.templateHelper.resizeList(this.divList, this.templateVars);
+                this.resetListAndPosition();
+            }
+            // in endless mode, stop animation, fixes an edge case if the user is scrolling while the size decreases
+            // where the size is not computed correctly during the animation
+            else if (this.endless) {
+                this.animationHelper.stop();
             }
         }
+        // list items have increased, handle RTL
+        else if (this._items.length > previousItemsCount && this.direction === Ch5Common.DIRECTION[1]) {
+            this.resetListAndPosition();
+            // in endless mode, stop animation, fixes an edge case if the user is scrolling while the size increases, those elements will
+        }
+    }
+
+    /**
+     * Force list re-size, cancel current animation, go back to the beginning of the list
+     */
+    private resetListAndPosition() {
+        this.animationHelper.stop();
+        this.currentXPosition = 0;
+        this.currentYPosition = 0;
+        this.templateHelper.resizeList(this.divList, this.templateVars);
     }
 
     private _getFirstRenderedItemsNr(size: number): number {

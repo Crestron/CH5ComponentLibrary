@@ -18,7 +18,7 @@
             orientation="vertical"
             indexId="idx"
             maxWidth="500px"
-            minHeight="100px"
+            minHeight="250px"
             maxHeight="150px"
             itemWidth="125px"
             itemHeight="75px"
@@ -37,7 +37,7 @@
             endless
             indexId="idx"
             maxWidth="500px"
-            minHeight="100px"
+            minHeight="250px"
             maxHeight="150px"
             itemWidth="125px"
             itemHeight="75px"
@@ -57,7 +57,7 @@
             dir="rtl"
             indexId="idx"
             maxWidth="500px"
-            minHeight="100px"
+            minHeight="250px"
             maxHeight="150px"
             itemWidth="125px"
             itemHeight="75px"
@@ -75,7 +75,7 @@
               bufferAmount="3"
               indexId="idx"
               maxWidth="500px"
-              minHeight="100px"
+              minHeight="250px"
               maxHeight="150px"
               itemWidth="125px"
               itemHeight="75px"
@@ -87,24 +87,4 @@
             </div>
         </template>
     </ch5-list>
-
-    <h4>Page Swipe</h4>
-    <ch5-list
-            orientation="vertical"
-            pagedSwipe="true"
-            indexId="idx"
-            maxWidth="500px"
-            minHeight="100px"
-            maxHeight="150px"
-            itemWidth="125px"
-            itemHeight="75px"
-            scrollbar="true"
-            receiveStateSize="receiveSizeVerticalList">
-        <template>
-            <div class="vertical-list-item">
-                <span>item_{{idx}}</span>
-            </div>
-        </template>
-    </ch5-list>
-
 {% endraw %}
