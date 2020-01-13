@@ -29,7 +29,7 @@ export class Ch5VideoSubscription {
 
   public static replaceAttrIdxPlaceholder(n: Element, attrName: string, attrVal: string,
     index: number, indexId: string): string | number | undefined {
-    const placeholder: string = `${indexId}`;
+    const placeholder: string = `{{${indexId}}}`;
     if (attrVal.indexOf(placeholder) > -1) {
       // replace indexId
       const valWithoutIndexIdPlaceholder: string =
@@ -38,14 +38,14 @@ export class Ch5VideoSubscription {
         // augment signal name according with join numbers signal specs
         // add base 0 index to remaining int value
         const newIntAttrValue: number = parseInt(valWithoutIndexIdPlaceholder, 10) + index;
-        n.setAttribute(attrName, String(newIntAttrValue));
+        // n.setAttribute(attrName, String(newIntAttrValue));
         this.subscriptionValue = newIntAttrValue;
       } else {
         // normal case, no join number signal found
         // replace Idx with base 1 index
         const newAttrValue: string =
           attrVal.replace(new RegExp(placeholder, 'g'), String(index)).trim();
-        n.setAttribute(attrName, String(newAttrValue));
+        // n.setAttribute(attrName, String(newAttrValue));
         this.subscriptionValue = newAttrValue;
       }
     }
