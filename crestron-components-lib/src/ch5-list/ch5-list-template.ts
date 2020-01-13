@@ -544,6 +544,11 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
                 this._list.itemOffsetWidth = firstItem.offsetWidth;
                 this._list.divListWidth = divListSizeDetails.width;
                 this._list.divListHeight = divListSizeDetails.height;
+
+                if (this._list.sizeResolver.fullListSize > this._list.sizeResolver.viewPortSize) {
+                    this._list.style.width = '100%';
+                }
+
                 this.updateViewportSize();
             });
 
