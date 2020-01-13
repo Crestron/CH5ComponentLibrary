@@ -560,7 +560,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.sendEvent(this.sendEventSelectionChange, index, 'number');
         let responseCount = 0;
         if (this.hasAttribute("receivestateurl")) {
-            this.info(this.getAttribute("receivestateurl"));
             const rsVURL = this.getAttribute("receivestateurl") as string;
             let selectObjectUrl: string | number | undefined = 0;
             if (this.indexId !== null) {
