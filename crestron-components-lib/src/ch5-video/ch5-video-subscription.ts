@@ -38,14 +38,14 @@ export class Ch5VideoSubscription {
         // augment signal name according with join numbers signal specs
         // add base 0 index to remaining int value
         const newIntAttrValue: number = parseInt(valWithoutIndexIdPlaceholder, 10) + index;
-        n.setAttribute(attrName, String(newIntAttrValue));
+        // n.setAttribute(attrName, String(newIntAttrValue));
         this.subscriptionValue = newIntAttrValue;
       } else {
         // normal case, no join number signal found
         // replace Idx with base 1 index
         const newAttrValue: string =
           attrVal.replace(new RegExp(placeholder, 'g'), String(index)).trim();
-        n.setAttribute(attrName, String(newAttrValue));
+        // n.setAttribute(attrName, String(newAttrValue));
         this.subscriptionValue = newAttrValue;
       }
     }
@@ -60,7 +60,7 @@ export class Ch5VideoSubscription {
 
   public static replaceIndexIdInTmplElemsContent(documentContainer: HTMLElement, index: number, indexId: string) {
     let html: string = documentContainer.innerHTML;
-    const placeholder: string = `{{${indexId}}}`;
+    const placeholder: string = `${indexId}`;
     if (html.indexOf(placeholder) > -1) {
       // replace all placeholder values with item base 1 index
       html = html.replace(new RegExp(placeholder, 'g'), String(index));

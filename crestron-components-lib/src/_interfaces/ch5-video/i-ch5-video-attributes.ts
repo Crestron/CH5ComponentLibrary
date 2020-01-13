@@ -427,20 +427,19 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
     receiveStateSnapShotPassword: string;
 
     /**
-     * @name receivestatepositionchange
+     * @name scrollcontainerid
      * @documentation
      * [
-     * "`receiveStatePositionChange` attribute",
+     * "`scrollContainerId` attribute",
      *  "***",
-     *  "The user must add onscroll event listener to the page where the video is added. When ",
-     *  "the user scrolls the page, the event is initiated and a boolean value true is published to indicate ",
-     *  "the video position has changed. When the user stops scrolling, a boolean value of false is published to indicate ",
-     *  "the scroll has stopped. This helps the video component to know the position changes in the page and to ",
-     *  "move the video to a new position. This value is triggered within the UI layer and does not expect ",
-     *  "any value from the control system."
+     *  "The user must pass the scroll container/page id. When the user scrolls the page, the event is initiated ",
+     *  "and a boolean value true is published to indicate the video position has changed. When the user stops ",
+     *  "scrolling, a boolean value of false is published to indicate the scroll has stopped. This helps the ",
+     *  "video component to know the position changes in the page and to move the video to a new position. ",
+     *  "This value is triggered within the UI layer and does not expect any value from the control system."
      * ]
-     */
-    receiveStatePositionChange: string;
+     */    
+    scrollContainerId: string;
 
     /**
      * @name receivestatevideocount
@@ -452,5 +451,4 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * ]
      */
     receiveStateVideoCount: string;
-
 }
