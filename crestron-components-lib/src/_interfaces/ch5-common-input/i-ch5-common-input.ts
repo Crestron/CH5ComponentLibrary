@@ -35,14 +35,4 @@ export interface ICh5CommonInput extends ICh5CommonInputAttributes {
    */
   ondirty: string;
 
-  /**
-   * @documentation
-   * [
-   * "`required` attribute",
-   * "***",
-   * "Specifies that the input element must be filled out before submitting the form."
-   * ]
-   * @name required
-   */
-  required: TBoolAttribute;
 }

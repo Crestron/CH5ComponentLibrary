@@ -2399,7 +2399,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param videoImage 
      */
     private drawSnapShot(videoImage: HTMLImageElement) {
-        // this.context.beginPath();
         this.calculateSnapShotPositions();
         this.context.drawImage(videoImage, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
         this.context.save();
@@ -2542,9 +2541,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         } else {
             this.videoCanvasElement.addEventListener('touchmove', (e) => { e.preventDefault(); e.stopImmediatePropagation(); return; }, false);
             this.fullScreenContainer.classList.add("fullscreen-container");
-            // this.fullScreenSwiperDiv.style.display = 'block';
-            // this.fullScreenSwiperDiv.style.opacity = '0';
-            // this.fullScreenSwiperDiv.style.visibility = 'visible';
             this.vidControlPanel.classList.remove(this.showControl);
             if (isSafariMobile()) {
                 if (Ch5VideoEventHandler.isPortrait()) {
@@ -2909,13 +2905,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
             case 'fullscreen':
                 this.lastUpdatedStatus = actionType;
-                // let bgRequestTimer: any;
-                // clearTimeout(bgRequestTimer);
-                // bgRequestTimer = setTimeout(() => {
-                //     if (this.isOrientationChanged || this.isPositionChanged) {
-
-                //     }
-                // }, 1000);
                 publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                     'resize', this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
                 this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(

@@ -99,9 +99,10 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * [
      * "`stretch` attribute",
      *  "***",
-     *  "The default value is false. When true, video will be displayed in the whole component. ",
-     *  "When false, video will be displayed as a letter or pillar box based upon the aspect ratio of the video ",
-     *  "feed and the size of the component.  Note: this attribute is independent of aspectRatio."
+     *  "The default value is false. When true, video will occupy the size of the parent container. The user ",
+     *  "need to specify the width and height for the parent container for the video to appear correctly. ",
+     *  "The video will be displayed as a letter or pillar box based on the aspect ratio and size of the ",
+     *  "parent container."
      * ]
      */
     stretch: TCH5VideoStretch | string;

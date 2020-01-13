@@ -119,6 +119,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public cssClassPrefix = 'ch5-button';
     public pressedCssClassPostfix = '--pressed';
     public selectedCssClassPostfix = '--selected';
+    public iosCssClassPostfix = '--ios-vertical';
 
 
     private _elContainer: HTMLElement = {} as HTMLElement;
@@ -126,6 +127,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _elLabel: HTMLElement = {} as HTMLElement;
     private _elIcon: HTMLElement = {} as HTMLElement;
     private _elImg: HTMLImageElement = {} as HTMLImageElement;
+    private _elIosDots: HTMLElement = {} as HTMLElement;
 
     /**
      * Time after that press will be triggered
@@ -346,7 +348,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * @memberof Ch5Button
      * @type {string | null}
      */
-    private _receiveStateType: string | null = null;
+    private _sigNameReceiveStateType: string | null = null;
 
     /**
      * Subscription reference for type signal
@@ -486,6 +488,16 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     /**
+     * Called this method if you have to wrap the element
+     * @param el html elemen which you have to wrap
+     * @param wrapper wrapper html element
+     */
+    private wrap(el: any, wrapper: HTMLElement) {
+        el.parentNode.insertBefore(wrapper, el);
+        wrapper.appendChild(el);
+    }
+
+    /**
      * Called when the ch5-button component is disconnected from the DOM
      */
     public disconnectedCallback() {
@@ -557,6 +569,15 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             if (null !== sigLabel) {
                 sigLabel.unsubscribe(this._subReceiveLabel);
                 this._sigNameReceiveLabel = '';
+            }
+        }
+
+        if ('' !== this._subReceiveSignalType && '' !== this._sigNameReceiveStateType) {
+            const receiveTypeSigName: string = Ch5Signal.getSubscriptionSignalName('' + this._sigNameReceiveStateType);
+            const sigType: Ch5Signal<string> | null = csf.getStringSignal(receiveTypeSigName);
+            if (null !== sigType) {
+                sigType.unsubscribe('' + this._subReceiveSignalType);
+                this._sigNameReceiveStateType = '';
             }
         }
 
@@ -643,6 +664,32 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._elContainer.appendChild(this._elButton);
     }
 
+    // adding ellipsis in iOS device with vertical button
+    protected createIosEllipsis() {
+        if (isSafariMobile() && this._elLabel.scrollHeight > this._elButton.clientHeight) {
+            if (this._elLabel.firstElementChild) {
+                this._elLabel.removeChild(this._elLabel.firstElementChild);
+            }
+            this._elContainer.classList.add(this.primaryCssClass + this.iosCssClassPostfix);
+            this._elIosDots = document.createElement('i');
+            this._elIosDots.classList.add('dots');
+            this._elIosDots.innerHTML = '...';
+            this._elLabel.appendChild(this._elIosDots);
+            const wrapper: HTMLElement = document.createElement('span');
+            wrapper.classList.add(this.primaryCssClass + '--ios-label');
+            if (!this._elLabel.closest('.ch5-button--ios-label')) {
+                this.wrap(this._elLabel, wrapper);
+            }
+
+            const btnNodes: any = this._elButton.childNodes;
+            btnNodes.forEach((node: any) => {
+                if (node.className === (this.primaryCssClass + '--ios-label') && node.innerText === '') {
+                    node.remove();
+                }
+            });
+        }
+    }
+
     /**
      * Clear the button content in order to avoid duplication of buttons
      * @return {void}
@@ -688,6 +735,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         // orientation
         if ('vertical' === this.orientation) {
             setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.orientation);
+            if (this.shape !== 'circle') {
+                this.createIosEllipsis();
+            }
         }
 
         const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
@@ -695,10 +745,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
                 if (setOfCssClassesToBeApplied.has(cssClass)) {
                     targetEl.classList.add(cssClass);
-                    // this.info('add CSS class',cssClass);
+                    // this.info('add CSS class', cssClass);
                 } else {
                     targetEl.classList.remove(cssClass);
-                    // this.info('remove CSS class',cssClass);
+                    // this.info('remove CSS class', cssClass);
                 }
             });
         }
@@ -1642,16 +1692,29 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set receiveStateIconClass(signalName: string | null) {
-
-        if (this._receiveStateIconClass === signalName || isNil(signalName)) {
+        this.info('set receiveStateIconClass(\'' + signalName + '\')');
+        if (!signalName || this._receiveStateIconClass === signalName) {
             return;
+        }
+        // clean up old subscription
+        if (this._receiveStateIconClass) {
+
+            const oldReceiveStateIconClass: string = Ch5Signal.getSubscriptionSignalName('' + this._receiveStateIconClass);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+                .getStringSignal(oldReceiveStateIconClass);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe('' + this.subReceiveSignalIconClass);
+            }
         }
 
         this._receiveStateIconClass = signalName;
-        this.setAttribute('receivestateiconclass', this.receiveStateIconClass as string);
+        this.setAttribute('receivestateiconclass', signalName);
 
+        // setup new subscription.
+        const receiveSateIconClassSigName: string = Ch5Signal.getSubscriptionSignalName('' + this._receiveStateIconClass);
         const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(this.receiveStateIconClass as string);
+            .getStringSignal(receiveSateIconClassSigName);
 
         if (receiveSignal === null) {
             return;
@@ -1675,15 +1738,29 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set receiveStateIconUrl(signalName: string | null) {
-        if (isNil(signalName) || this._receiveStateIconSvgUrl === signalName) {
+        this.info('set receivestateiconurl(\'' + signalName + '\')');
+        if (!signalName || this._receiveStateIconSvgUrl === signalName) {
             return;
+        }
+        // clean up old subscription
+        if (this._receiveStateIconSvgUrl) {
+
+            const oldReceiveIconUrlSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconSvgUrl);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+                .getStringSignal(oldReceiveIconUrlSigName);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(this.subReceiveSignalSvgUrl as string);
+            }
         }
 
         this._receiveStateIconSvgUrl = signalName;
-        this.setAttribute('receivestateiconurl', this.receiveStateIconUrl as string);
+        this.setAttribute('receivestateiconurl', signalName);
 
+        // setup new subscription.
+        const receiveIconurlSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconSvgUrl);
         const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(this.receiveStateIconUrl as string);
+            .getStringSignal(receiveIconurlSigName);
 
         if (receiveSignal === null) {
             return;
@@ -1695,7 +1772,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public get receiveStateIconUrl(): string | null {
-        return this._receiveStateIconSvgUrl;
+        return this._attributeValueAsString('receivestateiconurl');
     }
 
     public set subReceiveSignalSvgUrl(subscription: string | null) {
@@ -1707,28 +1784,42 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set receiveStateType(signalName: string | null) {
+        this.info('set receiveStateType(\'' + signalName + '\')');
 
-        if (this.receiveStateType === signalName || signalName === null) {
+        if (this._sigNameReceiveStateType === signalName || signalName === null) {
             return;
         }
+        // clean up old subscription
+        if (this._sigNameReceiveStateType) {
 
-        this._receiveStateType = signalName;
+            const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateType);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+                .getStringSignal(oldReceiveStateSigName);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(this._subReceiveSignalType as string);
+            }
+        }
+
+        this._sigNameReceiveStateType = signalName;
         this.setAttribute('receivestatetype', signalName);
 
+        // setup new subscription.
+        const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateType);
         const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(this.receiveStateType as string);
+            .getStringSignal(receiveLabelSigName);
 
         if (receiveSignal === null) {
             return;
         }
 
-        this.subReceiveSignalType = receiveSignal.subscribe((newValue: string) => {
+        this._subReceiveSignalType = receiveSignal.subscribe((newValue: string) => {
             this.type = newValue as TCh5ButtonType;
         });
     }
 
     public get receiveStateType(): string | null {
-        return this._receiveStateType;
+        return this._attributeValueAsString('receivestatetype');
     }
 
     public set subReceiveSignalType(subscription: string | null) {
@@ -1762,7 +1853,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onTapAction() {
+        if (!isTouchDevice()) {
             this._sendOnClickSignal();
+        }
 
         if (null !== this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
@@ -1808,6 +1901,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onMouseUp() {
         this.cancelPress();
+
+        // iOS/iPadOS only
+        if (isTouchDevice() && isSafariMobile()) {
+            this._sendOnClickSignal();
+        }
     }
 
     private async _onPress(event: TouchEvent) {
@@ -1875,6 +1973,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         inEvent.preventDefault();
         inEvent.stopPropagation();
+
+        // signal is sent here to make sure the button does 	
+        // not gain focus when it should not	
+
+        // on touch devices, focus is gained onTouchEnd
+        if (isTouchDevice()) {
+            this._sendOnClickSignal();
+        }
     }
 
     /**
