@@ -9,13 +9,14 @@
 
 import { AppendersEnum } from '../enums/index';
 import { RemoteAppender } from './RemoteAppender';
+import { TAppenderConfig } from '../types';
 
 export class AppenderFactory {
 
-    public getAppender(appender: AppendersEnum, sendLogTimeOffset: number = 0, config: any) {
+    public getAppender(appender: AppendersEnum, sendLogTimeOffset: number = 0, appenderConfig: TAppenderConfig) {
         
         if (appender === AppendersEnum.remote) {
-            return RemoteAppender.getInstance(sendLogTimeOffset, config);
+            return RemoteAppender.getInstance(sendLogTimeOffset, appenderConfig);
         }
 
         throw new Error('Appender type is invalid');

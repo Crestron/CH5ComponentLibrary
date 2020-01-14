@@ -12,24 +12,25 @@ import { RequestService } from "../services/index";
 import { LogEndpointsEnum } from "../enums/index";
 import { LogMessage, LogMessagesFilter } from "../helpers/index";
 import { Logger } from "../logger";
+import { TAppenderConfig } from "../types";
 
 export class RemoteAppender extends AbstractAppender {
     private static _instance: RemoteAppender;
     private _requestService: RequestService = {} as RequestService;
     private _address: string = '';
 
-    public static getInstance(sendLogTimeOffsetInMiliseconds: number, config: any): RemoteAppender{
+    public static getInstance(sendLogTimeOffsetInMiliseconds: number, appenderConfig: TAppenderConfig): RemoteAppender{
       if (RemoteAppender._instance === undefined){
-        RemoteAppender._instance = new RemoteAppender(sendLogTimeOffsetInMiliseconds, config);
+        RemoteAppender._instance = new RemoteAppender(sendLogTimeOffsetInMiliseconds, appenderConfig);
       }
 
       return RemoteAppender._instance;
     }
 
-    private constructor(sendLogTimeOffsetInMiliseconds: number, config: any){
+    private constructor(sendLogTimeOffsetInMiliseconds: number, appenderConfig: TAppenderConfig){
       super(sendLogTimeOffsetInMiliseconds);
 
-      this.setIP(config.host, config.port, config.secure);
+      this.setIP(appenderConfig);
     }
 
     /**
@@ -45,20 +46,18 @@ export class RemoteAppender extends AbstractAppender {
     }
 
     /**
-     * Set the remote server IP
+     * Set the remote server hostname/ip and port
      * Initializing the request for the remote server
      * 
-     * @param {string} ip
-     * @param {string} port 
-     * @param {boolean} secure 
+     * @param {TAppenderConfig} appenderConfig
      */
-    private setIP(ip: string, port?: string, secure?: boolean) {
+    private setIP(appenderConfig: TAppenderConfig) {
 
-        const protocol = secure ? 'https' : 'http';
+        const protocol = appenderConfig.secure ? 'https' : 'http';
 
-        const uri = `${protocol}://${ip}:${port}`;
+        const uri = `${protocol}://${appenderConfig.hostname}:${appenderConfig.port}`;
 
-        this._address = `${ip}:${port}`;
+        this._address = `${appenderConfig.hostname}:${appenderConfig.port}`;
         this.initialiseRequest(uri);        
     }
 

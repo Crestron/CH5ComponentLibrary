@@ -8,12 +8,14 @@
 import { AppenderFactory } from '../appender/AppenderFactory';
 import { AppendersEnum } from '../enums/index';
 import { RemoteAppender } from '../appender/RemoteAppender';
+import { TAppenderConfig } from '../types';
 
 
-export function getRemoteAppender(host: string, port: string, secure: boolean): RemoteAppender {
+export function getRemoteAppender(hostname: string, port: string, secure: boolean): RemoteAppender {
 
     const appenderFactory = new AppenderFactory();
-    const remoteAppender = appenderFactory.getAppender(AppendersEnum.remote, 0, {host, port, secure}) as RemoteAppender;
+    const appenderConfig: TAppenderConfig = {hostname, port, secure};
+    const remoteAppender = appenderFactory.getAppender(AppendersEnum.remote, 0, appenderConfig) as RemoteAppender;
 
     return remoteAppender;
 }
