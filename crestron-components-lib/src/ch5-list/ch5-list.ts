@@ -447,7 +447,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
                 this.templateHelper.checkAndSetSizes();
                 this.templateHelper.customScrollbar(this.divList);
                 this._isListVisible = false;
-            } 
+            }
         });
 
         const listInitialization = () => {
@@ -2057,16 +2057,15 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
             } else if (this.isHorizontal) {
                 this.resetListAndPosition();
             }
-            // in endless mode, stop animation, fixes an edge case if the user is scrolling while the size decreases
-            // where the size is not computed correctly during the animation
-            else if (this.endless) {
-                this.animationHelper.stop();
-            }
+        }
+        // in endless mode, stop animation, fixes an edge case if the user is scrolling while the size changes
+        // where the size is not computed correctly during the animation
+        else if (this.endless) {
+            this.animationHelper.stop();
         }
         // list items have increased, handle RTL
         else if (this._items.length > previousItemsCount && this.direction === Ch5Common.DIRECTION[1]) {
             this.resetListAndPosition();
-            // in endless mode, stop animation, fixes an edge case if the user is scrolling while the size increases, those elements will
         }
     }
 
