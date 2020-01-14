@@ -1,25 +1,96 @@
 {% raw %}
-<p>
-    Clicking this button will increment the signal for the list by 5
-    <ch5-button label="Btn1" sendEventOnClick="trigH1"></ch5-button>
-</p>
+    <p>Clicking the buttons below will either increase or decrease the size of the ch5-lists.</p>
+    <div class="list-size-control">
+        <ch5-button type="primary" iconClass="fas fa-chevron-up" sendEventOnClick="triggerIncrementHorizontalListBy5"
+                    label="Increment by 5"></ch5-button>
+        <ch5-button type="primary" iconClass="fas fa-chevron-up" sendEventOnClick="triggerIncrementHorizontalListBy1"
+                    label="Increment by 1"></ch5-button>
+    </div>
+    <div class="list-size-control">
+        <ch5-button type="secondary" iconClass="fas fa-chevron-down"
+                    sendEventOnClick="triggerDecrementHorizontalListBy3" label="Decrement by 3"></ch5-button>
+        <ch5-button type="secondary" iconClass="fas fa-chevron-down"
+                    sendEventOnClick="triggerDecrementHorizontalListBy1" label="Decrement by 1"></ch5-button>
+    </div>
 
-<ch5-list size="10"
-           orientation="horizontal"
-           indexId="idx"
-           minWidth="250px"
-           maxWidth="500px"
-           minHeight="100px"
-           maxHeight="150px"
-           itemWidth="125px"
-           itemHeight="75px"
-           scrollbar="true"
-           receiveStateSize="sigH1">
-    <template>
-        <div class="horizontal-list-item">
-            <span>item_{{idx}}</span>
-        </div>
-    </template>
-</ch5-list>
+    <h4>Simple list</h4>
+    <ch5-list
+            orientation="horizontal"
+            indexId="idx"
+            minWidth="250px"
+            maxWidth="500px"
+            minHeight="100px"
+            maxHeight="150px"
+            itemWidth="125px"
+            itemHeight="75px"
+            scrollbar="true"
+            receiveStateSize="receiveSizeHorizontalList">
+        <template>
+            <div class="horizontal-list-item">
+                <span>item_{{idx}}</span>
+            </div>
+        </template>
+    </ch5-list>
+
+    <h4>Endless mode</h4>
+    <ch5-list
+            orientation="horizontal"
+            endless
+            indexId="idx"
+            minWidth="250px"
+            maxWidth="500px"
+            minHeight="100px"
+            maxHeight="150px"
+            itemWidth="125px"
+            itemHeight="75px"
+            scrollbar="true"
+            receiveStateSize="receiveSizeHorizontalList">
+        <template>
+            <div class="horizontal-list-item">
+                <span>item_{{idx}}</span>
+            </div>
+        </template>
+    </ch5-list>
+
+
+    <h4>Right to left</h4>
+    <ch5-list
+            orientation="horizontal"
+            dir="rtl"
+            indexId="idx"
+            minWidth="250px"
+            maxWidth="500px"
+            minHeight="100px"
+            maxHeight="150px"
+            itemWidth="125px"
+            itemHeight="75px"
+            scrollbar="true"
+            receiveStateSize="receiveSizeHorizontalList">
+        <template>
+            <div class="horizontal-list-item">
+                <span>item_{{idx}}</span>
+            </div>
+        </template>
+    </ch5-list>
+
+    <h4>Buffer amount</h4>
+    <ch5-list
+            orientation="horizontal"
+            bufferAmount="3"
+            indexId="idx"
+            minWidth="250px"
+            maxWidth="500px"
+            minHeight="100px"
+            maxHeight="150px"
+            itemWidth="125px"
+            itemHeight="75px"
+            scrollbar="true"
+            receiveStateSize="receiveSizeHorizontalList">
+        <template>
+            <div class="horizontal-list-item">
+                <span>item_{{idx}}</span>
+            </div>
+        </template>
+    </ch5-list>
 
 {% endraw %}
