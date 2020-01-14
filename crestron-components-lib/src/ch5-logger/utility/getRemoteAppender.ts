@@ -13,9 +13,7 @@ import { RemoteAppender } from '../appender/RemoteAppender';
 export function getRemoteAppender(host: string, port: string, secure: boolean): RemoteAppender {
 
     const appenderFactory = new AppenderFactory();
-    const remoteAppender = appenderFactory.getAppender(AppendersEnum.remote) as RemoteAppender;
-
-    remoteAppender.setIP(host, port, secure);    
+    const remoteAppender = appenderFactory.getAppender(AppendersEnum.remote, 0, {host, port, secure}) as RemoteAppender;
 
     return remoteAppender;
 }

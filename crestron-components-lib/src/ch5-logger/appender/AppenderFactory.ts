@@ -12,10 +12,10 @@ import { RemoteAppender } from './RemoteAppender';
 
 export class AppenderFactory {
 
-    public getAppender(appender: AppendersEnum, sendLogTimeOffset: number = 0) {
+    public getAppender(appender: AppendersEnum, sendLogTimeOffset: number = 0, config: any) {
         
         if (appender === AppendersEnum.remote) {
-            return new RemoteAppender(sendLogTimeOffset);
+            return RemoteAppender.getInstance(sendLogTimeOffset, config);
         }
 
         throw new Error('Appender type is invalid');

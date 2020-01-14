@@ -14,9 +14,23 @@ import { LogMessage, LogMessagesFilter } from "../helpers/index";
 import { Logger } from "../logger";
 
 export class RemoteAppender extends AbstractAppender {
-
+    private static _instance: RemoteAppender;
     private _requestService: RequestService = {} as RequestService;
     private _address: string = '';
+
+    public static getInstance(sendLogTimeOffsetInMiliseconds: number, config: any): RemoteAppender{
+      if (RemoteAppender._instance === undefined){
+        RemoteAppender._instance = new RemoteAppender(sendLogTimeOffsetInMiliseconds, config);
+      }
+
+      return RemoteAppender._instance;
+    }
+
+    private constructor(sendLogTimeOffsetInMiliseconds: number, config: any){
+      super(sendLogTimeOffsetInMiliseconds);
+
+      this.setIP(config.host, config.port, config.secure);
+    }
 
     /**
      * Logging the messages
@@ -38,7 +52,7 @@ export class RemoteAppender extends AbstractAppender {
      * @param {string} port 
      * @param {boolean} secure 
      */
-    public setIP(ip: string, port?: string, secure?: boolean) {
+    private setIP(ip: string, port?: string, secure?: boolean) {
 
         const protocol = secure ? 'https' : 'http';
 
