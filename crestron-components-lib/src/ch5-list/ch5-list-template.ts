@@ -683,11 +683,6 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
      * Create scrollbar element
      */
     private createScrollbar(): void {
-        const fullListSize = this._list.sizeResolver.fullListSize;
-
-        if (isUndefined(fullListSize)) {
-            return;
-        }
 
         if (this._scrollbarElement instanceof HTMLElement) {
             this.removeScrollbar();
