@@ -102,7 +102,8 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      *  "The default value is false. When true, video will occupy the size of the parent container. The user ",
      *  "need to specify the width and height for the parent container for the video to appear correctly. ",
      *  "The video will be displayed as a letter or pillar box based on the aspect ratio and size of the ",
-     *  "parent container."
+     *  "parent container. The parent container should not consist any other tag other than Ch5-Background ",
+     *  "and CH5-Video."
      * ]
      */
     stretch: TCH5VideoStretch | string;
