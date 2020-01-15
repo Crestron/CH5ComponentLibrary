@@ -11,7 +11,7 @@ import { LogMessagesFilter } from '../helpers/LogMessagesFilter';
 
 export function getLogger(appender: AbstractAppender, overrideGlobalConsole?: boolean, logFilter?: LogMessagesFilter, ) {
 
-  const logger = new Logger(appender, logFilter);
+  const logger = Logger.getInstance(appender, logFilter);
   appender.configObserver(logger, !!logFilter);
 
   

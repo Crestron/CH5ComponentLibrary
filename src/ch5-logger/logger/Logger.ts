@@ -13,12 +13,20 @@ import isNil from 'lodash/isNil';
 import { LogMessagesFilter } from "../helpers/LogMessagesFilter";
 
 export class Logger {
-
+    private static _instance: Logger;
     private _appender: AbstractAppender = {} as AbstractAppender;
     private _logFilter: LogMessagesFilter = new LogMessagesFilter();
     private _messagesQueue: LogMessage[] = [];
 
-    public constructor(appender: AbstractAppender, logFilter?: LogMessagesFilter) {
+    public static getInstance(appender: AbstractAppender, logFilter?: LogMessagesFilter): Logger {
+        if (Logger._instance === undefined) {
+            Logger._instance = new Logger(appender, logFilter)
+        }
+
+        return Logger._instance;
+    }
+
+    private constructor(appender: AbstractAppender, logFilter?: LogMessagesFilter) {
         if (!(appender instanceof AbstractAppender)) {
             throw Error('Appender is not defined');
         }
