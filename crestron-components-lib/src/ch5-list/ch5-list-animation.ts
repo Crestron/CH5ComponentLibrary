@@ -381,6 +381,17 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
         return listSize;
     }
 
+    /**
+     * This method is responsible to reset the min and max offset
+     * Ideally to use when the list is updated ( e.g: the viewport size is changed
+     * from landscape to portrait ) then we need this values to be reseted and 
+     * recalculated with the new fresh layout information
+     */
+    public resetOffsets(): void {
+        this.maxOffsetTranslate = undefined;
+        this.minOffsetTranslate = 0;
+    }
+
 
     private _infiniteLoopManager(newPosition: number) {
         const firstElement = this._list.items[0];
