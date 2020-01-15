@@ -2213,7 +2213,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         this._updateInfiniteLoop();
         this._computeItemsPerViewLayout();
         this.eventManager.updateDragEventListeners(this.divList);
-
+        this.animationHelper.resetOffsets();
         this.templateHelper.checkAndSetSizes(); // needed to not break scroll functionality on resize
     }
 
