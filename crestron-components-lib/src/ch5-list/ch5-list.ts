@@ -90,9 +90,9 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
     public static ENABLED_CLASS_NAME = 'ch5-list';
 
     public static ITEMCLASS = 'list-item';
-    
+
     public cssClassPrefix = 'ch5-list';
-    
+
     public _bufferedItems: ICh5ListBufferedItems = {
         bufferActive: false,
         bufferingComplete: false,
@@ -160,7 +160,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
      * LIST CONTAINER
      *  --------------------------------------------------
      * |      [  VISIBLE LIST ITEMS  ]                    |
-     *  -------------------------------------------------- 
+     *  --------------------------------------------------
      *        ^ currentXPosition
      */
     private _currentXPosition: number = 0;
@@ -429,10 +429,10 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         this.animationHelper.addTemplateHelper(this.templateHelper);
         this.animationHelper.addEventManager(this.eventManager);
 
-        
+
         this.bufferdItemsHelper.addTemplateHelper(this.templateHelper);
     }
-    
+
     public getCssClassDisabled() {
         return `${this.cssClassPrefix}--disabled`;
     }
@@ -447,7 +447,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
                 this.templateHelper.checkAndSetSizes();
                 this.templateHelper.customScrollbar(this.divList);
                 this._isListVisible = false;
-            } 
+            }
         });
 
         const listInitialization = () => {
@@ -953,7 +953,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
       this._previousSize = Number(value);
   }
-    
+
     public get orientation() {
         if (this._orientation == null) {
             this._orientation = Ch5List.ORIENTATION[0];
@@ -1060,7 +1060,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
     /**
      * Check wether the list is left-to-right or right-to-left oriented
-     * 
+     *
      * @return {boolean} true if is ltr oriented, else false
      */
     public isLtr(): boolean {
@@ -1352,6 +1352,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         if (this._receiveStateSize === value || isNil(value)) {
             return;
         }
+
         this._receiveStateSize = value;
         this.setAttribute('receivestatesize', value);
 
@@ -1359,20 +1360,23 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
             const _newValue = newValue as number;
             if (_newValue !== null || _newValue !== undefined) {
                 if (_newValue >= 0 && _newValue < 1001) {
+                    const previousItemsCount = this._items.length;
+
                     // changes value from number to string by concatenating with empty string
                     this.setAttribute('size', '' + _newValue);
-
                     if (this.endless) {
                       // the max offset should be calculated again when list is changing
                       // its size. This is calculated on pointer down if the offset translate
                       // is set to undefined
                       this.animationHelper.maxOffsetTranslate = undefined;
+                      this.shouldUpdateListAndPosition(previousItemsCount);
                     } else {
                       // TODO: Investigate on RTL direction
                       const bufferAmount = this.bufferAmount || 0;
                       const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
 
                       this.animationHelper.maxOffsetTranslate = -maxOffsetTranslate;
+                      this.shouldUpdateListAndPosition(previousItemsCount);
                     }
                 }
                 else if (_newValue > 1000) {
@@ -1407,11 +1411,11 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         const callback: SignalSubscriptionCallback = (newValue: string | number | boolean) => {
             const _newValue = newValue as number;
             if (_newValue !== null || _newValue !== undefined) {
-              
+
               const bufferAmount = this.bufferAmount || 0;
               const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
               this.animationHelper.maxOffsetTranslate = -maxOffsetTranslate;
-              
+
               this.animationHelper.signalScrollTo(_newValue as number);
             }
         };
@@ -2005,12 +2009,12 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
     /**
      * Check wether pagedSwipe is compatible with the list definition or not.
      * For example a list that has 8 elements within and 6 of them are visible,
-     * in this case the list is not pagedSwipe compatible. 
-     * 
+     * in this case the list is not pagedSwipe compatible.
+     *
      * A compatible pagedSwipe list definition would be a list with at least
      * two pages.
-     * 
-     * @param {boolean} pagedSwipe 
+     *
+     * @param {boolean} pagedSwipe
      * @return {boolean} true - if the list is pagedSwipe compatible, otherwise false
      */
     private isPagedSwipeCompatible(pagedSwipe: boolean): boolean {
@@ -2039,6 +2043,40 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
             }
         }
         return s;
+    }
+
+    /**
+     * Check if a change in the total number of list items should be handled
+     */
+    private shouldUpdateListAndPosition(previousItemsCount: number): void {
+        this._items = this._getItems();
+        // list total items have decreased
+        if (this._items.length < previousItemsCount) {
+            if (this.isVertical) {
+                this.resetListAndPosition();
+            } else if (this.isHorizontal) {
+                this.resetListAndPosition();
+            }
+        }
+        // in endless mode, stop animation, fixes an edge case if the user is scrolling while the size changes
+        // where the size is not computed correctly during the animation
+        else if (this.endless) {
+            this.animationHelper.stop();
+        }
+        // list items have increased, handle RTL
+        else if (this._items.length > previousItemsCount && this.direction === Ch5Common.DIRECTION[1]) {
+            this.resetListAndPosition();
+        }
+    }
+
+    /**
+     * Force list re-size, cancel current animation, go back to the beginning of the list
+     */
+    private resetListAndPosition() {
+        this.animationHelper.stop();
+        this.currentXPosition = 0;
+        this.currentYPosition = 0;
+        this.templateHelper.resizeList(this.divList, this.templateVars);
     }
 
     private _getFirstRenderedItemsNr(size: number): number {
@@ -2175,7 +2213,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         this._updateInfiniteLoop();
         this._computeItemsPerViewLayout();
         this.eventManager.updateDragEventListeners(this.divList);
-
+        this.animationHelper.resetOffsets();
         this.templateHelper.checkAndSetSizes(); // needed to not break scroll functionality on resize
     }
 

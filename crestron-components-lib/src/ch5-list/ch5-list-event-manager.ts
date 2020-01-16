@@ -60,6 +60,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
     this.onPointerEnd = this.onPointerEnd.bind(this);
     this.onWindowResize = this.onWindowResize.bind(this);
     this.onPointerCancel = this.onPointerCancel.bind(this);
+    this.onOrientationChange = this.onOrientationChange.bind(this);
   }
 
   /**
@@ -74,6 +75,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
 
     window.removeEventListener('resize', this.onWindowResize);
     window.removeEventListener('touchcancel', this.onPointerCancel);
+    window.removeEventListener('orientationchange', this.onOrientationChange);
     additionalElement.removeEventListener('touchstart', this.onPointerDown);
     additionalElement.removeEventListener('mousedown', this.onPointerDown);
     additionalElement.removeEventListener('touchmove', this.onPointerMove);
@@ -86,6 +88,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
   public initializeEvents(additionalElement: HTMLElement) {
     this._list.info(`ch5-list-event-manager - initializeEvents`);
     window.addEventListener('resize', this.onWindowResize);
+    window.addEventListener('orientationchange', this.onOrientationChange);
 
     const isTouchSupported = this.checkTouchSupport();
 
@@ -317,6 +320,13 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
       getEvtListenerOptions(true));
     element.addEventListener('mousedown', this.onPointerDown,
       getEvtListenerOptions(true));
+  }
+
+  /**
+   * Event listener for orientation change
+   */
+  private onOrientationChange() {
+    this._templateHelper.customScrollbar(this._list);
   }
 
   /**
