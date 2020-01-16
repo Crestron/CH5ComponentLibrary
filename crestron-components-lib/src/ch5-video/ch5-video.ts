@@ -78,6 +78,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public fullScreenBodyClass: string = 'ch5-video-fullscreen';
     private videoErrorMessages = new Map<number, string>();
 
+    private appBgTimer: number = 0;
+    private wasAppBackGrounded: boolean = false;
+
     /**
      * EVENTS
      * 
@@ -2683,6 +2686,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         }, 1000);
                     }
                 } else {
+                    window.clearTimeout(this.appBgTimer);
+                    this.appBgTimer = window.setTimeout(() => {
+                        const subsCsigApp = subscribeState('o', 'Csig.app.background', (res: any) => {
+                            this.wasAppBackGrounded = res.isAppBackgrounded;
+                            unsubscribeState('o', 'Csig.app.background', subsCsigApp);
+                        });
+                    }, 100);
+
                     this.calculatePositions();
                     this.calculation(this.vid);
                     if (this.elementIntersectionEntry.intersectionRatio > 0.95) {
@@ -3026,8 +3037,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.lastUpdatedStatus === 'start') {
                     this.sendEvent(this.sendEventState, 6, 'number');
                 }
-                this.retryCount = this.retryCount + 1;
-                this.sendEvent(this.sendEventRetryCount, this.retryCount, 'number');
+                if (this.wasAppBackGrounded) {
+                    this.wasAppBackGrounded = false;
+                    this.publishVideoEvent("start");
+                } else {
+                    this.retryCount = this.retryCount + 1;
+                    this.sendEvent(this.sendEventRetryCount, this.retryCount, 'number');
+                }
                 break;
             case 'resizing':
                 this.isVideoReady = false;
