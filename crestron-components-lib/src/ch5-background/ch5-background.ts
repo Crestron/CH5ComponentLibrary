@@ -11,6 +11,8 @@ import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './../_interfaces/ch5-
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { getRemoteAppender } from "../ch5-logger/utility/getRemoteAppender";
+import { getLogger } from "../ch5-logger/utility/getLogger";
 
 export interface IVideoResponse {
     action: string;
@@ -438,6 +440,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     public constructor() {
         super();
 
+        const appender = getRemoteAppender('10.88.24.158', '8080', false);
+        const logger = getLogger(appender, true);
+        logger.error("Docker : " + logger);
+
         customElements.whenDefined('ch5-background').then(() => {
             this.classList.add(this.primaryCssClass);
 
@@ -564,18 +570,20 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 }
                 break;
             case 'backgroundcolor':
-                if (this.hasAttribute('backgroundcolor') && !this.hasAttribute('url')) {
-                    this.backgroundColor = newValue;
-                } else {
-                    this.backgroundColor = '';
-                }
-                this.updateBackground();
-                if (oldValue !== null) {
-                    this._canvasSubscriptionId = subscribeState('b', 'canvas.created', (response: boolean) => {
-                        if (response) {
-                            this.clearRectBackground();
-                        }
-                    });
+                if (!this.hasAttribute('url')) {
+                    if (this.hasAttribute('backgroundcolor')) {
+                        this.backgroundColor = newValue;
+                    } else {
+                        this.backgroundColor = '';
+                    }
+                    this.updateBackground();
+                    if (oldValue !== null) {
+                        this._canvasSubscriptionId = subscribeState('b', 'canvas.created', (response: boolean) => {
+                            if (response) {
+                                this.clearRectBackground();
+                            }
+                        });
+                    }
                 }
                 break;
             case 'repeat':
@@ -1023,9 +1031,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (count > 1) {
             this._bgIdx = 1;
             this._interval = setInterval(() => {
-                this._canvasList.forEach((c: any) => c.classList.remove('ch5bg-fadein'));
+                this._canvasList.forEach((c: HTMLCanvasElement) => c.classList.remove('ch5bg-fadein'));
                 this._canvasList[this._bgIdx].classList.add('ch5bg-fadein');
-                this._bgIdx = this._bgIdx + 1;
+                this._bgIdx++;
                 if (this._bgIdx === count) {
                     this._bgIdx = 0;
                 }
