@@ -515,9 +515,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     public constructor() {
         super();
-        // const appender = getRemoteAppender('10.88.24.158', '8080', false);
-        // const logger = getLogger(appender, true);
-        // logger.error("Docker : " + logger);
+        const appender = getRemoteAppender('10.88.24.189', '8080', false);
+        const logger = getLogger(appender, true);
+        logger.error("Docker : " + logger);
         // custom release event
         this.errorEvent = new CustomEvent("error", {
             bubbles: true,
@@ -566,7 +566,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.indexId !== null) {
                 // replace indexId in attributes
                 selectObjectUrl = Ch5VideoSubscription
-                    .replaceAttrIdxPlaceholder(this, 'receivestateurl', rsVURL, (parseInt(index, 0)), this.indexId as string);
+                    .getNewSignalName(this, 'receivestateurl', rsVURL, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.url = String(selectObjectUrl);
             this.selectObject.subscriptionIds.url = subscribeState('s', String(selectObjectUrl), (resp: any) => {
@@ -597,7 +597,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.indexId !== null) {
                 // replace indexId in attributes
                 selectObjectSourceType = Ch5VideoSubscription
-                    .replaceAttrIdxPlaceholder(this, 'receivestatesourcetype', rsVSType, (parseInt(index, 0)), this.indexId as string);
+                    .getNewSignalName(this, 'receivestatesourcetype', rsVSType, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.type = String(selectObjectSourceType);
             this.selectObject.subscriptionIds.type = subscribeState('s', String(selectObjectSourceType), (resp: any) => {
@@ -628,7 +628,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.indexId !== null) {
                 // replace indexId in attributes
                 selectObjectUserId = Ch5VideoSubscription
-                    .replaceAttrIdxPlaceholder(this, 'receivestateuserid', rsVUserId, (parseInt(index, 0)), this.indexId as string);
+                    .getNewSignalName(this, 'receivestateuserid', rsVUserId, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.user = String(selectObjectUserId);
             this.selectObject.subscriptionIds.user = subscribeState('s', String(selectObjectUserId), (resp: any) => {
@@ -658,7 +658,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.indexId !== null) {
                 // replace indexId in attributes
                 selectObjectPassword = Ch5VideoSubscription
-                    .replaceAttrIdxPlaceholder(this, 'receivestatepassword', rsVPassword, (parseInt(index, 0)), this.indexId as string);
+                    .getNewSignalName(this, 'receivestatepassword', rsVPassword, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.videoPass = String(selectObjectPassword);
             this.selectObject.subscriptionIds.videoPass = subscribeState('s', String(selectObjectPassword), (resp: any) => {
@@ -688,7 +688,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.indexId !== null) {
                 // replace indexId in attributes
                 selectObjectSnapShotUrl = Ch5VideoSubscription
-                    .replaceAttrIdxPlaceholder(this, 'receivestatesnapshoturl', rsSIURL, (parseInt(index, 0)), this.indexId as string);
+                    .getNewSignalName(this, 'receivestatesnapshoturl', rsSIURL, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.snapShotUrl = String(selectObjectSnapShotUrl);
             this.selectObject.subscriptionIds.snapShotUrl = subscribeState('s', String(selectObjectSnapShotUrl), (resp: any) => {
@@ -715,7 +715,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.indexId !== null) {
                 // replace indexId in attributes
                 selectObjectSnapShotRefreshRate = Ch5VideoSubscription
-                    .replaceAttrIdxPlaceholder(this, 'receivestatesnapshotrefreshrate', rsSIRefreshRate, (parseInt(index, 0)), this.indexId as string);
+                    .getNewSignalName(this, 'receivestatesnapshotrefreshrate', rsSIRefreshRate, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.snapShotRefreshRate = String(selectObjectSnapShotRefreshRate);
             this.selectObject.subscriptionIds.snapShotRefreshRate = subscribeState('n', String(selectObjectSnapShotRefreshRate), (resp: any) => {
@@ -741,7 +741,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.indexId !== null) {
                 // replace indexId in attributes
                 selectObjectSnapShotUserId = Ch5VideoSubscription
-                    .replaceAttrIdxPlaceholder(this, 'receivestatesnapshotuserid', rsSIUserId, (parseInt(index, 0)), this.indexId as string);
+                    .getNewSignalName(this, 'receivestatesnapshotuserid', rsSIUserId, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.snapShotUser = String(selectObjectSnapShotUserId);
             this.selectObject.subscriptionIds.snapShotUser = subscribeState('s', String(selectObjectSnapShotUserId), (resp: any) => {
@@ -767,7 +767,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.indexId !== null) {
                 // replace indexId in attributes
                 selectObjectSnapShotPassword = Ch5VideoSubscription
-                    .replaceAttrIdxPlaceholder(this, 'receivestatesnapshotpassword', rsSIPassword, (parseInt(index, 0)), this.indexId as string);
+                    .getNewSignalName(this, 'receivestatesnapshotpassword', rsSIPassword, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.snapShotPass = String(selectObjectSnapShotPassword);
             this.selectObject.subscriptionIds.snapShotPass = subscribeState('s', String(selectObjectSnapShotPassword), (resp: any) => {
@@ -2286,6 +2286,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.publishVideoEvent("resize");
                 } else {
                     this.calculatePositions();
+                    this.lastResponseStatus = 'stopped';
                     this.isVideoReady = false;
                     this.lastUpdatedStatus = "stop";
                     this.publishBackgroundEvent();
