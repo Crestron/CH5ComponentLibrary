@@ -3074,13 +3074,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.lastUpdatedStatus === 'start') {
                     this.sendEvent(this.sendEventState, 6, 'number');
                 }
-                if (this.wasAppBackGrounded) {
-                    this.wasAppBackGrounded = false;
-                    this.publishVideoEvent("start");
-                } else {
-                    this.retryCount = this.retryCount + 1;
-                    this.sendEvent(this.sendEventRetryCount, this.retryCount, 'number');
-                }
+                this.retryCount = this.retryCount + 1;
+                this.sendEvent(this.sendEventRetryCount, this.retryCount, 'number');
                 break;
             case 'resizing':
                 this.isVideoReady = false;
