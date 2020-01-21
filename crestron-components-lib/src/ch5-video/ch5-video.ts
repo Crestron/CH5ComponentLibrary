@@ -2983,16 +2983,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             return;
         }
 
-        // Return if the current status and last status is same, exception while retrying
-        // if (this.responseObj.status === this.lastResponseStatus &&
-        //     (this.responseObj.status !== "retrying" || this.responseObj.status !== "retrying connection" || this.responseObj.status !== "error")) {
-        //     return;
-        // }
-
         this.info("Video Response : " + JSON.stringify(this.responseObj));
 
         this.oldResponseStatus = this.responseObj.status;
-        this.oldResponseId = this.responseObj.statusCode;
+        this.oldResponseId = this.responseObj.id;
         const responseStatCode: number = this.responseObj.statusCode;
         const responseStatus = this.responseObj.status.toLowerCase();
         switch (responseStatus.toLowerCase()) {
