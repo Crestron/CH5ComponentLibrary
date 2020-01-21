@@ -11,6 +11,9 @@ import { getEvtListenerOptions } from "../ch5-triggerview/passiveEventListeners"
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5ListAbstractHelper } from "./ch5-list-abstract-helper";
 import { _swipeSensitivity } from "./ch5-list-animation";
+import { OrientationHelper } from "../ch5-common/utils/orientation-helper";
+import { isMobileDevice } from "../ch5-core/utility-functions/is-mobile-device";
+import { isCrestronDevice } from "../ch5-core/utility-functions/is-crestron-device";
 
 // How strictly the ch5-list detects a horizontal drag.
 // The angle (in degrees) should be in range (0, 90)
@@ -45,6 +48,8 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
 
   private _hammer: HammerManager | null = null;
 
+  private _orientationHelper: OrientationHelper;
+
   /**
    * Keeps the timeout instance
    * @type {number}
@@ -54,6 +59,8 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
 
   constructor(list: Ch5List) {
     super(list);
+
+    this._orientationHelper = new OrientationHelper(window.innerWidth, window.innerHeight);
 
     this.onPointerDown = this.onPointerDown.bind(this);
     this.onPointerMove = this.onPointerMove.bind(this);
@@ -149,6 +156,16 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
 
   public onWindowResize() {
     this._list.update();
+
+    // only check orientation change on Crestron/mobile devices
+    if (isMobileDevice() || isCrestronDevice()) {
+      const orientationChanged = this._orientationHelper.hasOrientationChanged();
+
+      if (orientationChanged) {
+        console.log('orientation changed');
+        this._templateHelper.customScrollbar(this._list);
+      }
+    }
   }
 
   /**
@@ -321,6 +338,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
     element.addEventListener('mousedown', this.onPointerDown,
       getEvtListenerOptions(true));
   }
+
 
   /**
    * Event listener for orientation change
