@@ -11,8 +11,6 @@ import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './../_interfaces/ch5-
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { getRemoteAppender } from "../ch5-logger/utility/getRemoteAppender";
-import { getLogger } from "../ch5-logger/utility/getLogger";
 
 export interface IVideoResponse {
     action: string;
@@ -440,10 +438,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     public constructor() {
         super();
 
-        const appender = getRemoteAppender('10.88.24.189', '8080', false);
-        const logger = getLogger(appender, true);
-        logger.error("Docker : " + logger);
-
         customElements.whenDefined('ch5-background').then(() => {
             this.classList.add(this.primaryCssClass);
 
@@ -790,7 +784,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     private getBackgroundUrl(values: string) {
         this._imgUrls = values.split('|');
-        this._imgUrls.map(url => url.trim());
+        this._imgUrls = this._imgUrls.map(url => url.trim());
     }
 
     /**
@@ -799,7 +793,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     private getBackgroundColor(values: string) {
         this._bgColors = values.split('|');
-        this._bgColors.map(color => color.trim());
+        this._bgColors = this._bgColors.map(color => color.trim());
     }
 
     /**
