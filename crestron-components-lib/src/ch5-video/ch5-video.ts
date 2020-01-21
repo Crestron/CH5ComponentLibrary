@@ -80,6 +80,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     private appBgTimer: number = 0;
     private wasAppBackGrounded: boolean = false;
+    private appCurrentStatus: boolean = false;
+
 
     /**
      * EVENTS
@@ -1371,9 +1373,23 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
+    private updateAppBackgroundStatus() {
+        const subsCsigApp = subscribeState('o', 'Csig.app.background', (res: any) => {
+            this.wasAppBackGrounded = res.isAppBackgrounded;
+            unsubscribeState('o', 'Csig.app.background', subsCsigApp);
+        });
+    }
+    private appCurrentBackgroundStatus() {
+        const subsCsigApp = subscribeState('o', 'Csig.app.background', (res: any) => {
+            this.appCurrentStatus = res.isAppBackgrounded;
+            unsubscribeState('o', 'Csig.app.background', subsCsigApp);
+        });
+    }
     public get receiveStateSelect(): string {
         return this._attributeValueAsString('receivestateselect');
     }
+
+
 
     public set receiveStateSelect(value: string) {
         this.info('Set receiveStateSelect(\'' + value + '\')');
@@ -2728,6 +2744,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
             }, 1000);
         } else {
+            window.clearTimeout(this.appBgTimer);
+            this.appBgTimer = window.setTimeout(() => {
+               this.updateAppBackgroundStatus();
+            }, 100);
+
             this.calculatePositions();
         }
         this.publishVideoEvent("resize");
@@ -2843,7 +2864,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                 }
                 this.sendEvent(this.sendEventSelectionURL, this._url, 'string');
-                if (!this.isVideoReady && this.lastUpdatedStatus !== 'start' && this.url && (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '') && !this.isExitFullscreen) {
+                if (!this.isVideoReady && this.lastUpdatedStatus !== 'start' && this.url && (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '' || this.wasAppBackGrounded) && !this.isExitFullscreen) {
                     this.lastUpdatedStatus = actionType;
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
@@ -2954,7 +2975,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private videoResponse(response: any) {
         const isMyObjectEmpty = !Object.keys(response).length;
+        this.appCurrentBackgroundStatus();
 
+        if (this.wasAppBackGrounded && !this.appCurrentStatus) {
+            this.isVideoReady = false;
+            this.publishVideoEvent("start");
+            this.updateAppBackgroundStatus();
+        }
         if (isMyObjectEmpty) {
             this.isVideoReady = false;
             return;
@@ -2992,6 +3019,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.oldResponseId = this.responseObj.id;
         const responseStatCode: number = this.responseObj.statusCode;
         const responseStatus = this.responseObj.status.toLowerCase();
+
         switch (responseStatus.toLowerCase()) {
             case 'stopped':
                 if (this.isFullScreen && this.lastUpdatedStatus === 'stop') {
