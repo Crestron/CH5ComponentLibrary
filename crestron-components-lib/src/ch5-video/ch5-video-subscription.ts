@@ -27,7 +27,7 @@ export class Ch5VideoSubscription {
 
   public static subscriptionValue: string | number | undefined;
 
-  public static replaceAttrIdxPlaceholder(n: Element, attrName: string, attrVal: string,
+  public static getNewSignalName(n: Element, attrName: string, attrVal: string,
     index: number, indexId: string): string | number | undefined {
     const placeholder: string = `{{${indexId}}}`;
     if (attrVal.indexOf(placeholder) > -1) {

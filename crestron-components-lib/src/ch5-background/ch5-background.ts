@@ -564,18 +564,20 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 }
                 break;
             case 'backgroundcolor':
-                if (this.hasAttribute('backgroundcolor') && !this.hasAttribute('url')) {
-                    this.backgroundColor = newValue;
-                } else {
-                    this.backgroundColor = '';
-                }
-                this.updateBackground();
-                if (oldValue !== null) {
-                    this._canvasSubscriptionId = subscribeState('b', 'canvas.created', (response: boolean) => {
-                        if (response) {
-                            this.clearRectBackground();
-                        }
-                    });
+                if (!this.hasAttribute('url')) {
+                    if (this.hasAttribute('backgroundcolor')) {
+                        this.backgroundColor = newValue;
+                    } else {
+                        this.backgroundColor = '';
+                    }
+                    this.updateBackground();
+                    if (oldValue !== null) {
+                        this._canvasSubscriptionId = subscribeState('b', 'canvas.created', (response: boolean) => {
+                            if (response) {
+                                this.clearRectBackground();
+                            }
+                        });
+                    }
                 }
                 break;
             case 'repeat':
@@ -782,7 +784,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     private getBackgroundUrl(values: string) {
         this._imgUrls = values.split('|');
-        this._imgUrls.map(url => url.trim());
+        this._imgUrls = this._imgUrls.map(url => url.trim());
     }
 
     /**
@@ -791,7 +793,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     private getBackgroundColor(values: string) {
         this._bgColors = values.split('|');
-        this._bgColors.map(color => color.trim());
+        this._bgColors = this._bgColors.map(color => color.trim());
     }
 
     /**
@@ -1023,9 +1025,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (count > 1) {
             this._bgIdx = 1;
             this._interval = setInterval(() => {
-                this._canvasList.forEach((c: any) => c.classList.remove('ch5bg-fadein'));
+                this._canvasList.forEach((c: HTMLCanvasElement) => c.classList.remove('ch5bg-fadein'));
                 this._canvasList[this._bgIdx].classList.add('ch5bg-fadein');
-                this._bgIdx = this._bgIdx + 1;
+                this._bgIdx++;
                 if (this._bgIdx === count) {
                     this._bgIdx = 0;
                 }
