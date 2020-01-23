@@ -1033,7 +1033,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set sourceType(value: string) {
-        this._sourceType = value;
+        if (this._sourceType !== value) {
+            if (value) {
+                this._sourceType = value;
+            } else {
+                this._sourceType = 'Network';
+            }
+            this.setAttribute('sourcetype', this._sourceType);
+        }
     }
 
     public get snapShotUrl(): string {
@@ -1366,39 +1373,41 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public get receiveStateSourceType(): string {
-        return this._receiveStateSourceType;
+        return this._attributeValueAsString('receivestatesourcetype');
     }
     public set receiveStateSourceType(value: string) {
-        this._receiveStateSourceType = value;
-        this.info('Set receiveStateSourceType(\'' + value + '\')');
-        if (value === null
-            || value === undefined) {
+        this.info("set receivestatesourcetype('" + value + "')");
+        if (!value || this._receiveStateSourceType === value) {
             return;
         }
-
         // clean up old subscription
-        if (this._receiveStateSourceType !== undefined && this._receiveStateSourceType !== '') {
+        if (this._receiveStateSourceType) {
+            const oldReceiveIntervalSigName: string = Ch5Signal.getSubscriptionSignalName(
+                this._receiveStateSourceType
+            );
 
-            const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSourceType);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldSigName);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveIntervalSigName);
 
             if (oldSignal !== null) {
-                oldSignal.unsubscribe('');
+                oldSignal.unsubscribe(this.subReceiveStateSourceType);
             }
         }
 
+        this._receiveStateSourceType = value;
+        this.setAttribute('receivestatesourcetype', value);
+
         // setup new subscription.
-        const sigNameStateSourceType: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSourceType);
-        const sigStateSourceType: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigNameStateSourceType);
-        if (sigStateSourceType) {
-            this.subReceiveStateSourceType = sigStateSourceType.subscribe((newValue: string) => {
-                if (newValue) {
-                    if (newValue === this.sourceType) {
-                        return;
-                    }
-                    this.sourceType = newValue;
+        const receiveIntervalSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSourceType);
+        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveIntervalSigName);
+
+        if (receiveSignal === null) {
+            return;
+        }
+
+        this.subReceiveStateSourceType = receiveSignal.subscribe(
+            (newValue: string) => {
+                if (newValue !== '' && newValue !== this.sourceType) {
+                    this.setAttribute('sourcetype', newValue);
                     this.sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
                     this.isVideoReady = true;
                     this.isVideoPublished = true;
@@ -1411,11 +1420,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                             this.lastUpdatedStatus = "stop";
                             this.publishVideoEvent("start");
                         }
-                    }, 100);
-
+                    }, 100);                    
                 }
-            });
-        }
+            }
+        );
     }
 
     public get receiveStateSnapShotRefreshRate(): string {
