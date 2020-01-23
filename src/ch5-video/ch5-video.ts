@@ -114,6 +114,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private videoCanvasElement: HTMLElement = {} as HTMLElement;
     private vidControlPanel: HTMLElement = {} as HTMLElement;
     private controlFullScreen: HTMLElement = {} as HTMLElement;
+    private fullScreenOverlay: HTMLElement = {} as HTMLElement;
     private fullScreenContainer: HTMLElement = {} as HTMLElement;
     private snapShotTimer: any;
 
@@ -2171,6 +2172,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         this.fullScreenContainer = document.createElement("div");
         document.body.appendChild(this.fullScreenContainer);
+        if (!document.getElementById("fullScreenOverlay")) {
+            this.fullScreenOverlay = document.createElement("div");
+            this.fullScreenOverlay.setAttribute("id", "fullScreenOverlay");
+            document.body.appendChild(this.fullScreenOverlay);
+        }        
     }
 
     public connectedCallback() {
@@ -2667,6 +2673,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.calculation(this.vid);
         if (this.isFullScreen) {
             setTimeout(() => {
+                this.fullScreenOverlay.classList.add(this.primaryVideoCssClass + '--overlay');
                 if (Ch5VideoEventHandler.isLandscape()) {
                     this.calculatePositions();
                 }
@@ -2993,7 +3000,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = true;
                 this.isImageReady = false;
                 this.sendEvent(this.sendEventState, 2, 'number');
-                this.isOrientationChanged = false;
+                if (this.isFullScreen) {
+                    this.orientationChangeComplete();
+                } else {
+                    this.isOrientationChanged = false;
+                }
                 setTimeout(() => {
                     this.isExitFullscreen = false;
                 }, 2000);
@@ -3026,7 +3037,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.cutCanvas2DisplayVideo(this.context);
                     this.isImageReady = false;
                     this.isVideoReady = true;
-                    this.isOrientationChanged = false;
+                    if (this.isFullScreen) {
+                        this.orientationChangeComplete();
+                    } else {
+                        this.isOrientationChanged = false;
+                    }
                     setTimeout(() => {
                         this.isExitFullscreen = false;
                     }, 2000);
@@ -3079,6 +3094,21 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private showFullScreenIcon() {
         this.vidControlPanel.classList.add(this.showControl);
     }
+
+    /**
+     * When the Orientation change completes
+     */
+    private orientationChangeComplete() {
+        if (this.isOrientationChanged) {
+            this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
+            clearTimeout(this.orientationChangeTimer);
+            this.isOrientationChanged = false;
+        } else {
+            this.orientationChangeTimer = setTimeout(() => {
+                this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
+            }, 10000);
+        }
+    }    
 
     /**
      * Calculate the padding space for aspect ratio 4:3
