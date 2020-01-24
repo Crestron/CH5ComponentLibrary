@@ -455,6 +455,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private oldResponseStatus: string = '';
     private oldResponseId: number = 0;
 
+    private subsCsigAppCurrentSate:string = '';
+    private subsCsigAppBackgrounded:string = '';
+
     /**
      * CONSTRUCTOR
      */
@@ -1311,18 +1314,23 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     private updateAppBackgroundStatus() {
-        const subsCsigApp = subscribeState('o', 'Csig.app.background', (res: any) => {
+        if (this.subsCsigAppBackgrounded !== '') {
+            unsubscribeState('o', 'Csig.app.background', this.subsCsigAppBackgrounded);
+        }
+        this.subsCsigAppBackgrounded = subscribeState('o', 'Csig.app.background', (res: any) => {
             this.wasAppBackGrounded = res.isAppBackgrounded;
         });
-        unsubscribeState('o', 'Csig.app.background', subsCsigApp);
     }
-    private appCurrentBackgroundStatus() {
-        const subsCsigApp = subscribeState('o', 'Csig.app.background', (res: any) => {
-            this.appCurrentStatus = res.isAppBackgrounded;
 
+    private appCurrentBackgroundStatus() {
+        if (this.subsCsigAppCurrentSate !== '') {
+            unsubscribeState('o', 'Csig.app.background', this.subsCsigAppCurrentSate);
+        }
+        this.subsCsigAppCurrentSate = subscribeState('o', 'Csig.app.background', (res: any) => {
+            this.appCurrentStatus = res.isAppBackgrounded;
         });
-        unsubscribeState('o', 'Csig.app.background', subsCsigApp);
     }
+
     public get receiveStateSelect(): string {
         return this._attributeValueAsString('receivestateselect');
     }
