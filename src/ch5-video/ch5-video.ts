@@ -1371,62 +1371,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
-    /*public get receiveStateSourceType(): string {
-        return this._attributeValueAsString('receivestatesourcetype');
-    }
-    public set receiveStateSourceType(value: string) {
-        this.info("set receivestatesourcetype('" + value + "')");
-        if (!value || this._receiveStateSourceType === value) {
-            return;
-        }
-        // clean up old subscription
-        if (this._receiveStateSourceType) {
-            const oldReceiveIntervalSigName: string = Ch5Signal.getSubscriptionSignalName(
-                this._receiveStateSourceType
-            );
-
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveIntervalSigName);
-
-            if (oldSignal !== null) {
-                oldSignal.unsubscribe(this.subReceiveStateSourceType);
-            }
-        }
-
-        this._receiveStateSourceType = value;
-        this.setAttribute('receivestatesourcetype', value);
-
-        // setup new subscription.
-        const receiveIntervalSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSourceType);
-        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveIntervalSigName);
-
-        if (receiveSignal === null) {
-            return;
-        }
-
-        this.subReceiveStateSourceType = receiveSignal.subscribe(
-            (newValue: string) => {
-                if (newValue !== '' && newValue !== this.sourceType) {
-                    this.setAttribute('sourcetype', newValue);
-                    this.sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
-                    this.isVideoReady = true;
-                    this.isVideoPublished = true;
-                    this.lastUpdatedStatus = "start";
-                    this.publishVideoEvent("stop");
-                    setTimeout(() => {
-                        if (this.elementIntersectionEntry.intersectionRatio > 0.95) {
-                            this.lastResponseStatus = 'stopped';
-                            this.isVideoReady = false;
-                            this.lastUpdatedStatus = "stop";
-                            this.publishVideoEvent("start");
-                        }
-                    }, 100);
-                }
-            }
-        );
-    }*/
-
-
-
     public get receiveStateSourceType(): string {
         return this._receiveStateSourceType;
     }
