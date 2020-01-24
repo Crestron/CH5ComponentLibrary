@@ -115,6 +115,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private vidControlPanel: HTMLElement = {} as HTMLElement;
     private controlFullScreen: HTMLElement = {} as HTMLElement;
     private fullScreenContainer: HTMLElement = {} as HTMLElement;
+    private positionMonitorContainer: HTMLElement = {} as HTMLElement;
     private snapShotTimer: any;
 
     private subscriptionEventList: Subscription[] = [];
@@ -1420,7 +1421,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                             this.lastUpdatedStatus = "stop";
                             this.publishVideoEvent("start");
                         }
-                    }, 100);                    
+                    }, 100);
                 }
             }
         );
@@ -2171,6 +2172,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         this.fullScreenContainer = document.createElement("div");
         document.body.appendChild(this.fullScreenContainer);
+
+        // scrollable container monitor
+        this.positionMonitorContainer = document.createElement("div");
+        this.positionMonitorContainer.classList.add(this.primaryVideoCssClass + '--invisible-container');
+        document.body.appendChild(this.positionMonitorContainer);
     }
 
     public connectedCallback() {
@@ -2180,6 +2186,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             customElements.whenDefined('ch5-video').then(() => {
                 this.initializeVideo();
                 this.isInitialized = false;
+                Ch5CoreIntersectionObserver.getInstance().observe(this.positionMonitorContainer, this.positionChangeObserver);
             });
         }
         Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
@@ -2197,6 +2204,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }, 1000);
     }
 
+    public positionChangeObserver() {
+        if (this.elementIntersectionEntry.intersectionRatio > 0.98) {
+            console.log('Moved in');
+        } else {
+            console.log('Moved out');
+        }
+    }
 
     /**
      * When the video element is more than 95% visible the video should start and
@@ -2278,6 +2292,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
             }
         }
+    }
+
+    /**
+     * This method will be called during component initialization and orientation change
+     */
+    private setInvisibleContainerSize() {
+        this.positionMonitorContainer.style.position = 'absolute';
+        this.positionMonitorContainer.style.width = this.sizeObj.width + 'px';
+        this.positionMonitorContainer.style.height = this.sizeObj.height + 'px';
+        this.positionMonitorContainer.style.left = this.position.xPos + 'px';
+        this.positionMonitorContainer.style.top = this.position.yPos + 'px';
     }
 
     /**
@@ -2815,6 +2840,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 } else {
                     this.sendEvent(this.sendEventState, 0, 'number');
                 }
+                // TODO: need to be removed
+                this.setInvisibleContainerSize();
                 break;
             case 'stop':
                 if (!this.isVideoPublished) { // this flag avoids stop command since no video has started
@@ -3001,6 +3028,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.videoResponseSubscriptionId) {
                     unsubscribeState('o', 'Csig.video.response', this.videoResponseSubscriptionId);
                 }
+                this.setInvisibleContainerSize();
                 break;
             case 'retrying':
                 this.isVideoReady = false;
@@ -3030,6 +3058,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     setTimeout(() => {
                         this.isExitFullscreen = false;
                     }, 2000);
+                    this.setInvisibleContainerSize();
                 }
                 break;
             case 'error':
