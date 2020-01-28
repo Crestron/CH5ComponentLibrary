@@ -3048,7 +3048,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     private hideFullScreenIcon() {
-        this.vidControlPanel.classList.remove(this.showControl);
+        if (Object.keys(this.vidControlPanel).length) {
+            this.vidControlPanel.classList.remove(this.showControl);
+        }
     }
 
     private showFullScreenIcon() {
