@@ -10,7 +10,7 @@ import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory, Ch5Platform, ICh5Platform
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { ICh5ImageAttributes } from "../_interfaces/ch5-image/i-ch5-image-attributes";
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
-import { isNil } from 'lodash';
+import { isNil, isEmpty} from 'lodash';
 import { Ch5ImageUriModel } from "./ch5-image-uri-model";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 
@@ -282,7 +282,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     public set url(value: string) {
         if (this._url !== value) {
             this.updateImageUrl(value);
-            this.processUri();
+            
+            if (this.canProcessUri()) {
+                this.processUri();
+            } 
         }
     }
 
@@ -423,6 +426,9 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         }
 
         this._user = userName;
+        if (this.canProcessUri()) {
+            this.processUri();
+        }
     }
 
     /**
@@ -442,6 +448,11 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         }
 
         this._password = password;
+
+        
+        if (this.canProcessUri()) {
+            this.processUri();
+        }
     }
 
     /**
@@ -689,11 +700,15 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             case 'user':
                 if (this.hasAttribute('user')) {
                     this.user = newValue;
+                } else {
+                    this.user = "";
                 }
                 break;
             case 'password':
                 if (this.hasAttribute('password')) {
                     this.password = newValue;
+                } else {
+                    this.password = "";
                 }
                 break;
             default:
@@ -719,9 +734,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     }
 
     public processUri(): void {
-
         const platformInfo = Ch5Platform.getInstance();
-
         platformInfo.registerUpdateCallback((info: ICh5PlatformInfo) => {
 
             if (this.protocol) {
@@ -814,6 +827,18 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     
     public getCssClassDisabled() {
         return this.cssClassPrefix + '--disabled';
+    }
+
+    
+    public canProcessUri(): boolean {
+        if (
+            (isNil(this.password) || isEmpty(this.password)) ||
+            (isNil(this.user) || isEmpty(this.user)) ||
+            (isNil(this._url) || isEmpty(this._url))
+        ) {
+            return false;
+        }
+        return true;
     }
 
     /**

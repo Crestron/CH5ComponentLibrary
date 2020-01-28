@@ -103,6 +103,7 @@ export class Ch5Platform {
    * @param {ICh5PlatformUpdateCallback} callback - function called on platform signal update
    */
   public registerUpdateCallback(callback: ICh5PlatformUpdateCallback): void {
+    callback(this._ch5PlatformInfo);
     this._updateCallbacks.push(callback);
   }
 
