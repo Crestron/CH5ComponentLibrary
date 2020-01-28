@@ -457,8 +457,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private oldResponseStatus: string = '';
     private oldResponseId: number = 0;
 
-    private subsCsigAppCurrentSate:string = '';
-    private subsCsigAppBackgrounded:string = '';
+    private subsCsigAppCurrentSate: string = '';
+    private subsCsigAppBackgrounded: string = '';
 
     /**
      * CONSTRUCTOR
@@ -2631,9 +2631,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             Ch5CoreIntersectionObserver.getInstance().unobserve(this);
             this.isIntersectionObserve = false;
         }
-        // if (Ch5IntersectionObserver.getInstance() instanceof Ch5IntersectionObserver) {
-        //     Ch5IntersectionObserver.getInstance().unobserve(this);
-        // }
     }
 
     /**
@@ -2799,7 +2796,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (!this.isVideoPublished) { // this flag avoids stop command since no video has started
                     return;
                 }
-                if (this.lastUpdatedStatus !== 'stop' && (this.lastResponseStatus === 'started' || (this.lastResponseStatus === 'resized' && !this.isExitFullscreen))) {
+                if (this.lastUpdatedStatus !== 'stop' && (this.lastResponseStatus === 'started' || !this.elementIsInViewPort || (this.lastResponseStatus === 'resized' && !this.isExitFullscreen))) {
                     this.lastUpdatedStatus = actionType;
                     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
                     this.info("Video Request (Stop) : " + JSON.stringify(this.videoStopObjJSON(actionType, this.ch5UId)));
