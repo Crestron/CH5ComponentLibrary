@@ -83,6 +83,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private appBgTimer: number = 0;
     private wasAppBackGrounded: boolean = false;
     private appCurrentStatus: boolean = false;
+    private isScrollableLoad: boolean = true;
 
 
     /**
@@ -452,7 +453,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private controlTimer: any;
     private controlTop: number = -1;
     private controlLeft: number = -1;
-    private scrollTimer: number = 0;
+    private scrollTimer: any;
     private isExitFullscreen: boolean = false;
     private oldResponseStatus: string = '';
     private oldResponseId: number = 0;
@@ -2204,12 +2205,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.calculation(this.vid);
                 this.calculatePositions();
                 this.publishBackgroundEvent();
+                if (this.isScrollableLoad) {
+                    this.onScrollPosition();
+                }
                 if (!this.isFullScreen && !this.isExitFullscreen) {
                     this.lastResponseStatus = 'stopped';
                     this.lastUpdatedStatus = 'stop';
                     this.isVideoReady = false;
                     this.publishVideoEvent("start");
                 }
+                this.isScrollableLoad = false;
             }, 1000);
         } else {
             // when the fullscreen is triggered in
@@ -2553,16 +2558,50 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         event.stopPropagation();
     }
 
+    private onScrollPosition() {
+        const scrollableElm = getScrollableParent(this);
+        if (scrollableElm) {
+            const isScrollable = this.isScrollBar(scrollableElm, 'vertical') || this.isScrollBar(scrollableElm, 'horizontal');
+            console.log(isScrollable);
+            if (isScrollable) {
+                scrollableElm.addEventListener('scroll', () => {
+                    publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
+                    this.positionChange();
+                });
+            } else {
+                scrollableElm.addEventListener('touchmove', () => {
+                    publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
+                });
+                scrollableElm.addEventListener('touchend', () => {
+                    // this.lastResponseStatus = '';
+                    this.videoTop = -1;
+                    this.positionChange();
+                });
+            }
+        }
+    }
+
+    /**
+     * checking if has scrollbar
+     */
+    private isScrollBar(elm: any, dir: string) {
+        dir = (dir === 'vertical') ? 'scrollTop' : 'scrollLeft';
+        let res: boolean = !!elm[dir];
+        if (!res) {
+            elm[dir] = 1;
+            res = !!elm[dir];
+            elm[dir] = 0;
+        }
+        return res;
+    }
 
     /**
      * When the user scolls the page, video will disappear and when the scrolling gets stopped 
      * then video starts playing in the new position.
      */
     private positionChange() {
-        clearTimeout(this.scrollTimer);
-        publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
-
-        this.scrollTimer = window.setTimeout(() => {
+        window.clearTimeout(this.scrollTimer);
+        this.scrollTimer = setTimeout(() => {
             if (this.lastResponseStatus !== 'stopped') {
                 if ((this.videoTop < 0 && this.videoLeft < 0)) {
                     return;
@@ -2577,7 +2616,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.publishVideoEvent('resize');
                 }
             }
-        }, 500);
+        }, 1000);
     }
 
     /**
@@ -2591,9 +2630,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
         window.addEventListener('orientationchange', this.orientationChange.bind(this));
         window.addEventListener('resize', this.orientationChange.bind(this));
-        if (getScrollableParent(this)) {
-            getScrollableParent(this).addEventListener('scroll', this.positionChange.bind(this));
-        }
     }
 
     /**
@@ -2603,7 +2639,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         super.removeEventListeners();
         this.controlFullScreen.removeEventListener('click', this.fullScreen.bind(this));
         this.videoCanvasElement.removeEventListener('click', this.manageControls.bind(this));
+        this.fullScreenContainer.removeEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
+        window.removeEventListener('orientationchange', this.orientationChange.bind(this));
+        window.removeEventListener('resize', this.orientationChange.bind(this));
+        getScrollableParent(this).removeEventListener('scroll', this.positionChange.bind(this));
+        getScrollableParent(this).removeEventListener('touchend', this.positionChange.bind(this));
     }
 
     /**
@@ -3065,9 +3106,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * When the Orientation change completes
      */
     private orientationChangeComplete() {
-        this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
-        clearTimeout(this.orientationChangeTimer);
-        this.isOrientationChanged = false;
+        if (Object.keys(this.fullScreenOverlay).length) {
+            this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
+            clearTimeout(this.orientationChangeTimer);
+            this.isOrientationChanged = false;
+        }
     }
 
     /**
