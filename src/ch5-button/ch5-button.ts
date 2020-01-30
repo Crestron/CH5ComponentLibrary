@@ -368,6 +368,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _intervalIdForOnTouch: number | null = null;
 
     /**
+     * this is last tap time used to determine if should send click pulse in focus event 
+     */
+    private _lastTapTime: number = 0;
+
+    /**
      * Events
      * click - inherited
      * focus - inherited
@@ -1831,6 +1836,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private sendValueForOnTouchSignal(value: boolean): void {
+//        this.info("Ch5Button.REMOVEME.sendValueForOnTouchSignal(" + value + ")");
+        
         if (this._sigNameSendOnTouch) {
 
             const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
@@ -1855,6 +1862,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _onTapAction() {
         if (!isTouchDevice()) {
             this._sendOnClickSignal();
+        }
+        else {
+            this._lastTapTime = new Date().valueOf();
         }
 
         if (null !== this._intervalIdForOnTouch) {
@@ -1892,6 +1902,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private async _onPressClick() {
+//        this.info("Ch5Button.REMOVEME._onPressClick()");
+
         await this.pressHandler();
 
         if (this._pressed) {
@@ -1909,6 +1921,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private async _onPress(event: TouchEvent) {
+        // this.info("Ch5Button.REMOVEME._onPress(TouchEvent)");
         const normalizedEvent = normalizeEvent(event);
 
         this._pressInfo.saveStart(
@@ -1978,8 +1991,19 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         // not gain focus when it should not	
 
         // on touch devices, focus is gained onTouchEnd
-        if (isTouchDevice()) {
-            this._sendOnClickSignal();
+        if (isTouchDevice()) { 
+//            this.info("Ch5Button.REMOVEME.isTouchDevice");
+            if (!isSafariMobile()) {  // pulse for Safari sent onMouseUp
+//                this.info("Ch5Button.REMOVEME.!isSafariMobile");
+                // Only send click pulse if directly preceeded (e.g. < 500ms) by a tap event
+                const timeNow = new Date().valueOf();
+                if (timeNow - this._lastTapTime < 500) {
+                    this._sendOnClickSignal(); 
+                }
+                this._lastTapTime = 0;
+            }
+            // for all touch devices, give up focus
+            this._elButton.blur();
         }
     }
 
@@ -1987,6 +2011,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * Sends the signal passed via sendEventOnClick or sendEventOnTouch
      */
     private _sendOnClickSignal(): void {
+        // this.info("Ch5Button.REMOVEME._sendOnClickSignal()");
+        
         let sigClick: Ch5Signal<boolean> | null = null;
 
         if (this._sigNameSendOnClick) {
@@ -1996,7 +2022,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             if (sigClick !== null) {
                 sigClick.publish(true);
                 sigClick.publish(false);
-                this._elButton.blur();
             }
         }
     }
@@ -2012,6 +2037,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * @return {Promise}
      */
     private pressHandler(): Promise<boolean> {
+        // this.info("Ch5Button.REMOVEME.pressHandler()");
 
         const pressHandler = () => {
             this.info("Ch5Button._onPress()");
@@ -2029,6 +2055,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private stopRepeatDigital() {
+        // this.info("Ch5Button.REMOVEME.stopRepeatDigital()");
+
         if (this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
             this.sendValueForOnTouchSignal(false);
