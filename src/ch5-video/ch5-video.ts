@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, Ch5Platform, ICh5PlatformInfo } from "../ch5-core";
 import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
 import { TDimension, TReceiveState } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
@@ -18,6 +18,8 @@ import { aspectRatio } from './ch5-video-constants';
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
+import isNil from "lodash/isNil";
+import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
@@ -460,6 +462,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     private subsCsigAppCurrentSate: string = '';
     private subsCsigAppBackgrounded: string = '';
+    private ch5Image: any;
+    /**
+     * Protocol for authentication in order to get the image
+     *
+     * @type {string}
+     */
+    private _protocol: string = '';
 
     /**
      * CONSTRUCTOR
@@ -1062,6 +1071,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public set snapShotRefreshRate(value: string) {
         this._snapShotRefreshRate = value;
     }
+
+    public set protocol(protocol: string) {
+        if (isNil(protocol)) {
+            return;
+        }
+
+        this._protocol = protocol;
+    }
+
+    public get protocol(): string {
+        return this._protocol;
+    }    
 
     /**
      * Getters and Setters for Signals
@@ -2316,7 +2337,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.unsubscribeRefreshImage();
             this.snapShotTimer = setInterval(() => {
                 if (this.snapShotUserId && this.snapShotPassword && !this.snapShotUrl.indexOf("http")) {
-                    this.checkSnapShotUrl();
+                    this.processUri();
                 }
                 if (this.snapShotUrl !== "") {
                     this.snapShotOnLoad();
@@ -2329,13 +2350,43 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Check the snapshot url and append web protocol and credentials to it
-     */
-    private checkSnapShotUrl() {
-        let loginCredentials = "";
-        loginCredentials = this.snapShotUserId + ":" + this.snapShotPassword + "@";
-        this.snapShotUrl = this.snapShotUrl.replace(/\:\/\//, "://" + loginCredentials);
-        this.snapShotUrl = this.snapShotUrl.replace(/http:/i, "ch5-img-auth:");
-        this.snapShotUrl = this.snapShotUrl.replace(/https:/i, "ch5-img-auths:");
+     */    
+    public processUri(): void {
+        const platformInfo = Ch5Platform.getInstance();
+        platformInfo.registerUpdateCallback((info: ICh5PlatformInfo) => {
+
+            if (this.protocol) {
+              return;
+            }
+
+            // the http/https related protocols from platformInfo
+            const { http, https } = info.capabilities.supportCredentialIntercept;
+
+            // sent to the uri model
+            const protocols = {http, https};
+
+            // the url should not be replaced if one of this is not filled
+            if (!http && !https) {
+                return;
+            }
+
+            this.protocol = https ? https : http;
+
+            const uri = new Ch5ImageUriModel (
+                protocols,
+                this.snapShotUserId,
+                this.snapShotPassword,
+                this.snapShotUrl,
+            );
+    
+            // check if the current uri contains authentication information
+            // and other details necessary for URI
+            if (!uri.isValidAuthenticationUri()) {
+                return;
+            }
+    
+            this.snapShotUrl = uri.toString();
+        });
     }
 
     /**
