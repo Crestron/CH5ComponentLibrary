@@ -2562,7 +2562,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const scrollableElm = getScrollableParent(this);
         if (scrollableElm) {
             const isScrollable = this.isScrollBar(scrollableElm, 'vertical') || this.isScrollBar(scrollableElm, 'horizontal');
-            console.log(isScrollable);
             if (isScrollable) {
                 scrollableElm.addEventListener('scroll', () => {
                     publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
