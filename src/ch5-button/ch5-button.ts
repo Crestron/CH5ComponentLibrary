@@ -1836,8 +1836,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private sendValueForOnTouchSignal(value: boolean): void {
-//        this.info("Ch5Button.REMOVEME.sendValueForOnTouchSignal(" + value + ")");
-        
         if (this._sigNameSendOnTouch) {
 
             const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
@@ -1902,8 +1900,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private async _onPressClick() {
-//        this.info("Ch5Button.REMOVEME._onPressClick()");
-
         await this.pressHandler();
 
         if (this._pressed) {
@@ -1921,7 +1917,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private async _onPress(event: TouchEvent) {
-        // this.info("Ch5Button.REMOVEME._onPress(TouchEvent)");
         const normalizedEvent = normalizeEvent(event);
 
         this._pressInfo.saveStart(
@@ -1992,9 +1987,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         // on touch devices, focus is gained onTouchEnd
         if (isTouchDevice()) { 
-//            this.info("Ch5Button.REMOVEME.isTouchDevice");
             if (!isSafariMobile()) {  // pulse for Safari sent onMouseUp
-//                this.info("Ch5Button.REMOVEME.!isSafariMobile");
                 // Only send click pulse if directly preceeded (e.g. < 500ms) by a tap event
                 const timeNow = new Date().valueOf();
                 if (timeNow - this._lastTapTime < 500) {
@@ -2011,8 +2004,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * Sends the signal passed via sendEventOnClick or sendEventOnTouch
      */
     private _sendOnClickSignal(): void {
-        // this.info("Ch5Button.REMOVEME._sendOnClickSignal()");
-        
         let sigClick: Ch5Signal<boolean> | null = null;
 
         if (this._sigNameSendOnClick) {
@@ -2037,8 +2028,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * @return {Promise}
      */
     private pressHandler(): Promise<boolean> {
-        // this.info("Ch5Button.REMOVEME.pressHandler()");
-
         const pressHandler = () => {
             this.info("Ch5Button._onPress()");
             this._pressed = true;
@@ -2055,8 +2044,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private stopRepeatDigital() {
-        // this.info("Ch5Button.REMOVEME.stopRepeatDigital()");
-
         if (this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
             this.sendValueForOnTouchSignal(false);
