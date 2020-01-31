@@ -10,10 +10,10 @@ import { Ch5List, Ch5ListItemAxis } from "./ch5-list";
 import { getEvtListenerOptions } from "../ch5-triggerview/passiveEventListeners";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5ListAbstractHelper } from "./ch5-list-abstract-helper";
-import { _swipeSensitivity } from "./ch5-list-animation";
 import { OrientationHelper } from "../ch5-common/utils/orientation-helper";
 import { isMobileDevice } from "../ch5-core/utility-functions/is-mobile-device";
 import { isCrestronDevice } from "../ch5-core/utility-functions/is-crestron-device";
+import { Ch5ListSizeResolver } from "./ch5-list-size-resolver";
 
 // How strictly the ch5-list detects a horizontal drag.
 // The angle (in degrees) should be in range (0, 90)
@@ -29,7 +29,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
   /**
    * Specific angle range to allow moving the list when the drag is not
    * completly vertical
-   * 
+   *
    * @type {number}
    * @protected
    */
@@ -37,7 +37,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
 
   /**
    * The drag angle registered on mousemove/touchmove
-   * 
+   *
    * @type {number}
    * @protected
    */
@@ -112,7 +112,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
 
   /**
    * Attach touch events listeners for an additional element beloging to the list
-   * 
+   *
    * @param {HTMLElement} additionalElement
    */
   protected initializeTouchEvents(additionalElement: HTMLElement): void {
@@ -126,7 +126,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
   }
 
   /**
-   * Attach mouse events listeners 
+   * Attach mouse events listeners
    * @param {HTMLElement} additionalElement
    */
   protected initializeMouseEvents(additionalElement: HTMLElement): void {
@@ -139,7 +139,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
 
   /**
    * Check if the current web view or browser supports touch events
-   * 
+   *
    * @returns {boolean}
    */
   protected checkTouchSupport(): boolean {
@@ -155,17 +155,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
 
 
   public onWindowResize() {
-    this._list.update();
-
-    // only check orientation change on Crestron/mobile devices
-    if (isMobileDevice() || isCrestronDevice()) {
-      const orientationChanged = this._orientationHelper.hasOrientationChanged();
-
-      if (orientationChanged) {
-        console.log('orientation changed');
-        this._templateHelper.customScrollbar(this._list);
-      }
-    }
+    this._list.templateHelper.resetListLayout();
   }
 
   /**
@@ -181,12 +171,12 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
       e.event.stopPropagation();
     }
 
-    if (!this._animationHelper.maxOffsetTranslate) {
+    if ((this._list.endless && !this._animationHelper.maxOffsetTranslate) || !this._list.endless) {
       this._list.sizeResolver.updateViewport(this._list);
 
-      const bufferAmountState = !isNil(this._list.bufferAmount);
+      const bufferAmountState = !isNil(this._list.bufferAmount) && this._list.bufferAmount > 0;
       const maxOffsetTranslate = this._animationHelper.adjustMaxOffset(bufferAmountState);
-      this._animationHelper.maxOffsetTranslate = -maxOffsetTranslate;
+      this._animationHelper.maxOffsetTranslate = maxOffsetTranslate;
     }
 
     const containerBounding = this._list.getBoundingClientRect();
@@ -279,10 +269,10 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
       clearTimeout(this._updateManager);
 
       this._updateManager = window.setTimeout(() => {
-        this._list.pointerStartTime = Date.now();
         this._list.stepOnX = dX;
         this._list.stepOnY = dY;
-      });
+        this._list.pointerStartTime = Date.now();
+      }, 50);
 
       let coord = dX;
 
