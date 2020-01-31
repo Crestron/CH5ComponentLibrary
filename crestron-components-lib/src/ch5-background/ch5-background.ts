@@ -64,6 +64,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private _videoRes: IVideoResponse = {} as IVideoResponse;
     private _isVisible: boolean = false;
     private _videoDimensions: IVideoResponse[] = [];
+    private _isRefilled: boolean = false;
 
     /**
      * background url supports background format, including JPEG, PNG, SVG, and BMP.
@@ -1067,6 +1068,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         break;
                 }
             });
+            this._isRefilled = true;
         });
     }
 
@@ -1083,6 +1085,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             this._videoRes.left = this._videoRes.left - leftOffset;
             this._videoRes.top = this._videoRes.top - topOffset;
             if (this._videoRes.top < 0 || this._videoRes.left < 0) {
+                this.refillBackground();
                 return;
             }
             // Avoiding negative values and decimal values in video and background
@@ -1112,6 +1115,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         });
                     });
                 })
+                this._isRefilled = false;
             }
         }
     }
