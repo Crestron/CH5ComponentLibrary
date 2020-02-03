@@ -368,6 +368,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _intervalIdForOnTouch: number | null = null;
 
     /**
+     * this is last tap time used to determine if should send click pulse in focus event 
+     */
+    private _lastTapTime: number = 0;
+
+    /**
      * Events
      * click - inherited
      * focus - inherited
@@ -1856,6 +1861,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         if (!isTouchDevice()) {
             this._sendOnClickSignal();
         }
+        else {
+            this._lastTapTime = new Date().valueOf();
+        }
 
         if (null !== this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
@@ -1978,8 +1986,17 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         // not gain focus when it should not	
 
         // on touch devices, focus is gained onTouchEnd
-        if (isTouchDevice()) {
-            this._sendOnClickSignal();
+        if (isTouchDevice()) { 
+            if (!isSafariMobile()) {  // pulse for Safari sent onMouseUp
+                // Only send click pulse if directly preceeded (e.g. < 500ms) by a tap event
+                const timeNow = new Date().valueOf();
+                if (timeNow - this._lastTapTime < 500) {
+                    this._sendOnClickSignal(); 
+                }
+                this._lastTapTime = 0;
+            }
+            // for all touch devices, give up focus
+            this._elButton.blur();
         }
     }
 
@@ -1996,7 +2013,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             if (sigClick !== null) {
                 sigClick.publish(true);
                 sigClick.publish(false);
-                this._elButton.blur();
             }
         }
     }
@@ -2012,7 +2028,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * @return {Promise}
      */
     private pressHandler(): Promise<boolean> {
-
         const pressHandler = () => {
             this.info("Ch5Button._onPress()");
             this._pressed = true;
