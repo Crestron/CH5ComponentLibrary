@@ -17,8 +17,8 @@ enum ch5VersionError {
 export const version = !!process.env.BUILD_VERSION ? process.env.BUILD_VERSION : ch5VersionError.versionNotSet; // 'X.XX.XX.XX'
 export const buildDate = !!process.env.BUILD_DATE ? process.env.BUILD_DATE : ch5VersionError.invalidDate; // 'YYYY-MM-DD'
 
-export const signalNameForLibraryVersion: string = 'csig.library.ver';
-export const signalNameForLibraryBuildDate: string = 'csig.library.date';
+export const signalNameForLibraryVersion: string = 'Csig.library.ver';
+export const signalNameForLibraryBuildDate: string = 'Csig.library.date';
 
 class Ch5Version {
 
