@@ -2693,8 +2693,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
         window.removeEventListener('orientationchange', this.orientationChange.bind(this));
         window.removeEventListener('resize', this.orientationChange.bind(this));
-        getScrollableParent(this).removeEventListener('scroll', this.positionChange.bind(this));
-        getScrollableParent(this).removeEventListener('touchend', this.positionChange.bind(this));
     }
 
     /**
