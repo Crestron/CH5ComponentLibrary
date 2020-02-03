@@ -2612,18 +2612,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private onScrollPosition() {
         const scrollableElm = getScrollableParent(this);
         if (scrollableElm) {
-            const isScrollable = this.isScrollBar(scrollableElm, 'vertical') || this.isScrollBar(scrollableElm, 'horizontal');
+            const isScrollable = this.isScrollBar(scrollableElm, 'vertical');
             if (isScrollable) {
                 scrollableElm.addEventListener('scroll', () => {
                     publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
                     this.positionChange();
                 });
-            } else {
+            } else if (isSafariMobile()) {
                 scrollableElm.addEventListener('touchmove', () => {
                     publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
                 });
                 scrollableElm.addEventListener('touchend', () => {
-                    // this.lastResponseStatus = '';
                     this.videoTop = -1;
                     this.positionChange();
                 });
