@@ -21,7 +21,6 @@ import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 
-
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
 export type TSignalTypeT = string | number | boolean | any;
@@ -1082,7 +1081,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public get protocol(): string {
         return this._protocol;
-    }    
+    }
 
     /**
      * Getters and Setters for Signals
@@ -2350,20 +2349,20 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Check the snapshot url and append web protocol and credentials to it
-     */    
+     */
     public processUri(): void {
         const platformInfo = Ch5Platform.getInstance();
         platformInfo.registerUpdateCallback((info: ICh5PlatformInfo) => {
 
             if (this.protocol) {
-              return;
+                return;
             }
 
             // the http/https related protocols from platformInfo
             const { http, https } = info.capabilities.supportCredentialIntercept;
 
             // sent to the uri model
-            const protocols = {http, https};
+            const protocols = { http, https };
 
             // the url should not be replaced if one of this is not filled
             if (!http && !https) {
@@ -2372,19 +2371,19 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
             this.protocol = https ? https : http;
 
-            const uri = new Ch5ImageUriModel (
+            const uri = new Ch5ImageUriModel(
                 protocols,
                 this.snapShotUserId,
                 this.snapShotPassword,
                 this.snapShotUrl,
             );
-    
+
             // check if the current uri contains authentication information
             // and other details necessary for URI
             if (!uri.isValidAuthenticationUri()) {
                 return;
             }
-    
+
             this.snapShotUrl = uri.toString();
         });
     }
@@ -2612,18 +2611,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private onScrollPosition() {
         const scrollableElm = getScrollableParent(this);
         if (scrollableElm) {
-            const isScrollable = this.isScrollBar(scrollableElm, 'vertical') || this.isScrollBar(scrollableElm, 'horizontal');
+            const isScrollable = this.isScrollBar(scrollableElm, 'vertical');
             if (isScrollable) {
                 scrollableElm.addEventListener('scroll', () => {
                     publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
                     this.positionChange();
                 });
-            } else {
+            } else if (isSafariMobile()) {
                 scrollableElm.addEventListener('touchmove', () => {
                     publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
                 });
                 scrollableElm.addEventListener('touchend', () => {
-                    // this.lastResponseStatus = '';
                     this.videoTop = -1;
                     this.positionChange();
                 });
@@ -2730,7 +2728,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         clearTimeout(this.orientationChangeTimer);
         this.calculation(this.vid);
         if (this.isFullScreen) {
-            this.fullScreenOverlay.classList.add(this.primaryVideoCssClass + '--overlay');
+            if (this.contains(this.fullScreenOverlay)) {
+                this.fullScreenOverlay.classList.add(this.primaryVideoCssClass + '--overlay');
+            }
             setTimeout(() => {
                 if (Ch5VideoEventHandler.isLandscape()) {
                     this.calculatePositions();
@@ -3138,7 +3138,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Hide the full screen icon
      */
     private hideFullScreenIcon() {
-        if (Object.keys(this.vidControlPanel).length) {
+        if (this.contains(this.vidControlPanel)) {
             this.vidControlPanel.classList.remove(this.showControl);
         }
     }
@@ -3147,14 +3147,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Show the full screen icon
      */
     private showFullScreenIcon() {
-        this.vidControlPanel.classList.add(this.showControl);
+        if (this.contains(this.vidControlPanel)) {
+            this.vidControlPanel.classList.add(this.showControl);
+        }
     }
 
     /**
      * When the Orientation change completes
      */
     private orientationChangeComplete() {
-        if (Object.keys(this.fullScreenOverlay).length) {
+        if (this.contains(this.fullScreenOverlay)) {
             this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
             clearTimeout(this.orientationChangeTimer);
             this.isOrientationChanged = false;
