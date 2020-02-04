@@ -2300,6 +2300,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private manageControls() {
         if (this.isFullScreen) {
+            this.videoCanvasElement.removeEventListener('touchmove', this.handleTouchMoveEvent, false);
             this.exitFullScreen();
             return;
         }
@@ -2533,12 +2534,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     /**
      * Changes the full screen mode through controls
      */
+    private handleTouchMoveEvent(ev:Event){
+        ev.preventDefault(); 
+        ev.stopImmediatePropagation();
+    }
     private fullScreen() {
         if (this.isFullScreen) {
             this.exitFullScreen();
         } else {
             this.isFullScreen = true;
-            this.videoCanvasElement.addEventListener('touchmove', (e) => { e.preventDefault(); e.stopImmediatePropagation(); return; }, false);
+            this.videoCanvasElement.addEventListener('touchmove', this.handleTouchMoveEvent, false);
             this.fullScreenContainer.classList.add("fullscreen-container");
             this.hideFullScreenIcon();
             if (isSafariMobile()) {
