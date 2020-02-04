@@ -2619,18 +2619,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private onScrollPosition() {
         const scrollableElm = getScrollableParent(this);
         if (scrollableElm) {
-            const isScrollable = this.isScrollBar(scrollableElm, 'vertical') || this.isScrollBar(scrollableElm, 'horizontal');
+            const isScrollable = this.isScrollBar(scrollableElm, 'vertical');
             if (isScrollable) {
                 scrollableElm.addEventListener('scroll', () => {
                     publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
                     this.positionChange();
                 });
-            } else {
+            } else if (isSafariMobile()) {
                 scrollableElm.addEventListener('touchmove', () => {
                     publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
                 });
                 scrollableElm.addEventListener('touchend', () => {
-                    // this.lastResponseStatus = '';
                     this.videoTop = -1;
                     this.positionChange();
                 });
@@ -2700,8 +2699,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
         window.removeEventListener('orientationchange', this.orientationChange.bind(this));
         window.removeEventListener('resize', this.orientationChange.bind(this));
-        getScrollableParent(this).removeEventListener('scroll', this.positionChange.bind(this));
-        getScrollableParent(this).removeEventListener('touchend', this.positionChange.bind(this));
     }
 
     /**
@@ -3176,7 +3173,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * When the Orientation change completes
      */
     private orientationChangeComplete() {
-        // if (Object.keys(this.fullScreenOverlay).length) {
         if (this.contains(this.fullScreenOverlay)) {
             this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
             clearTimeout(this.orientationChangeTimer);

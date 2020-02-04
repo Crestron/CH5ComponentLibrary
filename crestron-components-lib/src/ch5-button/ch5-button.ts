@@ -129,6 +129,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _elImg: HTMLImageElement = {} as HTMLImageElement;
     private _elIosDots: HTMLElement = {} as HTMLElement;
 
+    private isLabelLoaded: boolean = false;
+
     /**
      * Time after that press will be triggered
      *
@@ -366,6 +368,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * This id allow canceling the interval.
      */
     private _intervalIdForOnTouch: number | null = null;
+
+    /**
+     * this is last tap time used to determine if should send click pulse in focus event 
+     */
+    private _lastTapTime: number = 0;
 
     /**
      * Events
@@ -666,10 +673,30 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     // adding ellipsis in iOS device with vertical button
     protected createIosEllipsis() {
-        if (isSafariMobile() && this._elLabel.scrollHeight > this._elButton.clientHeight) {
-            if (this._elLabel.firstElementChild) {
-                this._elLabel.removeChild(this._elLabel.firstElementChild);
+        if (isSafariMobile()) {
+            const btnNodes: any = this._elButton.childNodes;
+            btnNodes.forEach((node: any) => {
+                if (node.className === (this.primaryCssClass + '--ios-label')) {
+                    node.remove();
+                }
+            });
+
+            if (this.isLabelLoaded) {
+                this.createEllipsisTpl();
+            } else {
+                let timer: any;
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    this.createEllipsisTpl();
+                    this.isLabelLoaded = true;
+                }, 2000);
             }
+        }
+    }
+    
+    // creating three dots for iOS
+    private createEllipsisTpl() {
+        if (this._elLabel.scrollHeight > this._elLabel.clientHeight) {
             this._elContainer.classList.add(this.primaryCssClass + this.iosCssClassPostfix);
             this._elIosDots = document.createElement('i');
             this._elIosDots.classList.add('dots');
@@ -680,13 +707,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             if (!this._elLabel.closest('.ch5-button--ios-label')) {
                 this.wrap(this._elLabel, wrapper);
             }
-
-            const btnNodes: any = this._elButton.childNodes;
-            btnNodes.forEach((node: any) => {
-                if (node.className === (this.primaryCssClass + '--ios-label') && node.innerText === '') {
-                    node.remove();
-                }
-            });
         }
     }
 
@@ -735,9 +755,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         // orientation
         if ('vertical' === this.orientation) {
             setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.orientation);
-            if (this.shape !== 'circle') {
-                this.createIosEllipsis();
-            }
         }
 
         const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
@@ -945,6 +962,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.imgToSvg(this._elImg);
         }
 
+        // orientation
+        if (this.orientation === 'vertical') {
+            if (this.shape !== 'circle') {
+                this.createIosEllipsis();
+            }
+        }
     }
 
     public static get observedAttributes() {
@@ -1856,6 +1879,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         if (!isTouchDevice()) {
             this._sendOnClickSignal();
         }
+        else {
+            this._lastTapTime = new Date().valueOf();
+        }
 
         if (null !== this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
@@ -1978,8 +2004,17 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         // not gain focus when it should not	
 
         // on touch devices, focus is gained onTouchEnd
-        if (isTouchDevice()) {
-            this._sendOnClickSignal();
+        if (isTouchDevice()) { 
+            if (!isSafariMobile()) {  // pulse for Safari sent onMouseUp
+                // Only send click pulse if directly preceeded (e.g. < 500ms) by a tap event
+                const timeNow = new Date().valueOf();
+                if (timeNow - this._lastTapTime < 500) {
+                    this._sendOnClickSignal(); 
+                }
+                this._lastTapTime = 0;
+            }
+            // for all touch devices, give up focus
+            this._elButton.blur();
         }
     }
 
@@ -1996,7 +2031,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             if (sigClick !== null) {
                 sigClick.publish(true);
                 sigClick.publish(false);
-                this._elButton.blur();
             }
         }
     }
@@ -2012,7 +2046,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * @return {Promise}
      */
     private pressHandler(): Promise<boolean> {
-
         const pressHandler = () => {
             this.info("Ch5Button._onPress()");
             this._pressed = true;
