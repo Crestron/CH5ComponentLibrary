@@ -2630,8 +2630,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
                 });
                 scrollableElm.addEventListener('touchend', () => {
-                    this.videoTop = -1;
-                    this.positionChange();
+                    this.calculatePositions();
+                    this.calculation(this.vid);
+                    publishEvent('o', 'ch5.video.background', this.videoBGObjJSON('', this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
                 });
             }
         }
