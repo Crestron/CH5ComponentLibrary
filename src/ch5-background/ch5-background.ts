@@ -453,6 +453,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 this.updateCanvasDimensions();
             });
 
+            fromEvent(window, 'orientationchange').pipe(debounceTime(400)).subscribe(() => {
+                this.updateCanvasDimensions();
+            });
+
             // creating canvas
             this.createCanvas();
         });
