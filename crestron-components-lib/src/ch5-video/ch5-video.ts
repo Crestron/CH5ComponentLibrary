@@ -2250,7 +2250,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.isSwipeInterval) {
                 window.clearInterval(this.isSwipeInterval);
             }
-
+            
             // In some of the iOS devices, there is a delay in getting orientation 
             // change information, a small delay solves this problem.
             setTimeout(() => {
