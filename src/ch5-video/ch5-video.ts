@@ -2752,7 +2752,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             clearTimeout(this.orientationChangeTimer);
             this.calculation(this.vid);
             if (this.isFullScreen) {
-                if (this.contains(this.fullScreenOverlay)) {
+                if (!!this.fullScreenOverlay && !!this.fullScreenOverlay.classList) {
                     this.fullScreenOverlay.classList.add(this.primaryVideoCssClass + '--overlay');
                 }
                 setTimeout(() => {
@@ -3166,7 +3166,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Hide the full screen icon
      */
     private hideFullScreenIcon() {
-        if (this.contains(this.vidControlPanel)) {
+        if (!!this.vidControlPanel && !!this.vidControlPanel.classList) {
             this.vidControlPanel.classList.remove(this.showControl);
         }
     }
@@ -3175,7 +3175,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Show the full screen icon
      */
     private showFullScreenIcon() {
-        if (this.contains(this.vidControlPanel)) {
+        if (!!this.vidControlPanel && !!this.vidControlPanel.classList) {
             this.vidControlPanel.classList.add(this.showControl);
         }
     }
@@ -3184,7 +3184,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * When the Orientation change completes
      */
     private orientationChangeComplete() {
-        if (this.contains(this.fullScreenOverlay)) {
+        if (!!this.fullScreenOverlay && !!this.fullScreenOverlay.classList) {
             this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
             clearTimeout(this.orientationChangeTimer);
             this.isOrientationChanged = false;
