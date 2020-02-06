@@ -21,7 +21,6 @@ import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 
-
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
 export type TSignalTypeT = string | number | boolean | any;
@@ -2252,11 +2251,21 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 window.clearInterval(this.isSwipeInterval);
             }
             
+            // In some of the iOS devices, there is a delay in getting orientation 
+            // change information, a small delay solves this problem.
             setTimeout(() => {
                 if (!this.isExitFullscreen && !this.isOrientationChanged) {
                     this.publishVideoEvent("stop");
                 }
             }, 0);
+
+            // Check whether the video is playing when it is invisible, if playing
+            // send stop request after a delay.  
+            setTimeout(() => {
+                if (!this.elementIsInViewPort && this.lastUpdatedStatus !== 'stop') {
+                    this.publishVideoEvent("stop");
+                }
+            }, 3000);
         }
     }
 
@@ -2743,7 +2752,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             clearTimeout(this.orientationChangeTimer);
             this.calculation(this.vid);
             if (this.isFullScreen) {
-                // if (Object.keys(this.fullScreenOverlay).length) {
                 if (this.contains(this.fullScreenOverlay)) {
                     this.fullScreenOverlay.classList.add(this.primaryVideoCssClass + '--overlay');
                 }
@@ -2877,6 +2885,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.sendEvent(this.sendEventSelectionURL, this._url, 'string');
                 if (!this.isVideoReady && this.lastUpdatedStatus !== 'start' && this.url && (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '' || this.wasAppBackGrounded) && !this.isExitFullscreen) {
                     this.lastUpdatedStatus = actionType;
+                    this.isVideoReady = true;
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
                         this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000));
@@ -2893,7 +2902,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.videoRequestSubscriptionId = subscribeState('o', 'Csig.video.response',
                         this.videoResponse.bind(this), this.errorResponse.bind(this));
-                    this.isVideoReady = true;
                 } else {
                     this.sendEvent(this.sendEventState, 0, 'number');
                 }
