@@ -450,7 +450,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             this.createCanvas();
 
             /**
-             * on element resize using ResizeObserver
+             * call on element resize using ResizeObserver
              */
             if (this.parentElement) {
                 resizeObserver(this.parentElement, this.updateCanvasDimensions.bind(this));
