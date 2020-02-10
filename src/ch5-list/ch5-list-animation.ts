@@ -28,10 +28,8 @@ export enum EDragDirection {
     previous = 0,
 }
 
-export const _swipeSensitivity = 40;
-
 const _frictionForce = 0.95555;
-const _defaultVelocityMultiplicationFactor = 50;
+const _defaultVelocityMultiplicationFactor = 25;
 const _maxVelocityAmount = 2000;
 
 export class Ch5ListAnimation extends Ch5ListAbstractHelper {
@@ -131,11 +129,12 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
                 const maxOffsetTranslate = this.maxOffsetTranslate || 0;
                 const listPosition = this._list.isHorizontal ? this._list.currentXPosition : this._list.currentYPosition;
 
-                if (!this._list.endless 
-                    && (velocity < 1 
-                        || (isLtr && (listPosition <= maxOffsetTranslate || listPosition >= 0))
-                        || (!isLtr && (listPosition <= minOffsetTranslate || listPosition >= -maxOffsetTranslate ))
-                    )
+                if (velocity < 1
+                    || (!this._list.endless
+                        && (velocity < 1
+                            || (isLtr && (listPosition <= maxOffsetTranslate || listPosition >= 0))
+                            || (!isLtr && (listPosition <= minOffsetTranslate || listPosition >= -maxOffsetTranslate ))
+                    ))
                 ) {
                     cancelAnimationFrame(this.animationFrame);
                     this._list.decelerating = false;
@@ -248,7 +247,7 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
 
         const isLtr = this._list.isLtr();
         let positionCondition = position >= 0;
-        
+
         // special handling is needed for horizontal rtl; all other cases are the same
         if (this._list.isHorizontal && !isLtr) {
             position = -position;
@@ -271,7 +270,7 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
                     this._list.currentYPosition = coord;
                 }
 
-                this._list.templateHelper._updateScrollBarPosition(coord, animate);
+                this._list.templateHelper.updateScrollBarPosition(coord, animate);
                 this.updateDragPosition(coord, animate);
 
 
@@ -295,11 +294,11 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
 
     /**
      * Determines the direction of the touch oranimation move
-     * 
+     *
      * @see EDragDirection
-     * @param {number} last 
+     * @param {number} last
      * @param {number} current
-     * @return {number} 
+     * @return {number}
      */
     public resolveDirection(last: number, current: number): number {
         if (last >= current) {
@@ -335,7 +334,7 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
 
         // if there is scrollbar update his position
         if (this._list.scrollbar === true) {
-            this._templateHelper._updateScrollBarPosition(newPosition, _animate);
+            this._templateHelper.updateScrollBarPosition(newPosition, _animate);
         }
 
         this._list.pointerLastX = this._list.pointerCurrentX;
@@ -347,16 +346,16 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
     }
 
     /**
-     * The responsibility of this method is to adjust the max offset translate 
-     * value. By default this method use the viewport size to set 
+     * The responsibility of this method is to adjust the max offset translate
+     * value. By default this method use the viewport size to set
      * the max offset translate.
-     * 
+     *
      * When dealing with buffered lists (lists that have `bufferAmount` attribute)
-     * the viewport size increseas everytime it reaches the number of items 
+     * the viewport size increseas everytime it reaches the number of items
      * defined in bufferAmount attribute, in this case the max offset translate
      * is calculated using the value from `size` attribute and the width/height
      * of the first list element.
-     * 
+     *
      * @see Ch5List.size
      * @see Ch5List.bufferAmount
      * @see Ch5ListSizeResolver.hiddenListSize
@@ -364,9 +363,9 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
      * @return {number} the max offset translate value
      */
     public adjustMaxOffset(isBuffered: boolean = false): number {
-        
+
         if (!isBuffered) {
-            return this._list.sizeResolver.hiddenListSize;
+            return -this._list.sizeResolver.hiddenListSize;
         }
 
         this._templateHelper.updateViewportSize(
@@ -376,15 +375,15 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
         const itemsPerPage = this._list.getItemsPerPage();
         const firstItemSize = this._list.getItemSize();
         const definedListSize = this._list.size || 0;
-        const listSize = (definedListSize - itemsPerPage) * firstItemSize; 
+        const listSize = (definedListSize - itemsPerPage) * firstItemSize;
 
-        return listSize;
+        return -listSize;
     }
 
     /**
      * This method is responsible to reset the min and max offset
      * Ideally to use when the list is updated ( e.g: the viewport size is changed
-     * from landscape to portrait ) then we need this values to be reseted and 
+     * from landscape to portrait ) then we need this values to be reseted and
      * recalculated with the new fresh layout information
      */
     public resetOffsets(): void {
@@ -554,14 +553,14 @@ export class Ch5ListAnimation extends Ch5ListAbstractHelper {
     /**
      * Computes new position based on the list direction and the previous new position
      * For non-endless list only
-     * 
-     * @param newPosition 
+     *
+     * @param newPosition
      * @return {number}
      */
     private _computeNewPosition(newPosition: number): number {
         // Current position based on orientation + the amount of drag happened since the last rAF.
         const offsetLimit = this.maxOffsetTranslate || 0;
-        // X position 
+        // X position
         const positionCoord = this._list.isHorizontal ? this._list.currentXPosition : this._list.currentYPosition;
         const isLtr = this._list.isLtr();
 

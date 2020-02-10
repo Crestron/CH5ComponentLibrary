@@ -1036,6 +1036,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         this._minWidth = value;
         this.setAttribute('minwidth', this._minWidth);
         this.templateHelper.triggerResizeDueWidthAndHeightUpdates();
+        this.templateHelper.resetListLayout();
     }
 
     public get maxWidth() {
@@ -1055,7 +1056,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
         this._maxWidth = value;
         this.setAttribute('maxwidth', this._maxWidth);
-        this.templateHelper.triggerResizeDueWidthAndHeightUpdates();
     }
 
     /**
@@ -1132,6 +1132,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         this._minHeight = value;
         this.setAttribute('minheight', value);
         this.templateHelper.triggerResizeDueWidthAndHeightUpdates();
+        this.templateHelper.resetListLayout();
     }
 
     public get maxHeight() {
@@ -1148,6 +1149,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         this._maxHeight = value;
         this.setAttribute('maxheight', value);
         this.templateHelper.triggerResizeDueWidthAndHeightUpdates();
+        this.templateHelper.resetListLayout();
     }
 
     public get indexId() {
@@ -1375,7 +1377,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
                       const bufferAmount = this.bufferAmount || 0;
                       const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
 
-                      this.animationHelper.maxOffsetTranslate = -maxOffsetTranslate;
+                      this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
                       this.shouldUpdateListAndPosition(previousItemsCount);
                     }
                 }
@@ -1392,6 +1394,26 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
             this.receiveStateSizeSub,
             callback
         );
+
+    }
+
+    public getLayoutInfo() {
+
+        if (!this.bufferAmount) {
+            return this.sizeResolver;
+        }
+
+        const itemsPerPage = this.getItemsPerPage();
+        const firstItemSize = this.getItemSize();
+        const definedListSize = this.size || 0;
+        const listSize = (definedListSize - itemsPerPage) * firstItemSize;
+
+        return {
+            hiddenListSize: listSize,
+            fullListSize: definedListSize * firstItemSize,
+            viewPortSize: this.sizeResolver.viewPortSize,
+
+        } as Ch5ListSizeResolver
 
     }
 
@@ -1414,7 +1436,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
               const bufferAmount = this.bufferAmount || 0;
               const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
-              this.animationHelper.maxOffsetTranslate = -maxOffsetTranslate;
+              this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
 
               this.animationHelper.signalScrollTo(_newValue as number);
             }
@@ -2116,6 +2138,15 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         return firstItem.getBoundingClientRect();
     }
 
+    public setCurrentPosition(position: number) {
+        if (this.isHorizontal) {
+            this.currentXPosition = position;
+            return;
+        }
+
+        this.currentYPosition = position;
+    }
+
     private _startReadyObserver() {
         const templateNodeName: string = 'template';
         const observer = new MutationObserver((mutations) => {
@@ -2212,9 +2243,8 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
     private _internalUpdate(): void {
         this._updateInfiniteLoop();
         this._computeItemsPerViewLayout();
-        this.eventManager.updateDragEventListeners(this.divList);
-        this.animationHelper.resetOffsets();
         this.templateHelper.checkAndSetSizes(); // needed to not break scroll functionality on resize
+
     }
 
     /**
