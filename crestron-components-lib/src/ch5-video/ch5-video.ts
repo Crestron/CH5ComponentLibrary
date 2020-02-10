@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, Ch5Platform, ICh5PlatformInfo } from "../ch5-core";
 import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
 import { TDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
@@ -19,6 +19,9 @@ import { Ch5VideoSubscription } from "./ch5-video-subscription";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 
+import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
+import isNil from "lodash/isNil";
+import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
@@ -84,6 +87,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private appBgTimer: number = 0;
     private wasAppBackGrounded: boolean = false;
     private appCurrentStatus: boolean = false;
+    private isScrollableLoad: boolean = true;
 
 
     /**
@@ -453,8 +457,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private controlTimer: any;
     private controlTop: number = -1;
     private controlLeft: number = -1;
-    private _scrollContainerId: string = '';
-    private scrollTimer: number = 0;
+    private scrollTimer: any;
     private isExitFullscreen: boolean = false;
     private oldResponseStatus: string = '';
     private oldResponseId: number = 0;
@@ -464,6 +467,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private receivedStateSelect: number = 0;
     private vCountFlag: boolean = false;
     private maxVideoCount: number = 0;
+    private ch5Image: any;
+    private timeoutId: any;
+
+    /**
+     * Protocol for authentication in order to get the image
+     *
+     * @type {string}
+     */
+    private _protocol: string = '';
 
     /**
      * CONSTRUCTOR
@@ -510,6 +522,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param index 
      */
     private subscribeVideos(index: string) {
+        this.hideFullScreenIcon();
         this.sendEvent(this.sendEventSelectionChange, index, 'number');
         let responseCount = 0;
         if (this.hasAttribute("receivestateurl")) {
@@ -991,13 +1004,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this._indexId = value;
     }
 
-    public get scrollContainerId(): string {
-        return this._scrollContainerId;
-    }
-    public set scrollContainerId(value: string) {
-        this._scrollContainerId = value;
-    }
-
     public get aspectRatio(): string {
         return this._aspectRatio;
     }
@@ -1108,6 +1114,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set snapShotRefreshRate(value: string) {
         this._snapShotRefreshRate = value;
+    }
+
+    public set protocol(protocol: string) {
+        if (isNil(protocol)) {
+            return;
+        }
+
+        this._protocol = protocol;
+    }
+
+    public get protocol(): string {
+        return this._protocol;
     }
 
     /**
@@ -1341,7 +1359,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.isVideoReady = false;
                     this.lastUpdatedStatus = "stop";
-                    if (this.elementIntersectionEntry.intersectionRatio > 0.95 && !this.isFullScreen) {
+                    if (this.elementIntersectionEntry.intersectionRatio > 0.9 && !this.isFullScreen) {
                         this.publishVideoEvent("start");
                     } else if (this.isFullScreen) {
                         this.publishVideoEvent("start");
@@ -1494,19 +1512,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.sourceType = newValue;
                     this.sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
-                    this.isVideoReady = true;
-                    this.isVideoPublished = true;
-                    this.lastUpdatedStatus = "start";
-                    this.publishVideoEvent("stop");
+                    // this.isVideoReady = true;
+                    // this.isVideoPublished = true;
+                    // this.lastUpdatedStatus = "start";
+                    // this.publishVideoEvent("stop");
                     setTimeout(() => {
-                        if (this.elementIntersectionEntry.intersectionRatio > 0.95) {
+                        if (this.elementIntersectionEntry.intersectionRatio > 0.9) {
                             this.lastResponseStatus = 'stopped';
                             this.isVideoReady = false;
                             this.lastUpdatedStatus = "stop";
                             this.publishVideoEvent("start");
                         }
                     }, 100);
-
                 }
             });
         }
@@ -1620,7 +1637,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.url = newValue;
                     this.sendEvent(this.sendEventSelectionURL, this.url, 'string');
-                    if (this.elementIntersectionEntry.intersectionRatio > 0.95) {
+                    if (this.elementIntersectionEntry.intersectionRatio > 0.9) {
                         this.lastResponseStatus = 'stopped';
                         this.isVideoReady = false;
                         this.lastUpdatedStatus = "stop";
@@ -1800,7 +1817,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             'size',
             'zindex',
             'controls',
-            'scrollcontainerid',
 
             // send signals
             'sendEventsnapshotUrl',
@@ -2121,13 +2137,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.receiveStateSnapShotPassword = '';
                 }
                 break;
-            case 'scrollcontainerid':
-                if (this.hasAttribute('scrollcontainerid')) {
-                    this.scrollContainerId = newValue;
-                } else {
-                    this.scrollContainerId = '';
-                }
-                break;
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
@@ -2267,6 +2276,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public connectedCallback() {
         this.info('Ch5Video.connectedCallback()');
+
         if (this.isInitialized) {
             this.removeIfTagExist();
             customElements.whenDefined('ch5-video').then(() => {
@@ -2289,23 +2299,26 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }, 1000);
     }
 
-
     /**
      * When the video element is more than 95% visible the video should start and
      * when the visibility is less than 95% the video should stop playing.
      */
     public videoIntersectionObserver() {
-        if (this.elementIntersectionEntry.intersectionRatio > 0.95) {
+        if (this.elementIntersectionEntry.intersectionRatio > 0.9) {
             this.isSwipeInterval = setTimeout(() => {
                 this.calculation(this.vid);
                 this.calculatePositions();
                 this.publishBackgroundEvent();
-                if (!this.isFullScreen && !this.isExitFullscreen) {
+                if (this.isScrollableLoad) {
+                    this.onScrollPosition();
+                }
+                if (!this.isFullScreen && !this.isExitFullscreen && !this.isOrientationChanged) {
                     this.lastResponseStatus = 'stopped';
                     this.lastUpdatedStatus = 'stop';
                     this.isVideoReady = false;
                     this.publishVideoEvent("start");
                 }
+                this.isScrollableLoad = false;
             }, 1000);
         } else {
             // when the fullscreen is triggered in
@@ -2318,10 +2331,22 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.isSwipeInterval) {
                 window.clearInterval(this.isSwipeInterval);
             }
-            // this.publishVideoEvent("stop");
-            if (!this.isExitFullscreen) {
-                this.publishVideoEvent("stop");
-            }
+            
+            // In some of the iOS devices, there is a delay in getting orientation 
+            // change information, a small delay solves this problem.
+            setTimeout(() => {
+                if (!this.isExitFullscreen && !this.isOrientationChanged) {
+                    this.publishVideoEvent("stop");
+                }
+            }, 0);
+
+            // Check whether the video is playing when it is invisible, if playing
+            // send stop request after a delay.  
+            setTimeout(() => {
+                if (!this.elementIsInViewPort && this.lastUpdatedStatus !== 'stop') {
+                    this.publishVideoEvent("stop");
+                }
+            }, 3000);
         }
     }
 
@@ -2380,6 +2405,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private manageControls() {
         if (this.isFullScreen) {
+            this.videoCanvasElement.removeEventListener('touchmove', this.handleTouchMoveEvent, false);
             this.exitFullScreen();
             return;
         }
@@ -2416,7 +2442,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.unsubscribeRefreshImage();
             this.snapShotTimer = setInterval(() => {
                 if (this.snapShotUserId && this.snapShotPassword && !this.snapShotUrl.indexOf("http")) {
-                    this.checkSnapShotUrl();
+                    this.processUri();
                 }
                 if (this.snapShotUrl !== "") {
                     this.snapShotOnLoad();
@@ -2430,12 +2456,42 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     /**
      * Check the snapshot url and append web protocol and credentials to it
      */
-    private checkSnapShotUrl() {
-        let loginCredentials = "";
-        loginCredentials = this.snapShotUserId + ":" + this.snapShotPassword + "@";
-        this.snapShotUrl = this.snapShotUrl.replace(/\:\/\//, "://" + loginCredentials);
-        this.snapShotUrl = this.snapShotUrl.replace(/http:/i, "ch5-img-auth:");
-        this.snapShotUrl = this.snapShotUrl.replace(/https:/i, "ch5-img-auths:");
+    public processUri(): void {
+        const platformInfo = Ch5Platform.getInstance();
+        platformInfo.registerUpdateCallback((info: ICh5PlatformInfo) => {
+
+            if (this.protocol) {
+                return;
+            }
+
+            // the http/https related protocols from platformInfo
+            const { http, https } = info.capabilities.supportCredentialIntercept;
+
+            // sent to the uri model
+            const protocols = { http, https };
+
+            // the url should not be replaced if one of this is not filled
+            if (!http && !https) {
+                return;
+            }
+
+            this.protocol = https ? https : http;
+
+            const uri = new Ch5ImageUriModel(
+                protocols,
+                this.snapShotUserId,
+                this.snapShotPassword,
+                this.snapShotUrl,
+            );
+
+            // check if the current uri contains authentication information
+            // and other details necessary for URI
+            if (!uri.isValidAuthenticationUri()) {
+                return;
+            }
+
+            this.snapShotUrl = uri.toString();
+        });
     }
 
     /**
@@ -2583,12 +2639,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     /**
      * Changes the full screen mode through controls
      */
+    private handleTouchMoveEvent(ev: Event) {
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+    }
     private fullScreen() {
         if (this.isFullScreen) {
             this.exitFullScreen();
         } else {
             this.isFullScreen = true;
-            this.videoCanvasElement.addEventListener('touchmove', (e) => { e.preventDefault(); e.stopImmediatePropagation(); return; }, false);
+            this.videoCanvasElement.addEventListener('touchmove', this.handleTouchMoveEvent, false);
             this.fullScreenContainer.classList.add("fullscreen-container");
             this.hideFullScreenIcon();
             if (isSafariMobile()) {
@@ -2658,29 +2718,51 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         event.stopPropagation();
     }
 
+    private onScrollPosition() {
+        const scrollableElm = getScrollableParent(this);
+        if (scrollableElm) {
+            const isScrollable = this.isScrollBar(scrollableElm, 'vertical');
+            if (isScrollable) {
+                scrollableElm.addEventListener('scroll', () => {
+                    publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
+                    this.positionChange();
+                });
+            } else if (isSafariMobile()) {
+                scrollableElm.addEventListener('touchmove', () => {
+                    publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
+                });
+                scrollableElm.addEventListener('touchend', () => {
+                    this.calculatePositions();
+                    this.calculation(this.vid);
+                    publishEvent('o', 'ch5.video.background', this.videoBGObjJSON('', this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
+                });
+            }
+        }
+    }
+
+    /**
+     * checking if has scrollbar
+     */
+    private isScrollBar(elm: any, dir: string) {
+        dir = (dir === 'vertical') ? 'scrollTop' : 'scrollLeft';
+        let res: boolean = !!elm[dir];
+        if (!res) {
+            elm[dir] = 1;
+            res = !!elm[dir];
+            elm[dir] = 0;
+        }
+        return res;
+    }
 
     /**
      * When the user scolls the page, video will disappear and when the scrolling gets stopped 
      * then video starts playing in the new position.
      */
     private positionChange() {
-        if (!this.isOrientationChanged && !this.isFullScreen) {
-
-            if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized') {
-                if (this.lastUpdatedStatus !== 'stop') {
-                    this.context.fillStyle = "transparent";
-                    this.context.fillRect(0, 0, this.sizeObj.width, this.sizeObj.height);
-                    this.lastUpdatedStatus = 'start';
-                    this.publishVideoEvent("stop");
-                }
-            }
-
-            if (this.scrollTimer !== -1) {
-                clearTimeout(this.scrollTimer);
-            }
-
-            this.scrollTimer = window.setTimeout(() => {
-                if (this.videoTop < 0 && this.videoLeft < 0) {
+        window.clearTimeout(this.scrollTimer);
+        this.scrollTimer = setTimeout(() => {
+            if (this.lastResponseStatus !== 'stopped') {
+                if ((this.videoTop < 0 && this.videoLeft < 0)) {
                     return;
                 }
                 const videoTop = this.videoTop;
@@ -2688,14 +2770,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.calculatePositions();
                 this.calculation(this.vid);
                 if (videoTop !== this.videoTop || videoLeft !== this.videoLeft) {
-                    this.isPositionChanged = true;
-                    this.lastUpdatedStatus = 'stop';
-                    this.isVideoReady = false;
-                    this.publishVideoEvent("start");
-                    this.isPositionChanged = false;
+                    this.isExitFullscreen = true;
+                    this.lastUpdatedStatus = '';
+                    this.publishVideoEvent('resize');
                 }
-            }, 500);
-        }
+            }
+        }, 1000);
     }
 
     /**
@@ -2709,10 +2789,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
         window.addEventListener('orientationchange', this.orientationChange.bind(this));
         window.addEventListener('resize', this.orientationChange.bind(this));
-        const positionID = document.getElementById(this.scrollContainerId);
-        if (positionID) {
-            positionID.addEventListener('scroll', this.positionChange.bind(this));
-        }
     }
 
     /**
@@ -2722,7 +2798,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         super.removeEventListeners();
         this.controlFullScreen.removeEventListener('click', this.fullScreen.bind(this));
         this.videoCanvasElement.removeEventListener('click', this.manageControls.bind(this));
+        this.fullScreenContainer.removeEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
+        window.removeEventListener('orientationchange', this.orientationChange.bind(this));
+        window.removeEventListener('resize', this.orientationChange.bind(this));
     }
 
     /**
@@ -2757,24 +2836,30 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private orientationChange() {
         this.isOrientationChanged = true;
-        clearTimeout(this.orientationChangeTimer);
-        this.calculation(this.vid);
-        if (this.isFullScreen) {
-            this.fullScreenOverlay.classList.add(this.primaryVideoCssClass + '--overlay');
-            setTimeout(() => {
-                if (Ch5VideoEventHandler.isLandscape()) {
-                    this.calculatePositions();
+        this.hideFullScreenIcon();
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(() => {
+            clearTimeout(this.orientationChangeTimer);
+            this.calculation(this.vid);
+            if (this.isFullScreen) {
+                if (!!this.fullScreenOverlay && !!this.fullScreenOverlay.classList) {
+                    this.fullScreenOverlay.classList.add(this.primaryVideoCssClass + '--overlay');
                 }
-            }, 1000);
-        } else {
-            window.clearTimeout(this.appBgTimer);
-            this.appBgTimer = window.setTimeout(() => {
-                this.updateAppBackgroundStatus();
-            }, 100);
+                setTimeout(() => {
+                    if (Ch5VideoEventHandler.isLandscape()) {
+                        this.calculatePositions();
+                    }
+                }, 1000);
+            } else {
+                window.clearTimeout(this.appBgTimer);
+                this.appBgTimer = window.setTimeout(() => {
+                    this.updateAppBackgroundStatus();
+                }, 100);
 
-            this.calculatePositions();
-        }
-        this.publishVideoEvent("resize");
+                this.calculatePositions();
+            }
+            this.publishVideoEvent("resize");
+        }, 500);
     }
 
     /**
@@ -2890,6 +2975,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.sendEvent(this.sendEventSelectionURL, this._url, 'string');
                 if (!this.isVideoReady && this.lastUpdatedStatus !== 'start' && this.url && (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '' || this.wasAppBackGrounded) && !this.isExitFullscreen) {
                     this.lastUpdatedStatus = actionType;
+                    this.isVideoReady = true;
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
                         this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000));
@@ -2906,7 +2992,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.videoRequestSubscriptionId = subscribeState('o', 'Csig.video.response',
                         this.videoResponse.bind(this), this.errorResponse.bind(this));
-                    this.isVideoReady = true;
                 } else {
                     this.sendEvent(this.sendEventState, 0, 'number');
                 }
@@ -2915,7 +3000,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (!this.isVideoPublished) { // this flag avoids stop command since no video has started
                     return;
                 }
-                if (this.lastUpdatedStatus !== 'stop' && (this.lastResponseStatus === 'started' || (this.lastResponseStatus === 'resized' && !this.isExitFullscreen))) {
+                if (this.lastUpdatedStatus !== 'stop' && (this.lastResponseStatus === 'started' || !this.elementIsInViewPort || (this.lastResponseStatus === 'resized' && !this.isExitFullscreen))) {
                     this.lastUpdatedStatus = actionType;
                     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
                     this.info("Video Request (Stop) : " + JSON.stringify(this.videoStopObjJSON(actionType, this.ch5UId)));
@@ -2929,6 +3014,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'resize':
+                // If the video has already stopped then there is no need to resize.
+                if (this.lastResponseStatus === 'stopped') {
+                    return;
+                }
                 if (this.lastUpdatedStatus !== 'resize' && this.isExitFullscreen) {
                     this.lastUpdatedStatus = actionType;
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, this.ch5UId, this.videoTop,
@@ -3167,23 +3256,29 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Hide the full screen icon
      */
     private hideFullScreenIcon() {
-        this.vidControlPanel.classList.remove(this.showControl);
+        if (!!this.vidControlPanel && !!this.vidControlPanel.classList) {
+            this.vidControlPanel.classList.remove(this.showControl);
+        }
     }
 
     /**
      * Show the full screen icon
      */
     private showFullScreenIcon() {
-        this.vidControlPanel.classList.add(this.showControl);
+        if (!!this.vidControlPanel && !!this.vidControlPanel.classList) {
+            this.vidControlPanel.classList.add(this.showControl);
+        }
     }
 
     /**
      * When the Orientation change completes
      */
     private orientationChangeComplete() {
-        this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
-        clearTimeout(this.orientationChangeTimer);
-        this.isOrientationChanged = false;
+        if (!!this.fullScreenOverlay && !!this.fullScreenOverlay.classList) {
+            this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
+            clearTimeout(this.orientationChangeTimer);
+            this.isOrientationChanged = false;
+        }
     }
 
     /**
@@ -3464,10 +3559,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.hasAttribute('snapshotrefreshrate')) {
             this.snapShotRefreshRate = this.getAttribute('snapshotrefreshrate') as string;
         }
-        if (this.hasAttribute('scrollcontainerid')) {
-            this.scrollContainerId = this.getAttribute('scrollcontainerid') as string;
-        }
-
     }
 }
 

@@ -35,8 +35,9 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
     private _scrollbarElement: HTMLElement | null = {} as HTMLElement;
     private _lastScrollbarPosition: number = 0;
 
-    private resizingInProgress: boolean = false;
     private resizeDebouncer: IDebouncerDetails = {} as IDebouncerDetails;
+    public initializationTask: number | undefined;
+    public resetListLayoutTask: number | undefined;
 
     public set scrollbarElement(element: HTMLElement | null) {
         if (element !== undefined || element !== null) {
@@ -170,13 +171,10 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
     /**
      * Resize the list to specified value
      */
-    public resizeList(element: HTMLElement, templateVars: string | null): void {
+    public resizeList(element: HTMLElement, templateVars: string | null, resize: boolean = false): void {
         this._list.info('ch5-list-template - resizeList()');
-        this.resizingInProgress = true;
 
-        if (this._list.getItemSize() > 0) {
-            this._list.animationHelper.minOffsetTranslate = 0;
-        }
+        this._list.animationHelper.minOffsetTranslate = 0;
 
         if (
             this._list.isHorizontal
@@ -185,7 +183,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         ) {
             this._list.currentXPosition = this.computeItemLocation(this._list.currentXPosition);
             this.setWrapperTranslateX(this._list.currentXPosition);
-            this._updateScrollBarPosition(this._list.currentXPosition);
+            this.updateScrollBarPosition(this._list.currentXPosition);
         } else if (
             !this._list.isHorizontal
             && !isNaN(this._list.currentYPosition)
@@ -193,11 +191,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         ) {
             this._list.currentYPosition = this.computeItemLocation(this._list.currentYPosition);
             this.setWrapperTranslateY(this._list.currentYPosition);
-            this._updateScrollBarPosition(this._list.currentYPosition);
-        }
-
-        while (element.firstChild) {
-            element.removeChild(element.firstChild);
+            this.updateScrollBarPosition(this._list.currentYPosition);
         }
 
         // Resize the list from initial size
@@ -221,7 +215,6 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         }
 
         // add first item then, if needed, calculate item height and width
-        element.appendChild(this.processTemplate(uid, 0, templateVars));
         this.initListMaxWidthAndHeight();
         // style contains item size properties, we need to attach the style here
         // for better firstItem size related operations
@@ -229,33 +222,51 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         this.updateListMainElStyle();
         this.checkAndSetSizes();
 
-        // firstRenderVisibleItemsNr = size or a computed number based on bufferAmount
-        // it's value will be cached
-        const firstRenderVisibleItemsNr = this._list.getFirstRenderVisibleItemsNr(true);
-        this._list._appendPosition = firstRenderVisibleItemsNr;
-
-        const listFragment = document.createDocumentFragment();
-        // continue elements rendering starting with next item (index: 1)
-        for (let index = 1; index < firstRenderVisibleItemsNr; index++) {
-            listFragment.appendChild(this.processTemplate(uid, index, templateVars));
-        }
-
-        element.appendChild(listFragment);
-
-        // update first buffered elements
-        this._list._bufferedItems.bufferActive = this._list._canUseBufferAmount(firstRenderVisibleItemsNr);
-        if (this._list._bufferedItems.bufferActive) {
-            // orig: this._list._bufferedItems.bufferForwardStartIndex = firstRenderVisibleItemsNr + 1;
-            this._list._bufferedItems.bufferForwardStartIndex = firstRenderVisibleItemsNr;
-            // always init bufferBackwardsStartIndex, even list is not endless
-            // we need this when buffered items are created
-            if (this._list.size !== null) {
-                // orig: this._list._bufferedItems.bufferBackwardsStartIndex = Number(this._list.size);
-                this._list._bufferedItems.bufferBackwardsStartIndex = Number(this._list.size);
+        if (!resize) {
+            while (element.firstChild) {
+                element.removeChild(element.firstChild);
             }
 
+            // firstRenderVisibleItemsNr = size or a computed number based on bufferAmount
+            // it's value will be cached
+            element.appendChild(this.processTemplate(uid, 0, templateVars));
+            const firstRenderVisibleItemsNr = this._list.getFirstRenderVisibleItemsNr(true);
+            this._list._appendPosition = firstRenderVisibleItemsNr;
+
+            const listFragment = document.createDocumentFragment();
+
+            // continue elements rendering starting with next item (index: 1)
+            for (let index = 1; index < firstRenderVisibleItemsNr; index++) {
+                listFragment.appendChild(this.processTemplate(uid, index, templateVars));
+            }
+
+            element.appendChild(listFragment);
+
+            // update first buffered elements
+            this._list._bufferedItems.bufferActive = this._list._canUseBufferAmount(firstRenderVisibleItemsNr);
+            if (this._list._bufferedItems.bufferActive) {
+                // orig: this._list._bufferedItems.bufferForwardStartIndex = firstRenderVisibleItemsNr + 1;
+                this._list._bufferedItems.bufferForwardStartIndex = firstRenderVisibleItemsNr;
+                // always init bufferBackwardsStartIndex, even list is not endless
+                // we need this when buffered items are created
+                if (this._list.size !== null) {
+                    // orig: this._list._bufferedItems.bufferBackwardsStartIndex = Number(this._list.size);
+                    this._list._bufferedItems.bufferBackwardsStartIndex = Number(this._list.size);
+                }
+
+            }
+            this._list.bufferdItemsHelper.bufferItems();
+        } else {
+            this._list.items = this._list.items.map((elData: ICh5ListItemInfo) => {
+                elData.element.style.transform = '';
+                return {...elData, translateX: 0, translateY: 0}
+            });
+
+            this._list.currentYPosition = this._list.currentXPosition = 0;
+            this._list.animationHelper.updateDragPosition(0);
         }
-        this._list.bufferdItemsHelper.bufferItems();
+
+
         // TODO: maybe change the name and location. This is only a prototype version
         this._list.onResizeList();
 
@@ -263,11 +274,9 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             const newScrollbarPosition = this._list.isHorizontal
                 ? this._list.currentXPosition
                 : (this._list.currentYPosition - this.scrollbarSize);
-            this._updateScrollBarPosition(newScrollbarPosition);
+            this.updateScrollBarPosition(newScrollbarPosition);
         }
 
-        this.customScrollbar(element);
-        this.resizingInProgress = false;
         this._list.previousSize = this._list.size;
 
         const elements = this._list.items.map((itemInfo) => itemInfo.element);
@@ -277,13 +286,71 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             height: this._list.viewportClientHeight,
         }
 
-        const viewPortSize = this._list.isHorizontal ? viewport.width : viewport.height;
-
         this._list.sizeResolver = new Ch5ListSizeResolver(
             elements,
             this._list.orientation as TCh5ListElementOrientation,
-            viewPortSize
         );
+
+        clearTimeout(this.initializationTask);
+
+        this.initializationTask = setTimeout(() => {
+
+            this._list.sizeResolver.updateViewport(this._list);
+            this.customScrollbar(element);
+
+            const { fullListSize, viewPortSize } = this._list.sizeResolver;
+
+            this._list.animationHelper.maxOffsetTranslate = undefined;
+
+            if (this._list.endless || fullListSize <= viewPortSize) {
+                return;
+            }
+        });
+
+    }
+
+    public resetListLayout() {
+        clearTimeout(this.resetListLayoutTask);
+        this.resetListLayoutTask = setTimeout(() => {
+
+            if (this._list.endless) {
+                this._list.animationHelper.stop();
+                this.resizeList(this._list.divList, this._list.templateVars, true);
+            }
+
+            if (this._list.sizeResolver instanceof Ch5ListSizeResolver) {
+                this._list.sizeResolver.updateViewport(this._list);
+            }
+
+            const { fullListSize, viewPortSize } = this._list.sizeResolver;
+            const isBufferAmount = !isNil(this._list.bufferAmount);
+
+            this._list.templateHelper.customScrollbar(this._list.divList);
+            this._list.onResizeList();
+
+            if (fullListSize <= viewPortSize) {
+                this._list.setCurrentPosition(0);
+                this._list.templateHelper.setWrapperTranslateX(0);
+                this._list.templateHelper.setWrapperTranslateY(0);
+                return;
+            }
+
+            if (this._list.endless) {
+                return;
+            }
+
+            this._list.animationHelper.maxOffsetTranslate = this._list.animationHelper.adjustMaxOffset(isBufferAmount);
+
+            if (this._list.animationHelper.maxOffsetTranslate) {
+                let position = this._list.isHorizontal ? this._list.currentXPosition : this._list.currentYPosition;
+
+                if (position < this._list.animationHelper.maxOffsetTranslate) {
+                    position = this._list.animationHelper.maxOffsetTranslate;
+
+                    this._list.animationHelper.updateDragPosition(position);
+                }
+            }
+        });
     }
 
     /**
@@ -291,9 +358,6 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
      * resizingInProgress flag was added to avoid running resizeList multiple times
      */
     public triggerResizeDueWidthAndHeightUpdates(): void {
-        if (this.resizingInProgress) {
-            return;
-        }
         // make sure resizeList is executed just once even the current method
         // is called on every min/max width/height update
         debounce(this.resizeDebouncer, () => {
@@ -335,26 +399,22 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             this._scrollbarElement.parentElement !== undefined
         ) {
 
-            const listSize = this._list.size;
+            const layoutInfo = this._list.getLayoutInfo();
+
+            const listSize = layoutInfo.fullListSize;
             const container = (this._scrollbarElement as HTMLElement).parentElement;
             const event = new Event('scroll');
             const scroll = this._scrollbarElement;
 
-            let containerSize = (container as HTMLElement).offsetWidth;
-            let itemSize = this._list.itemOffsetWidth;
+            const containerSize = layoutInfo.viewPortSize;
 
-            if (!this._list.isHorizontal && container !== null) {
-                itemSize = this._list.itemOffsetHeight;
-                containerSize = container.offsetHeight;
-            }
-
-            if (container !== null && isNaN(this._list.getItemsPerPage()) || this._list.size <= this._list.getItemsPerPage()) {
+            if (container !== null && layoutInfo.fullListSize <= layoutInfo.viewPortSize) {
                 (container as HTMLElement).remove();
                 this._scrollbarElement = null;
                 return;
             }
 
-            const relativeScrollSize = Math.ceil((containerSize / (listSize * itemSize)) * 100) as number;
+            const relativeScrollSize = Math.ceil((containerSize / listSize) * 100) as number;
 
             if (scroll !== undefined) {
                 (container as HTMLElement).addEventListener('scroll', () => {
@@ -391,20 +451,15 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
      *
      * @param newPosition
      */
-    public _updateScrollBarPosition(newPosition: number, animate?: TAnimateCallback): void {
+    public updateScrollBarPosition(newPosition: number, animate?: TAnimateCallback): void {
         if (this._list.size !== null) {
 
-            const itemSize = this._list.isHorizontal ? this._list.itemOffsetWidth : this._list.itemOffsetHeight;
-            const containerSize = this._list.sizeResolver.viewPortSize;
+            const layoutInfo = this._list.getLayoutInfo()
+            const containerSize = layoutInfo.viewPortSize;
+            const fullListSize = layoutInfo.fullListSize
 
             // used to extract scrollbar size from containerSize if it is endless
-            let divListSize = containerSize;
-
-            let fullListSize = 0;
-
-            if (this._list.size !== null) {
-                fullListSize = this._list.size * itemSize;
-            }
+            let divListSize = layoutInfo.viewPortSize;
 
             if (this._list.endless) {
                 divListSize = divListSize - this.scrollbarSize;
@@ -564,7 +619,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 
     /**
      * Updates the viewport size
-     * 
+     *
      * @param {number} viewportSize specified value for viewportsize
      */
     public updateViewportSize(viewportSize: number = 0) {
@@ -578,7 +633,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             this._list.viewportClientHeight = viewportSize;
             return;
         }
-        
+
         this._list.viewportClientWidth = viewportSize;
     }
 
@@ -698,7 +753,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         _scrollbarContainer.appendChild(this._scrollbarElement);
 
         this._list.appendChild(_scrollbarContainer);
-        this._updateScrollBarPosition(listPosition);
+        this.updateScrollBarPosition(listPosition);
     }
 
     private prepareStyleSheet() {

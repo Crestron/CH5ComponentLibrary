@@ -64,6 +64,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private _videoRes: IVideoResponse = {} as IVideoResponse;
     private _isVisible: boolean = false;
     private _videoDimensions: IVideoResponse[] = [];
+    private _isRefilled: boolean = true;
 
     /**
      * background url supports background format, including JPEG, PNG, SVG, and BMP.
@@ -449,6 +450,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
              * on window resize
              */
             fromEvent(window, 'resize').pipe(debounceTime(400)).subscribe(() => {
+                this.updateCanvasDimensions();
+            });
+
+            fromEvent(window, 'orientationchange').pipe(debounceTime(400)).subscribe(() => {
                 this.updateCanvasDimensions();
             });
 
@@ -1052,22 +1057,25 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Re-filling background
      */
     private refillBackground() {
-        let timer: number = 0;
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
-                const ctx: any = canvas.getContext('2d');
+        if (!this._isRefilled) {
+            let timer: number = 0;
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
+                    const ctx: any = canvas.getContext('2d');
 
-                switch (this._canvasList.length) {
-                    case this._elImages.length:
-                        this.updateBgImage(this._elImages[idx], ctx);
-                        break;
-                    case this._bgColors.length:
-                        this.updateBgColor(this._bgColors[idx], ctx);
-                        break;
-                }
+                    switch (this._canvasList.length) {
+                        case this._elImages.length:
+                            this.updateBgImage(this._elImages[idx], ctx);
+                            break;
+                        case this._bgColors.length:
+                            this.updateBgColor(this._bgColors[idx], ctx);
+                            break;
+                    }
+                });
+                this._isRefilled = true;
             });
-        });
+        }
     }
 
     /**
@@ -1083,6 +1091,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             this._videoRes.left = this._videoRes.left - leftOffset;
             this._videoRes.top = this._videoRes.top - topOffset;
             if (this._videoRes.top < 0 || this._videoRes.left < 0) {
+                this.refillBackground();
                 return;
             }
             // Avoiding negative values and decimal values in video and background
@@ -1112,6 +1121,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         });
                     });
                 })
+                this._isRefilled = false;
             }
         }
     }

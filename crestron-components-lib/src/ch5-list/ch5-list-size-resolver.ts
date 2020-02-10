@@ -13,7 +13,7 @@ import { TCh5ListElementOrientation } from "../_interfaces/ch5-list/types";
 export class Ch5ListSizeResolver {
 
   /**
-   * Contains the list elements 
+   * Contains the list elements
    * @public
    */
   public elements: HTMLElement[] = [] as HTMLElement[];
@@ -46,19 +46,16 @@ export class Ch5ListSizeResolver {
   constructor(
     elements: HTMLElement[],
     orientation: TCh5ListElementOrientation,
-    viewportSize: number
   ) {
-    console.log("The sizeResolver is initialized");
     this.elements = Array.from(elements);
     this.orientation = orientation;
-    this.viewPortSize = viewportSize;
 
-    this.init();    
+    this.init();
   }
 
   /**
    * This method get the number of items in a page
-   * 
+   *
    * @return the items per page
    */
   public getItemsPerPage(): number {
@@ -81,8 +78,8 @@ export class Ch5ListSizeResolver {
   /**
    * Get the size of the total list
    * Each item of the list should be iterated in order to get the real size
-   * of the list. 
-   * 
+   * of the list.
+   *
    * @return the entire list size
    */
   public getTotalSize(): number {
@@ -96,7 +93,7 @@ export class Ch5ListSizeResolver {
 
   /**
    * Get the size of the hidden list
-   * 
+   *
    * @return the hidden list size
    */
   public getOverflowSize(): number {
@@ -106,28 +103,29 @@ export class Ch5ListSizeResolver {
 
   /**
    * Get the size of the entire list
-   * 
+   *
    * @return the full list size
    */
   public getFullSize(): number {
     return this.viewPortSize + this.getOverflowSize();
   }
-  
-  
+
+
   /**
-   * This method can be called to update the viewport size if is the 
+   * This method can be called to update the viewport size if is the
    * subject to change
    * This will update the size of the hidden and full list too
-   * 
-   * @param {HTMLElement} viewport 
+   *
+   * @param {HTMLElement} viewport
    */
   public updateViewport(viewport: HTMLElement): void {
+    const boundingClientRect = viewport.getBoundingClientRect();
     if (this.orientation === 'horizontal') {
-      this.viewPortSize = viewport.offsetWidth; 
+      this.viewPortSize = boundingClientRect.width;
     } else {
-      this.viewPortSize = viewport.offsetHeight;
+      this.viewPortSize = boundingClientRect.height;
     }
-    
+
     this.fullListSize = this.getFullSize();
     this.hiddenListSize = this.getOverflowSize();
   }
@@ -139,7 +137,7 @@ export class Ch5ListSizeResolver {
 
   /**
    * Get a specific element size depending on the orientation
-   * 
+   *
    * @param {HTMLElement} element
    * @return the offsetWidth/offsetHeight of the element
    */

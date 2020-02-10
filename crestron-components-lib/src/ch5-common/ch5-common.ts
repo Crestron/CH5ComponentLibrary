@@ -643,7 +643,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         }
 
         if (true === this.isDebug()) {
-            console.info(ts, this.getCrId(), ':', message, optionalParams);
+            console.info(ts + ':' + this.getCrId() + ':' + message + ':' + optionalParams);
         }
     }
 
