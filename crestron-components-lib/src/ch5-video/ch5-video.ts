@@ -20,9 +20,6 @@ import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
-import { getRemoteAppender } from "../ch5-logger/utility/getRemoteAppender";
-import { getLogger } from "../ch5-logger/utility/getLogger";
-
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
@@ -88,6 +85,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private wasAppBackGrounded: boolean = false;
     private appCurrentStatus: boolean = false;
     private isScrollableLoad: boolean = true;
+    private scrollableElm: HTMLElement = {} as HTMLElement;
 
 
     /**
@@ -466,7 +464,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private subsCsigAppBackgrounded: string = '';
     private ch5Image: any;
     private timeoutId: any;
-    private testingVar: boolean = false;
 
     /**
      * Protocol for authentication in order to get the image
@@ -480,9 +477,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     public constructor() {
         super();
-        const appender = getRemoteAppender('10.88.24.97', '8080', false);
-        const logger = getLogger(appender, true);
-        logger.error("Docker : " + logger);
         // custom release event
         this.errorEvent = new CustomEvent("error", {
             bubbles: true,
@@ -1308,7 +1302,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getBooleanSignal(sigNameStatePlay);
         if (sigStatePlay) {
             this.subReceiveStatePlay = sigStatePlay.subscribe((newValue: any) => {
-                this.info("ReceiveStatePlay Subscribe: " + newValue);
                 newValue = !this.isIntersectionObserve ? null : newValue;
                 if (this.playValue === newValue) {
                     return;
@@ -1323,7 +1316,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.isVideoReady = false;
                     this.lastUpdatedStatus = "stop";
                     if (this.elementIntersectionEntry.intersectionRatio > 0.9 && !this.isFullScreen) {
-                        this.testingVar = true;
                         this.publishVideoEvent("start");
                     } else if (this.isFullScreen) {
                         this.publishVideoEvent("start");
@@ -2208,6 +2200,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.isInitialized) {
             this.removeIfTagExist();
             customElements.whenDefined('ch5-video').then(() => {
+                this.scrollableElm = getScrollableParent(this);
                 this.initializeVideo();
                 this.isInitialized = false;
             });
@@ -2232,15 +2225,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * when the visibility is less than 95% the video should stop playing.
      */
     public videoIntersectionObserver() {
-        console.log(this.elementIntersectionEntry.intersectionRatio);
         if (this.elementIntersectionEntry.intersectionRatio > 0.9) {
             this.isSwipeInterval = setTimeout(() => {
                 this.calculation(this.vid);
                 this.calculatePositions();
                 this.publishBackgroundEvent();
-                if (this.isScrollableLoad) {
-                    this.onScrollPosition();
-                }
                 if (!this.isFullScreen && !this.isExitFullscreen && !this.isOrientationChanged) {
                     this.lastResponseStatus = 'stopped';
                     this.lastUpdatedStatus = 'stop';
@@ -2639,62 +2628,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         event.stopPropagation();
     }
 
-    private onScrollPosition() {
-        const scrollableElm = getScrollableParent(this);
-        if (scrollableElm) {
-            const isScrollable = this.isScrollBar(scrollableElm, 'vertical');
-            if (isScrollable) {
-                scrollableElm.addEventListener('scroll', () => {
-                    publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
-                    // this.positionChange();
-                });
-                scrollableElm.addEventListener('touchend', () => {
-                    setTimeout(() => {
-                        if (this.lastUpdatedStatus !== 'start') {
-                            console.log("touchend publish");
-                            this.calculatePositions();
-                            this.calculation(this.vid);
-                            publishEvent('o', 'ch5.video.background', this.videoBGObjJSON('', this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                        }
-                    }, 3000);
-                });
-            } /* else if (isSafariMobile()) {
-                scrollableElm.addEventListener('touchmove', () => {
-                    publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
-                });
-                scrollableElm.addEventListener('touchend', () => {
-                    setTimeout(() => {
-                        if (this.lastUpdatedStatus !== 'start') {
-                            console.log("touchend publish");
-                            this.calculatePositions();
-                            this.calculation(this.vid);
-                            publishEvent('o', 'ch5.video.background', this.videoBGObjJSON('', this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                        }
-                    }, 3000);
-                });
-            } */
-        }
-    }
-
-    /**
-     * checking if has scrollbar
-     */
-    private isScrollBar(elm: any, dir: string) {
-        dir = (dir === 'vertical') ? 'scrollTop' : 'scrollLeft';
-        let res: boolean = !!elm[dir];
-        if (!res) {
-            elm[dir] = 1;
-            res = !!elm[dir];
-            elm[dir] = 0;
-        }
-        return res;
-    }
-
     /**
      * When the user scolls the page, video will disappear and when the scrolling gets stopped 
      * then video starts playing in the new position.
      */
     private positionChange() {
+        publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
         window.clearTimeout(this.scrollTimer);
         this.scrollTimer = setTimeout(() => {
             if (this.lastResponseStatus !== 'stopped') {
@@ -2725,6 +2664,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
         window.addEventListener('orientationchange', this.orientationChange.bind(this));
         window.addEventListener('resize', this.orientationChange.bind(this));
+        this.scrollableElm.addEventListener('scroll', this.positionChange.bind(this));
     }
 
     /**
@@ -2738,6 +2678,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
         window.removeEventListener('orientationchange', this.orientationChange.bind(this));
         window.removeEventListener('resize', this.orientationChange.bind(this));
+        this.scrollableElm.removeEventListener('scroll', this.positionChange.bind(this));
     }
 
     /**
@@ -2926,11 +2867,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     if (this.videoRequestSubscriptionId) {
                         unsubscribeState('o', 'Csig.video.response', this.videoRequestSubscriptionId);
                     }
-                    // if(!this.testingVar){
                     this.videoRequestSubscriptionId = subscribeState('o', 'Csig.video.response',
                         this.videoResponse.bind(this), this.errorResponse.bind(this));
-                    // }
-
                 } else {
                     this.sendEvent(this.sendEventState, 0, 'number');
                 }
@@ -2955,9 +2893,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             case 'resize':
                 // If the video has already stopped then there is no need to resize.
                 if (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '') {
-                    if (this.isOrientationChanged) {
-                        this.isOrientationChanged = false;
-                    }
                     return;
                 }
                 if (this.lastUpdatedStatus !== 'resize' && this.isExitFullscreen) {
@@ -3107,7 +3042,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.lastUpdatedStatus === "resize") {
                     this.lastUpdatedStatus = '';
                 }
-                // this.clearSnapShot();
+                this.clearSnapShot();
                 this.unsubscribeRefreshImage();
                 this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.cutCanvas2DisplayVideo(this.context);
