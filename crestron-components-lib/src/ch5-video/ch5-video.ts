@@ -2602,6 +2602,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private exitFullScreen() {
         this.fullScreenContainer.classList.remove("fullscreen-container");
         this.vidControlPanel.classList.remove("fullScreen");
+        this.orientationChangeComplete();
         this.controlFullScreen.innerHTML = '';
         this.controlFullScreen.innerHTML = this.fullScreenIcon;
         this.zIndex = "0";
@@ -3146,6 +3147,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'started':
+                this.orientationChangeComplete();
                 if (this.lastUpdatedStatus === "resize") {
                     this.lastUpdatedStatus = '';
                 }
@@ -3157,7 +3159,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = true;
                 this.isImageReady = false;
                 this.sendEvent(this.sendEventState, 2, 'number');
-                this.orientationChangeComplete();
+                
                 clearTimeout(this.exitFlagStartedResp);
                 this.exitFlagStartedResp = setTimeout(() => {
                     this.isExitFullscreen = false;
@@ -3183,6 +3185,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.hideFullScreenIcon();
                 break;
             case 'resized':
+                this.orientationChangeComplete();
                 if (this.lastUpdatedStatus === "resize") {
                     this.lastUpdatedStatus = '';
                     this.clearSnapShot();
@@ -3191,7 +3194,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.cutCanvas2DisplayVideo(this.context);
                     this.isImageReady = false;
                     this.isVideoReady = true;
-                    this.orientationChangeComplete();
                     clearTimeout(this.exitFlagResizedResp);
                     this.exitFlagResizedResp = setTimeout(() => {
                         this.isExitFullscreen = false;
