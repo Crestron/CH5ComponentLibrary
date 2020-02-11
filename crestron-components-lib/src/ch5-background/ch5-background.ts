@@ -9,8 +9,7 @@ import { ICh5BackgroundAttributes } from './../_interfaces/ch5-background/i-ch5-
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from '../ch5-core';
 import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './../_interfaces/ch5-background/types';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
-import { fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { resizeObserver } from '../ch5-core/resize-observer';
 
 export interface IVideoResponse {
     action: string;
@@ -65,6 +64,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private _isVisible: boolean = false;
     private _videoDimensions: IVideoResponse[] = [];
     private _isRefilled: boolean = true;
+    private _isOrientationCanged: boolean = false;
 
     /**
      * background url supports background format, including JPEG, PNG, SVG, and BMP.
@@ -446,19 +446,15 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 this.parentElement.classList.add(this.primaryCssClass + this.parentCssClassPrefix);
             }
 
-            /**
-             * on window resize
-             */
-            fromEvent(window, 'resize').pipe(debounceTime(400)).subscribe(() => {
-                this.updateCanvasDimensions();
-            });
-
-            fromEvent(window, 'orientationchange').pipe(debounceTime(400)).subscribe(() => {
-                this.updateCanvasDimensions();
-            });
-
             // creating canvas
             this.createCanvas();
+
+            /**
+             * call on element resize using ResizeObserver
+             */
+            if (this.parentElement) {
+                resizeObserver(this.parentElement, this.updateCanvasDimensions.bind(this));
+            }
         });
     }
 
@@ -485,13 +481,15 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                     this._videoSubscriptionId = subscribeState('o', 'ch5.video.background', (response: any) => {
                         if (response && Object.keys(response).length) {
                             if (response.action === 'refill') {
-                                if (this._videoRes.id) {
+                                if (this._videoRes.id && !this._isRefilled) {
                                     this.refillBackground();
                                     this.setAttribute('videocrop', JSON.stringify(response));
                                     this._videoDimensions = [];
+                                    this._isRefilled = true;
                                 }
                             } else {
                                 this.setAttribute('videocrop', JSON.stringify(response));
+                                this._isRefilled = false;
                             }
                         }
                     });
@@ -784,6 +782,19 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     }
 
     /**
+     * Checking orientation has been changed
+     */
+    private orientationChanged() {
+        const timeout: number = 120;
+        return new Promise((resolve: any) => {
+            const go = (i: number, height0: number) => {
+                window.innerHeight !== height0 || i >= timeout ? resolve() : window.requestAnimationFrame(() => go(i + 1, height0));
+            };
+            go(0, window.innerHeight);
+        });
+    }
+
+    /**
      * This method is converting string to array of string
      * @param values is string of image urls which are saprated with '|'.
      */
@@ -937,11 +948,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * updating canvas dimensions
      */
     private updateCanvasDimensions() {
-        this._canvasList.forEach((canvas: HTMLCanvasElement) => {
-            this.setCanvasDimensions(canvas);
-        });
+        if (this._canvasList && this._canvasList.length) {
+            this._canvasList.forEach((canvas: HTMLCanvasElement) => {
+                this.setCanvasDimensions(canvas);
+            });
 
-        this.updateBackground();
+            this.updateBackground();
+        }
     }
 
     /**
@@ -1057,25 +1070,22 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Re-filling background
      */
     private refillBackground() {
-        if (!this._isRefilled) {
-            let timer: number = 0;
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
-                    const ctx: any = canvas.getContext('2d');
+        let timer: number = 0;
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
+                const ctx: any = canvas.getContext('2d');
 
-                    switch (this._canvasList.length) {
-                        case this._elImages.length:
-                            this.updateBgImage(this._elImages[idx], ctx);
-                            break;
-                        case this._bgColors.length:
-                            this.updateBgColor(this._bgColors[idx], ctx);
-                            break;
-                    }
-                });
-                this._isRefilled = true;
+                switch (this._canvasList.length) {
+                    case this._elImages.length:
+                        this.updateBgImage(this._elImages[idx], ctx);
+                        break;
+                    case this._bgColors.length:
+                        this.updateBgColor(this._bgColors[idx], ctx);
+                        break;
+                }
             });
-        }
+        });
     }
 
     /**
@@ -1091,7 +1101,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             this._videoRes.left = this._videoRes.left - leftOffset;
             this._videoRes.top = this._videoRes.top - topOffset;
             if (this._videoRes.top < 0 || this._videoRes.left < 0) {
-                this.refillBackground();
                 return;
             }
             // Avoiding negative values and decimal values in video and background
@@ -1110,18 +1119,18 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             } else {
                 this._videoDimensions.push(this._videoRes);
             }
+
             if (this._videoDimensions.length) {
                 this._videoDimensions.map((video: IVideoResponse) => {
-                    let timer: number = 0;
-                    clearTimeout(timer);
-                    timer = setTimeout(() => {
-                        this._canvasList.forEach((canvas: HTMLCanvasElement) => {
+                    this._canvasList.forEach((canvas: HTMLCanvasElement) => {
+                        let timer: any;
+                        clearTimeout(timer);
+                        timer = setTimeout(() => {
                             const ctx: any = canvas.getContext('2d');
                             ctx.clearRect(video.left, video.top, video.width, video.height);
-                        });
+                        }, 30);
                     });
                 })
-                this._isRefilled = false;
             }
         }
     }

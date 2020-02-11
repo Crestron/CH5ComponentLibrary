@@ -85,6 +85,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private wasAppBackGrounded: boolean = false;
     private appCurrentStatus: boolean = false;
     private isScrollableLoad: boolean = true;
+    private scrollableElm: HTMLElement = {} as HTMLElement;
 
 
     /**
@@ -2199,6 +2200,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.isInitialized) {
             this.removeIfTagExist();
             customElements.whenDefined('ch5-video').then(() => {
+                this.scrollableElm = getScrollableParent(this);
                 this.initializeVideo();
                 this.isInitialized = false;
             });
@@ -2228,13 +2230,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.calculation(this.vid);
                 this.calculatePositions();
                 this.publishBackgroundEvent();
-                if (this.isScrollableLoad) {
-                    this.onScrollPosition();
-                }
                 if (!this.isFullScreen && !this.isExitFullscreen && !this.isOrientationChanged) {
                     this.lastResponseStatus = 'stopped';
                     this.lastUpdatedStatus = 'stop';
                     this.isVideoReady = false;
+                    publishEvent('o', 'ch5.video.background', { "action": "refill" });
                     this.publishVideoEvent("start");
                 }
                 this.isScrollableLoad = false;
@@ -2250,7 +2250,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.isSwipeInterval) {
                 window.clearInterval(this.isSwipeInterval);
             }
-            
+
             // In some of the iOS devices, there is a delay in getting orientation 
             // change information, a small delay solves this problem.
             setTimeout(() => {
@@ -2628,47 +2628,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         event.stopPropagation();
     }
 
-    private onScrollPosition() {
-        const scrollableElm = getScrollableParent(this);
-        if (scrollableElm) {
-            const isScrollable = this.isScrollBar(scrollableElm, 'vertical');
-            if (isScrollable) {
-                scrollableElm.addEventListener('scroll', () => {
-                    publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
-                    this.positionChange();
-                });
-            } else if (isSafariMobile()) {
-                scrollableElm.addEventListener('touchmove', () => {
-                    publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
-                });
-                scrollableElm.addEventListener('touchend', () => {
-                    this.calculatePositions();
-                    this.calculation(this.vid);
-                    publishEvent('o', 'ch5.video.background', this.videoBGObjJSON('', this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                });
-            }
-        }
-    }
-
-    /**
-     * checking if has scrollbar
-     */
-    private isScrollBar(elm: any, dir: string) {
-        dir = (dir === 'vertical') ? 'scrollTop' : 'scrollLeft';
-        let res: boolean = !!elm[dir];
-        if (!res) {
-            elm[dir] = 1;
-            res = !!elm[dir];
-            elm[dir] = 0;
-        }
-        return res;
-    }
-
     /**
      * When the user scolls the page, video will disappear and when the scrolling gets stopped 
      * then video starts playing in the new position.
      */
     private positionChange() {
+        publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
         window.clearTimeout(this.scrollTimer);
         this.scrollTimer = setTimeout(() => {
             if (this.lastResponseStatus !== 'stopped') {
@@ -2699,6 +2664,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
         window.addEventListener('orientationchange', this.orientationChange.bind(this));
         window.addEventListener('resize', this.orientationChange.bind(this));
+        this.scrollableElm.addEventListener('scroll', this.positionChange.bind(this));
     }
 
     /**
@@ -2712,6 +2678,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
         window.removeEventListener('orientationchange', this.orientationChange.bind(this));
         window.removeEventListener('resize', this.orientationChange.bind(this));
+        this.scrollableElm.removeEventListener('scroll', this.positionChange.bind(this));
     }
 
     /**
@@ -2925,7 +2892,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
             case 'resize':
                 // If the video has already stopped then there is no need to resize.
-                if (this.lastResponseStatus === 'stopped') {
+                if (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '') {
                     return;
                 }
                 if (this.lastUpdatedStatus !== 'resize' && this.isExitFullscreen) {
