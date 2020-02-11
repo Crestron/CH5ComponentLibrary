@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "jsx": "react",
-    "esModuleInterop": true,
-    "newLine": "LF",
-  }
-}
