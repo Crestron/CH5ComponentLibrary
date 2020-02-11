@@ -785,11 +785,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 setTimeout(() => {
                     this.sendEvent(this.sendEventSnapShotLastUpdateTime, this.rfc3339TimeStamp(), 'string');
                     this.calculatePositions();
-                    this.lastResponseStatus = 'stopped';
-                    this.isVideoReady = false;
-                    this.lastUpdatedStatus = "stop";
-                    this.publishBackgroundEvent();
-                    this.publishVideoEvent("start");
+                    if (this.elementIntersectionEntry.intersectionRatio > 0.9) {
+                        this.lastResponseStatus = 'stopped';
+                        this.isVideoReady = false;
+                        this.lastUpdatedStatus = "stop";
+                        this.isExitFullscreen = false;
+                        this.publishBackgroundEvent();
+                        this.publishVideoEvent("start");
+                    }
                 }, 500);
                 this.switchSnapShotLoad(this.receivedStateSelect);
             }
@@ -1440,7 +1443,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.unSubscribeVideos(this.selectObject);
                         this.isVideoReady = false;
                         this.lastUpdatedStatus = "";
-                        this.isExitFullscreen = false;
                         publishEvent('b', newValue + "", true);
                         publishEvent('b', newValue + "", false);
                         setTimeout(() => {
@@ -2340,6 +2342,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
             clearTimeout(this.backgroundInterval);
             clearTimeout(this.isSwipeInterval);
+            this.clearAllSnapShots();
             publishEvent('o', 'ch5.video.background', { "action": "refill" });
             if (this.isSwipeInterval) {
                 window.clearInterval(this.isSwipeInterval);
@@ -3148,8 +3151,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 this.clearSnapShot();
                 this.unsubscribeRefreshImage();
-                this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.cutCanvas2DisplayVideo(this.context);
+                this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.retryCount = 0;
                 this.isVideoReady = true;
                 this.isImageReady = false;
