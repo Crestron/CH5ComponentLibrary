@@ -1,5 +1,0 @@
-./start.bat
-./start.sh
-dist
-node_modules
-**/public/*.js
