@@ -64,7 +64,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private _isVisible: boolean = false;
     private _videoDimensions: IVideoResponse[] = [];
     private _isRefilled: boolean = true;
-    private _isOrientationCanged: boolean = false;
 
     /**
      * background url supports background format, including JPEG, PNG, SVG, and BMP.
@@ -488,19 +487,23 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                                     this._isRefilled = true;
                                 }
                             } else {
-                                this.setAttribute('videocrop', JSON.stringify(response));
-                                this._isRefilled = false;
+                                let timer: any;
+                                clearTimeout(timer);
+                                timer = setTimeout(() => {
+                                    this.setAttribute('videocrop', JSON.stringify(response));
+                                    this._isRefilled = false;
+                                }, 30);
                             }
                         }
                     });
                 } else {
                     this._isVisible = true;
-                    if (this._videoSubscriptionId) {
-                        unsubscribeState('o', 'ch5.video.background', this._videoSubscriptionId);
-                    }
-                    if (this._canvasSubscriptionId) {
-                        unsubscribeState('b', 'canvas.created', this._canvasSubscriptionId);
-                    }
+                    // if (this._videoSubscriptionId) {
+                    //     unsubscribeState('o', 'ch5.video.background', this._videoSubscriptionId);
+                    // }
+                    // if (this._canvasSubscriptionId) {
+                    //     unsubscribeState('b', 'canvas.created', this._canvasSubscriptionId);
+                    // }
                 }
             });
         });
