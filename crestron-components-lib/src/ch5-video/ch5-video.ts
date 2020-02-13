@@ -3001,6 +3001,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             case 'resize':
                 // If the video has already stopped then there is no need to resize.
                 if (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '') {
+                    this.isOrientationChanged = false; // When the orientation happens out of the view port
                     return;
                 }
                 if (this.lastUpdatedStatus !== 'resize' && this.isExitFullscreen) {
