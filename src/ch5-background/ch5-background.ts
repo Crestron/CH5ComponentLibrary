@@ -498,12 +498,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                     });
                 } else {
                     this._isVisible = true;
-                    // if (this._videoSubscriptionId) {
-                    //     unsubscribeState('o', 'ch5.video.background', this._videoSubscriptionId);
-                    // }
-                    // if (this._canvasSubscriptionId) {
-                    //     unsubscribeState('b', 'canvas.created', this._canvasSubscriptionId);
-                    // }
                 }
             });
         });
