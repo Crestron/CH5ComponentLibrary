@@ -85,6 +85,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private wasAppBackGrounded: boolean = false;
     private appCurrentStatus: boolean = false;
     private scrollableElm: HTMLElement = {} as HTMLElement;
+    private isSlidemoved: boolean = false;
 
 
     /**
@@ -131,7 +132,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private videoResponseSubscriptionId: string = "";
     private videoResizeSubscriptionId: string = "";
     private slidemoveSubscriptionId: string = "";
-    private transitionendSubscriptionId: string = "";
+    private touchendSubscriptionId: string = "";
     private slidechangeSubscriptionId: string = "";
     private selectObject: TReceiveState = {
         "subscriptionIds": {
@@ -2200,21 +2201,24 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.slidemoveSubscriptionId = subscribeState('b', 'triggerview.slidemove', (res: boolean) => {
                     if (res) {
                         publishEvent('o', 'ch5.video.background', { "action": "refill" });
+                        this.isSlidemoved = true;
                     }
                 });
 
-                this.transitionendSubscriptionId = subscribeState('b', 'triggerview.transitionend', (res: boolean) => {
-                    if (res) {
+                this.touchendSubscriptionId = subscribeState('b', 'triggerview.touchend', (res: boolean) => {
+                    if (res && this.isSlidemoved) {
                         let timer: any;
                         clearTimeout(timer);
                         timer = setTimeout(() => {
                             this.publishVideoEvent("resize");
+                            this.isSlidemoved = false;
                         }, 300);
                     }
                 });
 
                 this.slidechangeSubscriptionId = subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
                     if (res && this.elementIsInViewPort) {
+                        publishEvent('o', 'ch5.video.background', { "action": "refill" });
                         this.publishVideoEvent("stop");
                     }
                 });
