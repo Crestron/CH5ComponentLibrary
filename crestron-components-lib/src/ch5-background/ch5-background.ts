@@ -445,9 +445,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 this.parentElement.classList.add(this.primaryCssClass + this.parentCssClassPrefix);
             }
 
-            // creating canvas
-            this.createCanvas();
-
             /**
              * call on element resize using ResizeObserver
              */
@@ -492,7 +489,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                                 timer = setTimeout(() => {
                                     this.setAttribute('videocrop', JSON.stringify(response));
                                     this._isRefilled = false;
-                                }, 30);
+                                }, 300);
                             }
                         }
                     });
@@ -554,6 +551,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 } else {
                     this.url = '';
                 }
+                this.createCanvas();
                 this.updateBackground();
                 if (oldValue !== null) {
                     this._canvasSubscriptionId = subscribeState('b', 'canvas.created', (response: boolean) => {
@@ -570,6 +568,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                     } else {
                         this.backgroundColor = '';
                     }
+                    this.createCanvas();
                     this.updateBackground();
                     if (oldValue !== null) {
                         this._canvasSubscriptionId = subscribeState('b', 'canvas.created', (response: boolean) => {
@@ -1097,9 +1096,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             const leftOffset = this._elCanvas.getBoundingClientRect().left;
             this._videoRes.left = this._videoRes.left - leftOffset;
             this._videoRes.top = this._videoRes.top - topOffset;
-            if (this._videoRes.top < 0 || this._videoRes.left < 0) {
-                return;
-            }
+
             // Avoiding negative values and decimal values in video and background
             if (this._videoRes.left > 0 && this._videoRes.left < 1) {
                 this._videoRes.left = 0;
@@ -1120,12 +1117,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             if (this._videoDimensions.length) {
                 this._videoDimensions.map((video: IVideoResponse) => {
                     this._canvasList.forEach((canvas: HTMLCanvasElement) => {
-                        let timer: any;
-                        clearTimeout(timer);
-                        timer = setTimeout(() => {
-                            const ctx: any = canvas.getContext('2d');
-                            ctx.clearRect(video.left, video.top, video.width, video.height);
-                        }, 30);
+                        const ctx: any = canvas.getContext('2d');
+                        ctx.clearRect(video.left, video.top, video.width, video.height);
                     });
                 })
             }
