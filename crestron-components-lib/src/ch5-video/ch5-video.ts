@@ -8,7 +8,7 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, Ch5Platform, ICh5PlatformInfo } from "../ch5-core";
 import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
-import { TDimension, TReceiveState } from "../_interfaces/ch5-video/types";
+import { TDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { Ch5VideoEventHandler, ESVGIcons } from "./ch5-video-event-handler";
@@ -17,6 +17,8 @@ import { Observable, Subscription } from "rxjs";
 import { aspectRatio } from './ch5-video-constants';
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
+import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
+
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
@@ -80,6 +82,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public showControl: string = 'show-control';
     public fullScreenBodyClass: string = 'ch5-video-fullscreen';
     private videoErrorMessages = new Map<number, string>();
+    private snapShotInfoMap = new Map();
 
     private appBgTimer: number = 0;
     private wasAppBackGrounded: boolean = false;
@@ -465,6 +468,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     private subsCsigAppCurrentSate: string = '';
     private subsCsigAppBackgrounded: string = '';
+    private receivedStateSelect: number = 0;
+    private vCountFlag: boolean = false;
+    private maxVideoCount: number = 0;
+    private exitFlagStartedResp: any;
+    private exitFlagResizedResp: any;    
 
     /**
      * Protocol for authentication in order to get the image
@@ -768,7 +776,46 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     private matchAttributeResponse(attributeCount: number, responseCount: number) {
         if (attributeCount === responseCount) {
-            this.videoVisibilityInViewport();
+            if (!this.context) {
+                return;
+            }
+            this.vid.width = this.sizeObj.width;
+            this.vid.height = this.sizeObj.height;
+            this.context = this.vid.getContext("2d");
+            this.calculation(this.vid);
+            if (this.elementIsInViewPort) {
+                setTimeout(() => {
+                    this.sendEvent(this.sendEventSnapShotLastUpdateTime, this.rfc3339TimeStamp(), 'string');
+                    this.calculatePositions();
+                    if (this.elementIntersectionEntry.intersectionRatio > 0.9) {
+                        this.lastResponseStatus = 'stopped';
+                        this.isVideoReady = false;
+                        this.lastUpdatedStatus = "stop";
+                        this.isExitFullscreen = false;
+                        this.publishBackgroundEvent();
+                        this.publishVideoEvent("start");
+                    }
+                }, 500);
+                this.switchSnapShotLoad(this.receivedStateSelect);
+            }
+        }
+    }
+
+    private switchSnapShotLoad(activeIndex: number) {
+        for (let idx = 0; idx < this.maxVideoCount; idx++) {
+            const sData: Ch5VideoSnapshot = this.snapShotInfoMap.get(idx);
+            if (activeIndex === idx) {
+                if (sData.isSnapShotLoading) {
+                    if (!!sData.snapShotImage) {
+                        this.lastLoadedImage = sData.snapShotImage;
+                        this.drawSnapShot(this.lastLoadedImage);
+                    }
+                }
+            } else {
+                if (!sData.isSnapShotLoading) {
+                    sData.startLoadingSnapShot();
+                }
+            }
         }
     }
 
@@ -1260,11 +1307,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateVideoCount: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateVideoCount);
-        const sigStateVideoCount: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-            .getBooleanSignal(sigNameStateVideoCount);
+        const sigStateVideoCount: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
+            .getNumberSignal(sigNameStateVideoCount);
         if (sigStateVideoCount) {
-            this.subReceiveStateVideoCount = sigStateVideoCount.subscribe(() => {
-                // TODO
+            this.subReceiveStateVideoCount = sigStateVideoCount.subscribe((newValue: any) => {
+                this.info('receiveStateVideoCount Signal Subscribe Value: ' + newValue);
+                if (!this.vCountFlag) {
+                    this.maxVideoCount = parseInt(newValue, 0);
+                    this.getAllSnapShotData(newValue);
+                }
             });
         }
     }
@@ -1300,12 +1351,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getBooleanSignal(sigNameStatePlay);
         if (sigStatePlay) {
             this.subReceiveStatePlay = sigStatePlay.subscribe((newValue: any) => {
+                this.info('receiveStatePlay Signal Subscribe Value: ' + newValue);
                 newValue = !this.isIntersectionObserve ? null : newValue;
                 if (this.playValue === newValue) {
                     return;
                 }
                 this.fromReceiveStatePlay = true;
                 this.playValue = newValue;
+                this.isExitFullscreen = false;
                 if (newValue) {
                     if (this.lastLoadedImage) {
                         this.drawSnapShot(this.lastLoadedImage);
@@ -1379,13 +1432,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getNumberSignal(sigNameStateSelect);
         if (sigStateSelect) {
             this.subReceiveStateSelect = sigStateSelect.subscribe((newValue: number) => {
+                this.info('receiveStateSelect Signal Subscribe Value: ' + newValue);
                 this._receiveStateSelect = newValue.toString();
                 if (this.oldReceiveStateSelect !== newValue) {
                     this.oldReceiveStateSelect = newValue;
+                    this.receivedStateSelect = newValue;
                     if (newValue >= 0 && newValue < 32) {
                         this.unSubscribeVideos(this.selectObject);
                         this.isVideoReady = false;
                         this.lastUpdatedStatus = "";
+                        publishEvent('b', newValue + "", true);
+                        publishEvent('b', newValue + "", false);
                         setTimeout(() => {
                             this.subscribeVideos(newValue.toString());
                         });
@@ -1393,6 +1450,39 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
             });
         }
+    }
+
+    private getAllSnapShotData(videoCount: string) {
+        const vCount = parseInt(videoCount, 0);
+        if (vCount === 0) {
+            return;
+        }
+        for (let idx = 0; idx < vCount; idx++) {
+            const snapShotObject: TSnapShotSignalName = {
+                "index": 0,
+                "snapShotUrl": "",
+                "snapShotRefreshRate": "",
+                "snapShotUser": "",
+                "snapShotPass": ""
+            };
+            snapShotObject.index = idx;
+            snapShotObject.snapShotUrl = String(Ch5VideoSubscription
+                .getNewSignalName(this, 'receivestatesnapshoturl', this.receiveStateSnapShotURL, idx, this.indexId as string));
+
+            snapShotObject.snapShotUser = String(Ch5VideoSubscription
+                .getNewSignalName(this, 'receivestateuserid', this.receiveStateSnapShotUserId, idx, this.indexId as string));
+
+            snapShotObject.snapShotPass = String(Ch5VideoSubscription
+                .getNewSignalName(this, 'receivestatesnapshotpassword', this.receiveStateSnapShotPassword, idx, this.indexId as string));
+
+            snapShotObject.snapShotRefreshRate = String(Ch5VideoSubscription
+
+                .getNewSignalName(this, 'receivestatesnapshotrefreshrate', this.receiveStateSnapShotRefreshRate, idx, this.indexId as string));
+
+            this.snapShotInfoMap.set(idx, new Ch5VideoSnapshot(snapShotObject));
+            const sData = this.snapShotInfoMap.get(idx);
+        }
+        this.vCountFlag = true;
     }
 
     public get receiveStateSourceType(): string {
@@ -1424,6 +1514,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getStringSignal(sigNameStateSourceType);
         if (sigStateSourceType) {
             this.subReceiveStateSourceType = sigStateSourceType.subscribe((newValue: string) => {
+                this.info('receiveStateSourceType Signal Subscribe Value: ' + newValue);
                 if (newValue) {
                     if (newValue === this.sourceType) {
                         return;
@@ -1435,6 +1526,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                             this.lastResponseStatus = 'stopped';
                             this.isVideoReady = false;
                             this.lastUpdatedStatus = "stop";
+                            this.isExitFullscreen = false;
                             this.publishVideoEvent("start");
                         }
                     }, 100);
@@ -1509,6 +1601,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getStringSignal(sigNameStateSnapShotUrl);
         if (sigStateSnapShotUrl) {
             this.subReceiveStateSnapShotUrl = sigStateSnapShotUrl.subscribe((newValue: string) => {
+                this.info('receiveStateSnapShotUrl Signal Subscribe Value: ' + newValue);
                 this.snapShotUrl = newValue;
                 this.sendEvent(this.sendEventSnapShotURL, this.snapShotUrl, 'string');
             });
@@ -1545,6 +1638,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getStringSignal(sigNameStateUrl);
         if (sigStateUrl) {
             this.subReceiveStateUrl = sigStateUrl.subscribe((newValue: string) => {
+                this.info('receiveStateUrl Signal Subscribe Value: ' + newValue);
                 if (newValue) {
                     if (newValue === this.url) {
                         return;
@@ -1555,6 +1649,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.lastResponseStatus = 'stopped';
                         this.isVideoReady = false;
                         this.lastUpdatedStatus = "stop";
+                        this.isExitFullscreen = false;
                         this.publishVideoEvent("start");
                     }
                 }
@@ -1593,6 +1688,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getStringSignal(sigNameStateUserId);
         if (sigStateUserId) {
             this.subReceiveStateUserId = sigStateUserId.subscribe((newValue: string) => {
+                this.info('receiveStateUserId Signal Subscribe Value: ' + newValue);
                 if (newValue) {
                     this.userId = newValue;
                 }
@@ -1630,6 +1726,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getStringSignal(sigNameStateSnapShotUserId);
         if (sigStateSnapShotUserId) {
             this.subReceiveStateSnapShotUserId = sigStateSnapShotUserId.subscribe((newValue: string) => {
+                this.info('receiveStateSnapShotuserId Signal Subscribe Value: ' + newValue);
                 if (newValue) {
                     this.snapShotUserId = newValue;
                 }
@@ -1668,6 +1765,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getStringSignal(sigNameStatePassword);
         if (sigStatePassword) {
             this.subReceiveStatePassword = sigStatePassword.subscribe((newValue: string) => {
+                this.info('receiveStatePassword Signal Subscribe Value: ' + newValue);
                 if (newValue) {
                     this.password = newValue;
                 }
@@ -1705,6 +1803,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             .getStringSignal(sigNameStateSnapShotPassword);
         if (sigStateSnapShotPassword) {
             this.subReceiveStateSnapShotPassword = sigStateSnapShotPassword.subscribe((newValue: string) => {
+                this.info('receiveStateSnapShotPassword Signal Subscribe Value: ' + newValue);
                 if (newValue) {
                     this.snapShotPassword = newValue;
                 }
@@ -2265,6 +2364,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
             clearTimeout(this.backgroundInterval);
             clearTimeout(this.isSwipeInterval);
+            this.clearAllSnapShots();
             publishEvent('o', 'ch5.video.background', { "action": "refill" });
             if (this.isSwipeInterval) {
                 window.clearInterval(this.isSwipeInterval);
@@ -2285,6 +2385,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.publishVideoEvent("stop");
                 }
             }, 3000);
+        }
+    }
+
+    private clearAllSnapShots() {
+        if (this.maxVideoCount) {
+            for (let idx = 0; idx < this.maxVideoCount; idx++) {
+                const sData: Ch5VideoSnapshot = this.snapShotInfoMap.get(idx);
+                sData.stopLoadingSnapShot();
+            }
         }
     }
 
@@ -2517,6 +2626,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private exitFullScreen() {
         this.fullScreenContainer.classList.remove("fullscreen-container");
         this.vidControlPanel.classList.remove("fullScreen");
+        this.orientationChangeComplete();
         this.controlFullScreen.innerHTML = '';
         this.controlFullScreen.innerHTML = this.fullScreenIcon;
         this.zIndex = "0";
@@ -2630,7 +2740,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.calculatePositions();
                 }
             }
-            publishEvent('o', 'ch5.video.background', { "action": "refill" });
+            // publishEvent('o', 'ch5.video.background', { "action": "refill" });
             this.publishVideoEvent("fullscreen");
         }
     }
@@ -2707,6 +2817,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.subscriptionEventList.forEach(subscription => {
             subscription.unsubscribe();
         });
+        this.clearAllSnapShots();
         setTimeout(() => {
             // Stop the Video
             this.isSwipeStarted = false;
@@ -3041,21 +3152,23 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'started':
+                this.orientationChangeComplete();
                 if (this.lastUpdatedStatus === "resize") {
                     this.lastUpdatedStatus = '';
                 }
                 this.clearSnapShot();
                 this.unsubscribeRefreshImage();
-                this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.cutCanvas2DisplayVideo(this.context);
+                this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.retryCount = 0;
                 this.isVideoReady = true;
                 this.isImageReady = false;
                 this.sendEvent(this.sendEventState, 2, 'number');
-                this.orientationChangeComplete();
-                setTimeout(() => {
+                
+                clearTimeout(this.exitFlagStartedResp);
+                this.exitFlagStartedResp = setTimeout(() => {
                     this.isExitFullscreen = false;
-                }, 5000);
+                }, 3000);
                 // Unsubscribe when started
                 if (this.videoResponseSubscriptionId) {
                     unsubscribeState('o', 'Csig.video.response', this.videoResponseSubscriptionId);
@@ -3077,6 +3190,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.hideFullScreenIcon();
                 break;
             case 'resized':
+                this.orientationChangeComplete();
                 if (this.lastUpdatedStatus === "resize") {
                     this.lastUpdatedStatus = '';
                     this.clearSnapShot();
@@ -3087,9 +3201,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.isVideoReady = true;
                     this.orientationChangeComplete();
                     this.isPositionChanged = false;
-                    setTimeout(() => {
+                    clearTimeout(this.exitFlagResizedResp);
+                    this.exitFlagResizedResp = setTimeout(() => {
                         this.isExitFullscreen = false;
-                    }, 5000);
+                    }, 3000);
                 }
                 break;
             case 'error':
