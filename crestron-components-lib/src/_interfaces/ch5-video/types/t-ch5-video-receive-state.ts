@@ -19,6 +19,14 @@ export type TState = {
     snapShotPass: string;
 }
 
+export type TSnapShotSignalName = {
+    index: number;
+    snapShotUrl: string;
+    snapShotRefreshRate: string;
+    snapShotUser: string;
+    snapShotPass: string;
+}
+
 export type TReceiveState = {
     subscriptionIds:TState;
     values: TState;
