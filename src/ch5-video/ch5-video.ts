@@ -130,6 +130,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private videoRequestSubscriptionId: string = "";
     private videoResponseSubscriptionId: string = "";
     private videoResizeSubscriptionId: string = "";
+    private slidemoveSubscriptionId: string = "";
+    private transitionendSubscriptionId: string = "";
+    private slidechangeSubscriptionId: string = "";
     private selectObject: TReceiveState = {
         "subscriptionIds": {
             "url": "",
@@ -2200,6 +2203,28 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.scrollableElm = getScrollableParent(this);
                 this.initializeVideo();
                 this.isInitialized = false;
+
+                this.slidemoveSubscriptionId = subscribeState('b', 'triggerview.slidemove', (res: boolean) => {
+                    if (res) {
+                        publishEvent('o', 'ch5.video.background', { "action": "refill" });
+                    }
+                });
+
+                this.transitionendSubscriptionId = subscribeState('b', 'triggerview.transitionend', (res: boolean) => {
+                    if (res) {
+                        let timer: any;
+                        clearTimeout(timer);
+                        timer = setTimeout(() => {
+                            this.publishVideoEvent("resize");
+                        }, 300);
+                    }
+                });
+
+                this.slidechangeSubscriptionId = subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
+                    if (res && this.elementIsInViewPort) {
+                        this.publishVideoEvent("stop");
+                    }
+                });
             });
         }
         Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
@@ -2705,7 +2730,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.isIntersectionObserve = false;
         }
     }
-    
+
     /**
      * detecting orientation has been changed
      */
@@ -2902,7 +2927,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '') {
                     return;
                 }
-               
+
                 if (this.lastUpdatedStatus !== 'resize' && this.isExitFullscreen) {
                     this.lastUpdatedStatus = actionType;
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, this.ch5UId, this.videoTop,
