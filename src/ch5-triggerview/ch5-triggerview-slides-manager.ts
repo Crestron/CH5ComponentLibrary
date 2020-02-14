@@ -146,7 +146,17 @@ export class Ch5TriggerViewSlidesManager {
   }
 
   private eventTargetBelongsToCh5List(el: HTMLElement): boolean {
-    return el.closest('ch5-list') !== null;
+    const isSlideEl = el.closest('ch5-slider') !== null;
+    const isListEl = el.closest('ch5-list') !== null;
+    let touchMoveForList = false;
+    if (isListEl) {
+      const listEl = el.closest('ch5-list');
+      if (listEl!.hasAttribute("orientation")) {
+        const listOrientation = listEl!.getAttribute("orientation");
+        touchMoveForList = (listOrientation === "horizontal");
+      }
+    }
+    return isSlideEl || touchMoveForList;
   }
 
   public reinitializeSwiper() {
