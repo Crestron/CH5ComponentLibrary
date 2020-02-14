@@ -11,6 +11,7 @@ import {getCSSCustomProperty} from "./utils";
 import {Ch5TriggerViewChild} from "./ch5-triggerview-child";
 import {isNil} from "lodash";
 import { Ch5CustomAttributes } from "../ch5-custom-attrs";
+import { publishEvent } from "../ch5-core";
 
 export class Ch5TriggerViewSlidesManager {
 
@@ -122,6 +123,14 @@ export class Ch5TriggerViewSlidesManager {
       // update active slide attributes (also prev active slide attrs will be updated)
       this._updateActiveSlideAttributes();
       this._updateTriggerViewElActiveViewWhenChangedBySwiper();
+
+      // publishing slidechange eevnt for ch5-video
+      publishEvent('b', 'triggerview.slidechange', true);
+    });
+    
+    // publishing slidemove eevnt for ch5-video
+    this._swiper.on('sliderMove', () => {
+      publishEvent('b', 'triggerview.slidemove', true);
     });
 
     // set gestures on/off
@@ -141,12 +150,25 @@ export class Ch5TriggerViewSlidesManager {
         this.setAllowTouchMove(true);
         this._touchMoveListRelatedEventDisabled = false;
       }
+
+      // publishing touchend eevnt for ch5-video
+      publishEvent('b', 'triggerview.touchend', true);
     });
 
   }
 
   private eventTargetBelongsToCh5List(el: HTMLElement): boolean {
-    return el.closest('ch5-list') !== null;
+    const isSlideEl = el.closest('ch5-slider') !== null;
+    const isListEl = el.closest('ch5-list') !== null;
+    let touchMoveForList = false;
+    if (isListEl) {
+      const listEl = el.closest('ch5-list');
+      if (listEl!.hasAttribute("orientation")) {
+        const listOrientation = listEl!.getAttribute("orientation");
+        touchMoveForList = (listOrientation === "horizontal");
+      }
+    }
+    return isSlideEl || touchMoveForList;
   }
 
   public reinitializeSwiper() {
