@@ -2425,14 +2425,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.exitFullScreen();
             return;
         }
-        if (this.isImageReady && !this.isVideoReady) {
-            this.hideFullScreenIcon();
+        if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized') {
+            this.showFullScreenIcon();
         } else {
-            if (this.isFullScreen) {
-                this.exitFullScreen();
-            } else {
-                this.showFullScreenIcon();
-            }
+            this.hideFullScreenIcon();
         }
         this.sendEvent(this.sendEventOnClick, true, 'boolean');
         this.autoHideControls();
@@ -3001,6 +2997,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             case 'resize':
                 // If the video has already stopped then there is no need to resize.
                 if (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '') {
+                    this.isOrientationChanged = false; // When the orientation happens out of the view port
                     return;
                 }
                 if (this.lastUpdatedStatus !== 'resize' && this.isExitFullscreen) {
@@ -3159,7 +3156,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = true;
                 this.isImageReady = false;
                 this.sendEvent(this.sendEventState, 2, 'number');
-                
                 clearTimeout(this.exitFlagStartedResp);
                 this.exitFlagStartedResp = setTimeout(() => {
                     this.isExitFullscreen = false;
