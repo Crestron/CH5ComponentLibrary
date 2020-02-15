@@ -445,6 +445,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 this.parentElement.classList.add(this.primaryCssClass + this.parentCssClassPrefix);
             }
 
+            window.addEventListener('resize', () => {
+                this.setAttribute('videocrop', '{"action": "refill"}');
+            });
+
             /**
              * call on element resize using ResizeObserver
              */
@@ -778,19 +782,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     }
 
     /**
-     * Checking orientation has been changed
-     */
-    private orientationChanged() {
-        const timeout: number = 120;
-        return new Promise((resolve: any) => {
-            const go = (i: number, height0: number) => {
-                window.innerHeight !== height0 || i >= timeout ? resolve() : window.requestAnimationFrame(() => go(i + 1, height0));
-            };
-            go(0, window.innerHeight);
-        });
-    }
-
-    /**
      * This method is converting string to array of string
      * @param values is string of image urls which are saprated with '|'.
      */
@@ -1091,7 +1082,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (this._videoCrop && typeof this._videoCrop === 'string') {
             this._videoRes = JSON.parse(this._videoCrop);
         }
-        if (this._videoRes && (this._videoRes.action !== 'refill')) {
+        if (this._videoRes && (this._videoRes.action === 'start' || this._videoRes.action === 'resize')) {
             const topOffset = this._elCanvas.getBoundingClientRect().top;
             const leftOffset = this._elCanvas.getBoundingClientRect().left;
             this._videoRes.left = this._videoRes.left - leftOffset;
@@ -1113,7 +1104,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             } else {
                 this._videoDimensions.push(this._videoRes);
             }
-
             if (this._videoDimensions.length) {
                 this._videoDimensions.map((video: IVideoResponse) => {
                     this._canvasList.forEach((canvas: HTMLCanvasElement) => {
