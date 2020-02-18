@@ -37,7 +37,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`label` attribute",
      * "***",
-     * "The label value."
+     * "The label of the button element."
      * ]
      * @name label
      */

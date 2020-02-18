@@ -19,7 +19,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * [
    * "`label` attribute",
    * "***",
-   * "The label value."
+   * "The label of the toggle element."
    * ]
    * @name label
    */
