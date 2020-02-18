@@ -12,9 +12,6 @@ import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-o
 import { resizeObserver } from '../ch5-core/resize-observer';
 import isEqual from 'lodash/isEqual';
 
-import { getRemoteAppender } from "../ch5-logger/utility/getRemoteAppender";
-import { getLogger } from "../ch5-logger/utility/getLogger";
-
 export interface IVideoResponse {
     action: string;
     id: number;
@@ -442,10 +439,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     public constructor() {
         super();
-
-        const appender = getRemoteAppender('10.88.24.158', '8080', false);
-        const logger = getLogger(appender, true);
-        logger.error("Docker : " + logger);
 
         customElements.whenDefined('ch5-background').then(() => {
             this.classList.add(this.primaryCssClass);
