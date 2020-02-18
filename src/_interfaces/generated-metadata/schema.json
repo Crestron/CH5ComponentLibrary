@@ -6835,7 +6835,7 @@
           "The component used to load HTML snippets during run time. ",
           "This component allows users to load HTML snippets. The snippets should not contain HTML, HEAD, and BODY tags. ",
           "Users can modularize the HTML files into pages or sections using this component, ",
-          "and the snippet is inserted into the DOM at the respective loction ",
+          "and the snippet is inserted into the DOM at the respective location ",
           "during run time. ",
           "An afterload event occurs when a snippet HTML has been loaded and inserted into the DOM. ",
           "Afterload is most often used within the ch5-import-htmlsnippet element to execute a script once an HTML ",
