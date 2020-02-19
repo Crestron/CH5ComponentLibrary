@@ -5,8 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from "../ch5-core";
-import { TSnapShotSignalName, TReceiveState, TDimension } from "../_interfaces/ch5-video/types";
+import { subscribeState, unsubscribeState, publishEvent } from "../ch5-core";
+import { TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 
 export class Ch5VideoSnapshot {
     public isSnapShotLoading: boolean = false;
