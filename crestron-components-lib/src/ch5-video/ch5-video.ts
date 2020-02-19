@@ -3161,6 +3161,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.isExitFullscreen = false;
                 }, 3000);
+                if (this.elementIntersectionEntry.intersectionRatio < 1) {
+                    this.publishVideoEvent('stop');
+                }
+
                 // Unsubscribe when started
                 if (this.videoResponseSubscriptionId) {
                     unsubscribeState('o', 'Csig.video.response', this.videoResponseSubscriptionId);
