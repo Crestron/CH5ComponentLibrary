@@ -5,8 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from "../ch5-core";
-import { TSnapShotSignalName, TReceiveState, TDimension } from "../_interfaces/ch5-video/types";
+import { subscribeState, unsubscribeState, publishEvent } from "../ch5-core";
+import { TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 
 export class Ch5VideoSnapshot {
     public isSnapShotLoading: boolean = false;
@@ -19,7 +19,7 @@ export class Ch5VideoSnapshot {
     private userId: string = '';
     private password: string = '';
     private refreshRate: number = 0;
-    private snapShotTimer: any;
+    private snapShotTimer: number | undefined = undefined;
     private snapShotObj: TSnapShotSignalName;
     private videoImage = new Image();
 
@@ -33,14 +33,20 @@ export class Ch5VideoSnapshot {
 
     public startLoadingSnapShot() {
         this.isSnapShotLoading = true;
-        this.snapShotTimer = setInterval(() => {
-            if (this.userId && this.password && !this.url.indexOf("http")) {
-                this.setSnapShotUrl();
-            }
-            if (this.snapShotObj.snapShotUrl !== "") {
-                this.setSnapShot();
-            }
-        }, 1000 * this.refreshRate, 0);
+        if (!!this.snapShotTimer) {
+            window.clearInterval(this.snapShotTimer);
+        }
+        if (this.refreshRate !== 0) {
+            this.snapShotTimer = window.setInterval(() => {
+                if (this.userId && this.password && !this.url.indexOf("http")) {
+                    this.setSnapShotUrl();
+                }
+                if (this.snapShotObj.snapShotUrl !== "") {
+                    this.setSnapShot();
+                }
+            }, 1000 * this.refreshRate, 0);
+        }
+      
     }
 
     public stopLoadingSnapShot() {
