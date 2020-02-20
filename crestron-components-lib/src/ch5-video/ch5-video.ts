@@ -121,7 +121,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private vidControlPanel: HTMLElement = {} as HTMLElement;
     private controlFullScreen: HTMLElement = {} as HTMLElement;
     private fullScreenOverlay: HTMLElement = {} as HTMLElement;
-    private fullScreenContainer: HTMLElement = {} as HTMLElement;
     private snapShotTimer: any;
     private exitTimer: number = 0;
 
@@ -2273,8 +2272,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.classList.add(this.primaryVideoCssClass);
         this.videoCanvasElement.classList.add('video-wrapper');
 
-        this.fullScreenContainer = document.createElement("div");
-        document.body.appendChild(this.fullScreenContainer);
         if (!document.getElementById("fullScreenOverlay")) {
             this.fullScreenOverlay = document.createElement("div");
             this.fullScreenOverlay.setAttribute("id", "fullScreenOverlay");
@@ -2578,7 +2575,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * When the video exit from the full screen
      */
     private exitFullScreen() {
-        this.fullScreenContainer.classList.remove("fullscreen-container");
         this.vidControlPanel.classList.remove("fullScreen");
         this.orientationChangeComplete();
         this.controlFullScreen.innerHTML = '';
@@ -2587,6 +2583,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.classList.remove(this.fullScreenStyleClass);
         this.autoHideControls();
         document.body.classList.remove(this.fullScreenBodyClass);
+        this.style.visibility = '';
         this.isVideoReady = true;
         this.isOrientationChanged = false;
         this.isPositionChanged = false;
@@ -2646,7 +2643,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         } else {
             this.isFullScreen = true;
             this.videoCanvasElement.addEventListener('touchmove', this.handleTouchMoveEvent, false);
-            this.fullScreenContainer.classList.add("fullscreen-container");
             this.hideFullScreenIcon();
             if (isSafariMobile()) {
                 if (Ch5VideoEventHandler.isPortrait()) {
@@ -2687,6 +2683,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.vid.width = window.innerWidth;
             this.vid.height = window.innerHeight;
             document.body.classList.add(this.fullScreenBodyClass);
+            this.style.visibility = 'visible';
             this.isVideoReady = true;
             this.isOrientationChanged = false;
             this.isPositionChanged = false;
@@ -2743,7 +2740,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         super.attachEventListeners();
         this.controlFullScreen.addEventListener('click', this.fullScreen.bind(this));
         this.videoCanvasElement.addEventListener('click', this.manageControls.bind(this));
-        this.fullScreenContainer.addEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
         window.addEventListener('orientationchange', this.orientationChange.bind(this));
         window.addEventListener('resize', this.orientationChange.bind(this));
@@ -2757,7 +2753,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         super.removeEventListeners();
         this.controlFullScreen.removeEventListener('click', this.fullScreen.bind(this));
         this.videoCanvasElement.removeEventListener('click', this.manageControls.bind(this));
-        this.fullScreenContainer.removeEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
         window.removeEventListener('orientationchange', this.orientationChange.bind(this));
         window.removeEventListener('resize', this.orientationChange.bind(this));
