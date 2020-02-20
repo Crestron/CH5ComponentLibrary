@@ -3161,7 +3161,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.isExitFullscreen = false;
                 }, 3000);
+
+                /* 
+                 * If 'started' response is delayed Check visibility. 
+                 * If the visibility is false send a stop request to stop the video
+                 */
                 if (this.elementIntersectionEntry.intersectionRatio < 1) {
+                    this.info("Video not visible (" + this.elementIntersectionEntry.intersectionRatio + ").");
+                    this.info("Received 'started' delayed response from VSM. Sending 'stop' request from UI.");
                     this.publishVideoEvent('stop');
                 }
 
