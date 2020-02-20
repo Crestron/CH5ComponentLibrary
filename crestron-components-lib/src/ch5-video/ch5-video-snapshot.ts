@@ -19,7 +19,7 @@ export class Ch5VideoSnapshot {
     private userId: string = '';
     private password: string = '';
     private refreshRate: number = 0;
-    private snapShotTimer: any;
+    private snapShotTimer: number | undefined = undefined;
     private snapShotObj: TSnapShotSignalName;
     private videoImage = new Image();
 
@@ -32,14 +32,20 @@ export class Ch5VideoSnapshot {
 
     public startLoadingSnapShot() {
         this.isSnapShotLoading = true;
-        this.snapShotTimer = setInterval(() => {
-            if (this.userId && this.password && !this.url.indexOf("http")) {
-                this.setSnapShotUrl();
-            }
-            if (this.snapShotObj.snapShotUrl !== "") {
-                this.setSnapShot();
-            }
-        }, 1000 * this.refreshRate, 0);
+        if (!!this.snapShotTimer) {
+            window.clearInterval(this.snapShotTimer);
+        }
+        if (this.refreshRate !== 0) {
+            this.snapShotTimer = window.setInterval(() => {
+                if (this.userId && this.password && !this.url.indexOf("http")) {
+                    this.setSnapShotUrl();
+                }
+                if (this.snapShotObj.snapShotUrl !== "") {
+                    this.setSnapShot();
+                }
+            }, 1000 * this.refreshRate, 0);
+        }
+      
     }
 
     public stopLoadingSnapShot() {

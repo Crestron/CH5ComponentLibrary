@@ -1003,6 +1003,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return this._indexId;
     }
     public set indexId(value: string) {
+        if (isNil(value)) {
+            return;
+        }
+
         this._indexId = value;
     }
 
@@ -1011,6 +1015,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set aspectRatio(value: string) {
+        if (isNil(value)) {
+            return;
+        }
         this._aspectRatio = value;
     }
 
@@ -1019,6 +1026,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set stretch(value: string) {
+        if (isNil(value)) {
+            return;
+        }
         this._stretch = value;
     }
 
@@ -1027,6 +1037,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set userId(value: string) {
+        if (isNil(value) || this._userId === value) {
+            return;
+        }
         this._userId = value;
     }
 
@@ -1034,6 +1047,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return this._snapShotUserId;
     }
     public set snapShotUserId(value: string) {
+        if (isNil(value) || this._snapShotUserId === value) {
+            return;
+        }
         this._snapShotUserId = value;
     }
 
@@ -1042,7 +1058,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set password(password: string) {
-        if (!!password && this.password === password) {
+        if (isNil(password) || this._password === password) {
             return;
         }
         this._password = password;
@@ -1053,6 +1069,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set snapShotPassword(value: string) {
+        if (isNil(value) || this._snapShotPassword === value) {
+            return;
+        }
         this._snapShotPassword = value;
     }
 
@@ -1060,9 +1079,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return this._url;
     }
     public set url(value: string) {
-        if (this._url !== value) {
-            this._url = value;
+        if (isNil(value) || this._url === value) {
+            return;
         }
+        this._url = value;
     }
 
     public get zIndex(): string {
@@ -1070,6 +1090,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set zIndex(value: string) {
+        if (isNil(value) || this._zIndex === value) {
+            return;
+        }
         this._zIndex = value;
     }
 
@@ -1078,6 +1101,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set controls(value: string) {
+        if (isNil(value) || this._controls === value) {
+            return;
+        }
         this._controls = value;
     }
 
@@ -1086,11 +1112,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set sourceType(value: string) {
-        if (value) {
-            this._sourceType = value;
-        } else {
-            this._sourceType = 'Network';
+        if (isNil(value)) {
+            value = 'Network';
         }
+        this._sourceType = value;
     }
 
     public get snapShotUrl(): string {
@@ -1098,6 +1123,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set snapShotUrl(value: string) {
+        if (isNil(value) || this._snapShotUrl === value) {
+            return;
+        }
         this._snapShotUrl = value;
     }
 
@@ -1106,6 +1134,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set size(value: string) {
+        if (isNil(value) || this._size === value) {
+            return;
+        }
         this._size = value;
     }
 
@@ -1118,10 +1149,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set protocol(protocol: string) {
-        if (isNil(protocol)) {
+        if (isNil(protocol) || this._protocol === protocol) {
             return;
         }
-
         this._protocol = protocol;
     }
 
