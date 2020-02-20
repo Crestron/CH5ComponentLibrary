@@ -5,8 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from "../ch5-core";
-import { TSnapShotSignalName, TReceiveState, TDimension } from "../_interfaces/ch5-video/types";
+import { subscribeState, unsubscribeState, publishEvent } from "../ch5-core";
+import { TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 
 export class Ch5VideoSnapshot {
     public isSnapShotLoading: boolean = false;
@@ -19,13 +19,12 @@ export class Ch5VideoSnapshot {
     private userId: string = '';
     private password: string = '';
     private refreshRate: number = 0;
-    private snapShotTimer: any;
+    private snapShotTimer: number | undefined = undefined;
     private snapShotObj: TSnapShotSignalName;
     private videoImage = new Image();
 
     public constructor(snapShotObj: TSnapShotSignalName) {
         this.snapShotObj = snapShotObj;
-        // console.log(JSON.stringify(this.snapShotObj));
 
         this.unSubscribeStates();
         this.setSnapShotData();
@@ -33,14 +32,20 @@ export class Ch5VideoSnapshot {
 
     public startLoadingSnapShot() {
         this.isSnapShotLoading = true;
-        this.snapShotTimer = setInterval(() => {
-            if (this.userId && this.password && !this.url.indexOf("http")) {
-                this.setSnapShotUrl();
-            }
-            if (this.snapShotObj.snapShotUrl !== "") {
-                this.setSnapShot();
-            }
-        }, 1000 * this.refreshRate, 0);
+        if (!!this.snapShotTimer) {
+            window.clearInterval(this.snapShotTimer);
+        }
+        if (this.refreshRate !== 0) {
+            this.snapShotTimer = window.setInterval(() => {
+                if (this.userId && this.password && !this.url.indexOf("http")) {
+                    this.setSnapShotUrl();
+                }
+                if (this.snapShotObj.snapShotUrl !== "") {
+                    this.setSnapShot();
+                }
+            }, 1000 * this.refreshRate, 0);
+        }
+      
     }
 
     public stopLoadingSnapShot() {
@@ -76,13 +81,9 @@ export class Ch5VideoSnapshot {
      */
     private setSnapShot() {
         this.videoImage.onload = (ev: Event) => {
-            // this.info("Snapshot Loaded: " + this.videoImage.src);
-            console.log("Snapshot Loaded: " + this.videoImage.src);
-            // console.log(JSON.stringify(this.videoImage));
             this.snapShotImage = this.videoImage;
         };
         this.videoImage.onerror = (ev: Event) => {
-            // this.info("Error occurred while rendering the image " + this.videoImage.src);
             console.log("Error occurred while rendering the image " + this.videoImage.src);
             this.snapShotImage = '';
         }
@@ -120,7 +121,6 @@ export class Ch5VideoSnapshot {
         this.videoSnapShotUrl = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
                 this.url = '';
-                // console.log("RESP URL : " + resp);
                 this.url = resp;
             }
         });
@@ -130,7 +130,6 @@ export class Ch5VideoSnapshot {
         this.videoSnapShotUser = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
                 this.userId = '';
-                // console.log("RESP UserId : " + resp);
                 this.userId = resp;
             }
         });
@@ -140,7 +139,6 @@ export class Ch5VideoSnapshot {
         this.videoSnapShotPass = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
                 this.password = '';
-                // console.log("RESP Password : " + resp);
                 this.password = resp;
             }
         });
@@ -150,7 +148,6 @@ export class Ch5VideoSnapshot {
         this.videoSnapShotRefreshRate = subscribeState('n', signalName, (resp: any) => {
             if (resp) {
                 this.refreshRate = 0;
-                // console.log("RESP RefreshRate : " + resp);
                 this.refreshRate = resp;
             }
         });
