@@ -2983,6 +2983,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
                         this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000));
+                    console.time("start");
                     this.info("Video Request (Start) : " + JSON.stringify(this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
                         this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000)));
@@ -3007,6 +3008,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.lastUpdatedStatus !== 'stop' && (this.lastResponseStatus === 'started' || !this.elementIsInViewPort || (this.lastResponseStatus === 'resized' && !this.isExitFullscreen))) {
                     this.lastUpdatedStatus = actionType;
                     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
+                    console.timeEnd("stop");
                     this.info("Video Request (Stop) : " + JSON.stringify(this.videoStopObjJSON(actionType, this.ch5UId)));
                     if (this.videoResponseSubscriptionId) {
                         unsubscribeState('o', 'Csig.video.response', this.videoResponseSubscriptionId);
@@ -3112,6 +3114,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         switch (responseStatus.toLowerCase()) {
             case 'stopped':
+                this.info("TIME TAKEN TO STOP THE VIDEO");
+                console.timeEnd("stop");
                 if (this.isFullScreen && this.lastUpdatedStatus === 'stop') {
                     this.exitFullScreen();
                 }
@@ -3147,6 +3151,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'started':
+                this.info("TIME TAKEN TO START THE VIDEO");
+                console.timeEnd("start");
                 this.orientationChangeComplete();
                 if (this.lastUpdatedStatus === "resize") {
                     this.lastUpdatedStatus = '';
