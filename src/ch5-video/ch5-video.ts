@@ -2861,7 +2861,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }, 100);
                 this.calculatePositions();
             }
-            this.publishVideoEvent("resize");
+            if (this.lastResponseStatus === '' || this.lastResponseStatus === "stopped" || this.lastUpdatedStatus === "stop") {
+                this.lastUpdatedStatus = "stop";
+                this.isVideoReady = false;
+                this.lastResponseStatus = '';
+                this.publishVideoEvent("start");
+            } else {
+                this.publishVideoEvent("resize");
+            }
+            
         });
     }
 
