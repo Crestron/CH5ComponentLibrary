@@ -60,7 +60,11 @@
 {% macro emulatorScenarioSection(jsonScenario='', scenarioDescription='') %}
     <div class="message emulator-scenario closed">
         <div class="message-header">
-            <span><i class="fas fa-plus click-to-expand"></i><i class="fas fa-minus click-to-minimize"></i>Emulator Scenario (click to expand)</span>
+            <span>
+                <i class="fas fa-plus click-to-expand"></i><i class="fas fa-minus click-to-minimize"></i>Emulator Scenario
+                <span class="click-to-expand">(click to expand)</span>
+                <span class="click-to-minimize">(click to collapse)</span>
+            </span>
         </div>
         <div class="message-body">
             <div class="columns">
