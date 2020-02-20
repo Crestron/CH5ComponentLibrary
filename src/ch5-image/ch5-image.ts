@@ -6,12 +6,12 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory, Ch5Platform, ICh5PlatformInfo } from "../ch5-core";
+import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
+import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
 import { ICh5ImageAttributes } from "../_interfaces/ch5-image/i-ch5-image-attributes";
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { isNil, isEmpty} from 'lodash';
-import { Ch5ImageUriModel } from "./ch5-image-uri-model";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 
 export interface IShowStyle {
@@ -734,41 +734,16 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     }
 
     public processUri(): void {
-        const platformInfo = Ch5Platform.getInstance();
-        platformInfo.registerUpdateCallback((info: ICh5PlatformInfo) => {
-
-            if (this.protocol) {
-              return;
-            }
-
-            // the http/https related protocols from platformInfo
-            const { http, https } = info.capabilities.supportCredentialIntercept;
-
-            // sent to the uri model
-            const protocols = {http, https};
-
-            // the url should not be replaced if one of this is not filled
-            if (!http && !https) {
-                return;
-            }
-
-            this.protocol = https ? https : http;
-
-            const uri = new Ch5ImageUriModel (
-                protocols,
-                this.user,
-                this.password,
-                this._url,
-            );
-    
-            // check if the current uri contains authentication information
-            // and other details necessary for URI
-            if (!uri.isValidAuthenticationUri()) {
-                return;
-            }
-    
-            this.updateImageUrl(uri.toString());
-        });
+        const processUriPrams: TCh5ProcessUriParams = {
+            protocol: this.protocol,
+            user: this.user,
+            password: this.password,
+            url: this._url
+        }
+        const imageUri = super.processUri(processUriPrams);
+        if (!!imageUri) {
+            this.updateImageUrl(imageUri);
+        }
     }
 
     /**

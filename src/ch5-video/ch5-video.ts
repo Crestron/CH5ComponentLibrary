@@ -6,13 +6,14 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, Ch5Platform, ICh5PlatformInfo } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState} from "../ch5-core";
 import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
 import { TDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { Ch5VideoEventHandler, ESVGIcons } from "./ch5-video-event-handler";
 import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5-video-publish-event-request';
+import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
 import { Observable, Subscription } from "rxjs";
 import { aspectRatio } from './ch5-video-constants';
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
@@ -20,7 +21,6 @@ import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
-import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
@@ -450,7 +450,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _sigNameResolution: string = '';
     private _sigNameSnapShotStatus: string = '';
     private _sigNameSnapShotLastUpdateTime: string = '';
-    private orientationChangeTimer: any;
     private isPotraitMode: boolean = false;
     private lastLoadedImage: any;
     private isIntersectionObserve: boolean = false;
@@ -1861,9 +1860,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return commonAttributes.concat(ch5VideoAttributes);
     }
 
-    protected getTargetElementForCssClassesAndStyle(): HTMLElement {
-        return this.vid;
-    }
 
     public attributeChangedCallback(attr: string, oldValue: string, newValue: any) {
         switch (attr) {
@@ -2479,41 +2475,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Check the snapshot url and append web protocol and credentials to it
      */
     public processUri(): void {
-        const platformInfo = Ch5Platform.getInstance();
-        platformInfo.registerUpdateCallback((info: ICh5PlatformInfo) => {
-
-            if (this.protocol) {
-                return;
-            }
-
-            // the http/https related protocols from platformInfo
-            const { http, https } = info.capabilities.supportCredentialIntercept;
-
-            // sent to the uri model
-            const protocols = { http, https };
-
-            // the url should not be replaced if one of this is not filled
-            if (!http && !https) {
-                return;
-            }
-
-            this.protocol = https ? https : http;
-
-            const uri = new Ch5ImageUriModel(
-                protocols,
-                this.snapShotUserId,
-                this.snapShotPassword,
-                this.snapShotUrl,
-            );
-
-            // check if the current uri contains authentication information
-            // and other details necessary for URI
-            if (!uri.isValidAuthenticationUri()) {
-                return;
-            }
-
-            this.snapShotUrl = uri.toString();
-        });
+        const processUriPrams: TCh5ProcessUriParams = {
+            protocol: this.protocol,
+            user: this.snapShotUserId,
+            password: this.snapShotPassword,
+            url: this.snapShotUrl
+        };
+        
+        const getImageUrl = super.processUri(processUriPrams);
+        if (!!getImageUrl) {
+            this.snapShotUrl = getImageUrl;
+        }
     }
 
     /**
