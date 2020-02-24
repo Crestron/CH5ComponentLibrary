@@ -107,7 +107,6 @@ export class Ch5VideoSnapshot extends Ch5Common {
      * Read all the snapshot related information from the control system
      */
     private setSnapShotData() {
-        publishEvent('b', this.snapShotObj.index + "", false);
         this.setSnapshotUrl(this.snapShotObj.snapShotUrl);
         this.setSnapshotUserId(this.snapShotObj.snapShotUser);
         this.setSnapshotPassword(this.snapShotObj.snapShotPass);
