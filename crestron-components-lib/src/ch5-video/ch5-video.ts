@@ -2511,7 +2511,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             url: this.snapShotUrl
         };
 
-        const getImageUrl = super.processUri(processUriPrams);
+        const getImageUrl = Ch5Common.processUri(processUriPrams);
         if (!!getImageUrl) {
             this.snapShotUrl = getImageUrl;
         }
