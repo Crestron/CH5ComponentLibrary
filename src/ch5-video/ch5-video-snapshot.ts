@@ -5,12 +5,12 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { subscribeState, unsubscribeState, publishEvent } from "../ch5-core";
+import { subscribeState, unsubscribeState } from "../ch5-core";
 import { TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
 import { Ch5Common } from "../ch5-common/ch5-common";
 
-export class Ch5VideoSnapshot extends Ch5Common {
+export class Ch5VideoSnapshot {
     public isSnapShotLoading: boolean = false;
     public snapShotImage: any;
     private protocol: string = '';
@@ -27,7 +27,6 @@ export class Ch5VideoSnapshot extends Ch5Common {
     private videoImage = new Image();
 
     public constructor(snapShotObj: TSnapShotSignalName) {
-        super();
         this.snapShotObj = snapShotObj;
         this.unSubscribeStates();
         this.setSnapShotData();
@@ -67,8 +66,8 @@ export class Ch5VideoSnapshot extends Ch5Common {
             password: this.password,
             url: this.url
         };
-        
-        const getImageUrl = super.processUri(processUriPrams);
+
+        const getImageUrl = Ch5Common.processUri(processUriPrams);
         if (!!getImageUrl) {
             this.url = getImageUrl;
         }
