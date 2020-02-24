@@ -7,10 +7,13 @@
 
 import { subscribeState, unsubscribeState, publishEvent } from "../ch5-core";
 import { TSnapShotSignalName } from "../_interfaces/ch5-video/types";
+import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
+import { Ch5Common } from "../ch5-common/ch5-common";
 
-export class Ch5VideoSnapshot {
+export class Ch5VideoSnapshot extends Ch5Common {
     public isSnapShotLoading: boolean = false;
     public snapShotImage: any;
+    private protocol: string = '';
     private videoSnapShotUrl: string = '';
     private videoSnapShotUser: string = '';
     private videoSnapShotPass: string = '';
@@ -24,8 +27,8 @@ export class Ch5VideoSnapshot {
     private videoImage = new Image();
 
     public constructor(snapShotObj: TSnapShotSignalName) {
+        super();
         this.snapShotObj = snapShotObj;
-
         this.unSubscribeStates();
         this.setSnapShotData();
     }
@@ -38,7 +41,7 @@ export class Ch5VideoSnapshot {
         if (this.refreshRate !== 0) {
             this.snapShotTimer = window.setInterval(() => {
                 if (this.userId && this.password && !this.url.indexOf("http")) {
-                    this.setSnapShotUrl();
+                    this.processUri();
                 }
                 if (this.snapShotObj.snapShotUrl !== "") {
                     this.setSnapShot();
@@ -55,25 +58,20 @@ export class Ch5VideoSnapshot {
     }
 
     /**
-     * Read all the snapshot related information from the control system
-     */
-    public getAllSnapShotData() {
-        console.log("GET index : " + this.snapShotObj.index);
-        console.log("GET url : " + this.url);
-        console.log("GET userId : " + this.userId);
-        console.log("GET password : " + this.password);
-        console.log("GET refreshRate : " + this.refreshRate);
-    }
-
-    /**
      * Check the snapshot url and append web protocol and credentials to it
      */
-    private setSnapShotUrl() {
-        let loginCredentials = "";
-        loginCredentials = this.userId + ":" + this.password + "@";
-        this.url = this.url.replace(/\:\/\//, "://" + loginCredentials);
-        this.url = this.url.replace(/http:/i, "ch5-img-auth:");
-        this.url = this.url.replace(/https:/i, "ch5-img-auths:");
+    public processUri(): void {
+        const processUriPrams: TCh5ProcessUriParams = {
+            protocol: this.protocol,
+            user: this.userId,
+            password: this.password,
+            url: this.url
+        };
+        
+        const getImageUrl = super.processUri(processUriPrams);
+        if (!!getImageUrl) {
+            this.url = getImageUrl;
+        }
     }
 
     /**
@@ -109,7 +107,6 @@ export class Ch5VideoSnapshot {
      * Read all the snapshot related information from the control system
      */
     private setSnapShotData() {
-        publishEvent('b', this.snapShotObj.index + "", true);
         publishEvent('b', this.snapShotObj.index + "", false);
         this.setSnapshotUrl(this.snapShotObj.snapShotUrl);
         this.setSnapshotUserId(this.snapShotObj.snapShotUser);
