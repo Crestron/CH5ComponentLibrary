@@ -129,7 +129,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private sizeObj: TDimension = { width: 0, height: 0 };
     private position: { xPos: number, yPos: number } = { xPos: 0, yPos: 0 };
     private retryCount = 0;
-    private videoStartSubscriptionId: string = "";
+    private videoResponseSubscriptionId: string = "";
     private videoStopSubscriptionId: string = "";
     private videoResizeSubscriptionId: string = "";
     private slidemoveSubscriptionId: string = "";
@@ -494,6 +494,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.isInitialized = true;
         this.setErrorMessages();
         this.isPotraitMode = Ch5VideoEventHandler.isPortrait();
+        this.videoResponseSubscriptionId = subscribeState('o', 'Csig.video.response',
+                this.videoResponse.bind(this), this.errorResponse.bind(this));
     }
 
     /**
@@ -2992,11 +2994,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.info("Background Request (Start) : " + JSON.stringify(
                         this.videoBGObjJSON(actionType, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
                     this.requestID = this.ch5UId;
-                    if (this.videoStartSubscriptionId) {
-                        unsubscribeState('o', 'Csig.video.response', this.videoStartSubscriptionId);
-                    }
-                    this.videoStartSubscriptionId = subscribeState('o', 'Csig.video.response',
-                        this.videoResponse.bind(this), this.errorResponse.bind(this));
                 } else {
                     this.sendEvent(this.sendEventState, 0, 'number');
                 }
@@ -3010,11 +3007,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
                     console.timeEnd("stop");
                     this.info("Video Request (Stop) : " + JSON.stringify(this.videoStopObjJSON(actionType, this.ch5UId)));
-                    if (this.videoStopSubscriptionId) {
-                        unsubscribeState('o', 'Csig.video.response', this.videoStopSubscriptionId);
-                    }
-                    this.videoStopSubscriptionId = subscribeState('o', 'Csig.video.response',
-                        this.videoResponse.bind(this), this.errorResponse.bind(this));
                     this.isVideoReady = false;
                     this.sendEvent(this.sendEventState, 3, 'number');
                 }
@@ -3034,10 +3026,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     actionType, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
                 this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
                     this.videoBGObjJSON(actionType, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
-                if (this.videoResizeSubscriptionId) {
-                    unsubscribeState('o', 'Csig.video.response', this.videoResizeSubscriptionId);
-                }
-                this.videoResizeSubscriptionId = subscribeState('o', 'Csig.video.response', this.videoResponse.bind(this), this.errorResponse.bind(this));
                 this.isVideoReady = false;
                 // }
                 break;
@@ -3048,10 +3036,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000));
                     this.info("Video Request (Resize) : " + JSON.stringify(this.videoStartObjJSON('resize', this.ch5UId, this.videoTop,
                         this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000)));
-                    if (this.videoResizeSubscriptionId) {
-                        unsubscribeState('o', 'Csig.video.response', this.videoResizeSubscriptionId);
-                    }
-                    this.videoResizeSubscriptionId = subscribeState('o', 'Csig.video.response', this.videoResponse.bind(this), this.errorResponse.bind(this));
                     this.isVideoReady = false;
                 }
                 break;
@@ -3066,31 +3050,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private errorResponse(error: any) {
         this.info("Ch5Video - Error when the video response", error);
     }
-
-    /**
-     * Unsubscribe all the subscribed response states
-     * @param response 
-     */
-    private unsubscribeVideoResponseStates() {
-        // console.log("this.videoStopSubscriptionId" + this.videoStopSubscriptionId);
-        if (this.videoStopSubscriptionId) {
-            unsubscribeState('o', 'Csig.video.response', this.videoStopSubscriptionId);
-        }
-        // console.log("this.videoStartSubscriptionId" + this.videoStartSubscriptionId);
-        if (this.videoStartSubscriptionId) {
-            unsubscribeState('o', 'Csig.video.response', this.videoStartSubscriptionId);
-        }
-        // console.log("this.videoResizeSubscriptionId" + this.videoResizeSubscriptionId);
-        if (this.videoResizeSubscriptionId) {
-            unsubscribeState('o', 'Csig.video.response', this.videoResizeSubscriptionId);
-        }
-
-        // console.log("After unsubscribing");
-        // console.log("this.videoStopSubscriptionId" + this.videoStopSubscriptionId);
-        // console.log("this.videoStartSubscriptionId" + this.videoStartSubscriptionId);
-        // console.log("this.videoResizeSubscriptionId" + this.videoResizeSubscriptionId);
-    }
-
 
     /**
      * Video Response on subscribe
@@ -3155,7 +3114,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isImageReady = true;
                 this.sendEvent(this.sendEventState, 1, 'number');
                 this.hideFullScreenIcon();
-                this.unsubscribeVideoResponseStates();
                 break;
             case 'connecting':
                 this.isVideoReady = false;
@@ -3204,7 +3162,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.info("Received 'started' delayed response from VSM. Sending 'stop' request from UI.");
                     this.publishVideoEvent('stop');
                 }
-                this.unsubscribeVideoResponseStates();
                 break;
             case 'retrying':
                 this.isVideoReady = false;
