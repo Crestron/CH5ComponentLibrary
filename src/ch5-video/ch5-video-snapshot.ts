@@ -22,7 +22,7 @@ export class Ch5VideoSnapshot {
     private userId: string = '';
     private password: string = '';
     private refreshRate: number = 0;
-    private snapShotTimer: number | undefined = undefined;
+    private snapShotTimer: any;
     private snapShotObj: TSnapShotSignalName;
     private videoImage = new Image();
 
@@ -35,10 +35,10 @@ export class Ch5VideoSnapshot {
     public startLoadingSnapShot() {
         this.isSnapShotLoading = true;
         if (!!this.snapShotTimer) {
-            window.clearInterval(this.snapShotTimer);
+            clearInterval(this.snapShotTimer);
         }
-        if (this.refreshRate !== 0) {
-            this.snapShotTimer = window.setInterval(() => {
+        if (this.refreshRate > 0) {
+            this.snapShotTimer = setInterval(() => {
                 if (this.userId && this.password && !this.url.indexOf("http")) {
                     this.processUri();
                 }
@@ -47,7 +47,7 @@ export class Ch5VideoSnapshot {
                 }
             }, 1000 * this.refreshRate, 0);
         }
-      
+
     }
 
     public stopLoadingSnapShot() {
@@ -79,10 +79,11 @@ export class Ch5VideoSnapshot {
     private setSnapShot() {
         this.videoImage.onload = (ev: Event) => {
             this.snapShotImage = this.videoImage;
+            console.log("Selected Snapshot loaded " + this.videoImage.src);
         };
         this.videoImage.onerror = (ev: Event) => {
-            console.log("Error occurred while rendering the image " + this.videoImage.src);
             this.snapShotImage = '';
+            console.log("Error occurred while rendering the image " + this.videoImage.src);
         }
         this.videoImage.src = this.url + "?" + new Date().getTime().toString();
     }
