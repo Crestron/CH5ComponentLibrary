@@ -800,6 +800,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
+    /**
+     * While switching the camera, all other camera snapshots start loading except the one the camera is active
+     * @param activeIndex 
+     */
     private switchSnapShotOnSelect(activeIndex: number) {
         for (let idx = 0; idx < this.maxVideoCount; idx++) {
             const sData: Ch5VideoSnapshot = this.snapShotInfoMap.get(idx);
@@ -3011,7 +3015,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '' || this.lastUpdatedStatus === 'stop') {
                     return;
                 }
-                // if (this.elementIntersectionEntry.intersectionRatio >= 1) {
                 this.lastUpdatedStatus = actionType;
                 publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, this.ch5UId, this.videoTop,
                     this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000));
@@ -3022,7 +3025,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
                     this.videoBGObjJSON(actionType, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
                 this.isVideoReady = false;
-                // }
                 break;
             case 'fullscreen':
                 if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized') {
