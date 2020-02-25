@@ -740,7 +740,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             password: this.password,
             url: this._url
         }
-        const imageUri = super.processUri(processUriPrams);
+        const imageUri = Ch5Common.processUri(processUriPrams);
         if (!!imageUri) {
             this.updateImageUrl(imageUri);
         }
