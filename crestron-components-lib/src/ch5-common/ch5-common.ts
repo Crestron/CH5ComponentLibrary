@@ -521,6 +521,46 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         return processedValue;
     }
 
+
+    public static processUri(processUriParams: TCh5ProcessUriParams): void | string {
+        let uriStr = "";
+        const platformInfo = Ch5Platform.getInstance();
+        platformInfo.registerUpdateCallback((info: ICh5PlatformInfo) => {
+
+            if (processUriParams.protocol) {
+                return;
+            }
+
+            // the http/https related protocols from platformInfo
+            const { http, https } = info.capabilities.supportCredentialIntercept;
+
+            // sent to the uri model
+            const protocols = { http, https };
+
+            // the url should not be replaced if one of this is not filled
+            if (!http && !https) {
+                return;
+            }
+
+            processUriParams.protocol = https ? https : http;
+
+            const uri = new Ch5ImageUriModel(
+                protocols,
+                processUriParams.user,
+                processUriParams.password,
+                processUriParams.url,
+            );
+
+            // check if the current uri contains authentication information
+            // and other details necessary for URI
+            if (!uri.isValidAuthenticationUri()) {
+                return;
+            }
+            uriStr = uri.toString();
+        });
+        return uriStr;
+    }
+
     public _t(valueToTranslate: string) {
         let translatedValue = valueToTranslate;
         const translationUtility = Ch5TranslationUtility.getInstance();
@@ -1714,44 +1754,5 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         if (!isNil(this._commonMutationObserver) && !isEmpty(this._commonMutationObserver)) {
             this._commonMutationObserver.disconnectObserver();
         }
-    }
-
-    protected processUri(processUriParams: TCh5ProcessUriParams): void | string {
-        let uriStr = "";
-        const platformInfo = Ch5Platform.getInstance();
-        platformInfo.registerUpdateCallback((info: ICh5PlatformInfo) => {
-
-            if (processUriParams.protocol) {
-                return;
-            }
-
-            // the http/https related protocols from platformInfo
-            const { http, https } = info.capabilities.supportCredentialIntercept;
-
-            // sent to the uri model
-            const protocols = { http, https };
-
-            // the url should not be replaced if one of this is not filled
-            if (!http && !https) {
-                return;
-            }
-
-            processUriParams.protocol = https ? https : http;
-
-            const uri = new Ch5ImageUriModel(
-                protocols,
-                processUriParams.user,
-                processUriParams.password,
-                processUriParams.url,
-            );
-
-            // check if the current uri contains authentication information
-            // and other details necessary for URI
-            if (!uri.isValidAuthenticationUri()) {
-                return;
-            }
-            uriStr = uri.toString();
-        });
-        return uriStr;
     }
 }
