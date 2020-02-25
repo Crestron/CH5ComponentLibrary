@@ -495,7 +495,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.setErrorMessages();
         this.isPotraitMode = Ch5VideoEventHandler.isPortrait();
         this.videoResponseSubscriptionId = subscribeState('o', 'Csig.video.response',
-                this.videoResponse.bind(this), this.errorResponse.bind(this));
+            this.videoResponse.bind(this), this.errorResponse.bind(this));
     }
 
     /**
@@ -795,12 +795,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.publishVideoEvent("start");
                     }
                 }, 500);
-                this.switchSnapShotLoad(this.receivedStateSelect);
+                this.switchSnapShotOnSelect(this.receivedStateSelect);
             }
         }
     }
 
-    private switchSnapShotLoad(activeIndex: number) {
+    private switchSnapShotOnSelect(activeIndex: number) {
         for (let idx = 0; idx < this.maxVideoCount; idx++) {
             const sData: Ch5VideoSnapshot = this.snapShotInfoMap.get(idx);
             if (activeIndex === idx) {
@@ -809,6 +809,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.lastLoadedImage = sData.snapShotImage;
                         this.drawSnapShot(this.lastLoadedImage);
                     }
+                    sData.stopLoadingSnapShot();
                 }
             } else {
                 if (!sData.isSnapShotLoading) {
@@ -1466,16 +1467,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.oldReceiveStateSelect !== newValue) {
                     this.oldReceiveStateSelect = newValue;
                     this.receivedStateSelect = newValue;
-                    if (newValue >= 0 && newValue < 32) {
-                        this.unSubscribeVideos(this.selectObject);
-                        this.isVideoReady = false;
-                        this.lastUpdatedStatus = "";
-                        publishEvent('b', newValue + "", true);
-                        publishEvent('b', newValue + "", false);
-                        setTimeout(() => {
-                            this.subscribeVideos(newValue.toString());
-                        });
-                    }
+                    this.unSubscribeVideos(this.selectObject);
+                    this.isVideoReady = false;
+                    this.lastUpdatedStatus = "";
+                    setTimeout(() => {
+                        this.subscribeVideos(newValue.toString());
+                    });
                 }
             });
         }
@@ -1509,7 +1506,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 .getNewSignalName(this, 'receivestatesnapshotrefreshrate', this.receiveStateSnapShotRefreshRate, idx, this.indexId as string));
 
             this.snapShotInfoMap.set(idx, new Ch5VideoSnapshot(snapShotObject));
-            const sData = this.snapShotInfoMap.get(idx);
         }
         this.vCountFlag = true;
     }
@@ -2725,7 +2721,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.calculatePositions();
                 }
             }
-            // publishEvent('o', 'ch5.video.background', { "action": "refill" });
             this.publishVideoEvent("fullscreen");
         }
     }
