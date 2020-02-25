@@ -152,7 +152,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "`receivestateurl` attribute",
    * "***",
    * "When defined, this will set the url attribute.  This attribute",
-   * " takes precedence over backgroundcolor, url and receiveStateBackgroundColor ",
+   * " takes precedence over backgroundcolor, url, and receiveStateBackgroundColor ",
    * " attributes."
    * ]
    * @name receivestateurl
