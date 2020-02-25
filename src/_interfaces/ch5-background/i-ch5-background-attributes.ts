@@ -151,9 +151,9 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestateurl` attribute",
    * "***",
-   * "When defined, this will set the url attribute.  This attribute"
-   * " takes precedence over 'backgroundcolor', 'url' and 'receiveStateBackgroundColor' "
-   * " 'attributes."
+   * "When defined, this will set the url attribute.  This attribute",
+   * " takes precedence over backgroundcolor, url and receiveStateBackgroundColor ",
+   * " attributes."
    * ]
    * @name receivestateurl
    */
@@ -164,7 +164,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestatebackgroundcolor` attribute",
    * "***",
-   * "When defined, this will set the backgroundColor attribute. This attribute"
+   * "When defined, this will set the backgroundColor attribute. This attribute",
    * " is superseded by the receivestateurl attribute."
    * ]
    * @name receivestatebackgroundcolor
