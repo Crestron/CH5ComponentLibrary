@@ -2397,7 +2397,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             // change information, a small delay solves this problem.
             setTimeout(() => {
                 publishEvent('o', 'ch5.video.background', { "action": "refill" });
-                if (!this.isExitFullscreen && !this.isOrientationChanged && !this.firstTime) {
+                if (!this.isOrientationChanged && !this.firstTime) {
                     this.publishVideoEvent("stop");
                 }
             });
