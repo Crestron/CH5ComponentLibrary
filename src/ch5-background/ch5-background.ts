@@ -485,7 +485,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                                 this._videoDimensions = [];
                                 this._isRefilled = true;
                             } else {
-                                this.setAttribute('videocrop', JSON.stringify(response));
+                                let timer: number = 0;
+                                if (timer) { window.clearTimeout(timer) };
+                                timer = window.setTimeout(() => {
+                                    this.setAttribute('videocrop', JSON.stringify(response));
+                                }, 100);
                             }
                         }
                     });
@@ -1011,6 +1015,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * @param ctx is canvas context
      */
     private updateBgColor(color: string, ctx: any) {
+        console.log('Refilled the color');
         ctx.fillStyle = color;
         ctx.fillRect(0, 0, this._elCanvas.width, this._elCanvas.height);
         publishEvent('b', 'canvas.created', true);
@@ -1078,34 +1083,27 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Cutting background as per video dimension and position
      */
     private clearRectBackground() {
-        let timer: number = 0;
-        if (timer) { window.clearTimeout(timer) };
-        timer = window.setTimeout(() => {
-            if (this._videoCrop && typeof this._videoCrop === 'string') {
-                this._videoRes = JSON.parse(this._videoCrop);
+        if (this._videoCrop && typeof this._videoCrop === 'string') {
+            this._videoRes = JSON.parse(this._videoCrop);
+        }
+        if (this._videoRes && this._videoRes.action !== 'refill') {
+            const topOffset = this._elCanvas.getBoundingClientRect().top;
+            const leftOffset = this._elCanvas.getBoundingClientRect().left;
+            this._videoRes.left = this._videoRes.left - leftOffset;
+            this._videoRes.top = this._videoRes.top - topOffset;
+
+            this._videoRes.left = Math.ceil(this._videoRes.left);
+            this._videoRes.top = Math.ceil(this._videoRes.top);
+
+            const index = this._videoDimensions.findIndex((item: IVideoResponse) => item.id === this._videoRes.id);
+            if (index > -1) {
+                this._videoDimensions[index] = this._videoRes;
+            } else {
+                this._videoDimensions.push(this._videoRes);
             }
-            if (this._videoRes && this._videoRes.action !== 'refill') {
-                const topOffset = this._elCanvas.getBoundingClientRect().top;
-                const leftOffset = this._elCanvas.getBoundingClientRect().left;
-                this._videoRes.left = this._videoRes.left - leftOffset;
-                this._videoRes.top = this._videoRes.top - topOffset;
-
-                // Avoiding negative values and decimal values in video and background
-                if (this._videoRes.left > 0 && this._videoRes.left < 1) {
-                    this._videoRes.left = 0;
-                }
-                if (this._videoRes.top > 0 && this._videoRes.top < 1) {
-                    this._videoRes.top = 0;
-                }
-                this._videoRes.left = Math.ceil(this._videoRes.left);
-                this._videoRes.top = Math.ceil(this._videoRes.top);
-
-                const index = this._videoDimensions.findIndex((item: IVideoResponse) => item.id === this._videoRes.id);
-                if (index > -1) {
-                    this._videoDimensions[index] = this._videoRes;
-                } else {
-                    this._videoDimensions.push(this._videoRes);
-                }
+            let timer: number = 0;
+            if (timer) { window.clearTimeout(timer) };
+            timer = window.setTimeout(() => {
                 if (this._videoDimensions.length) {
                     this._videoDimensions.map((video: IVideoResponse, vIdx: number) => {
                         this._canvasList.forEach((canvas: HTMLCanvasElement, cIdx: number) => {
@@ -1117,8 +1115,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         });
                     })
                 }
-            }
-        }, 300);
+            }, 200);
+        }
     }
 }
 
