@@ -1015,7 +1015,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * @param ctx is canvas context
      */
     private updateBgColor(color: string, ctx: any) {
-        console.log('Refilled the color');
         ctx.fillStyle = color;
         ctx.fillRect(0, 0, this._elCanvas.width, this._elCanvas.height);
         publishEvent('b', 'canvas.created', true);

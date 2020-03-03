@@ -494,7 +494,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.isInitialized = true;
         this.setErrorMessages();
         this.isPotraitMode = Ch5VideoEventHandler.isPortrait();
-        this.videoResponseSubscriptionId = subscribeState('o', 'Csig.video.response',
+        subscribeState('o', 'Csig.video.response',
             this.videoResponse.bind(this), this.errorResponse.bind(this));
     }
 
@@ -2414,44 +2414,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * When the video element is visible
-     */
-    public videoVisibilityInViewport() {
-        this.autoHideControls();
-        if (this.elementIsInViewPort) {
-            this.isSwipeStarted = true;
-            this.isSwipeInterval = setTimeout(() => {
-                this.calculation(this.vid);
-                this.sendEvent(this.sendEventSnapShotLastUpdateTime, this.rfc3339TimeStamp(), 'string');
-                this.calculatePositions();
-                this.lastResponseStatus = 'stopped';
-                this.isVideoReady = false;
-                this.lastRequestStatus = "stop";
-                this.publishBackgroundEvent();
-                this.publishVideoEvent("start");
-            }, 1000);
-            window.clearTimeout(this.interval);
-        } else {
-            clearTimeout(this.backgroundInterval);
-            clearTimeout(this.isSwipeInterval);
-            publishEvent('o', 'ch5.video.background', { "action": "refill" });
-            if (this.isFullScreen) {
-                this.calculation(this.vid);
-                this.publishVideoEvent("resize");
-            } else {
-                if (this.isSwipeStarted) {
-                    if (this.isSwipeInterval) {
-                        window.clearInterval(this.isSwipeInterval);
-                    }
-                    this.isVideoReady = true;
-                    this.lastResponseStatus = "start";
-                    this.publishVideoEvent("stop");
-                }
-            }
-        }
-    }
-
-    /**
      * Play when the user clicks on the video or play/stop control button
      */
     private manageControls() {
@@ -2859,12 +2821,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }, 100);
                 this.calculatePositions();
             }
-            if (this.lastResponseStatus === '' || this.lastResponseStatus === "stopped" || this.lastRequestStatus === "stop") {
-                this.lastRequestStatus = "stop";
-                this.isVideoReady = false;
-                this.lastResponseStatus = '';
-                this.publishVideoEvent("start");
-            } else {
+
+            if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized' || this.lastRequestStatus === "resize") {
                 this.publishVideoEvent("resize");
             }
 
