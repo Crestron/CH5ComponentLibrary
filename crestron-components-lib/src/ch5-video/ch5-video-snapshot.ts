@@ -79,11 +79,9 @@ export class Ch5VideoSnapshot {
     private setSnapShot() {
         this.videoImage.onload = (ev: Event) => {
             this.snapShotImage = this.videoImage;
-            console.log("Selected Snapshot loaded " + this.videoImage.src);
         };
         this.videoImage.onerror = (ev: Event) => {
             this.snapShotImage = '';
-            console.log("Error occurred while rendering the image " + this.videoImage.src);
         }
         this.videoImage.src = this.url + "?" + new Date().getTime().toString();
     }
