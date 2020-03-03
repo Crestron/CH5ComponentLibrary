@@ -375,6 +375,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _lastTapTime: number = 0;
 
     /**
+     * this is last time press was released  
+     */
+    private _lastPressTime: number = 0;
+
+    /**
      * Events
      * click - inherited
      * focus - inherited
@@ -1930,7 +1935,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         // iOS/iPadOS only
         if (isTouchDevice() && isSafariMobile()) {
-            this._sendOnClickSignal();
+            const timeSinceLastPress = new Date().valueOf() - this._lastPressTime;
+            if (timeSinceLastPress  < 100) {
+                // sometimes a both click and press can happen on iOS/iPadOS, don't publish both
+                this.info('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
+            }
+            else {
+                this._sendOnClickSignal();
+            }
         }
     }
 
@@ -1959,6 +1971,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 window.clearInterval(this._intervalIdForOnTouch);
                 this.sendValueForOnTouchSignal(false);
                 this._intervalIdForOnTouch = null;
+                this._lastPressTime = new Date().valueOf();
             }
         }
     }
