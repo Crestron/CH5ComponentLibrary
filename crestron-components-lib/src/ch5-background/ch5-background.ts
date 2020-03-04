@@ -453,6 +453,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             if (this.parentElement) {
                 resizeObserver(this.parentElement, this.updateCanvasDimensions.bind(this));
             }
+            console.log("From connectedCallback of ch5-background");
+            this.doSubscribeVideo();
         });
     }
 
@@ -462,6 +464,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     public connectedCallback() {
         // set data-ch5-id
+        
         this.setAttribute('data-ch5-id', this.getCrId());
 
         customElements.whenDefined('ch5-background').then(() => {
@@ -475,31 +478,35 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         this._isVisible = false;
                     }
 
-                    // getting video response
-                    this._videoSubscriptionId = subscribeState('o', 'ch5.video.background', (response: any) => {
-                        if (response && Object.keys(response).length && !isEqual(response, this._videoResCopy)) {
-                            this._videoResCopy = response;
-                            if (response.action === 'refill' && !this._isRefilled) {
-                                this.refillBackground();
-                                this.setAttribute('videocrop', JSON.stringify(response));
-                                this._videoDimensions = [];
-                                this._isRefilled = true;
-                            } else {
-                                let timer: number = 0;
-                                if (timer) { window.clearTimeout(timer) };
-                                timer = window.setTimeout(() => {
-                                    this.setAttribute('videocrop', JSON.stringify(response));
-                                }, 100);
-                            }
-                        }
-                    });
+
                 } else {
                     this._isVisible = true;
                 }
             });
-        });
+        });   
     }
-
+    private videoSubsCallBack(response: any) {
+        console.log("from videoSubsCallBack...!!!");
+        if (response && Object.keys(response).length) {
+            this._videoResCopy = response;
+            if (response.action === 'refill' && !this._isRefilled) {
+                this.refillBackground();
+                this.setAttribute('videocrop', JSON.stringify(response));
+                this._videoDimensions = [];
+                this._isRefilled = true;
+            } else {
+                let timer: number = 0;
+                if (timer) { window.clearTimeout(timer) };
+                timer = window.setTimeout(() => {
+                    this.setAttribute('videocrop', JSON.stringify(response));
+                }, 100);
+            }
+        }
+    }
+    public doSubscribeVideo() {
+        // getting video response
+        this._videoSubscriptionId = subscribeState('o', 'ch5.video.background', this.videoSubsCallBack.bind(this));
+    }
     /**
      * Called every time the element is removed from the DOM.
      * Useful for running clean up code.
