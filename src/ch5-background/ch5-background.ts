@@ -490,9 +490,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (response && Object.keys(response).length) {
             this._videoResCopy = response;
             if (response.action === 'refill' && !this._isRefilled) {
-                this.refillBackground();
                 this.setAttribute('videocrop', JSON.stringify(response));
                 this._videoDimensions = [];
+                this.refillBackground();
                 this._isRefilled = true;
             } else {
                 let timer: number = 0;
