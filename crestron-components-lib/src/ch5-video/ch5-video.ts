@@ -89,6 +89,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private scrollableElm: HTMLElement = {} as HTMLElement;
     private isSlidemoved: boolean = false;
 
+    private performanceStartTime: number = 0;
     /**
      * EVENTS
      * 
@@ -2942,6 +2943,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
                         this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000));
+                    this.performanceStartTime = window.performance.now();
                     this.info("Video Request (Start) : " + JSON.stringify(this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
                         this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000)));
@@ -3082,6 +3084,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'started':
+                const performanceEndTime = window.performance.now();
+                const timeDiff = performanceEndTime - this.performanceStartTime;
+                this.info("Time taken (in milliseconds) to start the video is: " + timeDiff);
                 this.orientationChangeComplete();
                 if (this.lastRequestStatus === "resize") {
                     this.lastRequestStatus = '';
