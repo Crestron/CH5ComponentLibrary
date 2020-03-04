@@ -21,11 +21,11 @@ export class Ch5VideoSnapshot {
     private url: string = '';
     private userId: string = '';
     private password: string = '';
-    private refreshRate: number = 5;
+    private refreshRate: number = 0;
     private snapShotTimer: any;
     private snapShotObj: TSnapShotSignalName;
     private videoImage = new Image();
-    
+
     public constructor(snapShotObj: TSnapShotSignalName) {
         this.snapShotObj = snapShotObj;
         this.unSubscribeStates();
