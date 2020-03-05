@@ -32,6 +32,9 @@ export class Ch5VideoSnapshot {
         this.setSnapShotData();
     }
 
+    /**
+     * Start loading the snapshots with refresh rate
+     */
     public startLoadingSnapShot() {
         this.isSnapShotLoading = true;
         if (!!this.snapShotTimer) {
@@ -50,6 +53,9 @@ export class Ch5VideoSnapshot {
 
     }
 
+    /**
+     * Stop loading the snapshots and make the image empty
+     */
     public stopLoadingSnapShot() {
         this.isSnapShotLoading = false;
         this.snapShotImage = '';
@@ -86,6 +92,9 @@ export class Ch5VideoSnapshot {
         this.videoImage.src = this.url + "?" + new Date().getTime().toString();
     }
 
+    /**
+     * Unsubscribe existing signals
+     */
     private unSubscribeStates() {
         if (this.videoSnapShotUrl) {
             unsubscribeState('s', this.snapShotObj.snapShotUrl, this.videoSnapShotUrl);
@@ -111,6 +120,10 @@ export class Ch5VideoSnapshot {
         this.setSnapshotRefreshRate(this.snapShotObj.snapShotRefreshRate);
     }
 
+    /**
+     * Subscribe to the new signal name of the snapshot url
+     * @param signalName 
+     */
     private setSnapshotUrl(signalName: any) {
         this.videoSnapShotUrl = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
@@ -120,6 +133,10 @@ export class Ch5VideoSnapshot {
         });
     }
 
+    /**
+     * Subscribe to the new signal name of the snapshot userid
+     * @param signalName 
+     */
     private setSnapshotUserId(signalName: any) {
         this.videoSnapShotUser = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
@@ -129,6 +146,10 @@ export class Ch5VideoSnapshot {
         });
     }
 
+    /**
+     * Subscribe to the new signal name of the snapshot password
+     * @param signalName 
+     */
     private setSnapshotPassword(signalName: any) {
         this.videoSnapShotPass = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
@@ -138,6 +159,10 @@ export class Ch5VideoSnapshot {
         });
     }
 
+    /**
+     * Subscribe to the new signal name of the snapshot refresh rate
+     * @param signalName 
+     */
     private setSnapshotRefreshRate(signalName: any) {
         this.videoSnapShotRefreshRate = subscribeState('n', signalName, (resp: any) => {
             if (resp) {
