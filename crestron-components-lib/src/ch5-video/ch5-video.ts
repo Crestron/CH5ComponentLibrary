@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, unsubscribeStateScript } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState } from "../ch5-core";
 import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
 import { TDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
@@ -89,6 +89,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private scrollableElm: HTMLElement = {} as HTMLElement;
     private isSlidemoved: boolean = false;
 
+    private performanceStartTime: number = 0;
     /**
      * EVENTS
      * 
@@ -129,12 +130,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private sizeObj: TDimension = { width: 0, height: 0 };
     private position: { xPos: number, yPos: number } = { xPos: 0, yPos: 0 };
     private retryCount = 0;
-    private videoResponseSubscriptionId: string = "";
-    private videoStopSubscriptionId: string = "";
-    private videoResizeSubscriptionId: string = "";
-    private slidemoveSubscriptionId: string = "";
-    private touchendSubscriptionId: string = "";
-    private slidechangeSubscriptionId: string = "";
     private selectObject: TReceiveState = {
         "subscriptionIds": {
             "url": "",
@@ -413,10 +408,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Y-Axis Position of the CH5-Video
      */
     private videoLeft: number = -1;
-    private interval: any;
     private responseObj: any = [];
     private firstTime: boolean = true;
-    private lastUpdatedStatus: string = '';
+    private lastRequestStatus: string = '';
     private autoHideControlPeriod: number = 10;
     private originalPotraitVideoProperties: any = [];
     private originalLandscapeVideoProperties: any = [];
@@ -427,17 +421,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private lastResponseStatus: string = '';
     private isSwipeInterval: any;
     private backgroundInterval: any;
-    private isSwipeStarted = false;
     private isVideoPublished = false;
     private isOrientationChanged: boolean = false;
-    private isPositionChanged: boolean = false;
     private isFullScreen: boolean = false;
-    private isImageReady: boolean = false;
     private isVideoReady: boolean = false;
     private isInitialized: boolean = false;
     private playValue: boolean = true;
     private fromReceiveStatePlay: boolean = false;
-
     private _sigNameSelectionChange: string = '';
     private _sigNameSelectionSourceType: string = '';
     private _sigNameSnapShotUrl: string = '';
@@ -460,16 +450,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private controlLeft: number = -1;
     private scrollTimer: number = 0;
     private isExitFullscreen: boolean = false;
+    private isPositionChanged: boolean = false;
     private oldResponseStatus: string = '';
     private oldResponseId: number = 0;
-
     private subsCsigAppCurrentSate: string = '';
     private subsCsigAppBackgrounded: string = '';
     private receivedStateSelect: number = 0;
     private vCountFlag: boolean = false;
     private maxVideoCount: number = 0;
-    private exitFlagStartedResp: any;
-    private exitFlagResizedResp: any;
+    private lastRequestUrl: string = '';
 
     /**
      * Protocol for authentication in order to get the image
@@ -494,438 +483,38 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.isInitialized = true;
         this.setErrorMessages();
         this.isPotraitMode = Ch5VideoEventHandler.isPortrait();
-        this.videoResponseSubscriptionId = subscribeState('o', 'Csig.video.response',
+        subscribeState('o', 'Csig.video.response',
             this.videoResponse.bind(this), this.errorResponse.bind(this));
     }
 
-    /**
-     * Set the video error messages for the respective error code or status code
-     */
-    private setErrorMessages() {
-        this.videoErrorMessages.set(1, "Miscellaneous transient issue");
-        this.videoErrorMessages.set(2, "Connection timeout");
-        this.videoErrorMessages.set(3, "No input sync");
-        this.videoErrorMessages.set(-1, "Miscellaneous error");
-        this.videoErrorMessages.set(-2, "Hostname could not be resolved");
-        this.videoErrorMessages.set(-3, "Unsupported source type for this platform");
-        this.videoErrorMessages.set(-4, "Connection timeout");
-        this.videoErrorMessages.set(-5, "Invalid credentials");
-        this.videoErrorMessages.set(-6, "Unsupported streaming protocol");
-        this.videoErrorMessages.set(-7, "Unsupported codec");
-        this.videoErrorMessages.set(-1001, "Credentials required");
-        this.videoErrorMessages.set(-1002, "Hostname invalid");
-        this.videoErrorMessages.set(-1003, "Unsupported codec");
-        this.videoErrorMessages.set(-9001, "Unsupported source type");
-        this.videoErrorMessages.set(-9002, "Invalid URL");
-        this.videoErrorMessages.set(-9003, "Request for greater than maximum simultaneous sessions per source type");
-        this.videoErrorMessages.set(-9004, "Request for greater than maximum simultaneous sessions per device");
-    }
 
     /**
-     * To subscribe receive state attributes
-     * @param index 
+     * Called every time the element is removed from the DOM. 
+     * Useful for running clean up code.
      */
-    private subscribeVideos(index: string) {
-        this.hideFullScreenIcon();
-        this.sendEvent(this.sendEventSelectionChange, index, 'number');
-        let responseCount = 0;
-        if (this.hasAttribute("receivestateurl")) {
-            const rsVURL = this.getAttribute("receivestateurl") as string;
-            let selectObjectUrl: string | number | undefined = 0;
-            if (this.indexId !== null) {
-                // replace indexId in attributes
-                selectObjectUrl = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestateurl', rsVURL, (parseInt(index, 0)), this.indexId as string);
-            }
-            this.selectObject.values.url = String(selectObjectUrl);
-            this.selectObject.subscriptionIds.url = subscribeState('s', String(selectObjectUrl), (resp: any) => {
-                if (resp) {
-                    this.sendEvent(this.sendEventSelectionURL, this.url, 'string');
-                    this.url = resp;
-                } else if (this.hasAttribute('url')) {
-                    this.url = this.getAttribute('url') as string;
-                } else {
-                    this.url = '';
-                }
-                responseCount++;
-                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-            });
-        } else {
-            if (this.hasAttribute('url')) {
-                this.url = this.getAttribute('url') as string;
-            } else {
-                this.url = '';
-            }
-            responseCount++;
-            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+    public disconnectedCallback() {
+        this.info('Ch5Video.disconnectedCallback()');
+        this.unsubscribeFromSignals();
+        this.removeEvents();
+        // disconnect common mutation observer
+        this.unSubscribeVideos(this.selectObject);
+        this.subscriptionEventList.forEach(subscription => {
+            subscription.unsubscribe();
+        });
+        this.clearAllSnapShots();
+        this.isVideoReady = true;
+        this.lastRequestStatus = "start";
+        // When the user navigates from video page to another page, stop has to be sent
+        setTimeout(() => {
+            // Stop the Video
+            this.publishVideoEvent("stop");
+        });
+
+        // Disconnecting the intersection observer
+        if (Ch5CoreIntersectionObserver.getInstance() instanceof Ch5CoreIntersectionObserver) {
+            Ch5CoreIntersectionObserver.getInstance().unobserve(this);
+            this.isIntersectionObserve = false;
         }
-
-        if (this.hasAttribute("receivestatesourcetype")) {
-            const rsVSType = this.getAttribute("receivestatesourcetype") as string;
-            let selectObjectSourceType: string | number | undefined = 0;
-            if (this.indexId !== null) {
-                // replace indexId in attributes
-                selectObjectSourceType = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesourcetype', rsVSType, (parseInt(index, 0)), this.indexId as string);
-            }
-            this.selectObject.values.type = String(selectObjectSourceType);
-            this.selectObject.subscriptionIds.type = subscribeState('s', String(selectObjectSourceType), (resp: any) => {
-                if (resp) {
-                    this.sourceType = resp;
-                    this.sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
-                } else if (this.hasAttribute('sourcetype')) {
-                    this.sourceType = this.getAttribute('sourcetype') as string;
-                } else {
-                    this.sourceType = '';
-                }
-                responseCount++;
-                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-            });
-        } else {
-            if (this.hasAttribute('sourcetype')) {
-                this.sourceType = this.getAttribute('sourcetype') as string;
-            } else {
-                this.sourceType = '';
-            }
-            responseCount++;
-            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-        }
-
-        if (this.hasAttribute("receivestateuserid")) {
-            const rsVUserId = this.getAttribute("receivestateuserid") as string;
-            let selectObjectUserId: string | number | undefined = 0;
-            if (this.indexId !== null) {
-                // replace indexId in attributes
-                selectObjectUserId = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestateuserid', rsVUserId, (parseInt(index, 0)), this.indexId as string);
-            }
-            this.selectObject.values.user = String(selectObjectUserId);
-            this.selectObject.subscriptionIds.user = subscribeState('s', String(selectObjectUserId), (resp: any) => {
-                if (!!resp && resp.length >= 0) {
-                    this.userId = resp.trim();
-                } else if (this.hasAttribute('userid')) {
-                    this.userId = this.getAttribute('userid') as string;
-                } else {
-                    this.userId = '';
-                }
-                responseCount++;
-                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-            });
-        } else {
-            if (this.hasAttribute('userid')) {
-                this.userId = this.getAttribute('userid') as string;
-            } else {
-                this.userId = '';
-            }
-            responseCount++;
-            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-        }
-
-        if (this.hasAttribute("receivestatepassword")) {
-            const rsVPassword = this.getAttribute("receivestatepassword") as string;
-            let selectObjectPassword: string | number | undefined = 0;
-            if (this.indexId !== null) {
-                // replace indexId in attributes
-                selectObjectPassword = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatepassword', rsVPassword, (parseInt(index, 0)), this.indexId as string);
-            }
-            this.selectObject.values.videoPass = String(selectObjectPassword);
-            this.selectObject.subscriptionIds.videoPass = subscribeState('s', String(selectObjectPassword), (resp: any) => {
-                if (!!resp && resp.length >= 0) {
-                    this.password = resp.trim();
-                } else if (this.hasAttribute('password')) {
-                    this.password = this.getAttribute('password') as string;
-                } else {
-                    this.password = '';
-                }
-                responseCount++;
-                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-            });
-        } else {
-            if (this.hasAttribute('password')) {
-                this.password = this.getAttribute('password') as string;
-            } else {
-                this.password = '';
-            }
-            responseCount++;
-            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-        }
-
-        if (this.hasAttribute("receivestatesnapshoturl")) {
-            const rsSIURL = this.getAttribute("receivestatesnapshoturl") as string;
-            let selectObjectSnapShotUrl: string | number | undefined = 0;
-            if (this.indexId !== null) {
-                // replace indexId in attributes
-                selectObjectSnapShotUrl = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesnapshoturl', rsSIURL, (parseInt(index, 0)), this.indexId as string);
-            }
-            this.selectObject.values.snapShotUrl = String(selectObjectSnapShotUrl);
-            this.selectObject.subscriptionIds.snapShotUrl = subscribeState('s', String(selectObjectSnapShotUrl), (resp: any) => {
-                if (!!resp && resp.length >= 0) {
-                    this.snapShotUrl = resp.trim();
-                    this.sendEvent(this.sendEventSnapShotURL, this.snapShotUrl, 'string');
-                } else if (this.hasAttribute('snapshoturl')) {
-                    this.snapShotUrl = this.getAttribute('snapshoturl') as string;
-                } else {
-                    this.snapShotUrl = '';
-                }
-                responseCount++;
-                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-            });
-        } else {
-            if (this.hasAttribute('snapshoturl')) {
-                this.snapShotUrl = this.getAttribute('snapshoturl') as string;
-            } else {
-                this.snapShotUrl = '';
-            }
-            responseCount++;
-            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-        }
-
-        if (this.hasAttribute("receivestatesnapshotrefreshrate")) {
-            const rsSIRefreshRate = this.getAttribute("receivestatesnapshotrefreshrate") as string;
-            let selectObjectSnapShotRefreshRate: string | number | undefined = 0;
-            if (this.indexId !== null) {
-                // replace indexId in attributes
-                selectObjectSnapShotRefreshRate = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesnapshotrefreshrate', rsSIRefreshRate, (parseInt(index, 0)), this.indexId as string);
-            }
-            this.selectObject.values.snapShotRefreshRate = String(selectObjectSnapShotRefreshRate);
-            this.selectObject.subscriptionIds.snapShotRefreshRate = subscribeState('n', String(selectObjectSnapShotRefreshRate), (resp: any) => {
-                if (resp) {
-                    this.snapShotRefreshRate = resp;
-                } else if (this.hasAttribute('snapshotrefreshrate')) {
-                    this.snapShotRefreshRate = this.getAttribute('snapshotrefreshrate') as string;
-                } else {
-                    this.snapShotRefreshRate = '';
-                }
-                responseCount++;
-                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-            });
-        } else {
-            if (this.hasAttribute('snapshotrefreshrate')) {
-                this.snapShotRefreshRate = this.getAttribute('snapshotrefreshrate') as string;
-            } else {
-                this.snapShotRefreshRate = '';
-            }
-            responseCount++;
-            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-        }
-
-        if (this.hasAttribute("receivestatesnapshotuserid")) {
-            const rsSIUserId = this.getAttribute("receivestatesnapshotuserid") as string;
-            let selectObjectSnapShotUserId: string | number | undefined = 0;
-            if (this.indexId !== null) {
-                // replace indexId in attributes
-                selectObjectSnapShotUserId = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesnapshotuserid', rsSIUserId, (parseInt(index, 0)), this.indexId as string);
-            }
-            this.selectObject.values.snapShotUser = String(selectObjectSnapShotUserId);
-            this.selectObject.subscriptionIds.snapShotUser = subscribeState('s', String(selectObjectSnapShotUserId), (resp: any) => {
-                if (!!resp && resp.length >= 0) {
-                    this.snapShotUserId = resp.trim();
-                } else if (this.hasAttribute('snapshotuserid')) {
-                    this.snapShotUserId = this.getAttribute('snapshotuserid') as string;
-                } else {
-                    this.snapShotUserId = '';
-                }
-                responseCount++;
-                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-            });
-        } else {
-            if (this.hasAttribute('snapshotuserid')) {
-                this.snapShotUserId = this.getAttribute('snapshotuserid') as string;
-            } else {
-                this.snapShotUserId = '';
-            }
-            responseCount++;
-            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-        }
-
-        if (this.hasAttribute("receivestatesnapshotpassword")) {
-            const rsSIPassword = this.getAttribute("receivestatesnapshotpassword") as string;
-            let selectObjectSnapShotPassword: string | number | undefined = 0;
-            if (this.indexId !== null) {
-                // replace indexId in attributes
-                selectObjectSnapShotPassword = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesnapshotpassword', rsSIPassword, (parseInt(index, 0)), this.indexId as string);
-            }
-            this.selectObject.values.snapShotPass = String(selectObjectSnapShotPassword);
-            this.selectObject.subscriptionIds.snapShotPass = subscribeState('s', String(selectObjectSnapShotPassword), (resp: any) => {
-                if (!!resp && resp.length >= 0) {
-                    this.snapShotPassword = resp.trim();
-                } else if (this.hasAttribute('snapshotpassword')) {
-                    this.snapShotPassword = this.getAttribute('snapshotpassword') as string;
-                } else {
-                    this.snapShotPassword = '';
-                }
-                responseCount++;
-                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-            });
-        } else {
-            if (this.hasAttribute('snapshotpassword')) {
-                this.snapShotPassword = this.getAttribute('snapshotpassword') as string;
-            } else {
-                this.snapShotPassword = '';
-            }
-            responseCount++;
-            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
-        }
-    }
-
-    private matchAttributeResponse(attributeCount: number, responseCount: number) {
-        if (attributeCount === responseCount) {
-            if (!this.context) {
-                return;
-            }
-            this.vid.width = this.sizeObj.width;
-            this.vid.height = this.sizeObj.height;
-            this.context = this.vid.getContext("2d");
-            this.calculation(this.vid);
-            if (this.elementIsInViewPort) {
-                setTimeout(() => {
-                    this.sendEvent(this.sendEventSnapShotLastUpdateTime, this.rfc3339TimeStamp(), 'string');
-                    this.calculatePositions();
-                    if (this.elementIntersectionEntry.intersectionRatio >= 1) {
-                        this.lastResponseStatus = 'stopped';
-                        this.isVideoReady = false;
-                        this.lastUpdatedStatus = "stop";
-                        this.isExitFullscreen = false;
-                        this.publishBackgroundEvent();
-                        this.publishVideoEvent("start");
-                    }
-                }, 500);
-                this.switchSnapShotOnSelect(this.receivedStateSelect);
-            }
-        }
-    }
-
-    /**
-     * While switching the camera, all other camera snapshots start loading except the one the camera is active
-     * @param activeIndex 
-     */
-    private switchSnapShotOnSelect(activeIndex: number) {
-        for (let idx = 0; idx < this.maxVideoCount; idx++) {
-            const sData: Ch5VideoSnapshot = this.snapShotInfoMap.get(idx);
-            if (activeIndex === idx) {
-                if (sData.isSnapShotLoading) {
-                    if (!!sData.snapShotImage) {
-                        this.lastLoadedImage = sData.snapShotImage;
-                        this.drawSnapShot(this.lastLoadedImage);
-                    }
-                    sData.stopLoadingSnapShot();
-                }
-            } else {
-                if (!sData.isSnapShotLoading) {
-                    sData.startLoadingSnapShot();
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Publish send event
-     * 
-     * @param signalName name of the signal or join nmber
-     * @param signalValue signal value
-     * @param signalType type
-     */
-    private sendEvent(signalName: string, signalValue: TSignalTypeT, signalType: TSignalTypeT) {
-
-        this.info("sendEventPublish : " + signalName + ", " + signalValue + ", " + signalType);
-        switch (signalType) {
-            case 'boolean':
-                let sigVideoStateBoolean: Ch5Signal<boolean> | null = null;
-                if (signalName) {
-                    sigVideoStateBoolean = Ch5SignalFactory.getInstance().getBooleanSignal(signalName);
-                    if (sigVideoStateBoolean !== null) {
-                        sigVideoStateBoolean.publish(true);
-                        sigVideoStateBoolean.publish(false);
-                    }
-                }
-                break;
-            case 'string':
-                let sigVideoStateString: Ch5Signal<string> | null = null;
-                if (signalName) {
-                    sigVideoStateString = Ch5SignalFactory.getInstance().getStringSignal(signalName);
-                    if (sigVideoStateString !== null) {
-                        sigVideoStateString.publish(signalValue);
-                    }
-                }
-                break;
-            case 'number':
-                let sigVideoStateNumber: Ch5Signal<number> | null = null;
-                if (signalName) {
-                    sigVideoStateNumber = Ch5SignalFactory.getInstance().getNumberSignal(signalName);
-                    if (sigVideoStateNumber !== null) {
-                        sigVideoStateNumber.publish(parseInt(signalValue, 0));
-                    }
-                }
-                break;
-        }
-    }
-
-    /**
-     * To unsubscribe receive state attributes
-     * @param selectObject 
-     */
-    private unSubscribeVideos(selectObject: TReceiveState) {
-        if (selectObject.subscriptionIds.url) {
-            unsubscribeState('s', selectObject.values.url, selectObject.subscriptionIds.url);
-        }
-
-        if (selectObject.subscriptionIds.type) {
-            unsubscribeState('s', selectObject.values.type, selectObject.subscriptionIds.type);
-        }
-
-        if (selectObject.subscriptionIds.user) {
-            unsubscribeState('s', selectObject.values.user, selectObject.subscriptionIds.user);
-        }
-
-        if (selectObject.subscriptionIds.videoPass) {
-            unsubscribeState('s', selectObject.values.videoPass, selectObject.subscriptionIds.videoPass);
-        }
-
-        if (selectObject.subscriptionIds.snapShotUrl) {
-            unsubscribeState('s', selectObject.values.snapShotUrl, selectObject.subscriptionIds.snapShotUrl);
-        }
-
-        if (selectObject.subscriptionIds.snapShotRefreshRate) {
-            unsubscribeState('n', selectObject.values.snapShotRefreshRate, selectObject.subscriptionIds.snapShotRefreshRate);
-        }
-
-        if (selectObject.subscriptionIds.snapShotUser) {
-            unsubscribeState('s', selectObject.values.snapShotUser, selectObject.subscriptionIds.snapShotUser);
-        }
-
-        if (selectObject.subscriptionIds.snapShotPass) {
-            unsubscribeState('s', selectObject.values.snapShotPass, selectObject.subscriptionIds.snapShotPass);
-        }
-    }
-
-    /**
-     * Set canvas width and height when stretch is true
-     * @param width Width of the canvas
-     * @param height Height of the canvas
-     */
-    private setCanvasDimensions(width: number, height: number) {
-        this.vid.width = width;
-        this.vid.height = height;
-    }
-
-    /**
-     * Initializes the elements of ch5-video
-     */
-    private initializeVideo() {
-        this.createCanvas();
-        this.drawCanvas(this.vid);
-        this.initAttributes();
-        this.cacheComponentChildrens();
-        this.attachEventListeners();
-        this.setAttribute("id", this.getCrId());
-        const uID = this.getCrId().split('cr-id-');
-        this.ch5UId = parseInt(uID[1], 0);
     }
 
     /**
@@ -1399,38 +988,20 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.sendEvent(this.sendEventSnapShotStatus, 1, 'number');
                     }
                     this.isVideoReady = false;
-                    this.lastUpdatedStatus = "stop";
-                    if (this.elementIntersectionEntry.intersectionRatio >= 1 && !this.isFullScreen) {
+                    this.lastRequestStatus = "stop";
+                    if (this.elementIntersectionEntry.intersectionRatio >= 0.98 && !this.isFullScreen) {
                         this.publishVideoEvent("start");
                     } else if (this.isFullScreen) {
                         this.publishVideoEvent("start");
                     }
                 } else {
                     this.isVideoReady = true;
-                    this.lastUpdatedStatus = "start";
+                    this.lastRequestStatus = "start";
                     this.publishVideoEvent("stop");
                     this.loadImageWithAutoRefresh();
                 }
             });
         }
-    }
-
-    private updateAppBackgroundStatus() {
-        if (this.subsCsigAppBackgrounded !== '') {
-            unsubscribeState('o', 'Csig.app.background', this.subsCsigAppBackgrounded);
-        }
-        this.subsCsigAppBackgrounded = subscribeState('o', 'Csig.app.background', (res: any) => {
-            this.wasAppBackGrounded = res.isAppBackgrounded;
-        });
-    }
-
-    private appCurrentBackgroundStatus() {
-        if (this.subsCsigAppCurrentSate !== '') {
-            unsubscribeState('o', 'Csig.app.background', this.subsCsigAppCurrentSate);
-        }
-        this.subsCsigAppCurrentSate = subscribeState('o', 'Csig.app.background', (res: any) => {
-            this.appCurrentStatus = res.isAppBackgrounded;
-        });
     }
 
     public get receiveStateSelect(): string {
@@ -1473,45 +1044,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.receivedStateSelect = newValue;
                     this.unSubscribeVideos(this.selectObject);
                     this.isVideoReady = false;
-                    this.lastUpdatedStatus = "";
+                    this.lastRequestStatus = "";
                     setTimeout(() => {
                         this.subscribeVideos(newValue.toString());
                     });
                 }
             });
         }
-    }
-
-    private getAllSnapShotData(videoCount: string) {
-        const vCount = parseInt(videoCount, 0);
-        if (vCount === 0) {
-            return;
-        }
-        for (let idx = 0; idx < vCount; idx++) {
-            const snapShotObject: TSnapShotSignalName = {
-                "index": 0,
-                "snapShotUrl": "",
-                "snapShotRefreshRate": "",
-                "snapShotUser": "",
-                "snapShotPass": ""
-            };
-            snapShotObject.index = idx;
-            snapShotObject.snapShotUrl = String(Ch5VideoSubscription
-                .getNewSignalName(this, 'receivestatesnapshoturl', this.receiveStateSnapShotURL, idx, this.indexId as string));
-
-            snapShotObject.snapShotUser = String(Ch5VideoSubscription
-                .getNewSignalName(this, 'receivestateuserid', this.receiveStateSnapShotUserId, idx, this.indexId as string));
-
-            snapShotObject.snapShotPass = String(Ch5VideoSubscription
-                .getNewSignalName(this, 'receivestatesnapshotpassword', this.receiveStateSnapShotPassword, idx, this.indexId as string));
-
-            snapShotObject.snapShotRefreshRate = String(Ch5VideoSubscription
-
-                .getNewSignalName(this, 'receivestatesnapshotrefreshrate', this.receiveStateSnapShotRefreshRate, idx, this.indexId as string));
-
-            this.snapShotInfoMap.set(idx, new Ch5VideoSnapshot(snapShotObject));
-        }
-        this.vCountFlag = true;
     }
 
     public get receiveStateSourceType(): string {
@@ -1551,10 +1090,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.sourceType = newValue;
                     this.sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
                     setTimeout(() => {
-                        if (this.elementIntersectionEntry.intersectionRatio >= 1) {
-                            this.lastResponseStatus = 'stopped';
+                        if (this.elementIntersectionEntry.intersectionRatio >= 0.98) {
+                            this.lastResponseStatus = '';
                             this.isVideoReady = false;
-                            this.lastUpdatedStatus = "stop";
+                            this.lastRequestStatus = '';
                             this.isExitFullscreen = false;
                             this.publishVideoEvent("start");
                         }
@@ -1674,10 +1213,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.url = newValue;
                     this.sendEvent(this.sendEventSelectionURL, this.url, 'string');
-                    if (this.elementIntersectionEntry.intersectionRatio >= 1) {
-                        this.lastResponseStatus = 'stopped';
+                    if (this.elementIntersectionEntry.intersectionRatio >= 0.98) {
+                        this.lastResponseStatus = '';
                         this.isVideoReady = false;
-                        this.lastUpdatedStatus = "stop";
+                        this.lastRequestStatus = '';
                         this.isExitFullscreen = false;
                         this.publishVideoEvent("start");
                     }
@@ -1890,7 +1429,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         ];
         return commonAttributes.concat(ch5VideoAttributes);
     }
-
 
     public attributeChangedCallback(attr: string, oldValue: string, newValue: any) {
         switch (attr) {
@@ -2269,6 +1807,53 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     }
 
+    public connectedCallback() {
+        this.info('Ch5Video.connectedCallback()');
+
+        if (this.isInitialized) {
+            this.removeIfTagExist();
+            customElements.whenDefined('ch5-video').then(() => {
+                this.scrollableElm = getScrollableParent(this);
+                this.initializeVideo();
+                this.isInitialized = false;
+
+                subscribeState('b', 'triggerview.slidemove', (res: boolean) => {
+                    if (res) {
+                        publishEvent('o', 'ch5.video.background', { "action": "refill" });
+                        this.isSlidemoved = true;
+                    }
+                });
+
+                subscribeState('b', 'triggerview.touchend', (res: boolean) => {
+                    if (res && this.isSlidemoved) {
+                        let timer: any;
+                        clearTimeout(timer);
+                        timer = setTimeout(() => {
+                            this.publishVideoEvent("resize");
+                            this.isSlidemoved = false;
+                        }, 300);
+                    }
+                });
+
+                subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
+                    if (res && this.elementIsInViewPort) {
+                        publishEvent('o', 'ch5.video.background', { "action": "refill" });
+                        this.publishVideoEvent("stop");
+                    }
+                });
+
+                // Making the lastRequestStatus and isVideoReady to default
+                setTimeout(() => {
+                    this.lastRequestStatus = '';
+                    this.isVideoReady = false;
+                });
+            });
+        }
+        Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
+        this.isIntersectionObserve = true;
+    }
+
+
     /**
      * 	Called every time the element is inserted into the DOM. 
      *  Useful for running setup code, such as fetching resources or rendering. 
@@ -2282,6 +1867,125 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (videoWrapper) {
             videoWrapper.remove();
         }
+    }
+
+    /**
+     * Check the snapshot url and append web protocol and credentials to it
+     */
+    public processUri(): void {
+        const processUriPrams: TCh5ProcessUriParams = {
+            protocol: this.protocol,
+            user: this.snapShotUserId,
+            password: this.snapShotPassword,
+            url: this.snapShotUrl
+        };
+
+        const getImageUrl = Ch5Common.processUri(processUriPrams);
+        if (!!getImageUrl) {
+            this.snapShotUrl = getImageUrl;
+        }
+    }
+
+    /**
+     * When the video element is more than 100% visible the video should start and
+     * when the visibility is less than 100% the video should stop playing.
+     */
+    public videoIntersectionObserver() {
+        this.info('Video visibility ' + this.elementIntersectionEntry.intersectionRatio + ", lastRequestStatus: "
+            + this.lastRequestStatus + ", lastResponseStatus: " + this.lastResponseStatus
+            + ", isExitFullscreen: " + this.isExitFullscreen + ", isFullscreen: " + this.isFullScreen
+            + ", isOrientationChanged: " + this.isOrientationChanged + ', isPositionChanged: ' + this.isPositionChanged);
+        if (this.elementIntersectionEntry.intersectionRatio >= 0.98) {
+            clearTimeout(this.isSwipeInterval);
+            this.isSwipeInterval = setTimeout(() => {
+                this.firstTime = false;
+                this.calculation(this.vid);
+                this.calculatePositions();
+                if (this.lastRequestStatus === '' && this.lastResponseStatus === '' && this.isOrientationChanged) {
+                    this.lastResponseStatus = '';
+                    this.lastRequestStatus = '';
+                    this.isVideoReady = false;
+                    this.publishVideoEvent("start");
+                }
+                if (!this.isFullScreen && !this.isExitFullscreen && !this.isOrientationChanged && this.lastRequestStatus !== 'fullscreen') {
+                    if (this.lastRequestUrl !== this.url) {
+                        this.lastResponseStatus = '';
+                        this.lastRequestStatus = '';
+                        this.isVideoReady = false;
+                        if (this.elementIntersectionEntry.intersectionRatio >= 0.98 && this.maxVideoCount > 0) {
+                            this.switchSnapShotOnSelect(this.receivedStateSelect);
+                        }
+                        this.publishVideoEvent("start");
+                    }
+                }
+            }, 1000); // TODO: Check whether this can be reduced by testing in all devices
+        } else {
+            // when the fullscreen is triggered in
+            if (this.isFullScreen) {
+                return;
+            }
+            clearTimeout(this.backgroundInterval);
+            clearTimeout(this.isSwipeInterval);
+            this.clearAllSnapShots();
+            if (this.isSwipeInterval) {
+                window.clearInterval(this.isSwipeInterval);
+            }
+
+
+            // During scroll, video goes out of the view port area but still running because of negative values in TSW
+            if ((this.videoTop < 0 || this.videoLeft < 0) && this.lastRequestStatus !== 'stop' && !this.firstTime) {
+                this.publishVideoEvent("stop");
+            }
+
+            // During scroll, video goes out of the view port area but still running because of negative values in iOS
+            if (this.isPositionChanged && (this.lastRequestStatus === 'resize' || this.lastRequestStatus === 'start')) {
+                this.publishVideoEvent("stop");
+            }
+
+            // In some of the iOS devices, there is a delay in getting orientation 
+            // change information, a small delay solves this problem.
+            setTimeout(() => {
+                // Avoid refilling when the project starts and the video page is not visible
+                if (!this.firstTime) {
+                    publishEvent('o', 'ch5.video.background', { "action": "refill" });
+                }
+
+                // The above refill can't be called inside this block as it produces an additional 
+                // unecessary cut in the background sometimes.
+                if (!this.isExitFullscreen && !this.isOrientationChanged && !this.firstTime && !this.elementIsInViewPort) {
+                    this.publishVideoEvent("stop");
+                }
+            });
+
+            // On exiting fullscreen and if the user swipes/leave the video page send the "stop" request
+            if (this.isExitFullscreen && this.lastResponseStatus === 'resized' && !this.elementIsInViewPort) {
+                this.publishVideoEvent("stop");
+            }
+        }
+    }
+
+    /**
+     * When the user makes the app to background by clicking on home button from video page and resume the app, the video has to play again
+     */
+    private updateAppBackgroundStatus() {
+        if (this.subsCsigAppBackgrounded !== '') {
+            unsubscribeState('o', 'Csig.app.background', this.subsCsigAppBackgrounded);
+        }
+        this.subsCsigAppBackgrounded = subscribeState('o', 'Csig.app.background', (res: any) => {
+            this.wasAppBackGrounded = res.isAppBackgrounded;
+        });
+    }
+
+    /**
+     * Get the app background status when the app goes to background
+     */
+    private appCurrentBackgroundStatus() {
+        if (this.subsCsigAppCurrentSate !== '') {
+            unsubscribeState('o', 'Csig.app.background', this.subsCsigAppCurrentSate);
+        }
+        this.subsCsigAppCurrentSate = subscribeState('o', 'Csig.app.background', (res: any) => {
+            this.appCurrentStatus = res.isAppBackgrounded;
+        });
     }
 
     /**
@@ -2311,44 +2015,40 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
-    public connectedCallback() {
-        this.info('Ch5Video.connectedCallback()');
-
-        if (this.isInitialized) {
-            this.removeIfTagExist();
-            customElements.whenDefined('ch5-video').then(() => {
-                this.scrollableElm = getScrollableParent(this);
-                this.initializeVideo();
-                this.isInitialized = false;
-
-                this.slidemoveSubscriptionId = subscribeState('b', 'triggerview.slidemove', (res: boolean) => {
-                    if (res) {
-                        publishEvent('o', 'ch5.video.background', { "action": "refill" });
-                        this.isSlidemoved = true;
-                    }
-                });
-
-                this.touchendSubscriptionId = subscribeState('b', 'triggerview.touchend', (res: boolean) => {
-                    if (res && this.isSlidemoved) {
-                        let timer: any;
-                        clearTimeout(timer);
-                        timer = setTimeout(() => {
-                            this.publishVideoEvent("resize");
-                            this.isSlidemoved = false;
-                        }, 300);
-                    }
-                });
-
-                this.slidechangeSubscriptionId = subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
-                    if (res && this.elementIsInViewPort) {
-                        publishEvent('o', 'ch5.video.background', { "action": "refill" });
-                        this.publishVideoEvent("stop");
-                    }
-                });
-            });
+    /**
+     * Get all the data of the snapshots based on the video count provided
+     * @param videoCount 
+     */
+    private getAllSnapShotData(videoCount: string) {
+        const vCount = parseInt(videoCount, 0);
+        if (vCount === 0) {
+            return;
         }
-        Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
-        this.isIntersectionObserve = true;
+        for (let idx = 0; idx < vCount; idx++) {
+            const snapShotObject: TSnapShotSignalName = {
+                "index": 0,
+                "snapShotUrl": "",
+                "snapShotRefreshRate": "",
+                "snapShotUser": "",
+                "snapShotPass": ""
+            };
+            snapShotObject.index = idx;
+            snapShotObject.snapShotUrl = String(Ch5VideoSubscription
+                .getNewSignalName(this, 'receivestatesnapshoturl', this.receiveStateSnapShotURL, idx, this.indexId as string));
+
+            snapShotObject.snapShotUser = String(Ch5VideoSubscription
+                .getNewSignalName(this, 'receivestateuserid', this.receiveStateSnapShotUserId, idx, this.indexId as string));
+
+            snapShotObject.snapShotPass = String(Ch5VideoSubscription
+                .getNewSignalName(this, 'receivestatesnapshotpassword', this.receiveStateSnapShotPassword, idx, this.indexId as string));
+
+            snapShotObject.snapShotRefreshRate = String(Ch5VideoSubscription
+
+                .getNewSignalName(this, 'receivestatesnapshotrefreshrate', this.receiveStateSnapShotRefreshRate, idx, this.indexId as string));
+
+            this.snapShotInfoMap.set(idx, new Ch5VideoSnapshot(snapShotObject));
+        }
+        this.vCountFlag = true;
     }
 
     /**
@@ -2363,90 +2063,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * When the video element is more than 100% visible the video should start and
-     * when the visibility is less than 100% the video should stop playing.
+     * Clear all the video snapshots
      */
-    public videoIntersectionObserver() {
-        this.info('Video visibility ' + this.elementIntersectionEntry.intersectionRatio);
-        if (this.elementIntersectionEntry.intersectionRatio >= 1) {
-            this.firstTime = false;
-            clearTimeout(this.isSwipeInterval);
-            this.isSwipeInterval = setTimeout(() => {
-                this.calculation(this.vid);
-                this.calculatePositions();
-                if (!this.isFullScreen && !this.isExitFullscreen && !this.isOrientationChanged) {
-                    this.lastResponseStatus = 'stopped';
-                    this.lastUpdatedStatus = 'stop';
-                    this.isVideoReady = false;
-                    this.publishVideoEvent("start");
-                }
-            }, 1000);
-        } else {
-            // when the fullscreen is triggered in
-            if (this.isFullScreen) {
-                return;
-            }
-            clearTimeout(this.backgroundInterval);
-            clearTimeout(this.isSwipeInterval);
-            this.clearAllSnapShots();
-            if (this.isSwipeInterval) {
-                window.clearInterval(this.isSwipeInterval);
-            }
-
-            // In some of the iOS devices, there is a delay in getting orientation 
-            // change information, a small delay solves this problem.
-            setTimeout(() => {
-                publishEvent('o', 'ch5.video.background', { "action": "refill" });
-                if (!this.isExitFullscreen && !this.isOrientationChanged && !this.firstTime) {
-                    this.publishVideoEvent("stop");
-                }
-            });
-        }
-    }
-
     private clearAllSnapShots() {
         if (this.maxVideoCount) {
             for (let idx = 0; idx < this.maxVideoCount; idx++) {
                 const sData: Ch5VideoSnapshot = this.snapShotInfoMap.get(idx);
                 sData.stopLoadingSnapShot();
-            }
-        }
-    }
-
-    /**
-     * When the video element is visible
-     */
-    public videoVisibilityInViewport() {
-        this.autoHideControls();
-        if (this.elementIsInViewPort) {
-            this.isSwipeStarted = true;
-            this.isSwipeInterval = setTimeout(() => {
-                this.calculation(this.vid);
-                this.sendEvent(this.sendEventSnapShotLastUpdateTime, this.rfc3339TimeStamp(), 'string');
-                this.calculatePositions();
-                this.lastResponseStatus = 'stopped';
-                this.isVideoReady = false;
-                this.lastUpdatedStatus = "stop";
-                this.publishBackgroundEvent();
-                this.publishVideoEvent("start");
-            }, 1000);
-            window.clearTimeout(this.interval);
-        } else {
-            clearTimeout(this.backgroundInterval);
-            clearTimeout(this.isSwipeInterval);
-            publishEvent('o', 'ch5.video.background', { "action": "refill" });
-            if (this.isFullScreen) {
-                this.calculation(this.vid);
-                this.publishVideoEvent("resize");
-            } else {
-                if (this.isSwipeStarted) {
-                    if (this.isSwipeInterval) {
-                        window.clearInterval(this.isSwipeInterval);
-                    }
-                    this.isVideoReady = true;
-                    this.lastResponseStatus = "start";
-                    this.publishVideoEvent("stop");
-                }
             }
         }
     }
@@ -2460,7 +2083,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.exitFullScreen();
             return;
         }
-        if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized') {
+        this.info('lastRequestStatus is ' + this.lastRequestStatus + '& lastResponseStatus is ' + this.lastResponseStatus);
+        if (this.lastResponseStatus === 'started' || (this.lastRequestStatus === 'resize' && this.lastResponseStatus === 'resized')) {
             this.showFullScreenIcon();
         } else {
             this.hideFullScreenIcon();
@@ -2500,22 +2124,486 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
-    /**
-     * Check the snapshot url and append web protocol and credentials to it
-     */
-    public processUri(): void {
-        const processUriPrams: TCh5ProcessUriParams = {
-            protocol: this.protocol,
-            user: this.snapShotUserId,
-            password: this.snapShotPassword,
-            url: this.snapShotUrl
-        };
 
-        const getImageUrl = Ch5Common.processUri(processUriPrams);
-        if (!!getImageUrl) {
-            this.snapShotUrl = getImageUrl;
+    /**
+     * Set the video error messages for the respective error code or status code
+     */
+    private setErrorMessages() {
+        this.videoErrorMessages.set(1, "Miscellaneous transient issue");
+        this.videoErrorMessages.set(2, "Connection timeout");
+        this.videoErrorMessages.set(3, "No input sync");
+        this.videoErrorMessages.set(-1, "Miscellaneous error");
+        this.videoErrorMessages.set(-2, "Hostname could not be resolved");
+        this.videoErrorMessages.set(-3, "Unsupported source type for this platform");
+        this.videoErrorMessages.set(-4, "Connection timeout");
+        this.videoErrorMessages.set(-5, "Invalid credentials");
+        this.videoErrorMessages.set(-6, "Unsupported streaming protocol");
+        this.videoErrorMessages.set(-7, "Unsupported codec");
+        this.videoErrorMessages.set(-1001, "Credentials required");
+        this.videoErrorMessages.set(-1002, "Hostname invalid");
+        this.videoErrorMessages.set(-1003, "Unsupported codec");
+        this.videoErrorMessages.set(-9001, "Unsupported source type");
+        this.videoErrorMessages.set(-9002, "Invalid URL");
+        this.videoErrorMessages.set(-9003, "Request for greater than maximum simultaneous sessions per source type");
+        this.videoErrorMessages.set(-9004, "Request for greater than maximum simultaneous sessions per device");
+    }
+
+    /**
+     * To subscribe receive state attributes
+     * @param index 
+     */
+    private subscribeVideos(index: string) {
+        this.hideFullScreenIcon();
+        this.sendEvent(this.sendEventSelectionChange, index, 'number');
+        let responseCount = 0;
+
+        if (this.hasAttribute("receivestateurl")) {
+            const rsVURL = this.getAttribute("receivestateurl") as string;
+            this.info('rsVURL: ' + rsVURL);
+            let selectObjectUrl: string | number | undefined = 0;
+            if (this.indexId !== null) {
+                // Append or concatanate the index provided with the receive state join number
+                selectObjectUrl = Ch5VideoSubscription
+                    .getNewSignalName(this, 'receivestateurl', rsVURL, (parseInt(index, 0)), this.indexId as string);
+            }
+            this.selectObject.values.url = String(selectObjectUrl);
+            this.info('selectObjectUrl: ' + selectObjectUrl);
+            // Subscribe signalname and get the value
+            this.selectObject.subscriptionIds.url = subscribeState('s', String(selectObjectUrl), (resp: any) => {
+                if (resp) {
+                    this.sendEvent(this.sendEventSelectionURL, this.url, 'string');
+                    this.url = resp;
+                } else if (this.hasAttribute('url')) {
+                    this.url = this.getAttribute('url') as string;
+                } else {
+                    this.url = '';
+                }
+                this.info('ReceiveStateSelect Url is ' + this.url);
+                responseCount++;
+                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+            });
+        } else {
+            if (this.hasAttribute('url')) {
+                this.url = this.getAttribute('url') as string;
+            } else {
+                this.url = '';
+            }
+            this.info('Basic Url is ' + this.url);
+            responseCount++;
+            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+        }
+
+        if (this.hasAttribute("receivestatesourcetype")) {
+            const rsVSType = this.getAttribute("receivestatesourcetype") as string;
+            this.info('rsVSType: ' + rsVSType);
+            let selectObjectSourceType: string | number | undefined = 0;
+            if (this.indexId !== null) {
+                // Append or concatanate the index provided with the receive state join number
+                selectObjectSourceType = Ch5VideoSubscription
+                    .getNewSignalName(this, 'receivestatesourcetype', rsVSType, (parseInt(index, 0)), this.indexId as string);
+            }
+            this.selectObject.values.type = String(selectObjectSourceType);
+            this.info('selectObjectSourceType: ' + selectObjectSourceType);
+            // Subscribe signalname and get the value
+            this.selectObject.subscriptionIds.type = subscribeState('s', String(selectObjectSourceType), (resp: any) => {
+                if (resp) {
+                    this.sourceType = resp;
+                    this.sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
+                } else if (this.hasAttribute('sourcetype')) {
+                    this.sourceType = this.getAttribute('sourcetype') as string;
+                } else {
+                    this.sourceType = '';
+                }
+                this.info('ReceiveStateSelect Source Type is ' + this.sourceType);
+                responseCount++;
+                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+            });
+        } else {
+            if (this.hasAttribute('sourcetype')) {
+                this.sourceType = this.getAttribute('sourcetype') as string;
+            } else {
+                this.sourceType = '';
+            }
+            this.info('Basic Source Type is ' + this.sourceType);
+            responseCount++;
+            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+        }
+
+        if (this.hasAttribute("receivestateuserid")) {
+            const rsVUserId = this.getAttribute("receivestateuserid") as string;
+            this.info('rsVUserId: ' + rsVUserId);
+            let selectObjectUserId: string | number | undefined = 0;
+            if (this.indexId !== null) {
+                // Append or concatanate the index provided with the receive state join number
+                selectObjectUserId = Ch5VideoSubscription
+                    .getNewSignalName(this, 'receivestateuserid', rsVUserId, (parseInt(index, 0)), this.indexId as string);
+            }
+            this.selectObject.values.user = String(selectObjectUserId);
+            this.info('selectObjectUserId: ' + selectObjectUserId);
+            // Subscribe signalname and get the value
+            this.selectObject.subscriptionIds.user = subscribeState('s', String(selectObjectUserId), (resp: any) => {
+                if (!!resp && resp.length >= 0) {
+                    this.userId = resp.trim();
+                } else if (this.hasAttribute('userid')) {
+                    this.userId = this.getAttribute('userid') as string;
+                } else {
+                    this.userId = '';
+                }
+                this.info('ReceiveStateSelect UserId is ' + this.userId);
+                responseCount++;
+                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+            });
+        } else {
+            if (this.hasAttribute('userid')) {
+                this.userId = this.getAttribute('userid') as string;
+            } else {
+                this.userId = '';
+            }
+            this.info('Basic UserId is ' + this.url);
+            responseCount++;
+            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+        }
+
+        if (this.hasAttribute("receivestatepassword")) {
+            const rsVPassword = this.getAttribute("receivestatepassword") as string;
+            this.info('rsVPassword: ' + rsVPassword);
+            let selectObjectPassword: string | number | undefined = 0;
+            if (this.indexId !== null) {
+                // Append or concatanate the index provided with the receive state join number
+                selectObjectPassword = Ch5VideoSubscription
+                    .getNewSignalName(this, 'receivestatepassword', rsVPassword, (parseInt(index, 0)), this.indexId as string);
+            }
+            this.selectObject.values.videoPass = String(selectObjectPassword);
+            this.info('selectObjectPassword: ' + selectObjectPassword);
+            // Subscribe signalname and get the value
+            this.selectObject.subscriptionIds.videoPass = subscribeState('s', String(selectObjectPassword), (resp: any) => {
+                if (!!resp && resp.length >= 0) {
+                    this.password = resp.trim();
+                } else if (this.hasAttribute('password')) {
+                    this.password = this.getAttribute('password') as string;
+                } else {
+                    this.password = '';
+                }
+                this.info('ReceiveStateSelect Password is ' + this.password);
+                responseCount++;
+                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+            });
+        } else {
+            if (this.hasAttribute('password')) {
+                this.password = this.getAttribute('password') as string;
+            } else {
+                this.password = '';
+            }
+            this.info('Basic Password is ' + this.password);
+            responseCount++;
+            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+        }
+
+        if (this.hasAttribute("receivestatesnapshoturl")) {
+            const rsSIURL = this.getAttribute("receivestatesnapshoturl") as string;
+            this.info('rsSIURL: ' + rsSIURL);
+            let selectObjectSnapShotUrl: string | number | undefined = 0;
+            if (this.indexId !== null) {
+                // Append or concatanate the index provided with the receive state join number
+                selectObjectSnapShotUrl = Ch5VideoSubscription
+                    .getNewSignalName(this, 'receivestatesnapshoturl', rsSIURL, (parseInt(index, 0)), this.indexId as string);
+            }
+            this.selectObject.values.snapShotUrl = String(selectObjectSnapShotUrl);
+            this.info('selectObjectSnapShotUrl: ' + selectObjectSnapShotUrl);
+            // Subscribe signalname and get the value
+            this.selectObject.subscriptionIds.snapShotUrl = subscribeState('s', String(selectObjectSnapShotUrl), (resp: any) => {
+                if (!!resp && resp.length >= 0) {
+                    this.snapShotUrl = resp.trim();
+                    this.sendEvent(this.sendEventSnapShotURL, this.snapShotUrl, 'string');
+                } else if (this.hasAttribute('snapshoturl')) {
+                    this.snapShotUrl = this.getAttribute('snapshoturl') as string;
+                } else {
+                    this.snapShotUrl = '';
+                }
+                this.info('ReceiveStateSelect SnapShot Url is ' + this.snapShotUrl);
+                responseCount++;
+                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+            });
+        } else {
+            if (this.hasAttribute('snapshoturl')) {
+                this.snapShotUrl = this.getAttribute('snapshoturl') as string;
+            } else {
+                this.snapShotUrl = '';
+            }
+            this.info('Basic SnapShot Url is ' + this.snapShotUrl);
+            responseCount++;
+            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+        }
+
+        if (this.hasAttribute("receivestatesnapshotrefreshrate")) {
+            const rsSIRefreshRate = this.getAttribute("receivestatesnapshotrefreshrate") as string;
+            this.info('rsSIRefreshRate: ' + rsSIRefreshRate);
+            let selectObjectSnapShotRefreshRate: string | number | undefined = 0;
+            if (this.indexId !== null) {
+                // Append or concatanate the index provided with the receive state join number
+                selectObjectSnapShotRefreshRate = Ch5VideoSubscription
+                    .getNewSignalName(this, 'receivestatesnapshotrefreshrate', rsSIRefreshRate, (parseInt(index, 0)), this.indexId as string);
+            }
+            this.selectObject.values.snapShotRefreshRate = String(selectObjectSnapShotRefreshRate);
+            this.info('selectObjectSnapShotRefreshRate: ' + selectObjectSnapShotRefreshRate);
+            // Subscribe signalname and get the value
+            this.selectObject.subscriptionIds.snapShotRefreshRate = subscribeState('n', String(selectObjectSnapShotRefreshRate), (resp: any) => {
+                if (resp) {
+                    this.snapShotRefreshRate = resp;
+                } else if (this.hasAttribute('snapshotrefreshrate')) {
+                    this.snapShotRefreshRate = this.getAttribute('snapshotrefreshrate') as string;
+                } else {
+                    this.snapShotRefreshRate = '';
+                }
+                this.info('ReceiveStateSelect SnapShot Refresh Rate is ' + this.snapShotRefreshRate);
+                responseCount++;
+                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+            });
+        } else {
+            if (this.hasAttribute('snapshotrefreshrate')) {
+                this.snapShotRefreshRate = this.getAttribute('snapshotrefreshrate') as string;
+            } else {
+                this.snapShotRefreshRate = '';
+            }
+            this.info('Basic SnapShot Refresh Rate is ' + this.snapShotRefreshRate);
+            responseCount++;
+            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+        }
+
+        if (this.hasAttribute("receivestatesnapshotuserid")) {
+            const rsSIUserId = this.getAttribute("receivestatesnapshotuserid") as string;
+            this.info('rsSIUserId: ' + rsSIUserId);
+            let selectObjectSnapShotUserId: string | number | undefined = 0;
+            if (this.indexId !== null) {
+                // Append or concatanate the index provided with the receive state join number
+                selectObjectSnapShotUserId = Ch5VideoSubscription
+                    .getNewSignalName(this, 'receivestatesnapshotuserid', rsSIUserId, (parseInt(index, 0)), this.indexId as string);
+            }
+            this.selectObject.values.snapShotUser = String(selectObjectSnapShotUserId);
+            this.info('selectObjectSnapShotUserId: ' + selectObjectSnapShotUserId);
+            // Subscribe signalname and get the value
+            this.selectObject.subscriptionIds.snapShotUser = subscribeState('s', String(selectObjectSnapShotUserId), (resp: any) => {
+                if (!!resp && resp.length >= 0) {
+                    this.snapShotUserId = resp.trim();
+                } else if (this.hasAttribute('snapshotuserid')) {
+                    this.snapShotUserId = this.getAttribute('snapshotuserid') as string;
+                } else {
+                    this.snapShotUserId = '';
+                }
+                this.info('ReceiveStateSelect SnapShot UserId is ' + this.snapShotUserId);
+                responseCount++;
+                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+            });
+        } else {
+            if (this.hasAttribute('snapshotuserid')) {
+                this.snapShotUserId = this.getAttribute('snapshotuserid') as string;
+            } else {
+                this.snapShotUserId = '';
+            }
+            this.info('Basic SnapShot UserId is ' + this.snapShotUserId);
+            responseCount++;
+            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+        }
+
+        if (this.hasAttribute("receivestatesnapshotpassword")) {
+            const rsSIPassword = this.getAttribute("receivestatesnapshotpassword") as string;
+            this.info('rsSIPassword: ' + rsSIPassword);
+            let selectObjectSnapShotPassword: string | number | undefined = 0;
+            if (this.indexId !== null) {
+                // Append or concatanate the index provided with the receive state join number
+                selectObjectSnapShotPassword = Ch5VideoSubscription
+                    .getNewSignalName(this, 'receivestatesnapshotpassword', rsSIPassword, (parseInt(index, 0)), this.indexId as string);
+            }
+            this.selectObject.values.snapShotPass = String(selectObjectSnapShotPassword);
+            this.info('selectObjectSnapShotPassword: ' + selectObjectSnapShotPassword);
+            // Subscribe signalname and get the value
+            this.selectObject.subscriptionIds.snapShotPass = subscribeState('s', String(selectObjectSnapShotPassword), (resp: any) => {
+                if (!!resp && resp.length >= 0) {
+                    this.snapShotPassword = resp.trim();
+                } else if (this.hasAttribute('snapshotpassword')) {
+                    this.snapShotPassword = this.getAttribute('snapshotpassword') as string;
+                } else {
+                    this.snapShotPassword = '';
+                }
+                this.info('ReceiveStateSelect SnapShot Password is ' + this.snapShotPassword);
+                responseCount++;
+                this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
+            });
+        } else {
+            if (this.hasAttribute('snapshotpassword')) {
+                this.snapShotPassword = this.getAttribute('snapshotpassword') as string;
+            } else {
+                this.snapShotPassword = '';
+            }
+            this.info('Basic SnapShot Password is ' + this.snapShotPassword);
+            responseCount++;
+            this.matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
         }
     }
+
+    /**
+     * Checks whether the attribute count and receiveState attributes count w.r.t receiveStateSelect matches,
+     * if matches 'start' video request will be sent to play the video
+     * @param attributeCount 
+     * @param responseCount 
+     */
+    private matchAttributeResponse(attributeCount: number, responseCount: number) {
+        if (attributeCount === responseCount) {
+            if (!this.context) {
+                return;
+            }
+            this.vid.width = this.sizeObj.width;
+            this.vid.height = this.sizeObj.height;
+            this.context = this.vid.getContext("2d");
+            this.calculation(this.vid);
+            if (this.elementIsInViewPort) {
+                setTimeout(() => {
+                    this.sendEvent(this.sendEventSnapShotLastUpdateTime, this.rfc3339TimeStamp(), 'string');
+                    this.calculatePositions();
+                    if (this.elementIntersectionEntry.intersectionRatio >= 0.98) {
+                        this.lastResponseStatus = '';
+                        this.isVideoReady = false;
+                        this.lastRequestStatus = '';
+                        this.isExitFullscreen = false;
+                        this.publishBackgroundEvent();
+                        this.publishVideoEvent("start");
+                    }
+                }, 500);
+                this.switchSnapShotOnSelect(this.receivedStateSelect);
+            }
+        }
+    }
+
+    /**
+     * While switching the camera, all other camera snapshots start loading except the one the camera is active
+     * @param activeIndex 
+     */
+    private switchSnapShotOnSelect(activeIndex: number) {
+        for (let idx = 0; idx < this.maxVideoCount; idx++) {
+            const sData: Ch5VideoSnapshot = this.snapShotInfoMap.get(idx);
+            if (activeIndex === idx) {
+                this.info('isSnapShotLoading: ' + sData.isSnapShotLoading);
+                if (sData.isSnapShotLoading) {
+                    this.info('snapShotImage: ' + sData.snapShotImage.src);
+                    if (!!sData.snapShotImage) {
+                        this.lastLoadedImage = Object.assign(sData.snapShotImage);
+                        this.info(this.lastLoadedImage);
+                        this.drawSnapShot(this.lastLoadedImage);
+                    }
+                    sData.stopLoadingSnapShot();
+                }
+            } else {
+                if (!sData.isSnapShotLoading) {
+                    sData.startLoadingSnapShot();
+                }
+            }
+        }
+    }
+
+    /**
+     * Publish send event
+     * 
+     * @param signalName name of the signal or join nmber
+     * @param signalValue signal value
+     * @param signalType type
+     */
+    private sendEvent(signalName: string, signalValue: TSignalTypeT, signalType: TSignalTypeT) {
+
+        this.info("sendEventPublish : " + signalName + ", " + signalValue + ", " + signalType);
+        switch (signalType) {
+            case 'boolean':
+                let sigVideoStateBoolean: Ch5Signal<boolean> | null = null;
+                if (signalName) {
+                    sigVideoStateBoolean = Ch5SignalFactory.getInstance().getBooleanSignal(signalName);
+                    if (sigVideoStateBoolean !== null) {
+                        sigVideoStateBoolean.publish(true);
+                        sigVideoStateBoolean.publish(false);
+                    }
+                }
+                break;
+            case 'string':
+                let sigVideoStateString: Ch5Signal<string> | null = null;
+                if (signalName) {
+                    sigVideoStateString = Ch5SignalFactory.getInstance().getStringSignal(signalName);
+                    if (sigVideoStateString !== null) {
+                        sigVideoStateString.publish(signalValue);
+                    }
+                }
+                break;
+            case 'number':
+                let sigVideoStateNumber: Ch5Signal<number> | null = null;
+                if (signalName) {
+                    sigVideoStateNumber = Ch5SignalFactory.getInstance().getNumberSignal(signalName);
+                    if (sigVideoStateNumber !== null) {
+                        sigVideoStateNumber.publish(parseInt(signalValue, 0));
+                    }
+                }
+                break;
+        }
+    }
+
+    /**
+     * To unsubscribe receive state attributes
+     * @param selectObject 
+     */
+    private unSubscribeVideos(selectObject: TReceiveState) {
+        if (selectObject.subscriptionIds.url) {
+            unsubscribeState('s', selectObject.values.url, selectObject.subscriptionIds.url);
+        }
+
+        if (selectObject.subscriptionIds.type) {
+            unsubscribeState('s', selectObject.values.type, selectObject.subscriptionIds.type);
+        }
+
+        if (selectObject.subscriptionIds.user) {
+            unsubscribeState('s', selectObject.values.user, selectObject.subscriptionIds.user);
+        }
+
+        if (selectObject.subscriptionIds.videoPass) {
+            unsubscribeState('s', selectObject.values.videoPass, selectObject.subscriptionIds.videoPass);
+        }
+
+        if (selectObject.subscriptionIds.snapShotUrl) {
+            unsubscribeState('s', selectObject.values.snapShotUrl, selectObject.subscriptionIds.snapShotUrl);
+        }
+
+        if (selectObject.subscriptionIds.snapShotRefreshRate) {
+            unsubscribeState('n', selectObject.values.snapShotRefreshRate, selectObject.subscriptionIds.snapShotRefreshRate);
+        }
+
+        if (selectObject.subscriptionIds.snapShotUser) {
+            unsubscribeState('s', selectObject.values.snapShotUser, selectObject.subscriptionIds.snapShotUser);
+        }
+
+        if (selectObject.subscriptionIds.snapShotPass) {
+            unsubscribeState('s', selectObject.values.snapShotPass, selectObject.subscriptionIds.snapShotPass);
+        }
+    }
+
+    /**
+     * Set canvas width and height when stretch is true
+     * @param width Width of the canvas
+     * @param height Height of the canvas
+     */
+    private setCanvasDimensions(width: number, height: number) {
+        this.vid.width = width;
+        this.vid.height = height;
+    }
+
+    /**
+     * Initializes the elements of ch5-video
+     */
+    private initializeVideo() {
+        this.createCanvas();
+        this.drawCanvas(this.vid);
+        this.initAttributes();
+        this.cacheComponentChildrens();
+        this.attachEventListeners();
+        this.setAttribute("id", this.getCrId());
+        const uID = this.getCrId().split('cr-id-');
+        this.ch5UId = parseInt(uID[1], 0);
+    }
+
 
     /**
      * Calculate positions of the snapshot
@@ -2532,8 +2620,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param videoImage 
      */
     private drawSnapShot(videoImage: HTMLImageElement) {
+        this.context.clearRect(0, 0, this.sizeObj.width, this.sizeObj.height);
         this.calculateSnapShotPositions();
-        this.context.drawImage(videoImage, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
+        try {
+            this.context.drawImage(videoImage, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
+        } catch (e) {
+            this.info('Error in drawSnapShot() as ' + e);
+        }
         this.context.save();
         this.context.restore();
     }
@@ -2583,21 +2676,21 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         let actionType: string = "stop";
         if (playVal && this.elementIsInViewPort) {
             this.isVideoReady = false;
-            this.lastUpdatedStatus = "stop";
+            this.lastRequestStatus = "stop";
             actionType = "start";
         } else if (playVal && !this.elementIsInViewPort) {
             this.isVideoReady = true;
             this.isVideoPublished = true;
-            this.lastUpdatedStatus = "start";
+            this.lastRequestStatus = "start";
         } else if (!playVal && this.elementIsInViewPort) {
             this.isVideoPublished = true;
             this.isVideoReady = false;
-            this.lastUpdatedStatus = "start";
+            this.lastRequestStatus = "start";
             actionType = "stop";
         } else if (!playVal && !this.elementIsInViewPort) {
             this.isVideoReady = true;
             this.isVideoPublished = true;
-            this.lastUpdatedStatus = "start";
+            this.lastRequestStatus = "start";
         }
         this.fromReceiveStatePlay = false;
         return actionType;
@@ -2618,11 +2711,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.style.visibility = '';
         this.isVideoReady = true;
         this.isOrientationChanged = false;
-        this.isPositionChanged = false;
         this.isExitFullscreen = true;
         this.isFullScreen = false;
         window.clearTimeout(this.scrollTimer);
         window.clearTimeout(this.exitTimer);
+        // Restoring the originalPotraitVideoProperties values
         this.exitTimer = window.setTimeout(() => {
             if (isSafariMobile()) {
                 if (Ch5VideoEventHandler.isPortrait()) {
@@ -2669,13 +2762,20 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         ev.preventDefault();
         ev.stopImmediatePropagation();
     }
-    private fullScreen() {
+
+    /**
+     * When the video goes to the full screen
+     */
+    private enterFullScreen() {
+        // TODO: check how can we optimize later
         if (this.isFullScreen) {
             this.exitFullScreen();
         } else {
             this.isFullScreen = true;
+            // To avoid swiping on the full screen
             this.videoCanvasElement.addEventListener('touchmove', this.handleTouchMoveEvent, false);
             this.hideFullScreenIcon();
+            // Calculating the dimensions and storing in originalVideoProperties variable
             if (isSafariMobile()) {
                 if (Ch5VideoEventHandler.isPortrait()) {
                     this.isPotraitMode = true;
@@ -2705,6 +2805,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     "left": this.videoLeft
                 };
             }
+
             this.vidControlPanel.classList.add("fullScreen");
             this.controlFullScreen.innerHTML = '';
             this.controlFullScreen.innerHTML = this.exitFullScreenIcon;
@@ -2718,8 +2819,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.style.visibility = 'visible';
             this.isVideoReady = true;
             this.isOrientationChanged = false;
-            this.isPositionChanged = false;
             this.calculation(this.vid);
+
+            // Caclulating positions for iOS device.
             if (isSafariMobile()) {
                 if (!this.isPotraitMode) {
                     this.calculatePositions();
@@ -2749,15 +2851,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private positionChange() {
         if ((this.lastResponseStatus === '' || this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized')) {
-            window.clearTimeout(this.exitTimer);
-            window.clearTimeout(this.scrollTimer);
+            this.isPositionChanged = true;
+            window.clearTimeout(this.exitTimer); // clear timer if the user scrolls immediately after fullscreen exit
+            window.clearTimeout(this.scrollTimer); // wait for half second
             publishEvent('o', 'ch5.video.background', { 'action': 'refill' });
-            this.isExitFullscreen = false;
+            this.isExitFullscreen = false; // during scroll fullscreen is false
             this.scrollTimer = window.setTimeout(() => {
-                if (this.elementIntersectionEntry.intersectionRatio >= 1) {
+                if (this.elementIntersectionEntry.intersectionRatio >= 0.20) {
                     this.calculatePositions();
                     this.calculation(this.vid);
-                    this.isPositionChanged = true;
                     this.publishVideoEvent('resize');
                 }
             }, 500);
@@ -2765,57 +2867,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * Called to bind proper listeners
-     */
-    protected attachEventListeners() {
-        super.attachEventListeners();
-        this.controlFullScreen.addEventListener('click', this.fullScreen.bind(this));
-        this.videoCanvasElement.addEventListener('click', this.manageControls.bind(this));
-        this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
-        window.addEventListener('orientationchange', this.orientationChange.bind(this));
-        window.addEventListener('resize', this.orientationChange.bind(this));
-        this.scrollableElm.addEventListener('scroll', this.positionChange.bind(this));
-    }
-
-    /**
      * Removes listeners
      */
     private removeEvents() {
         super.removeEventListeners();
-        this.controlFullScreen.removeEventListener('click', this.fullScreen.bind(this));
+        this.controlFullScreen.removeEventListener('click', this.enterFullScreen.bind(this));
         this.videoCanvasElement.removeEventListener('click', this.manageControls.bind(this));
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
         window.removeEventListener('orientationchange', this.orientationChange.bind(this));
         window.removeEventListener('resize', this.orientationChange.bind(this));
         this.scrollableElm.removeEventListener('scroll', this.positionChange.bind(this));
-    }
-
-    /**
-     * Called every time the element is removed from the DOM. 
-     * Useful for running clean up code.
-     */
-    public disconnectedCallback() {
-        this.info('Ch5Video.disconnectedCallback()');
-        this.unsubscribeFromSignals();
-        this.removeEvents();
-        // disconnect common mutation observer
-        this.unSubscribeVideos(this.selectObject);
-        this.subscriptionEventList.forEach(subscription => {
-            subscription.unsubscribe();
-        });
-        this.clearAllSnapShots();
-        setTimeout(() => {
-            // Stop the Video
-            this.isSwipeStarted = false;
-            this.isVideoReady = true;
-            this.lastUpdatedStatus = "start";
-            this.publishVideoEvent("stop");
-        });
-
-        if (Ch5CoreIntersectionObserver.getInstance() instanceof Ch5CoreIntersectionObserver) {
-            Ch5CoreIntersectionObserver.getInstance().unobserve(this);
-            this.isIntersectionObserve = false;
-        }
     }
 
     /**
@@ -2836,17 +2897,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private orientationChange() {
         publishEvent('o', 'ch5.video.background', { "action": "refill" });
-        if (this.elementIsInViewPort) {
-            this.isOrientationChanged = true; // When the orientation happens inside the view port, isorientationChaged flag will be set to true
-        }
         this.hideFullScreenIcon();
         this.orientationChanged().then(() => {
-            publishEvent('o', 'ch5.video.background', { "action": "refill" });
             this.calculation(this.vid);
             if (this.isFullScreen) {
                 if (!!this.fullScreenOverlay && !!this.fullScreenOverlay.classList) {
                     this.fullScreenOverlay.classList.add(this.primaryVideoCssClass + '--overlay');
                 }
+                // To avoid multiple orientation change calls before completely rotated
                 setTimeout(() => {
                     if (Ch5VideoEventHandler.isLandscape()) {
                         this.calculatePositions();
@@ -2854,20 +2912,21 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }, 1000);
             } else {
                 window.clearTimeout(this.appBgTimer);
+                // When app is active but in background
                 this.appBgTimer = window.setTimeout(() => {
                     this.updateAppBackgroundStatus();
                 }, 100);
                 this.calculatePositions();
             }
-            if (this.lastResponseStatus === '' || this.lastResponseStatus === "stopped" || this.lastUpdatedStatus === "stop") {
-                this.lastUpdatedStatus = "stop";
-                this.isVideoReady = false;
-                this.lastResponseStatus = '';
-                this.publishVideoEvent("start");
-            } else {
-                this.publishVideoEvent("resize");
-            }
 
+            if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized' || this.lastRequestStatus === "resize") {
+                if (this.elementIsInViewPort) {
+                    this.isOrientationChanged = true; // When the orientation happens inside the view port, isorientationChaged flag will be set to true
+                }
+                this.publishVideoEvent("resize");
+            } else if (this.lastResponseStatus === 'stopped' && this.elementIntersectionEntry.intersectionRatio >= 0.98) {
+                this.publishVideoEvent("start");
+            }
         });
     }
 
@@ -2977,14 +3036,21 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         return;
                     }
                 }
+
                 this.sendEvent(this.sendEventSelectionURL, this._url, 'string');
-                if (!this.isVideoReady && this.lastUpdatedStatus !== 'start' && this.url && (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '' || this.wasAppBackGrounded) && !this.isExitFullscreen) {
-                    this.lastUpdatedStatus = actionType;
+                this.info('this.isVideoReady: ' + !this.isVideoReady + " && this.lastRequestStatus: " + this.lastRequestStatus
+                    + " !== start && this.url: " + this.url + "&& (this.lastResponseStatus === " + this.lastResponseStatus
+                    + "=== stopped || this.lastResponseStatus: " + this.lastResponseStatus + "=== '' || " + this.lastResponseStatus
+                    + "this.wasAppBackGrounded: " + this.wasAppBackGrounded + ") && !this.isExitFullscreen: " + !this.isExitFullscreen);
+
+                if (!this.isVideoReady && this.lastRequestStatus !== 'start' && this.url && (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '' || this.wasAppBackGrounded) && !this.isExitFullscreen) {
+                    this.lastRequestUrl = this.url;
+                    this.lastRequestStatus = actionType;
                     this.isVideoReady = true;
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
                         this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000));
-                    console.time("start");
+                    this.performanceStartTime = window.performance.now();
                     this.info("Video Request (Start) : " + JSON.stringify(this.videoStartObjJSON(actionType,
                         this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
                         this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000)));
@@ -3001,10 +3067,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (!this.isVideoPublished) { // this flag avoids stop command since no video has started
                     return;
                 }
-                if (this.lastUpdatedStatus !== 'stop' && (this.lastResponseStatus === 'started' || !this.elementIsInViewPort || (this.lastResponseStatus === 'resized' && !this.isExitFullscreen))) {
-                    this.lastUpdatedStatus = actionType;
+                if (this.lastRequestStatus !== 'stop' && (this.lastResponseStatus === 'started' || !this.elementIsInViewPort || ((this.lastResponseStatus === 'resized' || this.lastResponseStatus === 'error') && !this.isExitFullscreen))) {
+                    this.lastRequestStatus = actionType;
+                    this.lastRequestUrl = '';
                     publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
-                    console.timeEnd("stop");
                     this.info("Video Request (Stop) : " + JSON.stringify(this.videoStopObjJSON(actionType, this.ch5UId)));
                     this.isVideoReady = false;
                     this.sendEvent(this.sendEventState, 3, 'number');
@@ -3012,10 +3078,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
             case 'resize':
                 // If the video has already stopped then there is no need to resize.
-                if (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '' || this.lastUpdatedStatus === 'stop') {
+                if (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '' || this.lastRequestStatus === 'stop') {
                     return;
                 }
-                this.lastUpdatedStatus = actionType;
+                this.lastRequestStatus = actionType;
                 publishEvent('o', 'Csig.video.request', this.videoStartObjJSON(actionType, this.ch5UId, this.videoTop,
                     this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000));
                 this.info("Video Request (Resize) : " + JSON.stringify(this.videoStartObjJSON(actionType, this.ch5UId, this.videoTop,
@@ -3028,7 +3094,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
             case 'fullscreen':
                 if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized') {
-                    this.lastUpdatedStatus = actionType;
+                    this.lastRequestStatus = actionType;
                     publishEvent('o', 'Csig.video.request', this.videoStartObjJSON('resize', this.ch5UId, this.videoTop,
                         this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0), this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000));
                     this.info("Video Request (Resize) : " + JSON.stringify(this.videoStartObjJSON('resize', this.ch5UId, this.videoTop,
@@ -3098,63 +3164,55 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.oldResponseId = this.responseObj.id;
         const responseStatCode: number = this.responseObj.statusCode;
         const responseStatus = this.responseObj.status.toLowerCase();
-
+        this.info('Response Status: ' + responseStatus.toLowerCase());
         switch (responseStatus.toLowerCase()) {
             case 'stopped':
-                this.info("TIME TAKEN TO STOP THE VIDEO");
-                console.timeEnd("stop");
-                if (this.isFullScreen && this.lastUpdatedStatus === 'stop') {
+                if (this.isFullScreen && this.lastRequestStatus === 'stop') {
                     this.exitFullScreen();
                 }
+                setTimeout(() => {
+                    publishEvent('o', 'ch5.video.background', { "action": "refill" });
+                }, 1000);
                 this.retryCount = 0;
                 this.isVideoReady = false;
-                this.isImageReady = true;
+                this.isOrientationChanged = false;
+                this.isExitFullscreen = false;
+                this.isPositionChanged = false;
                 this.sendEvent(this.sendEventState, 1, 'number');
                 this.hideFullScreenIcon();
                 break;
             case 'connecting':
                 this.isVideoReady = false;
-                this.isImageReady = true;
                 this.hideFullScreenIcon();
-                if (this.lastUpdatedStatus === 'start') {
+                if (this.lastRequestStatus === 'start') {
                     this.sendEvent(this.sendEventState, 4, 'number');
                 }
                 break;
             case 'buffering':
                 this.isVideoReady = false;
                 this.hideFullScreenIcon();
-                if (this.lastUpdatedStatus === 'start') {
+                if (this.lastRequestStatus === 'start') {
                     this.sendEvent(this.sendEventState, 5, 'number');
                 }
                 break;
             case 'started':
-                this.info("TIME TAKEN TO START THE VIDEO");
-                console.timeEnd("start");
                 this.orientationChangeComplete();
-                if (this.lastUpdatedStatus === "resize") {
-                    this.lastUpdatedStatus = '';
-                }
                 this.clearSnapShot();
                 this.unsubscribeRefreshImage();
                 this.cutCanvas2DisplayVideo(this.context);
                 this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.retryCount = 0;
                 this.isVideoReady = true;
-                this.isImageReady = false;
                 this.sendEvent(this.sendEventState, 2, 'number');
-                clearTimeout(this.exitFlagStartedResp);
-                this.exitFlagStartedResp = setTimeout(() => {
-                    if (this.lastUpdatedStatus === "resize") {
-                        this.isOrientationChanged = false;
-                    }
-                    this.isExitFullscreen = false;
-                }, 3000);
+                this.isOrientationChanged = false;
+                this.isExitFullscreen = false;
+                this.isPositionChanged = false;
 
                 /* 
                  * If 'started' response is delayed Check visibility. 
                  * If the visibility is false send a stop request to stop the video
                  */
-                if (this.elementIntersectionEntry.intersectionRatio < 1) {
+                if (this.elementIntersectionEntry.intersectionRatio < 0.98) {
                     this.info("Video not visible (" + this.elementIntersectionEntry.intersectionRatio + ").");
                     this.info("Received 'started' delayed response from VSM. Sending 'stop' request from UI.");
                     this.publishVideoEvent('stop');
@@ -3162,9 +3220,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
             case 'retrying':
                 this.isVideoReady = false;
-                this.isImageReady = true;
                 this.hideFullScreenIcon();
-                if (this.lastUpdatedStatus === 'start') {
+                if (this.lastRequestStatus === 'start') {
                     this.sendEvent(this.sendEventState, 6, 'number');
                 }
                 this.retryCount = this.retryCount + 1;
@@ -3172,30 +3229,24 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
             case 'resizing':
                 this.isVideoReady = false;
-                this.isImageReady = true;
                 this.hideFullScreenIcon();
                 break;
             case 'resized':
                 this.orientationChangeComplete();
-                if (this.lastUpdatedStatus === "resize") {
-                    this.lastUpdatedStatus = '';
+                this.isOrientationChanged = false;
+                this.isExitFullscreen = false;
+                this.isPositionChanged = false;
+                if (this.lastRequestStatus === "resize") {
                     this.clearSnapShot();
                     this.unsubscribeRefreshImage();
                     this.calculation(this.vid);
                     this.cutCanvas2DisplayVideo(this.context);
-                    this.isImageReady = false;
                     this.isVideoReady = true;
-                    this.isPositionChanged = false;
-                    clearTimeout(this.exitFlagResizedResp);
-                    this.exitFlagResizedResp = setTimeout(() => {
-                        this.isOrientationChanged = false;
-                        this.isExitFullscreen = false;
-                    }, 3000);
                 }
                 break;
             case 'error':
                 this.info("Error case in Csig.video.response with status code : " + responseStatCode);
-                if (this.lastUpdatedStatus === 'start') {
+                if (this.lastRequestStatus === 'start') {
                     this.sendEvent(this.sendEventState, 7, 'number');
                 }
                 if (this.responseObj.statusCode) {
@@ -3206,14 +3257,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.sendEvent(this.sendEventErrorMessage, "Unknown Error Message", 'string');
                     }
                 }
+                this.lastResponseStatus = 'started';
+                this.lastRequestStatus = '';
                 this.isVideoReady = false;
-                this.isImageReady = true;
+                if (this.sendEventErrorCode === '-9007') {
+                    this.publishVideoEvent('stop');
+                }
                 this.hideFullScreenIcon();
                 break;
             default:
                 this.info("Default case in Csig.video.response with status : " + responseStatus);
                 this.isVideoReady = false;
-                this.isImageReady = true;
                 this.hideFullScreenIcon();
                 // Increment the retryCount and send the feedback
                 if (responseStatus === "retrying connection") {
@@ -3282,12 +3336,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return { xPos, yPos };
     }
 
+    /**
+     * Set the dimensions and position of the video control icon
+     */
     private setControlDimension() {
         this.vidControlPanel.style.width = this.sizeObj.width + 'px';
         this.vidControlPanel.style.left = this.controlLeft + 'px';
         this.vidControlPanel.style.top = this.controlTop + 'px';
     }
 
+    /**
+     * Calculate the dimensions of the video and positions of the canvas when it is in the full screen mode
+     */
     private fullScreenCalculation() {
         const sWidth: number = window.innerWidth;
         const sHeight: number = window.innerHeight;
@@ -3415,6 +3475,19 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         sign = (offset > 0) ? "-" : "+";
         offset = Math.abs(offset);
         return sign + this.pad(Math.floor(offset / 60)) + ":" + this.pad(offset % 60);
+    }
+
+    /**
+     * Called to bind proper listeners
+     */
+    protected attachEventListeners() {
+        super.attachEventListeners();
+        this.controlFullScreen.addEventListener('click', this.enterFullScreen.bind(this));
+        this.videoCanvasElement.addEventListener('click', this.manageControls.bind(this));
+        this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
+        window.addEventListener('orientationchange', this.orientationChange.bind(this));
+        window.addEventListener('resize', this.orientationChange.bind(this));
+        this.scrollableElm.addEventListener('scroll', this.positionChange.bind(this));
     }
 
     /**
