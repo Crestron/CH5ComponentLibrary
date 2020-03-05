@@ -453,6 +453,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             if (this.parentElement) {
                 resizeObserver(this.parentElement, this.updateCanvasDimensions.bind(this));
             }
+            this.info("From connectedCallback of ch5-background");
+            this.doSubscribeVideo();
         });
     }
 
@@ -462,6 +464,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     public connectedCallback() {
         // set data-ch5-id
+        
         this.setAttribute('data-ch5-id', this.getCrId());
 
         customElements.whenDefined('ch5-background').then(() => {
@@ -475,27 +478,35 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         this._isVisible = false;
                     }
 
-                    // getting video response
-                    this._videoSubscriptionId = subscribeState('o', 'ch5.video.background', (response: any) => {
-                        if (response && Object.keys(response).length && !isEqual(response, this._videoResCopy)) {
-                            this._videoResCopy = response;
-                            if (response.action === 'refill' && !this._isRefilled) {
-                                this.refillBackground();
-                                this.setAttribute('videocrop', JSON.stringify(response));
-                                this._videoDimensions = [];
-                                this._isRefilled = true;
-                            } else {
-                                this.setAttribute('videocrop', JSON.stringify(response));
-                            }
-                        }
-                    });
+
                 } else {
                     this._isVisible = true;
                 }
             });
-        });
+        });   
     }
-
+    private videoSubsCallBack(response: any) {
+        this.info("Background subscribeState()");
+        if (response && Object.keys(response).length) {
+            this._videoResCopy = response;
+            if (response.action === 'refill' && !this._isRefilled) {
+                this.setAttribute('videocrop', JSON.stringify(response));
+                this._videoDimensions = [];
+                this.refillBackground();
+                this._isRefilled = true;
+            } else {
+                let timer: number = 0;
+                if (timer) { window.clearTimeout(timer) };
+                timer = window.setTimeout(() => {
+                    this.setAttribute('videocrop', JSON.stringify(response));
+                }, 100);
+            }
+        }
+    }
+    public doSubscribeVideo() {
+        // getting video response
+        this._videoSubscriptionId = subscribeState('o', 'ch5.video.background', this.videoSubsCallBack.bind(this));
+    }
     /**
      * Called every time the element is removed from the DOM.
      * Useful for running clean up code.
@@ -1078,34 +1089,27 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Cutting background as per video dimension and position
      */
     private clearRectBackground() {
-        let timer: number = 0;
-        if (timer) { window.clearTimeout(timer) };
-        timer = window.setTimeout(() => {
-            if (this._videoCrop && typeof this._videoCrop === 'string') {
-                this._videoRes = JSON.parse(this._videoCrop);
+        if (this._videoCrop && typeof this._videoCrop === 'string') {
+            this._videoRes = JSON.parse(this._videoCrop);
+        }
+        if (this._videoRes && this._videoRes.action !== 'refill') {
+            const topOffset = this._elCanvas.getBoundingClientRect().top;
+            const leftOffset = this._elCanvas.getBoundingClientRect().left;
+            this._videoRes.left = this._videoRes.left - leftOffset;
+            this._videoRes.top = this._videoRes.top - topOffset;
+
+            this._videoRes.left = Math.ceil(this._videoRes.left);
+            this._videoRes.top = Math.ceil(this._videoRes.top);
+
+            const index = this._videoDimensions.findIndex((item: IVideoResponse) => item.id === this._videoRes.id);
+            if (index > -1) {
+                this._videoDimensions[index] = this._videoRes;
+            } else {
+                this._videoDimensions.push(this._videoRes);
             }
-            if (this._videoRes && this._videoRes.action !== 'refill') {
-                const topOffset = this._elCanvas.getBoundingClientRect().top;
-                const leftOffset = this._elCanvas.getBoundingClientRect().left;
-                this._videoRes.left = this._videoRes.left - leftOffset;
-                this._videoRes.top = this._videoRes.top - topOffset;
-
-                // Avoiding negative values and decimal values in video and background
-                if (this._videoRes.left > 0 && this._videoRes.left < 1) {
-                    this._videoRes.left = 0;
-                }
-                if (this._videoRes.top > 0 && this._videoRes.top < 1) {
-                    this._videoRes.top = 0;
-                }
-                this._videoRes.left = Math.ceil(this._videoRes.left);
-                this._videoRes.top = Math.ceil(this._videoRes.top);
-
-                const index = this._videoDimensions.findIndex((item: IVideoResponse) => item.id === this._videoRes.id);
-                if (index > -1) {
-                    this._videoDimensions[index] = this._videoRes;
-                } else {
-                    this._videoDimensions.push(this._videoRes);
-                }
+            let timer: number = 0;
+            if (timer) { window.clearTimeout(timer) };
+            timer = window.setTimeout(() => {
                 if (this._videoDimensions.length) {
                     this._videoDimensions.map((video: IVideoResponse, vIdx: number) => {
                         this._canvasList.forEach((canvas: HTMLCanvasElement, cIdx: number) => {
@@ -1117,8 +1121,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         });
                     })
                 }
-            }
-        }, 300);
+            }, 200);
+        }
     }
 }
 
