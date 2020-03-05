@@ -21,8 +21,6 @@ import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
-import { getRemoteAppender } from "../ch5-logger/utility/getRemoteAppender";
-import { getLogger } from "../ch5-logger/utility/getLogger";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
@@ -487,10 +485,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     public constructor() {
         super();
-
-        const appender = getRemoteAppender('10.88.24.97', '8080', false);
-        const logger = getLogger(appender, true);
-        logger.error("Docker : " + logger);
 
         // custom release event
         this.errorEvent = new CustomEvent("error", {
@@ -3163,13 +3157,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = true;
                 this.isImageReady = false;
                 this.sendEvent(this.sendEventState, 2, 'number');
-                /*clearTimeout(this.exitFlagStartedResp);
-                this.exitFlagStartedResp = setTimeout(() => {
-                    if (this.lastRequestStatus === "resize") {
-                        this.isOrientationChanged = false;
-                    }
-                    this.isExitFullscreen = false;
-                }, 3000);*/
                 this.isOrientationChanged = false;
                 this.isExitFullscreen = false;
 
