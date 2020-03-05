@@ -453,7 +453,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             if (this.parentElement) {
                 resizeObserver(this.parentElement, this.updateCanvasDimensions.bind(this));
             }
-            console.log("From connectedCallback of ch5-background");
+            this.info("From connectedCallback of ch5-background");
             this.doSubscribeVideo();
         });
     }
@@ -486,7 +486,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         });   
     }
     private videoSubsCallBack(response: any) {
-        console.log("from videoSubsCallBack...!!!");
+        this.info("Background subscribeState()");
         if (response && Object.keys(response).length) {
             this._videoResCopy = response;
             if (response.action === 'refill' && !this._isRefilled) {
