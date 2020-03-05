@@ -21,6 +21,9 @@ import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
+import { getRemoteAppender } from "../ch5-logger/utility/getRemoteAppender";
+import { getLogger } from "../ch5-logger/utility/getLogger";
+
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
@@ -485,6 +488,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     public constructor() {
         super();
+
+        const appender = getRemoteAppender('10.88.24.97', '8080', false);
+        const logger = getLogger(appender, true);
+        logger.error("Docker : " + logger);
 
         // custom release event
         this.errorEvent = new CustomEvent("error", {
@@ -2445,6 +2452,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.clearAllSnapShots();
             if (this.isSwipeInterval) {
                 window.clearInterval(this.isSwipeInterval);
+            }
+
+            // During scroll, video goes out of the view port area but still running because of negative values
+            if ((this.videoTop < 0 || this.videoLeft < 0) && this.lastRequestStatus !== 'stop') {
+                this.publishVideoEvent("stop");
             }
 
             // In some of the iOS devices, there is a delay in getting orientation 
