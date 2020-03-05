@@ -2379,6 +2379,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.publishVideoEvent("stop");
                     }
                 });
+
+                // Making the lastRequestStatus and isVideoReady to default
+                setTimeout(() => {
+                    this.lastRequestStatus = '';
+                    this.isVideoReady = false;
+                });
             });
         }
         Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
@@ -2411,6 +2417,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.isSwipeInterval = setTimeout(() => {
                 this.calculation(this.vid);
                 this.calculatePositions();
+                if (this.lastRequestStatus === '' && this.lastResponseStatus === '' && this.isOrientationChanged) {
+                    this.lastResponseStatus = '';
+                    this.lastRequestStatus = '';
+                    this.isVideoReady = false;
+                    this.publishVideoEvent("start");
+                }
                 if (!this.isFullScreen && !this.isExitFullscreen && !this.isOrientationChanged && this.lastRequestStatus !== 'fullscreen') {
                     if (this.lastRequestUrl !== this.url) {
                         this.lastResponseStatus = '';
@@ -2439,12 +2451,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             // change information, a small delay solves this problem.
             setTimeout(() => {
                 publishEvent('o', 'ch5.video.background', { "action": "refill" });
-                if (!this.isExitFullscreen && !this.isOrientationChanged && !this.firstTime) {
+                if (!this.isExitFullscreen && !this.isOrientationChanged && !this.firstTime && !this.elementIsInViewPort) {
                     this.publishVideoEvent("stop");
                 }
             });
 
-            if (this.isExitFullscreen && this.lastResponseStatus === 'resized') {
+            if (this.isExitFullscreen && this.lastResponseStatus === 'resized' && !this.elementIsInViewPort) {
                 this.publishVideoEvent("stop");
             }
         }
@@ -2469,7 +2481,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             return;
         }
         this.info('lastRequestStatus is ' + this.lastRequestStatus + '& lastResponseStatus is ' + this.lastResponseStatus);
-        if ((this.lastRequestStatus === 'start' && this.lastResponseStatus === 'started') || (this.lastRequestStatus === 'resize' && this.lastResponseStatus === 'resized')) {
+        if (this.lastResponseStatus === 'started' || (this.lastRequestStatus === 'resize' && this.lastResponseStatus === 'resized')) {
             this.showFullScreenIcon();
         } else {
             this.hideFullScreenIcon();
@@ -2824,14 +2836,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             subscription.unsubscribe();
         });
         this.clearAllSnapShots();
+        this.isSwipeStarted = false;
+        this.isVideoReady = true;
+        this.lastRequestStatus = "start";
+        // When the user navigates from video page to another page, stop has to be sent
         setTimeout(() => {
             // Stop the Video
-            this.isSwipeStarted = false;
-            this.isVideoReady = true;
-            this.lastRequestStatus = "start";
             this.publishVideoEvent("stop");
         });
 
+        // Disconnecting the intersection observer
         if (Ch5CoreIntersectionObserver.getInstance() instanceof Ch5CoreIntersectionObserver) {
             Ch5CoreIntersectionObserver.getInstance().unobserve(this);
             this.isIntersectionObserve = false;
@@ -2995,7 +3009,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         return;
                     }
                 }
+
                 this.sendEvent(this.sendEventSelectionURL, this._url, 'string');
+                this.info('this.isVideoReady: ' + !this.isVideoReady + " && this.lastRequestStatus: " + this.lastRequestStatus
+                    + " !== start && this.url: " + this.url + "&& (this.lastResponseStatus === " + this.lastResponseStatus
+                    + "=== stopped || this.lastResponseStatus: " + this.lastResponseStatus + "=== '' || " + this.lastResponseStatus
+                    + "this.wasAppBackGrounded: " + this.wasAppBackGrounded + ") && !this.isExitFullscreen: " + !this.isExitFullscreen);
+
                 if (!this.isVideoReady && this.lastRequestStatus !== 'start' && this.url && (this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '' || this.wasAppBackGrounded) && !this.isExitFullscreen) {
                     this.lastRequestUrl = this.url;
                     this.lastRequestStatus = actionType;
