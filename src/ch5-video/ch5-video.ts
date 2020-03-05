@@ -2486,7 +2486,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (sData.isSnapShotLoading) {
                     this.info('snapShotImage: ' + sData.snapShotImage.src);
                     if (!!sData.snapShotImage) {
-                        this.lastLoadedImage = sData.snapShotImage;
+                        this.lastLoadedImage = Object.assign(sData.snapShotImage);
                         this.info(this.lastLoadedImage);
                         this.drawSnapShot(this.lastLoadedImage);
                     }
@@ -2620,8 +2620,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param videoImage 
      */
     private drawSnapShot(videoImage: HTMLImageElement) {
+        this.context.clearRect(0, 0, this.sizeObj.width, this.sizeObj.height);
         this.calculateSnapShotPositions();
-        this.context.drawImage(videoImage, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
+        try {
+            this.context.drawImage(videoImage, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
+        } catch (e) {
+            this.info('Error in drawSnapShot() as ' + e);
+        }
         this.context.save();
         this.context.restore();
     }
