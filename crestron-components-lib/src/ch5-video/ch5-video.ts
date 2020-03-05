@@ -3163,13 +3163,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = true;
                 this.isImageReady = false;
                 this.sendEvent(this.sendEventState, 2, 'number');
-                clearTimeout(this.exitFlagStartedResp);
+                /*clearTimeout(this.exitFlagStartedResp);
                 this.exitFlagStartedResp = setTimeout(() => {
                     if (this.lastRequestStatus === "resize") {
                         this.isOrientationChanged = false;
                     }
                     this.isExitFullscreen = false;
-                }, 3000);
+                }, 3000);*/
+                this.isOrientationChanged = false;
+                this.isExitFullscreen = false;
 
                 /* 
                  * If 'started' response is delayed Check visibility. 
