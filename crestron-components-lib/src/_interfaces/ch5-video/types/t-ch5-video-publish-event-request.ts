@@ -40,7 +40,7 @@ export interface IPUBLISHEVENT {
 
 export interface IBACKGROUND {
     action: string;
-    id: number;
+    id: string;
     top: number;
     left: number;
     width: number;
