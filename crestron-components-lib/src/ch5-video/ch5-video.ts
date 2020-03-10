@@ -21,6 +21,9 @@ import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
+import { getRemoteAppender } from "../ch5-logger/utility/getRemoteAppender";
+import { getLogger } from "../ch5-logger/utility/getLogger";
+
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
@@ -122,6 +125,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private vidControlPanel: HTMLElement = {} as HTMLElement;
     private controlFullScreen: HTMLElement = {} as HTMLElement;
     private fullScreenOverlay: HTMLElement = {} as HTMLElement;
+    private snapShotBlock: HTMLElement = {} as HTMLElement;
+    private snapShotImage: HTMLImageElement = {} as HTMLImageElement;
     private snapShotTimer: any;
     private exitTimer: number = 0;
 
@@ -476,7 +481,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     public constructor() {
         super();
-
+        const appender = getRemoteAppender('10.88.24.97', '8080', false);
+        const logger = getLogger(appender, true);
+        logger.error("Docker : " + logger);
         // custom release event
         this.errorEvent = new CustomEvent("error", {
             bubbles: true,
@@ -2500,6 +2507,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (sData.isSnapShotLoading) {
                     this.info('snapShotImage: ' + sData.snapShotImage.src);
                     if (!!sData.snapShotImage) {
+                        this.lastLoadedImage = '';
                         this.lastLoadedImage = Object.assign(sData.snapShotImage);
                         this.info(this.lastLoadedImage);
                         this.drawSnapShot(this.lastLoadedImage);
@@ -2617,7 +2625,24 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const uID = this.getCrId().split('cr-id-');
         this.ch5UId = parseInt(uID[1], 0);
         this.videoTagId = this.getCrId();
+        this.createSnapShotBlock();
     }
+
+    /**
+     * Create a snapshot block to display the image
+     */
+    private createSnapShotBlock() {
+        this.snapShotBlock = document.createElement("div");
+        this.snapShotImage = document.createElement("img");
+        this.snapShotImage.setAttribute("width", "100%");
+        this.snapShotImage.setAttribute("height", "100%");
+        const ssBlock = this.appendChild(this.snapShotBlock);
+        ssBlock.appendChild(this.snapShotImage);
+        this.snapShotBlock.style.visibility = "hidden";
+        this.snapShotBlock.style.position = 'absolute';
+        this.snapShotBlock.style.display = 'block';
+        this.snapShotBlock.style.overflow = "hidden";
+    }    
 
 
     /**
@@ -2635,8 +2660,19 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param videoImage 
      */
     private drawSnapShot(videoImage: HTMLImageElement) {
-        this.context.clearRect(0, 0, this.sizeObj.width, this.sizeObj.height);
+        // this.context.clearRect(0, 0, this.sizeObj.width, this.sizeObj.height);
+        this.snapShotImage.src = '';
+        this.snapShotImage.src = videoImage.src;
+        console.log('Image is ' + videoImage.src);
         this.calculateSnapShotPositions();
+
+        this.snapShotBlock.style.height = this.sizeObj.height + 'px';
+        this.snapShotBlock.style.width = this.sizeObj.width + 'px';
+        this.snapShotBlock.style.left = this.vidleft + 'px';
+        this.snapShotBlock.style.top = this.vidTop + 'px';
+        this.snapShotBlock.style.visibility = "visible";
+
+        /*
         try {
             this.context.drawImage(videoImage, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
         } catch (e) {
@@ -2644,6 +2680,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
         this.context.save();
         this.context.restore();
+        */
     }
 
     /**
@@ -2678,9 +2715,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Clear the existing context
      */
     private clearSnapShot() {
-        if (!!this.context) {
+        // Sometimes there is a small delay before the video starts.
+        // To avoid the flicker a small delay is required before we remove the snapshot.
+        setTimeout(() => {
+            this.snapShotImage.src = '';
+            this.snapShotBlock.style.visibility = "hidden";
+        }, 100);        
+        /*if (!!this.context) {
             this.context.clearRect(this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
-        }
+        }*/
     }
 
     /**
