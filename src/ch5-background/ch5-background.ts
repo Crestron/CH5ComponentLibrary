@@ -504,27 +504,20 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (response && Object.keys(response).length) {
             this.setAttribute('videocrop', JSON.stringify(response));
             if (response.action === 'refill' && !this._isRefilled) {
-                console.log('refillBackground() --> ' + this.lastRefillTime);
                 if (this.isTimeToRefill(this.lastRefillTime)) {
                     this.refillBackground();
                 }
                 this._isRefilled = true;
             } else if (response.action === 'stop') {
-                // console.time('refill');
                 this.refillBackground();
-                // console.timeEnd('refill');
-                // console.time('clearcut');
                 this.manageVideoInfo(response);
                 clearTimeout(this.lastClearCutBGTimeout);
                 this.lastClearCutBGTimeout = setTimeout(() => {
                     this.clearRectBackground();
                 }, 300);
-                // console.timeEnd('clearcut');
             } else if (response.action === 'start' || response.action === 'resize') {
-                // if (this.isTimeToCut(this.lastCutTime)) {
+                this.manageVideoInfo(response);
                 this.clearRectBackground();
-                // }
-
             }
         }
     }
@@ -1106,8 +1099,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Re-filling background
      */
     private refillBackground() {
-
-
         let timer: number = 0;
         if (timer) { window.clearTimeout(timer) };
         timer = window.setTimeout(() => {
@@ -1128,7 +1119,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 }
             });
             this.lastRefillTime = performance.now();
-            console.log('***this.lastRefillTime*** is ' + this.lastRefillTime);
         }, 30);
     }
 
@@ -1165,7 +1155,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                     })
                 }
                 this.lastCutTime = performance.now();
-                console.log('***this.lastCutTime*** is ' + this.lastCutTime);
             }, 50);
         }
     }
