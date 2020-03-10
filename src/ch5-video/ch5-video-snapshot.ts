@@ -85,15 +85,9 @@ export class Ch5VideoSnapshot {
     private setSnapShot() {
         this.videoImage.onload = (ev: Event) => {
             this.snapShotImage = this.videoImage;
-            console.log('>>> ReceiveStateSelect Snapshot loaded succesfully');
-            console.log(this.snapShotObj.snapShotUrl);
-            console.log('Source ' + this.videoImage.src);
         };
         this.videoImage.onerror = (ev: Event) => {
             this.snapShotImage = '';
-            console.log('>>> Error in the ReceiveStateSelect Snapshot');
-            console.log(this.snapShotObj.snapShotUrl);
-            console.log('Source ' + this.videoImage.src);
         }
         this.videoImage.src = this.url + "?" + new Date().getTime().toString();
     }
