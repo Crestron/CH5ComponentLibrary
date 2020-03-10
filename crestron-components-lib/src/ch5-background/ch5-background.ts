@@ -9,9 +9,7 @@ import { ICh5BackgroundAttributes } from './../_interfaces/ch5-background/i-ch5-
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from '../ch5-core';
 import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './../_interfaces/ch5-background/types';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
-import { IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5-video-publish-event-request';
 import { resizeObserver } from '../ch5-core/resize-observer';
-import isEqual from 'lodash/isEqual';
 
 export interface IVideoResponse {
     action: string;
@@ -66,8 +64,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private _isVisible: boolean = false;
     private _videoDimensions: IVideoResponse[] = [];
     private _isRefilled: boolean = true;
-    private _videoResCopy: IVideoResponse = {} as IVideoResponse;
-    private videoCropDetails = new Map<string, string>();
+    private lastRefillTime: number = 100;
+    private lastCutTime: number = 100;
+    private lastClearCutBGTimeout: any;
 
     /**
      * background url supports background format, including JPEG, PNG, SVG, and BMP.
@@ -489,6 +488,14 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     }
 
     /**
+     * To avoid the multiple refills within 100 milliseconds
+     * @param lastRefillTime 
+     */
+    private isTimeToRefill(lastRefillTime: number) {
+        return performance.now() - lastRefillTime > 500 ? true : false;
+    }
+
+    /**
      * Callback for the video subscription
      * @param response 
      */
@@ -497,17 +504,27 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (response && Object.keys(response).length) {
             this.setAttribute('videocrop', JSON.stringify(response));
             if (response.action === 'refill' && !this._isRefilled) {
-                this.refillBackground();
+                console.log('refillBackground() --> ' + this.lastRefillTime);
+                if (this.isTimeToRefill(this.lastRefillTime)) {
+                    this.refillBackground();
+                }
                 this._isRefilled = true;
             } else if (response.action === 'stop') {
-                console.time('refill');
+                // console.time('refill');
                 this.refillBackground();
-                console.timeEnd('refill');
-                console.time('clearcut');
-                this.clearRectBackground();
-                console.timeEnd('clearcut');
+                // console.timeEnd('refill');
+                // console.time('clearcut');
+                this.manageVideoInfo(response);
+                clearTimeout(this.lastClearCutBGTimeout);
+                this.lastClearCutBGTimeout = setTimeout(() => {
+                    this.clearRectBackground();
+                }, 300);
+                // console.timeEnd('clearcut');
             } else if (response.action === 'start' || response.action === 'resize') {
+                // if (this.isTimeToCut(this.lastCutTime)) {
                 this.clearRectBackground();
+                // }
+
             }
         }
     }
@@ -1089,6 +1106,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Re-filling background
      */
     private refillBackground() {
+
+
         let timer: number = 0;
         if (timer) { window.clearTimeout(timer) };
         timer = window.setTimeout(() => {
@@ -1108,6 +1127,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         break;
                 }
             });
+            this.lastRefillTime = performance.now();
+            console.log('***this.lastRefillTime*** is ' + this.lastRefillTime);
         }, 30);
     }
 
@@ -1143,6 +1164,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         });
                     })
                 }
+                this.lastCutTime = performance.now();
+                console.log('***this.lastCutTime*** is ' + this.lastCutTime);
             }, 50);
         }
     }
