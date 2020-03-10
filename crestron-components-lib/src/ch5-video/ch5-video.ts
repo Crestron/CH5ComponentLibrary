@@ -2659,13 +2659,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private drawSnapShot(videoImage: HTMLImageElement) {
         this.info('drawSnapShot(): ' + videoImage.src);
         this.snapShotImage.src = '';
-        this.snapShotImage.src = videoImage.src;
-        this.calculateSnapShotPositions();
-        this.snapShotBlock.style.height = this.sizeObj.height + 'px';
-        this.snapShotBlock.style.width = this.sizeObj.width + 'px';
-        this.snapShotBlock.style.left = this.vidleft + 'px';
-        this.snapShotBlock.style.top = this.vidTop + 'px';
-        this.snapShotBlock.style.visibility = "visible";
+        if (videoImage) {
+            this.snapShotBlock.style.display = 'block';
+            this.snapShotImage.src = videoImage.src;
+            this.calculateSnapShotPositions();
+            this.snapShotBlock.style.height = this.sizeObj.height + 'px';
+            this.snapShotBlock.style.width = this.sizeObj.width + 'px';
+            this.snapShotBlock.style.left = this.vidleft + 'px';
+            this.snapShotBlock.style.top = this.vidTop + 'px';
+            this.snapShotBlock.style.visibility = "visible";
+        } else {
+            this.snapShotBlock.style.display = 'none';
+        }
     }
 
     /**
