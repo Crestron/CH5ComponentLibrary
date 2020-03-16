@@ -21,6 +21,7 @@ import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
+import _ from "lodash";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 
@@ -130,6 +131,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private sizeObj: TDimension = { width: 0, height: 0 };
     private position: { xPos: number, yPos: number } = { xPos: 0, yPos: 0 };
     private retryCount = 0;
+    private errorCount = 0;
     private selectObject: TReceiveState = {
         "subscriptionIds": {
             "url": "",
@@ -2883,23 +2885,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private observePositionChangesAfterScrollEnds() {
         this.info('observePositionChangesAfterScrollEnds() called');
-        this.observeInterval = setInterval(() => {
-            this.calculatePositions();
+        this.calculatePositions();
+        if (this.previousXPos !== this.videoLeft || this.previousYPos !== this.videoTop) {
+            publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
+            this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+        }
+        if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized') {
+            this.calculatePositions(); // TODO: Remove after verifying
             this.calculation(this.vid);
-            this.info('Suresh ==> ' + this.previousXPos + ' === ' + this.videoLeft + ' && ' + this.previousYPos + ' === ' + this.videoTop);
-            if (this.previousXPos === this.videoLeft && this.previousYPos === this.videoTop) {
-                if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized') {
-                    this.info('----------------------------------------');
-                    // clear time interval
-                    this.publishVideoEvent('resize');
-                    this.info("Cleared time interval " + this.ch5UId);
-                    return;
-                }
-            } else {
-                this.previousXPos = this.videoLeft;
-                this.previousYPos = this.videoTop;
-            }
-        }, 1000);
+            this.publishVideoEvent('resize');
+            this.previousXPos = this.videoLeft;
+            this.previousYPos = this.videoTop;
+        }
     }
 
     /**
@@ -2933,7 +2930,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.removeEventListener('click', this.videoCP.bind(this));
         window.removeEventListener('orientationchange', this.orientationChange.bind(this));
         window.removeEventListener('resize', this.orientationChange.bind(this));
-        this.scrollableElm.removeEventListener('scroll', this.positionChange.bind(this));
+        this.scrollableElm.removeEventListener('scroll', _.debounce(this.positionChange.bind(this), 100, {
+            'leading': true,
+            'trailing': true
+        }));
     }
 
     /**
@@ -3175,14 +3175,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.isPositionChanged) {
                     // To send the video request and background at a same time to avoid sending the different coordinates
                     // Without setTimeout(), the background request triggers faster than video request
-                    setTimeout(() => {
-                        if (this.lastResponseStatus !== 'stopped' && this.lastRequestStatus !== 'stop') {
-                            publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
-                                'resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                            this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
-                                this.videoBGObjJSON('resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
-                        }
-                    }, 100);
+                    if (this.lastResponseStatus !== 'stopped' && this.lastRequestStatus !== 'stop') {
+                        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+                        publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
+                            'resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
+                        this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
+                            this.videoBGObjJSON('resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
+                    }
                 }
                 this.isVideoReady = false;
                 break;
@@ -3323,6 +3322,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
 
                 this.retryCount = 0;
+                this.errorCount = 0;
                 this.isVideoReady = false;
                 this.isOrientationChanged = false;
                 this.isExitFullscreen = false;
@@ -3351,6 +3351,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.cutCanvas2DisplayVideo(this.context);
                 this.sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.retryCount = 0;
+                this.errorCount = 0;
                 this.isVideoReady = true;
                 this.sendEvent(this.sendEventState, 2, 'number');
                 this.isOrientationChanged = false;
@@ -3418,10 +3419,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.lastRequestStatus = '';
                 this.isVideoReady = false;
                 this.clearSnapShot();
-                publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
-                    'stop', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                this.info("Background Request (stop) : " + JSON.stringify(
-                    this.videoBGObjJSON('start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
+                // Increment the errorCount and send the background stop only once to avoid flickering during 
+                // continuous error feedback
+                if (this.errorCount === 0) {
+                    publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
+                        'stop', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
+                    this.info("Background Request (stop) : " + JSON.stringify(
+                        this.videoBGObjJSON('start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
+                }
+                this.errorCount += this.errorCount;
                 this.hideFullScreenIcon();
                 break;
             default:
@@ -3430,7 +3436,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.hideFullScreenIcon();
                 // Increment the retryCount and send the feedback
                 if (responseStatus === "retrying connection") {
-                    this.retryCount = this.retryCount + 1;
+                    this.retryCount += this.retryCount;
                     this.sendEvent(this.sendEventRetryCount, this.retryCount, 'number');
                 }
                 break;
@@ -3646,7 +3652,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.addEventListener('click', this.videoCP.bind(this));
         window.addEventListener('orientationchange', this.orientationChange.bind(this));
         window.addEventListener('resize', this.orientationChange.bind(this));
-        this.scrollableElm.addEventListener('scroll', this.positionChange.bind(this));
+        this.scrollableElm.addEventListener('scroll', _.debounce(this.positionChange.bind(this), 100, {
+            'leading': true,
+            'trailing': true
+        }));
     }
 
     /**
