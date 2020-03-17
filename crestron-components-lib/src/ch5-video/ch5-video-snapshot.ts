@@ -24,7 +24,6 @@ export class Ch5VideoSnapshot {
     private refreshRate: number = 5;
     private snapShotTimer: any;
     private snapShotObj: TSnapShotSignalName;
-    private videoImage = new Image();
     
     public constructor(snapShotObj: TSnapShotSignalName) {
         this.snapShotObj = snapShotObj;
@@ -83,10 +82,11 @@ export class Ch5VideoSnapshot {
      * Load the snapshot once on CH5-video load`
      */
     private setSnapShot() {
-        this.videoImage.onload = (ev: Event) => {
-            this.snapShotImage = this.videoImage;
+        const videoImage = new Image();
+        videoImage.onload = (ev: Event) => {
+            this.snapShotImage = videoImage;
         };
-        this.videoImage.src = this.url + "?" + new Date().getTime().toString();
+        videoImage.src = this.url + "?" + new Date().getTime().toString();
     }
 
     /**
