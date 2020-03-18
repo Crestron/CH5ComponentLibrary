@@ -480,7 +480,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * CONSTRUCTOR
      */
     public constructor() {
-        super();
+        super();  
 
         // custom release event
         this.errorEvent = new CustomEvent("error", {
@@ -2069,17 +2069,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * Send event to the ch5-background to cut the background layer
-     */
-    private publishBackgroundEvent() {
-        this.backgroundInterval = setTimeout(() => {
-            if (this.videoTop !== -1 && this.videoLeft !== -1) {
-                publishEvent('o', 'ch5.video.background', this.videoBGObjJSON("start", this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-            }
-        }, 1000);
-    }
-
-    /**
      * Clear all the video snapshots
      */
     private clearAllSnapShots() {
@@ -2709,7 +2698,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * When the video exit from the full screen
      */
     private exitFullScreen() {
-        this.info('exitFullScreen()');
+        this.info('Ch5Video.exitFullScreen()');
         this.vidControlPanel.classList.remove("fullScreen");
         this.orientationChangeComplete();
         this.controlFullScreen.innerHTML = '';
@@ -2789,7 +2778,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.isFullScreen) {
             this.exitFullScreen();
         } else {
-            this.info('enterFullScreen()');
+            this.info('Ch5Video.enterFullScreen()');
             if (!!this.fullScreenOverlay && !!this.fullScreenOverlay.classList) {
                 this.fullScreenOverlay.classList.add(this.primaryVideoCssClass + '--overlay');
             }
@@ -2884,7 +2873,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * The pre-cut will have a problem.
      */
     private observePositionChangesAfterScrollEnds() {
-        this.info('observePositionChangesAfterScrollEnds() called');
+        this.info('Ch5Video.observePositionChangesAfterScrollEnds()');
         this.calculatePositions();
         if (this.previousXPos !== this.videoLeft || this.previousYPos !== this.videoTop) {
             publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
@@ -2904,7 +2893,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * then video starts playing in the new position.
      */
     private positionChange() {
-        this.info('positionChange()');
+        this.info('Ch5Video.positionChange()');
         if ((this.lastResponseStatus === '' || this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized')) {
             this.isPositionChanged = true;
             window.clearTimeout(this.exitTimer); // clear timer if the user scrolls immediately after fullscreen exit
@@ -2953,7 +2942,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Send the resize request when the device orientation has been changed.
      */
     private orientationChange() {
-        this.info('orientationChange()');
+        this.info('Ch5Video.orientationChange()');
         if (this.orientationCount === 1) {
             this.orientationCount = 0;
             this.hideFullScreenIcon();
@@ -3054,6 +3043,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param video 
      */
     private drawCanvas(video: HTMLCanvasElement) {
+        this.info('Ch5Video.drawCanvas()');
         this.context = video.getContext("2d");
         this.calculation(video);
         this.videoCanvasElement.appendChild(this.vid);
