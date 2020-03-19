@@ -480,7 +480,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * CONSTRUCTOR
      */
     public constructor() {
-        super();  
+        super();
 
         // custom release event
         this.errorEvent = new CustomEvent("error", {
@@ -2487,14 +2487,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         for (let idx = 0; idx < this.maxVideoCount; idx++) {
             const sData: Ch5VideoSnapshot = this.snapShotInfoMap.get(idx);
             if (activeIndex === idx) {
-                this.info('isSnapShotLoading: ' + sData.isSnapShotLoading);
-                if (sData.isSnapShotLoading) {
-                    this.info('snapShotImage: ' + sData.snapShotImage.src);
-                    if (!!sData.snapShotImage) {
-                        this.lastLoadedImage = Object.assign(sData.snapShotImage);
-                        this.info('Snapshot Success: loaded active index ' + activeIndex);
-                        this.drawSnapShot(this.lastLoadedImage);
-                    }
+                this.info('snapShotImage: ' + sData.snapShotImage.src);
+                this.clearSnapShot();
+                if (!!sData.snapShotImage) {
+                    this.lastLoadedImage = Object.assign(sData.snapShotImage);
+                    this.info('Snapshot Success: loaded active index ' + activeIndex);
+                    this.drawSnapShot(this.lastLoadedImage);
                 }
             } else {
                 if (!sData.isSnapShotLoading) {
@@ -2663,6 +2661,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private clearSnapShot() {
         if (!!this.context) {
+            // Clearing lastLoadedImage empty to avoid the previous snapshot to be loaded in the next switched camera if the snapshot does not exists
+            this.lastLoadedImage = '';
             this.context.clearRect(this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
         }
     }
