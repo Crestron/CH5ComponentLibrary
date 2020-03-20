@@ -169,7 +169,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -326,7 +326,6 @@
               "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
             ],
             "value": [
-              "",
               "regular",
               "x-small",
               "small",
@@ -339,7 +338,7 @@
             "documentation": [
               "`label` attribute",
               "***",
-              "The label value."
+              "The label of the button element."
             ],
             "value": [],
             "name": "label"
@@ -707,7 +706,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -1145,7 +1144,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -1511,7 +1510,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -1977,7 +1976,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -2337,8 +2336,8 @@
             ]
           }
         ],
-        "description": "Ch5 Overlay Panel ",
-        "name": "Ch5 Overlay Panel ",
+        "description": "Ch5 Overlay Panel",
+        "name": "Ch5 Overlay Panel",
         "tagName": "ch5-overlay-panel"
       },
       {
@@ -2388,7 +2387,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -2903,7 +2902,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -3313,7 +3312,7 @@
               "\tmaxwidth=\"${8}\"",
               "\tminheight=\"${9}\"",
               "\tmaxheight=\"${8}\"",
-              "\tresize=\"${9}\"",
+              "\tresize=\"${9|true,false|}\"",
               "\tmode=\"${10|plain,panel|}\"",
               "\tfeedbackmode=\"${11|direct,submit|}\"",
               "\tsignalvaluesynctimeout=\"${12|1500|}\"",
@@ -3346,7 +3345,7 @@
               "\tmaxwidth=\"${6}\"",
               "\tminheight=\"${7}\"",
               "\tmaxheight=\"${8}\"",
-              "\tresize=\"${9}\"",
+              "\tresize=\"${9|true,false|}\"",
               "\tmode=\"${10|plain,panel|}\"",
               "\tfeedbackmode=\"${11|direct,submit|}\"",
               "\tsignalvaluesynctimeout=\"${12|1500|}\"",
@@ -3373,7 +3372,7 @@
               "\tmaxwidth=\"${6}\"",
               "\tminheight=\"${7}\"",
               "\tmaxheight=\"${8}\"",
-              "\tresize=\"${9}\"",
+              "\tresize=\"${9|true,false|}\"",
               "\tmode=\"${10|plain,panel|}\"",
               "\tfeedbackmode=\"${11|direct,submit|}\"",
               "\tsignalvaluesynctimeout=\"${12|1500|}\"",
@@ -3399,7 +3398,7 @@
               "\tmaxwidth=\"${6}\"",
               "\tminheight=\"${7}\"",
               "\tmaxheight=\"${8}\"",
-              "\tresize=\"${9}\"",
+              "\tresize=\"${9|true,false|}\"",
               "\tmode=\"${10|plain,panel|}\"",
               "\tfeedbackmode=\"${11|direct,submit|}\"",
               "\tsignalvaluesynctimeout=\"${12|1500|}\"",
@@ -3425,7 +3424,7 @@
               "\tmaxwidth=\"${5}\"",
               "\tminheight=\"${6}\"",
               "\tmaxheight=\"${7}\"",
-              "\tresize=\"${8}\"",
+              "\tresize=\"${8|true,false|}\"",
               "\tmode=\"${9|plain,panel|}\"",
               "\tmultiselect",
               "\tfeedbackmode=\"${10|direct,submit|}\"",
@@ -3453,7 +3452,7 @@
               "\tmaxwidth=\"${7}\"",
               "\tminheight=\"${8}\"",
               "\tmaxheight=\"${9}\"",
-              "\tresize=\"${10}\"",
+              "\tresize=\"${10|true,false|}\"",
               "\tmode=\"${11|plain,panel|}\"",
               "\tfeedbackmode=\"${12|direct,submit|}\"",
               "\tsignalvaluesynctimeout=\"${13|1500|}\"",
@@ -3521,7 +3520,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -3805,7 +3804,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -4361,7 +4360,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -4868,7 +4867,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -5064,18 +5063,6 @@
             ],
             "value": [],
             "name": "ondirty"
-          },
-          {
-            "documentation": [
-              "`required` attribute",
-              "***",
-              "Specifies that the input element must be filled out before submitting the form."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "required"
           },
           {
             "documentation": [
@@ -5443,7 +5430,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -5622,7 +5609,7 @@
             "documentation": [
               "`label` attribute",
               "***",
-              "The label value."
+              "The label of the toggle element."
             ],
             "value": [],
             "name": "label"
@@ -5836,7 +5823,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -6177,7 +6164,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -6432,7 +6419,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -6669,7 +6656,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -6914,7 +6901,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -7029,7 +7016,7 @@
               "Use when one or more background colors will be used via the CSS background-color property ",
               "syntax including color names, #hex codes, rgb(), rgba(), hsl() and hsla().",
               "Multiple colors can be provided separated by a | (vertical bar) to have colors ",
-              "cycled based on the time defined.",
+              "cycled based on the time defined. A black color will be used for invalid input.",
               "This attribute is superseded by the url attribute."
             ],
             "value": [],
@@ -7139,7 +7126,9 @@
             "documentation": [
               "`receivestateurl` attribute",
               "***",
-              "When defined, this will set the url attribute."
+              "When defined, this will set the url attribute.  This attribute",
+              " takes precedence over backgroundcolor, url, and receiveStateBackgroundColor ",
+              " attributes."
             ],
             "value": [],
             "name": "receivestateurl"
@@ -7148,7 +7137,8 @@
             "documentation": [
               "`receivestatebackgroundcolor` attribute",
               "***",
-              "When defined, this will set the backgroundColor attribute."
+              "When defined, this will set the backgroundColor attribute. This attribute",
+              " is superseded by the receivestateurl attribute."
             ],
             "value": [],
             "name": "receivestatebackgroundcolor"
@@ -7304,7 +7294,7 @@
             "documentation": [
               "`receivestatecustomclass` attribute",
               "***",
-              "The value of this signal will be applied ss an equivalent property on 'customClass'.",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
               "The change of value will remove  theprior value and apply the new value."
             ],
             "value": [],
@@ -7527,9 +7517,11 @@
             "documentation": [
               "`stretch` attribute",
               "***",
-              "The default value is false. When true, video will be displayed in the whole component. ",
-              "When false, video will be displayed as a letter or pillar box based upon the aspect ratio of the video ",
-              "feed and the size of the component.  Note: this attribute is independent of aspectRatio."
+              "The default value is false. When true, video will occupy the size of the parent container. The user ",
+              "needs to specify the width and height of the parent container for the video to appear correctly. ",
+              "The video will be displayed as a letter or pillar box based on the aspect ratio and size of the ",
+              "parent container. The parent container should not contain any tags other than ch5-background ",
+              "and CH5-Video."
             ],
             "value": [
               "true",
@@ -7815,17 +7807,12 @@
           },
           {
             "documentation": [
-              "`receiveStatePositionChange` attribute",
+              "`receiveStateVideoCount` attribute",
               "***",
-              "The user must add onscroll event listener to the page where the video is added. When ",
-              "the user scrolls the page, the event is initiated and a boolean value true is published to indicate ",
-              "the video position has changed. When the user stops scrolling, a boolean value of false is published to indicate ",
-              "the scroll has stopped. This helps the video component to know the position changes in the page and to ",
-              "move the video to a new position. This value is triggered within the UI layer and does not expect ",
-              "any value from the control system."
+              "Provides the count of the videos."
             ],
             "value": [],
-            "name": "receivestatepositionchange"
+            "name": "receivestatevideocount"
           },
           {
             "documentation": [
@@ -7870,15 +7857,15 @@
             "prefix": "ch5-video:default",
             "description": "Provides a view onto a streaming video window. Components that are to reside above the video that need to be visible and active, examples include buttons to control playback, text describing the video, and annotation controls, need to be defined as children elements to this component.",
             "body": [
-              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9,4:3}\" controls=\"${3:true,false}\" size=\"${4:x-small,small,large,x-large,xx-large}\" sourcetype=\"${5:Network,HDMI,DM}\" userid=\"${6}\" snapshotuserid=\"${7}\" password=\"${8}\" snapshotpassword=\"${9}\" snapshoturl=\"${10}\" url=\"${11}\" stretch=\"${12:true,false}\" zindex=\"${13}\" snapshotrefreshrate=\"${14}\">",
+              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9}\" controls=\"${3:false}\" size=\"${4:large}\" sourcetype=\"${5:Network}\" userid=\"${6}\" snapshotuserid=\"${7}\" password=\"${8}\" snapshotpassword=\"${9}\" snapshoturl=\"${10}\" url=\"${11}\" stretch=\"${12:false}\" zindex=\"${13:0}\" snapshotrefreshrate=\"${14:0}\">",
               "</ch5-video>$0"
             ]
           },
           {
-            "prefix": "ch5-video:receive-signal",
+            "prefix": "ch5-video:all-attributes",
             "description": "Provides a view onto a streaming video window. Components that are to reside above the video that need to be visible and active, examples include buttons to control playback, text describing the video, and annotation controls, need to be defined as children elements to this component.",
             "body": [
-              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9,4:3}\" controls=\"${3:true,false}\" size=\"${4:x-small,small,large,x-large,xx-large}\" sourcetype=\"${5:Network,HDMI,DM}\" userid=\"${6}\" snapshotuserid=\"${7}\" password=\"${8}\" snapshotpassword=\"${9}\" snapshoturl=\"${10}\" url=\"${11}\" stretch=\"${12:true,false}\" receivestateselect=\"${13}\" receivestatevideourl=\"${14}\" receivestatepositionchange=\"${15}\" receivestatesourcetype=\"${16}\" receivestateuserid=\"${17}\" receivestatepassword=\"${18}\" receivestatesnapshoturl=\"${19}\" receivestatesnapshotrefreshrate=\"${20}\" receivestatesnapshotuserid=\"${21}\" receivestatesnapshotpassword=\"${22}\" receivestateplay=\"${23}\" zindex=\"${24}\" snapshotrefreshrate=\"${25}\" receivestatevideocount=\"${26}\">",
+              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9}\" controls=\"${3:false}\" size=\"${4:large}\" sourcetype=\"${5:Network}\" userid=\"${6}\" snapshotuserid=\"${7}\" password=\"${8}\" snapshotpassword=\"${9}\" snapshoturl=\"${10}\" url=\"${11}\" stretch=\"${12:false}\" zindex=\"${13:0}\" snapshotrefreshrate=\"${14:0}\" scrollcontainerid=\"${15}\" receivestatesourcetype=\"${16}\" receivestateuserid=\"${17}\" receivestatepassword=\"${18}\" receivestatesnapshoturl=\"${19}\" receivestatesnapshotrefreshrate=\"${20}\" receivestatesnapshotuserid=\"${21}\" receivestatesnapshotpassword=\"${22}\" receivestateplay=\"${23}\" receivestateselect=\"${24}\" receivestateurl=\"${25}\" receivestatevideocount=\"${26}\" sendeventonclick=\"${27}\" sendeventstate=\"${28}\" sendeventselectionurl=\"${29}\" sendeventerrorcode=\"${30}\" sendeventerrormessage=\"${31}\" sendeventsnapshoturl=\"${32}\" sendeventselectionsourcetype=\"${33}\" sendeventselectionchange=\"${34}\" sendeventretrycount=\"${35}\" sendeventsnapshotlastupdatetime=\"${36}\" sendeventresolution=\"${37}\" sendeventsnapshotstatus=\"${38}\">",
               "</ch5-video>$0"
             ]
           }
