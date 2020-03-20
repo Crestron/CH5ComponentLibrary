@@ -24,13 +24,11 @@ export class Ch5Heartbeats {
    * Creates the instance
    */
   private constructor() {
-    // TODO - remove excess logging after integration  
-    console.log('Created singleton instance of Ch5Heartbeats');
+    // console.log('Created singleton instance of Ch5Heartbeats');
     this._heartbeatRequestSub = subscribeState('object', 
         Ch5HeartbeateSignals.CsigHeatbeatRequest,
         (value:object) => {
-            // TODO - remove excess logging after integration
-            console.log('received heartbeat request:' + JSON.stringify(value));
+            // console.log('received heartbeat request:' + JSON.stringify(value));
             publishEvent('object', Ch5HeartbeateSignals.CsigHeatbeatResponse, value);
         });
   }
