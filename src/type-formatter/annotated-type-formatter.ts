@@ -51,8 +51,8 @@ export function makeNullable(def: Definition) {
         for (const k in def) {
             if (def.hasOwnProperty(k) && k !== "description" && k !== "title" && k !== "default") {
                 const key: keyof Definition = k as keyof Definition;
-                subdef[key] = def[key];
-                delete def[key];
+                subdef[key] = def[k];
+                delete def[k];
             }
         }
         def.anyOf = [subdef, { type: "null" }];
