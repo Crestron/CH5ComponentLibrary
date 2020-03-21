@@ -1837,13 +1837,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         let timer: any;
                         clearTimeout(timer);
                         timer = setTimeout(() => {
-                            this.publishVideoEvent("resize");
+                            // Send the start request to avoid the second start request from intersection observer
+                            this.publishVideoEvent("start");
                             setTimeout(() => {
                                 if (this.elementIntersectionEntry.intersectionRatio > 0.5) {
                                     publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
-                                        'resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
+                                        'start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
                                     this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
-                                        this.videoBGObjJSON('resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
+                                        this.videoBGObjJSON('start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
                                 }
                             }, 100);
                             this.isSlidemoved = false;
@@ -3227,6 +3228,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param actionType 
      */
     private videoStopRequest(actionType: string) {
+        publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
+        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
         this.lastRequestStatus = actionType;
         this.fromExitFullScreen = false;
         this.lastRequestUrl = '';
