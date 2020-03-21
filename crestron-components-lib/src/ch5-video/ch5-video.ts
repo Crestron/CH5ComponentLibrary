@@ -3198,6 +3198,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param actionType 
      */
     private videoStartRequest(actionType: string) {
+        if (!this.lastLoadedImage) {
+            publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
+                'start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
+            this.info("Background Request (Start) : " + JSON.stringify(
+                this.videoBGObjJSON('start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
+        }
         const d = new Date();
         if (this.lastLoadedImage) {
             this.drawSnapShot(this.lastLoadedImage);
@@ -3214,12 +3220,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info("Video Request (Start) : " + JSON.stringify(this.videoStartObjJSON(actionType,
             this.ch5UId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height, parseInt(this.zIndex, 0),
             this.isAlphaBlend, d.getMilliseconds(), d.getMilliseconds() + 2000)));
-        if (!this.lastLoadedImage) {
-            publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
-                'start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-            this.info("Background Request (Start) : " + JSON.stringify(
-                this.videoBGObjJSON('start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
-        }
         this.requestID = this.ch5UId;
     }
 
