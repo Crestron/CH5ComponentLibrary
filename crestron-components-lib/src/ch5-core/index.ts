@@ -28,5 +28,6 @@ export * from './ch5-translation-utility';
 export * from './ch5-translation-listeners';
 export * from './ch5-translation-factory';
 export * from './ch5-version';
+export * from './ch5-heartbeat';
 export * from './types/ch5-platform-info';
 export * from './ch5-platform';
