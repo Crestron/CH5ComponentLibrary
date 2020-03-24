@@ -1837,16 +1837,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         let timer: any;
                         clearTimeout(timer);
                         timer = setTimeout(() => {
-                            // Send the start request to avoid the second start request from intersection observer
-                            this.publishVideoEvent("start");
-                            setTimeout(() => {
-                                if (this.elementIntersectionEntry.intersectionRatio > 0.5) {
-                                    publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
-                                        'start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                                    this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
-                                        this.videoBGObjJSON('start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
-                                }
-                            }, 100);
+                            if (this.elementIntersectionEntry.intersectionRatio > 0.5) {
+                                // Send the start request to avoid the second start request from intersection observer
+                                this.publishVideoEvent("start");
+                            }
                             this.isSlidemoved = false;
                         }, 300);
                     }
@@ -2969,13 +2963,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }, 100);
                     this.calculatePositions();
                 }
-                
+
                 if (!this.isFullScreen) {
                     publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                         'resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
                     this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
                         this.videoBGObjJSON('resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
-                }                
+                }
 
                 if (this.lastResponseStatus === 'started' || (this.lastResponseStatus === 'resized' && this.lastRequestStatus === "resize")) {
                     if (this.elementIsInViewPort) {
