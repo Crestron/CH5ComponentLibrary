@@ -1,11 +1,11 @@
 {
   "source": "./src",
-  "destination": "./dist/Content/Topics/ShowcaseApp",
+  "destination": "./dist/downloads/ShowcaseApp",
   "clean": true,
   "metadata": {
     "title": "Showcase App",
     "description": "Showcase App for Crestron Components",
-    "siteurl":"/Content/Topics/ShowcaseApp/"
+    "siteurl":"/downloads/ShowcaseApp/"
   },
   "plugins": {
     "metalsmith-debug":{},
