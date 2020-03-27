@@ -510,7 +510,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.subscriptionEventList.forEach(subscription => {
             subscription.unsubscribe();
         });
-        // this.clearAllSnapShots(); // TODO: TO avoid black screen on load
+        this.clearAllSnapShots();
         this.isVideoReady = true;
         this.lastRequestStatus = "start";
         // When the user navigates from video page to another page, stop has to be sent
@@ -1745,12 +1745,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 sigLabel.unsubscribe(this.subReceiveStateUrl);
             }
         }
-        if (this.subReceiveStateSelect !== '') {
-            const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(this._receiveStateSelect);
-            if (sigLabel !== null) {
-                sigLabel.unsubscribe(this.subReceiveStateSelect);
-            }
-        }
         if (this.subReceiveStateSourceType !== '') {
             const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(this._receiveStateSourceType);
             if (sigLabel !== null) {
@@ -1939,7 +1933,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
             clearTimeout(this.backgroundInterval);
             clearTimeout(this.isSwipeInterval);
-            // this.clearAllSnapShots();
+            this.clearAllSnapShots();
             if (this.isSwipeInterval) {
                 window.clearInterval(this.isSwipeInterval);
             }
