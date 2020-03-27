@@ -24,7 +24,7 @@ export class Ch5VideoSnapshot {
     private refreshRate: number = 5;
     private snapShotTimer: any;
     private snapShotObj: TSnapShotSignalName;
-    
+
     public constructor(snapShotObj: TSnapShotSignalName) {
         this.snapShotObj = snapShotObj;
         this.unSubscribeStates();
@@ -57,7 +57,7 @@ export class Ch5VideoSnapshot {
      */
     public stopLoadingSnapShot() {
         this.isSnapShotLoading = false;
-        this.snapShotImage = '';
+        // this.snapShotImage = '';
         clearInterval(this.snapShotTimer);
     }
 
