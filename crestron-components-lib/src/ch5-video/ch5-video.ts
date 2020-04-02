@@ -1823,6 +1823,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
                         this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
                         this.isSlidemoved = true;
+                        this.publishVideoEvent("stop");
                     }
                 });
 
