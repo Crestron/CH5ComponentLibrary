@@ -211,7 +211,10 @@ export class Ch5Emulator {
     }
 
     public processAction(action:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[], cueSignalValue:boolean|number|string|object){
+        window.setTimeout(() => this.processActionAsync(action, actionIndex, actionArray, cueSignalValue), 30);
+    }
 
+    private processActionAsync(action:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[], cueSignalValue:boolean|number|string|object){
         if (isUndefined(action.state)) {
             throw new Error('Property "state" is not set in action.');
         }
