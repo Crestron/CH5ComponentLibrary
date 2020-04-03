@@ -183,39 +183,39 @@
     });
 
     test('data-ch5-show', function(done) {
-      flush(() => {
+      setTimeout(() => {
         expect(dataCh5Show.classList.contains('ch5-hide-dis')).to.equal(true);
         CrComLib.publishEvent('b', '1', true);
         expect(dataCh5Show.classList.contains('ch5-hide-dis')).to.equal(false);
         done();
-      });
+      },40);
     });
 
     test('data-ch5-showpulse', function(done) {
-      flush(() => {
+      setTimeout(() => {
         expect(dataCh5Showpulse.classList.contains('ch5-hide-vis')).to.equal(true);
         CrComLib.publishEvent('b', '2', true);
         expect(dataCh5Showpulse.classList.contains('ch5-hide-vis')).to.equal(false);
         done();
-      });
+      },40);
     });
 
     test('data-ch5-hidepulse', function(done) {
-      flush(() => {
+      setTimeout(() => {
         expect(dataCh5Hidepulse.classList.contains('ch5-hide-dis')).to.equal(false);
         CrComLib.publishEvent('b', '3', true);
         expect(dataCh5Hidepulse.classList.contains('ch5-hide-dis')).to.equal(true);
         done();
-      });
+      },40);
     });
 
     test('data-ch5-textcontent', function(done) {
-      flush(() => {
-        expect(dataCh5TextContent.innerHTML).to.equal('');
-        CrComLib.publishEvent('b', '4', true);
-        expect(dataCh5TextContent.textContent).to.equal("25 degrees Celsius");
-        done();
-      });
+        setTimeout(() => {
+          expect(dataCh5TextContent.innerHTML).to.equal('');
+          CrComLib.publishEvent('b', '4', true);
+          expect(dataCh5TextContent.textContent).to.equal("25 degrees Celsius");
+          done();
+        },40);
     });
 
     test('data-ch5-innerhtml', function(done) {
