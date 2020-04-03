@@ -191,7 +191,7 @@
       });
     });
 
-    flush('data-ch5-showpulse', function(done) {
+    test('data-ch5-showpulse', function(done) {
       flush(() => {
         expect(dataCh5Showpulse.classList.contains('ch5-hide-vis')).to.equal(true);
         CrComLib.publishEvent('b', '2', true);
