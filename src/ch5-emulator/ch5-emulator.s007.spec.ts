@@ -13,6 +13,7 @@ import {Ch5Emulator, IEmulatorScenario} from './index';
 import {Ch5SignalFactory} from "../ch5-core";
 import { TCh5SignalHashTable } from '../ch5-core/types/signal.table';
 import { TCh5Signal } from '../ch5-core/types/signal.type';
+import * as delayFunction from "./mocha.async.delay";
 
 describe('Ch5Emulator#scenario 007', () => {
 
@@ -71,15 +72,17 @@ describe('Ch5Emulator#scenario 007', () => {
                 's007_sig23_n'
             ];
 
-            const signalCheck = (sigName:string, expectedValue:boolean|number|string|object|null) => {
-                return it(sigName + ' is ' + expectedValue,(done:MochaDone) => {
-                    const sig = sigs[sigName];
-                    if (typeof sigName !== "undefined" && typeof sig !== undefined && null !== sig) {
-                        expect(sig.value,sigName).to.be.equal(expectedValue);
-                    } else {
-                        done(new Error(sigName + " not found"));
-                    }
-                    done();
+            const signalCheck = (sigName: string, expectedValue: boolean | number | string | object | null) => {
+                it(sigName + ' is ' + expectedValue, (done: MochaDone) => {
+                    delayFunction.emulatorAsyncDelay(done, () => {
+                        const sig = sigs[sigName];
+                        if (typeof sigName !== "undefined" && typeof sig !== undefined && null !== sig) {
+                            expect(sig.value, sigName).to.be.equal(expectedValue);
+                        } else {
+                            done(new Error(sigName + " not found"));
+                        }
+                        // done();
+                    });
                 });
             };
 
