@@ -12,7 +12,7 @@ import { fail } from "assert";
 
 import {Ch5Emulator, IEmulatorScenario} from './index';
 import {Ch5SignalFactory} from "../ch5-core";
-
+import * as delayFunction from "./mocha.async.delay";
 
 describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
 
@@ -57,9 +57,17 @@ describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
                     fail('boolean signal: hall_lights_selected not found');
                 }
             });
-            it('load scenario and change cue signal value',() => {
+            it('load scenario and change cue signal value',(done) => {
                 em.loadScenario(emScenario);
                 if (null !== sigCue) {
+
+                    if (null !== sigAction) { 
+                        delayFunction.emulatorAsyncDelay(done, () => {expect(sigAction.value, 'action signal changes to true').to.be.equal(true);});
+                    }
+                    else {
+                        fail('boolean signal: hall_lights_selected not found');
+                    }
+
                     sigCue.publish(true);
                     // sigCue.publish(false);
                     // sigCue.publish(true);
@@ -68,13 +76,13 @@ describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
                     fail('boolean signal: hall_lights_tap not found');
                 }
             });
-            it('check action signal',() => {
-                if (null !== sigAction) {
-                    expect(sigAction.value, 'action signal changes to true').to.be.equal(true);
-                } else {
-                    fail('boolean signal: hall_lights_selected not found');
-                }
-            });
+            // it('check action signal',() => {
+            //     if (null !== sigAction) {
+            //         expect(sigAction.value, 'action signal changes to true').to.be.equal(true);
+            //     } else {
+            //         fail('boolean signal: hall_lights_selected not found');
+            //     }
+            // });
         });
 
         describe('scenario002#cue(type=boolean,trigger=true)->action(type=number,logic=set,value=65535),action(type=string,logic=set,value="Raising Volume!")', () => {
@@ -104,31 +112,40 @@ describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
                     fail('boolean signal: volume_level_desc not found');
                 }
             });
-            it('load scenario and change cue signal value',() => {
+            it('load scenario and change cue signal value',(done) => {
                 em.loadScenario(emScenario);
 
-                if (null !== sigCue) {
+                if (null !== sigCue && null !== sigAction1 && null !== sigAction2) {
+                    delayFunction.emulatorAsyncDelay(done, () => {
+                        expect(sigAction1.value,'sigAction1(volume_level) has changed to 65535').to.be.equal(65535);
+                        expect(sigAction2.value,'sigAction2(volume_level_desc) has changed to "Raising Volume!"').to.be.equal('Raising Volume!');
+                    });
+
+
                     expect(sigCue.value,'sigTrigger(volume_up_press) is false after loading the scenario').to.be.equal(false);
                     sigCue.publish(true);
                     expect(sigCue.value,'sigTrigger(volume_up_press) is changed to true').to.be.equal(true);
                 } else {
-                    fail('boolean signal: volume_up_press not found');
+
+                    if (null === sigCue) { fail('boolean signal: volume_up_press not found'); }
+                    if (null === sigAction1) { fail('boolean signal: volume_level not found'); }
+                    if (null === sigAction2) { fail('boolean signal: volume_level_desc not found'); }
                 }
             });
-            it('check action signal 1 - volume_level',() => {
-                if (null !== sigAction1) {
-                    expect(sigAction1.value,'sigAction1(volume_level) has changed to 65535').to.be.equal(65535);
-                } else {
-                    fail('boolean signal: volume_level not found');
-                }
-            });
-            it('check action signal 2 - volume_level_desc',() => {
-                if (null !== sigAction2) {
-                    expect(sigAction2.value,'sigAction2(volume_level_desc) has changed to "Raising Volume!"').to.be.equal('Raising Volume!');
-                } else {
-                    fail('boolean signal: volume_level_desc not found');
-                }
-            });
+            // it('check action signal 1 - volume_level',() => {
+            //     if (null !== sigAction1) {
+            //         expect(sigAction1.value,'sigAction1(volume_level) has changed to 65535').to.be.equal(65535);
+            //     } else {
+            //         fail('boolean signal: volume_level not found');
+            //     }
+            // });
+            // it('check action signal 2 - volume_level_desc',() => {
+            //     if (null !== sigAction2) {
+            //         expect(sigAction2.value,'sigAction2(volume_level_desc) has changed to "Raising Volume!"').to.be.equal('Raising Volume!');
+            //     } else {
+            //         fail('boolean signal: volume_level_desc not found');
+            //     }
+            // });
 
         });
 
@@ -281,20 +298,27 @@ describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
                     expect(sigCue.value,'s003_c1').to.be.equal(true);
                 }
             });
-            it('s003_a1_b_set check',() => {
-                if (null !== sigAction1){
-                    expect(sigAction1.value,'s003_a1_b_set').to.be.equal(true);
-                }
+            it('s003_a1_b_set check', (done) => {
+                delayFunction.emulatorAsyncDelay(done, () => {
+                    if (null !== sigAction1) {
+                        expect(sigAction1.value, 's003_a1_b_set').to.be.equal(true);
+                    }
+                });
+
             });
-            it('s003_a2_b_link check',() => {
-                if (null !== sigAction2){
-                    expect(sigAction2.value,'s003_a2_b_link').to.be.equal(true); // TODO recheck
-                }
+            it('s003_a2_b_link check', (done) => {
+                delayFunction.emulatorAsyncDelay(done, () => {
+                    if (null !== sigAction2) {
+                        expect(sigAction2.value, 's003_a2_b_link').to.be.equal(true); // TODO recheck
+                    }
+                });
             });
-            it('s003_a3_b_toggle check',() => {
-                if (null !== sigAction3){
-                    expect(sigAction3.value,'s003_a3_b_toggle').to.be.equal(true);
-                }
+            it('s003_a3_b_toggle check', (done) => {
+                delayFunction.emulatorAsyncDelay(done, () => {
+                    if (null !== sigAction3) {
+                        expect(sigAction3.value, 's003_a3_b_toggle').to.be.equal(true);
+                    }
+                });
             });
             it('s003_a4_b_pulse check',() => {
                 if (null !== sigAction4){
@@ -331,11 +355,13 @@ describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
                     expect(sigAction10.value,'s003_a10_n_decrement_offset').to.be.equal(-11); // dec 11
                 }
             });
-            it('s003_a11_n_rcb check before timeout',() => {
-                if (null !== sigAction11){
-                    expect(sigAction11.value,'s003_a11_n_rcb').to.be.equal(0); // test before 100 ms
-                }
-            });
+            // it('s003_a11_n_rcb check before timeout', (done) => {
+            //     delayFunction.emulatorAsyncDelay(done, () => {
+            //         if (null !== sigAction11) {
+            //             expect(sigAction11.value, 's003_a11_n_rcb').to.be.equal(0);
+            //         }
+            //     },120);
+            // });
             it('s003_a11_n_rcb check after timeout',() => {
                 if (null !== sigAction11){
                     setTimeout(() => {
@@ -361,31 +387,44 @@ describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
                     expect(sigCue.value,'s003_c1 is changed to true').to.be.equal(true);
                 }
             });
-            it('s003_a3_b_toggle recheck',() => {
-                if (null !== sigAction3){
-                    expect(sigAction3.value,'s003_a3_b_toggle').to.be.equal(false);
-                }
+            it('s003_a3_b_toggle recheck', (done) => {
+                delayFunction.emulatorAsyncDelay(done, () => {
+                    if (null !== sigAction3) {
+                        expect(sigAction3.value, 's003_a3_b_toggle').to.be.equal(false);
+                    }
+                });
+
             });
             it('s003_a4_b_pulse recheck',() => {
                 if (null !== sigAction4){
                     expect(sigAction4.value,'s003_a4_b_pulse').to.be.equal(false);
                 }
             });
-            it('s003_a7_n_increment recheck',() => {
-                if (null !== sigAction7) {
-                    expect(sigAction7.value,'s003_a7_n_increment').to.be.equal(2); // inc 1
-                }
+
+            it('s003_a7_n_increment recheck', (done) => {
+                delayFunction.emulatorAsyncDelay(done, () => {
+                    if (null !== sigAction7) {
+                        expect(sigAction7.value, 's003_a7_n_increment').to.be.equal(2); // inc 1
+                    }
+                });
             });
-            it('s003_a8_n_increment_offset recheck',() => {
-                if (null !== sigAction8){
-                    expect(sigAction8.value,'s003_a8_n_increment_offset').to.be.equal(20); // inc 10
-                }
+
+            it('s003_a8_n_increment_offset recheck', (done) => {
+                delayFunction.emulatorAsyncDelay(done, () => {
+                    if (null !== sigAction8) {
+                        expect(sigAction8.value, 's003_a8_n_increment_offset').to.be.equal(20); // inc 10
+                    }
+                });
             });
-            it('s003_a9_n_decrement recheck',() => {
-                if (null !== sigAction9){
-                    expect(sigAction9.value,'s003_a9_n_decrement').to.be.equal(-2); // dec 1
-                }
+
+            it('s003_a9_n_decrement recheck', (done) => {
+                delayFunction.emulatorAsyncDelay(done, () => {
+                    if (null !== sigAction9) {
+                        expect(sigAction9.value, 's003_a9_n_decrement').to.be.equal(-2); // dec 1
+                    }
+                });
             });
+
             it('s003_a10_n_decrement_offset recheck',() => {
                 if (null !== sigAction10){
                     expect(sigAction10.value,'s003_a10_n_decrement_offset').to.be.equal(-22); // dec 11

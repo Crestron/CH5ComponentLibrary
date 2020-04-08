@@ -1,179 +1,187 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script>
+    void(0)
+  </script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
+
 <body>
 
-<script>
-  suite('Test CrComLib utility functions', function() {
+  <script>
+    suite('Test CrComLib utility functions', function () {
 
-    const signalName22 = '22';
-    const signalScript =
+      const signalName22 = '22';
+      const signalScript =
         'CrComLib.textformat("City: {1}, Number: {2}, Number*3: {3}","{{s.24}}",{{n.23}},{{n.23}}*3)';
-    const emulator = CrComLib.Ch5Emulator.getInstance();
+      const emulator = CrComLib.Ch5Emulator.getInstance();
 
-    setup(() => {
-      const scenario = {
-        cues: [
-          {
-            "type": "s",
-            "event": signalName22,
-            "trigger": "&change",
-            "actions": [
-              {
+      setup(() => {
+        const scenario = {
+          cues: [{
+              "type": "s",
+              "event": signalName22,
+              "trigger": "&change",
+              "actions": [{
                 "state": signalName22,
                 "type": "s",
                 "logic": "link"
-              }
-            ]
-          },
-          {
-            "type": "b",
-            "event": "update_script_signals_1",
-            "trigger": true,
-            "actions": [
-              {
-                "state": "23",
-                "type": "n",
-                "logic": "set",
-                "value": 5
-              },
-              {
-                "state": "24",
-                "type": "s",
-                "logic": "set",
-                "value": "New York"
-              }
-            ]
-          },
-          {
-            "type": "b",
-            "event": "update_script_signals_2",
-            "trigger": true,
-            "actions": [
-              {
-                "state": "23",
-                "type": "n",
-                "logic": "set",
-                "value": 10
-              },
-              {
-                "state": "24",
-                "type": "s",
-                "logic": "set",
-                "value": "Berlin"
-              }
-            ]
-          }
-        ]
-      };
-      emulator.loadScenario(scenario);
-    });
-
-    test('[subscribeState] Expect state name "22" subscription to be made for name "fb22" ' +
-        '(has "fb" prefix added)', function() {
-      const s1Sub = CrComLib.subscribeState('s', signalName22, () => {
+              }]
+            },
+            {
+              "type": "b",
+              "event": "update_script_signals_1",
+              "trigger": true,
+              "actions": [{
+                  "state": "23",
+                  "type": "n",
+                  "logic": "set",
+                  "value": 5
+                },
+                {
+                  "state": "24",
+                  "type": "s",
+                  "logic": "set",
+                  "value": "New York"
+                }
+              ]
+            },
+            {
+              "type": "b",
+              "event": "update_script_signals_2",
+              "trigger": true,
+              "actions": [{
+                  "state": "23",
+                  "type": "n",
+                  "logic": "set",
+                  "value": 10
+                },
+                {
+                  "state": "24",
+                  "type": "s",
+                  "logic": "set",
+                  "value": "Berlin"
+                }
+              ]
+            }
+          ]
+        };
+        emulator.loadScenario(scenario);
       });
 
-      // all subscriptions key are starting with signal name (in our case name 22 becomes fb22)
-      expect(s1Sub.slice(0, 4)).to.equal('fb22');
-    });
+      test('[subscribeState] Expect state name "22" subscription to be made for name "fb22" ' +
+        '(has "fb" prefix added)',
+        function () {
+          const s1Sub = CrComLib.subscribeState('s', signalName22, () => {});
 
-    test('[getState] Get state 22 value', function() {
-      CrComLib.subscribeState('s', signalName22, () => {
-      });
-      const stateValue = CrComLib.getState('s', signalName22);
-      expect(stateValue).to.equal(null); // signal has no value
+          // all subscriptions key are starting with signal name (in our case name 22 becomes fb22)
+          setTimeout(() => {
+            expect(s1Sub.slice(0, 4)).to.equal('fb22');
+          }, 40);
+        });
 
-      const stateValueDefault = CrComLib.getState('s', signalName22, 'default_str_value');
-      expect(stateValueDefault).to.equal('default_str_value'); // get a default value
-    });
+      test('[getState] Get state 22 value', function () {
+        CrComLib.subscribeState('s', signalName22, () => {});
+        const stateValue = CrComLib.getState('s', signalName22);
+        expect(stateValue).to.equal(null); // signal has no value
 
-    test('[publishEvent] Publish event "22" and get it\'s value on "fb22" subscription', function() {
-      let lastValueReceived = null;
-      CrComLib.subscribeState('s', signalName22, (strVal) => {
-        lastValueReceived = strVal;
-      });
-
-      const publishedValue = 'publishSignal_unit_test';
-      CrComLib.publishEvent('s', signalName22, publishedValue);
-
-      expect(lastValueReceived).to.equal(publishedValue);
-    });
-
-    test('[unsubscribeState] Unsubscribe state name "22"', function() {
-      let lastValueReceived = null;
-      // subscribe
-      const s1Sub = CrComLib.subscribeState('s', signalName22, (strVal) => {
-        lastValueReceived = strVal;
+        const stateValueDefault = CrComLib.getState('s', signalName22, 'default_str_value');
+        expect(stateValueDefault).to.equal('default_str_value'); // get a default value
       });
 
-      // publish a value
-      const publishedValue1 = 'testing...';
-      CrComLib.publishEvent('s', signalName22, publishedValue1);
+      test('[publishEvent] Publish event "22" and get it\'s value on "fb22" subscription', function () {
+        let lastValueReceived = null;
+        CrComLib.subscribeState('s', signalName22, (strVal) => {
+          lastValueReceived = strVal;
+        });
 
-      // expect published value to be received on fb22 subscription
-      expect(lastValueReceived).to.equal(publishedValue1);
-
-      // unsubscribe
-      CrComLib.unsubscribeState('s', signalName22, s1Sub);
-
-      // publish a second value
-      const publishedValue2 = 'second published msg...';
-      CrComLib.publishEvent('s', signalName22, publishedValue2);
-
-      // second published value is not received and last received value remains the same
-      expect(lastValueReceived).to.equal(publishedValue1);
-    });
-
-    test('[subscribeStateScript] Expect state name "23" and "24" subscription to be made for ' +
-        'name "fb23" and "fb24"', function() {
-
-      let lastSigScriptVal = null;
-      const callback = (result) => {
-        lastSigScriptVal = result;
-      };
-
-      const scriptSubKey = CrComLib.subscribeStateScript(signalScript, callback, 'defaultValue');
-      const subscriptions = CrComLib.subscribeStateScriptSigSubs[scriptSubKey];
-
-      expect(subscriptions.length).to.equal(2);
-      const expectedSubscriptionsStartStr = ['fb23', 'fb24'];
-      subscriptions.forEach((s) => {
-        const subFound = expectedSubscriptionsStartStr.find((sub) => s.sigSub.indexOf(sub) > -1);
-        expect(typeof subFound !== undefined).to.equal(true);
+        const publishedValue = 'publishSignal_unit_test';
+        setTimeout(() => {
+          CrComLib.publishEvent('s', signalName22, publishedValue);
+          expect(lastValueReceived).to.equal(publishedValue);
+        }, 40);
       });
+
+      test('[unsubscribeState] Unsubscribe state name "22"', function () {
+        setTimeout(() => {
+          let lastValueReceived = null;
+          // subscribe
+          const s1Sub = CrComLib.subscribeState('s', signalName22, (strVal) => {
+            lastValueReceived = strVal;
+          });
+
+          // publish a value
+          const publishedValue1 = 'testing...';
+          CrComLib.publishEvent('s', signalName22, publishedValue1);
+
+          // expect published value to be received on fb22 subscription
+          expect(lastValueReceived).to.equal(publishedValue1);
+          // unsubscribe
+          CrComLib.unsubscribeState('s', signalName22, s1Sub);
+
+          // publish a second value
+          const publishedValue2 = 'second published msg...';
+          CrComLib.publishEvent('s', signalName22, publishedValue2);
+
+          // second published value is not received and last received value remains the same
+          expect(lastValueReceived).to.equal(publishedValue1);
+        }, 40);
+      });
+
+      test('[subscribeStateScript] Expect state name "23" and "24" subscription to be made for ' +
+        'name "fb23" and "fb24"',
+        function () {
+
+          let lastSigScriptVal = null;
+          const callback = (result) => {
+            lastSigScriptVal = result;
+          };
+
+          const scriptSubKey = CrComLib.subscribeStateScript(signalScript, callback, 'defaultValue');
+          const subscriptions = CrComLib.subscribeStateScriptSigSubs[scriptSubKey];
+
+          expect(subscriptions.length).to.equal(2);
+          const expectedSubscriptionsStartStr = ['fb23', 'fb24'];
+          subscriptions.forEach((s) => {
+            const subFound = expectedSubscriptionsStartStr.find((sub) => s.sigSub.indexOf(sub) > -1);
+            expect(typeof subFound !== undefined).to.equal(true);
+          });
+        });
+
+      test('[unsubscribeStateScript] Unsubscribe states used in state script utility', function () {
+        setTimeout(() => {
+          let lastSigScriptVal = null;
+          const callback = (result) => {
+            lastSigScriptVal = result;
+          };
+
+          const scriptSubKey = CrComLib.subscribeStateScript(signalScript, callback, 'defaultValue');
+
+          // update script signal values
+          CrComLib.publishEvent('b', 'update_script_signals_1', true);
+
+          expect(lastSigScriptVal).to.equal('City: New York, Number: 5, Number*3: 15');
+
+          // unsubscribe script signal
+          CrComLib.unsubscribeStateScript(scriptSubKey);
+
+          // update signal values again
+          CrComLib.publishEvent('b', 'update_script_signals_2', true);
+
+          // last received value is not changing because script signal was unsubscribed
+          expect(lastSigScriptVal).to.equal('City: New York, Number: 5, Number*3: 15');
+        }, 40);
+      });
+
     });
-
-    test('[unsubscribeStateScript] Unsubscribe states used in state script utility', function() {
-      let lastSigScriptVal = null;
-      const callback = (result) => {
-        lastSigScriptVal = result;
-      };
-
-      const scriptSubKey = CrComLib.subscribeStateScript(signalScript, callback, 'defaultValue');
-
-      // update script signal values
-      CrComLib.publishEvent('b', 'update_script_signals_1', true);
-
-      expect(lastSigScriptVal).to.equal('City: New York, Number: 5, Number*3: 15');
-
-      // unsubscribe script signal
-      CrComLib.unsubscribeStateScript(scriptSubKey);
-
-      // update signal values again
-      CrComLib.publishEvent('b', 'update_script_signals_2', true);
-
-      // last received value is not changing because script signal was unsubscribed
-      expect(lastSigScriptVal).to.equal('City: New York, Number: 5, Number*3: 15');
-    });
-
-  });
-</script>
+  </script>
 </body>
+
 </html>

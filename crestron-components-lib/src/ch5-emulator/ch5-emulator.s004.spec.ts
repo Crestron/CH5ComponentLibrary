@@ -12,6 +12,7 @@ import { fail } from "assert";
 
 import {Ch5Emulator } from './index';
 import {Ch5SignalFactory} from "../ch5-core";
+import * as delayFunction from "./mocha.async.delay";
 
 
 describe('Ch5Emulator#scenario 004 single number-signal-cue with fixed value, multiple actions', () => {
@@ -145,16 +146,22 @@ describe('Ch5Emulator#scenario 004 single number-signal-cue with fixed value, mu
                 expect(sigCue.value,'s004_c1').to.be.equal(120);
             }
         });
-        it('s004_a1_b_set check',() => {
-            if (null !== sigAction1){
-                expect(sigAction1.value,'s004_a1_b_set').to.be.equal(true);
-            }
+        it('s004_a1_b_set check', (done) => {
+            delayFunction.emulatorAsyncDelay(done, () => {
+                if (null !== sigAction1) {
+                    expect(sigAction1.value, 's004_a1_b_set').to.be.equal(true);
+                }
+            });
         });
-        it('s004_a2_b_link check',() => {
-            if (null !== sigAction2){
-                expect(sigAction2.value,'s004_a2_b_link').to.be.equal(true); // TODO recheck
-            }
+
+        it('s004_a2_b_link check', (done) => {
+            delayFunction.emulatorAsyncDelay(done, () => {
+                if (null !== sigAction2) {
+                    expect(sigAction2.value, 's004_a2_b_link').to.be.equal(true); // TODO recheck
+                }
+            });
         });
+
         it('s004_a3_b_toggle check',() => {
             if (null !== sigAction3){
                 expect(sigAction3.value,'s004_a3_b_toggle').to.be.equal(true);
@@ -195,11 +202,15 @@ describe('Ch5Emulator#scenario 004 single number-signal-cue with fixed value, mu
                 expect(sigAction10.value,'s004_a10_n_decrement_offset').to.be.equal(-11); // dec 11
             }
         });
-        it('s004_a11_n_rcb check before timeout',() => {
-            if (null !== sigAction11){
-                expect(sigAction11.value,'s004_a11_n_rcb').to.be.equal(0); // test before 100 ms
-            }
-        });
+
+        // it('s004_a11_n_rcb check before timeout', (done) => {
+        //     delayFunction.emulatorAsyncDelay(done, () => {
+        //         if (null !== sigAction11) {
+        //             expect(sigAction11.value, 's004_a11_n_rcb').to.be.equal(0); // test before 100 ms
+        //         }
+        //     });
+        // });
+        
         it('s004_a11_n_rcb check after timeout',() => {
             if (null !== sigAction11){
                 setTimeout(() => {
@@ -225,20 +236,26 @@ describe('Ch5Emulator#scenario 004 single number-signal-cue with fixed value, mu
                 expect(sigCue.value,'s004_c1 is changed to 120').to.be.equal(120);
             }
         });
-        it('s004_a3_b_toggle recheck',() => {
-            if (null !== sigAction3){
-                expect(sigAction3.value,'s004_a3_b_toggle').to.be.equal(false);
-            }
+
+        it('s004_a3_b_toggle recheck', (done) => {
+            delayFunction.emulatorAsyncDelay(done, () => {
+                if (null !== sigAction3) {
+                    expect(sigAction3.value, 's004_a3_b_toggle').to.be.equal(false);
+                }
+            });
         });
+
         it('s004_a4_b_pulse recheck',() => {
             if (null !== sigAction4){
                 expect(sigAction4.value,'s004_a4_b_pulse').to.be.equal(false);
             }
         });
-        it('s004_a7_n_increment recheck',() => {
-            if (null !== sigAction7) {
-                expect(sigAction7.value,'s004_a7_n_increment').to.be.equal(2); // inc 1
-            }
+        it('s004_a7_n_increment recheck', (done) => {
+            delayFunction.emulatorAsyncDelay(done, () => {
+                if (null !== sigAction7) {
+                    expect(sigAction7.value, 's004_a7_n_increment').to.be.equal(2); // inc 1
+                }
+            });
         });
         it('s004_a8_n_increment_offset recheck',() => {
             if (null !== sigAction8){
