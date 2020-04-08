@@ -577,23 +577,25 @@
     });
   
     test('[ch5-select-option] receiveStateSelected, receiveStateLabel', function (done) {
-      setTimeout(() => {
-        // select first option
-        CrComLib.publishEvent('b', '29', true);
-        expect(ch5Select2.selectedValue).to.equal(0);
-        // select second option
-        CrComLib.publishEvent('b', '30', true);
-        expect(ch5Select2.selectedValue).to.equal(1);
-      
-        // check receiveState label
-        CrComLib.publishEvent('b', 'update_select_labels', true);
-        const options2 = ch5Select3.querySelectorAll('ch5-select-option');
-        for (let i = 0; i < options2.length; i++) {
-          expect(options2[i].optLabel).to.equal('Label ' + (i));
-        }
-        done();
+        flush(function () {
+          setTimeout(() => {
+            // select first option
+            CrComLib.publishEvent('b', '29', true);
+            expect(ch5Select2.selectedValue).to.equal(0);
+            // select second option
+            CrComLib.publishEvent('b', '30', true);
+            expect(ch5Select2.selectedValue).to.equal(1);
+
+            // check receiveState label
+            CrComLib.publishEvent('b', 'update_select_labels', true);
+            const options2 = ch5Select3.querySelectorAll('ch5-select-option');
+            for (let i = 0; i < options2.length; i++) {
+              expect(options2[i].optLabel).to.equal('Label ' + (i));
+            }
+            done();
+          }, 40);
+        });
       });
-    });
 
     test('[ch5-toggle] receiveStateValue, receiveStateScriptLabelHTML', function() {
       CrComLib.publishEvent('b', '33', true);
