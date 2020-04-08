@@ -76,13 +76,6 @@ describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
                     fail('boolean signal: hall_lights_tap not found');
                 }
             });
-            // it('check action signal',() => {
-            //     if (null !== sigAction) {
-            //         expect(sigAction.value, 'action signal changes to true').to.be.equal(true);
-            //     } else {
-            //         fail('boolean signal: hall_lights_selected not found');
-            //     }
-            // });
         });
 
         describe('scenario002#cue(type=boolean,trigger=true)->action(type=number,logic=set,value=65535),action(type=string,logic=set,value="Raising Volume!")', () => {
@@ -132,21 +125,6 @@ describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
                     if (null === sigAction2) { fail('boolean signal: volume_level_desc not found'); }
                 }
             });
-            // it('check action signal 1 - volume_level',() => {
-            //     if (null !== sigAction1) {
-            //         expect(sigAction1.value,'sigAction1(volume_level) has changed to 65535').to.be.equal(65535);
-            //     } else {
-            //         fail('boolean signal: volume_level not found');
-            //     }
-            // });
-            // it('check action signal 2 - volume_level_desc',() => {
-            //     if (null !== sigAction2) {
-            //         expect(sigAction2.value,'sigAction2(volume_level_desc) has changed to "Raising Volume!"').to.be.equal('Raising Volume!');
-            //     } else {
-            //         fail('boolean signal: volume_level_desc not found');
-            //     }
-            // });
-
         });
 
         describe('scenario003#cue(type=boolean,trigger=true)->action(b:link,set,toggle,pulse;n:link,set,increment,decrement,rcb;s:set:link)', () => {
