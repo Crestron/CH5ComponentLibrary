@@ -211,7 +211,7 @@ export class Ch5Emulator {
     }
 
     public processAction(action:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[], cueSignalValue:boolean|number|string|object){
-        setTimeout(() => this.processActionAsync(action, actionIndex, actionArray, cueSignalValue));
+        this.processActionAsync(action, actionIndex, actionArray, cueSignalValue);
     }
 
     private processActionAsync(action:IEmulatorAction, actionIndex:number, actionArray:IEmulatorAction[], cueSignalValue:boolean|number|string|object){
