@@ -14,6 +14,7 @@ import {Ch5Emulator, IEmulatorScenario} from './index';
 import {Ch5SignalFactory} from "../ch5-core";
 import { TCh5SignalHashTable } from '../ch5-core/types/signal.table';
 import { TCh5Signal } from '../ch5-core/types/signal.type';
+import * as delayFunction from "./mocha.async.delay";
 
 describe('Ch5Emulator#scenario 008', () => {
 
@@ -44,22 +45,23 @@ describe('Ch5Emulator#scenario 008', () => {
             's008_sig16_n',
         ];
 
-        const signalCheck = (sigName:string, expectedValue:boolean|number|string|object|null) => {
-            return it(sigName + ' is ' + expectedValue,(done:MochaDone) => {
-                const sig = sigs[sigName];
-                const sigType = sigName.substr(sigName.length - 1);
+        const signalCheck = (sigName: string, expectedValue: boolean | number | string | object | null) => {
+            it(sigName + ' is ' + expectedValue, (done: MochaDone) => {
+                delayFunction.emulatorAsyncDelay(done, () => {
+                    const sig = sigs[sigName];
+                    const sigType = sigName.substr(sigName.length - 1);
 
-                if (typeof sigName !== "undefined" && typeof sig !== undefined && null !== sig) {
-                    if ('o' === sigType) {
-                        expect(sig.value,sigName).to.deep.equal(expectedValue);
+                    if (typeof sigName !== "undefined" && typeof sig !== undefined && null !== sig) {
+                        if ('o' === sigType) {
+                            expect(sig.value, sigName).to.deep.equal(expectedValue);
+                        } else {
+                            expect(sig.value, sigName).to.be.equal(expectedValue);
+                        }
+
                     } else {
-                        expect(sig.value,sigName).to.be.equal(expectedValue);
+                        done(new Error(sigName + " not found"));
                     }
-
-                } else {
-                    done(new Error(sigName + " not found"));
-                }
-                done();
+                });
             });
         };
 
