@@ -33,12 +33,10 @@
             test(`component: "${componentName}"`, function() {
                 let testCreateElement = function(){
                     const c = document.createElement(componentName);
-
                 };
-
-
-                expect(testCreateElement).not.to.throw();
-
+                setTimeout(() => {
+                    expect(testCreateElement).not.to.throw();    
+                }, 40);
             });
         });
     });
