@@ -1,257 +1,272 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-  <script>void(0)</script>
+  <script>void (0)</script>
   <script src="/bower_components/web-component-tester/browser.js"></script>
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
+
 <body>
 
-<test-fixture id="data-ch5-show-fixture">
-  <template>
-    <div data-ch5-show="1" data-ch5-noshow-type="display">
-      DIV: Testing data-ch5-show and noshow-type-visibility set to display
-    </div>
-  </template>
-</test-fixture>
+  <test-fixture id="data-ch5-show-fixture">
+    <template>
+      <div data-ch5-show="1" data-ch5-noshow-type="display">
+        DIV: Testing data-ch5-show and noshow-type-visibility set to display
+      </div>
+    </template>
+  </test-fixture>
 
-<test-fixture id="data-ch5-showpulse-fixture">
-  <template>
-    <div data-ch5-showpulse="2" data-ch5-noshow-type="visibility">
-      DIV: Testing data-ch5-showpulse and noshow-type-visibility set to visibility
-    </div>
-  </template>
-</test-fixture>
+  <test-fixture id="data-ch5-showpulse-fixture">
+    <template>
+      <div data-ch5-showpulse="2" data-ch5-noshow-type="visibility">
+        DIV: Testing data-ch5-showpulse and noshow-type-visibility set to visibility
+      </div>
+    </template>
+  </test-fixture>
 
-<test-fixture id="data-ch5-hidepulse-fixture">
-  <template>
-    <div data-ch5-hidepulse="3" data-ch5-noshow-type="display">
-      DIV: Testing data-ch5-hidepulse and noshow-type-visibility set to display
-    </div>
-  </template>
-</test-fixture>
+  <test-fixture id="data-ch5-hidepulse-fixture">
+    <template>
+      <div data-ch5-hidepulse="3" data-ch5-noshow-type="display">
+        DIV: Testing data-ch5-hidepulse and noshow-type-visibility set to display
+      </div>
+    </template>
+  </test-fixture>
 
-<test-fixture id="data-ch5-textcontent-fixture">
-  <template>
-    <div data-ch5-textcontent="4">
-      DIV: Testing data-ch5-textcontent
-    </div>
-  </template>
-</test-fixture>
+  <test-fixture id="data-ch5-textcontent-fixture">
+    <template>
+      <div data-ch5-textcontent="4">
+        DIV: Testing data-ch5-textcontent
+      </div>
+    </template>
+  </test-fixture>
 
-<test-fixture id="data-ch5-innerhtml-fixture">
-  <template>
-    <div data-ch5-innerhtml="5"></div>
-  </template>
-</test-fixture>
+  <test-fixture id="data-ch5-innerhtml-fixture">
+    <template>
+      <div data-ch5-innerhtml="5"></div>
+    </template>
+  </test-fixture>
 
-<test-fixture id="data-ch5-appendstyle-fixture">
-  <template>
-    <div data-ch5-appendstyle="6">
-      DIV: Testing data-ch5-appendstyle
-    </div>
-  </template>
-</test-fixture>
+  <test-fixture id="data-ch5-appendstyle-fixture">
+    <template>
+      <div data-ch5-appendstyle="6">
+        DIV: Testing data-ch5-appendstyle
+      </div>
+    </template>
+  </test-fixture>
 
-<test-fixture id="data-ch5-appendclass-fixture">
-  <template>
-    <div data-ch5-appendclass="7">
-      DIV: Testing data-ch5-appendclass
-    </div>
-  </template>
-</test-fixture>
+  <test-fixture id="data-ch5-appendclass-fixture">
+    <template>
+      <div data-ch5-appendclass="7">
+        DIV: Testing data-ch5-appendclass
+      </div>
+    </template>
+  </test-fixture>
 
-<script>
-  suite('Test CrComLib data-ch5-* attributes with join number as signal names', function() {
+  <script>
+    suite('Test CrComLib data-ch5-* attributes with join number as signal names', function () {
 
-    const emulator = CrComLib.Ch5Emulator.getInstance();
+      const emulator = CrComLib.Ch5Emulator.getInstance();
 
-    let dataCh5Show = null;
-    let dataCh5Showpulse = null;
-    let dataCh5Hidepulse = null;
-    let dataCh5TextContent = null;
-    let dataCh5InnerHtml = null;
-    let dataCh5AppendStyle = null;
-    let dataCh5AppendClass = null;
+      let dataCh5Show = null;
+      let dataCh5Showpulse = null;
+      let dataCh5Hidepulse = null;
+      let dataCh5TextContent = null;
+      let dataCh5InnerHtml = null;
+      let dataCh5AppendStyle = null;
+      let dataCh5AppendClass = null;
 
-    setup(() => {
-      const scenario = {
-        cues: [
-          {
-            "type": "b",
-            "event": "1",
-            "trigger": true,
-            "actions": [
-              {
-                "state": "1",
-                "type": "b",
-                "logic": "toggle"
-              }
-            ]
-          },
-          {
-            "type": "b",
-            "event": "2",
-            "trigger": true,
-            "actions": [
-              {
-                "state": "2",
-                "type": "b",
-                "logic": "pulse"
-              }
-            ]
-          },
-          {
-            "type": "b",
-            "event": "3",
-            "trigger": true,
-            "actions": [
-              {
-                "state": "3",
-                "type": "b",
-                "logic": "pulse"
-              }
-            ]
-          },
-          {
-            "type": "b",
-            "event": "4",
-            "trigger": true,
-            "actions": [
-              {
-                "state": "4",
-                "type": "s",
-                "logic": "set",
-                "value": "25 degrees Celsius"
-              }
-            ]
-          },
-          {
-            "type": "boolean",
-            "event": "5",
-            "trigger": true,
-            "actions": [
-              {
-                "state": "5",
-                "type": "s",
-                "logic": "set",
-                "value": "<strong>DIV: </strong><span class=\"c-green\">innerHTML updated using signal defined by" +
+      setup(() => {
+        const scenario = {
+          cues: [
+            {
+              "type": "b",
+              "event": "1",
+              "trigger": true,
+              "actions": [
+                {
+                  "state": "1",
+                  "type": "b",
+                  "logic": "toggle"
+                }
+              ]
+            },
+            {
+              "type": "b",
+              "event": "2",
+              "trigger": true,
+              "actions": [
+                {
+                  "state": "2",
+                  "type": "b",
+                  "logic": "pulse"
+                }
+              ]
+            },
+            {
+              "type": "b",
+              "event": "3",
+              "trigger": true,
+              "actions": [
+                {
+                  "state": "3",
+                  "type": "b",
+                  "logic": "pulse"
+                }
+              ]
+            },
+            {
+              "type": "b",
+              "event": "4",
+              "trigger": true,
+              "actions": [
+                {
+                  "state": "4",
+                  "type": "s",
+                  "logic": "set",
+                  "value": "25 degrees Celsius"
+                }
+              ]
+            },
+            {
+              "type": "boolean",
+              "event": "5",
+              "trigger": true,
+              "actions": [
+                {
+                  "state": "5",
+                  "type": "s",
+                  "logic": "set",
+                  "value": "<strong>DIV: </strong><span class=\"c-green\">innerHTML updated using signal defined by" +
                     "</span> <span class=\"c-blue\">data-ch5-innerhtml attribute</span>"
-              }
-            ]
-          },
-          {
-            "type": "b",
-            "event": "6",
-            "trigger": true,
-            "actions": [
-              {
-                "state": "6",
-                "type": "s",
-                "logic": "set",
-                "value": "background-color: yellow; color: red; font-weight: bold;"
-              }
-            ]
-          },
-          {
-            "type": "b",
-            "event": "7",
-            "trigger": true,
-            "actions": [
-              {
-                "state": "7",
-                "type": "s",
-                "logic": "set",
-                "value": "c-green"
-              }
-            ]
-          }
-        ]
-      };
-      emulator.loadScenario(scenario);
+                }
+              ]
+            },
+            {
+              "type": "b",
+              "event": "6",
+              "trigger": true,
+              "actions": [
+                {
+                  "state": "6",
+                  "type": "s",
+                  "logic": "set",
+                  "value": "background-color: yellow; color: red; font-weight: bold;"
+                }
+              ]
+            },
+            {
+              "type": "b",
+              "event": "7",
+              "trigger": true,
+              "actions": [
+                {
+                  "state": "7",
+                  "type": "s",
+                  "logic": "set",
+                  "value": "c-green"
+                }
+              ]
+            }
+          ]
+        };
+        emulator.loadScenario(scenario);
 
-      dataCh5Show = fixture('data-ch5-show-fixture');
-      dataCh5Showpulse = fixture('data-ch5-showpulse-fixture');
-      dataCh5Hidepulse = fixture('data-ch5-hidepulse-fixture');
-      dataCh5TextContent = fixture('data-ch5-textcontent-fixture');
-      dataCh5InnerHtml = fixture('data-ch5-innerhtml-fixture');
-      dataCh5AppendStyle = fixture('data-ch5-appendstyle-fixture');
-      dataCh5AppendClass = fixture('data-ch5-appendclass-fixture');
+        dataCh5Show = fixture('data-ch5-show-fixture');
+        dataCh5Showpulse = fixture('data-ch5-showpulse-fixture');
+        dataCh5Hidepulse = fixture('data-ch5-hidepulse-fixture');
+        dataCh5TextContent = fixture('data-ch5-textcontent-fixture');
+        dataCh5InnerHtml = fixture('data-ch5-innerhtml-fixture');
+        dataCh5AppendStyle = fixture('data-ch5-appendstyle-fixture');
+        dataCh5AppendClass = fixture('data-ch5-appendclass-fixture');
 
-    });
-
-    test('data-ch5-show', function(done) {
-      flush(() => {
-        expect(dataCh5Show.classList.contains('ch5-hide-dis')).to.equal(true);
-        CrComLib.publishEvent('b', '1', true);
-        expect(dataCh5Show.classList.contains('ch5-hide-dis')).to.equal(false);
-        done();
       });
-    });
 
-    test('data-ch5-showpulse', function(done) {
-      flush(() => {
-        expect(dataCh5Showpulse.classList.contains('ch5-hide-vis')).to.equal(true);
-        CrComLib.publishEvent('b', '2', true);
-        expect(dataCh5Showpulse.classList.contains('ch5-hide-vis')).to.equal(false);
-        done();
+      test('data-ch5-show', function (done) {
+        flush(function () {
+          expect(dataCh5Show.classList.contains('ch5-hide-dis')).to.equal(true);
+          CrComLib.publishEvent('b', '1', true);
+          setTimeout(() => {
+            expect(dataCh5Show.classList.contains('ch5-hide-dis')).to.equal(false);
+            done();
+          });
+        });
       });
-    });
 
-    test('data-ch5-hidepulse', function(done) {
-      flush(() => {
-        expect(dataCh5Hidepulse.classList.contains('ch5-hide-dis')).to.equal(false);
-        CrComLib.publishEvent('b', '3', true);
-        expect(dataCh5Hidepulse.classList.contains('ch5-hide-dis')).to.equal(true);
-        done();
+      test('data-ch5-showpulse', function (done) {
+        flush(function () {
+          expect(dataCh5Showpulse.classList.contains('ch5-hide-vis')).to.equal(true);
+          CrComLib.publishEvent('b', '2', true);
+          setTimeout(() => {
+            expect(dataCh5Showpulse.classList.contains('ch5-hide-vis')).to.equal(false);
+            done();
+          }, 40);
+        });
       });
-    });
 
-    test('data-ch5-textcontent', function(done) {
-        flush(() => {
+      test('data-ch5-hidepulse', function (done) {
+        flush(function () {
+          expect(dataCh5Hidepulse.classList.contains('ch5-hide-dis')).to.equal(false);
+          CrComLib.publishEvent('b', '3', true);
+          setTimeout(() => {
+            expect(dataCh5Hidepulse.classList.contains('ch5-hide-dis')).to.equal(true);
+            done();
+          }, 40);
+        });
+      });
+
+      test('data-ch5-textcontent', function (done) {
+        flush(function () {
           expect(dataCh5TextContent.innerHTML).to.equal('');
           CrComLib.publishEvent('b', '4', true);
-          expect(dataCh5TextContent.textContent).to.equal("25 degrees Celsius");
-          done();
+          setTimeout(() => {
+            expect(dataCh5TextContent.textContent).to.equal("25 degrees Celsius");
+            done();
+          }, 40);
         });
-    });
+      });
 
-    test('data-ch5-innerhtml', function(done) {
-      flush(() => {
-        expect(dataCh5InnerHtml.innerHTML).to.equal('');
-        CrComLib.publishEvent('b', '5', true);
-        expect(dataCh5InnerHtml.innerHTML).to.equal("<strong>DIV: </strong><span class=\"c-green\">" +
-            "innerHTML updated using signal defined by" +
-            "</span> <span class=\"c-blue\">data-ch5-innerhtml attribute</span>");
-        done();
+      test('data-ch5-innerhtml', function (done) {
+        flush(function () {
+          expect(dataCh5InnerHtml.innerHTML).to.equal('');
+          CrComLib.publishEvent('b', '5', true);
+          setTimeout(() => {
+            expect(dataCh5InnerHtml.innerHTML).to.equal("<strong>DIV: </strong><span class=\"c-green\">" +
+              "innerHTML updated using signal defined by" +
+              "</span> <span class=\"c-blue\">data-ch5-innerhtml attribute</span>");
+            done();
+          }, 40);
+        });
+      });
+
+      test('data-ch5-appendstyle', function (done) {
+        flush(function () {
+          expect(dataCh5AppendStyle.getAttribute('style')).to.equal(null);
+          CrComLib.publishEvent('b', '6', true);
+          setTimeout(() => {
+            expect(dataCh5AppendStyle.getAttribute('style'))
+              .to.equal("background-color: yellow; color: red; font-weight: bold;");
+            done();
+          }, 40);
+        });
+      });
+
+      test('data-ch5-appendclass', function (done) {
+        flush(function () {
+          expect(dataCh5AppendClass.classList.length).to.equal(0);
+          CrComLib.publishEvent('b', '7', true);
+          setTimeout(() => {
+            expect(dataCh5AppendClass.classList.contains('c-green')).to.equal(true);
+            done();
+          }, 40);
+        });
       });
     });
-
-    test('data-ch5-appendstyle', function(done) {
-      flush(() => {
-        expect(dataCh5AppendStyle.getAttribute('style')).to.equal(null);
-        CrComLib.publishEvent('b', '6', true);
-        expect(dataCh5AppendStyle.getAttribute('style'))
-            .to.equal("background-color: yellow; color: red; font-weight: bold;");
-        done();
-      });
-    });
-
-    test('data-ch5-appendclass', function(done) {
-      flush(() => {
-        expect(dataCh5AppendClass.classList.length).to.equal(0);
-        CrComLib.publishEvent('b', '7', true);
-        expect(dataCh5AppendClass.classList.contains('c-green')).to.equal(true);
-        done();
-      });
-    });
-
-
-  });
-</script>
+  </script>
 </body>
+
 </html>
