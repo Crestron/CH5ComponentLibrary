@@ -324,12 +324,11 @@ export class Ch5SpinnerScroll {
     if (this.direction === 'up') {
       this.currentYOffset += this.element.getItemHeightValue() * velocity;
       this.currentElement--;
-      this.currentElement -= velocity - 1;
-
+      this.currentElement -= velocity - 2;
     } else if (this.direction === 'down') {
       this.currentYOffset -= this.element.getItemHeightValue() * velocity;
       this.currentElement++;
-      this.currentElement += velocity - 1;
+      this.currentElement += velocity - 2;
     }
 
     const yTranslate = this.currentYOffset + this.element.getItemHeightMeasurementUnit();
