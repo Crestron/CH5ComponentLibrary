@@ -1696,7 +1696,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     this.info("<ch5-spinner />.dirtyHandler()");
 
     if (this.dirtyFlag) {
-      this._scrollHelper.selectTheItem(this._cleanItem + 1);
+      this._scrollHelper.selectTheItem(this._cleanItem);
       this._eventsHelper.dispatchClean();
       this.dirtyFlag = false;
     }
