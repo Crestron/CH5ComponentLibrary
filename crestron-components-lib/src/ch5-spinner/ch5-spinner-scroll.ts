@@ -220,7 +220,7 @@ export class Ch5SpinnerScroll {
    * @return {number}
    */
   public getCleanCurrentElementIndex(): number {
-    return this.getCleanCurrentElement() - 1;
+    return this.getCleanCurrentElement();
   }
 
 
@@ -325,7 +325,6 @@ export class Ch5SpinnerScroll {
       this.currentYOffset += this.element.getItemHeightValue() * velocity;
       this.currentElement--;
       this.currentElement -= velocity - 1;
-
     } else if (this.direction === 'down') {
       this.currentYOffset -= this.element.getItemHeightValue() * velocity;
       this.currentElement++;

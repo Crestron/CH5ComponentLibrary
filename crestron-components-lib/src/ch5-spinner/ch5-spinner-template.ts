@@ -757,7 +757,7 @@ export class Ch5SpinnerTemplate {
       }
 
       const children = childrenObject.children[0];
-      children.setAttribute('data-initial-index', String(index + 1));
+      children.setAttribute('data-initial-index', String(index));
       children.setAttribute('role', 'option');
 
       this.addChild(childrenObject.children[0] as HTMLElement);
