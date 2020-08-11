@@ -5,11 +5,12 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ISigComSendToNative, ISigComSubscribe, ISigComUnsubscribe, ISigComSendWebkit } from './interfaces-sig-com';
+import { ISigComSendToNative, ISigComSubscribe, ISigComUnsubscribe, ISigComSendWebkit, ISWebXPanel } from './interfaces-sig-com';
 declare var JSInterface: ISigComUnsubscribe & ISigComSubscribe & ISigComSendToNative;
 declare var webkit: ISigComSendWebkit;
+declare var CommunicationInterface: ISWebXPanel;
 
-import { isObject, isUndefined } from 'lodash';
+import { isObject, isUndefined, isFunction } from 'lodash';
 
 import { TSignalsSubscriptionsByType, TSignalStandardTypeName, TRepeatDigitalSignalValue } from './core';
 import { Ch5Debug } from "./ch5-debug";
@@ -22,6 +23,7 @@ export class Ch5SignalBridge {
     private _localPublishers: TSignalsSubscriptionsByType;
     private _isWebView: boolean = false;
     private _isWebKit: boolean = false;
+    private _isWebXPanel: boolean = false;
 
     public constructor() {
         const dbgKey = 'Ch5SignalBridge.constructor';
@@ -51,6 +53,18 @@ export class Ch5SignalBridge {
             && typeof (webkit.messageHandlers.bridgeSendIntegerToNative) !== 'undefined'
             && typeof (webkit.messageHandlers.bridgeSendStringToNative) !== 'undefined'
             && typeof (webkit.messageHandlers.bridgeSendObjectToNative) !== 'undefined';
+
+
+        this._isWebXPanel = typeof (CommunicationInterface) !== 'undefined'
+            && (
+                isFunction(CommunicationInterface.bridgeSendBooleanToNative)
+                && isFunction(CommunicationInterface.bridgeSendIntegerToNative)
+                && isFunction(CommunicationInterface.bridgeSendStringToNative)
+            );
+
+        if (this._isWebXPanel) {
+            this._isWebView = false;
+        }
 
         // Ch5Debug.info(dbgKey,' end ');
     }
@@ -111,7 +125,7 @@ export class Ch5SignalBridge {
                     webkit.messageHandlers.bridgeSubscribeObjectSignalFromNative.postMessage(this.createPMParam(signalName));
                     break;
             }
-        }
+        } 
         // it is not an error to not have these functions defined.
         // Ch5Debug.info(dbgKey,' end ');
     }
@@ -220,6 +234,8 @@ export class Ch5SignalBridge {
             JSInterface.bridgeSendBooleanToNative(signalName, value);
         } else if (this._isWebKit) {
             webkit.messageHandlers.bridgeSendBooleanToNative.postMessage(this.createPMParam(signalName, value));
+        } else if (this._isWebXPanel) {
+            CommunicationInterface.bridgeSendBooleanToNative(signalName, value);
         } else {
             // TODO find a way to use this without interfering with the mocha tests
             // throw new Error('sendBooleanToNative() not implemented on this platform');
@@ -239,6 +255,8 @@ export class Ch5SignalBridge {
             JSInterface.bridgeSendIntegerToNative(signalName, value);
         } else if (this._isWebKit) {
             webkit.messageHandlers.bridgeSendIntegerToNative.postMessage(this.createPMParam(signalName, value));
+        } else if (this._isWebXPanel) {
+            CommunicationInterface.bridgeSendIntegerToNative(signalName, value);
         } else {
             // TODO find a way to use this without interfering with the mocha tests
             // throw new Error('sendIntegerToNative() not implemented on this platform');
@@ -259,6 +277,8 @@ export class Ch5SignalBridge {
             JSInterface.bridgeSendStringToNative(signalName, value);
         } else if (this._isWebKit) {
             webkit.messageHandlers.bridgeSendStringToNative.postMessage(this.createPMParam(signalName, value));
+        } else if (this._isWebXPanel) {
+            CommunicationInterface.bridgeSendStringToNative(signalName, value);
         } else {
             // TODO find a way to use this without interfering with the mocha tests
             // throw new Error('sendStringToNative() not implemented on this platform');
