@@ -17,6 +17,7 @@ import { ICh5ModalDialog } from "../_interfaces/ch5-modal-dialog/i-ch5-modal-dia
 import { Ch5MutationObserver } from "../ch5-common/ch5-mutation-observer";
 import { ICh5ModalDialogAttributes } from "../_interfaces/ch5-modal-dialog";
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { Ch5Button } from "../ch5-button/ch5-button";
 
 /**
  * Html Attributes
@@ -97,9 +98,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
      */
     protected _elFooter: HTMLElement = {} as HTMLElement;
 
-    protected _elBtnOk: HTMLElement = {} as HTMLElement;
+    protected _elBtnOk: Ch5Button = {} as Ch5Button;
 
-    protected _elBtnCancel: HTMLElement = {} as HTMLElement;
+    protected _elBtnCancel: Ch5Button = {} as Ch5Button;
 
     /**
      * The width of the window
@@ -832,13 +833,13 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
           this._elFooter = document.createElement('div');
           this._elFooter.classList.add(this.cssClassPrefix + '-footer');
             
-          this._elBtnOk = document.createElement('ch5-button');
+          this._elBtnOk = new Ch5Button(); //document.createElement('ch5-button');
           this._elBtnOk.setAttribute('type','success');
           this._elBtnOk.setAttribute('label', this._btnOkDefaultLabelText);
           // this._elBtnOk.setAttribute('customClass', this.cssClassPrefix + '-btn-ok');
           this._elBtnOk.classList.add(this.cssClassPrefix + '-btn-ok');
 
-          this._elBtnCancel = document.createElement('ch5-button');
+          this._elBtnCancel = new Ch5Button(); //document.createElement('ch5-button');
           this._elBtnCancel.setAttribute('type', 'warning');
           this._elBtnCancel.setAttribute('label', this._btnCancelDefaultLabelText);
           // this._elBtnCancel.setAttribute('customClass', this.cssClassPrefix + '-btn-cancel');
@@ -866,8 +867,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
           this._elPromptIcon = this.querySelector(`.${this.cssClassPrefix}-prompt-icon`) as HTMLElement;
           this._elPromptText = this.querySelector(`.${this.cssClassPrefix}-prompt-text`) as HTMLElement;
           this._elFooter = this.querySelector(`.${this.cssClassPrefix}-footer`) as HTMLElement;
-          this._elBtnOk = this.querySelector(`.${this.cssClassPrefix}-btn-ok`) as HTMLElement;
-          this._elBtnCancel = this.querySelector(`.${this.cssClassPrefix}-btn-cancel`) as HTMLElement;
+          this._elBtnOk = this.querySelector(`.${this.cssClassPrefix}-btn-ok`) as Ch5Button;
+          this._elBtnCancel = this.querySelector(`.${this.cssClassPrefix}-btn-cancel`) as Ch5Button;
           this._elContents = this.querySelector(`.${this.cssClassPrefix}-contents`) as HTMLElement;
           this._elContainer = existingModal as HTMLElement;
           this._elMask = this.querySelector(`.${this.cssClassPrefix}-mask`) as HTMLElement;
