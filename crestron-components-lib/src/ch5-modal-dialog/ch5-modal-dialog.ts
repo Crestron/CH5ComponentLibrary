@@ -833,13 +833,13 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
           this._elFooter = document.createElement('div');
           this._elFooter.classList.add(this.cssClassPrefix + '-footer');
             
-          this._elBtnOk = new Ch5Button(); //document.createElement('ch5-button');
+          this._elBtnOk = new Ch5Button();
           this._elBtnOk.setAttribute('type','success');
           this._elBtnOk.setAttribute('label', this._btnOkDefaultLabelText);
           // this._elBtnOk.setAttribute('customClass', this.cssClassPrefix + '-btn-ok');
           this._elBtnOk.classList.add(this.cssClassPrefix + '-btn-ok');
 
-          this._elBtnCancel = new Ch5Button(); //document.createElement('ch5-button');
+          this._elBtnCancel = new Ch5Button();
           this._elBtnCancel.setAttribute('type', 'warning');
           this._elBtnCancel.setAttribute('label', this._btnCancelDefaultLabelText);
           // this._elBtnCancel.setAttribute('customClass', this.cssClassPrefix + '-btn-cancel');
