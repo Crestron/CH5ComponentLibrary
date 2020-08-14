@@ -433,6 +433,8 @@ export class Ch5SpinnerTemplate {
     const visibleItemScroll = this.element.visibleItemScroll;
     const endless = this.element.endless;
 
+    
+
     // create the overlay element
     // this will be appended to the document body
     this.overlayElement = document.createElement('div');
@@ -518,6 +520,14 @@ export class Ch5SpinnerTemplate {
     this.wrapperElement.appendChild(this.highlightElement);
     this.wrapperElement.appendChild(this.scrollableArea);
 
+   // remove  wrapper if exist
+    if (this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__overlay').length
+      || this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__wrapper').length) {
+      const overlayEle = Array.from(this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__overlay'));
+      const wrapperEle = Array.from(this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__wrapper'));
+      overlayEle.forEach(e => e.parentNode!.removeChild(e));
+      wrapperEle.forEach(e => e.parentNode!.removeChild(e));
+    }
     this._element.appendChild(this.wrapperElement);
     this._element.appendChild(this.overlayElement);
 
