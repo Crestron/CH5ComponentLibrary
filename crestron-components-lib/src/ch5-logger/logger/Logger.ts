@@ -11,9 +11,13 @@ import { LogMessage } from "../helpers/index";
 import { LogLevelEnum } from "../enums/index";
 import isNil from 'lodash/isNil';
 import { LogMessagesFilter } from "../helpers/LogMessagesFilter";
+import { RemoteAppender } from "../appender/RemoteAppender";
+import { BehaviorSubject } from 'rxjs';
+
 
 export class Logger {
     private static _instance: Logger;
+    private _subscribeDocketStatus: BehaviorSubject<string> = new BehaviorSubject("");    
     private _appender: AbstractAppender = {} as AbstractAppender;
     private _logFilter: LogMessagesFilter = new LogMessagesFilter();
     private _messagesQueue: LogMessage[] = [];
@@ -22,8 +26,14 @@ export class Logger {
         if (Logger._instance === undefined) {
             Logger._instance = new Logger(appender, logFilter)
         }
-
         return Logger._instance;
+    }
+
+    private clearInstance(){
+        if (Logger._instance !== undefined) {
+            this.appender.clearInstance();
+            delete Logger._instance;
+        }
     }
 
     private constructor(appender: AbstractAppender, logFilter?: LogMessagesFilter) {
@@ -46,6 +56,14 @@ export class Logger {
         this._appender.isInitializedSubject.subscribe(() => {
             this.checkAndAppendMessages();
         });
+    }
+
+    public get subscribeDocketStatus(): BehaviorSubject<string> {
+        return this._subscribeDocketStatus;
+    }
+    
+    public set subscribeDocketStatus(value: BehaviorSubject<string>) {
+        this._subscribeDocketStatus = value;
     }
 
     // Used to change the log filter

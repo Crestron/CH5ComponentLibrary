@@ -15,85 +15,101 @@ import { Logger } from "../logger";
 import { TAppenderConfig } from "../types";
 
 export class RemoteAppender extends AbstractAppender {
-    private static _instance: RemoteAppender;
-    private _requestService: RequestService = {} as RequestService;
-    private _address: string = '';
+  private static _instance: RemoteAppender;
+  private _requestService: RequestService = {} as RequestService;
+  private _address: string = '';
 
-    public static getInstance(sendLogTimeOffsetInMiliseconds: number, appenderConfig: TAppenderConfig): RemoteAppender{
-      if (RemoteAppender._instance === undefined){
-        RemoteAppender._instance = new RemoteAppender(sendLogTimeOffsetInMiliseconds, appenderConfig);
-      }
-
-      return RemoteAppender._instance;
+  public static getInstance(sendLogTimeOffsetInMiliseconds: number, appenderConfig: TAppenderConfig): RemoteAppender {
+    if (RemoteAppender._instance === undefined) {
+      RemoteAppender._instance = new RemoteAppender(sendLogTimeOffsetInMiliseconds, appenderConfig);
     }
+    return RemoteAppender._instance;
+  }
 
-    private constructor(sendLogTimeOffsetInMiliseconds: number, appenderConfig: TAppenderConfig){
-      super(sendLogTimeOffsetInMiliseconds);
-
-      this.setIP(appenderConfig);
+  public clearInstance() {
+    if (RemoteAppender._instance !== undefined) {
+      delete RemoteAppender._instance;
     }
+  }
 
-    /**
-     * Logging the messages
-     * The log level is 1
-     * 
-     * @param {LogMessage} data 
-     */
-    public log(data: LogMessage) {
-      this.sendLogTimeOffset.subscribe(() => {
-        this._requestService.post(LogEndpointsEnum.log, data)
-      });
-    }
+  private constructor(sendLogTimeOffsetInMiliseconds: number, appenderConfig: TAppenderConfig) {
+    super(sendLogTimeOffsetInMiliseconds);
 
-    /**
-     * Set the remote server hostname/ip and port
-     * Initializing the request for the remote server
-     * 
-     * @param {TAppenderConfig} appenderConfig
-     */
-    private setIP(appenderConfig: TAppenderConfig) {
+    this.setIP(appenderConfig);
+  }
 
-        const protocol = appenderConfig.secure ? 'https' : 'http';
+  /**
+   * Logging the messages
+   * The log level is 1
+   * 
+   * @param {LogMessage} data 
+   */
+  public log(data: LogMessage) {
+    this.sendLogTimeOffset.subscribe(() => {
+      this._requestService.post(LogEndpointsEnum.log, data)
+    });
+  }
 
-        const uri = `${protocol}://${appenderConfig.hostname}:${appenderConfig.port}`;
+  /**
+   * Set the remote server hostname/ip and port
+   * Initializing the request for the remote server
+   * 
+   * @param {TAppenderConfig} appenderConfig
+   */
+  private setIP(appenderConfig: TAppenderConfig) {
+    const protocol = appenderConfig.secure ? 'https' : 'http';
+    const uri = `${protocol}://${appenderConfig.hostname}:${appenderConfig.port}`;
+    this._address = `${appenderConfig.hostname}:${appenderConfig.port}`;
+    this.initialiseRequest(uri);
+  }
 
-        this._address = `${appenderConfig.hostname}:${appenderConfig.port}`;
-        this.initialiseRequest(uri);        
-    }
-
-    public configObserver(helper: Logger, hasFilterConfig: boolean) {
-
-      if (!hasFilterConfig) {
-        const responsePromise = this._requestService.get('configuration')
-        
-        if (responsePromise && responsePromise instanceof Promise) {
-          responsePromise.then(response => {
-            const filter = response.data;
-            helper.logFilter = new LogMessagesFilter(filter.level, filter.source, filter.regularExpression);
-            this.isInitialized = true;
-            this.isInitializedSubject.next(true);
-          })
-        }
-      }
-
-      const websocket = new WebSocket(`ws://${this._address}`);
-      websocket.onopen = () => {
-
-        websocket.onmessage = (message) => {
-          const data = JSON.parse(message.data);
-          const filterObject = data.filter;
-          helper.logFilter = new LogMessagesFilter(filterObject.level, filterObject.source, filterObject.regularExpression);
-        }
+  public configObserver(helper: Logger, hasFilterConfig: boolean) {
+    helper.subscribeDocketStatus.next("DOCKER_CONNECTING");
+    if (!hasFilterConfig) {
+      const responsePromise = this._requestService.get('configuration')
+      if (responsePromise && responsePromise instanceof Promise) {
+        responsePromise.then(response => {
+          const filter = response.data;
+          helper.logFilter = new LogMessagesFilter(filter.level, filter.source, filter.regularExpression);
+          this.isInitialized = true;
+          this.isInitializedSubject.next(true);
+          helper.subscribeDocketStatus.next("DOCKER_CONNECTED");
+        })
       }
     }
 
-    /**
-     * Initialized the Request service 
-     * Used to send requests to the remote server
-     * 
-     * @param {string} uri 
-     */
-    protected initialiseRequest(uri: string) {
-        this._requestService = new RequestService(uri);
+    const webSocket = new WebSocket(`ws://${this._address}`);
+
+    webSocket.onopen = () => {
+      webSocket.onmessage = (message) => {
+        const data = JSON.parse(message.data);
+        const filterObject = data.filter;
+        helper.logFilter = new LogMessagesFilter(filterObject.level, filterObject.source, filterObject.regularExpression);
+        helper.subscribeDocketStatus.next("DOCKER_CONNECTED");
+      }
     }
+
+    webSocket.onclose = (evt) => {
+      let msg = "";
+      if (evt.code === 3001) {
+        msg = "DOCKER_DISCONNECTED";
+        this.isInitializedSubject.next(true);
+        helper.subscribeDocketStatus.next(msg);
+      }
+    }
+
+    webSocket.onerror = (error) => {
+      helper.subscribeDocketStatus.next("DOCKER_ERROR");
+    };
+  }
+
+  /**
+   * Initialized the Request service 
+   * Used to send requests to the remote server
+   * 
+   * @param {string} uri 
+   */
+  protected initialiseRequest(uri: string) {
+    this._requestService = new RequestService(uri);
+  }
 }
