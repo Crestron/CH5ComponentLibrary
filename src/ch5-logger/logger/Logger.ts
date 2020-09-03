@@ -11,13 +11,11 @@ import { LogMessage } from "../helpers/index";
 import { LogLevelEnum } from "../enums/index";
 import isNil from 'lodash/isNil';
 import { LogMessagesFilter } from "../helpers/LogMessagesFilter";
-import { RemoteAppender } from "../appender/RemoteAppender";
 import { BehaviorSubject } from 'rxjs';
-
 
 export class Logger {
     private static _instance: Logger;
-    private _subscribeDocketStatus: BehaviorSubject<string> = new BehaviorSubject("");    
+    private _subscribeDockerStatus: BehaviorSubject<string> = new BehaviorSubject("");    
     private _appender: AbstractAppender = {} as AbstractAppender;
     private _logFilter: LogMessagesFilter = new LogMessagesFilter();
     private _messagesQueue: LogMessage[] = [];
@@ -58,12 +56,12 @@ export class Logger {
         });
     }
 
-    public get subscribeDocketStatus(): BehaviorSubject<string> {
-        return this._subscribeDocketStatus;
+    public get subscribeDockerStatus(): BehaviorSubject<string> {
+        return this._subscribeDockerStatus;
     }
     
-    public set subscribeDocketStatus(value: BehaviorSubject<string>) {
-        this._subscribeDocketStatus = value;
+    public set subscribeDockerStatus(value: BehaviorSubject<string>) {
+        this._subscribeDockerStatus = value;
     }
 
     // Used to change the log filter
