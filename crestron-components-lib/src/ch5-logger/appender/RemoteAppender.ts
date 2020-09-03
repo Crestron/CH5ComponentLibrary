@@ -64,7 +64,7 @@ export class RemoteAppender extends AbstractAppender {
   }
 
   public configObserver(helper: Logger, hasFilterConfig: boolean) {
-    helper.subscribeDocketStatus.next("DOCKER_CONNECTING");
+    helper.subscribeDockerStatus.next("DOCKER_CONNECTING");
     if (!hasFilterConfig) {
       const responsePromise = this._requestService.get('configuration')
       if (responsePromise && responsePromise instanceof Promise) {
@@ -73,7 +73,7 @@ export class RemoteAppender extends AbstractAppender {
           helper.logFilter = new LogMessagesFilter(filter.level, filter.source, filter.regularExpression);
           this.isInitialized = true;
           this.isInitializedSubject.next(true);
-          helper.subscribeDocketStatus.next("DOCKER_CONNECTED");
+          helper.subscribeDockerStatus.next("DOCKER_CONNECTED");
         })
       }
     }
@@ -85,7 +85,7 @@ export class RemoteAppender extends AbstractAppender {
         const data = JSON.parse(message.data);
         const filterObject = data.filter;
         helper.logFilter = new LogMessagesFilter(filterObject.level, filterObject.source, filterObject.regularExpression);
-        helper.subscribeDocketStatus.next("DOCKER_CONNECTED");
+        helper.subscribeDockerStatus.next("DOCKER_CONNECTED");
       }
     }
 
@@ -94,12 +94,12 @@ export class RemoteAppender extends AbstractAppender {
       if (evt.code === 3001) {
         msg = "DOCKER_DISCONNECTED";
         this.isInitializedSubject.next(true);
-        helper.subscribeDocketStatus.next(msg);
+        helper.subscribeDockerStatus.next(msg);
       }
     }
 
     webSocket.onerror = (error) => {
-      helper.subscribeDocketStatus.next("DOCKER_ERROR");
+      helper.subscribeDockerStatus.next("DOCKER_ERROR");
     };
   }
 
