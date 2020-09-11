@@ -18,5 +18,5 @@ export type TLogMessageType = any[];
 export type TAppenderConfig = {
     hostname: string;   // hostname or IP
     port: string;
-    secure: boolean
+    secure: boolean;
 };
