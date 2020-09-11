@@ -16,6 +16,7 @@ import { TAppenderConfig } from "../types";
 
 export class RemoteAppender extends AbstractAppender {
   private static _instance: RemoteAppender;
+  private webSocket = {} as WebSocket;
   private _requestService: RequestService = {} as RequestService;
   private _address: string = '';
 
@@ -26,16 +27,20 @@ export class RemoteAppender extends AbstractAppender {
     return RemoteAppender._instance;
   }
 
-  public clearInstance() {
-    if (RemoteAppender._instance !== undefined) {
-      delete RemoteAppender._instance;
+  /**
+   * Close the websocket connection
+   */
+  public closeSocketConnection() {
+    if (this.webSocket && this.webSocket.readyState && this.webSocket.readyState === 1) {
+      this.webSocket.close();
     }
   }
 
   private constructor(sendLogTimeOffsetInMiliseconds: number, appenderConfig: TAppenderConfig) {
     super(sendLogTimeOffsetInMiliseconds);
-
-    this.setIP(appenderConfig);
+    if (appenderConfig.hostname && appenderConfig.port) {
+      this.setIP(appenderConfig);
+    }
   }
 
   /**
@@ -51,12 +56,29 @@ export class RemoteAppender extends AbstractAppender {
   }
 
   /**
+   * Reset the remote server hostname/ip and port
+   * 
+   * @param hostname Hostname/IP of the remotelogger
+   * @param port  Port number
+   * @param secure by default false, true for secure connection 
+   */
+  public resetIP(hostname: string, port: string, secure: boolean = false) {
+    const appenderConfig: TAppenderConfig = { hostname, port, secure };
+    this.setIP(appenderConfig);
+  }
+
+  /**
    * Set the remote server hostname/ip and port
    * Initializing the request for the remote server
    * 
    * @param {TAppenderConfig} appenderConfig
    */
   private setIP(appenderConfig: TAppenderConfig) {
+    // return when empty
+    if (appenderConfig.hostname === "" || appenderConfig.port === "") {
+      return;
+    }
+
     const protocol = appenderConfig.secure ? 'https' : 'http';
     const uri = `${protocol}://${appenderConfig.hostname}:${appenderConfig.port}`;
     this._address = `${appenderConfig.hostname}:${appenderConfig.port}`;
@@ -72,16 +94,16 @@ export class RemoteAppender extends AbstractAppender {
           const filter = response.data;
           helper.logFilter = new LogMessagesFilter(filter.level, filter.source, filter.regularExpression);
           this.isInitialized = true;
-          this.isInitializedSubject.next(true);
+          this.isInitializedSubject.next(this.isInitialized);
           helper.subscribeDockerStatus.next("DOCKER_CONNECTED");
         })
       }
     }
 
-    const webSocket = new WebSocket(`ws://${this._address}`);
+    this.webSocket = new WebSocket(`ws://${this._address}`);
 
-    webSocket.onopen = () => {
-      webSocket.onmessage = (message) => {
+    this.webSocket.onopen = () => {
+      this.webSocket.onmessage = (message) => {
         const data = JSON.parse(message.data);
         const filterObject = data.filter;
         helper.logFilter = new LogMessagesFilter(filterObject.level, filterObject.source, filterObject.regularExpression);
@@ -89,16 +111,19 @@ export class RemoteAppender extends AbstractAppender {
       }
     }
 
-    webSocket.onclose = (evt) => {
+    this.webSocket.onclose = (evt) => {
       let msg = "";
-      if (evt.code === 3001) {
+      if (evt.code === 3001 || evt.code === 1000) {
         msg = "DOCKER_DISCONNECTED";
-        this.isInitializedSubject.next(true);
+        this.webSocket = {} as WebSocket;
+        helper.logFilter = new LogMessagesFilter();
+        this.isInitialized = false;
+        this.isInitializedSubject.next(this.isInitialized);
         helper.subscribeDockerStatus.next(msg);
       }
     }
 
-    webSocket.onerror = (error) => {
+    this.webSocket.onerror = (error) => {
       helper.subscribeDockerStatus.next("DOCKER_ERROR");
     };
   }

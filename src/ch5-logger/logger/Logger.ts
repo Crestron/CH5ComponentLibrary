@@ -15,10 +15,11 @@ import { BehaviorSubject } from 'rxjs';
 
 export class Logger {
     private static _instance: Logger;
-    private _subscribeDockerStatus: BehaviorSubject<string> = new BehaviorSubject("");    
+    private _subscribeDockerStatus: BehaviorSubject<string> = new BehaviorSubject("");
     private _appender: AbstractAppender = {} as AbstractAppender;
     private _logFilter: LogMessagesFilter = new LogMessagesFilter();
     private _messagesQueue: LogMessage[] = [];
+    private originalConsole: any;
 
     public static getInstance(appender: AbstractAppender, logFilter?: LogMessagesFilter): Logger {
         if (Logger._instance === undefined) {
@@ -27,17 +28,20 @@ export class Logger {
         return Logger._instance;
     }
 
-    private clearInstance(){
-        if (Logger._instance !== undefined) {
-            this.appender.clearInstance();
-            delete Logger._instance;
-        }
+    private disconnect() {
+        console.log = this.originalConsole.log;
+        console.error = this.originalConsole.error;
+        console.info = this.originalConsole.info;
+        console.warn = this.originalConsole.warn;
+        this.appender.closeSocketConnection();
     }
 
     private constructor(appender: AbstractAppender, logFilter?: LogMessagesFilter) {
         if (!(appender instanceof AbstractAppender)) {
             throw Error('Appender is not defined');
         }
+
+        this.originalConsole = { log: console.log, error: console.error, info: console.info, warn: console.warn };
 
         this.appender = appender;
         this.addWindowErrorListener();
@@ -51,15 +55,17 @@ export class Logger {
             this.logFilter = logFilter;
         }
 
-        this._appender.isInitializedSubject.subscribe(() => {
-            this.checkAndAppendMessages();
+        this._appender.isInitializedSubject.subscribe((isInitialized) => {
+            if (isInitialized) {
+                this.checkAndAppendMessages();
+            }
         });
     }
 
     public get subscribeDockerStatus(): BehaviorSubject<string> {
         return this._subscribeDockerStatus;
     }
-    
+
     public set subscribeDockerStatus(value: BehaviorSubject<string>) {
         this._subscribeDockerStatus = value;
     }
@@ -104,6 +110,16 @@ export class Logger {
         } else if (error instanceof CustomEvent) {
             this.error(error.detail);
         }
+    }
+
+    /**
+     * Restore console logs functions
+     */
+    public restoreConsole() {
+        console.log = this.originalConsole.log;
+        console.error = this.originalConsole.error;
+        console.info = this.originalConsole.info;
+        console.warn = this.originalConsole.warn;
     }
 
     public addWindowErrorListener() {
