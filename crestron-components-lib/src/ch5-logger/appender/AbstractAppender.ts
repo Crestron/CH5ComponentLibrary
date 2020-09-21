@@ -33,6 +33,8 @@ export abstract class AbstractAppender {
     return this._sendLogTimeOffset;
   }
 
+  public abstract closeSocketConnection(): void;
+
   public abstract configObserver(config: {}, hasConfig: boolean): void;
 
   public abstract log(data: LogMessage): void;
