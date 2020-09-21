@@ -59,7 +59,7 @@ export function subscribeStateScript(signalScript: string,
     }
 
     // parse and extract signal names
-    signalScript.replace(/{{([bns]\.([A-Za-z]|[0-9])[A-Za-z0-9_]*)}}/g,
+    signalScript.replace(/{{([bns]\.([A-Za-z]|[0-9])([A-Za-z0-9_.])*)}}/g,
         (substring: string, ...args: any[]): string => {
             if (typeof args[0] === "undefined") {
                 return '';
@@ -74,7 +74,9 @@ export function subscribeStateScript(signalScript: string,
     let item: any = sigTokensIterator.next();
     const subKeys: TSigNameTypeSub[] = [];
     while (typeof item.value !== "undefined") {
-        [sigType, sigName] = item.value.split('.');
+        sigType = item.value.split('.')[0];
+        const joinsList = (item.value.split('.')).slice(1);
+        sigName = joinsList.join(".");
 
         // augment signal name in case of join numbers
         sigName = Ch5Signal.getSubscriptionSignalName(sigName);
@@ -116,7 +118,9 @@ function _callbackForSignalScriptOnSignalUpdate(signalTokens: Set<string>,
     let sigName = '';
     let sigType = '';
     while (typeof item.value !== "undefined") {
-        [sigType, sigName] = item.value.split('.');
+        sigType = item.value.split('.')[0];
+        const joinsList = (item.value.split('.')).slice(1);
+        sigName = joinsList.join(".");
         const sigVal = getState(sigType as TSignalNonStandardTypeName,sigName);
         if (sigVal === null) {
             processedTemplate = defaultValue;
