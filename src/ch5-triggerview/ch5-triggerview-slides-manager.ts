@@ -147,7 +147,7 @@ export class Ch5TriggerViewSlidesManager {
     this._swiper.on('touchEnd', (...e: any[]) => {
       const target: HTMLElement = e[0].target;
       if (this.eventTargetBelongsToCh5List(target) || this._touchMoveListRelatedEventDisabled) {
-        this.setAllowTouchMove(true);
+        this.setAllowTouchMove(this.triggerViewEl.gestureable);
         this._touchMoveListRelatedEventDisabled = false;
       }
 
