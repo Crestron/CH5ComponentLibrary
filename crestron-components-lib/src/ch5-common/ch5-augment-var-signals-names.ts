@@ -39,10 +39,25 @@ export class Ch5AugmentVarSignalsNames {
                 n.setAttribute(attrName, String(newIntAttrValue));
             } else {
                 // normal case, no join number signal found
-                // replace Idx with base 1 index
-                const newAttrValue: string =
+                // replace Idx with base 0 index
+                let newAttrValue:string = "";
+                // check Numberic join for ch5-template
+                if (attrName === 'context') {
+                  const cotextJoin = valWithoutIndexIdPlaceholder.split(":");
+                  if (cotextJoin.length > 1 && Ch5Signal.isIntegerSignalName(cotextJoin[1])) {
+                    cotextJoin[1] = String(parseInt(cotextJoin[1], 10) + index);
+                    newAttrValue = String(cotextJoin.join(":"));
+                  } else {
+                    newAttrValue =
+                      attrVal.replace(new RegExp(placeholder, 'g'), String(index)).trim();
+                  }
+
+                } else {
+                  newAttrValue =
                     attrVal.replace(new RegExp(placeholder, 'g'), String(index)).trim();
+                }
                 n.setAttribute(attrName, String(newAttrValue));
+               
             }
         }
     }
