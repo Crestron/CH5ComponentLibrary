@@ -698,7 +698,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             }
         }
     }
-    
+
     // creating three dots for iOS
     private createEllipsisTpl() {
         if (this._elLabel.scrollHeight > this._elLabel.clientHeight) {
@@ -1102,9 +1102,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         this._elButton.addEventListener('mousedown', this._onPressClick);
         this._elButton.addEventListener('mouseup', this._onMouseUp);
-        this._elButton.addEventListener('touchstart', this._onPress);
+        this._elButton.addEventListener('touchstart', this._onPress, { passive: true });
         this._elButton.addEventListener('touchend', this._onPressUp);
-        this._elButton.addEventListener('touchmove', this._onTouchMove);
+        this._elButton.addEventListener('touchmove', this._onTouchMove, { passive: true });
 
         this._elButton.addEventListener('touchend', this._onTouchEnd);
         this._elButton.addEventListener('touchcancel', this._onTouchCancel);
@@ -1936,7 +1936,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         // iOS/iPadOS only
         if (isTouchDevice() && isSafariMobile()) {
             const timeSinceLastPress = new Date().valueOf() - this._lastPressTime;
-            if (timeSinceLastPress  < 100) {
+            if (timeSinceLastPress < 100) {
                 // sometimes a both click and press can happen on iOS/iPadOS, don't publish both
                 this.info('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
             }
@@ -2017,12 +2017,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         // not gain focus when it should not	
 
         // on touch devices, focus is gained onTouchEnd
-        if (isTouchDevice()) { 
+        if (isTouchDevice()) {
             if (!isSafariMobile()) {  // pulse for Safari sent onMouseUp
                 // Only send click pulse if directly preceeded (e.g. < 500ms) by a tap event
                 const timeNow = new Date().valueOf();
                 if (timeNow - this._lastTapTime < 500) {
-                    this._sendOnClickSignal(); 
+                    this._sendOnClickSignal();
                 }
                 this._lastTapTime = 0;
             }
