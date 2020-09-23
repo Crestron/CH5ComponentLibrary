@@ -119,8 +119,8 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
     this._list.info(`ch5-list-event-manager - initializeTouchEvents`);
 
     window.addEventListener('touchcancel', this.onPointerCancel);
-    additionalElement.addEventListener('touchstart', this.onPointerDown);
-    additionalElement.addEventListener('touchmove', this.onPointerMove, getEvtListenerOptions(false));
+    additionalElement.addEventListener('touchstart', this.onPointerDown, { passive: true });
+    additionalElement.addEventListener('touchmove', this.onPointerMove, { passive: true });
     additionalElement.addEventListener('touchend', this.onPointerEnd, true);
 
   }

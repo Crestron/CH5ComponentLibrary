@@ -178,14 +178,14 @@ export class Ch5SpinnerScroll {
     if (this._currentElement <= 0 && !this.element.endless) {
       return 0;
     } else if (
-        childrenObject !== null &&
-        !this.element.endless &&
-        this._currentElement >= childrenObject.length - 1
+      childrenObject !== null &&
+      !this.element.endless &&
+      this._currentElement >= childrenObject.length - 1
     ) {
-    return childrenObject.length - 1;
+      return childrenObject.length - 1;
     }
 
-    if (childrenObject !== null && this.element.endless && childrenObject.length < this._currentElement){
+    if (childrenObject !== null && this.element.endless && childrenObject.length < this._currentElement) {
       return this._currentElement % childrenObject.length;
     }
 
@@ -199,19 +199,19 @@ export class Ch5SpinnerScroll {
    */
   public getCleanCurrentElement(): number {
 
-   try{
-     const childrenObject = this.element.templateHelper.childrenObject as [HTMLElement];
+    try {
+      const childrenObject = this.element.templateHelper.childrenObject as [HTMLElement];
 
-     if (childrenObject !== null && this.currentElement >= 0 && this.currentElement <= childrenObject.length - 1 ) {
-       return parseFloat((childrenObject[this.currentElement] as HTMLElement).getAttribute('data-initial-index') + '' as string);
-     }
+      if (childrenObject !== null && this.currentElement >= 0 && this.currentElement <= childrenObject.length - 1) {
+        return parseFloat((childrenObject[this.currentElement] as HTMLElement).getAttribute('data-initial-index') + '' as string);
+      }
 
-     return 0;
-
-   } catch (e){
-     console.log(e);
       return 0;
-   }
+
+    } catch (e) {
+      console.log(e);
+      return 0;
+    }
   }
 
   /**
@@ -253,26 +253,26 @@ export class Ch5SpinnerScroll {
   protected attachEventListeners(): void {
 
     try {
-    this._mouseDownListener = this._onMouseDown.bind(this);
-    this._mouseUpListener = this._onMouseUp.bind(this);
-    this._mouseMoveListener = this._onMouseMove.bind(this);
-    this._touchstartListener = this._onMouseDown.bind(this);
-    this._toucheendUpListener = this._onMouseUp.bind(this);
-    this._touchmoveListener = this._onMouseMove.bind(this);
-    this._mouseLeaveListener = this._onMouseLeave.bind(this);
-    this._touchendLeaveListener = this._onMouseLeave.bind(this);
+      this._mouseDownListener = this._onMouseDown.bind(this);
+      this._mouseUpListener = this._onMouseUp.bind(this);
+      this._mouseMoveListener = this._onMouseMove.bind(this);
+      this._touchstartListener = this._onMouseDown.bind(this);
+      this._toucheendUpListener = this._onMouseUp.bind(this);
+      this._touchmoveListener = this._onMouseMove.bind(this);
+      this._mouseLeaveListener = this._onMouseLeave.bind(this);
+      this._touchendLeaveListener = this._onMouseLeave.bind(this);
 
-    this.element.templateHelper.wrapperElement.addEventListener('mousedown', this._mouseDownListener);
-    this.element.addEventListener('mouseup', this._mouseUpListener);
-    this.element.addEventListener('mousemove', this._mouseMoveListener);
+      this.element.templateHelper.wrapperElement.addEventListener('mousedown', this._mouseDownListener, { passive: true });
+      this.element.addEventListener('mouseup', this._mouseUpListener);
+      this.element.addEventListener('mousemove', this._mouseMoveListener);
 
-    this.element.templateHelper.wrapperElement.addEventListener('touchstart', this._touchstartListener);
-    this.element.addEventListener('touchend', this._toucheendUpListener);
-    this.element.addEventListener('touchmove', this._touchmoveListener);
+      this.element.templateHelper.wrapperElement.addEventListener('touchstart', this._touchstartListener, { passive: true });
+      this.element.addEventListener('touchend', this._toucheendUpListener);
+      this.element.addEventListener('touchmove', this._touchmoveListener, { passive: true });
 
-    // reset on mouse leave
-    this.element.addEventListener('mouseleave', this._mouseLeaveListener);
-    this.element.addEventListener('touchend', this._touchendLeaveListener);
+      // reset on mouse leave
+      this.element.addEventListener('mouseleave', this._mouseLeaveListener);
+      this.element.addEventListener('touchend', this._touchendLeaveListener);
 
     } catch (e) {
       console.log('Adding listeners have problems', e);
@@ -287,20 +287,20 @@ export class Ch5SpinnerScroll {
    */
   protected detachEventListeners(): void {
 
-   try {
+    try {
       if (
-        this.element.templateHelper instanceof Ch5SpinnerTemplate && 
+        this.element.templateHelper instanceof Ch5SpinnerTemplate &&
         this.element.templateHelper.wrapperElement instanceof HTMLElement
       ) {
 
         this.element.templateHelper.wrapperElement.removeEventListener('mousedown', this._mouseDownListener);
         this.element.removeEventListener('mouseup', this._mouseUpListener);
         this.element.removeEventListener('mousemove', this._mouseMoveListener);
-  
+
         this.element.templateHelper.wrapperElement.removeEventListener('touchstart', this._touchstartListener);
         this.element.removeEventListener('touchend', this._toucheendUpListener);
         this.element.removeEventListener('touchmove', this._touchmoveListener);
-  
+
         // reset on mouse leave
         this.element.removeEventListener('mouseleave', this._mouseLeaveListener);
         this.element.removeEventListener('touchend', this._touchendLeaveListener);
@@ -408,13 +408,13 @@ export class Ch5SpinnerScroll {
       '' !== _sendEventOnOverflow &&
       null !== _sendEventOnOverflow &&
       undefined !== _sendEventOnOverflow
-    ){
+    ) {
       const sigClick = Ch5SignalFactory.getInstance()
-          .getBooleanSignal(_sendEventOnOverflow);
+        .getBooleanSignal(_sendEventOnOverflow);
 
       if (sigClick !== null) {
-          sigClick.publish(true);
-          sigClick.publish(false);
+        sigClick.publish(true);
+        sigClick.publish(false);
       }
     }
   }
@@ -427,13 +427,13 @@ export class Ch5SpinnerScroll {
       '' !== _sendEventOnUnderflow &&
       null !== _sendEventOnUnderflow &&
       undefined !== _sendEventOnUnderflow
-    ){
+    ) {
       const sigClick = Ch5SignalFactory.getInstance()
-          .getBooleanSignal(_sendEventOnUnderflow);
+        .getBooleanSignal(_sendEventOnUnderflow);
 
       if (sigClick !== null) {
-          sigClick.publish(true);
-          sigClick.publish(false);
+        sigClick.publish(true);
+        sigClick.publish(false);
       }
     }
   }
@@ -514,19 +514,19 @@ export class Ch5SpinnerScroll {
           time: new Date()
         }
         if (
-            endless === true &&
-            this._isBoundary(this.currentYOffset, minimumTopOffset , maximumTopOffset) &&
-            childrenObject !== null
+          endless === true &&
+          this._isBoundary(this.currentYOffset, minimumTopOffset, maximumTopOffset) &&
+          childrenObject !== null
         ) {
 
-          if (this.direction === 'down'){
+          if (this.direction === 'down') {
             this.currentElement = -1;
             this._forceMovingTheSpinner(highlightSectionTopOffset + itemHeightValue);
             window.clearTimeout(this._runTimeout);
             this._runTimeout = 0;
             this.sendEventOnOverflow();
 
-          } else if (this.direction === 'up' ) {
+          } else if (this.direction === 'up') {
             this.currentElement = childrenObject.length;
             this._forceMovingTheSpinner(maximumTopOffset - itemHeightValue);
             this.sendEventOnUnderflow();
@@ -603,7 +603,7 @@ export class Ch5SpinnerScroll {
    * @param {number} maximumTopOffset
    * @return {boolean | string}
    */
-  private _isBoundary(currentOffset: number, minimumTopOffset: number, maximumTopOffset: number): ( boolean | string ) {
+  private _isBoundary(currentOffset: number, minimumTopOffset: number, maximumTopOffset: number): (boolean | string) {
 
     if (
       this.direction === 'up' &&
@@ -631,7 +631,7 @@ export class Ch5SpinnerScroll {
 
   }
 
-  private getMousePosition(event: MouseEvent|TouchEvent) {
+  private getMousePosition(event: MouseEvent | TouchEvent) {
 
     const mousePosition = {
       x: 0,
