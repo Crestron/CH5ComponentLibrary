@@ -202,7 +202,9 @@ export class Ch5TriggerViewSlidesManager {
    */
   public destroySwiper() {
     if (this.swiperIsActive()) {
-      this._swiper!.destroy(true, false);
+      if (this._swiper && this._swiper.$el) {
+        this._swiper!.destroy(true, false);
+      }
     }
   }
 
@@ -433,6 +435,4 @@ export class Ch5TriggerViewSlidesManager {
       return this.getTriggerviewChildSlides();
     }
   }
-
-
 }
