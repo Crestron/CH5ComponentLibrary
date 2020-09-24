@@ -60,6 +60,7 @@ export class Ch5SignalBridge {
                 isFunction(CommunicationInterface.bridgeSendBooleanToNative)
                 && isFunction(CommunicationInterface.bridgeSendIntegerToNative)
                 && isFunction(CommunicationInterface.bridgeSendStringToNative)
+                && isFunction(CommunicationInterface.bridgeSendObjectToNative)
             );
 
         if (this._isWebXPanel) {
@@ -301,6 +302,8 @@ export class Ch5SignalBridge {
             JSInterface.bridgeSendObjectToNative(signalName, JSON.stringify(value));
         } else if (this._isWebKit) {
             webkit.messageHandlers.bridgeSendObjectToNative.postMessage(this.createPMParam(signalName, value));
+        } else if (this._isWebXPanel) {
+            CommunicationInterface.bridgeSendObjectToNative(signalName, JSON.stringify(value));
         } else {
             // TODO find a way to use this without interfering with the mocha tests
             // throw new Error('sendObjectToNative() not implemented on this platform');
