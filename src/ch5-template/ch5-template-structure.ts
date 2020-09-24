@@ -182,7 +182,8 @@ export class Ch5TemplateStructure {
                         console.warn(`[ch5-template] Warning: Invalid context pair structure, expected: "original:replacement", but received "${parsedContext}", moving to the next context pair`);
                         continue;
                     }
-            
+                    // remove leading or trailing spaces from context pair key
+                    parsedContext[0] = parsedContext[0].trim();
                     this.element.info(`Ch5TemplateStructure --- Count: [${i + 1}/${parsedContext.length}] 
                     Replace original string: ${parsedContext[0]} 
                     with provided replacement string: ${parsedContext[1]}`);
