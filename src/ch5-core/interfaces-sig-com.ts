@@ -55,9 +55,10 @@ export interface ISigComSendWebkit {
 }
 
 export type ISWebXPanel = {
-    bridgeSendBooleanToNative(signalName: string, value: boolean | object):void;
-    bridgeSendIntegerToNative(signalName: string, value: number):void;
-    bridgeSendStringToNative(signalName: string, value: string):void;
+    bridgeSendBooleanToNative(signalName: string, value: boolean | object): void;
+    bridgeSendIntegerToNative(signalName: string, value: number): void;
+    bridgeSendStringToNative(signalName: string, value: string): void;
+    bridgeSendObjectToNative(signalName: string, jsonEncodedString: string): void;
 }
 
 export interface ISigComSendWebkitMessageHandlers {
