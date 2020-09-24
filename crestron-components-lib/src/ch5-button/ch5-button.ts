@@ -1663,7 +1663,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
         this._subReceiveLabel = receiveSignal.subscribe((newValue: string) => {
-            if ('' !== newValue && newValue !== this.label) {
+            if (newValue !== this.label) {
                 this.setAttribute('label', newValue);
             }
         });
