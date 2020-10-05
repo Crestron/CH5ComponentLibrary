@@ -2115,8 +2115,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
     
     private isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
-        const startingPoint = Math.abs(x2 - x1);
-        const endingPoint = Math.abs(y2 - y1);
+        const startingPoint = x2 - x1;
+        const endingPoint = y2 - y1;
         const distance = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
         
         return distance > Ch5Button.PRESS_MOVE_THRESHOLD;   
