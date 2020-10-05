@@ -110,6 +110,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * Time needed for the sendOnTouch to trigger/reinforce
      */
     public static TOUCHTIMEOUT: number = 200;
+    
+    public static PRESS_MOVE_THRESHOLD = 10;
 
     public static CONTAINERCLASSNAME: string = 'cb-cntr';
 
@@ -128,7 +130,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _elIcon: HTMLElement = {} as HTMLElement;
     private _elImg: HTMLImageElement = {} as HTMLImageElement;
     private _elIosDots: HTMLElement = {} as HTMLElement;
-
+    private _pressHorizontalStartingPoint: number | null = null;
+    private _pressVerticalStartingPoint: number | null = null;
+    
     private isLabelLoaded: boolean = false;
 
     /**
@@ -449,6 +453,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._onTouchMove = this._onTouchMove.bind(this);
         this._onPressClick = this._onPressClick.bind(this);
         this._onMouseUp = this._onMouseUp.bind(this);
+        this._onMouseMove = this._onMouseMove.bind(this);
     }
 
     /**
@@ -1102,6 +1107,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         this._elButton.addEventListener('mousedown', this._onPressClick);
         this._elButton.addEventListener('mouseup', this._onMouseUp);
+        this._elButton.addEventListener('mousemove', this._onMouseMove);
         this._elButton.addEventListener('touchstart', this._onPress, { passive: true });
         this._elButton.addEventListener('touchend', this._onPressUp);
         this._elButton.addEventListener('touchmove', this._onTouchMove, { passive: true });
@@ -1859,7 +1865,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private sendValueForOnTouchSignal(value: boolean): void {
-        if (this._sigNameSendOnTouch) {
+        if (this._sigNameSendOnTouch || this._sigNameSendOnClick) {
 
             const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
                 .getObjectAsBooleanSignal(this._sigNameSendOnTouch);
@@ -1922,16 +1928,24 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     }
 
-    private async _onPressClick() {
+    private async _onPressClick(event: MouseEvent) {
         await this.pressHandler();
-
-        if (this._pressed) {
-            this._onTapAction();
-        }
+        
+        this._pressHorizontalStartingPoint = event.clientX;
+        this._pressVerticalStartingPoint = event.clientY;
+        
+        this.stopRepeatDigital();
     }
 
     private _onMouseUp() {
         this.cancelPress();
+
+        if (this._intervalIdForOnTouch) {
+            this.stopRepeatDigital();
+        } else if (this._pressed) {
+            this._onTapAction();
+            
+        }
 
         // iOS/iPadOS only
         if (isTouchDevice() && isSafariMobile()) {
@@ -1943,6 +1957,21 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             else {
                 this._sendOnClickSignal();
             }
+        }
+    }
+    
+    private _onMouseMove(event: MouseEvent) {
+        
+        if (this._intervalIdForOnTouch 
+            && this._pressHorizontalStartingPoint
+            && this._pressVerticalStartingPoint
+            && this.isExceedingPressMoveThreshold(
+                this._pressHorizontalStartingPoint, 
+                this._pressVerticalStartingPoint, 
+                event.clientX, 
+                event.clientY)
+            ) {
+            this.stopRepeatDigital();
         }
     }
 
@@ -2083,6 +2112,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
         this.sendValueForOnTouchSignal(true);
         this._intervalIdForOnTouch = window.setInterval(() => { this.sendValueForOnTouchSignal(true); }, Ch5Button.TOUCHTIMEOUT);
+    }
+    
+    private isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
+        const startingPoint = Math.abs(x2 - x1);
+        const endingPoint = Math.abs(y2 - y1);
+        const distance = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
+        
+        return distance > Ch5Button.PRESS_MOVE_THRESHOLD;   
     }
 }
 
