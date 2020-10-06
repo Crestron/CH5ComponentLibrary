@@ -31,3 +31,4 @@ export * from './ch5-version';
 export * from './ch5-heartbeat';
 export * from './types/ch5-platform-info';
 export * from './ch5-platform';
+export * from './utility-functions/is-crestron-touchscreen';
