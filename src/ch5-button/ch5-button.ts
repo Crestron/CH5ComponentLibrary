@@ -110,7 +110,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * Time needed for the sendOnTouch to trigger/reinforce
      */
     public static TOUCHTIMEOUT: number = 200;
-    
+
     public static PRESS_MOVE_THRESHOLD = 10;
 
     public static CONTAINERCLASSNAME: string = 'cb-cntr';
@@ -132,7 +132,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _elIosDots: HTMLElement = {} as HTMLElement;
     private _pressHorizontalStartingPoint: number | null = null;
     private _pressVerticalStartingPoint: number | null = null;
-    
+
     private isLabelLoaded: boolean = false;
 
     /**
@@ -371,7 +371,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * The interval id ( from setInterval ) for reenforcing the  onTouch signal
      * This id allow canceling the interval.
      */
-    private _intervalIdForOnTouch: number | null = null;
+    private _intervalIdForRepeatDigital: number | null = null;
 
     /**
      * this is last tap time used to determine if should send click pulse in focus event 
@@ -1864,17 +1864,31 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         return this._subReceiveSignalType;
     }
 
-    private sendValueForOnTouchSignal(value: boolean): void {
-        if (this._sigNameSendOnTouch || this._sigNameSendOnClick) {
+    private sendValueForRepeatDigital(value: boolean): void {
+        if (!this._sigNameSendOnTouch && !this._sigNameSendOnClick) { return; }
 
-            const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-                .getObjectAsBooleanSignal(this._sigNameSendOnTouch);
+        const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
+            .getObjectAsBooleanSignal(this._sigNameSendOnTouch);
 
-            if (!isNil(touchSignal)) {
-                touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-            }
+        const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
+            .getObjectAsBooleanSignal(this._sigNameSendOnClick);
+
+        if (clickSignal && touchSignal && clickSignal.name === touchSignal.name) {
+            // send signal only once if it has the same value
+            clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+            return;
+        }
+
+        if (touchSignal && touchSignal.name) {
+            touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+        }
+
+        if (clickSignal && clickSignal.name) {
+            clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
         }
     }
+
+
 
     //
     // Events
@@ -1894,10 +1908,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this._lastTapTime = new Date().valueOf();
         }
 
-        if (null !== this._intervalIdForOnTouch) {
-            window.clearInterval(this._intervalIdForOnTouch);
-            this.sendValueForOnTouchSignal(false);
-            this._intervalIdForOnTouch = null;
+        if (null !== this._intervalIdForRepeatDigital) {
+            window.clearInterval(this._intervalIdForRepeatDigital);
+            this.sendValueForRepeatDigital(false);
+            this._intervalIdForRepeatDigital = null;
         }
     }
 
@@ -1919,7 +1933,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
             window.clearTimeout(this._pressTimeout);
 
-            if (this._intervalIdForOnTouch !== null) {
+            if (this._intervalIdForRepeatDigital !== null) {
                 this.stopRepeatDigital();
             }
 
@@ -1930,21 +1944,20 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private async _onPressClick(event: MouseEvent) {
         await this.pressHandler();
-        
+
         this._pressHorizontalStartingPoint = event.clientX;
         this._pressVerticalStartingPoint = event.clientY;
-        
+
         this.stopRepeatDigital();
     }
 
     private _onMouseUp() {
         this.cancelPress();
 
-        if (this._intervalIdForOnTouch) {
+        if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         } else if (this._pressed) {
             this._onTapAction();
-            
         }
 
         // iOS/iPadOS only
@@ -1959,18 +1972,18 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             }
         }
     }
-    
+
     private _onMouseMove(event: MouseEvent) {
-        
-        if (this._intervalIdForOnTouch 
+
+        if (this._intervalIdForRepeatDigital
             && this._pressHorizontalStartingPoint
             && this._pressVerticalStartingPoint
             && this.isExceedingPressMoveThreshold(
-                this._pressHorizontalStartingPoint, 
-                this._pressVerticalStartingPoint, 
-                event.clientX, 
+                this._pressHorizontalStartingPoint,
+                this._pressVerticalStartingPoint,
+                event.clientX,
                 event.clientY)
-            ) {
+        ) {
             this.stopRepeatDigital();
         }
     }
@@ -1996,10 +2009,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
             this._pressed = false;
 
-            if (this._intervalIdForOnTouch) {
-                window.clearInterval(this._intervalIdForOnTouch);
-                this.sendValueForOnTouchSignal(false);
-                this._intervalIdForOnTouch = null;
+            if (this._intervalIdForRepeatDigital) {
+                window.clearInterval(this._intervalIdForRepeatDigital);
+                this.sendValueForRepeatDigital(false);
+                this._intervalIdForRepeatDigital = null;
                 this._lastPressTime = new Date().valueOf();
             }
         }
@@ -2008,7 +2021,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _onTouchEnd(inEvent: Event): void {
         this.info("Ch5Button._onTouchEnd()");
 
-        if (this._intervalIdForOnTouch) {
+        if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
@@ -2016,7 +2029,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _onTouchCancel(inEvent: Event): void {
         this.info("Ch5Button._onTouchCancel()");
 
-        if (this._intervalIdForOnTouch) {
+        if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
@@ -2104,22 +2117,25 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private stopRepeatDigital() {
-        if (this._intervalIdForOnTouch) {
-            window.clearInterval(this._intervalIdForOnTouch);
-            this.sendValueForOnTouchSignal(false);
-            this._intervalIdForOnTouch = null;
+        if (this._intervalIdForRepeatDigital) {
+            window.clearInterval(this._intervalIdForRepeatDigital);
+            this.sendValueForRepeatDigital(false);
+            this._intervalIdForRepeatDigital = null;
             return;
         }
-        this.sendValueForOnTouchSignal(true);
-        this._intervalIdForOnTouch = window.setInterval(() => { this.sendValueForOnTouchSignal(true); }, Ch5Button.TOUCHTIMEOUT);
+        this.sendValueForRepeatDigital(true);
+
+        this._intervalIdForRepeatDigital = window.setInterval(() => {
+            this.sendValueForRepeatDigital(true);
+        }, Ch5Button.TOUCHTIMEOUT);
     }
-    
+
     private isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
         const startingPoint = x2 - x1;
         const endingPoint = y2 - y1;
         const distance = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
-        
-        return distance > Ch5Button.PRESS_MOVE_THRESHOLD;   
+
+        return distance > Ch5Button.PRESS_MOVE_THRESHOLD;
     }
 }
 
