@@ -261,9 +261,6 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
                 elData.element.style.transform = '';
                 return {...elData, translateX: 0, translateY: 0}
             });
-
-            this._list.currentYPosition = this._list.currentXPosition = 0;
-            this._list.animationHelper.updateDragPosition(0);
         }
 
 
