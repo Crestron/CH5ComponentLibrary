@@ -322,12 +322,20 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             this.checkAndSetSizes();
             this._list.sizeResolver.updateViewport(this._list);
             
+<<<<<<< HEAD
             this.resetItemsTransform()
+=======
+            this._list.items = this._list.items.map((elData: ICh5ListItemInfo) => {
+                elData.element.style.transform = 'translate3d(0,0,0)';
+                return {...elData, translateX: 0, translateY: 0};
+            });
+>>>>>>> 85828bb... fix(ch5-list): disables list reset on window rest
             
             this._list.items.sort((listElement, nextListElement) => listElement.layoutIndex - nextListElement.layoutIndex);
             
             if (this._list.endless) {
                 this._list.animationHelper.stop();
+<<<<<<< HEAD
             }
                         
             this._list.animationHelper.minOffsetTranslate = 0;
@@ -346,6 +354,26 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
                     this._list.currentYPosition = this._list.animationHelper.maxOffsetTranslate;
                 }
             }
+=======
+            }
+                        
+            this._list.animationHelper.minOffsetTranslate = 0;
+            this._list.animationHelper.maxOffsetTranslate = -this._list.sizeResolver.hiddenListSize;
+            
+            if (this._list.isHorizontal) {
+                this._list.currentXPosition = this._list.currentXPosition % this._list.sizeResolver.fullListSize;
+            } else {
+                this._list.currentYPosition = this._list.currentYPosition % this._list.sizeResolver.fullListSize;
+            }
+      
+            if (this.isPositionExceedingMaximumBoundary()) {
+                if (this._list.isHorizontal) {
+                    this._list.currentXPosition = this._list.animationHelper.maxOffsetTranslate;
+                } else {
+                    this._list.currentYPosition = this._list.animationHelper.maxOffsetTranslate;
+                }
+            }
+>>>>>>> 85828bb... fix(ch5-list): disables list reset on window rest
             
             if (this._list.sizeResolver.viewPortSize > 0 ) {
                 this._list.templateHelper.customScrollbar(this._list.divList);
@@ -696,6 +724,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         }
     }
     
+<<<<<<< HEAD
     private resetItemsTransform() {
         this._list.items = this._list.items.map((elData: ICh5ListItemInfo) => {
             elData.element.style.transform = 'translate3d(0,0,0)';
@@ -703,6 +732,8 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         });
     }
     
+=======
+>>>>>>> 85828bb... fix(ch5-list): disables list reset on window rest
     private isPositionExceedingMaximumBoundary() {
         
         if (!this._list.animationHelper) {
