@@ -15,6 +15,7 @@ import { TAnimateCallback } from './ch5-list-animation';
 import { debounce, IDebouncerDetails } from '../ch5-core/utility-functions/debounce';
 import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
 import { TCh5ListElementOrientation } from '../_interfaces/ch5-list/types';
+import { elementAt } from 'rxjs/operators';
 
 export interface ICh5ListStylesheet {
     [key: string]: any
@@ -23,6 +24,8 @@ export interface ICh5ListStylesheet {
 export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 
     public scrollbarSize: number = 0;
+    
+    public cachedListFullSize: number | undefined;
 
     /**
      * Tracks the endless attribute
@@ -215,7 +218,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         }
 
         // add first item then, if needed, calculate item height and width
-        this.initListMaxWidthAndHeight();
+        // this.initListMaxWidthAndHeight();
         // style contains item size properties, we need to attach the style here
         // for better firstItem size related operations
         this.attachCSS();
@@ -261,9 +264,6 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
                 elData.element.style.transform = '';
                 return {...elData, translateX: 0, translateY: 0}
             });
-
-            this._list.currentYPosition = this._list.currentXPosition = 0;
-            this._list.animationHelper.updateDragPosition(0);
         }
 
 
@@ -311,22 +311,56 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 
     public resetListLayout() {
         clearTimeout(this.resetListLayoutTask);
+        
         this.resetListLayoutTask = setTimeout(() => {
-
+            
+            if (!(this._list.sizeResolver instanceof Ch5ListSizeResolver)) {
+                clearTimeout(this.resetListLayoutTask);
+                return;
+            }
+                        
+            this.checkAndSetSizes();
+            this._list.sizeResolver.updateViewport(this._list);
+            
+            this._list.items = this._list.items.map((elData: ICh5ListItemInfo) => {
+                elData.element.style.transform = 'translate3d(0,0,0)';
+                return {...elData, translateX: 0, translateY: 0};
+            });
+            
+            this._list.items.sort((listElement, nextListElement) => listElement.layoutIndex - nextListElement.layoutIndex);
+            
             if (this._list.endless) {
                 this._list.animationHelper.stop();
-                this.resizeList(this._list.divList, this._list.templateVars, true);
             }
-
-            if (this._list.sizeResolver instanceof Ch5ListSizeResolver) {
-                this._list.sizeResolver.updateViewport(this._list);
+                        
+            this._list.animationHelper.minOffsetTranslate = 0;
+            this._list.animationHelper.maxOffsetTranslate = -this._list.sizeResolver.hiddenListSize;
+            
+            if (this._list.isHorizontal) {
+                this._list.currentXPosition = this._list.currentXPosition % this._list.sizeResolver.fullListSize;
+            } else {
+                this._list.currentYPosition = this._list.currentYPosition % this._list.sizeResolver.fullListSize;
             }
+      
+            if (this.isPositionExceedingMaximumBoundary()) {
+                if (this._list.isHorizontal) {
+                    this._list.currentXPosition = this._list.animationHelper.maxOffsetTranslate;
+                } else {
+                    this._list.currentYPosition = this._list.animationHelper.maxOffsetTranslate;
+                }
+            }
+            
+            if (this._list.sizeResolver.viewPortSize > 0 ) {
+                this._list.templateHelper.customScrollbar(this._list.divList);
+            }
+            
+            const axisPosition = this._list.isHorizontal ? this._list.currentXPosition : this._list.currentYPosition;
+            
+            this._list.templateHelper.updateScrollBarPosition(axisPosition);
+            this._list.animationHelper.updateDragPosition(axisPosition);
 
             const { fullListSize, viewPortSize } = this._list.sizeResolver;
             const isBufferAmount = !isNil(this._list.bufferAmount);
-
-            this._list.templateHelper.customScrollbar(this._list.divList);
-            this._list.onResizeList();
 
             if (fullListSize <= viewPortSize) {
                 this._list.setCurrentPosition(0);
@@ -659,7 +693,39 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             this._list.endless = true;
         }
     }
-
+    
+    private isPositionExceedingMaximumBoundary() {
+        
+        if (!this._list.animationHelper) {
+            return false;
+        }
+        
+        const { maxOffsetTranslate } = this._list.animationHelper;
+        const { currentYPosition, currentXPosition, isHorizontal, isLtr } = this._list;
+        
+        if (!maxOffsetTranslate) {
+            return false;
+        }
+        
+        if (isLtr) {
+            if (
+                (isHorizontal && currentXPosition < maxOffsetTranslate) 
+                || (!isHorizontal && currentYPosition < maxOffsetTranslate)
+            ) {
+                return true;
+            }
+        } else {
+            if (
+                (isHorizontal && currentXPosition > maxOffsetTranslate) 
+                || (!isHorizontal && currentYPosition > maxOffsetTranslate)
+            ) {
+                return true;
+            };
+        }
+        
+        return false;
+    }
+    
     /**
      * Getting the relative (% in percentage) scrollbar position
      *
