@@ -123,14 +123,6 @@ export class Ch5TriggerViewSlidesManager {
       // update active slide attributes (also prev active slide attrs will be updated)
       this._updateActiveSlideAttributes();
       this._updateTriggerViewElActiveViewWhenChangedBySwiper();
-
-      // publishing slidechange eevnt for ch5-video
-      publishEvent('b', 'triggerview.slidechange', true);
-    });
-    
-    // publishing slidemove eevnt for ch5-video
-    this._swiper.on('sliderMove', () => {
-      publishEvent('b', 'triggerview.slidemove', true);
     });
 
     // set gestures on/off
