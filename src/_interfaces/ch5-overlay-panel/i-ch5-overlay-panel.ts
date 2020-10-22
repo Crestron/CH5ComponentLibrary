@@ -10,10 +10,10 @@ import { ICh5OverlayPanelAttributes } from "./i-ch5-overlay-panel-attributes";
 import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
 
 /**
- * @name Ch5 Overlay Panel 
+ * @name Ch5 Overlay Panel
  * @isattribute false
  * @tagName ch5-overlay-panel
- * @description Ch5 Overlay Panel 
+ * @description Ch5 Overlay Panel
  * @documentation
  * [
  * "`ch5-overlay-panel` element",
