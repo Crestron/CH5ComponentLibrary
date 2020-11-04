@@ -871,6 +871,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         let hasIcon = false;
         let hasLabel = false;
         let hasImage = false;
+        let hasAriaLabel = false;
 
         if (this.hasAttribute('iconclass') && '' !== this.getAttribute('iconclass')) {
             hasIcon = true;
@@ -885,9 +886,20 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             hasLabel = true;
         }
 
+        if (this.hasAttribute('aria-label') && '' !== this.getAttribute('aria-label')) {
+            hasAriaLabel = true;
+        }
+
         // updates the iconposition ( otherwise it might use the previous value of the attribute )
         if (this.hasAttribute('iconposition')) {
             this.iconPosition = this.getAttribute('iconposition') as TCh5ButtonIconPosition;
+        }
+
+        if (!hasLabel && hasAriaLabel && hasImage) {
+            const ariaLabel = this.getAttribute('aria-label');
+            if (ariaLabel) {
+                this._elImg.setAttribute('alt', ariaLabel);
+            }
         }
 
         if (hasLabel && hasIcon) {
@@ -941,6 +953,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 this._elIcon.remove();
             }
             if (hasLabel) {
+                this._elImg.setAttribute('alt', "");
                 if ((this._elLabel as any).isConnected === false) {
                     this._elButton.appendChild(this._elLabel);
                 } else if (this._elImg.parentNode !== (this._elButton as Node)) {
