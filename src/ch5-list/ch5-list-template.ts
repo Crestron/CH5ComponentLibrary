@@ -322,10 +322,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             this.checkAndSetSizes();
             this._list.sizeResolver.updateViewport(this._list);
             
-            this._list.items = this._list.items.map((elData: ICh5ListItemInfo) => {
-                elData.element.style.transform = 'translate3d(0,0,0)';
-                return {...elData, translateX: 0, translateY: 0};
-            });
+            this.resetItemsTransform()
             
             this._list.items.sort((listElement, nextListElement) => listElement.layoutIndex - nextListElement.layoutIndex);
             
@@ -341,7 +338,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             } else {
                 this._list.currentYPosition = this._list.currentYPosition % this._list.sizeResolver.fullListSize;
             }
-      
+
             if (this.isPositionExceedingMaximumBoundary()) {
                 if (this._list.isHorizontal) {
                     this._list.currentXPosition = this._list.animationHelper.maxOffsetTranslate;
@@ -360,6 +357,11 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             this._list.animationHelper.updateDragPosition(axisPosition);
 
             const { fullListSize, viewPortSize } = this._list.sizeResolver;
+            
+            if (fullListSize > 0 && viewPortSize > 0 && fullListSize <= viewPortSize) {
+                this.resetItemsTransform();
+            }
+            
             const isBufferAmount = !isNil(this._list.bufferAmount);
 
             if (fullListSize <= viewPortSize) {
@@ -692,6 +694,13 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         } else {
             this._list.endless = true;
         }
+    }
+    
+    private resetItemsTransform() {
+        this._list.items = this._list.items.map((elData: ICh5ListItemInfo) => {
+            elData.element.style.transform = 'translate3d(0,0,0)';
+            return {...elData, translateX: 0, translateY: 0};
+        });
     }
     
     private isPositionExceedingMaximumBoundary() {
