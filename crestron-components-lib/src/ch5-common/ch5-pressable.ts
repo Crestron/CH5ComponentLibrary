@@ -88,7 +88,7 @@ export class Ch5Pressable {
      * @param {Ch5Common} component
      * @memberof Ch5Pressable
      */
-    constructor (component: Ch5Common, options?:ICh5PressableOptions ) {
+    constructor(component: Ch5Common, options?: ICh5PressableOptions) {
         this._ch5Component = component;
         this._options = options || null;
 
@@ -104,12 +104,12 @@ export class Ch5Pressable {
             cancelable: false
         });
 
-        this._onClick =  this._onClick.bind(this);
-        this._onMouseDown =  this._onMouseDown.bind(this);
+        this._onClick = this._onClick.bind(this);
+        this._onMouseDown = this._onMouseDown.bind(this);
         this._onMouseUp = this._onMouseUp.bind(this);
         this._onMouseLeave = this._onMouseLeave.bind(this);
         this._onTouchStart = this._onTouchStart.bind(this);
-        this._onTouchEnd =  this._onTouchEnd.bind(this);
+        this._onTouchEnd = this._onTouchEnd.bind(this);
         this._onTouchCancel = this._onTouchCancel.bind(this);
         this._onHold = this._onHold.bind(this);
         this._onRelease = this._onRelease.bind(this);
@@ -181,11 +181,11 @@ export class Ch5Pressable {
     private _attachEvents() {
         this._ch5Component.addEventListener('click', this._onClick);
 
-        this._ch5Component.addEventListener('mousedown', this._onMouseDown, true);
+        this._ch5Component.addEventListener('mousedown', this._onMouseDown, { passive: true });
         this._ch5Component.addEventListener('mouseup', this._onMouseUp);
         this._ch5Component.addEventListener('mouseleave', this._onMouseLeave);
 
-        this._ch5Component.addEventListener('touchstart', this._onTouchStart, true);
+        this._ch5Component.addEventListener('touchstart', this._onTouchStart, { passive: true });
         this._ch5Component.addEventListener('touchend', this._onTouchEnd);
         this._ch5Component.addEventListener('touchcancel', this._onTouchCancel);
     }
@@ -234,7 +234,7 @@ export class Ch5Pressable {
     private _subscribeToGestureableProp() {
         if (this._gestureableSubscription === null) {
             this._gestureableSubscription =
-                this._ch5Component.observableGestureableProperty.subscribe((value:boolean) => {
+                this._ch5Component.observableGestureableProperty.subscribe((value: boolean) => {
                     if (value) {
                         this._attachEventsFromHammer();
                     } else {
@@ -264,8 +264,7 @@ export class Ch5Pressable {
      * @memberof Ch5Pressable
      */
     private _attachEventsFromHammer() {
-        if ( this._hammerManager !== null )
-        {
+        if (this._hammerManager !== null) {
             this._hammerManager.on('press', this._onHold);
             this._hammerManager.on('pressup', this._onRelease);
             this._hammerManager.on('panend', this._onPanEnd);
@@ -280,8 +279,7 @@ export class Ch5Pressable {
      * @memberof Ch5Pressable
      */
     private _removeEventsFromHammer() {
-        if (this._hammerManager !== null )
-        {
+        if (this._hammerManager !== null) {
             this._hammerManager.off('press', this._onHold);
             this._hammerManager.off('pressup', this._onRelease);
             this._hammerManager.off('panend', this._onPanEnd);
@@ -407,7 +405,7 @@ export class Ch5Pressable {
      * @private
      * @memberof Ch5Pressable
      */
-    private _onPanEnd(){
+    private _onPanEnd() {
         this._onRelease();
     }
 
@@ -416,8 +414,7 @@ export class Ch5Pressable {
      */
     private _addCssPressClass() {
         if (this._options !== null &&
-            this._options.cssTargetElement.classList !== undefined)
-        {
+            this._options.cssTargetElement.classList !== undefined) {
             this._options.cssTargetElement.classList.add(this._options.cssPressedClass);
         }
     }
@@ -427,8 +424,7 @@ export class Ch5Pressable {
      */
     private _removeCssPressClass() {
         if (this._options !== null &&
-            this._options.cssTargetElement.classList !== undefined)
-        {
+            this._options.cssTargetElement.classList !== undefined) {
             this._options.cssTargetElement.classList.remove(this._options.cssPressedClass);
         }
     }

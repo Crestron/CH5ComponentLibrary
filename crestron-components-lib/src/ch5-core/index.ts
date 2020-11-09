@@ -24,6 +24,7 @@ export * from './utility-functions/translation-interface-register';
 export * from './utility-functions/trigger-translation';
 export * from './utility-functions/subscribe-in-view-port-change';
 export * from './utility-functions/debounce';
+export * from './utility-functions/is-crestron-touchscreen';
 export * from './ch5-translation-utility';
 export * from './ch5-translation-listeners';
 export * from './ch5-translation-factory';

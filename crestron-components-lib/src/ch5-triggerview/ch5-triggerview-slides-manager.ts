@@ -123,14 +123,6 @@ export class Ch5TriggerViewSlidesManager {
       // update active slide attributes (also prev active slide attrs will be updated)
       this._updateActiveSlideAttributes();
       this._updateTriggerViewElActiveViewWhenChangedBySwiper();
-
-      // publishing slidechange eevnt for ch5-video
-      publishEvent('b', 'triggerview.slidechange', true);
-    });
-    
-    // publishing slidemove eevnt for ch5-video
-    this._swiper.on('sliderMove', () => {
-      publishEvent('b', 'triggerview.slidemove', true);
     });
 
     // set gestures on/off
@@ -147,7 +139,7 @@ export class Ch5TriggerViewSlidesManager {
     this._swiper.on('touchEnd', (...e: any[]) => {
       const target: HTMLElement = e[0].target;
       if (this.eventTargetBelongsToCh5List(target) || this._touchMoveListRelatedEventDisabled) {
-        this.setAllowTouchMove(true);
+        this.setAllowTouchMove(this.triggerViewEl.gestureable);
         this._touchMoveListRelatedEventDisabled = false;
       }
 
@@ -202,7 +194,9 @@ export class Ch5TriggerViewSlidesManager {
    */
   public destroySwiper() {
     if (this.swiperIsActive()) {
-      this._swiper!.destroy(true, false);
+      if (this._swiper && this._swiper.$el) {
+        this._swiper!.destroy(true, false);
+      }
     }
   }
 
@@ -433,6 +427,4 @@ export class Ch5TriggerViewSlidesManager {
       return this.getTriggerviewChildSlides();
     }
   }
-
-
 }

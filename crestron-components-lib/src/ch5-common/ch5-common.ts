@@ -607,10 +607,21 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     public _getTranslatedValue(valueToSave: string, valueToTranslate: string) {
 
         const translationUtility = Ch5TranslationUtility.getInstance();
-        const isTranslatableValue = translationUtility.isTranslationIdentifier(valueToTranslate);
+        
+        let translationKey = valueToTranslate;;
         let _value = valueToTranslate;
         let savedValue = this.translatableObjects[valueToSave];
-
+        
+        if (savedValue === valueToTranslate) {
+            translationKey = savedValue;
+        }
+        
+        const isTranslatableValue = translationUtility.isTranslationIdentifier(translationKey);
+        
+        if (!isTranslatableValue) {
+            return valueToTranslate;
+        }
+        
         if (typeof savedValue === 'undefined') {
             savedValue = valueToTranslate;
 
