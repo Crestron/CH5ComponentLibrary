@@ -2093,9 +2093,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
 
         // set component value | valueHigh based on handle
         this._applyHandleValueToComponent(handle, value);
-       
-       console.log(value, handle, ' the value, the handle');
-       
+              
         if (handle === TCh5SliderHandle.VALUE) {
             this._lowInputValues.push(parseFloat(value[handle]));
         } else if (handle === TCh5SliderHandle.HIGHVALUE) {
