@@ -454,6 +454,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._onPressClick = this._onPressClick.bind(this);
         this._onMouseUp = this._onMouseUp.bind(this);
         this._onMouseMove = this._onMouseMove.bind(this);
+        this._onLeave = this._onLeave.bind(this);
     }
 
     /**
@@ -1122,6 +1123,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._elButton.addEventListener('mouseup', this._onMouseUp);
         this._elButton.addEventListener('mousemove', this._onMouseMove);
         this._elButton.addEventListener('touchstart', this._onPress, { passive: true });
+        this._elButton.addEventListener('mouseleave', this._onLeave);
         this._elButton.addEventListener('touchend', this._onPressUp);
         this._elButton.addEventListener('touchmove', this._onTouchMove, { passive: true });
 
@@ -1147,6 +1149,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._elButton.removeEventListener('blur', this._onBlur);
         this._elButton.removeEventListener('mousedown', this._onPressClick);
         this._elButton.removeEventListener('mouseup', this._onMouseUp);
+        this._elButton.removeEventListener('mouseleave', this._onLeave);
     }
 
     protected getTargetElementForCssClassesAndStyle(): HTMLElement {
@@ -1954,6 +1957,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
     }
+    
+    private _onLeave() {
+        if (this._intervalIdForRepeatDigital) {
+            this.stopRepeatDigital();
+        }
+    }
 
     private async _onPressClick(event: MouseEvent) {
         await this.pressHandler();
@@ -2090,7 +2099,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * Sends the signal passed via sendEventOnClick or sendEventOnTouch
      */
     private _sendOnClickSignal(): void {
-        //let sigClick: Ch5Signal<boolean> | null = null;
+        // let sigClick: Ch5Signal<boolean> | null = null;
 
         if (this._sigNameSendOnClick) {
             // sigClick = Ch5SignalFactory.getInstance()
