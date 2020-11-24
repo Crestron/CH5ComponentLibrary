@@ -1122,7 +1122,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._elButton.addEventListener('mousedown', this._onPressClick);
         this._elButton.addEventListener('mouseup', this._onMouseUp);
         this._elButton.addEventListener('mousemove', this._onMouseMove);
-        this._elButton.addEventListener('touchstart', this._onPress, { passive: true });
+        this._elButton.addEventListener('touchstart', this._onPress);
         this._elButton.addEventListener('mouseleave', this._onLeave);
         this._elButton.addEventListener('touchend', this._onPressUp);
         this._elButton.addEventListener('touchmove', this._onTouchMove, { passive: true });
@@ -1933,9 +1933,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onTouchMove(event: TouchEvent) {
         // The event must be cancelable
-        if (event.cancelable) {
-            event.preventDefault();
-        }
+
         const normalizedEvent = normalizeEvent(event);
 
         this._pressInfo.saveEnd(
@@ -1959,12 +1957,15 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
     
     private _onLeave() {
-        if (this._intervalIdForRepeatDigital) {
-            this.stopRepeatDigital();
+        if (this._intervalIdForRepeatDigital && this._pressed) {
+            window.clearInterval(this._intervalIdForRepeatDigital);
+            this.sendValueForRepeatDigital(false);
+            this._intervalIdForRepeatDigital = null;
         }
     }
 
     private async _onPressClick(event: MouseEvent) {
+        console.log('Press clickc');
         await this.pressHandler();
 
         this._pressHorizontalStartingPoint = event.clientX;
@@ -2011,6 +2012,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private async _onPress(event: TouchEvent) {
+        event.preventDefault();
         const normalizedEvent = normalizeEvent(event);
 
         this._pressInfo.saveStart(
@@ -2022,8 +2024,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this.stopRepeatDigital();
     }
 
-    private _onPressUp(): void {
-
+    private _onPressUp(event: TouchEvent): void {
+        event.preventDefault();
         window.clearTimeout(this._pressTimeout);
 
         if (this._pressed) {
@@ -2041,6 +2043,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onTouchEnd(inEvent: Event): void {
+        inEvent.preventDefault();
         this.info("Ch5Button._onTouchEnd()");
 
         if (this._intervalIdForRepeatDigital) {
