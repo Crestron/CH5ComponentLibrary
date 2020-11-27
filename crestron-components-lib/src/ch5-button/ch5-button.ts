@@ -117,6 +117,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     public static SVG: string = 'svg';
 
+    private static debouncePressTime: number = 200;
+
+
     public primaryCssClass = 'ch5-button';
     public cssClassPrefix = 'ch5-button';
     public pressedCssClassPostfix = '--pressed';
@@ -428,6 +431,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * @type {string | null}
      */
     private _customClassDisabled: string | null = null;
+
+    private allowPress: boolean = true;
 
     public constructor() {
         super();
@@ -1965,7 +1970,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private async _onPressClick(event: MouseEvent) {
-        console.log('Press clickc');
+
+        if (!this.allowPress) {
+            return;
+        }
+
+        this.allowPress = false;
+
         await this.pressHandler();
 
         this._pressHorizontalStartingPoint = event.clientX;
@@ -1976,6 +1987,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onMouseUp() {
         this.cancelPress();
+
+        this.reactivatePress();
 
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
@@ -2012,7 +2025,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private async _onPress(event: TouchEvent) {
-        event.preventDefault();
+
+        if (!this.allowPress) {
+            return;
+        }
+
+        this.allowPress = false;
+
         const normalizedEvent = normalizeEvent(event);
 
         this._pressInfo.saveStart(
@@ -2027,6 +2046,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _onPressUp(event: TouchEvent): void {
         event.preventDefault();
         window.clearTimeout(this._pressTimeout);
+
+        this.reactivatePress();
 
         if (this._pressed) {
             this.info("Ch5Button._onPressUp()");
@@ -2062,6 +2083,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _onBlur(inEvent: Event): void {
         this.info("Ch5Button._onBlur()");
         let clonedEvent: Event;
+
+        this.reactivatePress();
 
         clonedEvent = new Event(inEvent.type, inEvent);
         this.dispatchEvent(clonedEvent);
@@ -2156,6 +2179,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this._intervalIdForRepeatDigital = null;
             return;
         }
+
         this.sendValueForRepeatDigital(true);
 
         this._intervalIdForRepeatDigital = window.setInterval(() => {
@@ -2169,6 +2193,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         const distance = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
 
         return distance > Ch5Button.PRESS_MOVE_THRESHOLD;
+    }
+
+    private reactivatePress(): void {
+        setTimeout(() => {
+            this.allowPress = true;
+        }, Ch5Button.debouncePressTime);
     }
 }
 
