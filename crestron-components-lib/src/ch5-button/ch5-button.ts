@@ -2124,24 +2124,16 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * Sends the signal passed via sendEventOnClick or sendEventOnTouch
      */
     private _sendOnClickSignal(): void {
-        // let sigClick: Ch5Signal<boolean> | null = null;
+        let sigClick: Ch5Signal<boolean> | null = null;
 
         if (this._sigNameSendOnClick) {
-            // sigClick = Ch5SignalFactory.getInstance()
-            //     .getBooleanSignal(this._sigNameSendOnClick);
+            sigClick = Ch5SignalFactory.getInstance()
+                .getBooleanSignal(this._sigNameSendOnClick);
 
-            // if (sigClick !== null) {
-            //     sigClick.publish(true);
-            //     sigClick.publish(false);
-            // }
-            const sigClickAsRptDigital: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-                .getObjectAsBooleanSignal(this._sigNameSendOnClick);
-            if (sigClickAsRptDigital !== null) {
-                sigClickAsRptDigital.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: true});                                
-                sigClickAsRptDigital.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: false});     
+            if (sigClick !== null) {
+                sigClick.publish(true);
+                sigClick.publish(false);
             }
-
-          
         }
     }
 
