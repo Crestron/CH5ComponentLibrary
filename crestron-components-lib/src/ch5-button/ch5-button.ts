@@ -117,7 +117,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     public static SVG: string = 'svg';
 
-    private static debouncePressTime: number = 200;
+    private static DEBOUNCE_PRESS_TIME: number = 200;
 
 
     public primaryCssClass = 'ch5-button';
@@ -1922,13 +1922,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onTapAction() {
-        if (!isTouchDevice()) {
-            this._sendOnClickSignal();
-        }
-        else {
-            this._lastTapTime = new Date().valueOf();
-        }
-
         if (null !== this._intervalIdForRepeatDigital) {
             window.clearInterval(this._intervalIdForRepeatDigital);
             this.sendValueForRepeatDigital(false);
@@ -1970,7 +1963,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private async _onPressClick(event: MouseEvent) {
-
         if (!this.allowPress) {
             return;
         }
@@ -1996,16 +1988,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this._onTapAction();
         }
 
-        // iOS/iPadOS only
-        if (isTouchDevice() && isSafariMobile()) {
-            const timeSinceLastPress = new Date().valueOf() - this._lastPressTime;
-            if (timeSinceLastPress < 100) {
-                // sometimes a both click and press can happen on iOS/iPadOS, don't publish both
-                this.info('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
-            }
-            else {
-                this._sendOnClickSignal();
-            }
+        const timeSinceLastPress = new Date().valueOf() - this._lastTapTime;
+        if (this._lastTapTime && timeSinceLastPress < Ch5Button.DEBOUNCE_PRESS_TIME) {
+            // sometimes a both click and press can happen on iOS/iPadOS, don't publish both
+            this.info('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
+        } else {
+            this._lastTapTime = new Date().valueOf();
+            this._sendOnClickSignal();
         }
     }
 
@@ -2101,23 +2090,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         inEvent.preventDefault();
         inEvent.stopPropagation();
-
-        // signal is sent here to make sure the button does 	
-        // not gain focus when it should not	
-
-        // on touch devices, focus is gained onTouchEnd
-        if (isTouchDevice()) {
-            if (!isSafariMobile()) {  // pulse for Safari sent onMouseUp
-                // Only send click pulse if directly preceeded (e.g. < 500ms) by a tap event
-                const timeNow = new Date().valueOf();
-                if (timeNow - this._lastTapTime < 500) {
-                    this._sendOnClickSignal();
-                }
-                this._lastTapTime = 0;
-            }
-            // for all touch devices, give up focus
-            this._elButton.blur();
-        }
     }
 
     /**
@@ -2189,7 +2161,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private reactivatePress(): void {
         setTimeout(() => {
             this.allowPress = true;
-        }, Ch5Button.debouncePressTime);
+        }, Ch5Button.DEBOUNCE_PRESS_TIME);
     }
 }
 
