@@ -1091,7 +1091,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     }
 
     if (items !== this.visibleItemScroll) {
-      this.setAttribute('visibleItemScroll', items + '');
       this.repaint();
     }
 
