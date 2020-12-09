@@ -513,8 +513,9 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
     }
 
     private _createSelectPanel(): void {
-        if (this._wasInstatiated === true) {
-            return;
+        if (this.selectPanel instanceof HTMLElement) {
+            this.selectPanel.remove();
+            this.selectPanel = {} as HTMLElement;
         }
         this.selectPanel = document.createElement('div');
         this.selectPanel.classList.add(Ch5Select.PANEL_ITEMS_STYLE_CLASS);
