@@ -2234,7 +2234,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      */
     protected attachEventListeners(): void {
         this.info("<ch5-textinput />.attachEventListeners()");
-
+        this.removeEvents();
         this._onChangeListener = this._onChange.bind(this);
         this._onBlurListener = this._onBlur.bind(this);
         this._onFocusListener = this._onFocus.bind(this);
@@ -2259,11 +2259,11 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
         super.removeEventListeners();
 
-        if (!_.isEmpty(this._elInput)) {
-            this._elInput.removeEventListener('change', this._onChangeListener);
+        if (!_.isElement(this._elInput)) {
+            this._elInput.removeEventListener('keyup', this._onChangeListener);
             this._elInput.removeEventListener('focus', this._onFocusListener);
             this._elInput.removeEventListener('blur', this._onBlurListener);
-            this._elInput.removeEventListener('keypress', this._onKeyPressListener);
+            this._elInput.removeEventListener('input', this._onKeyPressListener);
         }
     }
 
