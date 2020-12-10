@@ -2259,7 +2259,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
         super.removeEventListeners();
 
-        if (!_.isElement(this._elInput)) {
+        if (_.isElement(this._elInput)) {
             this._elInput.removeEventListener('keyup', this._onChangeListener);
             this._elInput.removeEventListener('focus', this._onFocusListener);
             this._elInput.removeEventListener('blur', this._onBlurListener);
