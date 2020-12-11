@@ -1901,8 +1901,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             this._dirty = true;
             this._clean = false;
             this.dirtyValue = currentElement.value
-
-            this._onChangeSignal(currentElement, currentElement.value);
         }
 
     }
