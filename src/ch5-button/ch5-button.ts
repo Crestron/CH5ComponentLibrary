@@ -1927,7 +1927,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.sendValueForRepeatDigital(false);
             this._intervalIdForRepeatDigital = null;
         } else {
-            this._sendOnClickSignal(true, false);
+            this._sendOnClickSignal();
         }
     }
 
@@ -1970,8 +1970,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
         this.allowPress = false;
-
-        this._sendOnClickSignal(false, true);
 
         await this.pressHandler();
 
@@ -2031,7 +2029,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             normalizedEvent.y
         );
 
-        this._sendOnClickSignal(false, true);
         await this.pressHandler();
         this.stopRepeatDigital();
     }
@@ -2052,6 +2049,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 this.sendValueForRepeatDigital(false);
                 this._intervalIdForRepeatDigital = null;
                 this._lastPressTime = new Date().valueOf();
+            } else {
+                this._sendOnClickSignal();
             }
         }
     }
@@ -2099,7 +2098,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * Sends the signal passed via sendEventOnClick or sendEventOnTouch
      */
-    private _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
+    private _sendOnClickSignal(): void {
         let sigClick: Ch5Signal<boolean> | null = null;
 
         if (this._sigNameSendOnClick) {
@@ -2107,14 +2106,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 .getBooleanSignal(this._sigNameSendOnClick);
 
             if (sigClick !== null) {
-
-                if (!preventTrue) {
-                    this.sendValueForRepeatDigital(true);
-                }
-
-                if (!preventFalse) {
-                    this.sendValueForRepeatDigital(false);
-                }
+                this.sendValueForRepeatDigital(true);
+                this.sendValueForRepeatDigital(false);
+               
             }
         }
     }
