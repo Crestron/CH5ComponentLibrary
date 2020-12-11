@@ -1563,8 +1563,18 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
         this._subKeySigReceiveShowPulse = recSig.subscribe((newVal: boolean) => {
             this.info(' subs callback for signalReceiveShowPulse: ', this._subKeySigReceiveShowPulse, ' Signal has value ', newVal);
+
             if (null !== recSig) {
-                if (false === recSig.prevValue && true === newVal) {
+
+                const _newVal = (recSig.prevValue as never as {repeatdigital: boolean}).repeatdigital ? (recSig.prevValue as never as {repeatdigital: boolean}).repeatdigital : newVal;
+
+                if ((recSig.prevValue as never as {repeatdigital: boolean}).repeatdigital !== undefined) {
+                    if (false === recSig.prevValue && true === _newVal) {
+                        this.setAttribute('show', 'true')
+                    }
+                }   
+
+                if (false === recSig.prevValue && true === _newVal) {
                     this.setAttribute('show', 'true')
                 }
             }
