@@ -1926,6 +1926,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             window.clearInterval(this._intervalIdForRepeatDigital);
             this.sendValueForRepeatDigital(false);
             this._intervalIdForRepeatDigital = null;
+        } else {
+            this._sendOnClickSignal(true, false);
         }
     }
 
@@ -1969,10 +1971,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         this.allowPress = false;
 
+        this._sendOnClickSignal(false, true);
+
         await this.pressHandler();
 
         this._pressHorizontalStartingPoint = event.clientX;
         this._pressVerticalStartingPoint = event.clientY;
+
+        this._lastTapTime = new Date().valueOf();
 
         this.stopRepeatDigital();
     }
@@ -1992,9 +1998,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         if (this._lastTapTime && timeSinceLastPress < Ch5Button.DEBOUNCE_PRESS_TIME) {
             // sometimes a both click and press can happen on iOS/iPadOS, don't publish both
             this.info('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
-        } else {
-            this._lastTapTime = new Date().valueOf();
-            this._sendOnClickSignal();
         }
     }
 
@@ -2028,6 +2031,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             normalizedEvent.y
         );
 
+        this._sendOnClickSignal(false, true);
         await this.pressHandler();
         this.stopRepeatDigital();
     }
@@ -2095,7 +2099,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * Sends the signal passed via sendEventOnClick or sendEventOnTouch
      */
-    private _sendOnClickSignal(): void {
+    private _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
         let sigClick: Ch5Signal<boolean> | null = null;
 
         if (this._sigNameSendOnClick) {
@@ -2103,8 +2107,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 .getBooleanSignal(this._sigNameSendOnClick);
 
             if (sigClick !== null) {
-                sigClick.publish(true);
-                sigClick.publish(false);
+
+                if (!preventTrue) {
+                    this.sendValueForRepeatDigital(true);
+                }
+
+                if (!preventFalse) {
+                    this.sendValueForRepeatDigital(false);
+                }
             }
         }
     }
