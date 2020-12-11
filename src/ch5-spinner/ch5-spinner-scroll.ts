@@ -364,7 +364,6 @@ export class Ch5SpinnerScroll {
    * @return {void}
    */
   private _onMouseDown(event: MouseEvent): void {
-    event.preventDefault();
     event.stopPropagation();
     this.initialMousePos = this.getMousePosition(event).y;
 

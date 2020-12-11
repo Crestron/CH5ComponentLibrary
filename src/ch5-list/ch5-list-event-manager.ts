@@ -166,7 +166,7 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
   public onPointerDown(event: MouseEvent | TouchEvent) {
     this._list.info(`ch5-list-event-manager - onPointerDown: ${event}`);
     const e = normalizeEvent(event);
-
+    
     if (this._list.decelerating) {
       e.event.stopPropagation();
     }
@@ -223,11 +223,6 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
    */
   public onPointerMove(event: MouseEvent | TouchEvent) {
     const e = normalizeEvent(event);
-
-    // The event must be cancelable
-    if (event.cancelable) {
-      event.preventDefault();
-    }
 
     const oppositeVectorSize = Math.abs(this._list.pointerFirstX - e.x);
     const adjacentVectorSize = Math.abs(this._list.pointerFirstY - e.y);
