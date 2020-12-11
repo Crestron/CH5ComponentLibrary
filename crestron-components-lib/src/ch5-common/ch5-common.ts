@@ -1566,12 +1566,14 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
             if (null !== recSig) {
 
-                const _newVal = (recSig.prevValue as never as {repeatdigital: boolean}).repeatdigital ? (recSig.prevValue as never as {repeatdigital: boolean}).repeatdigital : newVal;
+                const _newVal = (newVal as never as {repeatdigital: boolean}).repeatdigital !== undefined ? (newVal as never as {repeatdigital: boolean}).repeatdigital : newVal;
 
                 if ((recSig.prevValue as never as {repeatdigital: boolean}).repeatdigital !== undefined) {
-                    if (false === recSig.prevValue && true === _newVal) {
+                    if (false === (recSig.prevValue as never as {repeatdigital: boolean}).repeatdigital && true === _newVal) {
                         this.setAttribute('show', 'true')
                     }
+
+                    return;
                 }   
 
                 if (false === recSig.prevValue && true === _newVal) {
