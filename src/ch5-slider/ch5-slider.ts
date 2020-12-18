@@ -1057,14 +1057,31 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
             return;
         }
 
-        this._subReceiveValueId = receiveSignal.subscribe((object: any) => { 
-            if (!this._lowInputValues.length && !this.sliderInProgress) {
+        this._subReceiveValueId = receiveSignal.subscribe((object: any) => {
+            
+            let isTheLastValue = false;
+            
+            if (object.rcb !== undefined) {
+                isTheLastValue = this._lowInputValues.indexOf(object.rcb.value) === this._lowInputValues.length - 1;
+            }
+            
+            if (
+                (object.rcb !== undefined && object.rcb.time > 0)
+                || (!this._lowInputValues.length 
+                    || this._lowInputValues.length === 1 
+                    || isTheLastValue
+                )
+            ) {
                 if (undefined === object ||
                     !object.hasOwnProperty('rcb') ||
                     !object.rcb.hasOwnProperty('value') ||
                     !receiveSignal.hasChangedSinceInit())
                 {
                     return;
+                }
+                
+                if (isTheLastValue) {
+                    this._lowInputValues = [];
                 }
                 
                 const rcb = (object as IRcbSignal).rcb;
@@ -1153,12 +1170,23 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
         }
 
         this._subReceiveValueHighId = receiveSignal.subscribe( (object: any) => {
-            if (!this._highInputValues.length && !this.sliderInProgress) {
+            
+            let isTheLastValue = false;
+            
+            if (object.rcb !== undefined) {
+                isTheLastValue = this._highInputValues.indexOf(object.rcb.value) === this._highInputValues.length - 1;
+            }
+            
+            if ((object.rcb !== undefined && object.rcb.time > 0) || !this._highInputValues.length || isTheLastValue || this._highInputValues.length === 1) {
                 if (!object.hasOwnProperty('rcb') 
                     || !object.rcb.hasOwnProperty('value') 
                     || !receiveSignal.hasChangedSinceInit()
                 ) {
                     return;
+                }
+                
+                if (isTheLastValue) {
+                    this._highInputValues = [];
                 }
 
                 const rcb = (object as IRcbSignal).rcb;
@@ -2025,7 +2053,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
         this.info('Ch5Slider._onSliderStart()');
         
         this.sliderInProgress = true;
-
+        
+        this._lowInputValues = [];
         
         /**
          * Fired when the component's handle start to slide.
@@ -2093,11 +2122,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
 
         // set component value | valueHigh based on handle
         this._applyHandleValueToComponent(handle, value);
-              
+
+        const inputValue = Math.round(parseFloat(value[handle]));
+        
         if (handle === TCh5SliderHandle.VALUE) {
-            this._lowInputValues.push(parseFloat(value[handle]));
+            this._lowInputValues.push(inputValue);
         } else if (handle === TCh5SliderHandle.HIGHVALUE) {
-            this._highInputValues.push(parseFloat(value[handle]));
+            this._highInputValues.push(inputValue);
         }
 
         // send value signal
@@ -2288,10 +2319,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
      */
     private _setDirtyHandler(handle: TCh5SliderHandle) {
         this.info('Ch5Slider._setDirtyHandler');
-        
-        if (this.sliderInProgress) {
-            return;
-        }
 
         switch (handle) {
             // dirty handler for value
@@ -2457,7 +2484,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
 
         // noUiSlider.Options
         return {
-            start,
+            start, 
             animate: false,
             step,
             behaviour,
@@ -2466,7 +2493,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
             range,
             orientation: this.orientation,
             pips: Object.getOwnPropertyNames(pips).length !== 0 ? pipsOptions : undefined,
-            tooltips,
+            tooltips, 
         } as noUiSlider.Options
     }
 
