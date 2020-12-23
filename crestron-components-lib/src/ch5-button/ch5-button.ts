@@ -437,7 +437,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private isTouch: boolean = false;
 
-    
+
     public constructor() {
         super();
         this.info('Ch5Button.constructor()');
@@ -1962,7 +1962,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
     }
-    
+
     private _onLeave() {
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
@@ -1996,9 +1996,18 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _onMouseUp() {
 
         if (this.isTouch) {
+            ((btnObj) => {
+                setTimeout(() => {
+                    if (btnObj._intervalIdForRepeatDigital != null) {
+                        clearTimeout(btnObj._intervalIdForRepeatDigital);
+                        btnObj._intervalIdForRepeatDigital = null;
+                    }
+                    btnObj.sendValueForRepeatDigital(false);
+                }, 200);
+            })(this);
             return;
         }
-        
+
         this.cancelPress();
 
         this.reactivatePress();
@@ -2018,7 +2027,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private _onMouseMove(event: MouseEvent) {
 
-        if (!this.isTouch 
+        if (!this.isTouch
             && this._intervalIdForRepeatDigital
             && this._pressHorizontalStartingPoint
             && this._pressVerticalStartingPoint
@@ -2063,9 +2072,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         if (this._pressed) {
             this.info("Ch5Button._onPressUp()");
-    
+
             this._pressed = false;
-    
+
             if (this._intervalIdForRepeatDigital) {
                 window.clearInterval(this._intervalIdForRepeatDigital);
                 this.sendValueForRepeatDigital(false);
@@ -2132,10 +2141,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                     this.sendValueForRepeatDigital(true);
                 }
 
-                if (!preventFalse) { 
+                if (!preventFalse) {
                     this.sendValueForRepeatDigital(false);
                 }
-               
+
             }
         }
     }
