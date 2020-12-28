@@ -23,7 +23,6 @@ export class Ch5SignalBridge {
     private _localPublishers: TSignalsSubscriptionsByType;
     private _isWebView: boolean = false;
     private _isWebKit: boolean = false;
-    private _isWebXPanel: boolean = false;
 
     public constructor() {
         const dbgKey = 'Ch5SignalBridge.constructor';
@@ -53,19 +52,6 @@ export class Ch5SignalBridge {
             && typeof (webkit.messageHandlers.bridgeSendIntegerToNative) !== 'undefined'
             && typeof (webkit.messageHandlers.bridgeSendStringToNative) !== 'undefined'
             && typeof (webkit.messageHandlers.bridgeSendObjectToNative) !== 'undefined';
-
-
-        this._isWebXPanel = typeof (CommunicationInterface) !== 'undefined'
-            && (
-                isFunction(CommunicationInterface.bridgeSendBooleanToNative)
-                && isFunction(CommunicationInterface.bridgeSendIntegerToNative)
-                && isFunction(CommunicationInterface.bridgeSendStringToNative)
-                && isFunction(CommunicationInterface.bridgeSendObjectToNative)
-            );
-
-        if (this._isWebXPanel) {
-            this._isWebView = false;
-        }
 
         // Ch5Debug.info(dbgKey,' end ');
     }
@@ -235,7 +221,7 @@ export class Ch5SignalBridge {
             JSInterface.bridgeSendBooleanToNative(signalName, value);
         } else if (this._isWebKit) {
             webkit.messageHandlers.bridgeSendBooleanToNative.postMessage(this.createPMParam(signalName, value));
-        } else if (this._isWebXPanel) {
+        } else if (this._isWebXPanel()) {
             CommunicationInterface.bridgeSendBooleanToNative(signalName, value);
         } else {
             // TODO find a way to use this without interfering with the mocha tests
@@ -256,7 +242,7 @@ export class Ch5SignalBridge {
             JSInterface.bridgeSendIntegerToNative(signalName, value);
         } else if (this._isWebKit) {
             webkit.messageHandlers.bridgeSendIntegerToNative.postMessage(this.createPMParam(signalName, value));
-        } else if (this._isWebXPanel) {
+        } else if (this._isWebXPanel()) {
             CommunicationInterface.bridgeSendIntegerToNative(signalName, value);
         } else {
             // TODO find a way to use this without interfering with the mocha tests
@@ -278,7 +264,7 @@ export class Ch5SignalBridge {
             JSInterface.bridgeSendStringToNative(signalName, value);
         } else if (this._isWebKit) {
             webkit.messageHandlers.bridgeSendStringToNative.postMessage(this.createPMParam(signalName, value));
-        } else if (this._isWebXPanel) {
+        } else if (this._isWebXPanel()) {
             CommunicationInterface.bridgeSendStringToNative(signalName, value);
         } else {
             // TODO find a way to use this without interfering with the mocha tests
@@ -302,7 +288,7 @@ export class Ch5SignalBridge {
             JSInterface.bridgeSendObjectToNative(signalName, JSON.stringify(value));
         } else if (this._isWebKit) {
             webkit.messageHandlers.bridgeSendObjectToNative.postMessage(this.createPMParam(signalName, value));
-        } else if (this._isWebXPanel) {
+        } else if (this._isWebXPanel()) {
             CommunicationInterface.bridgeSendObjectToNative(signalName, JSON.stringify(value));
         } else {
             // TODO find a way to use this without interfering with the mocha tests
@@ -320,6 +306,23 @@ export class Ch5SignalBridge {
         // TODO
     }
 
+    private _isWebXPanel(): boolean {
+        const isWebXPanel = (typeof (CommunicationInterface) !== 'undefined'
+            && (
+                isFunction(CommunicationInterface.bridgeSendBooleanToNative)
+                && isFunction(CommunicationInterface.bridgeSendIntegerToNative)
+                && isFunction(CommunicationInterface.bridgeSendStringToNative)
+                && isFunction(CommunicationInterface.bridgeSendObjectToNative)
+            )
+        );
+
+        if (isWebXPanel) {
+            this._isWebView = false;
+        }
+
+        return isWebXPanel;
+        
+    }
     /**
      * Current iOS container app needs object to be sent as json format string instead of object
      * Use this function to format and then have one place to change if change back to object
