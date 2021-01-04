@@ -18,8 +18,9 @@
 | Release Pipeline | ![Deployment status](https://vsrm.dev.azure.com/crestron-mobile-devops/_apis/public/Release/badge/0403b700-ab40-43cd-9990-961924c561bc/38/94) |
 | NPM | ![npm (tag)](https://img.shields.io/npm/v/@crestron/ch5-crcomlib/latest-qe) |
 
-## See Crestron Labs for documentation 
-http://www.crestronlabs.com/forumdisplay.php?229-Crestron-HTML5-Lab
+## See Crestron developer website for documentation 
+https://www.crestron.com/developer
+Search for CRESTRON HTML5 USER INTERFACE 
 
 ## Generated folders
 
@@ -58,25 +59,3 @@ from ch5 components, and custom attributes will not be affected)
 * disablesAll() - Disables all keys
 * setConfigKeyValue(key:string, value:boolean) - Changes the value of a key
 
-## Using the library
-
-### When using a no-ce build (a build intended for browsers that do not support customElements)
-
-When importing the library in a webpage, two additional [webcomponentsjs](https://github.com/webcomponents/webcomponentsjs) 
-scripts should be included before the library: 
-
-* The first one for the polyfills used by browsers that do not yet support customElements or that have partial support. For example, from CDN:
-```
-<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-loader.js" type="text/javascript" charset="utf-8"></script>
-```
-
-* The second one for allowing browsers that support customElements to also be able to use them from ES5. For example, from CDN:
-```
-<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/custom-elements-es5-adapter.js" type="text/javascript" charset="utf-8"></script>
-```
-
-### When using a build that does not have a 'no-ce' ending for the foldername
-
-Browsers that do not support customElements will not be able to use the library
-
->  For more information, please consult the [DEVELOPER.README](./DEVELOPER.README.md)
