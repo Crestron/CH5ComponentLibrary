@@ -14,8 +14,10 @@ import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-o
 import { Ch5VideoEventHandler, ESVGIcons } from "./ch5-video-event-handler";
 import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5-video-publish-event-request';
 import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
-import { Observable, Subscription } from "rxjs";
-import { aspectRatio } from './ch5-video-constants';
+// import { Observable } from "rxjs";
+import { Subscription } from "rxjs";
+// import { aspectRatio } from './ch5-video-constants'; The video constants must be replaced by viewport below
+import { getAspectRatio } from "../ch5-common/utils/viewport";
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
@@ -68,19 +70,21 @@ export type TSignalTypeT = string | number | boolean | any;
 
 export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
-    public static PLAY_LABEL: string = 'Play';
-    public static STOP_LABEL: string = 'Stop';
-    public static BUTTON_TYPE: string = 'default';
-    public static EVENT_LIST: Observable<Event>;
-    public static videoControls = 'videoControls';
-    public static VIDEO_STYLE_CLASS: string = 'ch5-video__display__color';
+    // Unused
+    // public static PLAY_LABEL: string = 'Play';  
+    // public static STOP_LABEL: string = 'Stop';
+    // public static BUTTON_TYPE: string = 'default';
+    // public static EVENT_LIST: Observable<Event>;
+    // public static videoControls = 'videoControls';
+    // public static VIDEO_STYLE_CLASS: string = 'ch5-video__display__color';
 
-    public primaryVideoCssClass = 'ch5-video';
-    public preLoaderCssClass = 'preLoader';
-    public loaderCssClass = 'loader';
-    public fullScreenStyleClass = 'fullScreenStyle'
-    public showControl: string = 'show-control';
-    public fullScreenBodyClass: string = 'ch5-video-fullscreen';
+    private readonly primaryVideoCssClass: string = 'ch5-video';
+    // public preLoaderCssClass = 'preLoader'; // Unused
+    // public loaderCssClass = 'loader'; // Unused
+    private readonly fullScreenStyleClass: string = 'fullScreenStyle'
+    private readonly showControl: string = 'show-control';
+    private readonly fullScreenBodyClass: string = 'ch5-video-fullscreen';
+
     private videoErrorMessages = new Map<number, string>();
     private snapShotInfoMap = new Map();
 
@@ -441,7 +445,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _sigNameResolution: string = '';
     private _sigNameSnapShotStatus: string = '';
     private _sigNameSnapShotLastUpdateTime: string = '';
-    private isPotraitMode: boolean = false;
     private lastLoadedImage: any;
     private isIntersectionObserve: boolean = false;
     private vidleft: number = 0;
@@ -463,7 +466,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private lastRequestUrl: string = '';
     private fromExitFullScreen: boolean = false;
     private videoTagId: string = '';
-    private orientationCount = 0;
+    private orientationCount: number = 0;
     private landscapeOrientationTimeout: any;
     private previousXPos: number = 0;
     private previousYPos: number = 0;
@@ -490,12 +493,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         });
         this.dispatchEvent(this.errorEvent);
         this.isInitialized = true;
-        this.setErrorMessages();
-        this.isPotraitMode = Ch5VideoEventHandler.isPortrait();
-        subscribeState('o', 'Csig.video.response',
-            this.videoResponse.bind(this), this.errorResponse.bind(this));
+        this.setErrorMessages(); // Initializes all the error messages
+        subscribeState('o', 'Csig.video.response', this.videoResponse.bind(this), this.errorResponse.bind(this));
     }
-
 
     /**
      * Called every time the element is removed from the DOM. 
@@ -524,6 +524,57 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             Ch5CoreIntersectionObserver.getInstance().unobserve(this);
             this.isIntersectionObserve = false;
         }
+    }
+
+
+    public connectedCallback() {
+        this.info('Ch5Video.connectedCallback()');
+        if (this.isInitialized) {
+            this.removeIfTagExist();
+            customElements.whenDefined('ch5-video').then(() => {
+                this.scrollableElm = getScrollableParent(this);
+                this.initializeVideo();
+                this.isInitialized = false;
+
+                subscribeState('b', 'triggerview.slidemove', (res: boolean) => {
+                    if (res) {
+                        publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
+                        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+                        this.isSlidemoved = true;
+                    }
+                });
+
+                subscribeState('b', 'triggerview.touchend', (res: boolean) => {
+                    if (res && this.isSlidemoved) {
+                        let timer: any;
+                        clearTimeout(timer);
+                        timer = setTimeout(() => {
+                            if (this.elementIntersectionEntry.intersectionRatio > 0.5) {
+                                // Send the start request to avoid the second start request from intersection observer
+                                this.publishVideoEvent("start");
+                            }
+                            this.isSlidemoved = false;
+                        }, 300);
+                    }
+                });
+
+                subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
+                    if (res && this.elementIsInViewPort) {
+                        publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
+                        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+                        this.publishVideoEvent("stop");
+                    }
+                });
+
+                // Making the lastRequestStatus and isVideoReady to default
+                setTimeout(() => {
+                    this.lastRequestStatus = '';
+                    this.isVideoReady = false;
+                });
+            });
+        }
+        Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
+        this.isIntersectionObserve = true;
     }
 
     /**
@@ -599,22 +650,33 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         };
     }
 
-
     /**
      * Getter and Setter functions for each attribute.
      */
 
+    /**
+     * Provides the name of the offset identifier to substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters.   
+     * This component is 0-based. 
+     */
     public get indexId(): string {
         return this._indexId;
     }
+
     public set indexId(value: string) {
         if (isNil(value)) {
             return;
         }
-
         this._indexId = value;
     }
 
+    /**
+     * Sets the ratio of width to height of the video.  
+     * Width and height of the component to be controlled by css style classes.  
+     * Values are 16:9 (default), 4:3, and custom. 
+     * When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.  
+     * In other words, use letterbox or pillerbox logic to place the video component view.  
+     * This attribute only defines the size of the component within the project, it does not define the size of video displayed within the component.
+     */
     public get aspectRatio(): string {
         return this._aspectRatio;
     }
@@ -634,7 +696,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (isNil(value)) {
             return;
         }
-        this._stretch = value;
+        this._stretch = String(value).toLowerCase();
     }
 
     public get userId(): string {
@@ -651,6 +713,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get snapShotUserId(): string {
         return this._snapShotUserId;
     }
+
     public set snapShotUserId(value: string) {
         if (isNil(value) || this._snapShotUserId === value) {
             return;
@@ -683,6 +746,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get url(): string {
         return this._url;
     }
+
     public set url(value: string) {
         if (isNil(value) || this._url === value) {
             return;
@@ -767,10 +831,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     /**
      * Getters and Setters for Signals
      */
-
     public set sendEventOnClick(value: string) {
         this.info('set sendEventOnClick(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameSendOnClick)) {
+        if ((value !== '') && (value !== this._sigNameSendOnClick)) {
             this._sigNameSendOnClick = value;
             this.setAttribute('sendeventonclick', value);
         }
@@ -783,9 +846,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get sendEventState(): string {
         return this._sigNameEventState;
     }
+
     public set sendEventState(value: string) {
         this.info('set sendEventState(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameEventState)) {
+        if ((value !== '') && (value !== this._sigNameEventState)) {
             this._sigNameEventState = value;
             this.setAttribute('sendeventstate', value);
         }
@@ -797,7 +861,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set sendEventSelectionChange(value: string) {
         this.info('Set sendEventSelectionChange(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameSelectionChange)) {
+        if ((value !== '') && (value !== this._sigNameSelectionChange)) {
             this._sigNameSelectionChange = value;
             this.setAttribute('sendeventselectionchange', value);
         }
@@ -809,7 +873,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set sendEventSelectionSourceType(value: string) {
         this.info('Set sendEventSelectionSourceType(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameSelectionSourceType)) {
+        if ((value !== '') && (value !== this._sigNameSelectionSourceType)) {
             this._sigNameSelectionSourceType = value;
             this.setAttribute('sendeventselectionsourcetype', value);
         }
@@ -821,7 +885,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set sendEventSelectionURL(value: string) {
         this.info('Set sendEventSelectionURL(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameSelectionUrl)) {
+        if ((value !== '') && (value !== this._sigNameSelectionUrl)) {
             this._sigNameSelectionUrl = value;
             this.setAttribute('sendeventselectionurl', value);
         }
@@ -833,7 +897,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set sendEventSnapShotURL(value: string) {
         this.info('Set sendEventSnapShotURL(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameSnapShotUrl)) {
+        if ((value !== '') && (value !== this._sigNameSnapShotUrl)) {
             this._sigNameSnapShotUrl = value;
             this.setAttribute('sendeventsnapshoturl', value);
         }
@@ -845,7 +909,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set sendEventErrorCode(value: string) {
         this.info('Set sendEventErrorCode(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameErrorCode)) {
+        if ((value !== '') && (value !== this._sigNameErrorCode)) {
             this._sigNameErrorCode = value;
             this.setAttribute('sendeventerrorcode', value);
         }
@@ -857,7 +921,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set sendEventErrorMessage(value: string) {
         this.info('Set sendEventErrorMessage(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameErrorMessage)) {
+        if ((value !== '') && (value !== this._sigNameErrorMessage)) {
             this._sigNameErrorMessage = value;
             this.setAttribute('sendeventerrormessage', value);
         }
@@ -869,7 +933,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set sendEventRetryCount(value: string) {
         this.info('Set sendEventRetryCount(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameRetryCount)) {
+        if ((value !== '') && (value !== this._sigNameRetryCount)) {
             this._sigNameRetryCount = value;
             this.setAttribute('sendeventretrycount', value);
         }
@@ -878,9 +942,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get sendEventResolution(): string {
         return this._sigNameResolution;
     }
+
     public set sendEventResolution(value: string) {
         this.info('Set sendEventResolution(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameResolution)) {
+        if ((value !== '') && (value !== this._sigNameResolution)) {
             this._sigNameResolution = value;
             this.setAttribute('sendeventresolution', value);
         }
@@ -892,7 +957,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set sendEventSnapShotStatus(value: string) {
         this.info('Set sendEventSnapShotStatus(\'' + value + '\')');
-        if (('' !== value) && (value !== this._sigNameSnapShotStatus)) {
+        if ((value !== '') && (value !== this._sigNameSnapShotStatus)) {
             this._sigNameSnapShotStatus = value;
             this.setAttribute('sendeventsnapshotstatus', value);
         }
@@ -905,7 +970,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public set sendEventSnapShotLastUpdateTime(value: string) {
         this.info('Set sendEventSnapShotLastUpdateTime(\'' + value + '\')');
         this._sendEventSnapShotLastUpdateTime = value;
-        if (('' !== value) && (value !== this._sigNameSnapShotLastUpdateTime)) {
+        if ((value !== '') && (value !== this._sigNameSnapShotLastUpdateTime)) {
             this._sigNameSnapShotLastUpdateTime = value;
             this.setAttribute('sendeventsnapshotlastupdatetime', value);
         }
@@ -919,19 +984,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info('Set receiveStateVideoCount(\'' + value + '\')');
         this._receiveStateVideoCount = value;
 
-        if (value === null
-            || value === undefined) {
+        if (value === null || value === undefined) {
             return;
         }
 
         // clean up old subscription
-        if (this._receiveStateVideoCount !== undefined
-            && this._receiveStateVideoCount !== null) {
-
+        if (this._receiveStateVideoCount !== undefined && this._receiveStateVideoCount !== null) {
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateVideoCount);
-            const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-                .getNumberSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe(this._receiveStateVideoCount);
             }
@@ -939,8 +999,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateVideoCount: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateVideoCount);
-        const sigStateVideoCount: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-            .getNumberSignal(sigNameStateVideoCount);
+        const sigStateVideoCount: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(sigNameStateVideoCount);
         if (sigStateVideoCount) {
             this.subReceiveStateVideoCount = sigStateVideoCount.subscribe((newValue: any) => {
                 this.info('receiveStateVideoCount Signal Subscribe Value: ' + newValue);
@@ -959,19 +1018,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public set receiveStatePlay(value: string) {
         this.info('Set receiveStatePlay(\'' + value + '\')');
         this._receiveStatePlay = value;
-        if (value === null
-            || value === undefined) {
+        if (value === null || value === undefined) {
             return;
         }
 
         // clean up old subscription
-        if (this._receiveStatePlay !== undefined
-            && this._receiveStatePlay !== null) {
-
+        if (this._receiveStatePlay !== undefined && this._receiveStatePlay !== null) {
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStatePlay);
-            const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-                .getBooleanSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe(this._receiveStatePlay);
             }
@@ -979,8 +1033,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStatePlay: string = Ch5Signal.getSubscriptionSignalName(this._receiveStatePlay);
-        const sigStatePlay: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-            .getBooleanSignal(sigNameStatePlay);
+        const sigStatePlay: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(sigNameStatePlay);
         if (sigStatePlay) {
             this.subReceiveStatePlay = sigStatePlay.subscribe((newValue: any) => {
                 this.info('receiveStatePlay Signal Subscribe Value: ' + newValue);
@@ -1015,8 +1068,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         return this._attributeValueAsString('receivestateselect');
     }
 
-
-
     public set receiveStateSelect(value: string) {
         this.info('Set receiveStateSelect(\'' + value + '\')');
         this._receiveStateSelect = value;
@@ -1026,13 +1077,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
 
         // clean up old subscription
-        if (this._receiveStateSelect !== undefined
-            && this._receiveStateSelect !== null) {
-
+        if (this._receiveStateSelect !== undefined && this._receiveStateSelect !== null) {
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSelect);
-            const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-                .getNumberSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe(this._receiveStateSelect);
             }
@@ -1040,8 +1087,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateSelect: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSelect);
-        const sigStateSelect: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-            .getNumberSignal(sigNameStateSelect);
+        const sigStateSelect: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(sigNameStateSelect);
         if (sigStateSelect) {
             this.subReceiveStateSelect = sigStateSelect.subscribe((newValue: number) => {
                 this.info('receiveStateSelect Signal Subscribe Value: ' + newValue);
@@ -1063,21 +1109,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get receiveStateSourceType(): string {
         return this._receiveStateSourceType;
     }
+
     public set receiveStateSourceType(value: string) {
         this._receiveStateSourceType = value;
         this.info('Set receiveStateSourceType(\'' + value + '\')');
-        if (value === null
-            || value === undefined) {
+        if (value === null || value === undefined) {
             return;
         }
 
         // clean up old subscription
         if (this._receiveStateSourceType !== undefined && this._receiveStateSourceType !== '') {
-
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSourceType);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe('');
             }
@@ -1085,8 +1128,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateSourceType: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSourceType);
-        const sigStateSourceType: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigNameStateSourceType);
+        const sigStateSourceType: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigNameStateSourceType);
         if (sigStateSourceType) {
             this.subReceiveStateSourceType = sigStateSourceType.subscribe((newValue: string) => {
                 this.info('receiveStateSourceType Signal Subscribe Value: ' + newValue);
@@ -1113,21 +1155,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get receiveStateSnapShotRefreshRate(): string {
         return this._receiveStateSnapShotRefreshRate;
     }
+
     public set receiveStateSnapShotRefreshRate(value: string) {
         this._receiveStateSnapShotRefreshRate = value;
         this.info('Set receiveStateSnapShotRefreshRate(\'' + value + '\')');
-        if (value === null
-            || value === undefined) {
+        if (value === null || value === undefined) {
             return;
         }
 
         // clean up old subscription
         if (this._receiveStateSnapShotRefreshRate !== undefined) {
-
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSnapShotRefreshRate);
-            const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-                .getNumberSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe('');
             }
@@ -1135,8 +1174,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateSnapShotRefreshRate: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSnapShotRefreshRate);
-        const sigStateSnapShotRefreshRate: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-            .getNumberSignal(sigNameStateSnapShotRefreshRate);
+        const sigStateSnapShotRefreshRate: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(sigNameStateSnapShotRefreshRate);
         if (sigStateSnapShotRefreshRate) {
             this.subReceiveStateSnapShotRefreshRate = sigStateSnapShotRefreshRate.subscribe((newValue: number) => {
                 if (newValue) {
@@ -1149,21 +1187,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get receiveStateSnapShotURL(): string {
         return this._receiveStateSnapShotURL;
     }
+
     public set receiveStateSnapShotURL(value: string) {
         this._receiveStateSnapShotURL = value;
         this.info('Set receiveStateSnapShotURL(\'' + value + '\')');
-        if (value === null
-            || value === undefined) {
+        if (value === null || value === undefined) {
             return;
         }
 
         // clean up old subscription
-        if (this._receiveStateSnapShotURL !== undefined
-            && this._receiveStateSnapShotURL !== null) {
-
+        if (this._receiveStateSnapShotURL !== undefined && this._receiveStateSnapShotURL !== null) {
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSnapShotURL);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldSigName);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
 
             if (oldSignal !== null) {
                 oldSignal.unsubscribe('');
@@ -1172,8 +1207,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateSnapShotUrl: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSnapShotURL);
-        const sigStateSnapShotUrl: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigNameStateSnapShotUrl);
+        const sigStateSnapShotUrl: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigNameStateSnapShotUrl);
         if (sigStateSnapShotUrl) {
             this.subReceiveStateSnapShotUrl = sigStateSnapShotUrl.subscribe((newValue: string) => {
                 this.info('receiveStateSnapShotUrl Signal Subscribe Value: ' + newValue);
@@ -1190,18 +1224,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public set receiveStateUrl(value: string) {
         this._receiveStateUrl = value;
         this.info('Set receiveStateUrl(\'' + value + '\')');
-        if (value === null
-            || value === undefined) {
+        if (value === null || value === undefined) {
             return;
         }
+
         // clean up old subscription
-        if (this._receiveStateUrl !== undefined
-            && this._receiveStateUrl !== null) {
-
+        if (this._receiveStateUrl !== undefined && this._receiveStateUrl !== null) {
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateUrl);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe('');
             }
@@ -1209,8 +1239,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateUrl: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateUrl);
-        const sigStateUrl: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigNameStateUrl);
+        const sigStateUrl: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigNameStateUrl);
         if (sigStateUrl) {
             this.subReceiveStateUrl = sigStateUrl.subscribe((newValue: string) => {
                 this.info('receiveStateUrl Signal Subscribe Value: ' + newValue);
@@ -1245,13 +1274,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
 
         // clean up old subscription
-        if (this._receiveStateUserId !== undefined
-            && this._receiveStateUserId !== null) {
-
+        if (this._receiveStateUserId !== undefined && this._receiveStateUserId !== null) {
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateUserId);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe('');
             }
@@ -1259,8 +1284,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateUserId: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateUserId);
-        const sigStateUserId: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigNameStateUserId);
+        const sigStateUserId: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigNameStateUserId);
         if (sigStateUserId) {
             this.subReceiveStateUserId = sigStateUserId.subscribe((newValue: string) => {
                 this.info('receiveStateUserId Signal Subscribe Value: ' + newValue);
@@ -1274,22 +1298,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get receiveStateSnapShotUserId(): string {
         return this._receiveStateSnapShotUserId;
     }
+
     public set receiveStateSnapShotUserId(value: string) {
         this._receiveStateSnapShotUserId = value;
         this.info('Set receiveStateSnapShotUserId(\'' + value + '\')');
-        if (value === null
-            || value === undefined) {
+        if (value === null || value === undefined) {
             return;
         }
 
         // clean up old subscription
-        if (this._receiveStateSnapShotUserId !== undefined
-            && this._receiveStateSnapShotUserId !== null) {
-
+        if (this._receiveStateSnapShotUserId !== undefined && this._receiveStateSnapShotUserId !== null) {
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSnapShotUserId);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe('');
             }
@@ -1297,8 +1317,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateSnapShotUserId: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSnapShotUserId);
-        const sigStateSnapShotUserId: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigNameStateSnapShotUserId);
+        const sigStateSnapShotUserId: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigNameStateSnapShotUserId);
         if (sigStateSnapShotUserId) {
             this.subReceiveStateSnapShotUserId = sigStateSnapShotUserId.subscribe((newValue: string) => {
                 this.info('receiveStateSnapShotuserId Signal Subscribe Value: ' + newValue);
@@ -1313,22 +1332,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get receiveStatePassword(): string {
         return this._receiveStatePassword;
     }
+
     public set receiveStatePassword(value: string) {
         this._receiveStatePassword = value;
         this.info('Set receiveStatePassword(\'' + value + '\')');
-        if (value === null
-            || value === undefined) {
+        if (value === null || value === undefined) {
             return;
         }
 
         // clean up old subscription
-        if (this._receiveStatePassword !== undefined
-            && this._receiveStatePassword !== null) {
-
+        if (this._receiveStatePassword !== undefined && this._receiveStatePassword !== null) {
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStatePassword);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe('');
             }
@@ -1336,8 +1351,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStatePassword: string = Ch5Signal.getSubscriptionSignalName(this._receiveStatePassword);
-        const sigStatePassword: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigNameStatePassword);
+        const sigStatePassword: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigNameStatePassword);
         if (sigStatePassword) {
             this.subReceiveStatePassword = sigStatePassword.subscribe((newValue: string) => {
                 this.info('receiveStatePassword Signal Subscribe Value: ' + newValue);
@@ -1351,22 +1365,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public get receiveStateSnapShotPassword(): string {
         return this._receiveStateSnapShotPassword;
     }
+
     public set receiveStateSnapShotPassword(value: string) {
         this._receiveStateSnapShotPassword = value;
         this.info('Set receiveStateSnapShotPassword(\'' + value + '\')');
-        if (value === null
-            || value === undefined) {
+        if (value === null || value === undefined) {
             return;
         }
 
         // clean up old subscription
-        if (this._receiveStateSnapShotPassword !== undefined
-            && this._receiveStateSnapShotPassword !== null) {
-
+        if (this._receiveStateSnapShotPassword !== undefined && this._receiveStateSnapShotPassword !== null) {
             const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSnapShotPassword);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldSigName);
-
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
             if (oldSignal !== null) {
                 oldSignal.unsubscribe('');
             }
@@ -1374,8 +1384,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // setup new subscription.
         const sigNameStateSnapShotPassword: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateSnapShotPassword);
-        const sigStateSnapShotPassword: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigNameStateSnapShotPassword);
+        const sigStateSnapShotPassword: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigNameStateSnapShotPassword);
         if (sigStateSnapShotPassword) {
             this.subReceiveStateSnapShotPassword = sigStateSnapShotPassword.subscribe((newValue: string) => {
                 this.info('receiveStateSnapShotPassword Signal Subscribe Value: ' + newValue);
@@ -1808,58 +1817,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     }
 
-    public connectedCallback() {
-        this.info('Ch5Video.connectedCallback()');
-
-        if (this.isInitialized) {
-            this.removeIfTagExist();
-            customElements.whenDefined('ch5-video').then(() => {
-                this.scrollableElm = getScrollableParent(this);
-                this.initializeVideo();
-                this.isInitialized = false;
-
-                subscribeState('b', 'triggerview.slidemove', (res: boolean) => {
-                    if (res) {
-                        publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-                        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
-                        this.isSlidemoved = true;
-                    }
-                });
-
-                subscribeState('b', 'triggerview.touchend', (res: boolean) => {
-                    if (res && this.isSlidemoved) {
-                        let timer: any;
-                        clearTimeout(timer);
-                        timer = setTimeout(() => {
-                            if (this.elementIntersectionEntry.intersectionRatio > 0.5) {
-                                // Send the start request to avoid the second start request from intersection observer
-                                this.publishVideoEvent("start");
-                            }
-                            this.isSlidemoved = false;
-                        }, 300);
-                    }
-                });
-
-                subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
-                    if (res && this.elementIsInViewPort) {
-                        publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-                        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
-                        this.publishVideoEvent("stop");
-                    }
-                });
-
-                // Making the lastRequestStatus and isVideoReady to default
-                setTimeout(() => {
-                    this.lastRequestStatus = '';
-                    this.isVideoReady = false;
-                });
-            });
-        }
-        Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
-        this.isIntersectionObserve = true;
-    }
-
-
     /**
      * 	Called every time the element is inserted into the DOM. 
      *  Useful for running setup code, such as fetching resources or rendering. 
@@ -1897,6 +1854,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * when the visibility is less than 100% the video should stop playing.
      */
     public videoIntersectionObserver() {
+        console.log("videoIntersectionObserver");
         this.info('Video visibility ' + this.elementIntersectionEntry.intersectionRatio + ", lastRequestStatus: "
             + this.lastRequestStatus + ", lastResponseStatus: " + this.lastResponseStatus
             + ", isExitFullscreen: " + this.isExitFullscreen + ", isFullscreen: " + this.isFullScreen
@@ -2041,19 +1999,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 "snapShotPass": ""
             };
             snapShotObject.index = idx;
-            snapShotObject.snapShotUrl = String(Ch5VideoSubscription
-                .getNewSignalName(this, 'receivestatesnapshoturl', this.receiveStateSnapShotURL, idx, this.indexId as string));
-
-            snapShotObject.snapShotUser = String(Ch5VideoSubscription
-                .getNewSignalName(this, 'receivestateuserid', this.receiveStateSnapShotUserId, idx, this.indexId as string));
-
-            snapShotObject.snapShotPass = String(Ch5VideoSubscription
-                .getNewSignalName(this, 'receivestatesnapshotpassword', this.receiveStateSnapShotPassword, idx, this.indexId as string));
-
-            snapShotObject.snapShotRefreshRate = String(Ch5VideoSubscription
-
-                .getNewSignalName(this, 'receivestatesnapshotrefreshrate', this.receiveStateSnapShotRefreshRate, idx, this.indexId as string));
-
+            snapShotObject.snapShotUrl = String(Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshoturl', this.receiveStateSnapShotURL, idx, this.indexId as string));
+            snapShotObject.snapShotUser = String(Ch5VideoSubscription.getNewSignalName(this, 'receivestateuserid', this.receiveStateSnapShotUserId, idx, this.indexId as string));
+            snapShotObject.snapShotPass = String(Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshotpassword', this.receiveStateSnapShotPassword, idx, this.indexId as string));
+            snapShotObject.snapShotRefreshRate = String(Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshotrefreshrate', this.receiveStateSnapShotRefreshRate, idx, this.indexId as string));
             this.snapShotInfoMap.set(idx, new Ch5VideoSnapshot(snapShotObject));
         }
         this.vCountFlag = true;
@@ -2121,7 +2070,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
-
     /**
      * Set the video error messages for the respective error code or status code
      */
@@ -2160,8 +2108,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             let selectObjectUrl: string | number | undefined = 0;
             if (this.indexId !== null) {
                 // Append or concatanate the index provided with the receive state join number
-                selectObjectUrl = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestateurl', rsVURL, (parseInt(index, 0)), this.indexId as string);
+                selectObjectUrl = Ch5VideoSubscription.getNewSignalName(this, 'receivestateurl', rsVURL, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.url = String(selectObjectUrl);
             this.info('selectObjectUrl: ' + selectObjectUrl);
@@ -2196,8 +2143,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             let selectObjectSourceType: string | number | undefined = 0;
             if (this.indexId !== null) {
                 // Append or concatanate the index provided with the receive state join number
-                selectObjectSourceType = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesourcetype', rsVSType, (parseInt(index, 0)), this.indexId as string);
+                selectObjectSourceType = Ch5VideoSubscription.getNewSignalName(this, 'receivestatesourcetype', rsVSType, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.type = String(selectObjectSourceType);
             this.info('selectObjectSourceType: ' + selectObjectSourceType);
@@ -2232,8 +2178,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             let selectObjectUserId: string | number | undefined = 0;
             if (this.indexId !== null) {
                 // Append or concatanate the index provided with the receive state join number
-                selectObjectUserId = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestateuserid', rsVUserId, (parseInt(index, 0)), this.indexId as string);
+                selectObjectUserId = Ch5VideoSubscription.getNewSignalName(this, 'receivestateuserid', rsVUserId, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.user = String(selectObjectUserId);
             this.info('selectObjectUserId: ' + selectObjectUserId);
@@ -2267,8 +2212,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             let selectObjectPassword: string | number | undefined = 0;
             if (this.indexId !== null) {
                 // Append or concatanate the index provided with the receive state join number
-                selectObjectPassword = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatepassword', rsVPassword, (parseInt(index, 0)), this.indexId as string);
+                selectObjectPassword = Ch5VideoSubscription.getNewSignalName(this, 'receivestatepassword', rsVPassword, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.videoPass = String(selectObjectPassword);
             this.info('selectObjectPassword: ' + selectObjectPassword);
@@ -2302,8 +2246,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             let selectObjectSnapShotUrl: string | number | undefined = 0;
             if (this.indexId !== null) {
                 // Append or concatanate the index provided with the receive state join number
-                selectObjectSnapShotUrl = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesnapshoturl', rsSIURL, (parseInt(index, 0)), this.indexId as string);
+                selectObjectSnapShotUrl = Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshoturl', rsSIURL, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.snapShotUrl = String(selectObjectSnapShotUrl);
             this.info('selectObjectSnapShotUrl: ' + selectObjectSnapShotUrl);
@@ -2338,8 +2281,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             let selectObjectSnapShotRefreshRate: string | number | undefined = 0;
             if (this.indexId !== null) {
                 // Append or concatanate the index provided with the receive state join number
-                selectObjectSnapShotRefreshRate = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesnapshotrefreshrate', rsSIRefreshRate, (parseInt(index, 0)), this.indexId as string);
+                selectObjectSnapShotRefreshRate = Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshotrefreshrate', rsSIRefreshRate, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.snapShotRefreshRate = String(selectObjectSnapShotRefreshRate);
             this.info('selectObjectSnapShotRefreshRate: ' + selectObjectSnapShotRefreshRate);
@@ -2373,8 +2315,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             let selectObjectSnapShotUserId: string | number | undefined = 0;
             if (this.indexId !== null) {
                 // Append or concatanate the index provided with the receive state join number
-                selectObjectSnapShotUserId = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesnapshotuserid', rsSIUserId, (parseInt(index, 0)), this.indexId as string);
+                selectObjectSnapShotUserId = Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshotuserid', rsSIUserId, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.snapShotUser = String(selectObjectSnapShotUserId);
             this.info('selectObjectSnapShotUserId: ' + selectObjectSnapShotUserId);
@@ -2408,8 +2349,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             let selectObjectSnapShotPassword: string | number | undefined = 0;
             if (this.indexId !== null) {
                 // Append or concatanate the index provided with the receive state join number
-                selectObjectSnapShotPassword = Ch5VideoSubscription
-                    .getNewSignalName(this, 'receivestatesnapshotpassword', rsSIPassword, (parseInt(index, 0)), this.indexId as string);
+                selectObjectSnapShotPassword = Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshotpassword', rsSIPassword, (parseInt(index, 0)), this.indexId as string);
             }
             this.selectObject.values.snapShotPass = String(selectObjectSnapShotPassword);
             this.info('selectObjectSnapShotPassword: ' + selectObjectSnapShotPassword);
@@ -2587,6 +2527,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Initializes the elements of ch5-video
      */
     private initializeVideo() {
+        // if (this._url !== "") {
         this.createCanvas();
         this.drawCanvas(this.vid);
         this.initAttributes();
@@ -2596,6 +2537,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const uID = this.getCrId().split('cr-id-');
         this.ch5UId = parseInt(uID[1], 0);
         this.videoTagId = this.getCrId();
+        // }
     }
 
     /**
@@ -2786,38 +2728,29 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.videoCanvasElement.addEventListener('touchmove', this.handleTouchMoveEvent, { passive: true });
             this.hideFullScreenIcon();
             // Calculating the dimensions and storing in originalVideoProperties variable
+            const isPortraitMode: boolean = Ch5VideoEventHandler.isPortrait();
+            const propertiesObject = {
+                "width": this.sizeObj.width,
+                "height": this.sizeObj.height,
+                "top": this.videoTop,
+                "left": this.videoLeft
+            };
             if (isSafariMobile()) {
-                if (Ch5VideoEventHandler.isPortrait()) {
-                    this.isPotraitMode = true;
+                if (isPortraitMode) {
                     this.originalPotraitVideoProperties = [];
-                    this.originalPotraitVideoProperties = {
-                        "width": this.sizeObj.width,
-                        "height": this.sizeObj.height,
-                        "top": this.videoTop,
-                        "left": this.videoLeft
-                    };
-                } else if (Ch5VideoEventHandler.isLandscape()) {
-                    this.isPotraitMode = false;
+                    this.originalPotraitVideoProperties = JSON.parse(JSON.stringify(propertiesObject));
+                } else { // if (Ch5VideoEventHandler.isLandscape()) {
+                    // This has to be landscape if not potrait, so we need not check
                     this.originalLandscapeVideoProperties = [];
-                    this.originalLandscapeVideoProperties = {
-                        "width": this.sizeObj.width,
-                        "height": this.sizeObj.height,
-                        "top": this.videoTop,
-                        "left": this.videoLeft
-                    };
+                    this.originalLandscapeVideoProperties = JSON.parse(JSON.stringify(propertiesObject));
                 }
             } else {
                 this.originalVideoProperties = [];
-                this.originalVideoProperties = {
-                    "width": this.sizeObj.width,
-                    "height": this.sizeObj.height,
-                    "top": this.videoTop,
-                    "left": this.videoLeft
-                };
+                this.originalVideoProperties = JSON.parse(JSON.stringify(propertiesObject));
             }
 
             this.vidControlPanel.classList.add("fullScreen");
-            this.controlFullScreen.innerHTML = '';
+            // this.controlFullScreen.innerHTML = ''; // Rags - Unwanted line
             this.controlFullScreen.innerHTML = this.exitFullScreenIcon;
             this.drawCanvas(this.vid);
             this.classList.add(this.fullScreenStyleClass);
@@ -2833,7 +2766,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
             // Caclulating positions for iOS device.
             if (isSafariMobile()) {
-                if (!this.isPotraitMode) {
+                if (!isPortraitMode) {
                     this.calculatePositions();
                 }
             }
@@ -3529,9 +3462,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             } else {
                 // Set the canvas width and height
                 if (this.aspectRatio === "16:9") {
-                    this.sizeObj = aspectRatio(16, 9, this.size);
+                    this.sizeObj = this.getAspectRatioForVideo(16, 9, this.size);
                 } else if (this.aspectRatio === "4:3") {
-                    this.sizeObj = aspectRatio(4, 3, this.size);
+                    this.sizeObj = this.getAspectRatioForVideo(4, 3, this.size);
                 }
                 video.width = this.sizeObj.width;
                 video.height = this.sizeObj.height;
@@ -3646,6 +3579,37 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             'leading': true,
             'trailing': true
         }));
+    }
+
+    /**
+     * Get the Aspect Ratio of the video based on the viewport size
+     * @param ratioWidth 
+     * @param ratioHeight 
+     * @param size 
+     */
+    getAspectRatioForVideo(ratioWidth: number, ratioHeight: number, size: string) {
+        let sizeObj: { width: number, height: number };
+        switch (size) {
+            case 'xx-large':
+                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 85);
+                break;
+            case 'x-large':
+                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 70);
+                break;
+            case 'large':
+                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+                break;
+            case 'small':
+                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 40);
+                break;
+            case 'x-small':
+                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 25);
+                break;
+            default:
+                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+                break;
+        }
+        return sizeObj;
     }
 
     /**
