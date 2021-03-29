@@ -49,7 +49,6 @@ export class Ch5VideoSnapshot {
                 }
             }, 1000 * this.refreshRate, 0);
         }
-
     }
 
     /**
