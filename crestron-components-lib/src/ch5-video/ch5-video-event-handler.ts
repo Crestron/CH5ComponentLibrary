@@ -63,7 +63,9 @@ export class Ch5VideoEventHandler {
     public static isPortrait() {
         return window.innerHeight > window.innerWidth;
     }
+
     public static isLandscape() {
         return (window.orientation === 90 || window.orientation === -90);
     }
+    
 }

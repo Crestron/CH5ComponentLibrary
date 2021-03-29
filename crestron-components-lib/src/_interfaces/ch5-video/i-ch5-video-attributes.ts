@@ -176,6 +176,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      *  "When present, this specifies that video controls like start, stop, and fullscreen should be displayed."
      * ]
      */
+    // Rags - check if this is used
     controls: TCH5VideoControls | string;
 
     /**
