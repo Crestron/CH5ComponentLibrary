@@ -24,6 +24,7 @@ import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import _ from "lodash";
+import { ch5VideoUtils } from "./ch5-video-utils";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 export type TSignalTypeT = string | number | boolean | any;
@@ -1455,42 +1456,30 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info("attributeChangedCallback");
         switch (attr) {
             case 'indexid':
-                if (this.hasAttribute('indexid')) {
-                    this.indexId = newValue;
-                } else {
-                    this.indexId = '0';
-                }
+                this.indexId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('indexid'), newValue, '0');
                 break;
             case 'userid':
+                this.userId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('userid'), newValue, '');
                 if (this.hasAttribute('userid')) {
-                    this.userId = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.userId = '';
                 }
                 break;
             case 'snapshotuserid':
+                this.snapShotUserId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshotuserid'), newValue, '');
                 if (this.hasAttribute('snapshotuserid')) {
-                    this.snapShotUserId = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.snapShotUserId = '';
                 }
                 break;
             case 'password':
+                this.password = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('password'), newValue, '');
                 if (this.hasAttribute('password')) {
-                    this.password = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.password = '';
                 }
                 break;
             case 'snapshotpassword':
+                this.snapShotPassword = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshotpassword'), newValue, '');
                 if (this.hasAttribute('snapshotpassword')) {
-                    this.snapShotPassword = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.snapShotPassword = '';
                 }
                 break;
             case 'aspectratio':
@@ -1505,235 +1494,144 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'stretch':
-                if (this.hasAttribute('stretch')) {
-                    this.stretch = newValue;
-                } else {
-                    this.stretch = 'false';
-                }
+                this.stretch = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('stretch'), newValue, 'false');
                 break;
             case 'snapshotrefreshrate':
+                this.snapShotRefreshRate = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshotrefreshrate'), newValue, '0');
                 if (this.hasAttribute('snapshotrefreshrate')) {
-                    this.snapShotRefreshRate = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.snapShotRefreshRate = '0';
                 }
                 break;
             case 'url':
+                this.url = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('url'), newValue, '');
                 if (this.hasAttribute('url')) {
-                    this.url = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.url = '';
                 }
                 break;
             case 'snapshoturl':
+                this.snapShotUrl = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshoturl'), newValue, '');
                 if (this.hasAttribute('snapshoturl')) {
-                    this.snapShotUrl = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.snapShotUrl = '';
                 }
                 break;
             case 'sourcetype':
+                this.sourceType = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sourcetype'), newValue, 'Network');
                 if (this.hasAttribute('sourcetype')) {
-                    this.sourceType = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.sourceType = "Network";
                 }
                 break;
             case 'size':
-                if (this.hasAttribute('size')) {
-                    this.size = newValue;
-                } else {
-                    this.size = 'large';
-                }
+                this.size = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('size'), newValue, 'large');
                 break;
             case 'zindex':
-                if (this.hasAttribute('zindex')) {
-                    this.zIndex = newValue;
-                } else {
-                    this.zIndex = '0';
-                }
+                this.zIndex = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('zindex'), newValue, '0');
                 break;
             case 'controls':
-                if (this.hasAttribute('controls')) {
-                    this.controls = newValue;
-                } else {
-                    this.controls = 'false';
-                }
+                this.controls = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('controls'), newValue, 'false');
                 break;
             case 'sendeventstate':
-                if (this.hasAttribute('sendeventstate')) {
-                    this.sendEventState = newValue;
-                } else {
-                    this.sendEventState = '';
-                }
+                this.sendEventState = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventstate'), newValue, '');
                 break;
             case 'sendeventonclick':
-                if (this.hasAttribute('sendeventonclick')) {
-                    this.sendEventOnClick = newValue;
-                } else {
-                    this.sendEventOnClick = '';
-                }
+                this.sendEventOnClick = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventonclick'), newValue, '');
                 break;
             case 'sendeventselectionchange':
-                if (this.hasAttribute('sendeventselectionchange')) {
-                    this.sendEventSelectionChange = newValue;
-                } else {
-                    this.sendEventSelectionChange = '';
-                }
+                this.sendEventSelectionChange = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventselectionchange'), newValue, '');
                 break;
             case 'sendeventselectionsourcetype':
+                this.sendEventSelectionSourceType = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventselectionsourcetype'), newValue, '');
                 if (this.hasAttribute('sendeventselectionsourcetype')) {
-                    this.sendEventSelectionSourceType = newValue;
                     this.sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
-                } else {
-                    this.sendEventSelectionSourceType = '';
                 }
                 break;
             case 'sendeventsnapshoturl':
+                this.sendEventSnapShotURL = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventsnapshoturl'), newValue, '');
                 if (this.hasAttribute('sendeventsnapshoturl')) {
-                    this.sendEventSnapShotURL = newValue;
                     this.sendEvent(this.sendEventSnapShotURL, this.snapShotUrl, 'string');
-                } else {
-                    this.sendEventSnapShotURL = '';
                 }
                 break;
             case 'sendeventselectionurl':
+                this.sendEventSelectionURL = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventselectionurl'), newValue, '');
                 if (this.hasAttribute('sendeventselectionurl')) {
-                    this.sendEventSelectionURL = newValue;
                     this.sendEvent(this.sendEventSelectionURL, this.url, 'string');
-                } else {
-                    this.sendEventSelectionURL = '';
                 }
                 break;
             case 'sendeventerrorcode':
+                this.sendEventErrorCode = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventerrorcode'), newValue, '');
                 if (this.hasAttribute('sendeventerrorcode')) {
                     this.sendEventErrorCode = newValue;
-                } else {
-                    this.sendEventErrorCode = '';
                 }
                 break;
             case 'sendeventerrormessage':
-                if (this.hasAttribute('sendeventerrormessage')) {
-                    this.sendEventErrorMessage = newValue;
-                } else {
-                    this.sendEventErrorMessage = '';
-                }
+                this.sendEventErrorMessage = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventerrormessage'), newValue, '');
                 break;
             case 'sendeventretrycount':
-                if (this.hasAttribute('sendeventretrycount')) {
-                    this.sendEventRetryCount = newValue;
-                } else {
-                    this.sendEventRetryCount = '';
-                }
+                this.sendEventRetryCount = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventretrycount'), newValue, '');
                 break;
             case 'sendeventresolution':
-                if (this.hasAttribute('sendeventresolution')) {
-                    this.sendEventResolution = newValue;
-                } else {
-                    this.sendEventResolution = '0x0@0fps';
-                }
+                this.sendEventResolution = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventresolution'), newValue, '0x0@0fps');
                 break;
             case 'sendeventsnapshotstatus':
-                if (this.hasAttribute('sendeventsnapshotstatus')) {
-                    this.sendEventSnapShotStatus = newValue;
-                } else {
-                    this.sendEventSnapShotStatus = '';
-                }
+                this.sendEventSnapShotStatus = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventsnapshotstatus'), newValue, '');
                 break;
             case 'sendeventsnapshotlastupdatetime':
-                if (this.hasAttribute('sendeventsnapshotlastupdatetime')) {
-                    this.sendEventSnapShotLastUpdateTime = newValue;
-                } else {
-                    this.sendEventSnapShotLastUpdateTime = '';
-                }
+                this.sendEventSnapShotLastUpdateTime = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventsnapshotlastupdatetime'), newValue, '');
                 break;
             case 'receivestatevideocount':
-                if (this.hasAttribute('receivestatevideocount')) {
-                    this.receiveStateVideoCount = newValue;
-                } else {
-                    this.receiveStateVideoCount = '';
-                }
+                this.receiveStateVideoCount = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatevideocount'), newValue, '');
                 break;
             case 'receivestateplay':
-                if (this.hasAttribute('receivestateplay')) {
-                    this.receiveStatePlay = newValue;
-                } else {
-                    this.receiveStatePlay = '';
-                }
+                this.receiveStatePlay = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateselect'), newValue, '');
                 break;
             case 'receivestateselect':
-                if (this.hasAttribute('receivestateselect')) {
-                    this.receiveStateSelect = newValue;
-                } else {
-                    this.receiveStateSelect = '';
-                }
+                this.receiveStateSelect = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateselect'), newValue, '');
                 break;
             case 'receivestateurl':
+                this.receiveStateUrl = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateurl'), newValue, '');
                 if (this.hasAttribute('receivestateurl')) {
-                    this.receiveStateUrl = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.receiveStateUrl = '';
                 }
                 break;
             case 'receivestatesourcetype':
+                this.receiveStateSourceType = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesourcetype'), newValue, '');
                 if (this.hasAttribute('receivestatesourcetype')) {
-                    this.receiveStateSourceType = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.receiveStateSourceType = '';
                 }
                 break;
             case 'receivestatesnapshoturl':
+                this.receiveStateSnapShotURL = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshoturl'), newValue, '');
                 if (this.hasAttribute('receivestatesnapshoturl')) {
-                    this.receiveStateSnapShotURL = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.receiveStateSnapShotURL = '';
                 }
                 break;
             case 'receivestatesnapshotrefreshrate':
+                this.receiveStateSnapShotRefreshRate = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshotrefreshrate'), newValue, '');
                 if (this.hasAttribute('receivestatesnapshotrefreshrate')) {
-                    this.receiveStateSnapShotRefreshRate = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.receiveStateSnapShotRefreshRate = '';
                 }
                 break;
             case 'receivestateuserid':
+                this.receiveStateUserId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateuserid'), newValue, '');
                 if (this.hasAttribute('receivestateuserid')) {
-                    this.receiveStateUserId = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.receiveStateUserId = '';
                 }
                 break;
             case 'receivestatesnapshotuserid':
+                this.receiveStateSnapShotUserId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshotuserid'), newValue, '');
                 if (this.hasAttribute('receivestatesnapshotuserid')) {
-                    this.receiveStateSnapShotUserId = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.receiveStateSnapShotUserId = '';
                 }
                 break;
             case 'receivestatepassword':
+                this.receiveStatePassword = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatepassword'), newValue, '');
                 if (this.hasAttribute('receivestatepassword')) {
-                    this.receiveStatePassword = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.receiveStatePassword = '';
                 }
                 break;
             case 'receivestatesnapshotpassword':
+                this.receiveStateSnapShotPassword = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshotpassword'), newValue, '');
                 if (this.hasAttribute('receivestatesnapshotpassword')) {
-                    this.receiveStateSnapShotPassword = newValue;
                     this.receiveStateAttributeCount++;
-                } else {
-                    this.receiveStateSnapShotPassword = '';
                 }
                 break;
             default:
@@ -2421,7 +2319,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.calculation(this.vid);
             if (this.elementIsInViewPort) {
                 setTimeout(() => {
-                    this.sendEvent(this.sendEventSnapShotLastUpdateTime, this.rfc3339TimeStamp(), 'string');
+                    this.sendEvent(this.sendEventSnapShotLastUpdateTime, ch5VideoUtils.rfc3339TimeStamp(), 'string');
                     this.calculatePositions();
                     if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
                         this.lastResponseStatus = '';
@@ -2603,7 +2501,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         videoImage.onload = () => {
             this.info("Snapshot image loaded");
             this.lastLoadedImage = videoImage;
-            this.sendEvent(this.sendEventSnapShotLastUpdateTime, this.rfc3339TimeStamp(), 'string');
+            this.sendEvent(this.sendEventSnapShotLastUpdateTime, ch5VideoUtils.rfc3339TimeStamp(), 'string');
         };
         videoImage.onerror = () => {
             this.info(videoImage.src);
@@ -3511,11 +3409,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             } else {
                 this.setCanvasDimensions(totalWidth, totalHeight);
                 // Set the canvas width and height
-                if (this.aspectRatio === "16:9") {
-                    this.sizeObj = this.getAspectRatioForVideo(16, 9, this.size);
-                } else if (this.aspectRatio === "4:3") {
-                    this.sizeObj = this.getAspectRatioForVideo(4, 3, this.size);
-                }
+                this.sizeObj = ch5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
                 video.width = this.sizeObj.width;
                 video.height = this.sizeObj.height;
                 this.setControlDimension();
@@ -3531,32 +3425,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             } else {
                 if (this.parentElement) {
                     this.setControlDimension();
-                    totalWidth = this.parentElement.clientWidth;
-                    totalHeight = this.parentElement.clientHeight;
-
-                    offsetTop = this.parentElement.getBoundingClientRect().top + this.parentElement.clientTop;
-                    offsetLeft = this.parentElement.getBoundingClientRect().left + this.parentElement.clientLeft;
-                    const paddingObj = {
-                        top: getComputedStyle(this.parentElement).getPropertyValue("padding-top"),
-                        right: getComputedStyle(this.parentElement).getPropertyValue("padding-right"),
-                        bottom: getComputedStyle(this.parentElement).getPropertyValue("padding-top"),
-                        left: getComputedStyle(this.parentElement).getPropertyValue("padding-left")
-                    }
-                    if (paddingObj.top) {
-                        offsetTop += parseInt(paddingObj.top, 0);
-                    }
-
-                    if (paddingObj.left) {
-                        offsetLeft += parseInt(paddingObj.left, 0);
-                    }
-
-                    if (paddingObj.right) {
-                        totalWidth = this.parentElement.clientWidth - (parseInt(paddingObj.right, 0) + parseInt(paddingObj.left, 0));
-                    }
-
-                    if (paddingObj.bottom) {
-                        totalHeight = this.parentElement.clientHeight - (parseInt(paddingObj.bottom, 0) + parseInt(paddingObj.top, 0));
-                    }
+                    const parentElementDimensions = ch5VideoUtils.getParentElementOffsetAndDimension(this.parentElement);
+                    totalHeight = parentElementDimensions.totalHeight;
+                    totalWidth = parentElementDimensions.totalWidth;
+                    offsetTop = parentElementDimensions.offsetTop;
+                    offsetLeft = parentElementDimensions.offsetLeft;
+                    this.info("HHTest Dimensions : ", JSON.stringify(parentElementDimensions));
                 }
             }
             const displaySize: { width: number, height: number } = this.getDisplayWxH(this.aspectRatio, totalWidth, totalHeight);
@@ -3591,46 +3465,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
-    //#region Utility Functions
-
-    /**
-     * To get the current timestamp in RFC3339 format
-     */
-    private rfc3339TimeStamp() {
-        const d = new Date();
-        return d.getFullYear() + "-" +
-            this.pad(d.getMonth() + 1) + "-" +
-            this.pad(d.getDate()) + "T" +
-            this.pad(d.getHours()) + ":" +
-            this.pad(d.getMinutes()) + ":" +
-            this.pad(d.getSeconds()) +
-            this.timezoneOffset(d.getTimezoneOffset());
-    }
-
-    /**
-     * Returns double digit string based on input number
-     * @param n 
-     */
-    private pad(n: any): string {
-        return n < 10 ? "0" + n : String(n);
-    }
-
-    /**
-     * Gets Timezone Offset
-     * @param offset 
-     */
-    private timezoneOffset(offset: any) {
-        let sign: any;
-        if (offset === 0) {
-            return "Z";
-        }
-        sign = (offset > 0) ? "-" : "+";
-        offset = Math.abs(offset);
-        return sign + this.pad(Math.floor(offset / 60)) + ":" + this.pad(offset % 60);
-    }
-
-    //#endregion
-
     /**
      * Called to bind proper listeners
      */
@@ -3645,37 +3479,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             'leading': true,
             'trailing': true
         }));
-    }
-
-    /**
-     * Get the Aspect Ratio of the video based on the viewport size
-     * @param ratioWidth 
-     * @param ratioHeight 
-     * @param size 
-     */
-    private getAspectRatioForVideo(ratioWidth: number, ratioHeight: number, size: string) {
-        let sizeObj: { width: number, height: number };
-        switch (size) {
-            case 'xx-large':
-                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 85);
-                break;
-            case 'x-large':
-                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 70);
-                break;
-            case 'large':
-                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
-                break;
-            case 'small':
-                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 40);
-                break;
-            case 'x-small':
-                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 25);
-                break;
-            default:
-                sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
-                break;
-        }
-        return sizeObj;
     }
 
     /**

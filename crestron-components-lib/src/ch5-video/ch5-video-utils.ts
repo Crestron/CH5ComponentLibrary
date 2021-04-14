@@ -1,3 +1,5 @@
+import { getAspectRatio } from "../ch5-common/utils/viewport";
+
 /**
  * Function to calculate the given element's offsetTop, offsetLeft, totalHeight, totalWidth and
  * and return them in the expected format
@@ -38,6 +40,92 @@ const getParentElementOffsetAndDimension = (ele: Element) => {
     }
 }
 
+/**
+ * Returns double digit string based on input number
+ * @param n 
+ */
+const pad = (n: number) => {
+    return n < 10 ? ("0" + n) : String(n);
+}
+
+/**
+ * Gets Timezone Offset
+ * @param offset 
+ */
+const timezoneOffset = (offset: number) => {
+    let sign: any;
+    if (offset === 0) {
+        return "Z";
+    }
+    sign = (offset > 0) ? "-" : "+";
+    offset = Math.abs(offset);
+    return sign + pad(Math.floor(offset / 60)) + ":" + pad(offset % 60);
+}
+
+/**
+ * To get the current timestamp in RFC3339 format
+ */
+const rfc3339TimeStamp = () => {
+    const d = new Date();
+    return d.getFullYear() + "-" +
+        pad(d.getMonth() + 1) + "-" +
+        pad(d.getDate()) + "T" +
+        pad(d.getHours()) + ":" +
+        pad(d.getMinutes()) + ":" +
+        pad(d.getSeconds()) +
+        timezoneOffset(d.getTimezoneOffset());
+}
+
+/**
+ * Get the Aspect Ratio of the video based on the viewport size and returns a sizeObj with width and height as keys
+ * @param aspectRatio - has 16:9 or 4:3 as value
+ * @param size 
+ */
+const getAspectRatioForVideo = (aspectRatio: string, size: string) => {
+    let sizeObj: { width: number, height: number } = { width: 0, height: 0 };
+    let ratioWidth = 16;
+    let ratioHeight = 9;
+    if (aspectRatio === "16:9") {
+        ratioWidth = 16;
+        ratioHeight = 9;
+    } else if (aspectRatio === "4:3") {
+        ratioWidth = 4;
+        ratioHeight = 3;
+    }
+    switch (size) {
+        case 'xx-large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 85);
+            break;
+        case 'x-large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 70);
+            break;
+        case 'large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+            break;
+        case 'small':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 40);
+            break;
+        case 'x-small':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 25);
+            break;
+        default:
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+            break;
+    }
+    return sizeObj;
+}
+
+const setAttributesBasedValue = (hasAttribute: boolean, valToAssign: any, defaultValue: string) => {
+    if (hasAttribute) {
+        return valToAssign;
+    } else {
+        return defaultValue;
+    }
+}
+
 export const ch5VideoUtils = {
-    getParentElementOffsetAndDimension
+    getParentElementOffsetAndDimension,
+    rfc3339TimeStamp,
+    getAspectRatioForVideo,
+    setAttributesBasedValue
 }
