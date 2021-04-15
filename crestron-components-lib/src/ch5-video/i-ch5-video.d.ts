@@ -16,3 +16,10 @@ interface iCh5VideoRef {
     id: string,
     position: { posX: number, posY: number }
 }
+
+interface iElementDimensions {
+    offsetLeft: number,
+    offsetTop: number,
+    totalHeight: number,
+    totalWidth: number
+}
