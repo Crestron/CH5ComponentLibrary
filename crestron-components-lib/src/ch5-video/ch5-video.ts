@@ -1251,14 +1251,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.isInitialized) {
             this.removeIfTagExist(); // Rags - check if really required
             customElements.whenDefined('ch5-video').then(() => {
-                this.scrollableElm = getScrollableParent(this); // TODO: Is not working in all the scenarios
+                this.scrollableElm = getScrollableParent(this);
                 this.initializeVideo();
                 this.isInitialized = false;
 
                 subscribeState('b', 'triggerview.slidemove', (res: boolean) => {
                     if (res) {
                         publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-                        this.info("Connectedcallback: Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+                        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
                         this.isSlideMoved = true;
                     }
                 });
@@ -1282,7 +1282,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
                     if (res && this.elementIsInViewPort) {
                         publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-                        this.info("Connectedcallback: Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+                        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
                         this.publishVideoEvent("stop");
                     }
                 });
@@ -1868,91 +1868,76 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             + ", isOrientationChanged: " + this.isOrientationChanged + ', isPositionChanged: ' + this.isPositionChanged
             + ', fromExitFullScreen: ' + this.fromExitFullScreen + ', FirstTime: ' + this.firstTime + ', CH5UID: ' + this.ch5UId);
         if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
-            this._updateVideoSectionIfUnderIntersectionRation();
-        } else {
-            this._UpdatingViewBasedOnAspectRatioTest();
-        }
-    }
-
-    /**
-     * Function to render video if it is under the visible range | supposed to be shown 
-     * this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE
-     */
-    private _updateVideoSectionIfUnderIntersectionRation() {
-        clearTimeout(this.isSwipeInterval);
-        this.isSwipeInterval = setTimeout(() => {
-            this.firstTime = false;
-            this.calculation(this.vid);
-            this.calculatePositions();
-            if (this.lastRequestStatus === '' && this.isOrientationChanged) {
-                this.lastResponseStatus = '';
-                this.lastRequestStatus = '';
-                this.isVideoReady = false;
-                // RAGS
-                this.info("*** 3");
-                this.publishVideoEvent("start");
-            }
-            if (!this.isFullScreen && !this.isExitFullscreen && !this.isOrientationChanged && this.lastRequestStatus !== 'fullscreen' && !this.fromExitFullScreen) {
-                if (this.lastRequestUrl !== this.url) {
+            clearTimeout(this.isSwipeInterval);
+            this.isSwipeInterval = setTimeout(() => {
+                this.firstTime = false;
+                this.calculation(this.vid);
+                this.calculatePositions();
+                if (this.lastRequestStatus === '' && this.isOrientationChanged) {
                     this.lastResponseStatus = '';
                     this.lastRequestStatus = '';
                     this.isVideoReady = false;
-                    if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.maxVideoCount > 0) {
-                        this.switchSnapShotOnSelect(this.receivedStateSelect);
-                    }
                     // RAGS
+                    this.info("*** 3");
                     this.publishVideoEvent("start");
                 }
+                if (!this.isFullScreen && !this.isExitFullscreen && !this.isOrientationChanged && this.lastRequestStatus !== 'fullscreen' && !this.fromExitFullScreen) {
+                    if (this.lastRequestUrl !== this.url) {
+                        this.lastResponseStatus = '';
+                        this.lastRequestStatus = '';
+                        this.isVideoReady = false;
+                        if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && this.maxVideoCount > 0) {
+                            this.switchSnapShotOnSelect(this.receivedStateSelect);
+                        }
+                        // RAGS
+                        this.info("*** 4");
+                        this.publishVideoEvent("start");
+                    }
+                }
+            }, 1000); // TODO: Check whether this can be reduced by testing in all devices
+        } else {
+            // when the fullscreen is triggered in
+            if (this.isFullScreen) {
+                return;
             }
-        }, 1000); // TODO: Check whether this can be reduced by testing in all devices
-    }
-
-    /**
-     * Function to render video if it is lesser than the necessary visible range | supposed to be hidden
-     * this.elementIntersectionEntry.intersectionRatio < this.INTERSECTION_RATIO_VALUE
-     */
-    private _UpdatingViewBasedOnAspectRatioTest() {
-        // when the fullscreen is triggered in
-        if (this.isFullScreen) {
-            return;
-        }
-        clearTimeout(this.backgroundInterval);
-        clearTimeout(this.isSwipeInterval);
-        this.clearAllSnapShots();
-        if (this.isSwipeInterval) {
-            window.clearInterval(this.isSwipeInterval);
-        }
-
-        // During scroll, video goes out of the view port area but still running because of negative values in TSW
-        if ((this.videoTop < 0 || this.videoLeft < 0) && this.lastRequestStatus !== 'stop' && !this.firstTime) {
-            this.publishVideoEvent("stop");
-        }
-
-        // During scroll, video goes out of the view port area but still running because of negative values in iOS
-        if (this.isPositionChanged && (this.lastRequestStatus === 'resize' || this.lastRequestStatus === 'start')) {
-            this.publishVideoEvent("stop");
-        }
-
-        // In some of the iOS devices, there is a delay in getting orientation 
-        // change information, a small delay solves this problem.
-        setTimeout(() => {
-            // Avoid refilling when the project starts and the video page is not visible
-            // isFullScreen and isExitFullscreen is added to avoid refill on full screen and on exit full screen
-            if (!this.firstTime && !this.isFullScreen && !this.isExitFullscreen && !this.isPositionChanged && this.lastResponseStatus !== 'fullscreen') {
-                publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-                this.info("_UpdatingViewBasedOnAspectRatioTest: Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+            clearTimeout(this.backgroundInterval);
+            clearTimeout(this.isSwipeInterval);
+            this.clearAllSnapShots();
+            if (this.isSwipeInterval) {
+                window.clearInterval(this.isSwipeInterval);
             }
 
-            // The above refill can't be called inside this block as it produces an additional 
-            // unecessary cut in the background sometimes.
-            if (!this.isExitFullscreen && !this.isOrientationChanged && !this.firstTime && !this.elementIsInViewPort && !this.fromExitFullScreen && !this.isPositionChanged) {
+            // During scroll, video goes out of the view port area but still running because of negative values in TSW
+            if ((this.videoTop < 0 || this.videoLeft < 0) && this.lastRequestStatus !== 'stop' && !this.firstTime) {
                 this.publishVideoEvent("stop");
             }
-        });
 
-        // On exiting fullscreen and if the user swipes/leave the video page send the "stop" request
-        if (this.isExitFullscreen && this.lastResponseStatus === 'resized' && !this.elementIsInViewPort) {
-            this.publishVideoEvent("stop");
+            // During scroll, video goes out of the view port area but still running because of negative values in iOS
+            if (this.isPositionChanged && (this.lastRequestStatus === 'resize' || this.lastRequestStatus === 'start')) {
+                this.publishVideoEvent("stop");
+            }
+
+            // In some of the iOS devices, there is a delay in getting orientation 
+            // change information, a small delay solves this problem.
+            setTimeout(() => {
+                // Avoid refilling when the project starts and the video page is not visible
+                // isFullScreen and isExitFullscreen is added to avoid refill on full screen and on exit full screen
+                if (!this.firstTime && !this.isFullScreen && !this.isExitFullscreen && !this.isPositionChanged && this.lastResponseStatus !== 'fullscreen') {
+                    publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
+                    this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+                }
+
+                // The above refill can't be called inside this block as it produces an additional 
+                // unecessary cut in the background sometimes.
+                if (!this.isExitFullscreen && !this.isOrientationChanged && !this.firstTime && !this.elementIsInViewPort && !this.fromExitFullScreen && !this.isPositionChanged) {
+                    this.publishVideoEvent("stop");
+                }
+            });
+
+            // On exiting fullscreen and if the user swipes/leave the video page send the "stop" request
+            if (this.isExitFullscreen && this.lastResponseStatus === 'resized' && !this.elementIsInViewPort) {
+                this.publishVideoEvent("stop");
+            }
         }
     }
 
@@ -2725,7 +2710,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             setTimeout(() => {
                 publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                     'resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                this.info(JSON.stringify("exitFullScreen: Background Request (Resize) : " + JSON.stringify(
+                this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
                     this.videoBGObjJSON('resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
             }, 200);
         }, 500);
@@ -2755,10 +2740,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             // showing after exit full screen
             publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                 'stop', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-            this.info("enterFullScreen: Background Request (stop) : " + JSON.stringify(
+            this.info("Background Request (stop) : " + JSON.stringify(
                 this.videoBGObjJSON('start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
             publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-            this.info("enterFullScreen: Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+            this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
             this.isFullScreen = true;
             // To avoid swiping on the full screen
             this.videoCanvasElement.addEventListener('touchmove', this.handleTouchMoveEvent, { passive: true });
@@ -2836,7 +2821,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.calculatePositions();
         if (this.previousXPos !== this.videoLeft || this.previousYPos !== this.videoTop) {
             publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-            this.info("BobservePositionChangesAfterScrollEnds: ackground Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+            this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
         }
         if (this.lastResponseStatus === 'started' || this.lastResponseStatus === 'resized') {
             this.calculatePositions(); // TODO: Remove after verifying
@@ -2858,7 +2843,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             window.clearTimeout(this.exitTimer); // clear timer if the user scrolls immediately after fullscreen exit
             clearTimeout(this.scrollTimer); // wait for half second
             publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-            this.info("positionChange: Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+            this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
             this.isExitFullscreen = false; // during scroll fullscreen is false
             this.scrollTimer = setTimeout(() => {
                 if (this.elementIntersectionEntry.intersectionRatio >= 0.20) {
@@ -2908,7 +2893,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.hideFullScreenIcon();
             this.orientationChanged().then(() => {
                 publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-                this.info("orientationChange: Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+                this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
                 this.calculation(this.vid);
                 if (this.isFullScreen) {
                     clearTimeout(this.landscapeOrientationTimeout);
@@ -2930,7 +2915,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (!this.isFullScreen) {
                     publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                         'resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                    this.info(JSON.stringify("orientationChange: Background Request (Resize) : " + JSON.stringify(
+                    this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
                         this.videoBGObjJSON('resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
                 }
 
@@ -3008,10 +2993,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info('Ch5Video.drawCanvas()');
         this.context = video.getContext("2d");
         this.calculation(video);
-        this.videoCanvasElement.appendChild(video);
+        this.videoCanvasElement.appendChild(this.vid);
         this.context.fillStyle = "transparent";
         if (this.controls === 'true') {
-            this.setControlDimension();
             this.videoCanvasElement.appendChild(this.vidControlPanel);
         }
         this.appendChild(this.videoCanvasElement);
@@ -3062,7 +3046,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.sendEvent(this.sendEventResolution, this.sizeObj.width + "x" + this.sizeObj.height + "@24fps", 'string');
         this.responseObj = [];
         const d = new Date();
-        this.isAlphaBlend = !this.isFullScreen;
+        if (this.isFullScreen) {
+            this.isAlphaBlend = false;
+        } else {
+            this.isAlphaBlend = true;
+        }
         this.clearOldResponseData();
         switch (actionType) {
             case 'start':
@@ -3137,10 +3125,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     // To send the video request and background at a same time to avoid sending the different coordinates
                     // Without setTimeout(), the background request triggers faster than video request
                     if (this.lastResponseStatus !== 'stopped' && this.lastRequestStatus !== 'stop') {
-                        this.info("publishVideoEvent: Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+                        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
                         publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                             'resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                        this.info(JSON.stringify("publishVideoEvent :Background Request (Resize) : " + JSON.stringify(
+                        this.info(JSON.stringify("Background Request (Resize) : " + JSON.stringify(
                             this.videoBGObjJSON('resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
                     }
                 }
@@ -3169,7 +3157,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (!this.lastLoadedImage) {
             publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                 'start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-            this.info("videoStartRequest: Background Request (Start) : " + JSON.stringify(
+            this.info("Background Request (Start) : " + JSON.stringify(
                 this.videoBGObjJSON('start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
         }
         const d = new Date();
@@ -3197,7 +3185,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private videoStopRequest(actionType: string) {
         publishEvent('o', 'ch5.video.background', { 'id': this.videoTagId, 'action': 'refill' });
-        this.info("videoStopRequest: Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
+        this.info("Background Request (Refill) : " + JSON.stringify({ 'id': this.videoTagId, 'action': 'refill' }));
         this.lastRequestStatus = actionType;
         this.fromExitFullScreen = false;
         this.lastRequestUrl = '';
@@ -3280,7 +3268,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.clearSnapShot();
                 publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                     'stop', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                this.info("videoResponse: Background Request (stop) : " + JSON.stringify(
+                this.info("Background Request (stop) : " + JSON.stringify(
                     this.videoBGObjJSON('stop', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
 
                 // When the user continously clicks on play and stop without a gap, started
@@ -3331,7 +3319,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
                 publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                     'start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                this.info("videoResponse: Background Request (Start) : " + JSON.stringify(
+                this.info("Background Request (Start) : " + JSON.stringify(
                     this.videoBGObjJSON('start', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
 
                 /* 
@@ -3395,7 +3383,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.errorCount === 0) {
                     publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(
                         'stop', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height));
-                    this.info("videoResponse: Background Request (stop) : " + JSON.stringify(
+                    this.info("Background Request (stop) : " + JSON.stringify(
                         this.videoBGObjJSON('stop', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height)));
                 }
                 this.errorCount = this.errorCount + 1;
@@ -3467,7 +3455,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Set the dimensions and position of the video control icon
      */
     private setControlDimension() {
-        this.vidControlPanel.style.position = "absolute";
         this.vidControlPanel.style.width = this.sizeObj.width + 'px';
         this.vidControlPanel.style.left = this.controlLeft + 'px';
         this.vidControlPanel.style.top = this.controlTop + 'px';
@@ -3496,20 +3483,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private calculation(video: HTMLCanvasElement) {
         this.sizeObj = { width: 0, height: 0 };
-        let totalWidth: number = 0;
-        let totalHeight: number = 0;
-        if (this.parentElement) {
-            const testob = [
-                (this.parentElement.clientHeight ? this.parentElement.clientHeight : 'hnull'),
-                (this.parentElement.clientWidth ? this.parentElement.clientWidth : 'wnull')
-            ];
-            this.info({ testob });
-        }
         if (this.stretch === "false") {
             if (this.isFullScreen) {
                 this.fullScreenCalculation();
             } else {
-                this.setCanvasDimensions(totalWidth, totalHeight);
                 // Set the canvas width and height
                 if (this.aspectRatio === "16:9") {
                     this.sizeObj = this.getAspectRatioForVideo(16, 9, this.size);
@@ -3522,6 +3499,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.setCanvasDimensions(video.width, video.height);
             }
         } else if (this.stretch === "true") {
+            let totalWidth: number = 0;
+            let totalHeight: number = 0;
             let offsetTop: number = 0;
             let offsetLeft: number = 0;
             this.setCanvasDimensions(totalWidth, totalHeight);
@@ -3530,42 +3509,36 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 totalHeight = window.innerHeight;
             } else {
                 if (this.parentElement) {
-                    this.setControlDimension();
                     totalWidth = this.parentElement.clientWidth;
                     totalHeight = this.parentElement.clientHeight;
 
                     offsetTop = this.parentElement.getBoundingClientRect().top + this.parentElement.clientTop;
                     offsetLeft = this.parentElement.getBoundingClientRect().left + this.parentElement.clientLeft;
-                    const paddingObj = {
-                        top: getComputedStyle(this.parentElement).getPropertyValue("padding-top"),
-                        right: getComputedStyle(this.parentElement).getPropertyValue("padding-right"),
-                        bottom: getComputedStyle(this.parentElement).getPropertyValue("padding-top"),
-                        left: getComputedStyle(this.parentElement).getPropertyValue("padding-left")
-                    }
-                    if (paddingObj.top) {
-                        offsetTop += parseInt(paddingObj.top, 0);
+                    if (getComputedStyle(this.parentElement).getPropertyValue("padding-top")) {
+                        offsetTop += parseInt(getComputedStyle(this.parentElement).getPropertyValue("padding-top"), 0);
                     }
 
-                    if (paddingObj.left) {
-                        offsetLeft += parseInt(paddingObj.left, 0);
+                    if (getComputedStyle(this.parentElement).getPropertyValue("padding-left")) {
+                        offsetLeft += parseInt(getComputedStyle(this.parentElement).getPropertyValue("padding-left"), 0);
                     }
 
-                    if (paddingObj.right) {
-                        totalWidth = this.parentElement.clientWidth - (parseInt(paddingObj.right, 0) + parseInt(paddingObj.left, 0));
+                    if (getComputedStyle(this.parentElement).getPropertyValue("padding-right")) {
+                        totalWidth = this.parentElement.clientWidth - (parseInt(getComputedStyle(this.parentElement).getPropertyValue("padding-right"), 0) + parseInt(getComputedStyle(this.parentElement).getPropertyValue("padding-left"), 0));
                     }
 
-                    if (paddingObj.bottom) {
-                        totalHeight = this.parentElement.clientHeight - (parseInt(paddingObj.bottom, 0) + parseInt(paddingObj.top, 0));
+                    if (getComputedStyle(this.parentElement).getPropertyValue("padding-bottom")) {
+                        totalHeight = this.parentElement.clientHeight - (parseInt(getComputedStyle(this.parentElement).getPropertyValue("padding-bottom"), 0) + parseInt(getComputedStyle(this.parentElement).getPropertyValue("padding-top"), 0));
                     }
                 }
             }
+
+            this.setCanvasDimensions(totalWidth, totalHeight);
             const displaySize: { width: number, height: number } = this.getDisplayWxH(this.aspectRatio, totalWidth, totalHeight);
             if (displaySize.width < totalWidth) {
                 this.position = this.calculatePillarBoxPadding(totalWidth, displaySize.width);
             } else if (displaySize.height < totalHeight) {
                 this.position = this.calculateLetterBoxPadding(totalHeight, displaySize.height);
             }
-            this.setCanvasDimensions(totalWidth, totalHeight);
 
             this.controlTop = this.position.yPos;
             this.controlLeft = this.position.xPos;
