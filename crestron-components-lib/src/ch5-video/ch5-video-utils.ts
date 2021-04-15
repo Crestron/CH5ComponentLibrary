@@ -5,7 +5,7 @@ import { getAspectRatio } from "../ch5-common/utils/viewport";
  * and return them in the expected format
  * @param ele is the DOM element whose dimensions are calculated and returned
  */
-const getParentElementOffsetAndDimension = (ele: Element): iElementDimensions => {
+const getParentElementOffsetAndDimension = (ele: Element) => {
     let totalWidth = ele.clientWidth;
     let totalHeight = ele.clientHeight;
     console.log(ele.className, totalHeight, totalWidth);
