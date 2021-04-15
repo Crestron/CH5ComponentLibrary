@@ -9,10 +9,9 @@ declare var window: localWindowInterfaceRef;
  */
 export class Ch5VideoListMgr implements iCh5VideoListMgr {
     // this var controls the list of video tags subscribed under the manager, essentially all the ones in the app
-    private _videoCollection: { [index: string]: iCh5VideoRef } = {};
+    private _videoCollection: { [index: string]: iCh5VideoRef };
     // this var controls the list of the ch5-video elements strictly in view
-    private _videoCollectionInView: { [index: string]: iCh5VideoRef } = {};
-    
+    private _videoCollectionInView: { [index: string]: iCh5VideoRef };
     constructor() {
         this._init();
     }
@@ -82,7 +81,7 @@ export class Ch5VideoListMgr implements iCh5VideoListMgr {
      * THIS IS THE OBSERVABLE HANDLER RESPONSIBLE FOR PERFORMING THE CUTS FOR ALL IN-VIEW VIDEO ELEMENTS
      */
     private _triggerCanvasCut(): void {
-        const items = this._videoCollectionInView;
+
     }
 }
 
