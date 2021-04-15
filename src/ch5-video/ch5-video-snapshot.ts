@@ -123,6 +123,7 @@ export class Ch5VideoSnapshot {
     private setSnapshotUrl(signalName: any) {
         this.videoSnapShotUrl = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
+                this.url = '';
                 this.url = resp;
             }
         });
@@ -135,6 +136,7 @@ export class Ch5VideoSnapshot {
     private setSnapshotUserId(signalName: any) {
         this.videoSnapShotUser = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
+                this.userId = '';
                 this.userId = resp;
             }
         });
@@ -147,6 +149,7 @@ export class Ch5VideoSnapshot {
     private setSnapshotPassword(signalName: any) {
         this.videoSnapShotPass = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
+                this.password = '';
                 this.password = resp;
             }
         });
@@ -159,6 +162,7 @@ export class Ch5VideoSnapshot {
     private setSnapshotRefreshRate(signalName: any) {
         this.videoSnapShotRefreshRate = subscribeState('n', signalName, (resp: any) => {
             if (resp) {
+                this.refreshRate = 0;
                 this.refreshRate = resp;
             }
         });
