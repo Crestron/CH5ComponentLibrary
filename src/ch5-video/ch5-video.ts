@@ -3425,12 +3425,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             } else {
                 if (this.parentElement) {
                     this.setControlDimension();
-                    const parentElementDimensions = ch5VideoUtils.getParentElementOffsetAndDimension(this.parentElement);
+                    const parentElementDimensions: iElementDimensions = ch5VideoUtils.getParentElementOffsetAndDimension(this.parentElement);
                     totalHeight = parentElementDimensions.totalHeight;
                     totalWidth = parentElementDimensions.totalWidth;
                     offsetTop = parentElementDimensions.offsetTop;
                     offsetLeft = parentElementDimensions.offsetLeft;
-                    this.info("HHTest Dimensions : ", JSON.stringify(parentElementDimensions));
+                    this.info("HH Test Dimensions : ", JSON.stringify(parentElementDimensions));
                 }
             }
             const displaySize: { width: number, height: number } = this.getDisplayWxH(this.aspectRatio, totalWidth, totalHeight);
