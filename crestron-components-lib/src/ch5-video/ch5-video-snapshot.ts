@@ -85,7 +85,7 @@ export class Ch5VideoSnapshot {
         videoImage.onload = (ev: Event) => {
             this.snapShotImage = videoImage;
         };
-        videoImage.src = this.url + "?" + new Date().getTime().toString();
+        videoImage.src = this.url; // + "?" + new Date().getTime().toString();
     }
 
     /**
