@@ -3,7 +3,7 @@ interface localWindowInterfaceRef extends Window {
 }
 
 interface iCh5VideoListMgr {
-    getIntance: () => {} | iCh5VideoListMgr,
+    getInstance: () => {} | iCh5VideoListMgr,
     addToMasterCollection: (videoNode: iCh5VideoRef) => void,
     getAllVideoElements: () => iCh5VideoCollection
 }

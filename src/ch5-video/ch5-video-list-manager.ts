@@ -31,7 +31,7 @@ export class Ch5VideoListMgr implements iCh5VideoListMgr {
      * getVideoList
      * Function that returns the list of all the subscribed ch5-video objects currently in project
      */
-    public getIntance() {
+    public getInstance() {
         return this;
     }
 
