@@ -1,23 +1,22 @@
-interface localWindowInterfaceRef extends Window {
+export interface localWindowInterfaceRef extends Window {
     Ch5VideoListManager: {} | iCh5VideoListMgr;
 }
 
-interface iCh5VideoListMgr {
-    getInstance: () => {} | iCh5VideoListMgr,
+export interface iCh5VideoListMgr {
     addToMasterCollection: (videoNode: iCh5VideoRef) => void,
     getAllVideoElements: () => iCh5VideoCollection
 }
 
-interface iCh5VideoCollection {
+export interface iCh5VideoCollection {
     [index: string]: iCh5VideoRef
 }
 
-interface iCh5VideoRef {
+export interface iCh5VideoRef {
     id: string,
     position: { posX: number, posY: number }
 }
 
-interface iElementDimensions {
+export interface iElementDimensions {
     offsetLeft: number,
     offsetTop: number,
     totalHeight: number,
