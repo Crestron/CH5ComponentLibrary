@@ -1,4 +1,5 @@
 import { getAspectRatio } from "../ch5-common/utils/viewport";
+import { iElementDimensions } from "../_interfaces/ch5-video/types";
 
 /**
  * Function to calculate the given element's offsetTop, offsetLeft, totalHeight, totalWidth and

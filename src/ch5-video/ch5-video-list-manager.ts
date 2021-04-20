@@ -1,3 +1,4 @@
+import { iCh5VideoCollection, iCh5VideoListMgr, iCh5VideoRef, localWindowInterfaceRef } from '../_interfaces/ch5-video/types';
 import './i-ch5-video.d.ts';
 
 declare var window: localWindowInterfaceRef;

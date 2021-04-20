@@ -8,7 +8,7 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState } from "../ch5-core";
 import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
-import { TDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
+import { iElementDimensions, TDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { Ch5VideoEventHandler, ESVGIcons } from "./ch5-video-event-handler";
