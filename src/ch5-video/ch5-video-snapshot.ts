@@ -56,7 +56,7 @@ export class Ch5VideoSnapshot {
      */
     public stopLoadingSnapShot() {
         this.isSnapShotLoading = false;
-        // this.snapShotImage = '';
+        this.snapShotImage = '';
         clearInterval(this.snapShotTimer);
     }
 
@@ -85,7 +85,9 @@ export class Ch5VideoSnapshot {
         videoImage.onload = (ev: Event) => {
             this.snapShotImage = videoImage;
         };
-        videoImage.src = this.url; // + "?" + new Date().getTime().toString();
+        videoImage.src = this.url; 
+        // Suffixed with url to prevent cache, removed as few of the cameras are erroring out
+        // + "?" + new Date().getTime().toString();
     }
 
     /**
