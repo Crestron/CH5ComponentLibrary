@@ -453,7 +453,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private subsCsigAppCurrentSate: string = '';
     private subsCsigAppBackgrounded: string = '';
     private receivedStateSelect: number = 0;
-    private vCountFlag: boolean = false;
+    private isSnapShotArrayInitialized: boolean = false; // used when receivestatevideocount is present
     private maxVideoCount: number = 0;
     private lastRequestUrl: string = '';
     private fromExitFullScreen: boolean = false;
@@ -835,7 +835,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (sigStateVideoCount) {
             this.subReceiveStateVideoCount = sigStateVideoCount.subscribe((newValue: any) => {
                 this.info('receiveStateVideoCount Signal Subscribe Value: ' + newValue);
-                if (!this.vCountFlag) {
+                if (!this.isSnapShotArrayInitialized) {
                     this.maxVideoCount = parseInt(newValue, 0);
                     this._getAllSnapShotData(newValue);
                 }
@@ -1998,7 +1998,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             snapShotObject.snapShotRefreshRate = String(Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshotrefreshrate', this.receiveStateSnapShotRefreshRate, idx, this.indexId as string));
             this._snapShotInfoMap.set(idx, new Ch5VideoSnapshot(snapShotObject));
         }
-        this.vCountFlag = true;
+        this.isSnapShotArrayInitialized = true;
     }
 
     /**
