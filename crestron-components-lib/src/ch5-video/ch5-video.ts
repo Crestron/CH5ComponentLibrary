@@ -417,7 +417,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private receiveStateAttributeCount: number = 0;
     private requestID: number = 0;
     private lastResponseStatus: string = '';
-    private isSwipeInterval: any;
+    private isSwipeDebounce: any;
     private backgroundInterval: any;
     private isVideoPublished = false;
     private isOrientationChanged: boolean = false;
@@ -1348,6 +1348,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const d = new Date();
         const startTime: number = d.getMilliseconds();
         const endTime: number = d.getMilliseconds() + 2000;
+
+        // this needs to be false only after rendering video once
+        // making it true here, since it needs tobe updated after the publish event is successful
+        if (this.firstTime) {
+            setTimeout(() => {
+                this.info("HH TEST Updating firsttime flag");
+                this.firstTime = false;
+            }, 0);
+        }
+
         const retObj = {
             "action": actionStatus,
             "id": uId,
@@ -1772,36 +1782,46 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     public videoIntersectionObserver() {
         this.info("videoIntersectionObserver");
-        setTimeout(() => {
-            this.info('Video visibility ' + this.elementIntersectionEntry.intersectionRatio + ", lastRequestStatus: "
-                + this.lastRequestStatus + ", lastResponseStatus: " + this.lastResponseStatus
-                + ", isExitFullscreen: " + this.isExitFullscreen + ", isFullscreen: " + this.isFullScreen
-                + ", isOrientationChanged: " + this.isOrientationChanged + ', isPositionChanged: ' + this.isPositionChanged
-                + ', fromExitFullScreen: ' + this.fromExitFullScreen + ', FirstTime: ' + this.firstTime + ', CH5UID: ' + this.ch5UId);
-            if (this.elementIntersectionEntry.intersectionRatio >= this._INTERSECTION_RATIO_VALUE) {
-                this._updateVideoSectionIfUnderIntersectionRatio();
-            } else {
-                this._UpdatingViewBasedOnAspectRatioTest();
-            }
-        }, 1000);
+        if (!this.firstTime) {
+            this._onVideoSectionObserverTrigger();
+        } else {
+            // HH TODO: looks like this 1000 second depends on only first 
+            // render due to css animations present in the view
+            // need to address the timeout better instead of relying on '1000ms'
+            setTimeout(() => {
+                this._onVideoSectionObserverTrigger();
+            }, 1000);
+        }
+    }
+
+    private _onVideoSectionObserverTrigger() {
+        this.info('Video visibility ' + this.elementIntersectionEntry.intersectionRatio + ", lastRequestStatus: "
+            + this.lastRequestStatus + ", lastResponseStatus: " + this.lastResponseStatus
+            + ", isExitFullscreen: " + this.isExitFullscreen + ", isFullscreen: " + this.isFullScreen
+            + ", isOrientationChanged: " + this.isOrientationChanged + ', isPositionChanged: ' + this.isPositionChanged
+            + ', fromExitFullScreen: ' + this.fromExitFullScreen + ', FirstTime: ' + this.firstTime + ', CH5UID: ' + this.ch5UId);
+        if (this.elementIntersectionEntry.intersectionRatio >= this._INTERSECTION_RATIO_VALUE) {
+            this._onRatioAboveLimitToRenderVideo();
+        } else {
+            this._OnVideoAspectRatioConditionNotMet();
+        }
     }
 
     /**
      * Function to render video if it is under the visible range | supposed to be shown 
      * this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE
      */
-    private _updateVideoSectionIfUnderIntersectionRatio() {
+    private _onRatioAboveLimitToRenderVideo() {
         this.info("HH Test *** 0",
             this.lastRequestStatus, this.isFullScreen, this.isExitFullscreen,
             this.fromExitFullScreen, this.isOrientationChanged);
-        clearTimeout(this.isSwipeInterval);
-        this.isSwipeInterval = setTimeout(() => {
-            this.firstTime = false;
+        clearTimeout(this.isSwipeDebounce);
+        this.isSwipeDebounce = setTimeout(() => {
             this._calculation(this.vid);
             this._calculatePositions();
             let isPublished = false;
             if (this.lastRequestStatus === '' && this.isOrientationChanged ||
-            this.lastRequestStatus === 'start') {
+                this.lastRequestStatus === 'start') {
                 this.lastResponseStatus = '';
                 this.lastRequestStatus = '';
                 this.isVideoReady = false;
@@ -1824,39 +1844,36 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                 }
             }
-        }, 1000); // TODO: Check whether this can be reduced by testing in all devices
+        }, 300); // TODO: Check whether this can be reduced by testing in all devices
     }
 
     /**
      * Function to render video if it is lesser than the necessary visible range | supposed to be hidden
-     * this.elementIntersectionEntry.intersectionRatio < this.INTERSECTION_RATIO_VALUE
+     * this.elementIntersectionEntry.intersectionRatio < this.INTERSECTION_RATIO_VALUE (0.98)
      */
-    private _UpdatingViewBasedOnAspectRatioTest() {
+    private _OnVideoAspectRatioConditionNotMet() {
         // when the fullscreen is triggered in
         if (this.isFullScreen) {
             return;
         }
-        clearTimeout(this.backgroundInterval);
-        clearTimeout(this.isSwipeInterval);
         this._clearAllSnapShots();
-        if (this.isSwipeInterval) {
-            window.clearInterval(this.isSwipeInterval);
+        if (this.isSwipeDebounce) {
+            window.clearTimeout(this.isSwipeDebounce);
+        }
+        if (this.backgroundInterval) {
+            window.clearTimeout(this.backgroundInterval);
         }
 
-        // During scroll, video goes out of the view port area but still running because of negative values in TSW
         if ((this.videoTop < 0 || this.videoLeft < 0) && this.lastRequestStatus !== 'stop' && !this.firstTime) {
+            // During scroll, video goes out of the view port area but still running because of negative values in TSW
             this.info("HH logger 1");
             this._publishVideoEvent("stop");
-        }
-
-        // During scroll, video goes out of the view port area but still running because of negative values in iOS
-        if (this.isPositionChanged && (this.lastRequestStatus === 'resize' || this.lastRequestStatus === 'start')) {
+        } else if (this.isPositionChanged && (this.lastRequestStatus === 'resize' || this.lastRequestStatus === 'start')) {
+            // During scroll, video goes out of the view port area but still running because of negative values in iOS
             this.info("HH logger 2");
             this._publishVideoEvent("stop");
-        }
-
-        // On exiting fullscreen and if the user swipes/leave the video page send the "stop" request
-        if (this.isExitFullscreen && this.lastResponseStatus === 'resized' && !this.elementIsInViewPort) {
+        } else if (this.isExitFullscreen && this.lastResponseStatus === 'resized' && !this.elementIsInViewPort) {
+            // On exiting fullscreen and if the user swipes/leave the video page send the "stop" request
             this.info("HH logger 3");
             this._publishVideoEvent("stop");
         }
@@ -2861,14 +2878,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this.videoBGObjJSON('resize', this.videoTagId, this.videoTop, this.videoLeft, this.sizeObj.width, this.sizeObj.height))));
                 }
 
-                if (this.lastResponseStatus === 'started' || 
-                (this.lastResponseStatus === 'resized' && this.lastRequestStatus === "resize")) {
+                if (this.lastResponseStatus === 'started' ||
+                    (this.lastResponseStatus === 'resized' && this.lastRequestStatus === "resize")) {
                     if (this.elementIsInViewPort) {
                         this.isOrientationChanged = true; // When the orientation happens inside the view port, isorientationChaged flag will be set to true
                     }
                     this._publishVideoEvent("resize");
-                } else if ((this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '') && 
-                this.elementIntersectionEntry.intersectionRatio >= this._INTERSECTION_RATIO_VALUE) {
+                } else if ((this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '') &&
+                    this.elementIntersectionEntry.intersectionRatio >= this._INTERSECTION_RATIO_VALUE) {
                     // RAGS
                     this.info("*** 6");
                     this._publishVideoEvent("start");
