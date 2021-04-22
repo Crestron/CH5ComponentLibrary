@@ -56,7 +56,7 @@
     "doc": "npm-run-all clean:docs && npm-run-all doc:*",
     "doc:html": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --out docs/html src/ ",
     "doc:json": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --json docs/json/typedoc.json src/ ",
-    "rags:c": "copyfiles build_bundles/umd/* ./../../../CH5_Additions/Vanilla/node_modules/@crestron/ch5-crcomlib/",
+    "rags:c": "copyfiles build_bundles/umd/* ./../../CH5SampleProjects/UISampleProjects/Using_Joins/Vanilla/Vanilla-Shell/node_modules/@crestron/ch5-crcomlib/",
     "rags:build:save": "npm run build:dev && npm run rags:c"
   },
   "engines": {
