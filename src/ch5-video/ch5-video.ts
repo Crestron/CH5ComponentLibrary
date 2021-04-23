@@ -1279,7 +1279,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.videoParentElement = this.querySelector('#video-page') as HTMLElement; // initializing the parent
         Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
         this.isIntersectionObserve = true;
-        if (!this.isTouchStartEvtBound && this.videoCanvasElement && this.videoCanvasElement.classList) {
+        if (!this.isTouchStartEvtBound &&
+            !!this.videoParentElement && this.videoParentElement != null && !!this.videoParentElement.classList) {
             this.isTouchStartEvtBound = true;
             this.videoParentElement.addEventListener('touchstart', this._handleTouchStartEvent_Swipe.bind(this));
         }
@@ -2788,7 +2789,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.videoCanvasElement.addEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, { passive: true });
             this.isTouchStartEvtBound = false;
             this.isTouchEndEvtBound = false;
-            this.videoParentElement.removeEventListener('touchstart', this._handleTouchStartEvent_Swipe);
+            if (!!this.videoParentElement && this.videoParentElement != null && !!this.videoParentElement.classList) {
+                this.videoParentElement.removeEventListener('touchstart', this._handleTouchStartEvent_Swipe);
+            }
             this._hideFullScreenIcon();
             // Calculating the dimensions and storing in originalVideoProperties variable
             const isPortraitMode: boolean = Ch5VideoEventHandler.isPortrait();
@@ -2907,7 +2910,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         window.removeEventListener('resize', this._orientationChange.bind(this));
         this.isTouchStartEvtBound = false;
         this.isTouchEndEvtBound = false;
-        this.videoParentElement.removeEventListener('touchstart', this._handleTouchStartEvent_Swipe, false);
+        if (!!this.videoParentElement && this.videoParentElement != null && !!this.videoParentElement.classList) {
+            this.videoParentElement.removeEventListener('touchstart', this._handleTouchStartEvent_Swipe);
+        }
         this._scrollableElm.removeEventListener('scroll', _.debounce(this._positionChange.bind(this), 100, {
             'leading': true,
             'trailing': true
