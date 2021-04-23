@@ -116,6 +116,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private vid: HTMLCanvasElement = {} as HTMLCanvasElement;
     private videoCanvasElement: HTMLElement = {} as HTMLElement;
+    private videoParentElement: HTMLElement = {} as HTMLElement;
     private vidControlPanel: HTMLElement = {} as HTMLElement;
     private controlFullScreen: HTMLElement = {} as HTMLElement;
     private fullScreenOverlay: HTMLElement = {} as HTMLElement;
@@ -1275,11 +1276,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 });
             });
         }
+        this.videoParentElement = this.querySelector('#video-page') as HTMLElement; // initializing the parent
         Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
         this.isIntersectionObserve = true;
         if (!this.isTouchStartEvtBound && this.videoCanvasElement && this.videoCanvasElement.classList) {
             this.isTouchStartEvtBound = true;
-            this.videoCanvasElement.addEventListener('touchstart', this._handleTouchStartEvent_Swipe.bind(this));
+            this.videoParentElement.addEventListener('touchstart', this._handleTouchStartEvent_Swipe.bind(this));
         }
     }
 
@@ -1287,6 +1289,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Function to handle the subscrptions of state w.r.t video
      */
     private _initiateSubscriptions() {
+        // HH : 
         subscribeState('b', 'triggerview.slidemove', (res: boolean) => {
             if (res) {
                 const obj = { 'id': this.videoTagId, 'action': 'refill' };
@@ -1307,7 +1310,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this._publishVideoEvent("start");
                     }
                     this._isSlideMoved = false;
-                }, 300);
+                }, 1000);
             }
         });
         subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
@@ -1371,10 +1374,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const endTime: number = d.getMilliseconds() + 2000;
 
         // HH : this needs to be false only after rendering video once
-        // making it true here, since it needs tobe updated after the publish event is successful
+        // making it true here, since it needs to be updated after the publish event is successful
         if (this.firstTime) {
             setTimeout(() => {
-                this.info("HH TEST Updating firsttime flag");
                 this.firstTime = false;
             }, 0);
         }
@@ -1817,7 +1819,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     private _onVideoSectionObserverTrigger() {
-        this.info("HH Test observer : ", this.isTouchInProgress, JSON.stringify(this.touchCoordinates));
         this.info('Video visibility ' + this.elementIntersectionEntry.intersectionRatio + ", lastRequestStatus: "
             + this.lastRequestStatus + ", lastResponseStatus: " + this.lastResponseStatus
             + ", isExitFullscreen: " + this.isExitFullscreen + ", isFullscreen: " + this.isFullScreen
@@ -1835,7 +1836,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE
      */
     private _onRatioAboveLimitToRenderVideo() {
-        this.info("HH Test : video observed - ",
+        this.info("Task: Under ratio, render video - ",
             this.lastRequestStatus, this.isFullScreen, this.isExitFullscreen,
             this.fromExitFullScreen, this.isOrientationChanged);
         clearTimeout(this.isSwipeDebounce);
@@ -1865,7 +1866,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                 }
             }
-        }, 1000); // TODO: Check whether this can be reduced by testing in all devices
+        }, 300); // TODO: Check whether this can be reduced by testing in all devices
     }
 
     /**
@@ -1877,7 +1878,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.isFullScreen) {
             return;
         }
-        clearTimeout(this.isSwipeDebounce);
+        // TODO : if the component is already in the required state (stopped | playing), continue
+        this.info("Task: Video to be stopped.");
         this._clearAllSnapShots();
         if (this.isSwipeDebounce) {
             window.clearTimeout(this.isSwipeDebounce);
@@ -1903,24 +1905,24 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // In some of the iOS devices, there is a delay in getting orientation 
         // change information, a small delay solves this problem.
-        setTimeout(() => {
-            if (!this.firstTime && !this.isExitFullscreen && !this.isPositionChanged) {
-                // Avoid refilling when the project starts and the video page is not visible
-                // isFullScreen and isExitFullscreen is added to avoid refill on full screen and on exit full screen
-                if (!this.isFullScreen && this.lastResponseStatus !== 'fullscreen') {
-                    const obj = { 'id': this.videoTagId, 'action': 'refill' };
-                    publishEvent('o', 'ch5.video.background', obj);
-                    this.info("_UpdatingViewBasedOnAspectRatioTest: Background Request (Refill) : " + JSON.stringify(obj));
-                }
-
-                // The above refill can't be called inside this block as it produces an additional 
-                // unecessary cut in the background sometimes.
-                if (!this.isOrientationChanged && !this.elementIsInViewPort && !this.fromExitFullScreen) {
-                    this.info("HH logger 4");
-                    this._publishVideoEvent("stop");
-                }
+        // setTimeout(() => {
+        if (!this.firstTime && !this.isExitFullscreen && !this.isPositionChanged) {
+            // Avoid refilling when the project starts and the video page is not visible
+            // isFullScreen and isExitFullscreen is added to avoid refill on full screen and on exit full screen
+            if (!this.isFullScreen && this.lastResponseStatus !== 'fullscreen') {
+                const obj = { 'id': this.videoTagId, 'action': 'refill' };
+                publishEvent('o', 'ch5.video.background', obj);
+                this.info("_UpdatingViewBasedOnAspectRatioTest: Background Request (Refill) : " + JSON.stringify(obj));
             }
-        });
+
+            // The above refill can't be called inside this block as it produces an additional 
+            // unecessary cut in the background sometimes.
+            if (!this.isOrientationChanged && !this.elementIsInViewPort && !this.fromExitFullScreen) {
+                this.info("HH logger 4");
+                this._publishVideoEvent("stop");
+            }
+        }
+        // });
     }
 
     /**
@@ -2021,7 +2023,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.videoCanvasElement.removeEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, false);
             if (!this.isTouchStartEvtBound) {
                 this.isTouchStartEvtBound = true;
-                this.videoCanvasElement.addEventListener('touchstart', this._handleTouchStartEvent_Swipe.bind(this));
+                this.videoParentElement.addEventListener('touchstart', this._handleTouchStartEvent_Swipe.bind(this));
             }
             this._exitFullScreen();
             return;
@@ -2714,14 +2716,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * should update manager if background needs to be hidden or redrawn etc
      */
     private _handleTouchStartEvent_Swipe() {
-        this.isTouchInProgress = true;
+        this.isTouchInProgress = false;
         const ev = event as TouchEvent;
         this.touchCoordinates.startX = ev.touches[0].clientX;
         this.touchCoordinates.startY = ev.touches[0].clientY;
         if (!this.isTouchEndEvtBound) {
             this.isTouchEndEvtBound = true;
-            this.videoCanvasElement.addEventListener('touchmove', this._handleTouchMoveEvent_Swipe.bind(this));
-            this.videoCanvasElement.addEventListener('touchend', this._handleTouchEndEvent_Swipe.bind(this));
+            this.videoParentElement.addEventListener('touchmove', this._handleTouchMoveEvent_Swipe.bind(this));
+            this.videoParentElement.addEventListener('touchend', this._handleTouchEndEvent_Swipe.bind(this));
         }
     }
 
@@ -2731,10 +2733,20 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * should update manager if background needs to be hidden or redrawn etc
      */
     private _handleTouchMoveEvent_Swipe() {
-        this.isTouchInProgress = true;
-        const ev = event as TouchEvent;
-        this.touchCoordinates.endX = ev.touches[0].clientX;
-        this.touchCoordinates.endY = ev.touches[0].clientY;
+        if (!this.isTouchInProgress) {
+            this.isTouchInProgress = true;
+            const ev = event as TouchEvent;
+            this.touchCoordinates.endX = ev.touches[0].clientX;
+            this.touchCoordinates.endY = ev.touches[0].clientY;
+            this.info('HH TEST : Touch move triggered');
+            // TODO HH : Need to calculate the difference between the start and end values 
+            // and run the "this._OnVideoAspectRatioConditionNotMet()" method to refill the background
+            const xCord = Math.abs(this.touchCoordinates.endX - this.touchCoordinates.startX);
+            const yCord = Math.abs(this.touchCoordinates.endY - this.touchCoordinates.startY);
+            if (xCord > 20 || yCord > 20) {
+                this._OnVideoAspectRatioConditionNotMet();
+            }
+        }
     }
 
     /**
@@ -2744,12 +2756,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private _handleTouchEndEvent_Swipe() {
         this.isTouchInProgress = false;
-        // TODO HH : Need to calculate the difference between the start and end values 
-        // and run the "this._OnVideoAspectRatioConditionNotMet()" method to refill the background
         this.info('HH TEST : Coords - ', JSON.stringify(this.touchCoordinates));
-        this.isTouchEndEvtBound = false;
-        this.videoCanvasElement.removeEventListener('touchend', this._handleTouchMoveEvent_Swipe, false);
-        this.videoCanvasElement.removeEventListener('touchend', this._handleTouchEndEvent_Swipe, false);
+        if (this.isTouchEndEvtBound) {
+            this.isTouchEndEvtBound = false;
+            this._onRatioAboveLimitToRenderVideo();
+            this.videoParentElement.removeEventListener('touchmove', this._handleTouchMoveEvent_Swipe, false);
+            this.videoParentElement.removeEventListener('touchend', this._handleTouchEndEvent_Swipe, false);
+        }
     }
 
     /**
@@ -2775,7 +2788,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.videoCanvasElement.addEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, { passive: true });
             this.isTouchStartEvtBound = false;
             this.isTouchEndEvtBound = false;
-            this.videoCanvasElement.removeEventListener('touchstart', this._handleTouchStartEvent_Swipe, false);
+            this.videoParentElement.removeEventListener('touchstart', this._handleTouchStartEvent_Swipe);
             this._hideFullScreenIcon();
             // Calculating the dimensions and storing in originalVideoProperties variable
             const isPortraitMode: boolean = Ch5VideoEventHandler.isPortrait();
@@ -2894,7 +2907,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         window.removeEventListener('resize', this._orientationChange.bind(this));
         this.isTouchStartEvtBound = false;
         this.isTouchEndEvtBound = false;
-        this.videoCanvasElement.removeEventListener('touchstart', this._handleTouchStartEvent_Swipe, false);
+        this.videoParentElement.removeEventListener('touchstart', this._handleTouchStartEvent_Swipe, false);
         this._scrollableElm.removeEventListener('scroll', _.debounce(this._positionChange.bind(this), 100, {
             'leading': true,
             'trailing': true
@@ -3236,7 +3249,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _videoResponse(response: any) {
         const isMyObjectEmpty = !Object.keys(response).length;
         this._appCurrentBackgroundStatus();
-        this.info('HH Test : Video Response : ',
+        this.info('Video Response : ',
             this._wasAppBackGrounded,
             this._appCurrentStatus,
             isMyObjectEmpty,
