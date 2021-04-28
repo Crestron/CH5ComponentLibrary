@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState } from "../ch5-core";
+import { Ch5Platform, Ch5Signal, Ch5SignalFactory, ICh5PlatformInfo, subscribeState, unsubscribeState } from "../ch5-core";
 import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
 import { iElementDimensions, iTouchOrdinates, TDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
@@ -122,6 +122,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private fullScreenOverlay: HTMLElement = {} as HTMLElement;
     private snapShotTimer: any;
     private exitTimer: number = 0;
+    private snapShotObj: Ch5VideoSnapshot = {} as Ch5VideoSnapshot;
 
     private subscriptionEventList: Subscription[] = [];
     private context: any;
@@ -836,9 +837,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (sigStateVideoCount) {
             this.subReceiveStateVideoCount = sigStateVideoCount.subscribe((newValue: any) => {
                 this.info('receiveStateVideoCount Signal Subscribe Value: ' + newValue);
-                if (!this.isSnapShotArrayLoaded) {
-                    this.maxVideoCount = parseInt(newValue, 0);
-                    this._getAllSnapShotData(newValue);
+                this.maxVideoCount = parseInt(newValue, 0);
+                if (!this.isSnapShotArrayLoaded && this.maxVideoCount > 0) {
+                    this.info('this.isSnapShotArrayLoaded: ' + this.isSnapShotArrayLoaded);
+                    this.info('this.maxVideoCount: ' + this.maxVideoCount);
+                    this.isSnapShotArrayLoaded = true;
+                    this._getAllSnapShotData(this.maxVideoCount);
                 }
             });
         }
@@ -932,6 +936,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.oldReceiveStateSelect !== newValue) {
                     this.oldReceiveStateSelect = newValue;
                     this.receivedStateSelect = newValue;
+                    this._switchSnapShotOnSelect(this.receivedStateSelect);
                     this._unSubscribeVideos(this.selectObject);
                     this.isVideoReady = false;
                     this.lastRequestStatus = "";
@@ -1786,7 +1791,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     /**
      * Check the snapshot url and append web protocol and credentials to it
      */
-    public processUri(): void {
+    public processSingleVideoUri(): void {
         this.info("this.protocol", this.protocol);
         const processUriPrams: TCh5ProcessUriParams = {
             protocol: this.protocol,
@@ -1859,9 +1864,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.lastResponseStatus = '';
                     this.lastRequestStatus = '';
                     this.isVideoReady = false;
+                    /*
                     if (this.elementIntersectionEntry.intersectionRatio >= this._INTERSECTION_RATIO_VALUE && this.maxVideoCount > 0) {
-                        this._switchSnapShotOnSelect(this.receivedStateSelect);
-                    }
+                        if (this.maxVideoCount > 0) {
+                            this._switchSnapShotOnSelect(this.receivedStateSelect);
+                        }
+                    }*/
                     if (!isPublished) {
                         this._publishVideoEvent("start");
                     }
@@ -1881,7 +1889,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
         // TODO : if the component is already in the required state (stopped | playing), continue
         this.info("Task: Video to be stopped.");
-        this._clearAllSnapShots();
+
+        // commented by Suresh
+        // this._clearAllSnapShots();
         if (this.isSwipeDebounce) {
             window.clearTimeout(this.isSwipeDebounce);
         }
@@ -1981,8 +1991,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Get all the data of the snapshots based on the video count provided
      * @param videoCount 
      */
-    private _getAllSnapShotData(videoCount: string) {
-        const vCount = parseInt(videoCount, 0);
+    private _getAllSnapShotData(vCount: number) {
         if (vCount === 0) {
             return;
         }
@@ -1999,9 +2008,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             snapShotObject.snapShotUser = String(Ch5VideoSubscription.getNewSignalName(this, 'receivestateuserid', this.receiveStateSnapShotUserId, idx, this.indexId as string));
             snapShotObject.snapShotPass = String(Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshotpassword', this.receiveStateSnapShotPassword, idx, this.indexId as string));
             snapShotObject.snapShotRefreshRate = String(Ch5VideoSubscription.getNewSignalName(this, 'receivestatesnapshotrefreshrate', this.receiveStateSnapShotRefreshRate, idx, this.indexId as string));
-            this._snapShotInfoMap.set(idx, new Ch5VideoSnapshot(snapShotObject));
+            const sData: Ch5VideoSnapshot = new Ch5VideoSnapshot(snapShotObject);
+            this._snapShotInfoMap.set(idx, sData);
+            sData.startLoadingSnapShot();
         }
-        this.isSnapShotArrayLoaded = true;
     }
 
     /**
@@ -2059,7 +2069,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this._unsubscribeRefreshImage();
             this.snapShotTimer = setInterval(() => {
                 if (this.snapShotUserId && this.snapShotPassword && !this.snapShotUrl.indexOf("http")) {
-                    this.processUri();
+                    this.processSingleVideoUri();
                 }
                 if (this.snapShotUrl !== "") {
                     this._snapShotOnLoad();
@@ -2389,29 +2399,29 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (!this.context) {
                 return;
             }
+
             this.vid.width = this.sizeObj.width;
             this.vid.height = this.sizeObj.height;
             this.context = this.vid.getContext("2d");
-            this._calculation(this.vid);
-            if (this.elementIsInViewPort) {
-                setTimeout(() => {
-                    this._sendEvent(this.sendEventSnapShotLastUpdateTime, ch5VideoUtils.rfc3339TimeStamp(), 'string');
-                    this._calculatePositions();
-                    if (this.elementIntersectionEntry.intersectionRatio >= this._INTERSECTION_RATIO_VALUE) {
-                        this.lastResponseStatus = '';
-                        this.isVideoReady = false;
-                        this.lastRequestStatus = '';
-                        this.isExitFullscreen = false;
-                        // RAGS
-                        this.info("*** 5");
-                        this._publishVideoEvent("stop");
-                        setTimeout(() => {
-                            this._publishVideoEvent("start");
 
-                        }, 10000)
-                    }
-                }, 500);
-                this._switchSnapShotOnSelect(this.receivedStateSelect);
+            // this._calculation(this.vid);
+            if (this.elementIsInViewPort) {
+                // setTimeout(() => {
+                this._sendEvent(this.sendEventSnapShotLastUpdateTime, ch5VideoUtils.rfc3339TimeStamp(), 'string');
+                this._calculatePositions();
+                if (this.elementIntersectionEntry.intersectionRatio >= this._INTERSECTION_RATIO_VALUE) {
+                    this.lastResponseStatus = '';
+                    this.isVideoReady = false;
+                    this.lastRequestStatus = '';
+                    this.isExitFullscreen = false;
+                    // RAGS
+                    this.info("*** 5");
+                    // this._publishVideoEvent("stop");
+                    // setTimeout(() => {
+                    this._publishVideoEvent("start");
+                    // }, 10000)
+                }
+                // }, 500);
             }
         }
     }
@@ -2420,21 +2430,27 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * While switching the camera, all other camera snapshots start loading except the one the camera is active
      * @param activeIndex 
      */
-    private _switchSnapShotOnSelect(activeIndex: number) {
+    private _switchSnapShotOnSelect(activeIndex: number): void {
+        // Suresh TODO: return if the element is not visible
         for (let idx = 0; idx < this.maxVideoCount; idx++) {
             const sData: Ch5VideoSnapshot = this._snapShotInfoMap.get(idx);
             if (activeIndex === idx) {
-                this._clearSnapShot();
-                if (!!sData.snapShotImage) {
-                    this.info('snapShotImage: ' + sData.snapShotImage.src);
-                    this.lastLoadedImage = Object.assign(sData.snapShotImage);
-                    this.info('Snapshot Success: loaded active index ' + activeIndex);
-                    this._drawSnapShot(this.lastLoadedImage);
-                }
+                // this._clearSnapShot();
+                // Loads the snapshot  while switching between videos 
+                // if (!!sData.snapShotImage) {
+                //  this.info('snapShotImage: ' + sData.snapShotImage.src);
+
+                // sData.snapShotImage = "";
+                // this._drawSnapShot(this.lastLoadedImage);
+                // }
+                this.snapShotObj = sData;
+                // this.snapShotObj.isSnapShotLoading = false;
+                this.snapShotObj.stopLoadingSnapShot()
             } else {
-                if (!sData.isSnapShotLoading) {
-                    sData.startLoadingSnapShot();
-                }
+                // if (!sData.isSnapShotLoading) {
+                // console.log("Suresh: " + sData.isSnapShotLoading);
+                sData.startLoadingSnapShot();
+                // }
             }
         }
     }
@@ -2553,6 +2569,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _calculateSnapShotPositions() {
         const topOffset = this.vid.getBoundingClientRect().top;
         const leftOffset = this.vid.getBoundingClientRect().left;
+        this.sizeObj.width = this.vid.width;
+        this.sizeObj.height = this.vid.height;
+        console.log("this.sizeObj.width: " + this.sizeObj.width);
+        console.log("this.sizeObj.height: " + this.sizeObj.height);
+        console.log("this.vid.clientWidth: " + this.vid.clientWidth);
+        console.log("this.vid.clientHeight: " + this.vid.clientHeight);
         this.vidleft = this.videoLeft - leftOffset;
         this.vidTop = this.videoTop - topOffset;
     }
@@ -2561,12 +2583,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Draw the snapshot on the canvas
      * @param videoImage 
      */
-    private _drawSnapShot(videoImage: HTMLImageElement) {
-        this.info('drawSnapShot(): ' + videoImage.src);
-        this._calculateSnapShotPositions();
-        this.context.drawImage(videoImage, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
-        this.context.save();
-        this.context.restore();
+    private _drawSnapShot() {
+        if (this.snapShotObj.snapShotImage) {
+            const videoImage: HTMLImageElement = this.snapShotObj.snapShotImage
+            this.info('drawSnapShot(): ' + videoImage.src);
+            this._calculateSnapShotPositions();
+            // this._calculation(this.vid);
+            // context.clearRect(0, 0, this.sizeObj.width, this.sizeObj.height);
+            this.context.drawImage(videoImage, this.vidleft, this.vidTop, videoImage.width, videoImage.height, this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
+            this.context.save();
+            this.context.restore();
+            this.snapShotObj.snapShotImage = "";
+        }
     }
 
     /**
@@ -2602,7 +2630,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _clearSnapShot() {
         if (!!this.context) {
             // Clearing lastLoadedImage empty to avoid the previous snapshot to be loaded in the next switched camera if the snapshot does not exists
-            this.lastLoadedImage = '';
+            this.snapShotObj.snapShotImage = "";
             this.context.clearRect(this.vidleft, this.vidTop, this.sizeObj.width, this.sizeObj.height);
         }
     }
@@ -3201,13 +3229,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param actionType 
      */
     private _videoStartRequest(actionType: string) {
-        if (!this.lastLoadedImage) {
+        if (!this.snapShotObj.snapShotImage) {
             const loggserStr = "_publishVideoEvent :Background Request (Resize) : ";
             publishEvent('o', 'ch5.video.background', this.videoBGObjJSON('start', loggserStr));
         }
         const d = new Date();
-        if (this.lastLoadedImage) {
-            this._drawSnapShot(this.lastLoadedImage);
+        if (this.snapShotObj.snapShotImage) {
+            // TODO: Suresh to check this scenario, it is redrawing the wrong image over here.
+            this._drawSnapShot();
             this._sendEvent(this.sendEventSnapShotStatus, 1, 'number');
         }
         this.fromExitFullScreen = false;
