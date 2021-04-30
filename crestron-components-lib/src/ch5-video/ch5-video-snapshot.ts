@@ -45,7 +45,7 @@ export class Ch5VideoSnapshot {
         
         // Check whether all the subscribed login 
         // credentials received to process further
-        if (this.canProcessUri() && this.url.startsWith("ch5-img")) {
+        if (this.canProcessUri() && !this.url.startsWith("ch5-img")) {
             const processUriParams: TCh5ProcessUriParams = {
                 protocol: this.protocol,
                 user: this.userId,
@@ -115,8 +115,12 @@ export class Ch5VideoSnapshot {
      */
     private setSnapShot() {
         const videoImage = new Image();
+        
+        videoImage.onerror = () => {
+            this.snapShotImage = "";
+        }
+        
         videoImage.onload = (ev: Event) => {
-            console.log("Kumar: " + this.url);
             this.snapShotImage = videoImage;
         };
         videoImage.src = this.url;
@@ -212,7 +216,7 @@ export class Ch5VideoSnapshot {
      * @param url
      * @return {string} url value with new param and value
      */
-    private insertParamToUrl(key: string, value: string, url): string {
+    private insertParamToUrl(key: string, value: string, url: string): string {
         key = encodeURI(key); value = encodeURI(value);
 
         if (this.getUrlVars(url).size === 0) {
@@ -241,7 +245,7 @@ export class Ch5VideoSnapshot {
      * @param url
      * @return {Map} returns params
      */
-    private getUrlVars(url) {
+    private getUrlVars(url: string) {
         const vars: Map<string, string> = new Map();
         let hash: string[];
         const questionMarkIndex = url.indexOf('?');
