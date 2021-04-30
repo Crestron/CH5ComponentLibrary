@@ -2975,7 +2975,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info('Ch5Video.orientationChange() -> 1');
         this.info('this.orientationCount -> ' + this.orientationCount);
         if (this.orientationCount === 1) {
-            this.orientationCount = 10;
+            this.orientationCount = 0;
             this._hideFullScreenIcon();
             this._orientationChanged().then(() => {
                 this.info('orientationChange Callback >>>>>>>>>>>>');
@@ -3091,16 +3091,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.videoCanvasElement.appendChild(this.vidControlPanel);
         }
         this.appendChild(this.videoCanvasElement);
-    }
-
-    /**
-     * Cut the canvas to display video
-     * @param context
-     */
-    private _cutCanvas2DisplayVideo(context: any) {
-        context.clearRect(0, 0, this.sizeObj.width, this.sizeObj.height);
-        context.clip();
-        // context.restore();
     }
 
     /**
@@ -3406,7 +3396,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this._performanceDuration(this.VIDEO_ACTION_START, performance.now(), 'timerEnd');
                 // this._clearSnapShot();
                 this._unsubscribeRefreshImage();
-                // this._cutCanvas2DisplayVideo(this.context);
                 this._sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.retryCount = 0;
                 this.errorCount = 0;
@@ -3454,7 +3443,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     // this._clearSnapShot();
                     this._unsubscribeRefreshImage();
                     // this._calculation(this.videoCanvasElement);
-                    // this._cutCanvas2DisplayVideo(this.context);
                     this._setControlDimension();
                     this.snapShotObj.stopLoadingSnapShot();
                     this.drawSnapShotInBackground(this.VIDEO_ACTION_START);
@@ -3619,7 +3607,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             // Do not add during fullscreen mode
             if (!this.isFullScreen) {
                 this.position.xPos += offsetLeft;
-                this.position.yPos += offsetTop - 64;
+                this.position.yPos += offsetTop;
             }
 
             this.videoTop = this.position.yPos;

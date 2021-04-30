@@ -36,7 +36,6 @@ export class Ch5VideoSnapshot {
      * Start loading the snapshots with refresh rate
      */
     public startLoadingSnapShot() {
-        console.log("startLoadingSnapShot started");
         this.isSnapShotLoading = true;
         // return if the snapshot url is empty
         if (this.url === "" || this.refreshRate === -1) {
@@ -98,8 +97,7 @@ export class Ch5VideoSnapshot {
         }
         
         this.url = uri.toString();
-        this.url = this.insertParamToUrl('__cr_avoid_cache', new Date().getTime().toString(), this.url);
-
+        // this.url = this.insertParamToUrl('__cr_avoid_cache', new Date().getTime().toString(), this.url);
         return;
     }
 
