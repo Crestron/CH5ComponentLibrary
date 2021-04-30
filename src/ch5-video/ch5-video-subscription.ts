@@ -53,20 +53,4 @@ export class Ch5VideoSubscription {
     return this.subscriptionValue;
   }
 
-  public static replaceIndexIdInTmplElemsAttrs(documentContainer: HTMLElement, index: number, indexId: string) {
-    // get all attributes containing indexId placeholder
-    // @ts-ignore
-    Ch5VideoSubscription.replaceAttrIdxPlaceholder(documentContainer, this.name, this.value, index, indexId);
-  }
-
-  public static replaceIndexIdInTmplElemsContent(documentContainer: HTMLElement, index: number, indexId: string) {
-    let html: string = documentContainer.innerHTML;
-    const placeholder: string = `${indexId}`;
-    if (html.indexOf(placeholder) > -1) {
-      // replace all placeholder values with item base 1 index
-      html = html.replace(new RegExp(placeholder, 'g'), String(index));
-      documentContainer.innerHTML = html;
-    }
-  }
-
 }
