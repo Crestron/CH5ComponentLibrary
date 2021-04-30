@@ -50,6 +50,25 @@ const pad = (n: number) => {
 }
 
 /**
+   * 
+   * @returns Boolean
+   */
+const isPortrait = (): boolean => {
+    return window.innerHeight > window.innerWidth;
+}
+
+/**
+ * 
+ * @returns Boolean
+ */
+const isLandscape = (): boolean => {
+    // TODO - Remove the below comments after review
+    // window.orientation is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards.
+    // return (window.orientation === 90 || window.orientation === -90);
+    return !isPortrait();
+}
+
+/**
  * Gets Timezone Offset
  * @param offset 
  */
@@ -185,5 +204,7 @@ export const ch5VideoUtils = {
     setAttributesBasedValue,
     getDisplayWxH,
     calculatePillarBoxPadding,
-    calculateLetterBoxPadding
+    calculateLetterBoxPadding,
+    isPortrait,
+    isLandscape
 }
