@@ -11,7 +11,6 @@ import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attrib
 import { iElementDimensions, iTouchOrdinates, TDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
-import { Ch5VideoEventHandler, ESVGIcons } from "./ch5-video-event-handler";
 import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5-video-publish-event-request';
 import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
 // import { Observable } from "rxjs";
@@ -115,10 +114,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     /**
      * SVG Icons for the controls
      */
-
-    private exitFullScreenIcon = ESVGIcons.EXIT_FULLSCREEN_ICON;
-
-    private fullScreenIcon = ESVGIcons.FULLSCREEN_ICON;
+    // Defines the Icons to control the video
+    private static readonly ESVGIcons = {
+        PLAY_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
+        STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>',
+        EXIT_FULLSCREEN_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>',
+        FULLSCREEN_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>',
+        SCREEN_PLAY_ICON: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
+        SCREEN_STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>'
+    }
 
     /**
      * Define HTML Elements
@@ -1998,7 +2002,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         // Create div for the right side of the control panel
         this.controlFullScreen = document.createElement("a");
         this.controlFullScreen.classList.add("control");
-        this.controlFullScreen.innerHTML = this.fullScreenIcon;
+        this.controlFullScreen.innerHTML = Ch5Video.ESVGIcons.FULLSCREEN_ICON;
         this.vidControlPanel.appendChild(this.controlFullScreen);
         // add primary class
         // this.vid.classList.add(this._primaryVideoCssClass + '--canvas');
@@ -2673,7 +2677,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.fullScreenOverlay.classList.remove(this._primaryVideoCssClass + '--overlay');
         }
         this.controlFullScreen.innerHTML = '';
-        this.controlFullScreen.innerHTML = this.fullScreenIcon;
+        this.controlFullScreen.innerHTML = Ch5Video.ESVGIcons.FULLSCREEN_ICON;
         this.zIndex = "0";
         this.classList.remove(this._fullScreenStyleClass);
         this._autoHideControls();
@@ -2688,7 +2692,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         // Restoring the originalPotraitVideoProperties values, avoid recalculation
         this.exitTimer = window.setTimeout(() => {
             if (isSafariMobile()) {
-                if (Ch5VideoEventHandler.isPortrait()) {
+                if (ch5VideoUtils.isPortrait()) {
                     if (Object.keys(this.originalPotraitVideoProperties).length > 0) {
                         this.sizeObj.width = this.originalPotraitVideoProperties.width;
                         this.sizeObj.height = this.originalPotraitVideoProperties.height;
@@ -2699,7 +2703,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         this._calculation(this.videoCanvasElement);
                         // this._calculatePositions();
                     }
-                } else if (Ch5VideoEventHandler.isLandscape()) {
+                } else if (ch5VideoUtils.isLandscape()) {
                     if (Object.keys(this.originalLandscapeVideoProperties).length > 0) {
                         this.sizeObj.width = this.originalLandscapeVideoProperties.width;
                         this.sizeObj.height = this.originalLandscapeVideoProperties.height;
@@ -2814,7 +2818,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
             this._hideFullScreenIcon();
             // Calculating the dimensions and storing in originalVideoProperties variable
-            const isPortraitMode: boolean = Ch5VideoEventHandler.isPortrait();
+            const isPortraitMode: boolean = ch5VideoUtils.isPortrait();
             const propertiesObject = {
                 "width": this.sizeObj.width,
                 "height": this.sizeObj.height,
@@ -2836,7 +2840,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
 
             this.vidControlPanel.classList.add("fullScreen");
-            this.controlFullScreen.innerHTML = this.exitFullScreenIcon;
+            this.controlFullScreen.innerHTML = Ch5Video.ESVGIcons.EXIT_FULLSCREEN_ICON;
             // this._drawCanvas(this.vid);
             this.classList.add(this._fullScreenStyleClass);
             this.sizeObj.width = window.innerWidth;
