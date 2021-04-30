@@ -2062,7 +2062,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _manageControls() {
         if (this.isFullScreen) {
             this.videoCanvasElement.removeEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, false);
-            if (!this.isTouchStartEvtBound) {
+            if (!this.isTouchStartEvtBound &&
+                !!this.videoParentElement && this.videoParentElement != null && !!this.videoParentElement.classList) {
                 this.isTouchStartEvtBound = true;
                 this.videoParentElement.addEventListener('touchstart', this._handleTouchStartEvent_Swipe.bind(this));
             }
@@ -3496,6 +3497,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _showFullScreenIcon() {
         if (!!this.vidControlPanel && !!this.vidControlPanel.classList) {
             this.vidControlPanel.classList.add(this._showControl);
+            this._setControlDimension();
         }
     }
 
