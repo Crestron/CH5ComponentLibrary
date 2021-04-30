@@ -2008,6 +2008,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.videoCanvasElement.style.height = "100%";
         this.appendChild(this.videoCanvasElement);
 
+        this.videoCanvasElement.appendChild(this.vidControlPanel);
+
         if (!document.getElementById("fullScreenOverlay")) {
             this.fullScreenOverlay = document.createElement("div");
             this.fullScreenOverlay.setAttribute("id", "fullScreenOverlay");
