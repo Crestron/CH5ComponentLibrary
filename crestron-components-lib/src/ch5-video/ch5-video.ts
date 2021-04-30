@@ -2465,7 +2465,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 // }
                 this.snapShotObj = sData;
                 // this.snapShotObj.isSnapShotLoading = false;
-                this.snapShotObj.stopLoadingSnapShot()
             } else {
                 // if (!sData.isSnapShotLoading) {
                 // console.log("Suresh: " + sData.isSnapShotLoading);
@@ -3387,7 +3386,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this._performanceDuration('start', performance.now(), 'timerEnd');
                 // this._clearSnapShot();
                 this._unsubscribeRefreshImage();
-                this._cutCanvas2DisplayVideo(this.context);
+                // this._cutCanvas2DisplayVideo(this.context);
                 this._sendEvent(this.sendEventSnapShotStatus, 0, 'number');
                 this.retryCount = 0;
                 this.errorCount = 0;
@@ -3397,6 +3396,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isExitFullscreen = false;
                 this.isPositionChanged = false;
                 this._setControlDimension();
+                this.snapShotObj.stopLoadingSnapShot();
                 publishEvent('o', 'ch5.video.background', this.videoBGObjJSON('start', 'videoResponse'));
 
                 /* 
@@ -3436,6 +3436,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     // this._calculation(this.videoCanvasElement);
                     // this._cutCanvas2DisplayVideo(this.context);
                     this._setControlDimension();
+                    this.snapShotObj.stopLoadingSnapShot();
                     publishEvent('o', 'ch5.video.background', this.videoBGObjJSON('start', 'videoResponse'));
                     this.isVideoReady = true;
                 }
