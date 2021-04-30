@@ -15,7 +15,7 @@ const getParentElementOffsetAndDimension = (ele: Element): iElementDimensions =>
     const paddingObj = {
         top: getComputedStyle(ele).getPropertyValue("padding-top"),
         right: getComputedStyle(ele).getPropertyValue("padding-right"),
-        bottom: getComputedStyle(ele).getPropertyValue("padding-top"),
+        bottom: getComputedStyle(ele).getPropertyValue("padding-bottom"),
         left: getComputedStyle(ele).getPropertyValue("padding-left")
     }
     if (paddingObj.top) {
@@ -124,9 +124,66 @@ const setAttributesBasedValue = (hasAttribute: boolean, valToAssign: any, defaul
     }
 }
 
+/**
+ * Returns the height for the given width based on the aspect ratio
+ * @param aRatio 
+ * @param width 
+ * @param height
+ */
+const getDisplayWxH = (aRatio: any, width: number, height: number) => {
+    let pixelsHeight: number = 0;
+    let pixelsWidth: number = 0;
+    if (aRatio === '16:9' || aRatio === '') {
+        pixelsHeight = Math.round(width / 16 * 9);
+        pixelsWidth = Math.round(height / 9 * 16);
+        // Check for minimum width and height
+        if (width < 256 || height < 144) {
+            width = 256; height = 144;
+        }
+    } else if (aRatio === '4:3') {
+        pixelsHeight = Math.round(width / 4 * 3);
+        pixelsWidth = Math.round(height / 3 * 4);
+        // Check for minimum width and height
+        if (width < 192 || height < 144) {
+            width = 192; height = 144;
+        }
+    }
+    if (pixelsWidth > width) {
+        pixelsWidth = width;
+    } else if (pixelsHeight > height) {
+        pixelsHeight = height;
+    }
+    return { width: pixelsWidth, height: pixelsHeight };
+}
+
+/**
+ * Calculate the padding space for aspect ratio 4:3
+ * @param availableWidth 
+ * @param displayWidth 
+ */
+const calculatePillarBoxPadding = (availableWidth: number, displayWidth: number) => {
+    const yPos: number = 0;
+    const xPos: number = Math.round((availableWidth - displayWidth) / 2);
+    return { xPos, yPos };
+}
+
+/**
+ * Calculate the padding space for aspect ratio 16:9
+ * @param availableHeight 
+ * @param displayHeight 
+ */
+const calculateLetterBoxPadding = (availableHeight: number, displayHeight: number) => {
+    const xPos: number = 0;
+    const yPos: number = Math.round((availableHeight - displayHeight) / 2);
+    return { xPos, yPos };
+}
+
 export const ch5VideoUtils = {
     getParentElementOffsetAndDimension,
     rfc3339TimeStamp,
     getAspectRatioForVideo,
-    setAttributesBasedValue
+    setAttributesBasedValue,
+    getDisplayWxH,
+    calculatePillarBoxPadding,
+    calculateLetterBoxPadding
 }
