@@ -816,9 +816,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Calling image and bg color function as per condition.
      */
     protected updateBackground(): void {
-        let timer: number = 0;
-        clearTimeout(timer);
-        timer = setTimeout(() => {
+      //  let timer: number = 0;
+       // clearTimeout(timer);
+      //  timer = setTimeout(() => {
             if (this._imgUrls.length) {
                 this.setBgImage();
             } else if (this._bgColors.length) {
@@ -826,7 +826,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             } else {
                 this.info('Something went wrong. One attribute is mandatory either URL or backgroundColor.');
             }
-        });
+     //   });
     }
 
     /**
@@ -965,7 +965,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             response.action === this.VIDEO_ACTION_MARK
             ) {
             if (index > -1) {
+                const tImg = this._videoDimensions[index].image;
                 this._videoDimensions[index] = response;
+                this._videoDimensions[index].image = tImg;
             } else {
                 this._videoDimensions.push(response);
             }
@@ -1128,9 +1130,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Re-filling background
      */
     private refillBackground() {
-        let timer: number = 0;
-        if (timer) { window.clearTimeout(timer) };
-        timer = window.setTimeout(() => {
+        // let timer: number = 0;
+        // if (timer) { window.clearTimeout(timer) };
+        // timer = window.setTimeout(() => {
             this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
                 const ctx: any = canvas.getContext('2d');
                 switch (this._canvasList.length) {
@@ -1148,7 +1150,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 }
             });
             this.lastRefillTime = performance.now();
-        }, 30);
+        // }, 30);
     }
 
 
@@ -1168,11 +1170,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             this._videoRes.left = Math.ceil(this._videoRes.left);
             this._videoRes.top = Math.ceil(this._videoRes.top);
 
-            this.manageVideoInfo(this.videoRequestObj);
+            this.manageVideoInfo(this._videoRes);
 
-            let timer: number = 0;
-            if (timer) { window.clearTimeout(timer) };
-            timer = window.setTimeout(() => {
+           // let timer: number = 0;
+           // if (timer) { window.clearTimeout(timer) };
+           // timer = window.setTimeout(() => {
                 if (this._videoDimensions.length) {
                     this._videoDimensions.map((video: IBACKGROUND, vIdx: number) => {
                         this._canvasList.forEach((canvas: HTMLCanvasElement, cIdx: number) => {
@@ -1192,7 +1194,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                     })
                 }
                 this.lastCutTime = performance.now();
-            }, 50);
+           // }, 50);
         }
     }
 }
