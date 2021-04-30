@@ -2975,7 +2975,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info('Ch5Video.orientationChange() -> 1');
         this.info('this.orientationCount -> ' + this.orientationCount);
         if (this.orientationCount === 1) {
-            this.orientationCount = 10;
+            this.orientationCount = 0;
             this._hideFullScreenIcon();
             this._orientationChanged().then(() => {
                 this.info('orientationChange Callback >>>>>>>>>>>>');
