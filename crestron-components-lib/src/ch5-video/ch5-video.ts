@@ -3026,35 +3026,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * Returns the height for the given width based on the aspect ratio
-     * @param aRatio 
-     * @param width 
-     * @param height
+     * Function to calculate the position based on the requested dimensions
+     * @param sWidth width of the requested element
+     * @param sHeight height of the requested element
+     * @returns this.position
      */
-    private _getDisplayWxH(aRatio: any, width: number, height: number) {
-        let pixelsHeight: number = 0;
-        let pixelsWidth: number = 0;
-        if (aRatio === '16:9' || aRatio === '') {
-            pixelsHeight = Math.round(width / 16 * 9);
-            pixelsWidth = Math.round(height / 9 * 16);
-            // Check for minimum width and height
-            if (width < 256 || height < 144) {
-                width = 256; height = 144;
-            }
-        } else if (aRatio === '4:3') {
-            pixelsHeight = Math.round(width / 4 * 3);
-            pixelsWidth = Math.round(height / 3 * 4);
-            // Check for minimum width and height
-            if (width < 192 || height < 144) {
-                width = 192; height = 144;
-            }
+    private _getSizeAndPositionObj(sWidth: number, sHeight: number) {
+        this.sizeObj = ch5VideoUtils.getDisplayWxH(this.aspectRatio, sWidth, sHeight);
+        if (this.sizeObj.width < sWidth) {
+            this.position = ch5VideoUtils.calculatePillarBoxPadding(sWidth, this.sizeObj.width);
+        } else if (this.sizeObj.height < sHeight) {
+            this.position = ch5VideoUtils.calculateLetterBoxPadding(sHeight, this.sizeObj.height);
         }
-        if (pixelsWidth > width) {
-            pixelsWidth = width;
-        } else if (pixelsHeight > height) {
-            pixelsHeight = height;
-        }
-        return { width: pixelsWidth, height: pixelsHeight };
     }
 
     /**
@@ -3517,28 +3500,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * Calculate the padding space for aspect ratio 4:3
-     * @param availableWidth 
-     * @param displayWidth 
-     */
-    private _calculatePillarBoxPadding(availableWidth: number, displayWidth: number) {
-        const yPos: number = 0;
-        const xPos: number = Math.round((availableWidth - displayWidth) / 2);
-        return { xPos, yPos };
-    }
-
-    /**
-     * Calculate the padding space for aspect ratio 16:9
-     * @param availableHeight 
-     * @param displayHeight 
-     */
-    private _calculateLetterBoxPadding(availableHeight: number, displayHeight: number) {
-        const xPos: number = 0;
-        const yPos: number = Math.round((availableHeight - displayHeight) / 2);
-        return { xPos, yPos };
-    }
-
-    /**
      * Set the dimensions and position of the video control icon
      */
     private _setControlDimension() {
@@ -3554,15 +3515,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _fullScreenCalculation() {
         const sWidth: number = window.innerWidth;
         const sHeight: number = window.innerHeight;
-        const displaySize: { width: number, height: number } = this._getDisplayWxH(this.aspectRatio, sWidth, sHeight);
-        if (displaySize.width < sWidth) {
-            this.position = this._calculatePillarBoxPadding(sWidth, displaySize.width);
-        } else if (displaySize.height < sHeight) {
-            this.position = this._calculateLetterBoxPadding(sHeight, displaySize.height);
-        }
+        this._getSizeAndPositionObj(sWidth, sHeight);
         this.videoTop = this.position.yPos;
         this.videoLeft = this.position.xPos;
-        this.sizeObj = displaySize;
     }
 
     /**
@@ -3595,12 +3550,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     offsetLeft = parentElementDimensions.offsetLeft;
                 }
             }
-            const displaySize: { width: number, height: number } = this._getDisplayWxH(this.aspectRatio, totalWidth, totalHeight);
-            if (displaySize.width < totalWidth) {
-                this.position = this._calculatePillarBoxPadding(totalWidth, displaySize.width);
-            } else if (displaySize.height < totalHeight) {
-                this.position = this._calculateLetterBoxPadding(totalHeight, displaySize.height);
-            }
+            this._getSizeAndPositionObj(totalWidth, totalHeight);
             // this._setCanvasDimensions(totalWidth, totalHeight);
 
             this.controlTop = this.position.yPos;
@@ -3622,7 +3572,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.videoTop > 0 && this.videoTop < 1) {
                 this.videoTop = 0;
             }
-            this.sizeObj = displaySize;
         }
     }
 
