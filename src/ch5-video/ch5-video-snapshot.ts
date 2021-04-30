@@ -70,7 +70,7 @@ export class Ch5VideoSnapshot {
      */
     public stopLoadingSnapShot() {
         this.isSnapShotLoading = false;
-        // this.snapShotImage = ''; // clear the image
+        this.snapShotImage = ''; // clear the image
         clearInterval(this.snapShotTimer);
     }
 
