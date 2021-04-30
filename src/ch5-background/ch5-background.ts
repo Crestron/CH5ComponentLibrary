@@ -59,7 +59,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private lastRefillTime: number = 100;
     private lastCutTime: number = 100;
     private lastClearCutBGTimeout: any;
-    private videoRequestObj: IBACKGROUND = {} as IBACKGROUND; 
+    private videoRequestObj: IBACKGROUND = {} as IBACKGROUND;
 
     private readonly VIDEO_ACTION_START: string = 'start';
     private readonly VIDEO_ACTION_STOP: string = 'stop';
@@ -507,7 +507,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             this.videoRequestObj = response;
 
             this.setAttribute('videocrop', JSON.stringify(tempObj));
-            
+
             /*
                 1. STOP 
                     a. Refill the background
@@ -523,11 +523,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                     b. Draw / Re-Draw a snapshot with newly received values
                 5. START
                     a. cut the background only, this is to display the running video
-            */            
-            
+            */
+
             if (response.action === this.VIDEO_ACTION_REFILL && !this._isRefilled) {
                 // if (this.isTimeToRefill(this.lastRefillTime)) {
-                    this.refillBackground();
+                this.refillBackground();
                 // }
                 this._isRefilled = true;
             } else if (response.action === this.VIDEO_ACTION_STOP) {
@@ -535,9 +535,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 this.manageVideoInfo(response);
                 // clearTimeout(this.lastClearCutBGTimeout);
                 // this.lastClearCutBGTimeout = setTimeout(() => {
-                    this.clearRectBackground();
+                this.clearRectBackground();
                 // }, 300);
-            } else if (response.action === this.VIDEO_ACTION_START || response.action === this.VIDEO_ACTION_SNAPSHOT ||  response.action === this.VIDEO_ACTION_MARK) {
+            } else if (response.action === this.VIDEO_ACTION_START || response.action === this.VIDEO_ACTION_SNAPSHOT || response.action === this.VIDEO_ACTION_MARK) {
                 this.manageVideoInfo(response);
                 this.clearRectBackground();
             } else if (response.action === this.VIDEO_ACTION_RESIZE) {
@@ -816,17 +816,17 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Calling image and bg color function as per condition.
      */
     protected updateBackground(): void {
-      //  let timer: number = 0;
-       // clearTimeout(timer);
-      //  timer = setTimeout(() => {
-            if (this._imgUrls.length) {
-                this.setBgImage();
-            } else if (this._bgColors.length) {
-                this.setBgColor();
-            } else {
-                this.info('Something went wrong. One attribute is mandatory either URL or backgroundColor.');
-            }
-     //   });
+        //  let timer: number = 0;
+        // clearTimeout(timer);
+        //  timer = setTimeout(() => {
+        if (this._imgUrls.length) {
+            this.setBgImage();
+        } else if (this._bgColors.length) {
+            this.setBgColor();
+        } else {
+            this.info('Something went wrong. One attribute is mandatory either URL or backgroundColor.');
+        }
+        //   });
     }
 
     /**
@@ -959,15 +959,19 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     private manageVideoInfo(response: IBACKGROUND) {
         const index = this._videoDimensions.findIndex((item: IBACKGROUND) => item.id === response.id);
-        if (response.action === this.VIDEO_ACTION_START || 
-            response.action === this.VIDEO_ACTION_RESIZE || 
+        console.log(this._videoDimensions);
+        if (response.action === this.VIDEO_ACTION_START ||
+            response.action === this.VIDEO_ACTION_RESIZE ||
             response.action === this.VIDEO_ACTION_SNAPSHOT ||
             response.action === this.VIDEO_ACTION_MARK
-            ) {
+        ) {
             if (index > -1) {
-                const tImg = this._videoDimensions[index].image;
+                if (this._videoDimensions[index].action === this.VIDEO_ACTION_SNAPSHOT) {
+                    const tImg = this._videoDimensions[index].image;
+                    this._videoDimensions[index] = response;
+                    this._videoDimensions[index].image = tImg;
+                }
                 this._videoDimensions[index] = response;
-                this._videoDimensions[index].image = tImg;
             } else {
                 this._videoDimensions.push(response);
             }
@@ -1133,23 +1137,23 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         // let timer: number = 0;
         // if (timer) { window.clearTimeout(timer) };
         // timer = window.setTimeout(() => {
-            this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
-                const ctx: any = canvas.getContext('2d');
-                switch (this._canvasList.length) {
-                    case this._imgUrls.length:
-                        this._elImages[idx] = new Image();
-                        this._elImages[idx].src = this._imgUrls[idx];
-                        this._elImages[idx].onload = () => {
-                            this.updateBgImage(this._elImages[idx], ctx);
-                            delete this._elImages[idx].onload;
-                        };
-                        break;
-                    case this._bgColors.length:
-                        this.updateBgColor(this._bgColors[idx], ctx);
-                        break;
-                }
-            });
-            this.lastRefillTime = performance.now();
+        this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
+            const ctx: any = canvas.getContext('2d');
+            switch (this._canvasList.length) {
+                case this._imgUrls.length:
+                    this._elImages[idx] = new Image();
+                    this._elImages[idx].src = this._imgUrls[idx];
+                    this._elImages[idx].onload = () => {
+                        this.updateBgImage(this._elImages[idx], ctx);
+                        delete this._elImages[idx].onload;
+                    };
+                    break;
+                case this._bgColors.length:
+                    this.updateBgColor(this._bgColors[idx], ctx);
+                    break;
+            }
+        });
+        this.lastRefillTime = performance.now();
         // }, 30);
     }
 
@@ -1172,29 +1176,29 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
             this.manageVideoInfo(this._videoRes);
 
-           // let timer: number = 0;
-           // if (timer) { window.clearTimeout(timer) };
-           // timer = window.setTimeout(() => {
-                if (this._videoDimensions.length) {
-                    this._videoDimensions.map((video: IBACKGROUND, vIdx: number) => {
-                        this._canvasList.forEach((canvas: HTMLCanvasElement, cIdx: number) => {
-                            const ctx: any = canvas.getContext('2d');
-                            if (video.action === this.VIDEO_ACTION_START || video.action === this.VIDEO_ACTION_RESIZE) { // while playing video
-                                ctx.clearRect(video.left, video.top, video.width, video.height);
-                            } else if (video.action === this.VIDEO_ACTION_STOP || video.action === this.VIDEO_ACTION_MARK) { // when the video is stopped
-                                ctx.fillStyle = Ch5Background.IMGBGCOLOR;
-                                ctx.fillRect(video.left, video.top, video.width, video.height);
-                            } else if (video.action === this.VIDEO_ACTION_SNAPSHOT) { // draw snapshot
-                                ctx.drawImage(video.image, video.left, video.top, video.width, video.height)
-                            }
-                            if (this._videoDimensions.length === (vIdx + 1) && this._canvasList.length === (cIdx + 1)) {
-                                this._isRefilled = false;
-                            }
-                        });
-                    })
-                }
-                this.lastCutTime = performance.now();
-           // }, 50);
+            // let timer: number = 0;
+            // if (timer) { window.clearTimeout(timer) };
+            // timer = window.setTimeout(() => {
+            if (this._videoDimensions.length) {
+                this._videoDimensions.map((video: IBACKGROUND, vIdx: number) => {
+                    this._canvasList.forEach((canvas: HTMLCanvasElement, cIdx: number) => {
+                        const ctx: any = canvas.getContext('2d');
+                        if (video.action === this.VIDEO_ACTION_START || video.action === this.VIDEO_ACTION_RESIZE) { // while playing video
+                            ctx.clearRect(video.left, video.top, video.width, video.height);
+                        } else if (video.action === this.VIDEO_ACTION_STOP || video.action === this.VIDEO_ACTION_MARK) { // when the video is stopped
+                            ctx.fillStyle = Ch5Background.IMGBGCOLOR;
+                            ctx.fillRect(video.left, video.top, video.width, video.height);
+                        } else if (video.action === this.VIDEO_ACTION_SNAPSHOT) { // draw snapshot
+                            ctx.drawImage(video.image, video.left, video.top, video.width, video.height)
+                        }
+                        if (this._videoDimensions.length === (vIdx + 1) && this._canvasList.length === (cIdx + 1)) {
+                            this._isRefilled = false;
+                        }
+                    });
+                })
+            }
+            this.lastCutTime = performance.now();
+            // }, 50);
         }
     }
 }
