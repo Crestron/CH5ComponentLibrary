@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Observable, fromEvent, merge, pipe } from 'rxjs'
+import { Observable, fromEvent, merge } from 'rxjs'
 import { debounceTime } from 'rxjs/operators';
 
 // List of window events need to capture while video streaming.
@@ -59,13 +59,23 @@ export class Ch5VideoEventHandler {
         return Ch5VideoEventHandler.eventList;
     }
 
-    // when orientationchange event trigger check Window Orientation 
-    public static isPortrait() {
+    /**
+     * 
+     * @returns Boolean
+     */
+    public static isPortrait(): boolean {
         return window.innerHeight > window.innerWidth;
     }
 
-    public static isLandscape() {
-        return (window.orientation === 90 || window.orientation === -90);
+    /**
+     * 
+     * @returns Boolean
+     */
+    public static isLandscape(): boolean {
+        // TODO - Remove the below comments after review
+        // window.orientation is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards.
+        // return (window.orientation === 90 || window.orientation === -90);
+        return !this.isPortrait();
     }
-    
+
 }
