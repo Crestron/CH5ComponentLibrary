@@ -138,7 +138,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private exitSnapsShotTimer: any;
     private exitTimer: number = 0;
     private videoSubscriptionTimer: any;
-    private exitVideoCalculationTimer: any;
     private isMultipleVideo: boolean = false; // Check whether receiveState is present
 
     private subscriptionEventList: Subscription[] = [];
@@ -668,7 +667,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public set snapShotRefreshRate(value: string) {
         let rRate = parseInt(value, 0);
-        rRate = (rRate < 5) ? 5 : rRate
+        rRate = (rRate < 5) ? 5 : rRate;
         this._snapShotRefreshRate = rRate.toString();
     }
 
@@ -1849,13 +1848,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     public videoIntersectionObserver() {
         this.info("videoIntersectionObserver");
         if (this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE) {
-
-            clearTimeout(this.exitVideoCalculationTimer);
-            this.exitVideoCalculationTimer = setTimeout(() => {
-                this._calculation(this.videoElement);
-                this.drawSnapShot();
-            }, 200);
-
             clearTimeout(this.observeInterval);
             if (this.firstTime) {
                 // Time delay is required otherwise there will be an earlier cut
@@ -1868,7 +1860,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }, 30);
             }
         } else {
-            // This is called when the video component page is exited 
+            // This is called when the video component page is exited
+            if (this.lastResponseStatus === this.VIDEO_ACTION.STARTED) {
+                this.ch5BackgroundAction(this.VIDEO_ACTION.STOP);                
+            }
             this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
         }
     }
@@ -1897,7 +1892,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         clearTimeout(this.isSwipeDebounce);
         this.isSwipeDebounce = setTimeout(() => {
             this._calculation(this.videoElement);
-            // this._calculatePositions();
+            this._calculatePositions();
+            
+            if(!this.isMultipleVideo) {
+                this.drawSnapShot();
+            }
+
             let isPublished = false;
             if (this.lastRequestStatus === '' && this.isOrientationChanged ||
                 this.lastRequestStatus === this.VIDEO_ACTION.START) {
@@ -3507,7 +3507,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param video
      */
     private _calculation(video: HTMLDivElement) {
-        this.info("######################################");
         this.sizeObj = { width: 0, height: 0 };
         let totalWidth: number = 0;
         let totalHeight: number = 0;
@@ -3518,9 +3517,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.sizeObj = ch5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
                 this.videoElement.style.width = this.sizeObj.width + "px";
                 this.videoElement.style.height = this.sizeObj.height + "px";
-                this.videoElement.style.border = "1px solid #000000";
-                this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
-                this.drawSnapShot();
+                this.videoTop = this.position.yPos;
+                this.videoLeft = this.position.xPos;
             }
         } else if (this.stretch === 'true') {
             let offsetTop: number = 0;
