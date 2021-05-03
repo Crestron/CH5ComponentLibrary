@@ -51,7 +51,7 @@ const pad = (n: number) => {
 
 /**
  * 
- * @returns 
+ * @returns Boolean
  */
 const isPortrait = (): boolean => {
     return window.innerHeight > window.innerWidth;

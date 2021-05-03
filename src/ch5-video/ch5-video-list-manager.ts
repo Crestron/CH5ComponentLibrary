@@ -83,6 +83,7 @@ export class Ch5VideoListMgr implements iCh5VideoListMgr {
      * THIS IS THE OBSERVABLE HANDLER RESPONSIBLE FOR PERFORMING THE CUTS FOR ALL IN-VIEW VIDEO ELEMENTS
      */
     private _triggerCanvasCut(): void {
+        // TODO - Remove later if unused after multi-video testing 
         const items = this._videoCollectionInView;
     }
 }

@@ -91,6 +91,7 @@ export class Ch5VideoSnapshot {
     /**
      * Check the snapshot url and append web protocol and credentials to it
      */
+    // TODO - No return required here
     private processUri(processUriParams: TCh5ProcessUriParams): void | string {
         // Assuming the video only plays on touch devices 
         const { http, https } = { "http": "ch5-img-auth", "https": "ch5-img-auths" };
@@ -233,7 +234,8 @@ export class Ch5VideoSnapshot {
      * @return {string} url value with new param and value
      */
     private insertParamToUrl(key: string, value: string, url: string): string {
-        key = encodeURI(key); value = encodeURI(value);
+        key = encodeURI(key); 
+        value = encodeURI(value);
 
         if (this.getUrlVars(url).size === 0) {
             return url + '?' + key + '=' + value;
