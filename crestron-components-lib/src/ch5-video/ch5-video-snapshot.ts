@@ -112,7 +112,9 @@ export class Ch5VideoSnapshot {
             return;
         }
 
-        this.url = uri.toString();
+        // adding a '#' makes the request a new one, while not intrusing with the request
+        // this way, it won't be a "bad request" while making a new img request
+        this.url = uri.toString() + '#' + new Date().toString();
         return;
     }
 
