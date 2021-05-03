@@ -73,7 +73,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     /**
      * SVG Icons for the controls
      */
-    private static readonly ESVGIcons = {
+    private static readonly ESVG_ICONS = {
         PLAY_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
         STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>',
         EXIT_FULLSCREEN_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>',
@@ -137,6 +137,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private snapShotTimer: any;
     private exitSnapsShotTimer: any;
     private exitTimer: number = 0;
+    private videoSubscriptionTimer: any;
+    private exitVideoCalculationTimer: any;
 
     private subscriptionEventList: Subscription[] = [];
     private context: any;
@@ -955,9 +957,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this._unSubscribeVideos(this.selectObject);
                     this.isVideoReady = false;
                     this.lastRequestStatus = "";
-                    setTimeout(() => {
+
+                    clearTimeout(this.videoSubscriptionTimer);
+                    this.videoSubscriptionTimer = setTimeout(() => {
                         this._subscribeVideos(newValue.toString());
-                    });
+                    }, 0);
                 }
             });
         }
@@ -1837,19 +1841,22 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info("videoIntersectionObserver");
         if (this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE) {
 
-            setTimeout(() => {
+            clearTimeout(this.exitVideoCalculationTimer);
+            this.exitVideoCalculationTimer = setTimeout(() => {
                 this._calculation(this.videoElement);
-                this.drawSnapShot();                    
+                this.drawSnapShot();
             }, 200);
 
+            clearTimeout(this.observeInterval);
             if (this.firstTime) {
-                clearTimeout(this.observeInterval);
                 // Time delay is required otherwise there will be an earlier cut
                 this.observeInterval = setTimeout(() => {
                     this._onVideoSectionObserverTrigger();
                 }, 500);
             } else {
-                this._onVideoSectionObserverTrigger();
+                this.observeInterval = setTimeout(() => {
+                    this._onVideoSectionObserverTrigger();
+                }, 30);
             }
         } else {
             // This is called when the video component page is exited 
@@ -2002,7 +2009,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         // Create div for the right side of the control panel
         this.controlFullScreen = document.createElement("a");
         this.controlFullScreen.classList.add("control");
-        this.controlFullScreen.innerHTML = Ch5Video.ESVGIcons.FULLSCREEN_ICON;
+        this.controlFullScreen.innerHTML = Ch5Video.ESVG_ICONS.FULLSCREEN_ICON;
         this.vidControlPanel.appendChild(this.controlFullScreen);
 
         this.videoElement.classList.add('video-wrapper');
@@ -2661,7 +2668,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
         }
         this.controlFullScreen.innerHTML = '';
-        this.controlFullScreen.innerHTML = Ch5Video.ESVGIcons.FULLSCREEN_ICON;
+        this.controlFullScreen.innerHTML = Ch5Video.ESVG_ICONS.FULLSCREEN_ICON;
         this.zIndex = "0";
         this.classList.remove(this.fullScreenStyleClass);
         this._autoHideControls();
@@ -2707,7 +2714,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
             }
             this._publishVideoEvent(this.VIDEO_ACTION.RESIZE);
-            this.info ("Refill -> 6");
+            this.info("Refill -> 6");
             this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
             // setTimeout(() => {
             //  publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(this.VIDEO_ACTION.RESIZE, 'exitFullScreen'));
@@ -2823,7 +2830,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
 
             this.vidControlPanel.classList.add("fullScreen");
-            this.controlFullScreen.innerHTML = Ch5Video.ESVGIcons.EXIT_FULLSCREEN_ICON;
+            this.controlFullScreen.innerHTML = Ch5Video.ESVG_ICONS.EXIT_FULLSCREEN_ICON;
             // this._drawCanvas(this.vid);
             this.classList.add(this.fullScreenStyleClass);
             this.sizeObj.width = window.innerWidth;
@@ -2874,7 +2881,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         // this._calculatePositions();
         if (this.previousXPos !== this.videoLeft || this.previousYPos !== this.videoTop) {
             if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL) {
-                this.info ("Refill -> 7");
+                this.info("Refill -> 7");
                 this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
             }
         }
@@ -2898,7 +2905,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             window.clearTimeout(this.exitTimer); // clear timer if the user scrolls immediately after fullscreen exit
             clearTimeout(this.scrollTimer); // wait for half second
             if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL) {
-                this.info ("Refill -> 8");
+                this.info("Refill -> 8");
                 this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
             }
             this.isExitFullscreen = false; // during scroll fullscreen is false
@@ -2963,12 +2970,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this._hideFullScreenIcon();
             this._orientationChanged().then(() => {
                 if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL) {
-                    this.info ("Refill -> 9");
-                   // this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
+                    this.info("Refill -> 9");
+                    // this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
                 }
                 this._calculation(this.videoElement);
                 if (this.isFullScreen) {
-
+                    // Need to check, old code removed
                 } else {
                     this._updateAppBackgroundStatus();
                 }
