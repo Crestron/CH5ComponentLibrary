@@ -25,6 +25,7 @@ export type TSnapShotSignalName = {
     snapShotRefreshRate: string;
     snapShotUser: string;
     snapShotPass: string;
+    isMultipleVideo: boolean
 }
 
 export type TReceiveState = {
