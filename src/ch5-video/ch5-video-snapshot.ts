@@ -12,7 +12,7 @@ import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import _ from "lodash";
 
 export class Ch5VideoSnapshot {
-    public snapShotImage: any;
+    private snapShotImage: any;
     private isSnapShotLoading: boolean = true;
     private protocol: string = '';
     private videoSnapShotUrl: string = '';
@@ -25,11 +25,13 @@ export class Ch5VideoSnapshot {
     private refreshRate: number = -1;
     private snapShotTimer: any;
     private snapShotObj: TSnapShotSignalName;
+    private isSnapShotloaded: boolean = false;
 
     public constructor(snapShotObj: TSnapShotSignalName) {
         this.snapShotObj = snapShotObj;
         this.unSubscribeStates(); // Unsubscribe if it is already subscribed
         this.setSnapShotData();
+        this.startLoadingSnapShot();
     }
 
     /**
@@ -41,7 +43,7 @@ export class Ch5VideoSnapshot {
         if (this.url === "" || this.refreshRate === -1) {
             return;
         }
-        
+
         // Check whether all the subscribed login 
         // credentials received to process further
         if (this.canProcessUri() && !this.url.startsWith("ch5-img")) {
@@ -70,7 +72,20 @@ export class Ch5VideoSnapshot {
     public stopLoadingSnapShot() {
         this.isSnapShotLoading = false;
         this.snapShotImage = ''; // clear the image
+        this.isSnapShotloaded = false;
         clearInterval(this.snapShotTimer);
+    }
+
+    /**
+     * Returns an image
+     * @returns {} loaded snapshot image or blank
+     */
+    public getSnapShot() {
+        return this.snapShotImage;
+    }
+
+    public getSnapShotStatus(): boolean {
+        return this.isSnapShotloaded;
     }
 
     /**
@@ -78,7 +93,7 @@ export class Ch5VideoSnapshot {
      */
     private processUri(processUriParams: TCh5ProcessUriParams): void | string {
         // Assuming the video only plays on touch devices 
-        const { http, https } = {"http": "ch5-img-auth",  "https": "ch5-img-auths"};
+        const { http, https } = { "http": "ch5-img-auth", "https": "ch5-img-auths" };
 
         // sent to the uri model
         const protocols = { http, https };
@@ -95,9 +110,8 @@ export class Ch5VideoSnapshot {
         if (!uri.isValidAuthenticationUri()) {
             return;
         }
-        
+
         this.url = uri.toString();
-        // this.url = this.insertParamToUrl('__cr_avoid_cache', new Date().getTime().toString(), this.url);
         return;
     }
 
@@ -113,15 +127,19 @@ export class Ch5VideoSnapshot {
      */
     private setSnapShot() {
         const videoImage = new Image();
-        
+
         videoImage.onerror = () => {
             this.snapShotImage = "";
+            this.isSnapShotloaded = false;
+            console.log(this.url, " snapshot failed to load.")
         }
-        
+
         videoImage.onload = (ev: Event) => {
             this.snapShotImage = videoImage;
+            this.isSnapShotloaded = true;
+            console.log(this.url, " snapshot successfully loaded.");
         };
-        videoImage.src = this.url;
+        videoImage.src = this.insertParamToUrl('ch5-avoid-cache', new Date().getTime().toString(), this.url);
     }
 
     /**
