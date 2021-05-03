@@ -146,7 +146,6 @@ export class Ch5VideoSnapshot {
         videoImage.onload = (ev: Event) => {
             this.snapShotImage = videoImage;
             this.isSnapShotloaded = true;
-            console.log(this.url, " snapshot successfully loaded.");
         };
         videoImage.src = this.insertParamToUrl('ch5-avoid-cache', new Date().getTime().toString(), this.url);
     }
