@@ -29,8 +29,15 @@ export class Ch5VideoSnapshot {
 
     public constructor(snapShotObj: TSnapShotSignalName) {
         this.snapShotObj = snapShotObj;
-        this.unSubscribeStates(); // Unsubscribe if it is already subscribed
-        this.setSnapShotData();
+        if (this.snapShotObj.isMultipleVideo) {
+            this.unSubscribeStates(); // Unsubscribe if it is already subscribed
+            this.setSnapShotData();
+        } else {
+            this.url = snapShotObj.snapShotUrl;
+            this.userId = snapShotObj.snapShotUser;
+            this.password = snapShotObj.snapShotPass;
+            this.refreshRate = parseInt(snapShotObj.snapShotRefreshRate, 0);
+        }
         this.startLoadingSnapShot();
     }
 
@@ -59,7 +66,6 @@ export class Ch5VideoSnapshot {
         if (!!this.snapShotTimer) {
             clearInterval(this.snapShotTimer);
         }
-        console.log("The URI is: " + this.url);
         this.setSnapShot();
         this.snapShotTimer = window.setInterval(() => {
             this.setSnapShot();
@@ -134,7 +140,7 @@ export class Ch5VideoSnapshot {
         videoImage.onerror = () => {
             this.snapShotImage = "";
             this.isSnapShotloaded = false;
-            console.log(this.url, " snapshot failed to load.")
+            console.log(this.url, " snapshot failed to load.");
         }
 
         videoImage.onload = (ev: Event) => {
@@ -236,7 +242,7 @@ export class Ch5VideoSnapshot {
      * @return {string} url value with new param and value
      */
     private insertParamToUrl(key: string, value: string, url: string): string {
-        key = encodeURI(key); 
+        key = encodeURI(key);
         value = encodeURI(value);
 
         if (this.getUrlVars(url).size === 0) {
