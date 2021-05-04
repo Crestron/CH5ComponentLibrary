@@ -22,7 +22,6 @@ import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import _ from "lodash";
 import { ch5VideoUtils } from "./ch5-video-utils";
-import { setTimeout } from "timers";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 export type TSignalTypeT = string | number | boolean | any;
@@ -1903,13 +1902,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
             if (!this.isFullScreen && !this.isExitFullscreen && !this.isOrientationChanged &&
                 this.lastRequestStatus !== this.VIDEO_ACTION.FULLSCREEN && !this.fromExitFullScreen) {
-                if (this.lastRequestUrl !== this.url) {
-                    this.lastResponseStatus = '';
-                    this.lastRequestStatus = '';
-                    this.isVideoReady = false;
-                    if (!isPublished) {
-                        this._publishVideoEvent(this.VIDEO_ACTION.START);
-                    }
+                this.lastResponseStatus = '';
+                this.lastRequestStatus = '';
+                this.isVideoReady = false;
+                if (!isPublished) {
+                    this._publishVideoEvent(this.VIDEO_ACTION.START);
                 }
             }
         }, 300); // TODO: Check whether this can be reduced by testing in all devices
@@ -3220,9 +3217,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(this.VIDEO_ACTION.RESIZE));
                 break;
             case this.VIDEO_ACTION.SNAPSHOT:
-                publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(this.VIDEO_ACTION.SNAPSHOT));
-                // Suresh TODO: Move it inside ch5-video-snapshot.ts, we need to send once snapshot image is loaded 
-                this._sendEvent(this.sendEventSnapShotLastUpdateTime, ch5VideoUtils.rfc3339TimeStamp(), 'string');
+                if (this.lastResponseStatus !== this.VIDEO_ACTION.STARTED) {
+                    publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(this.VIDEO_ACTION.SNAPSHOT));
+                    // Suresh TODO: Move it inside ch5-video-snapshot.ts, we need to send once snapshot image is loaded 
+                    this._sendEvent(this.sendEventSnapShotLastUpdateTime, ch5VideoUtils.rfc3339TimeStamp(), 'string');
+                } else {
+                    isActionExecuted = false;
+                }
                 break;
             case this.VIDEO_ACTION.START:
                 // Nothing here, place holder
