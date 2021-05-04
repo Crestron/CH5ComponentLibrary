@@ -1845,19 +1845,20 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.firstTime) {
                 // Time delay is required otherwise there will be an earlier cut
                 this.observeInterval = setTimeout(() => {
-                    this._onVideoSectionObserverTrigger();
+                    this._onRatioAboveLimitToRenderVideo();
                 }, 500);
             } else {
                 this.observeInterval = setTimeout(() => {
-                    this._onVideoSectionObserverTrigger();
+                    this._onRatioAboveLimitToRenderVideo();
                 }, 30);
             }
         } else {
-            // This is called when the video component page is exited
-            if (this.lastResponseStatus === this.VIDEO_ACTION.STARTED) {
-                this.ch5BackgroundAction(this.VIDEO_ACTION.STOP);
-            }
-            this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
+            this._OnVideoAspectRatioConditionNotMet();
+            // // This is called when the video component page is exited
+            // if (this.lastResponseStatus === this.VIDEO_ACTION.STARTED) {
+            //     this.ch5BackgroundAction(this.VIDEO_ACTION.STOP);
+            // }
+            // this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
         }
     }
 

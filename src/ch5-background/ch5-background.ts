@@ -963,7 +963,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     private manageVideoInfo(response: IBACKGROUND) {
         const index = this._videoDimensions.findIndex((item: IBACKGROUND) => item.id === response.id);
-        console.log(this._videoDimensions);
         if (response.action === this.VIDEO_ACTION_STARTED ||
             response.action === this.VIDEO_ACTION_RESIZE ||
             response.action === this.VIDEO_ACTION_SNAPSHOT ||
