@@ -1858,19 +1858,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
-    private _onVideoSectionObserverTrigger() {
-        this.info('Video visibility ' + this.elementIntersectionEntry.intersectionRatio + ", lastRequestStatus: "
-            + this.lastRequestStatus + ", lastResponseStatus: " + this.lastResponseStatus
-            + ", isExitFullscreen: " + this.isExitFullscreen + ", isFullscreen: " + this.isFullScreen
-            + ", isOrientationChanged: " + this.isOrientationChanged + ', isPositionChanged: ' + this.isPositionChanged
-            + ', fromExitFullScreen: ' + this.fromExitFullScreen + ', FirstTime: ' + this.firstTime + ', CH5UID: ' + this.ch5UId);
-        if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
-            this._onRatioAboveLimitToRenderVideo();
-        } else {
-            this._OnVideoAspectRatioConditionNotMet();
-        }
-    }
-
     /**
      * Function to render video if it is under the visible range | supposed to be shown 
      * this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE
@@ -1884,9 +1871,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this._calculation(this.videoElement);
             // this._calculatePositions();
 
-            if (!this.isMultipleVideo) {
+            // if (!this.isMultipleVideo) {
                 this.drawSnapShot();
-            }
+            // }
 
             let isPublished = false;
             if (this.lastRequestStatus === '' && this.isOrientationChanged ||
@@ -3214,13 +3201,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(this.VIDEO_ACTION.RESIZE));
                 break;
             case this.VIDEO_ACTION.SNAPSHOT:
-                if (this.lastResponseStatus !== this.VIDEO_ACTION.STARTED) {
-                    publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(this.VIDEO_ACTION.SNAPSHOT));
-                    // Suresh TODO: Move it inside ch5-video-snapshot.ts, we need to send once snapshot image is loaded 
-                    this._sendEvent(this.sendEventSnapShotLastUpdateTime, CH5VideoUtils.rfc3339TimeStamp(), 'string');
-                } else {
-                    isActionExecuted = false;
-                }
+                // the below condition prevents snapshot loading
+                // if (this.lastResponseStatus !== this.VIDEO_ACTION.STARTED) {
+                publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(this.VIDEO_ACTION.SNAPSHOT));
+                // Suresh TODO: Move it inside ch5-video-snapshot.ts, we need to send once snapshot image is loaded 
+                this._sendEvent(this.sendEventSnapShotLastUpdateTime, CH5VideoUtils.rfc3339TimeStamp(), 'string');
                 break;
             case this.VIDEO_ACTION.START:
                 // Nothing here, place holder
@@ -3512,6 +3497,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.position = CH5VideoUtils.getSizeAndPositionForFixedSize(this.parentElement, this.sizeObj);
                     this.videoTop = this.position.yPos;
                     this.videoLeft = this.position.xPos;
+                    this._setControlDimension();
                 }
             }
         } else if (this.stretch === 'true') {
