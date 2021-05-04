@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Platform, Ch5Signal, Ch5SignalFactory, ICh5PlatformInfo, subscribeState, unsubscribeState } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState } from "../ch5-core";
 import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
 import { iElementDimensions, iTouchOrdinates, TDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
@@ -14,9 +14,7 @@ import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-o
 import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5-video-publish-event-request';
 import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
 import { Subscription } from "rxjs";
-import { getAspectRatio } from "../ch5-common/utils/viewport";
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
-import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
@@ -67,13 +65,12 @@ export type TSignalTypeT = string | number | boolean | any;
 
 export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
-    // #static Variables
-    private static readonly INTERSECTION_RATIO_VALUE: number = 0.98;
+    //#region Variables
 
     /**
      * SVG Icons for the controls
      */
-    private static readonly ESVG_ICONS = {
+    private readonly ESVG_ICONS = {
         PLAY_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
         STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>',
         EXIT_FULLSCREEN_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>',
@@ -82,7 +79,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         SCREEN_STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>'
     }
 
-    // #class Variables
+    private readonly INTERSECTION_RATIO_VALUE: number = 0.98;
     private readonly primaryVideoCssClass: string = 'ch5-video';
     private readonly fullScreenStyleClass: string = 'fullScreenStyle'
     private readonly showControl: string = 'show-control';
@@ -906,7 +903,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     // this._calculatePositions();
                     this.isVideoReady = false;
                     this.lastRequestStatus = this.VIDEO_ACTION.STOP;
-                    if (this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE && !this.isFullScreen) {
+                    if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE && !this.isFullScreen) {
                         // RAGS
                         this.info("*** 9");
                         this._publishVideoEvent(this.VIDEO_ACTION.START);
@@ -1003,7 +1000,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.sourceType = newValue;
                     this._sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
                     setTimeout(() => {
-                        if (this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE) {
+                        if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
                             this.lastResponseStatus = '';
                             this.isVideoReady = false;
                             this.lastRequestStatus = '';
@@ -1115,7 +1112,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this.url = newValue;
                     this._sendEvent(this.sendEventSelectionURL, this.url, 'string');
-                    if (this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE) {
+                    if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
                         this.lastResponseStatus = '';
                         this.isVideoReady = false;
                         this.lastRequestStatus = '';
@@ -1839,7 +1836,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     public videoIntersectionObserver() {
         this.info("videoIntersectionObserver");
-        if (this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE) {
+        if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
             clearTimeout(this.observeInterval);
             if (this.firstTime) {
                 // Time delay is required otherwise there will be an earlier cut
@@ -1867,7 +1864,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             + ", isExitFullscreen: " + this.isExitFullscreen + ", isFullscreen: " + this.isFullScreen
             + ", isOrientationChanged: " + this.isOrientationChanged + ', isPositionChanged: ' + this.isPositionChanged
             + ', fromExitFullScreen: ' + this.fromExitFullScreen + ', FirstTime: ' + this.firstTime + ', CH5UID: ' + this.ch5UId);
-        if (this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE) {
+        if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
             this._onRatioAboveLimitToRenderVideo();
         } else {
             this._OnVideoAspectRatioConditionNotMet();
@@ -2007,7 +2004,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         // Create div for the right side of the control panel
         this.controlFullScreen = document.createElement("a");
         this.controlFullScreen.classList.add("control");
-        this.controlFullScreen.innerHTML = Ch5Video.ESVG_ICONS.FULLSCREEN_ICON;
+        this.controlFullScreen.innerHTML = this.ESVG_ICONS.FULLSCREEN_ICON;
         this.vidControlPanel.appendChild(this.controlFullScreen);
 
         this.videoElement.classList.add('video-wrapper');
@@ -2435,7 +2432,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _matchAttributeResponse(attributeCount: number, responseCount: number) {
         if (attributeCount === responseCount) {
             if (this.elementIsInViewPort) {
-                if (this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE) {
+                if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
                     this.lastResponseStatus = '';
                     this.isVideoReady = false;
                     this.lastRequestStatus = '';
@@ -2561,7 +2558,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private drawSnapShot() {
         // return if not visible, exit timer
-        if (this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE) {
+        if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
             if (this.snapShotMap.size > 0) {
                 const sData: Ch5VideoSnapshot = this.snapShotMap.get(this.receivedStateSelect);
                 if (sData.getSnapShotStatus()) {
@@ -2648,7 +2645,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.fullScreenOverlay.classList.remove(this.primaryVideoCssClass + '--overlay');
         }
         this.controlFullScreen.innerHTML = '';
-        this.controlFullScreen.innerHTML = Ch5Video.ESVG_ICONS.FULLSCREEN_ICON;
+        this.controlFullScreen.innerHTML = this.ESVG_ICONS.FULLSCREEN_ICON;
         this.zIndex = "0";
         this.classList.remove(this.fullScreenStyleClass);
         this._autoHideControls();
@@ -2832,7 +2829,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.originalVideoProperties = JSON.parse(JSON.stringify(propertiesObject));
 
             this.vidControlPanel.classList.add("fullScreen");
-            this.controlFullScreen.innerHTML = Ch5Video.ESVG_ICONS.EXIT_FULLSCREEN_ICON;
+            this.controlFullScreen.innerHTML = this.ESVG_ICONS.EXIT_FULLSCREEN_ICON;
             // this._drawCanvas(this.vid);
             this.classList.add(this.fullScreenStyleClass);
             this.sizeObj.width = window.innerWidth;
@@ -2959,7 +2956,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info('Ch5Video.orientationChange()');
 
         // Check visibililty
-        if (this.elementIntersectionEntry.intersectionRatio < Ch5Video.INTERSECTION_RATIO_VALUE) {
+        if (this.elementIntersectionEntry.intersectionRatio < this.INTERSECTION_RATIO_VALUE) {
             return;
         }
 
@@ -2991,7 +2988,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                     this._publishVideoEvent(this.VIDEO_ACTION.RESIZE);
                 } else if ((this.lastResponseStatus === 'stopped' || this.lastResponseStatus === '') &&
-                    this.elementIntersectionEntry.intersectionRatio >= Ch5Video.INTERSECTION_RATIO_VALUE) {
+                    this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
                     // RAGS
                     this.info("*** 6");
                     this._publishVideoEvent(this.VIDEO_ACTION.START);
@@ -3375,7 +3372,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                  * If this.VIDEO_ACTION.STARTED response is delayed Check visibility. 
                  * If the visibility is false send a stop request to stop the video
                  */
-                if (this.elementIntersectionEntry.intersectionRatio < Ch5Video.INTERSECTION_RATIO_VALUE) {
+                if (this.elementIntersectionEntry.intersectionRatio < this.INTERSECTION_RATIO_VALUE) {
                     this.info("Video not visible (" + this.elementIntersectionEntry.intersectionRatio + ").");
                     this.info("Received this.VIDEO_ACTION.STARTED delayed response from VSM. Sending this.VIDEO_ACTION.STOP request from UI.");
                     this._publishVideoEvent(this.VIDEO_ACTION.STOP);
