@@ -22,6 +22,7 @@ import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import _ from "lodash";
 import { ch5VideoUtils } from "./ch5-video-utils";
+import { setTimeout } from "timers";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 export type TSignalTypeT = string | number | boolean | any;
@@ -1298,11 +1299,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (!this.isMultipleVideo) {
                     this.getAllSnapShotData(1);
                 }
+
                 // Making the lastRequestStatus and isVideoReady to default
-                setTimeout(() => {
-                    this.lastRequestStatus = '';
-                    this.isVideoReady = false;
-                });
+                this.lastRequestStatus = '';
+                this.isVideoReady = false;
             });
         }
         this.videoParentElement = this.querySelector('#video-page') as HTMLElement; // initializing the parent
@@ -1370,10 +1370,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.isVideoReady = true;
         this.lastRequestStatus = this.VIDEO_ACTION.START;
         // When the user navigates from video page to another page, stop has to be sent
-        setTimeout(() => {
-            // Stop the Video
-            this._publishVideoEvent(this.VIDEO_ACTION.STOP);
-        });
+        // Stop the Video
+        this._publishVideoEvent(this.VIDEO_ACTION.STOP);
 
         // Disconnecting the intersection observer
         if (Ch5CoreIntersectionObserver.getInstance() instanceof Ch5CoreIntersectionObserver) {
@@ -3510,7 +3508,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.isFullScreen) {
                 this._fullScreenCalculation();
             } else {
-                if(this.parentElement){
+                if (this.parentElement) {
                     this.sizeObj = ch5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
                     this.position = ch5VideoUtils.getSizeAndPositionForFixedSize(this.parentElement, this.sizeObj);
                     this.videoTop = this.position.yPos;
