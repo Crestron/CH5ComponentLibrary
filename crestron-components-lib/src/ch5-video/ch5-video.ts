@@ -1286,10 +1286,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         subscribeState('o', 'Csig.video.response', this._videoResponse.bind(this), this._errorResponse.bind(this)); // Rags - understand more
     }
 
-    private setVideoDimensions() {
-
-    }
-
     public connectedCallback() {
         this.info('Ch5Video.connectedCallback()');
         if (this.isInitialized) {
@@ -1301,7 +1297,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this._initiateSubscriptions();
                 if (!this.isMultipleVideo) {
                     this.getAllSnapShotData(1);
-                    this.setVideoDimensions();
                 }
                 // Making the lastRequestStatus and isVideoReady to default
                 setTimeout(() => {
@@ -1862,7 +1857,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         } else {
             // This is called when the video component page is exited
             if (this.lastResponseStatus === this.VIDEO_ACTION.STARTED) {
-                this.ch5BackgroundAction(this.VIDEO_ACTION.STOP);                
+                this.ch5BackgroundAction(this.VIDEO_ACTION.STOP);
             }
             this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL);
         }
@@ -1892,9 +1887,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         clearTimeout(this.isSwipeDebounce);
         this.isSwipeDebounce = setTimeout(() => {
             this._calculation(this.videoElement);
-            this._calculatePositions();
-            
-            if(!this.isMultipleVideo) {
+            // this._calculatePositions();
+
+            if (!this.isMultipleVideo) {
                 this.drawSnapShot();
             }
 
@@ -3511,14 +3506,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         let totalWidth: number = 0;
         let totalHeight: number = 0;
         if (this.stretch === 'false') {
+            // Calculation for fixed display size like small, medium large
             if (this.isFullScreen) {
                 this._fullScreenCalculation();
             } else {
-                this.sizeObj = ch5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
-                this.videoElement.style.width = this.sizeObj.width + "px";
-                this.videoElement.style.height = this.sizeObj.height + "px";
-                this.videoTop = this.position.yPos;
-                this.videoLeft = this.position.xPos;
+                if(this.parentElement){
+                    this.sizeObj = ch5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
+                    this.position = ch5VideoUtils.getSizeAndPositionForFixedSize(this.parentElement, this.sizeObj);
+                    this.videoTop = this.position.yPos;
+                    this.videoLeft = this.position.xPos;
+                }
             }
         } else if (this.stretch === 'true') {
             let offsetTop: number = 0;
@@ -3537,7 +3534,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
             }
             this._getSizeAndPositionObj(totalWidth, totalHeight);
-            // this._setCanvasDimensions(totalWidth, totalHeight);
 
             this.controlTop = this.position.yPos;
             this.controlLeft = this.position.xPos;

@@ -1,5 +1,29 @@
 import { getAspectRatio } from "../ch5-common/utils/viewport";
-import { iElementDimensions } from "../_interfaces/ch5-video/types";
+import { TDimension, iElementDimensions } from "../_interfaces/ch5-video/types";
+
+
+/**
+ * Function to calculate the position based on the fixed size like small, large, medium
+ * @param sWidth width available width
+ * @param sHeight height available height
+ * @param displaySizeObj size of the video to be displayed
+ * @returns {obj} calculated position object
+ */
+    const getSizeAndPositionForFixedSize = (elem: Element, displaySizeObj: TDimension): any => {
+    let position = { xPos: 0, yPos: 0 };
+    const elementDimensions: iElementDimensions = ch5VideoUtils.getParentElementOffsetAndDimension(elem);
+
+    if (displaySizeObj.width < elementDimensions.totalWidth) {
+        position = ch5VideoUtils.calculatePillarBoxPadding(elementDimensions.totalWidth, displaySizeObj.width);
+    } else if (displaySizeObj.height < elementDimensions.totalHeight) {
+        position = ch5VideoUtils.calculateLetterBoxPadding(elementDimensions.totalHeight, displaySizeObj.height);
+    }
+
+    position.xPos += elementDimensions.offsetLeft;
+    position.yPos += elementDimensions.offsetTop;
+
+    return position;
+}
 
 /**
  * Function to calculate the given element's offsetTop, offsetLeft, totalHeight, totalWidth and
@@ -198,6 +222,7 @@ const calculateLetterBoxPadding = (availableHeight: number, displayHeight: numbe
 }
 
 export const ch5VideoUtils = {
+    getSizeAndPositionForFixedSize,
     getParentElementOffsetAndDimension,
     rfc3339TimeStamp,
     getAspectRatioForVideo,
