@@ -21,7 +21,7 @@ import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
 import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import _ from "lodash";
-import { ch5VideoUtils } from "./ch5-video-utils";
+import { CH5VideoUtils } from "./ch5-video-utils";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 export type TSignalTypeT = string | number | boolean | any;
@@ -1539,28 +1539,28 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info("attributeChangedCallback");
         switch (attr) {
             case 'indexid':
-                this.indexId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('indexid'), newValue, '0');
+                this.indexId = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('indexid'), newValue, '0');
                 break;
             case 'userid':
-                this.userId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('userid'), newValue, '');
+                this.userId = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('userid'), newValue, '');
                 if (this.hasAttribute('userid')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'snapshotuserid':
-                this.snapShotUserId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshotuserid'), newValue, '');
+                this.snapShotUserId = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshotuserid'), newValue, '');
                 if (this.hasAttribute('snapshotuserid')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'password':
-                this.password = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('password'), newValue, '');
+                this.password = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('password'), newValue, '');
                 if (this.hasAttribute('password')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'snapshotpassword':
-                this.snapShotPassword = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshotpassword'), newValue, '');
+                this.snapShotPassword = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshotpassword'), newValue, '');
                 if (this.hasAttribute('snapshotpassword')) {
                     this.receiveStateAttributeCount++;
                 }
@@ -1577,142 +1577,142 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
                 break;
             case 'stretch':
-                this.stretch = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('stretch'), newValue, 'false');
+                this.stretch = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('stretch'), newValue, 'false');
                 break;
             case 'snapshotrefreshrate':
-                this.snapShotRefreshRate = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshotrefreshrate'), newValue, '0');
+                this.snapShotRefreshRate = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshotrefreshrate'), newValue, '0');
                 if (this.hasAttribute('snapshotrefreshrate')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'url':
-                this.url = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('url'), newValue, '');
+                this.url = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('url'), newValue, '');
                 if (this.hasAttribute('url')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'snapshoturl':
-                this.snapShotUrl = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshoturl'), newValue, '');
+                this.snapShotUrl = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('snapshoturl'), newValue, '');
                 if (this.hasAttribute('snapshoturl')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'sourcetype':
-                this.sourceType = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sourcetype'), newValue, 'Network');
+                this.sourceType = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sourcetype'), newValue, 'Network');
                 if (this.hasAttribute('sourcetype')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'size':
-                this.size = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('size'), newValue, 'large');
+                this.size = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('size'), newValue, 'large');
                 break;
             case 'zindex':
-                this.zIndex = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('zindex'), newValue, '0');
+                this.zIndex = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('zindex'), newValue, '0');
                 break;
             case 'controls':
-                this.controls = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('controls'), newValue, 'false');
+                this.controls = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('controls'), newValue, 'false');
                 break;
             case 'sendeventstate':
-                this.sendEventState = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventstate'), newValue, '');
+                this.sendEventState = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventstate'), newValue, '');
                 break;
             case 'sendeventonclick':
-                this.sendEventOnClick = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventonclick'), newValue, '');
+                this.sendEventOnClick = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventonclick'), newValue, '');
                 break;
             case 'sendeventselectionchange':
-                this.sendEventSelectionChange = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventselectionchange'), newValue, '');
+                this.sendEventSelectionChange = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventselectionchange'), newValue, '');
                 break;
             case 'sendeventselectionsourcetype':
-                this.sendEventSelectionSourceType = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventselectionsourcetype'), newValue, '');
+                this.sendEventSelectionSourceType = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventselectionsourcetype'), newValue, '');
                 if (this.hasAttribute('sendeventselectionsourcetype')) {
                     this._sendEvent(this.sendEventSelectionSourceType, this.sourceType, 'string');
                 }
                 break;
             case 'sendeventsnapshoturl':
-                this.sendEventSnapShotURL = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventsnapshoturl'), newValue, '');
+                this.sendEventSnapShotURL = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventsnapshoturl'), newValue, '');
                 if (this.hasAttribute('sendeventsnapshoturl')) {
                     this._sendEvent(this.sendEventSnapShotURL, this.snapShotUrl, 'string');
                 }
                 break;
             case 'sendeventselectionurl':
-                this.sendEventSelectionURL = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventselectionurl'), newValue, '');
+                this.sendEventSelectionURL = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventselectionurl'), newValue, '');
                 if (this.hasAttribute('sendeventselectionurl')) {
                     this._sendEvent(this.sendEventSelectionURL, this.url, 'string');
                 }
                 break;
             case 'sendeventerrorcode':
-                this.sendEventErrorCode = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventerrorcode'), newValue, '');
+                this.sendEventErrorCode = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventerrorcode'), newValue, '');
                 if (this.hasAttribute('sendeventerrorcode')) {
                     this.sendEventErrorCode = newValue;
                 }
                 break;
             case 'sendeventerrormessage':
-                this.sendEventErrorMessage = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventerrormessage'), newValue, '');
+                this.sendEventErrorMessage = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventerrormessage'), newValue, '');
                 break;
             case 'sendeventretrycount':
-                this.sendEventRetryCount = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventretrycount'), newValue, '');
+                this.sendEventRetryCount = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventretrycount'), newValue, '');
                 break;
             case 'sendeventresolution':
-                this.sendEventResolution = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventresolution'), newValue, '0x0@0fps');
+                this.sendEventResolution = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventresolution'), newValue, '0x0@0fps');
                 break;
             case 'sendeventsnapshotstatus':
-                this.sendEventSnapShotStatus = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventsnapshotstatus'), newValue, '');
+                this.sendEventSnapShotStatus = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventsnapshotstatus'), newValue, '');
                 break;
             case 'sendeventsnapshotlastupdatetime':
-                this.sendEventSnapShotLastUpdateTime = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventsnapshotlastupdatetime'), newValue, '');
+                this.sendEventSnapShotLastUpdateTime = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventsnapshotlastupdatetime'), newValue, '');
                 break;
             case 'receivestatevideocount':
-                this.receiveStateVideoCount = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatevideocount'), newValue, '');
+                this.receiveStateVideoCount = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatevideocount'), newValue, '');
                 break;
             case 'receivestateplay':
-                this.receiveStatePlay = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateselect'), newValue, '');
+                this.receiveStatePlay = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateselect'), newValue, '');
                 break;
             case 'receivestateselect':
-                this.receiveStateSelect = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateselect'), newValue, '');
+                this.receiveStateSelect = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateselect'), newValue, '');
                 break;
             case 'receivestateurl':
-                this.receiveStateUrl = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateurl'), newValue, '');
+                this.receiveStateUrl = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateurl'), newValue, '');
                 if (this.hasAttribute('receivestateurl')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'receivestatesourcetype':
-                this.receiveStateSourceType = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesourcetype'), newValue, '');
+                this.receiveStateSourceType = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesourcetype'), newValue, '');
                 if (this.hasAttribute('receivestatesourcetype')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'receivestatesnapshoturl':
-                this.receiveStateSnapShotURL = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshoturl'), newValue, '');
+                this.receiveStateSnapShotURL = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshoturl'), newValue, '');
                 if (this.hasAttribute('receivestatesnapshoturl')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'receivestatesnapshotrefreshrate':
-                this.receiveStateSnapShotRefreshRate = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshotrefreshrate'), newValue, '');
+                this.receiveStateSnapShotRefreshRate = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshotrefreshrate'), newValue, '');
                 if (this.hasAttribute('receivestatesnapshotrefreshrate')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'receivestateuserid':
-                this.receiveStateUserId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateuserid'), newValue, '');
+                this.receiveStateUserId = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestateuserid'), newValue, '');
                 if (this.hasAttribute('receivestateuserid')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'receivestatesnapshotuserid':
-                this.receiveStateSnapShotUserId = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshotuserid'), newValue, '');
+                this.receiveStateSnapShotUserId = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshotuserid'), newValue, '');
                 if (this.hasAttribute('receivestatesnapshotuserid')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'receivestatepassword':
-                this.receiveStatePassword = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatepassword'), newValue, '');
+                this.receiveStatePassword = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatepassword'), newValue, '');
                 if (this.hasAttribute('receivestatepassword')) {
                     this.receiveStateAttributeCount++;
                 }
                 break;
             case 'receivestatesnapshotpassword':
-                this.receiveStateSnapShotPassword = ch5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshotpassword'), newValue, '');
+                this.receiveStateSnapShotPassword = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('receivestatesnapshotpassword'), newValue, '');
                 if (this.hasAttribute('receivestatesnapshotpassword')) {
                     this.receiveStateAttributeCount++;
                 }
@@ -2591,7 +2591,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         videoImage.onload = () => {
             this.info("Snapshot image loaded");
             this.lastLoadedImage = videoImage;
-            this._sendEvent(this.sendEventSnapShotLastUpdateTime, ch5VideoUtils.rfc3339TimeStamp(), 'string');
+            this._sendEvent(this.sendEventSnapShotLastUpdateTime, CH5VideoUtils.rfc3339TimeStamp(), 'string');
         };
         videoImage.onerror = () => {
             this.info(videoImage.src);
@@ -2678,7 +2678,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.videoTop = this.originalVideoProperties.top;
             this.videoLeft = this.originalVideoProperties.left;
             if (this.parentElement) {
-                const parentElementDimensions: iElementDimensions = ch5VideoUtils.getParentElementOffsetAndDimension(this.parentElement);
+                const parentElementDimensions: iElementDimensions = CH5VideoUtils.getParentElementOffsetAndDimension(this.parentElement);
                 this._getSizeAndPositionObj(parentElementDimensions.totalWidth, parentElementDimensions.totalHeight);
                 this.controlTop = this.position.yPos;
                 this.controlLeft = this.position.xPos;
@@ -2808,7 +2808,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
             this._hideFullScreenIcon();
             // Calculating the dimensions and storing in originalVideoProperties variable
-            const isPortraitMode: boolean = ch5VideoUtils.isPortrait();
+            const isPortraitMode: boolean = CH5VideoUtils.isPortrait();
             const propertiesObject = {
                 "width": this.sizeObj.width,
                 "height": this.sizeObj.height,
@@ -3008,11 +3008,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @returns this.position
      */
     private _getSizeAndPositionObj(sWidth: number, sHeight: number) {
-        this.sizeObj = ch5VideoUtils.getDisplayWxH(this.aspectRatio, sWidth, sHeight);
+        this.sizeObj = CH5VideoUtils.getDisplayWxH(this.aspectRatio, sWidth, sHeight);
         if (this.sizeObj.width < sWidth) {
-            this.position = ch5VideoUtils.calculatePillarBoxPadding(sWidth, this.sizeObj.width);
+            this.position = CH5VideoUtils.calculatePillarBoxPadding(sWidth, this.sizeObj.width);
         } else if (this.sizeObj.height < sHeight) {
-            this.position = ch5VideoUtils.calculateLetterBoxPadding(sHeight, this.sizeObj.height);
+            this.position = CH5VideoUtils.calculateLetterBoxPadding(sHeight, this.sizeObj.height);
         }
         return this.position;
     }
@@ -3220,7 +3220,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.lastResponseStatus !== this.VIDEO_ACTION.STARTED) {
                     publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(this.VIDEO_ACTION.SNAPSHOT));
                     // Suresh TODO: Move it inside ch5-video-snapshot.ts, we need to send once snapshot image is loaded 
-                    this._sendEvent(this.sendEventSnapShotLastUpdateTime, ch5VideoUtils.rfc3339TimeStamp(), 'string');
+                    this._sendEvent(this.sendEventSnapShotLastUpdateTime, CH5VideoUtils.rfc3339TimeStamp(), 'string');
                 } else {
                     isActionExecuted = false;
                 }
@@ -3511,8 +3511,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this._fullScreenCalculation();
             } else {
                 if (this.parentElement) {
-                    this.sizeObj = ch5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
-                    this.position = ch5VideoUtils.getSizeAndPositionForFixedSize(this.parentElement, this.sizeObj);
+                    this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
+                    this.position = CH5VideoUtils.getSizeAndPositionForFixedSize(this.parentElement, this.sizeObj);
                     this.videoTop = this.position.yPos;
                     this.videoLeft = this.position.xPos;
                 }
@@ -3526,7 +3526,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 totalHeight = window.innerHeight;
             } else {
                 if (this.parentElement) {
-                    const parentElementDimensions: iElementDimensions = ch5VideoUtils.getParentElementOffsetAndDimension(this.parentElement);
+                    const parentElementDimensions: iElementDimensions = CH5VideoUtils.getParentElementOffsetAndDimension(this.parentElement);
                     totalHeight = parentElementDimensions.totalHeight;
                     totalWidth = parentElementDimensions.totalWidth;
                     offsetTop = parentElementDimensions.offsetTop;
