@@ -12,5 +12,5 @@ export * from './t-ch5-video-controls';
 export * from './t-ch5-video-size';
 export * from './t-ch5-video-sourcetype';
 export * from './t-ch5-video-aspectratio';
-export * from './i-ch5-video-utils';
-export * from './i-ch5-video-touch';
+export * from './t-ch5-video-utils';
+export * from './t-ch5-video-touch';
