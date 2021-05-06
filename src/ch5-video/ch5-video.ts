@@ -906,7 +906,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.isVideoReady = true;
                     this.lastRequestStatus = this.VIDEO_ACTION.START;
                     this._publishVideoEvent(this.VIDEO_ACTION.STOP);
-                    this._loadImageWithAutoRefresh();
+                    this.loadAllSnapshots(); // start loading snapshots
+                    // this._loadImageWithAutoRefresh();
                 }
             });
         }
@@ -1820,6 +1821,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info("videoIntersectionObserver");
         if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
             clearTimeout(this.observeInterval);
+            this.loadAllSnapshots();
             if (this.firstTime) {
                 // Time delay is required otherwise there will be an earlier cut
                 this.observeInterval = setTimeout(() => {
@@ -1851,11 +1853,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         clearTimeout(this.isSwipeDebounce);
         this.isSwipeDebounce = setTimeout(() => {
             this._calculation(this.videoElement);
-            // this._calculatePositions();
-
-            // if (!this.isMultipleVideo) {
             this.drawSnapShot();
-            // }
 
             let isPublished = false;
             if (this.lastRequestStatus === '' && this.isOrientationChanged ||
@@ -2414,7 +2412,18 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Stop loading snapshot when the camera is about to play video
      * @param activeIndex 
      */
-    private stopLoadingSnapShot(): void {
+     private loadAllSnapshots(): void {
+        for (let idx = 0; idx < this.maxVideoCount; idx++) {
+            const sData: Ch5VideoSnapshot = this.snapShotMap.get(idx);
+            sData.startLoadingSnapShot();
+        }
+    }
+
+    /**
+     * Stop loading snapshot when the camera is about to play video
+     * @param activeIndex 
+     */
+    private switchLoadingSnapShot(): void {
         for (let idx = 0; idx < this.maxVideoCount; idx++) {
             const sData: Ch5VideoSnapshot = this.snapShotMap.get(this.receivedStateSelect);
             if (this.receivedStateSelect === idx) {
@@ -3226,7 +3235,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
             case this.VIDEO_ACTION.STARTED:
                 clearTimeout(this.exitSnapsShotTimer); // clear timer to stop refreshing image
-                this.stopLoadingSnapShot();
+                this.switchLoadingSnapShot();
                 publishEvent('o', 'ch5.video.background', this.videoBGObjJSON(this.VIDEO_ACTION.STARTED));
                 break;
             case this.VIDEO_ACTION.STOP:
