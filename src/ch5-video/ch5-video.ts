@@ -1296,7 +1296,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (!this.isMultipleVideo) {
                     this.getAllSnapShotData(1);
                 }
-
                 // Making the lastRequestStatus and isVideoReady to default
                 this.lastRequestStatus = '';
                 this.isVideoReady = false;
@@ -2539,6 +2538,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const uID = this.getCrId().split('cr-id-');
         this.ch5UId = parseInt(uID[1], 0);
         this.videoTagId = this.getCrId();
+        // A dummy call to make the video to play on first project load
+        publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(this.VIDEO_ACTION.STOP, this.ch5UId));
     }
 
     /**
