@@ -615,17 +615,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this._zIndex = value;
     }
 
-    public get controls(): string {
-        return this._controls;
-    }
-
-    public set controls(value: string) {
-        if (isNil(value) || this._controls === value) {
-            return;
-        }
-        this._controls = value;
-    }
-
     public get sourceType(): string {
         return this._sourceType;
     }
@@ -1601,9 +1590,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 break;
             case 'zindex':
                 this.zIndex = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('zindex'), newValue, '0');
-                break;
-            case 'controls':
-                this.controls = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('controls'), newValue, 'false');
                 break;
             case 'sendeventstate':
                 this.sendEventState = CH5VideoUtils.setAttributesBasedValue(this.hasAttribute('sendeventstate'), newValue, '');
@@ -3703,9 +3689,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
         if (this.hasAttribute('zindex')) {
             this.zIndex = this.getAttribute('zindex') as string;
-        }
-        if (this.hasAttribute('controls')) {
-            this.controls = this.getAttribute('controls') as string;
         }
         if (this.hasAttribute('snapshotrefreshrate')) {
             this.snapShotRefreshRate = this.getAttribute('snapshotrefreshrate') as string;
