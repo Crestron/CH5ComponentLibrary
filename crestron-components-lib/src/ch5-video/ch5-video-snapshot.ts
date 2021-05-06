@@ -13,7 +13,7 @@ import _ from "lodash";
 
 export class Ch5VideoSnapshot {
     private snapShotImage: any;
-    private isSnapShotLoading: boolean = true;
+    private isSnapShotLoading: boolean = false;
     private protocol: string = '';
     private videoSnapShotUrl: string = '';
     private videoSnapShotUser: string = '';
@@ -38,7 +38,6 @@ export class Ch5VideoSnapshot {
             this.password = snapShotObj.snapShotPass;
             this.refreshRate = parseInt(snapShotObj.snapShotRefreshRate, 0);
         }
-        this.startLoadingSnapShot();
     }
 
     /**
@@ -201,7 +200,9 @@ export class Ch5VideoSnapshot {
         this.videoSnapShotUser = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
                 this.userId = resp;
-                this.startLoadingSnapShot();
+                if (this.isSnapShotLoading) {
+                    this.startLoadingSnapShot();
+                }
             }
         });
     }
@@ -214,7 +215,9 @@ export class Ch5VideoSnapshot {
         this.videoSnapShotPass = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
                 this.password = resp;
-                this.startLoadingSnapShot();
+                if (this.isSnapShotLoading) {
+                    this.startLoadingSnapShot();
+                }
             }
         });
     }
@@ -227,7 +230,9 @@ export class Ch5VideoSnapshot {
         this.videoSnapShotRefreshRate = subscribeState('n', signalName, (resp: any) => {
             if (resp) {
                 this.refreshRate = resp;
-                this.startLoadingSnapShot();
+                if (this.isSnapShotLoading) {
+                    this.startLoadingSnapShot();
+                }
             }
         });
     }

@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from "../ch5-common";
-import { TCH5VideoControls, TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceType } from './types';
+import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceType } from './types';
 
 /**
  * @ignore
@@ -166,17 +166,6 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * ]
      */
     zIndex: string;
-
-    /**
-     * @name controls
-     * @documentation
-     * [
-     * "`controls` attribute",
-     *  "***",
-     *  "When present, this specifies that video controls like start, stop, and fullscreen should be displayed."
-     * ]
-     */
-    controls: TCH5VideoControls | string;
 
     /**
      * @name sendeventonclick
