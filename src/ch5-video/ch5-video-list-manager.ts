@@ -1,7 +1,7 @@
-import { iCh5VideoCollection, iCh5VideoListMgr, iCh5VideoRef, localWindowInterfaceRef } from '../_interfaces/ch5-video/types';
+import { iCh5VideoCollection, iCh5VideoListMgr, iCh5VideoRef } from '../_interfaces/ch5-video/types';
 import './i-ch5-video.d.ts';
 
-declare var window: localWindowInterfaceRef;
+declare var window: any;
 
 /**
  * Class designed for handling all the global management of video manager
