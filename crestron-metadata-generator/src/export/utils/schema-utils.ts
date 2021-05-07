@@ -37,6 +37,10 @@ function getName(definition: Definition): string {
     return parser.getNameFromObject(definition);
 }
 
+function getDefault(definition: Definition): string | null {
+    return parser.getDefaultFromObject(definition);
+}
+
 function getDocumentation(definition: Definition): string[] {
     return parser.getDocumentationFromObject(definition);
 }
@@ -85,4 +89,5 @@ export {
     getDocumentation,
     getSnippets,
     getDescription,
+    getDefault
 };

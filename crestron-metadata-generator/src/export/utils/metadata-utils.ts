@@ -20,7 +20,6 @@ function addTypeDefinition(definition: Definition, aliases: DefinitionTuple[]): 
     result.tagName = _.getTagName(definition);
     result.snippets = _.getSnippets(definition);
     result.attributes = getProperties(definition, aliases);
-
     return result;
 }
 
@@ -29,7 +28,7 @@ function addAttributeDefinition(definition: Definition, aliases: DefinitionTuple
     result.documentation = _.getDocumentation(definition);
     result.name = _.getName(definition);
     result.value = getProperties(definition, aliases)[0].value;
-
+    result.default = _.getDefault(definition);
     return result;
 }
 
@@ -74,7 +73,7 @@ function getAliasTypesRefs(definition: Definition): string[] {
 }
 
 function getAliasTypeValues(ref: string, aliases: DefinitionTuple[]): string[] {
-    let values: string[] = []; 
+    let values: string[] = [];
     const aliasName = ref.substring(ref.lastIndexOf("/") + 1);
     const alias = aliases.find(x => x.name === aliasName);
     if (!isNil(alias)) {
@@ -124,6 +123,10 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
 
     result.name = _.getName(definition);
     result.documentation = _.getDocumentation(definition);
+    const defaultValue = _.getDefault(definition);
+    if (!isNil(defaultValue) && defaultValue !== "") {
+        result.default = _.getDefault(definition);
+    }
 
     return result;
 }

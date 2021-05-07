@@ -9,6 +9,7 @@ export class Ch5Attribute {
     public name: string;
     public value: string[];
     public documentation?: string[];
+    public default?: string | null;
 
     public static New(): Ch5Attribute {
         const result = new Ch5Attribute();

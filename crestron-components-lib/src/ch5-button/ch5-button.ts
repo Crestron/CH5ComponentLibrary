@@ -1029,6 +1029,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             'receivestatescriptlabelhtml',
             'receivestateiconclass',
             'receivestateiconurl',
+            'receivestatetype',
 
             'sendeventonclick',
             'sendeventontouch'

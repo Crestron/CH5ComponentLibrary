@@ -59,7 +59,7 @@ function getDocumentationFromObject(definition: Object): string[] {
 
     // get the documentation property which should be a JSON string.
     const value: string = definition[documentationTag];
-    
+
     if (!isNil(value)) {
         try {
             const jsonValue = JSON.parse(value) as string[];
@@ -92,9 +92,24 @@ function getNameFromObject(definition: Object): string {
     return "";
 }
 
+function getDefaultFromObject(definition: Object): string | null{
+    const documentationTag = "default";
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return null;
+    }
+
+    // get the documentation property which should be a JSON string.
+    const value: string | null = definition[documentationTag];
+    return value;
+}
+
 export {
     getDocumentationFromObject,
     getNameFromObject,
     getSnippetsFromObject,
     getTagNameFromObject,
+    getDefaultFromObject
 };
