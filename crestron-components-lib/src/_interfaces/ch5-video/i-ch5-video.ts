@@ -42,7 +42,7 @@ import { ICh5VideoAttributes } from "./i-ch5-video-attributes";
  *      "prefix": "ch5-video:default",
  *      "description": "Provides a view onto a streaming video window. Components that are to reside above the video that need to be visible and active, examples include buttons to control playback, text describing the video, and annotation controls, need to be defined as children elements to this component.",
  *      "body": [
- *        "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9}\" size=\"${3:large}\" sourcetype=\"${4:Network}\" userid=\"${5}\" snapshotuserid=\"${6}\" password=\"${7}\" snapshotpassword=\"${8}\" snapshoturl=\"${9}\" url=\"${10}\" stretch=\"${11:false}\" zindex=\"${12:0}\" snapshotrefreshrate=\"${13:0}\">",
+ *        "<ch5-video aspectratio=\"${1:16:9}\" size=\"${2:large}\" sourcetype=\"${3:Network}\" userid=\"${4}\" snapshotuserid=\"${5}\" password=\"${6}\" snapshotpassword=\"${7}\" snapshoturl=\"${8}\" url=\"${9}\" stretch=\"${10:false}\" zindex=\"${11:0}\" snapshotrefreshrate=\"${12:0}\">",
  *         "</ch5-video>$0"
  *        ]
  *    },
