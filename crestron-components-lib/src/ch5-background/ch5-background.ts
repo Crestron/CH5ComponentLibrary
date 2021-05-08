@@ -503,7 +503,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private videoSubsriptionCallBack(request: IBACKGROUND) {
         this.info("In videoSubsCallBack()");
         if (request && Object.keys(request).length) {
-            const tempObj: IBACKGROUND = Object.assign({},request);
+            const tempObj: IBACKGROUND = Object.assign({}, request);
             delete tempObj.image;
             this.videoRequestObj = request;
 
@@ -541,8 +541,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             } else if (request.action === this.VIDEO_ACTION_STARTED || request.action === this.VIDEO_ACTION_SNAPSHOT || request.action === this.VIDEO_ACTION_MARK) {
                 this.manageVideoInfo(request);
                 if (request.action === this.VIDEO_ACTION_SNAPSHOT) {
-                    this.videoSnapShot =  request.image;
-                }                
+                    this.videoSnapShot = request.image;
+                }
                 this.videoBGAction();
             } else if (request.action === this.VIDEO_ACTION_RESIZE) {
                 this.refillBackground();
@@ -1054,22 +1054,24 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * This method is creating canvas and image according to image length and setting image in background.
      */
     private setBgImage(): void {
-        this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
-            const ctx: any = canvas.getContext('2d');
-            this._elImages[idx] = new Image();
-            this._elImages[idx].src = this._imgUrls[idx];
-            this._elImages[idx].onload = () => {
-                this.updateBgImage(this._elImages[idx], ctx);
-                if (this._imgUrls.length === idx + 1) {
-                    this.changeBackground(this._imgUrls.length);
-                }
-                delete this._elImages[idx].onload;
-            };
+        if (this._canvasList && this._canvasList.length) {
+            this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
+                const ctx: any = canvas.getContext('2d');
+                this._elImages[idx] = new Image();
+                this._elImages[idx].src = this._imgUrls[idx];
+                this._elImages[idx].onload = () => {
+                    this.updateBgImage(this._elImages[idx], ctx);
+                    if (this._imgUrls.length === idx + 1) {
+                        this.changeBackground(this._imgUrls.length);
+                    }
+                    delete this._elImages[idx].onload;
+                };
 
-            // setting background color behind image
-            ctx.fillStyle = this._imgBackgroundColor;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        });
+                // setting background color behind image
+                ctx.fillStyle = this._imgBackgroundColor;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            });
+        }
     }
 
     /**

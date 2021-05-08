@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-stretch-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <!--
+
+<div class="ch5-btn-container1">
+    <ch5-button type="success" label="stretch height" shape="rectangle" stretch="height"></ch5-button>
+</div>
+
+<ch5-button 
+    type="danger" 
+    label="Danger" 
+    role="button" 
+    dir="ltr" 
+    style="touch-action: auto; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+    <div 
+        class="cb-cntr ch5-button ch5-button--rounded-rectangle ch5-button--danger ch5-button--size-regular" 
+        style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+        <button 
+            class="cb-btn" 
+            data-ch5-id="cr-id-43">
+            <span class="cb-lbl ch5-button--label">Danger</span>
+        </button>
+    </div>
+</ch5-button>
+
+    -->
+
+    <script>
+        suite('ch5-button', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                ch5Button = fixture('ch5-button-stretch-fixture');
+            });
+
+            const availableStretches = ['height', 'width', 'both'];
+            availableStretches.forEach((stretchName, i) => {
+                test(`Check attribute stretch: "${stretchName}"`, () => {
+                    ch5Button.setAttribute('stretch', stretchName);
+                    expect(ch5Button.stretch).to.be.equal(stretchName);
+                });
+                test(`Check ch5-button > div css class name for stretch: "${stretchName}"`, () => {
+                    ch5Button.setAttribute('stretch', stretchName);
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--stretch-" + stretchName)).to.be.equal(true);
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

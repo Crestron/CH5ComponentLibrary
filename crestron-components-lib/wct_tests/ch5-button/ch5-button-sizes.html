@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-sizes-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-button', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                // const emulatorJson = await fetch('./emulator/labels.json').then((response) => response.json());
+                // const emulator = CrComLib.Ch5Emulator.getInstance();
+                // emulator.loadScenario(emulatorJson);
+                
+                ch5Button = fixture('ch5-button-sizes-fixture');
+            });
+
+            // Size
+            const availableSizes = CH5_BUTTON_MASTERS.SIZES.values;
+            availableSizes.forEach((sizeName, i) => {
+                test(`Check attribute size: "${sizeName}"`, () => {
+                    ch5Button.setAttribute('size', sizeName);
+                    expect(ch5Button.size).to.be.equal(sizeName);
+                });
+                test(`Check ch5-button > div css class name for size: "${sizeName}"`, () => {
+                    ch5Button.setAttribute('size', sizeName);
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + sizeName)).to.be.equal(true);
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

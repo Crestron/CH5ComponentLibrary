@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-events-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-button', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/labels.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                
+                ch5Button = fixture('ch5-button-events-fixture');
+            });
+
+            // Type and ReceiveStateType
+            const availableTypes = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+            availableTypes.forEach((typeName, i) => {
+                test(`Check attribute type: "${typeName}"`, () => {
+                    ch5Button.setAttribute('type', typeName);
+                    expect(ch5Button.type).to.be.equal(typeName);
+                });
+                test(`Check ch5-button > div css class name for type: "${typeName}"`, () => {
+                    ch5Button.setAttribute('type', typeName);
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
+                });
+            });
+
+            availableTypes.forEach((typeName, i) => {
+                test(`receiveStateType: "${typeName}"`, (done) => {
+                    ch5Button.setAttribute('receiveStateType', 'current_type');
+                    CrComLib.publishEvent('s', 'current_type', typeName);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.getAttribute('type')).to.be.equal(typeName);
+                            expect(ch5Button.type).to.be.equal(typeName);
+                            done();
+                        }, 100);
+                    });
+                });
+            });
+
+            // Label and ReceiveStateLabel            
+            const labelValues = ['Default', 'Primary', 'Info', 'Text', 'Danger', 'Warning', 'Success', 'Secondary'];
+            labelValues.forEach((labelName, i) => {
+                test(`receiveStateLabel: "${labelName}"`, (done) => {
+                    ch5Button.setAttribute('receiveStateLabel', 'current_label');
+                    CrComLib.publishEvent('s', 'current_label', labelName);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.getAttribute('label')).to.be.equal(labelName);
+                            expect(ch5Button.children[0].children[0].children[0].innerText).to.be.equal(labelName);
+                            expect(ch5Button.label).to.be.equal(labelName);
+                            done();
+                        }, 100);
+                    });
+                });
+            });
+
+            labelValues.forEach((labelName, i) => {
+                test(`label: "${labelName}"`, () => {
+                    ch5Button.setAttribute('label', labelName);
+                    expect(ch5Button.getAttribute('label')).to.be.equal(labelName);
+                    expect(ch5Button.children[0].children[0].children[0].innerText).to.be.equal(labelName);
+                    expect(ch5Button.label).to.be.equal(labelName);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

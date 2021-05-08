@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
     <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
 </head>
 
 <body>
@@ -20,15 +21,6 @@
     </test-fixture>
 
     <!--
-
-<ch5-button type="danger" label="danger"></ch5-button>
-<ch5-button type="text" label="text"></ch5-button>
-<ch5-button type="warning" label="warning"></ch5-button>
-<ch5-button type="info" label="info"></ch5-button>
-<ch5-button type="success" label="success"></ch5-button>
-<ch5-button type="default" label="default"></ch5-button>
-<ch5-button type="primary" label="primary"></ch5-button>
-<ch5-button type="secondary" label="secondary"></ch5-button>
 
 <ch5-button 
     type="danger" 
@@ -55,14 +47,14 @@
             let ch5Button;
 
             setup(async () => {
-                const emulator1Json = await fetch('./js/emulator-1.json').then((response) => response.json());
+                const emulatorJson = await fetch('./emulator/types.json').then((response) => response.json());
                 const emulator = CrComLib.Ch5Emulator.getInstance();
-                emulator.loadScenario(emulator1Json);
+                emulator.loadScenario(emulatorJson);
                 ch5Button = fixture('ch5-button-types-fixture');
             });
 
-            // Type and ReceiveStateType
-            const availableTypes = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+            // Type, ReceiveStateType, Selected
+            const availableTypes = CH5_BUTTON_MASTERS.TYPES.values;
             availableTypes.forEach((typeName, i) => {
                 test(`Check attribute type: "${typeName}"`, () => {
                     ch5Button.setAttribute('type', typeName);
@@ -71,6 +63,42 @@
                 test(`Check ch5-button > div css class name for type: "${typeName}"`, () => {
                     ch5Button.setAttribute('type', typeName);
                     expect(getDiv(ch5Button).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
+                });
+            });
+
+            availableTypes.forEach((typeName, i) => {
+                test(`Check attribute type: "${typeName}" with selected as empty`, () => {
+                    ch5Button.setAttribute('type', typeName);
+                    ch5Button.setAttribute('selected', '');
+                    expect(ch5Button.getAttribute('selected')).to.be.equal("");
+                    expect(ch5Button.selected).to.be.equal(true);
+                });
+                test(`Check attribute type: "${typeName}" with selected as true`, () => {
+                    ch5Button.setAttribute('type', typeName);
+                    ch5Button.setAttribute('selected', 'true');
+                    expect(ch5Button.getAttribute('selected')).to.be.equal("");
+                    expect(ch5Button.selected).to.be.equal(true);
+                });
+                test(`Check attribute type: "${typeName}" with selected as false`, () => {
+                    ch5Button.setAttribute('type', typeName);
+                    ch5Button.setAttribute('selected', 'false');
+                    expect(ch5Button.getAttribute('selected')).to.be.equal('false');
+                    expect(ch5Button.selected).to.be.equal(false);
+                });
+                test(`Check ch5-button > div css class name for type: "${typeName}" with selected as empty`, () => {
+                    ch5Button.setAttribute('type', typeName);
+                    ch5Button.setAttribute('selected', '');
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--selected")).to.be.equal(true);
+                });
+                test(`Check ch5-button > div css class name for type: "${typeName}" with selected as true`, () => {
+                    ch5Button.setAttribute('type', typeName);
+                    ch5Button.setAttribute('selected', 'true');
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--selected")).to.be.equal(true);
+                });
+                test(`Check ch5-button > div css class name for type: "${typeName}" with selected as false`, () => {
+                    ch5Button.setAttribute('type', typeName);
+                    ch5Button.setAttribute('selected', 'false');
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--selected")).to.be.equal(false);
                 });
             });
 
@@ -88,47 +116,9 @@
                 });
             });
 
-            // Label and ReceiveStateLabel            
-            const labelValues = ['Default', 'Primary', 'Info', 'Text', 'Danger', 'Warning', 'Success', 'Secondary'];
-            labelValues.forEach((labelName, i) => {
-                test(`receiveStateLabel: "${labelName}"`, (done) => {
-                    ch5Button.setAttribute('receiveStateLabel', 'current_label');
-                    CrComLib.publishEvent('s', 'current_label', labelName);
-                    flush(() => {
-                        setTimeout(() => {
-                            expect(ch5Button.getAttribute('label')).to.be.equal(labelName);
-                            expect(ch5Button.children[0].children[0].children[0].innerText).to.be.equal(labelName);
-                            expect(ch5Button.label).to.be.equal(labelName);
-                            done();
-                        }, 100);
-                    });
-                });
-            });
-
-            labelValues.forEach((labelName, i) => {
-                test(`label: "${labelName}"`, () => {
-                    ch5Button.setAttribute('label', labelName);
-                    expect(ch5Button.getAttribute('label')).to.be.equal(labelName);
-                    expect(ch5Button.children[0].children[0].children[0].innerText).to.be.equal(labelName);
-                    expect(ch5Button.label).to.be.equal(labelName);
-                });
-            });
-
-            // labelValues.forEach((labelName, i) => {
-            //     availableTypes.forEach((typeName, j) => {
-            //         test(`type: "${typeName}" with label: "${labelName}"`, () => {
-            //             ch5Button.setAttribute('type', typeName);
-            //             ch5Button.setAttribute('label', labelName);
-            //             // console.log("ch5Button is ", ch5Button.children[0].children[0]);
-            //             // console.log("ch5Button is ", ch5Button.children[0].children[0].getAttribute("class"));
-            //             expect(ch5Button.getAttribute('type')).to.be.equal(typeName);
-            //             expect(ch5Button.type).to.be.equal(typeName);
-            //         });
-            //     });
-            // });
+            // TODO Receive StateSelected
         });
     </script>
-    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
 </body>
 
 </html>
