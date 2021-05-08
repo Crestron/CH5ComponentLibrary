@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-all-combinations-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        function loopData(fullTestingArray, masterArray, inputObj, newObjArr, newIndex) {
+            if (newIndex < masterArray.length) {
+                for (let i = 0; i < masterArray[newIndex].values.length; i++) {
+                   const inputObjNew = { key: masterArray[newIndex].key, value: masterArray[newIndex].values[i] };
+                    const newX = [];
+                    for (let j = 0; j < newObjArr.length; j++) {
+                        newX.push(newObjArr[j]);
+                    }
+                    newX.push(inputObjNew);
+                    fullTestingArray.push(newX);
+                    loopData(fullTestingArray, masterArray, inputObjNew, newX, newIndex + 1);
+                }
+            }
+        }
+
+        suite('ch5-button', () => {
+
+            let ch5Button;
+
+            setup(() => {
+                // const emulatorJson = await fetch('./emulator/types.json').then((response) => response.json());
+                // const emulator = CrComLib.Ch5Emulator.getInstance();
+                // emulator.loadScenario(emulatorJson);
+                ch5Button = fixture('ch5-button-all-combinations-fixture');
+            });
+
+            const fullTestingArray = [];
+            const masterArray = Object.values(CH5_BUTTON_MASTERS);
+            const indexForMasterArray = 0;
+            for (let i = 0; i < masterArray[indexForMasterArray].values.length; i++) {
+                const inputObj = { key: masterArray[indexForMasterArray].key, value: masterArray[indexForMasterArray].values[i] };
+                const newArray = [];
+                newArray.push(inputObj);
+                fullTestingArray.push(newArray);
+                loopData(fullTestingArray, masterArray, inputObj, newArray, indexForMasterArray + 1);
+            }
+
+            fullTestingArray.forEach((testingObject, i) => {
+                let validationString = "";
+                for (let j = 0; j < testingObject.length; j++) {
+                    validationString += testingObject[j].key + ": " + testingObject[j].value + "; "
+                }
+
+                test(validationString, () => {
+                    for (let j = 0; j < testingObject.length; j++) {
+                        ch5Button.setAttribute(testingObject[j].key, testingObject[j].value);
+                    }
+                    for (let j = 0; j < testingObject.length; j++) {
+                        expect(ch5Button[testingObject[j].key]).to.be.equal(testingObject[j].value);
+                    }
+                });
+                // test(`Check ch5-button > div css class name for type: "${typeName}"`, () => {
+                //     ch5Button.setAttribute('type', typeName);
+                //     expect(getDiv(ch5Button).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
+                // });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

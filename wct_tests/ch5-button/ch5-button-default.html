@@ -9,13 +9,14 @@
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
     <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
 </head>
 
 <body>
 
-    <test-fixture id="ch5-button-types-fixture">
+    <test-fixture id="ch5-button-default-fixture">
         <template>
-            <ch5-button label="Button1"></ch5-button>
+            <ch5-button></ch5-button>
         </template>
     </test-fixture>
 
@@ -55,7 +56,7 @@
             let ch5Button;
 
             setup(() => {
-                ch5Button = fixture('ch5-button-types-fixture');
+                ch5Button = fixture('ch5-button-default-fixture');
             });
 
             // Default Button test
@@ -99,7 +100,6 @@
 
         });
     </script>
-    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
 </body>
 
 </html>
