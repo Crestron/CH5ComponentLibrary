@@ -139,7 +139,7 @@ export class Ch5VideoSnapshot {
         videoImage.onerror = () => {
             this.snapShotImage = "";
             this.isSnapShotloaded = false;
-            console.log(this.url, " snapshot failed to load.");
+            console.log("Video Tag Id: " + this.snapShotObj.videoTagId + ", snapshot failed to load.");
         }
 
         videoImage.onload = (ev: Event) => {
