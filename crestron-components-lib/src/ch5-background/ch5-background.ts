@@ -1042,7 +1042,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * updating canvas dimensions
      */
     private updateCanvasDimensions() {
-        if (this._canvasList && this._canvasList.length) {
+        if (this.isCanvasListValid()) {
             this._canvasList.forEach((canvas: HTMLCanvasElement) => {
                 this.setCanvasDimensions(canvas);
             });
@@ -1071,14 +1071,16 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         let timer: number = 0;
         clearTimeout(timer);
         timer = setTimeout(() => {
-            this._canvasList.forEach((canvas: HTMLCanvasElement) => {
-                if (this._transitionEffect) {
-                    canvas.style.transitionTimingFunction = this._transitionEffect;
-                }
-                if (this._transitionDuration) {
-                    canvas.style.transitionDuration = this._transitionDuration;
-                }
-            });
+            if (this.isCanvasListValid()) {
+                this._canvasList.forEach((canvas: HTMLCanvasElement) => {
+                    if (this._transitionEffect) {
+                        canvas.style.transitionTimingFunction = this._transitionEffect;
+                    }
+                    if (this._transitionDuration) {
+                        canvas.style.transitionDuration = this._transitionDuration;
+                    }
+                });
+            }
         });
     }
 
@@ -1086,35 +1088,39 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * This method is creating canvas and image according to image length and setting image in background.
      */
     private setBgImage(): void {
-        this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
-            const ctx: any = canvas.getContext('2d');
-            this._elImages[idx] = new Image();
-            this._elImages[idx].src = this._imgUrls[idx];
-            this._elImages[idx].onload = () => {
-                this.updateBgImage(this._elImages[idx], ctx);
-                if (this._imgUrls.length === idx + 1) {
-                    this.changeBackground(this._imgUrls.length);
-                }
-                delete this._elImages[idx].onload;
-            };
+        if (this.isCanvasListValid()) {
+            this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
+                const ctx: any = canvas.getContext('2d');
+                this._elImages[idx] = new Image();
+                this._elImages[idx].src = this._imgUrls[idx];
+                this._elImages[idx].onload = () => {
+                    this.updateBgImage(this._elImages[idx], ctx);
+                    if (this._imgUrls.length === idx + 1) {
+                        this.changeBackground(this._imgUrls.length);
+                    }
+                    delete this._elImages[idx].onload;
+                };
 
-            // setting background color behind image
-            ctx.fillStyle = this._imgBackgroundColor;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        });
+                // setting background color behind image
+                ctx.fillStyle = this._imgBackgroundColor;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            });
+        }
     }
 
     /**
      * This method is creating canvas according to color length and setting background color.
      */
     private setBgColor(): void {
-        this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
-            const ctx: any = canvas.getContext('2d');
-            this.updateBgColor(this._bgColors[idx], ctx);
-            if (this._bgColors.length === idx + 1) {
-                this.changeBackground(this._bgColors.length);
-            }
-        });
+        if (this.isCanvasListValid()) {
+            this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
+                const ctx: any = canvas.getContext('2d');
+                this.updateBgColor(this._bgColors[idx], ctx);
+                if (this._bgColors.length === idx + 1) {
+                    this.changeBackground(this._bgColors.length);
+                }
+            });
+        }
     }
 
     /**
@@ -1137,11 +1143,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (count > 1) {
             this._bgIdx = 1;
             this._interval = setInterval(() => {
-                this._canvasList.forEach((c: HTMLCanvasElement) => c.classList.remove('ch5bg-fadein'));
-                this._canvasList[this._bgIdx].classList.add('ch5bg-fadein');
-                this._bgIdx++;
-                if (this._bgIdx === count) {
-                    this._bgIdx = 0;
+                if (this.isCanvasListValid()) {
+                    this._canvasList.forEach((c: HTMLCanvasElement) => c.classList.remove('ch5bg-fadein'));
+                    this._canvasList[this._bgIdx].classList.add('ch5bg-fadein');
+                    this._bgIdx++;
+                    if (this._bgIdx === count) {
+                        this._bgIdx = 0;
+                    }
                 }
             }, this._refreshRate * 1000);
         }
@@ -1164,24 +1172,26 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Re-filling background
      */
     private refillBackground() {
-        this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
-            const ctx: any = canvas.getContext('2d');
-            switch (this._canvasList.length) {
-                case this._imgUrls.length:
-                    this._elImages[idx] = new Image();
-                    this._elImages[idx].src = this._imgUrls[idx];
-                    this._elImages[idx].onload = () => {
-                        this.updateBgImage(this._elImages[idx], ctx);
-                        delete this._elImages[idx].onload;
-                    };
-                    break;
-                case this._bgColors.length:
-                    this.updateBgColor(this._bgColors[idx], ctx);
-                    break;
-            }
-            this._isRefilled = true;
-        });
-        this.lastRefillTime = performance.now();
+        if (this.isCanvasListValid()) {
+            this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
+                const ctx: any = canvas.getContext('2d');
+                switch (this._canvasList.length) {
+                    case this._imgUrls.length:
+                        this._elImages[idx] = new Image();
+                        this._elImages[idx].src = this._imgUrls[idx];
+                        this._elImages[idx].onload = () => {
+                            this.updateBgImage(this._elImages[idx], ctx);
+                            delete this._elImages[idx].onload;
+                        };
+                        break;
+                    case this._bgColors.length:
+                        this.updateBgColor(this._bgColors[idx], ctx);
+                        break;
+                }
+                this._isRefilled = true;
+            });
+            this.lastRefillTime = performance.now();
+        }
     }
 
 
@@ -1213,46 +1223,56 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 this._videoDimensions.map((video: IBACKGROUND, vIdx: number) => {
                     this.info("\nvideoBGAction() -> Video Tag Id " + video.id + " is in Viewport: " + this.isInViewport(video.id));
                     if (this.isInViewport(video.id)) {
-                        this._canvasList.forEach((canvas: HTMLCanvasElement, cIdx: number) => {
-                            const ctx: any = canvas.getContext('2d');
-                            if (video.action === this.VIDEO_ACTION.STARTED || video.action === this.VIDEO_ACTION.RESIZE) { // while playing video
-                                ctx.clearRect(video.left, video.top, video.width, video.height);
-                                this._isRefilled = false;
-                            } else if (video.action === this.VIDEO_ACTION.STOP || video.action === this.VIDEO_ACTION.MARK ||
-                                video.action === this.VIDEO_ACTION.ERROR || video.action === this.VIDEO_ACTION.NOURL) {
-                                ctx.fillStyle = Ch5Background.IMGBGCOLOR;
-                                ctx.fillRect(video.left, video.top, video.width, video.height);
-
-                                // Draw status line
-                                ctx.beginPath();
-                                const lHeight = Math.ceil(video.height * 0.04); // thickness of line
-                                ctx.lineWidth = lHeight;
-                                ctx.moveTo(video.left, (video.top + video.height) - Math.ceil(lHeight / 2)); // video.left, (video.top + video.height)
-                                ctx.lineTo((video.width + video.left), (video.top + video.height) - Math.ceil(lHeight / 2)); // (video.width + video.left), (video.top + video.height)
-                                ctx.strokeStyle = this.MARK_COLORS.get(video.action);
-                                ctx.setLineDash([]);
-                                if (video.action === this.VIDEO_ACTION.STOP) {
-                                    ctx.setLineDash([Math.ceil(video.width / 2), 4, 6, 4]); // will show pause marks alternatively
-                                }
-                                ctx.stroke();
-                                this._isRefilled = false;
-                            } else if (video.action === this.VIDEO_ACTION.SNAPSHOT) { // draw snapshot
-                                if (this.videoSnapShot) {
-                                    ctx.drawImage(this.videoSnapShot, video.left, video.top, video.width, video.height);
+                        if (this.isCanvasListValid()) {
+                            this._canvasList.forEach((canvas: HTMLCanvasElement, cIdx: number) => {
+                                const ctx: any = canvas.getContext('2d');
+                                if (video.action === this.VIDEO_ACTION.STARTED || video.action === this.VIDEO_ACTION.RESIZE) { // while playing video
+                                    ctx.clearRect(video.left, video.top, video.width, video.height);
                                     this._isRefilled = false;
+                                } else if (video.action === this.VIDEO_ACTION.STOP || video.action === this.VIDEO_ACTION.MARK ||
+                                    video.action === this.VIDEO_ACTION.ERROR || video.action === this.VIDEO_ACTION.NOURL) {
+                                    ctx.fillStyle = Ch5Background.IMGBGCOLOR;
+                                    ctx.fillRect(video.left, video.top, video.width, video.height);
+
+                                    // Draw status line
+                                    ctx.beginPath();
+                                    const lHeight = Math.ceil(video.height * 0.04); // thickness of line
+                                    ctx.lineWidth = lHeight;
+                                    ctx.moveTo(video.left, (video.top + video.height) - Math.ceil(lHeight / 2)); // video.left, (video.top + video.height)
+                                    ctx.lineTo((video.width + video.left), (video.top + video.height) - Math.ceil(lHeight / 2)); // (video.width + video.left), (video.top + video.height)
+                                    ctx.strokeStyle = this.MARK_COLORS.get(video.action);
+                                    ctx.setLineDash([]);
+                                    if (video.action === this.VIDEO_ACTION.STOP) {
+                                        ctx.setLineDash([Math.ceil(video.width / 2), 4, 6, 4]); // will show pause marks alternatively
+                                    }
+                                    ctx.stroke();
+                                    this._isRefilled = false;
+                                } else if (video.action === this.VIDEO_ACTION.SNAPSHOT) { // draw snapshot
+                                    if (this.videoSnapShot) {
+                                        ctx.drawImage(this.videoSnapShot, video.left, video.top, video.width, video.height);
+                                        this._isRefilled = false;
+                                    }
                                 }
-                            }
-                            /*
-                            if (this._videoDimensions.length === (vIdx + 1) && this._canvasList.length === (cIdx + 1)) {
-                                this._isRefilled = false;
-                            }*/
-                        });
+                                /*
+                                if (this._videoDimensions.length === (vIdx + 1) && this._canvasList.length === (cIdx + 1)) {
+                                    this._isRefilled = false;
+                                }*/
+                            });
+                        }
                     }
                 })
             }
             this.lastCutTime = performance.now();
             // }, 50);
         }
+    }
+
+    /**
+     *
+     * @returns Function to check if the if the _canvasList is a valid attribute
+     */
+    private isCanvasListValid() {
+        return (!!this._canvasList && this._canvasList != null && this._canvasList.length > 0);
     }
 }
 
