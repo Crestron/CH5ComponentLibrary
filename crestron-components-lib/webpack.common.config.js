@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const chalk = require('chalk');
 const WrapperPlugin = require('wrapper-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const CopyPlugin = require("copy-webpack-plugin");
 
 const ENV = process.env.NODE_ENV;
 const envLabels = {
@@ -26,6 +27,43 @@ if (NO_CE === '1') { // for browsers that do not support customElements
 
 const basePath = path.resolve(__dirname);
 const MODULE_TYPE = process.env.MODULE_TYPE;
+
+
+
+
+
+const moduleTypes = ['cjs', 'umd', 'amd']; // 'esm' cannot be obtained from webpack, will be compiled with tsc
+let moduleType = 'umd'; // UMD includes commonjs, amd and attaching a property to the window object
+if (process.env.MODULE_TYPE && moduleTypes.indexOf(process.env.MODULE_TYPE) >= 0) {
+    moduleType = process.env.MODULE_TYPE;
+}
+let libraryTarget = 'umd';
+switch (moduleType) {
+    case 'cjs':
+        libraryTarget = 'commonjs2';
+        break;
+    case 'amd':
+        libraryTarget = 'amd';
+        break;
+    default:
+        libraryTarget = 'umd';
+        break;
+}
+
+let moduleBuildFolder = moduleType;
+if (NO_CE === '1') { // for browsers that do not support customElements
+    moduleBuildFolder = moduleType + '-no-ce';
+}
+
+const bundledThemesPath = basePath + '/../crestron-components-sass/output/';
+let buildPath = path.resolve(basePath, 'build_bundles', moduleBuildFolder);
+
+const CI = process.env.CI;
+
+if (CI) {
+    buildPath = path.resolve(basePath, 'build_bundles_dev', moduleBuildFolder);
+}
+
 
 console.log(`${chalk.underline('Running in Environment:')} ${chalk.bold.green(envLabel)}`);
 process.noDeprecation = true;
@@ -59,6 +97,13 @@ module.exports = function () {
             ]
         },
         plugins: [
+            new CopyPlugin( [
+                    { 
+                        from: path.resolve(basePath, "src/_interfaces/generated-metadata/schema.json"), 
+                        to: path.resolve(buildPath, "generate-metadata") 
+                    }
+                ],
+            ),
             new webpack.BannerPlugin({
                 banner:
                     "Copyright (C) " + ((new Date()).getFullYear()) + " to the present, Crestron Electronics, Inc.\n" +
