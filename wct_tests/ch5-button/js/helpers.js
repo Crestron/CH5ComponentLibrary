@@ -2,31 +2,37 @@ const CH5_BUTTON_MASTERS = {
   LABELS: {
     default: '',
     values: ['Default', 'Primary', 'Info', 'Text', 'Danger', 'Warning', 'Success', 'Secondary'],
-    key: 'label'
+    key: 'label',
+    classListPrefix: 'ch5-button--'
   },
   ORIENTATIONS: {
     default: 'horizontal',
     values: ['horizontal', 'vertical'],
-    key: 'orientation'
+    key: 'orientation',
+    classListPrefix: 'ch5-button--'
   },
   SHAPES: {
     default: 'rounded-rectangle',
     values: ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'],
-    key: 'shape'
+    key: 'shape',
+    classListPrefix: 'ch5-button--'
   },
   SIZES: {
     default: 'regular',
     values: ['regular', 'x-small', 'small', 'large', 'x-large'],
-    key: 'size'
+    key: 'size',
+    classListPrefix: 'ch5-button--'
   },
   STRETCH: {
     values: ['height', 'width', 'both'],
-    key: 'stretch'
+    key: 'stretch',
+    classListPrefix: 'ch5-button--'
   },
   TYPES: {
     default: 'default',
     values: ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'],
-    key: 'type'
+    key: 'type',
+    classListPrefix: 'ch5-button--'
   }
 }
 
