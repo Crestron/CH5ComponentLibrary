@@ -81,6 +81,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     private readonly INTERSECTION_RATIO_VALUE: number = 0.98;
+    private readonly INTERSECTION_RATIO_THRESHOLD: number = 0.1; // HH: to test if the video is even a bit in the current page
     private readonly primaryVideoCssClass: string = 'ch5-video';
     private readonly fullScreenStyleClass: string = 'fullScreenStyle'
     private readonly showControl: string = 'show-control';
@@ -93,6 +94,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _appCurrentStatus: boolean = false;
     private _scrollableElm: HTMLElement = {} as HTMLElement;
     private _isSlideMoved: boolean = false;
+    private readonly bodyTagVideoClass: string = 'has-video';
     private readonly VIDEO_ACTION = {
         START: 'start',
         STARTED: 'started',
@@ -486,6 +488,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private isTouchStartEvtBound: boolean = false;
     private isTouchEndEvtBound: boolean = false;
     private isTouchInProgress: boolean = false;
+    private touchInProgressInterval: any;
+    private readonly swipeDeltaCheckNum: number = 20;
     private touchCoordinates: iTouchOrdinates = {
         startX: 0,
         startY: 0,
@@ -1077,6 +1081,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     public set receiveStateUrl(value: string) {
+        this._receiveStateUrl = value;
         this.info('Set receiveStateUrl(\'' + value + '\')');
         if (value === null || value === undefined) {
             return;
@@ -2528,6 +2533,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.initAttributes();
         this.cacheComponentChildrens();
         this.attachEventListeners();
+        // this.addClassToBodyTag();
         this.setAttribute("id", this.getCrId());
         const uID = this.getCrId().split('cr-id-');
         this.ch5UId = parseInt(uID[1], 0);
@@ -2726,17 +2732,25 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         ev.stopImmediatePropagation();
     }
 
+    /**
+     * Function to add touch handler for parent or video element as required to monitor and perform video play/pause execution
+     * TODO: HH: Have commented the touch event listener for temporary sake, need to enable or remove based on discussions for handling
+     * the events w.r.t touch/swpie handlers for video
+     */
     private _addTouchEventsForSwipe() {
         // const ele = this.videoScrollableParentElement;
-        const ele = this.videoElement;
+        // const ele = this.videoElement;
 
-        if (!this.isTouchStartEvtBound &&
-            !!ele && ele != null && !!ele.classList) {
-            this.isTouchStartEvtBound = true;
-            ele.addEventListener('touchstart', this._handleTouchStartEvent_Swipe.bind(this));
-        }
+        // if (!this.isTouchStartEvtBound &&
+        //     !!ele && ele != null && !!ele.classList) {
+        //     this.isTouchStartEvtBound = true;
+        //     ele.addEventListener('touchstart', this._handleTouchStartEvent_Swipe.bind(this));
+        // }
     }
 
+    /**
+     * Function to remove touch handler for parent or video element as required to monitor and perform video play/pause execution
+     */
     private _removeTouchEventsForSwipe() {
         this.isTouchInProgress = false;
         this.isTouchStartEvtBound = false;
@@ -2810,6 +2824,127 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
         ele.removeEventListener('touchmove', this._handleTouchMoveEvent_Swipe, false);
         ele.removeEventListener('touchend', this._handleTouchEndEvent_Swipe, false);
+    }
+
+    /**
+     * Function called during init of video component to bind
+     * Adding an elementary animation on body tag for the pseudo class "active" to
+     * observe the changes in position of video element and pause video if necessary
+     * DELETE THIS METHOD IF IT FAILS
+     * DEV REFER: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/animationstart_event
+     */
+    private addClassToBodyTag() {
+        this.info("HH: BODY CLASS START");
+        const bodyTag = document.getElementsByTagName("BODY")[0];
+
+        if (bodyTag && bodyTag.className.split(' ').indexOf(this.bodyTagVideoClass) < 0) {
+            this.info("HH TEST: BODY CLASS INIT");
+            bodyTag.classList.add(this.bodyTagVideoClass);
+            const css = `body.${this.bodyTagVideoClass}:active { 
+                speak: no-punctuation;
+                animation-duration: 1s;
+                animation-name: nodeInserted;
+                animation-iteration-count: infinite;
+            }
+            @keyframes nodeInserted { 
+                from { opacity: 1; }
+                to { opacity: 1; } 
+            }
+            `;
+            const head = document.head || document.getElementsByTagName('head')[0];
+            const style = document.createElement('style');
+
+            head.appendChild(style);
+
+            style.type = 'text/css';
+            style.appendChild(document.createTextNode(css));
+        }
+        this.onBodyActiveTrigger();
+    }
+
+    /**
+     * Function to trigger on body:active or on touch of body element and removed when finger moved out
+     */
+    private onBodyActiveTrigger() {
+        this.info("HH TEST: BODY CLASS BINDING EVENTS");
+        const bodyTag = document.getElementsByTagName("BODY")[0];
+        bodyTag.addEventListener('animationstart', this.bodyOnAnimationStart.bind(this));
+        bodyTag.addEventListener('animationend', this.bodyOnAnimationEnd.bind(this));
+    }
+
+    /**
+     * Function bound to body to allow observing on the video element when touch happens on the body " ANIMATION START"
+     */
+    private bodyOnAnimationStart() {
+        this.info("HH TEST: BODY CLASS BINDING START");
+        if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_THRESHOLD) {
+            this.info("HH TEST: BODY CLASS START ENTERED");
+            const videoCoOrds = this.getVideoElementOffset();
+            this.touchCoordinates.startX = videoCoOrds.top;
+            this.touchCoordinates.startY = videoCoOrds.left;
+            // HH: focusing on calling the below method only if required, this flag helps to manage status
+            this.isTouchInProgress = true;
+            clearInterval(this.touchInProgressInterval);
+            this.touchInProgressInterval = null;
+            this.touchInProgressInterval = setInterval(() => {
+                this.info("HH TEST: BODY CLASS START LOOP");
+                const bodyTag = document.getElementsByTagName("BODY")[0];
+                const attrs: any = getComputedStyle(bodyTag);
+                if (this.isTouchInProgress && !!attrs && attrs.speak === "no-punctuation") {
+                    this.bodyOnAnimateInProgressWatch();
+                    this.info("HH TEST: BODY CLASS START LOOP - INSIDE");
+                } else {
+                    clearInterval(this.touchInProgressInterval);
+                    this.touchInProgressInterval = null;
+                    this.isTouchInProgress = false;
+                    this.info("HH TEST: BODY CLASS START ENDED");
+                }
+            }, 500);
+        }
+    }
+
+    /**
+     * Function to recursively test whether the video element is still in view and play along under "ANIMATION START" of body
+     */
+    private bodyOnAnimateInProgressWatch() {
+        if (this.isTouchInProgress) {
+            this.info("HH TEST: BODY CLASS POLLING");
+            const videoCoOrds = this.getVideoElementOffset();
+            this.touchCoordinates.endX = videoCoOrds.top;
+            this.touchCoordinates.endY = videoCoOrds.left;
+            const xCord = Math.abs(this.touchCoordinates.endX - this.touchCoordinates.startX);
+            const yCord = Math.abs(this.touchCoordinates.endY - this.touchCoordinates.startY);
+            if (xCord > this.swipeDeltaCheckNum || yCord > this.swipeDeltaCheckNum) {
+                this.videoIntersectionObserver();
+                this.isTouchInProgress = false;
+                clearInterval(this.touchInProgressInterval);
+                this.touchInProgressInterval = null;
+                this.info("HH TEST: BODY CLASS KILLING WATCHER");
+            }
+        }
+    }
+
+    /**
+     * Function bound to body to allow observing on the video element when touch happens on the body " ANIMATION END"
+     */
+    private bodyOnAnimationEnd() {
+        this.info("HH TEST: BODY CLASS ON END");
+        // this.isTouchInProgress = false;
+        // clearInterval(this.touchInProgressInterval);
+        // this.touchInProgressInterval = null;
+        // // HH : Testing the logic with a settimeout
+        // setTimeout(() => {
+        //     this.info("HH TEST: BODY CLASS ON END FIRED");
+        //     this.videoIntersectionObserver();
+        // }, 300);
+    }
+
+    private getVideoElementOffset() {
+        const el = this.videoElement;
+        const rect = el.getBoundingClientRect();
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
     }
 
     /**
@@ -3209,14 +3344,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
-
     /**
      * Publish the video start request
      * @param actionType 
      */
     private _videoStartRequest(actionType: string) {
         // Empty URL scenario
-        if (this.url === '') {
+        if (this.url.trim() === '') {
             this.ch5BackgroundAction(this.VIDEO_ACTION.NOURL, 'videoStartRequest');
             return;
         }
@@ -3587,7 +3721,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.position = CH5VideoUtils.getSizeAndPositionForFixedSize(this.parentElement, this.sizeObj);
                     this.videoTop = this.position.yPos;
                     this.videoLeft = this.position.xPos;
-                    this.controlLeft = this.videoLeft
+                    this.controlLeft = this.videoLeft;
                     this._setControlDimension();
                 }
             }
