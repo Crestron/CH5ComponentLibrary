@@ -469,7 +469,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 resizeObserver(this.parentElement, this.updateCanvasDimensions.bind(this));
             }
             this.info("From connectedCallback of ch5-background");
-            this.doSubscribeVideo();
         });
     }
 
@@ -532,7 +531,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Callback for the video subscription
      * @param request 
      */
-    public videoSubsriptionCallBack(request: IBACKGROUND) {
+    public videoBGRequest(request: IBACKGROUND) {
         this.info("In videoSubsCallBack(): Video Tag Id -> " + request.id);
 
         // return if not initialized
@@ -569,7 +568,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                     this.refillBackground();
                 }
             } else if (request.action === this.VIDEO_ACTION.STOP) {
-                // this.refillBackground();
+                if (!this.isInViewport(request.id)) {
+                    this.refillBackground();
+                }
                 this.manageVideoInfo(request);
                 // clearTimeout(this.lastClearCutBGTimeout);
                 // this.lastClearCutBGTimeout = setTimeout(() => {
@@ -590,10 +591,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         }
     }
 
-    public doSubscribeVideo() {
-        // getting video response
-        this._videoSubscriptionId = subscribeState('o', 'ch5.video.background', this.videoSubsriptionCallBack.bind(this));
-    }
     /**
      * Called every time the element is removed from the DOM.
      * Useful for running clean up code.
