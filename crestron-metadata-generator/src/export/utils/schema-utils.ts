@@ -49,11 +49,13 @@ function getDescription(definition: Definition): string {
     return definition.description || "";
 }
 
-
 function getSnippets(definition: Definition): Ch5Snippet[] {
     return parser.getSnippetsFromObject(definition);
 }
 
+function getTypeForAriaRoles(definition: Definition): string {
+    return parser.getTypeForAriaRolesFromObject(definition);
+}
 
 function getTagName(definition: Definition): string {
     return parser.getTagNameFromObject(definition);
@@ -64,7 +66,6 @@ function getTypesInternal(keys: string[], definitions: Map<string, Definition>, 
 
     for (const key of keys) {
         const value = definitions.get(key);
-
         if (!isNil(value)) {
             if (filter(value)) {
                 result.push(<DefinitionTuple>{
@@ -74,11 +75,8 @@ function getTypesInternal(keys: string[], definitions: Map<string, Definition>, 
             }
         }
     }
-
     return result;
 }
-
-
 
 export {
     hasKeys,
@@ -89,5 +87,6 @@ export {
     getDocumentation,
     getSnippets,
     getDescription,
-    getDefault
+    getDefault,
+    getTypeForAriaRoles
 };

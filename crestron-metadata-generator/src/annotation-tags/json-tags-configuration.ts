@@ -11,6 +11,7 @@ export class JsonTagsConfiguration {
         "exclusiveMinimum",
         "name",
         "tagName",
+        "ariaRole",
         "documentation",
         "maximum",
         "exclusiveMaximum",

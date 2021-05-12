@@ -18,6 +18,7 @@ function addTypeDefinition(definition: Definition, aliases: DefinitionTuple[]): 
     result.documentation = _.getDocumentation(definition);
     result.name = _.getName(definition);
     result.tagName = _.getTagName(definition);
+    result.ariaRole = _.getTypeForAriaRoles(definition);
     result.snippets = _.getSnippets(definition);
     result.attributes = getProperties(definition, aliases);
     return result;
@@ -28,7 +29,10 @@ function addAttributeDefinition(definition: Definition, aliases: DefinitionTuple
     result.documentation = _.getDocumentation(definition);
     result.name = _.getName(definition);
     result.value = getProperties(definition, aliases)[0].value;
-    result.default = _.getDefault(definition);
+    const defaultValue = _.getDefault(definition);
+    if (!isNil(defaultValue) && defaultValue !== "") {
+        result.default = _.getDefault(definition);
+    }
     return result;
 }
 

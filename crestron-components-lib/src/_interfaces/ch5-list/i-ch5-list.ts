@@ -10,18 +10,11 @@ import { ICh5ListAttributes } from "./i-ch5-list-attributes";
 import { TBoolAttribute } from '../ch5-common/types/t-bool-attribute';
 import { ICh5Gestureable } from "../ch5-common/i-ch5-gestureable";
 
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
-// All rights reserved.
-// No part of this software may be reproduced in any form, machine
-// or natural, without the express written consent of Crestron Electronics.
-// Use of this source code is subject to the terms of the Crestron Software License Agreement
-// under which you licensed this source code.
-
-
 /**
  * @name Ch5 List
  * @isattribute false
  * @tagName ch5-list
+ * @ariaRole list
  * @description Ch5 List offers a wide range of functionality out-of-the-box.
  * @documentation
  * [

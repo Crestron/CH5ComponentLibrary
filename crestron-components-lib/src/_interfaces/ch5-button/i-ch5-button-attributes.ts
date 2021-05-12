@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5Common, ICh5CommonAttributes } from "../ch5-common";
+import { ICh5CommonAttributes } from "../ch5-common";
 import {
     TCh5ButtonSize,
     TCh5ButtonIconPosition,
@@ -29,6 +29,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      *  "***",
      *  "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
      * ]
+     * @default regular
      */
     size: TCh5ButtonSize;
 
@@ -64,6 +65,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * "The icon position relative to the label."
      * ]
      * @name iconposition
+     * @default first
      */
     iconPosition: TCh5ButtonIconPosition;
 
@@ -89,6 +91,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * "component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)."
      * ]
      * @name orientation
+     * @default horizontal
      */
     orientation: TCh5ButtonOrientation;
 
@@ -101,6 +104,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * "'rectangle', 'tab', 'circle', 'oval'. The shape of the button."
      * ]
      * @name shape
+     * @default rounded-rectangle
      */
     shape: TCh5ButtonShape;
 
@@ -135,6 +139,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * "'default' is used."
      * ]
      * @name type
+     * @default default
      */
     type: TCh5ButtonType;
 
@@ -255,7 +260,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * @name receivestateiconurl
      */
     receiveStateIconUrl: string | null;
-    
+
     /**
      * @documentation
      * [

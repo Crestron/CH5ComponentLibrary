@@ -10,12 +10,13 @@ import { ElementsData } from "./elements-data";
 export class Metadata {
     public htmlElements: ElementsData;
     public ch5Elements: ElementsData;
+    public version: string;
 
     public static New(): Metadata {
         const result = new Metadata();
+        result.version = "";
         result.htmlElements = ElementsData.New();
         result.ch5Elements = ElementsData.New();
-
         return result;
     }
 }

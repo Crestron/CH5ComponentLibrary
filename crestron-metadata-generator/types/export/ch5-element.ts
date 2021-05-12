@@ -11,6 +11,7 @@ import { Ch5Snippet } from "./ch5-snippet";
 export class Ch5Element {
     public name: string;
     public tagName: string;
+    public ariaRole?: string;
     public description?: string;
     public attributes: Ch5Attribute[];
     public documentation?: string[];
