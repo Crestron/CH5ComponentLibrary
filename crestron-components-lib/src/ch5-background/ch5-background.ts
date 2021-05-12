@@ -61,6 +61,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private lastClearCutBGTimeout: any;
     private videoRequestObj: IBACKGROUND = {} as IBACKGROUND;
     private videoSnapShot: HTMLImageElement = {} as HTMLImageElement;
+    private isInitialized: boolean = false;
 
     private readonly VIDEO_ACTION = {
         STARTED: 'started',
@@ -491,11 +492,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         this.updateCanvasDimensions();
                         this._isVisible = false;
                     }
-
-
                 } else {
                     this._isVisible = true;
                 }
+                this.isInitialized = true;
             });
         });
     }
@@ -532,8 +532,14 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Callback for the video subscription
      * @param request 
      */
-    private videoSubsriptionCallBack(request: IBACKGROUND) {
+    public videoSubsriptionCallBack(request: IBACKGROUND) {
         this.info("In videoSubsCallBack(): Video Tag Id -> " + request.id);
+
+        // return if not initialized
+        if (!this.isInitialized) {
+            return;
+        }
+
         if (request && Object.keys(request).length) {
             const tempObj: IBACKGROUND = Object.assign({}, request);
             delete tempObj.image;
@@ -1199,6 +1205,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * Cutting background as per video dimension and position
      */
     private videoBGAction() {
+        if (this._elCanvas && Object.keys(this._elCanvas).length === 0 && this._elCanvas.constructor === Object) {
+            return;
+        }
+
         if (this._videoCrop && typeof this._videoCrop === 'string') {
             this._videoRes = JSON.parse(this._videoCrop);
         }
@@ -1213,12 +1223,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
             this.manageVideoInfo(this._videoRes);
 
-            /*
-             * A timer is required here, otherwise the refill will overwrite
-             */
-            // let timer: number = 0;
-            // if (timer) { window.clearTimeout(timer) };
-            // timer = window.setTimeout(() => {
             if (this._videoDimensions.length) {
                 this._videoDimensions.map((video: IBACKGROUND, vIdx: number) => {
                     this.info("\nvideoBGAction() -> Video Tag Id " + video.id + " is in Viewport: " + this.isInViewport(video.id));
@@ -1263,7 +1267,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 })
             }
             this.lastCutTime = performance.now();
-            // }, 50);
         }
     }
 
