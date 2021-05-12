@@ -897,7 +897,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.playValue = newValue;
                 this.isExitFullscreen = false;
                 if (newValue) {
-                    this._calculation(this.videoElement);
+                    // this._calculation(this.videoElement);
                     this.drawSnapShot();
                     this.isVideoReady = false;
                     this.lastRequestStatus = this.VIDEO_ACTION.STOP;
@@ -913,6 +913,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 } else {
                     this.isVideoReady = true;
                     this.lastRequestStatus = this.VIDEO_ACTION.START;
+                    this.ch5BackgroundRequest(this.VIDEO_ACTION.STOP, 'receiveStatePlay');
                     this._publishVideoEvent(this.VIDEO_ACTION.STOP);
                     this.loadAllSnapshots(); // start loading snapshots
                 }
@@ -1298,7 +1299,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             });
         }
         this.videoScrollableParentElement = this.querySelector('#video-page') as HTMLElement; // initializing the parent
-        Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver);
+        Ch5CoreIntersectionObserver.getInstance().observe(this, _.debounce(this.videoIntersectionObserver.bind(this), 100, {
+            'leading': true,
+            'trailing': true
+        }));
         this.isIntersectionObserve = true;
         this._addTouchEventsForSwipe();
     }
@@ -1310,14 +1314,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         // HH : 
         subscribeState('b', 'triggerview.slidemove', (res: boolean) => {
             if (res) {
-                if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL) {
-                    this.ch5BackgroundRequest(this.VIDEO_ACTION.REFILL, 'initiateSubscriptions');
-                }
+                console.log(">>>>>>>>>>>>>>>>>>>>>>Slide moved");
+                this.ch5BackgroundRequest(this.VIDEO_ACTION.REFILL, 'initiateSubscriptions');
                 this._isSlideMoved = true;
             }
         });
         subscribeState('b', 'triggerview.touchend', (res: boolean) => {
             if (res && this._isSlideMoved) {
+                console.log(">>>>>>>>>>>>>>>>>>>>>>triggerview.touchend");
                 let timer: any;
                 clearTimeout(timer);
                 timer = setTimeout(() => {
@@ -1333,6 +1337,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         });
         subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
             if (res && this.elementIsInViewPort) {
+                console.log(">>>>>>>>>>>>>>>>>>>>>>triggerview.slidechange");
                 if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL) {
                     this.ch5BackgroundRequest(this.VIDEO_ACTION.REFILL, 'triggerview.slidechange');
                 }
@@ -1895,7 +1900,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
 
         // fill the background
-        // this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL, "OnVideoAspectRatioConditionNotMet");
+        this.ch5BackgroundRequest(this.VIDEO_ACTION.REFILL, "OnVideoAspectRatioConditionNotMet");
 
         // TODO : if the component is already in the required state (stopped | playing), continue
         this.info("Task: Video to be stopped.");
@@ -3379,17 +3384,21 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param actionType 
      */
     private _videoStopRequest(actionType: string) {
+        // Stop the video immediately
+        publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
+
+        /*
         if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL && !this.elementIsInViewPort) {
             this.ch5BackgroundRequest(this.VIDEO_ACTION.REFILL, 'videoStopRequest');
         } else {
             this.ch5BackgroundRequest(this.VIDEO_ACTION.STOP, 'videoStopRequest');
-        }
+        }*/
 
         this.fromExitFullScreen = false;
         this.lastRequestUrl = '';
         this._unsubscribeRefreshImage();
         this._performanceDuration(this.VIDEO_ACTION.STOP, performance.now(), 'timerStart');
-        publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
+        
         this.isVideoReady = false;
         this._sendEvent(this.sendEventState, 3, 'number');
     }
@@ -3408,7 +3417,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         let bgElement: Ch5Background;
         while (idx > 0) {
             bgElement = this.ch5BackgroundElements[--idx];
-            bgElement.videoSubsriptionCallBack(videoInfo);
+            bgElement.videoBGRequest(videoInfo);
         }
     }
 
@@ -3451,11 +3460,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 clearTimeout(this.exitSnapsShotTimer); // clear timer to stop refreshing image
                 if (this.elementIsInViewPort) {
                     this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.STOP));
+                } else {
+                    isActionExecuted = false;
                 }
                 break;
             case this.VIDEO_ACTION.ERROR:
                 if (this.elementIsInViewPort) {
                     this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.ERROR));
+                } else {
+                    isActionExecuted = false;
                 }
                 break;
             default:
@@ -3546,9 +3559,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
 
                 // This condition makes sure not to draw a black rectangle when invisible
-                if (this.elementIsInViewPort) {
+                /*if (this.elementIsInViewPort) {
                     this.ch5BackgroundRequest(this.VIDEO_ACTION.STOP, 'videoResponse');
-                }
+                }*/
 
                 // When the user continously clicks on play and stop without a gap, started
                 const vidResponses = ['connecting', 'buffering', 'retrying', 'resizing', 'error'];

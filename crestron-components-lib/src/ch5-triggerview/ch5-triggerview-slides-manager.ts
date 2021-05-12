@@ -5,11 +5,11 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import {Ch5TriggerView} from "./ch5-triggerview";
+import { Ch5TriggerView } from "./ch5-triggerview";
 import Swiper, { SwiperOptions } from "swiper";
-import {getCSSCustomProperty} from "./utils";
-import {Ch5TriggerViewChild} from "./ch5-triggerview-child";
-import {isNil} from "lodash";
+import { getCSSCustomProperty } from "./utils";
+import { Ch5TriggerViewChild } from "./ch5-triggerview-child";
+import { isNil } from "lodash";
 import { Ch5CustomAttributes } from "../ch5-custom-attrs";
 import { publishEvent } from "../ch5-core";
 
@@ -123,6 +123,14 @@ export class Ch5TriggerViewSlidesManager {
       // update active slide attributes (also prev active slide attrs will be updated)
       this._updateActiveSlideAttributes();
       this._updateTriggerViewElActiveViewWhenChangedBySwiper();
+
+      // publishing slidechange event for ch5-video
+      publishEvent('b', 'triggerview.slidechange', true);
+    });
+
+    // publishing slidemove eevnt for ch5-video
+    this._swiper.on('sliderMove', () => {
+      publishEvent('b', 'triggerview.slidemove', true);
     });
 
     // set gestures on/off
@@ -178,7 +186,7 @@ export class Ch5TriggerViewSlidesManager {
     this.triggerViewEl.swipeThreshold = newThreshold;
 
     if (this._swiper !== null) {
-        this._swiper.params.threshold = newThreshold;
+      this._swiper.params.threshold = newThreshold;
     }
   }
 
@@ -276,7 +284,7 @@ export class Ch5TriggerViewSlidesManager {
       let slide = null;
       let index = null;
 
-      if (!isNil(this._swiper) && !isNil(this._swiper.slides)){
+      if (!isNil(this._swiper) && !isNil(this._swiper.slides)) {
         Array.from(this._swiper!.slides).forEach((s: Ch5TriggerViewChild, i) => {
           if (!s.classList.contains('swiper-slide-duplicate') && childView === s) {
             slide = s;
@@ -319,7 +327,7 @@ export class Ch5TriggerViewSlidesManager {
   public getActiveIndex() {
     return this._swiper!.realIndex;
   }
-  
+
   public getSwiperParam(paramName: string) {
     if (!this.swiperIsActive()) {
       return null;
@@ -410,7 +418,7 @@ export class Ch5TriggerViewSlidesManager {
   }
 
   private _updateTriggerViewElActiveViewWhenChangedBySwiper() {
-        this.triggerViewEl!.setAttribute('activeView', String(this.getActiveIndex()));
+    this.triggerViewEl!.setAttribute('activeView', String(this.getActiveIndex()));
   }
 
   private _getSlidingSpeed() {
