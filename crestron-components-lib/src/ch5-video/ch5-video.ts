@@ -1990,6 +1990,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.controlFullScreen.classList.add("control");
         this.controlFullScreen.innerHTML = this.ESVG_ICONS.FULLSCREEN_ICON;
         this.vidControlPanel.appendChild(this.controlFullScreen);
+        this.vidControlPanel.style.width = '100%';
+        this.vidControlPanel.style.left = '-5px';
+        this.vidControlPanel.style.top = '5px';
 
         this.videoElement.classList.add('video-wrapper');
         this.videoElement.style.width = "100%";
@@ -3606,7 +3609,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isOrientationChanged = false;
                 this.isExitFullscreen = false;
                 this.isPositionChanged = false;
-                // this._setControlDimension();
                 this.ch5BackgroundRequest(this.VIDEO_ACTION.STARTED, 'videoResponse');
 
                 /* 
@@ -3644,7 +3646,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     // this._clearSnapShot();
                     this._unsubscribeRefreshImage();
                     // this._calculation(this.videoCanvasElement);
-                    // this._setControlDimension();
                     this.ch5BackgroundRequest(this.VIDEO_ACTION.STARTED, 'videoResponse');
                     this.isVideoReady = true;
                 }
@@ -3710,18 +3711,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _showFullScreenIcon() {
         if (!!this.vidControlPanel && !!this.vidControlPanel.classList) {
             this.vidControlPanel.classList.add(this.showControl);
-            // this._setControlDimension();
         }
-    }
-
-    /**
-     * Set the dimensions and position of the video control icon
-     */
-    private _setControlDimension() {
-        this.vidControlPanel.style.position = "absolute";
-        this.vidControlPanel.style.width = this.sizeObj.width + 'px';
-        this.vidControlPanel.style.left = this.controlLeft + 'px';
-        this.vidControlPanel.style.top = this.controlTop + 'px';
     }
 
     /**
@@ -3772,12 +3762,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                         offsetLeft = parentElementDimensions.offsetLeft;
                     }
 
-                    if (CH5VideoUtils.isPillarBox) {
-                        video.style.left = (this.videoLeft - offsetLeft) + "px";
-                    } else {
-                        video.style.top = (this.videoTop - offsetTop) + "px";
-                    }
-                    this._setControlDimension();
+                    // if (CH5VideoUtils.isPillarBox) {
+                    //     video.style.left = (this.videoLeft - offsetLeft) + "px";
+                    // } else {
+                    //     video.style.top = (this.videoTop - offsetTop) + "px";
+                    // }
                 }
             }
         } else if (this.stretch === 'true') {
@@ -3817,7 +3806,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.videoTop > 0 && this.videoTop < 1) {
                 this.videoTop = 0;
             }
-            this._setControlDimension();
         }
     }
 
