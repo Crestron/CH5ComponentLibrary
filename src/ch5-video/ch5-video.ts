@@ -887,7 +887,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         const sigStatePlay: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(sigNameStatePlay);
         if (sigStatePlay) {
             this.subReceiveStatePlay = sigStatePlay.subscribe((newValue: any) => {
-                this.info('receiveStatePlay Signal Subscribe Value: ' + JSON.stringify(newValue));
+                this.info('receiveStatePlay Signal Subscribe Value: ' + newValue);
                 newValue = !this.isIntersectionObserve ? null : newValue;
                 if (this.playValue === newValue) {
                     return;
@@ -2661,7 +2661,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         window.clearTimeout(this.exitTimer);
         // Restoring the originalPotraitVideoProperties values, avoid recalculation
         this.exitTimer = window.setTimeout(() => {
-            this._resetSizeConfigObjPostFullScreen();
+            // this._resetSizeConfigObjPostFullScreen();
+            this._calculation(this.videoElement);
             this._publishVideoEvent(this.VIDEO_ACTION.RESIZE);
         }, 0);
     }
@@ -3572,7 +3573,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isOrientationChanged = false;
                 this.isExitFullscreen = false;
                 this.isPositionChanged = false;
-                this._setControlDimension();
+                // this._setControlDimension();
                 this.ch5BackgroundAction(this.VIDEO_ACTION.STARTED, 'videoResponse');
 
                 /* 
@@ -3610,7 +3611,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     // this._clearSnapShot();
                     this._unsubscribeRefreshImage();
                     // this._calculation(this.videoCanvasElement);
-                    this._setControlDimension();
+                    // this._setControlDimension();
                     this.ch5BackgroundAction(this.VIDEO_ACTION.STARTED, 'videoResponse');
                     this.isVideoReady = true;
                 }
@@ -3676,7 +3677,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _showFullScreenIcon() {
         if (!!this.vidControlPanel && !!this.vidControlPanel.classList) {
             this.vidControlPanel.classList.add(this.showControl);
-            this._setControlDimension();
+            // this._setControlDimension();
         }
     }
 
@@ -3713,15 +3714,36 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             // Calculation for fixed display size like small, medium large
             if (this.isFullScreen) {
                 this._fullScreenCalculation();
+                video.style.top =  "0px";
+                video.style.left = "0px";
+                video.style.width =  window.innerWidth + "px";
+                video.style.height = window.innerHeight + "px";                
             } else {
                 if (this.parentElement) {
+                    let offsetTop: number = 0;
+                    let offsetLeft: number = 0;        
                     this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
-                    this.videoElement.style.width = this.sizeObj.width + "px";
-                    this.videoElement.style.height = this.sizeObj.height + "px";
+                    video.style.width = this.sizeObj.width + "px";
+                    video.style.height = this.sizeObj.height + "px";
+                    // video.style.background = "gray";
+                    // video.style.opacity = "0.3";
                     this.position = CH5VideoUtils.getSizeAndPositionForFixedSize(this.parentElement, this.sizeObj);
                     this.videoTop = this.position.yPos;
                     this.videoLeft = this.position.xPos;
-                    this.controlLeft = this.videoLeft;
+
+                    if (this.parentElement) {
+                        const parentElementDimensions: iElementDimensions = CH5VideoUtils.getParentElementOffsetAndDimension(this.parentElement);
+                        totalHeight = parentElementDimensions.totalHeight;
+                        totalWidth = parentElementDimensions.totalWidth;
+                        offsetTop = parentElementDimensions.offsetTop;
+                        offsetLeft = parentElementDimensions.offsetLeft;
+                    }                    
+
+                    if (CH5VideoUtils.isPillarBox) {
+                        video.style.left = (this.videoLeft - offsetLeft) + "px";
+                    } else {
+                        video.style.top = (this.videoTop - offsetTop) + "px";
+                    }
                     this._setControlDimension();
                 }
             }
@@ -3762,6 +3784,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.videoTop > 0 && this.videoTop < 1) {
                 this.videoTop = 0;
             }
+            this._setControlDimension();
         }
     }
 

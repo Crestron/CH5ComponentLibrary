@@ -3,6 +3,8 @@ import { TDimension, iElementDimensions } from "../_interfaces/ch5-video/types";
 
 export class CH5VideoUtils {
 
+    public static isPillarBox: boolean = false;
+
     /**
      * Function to calculate the position based on the fixed size like small, large, medium
      * @param sWidth width available width
@@ -16,8 +18,10 @@ export class CH5VideoUtils {
 
         if (displaySizeObj.width < elementDimensions.totalWidth) {
             position = CH5VideoUtils.calculatePillarBoxPadding(elementDimensions.totalWidth, displaySizeObj.width);
+            CH5VideoUtils.isPillarBox = true;
         } else if (displaySizeObj.height < elementDimensions.totalHeight) {
             position = CH5VideoUtils.calculateLetterBoxPadding(elementDimensions.totalHeight, displaySizeObj.height);
+            CH5VideoUtils.isPillarBox = false;
         }
 
         position.xPos += elementDimensions.offsetLeft;
