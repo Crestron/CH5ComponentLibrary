@@ -13,6 +13,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Spinner
  * @isattribute false
  * @tagName ch5-spinner
+ * @ariaRole listbox
  * @description CH5 Spinner provides a list of items where items can be moved between by dragging the spinner element.
  * @documentation
  * [
