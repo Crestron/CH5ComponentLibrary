@@ -54,6 +54,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "repeats both vertically and horizontally. The last image will be clipped if it does not fit."
    * ]
    * @name repeat
+   * @default no-repeat
    */
   repeat: TCh5BackgroundRepeat;
 
@@ -74,6 +75,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "imgBackgroundColor attribute."
    * ]
    * @name scale
+   * @default stretch
    */
   scale: TCh5BackgroundScale;
 
@@ -89,6 +91,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "will be capped at the closest valid value."
    * ]
    * @name refreshrate
+   * @default 600
    */
   refreshRate: number | string;
 
@@ -104,6 +107,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "same as the component aspect ratio."
    * ]
    * @name imgbackgroundcolor
+   * @default black
    */
   imgBackgroundColor: string;
 
@@ -118,6 +122,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "property syntax. See the related attribute transition-duration."
    * ]
    * @name transitioneffect
+   * @default ease
    */
   transitionEffect: string;
 
@@ -132,6 +137,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "using CSS transition-duration syntax."
    * ]
    * @name transitionduration
+   * @default 1s
    */
   transitionDuration: string;
 

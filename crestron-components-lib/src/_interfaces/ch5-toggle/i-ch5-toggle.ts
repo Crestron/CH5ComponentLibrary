@@ -13,7 +13,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Toggle
  * @isattribute false
  * @tagName ch5-toggle
- * @ariaRole switch
+ * @role switch
  * @description Ch5 Toggle represents an input with two states behaving like a switch
  * @documentation
  * [

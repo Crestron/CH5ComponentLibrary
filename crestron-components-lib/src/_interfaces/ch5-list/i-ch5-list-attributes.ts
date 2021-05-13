@@ -35,6 +35,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "what happens if content overflows an element's box."
    * ]
    * @name orientation
+   * @default vertical
    */
   orientation: TCh5ListElementOrientation | null;
 
@@ -136,6 +137,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "signal value."
    * ]
    * @name scrolltotime
+   * @default 500ms
    */
   scrollToTime: number;
 

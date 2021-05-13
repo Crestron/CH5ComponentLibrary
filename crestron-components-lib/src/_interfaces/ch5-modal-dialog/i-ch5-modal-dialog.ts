@@ -15,7 +15,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Modal Dialog
  * @isattribute false
  * @tagName ch5-modal-dialog
- * @ariaRole dialog
+ * @role dialog
  * @description Ch5 Modal
  * @documentation
  * [

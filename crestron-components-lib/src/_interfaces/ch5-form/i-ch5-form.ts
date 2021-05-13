@@ -13,7 +13,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Form
  * @isattribute false
  * @tagName ch5-form
- * @ariaRole form
+ * @role form
  * @description Ch5 Form offers a wide range of functionality out-of-the-box.
  * @documentation
  * [

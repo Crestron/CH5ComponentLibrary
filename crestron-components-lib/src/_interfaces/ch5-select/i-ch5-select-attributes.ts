@@ -22,7 +22,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "The initial number of entries in a selection. The default value is 1. The accepted range is 1-30."
    * ]
    * @name size
-   *
+   * @default 1
    */
   size: string | number;
 
@@ -37,32 +37,30 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "this property is ignored."
    * ]
    * @name iconposition
-   *
+   * @default first
    */
   iconPosition: TCh5SelectIconPosition;
 
   /**
    * @documentation
    * [
-   * "`selectedvalud` attribute",
+   * "`selectedvalue` attribute",
    * "***",
    * "The default value is false. Set to true if multiple selections can be selected. ",
    * "If true, the value of the selection will be an array of values."
    * ]
    * @name selectedvalue
-   *
    */
   selectedValue: string | number;
 
   /**
    * @documentation
    * [
-   * "`scrollheight` attribute",
+   * "`panelscrollheight` attribute",
    * "***",
    * "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select. "
    * ]
    * @name panelscrollheight
-   *
    */
   panelScrollHeight: number;
 
@@ -120,7 +118,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "panel – The select menu stays open even when not in focus."
    * ]
    * @name mode
-   *
+   * @default plain
    */
   mode: TCh5SelectMode;
 
@@ -132,7 +130,6 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Allows the form submission functionality. Valid values: 'direct', 'submit'."
    * ]
    * @name feedbackmode
-   *
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -147,7 +144,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "apply the value from the signal automatically. Apply only for feedbackMode direct."
    * ]
    * @name signalvaluesynctimeout
-   *
+   * @default 1500
    */
   signalValueSyncTimeout: string | number;
 

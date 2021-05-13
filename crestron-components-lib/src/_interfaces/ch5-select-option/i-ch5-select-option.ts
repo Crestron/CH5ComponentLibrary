@@ -13,7 +13,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Select option
  * @isattribute false
  * @tagName ch5-select-option
- * @ariaRole option
+ * @role option
  * @description
  * @documentation
  * [

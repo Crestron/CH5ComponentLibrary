@@ -30,6 +30,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "'rounded-rectangle'. Defines the handle shape."
    * ]
    * @name handleshape
+   * @default rounded-rectangle
    */
   handleShape: TCh5SliderShape;
 
@@ -86,6 +87,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The orientation of the slider."
    * ]
    * @name orientation
+   * @default horizontal
    */
   orientation: TCh5SliderOrientation;
 
@@ -98,6 +100,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The size of the slider."
    * ]
    * @name size
+   * @default regular
    */
   size: TCh5SliderSize;
 
@@ -110,6 +113,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'x-large'."
    * ]
    * @name handlesize
+   * @default regular
    */
   handleSize: TCh5SliderSize;
 
@@ -123,6 +127,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "For example, if the slider should have quarters 0, 25, 50, 75, 100, then 5 is the numbers of steps."
    * ]
    * @name step
+   * @default 100
    */
   step: number | string;
 
@@ -136,6 +141,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "height of the container."
    * ]
    * @name stretch
+   * @default both
    */
   stretch: TCh5SliderStretch;
 
@@ -168,6 +174,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "-'auto': Displayed while user interacts with the slider"
    * ]
    * @name tooltipshowtype
+   * @default off
    */
   toolTipShowType: TCh5SliderTooltipType
 
@@ -181,6 +188,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "'value' - The actual value provided"
    * ]
    * @name tooltipdisplaytype
+   * @default percent
    */
   toolTipDisplayType: TCh5SliderTooltipDisplay;
 

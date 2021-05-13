@@ -36,6 +36,6 @@ export interface Definition {
     defaultProperties?: string[];
     isAliasType?: boolean;
     typeof?: "function";
-    ariaRole?: string;
+    role?: string;
 }
 

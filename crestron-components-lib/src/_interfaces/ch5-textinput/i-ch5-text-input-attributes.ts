@@ -76,6 +76,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "the opposite of 'first'."
    * ]
    * @name iconposition
+   * @default first
    */
   iconPosition: TCh5TextInputIconPosition;
 
@@ -161,6 +162,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Content - Width will be equal to the content width"
    * ]
    * @name stretch
+   * @default fixed
    */
   stretch: TCh5TextInputStretch;
 

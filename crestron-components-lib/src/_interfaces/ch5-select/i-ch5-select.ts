@@ -13,7 +13,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Select
  * @isattribute false
  * @tagName ch5-select
- * @ariaRole listbox
+ * @role listbox
  * @description Ch5 Select inherits the default html select, but provides a lot of extra features
  * @documentation
  * [

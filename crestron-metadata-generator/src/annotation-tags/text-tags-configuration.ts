@@ -11,7 +11,7 @@ export class TextTagsConfiguration {
         "description",
         "name",
         "tagName",
-        "ariaRole",
+        "role",
         "documentation",
         "format",
         "pattern",

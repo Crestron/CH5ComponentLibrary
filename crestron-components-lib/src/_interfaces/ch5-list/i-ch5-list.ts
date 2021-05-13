@@ -14,7 +14,7 @@ import { ICh5Gestureable } from "../ch5-common/i-ch5-gestureable";
  * @name Ch5 List
  * @isattribute false
  * @tagName ch5-list
- * @ariaRole list
+ * @role list
  * @description Ch5 List offers a wide range of functionality out-of-the-box.
  * @documentation
  * [

@@ -28,7 +28,7 @@ function getTagNameFromObject(definition: Object): string {
 }
 
 function getTypeForAriaRolesFromObject(definition: Object): string {
-    const documentationTag = "ariaRole";
+    const documentationTag = "role";
     const keys = Object.keys(definition);
 
     const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;

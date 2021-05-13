@@ -52,6 +52,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "the label to its left. Value of 'last' is the opposite of 'first'."
    * ]
    * @name iconposition
+   * @default first
    */
   iconPosition: TCh5SpinnerIconPosition;
 
@@ -97,6 +98,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "the template given."
    * ]
    * @name visibleitemscroll
+   * @default 3
    */
   visibleItemScroll: number;
 
@@ -109,6 +111,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Valid values: 'direct', 'submit'."
    * ]
    * @name feedbackmode
+   * @default direct
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -124,6 +127,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "feedbackMode direct."
    * ]
    * @name signalvaluesynctimeout
+   * @default 1500
    */
   signalValueSyncTimeout: number;
 

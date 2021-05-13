@@ -13,7 +13,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Overlay Panel
  * @isattribute false
  * @tagName ch5-overlay-panel
- * @ariaRole dialog
+ * @role dialog
  * @description Ch5 Overlay Panel
  * @documentation
  * [

@@ -78,6 +78,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "of the component (rectangle or circle)."
    * ]
    * @name handleshape
+   * @default circle
    */
   handleShape: TCh5ToggleShape;
 
@@ -92,6 +93,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "component -90 degrees (270 degrees clockwise, 90 degrees counter clockwise)."
    * ]
    * @name orientation
+   * @default horizontal
    */
   orientation: TCh5ToggleOrientation;
 
@@ -107,6 +109,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    *
    * ]
    * @name signalvaluesynctimeout
+   * @default 1500
    */
   signalValueSyncTimeout: string | number;
 
@@ -119,6 +122,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "instant. On submit, it will send and listen for the first event received."
    * ]
    * @name feedbackmode
+   * @default direct
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 

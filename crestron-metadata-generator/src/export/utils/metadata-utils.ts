@@ -18,7 +18,7 @@ function addTypeDefinition(definition: Definition, aliases: DefinitionTuple[]): 
     result.documentation = _.getDocumentation(definition);
     result.name = _.getName(definition);
     result.tagName = _.getTagName(definition);
-    result.ariaRole = _.getTypeForAriaRoles(definition);
+    result.role = _.getTypeForAriaRoles(definition);
     result.snippets = _.getSnippets(definition);
     result.attributes = getProperties(definition, aliases);
     return result;

@@ -153,6 +153,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      *  "height: 55vh), 'x-large' (width: 70vw, height: 70vh) and 'xx-large' (width: 85vw, height: 80vh). ",
      *  "The user needs to select the appropriate size to fit the container."
      * ]
+     * @default small
      */
     size: TCH5VideoSize | string;
 
