@@ -14,7 +14,7 @@ import { ICh5Gestureable } from "../ch5-common/i-ch5-gestureable";
  * @name Ch5 Trigger View
  * @isattribute false
  * @tagName ch5-triggerview
- * @ariaRole listbox
+ * @role listbox
  * @description Ch5 Trigger View will be used to group content, each component will be wrap inside an ChildView Component
  * @documentation
  * [

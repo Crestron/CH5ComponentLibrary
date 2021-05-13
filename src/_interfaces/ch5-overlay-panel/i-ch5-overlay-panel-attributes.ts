@@ -7,7 +7,6 @@
 
 import { ICh5CommonAttributes } from "../ch5-common";
 import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow, TCh5OverlayPanelPositionOffset } from "./types";
-import { ICh5OverlayPanelAttributes } from "./i-ch5-overlay-panel-attributes";
 
 /**
  * @ignore

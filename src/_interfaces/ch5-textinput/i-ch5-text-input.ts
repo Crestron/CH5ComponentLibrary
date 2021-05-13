@@ -14,7 +14,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Textinput
  * @isattribute false
  * @tagName ch5-textinput
- * @ariaRole input
+ * @role input
  * @description Ch5 Textinput inherits the default html input behavior, but also provides extra features.
  * @documentation
  * [

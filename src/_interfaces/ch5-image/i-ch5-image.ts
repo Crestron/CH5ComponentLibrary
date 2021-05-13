@@ -12,7 +12,7 @@ import { ICh5ImageAttributes } from "./i-ch5-image-attributes";
  * @name Ch5 Image
  * @isattribute false
  * @tagName ch5-image
- * @ariaRole img
+ * @role img
  * @description Ch5 Image offers a wide range of functionality out-of-the-box.
  * @documentation
  * [

@@ -20,6 +20,7 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * "The default value is 0. Sets the view that will be shown using a 0-based index."
      * ]
      * @name activeview
+     * @default 0
      */
     activeView: number;
 
@@ -34,7 +35,6 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * @name sendeventshowchildindex
      */
     sendEventShowChildIndex: string;
-
 
     /**
      * @documentation

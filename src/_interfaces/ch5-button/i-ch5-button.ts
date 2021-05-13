@@ -13,7 +13,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Button
  * @isattribute false
  * @tagName ch5-button
- * @ariaRole button
+ * @role button
  * @description Ch5 Button offers a wide range of functionality out-of-the-box.
  * @documentation
  * [

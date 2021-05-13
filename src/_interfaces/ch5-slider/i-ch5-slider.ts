@@ -13,7 +13,7 @@ import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
  * @name Ch5 Slider
  * @isattribute false
  * @tagName ch5-slider
- * @ariaRole slider
+ * @role slider
  * @description Ch5 Slider inherits the default input range behavior but provides a lot of extra features.
  * @documentation
  * [
