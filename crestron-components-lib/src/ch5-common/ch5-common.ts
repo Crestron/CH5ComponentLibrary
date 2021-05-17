@@ -422,7 +422,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @param {string} sizeValue
      */
     public static convertAltUnitsToPx(sizeValue: string): number {
-
         const measurementUnit = Ch5Common.getMeasurementUnitFromSizeValue(sizeValue);
         const size = parseFloat(sizeValue);
         let _size = size;
@@ -440,9 +439,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     }
 
     public static convertPxUnitToAlt(px: number, measurementUnit: string): number {
-
         let altValue = px;
-
         switch (measurementUnit) {
             case 'vw':
                 altValue = Ch5Common.convertPxUnitToVw(px);
@@ -451,39 +448,28 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 altValue = Ch5Common.convertPxUnitToVh(px);
                 break;
         }
-
         return Math.ceil(altValue);
     }
 
     public static convertVhUnitsToPx(vh: number): number {
-
         const height = window.innerHeight || document.documentElement.clientHeight;
-        const convertedValue = (vh * height) / 100;
-
-        return convertedValue;
+        return (vh * height) / 100;
     }
 
     public static convertVwUnitsToPx(vw: number): number {
         const width = window.innerWidth || document.documentElement.clientWidth;
-        const convertedValue = (vw * width) / 100;
-
-        return convertedValue;
+        return (vw * width) / 100;
     }
 
     public static convertPxUnitToVh(px: number): number {
         const height = window.innerHeight || document.documentElement.clientHeight;
-        const convertedValue = (px / height) * 100;
-
-        return convertedValue;
+        return (px / height) * 100;
     }
 
     public static convertPxUnitToVw(px: number): number {
         const width = window.innerWidth || document.documentElement.clientWidth;
-        const convertedValue = (px / width) * 100;
-
-        return convertedValue;
+        return (px / width) * 100;
     }
-
 
     /**
      * This method will ensure that the value which should be affected
@@ -494,9 +480,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @return {string}
      */
     public static handlingTextTransformValue(value: string, textTransform: string): string {
-
         let processedValue = value;
-
         if (value === undefined || value === null) {
             return '';
         }
@@ -523,7 +507,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 
     public static processUri(processUriParams: TCh5ProcessUriParams): void | string {
-        let uriStr = "";
+        let uriStr: string = "";
         const platformInfo = Ch5Platform.getInstance();
         platformInfo.registerUpdateCallback((info: ICh5PlatformInfo) => {
 
@@ -580,7 +564,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 }
             })
         }
-
         return translatedValue;
     }
 
@@ -592,7 +575,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @return {void}
      */
     public resolveTemplateChildren(template: HTMLTemplateElement): void {
-
         if (!template) {
             return;
         }
@@ -690,14 +672,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * The messages are displayed only if _isDebugEnabled is true
      */
     public info(message?: any, ...optionalParams: any[]): void {
-        let ts = '';
-        if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
-            ts = (new Date()).toISOString();
-        }
         if (true === this.isDebug()) {
+            let ts: string = '';
+            if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
+                ts = (new Date()).toISOString();
+            }
             try {
                 let callerName: string = String(new Error().stack).trim();
-                // console.warn(callerName);
                 if (callerName !== null) {
                     if (callerName) { callerName = callerName.replace(/^Error\s+/, ''); }
                     if (callerName) { callerName = callerName.split("\n")[1]; } // 1st item is this, 2nd item is caller
@@ -710,11 +691,22 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                         callerName = "Method is " + callerName + ":";
                     }
                 }
-                // console.warn(callerName);
                 console.info(ts + ':' + this.getCrId() + ':' + callerName + message + ':' + optionalParams);
             } catch (e) {
                 console.info(ts + ':' + this.getCrId() + ':' + message + ':' + optionalParams);
             }
+        }
+    }
+
+    public logMethodStart(message: string) {
+        if (true === this.isDebug()) {
+            console.group(message);
+        }
+    }
+
+    public logMethodEnd() {
+        if (true === this.isDebug()) {
+            console.groupEnd()
         }
     }
 
@@ -898,7 +890,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @return {void}
      */
     protected repaint(): void {
-
         try {
             const parentNode: HTMLElement = this.parentNode as HTMLElement;
 
@@ -933,8 +924,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         } catch (e) {
             console.log('Error encountered during repaint ' + ' crId: ' + this.getCrId() + ' error ', e)
         }
-
-
     }
 
     /**
@@ -981,7 +970,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         } else {
             this.handleShow(targetElement);
         }
-
     }
 
     protected handleHide(targetElement: HTMLElement) {
@@ -1084,19 +1072,15 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     protected updateForChangeInDisabledStatus() {
         const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-
         this.info("from common - updateForChangeInDisabledStatus()");
         if (true === this._disabled) {
             targetElement.classList.add(this.getCssClassDisabled());
         } else {
             targetElement.classList.remove(this.getCssClassDisabled());
         }
-
     }
 
     protected getTargetElementForCssClassesAndStyle(): HTMLElement {
-        // const targetElement:HTMLElement = this;
-
         return this as HTMLElement;
     }
 
@@ -1166,7 +1150,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         }
 
         this.updateForChangeInDisabledStatus();
-
     }
 
     protected attachEventListeners() {
