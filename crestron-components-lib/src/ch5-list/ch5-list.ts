@@ -2194,18 +2194,18 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         });
     }
 
-    /**
-     * Wrapper function over Ch5ListLog log.
-     *
-     * @param message Message to show to the console.
-     * @param optionalParameters Optional format parameters
-     *
-     * @type {void}
-     * @memberof Ch5List
-     */
-    private log(message: any, ...optionalParameters: any[]): void {
-        Ch5ListLog.info(Ch5List.DEBUG, message, optionalParameters);
-    }
+    // /**
+    //  * Wrapper function over Ch5ListLog log.
+    //  *
+    //  * @param message Message to show to the console.
+    //  * @param optionalParameters Optional format parameters
+    //  *
+    //  * @type {void}
+    //  * @memberof Ch5List
+    //  */
+    // private log(message: any, ...optionalParameters: any[]): void {
+    //     Ch5ListLog.info(Ch5List.DEBUG, message, optionalParameters);
+    // }
 
     /**
      * Wrapper function over Ch5ListLog error.

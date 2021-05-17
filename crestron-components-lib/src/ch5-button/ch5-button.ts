@@ -85,22 +85,26 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * The first value is considered the default one
      */
     public static readonly TYPES: TCh5ButtonType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+
     /**
      * The first value is considered the default one
      */
     public static readonly SHAPES: TCh5ButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'];
+
     /**
      * The first value is considered the default one
      */
     public static readonly SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+
     /**
-     * The first value is considered the default one
+     * No default value for Stretch
      */
     public static readonly STRETCHES: TCh5ButtonStretch[] = ['', 'both', 'width', 'height'];
     /**
      * The first value is considered the default one
      */
     public static readonly ICON_POSITIONS: TCh5ButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
+
     /**
      * The first value is considered the default one
      */
@@ -109,11 +113,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * Time needed for the sendOnTouch to trigger/reinforce
      */
-    public static readonly TOUCHTIMEOUT: number = 250;
+    public static readonly TOUCH_TIMEOUT: number = 250;
 
     public static readonly PRESS_MOVE_THRESHOLD = 10;
 
-    public static readonly CONTAINERCLASSNAME: string = 'cb-cntr';
+    public static readonly CONTAINER_CLASS: string = 'cb-cntr';
 
     public static readonly SVG: string = 'svg';
 
@@ -297,22 +301,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _sigNameSendOnTouch: string = '';
 
     /**
-     * The boolean Ch5Signal for sendEventOnTouch
-     */
-    private _sigSendOnTouch: Ch5Signal<boolean> | null = null;
-
-    /**
      * The name of the boolean signal that will be sent to native on click or tap event (mouse or finger up and down in
      * a small period of time)
      *
      * HTML attribute name: sendEventOnClick or sendeventonclick
      */
     private _sigNameSendOnClick: string = '';
-
-    /**
-     * The boolean Ch5Signal for sendEventOnClick
-     */
-    private _sigSendOnClick: Ch5Signal<boolean> | null = null;
 
     /**
      * Changing iconClass through signal
@@ -368,8 +362,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      */
     private _subReceiveSignalType: string | null = null;
 
-    // private _wasInstatiated:boolean=false;
-
     /**
      * The interval id ( from setInterval ) for reenforcing the  onTouch signal
      * This id allow canceling the interval.
@@ -380,11 +372,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * this is last tap time used to determine if should send click pulse in focus event 
      */
     private _lastTapTime: number = 0;
-
-    /**
-     * this is last time press was released  
-     */
-    private _lastPressTime: number = 0;
 
     /**
      * Events
@@ -437,7 +424,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private isTouch: boolean = false;
 
-
     public constructor() {
         super();
         this.info('Ch5Button.constructor()');
@@ -470,7 +456,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * Called when the ch5-button component is first connected to the DOM
      */
     public connectedCallback() {
-        this.info('connectedCallback() start');
+        this.log.start('connectedCallback()');
         // WAI-ARIA Attributes
         if (!this.hasAttribute('role')) {
             this.setAttribute('role', Ch5RoleAttributeMapping.ch5Button);
@@ -499,8 +485,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         if (!this.hasAttribute('customclasspressed')) {
             this.updateCssClassesForCustomState();
         }
-
-        this.info('connectedCallback() end');
+        this.log.stop();
     }
 
     /**
@@ -584,59 +569,38 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         return cssClasses;
     }
 
-
     public unsubscribeFromSignals() {
+        // TODO - this need not be passed as parameter
         this.info('unsubscribeFromSignals()');
         super.unsubscribeFromSignals();
 
         const csf = Ch5SignalFactory.getInstance();
-        if ('' !== this._subReceiveLabel && '' !== this._sigNameReceiveLabel) {
-            const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveLabel);
-            const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(receiveLabelSigName);
-            if (null !== sigLabel) {
-                sigLabel.unsubscribe(this._subReceiveLabel);
-                this._sigNameReceiveLabel = '';
-            }
-        }
-
-        if ('' !== this._subReceiveSignalType && '' !== this._sigNameReceiveStateType) {
-            const receiveTypeSigName: string = Ch5Signal.getSubscriptionSignalName('' + this._sigNameReceiveStateType);
-            const sigType: Ch5Signal<string> | null = csf.getStringSignal(receiveTypeSigName);
-            if (null !== sigType) {
-                sigType.unsubscribe('' + this._subReceiveSignalType);
-                this._sigNameReceiveStateType = '';
-            }
-        }
-
-        if ('' !== this._subReceiveSelected && '' !== this._sigNameReceiveSelected) {
-            const receiveSelectedSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveSelected);
-            const sigSelected: Ch5Signal<boolean> | null = csf.getBooleanSignal(receiveSelectedSigName);
-            if (null !== sigSelected) {
-                sigSelected.unsubscribe(this._subReceiveSelected);
-                this._sigNameReceiveSelected = '';
-            }
-        }
-
-        if ('' !== this._subReceiveScriptLabelHtml && '' !== this._sigNameReceiveScriptLabelHtml) {
-            const receiveScriptLabelHtmlSigName: string =
-                Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveScriptLabelHtml);
-            const sigLabelHtml: Ch5Signal<string> | null = csf.getStringSignal(receiveScriptLabelHtmlSigName);
-            if (null !== sigLabelHtml) {
-                sigLabelHtml.unsubscribe(this._subReceiveScriptLabelHtml);
-                this._sigNameReceiveScriptLabelHtml = '';
-            }
-        }
+        this.clearSignalValue(csf, this, "_subReceiveLabel", "_sigNameReceiveLabel");
+        this.clearSignalValue(csf, this, "_subReceiveSignalType", "_sigNameReceiveStateType");
+        this.clearSignalValue(csf, this, "_subReceiveSelected", "_sigNameReceiveSelected");
+        this.clearSignalValue(csf, this, "_subReceiveScriptLabelHtml", "_sigNameReceiveScriptLabelHtml");
         this.info('unsubscribeFromSignals() end');
     }
 
+    private clearSignalValue(csf: Ch5SignalFactory, obj: any, receiveAttribute: string, signalReceiveAttribute: string) {
+        if ('' !== obj[receiveAttribute] && '' !== obj[signalReceiveAttribute]) {
+            const receiveValueSigName: string = Ch5Signal.getSubscriptionSignalName(obj[signalReceiveAttribute]);
+            const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(receiveValueSigName);
+            if (null !== sigLabel) {
+                sigLabel.unsubscribe(obj[receiveAttribute]);
+                obj[signalReceiveAttribute] = '';
+            }
+        }
+    }
+
     public imgToSvg(img: HTMLImageElement) {
-        const imgID = img.id;
-        const imgClass = img.className;
-        const imgURL = img.src;
+        const imgID: string = img.id;
+        const imgClass: string = img.className;
+        const imgURL: string = img.src;
         const imgType = imgURL.split('.').pop();
         if (!isNil(imgURL) && (imgType === Ch5Button.SVG)) {
-            const xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
+            const xmlHttpObject = new XMLHttpRequest();
+            xmlHttpObject.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     const parser = new DOMParser();
                     const xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
@@ -658,8 +622,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                     }
                 }
             };
-            xhttp.open('GET', imgURL, true);
-            xhttp.send();
+            xmlHttpObject.open('GET', imgURL, true);
+            xmlHttpObject.send();
         }
     }
 
@@ -667,7 +631,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this.info('create internal Html');
         this.clearComponentContent();
         this._elContainer = document.createElement('div');
-        this._elContainer.classList.add(Ch5Button.CONTAINERCLASSNAME);
+        this._elContainer.classList.add(Ch5Button.CONTAINER_CLASS);
         this._elButton = document.createElement('button');
         this._elButton.classList.add('cb-btn');
         this._elIcon = document.createElement('i');
@@ -735,11 +699,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * @return {void}
      */
     protected clearComponentContent() {
-        const containers = this.getElementsByClassName(Ch5Button.CONTAINERCLASSNAME);
-
+        const containers = this.getElementsByClassName(Ch5Button.CONTAINER_CLASS);
         Array.from(containers).forEach((container) => {
             container.remove();
-        })
+        });
     }
 
     protected refreshComponent() {
@@ -822,7 +785,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 }
             }
         });
-        if ('' !== stretchCssClassNameToAdd) {
+        if (stretchCssClassNameToAdd !== '') {
             targetEl.classList.add(stretchCssClassNameToAdd);
         }
     }
@@ -890,9 +853,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             hasImage = true;
         }
 
-        if ((this.hasAttribute('label') && '' !== this.getAttribute('label'))
-            || (this.hasAttribute('receivestatescriptlabelhtml')
-                && '' !== this.getAttribute('receivestatescriptlabelhtml'))) {
+        if ((this.hasAttribute('label') && '' !== this.getAttribute('label')) ||
+            (this.hasAttribute('receivestatescriptlabelhtml') && '' !== this.getAttribute('receivestatescriptlabelhtml'))) {
             hasLabel = true;
         }
 
@@ -1029,6 +991,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             'receivestatescriptlabelhtml',
             'receivestateiconclass',
             'receivestateiconurl',
+            'receivestatetype',
 
             'sendeventonclick',
             'sendeventontouch'
@@ -1119,7 +1082,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
         this.updateInternalHtml();
     }
-
 
     protected attachEventListeners() {
         super.attachEventListeners();
@@ -1263,8 +1225,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 break;
             case 'formtype':
                 if (this.hasAttribute('formtype')) {
-                    const actionTypeValue = this.getAttribute('formtype') as TCh5ButtonActionType;
-                    this.formType = actionTypeValue;
+                    this.formType = this.getAttribute('formtype') as TCh5ButtonActionType;
                 }
                 break;
             case 'customclassselected':
@@ -1455,7 +1416,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public get iconUrl(): string {
         return this._iconSvgUrl;
     }
-
     public set iconUrl(value: string) {
         if (!isNil(value) && this._iconSvgUrl !== value) {
             this._iconSvgUrl = value || '';
@@ -1497,7 +1457,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set shape(value: TCh5ButtonShape) {
-        this.info('set shape(\'' + value + '\')');
+        this.info('set shape("' + value + '")');
         if (this._shape !== value && value !== null) {
             if (Ch5Button.SHAPES.indexOf(value) >= 0) {
                 this._shape = value;
@@ -1513,7 +1473,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set size(value: TCh5ButtonSize) {
-        this.info('set size(\'' + value + '\')');
+        this.info('set size("' + value + '")');
         if (this._size !== value && null !== value) {
             if (Ch5Button.SIZES.indexOf(value) >= 0) {
                 this._size = value;
@@ -1596,7 +1556,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     //
 
     public set sendEventOnClick(value: string) {
-        this.info('set sendEventOnClick(\'' + value + '\')');
+        this.info('set sendEventOnClick("' + value + '")');
         if (('' !== value) && (value !== this._sigNameSendOnClick)) {
             this._sigNameSendOnClick = value;
             this.setAttribute('sendeventonclick', value);
@@ -1608,7 +1568,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set sendEventOnTouch(value: string) {
-        this.info('set sendEventOnTouch(\'' + value + '\')');
+        this.info('set sendEventOnTouch("' + value + '")');
         if (('' !== value) && (value !== this._sigNameSendOnTouch)) {
             this._sigNameSendOnTouch = value;
             this.setAttribute('sendeventontouch', value);
@@ -1620,7 +1580,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set receiveStateSelected(value: string) {
-        this.info('set receiveStateSelected(\'' + value + '\')');
+        this.info('set receiveStateSelected("' + value + '")');
         if (!value || this._sigNameReceiveSelected === value) {
             return;
         }
@@ -1665,7 +1625,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set receiveStateLabel(value: string) {
-        this.info('set receiveStateLabel(\'' + value + '\')');
+        this.info('set receiveStateLabel("' + value + '")');
         if (!value || this._sigNameReceiveLabel === value) {
             return;
         }
@@ -1707,17 +1667,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set receiveStateScriptLabelHtml(value: string) {
-        this.info('set receiveStateScriptLabelHtml(\'' + value + '\')');
+        this.info('set receiveStateScriptLabelHtml("' + value + '")');
         if (!value || this._sigNameReceiveScriptLabelHtml === value) {
             return;
         }
         // clean up old subscription
         if (this._sigNameReceiveScriptLabelHtml) {
-
-            const oldReceiveScriptLabelHtmlSigName: string =
-                Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveScriptLabelHtml);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldReceiveScriptLabelHtmlSigName);
+            const oldReceiveScriptLabelHtmlSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveScriptLabelHtml);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveScriptLabelHtmlSigName);
 
             if (oldSignal !== null) {
                 oldSignal.unsubscribe(this._subReceiveScriptLabelHtml);
@@ -1757,10 +1714,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
         // clean up old subscription
         if (this._receiveStateIconClass) {
-
             const oldReceiveStateIconClass: string = Ch5Signal.getSubscriptionSignalName('' + this._receiveStateIconClass);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldReceiveStateIconClass);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveStateIconClass);
 
             if (oldSignal !== null) {
                 oldSignal.unsubscribe('' + this.subReceiveSignalIconClass);
@@ -1772,8 +1727,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         // setup new subscription.
         const receiveSateIconClassSigName: string = Ch5Signal.getSubscriptionSignalName('' + this._receiveStateIconClass);
-        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(receiveSateIconClassSigName);
+        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveSateIconClassSigName);
 
         if (receiveSignal === null) {
             return;
@@ -1805,8 +1759,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         if (this._receiveStateIconSvgUrl) {
 
             const oldReceiveIconUrlSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconSvgUrl);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-                .getStringSignal(oldReceiveIconUrlSigName);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveIconUrlSigName);
 
             if (oldSignal !== null) {
                 oldSignal.unsubscribe(this.subReceiveSignalSvgUrl as string);
@@ -1818,8 +1771,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         // setup new subscription.
         const receiveIconurlSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconSvgUrl);
-        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(receiveIconurlSigName);
+        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveIconurlSigName);
 
         if (receiveSignal === null) {
             return;
@@ -1913,15 +1865,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
     }
 
-
-
     //
     // Events
     //
 
     private _onTap(): void {
         this.info('Ch5Button._onTap()');
-
         this._onTapAction();
     }
 
@@ -1936,7 +1885,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onTouchMove(event: TouchEvent) {
-
         // The event must be cancelable
         if (event.cancelable) {
             event.preventDefault();
@@ -1951,16 +1899,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         const validPress = this._pressInfo.valid();
 
         if (!validPress) {
-
             window.clearTimeout(this._pressTimeout);
-
             if (this._intervalIdForRepeatDigital !== null) {
                 this.stopRepeatDigital();
             }
-
             return;
         }
-
     }
 
     private _onLeave() {
@@ -1970,13 +1914,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private async _onPressClick(event: MouseEvent) {
-
         if (this.isTouch) {
             return;
         }
 
         clearTimeout(this.allowPressTimeout);
-
         await this.pressHandler();
 
         this._pressHorizontalStartingPoint = event.clientX;
@@ -1989,12 +1931,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
         this.allowPress = false;
-
         this.stopRepeatDigital();
     }
 
     private _onMouseUp() {
-
         if (this.isTouch) {
             ((btnObj) => {
                 setTimeout(() => {
@@ -2009,7 +1949,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
         this.cancelPress();
-
         this.reactivatePress();
 
         if (this._intervalIdForRepeatDigital) {
@@ -2026,7 +1965,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     private _onMouseMove(event: MouseEvent) {
-
         if (!this.isTouch
             && this._intervalIdForRepeatDigital
             && this._pressHorizontalStartingPoint
@@ -2079,24 +2017,19 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 window.clearInterval(this._intervalIdForRepeatDigital);
                 this.sendValueForRepeatDigital(false);
                 this._intervalIdForRepeatDigital = null;
-                this._lastPressTime = new Date().valueOf();
             }
         }
     }
 
     private _onTouchEnd(inEvent: Event): void {
-
         this.info("Ch5Button._onTouchEnd()");
-
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
     private _onTouchCancel(inEvent: Event): void {
-
         this.info("Ch5Button._onTouchCancel()");
-
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
@@ -2169,7 +2102,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this._pressTimeout = window.setTimeout(() => {
                 pressHandler();
                 resolve(this._pressed);
-            }, Ch5Button.TOUCHTIMEOUT);
+            }, Ch5Button.TOUCH_TIMEOUT);
         });
 
         return pressPromise;
@@ -2187,7 +2120,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         this._intervalIdForRepeatDigital = window.setInterval(() => {
             this.sendValueForRepeatDigital(true);
-        }, Ch5Button.TOUCHTIMEOUT);
+        }, Ch5Button.TOUCH_TIMEOUT);
     }
 
     private isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {

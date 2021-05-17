@@ -113,7 +113,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`stretch` attribute",
      * "***",
-     * "The default value is 'both'. Valid values: 'width', 'height', 'both'.",
+     * "Valid values: 'width', 'height', 'both'.",
      * "When the stretch property is set, the button element inherits the ",
      * "width and/or height of the container. If stretch=height is used, ",
      * "the button will be responsive based on the label length until it ",

@@ -29,10 +29,10 @@ function addAttributeDefinition(definition: Definition, aliases: DefinitionTuple
     result.documentation = _.getDocumentation(definition);
     result.name = _.getName(definition);
     result.value = getProperties(definition, aliases)[0].value;
-    const defaultValue = _.getDefault(definition);
-    if (!isNil(defaultValue) && defaultValue !== "") {
+    // const defaultValue = _.getDefault(definition);
+    // if (!isNil(defaultValue) && defaultValue !== "") {
         result.default = _.getDefault(definition);
-    }
+    // }
     return result;
 }
 
@@ -127,10 +127,10 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
 
     result.name = _.getName(definition);
     result.documentation = _.getDocumentation(definition);
-    const defaultValue = _.getDefault(definition);
-    if (!isNil(defaultValue) && defaultValue !== "") {
+    // const defaultValue = _.getDefault(definition);
+    // if (!isNil(defaultValue) && defaultValue !== "") {
         result.default = _.getDefault(definition);
-    }
+    // }
 
     return result;
 }

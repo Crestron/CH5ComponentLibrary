@@ -26,6 +26,7 @@ import { Ch5MutationObserver } from './ch5-mutation-observer';
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
+import { Ch5CommonLog } from './ch5-common-log';
 
 export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
@@ -322,10 +323,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      */
     public elementIsVisible: boolean = true;
 
+    public log: Ch5CommonLog;
+
     private _commonMutationObserver: Ch5MutationObserver = {} as Ch5MutationObserver;
 
     public constructor() {
         super();
+        this.log = new Ch5CommonLog(false);
         this._crId = Ch5Uid.getUid();
 
         const cssClasses: string[] = [];
@@ -698,18 +702,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         }
     }
 
-    public logMethodStart(message: string) {
-        if (true === this.isDebug()) {
-            console.group(message);
-        }
-    }
-
-    public logMethodEnd() {
-        if (true === this.isDebug()) {
-            console.groupEnd()
-        }
-    }
-
     /**
      * Returns true if debugging has been enabled on the component.
      * When this returns true the info method will output messages on the console ( assuming there are 'info' calls in
@@ -847,6 +839,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 } else {
                     this._isDebugEnabled = false;
                 }
+                this.log.isDebugEnabled = this._isDebugEnabled;
                 break;
             case 'dir':
                 const newDir = this.getAttribute('dir') || '';
