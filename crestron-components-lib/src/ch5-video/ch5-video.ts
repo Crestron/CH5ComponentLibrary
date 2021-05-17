@@ -1958,8 +1958,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.classList.add(this.primaryVideoCssClass);
         this.style.width = "100%";
         this.style.height = "100%";
+        this.style.display = "flex";
+        this.style.justifyContent = "center";
+        this.style.alignItems = "center";
 
-        // this.videoElement = document.createElement("div");
+        this.videoElement = document.createElement("div");
         // Create main control panel
         this.vidControlPanel = document.createElement("div");
         this.vidControlPanel.classList.add("control-panel");
@@ -1971,7 +1974,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.style.width = '100%';
         this.vidControlPanel.style.left = '-5px';
         this.vidControlPanel.style.top = '5px';
-        this.appendChild(this.vidControlPanel);
+        this.videoElement.classList.add('video-wrapper');
+        this.appendChild(this.videoElement);
+        this.videoElement.appendChild(this.vidControlPanel);
     }
 
     /**
@@ -3525,14 +3530,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.stretch === 'false') {
                 // Calculation for fixed display size like small, medium large
                 this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
-                this.style.width = this.sizeObj.width + "px";
-                this.style.height = this.sizeObj.height + "px";
+                this.videoElement.style.width = this.sizeObj.width + "px";
+                this.videoElement.style.height = this.sizeObj.height + "px";
                 this.videoTop = Math.ceil(rect.top);
                 this.videoLeft = Math.ceil(rect.left);
             } else if (this.stretch === 'true') {
                 this._getSizeAndPositionObj(this.clientWidth, this.clientHeight);
-                this.vidControlPanel.style.width = this.sizeObj.width + "px";
-                this.vidControlPanel.style.left = (this.position.xPos - 5) + "px";
+                this.videoElement.style.width = this.sizeObj.width + "px";
+                this.videoElement.style.height = this.sizeObj.height + "px";                
+                this.vidControlPanel.style.left = -5 + "px";
                 this.vidControlPanel.style.top = (this.position.yPos + 5) + "px";
                 this.videoLeft = rect.left + this.position.xPos;
                 this.videoTop = rect.top + this.position.yPos;
