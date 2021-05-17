@@ -1,7 +1,32 @@
 import { getAspectRatio } from "../ch5-common/utils/viewport";
-import { TDimension, iElementDimensions } from "../_interfaces/ch5-video/types";
+import { TPosDimension, TDimension, iElementDimensions } from "../_interfaces/ch5-video/types";
 
 export class CH5VideoUtils {
+
+    /**
+     * Calculate the fullscreen landscape or potrait positons
+     * @param aspectRatio Pass the aspect ratio
+     * @returns {TPosDimension} returns calculated dimensions
+     */
+    public static getFullScreenDimensions(aspectRatio: string, width: number, height: number): TPosDimension {
+        let sizeObj: TDimension = {} as TDimension;
+        let position: { xPos: number, yPos: number } = { xPos: 0, yPos: 0 };
+        const fullScreenObj: TPosDimension = {} as TPosDimension;
+
+        sizeObj = CH5VideoUtils.getDisplayWxH(aspectRatio, width, height);
+        if (sizeObj.width < width) {
+            position = CH5VideoUtils.calculatePillarBoxPadding(width, sizeObj.width);
+        } else if (sizeObj.height < height) {
+            position = CH5VideoUtils.calculateLetterBoxPadding(height, sizeObj.height);
+        }
+
+        fullScreenObj.width = sizeObj.width;
+        fullScreenObj.height = sizeObj.height;
+        fullScreenObj.posX = position.xPos;
+        fullScreenObj.posY = position.yPos;
+
+        return fullScreenObj;
+    }
 
     /**
      * Function to calculate the position based on the fixed size like small, large, medium
