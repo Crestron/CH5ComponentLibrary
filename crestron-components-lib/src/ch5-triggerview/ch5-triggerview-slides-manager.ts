@@ -129,9 +129,9 @@ export class Ch5TriggerViewSlidesManager {
     });
 
     // publishing slidemove eevnt for ch5-video
-    this._swiper.on('sliderMove', () => {
+    this._swiper.on('slideChangeTransitionStart', () => {
       publishEvent('b', 'triggerview.slidemove', true);
-    });
+    });    
 
     // set gestures on/off
     this.setAllowTouchMove(this.triggerViewEl.gestureable);
@@ -154,7 +154,6 @@ export class Ch5TriggerViewSlidesManager {
       // publishing touchend eevnt for ch5-video
       publishEvent('b', 'triggerview.touchend', true);
     });
-
   }
 
   private eventTargetBelongsToCh5List(el: HTMLElement): boolean {
