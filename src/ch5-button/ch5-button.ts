@@ -84,47 +84,47 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * The first value is considered the default one
      */
-    public static TYPES: TCh5ButtonType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+    public static readonly TYPES: TCh5ButtonType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
     /**
      * The first value is considered the default one
      */
-    public static SHAPES: TCh5ButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'];
+    public static readonly SHAPES: TCh5ButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'];
     /**
      * The first value is considered the default one
      */
-    public static SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+    public static readonly SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
     /**
      * The first value is considered the default one
      */
-    public static STRETCHES: TCh5ButtonStretch[] = ['', 'both', 'width', 'height'];
+    public static readonly STRETCHES: TCh5ButtonStretch[] = ['', 'both', 'width', 'height'];
     /**
      * The first value is considered the default one
      */
-    public static ICON_POSITIONS: TCh5ButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
+    public static readonly ICON_POSITIONS: TCh5ButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
     /**
      * The first value is considered the default one
      */
-    public static ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
+    public static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
 
     /**
      * Time needed for the sendOnTouch to trigger/reinforce
      */
-    public static TOUCHTIMEOUT: number = 250;
+    public static readonly TOUCHTIMEOUT: number = 250;
 
-    public static PRESS_MOVE_THRESHOLD = 10;
+    public static readonly PRESS_MOVE_THRESHOLD = 10;
 
-    public static CONTAINERCLASSNAME: string = 'cb-cntr';
+    public static readonly CONTAINERCLASSNAME: string = 'cb-cntr';
 
-    public static SVG: string = 'svg';
+    public static readonly SVG: string = 'svg';
 
-    private static DEBOUNCE_PRESS_TIME: number = 200;
+    private static readonly DEBOUNCE_PRESS_TIME: number = 200;
 
 
-    public primaryCssClass = 'ch5-button';
-    public cssClassPrefix = 'ch5-button';
-    public pressedCssClassPostfix = '--pressed';
-    public selectedCssClassPostfix = '--selected';
-    public iosCssClassPostfix = '--ios-vertical';
+    public readonly primaryCssClass = 'ch5-button';
+    public readonly cssClassPrefix = 'ch5-button';
+    public readonly pressedCssClassPostfix = '--pressed';
+    public readonly selectedCssClassPostfix = '--selected';
+    public readonly iosCssClassPostfix = '--ios-vertical';
 
 
     private _elContainer: HTMLElement = {} as HTMLElement;
@@ -1029,7 +1029,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             'receivestatescriptlabelhtml',
             'receivestateiconclass',
             'receivestateiconurl',
-            'receivestatetype',
 
             'sendeventonclick',
             'sendeventontouch'

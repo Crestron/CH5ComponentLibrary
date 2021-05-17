@@ -104,9 +104,8 @@ export class Ch5ButtonPressInfo {
      */
     private calculatePointDiff(): number {
         const diff = Math.sqrt(
-            Math.pow(this.endX - this.startX, 2) + Math.pow(this.endY - this.startY, 2),    
-        );
-        
+            Math.pow(this.endX - this.startX, 2) + Math.pow(this.endY - this.startY, 2) 
+        );        
         return diff;
     }
 }
