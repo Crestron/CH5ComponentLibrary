@@ -10,6 +10,7 @@ import { TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import _ from "lodash";
+import { CH5VideoUtils } from "./ch5-video-utils";
 
 export class Ch5VideoSnapshot {
     private snapShotImage: any;
@@ -119,7 +120,7 @@ export class Ch5VideoSnapshot {
 
         // adding a '#' makes the request a new one, while not intrusing with the request
         // this way, it won't be a "bad request" while making a new img request
-        this.url = uri.toString() + '#' + new Date().toString();
+        this.url = uri.toString() + '#' + CH5VideoUtils.rfc3339TimeStamp();
         return;
     }
 
@@ -139,7 +140,7 @@ export class Ch5VideoSnapshot {
         videoImage.onerror = () => {
             this.snapShotImage = "";
             this.isSnapShotloaded = false;
-            console.log(this.url, " snapshot failed to load.");
+            console.log("Video Tag Id: " + this.snapShotObj.videoTagId + ", snapshot failed to load.");
         }
 
         videoImage.onload = (ev: Event) => {

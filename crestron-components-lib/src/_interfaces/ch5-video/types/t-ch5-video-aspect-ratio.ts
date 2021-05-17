@@ -13,6 +13,36 @@ export type TDimension = {
     height: number;
 }
 
+/**
+ * The Video response from the backend
+ */
+
+export type TVideoResponse = {
+    currenttime: number;
+    id: number;
+    status: string;
+    statusCode: number;
+    location: TVideoLocationResponse;
+}
+
+export type TVideoLocationResponse = {
+    height: number;
+    left: number;
+    top: number;
+    width: number;
+}
+
+/**
+ * Define the display sizes of the video.
+ */
+ export type TPosDimension = {
+    width: number;
+    height: number;
+    posX: number;
+    posY: number;
+}
+
+
 export type TAspectRatio = {
     "xx-large": TDimension;
     "x-large": TDimension;
