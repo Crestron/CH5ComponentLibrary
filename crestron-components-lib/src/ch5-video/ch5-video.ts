@@ -2970,29 +2970,21 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.orientationCount = 0;
             this._hideFullScreenIcon();
             this._orientationChanged().then(() => {
-                if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL) {
-                    // this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL, 'orientationChange');
-                }
                 this.calculation();
-                if (this.isFullScreen) {
-                    // Need to check, old code removed
-                } else {
-                    this._updateAppBackgroundStatus();
-                }
-
-                if (!this.isFullScreen) {
-                    this.info('Ch5Video.orientationChange() -> 2');
-                    // this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.RESIZE));
-                }
-
                 if (this.lastResponseStatus === this.VIDEO_ACTION.STARTED ||
                     (this.lastResponseStatus === this.VIDEO_ACTION.RESIZED && this.lastRequestStatus === this.VIDEO_ACTION.RESIZE)) {
                     if (this.elementIsInViewPort) {
                         this.isOrientationChanged = true; // When the orientation happens inside the view port, isorientationChaged flag will be set to true
+                        if (this.isFullScreen) {
+                            this._publishVideoEvent(this.VIDEO_ACTION.FULLSCREEN);
+                        } else {
+                            this._publishVideoEvent(this.VIDEO_ACTION.RESIZE);
+                            this._updateAppBackgroundStatus();
+                        }
                     }
-                    this._publishVideoEvent(this.VIDEO_ACTION.RESIZE);
                 } else if ((this.lastResponseStatus === this.VIDEO_ACTION.STOPPED || this.lastResponseStatus === this.VIDEO_ACTION.EMPTY) &&
                     this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
+                    this.drawSnapShot();
                     this._publishVideoEvent(this.VIDEO_ACTION.START);
                 }
             });
