@@ -14,6 +14,7 @@ import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-o
 import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5-video-publish-event-request';
 import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
 import { Subscription } from "rxjs";
+import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
 import { Ch5Background } from "../ch5-background/ch5-background";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
@@ -139,8 +140,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private intersectionNotMetTimer: any;
     private exitTimer: number = 0;
     private videoSubscriptionTimer: any;
-    private fsPotraitObj: TPosDimension = {} as TPosDimension;
-    private fsLandscapeObj: TPosDimension = {} as TPosDimension;
+    private fullScreenObj: TPosDimension = {} as TPosDimension;
     private isMultipleVideo: boolean = false; // Check whether receiveState is present
     private ch5BackgroundElements: HTMLCollectionOf<Ch5Background> = document.getElementsByTagName('ch5-background') as HTMLCollectionOf<Ch5Background>;
     private subscriptionEventList: Subscription[] = [];
@@ -891,6 +891,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 // Play only if visible
                 if (this.elementIsInViewPort) {
                     if (newValue) {
+                        this.info(">>>>>>>>>>>>>>>>>>>>> DrawSnapshot4 <<<<<<<<<<<<<<<<<<<<<<<<<<<");
                         this.drawSnapShot(); // draw snapshot
                         this.isVideoReady = false;
                         this.lastRequestStatus = this.VIDEO_ACTION.STOP;
@@ -949,6 +950,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.videoSubscriptionTimer = setTimeout(() => {
                         this._subscribeVideos(newValue.toString());
                         if (this.playValue) {
+                            this.info(">>>>>>>>>>>>>>>>>>>>> DrawSnapshot5 <<<<<<<<<<<<<<<<<<<<<<<<<<<");
                             this.drawSnapShot();
                         }
                     }, 0);
@@ -1280,15 +1282,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.loadAllSnapshots(); // start loading snapshots
                 }
 
-                // Calculate the Fullscreen dimensions once
-                if (CH5VideoUtils.isPortrait()) {
-                    this.fsLandscapeObj = CH5VideoUtils.getFullScreenDimensions(this.aspectRatio, window.innerWidth, window.innerHeight);
-                    this.fsPotraitObj = CH5VideoUtils.getFullScreenDimensions(this.aspectRatio, window.innerHeight, window.innerWidth);
-                } else {
-                    this.fsPotraitObj = CH5VideoUtils.getFullScreenDimensions(this.aspectRatio, window.innerHeight, window.innerWidth);
-                    this.fsLandscapeObj = CH5VideoUtils.getFullScreenDimensions(this.aspectRatio, window.innerWidth, window.innerHeight);
-                }
-
                 // Making the lastRequestStatus and isVideoReady to default
                 this.lastRequestStatus = this.VIDEO_ACTION.EMPTY;
                 this.isVideoReady = false;
@@ -1322,8 +1315,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             }
         });
         subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
+            this.info("initiateSubscriptions()#triggerview.slidechange");
+            this.info("initiateSubscriptions()#res: " + res);
+            this.info("initiateSubscriptions()#elementIsInViewPort: " + this.elementIsInViewPort);
             if (res && this.elementIsInViewPort) {
-                this.info("initiateSubscriptions()#triggerview.slidechange");
                 this.stopLoadingSnapShots();
 
                 // STOPPED -> remove the cut information from background + refill
@@ -1389,17 +1384,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         if (actionType === this.VIDEO_ACTION.FULLSCREEN) {
             actionType = this.VIDEO_ACTION.RESIZE;
-            if (CH5VideoUtils.isPortrait()) {
-                xPosition = this.fsPotraitObj.posX;
-                yPosition = this.fsPotraitObj.posY;
-                width = this.fsPotraitObj.width;
-                height = this.fsPotraitObj.height;
-            } else {
-                xPosition = this.fsLandscapeObj.posX;
-                yPosition = this.fsLandscapeObj.posY;
-                width = this.fsLandscapeObj.width;
-                height = this.fsLandscapeObj.height;
-            }
+            this.fullScreenObj = CH5VideoUtils.getFullScreenDimensions(this.aspectRatio, window.innerWidth, window.innerHeight);
+            xPosition = this.fullScreenObj.posX;
+            yPosition = this.fullScreenObj.posY;
+            width = this.fullScreenObj.width;
+            height = this.fullScreenObj.height;
         }
 
         this.lastRequestStatus = actionType;
@@ -1847,7 +1836,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.isSwipeDebounce = setTimeout(() => {
             // this.ch5BackgroundAction(this.VIDEO_ACTION.REFILL, "onRatioAboveLimitToRenderVideo()#isSwipeDebounce");
             this.calculation();
-            this.drawSnapShot();
+
+            // This condition will avoid drawing snapshot during orientation change in iOS devices
+            if (this.lastRequestStatus !== this.VIDEO_ACTION.START && this.lastRequestStatus !== this.VIDEO_ACTION.RESIZE) {
+                this.drawSnapShot();
+            }
 
             let isPublished = false;
             if (this.lastRequestStatus === this.VIDEO_ACTION.EMPTY && this.isOrientationChanged ||
@@ -2511,7 +2504,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private drawSnapShot() {
         // return if not visible, exit timer
         if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE &&
-             this.lastResponseStatus !== this.VIDEO_ACTION.STARTED) {
+            this.lastResponseStatus !== this.VIDEO_ACTION.STARTED) {
             console.log("drawSnapShot#1");
             if (this.snapShotMap.size > 0) {
                 console.log("drawSnapShot#2");
@@ -2543,6 +2536,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             const refreshRate: number = parseInt(this.snapShotRefreshRate, 0);
             this.exitSnapsShotTimer = setTimeout(() => {
                 this.info("Snapshot refreshed with new image");
+                this.info(">>>>>>>>>>>>>>>>>>>>> DrawSnapshot2 <<<<<<<<<<<<<<<<<<<<<<<<<<<");
                 this.drawSnapShot();
             }, 1000 * refreshRate);
         } else {
@@ -2984,6 +2978,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     }
                 } else if ((this.lastResponseStatus === this.VIDEO_ACTION.STOPPED || this.lastResponseStatus === this.VIDEO_ACTION.EMPTY) &&
                     this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE) {
+                    this.info(">>>>>>>>>>>>>>>>>>>>> DrawSnapshot3 <<<<<<<<<<<<<<<<<<<<<<<<<<<");
                     this.drawSnapShot();
                     this._publishVideoEvent(this.VIDEO_ACTION.START);
                 }
@@ -3443,9 +3438,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                     this.fromExitFullScreen = true;
                 }
                 this.isPositionChanged = false;
-                if (this.lastRequestStatus === this.VIDEO_ACTION.RESIZE) {
-                    this.ch5BackgroundRequest(this.VIDEO_ACTION.STARTED, 'videoResponse');
-                    this.isVideoReady = true;
+                // iOS devices never returns STARTED, it returns RESIZED after it starts the video
+                if (isSafariMobile()) {
+                    if (this.lastRequestStatus === this.VIDEO_ACTION.START) {
+                        this.ch5BackgroundRequest(this.VIDEO_ACTION.STARTED, 'videoResponse');
+                        this.isVideoReady = true;
+                    }
+                } else {
+                    if (this.lastRequestStatus === this.VIDEO_ACTION.RESIZE) {
+                        this.ch5BackgroundRequest(this.VIDEO_ACTION.STARTED, 'videoResponse');
+                        this.isVideoReady = true;
+                    }
                 }
                 break;
             case 'error':
