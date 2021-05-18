@@ -99,7 +99,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * No default value for Stretch
      */
-    public static readonly STRETCHES: TCh5ButtonStretch[] = ['', 'both', 'width', 'height'];
+    public static readonly STRETCHES: TCh5ButtonStretch[] = ['both', 'width', 'height'];
+
     /**
      * The first value is considered the default one
      */
@@ -226,7 +227,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      *
      * HTML attribute name: stretch
      */
-    private _stretch: TCh5ButtonStretch = '';
+    private _stretch: TCh5ButtonStretch | null = null;
 
     /**
      * Valid values: default, info, text, danger, warning, success, primary, secondary.
@@ -553,9 +554,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         // stretches
         Ch5Button.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
-            if ('' !== stretch) {
-                cssClasses.push(this.cssClassPrefix + '--stretch-' + stretch);
-            }
+            // if (null !== stretch) {
+            cssClasses.push(this.cssClassPrefix + '--stretch-' + stretch);
+            // }
         });
 
         // orientation
@@ -728,10 +729,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.type);
 
         // size
-        setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--size-' + this.size);
+        if (this.stretch === null) {
+            setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--size-' + this.size);
+        }
 
         // stretch
-        if ('' !== this.stretch) {
+        if (this.stretch !== null) {
             setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--stretch-' + this.stretch);
         }
 
@@ -778,12 +781,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 break;
         }
         Ch5Button.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
-            if ('' !== stretch) {
-                const cssClass = this.cssClassPrefix + '--stretch-' + stretch;
-                if (cssClass !== stretchCssClassNameToAdd) {
-                    targetEl.classList.remove(cssClass);
-                }
+            // if (null !== stretch) {
+            const cssClass = this.cssClassPrefix + '--stretch-' + stretch;
+            if (cssClass !== stretchCssClassNameToAdd) {
+                targetEl.classList.remove(cssClass);
             }
+            // }
         });
         if (stretchCssClassNameToAdd !== '') {
             targetEl.classList.add(stretchCssClassNameToAdd);
@@ -975,7 +978,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             'orientation',
             'iconurl',
 
-
             'shape',
             'size',
             'stretch',
@@ -1025,7 +1027,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.size = this.getAttribute('size') as TCh5ButtonSize;
         }
         if (this.hasAttribute('stretch')) {
-            this.stretch = this.getAttribute('stretch') as TCh5ButtonStretch;
+            this.stretch = this.getAttribute('stretch') as TCh5ButtonStretch | null;
         }
         if (this.hasAttribute('type')) {
             this.type = this.getAttribute('type') as TCh5ButtonType;
@@ -1204,9 +1206,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 break;
             case 'stretch':
                 if (this.hasAttribute('stretch')) {
-                    this.stretch = newValue as TCh5ButtonStretch;
+                    this.stretch = newValue as TCh5ButtonStretch | null;
                 } else {
-                    this.stretch = '';
+                    this.stretch = null;
                 }
                 this.updateForChangeInStretch();
                 break;
@@ -1488,9 +1490,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         return this._size;
     }
 
-    public set stretch(value: TCh5ButtonStretch) {
+    public set stretch(value: TCh5ButtonStretch | null) {
         this.info('set stretch("' + value + '")');
-        if (this._stretch !== value) {
+        if (this._stretch !== value && value !== null) {
             if (Ch5Button.STRETCHES.indexOf(value) >= 0) {
                 this._stretch = value;
             } else {
@@ -1500,7 +1502,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
     }
 
-    public get stretch(): TCh5ButtonStretch {
+    public get stretch(): TCh5ButtonStretch | null {
         return this._stretch;
     }
 

@@ -100,6 +100,7 @@ export interface ICh5Button extends ICh5ButtonAttributes, ICh5Common {
    * "'ch5-button--selected' will be applied as the CSS class on the component."
    * ]
    * @name selected
+   * @default false
    */
   selected: TBoolAttribute;
 

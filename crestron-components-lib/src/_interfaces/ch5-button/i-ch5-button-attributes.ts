@@ -16,7 +16,6 @@ import {
     TCh5ButtonActionType
 } from "./types";
 
-
 /**
  * @ignore
  */
@@ -125,7 +124,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * ]
      * @name stretch
      */
-    stretch: TCh5ButtonStretch;
+    stretch: TCh5ButtonStretch | null;
 
     /**
      * @documentation
