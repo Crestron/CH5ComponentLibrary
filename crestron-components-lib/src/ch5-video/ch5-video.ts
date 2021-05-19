@@ -478,8 +478,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     // touch specific [params]
     private isTouchStartEvtBound: boolean = false;
     private isTouchEndEvtBound: boolean = false;
+    private isTouchPollingStarted: boolean = false;
     private isTouchInProgress: boolean = false;
-    private touchInProgressInterval: any;
+    private touchInProgressInterval: any = null;
     private readonly swipeDeltaCheckNum: number = 20;
     private touchCoordinates: iTouchOrdinates = {
         startX: 0,
@@ -1276,7 +1277,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this._scrollableElm = getScrollableParent(this); // TODO: Is not working in all the scenarios
                 this._initializeVideo();
                 this.isInitialized = false;
-                this._initiateSubscriptions();
+                // this._initiateSubscriptions();
                 if (!this.isMultipleVideo) {
                     this.getAllSnapShotData(1);
                     this.loadAllSnapshots(); // start loading snapshots
@@ -1287,10 +1288,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isVideoReady = false;
             });
         }
-        this.videoScrollableParentElement = this.querySelector('#video-page') as HTMLElement; // initializing the parent
+        this.videoScrollableParentElement = this._scrollableElm as HTMLElement; // initializing the parent
         Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver.bind(this));
         this.isIntersectionObserve = true;
-        this._addTouchEventsForSwipe();
     }
 
     /**
@@ -1392,6 +1392,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
 
         this.lastRequestStatus = actionType;
+        // always clears the background of the video tag to display video behind it
+        this.clearBackgroundOfVideoWrapper(true);
 
         // any negative values in location object will throw backend error
         // sometimes decimal values are returned by position related functions
@@ -1888,19 +1890,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
         // During scroll, video goes out of the view port area but still running because of negative values in TSW
         if ((this.videoTop < 0 || this.videoLeft < 0) && this.lastRequestStatus !== this.VIDEO_ACTION.STOP && !this.firstTime) {
-            this.info("HH logger 1");
             this._publishVideoEvent(this.VIDEO_ACTION.STOP);
         }
 
         // During scroll, video goes out of the view port area but still running because of negative values in iOS
         if (this.isPositionChanged && (this.lastRequestStatus === this.VIDEO_ACTION.RESIZE || this.lastRequestStatus === this.VIDEO_ACTION.START)) {
-            this.info("HH logger 2");
             this._publishVideoEvent(this.VIDEO_ACTION.STOP);
         }
 
         // On exiting fullscreen and if the user swipes/leave the video page send the this.VIDEO_ACTION.STOP request
         if (this.isExitFullscreen && this.lastResponseStatus === this.VIDEO_ACTION.RESIZED && !this.elementIsInViewPort) {
-            this.info("HH logger 3");
             this._publishVideoEvent(this.VIDEO_ACTION.STOP);
         }
 
@@ -1919,7 +1918,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             // The above refill can't be called inside this block as it produces an additional 
             // unecessary cut in the background sometimes.
             if (!this.isOrientationChanged && !this.elementIsInViewPort && !this.fromExitFullScreen) {
-                this.info("HH logger 4");
                 this._publishVideoEvent(this.VIDEO_ACTION.STOP);
             }
         }
@@ -2032,7 +2030,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _manageControls() {
         if (this.isFullScreen) {
             this.removeEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, false);
-            this._addTouchEventsForSwipe();
             this._exitFullScreen();
             return;
         }
@@ -2494,7 +2491,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.initAttributes();
         this.cacheComponentChildrens();
         this.attachEventListeners();
-        // this.addClassToBodyTag();
+        this.addTouchPollingForVideoMonitor();
         this.setAttribute("id", this.getCrId());
         const uID = this.getCrId().split('cr-id-');
         this.ch5UId = parseInt(uID[1], 0);
@@ -2618,211 +2615,129 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         ev.stopImmediatePropagation();
     }
 
-    /**
-     * Function to add touch handler for parent or video element as required to monitor and perform video play/pause execution
-     * TODO: HH: Have commented the touch event listener for temporary sake, need to enable or remove based on discussions for handling
-     * the events w.r.t touch/swpie handlers for video
-     */
-    private _addTouchEventsForSwipe() {
-        // const ele = this.videoScrollableParentElement;
-        // const ele = this.videoElement;
+    private addTouchPollingForVideoMonitor() {
+        const alreadyBodyTouchIntantiated = this.addClassToBodyTag();
+        this.info(`HH TEST: TOUCH Event attached ${alreadyBodyTouchIntantiated}`);
 
-        // if (!this.isTouchStartEvtBound &&
-        //     !!ele && ele != null && !!ele.classList) {
-        //     this.isTouchStartEvtBound = true;
-        //     ele.addEventListener('touchstart', this._handleTouchStartEvent_Swipe.bind(this));
-        // }
-    }
-
-    /**
-     * Function to remove touch handler for parent or video element as required to monitor and perform video play/pause execution
-     */
-    private _removeTouchEventsForSwipe() {
-        this.isTouchInProgress = false;
-        this.isTouchStartEvtBound = false;
-        this.isTouchEndEvtBound = false;
-
-        // const ele = this.videoScrollableParentElement;
-        const ele = this.videoElement;
-
-        if (!!ele && ele != null && !!ele.classList) {
-            ele.removeEventListener('touchstart', this._handleTouchStartEvent_Swipe);
+        if (!alreadyBodyTouchIntantiated) {
+            this.updateTouchBasedSignals();
         }
+        subscribeState('b', 'Csig.Touch_Activity_fb', (val: boolean) => {
+            const state = this._toBoolean(val);
+            this.info(`Csig.Touch_Activity_fb : ${state}`);
+            this.pollForStateUntilFalseAndRerenderVideo(state);
+        }); // subscribes for touch state and plays along
     }
 
-    /**
-     * Function to handle touch start actions
-     * removed during fullscreen mode
-     * should update manager if background needs to be hidden or redrawn etc
-     */
-    private _handleTouchStartEvent_Swipe() {
-        const ele = this.videoElement;
-
-        this.isTouchInProgress = false;
-        const ev = event as TouchEvent;
-        this.touchCoordinates.startX = ev.touches[0].clientX;
-        this.touchCoordinates.startY = ev.touches[0].clientY;
-
-        this.info("HH Test touchstart: ", this.touchCoordinates.startX,
-            this.touchCoordinates.startY, this.isTouchInProgress, this.isTouchEndEvtBound);
-        if (!this.isTouchEndEvtBound) {
-            this.isTouchEndEvtBound = true;
-            ele.addEventListener('touchmove', this._handleTouchMoveEvent_Swipe.bind(this));
-            ele.addEventListener('touchend', this._handleTouchEndEvent_Swipe.bind(this));
-        }
-    }
-
-    /**
-     * Function to handle touch start actions
-     * removed during fullscreen mode
-     * should update manager if background needs to be hidden or redrawn etc
-     */
-    private _handleTouchMoveEvent_Swipe() {
-        if (!this.isTouchInProgress) {
-            this.isTouchInProgress = true;
-            const ev = event as TouchEvent;
-            this.touchCoordinates.endX = ev.touches[0].clientX;
-            this.touchCoordinates.endY = ev.touches[0].clientY;
-            this.info('HH TEST : Touch move triggered');
-            const xCord = Math.abs(this.touchCoordinates.endX - this.touchCoordinates.startX);
-            const yCord = Math.abs(this.touchCoordinates.endY - this.touchCoordinates.startY);
-            if (xCord > 20 || yCord > 20) {
-                this._OnVideoAspectRatioConditionNotMet();
+    private pollForStateUntilFalseAndRerenderVideo(isScreenTouched: boolean) {
+        if (!this.firstTime) {
+            this.info(`HH TEST: TOUCH TRIGGERED START : ${isScreenTouched} 
+            ${this.isTouchInProgress}`);
+            if (isScreenTouched && !this.isTouchInProgress &&
+                (!this.touchInProgressInterval || this.touchInProgressInterval === null)) {
+                // keep hiding the background
+                const boundedRect = this.getBoundingClientRect();
+                this.touchCoordinates.startX = boundedRect.left;
+                this.touchCoordinates.startY = boundedRect.top;
+                this.isTouchInProgress = true;
+                this.clearVideoTouchPolling();
+                this.touchInProgressInterval = 5;
+                // this.touchInProgressInterval = setInterval(() => {
+                //     this.pollForStateUntilFalseAndRerenderVideo(true);
+                // }, 300);
+            } else if (isScreenTouched && this.isTouchInProgress) {
+                this.info("HH TEST: Touch move handler");
+                this.checkIfVideoStoppedMoving();
+            } else if (!isScreenTouched) {
+                this.info("HH TEST: Touchend handler");
+                // reveal background
+                this.stopVideoWhileSectionStoppedMoving();
             }
         }
     }
 
     /**
-     * Function to handle touch end actions
-     * removed during fullscreen mode
-     * should update manager if background needs to be hidden or redrawn etc
+     * Function to reset touch timer whenever a touch ends
      */
-    private _handleTouchEndEvent_Swipe() {
-        const ele = this.videoElement;
+    private updateTouchBasedSignals() {
+        this.info("HH TEST: Csig.Reset_Activity_Timer");
+        publishEvent('n', "Csig.Reset_Activity_Timer", 300); // resets timer
+        publishEvent('n', "Csig.Time", 300); // starts timer
+    }
 
+    /**
+     * Function to stop the polling when video onTouch happens
+     */
+    private clearVideoTouchPolling() {
+        // clearInterval(this.touchInProgressInterval);
+        this.touchInProgressInterval = null;
+    }
+
+    /**
+     * Function to add background color to bg if false and clears it if true
+     * @param isShowVideoBehind if true, clears background
+     */
+    private clearBackgroundOfVideoWrapper(isShowVideoBehind: boolean) {
+        this.videoElement.style.background = isShowVideoBehind ? 'transparent' : 'red';
+    }
+
+    private stopVideoWhileSectionStoppedMoving() {
         this.isTouchInProgress = false;
-        this.info('HH TEST : Coords - ', JSON.stringify(this.touchCoordinates));
-        if (this.isTouchEndEvtBound) {
-            this.isTouchEndEvtBound = false;
+        this.clearVideoTouchPolling();
+        setTimeout(() => {
+            this.clearBackgroundOfVideoWrapper(true);
+            this.updateTouchBasedSignals();
             this.videoIntersectionObserver();
+        }, 300);
+    }
+
+    /**
+     * Function to check if the touch swipe has stopped and video finally is a static position
+     */
+    private checkIfVideoStoppedMoving() {
+        const boundedRect = this.getBoundingClientRect();
+        if (!this.isTouchPollingStarted) {
+            this.touchCoordinates.endX = boundedRect.left;
+            this.touchCoordinates.endY = boundedRect.top;
+            if (Math.abs(this.touchCoordinates.startX - this.touchCoordinates.endX) > this.swipeDeltaCheckNum ||
+                Math.abs(this.touchCoordinates.startY - this.touchCoordinates.endY) > this.swipeDeltaCheckNum) {
+                this.isTouchPollingStarted = true;
+                this.clearBackgroundOfVideoWrapper(false);
+            }
+        } else {
+            // else case means : touch based swipe had begun and polling is going on
+            // check if touch end occured by noticing if the positions have rested
+            if (this.touchCoordinates.endX === boundedRect.left && this.touchCoordinates.endY === boundedRect.top) {
+                this.stopVideoWhileSectionStoppedMoving();
+            } else {
+                this.touchCoordinates.startX = this.touchCoordinates.startX;
+                this.touchCoordinates.startY = this.touchCoordinates.endY;
+            }
+            this.touchCoordinates.endX = boundedRect.left;
+            this.touchCoordinates.endY = boundedRect.top;
         }
-        ele.removeEventListener('touchmove', this._handleTouchMoveEvent_Swipe, false);
-        ele.removeEventListener('touchend', this._handleTouchEndEvent_Swipe, false);
     }
 
     /**
      * Function called during init of video component to bind
-     * Adding an elementary animation on body tag for the pseudo class "active" to
-     * observe the changes in position of video element and pause video if necessary
-     * DELETE THIS METHOD IF IT FAILS
      * DEV REFER: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/animationstart_event
      */
     private addClassToBodyTag() {
         this.info("HH: BODY CLASS START");
         const bodyTag = document.getElementsByTagName("BODY")[0];
-
+        let bodyTagAlreadyHadClass = true;
         if (bodyTag && bodyTag.className.split(' ').indexOf(this.bodyTagVideoClass) < 0) {
             this.info("HH TEST: BODY CLASS INIT");
             bodyTag.classList.add(this.bodyTagVideoClass);
-            const css = `body.${this.bodyTagVideoClass}:active { 
-                speak: no-punctuation;
-                animation-duration: 1s;
-                animation-name: nodeInserted;
-                animation-iteration-count: infinite;
-            }
-            @keyframes nodeInserted { 
-                from { opacity: 1; }
-                to { opacity: 1; } 
-            }
-            `;
-            const head = document.head || document.getElementsByTagName('head')[0];
-            const style = document.createElement('style');
-
-            head.appendChild(style);
-
-            style.type = 'text/css';
-            style.appendChild(document.createTextNode(css));
+            bodyTagAlreadyHadClass = false;
         }
-        this.onBodyActiveTrigger();
+        return bodyTagAlreadyHadClass;
     }
 
     /**
-     * Function to trigger on body:active or on touch of body element and removed when finger moved out
+     * 
+     * @returns Function to get the position of the current video element w.r.t the viewport
      */
-    private onBodyActiveTrigger() {
-        this.info("HH TEST: BODY CLASS BINDING EVENTS");
-        const bodyTag = document.getElementsByTagName("BODY")[0];
-        bodyTag.addEventListener('animationstart', this.bodyOnAnimationStart.bind(this));
-        bodyTag.addEventListener('animationend', this.bodyOnAnimationEnd.bind(this));
-    }
-
-    /**
-     * Function bound to body to allow observing on the video element when touch happens on the body " ANIMATION START"
-     */
-    private bodyOnAnimationStart() {
-        this.info("HH TEST: BODY CLASS BINDING START");
-        if (this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_THRESHOLD) {
-            this.info("HH TEST: BODY CLASS START ENTERED");
-            const videoCoOrds = this.getVideoElementOffset();
-            this.touchCoordinates.startX = videoCoOrds.top;
-            this.touchCoordinates.startY = videoCoOrds.left;
-            // HH: focusing on calling the below method only if required, this flag helps to manage status
-            this.isTouchInProgress = true;
-            clearInterval(this.touchInProgressInterval);
-            this.touchInProgressInterval = null;
-            this.touchInProgressInterval = setInterval(() => {
-                this.info("HH TEST: BODY CLASS START LOOP");
-                const bodyTag = document.getElementsByTagName("BODY")[0];
-                const attrs: any = getComputedStyle(bodyTag);
-                if (this.isTouchInProgress && !!attrs && attrs.speak === "no-punctuation") {
-                    this.bodyOnAnimateInProgressWatch();
-                    this.info("HH TEST: BODY CLASS START LOOP - INSIDE");
-                } else {
-                    clearInterval(this.touchInProgressInterval);
-                    this.touchInProgressInterval = null;
-                    this.isTouchInProgress = false;
-                    this.info("HH TEST: BODY CLASS START ENDED");
-                }
-            }, 500);
-        }
-    }
-
-    /**
-     * Function to recursively test whether the video element is still in view and play along under "ANIMATION START" of body
-     */
-    private bodyOnAnimateInProgressWatch() {
-        if (this.isTouchInProgress) {
-            this.info("HH TEST: BODY CLASS POLLING");
-            const videoCoOrds = this.getVideoElementOffset();
-            this.touchCoordinates.endX = videoCoOrds.top;
-            this.touchCoordinates.endY = videoCoOrds.left;
-            const xCord = Math.abs(this.touchCoordinates.endX - this.touchCoordinates.startX);
-            const yCord = Math.abs(this.touchCoordinates.endY - this.touchCoordinates.startY);
-            if (xCord > this.swipeDeltaCheckNum || yCord > this.swipeDeltaCheckNum) {
-                this.videoIntersectionObserver();
-                this.isTouchInProgress = false;
-                clearInterval(this.touchInProgressInterval);
-                this.touchInProgressInterval = null;
-                this.info("HH TEST: BODY CLASS KILLING WATCHER");
-            }
-        }
-    }
-
-    /**
-     * Function bound to body to allow observing on the video element when touch happens on the body " ANIMATION END"
-     */
-    private bodyOnAnimationEnd() {
-        this.info("HH TEST: BODY CLASS ON END");
-        // this.isTouchInProgress = false;
-        // clearInterval(this.touchInProgressInterval);
-        // this.touchInProgressInterval = null;
-        // // HH : Testing the logic with a settimeout
-        // setTimeout(() => {
-        //     this.info("HH TEST: BODY CLASS ON END FIRED");
-        //     this.videoIntersectionObserver();
-        // }, 300);
-    }
-
     private getVideoElementOffset() {
         const el = this;
         const rect = el.getBoundingClientRect();
@@ -2842,7 +2757,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.isFullScreen = true;
             // To avoid swiping on the full screen
             this.addEventListener('touchmove', this._handleTouchMoveEvent_Fullscreen, { passive: true });
-            this._removeTouchEventsForSwipe();
             this._hideFullScreenIcon();
 
             if (!!this.fullScreenOverlay && !!this.fullScreenOverlay.classList) {
@@ -2931,7 +2845,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.vidControlPanel.removeEventListener('click', this._videoCP.bind(this));
         window.removeEventListener('orientationchange', this._orientationChange.bind(this));
         window.removeEventListener(this.VIDEO_ACTION.RESIZE, this._orientationChange.bind(this));
-        this._removeTouchEventsForSwipe();
         this._scrollableElm.removeEventListener('scroll', _.debounce(this._positionChange.bind(this), 100, {
             'leading': true,
             'trailing': true
@@ -3530,19 +3443,17 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             if (this.stretch === 'false') {
                 // Calculation for fixed display size like small, medium large
                 this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
-                this.videoElement.style.width = this.sizeObj.width + "px";
-                this.videoElement.style.height = this.sizeObj.height + "px";
                 this.videoTop = Math.ceil(rect.top);
                 this.videoLeft = Math.ceil(rect.left);
             } else if (this.stretch === 'true') {
                 this._getSizeAndPositionObj(this.clientWidth, this.clientHeight);
-                this.videoElement.style.width = this.sizeObj.width + "px";
-                this.videoElement.style.height = this.sizeObj.height + "px";                
                 this.vidControlPanel.style.left = -5 + "px";
                 this.vidControlPanel.style.top = (this.position.yPos + 5) + "px";
                 this.videoLeft = rect.left + this.position.xPos;
                 this.videoTop = rect.top + this.position.yPos;
             }
+            this.videoElement.style.width = this.sizeObj.width + "px";
+            this.videoElement.style.height = this.sizeObj.height + "px";
         }
     }
 
