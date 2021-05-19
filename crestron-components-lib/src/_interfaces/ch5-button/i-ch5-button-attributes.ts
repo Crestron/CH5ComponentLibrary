@@ -59,7 +59,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`iconposition` attribute",
      * "***",
-     * "The default value is 'left'.",
+     * "The default value is 'first'.",
      * "Valid values: 'first', 'last', 'top', 'bottom'.",
      * "The icon position relative to the label."
      * ]
@@ -78,6 +78,20 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * @name iconurl
      */
     iconUrl: string;
+
+      /**
+   * @documentation
+   * [
+   * "`checkboxShow` attribute",
+   * "***",
+   * "The default value is false.",
+   * "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
+   * "'ch5-button__checkbox' will be applied as the CSS class on the component."
+   * ]
+   * @name checkboxShow
+   * @default false
+   */
+   checkboxShow: boolean;
 
     /**
      * @documentation
@@ -153,7 +167,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
      * ]
      * @name formtype
      */
-    formType: TCh5ButtonActionType;
+    formType: TCh5ButtonActionType | null;
 
     /**
      * @documentation

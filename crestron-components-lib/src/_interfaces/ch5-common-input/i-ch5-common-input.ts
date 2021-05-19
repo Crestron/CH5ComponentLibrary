@@ -6,7 +6,6 @@
 // under which you licensed this source code.
 
 import { ICh5CommonInputAttributes } from "./i-ch5-common-input-attributes";
-import { TBoolAttribute } from "../ch5-common/types/t-bool-attribute";
 
 /**
  * @ignore

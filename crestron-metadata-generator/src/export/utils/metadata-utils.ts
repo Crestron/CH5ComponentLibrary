@@ -29,31 +29,25 @@ function addAttributeDefinition(definition: Definition, aliases: DefinitionTuple
     result.documentation = _.getDocumentation(definition);
     result.name = _.getName(definition);
     result.value = getProperties(definition, aliases)[0].value;
-    // const defaultValue = _.getDefault(definition);
-    // if (!isNil(defaultValue) && defaultValue !== "") {
-        result.default = _.getDefault(definition);
-    // }
+    result.default = _.getDefault(definition);
     return result;
 }
 
 function getProperties(definition: Definition, aliases: DefinitionTuple[]): Ch5Attribute[] {
     const properties = definition.attributes;
     const attributes: Ch5Attribute[] = [];
-
     if (!isNil(properties)) {
         const propertyKeys = Array.from(properties.keys() || []);
         if (!isNil(propertyKeys) && propertyKeys.length > 0) {
             // we have attributes, parse them.
             for (const propertyKey of propertyKeys) {
                 const propertyMetadata = properties.get(propertyKey);
-
                 if (!isNil(propertyMetadata)) {
                     attributes.push(addPropertyDefinition(propertyMetadata, aliases));
                 }
             }
         }
     }
-
     return attributes;
 }
 
@@ -71,7 +65,10 @@ function getAliasTypesRefs(definition: Definition): string[] {
         }
     } else {
         // just one alias type
-        aliasTypesRefs.push(ref);
+        // The below if condition is to ensure that an empty value is not populated into the array of AliasTypesRef
+        if (!isNil(ref) && ref !== '') {
+            aliasTypesRefs.push(ref);
+        }
     }
     return aliasTypesRefs;
 }
@@ -84,6 +81,15 @@ function getAliasTypeValues(ref: string, aliases: DefinitionTuple[]): string[] {
         const aliasValues = alias.definition.enum;
         values = [...(<string[]>aliasValues)];
     }
+    return values;
+}
+
+function getAliasTypeValuesForBasicTypes(type: string): string[] {
+    let values: string[] = [];
+    if (type.toLowerCase() === 'boolean') {
+        values = ["false", "true"];
+    }
+    // values = [...(<string[]>aliasValues)];
     return values;
 }
 
@@ -112,7 +118,7 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
                 const type = definition.type as string;
                 if (!isNil(type)) {
                     if (isBasicType(type)) {
-                        result.value = [];
+                        result.value = getAliasTypeValuesForBasicTypes(type);
                     } else {
                         result.value = [type];
                     }
@@ -129,7 +135,7 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
     result.documentation = _.getDocumentation(definition);
     // const defaultValue = _.getDefault(definition);
     // if (!isNil(defaultValue) && defaultValue !== "") {
-        result.default = _.getDefault(definition);
+    result.default = _.getDefault(definition);
     // }
 
     return result;

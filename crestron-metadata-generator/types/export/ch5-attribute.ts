@@ -7,6 +7,7 @@
 
 export class Ch5Attribute {
     public name: string;
+    public type?: string;
     public value: string[];
     public documentation?: string[];
     public default?: string | null;
