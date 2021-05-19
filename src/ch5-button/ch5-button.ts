@@ -22,7 +22,7 @@ import {
 import { ICh5ButtonAttributes } from "../_interfaces/ch5-button/i-ch5-button-attributes";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import Hammer from 'hammerjs';
-import { isTouchDevice } from "../ch5-core/utility-functions/is-touch-device";
+// import { isTouchDevice } from "../ch5-core/utility-functions/is-touch-device";
 import { Ch5ButtonPressInfo } from "./ch5-button-pressinfo";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
@@ -81,56 +81,63 @@ import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
  */
 export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
-    /**
-     * The first value is considered the default one
-     */
-    public static readonly TYPES: TCh5ButtonType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+    //#region 1. Variables
+
+    //#region 1.1 static readonly variables
 
     /**
      * The first value is considered the default one
      */
-    public static readonly SHAPES: TCh5ButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'];
+    private static readonly TYPES: TCh5ButtonType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
 
     /**
      * The first value is considered the default one
      */
-    public static readonly SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+    private static readonly SHAPES: TCh5ButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'];
+
+    /**
+     * The first value is considered the default one
+     */
+    private static readonly SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
     /**
      * No default value for Stretch
      */
-    public static readonly STRETCHES: TCh5ButtonStretch[] = ['both', 'width', 'height'];
+    private static readonly STRETCHES: TCh5ButtonStretch[] = ['both', 'width', 'height'];
 
     /**
      * The first value is considered the default one
      */
-    public static readonly ICON_POSITIONS: TCh5ButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
+    private static readonly ICON_POSITIONS: TCh5ButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
 
     /**
      * The first value is considered the default one
      */
-    public static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
+    private static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
 
     /**
      * Time needed for the sendOnTouch to trigger/reinforce
      */
-    public static readonly TOUCH_TIMEOUT: number = 250;
+    private static readonly TOUCH_TIMEOUT: number = 250;
 
-    public static readonly PRESS_MOVE_THRESHOLD = 10;
+    private static readonly PRESS_MOVE_THRESHOLD: number = 10;
 
-    public static readonly CONTAINER_CLASS: string = 'cb-cntr';
+    private static readonly CONTAINER_CLASS: string = 'cb-cntr';
 
-    public static readonly SVG: string = 'svg';
+    private static readonly SVG: string = 'svg';
 
     private static readonly DEBOUNCE_PRESS_TIME: number = 200;
 
+    //#endregion
 
-    public readonly primaryCssClass = 'ch5-button';
-    public readonly cssClassPrefix = 'ch5-button';
-    public readonly pressedCssClassPostfix = '--pressed';
-    public readonly selectedCssClassPostfix = '--selected';
-    public readonly iosCssClassPostfix = '--ios-vertical';
+    //#region 1.2 public readonly variables
 
+    public readonly primaryCssClass: string = 'ch5-button';
+    public readonly cssClassPrefix: string = 'ch5-button';
+
+    //#endregion
+
+    //#region 1.3 private / protected / readonly variables
 
     private _elContainer: HTMLElement = {} as HTMLElement;
     private _elButton: HTMLElement = {} as HTMLElement;
@@ -138,10 +145,15 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _elIcon: HTMLElement = {} as HTMLElement;
     private _elImg: HTMLImageElement = {} as HTMLImageElement;
     private _elIosDots: HTMLElement = {} as HTMLElement;
+
     private _pressHorizontalStartingPoint: number | null = null;
     private _pressVerticalStartingPoint: number | null = null;
 
     private isLabelLoaded: boolean = false;
+
+    private readonly pressedCssClassPostfix: string = '--pressed';
+    private readonly selectedCssClassPostfix: string = '--selected';
+    private readonly iosCssClassPostfix: string = '--ios-vertical';
 
     /**
      * Time after that press will be triggered
@@ -187,6 +199,22 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      */
     private _iconPosition: TCh5ButtonIconPosition = 'first';
 
+
+    /**
+     * Icon position relative to label
+     *
+     * HTML attribute name: iconPosition or iconposition
+     */
+    private _checkboxPosition: TCh5ButtonIconPosition = 'first';
+
+    /**
+     * Reflects the checkbox display part of the component. If set to true, a checkbox is displayed and a CSS class named 'ch5-button__checkbox' will be applied
+     * on the button component
+     *
+     * HTML attribute name: checkboxShow
+     */
+    private _checkboxShow: boolean = false;
+
     /**
      * Lays out the elements of the ch5-button in a horizontal or vertical manner.
      * For vertical alignment it will apply a CSS class that will rotate the component -90 degrees ( 270 deg clockwise,
@@ -215,7 +243,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      *
      * HTML attribute name: actiontype
      */
-    private _formType: TCh5ButtonActionType = '';
+    private _formType: TCh5ButtonActionType | null = null;
 
     /**
      * When stretch property is set, the button element inherits the width or/and height of the container.
@@ -425,906 +453,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     private isTouch: boolean = false;
 
-    public constructor() {
-        super();
-        this.info('Ch5Button.constructor()');
-        this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
+    //#endregion
 
-        if (!this._wasInstatiated) {
-            this.createInternalHtml();
-        }
-        this._wasInstatiated = true;
+    //#endregion
 
-        this.updatePressedClass(this.cssClassPrefix + this.pressedCssClassPostfix);
-
-        this._pressInfo = new Ch5ButtonPressInfo();
-
-        this._onBlur = this._onBlur.bind(this);
-        this._onFocus = this._onFocus.bind(this);
-        this._onPress = this._onPress.bind(this);
-        this._onPressUp = this._onPressUp.bind(this);
-        this._onTap = this._onTap.bind(this);
-        this._onTouchEnd = this._onTouchEnd.bind(this);
-        this._onTouchCancel = this._onTouchCancel.bind(this);
-        this._onTouchMove = this._onTouchMove.bind(this);
-        this._onPressClick = this._onPressClick.bind(this);
-        this._onMouseUp = this._onMouseUp.bind(this);
-        this._onMouseMove = this._onMouseMove.bind(this);
-        this._onLeave = this._onLeave.bind(this);
-    }
-
-    /**
-     * Called when the ch5-button component is first connected to the DOM
-     */
-    public connectedCallback() {
-        this.log.start('connectedCallback()');
-        // WAI-ARIA Attributes
-        if (!this.hasAttribute('role')) {
-            this.setAttribute('role', Ch5RoleAttributeMapping.ch5Button);
-        }
-
-        if (this._elContainer.parentElement !== this) {
-            this.appendChild(this._elContainer);
-        }
-
-        if (this.customClassState && this.hasAttribute('customclasspressed')) {
-            this.updatePressedClass(this.customClassState);
-        }
-
-        // init pressable before initAttributes because pressable subscribe to gestureable attribute
-        if (!isNil(this._pressable)) {
-            this._pressable.init();
-        }
-
-        this._hammerManager = new Hammer(this._elContainer);
-
-        this.initAttributes();
-        this.updateCssClasses();
-        this.updateForChangeInStretch();
-        this.attachEventListeners();
-        this.initCommonMutationObserver(this);
-        if (!this.hasAttribute('customclasspressed')) {
-            this.updateCssClassesForCustomState();
-        }
-        this.log.stop();
-    }
-
-    /**
-     * Called when pressed class will be available
-     * @param pressedClass is class name. it will add after press the ch5 button
-     */
-    private updatePressedClass(pressedClass: string) {
-        this._pressable = new Ch5Pressable(this, {
-            cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
-            cssPressedClass: pressedClass
-        });
-    }
-
-    /**
-     * Called this method if you have to wrap the element
-     * @param el html elemen which you have to wrap
-     * @param wrapper wrapper html element
-     */
-    private wrap(el: any, wrapper: HTMLElement) {
-        el.parentNode.insertBefore(wrapper, el);
-        wrapper.appendChild(el);
-    }
-
-    /**
-     * Called when the ch5-button component is disconnected from the DOM
-     */
-    public disconnectedCallback() {
-        this.info('called disconectedCallback()');
-        this.removeEventListeners();
-        this.unsubscribeFromSignals();
-
-        // destroy pressable
-        if (null !== this._pressable) {
-            this._pressable.destroy();
-        }
-
-        // disconnect common mutation observer
-        this.disconnectCommonMutationObserver();
-    }
-
-    public getListOfAllPossibleComponentCssClasses(): string[] {
-        return this._listOfAllPossibleComponentCssClasses;
-    }
-
-    private generateListOfAllPossibleComponentCssClasses(): string[] {
-        const cssClasses: string[] = this._listOfAllPossibleComponentCssClasses;
-        cssClasses.push(this.primaryCssClass);
-
-        // shapes
-        Ch5Button.SHAPES.forEach((shape: TCh5ButtonShape) => {
-            const newClass = this.cssClassPrefix + '--' + shape;
-            cssClasses.push(newClass);
-        });
-
-        // types
-        Ch5Button.TYPES.forEach((type: TCh5ButtonType) => {
-            const newCssClass = this.cssClassPrefix + '--' + type;
-            cssClasses.push(newCssClass);
-        });
-
-        // sizes
-        Ch5Button.SIZES.forEach((size: TCh5ButtonSize) => {
-            cssClasses.push(this.cssClassPrefix + '--size-' + size);
-        });
-
-        // stretches
-        Ch5Button.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
-            // if (null !== stretch) {
-            cssClasses.push(this.cssClassPrefix + '--stretch-' + stretch);
-            // }
-        });
-
-        // orientation
-        Ch5Button.ORIENTATIONS.forEach((orientation: TCh5ButtonOrientation) => {
-            cssClasses.push(this.cssClassPrefix + '--' + orientation);
-        });
-
-        // selected
-        cssClasses.push(this.cssClassPrefix + this.selectedCssClassPostfix);
-
-        return cssClasses;
-    }
-
-    public unsubscribeFromSignals() {
-        // TODO - this need not be passed as parameter
-        this.info('unsubscribeFromSignals()');
-        super.unsubscribeFromSignals();
-
-        const csf = Ch5SignalFactory.getInstance();
-        this.clearSignalValue(csf, this, "_subReceiveLabel", "_sigNameReceiveLabel");
-        this.clearSignalValue(csf, this, "_subReceiveSignalType", "_sigNameReceiveStateType");
-        this.clearSignalValue(csf, this, "_subReceiveSelected", "_sigNameReceiveSelected");
-        this.clearSignalValue(csf, this, "_subReceiveScriptLabelHtml", "_sigNameReceiveScriptLabelHtml");
-        this.info('unsubscribeFromSignals() end');
-    }
-
-    private clearSignalValue(csf: Ch5SignalFactory, obj: any, receiveAttribute: string, signalReceiveAttribute: string) {
-        if ('' !== obj[receiveAttribute] && '' !== obj[signalReceiveAttribute]) {
-            const receiveValueSigName: string = Ch5Signal.getSubscriptionSignalName(obj[signalReceiveAttribute]);
-            const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(receiveValueSigName);
-            if (null !== sigLabel) {
-                sigLabel.unsubscribe(obj[receiveAttribute]);
-                obj[signalReceiveAttribute] = '';
-            }
-        }
-    }
-
-    public imgToSvg(img: HTMLImageElement) {
-        const imgID: string = img.id;
-        const imgClass: string = img.className;
-        const imgURL: string = img.src;
-        const imgType = imgURL.split('.').pop();
-        if (!isNil(imgURL) && (imgType === Ch5Button.SVG)) {
-            const xmlHttpObject = new XMLHttpRequest();
-            xmlHttpObject.onreadystatechange = function () {
-                if (this.readyState === 4) {
-                    const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
-                    const svg = xmlDoc.getElementsByTagName(Ch5Button.SVG)[0];
-                    if (!isNil(svg)) {
-                        if (!isNil(imgID)) {
-                            svg.setAttribute('id', imgID);
-                        }
-                        if (!isNil(imgClass)) {
-                            svg.setAttribute('class', imgClass);
-                        }
-                        svg.removeAttribute('xmlns:a');
-                        if (!svg.getAttribute('viewBox') && svg.getAttribute('height') && svg.getAttribute('width')) {
-                            svg.setAttribute('viewBox', `0 0 ${svg.getAttribute('height')} ${svg.getAttribute('width')}`);
-                        }
-                        if (img.parentNode) {
-                            img.parentNode.replaceChild(svg, img);
-                        }
-                    }
-                }
-            };
-            xmlHttpObject.open('GET', imgURL, true);
-            xmlHttpObject.send();
-        }
-    }
-
-    protected createInternalHtml() {
-        this.info('create internal Html');
-        this.clearComponentContent();
-        this._elContainer = document.createElement('div');
-        this._elContainer.classList.add(Ch5Button.CONTAINER_CLASS);
-        this._elButton = document.createElement('button');
-        this._elButton.classList.add('cb-btn');
-        this._elIcon = document.createElement('i');
-        this._elIcon.classList.add('cb-icon');
-        this._elLabel = document.createElement('span');
-        this._elLabel.classList.add('cb-lbl');
-
-        this._elImg = document.createElement('img');
-        this._elImg.classList.add('cb-img');
-
-        this._elContainer.classList.add(this.primaryCssClass);
-        this._elButton.setAttribute('data-ch5-id', this.getCrId());
-        this._elIcon.classList.add(this.cssClassPrefix + '--icon');
-        this._elImg.classList.add(this.cssClassPrefix + '--img');
-        this._elLabel.classList.add(this.cssClassPrefix + '--label');
-
-        // The icon and label elements are not appended here since they might not always be displayed and the default
-        // css ( like padding ... ) would be applied without having an actual icon or label
-        // The elements are appended (if needed) in the updateInternalHtml method
-
-        this._elContainer.appendChild(this._elButton);
-    }
-
-    // adding ellipsis in iOS device with vertical button
-    protected createIosEllipsis() {
-        if (isSafariMobile()) {
-            const btnNodes: any = this._elButton.childNodes;
-            btnNodes.forEach((node: any) => {
-                if (node.className === (this.primaryCssClass + '--ios-label')) {
-                    node.remove();
-                }
-            });
-
-            if (this.isLabelLoaded) {
-                this.createEllipsisTpl();
-            } else {
-                let timer: any;
-                clearTimeout(timer);
-                timer = setTimeout(() => {
-                    this.createEllipsisTpl();
-                    this.isLabelLoaded = true;
-                }, 2000);
-            }
-        }
-    }
-
-    // creating three dots for iOS
-    private createEllipsisTpl() {
-        if (this._elLabel.scrollHeight > this._elLabel.clientHeight) {
-            this._elContainer.classList.add(this.primaryCssClass + this.iosCssClassPostfix);
-            this._elIosDots = document.createElement('i');
-            this._elIosDots.classList.add('dots');
-            this._elIosDots.innerHTML = '...';
-            this._elLabel.appendChild(this._elIosDots);
-            const wrapper: HTMLElement = document.createElement('span');
-            wrapper.classList.add(this.primaryCssClass + '--ios-label');
-            if (!this._elLabel.closest('.ch5-button--ios-label')) {
-                this.wrap(this._elLabel, wrapper);
-            }
-        }
-    }
-
-    /**
-     * Clear the button content in order to avoid duplication of buttons
-     * @return {void}
-     */
-    protected clearComponentContent() {
-        const containers = this.getElementsByClassName(Ch5Button.CONTAINER_CLASS);
-        Array.from(containers).forEach((container) => {
-            container.remove();
-        });
-    }
-
-    protected refreshComponent() {
-        this.updateCssClasses();
-        this.updateInternalHtml();
-    }
-
-    protected updateCssClasses(): void {
-        // apply css classes for attrs inherited from common (e.g. customClass, customStyle )
-        super.updateCssClasses();
-
-        this.info('called updateCssClasses()');
-
-        const setOfCssClassesToBeApplied = new Set<string>();
-
-        // primary
-        setOfCssClassesToBeApplied.add(this.primaryCssClass);
-
-        // shape
-        setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.shape);
-
-        // type
-        setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.type);
-
-        // size
-        if (this.stretch === null) {
-            setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--size-' + this.size);
-        }
-
-        // stretch
-        if (this.stretch !== null) {
-            setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--stretch-' + this.stretch);
-        }
-
-        // orientation
-        if ('vertical' === this.orientation) {
-            setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.orientation);
-        }
-
-        const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-        if (typeof targetEl.classList !== 'undefined') {
-            this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
-                if (setOfCssClassesToBeApplied.has(cssClass)) {
-                    targetEl.classList.add(cssClass);
-                    // this.info('add CSS class', cssClass);
-                } else {
-                    targetEl.classList.remove(cssClass);
-                    // this.info('remove CSS class', cssClass);
-                }
-            });
-        }
-
-        this.updateCssClassesForSelected();
-    }
-
-    protected updateForChangeInStretch() {
-        this.info('called updateForChangeInStretch()');
-
-        const parentEl = this.parentElement as HTMLElement;
-        const targetEl = this.getTargetElementForCssClassesAndStyle();
-        if (!parentEl) {
-            this.info('updateForChangeInStretch() - parent element not found');
-            return;
-        }
-        let stretchCssClassNameToAdd = '';
-        switch (this.stretch) {
-            case 'width':
-                stretchCssClassNameToAdd = this.cssClassPrefix + '--stretch-width';
-                break;
-            case 'height':
-                stretchCssClassNameToAdd = this.cssClassPrefix + '--stretch-height';
-                break;
-            case 'both':
-                stretchCssClassNameToAdd = this.cssClassPrefix + '--stretch-both';
-                break;
-        }
-        Ch5Button.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
-            // if (null !== stretch) {
-            const cssClass = this.cssClassPrefix + '--stretch-' + stretch;
-            if (cssClass !== stretchCssClassNameToAdd) {
-                targetEl.classList.remove(cssClass);
-            }
-            // }
-        });
-        if (stretchCssClassNameToAdd !== '') {
-            targetEl.classList.add(stretchCssClassNameToAdd);
-        }
-    }
-
-    protected updateCssClassesForSelected() {
-        const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-        if (typeof targetEl.classList === 'undefined') {
-            return;
-        }
-        const selectedCssClass = this.cssClassPrefix + this.selectedCssClassPostfix;
-        if (this._selected) {
-            targetEl.classList.add(selectedCssClass);
-        } else {
-            targetEl.classList.remove(selectedCssClass);
-        }
-    }
-
-    protected updateCssClassesForCustomState() {
-        const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-        if (typeof targetEl.classList === 'undefined') {
-            return;
-        }
-        const customStateCssClass = this.customClassState;
-        if (this._customClassState) {
-            targetEl.classList.add(customStateCssClass);
-        }
-    }
-
-    /**
-     * Reorders ( if needed ) the position of the label and the icon inside the button
-     */
-    protected updateInternalHtml() {
-        if (typeof this._elButton.insertBefore === "undefined"
-            || typeof this._elIcon.classList === "undefined") {
-            return;
-        }
-        this.info('update internal html');
-
-        this._elIcon.classList.remove('cx-button-icon-pos-first');
-        this._elIcon.classList.remove('cx-button-icon-pos-last');
-        this._elIcon.classList.remove('cx-button-icon-pos-top');
-        this._elIcon.classList.remove('cx-button-icon-pos-bottom');
-        this._elIcon.classList.add('cx-button-icon-pos-' + this.iconPosition);
-
-        this._elImg.classList.remove('cx-button-icon-pos-first');
-        this._elImg.classList.remove('cx-button-icon-pos-last');
-        this._elImg.classList.remove('cx-button-icon-pos-top');
-        this._elImg.classList.remove('cx-button-icon-pos-bottom');
-        this._elImg.classList.add('cx-button-icon-pos-' + this.iconPosition);
-
-        // Handle vertical button with iconPosition top or bottom
-        if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
-            this._elButton.classList.add(`ch5-button--vertical--icon-${this.iconPosition}`)
-        }
-
-        let hasIcon = false;
-        let hasLabel = false;
-        let hasImage = false;
-        let hasAriaLabel = false;
-
-        if (this.hasAttribute('iconclass') && '' !== this.getAttribute('iconclass')) {
-            hasIcon = true;
-        }
-        if (this.hasAttribute('iconurl') && '' !== this.getAttribute('iconurl')) {
-            hasImage = true;
-        }
-
-        if ((this.hasAttribute('label') && '' !== this.getAttribute('label')) ||
-            (this.hasAttribute('receivestatescriptlabelhtml') && '' !== this.getAttribute('receivestatescriptlabelhtml'))) {
-            hasLabel = true;
-        }
-
-        if (this.hasAttribute('aria-label') && '' !== this.getAttribute('aria-label')) {
-            hasAriaLabel = true;
-        }
-
-        // updates the iconposition ( otherwise it might use the previous value of the attribute )
-        if (this.hasAttribute('iconposition')) {
-            this.iconPosition = this.getAttribute('iconposition') as TCh5ButtonIconPosition;
-        }
-
-        if (!hasLabel && hasAriaLabel && hasImage) {
-            const ariaLabel = this.getAttribute('aria-label');
-            if (ariaLabel) {
-                this._elImg.setAttribute('alt', ariaLabel);
-            }
-        }
-
-        if (hasLabel && hasIcon) {
-            if ((this._elLabel as any).isConnected === false) {
-                this._elButton.appendChild(this._elLabel);
-            } else if (this._elIcon.parentNode !== (this._elButton as Node)) {
-                this.info('add label element');
-                this._elButton.appendChild(this._elLabel);
-            }
-            if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
-                this.info('insert icon after label');
-                if (this._elIcon.parentNode !== (this._elButton as Node)) {
-                    // if the icon element was not yet added to the button
-                    this._elButton.appendChild(this._elIcon);
-                } else {
-                    // if the icon element was already added and needs to be switched with the label element
-                    this._elButton.insertBefore(this._elLabel as Node, this._elIcon as Node);
-                }
-
-            } else if (['first', 'top'].indexOf(this.iconPosition) >= 0) {
-                this.info('insert icon before label');
-                if ((this._elLabel as any).isConnected === true) {
-                    this._elButton.insertBefore(this._elIcon as Node, this._elLabel as Node);
-                }
-            }
-        } else if (hasLabel && !hasIcon) {
-            this._elButton.appendChild(this._elLabel);
-            if (this._elIcon.parentNode) {
-                this._elIcon.remove();
-            }
-        } else if (!hasLabel && hasIcon) {
-            this._elButton.appendChild(this._elIcon);
-            if (this._elLabel.parentNode) {
-                this._elLabel.remove();
-            }
-        } else { // if no icon and no label
-            if (this._elIcon.parentNode) {
-                this._elIcon.remove();
-            }
-            if (this._elLabel.parentNode) {
-                this._elLabel.remove();
-            }
-        }
-
-        if (hasImage) {
-            const hasSvg = this.querySelectorAll(`svg.${this.cssClassPrefix}--img`);
-            if (hasSvg.length) {
-                hasSvg[0].remove();
-            }
-            if (this._elIcon.parentNode) {
-                this._elIcon.remove();
-            }
-            if (hasLabel) {
-                this._elImg.setAttribute('alt', "");
-                if ((this._elLabel as any).isConnected === false) {
-                    this._elButton.appendChild(this._elLabel);
-                } else if (this._elImg.parentNode !== (this._elButton as Node)) {
-                    this.info('add label element');
-                    this._elButton.appendChild(this._elLabel);
-                }
-                if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
-                    this.info('insert icon after label');
-                    if (this._elImg.parentNode !== (this._elButton as Node)) {
-                        // if the icon element was not yet added to the button
-                        this._elButton.appendChild(this._elImg);
-                    } else {
-                        // if the icon element was already added and needs to be switched with the label element
-                        this._elButton.insertBefore(this._elLabel as Node, this._elImg as Node);
-                    }
-
-                } else if (['first', 'top'].indexOf(this.iconPosition) >= 0) {
-                    this.info('insert icon before label');
-                    if ((this._elLabel as any).isConnected === true) {
-                        this._elButton.insertBefore(this._elImg as Node, this._elLabel as Node);
-                    }
-                }
-            } else {
-                this._elButton.appendChild(this._elImg);
-                if (this._elLabel.parentNode) {
-                    this._elLabel.remove();
-                }
-            }
-            this.imgToSvg(this._elImg);
-        }
-
-        // orientation
-        if (this.orientation === 'vertical') {
-            if (this.shape !== 'circle') {
-                this.createIosEllipsis();
-            }
-        }
-    }
-
-    public static get observedAttributes() {
-        const inheritedObsAttrs = Ch5Common.observedAttributes;
-        const newObsAttrs = [
-            'label',
-
-            'iconclass',
-            'iconposition',
-            'orientation',
-            'iconurl',
-
-            'shape',
-            'size',
-            'stretch',
-            'type',
-            'formtype',
-
-            'selected',
-            'customclassselected',
-            'customclasspressed',
-            'customclassdisabled',
-            'receivestateselected',
-            'receivestatelabel',
-            'receivestatescriptlabelhtml',
-            'receivestateiconclass',
-            'receivestateiconurl',
-            'receivestatetype',
-
-            'sendeventonclick',
-            'sendeventontouch'
-        ];
-
-        return inheritedObsAttrs.concat(newObsAttrs);
-    }
-
-    protected initAttributes() {
-        super.initAttributes();
-
-        if (this.hasAttribute('label')) {
-            this.label = this.getAttribute('label') as string;
-        }
-        if (this.hasAttribute('iconclass')) {
-            this.iconClass = this.getAttribute('iconclass') as string;
-        }
-        if (this.hasAttribute('iconposition')) {
-            this.iconPosition = this.getAttribute('iconposition') as TCh5ButtonIconPosition;
-        }
-        if (this.hasAttribute('iconurl')) {
-            this.iconUrl = this.getAttribute('iconurl') as string;
-        }
-        if (this.hasAttribute('orientation')) {
-            this.orientation = this.getAttribute('orientation') as TCh5ButtonOrientation;
-        }
-        if (this.hasAttribute('shape')) {
-            this.shape = this.getAttribute('shape') as TCh5ButtonShape;
-        }
-        if (this.hasAttribute('size')) {
-            this.size = this.getAttribute('size') as TCh5ButtonSize;
-        }
-        if (this.hasAttribute('stretch')) {
-            this.stretch = this.getAttribute('stretch') as TCh5ButtonStretch | null;
-        }
-        if (this.hasAttribute('type')) {
-            this.type = this.getAttribute('type') as TCh5ButtonType;
-        }
-        if (this.hasAttribute('formtype')) {
-            this.formType = this.getAttribute('formtype') as TCh5ButtonActionType;
-        }
-        let isSelected = false;
-        if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
-            const attrSelected = (this.getAttribute('selected') as string).toLowerCase();
-            if (attrSelected !== 'false' && attrSelected !== '0') {
-                isSelected = true;
-            }
-        }
-        this.selected = isSelected;
-
-        if (this.hasAttribute('customclassselected')) {
-            this.customClassState = this.getAttribute('customclassselected') as string;
-        }
-        if (this.hasAttribute('customclasspressed')) {
-            this.customClassPressed = this.getAttribute('customclasspressed') as string;
-            this.customClassState = this.customClassPressed;
-        }
-        if (this.hasAttribute('customclassdisabled')) {
-            this.customClassDisabled = this.getAttribute('customclassdisabled') as string;
-            this.customClassState = this.customClassDisabled;
-        }
-        if (this.hasAttribute('receivestateselected')) {
-            this.receiveStateSelected = this.getAttribute('receivestateselected') as string;
-        }
-        if (this.hasAttribute('receivestatelabel')) {
-            this.receiveStateLabel = this.getAttribute('receivestatelabel') as string;
-        }
-        if (this.hasAttribute('receivestatescriptlabelhtml')) {
-            this.receiveStateScriptLabelHtml = this.getAttribute('receivestatescriptlabelhtml') as string;
-        }
-        if (this.hasAttribute('receivestateiconclass')) {
-            this.receiveStateIconClass = this.getAttribute('receivestateiconclass') as string;
-        }
-
-        if (this.hasAttribute('receivestateiconurl')) {
-            this.receiveStateIconUrl = this.getAttribute('receivestateiconurl');
-        }
-
-        if (this.hasAttribute('receivestatetype')) {
-            this.receiveStateType = this.getAttribute('receivestatetype') as string;
-        }
-
-        if (this.hasAttribute('sendeventonclick')) {
-            this.sendEventOnClick = this.getAttribute('sendeventonclick') as string;
-        }
-        if (this.hasAttribute('sendeventontouch')) {
-            this.sendEventOnTouch = this.getAttribute('sendeventontouch') as string;
-        }
-        this.updateInternalHtml();
-    }
-
-    protected attachEventListeners() {
-        super.attachEventListeners();
-
-        if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
-            this._hammerManager.on('tap', this._onTap);
-        }
-
-        this._elButton.addEventListener('mousedown', this._onPressClick);
-        this._elButton.addEventListener('mouseup', this._onMouseUp);
-        this._elButton.addEventListener('mousemove', this._onMouseMove);
-        this._elButton.addEventListener('touchstart', this._onPress, { passive: true });
-        this._elButton.addEventListener('mouseleave', this._onLeave);
-        this._elButton.addEventListener('touchend', this._onPressUp);
-        this._elButton.addEventListener('touchmove', this._onTouchMove, { passive: true });
-
-        this._elButton.addEventListener('touchend', this._onTouchEnd);
-        this._elButton.addEventListener('touchcancel', this._onTouchCancel);
-
-        this._elButton.addEventListener('focus', this._onFocus);
-        this._elButton.addEventListener('blur', this._onBlur);
-    }
-
-    protected removeEventListeners() {
-        super.removeEventListeners();
-
-        this._elButton.removeEventListener('touchstart', this._onPress);
-        this._elButton.removeEventListener('touchend', this._onPressUp);
-        this._hammerManager.off('tap', this._onTap);
-
-        this._elButton.removeEventListener('touchend', this._onTouchEnd);
-        this._elButton.removeEventListener('touchcancel', this._onTouchCancel);
-        this._elButton.removeEventListener('touchmove', this._onTouchMove);
-
-        this._elButton.removeEventListener('focus', this._onFocus);
-        this._elButton.removeEventListener('blur', this._onBlur);
-        this._elButton.removeEventListener('mousedown', this._onPressClick);
-        this._elButton.removeEventListener('mouseup', this._onMouseUp);
-        this._elButton.removeEventListener('mouseleave', this._onLeave);
-    }
-
-    protected getTargetElementForCssClassesAndStyle(): HTMLElement {
-        return this._elContainer;
-    }
-
-    /**
-     * Called when an HTML attribute is changed, added or removed
-     */
-    public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-        if (oldValue === newValue) {
-            return;
-        }
-
-        this.info('ch5-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
-
-        switch (attr) {
-            case 'label':
-                if (this.hasAttribute('label')) {
-                    this.label = newValue;
-                } else {
-                    this.label = '';
-                }
-                this.updateInternalHtml(); // updates label and icon elements if needed
-                break;
-            case 'iconclass':
-                if (this.hasAttribute('iconclass')) {
-                    this.iconClass = newValue;
-                } else {
-                    this.iconClass = '';
-                }
-                this.refreshComponent();  // updates classes and html content if needed
-                break;
-            case 'iconposition':
-                if (this.hasAttribute('iconposition')) {
-                    this.iconPosition = newValue as TCh5ButtonIconPosition;
-                } else {
-                    this.iconPosition = Ch5Button.ICON_POSITIONS[0];
-                }
-                this.refreshComponent();  // updates classes and html content if needed
-                break;
-            case 'iconurl':
-                if (this.hasAttribute('iconurl')) {
-                    this.iconUrl = newValue;
-                } else {
-                    this.iconUrl = '';
-                }
-                this.refreshComponent();  // updates classes and html content if needed
-                break;
-            case 'orientation':
-                if (this.hasAttribute('orientation')) {
-                    this.orientation = newValue as TCh5ButtonOrientation;
-                } else {
-                    this.orientation = Ch5Button.ORIENTATIONS[0];
-                }
-                this.updateCssClasses();
-                break;
-            case 'type':
-                if (this.hasAttribute('type')) {
-                    this.type = newValue as TCh5ButtonType;
-                } else {
-                    this.type = Ch5Button.TYPES[0];
-                }
-                this.updateCssClasses();
-                break;
-            case 'shape':
-                if (this.hasAttribute('shape')) {
-                    this.shape = newValue as TCh5ButtonShape;
-                } else {
-                    this.shape = Ch5Button.SHAPES[0];
-                }
-                this.updateCssClasses();
-                break;
-            case 'size':
-                if (this.hasAttribute('size')) {
-                    this.size = newValue as TCh5ButtonSize;
-                } else {
-                    this.size = Ch5Button.SIZES[0];
-                }
-                this.updateCssClasses();
-                break;
-            case 'stretch':
-                if (this.hasAttribute('stretch')) {
-                    this.stretch = newValue as TCh5ButtonStretch | null;
-                } else {
-                    this.stretch = null;
-                }
-                this.updateForChangeInStretch();
-                break;
-            case 'selected':
-                if (!this.hasAttribute('customclassselected')) {
-                    let isSelected = false;
-                    if (this.hasAttribute('selected')) {
-                        const attrSelected = (this.getAttribute('selected') as string).toLowerCase();
-                        if ('false' !== attrSelected && '0' !== attrSelected) {
-                            isSelected = true;
-                        }
-                    }
-                    this.selected = isSelected;
-                    this.updateCssClasses();
-                }
-                break;
-            case 'formtype':
-                if (this.hasAttribute('formtype')) {
-                    this.formType = this.getAttribute('formtype') as TCh5ButtonActionType;
-                }
-                break;
-            case 'customclassselected':
-                if (this.hasAttribute('customclassselected')) {
-                    this.customClassState = newValue;
-                } else {
-                    this.customClassState = '';
-                }
-                this.updateCssClassesForCustomState();
-                break;
-            case 'customclasspressed':
-                if (this.hasAttribute('customclasspressed')) {
-                    this.customClassPressed = newValue;
-                } else {
-                    this.customClassPressed = '';
-                }
-                this.customClassState = this.customClassPressed;
-                this.updatePressedClass(this.customClassState);
-                break;
-            case 'customclassdisabled':
-                if (this.hasAttribute('customclassdisabled')) {
-                    this.customClassDisabled = newValue;
-                } else {
-                    this.customClassDisabled = '';
-                }
-                this.customClassState = this.customClassDisabled;
-                this.updateCssClassesForCustomState();
-                break;
-            case 'receivestateselected':
-                if (this.hasAttribute('receivestateselected')) {
-                    this.receiveStateSelected = newValue;
-                } else {
-                    this.receiveStateSelected = '';
-                }
-                break;
-            case 'receivestatelabel':
-                if (this.hasAttribute('receivestatelabel')) {
-                    this.receiveStateLabel = newValue;
-                } else {
-                    this.receiveStateLabel = '';
-                }
-                break;
-            case 'receivestatescriptlabelhtml':
-                if (this.hasAttribute('receivestatescriptlabelhtml')) {
-                    this.receiveStateScriptLabelHtml = newValue;
-                } else {
-                    this.receiveStateScriptLabelHtml = '';
-                }
-                break;
-            case 'sendeventonclick':
-                if (this.hasAttribute('sendeventonclick')) {
-                    this.sendEventOnClick = newValue;
-                } else {
-                    this.sendEventOnClick = '';
-                }
-                break;
-            case 'sendeventontouch':
-                if (this.hasAttribute('sendeventontouch')) {
-                    this.sendEventOnTouch = newValue;
-                } else {
-                    this.sendEventOnTouch = '';
-                }
-                break;
-            case 'receivestateiconclass':
-                if (this.hasAttribute('receivestateiconclass')) {
-                    this.receiveStateIconClass = newValue;
-                } else {
-                    this.receiveStateIconClass = '';
-                }
-                break;
-            case 'receivestateiconurl':
-                if (this.hasAttribute('receivestateiconurl')) {
-                    this.receiveStateIconUrl = newValue;
-                } else {
-                    this.receiveStateIconUrl = '';
-                }
-                break;
-            case 'receivestatetype':
-                if (this.hasAttribute('receivestatetype')) {
-                    this.receiveStateType = newValue;
-                } else {
-                    this.receiveStateType = '';
-                }
-                break;
-
-            default:
-                super.attributeChangedCallback(attr, oldValue, newValue);
-                break;
-        }
-    }
-
-    public getCssClassDisabled() {
-        return this.cssClassPrefix + '--disabled';
-    }
-    //
-    // Attr getters and setters
-    //
+    //#region 2. Attribute Getters and Setters
 
     public set label(value: string) {
         this.info('set label("' + value + '")');
@@ -1333,7 +466,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             value = '';
         }
 
-        const trValue = this._getTranslatedValue('label', value);
+        const trValue: string = this._getTranslatedValue('label', value);
         if (trValue === this.label) {
             return;
         }
@@ -1342,12 +475,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._label = trValue;
         this.setAttribute('label', trValue);
     }
-
     public get label() {
         return this._label;
     }
 
-    public set formType(value: TCh5ButtonActionType) {
+    public set formType(value: TCh5ButtonActionType | null) {
         this.info('set formType("' + value + '")');
         if (!isNil(value)) {
             this.setAttribute('formType', value);
@@ -1355,8 +487,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.removeAttribute('formType');
         }
     }
-
-    public get formType(): TCh5ButtonActionType {
+    public get formType(): TCh5ButtonActionType | null {
         return this._formType;
     }
 
@@ -1398,6 +529,38 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
     public get iconClass(): string {
         return this._iconClass;
+    }
+
+    public set checkboxPosition(value: TCh5ButtonIconPosition) {
+        this.info('set iconPosition("' + value + '")');
+        if (this._checkboxPosition !== value) {
+            if (Ch5Button.ICON_POSITIONS.indexOf(value) >= 0) {
+                this._checkboxPosition = value;
+            } else {
+                this._checkboxPosition = Ch5Button.ICON_POSITIONS[0];
+            }
+            this.setAttribute('checkboxPosition', this._checkboxPosition);
+        }
+    }
+    public get checkboxPosition(): TCh5ButtonIconPosition {
+        return this._checkboxPosition;
+    }
+
+    public set checkboxShow(value: boolean) {
+        this.info('set checkboxShow("' + value + '")');
+        if (this._checkboxShow !== value) {
+            this._checkboxShow = value;
+            if (value === true) {
+                this.setAttribute('checkboxShow', 'true');
+            } else {
+                this.removeAttribute('checkboxShow');
+            }
+
+        }
+    }
+
+    public get checkboxShow(): boolean {
+        return this._checkboxShow;
     }
 
     public set iconPosition(value: TCh5ButtonIconPosition) {
@@ -1454,7 +617,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
     }
 
-    public get type() {
+    public get type(): TCh5ButtonType {
         return this._type;
     }
 
@@ -1867,9 +1030,940 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
     }
 
-    //
-    // Events
-    //
+    //#endregion
+
+    //#region 3. Lifecycle Hooks
+
+    public constructor() {
+        super();
+        this.info('Ch5Button.constructor()');
+        this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
+
+        if (!this._wasInstatiated) {
+            this.createInternalHtml();
+        }
+        this._wasInstatiated = true;
+
+        this.updatePressedClass(this.cssClassPrefix + this.pressedCssClassPostfix);
+
+        this._pressInfo = new Ch5ButtonPressInfo();
+
+        this._onBlur = this._onBlur.bind(this);
+        this._onFocus = this._onFocus.bind(this);
+        this._onPress = this._onPress.bind(this);
+        this._onPressUp = this._onPressUp.bind(this);
+        this._onTap = this._onTap.bind(this);
+        this._onTouchEnd = this._onTouchEnd.bind(this);
+        this._onTouchCancel = this._onTouchCancel.bind(this);
+        this._onTouchMove = this._onTouchMove.bind(this);
+        this._onPressClick = this._onPressClick.bind(this);
+        this._onMouseUp = this._onMouseUp.bind(this);
+        this._onMouseMove = this._onMouseMove.bind(this);
+        this._onLeave = this._onLeave.bind(this);
+    }
+
+    /**
+     * Called when the ch5-button component is first connected to the DOM
+     */
+    public connectedCallback() {
+        this.log.start('connectedCallback()');
+        // WAI-ARIA Attributes
+        if (!this.hasAttribute('role')) {
+            this.setAttribute('role', Ch5RoleAttributeMapping.ch5Button);
+        }
+
+        if (this._elContainer.parentElement !== this) {
+            this.appendChild(this._elContainer);
+        }
+
+        if (this.customClassState && this.hasAttribute('customclasspressed')) {
+            this.updatePressedClass(this.customClassState);
+        }
+
+        // init pressable before initAttributes because pressable subscribe to gestureable attribute
+        if (!isNil(this._pressable)) {
+            this._pressable.init();
+        }
+
+        this._hammerManager = new Hammer(this._elContainer);
+
+        this.initAttributes();
+        this.updateCssClasses();
+        this.updateForChangeInStretch();
+        this.attachEventListeners();
+        this.initCommonMutationObserver(this);
+        if (!this.hasAttribute('customclasspressed')) {
+            this.updateCssClassesForCustomState();
+        }
+        this.log.stop();
+    }
+
+    /**
+     * Called when the ch5-button component is disconnected from the DOM
+     */
+    public disconnectedCallback() {
+        this.log.start('disconectedCallback()');
+        this.removeEventListeners();
+        this.unsubscribeFromSignals();
+
+        // destroy pressable
+        if (null !== this._pressable) {
+            this._pressable.destroy();
+        }
+
+        // disconnect common mutation observer
+        this.disconnectCommonMutationObserver();
+        this.log.stop();
+    }
+
+    //#endregion
+
+    //#region 4. Other Methods
+
+    /**
+     * Called when pressed class will be available
+     * @param pressedClass is class name. it will add after press the ch5 button
+     */
+    private updatePressedClass(pressedClass: string) {
+        this._pressable = new Ch5Pressable(this, {
+            cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
+            cssPressedClass: pressedClass
+        });
+    }
+
+    /**
+     * Called this method if you have to wrap the element
+     * @param el html elemen which you have to wrap
+     * @param wrapper wrapper html element
+     */
+    private wrap(el: any, wrapper: HTMLElement) {
+        el.parentNode.insertBefore(wrapper, el);
+        wrapper.appendChild(el);
+    }
+
+    public getListOfAllPossibleComponentCssClasses(): string[] {
+        return this._listOfAllPossibleComponentCssClasses;
+    }
+
+    private generateListOfAllPossibleComponentCssClasses(): string[] {
+        const cssClasses: string[] = this._listOfAllPossibleComponentCssClasses;
+        cssClasses.push(this.primaryCssClass);
+
+        // shapes
+        Ch5Button.SHAPES.forEach((shape: TCh5ButtonShape) => {
+            const newClass = this.cssClassPrefix + '--' + shape;
+            cssClasses.push(newClass);
+        });
+
+        // types
+        Ch5Button.TYPES.forEach((type: TCh5ButtonType) => {
+            const newCssClass = this.cssClassPrefix + '--' + type;
+            cssClasses.push(newCssClass);
+        });
+
+        // sizes
+        Ch5Button.SIZES.forEach((size: TCh5ButtonSize) => {
+            cssClasses.push(this.cssClassPrefix + '--size-' + size);
+        });
+
+        // stretches
+        Ch5Button.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
+            cssClasses.push(this.cssClassPrefix + '--stretch-' + stretch);
+        });
+
+        // orientation
+        Ch5Button.ORIENTATIONS.forEach((orientation: TCh5ButtonOrientation) => {
+            cssClasses.push(this.cssClassPrefix + '--' + orientation);
+        });
+
+        // selected
+        cssClasses.push(this.cssClassPrefix + this.selectedCssClassPostfix);
+
+        return cssClasses;
+    }
+
+    public unsubscribeFromSignals() {
+        // TODO - this need not be passed as parameter
+        this.info('unsubscribeFromSignals()');
+        super.unsubscribeFromSignals();
+
+        const csf = Ch5SignalFactory.getInstance();
+        this.clearSignalValue(csf, this, "_subReceiveLabel", "_sigNameReceiveLabel");
+        this.clearSignalValue(csf, this, "_subReceiveSignalType", "_sigNameReceiveStateType");
+        this.clearSignalValue(csf, this, "_subReceiveSelected", "_sigNameReceiveSelected");
+        this.clearSignalValue(csf, this, "_subReceiveScriptLabelHtml", "_sigNameReceiveScriptLabelHtml");
+        this.info('unsubscribeFromSignals() end');
+    }
+
+    private clearSignalValue(csf: Ch5SignalFactory, obj: any, receiveAttribute: string, signalReceiveAttribute: string) {
+        if ('' !== obj[receiveAttribute] && '' !== obj[signalReceiveAttribute]) {
+            const receiveValueSigName: string = Ch5Signal.getSubscriptionSignalName(obj[signalReceiveAttribute]);
+            const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(receiveValueSigName);
+            if (null !== sigLabel) {
+                sigLabel.unsubscribe(obj[receiveAttribute]);
+                obj[signalReceiveAttribute] = '';
+            }
+        }
+    }
+
+    public imgToSvg(img: HTMLImageElement) {
+        const imgID: string = img.id;
+        const imgClass: string = img.className;
+        const imgURL: string = img.src;
+        const imgType = imgURL.split('.').pop();
+        if (!isNil(imgURL) && (imgType === Ch5Button.SVG)) {
+            const xmlHttpObject = new XMLHttpRequest();
+            xmlHttpObject.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
+                    const svg = xmlDoc.getElementsByTagName(Ch5Button.SVG)[0];
+                    if (!isNil(svg)) {
+                        if (!isNil(imgID)) {
+                            svg.setAttribute('id', imgID);
+                        }
+                        if (!isNil(imgClass)) {
+                            svg.setAttribute('class', imgClass);
+                        }
+                        svg.removeAttribute('xmlns:a');
+                        if (!svg.getAttribute('viewBox') && svg.getAttribute('height') && svg.getAttribute('width')) {
+                            svg.setAttribute('viewBox', `0 0 ${svg.getAttribute('height')} ${svg.getAttribute('width')}`);
+                        }
+                        if (img.parentNode) {
+                            img.parentNode.replaceChild(svg, img);
+                        }
+                    }
+                }
+            };
+            xmlHttpObject.open('GET', imgURL, true);
+            xmlHttpObject.send();
+        }
+    }
+
+    protected createInternalHtml() {
+        this.log.start('createInternalHtml');
+        this.clearComponentContent();
+        this._elContainer = document.createElement('div');
+        this._elContainer.classList.add(Ch5Button.CONTAINER_CLASS);
+        this._elButton = document.createElement('button');
+        this._elButton.classList.add('cb-btn');
+        this._elIcon = document.createElement('i');
+        this._elIcon.classList.add('cb-icon');
+        this._elLabel = document.createElement('span');
+        this._elLabel.classList.add('cb-lbl');
+
+        this._elImg = document.createElement('img');
+        this._elImg.classList.add('cb-img');
+
+        this._elContainer.classList.add(this.primaryCssClass);
+        this._elButton.setAttribute('data-ch5-id', this.getCrId());
+        this._elIcon.classList.add(this.cssClassPrefix + '--icon');
+        this._elImg.classList.add(this.cssClassPrefix + '--img');
+        this._elLabel.classList.add(this.cssClassPrefix + '--label');
+
+        // The icon and label elements are not appended here since they might not always be displayed and the default
+        // css ( like padding ... ) would be applied without having an actual icon or label
+        // The elements are appended (if needed) in the updateInternalHtml method
+
+        this._elContainer.appendChild(this._elButton);
+        this.log.stop();
+    }
+
+    // adding ellipsis in iOS device with vertical button
+    protected createIosEllipsis() {
+        if (isSafariMobile()) {
+            const btnNodes: any = this._elButton.childNodes;
+            btnNodes.forEach((node: any) => {
+                if (node.className === (this.primaryCssClass + '--ios-label')) {
+                    node.remove();
+                }
+            });
+
+            if (this.isLabelLoaded) {
+                this.createEllipsisTpl();
+            } else {
+                let timer: any;
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    this.createEllipsisTpl();
+                    this.isLabelLoaded = true;
+                }, 2000);
+            }
+        }
+    }
+
+    // creating three dots for iOS
+    private createEllipsisTpl() {
+        if (this._elLabel.scrollHeight > this._elLabel.clientHeight) {
+            this._elContainer.classList.add(this.primaryCssClass + this.iosCssClassPostfix);
+            this._elIosDots = document.createElement('i');
+            this._elIosDots.classList.add('dots');
+            this._elIosDots.innerHTML = '...';
+            this._elLabel.appendChild(this._elIosDots);
+            const wrapper: HTMLElement = document.createElement('span');
+            wrapper.classList.add(this.primaryCssClass + '--ios-label');
+            if (!this._elLabel.closest('.ch5-button--ios-label')) {
+                this.wrap(this._elLabel, wrapper);
+            }
+        }
+    }
+
+    /**
+     * Clear the button content in order to avoid duplication of buttons
+     * @return {void}
+     */
+    protected clearComponentContent() {
+        const containers = this.getElementsByClassName(Ch5Button.CONTAINER_CLASS);
+        Array.from(containers).forEach((container) => {
+            container.remove();
+        });
+    }
+
+    protected refreshComponent() {
+        this.updateCssClasses();
+        this.updateInternalHtml();
+    }
+
+    protected updateCssClasses(): void {
+        // apply css classes for attrs inherited from common (e.g. customClass, customStyle )
+        super.updateCssClasses();
+
+        this.info('called updateCssClasses()');
+
+        const setOfCssClassesToBeApplied = new Set<string>();
+
+        // primary
+        setOfCssClassesToBeApplied.add(this.primaryCssClass);
+
+        // shape
+        setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.shape);
+
+        // type
+        setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.type);
+
+        // size
+        if (this.stretch === null) {
+            setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--size-' + this.size);
+        }
+
+        // stretch
+        if (this.stretch !== null) {
+            setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--stretch-' + this.stretch);
+        }
+
+        // orientation
+        if ('vertical' === this.orientation) {
+            setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.orientation);
+        }
+
+        const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
+        if (typeof targetEl.classList !== 'undefined') {
+            this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
+                if (setOfCssClassesToBeApplied.has(cssClass)) {
+                    targetEl.classList.add(cssClass);
+                    // this.info('add CSS class', cssClass);
+                } else {
+                    targetEl.classList.remove(cssClass);
+                    // this.info('remove CSS class', cssClass);
+                }
+            });
+        }
+
+        this.updateCssClassesForSelected();
+    }
+
+    protected updateForChangeInStretch() {
+        this.info('called updateForChangeInStretch()');
+
+        const parentEl = this.parentElement as HTMLElement;
+        const targetEl = this.getTargetElementForCssClassesAndStyle();
+        if (!parentEl) {
+            this.info('updateForChangeInStretch() - parent element not found');
+            return;
+        }
+        let stretchCssClassNameToAdd = '';
+        switch (this.stretch) {
+            case 'width':
+                stretchCssClassNameToAdd = this.cssClassPrefix + '--stretch-width';
+                break;
+            case 'height':
+                stretchCssClassNameToAdd = this.cssClassPrefix + '--stretch-height';
+                break;
+            case 'both':
+                stretchCssClassNameToAdd = this.cssClassPrefix + '--stretch-both';
+                break;
+        }
+        Ch5Button.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
+            const cssClass = this.cssClassPrefix + '--stretch-' + stretch;
+            if (cssClass !== stretchCssClassNameToAdd) {
+                targetEl.classList.remove(cssClass);
+            }
+        });
+        if (stretchCssClassNameToAdd !== '') {
+            targetEl.classList.add(stretchCssClassNameToAdd);
+        }
+    }
+
+    protected updateCssClassesForSelected() {
+        const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
+        if (typeof targetEl.classList === 'undefined') {
+            return;
+        }
+        const selectedCssClass = this.cssClassPrefix + this.selectedCssClassPostfix;
+        if (this._selected) {
+            targetEl.classList.add(selectedCssClass);
+        } else {
+            targetEl.classList.remove(selectedCssClass);
+        }
+    }
+
+    protected updateCssClassesForCheckboxShow() {
+        const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
+        if (typeof targetEl.classList === 'undefined') {
+            return;
+        }
+        const checkboxShowCssClass = this.cssClassPrefix + this.selectedCssClassPostfix;
+        if (this._checkboxShow) {
+            targetEl.classList.add(checkboxShowCssClass);
+        } else {
+            targetEl.classList.remove(checkboxShowCssClass);
+        }
+    }
+
+    protected updateCssClassesForCustomState() {
+        const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
+        if (typeof targetEl.classList === 'undefined') {
+            return;
+        }
+        const customStateCssClass = this.customClassState;
+        if (this._customClassState) {
+            targetEl.classList.add(customStateCssClass);
+        }
+    }
+
+    /**
+     * Reorders ( if needed ) the position of the label and the icon inside the button
+     */
+    protected updateInternalHtml() {
+        if (typeof this._elButton.insertBefore === "undefined"
+            || typeof this._elIcon.classList === "undefined") {
+            return;
+        }
+        this.info('update internal html');
+
+        this._elIcon.classList.remove('cx-button-icon-pos-first');
+        this._elIcon.classList.remove('cx-button-icon-pos-last');
+        this._elIcon.classList.remove('cx-button-icon-pos-top');
+        this._elIcon.classList.remove('cx-button-icon-pos-bottom');
+        this._elIcon.classList.add('cx-button-icon-pos-' + this.iconPosition);
+
+        this._elImg.classList.remove('cx-button-icon-pos-first');
+        this._elImg.classList.remove('cx-button-icon-pos-last');
+        this._elImg.classList.remove('cx-button-icon-pos-top');
+        this._elImg.classList.remove('cx-button-icon-pos-bottom');
+        this._elImg.classList.add('cx-button-icon-pos-' + this.iconPosition);
+
+        // Handle vertical button with iconPosition top or bottom
+        if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
+            this._elButton.classList.add(`ch5-button--vertical--icon-${this.iconPosition}`)
+        }
+
+        let hasIcon = false;
+        let hasLabel = false;
+        let hasImage = false;
+        let hasAriaLabel = false;
+
+        if (this.hasAttribute('iconclass') && '' !== this.getAttribute('iconclass')) {
+            hasIcon = true;
+        }
+        if (this.hasAttribute('iconurl') && '' !== this.getAttribute('iconurl')) {
+            hasImage = true;
+        }
+
+        if ((this.hasAttribute('label') && '' !== this.getAttribute('label')) ||
+            (this.hasAttribute('receivestatescriptlabelhtml') && '' !== this.getAttribute('receivestatescriptlabelhtml'))) {
+            hasLabel = true;
+        }
+
+        if (this.hasAttribute('aria-label') && '' !== this.getAttribute('aria-label')) {
+            hasAriaLabel = true;
+        }
+
+        // updates the iconposition ( otherwise it might use the previous value of the attribute )
+        if (this.hasAttribute('iconposition')) {
+            this.iconPosition = this.getAttribute('iconposition') as TCh5ButtonIconPosition;
+        }
+
+        if (!hasLabel && hasAriaLabel && hasImage) {
+            const ariaLabel = this.getAttribute('aria-label');
+            if (ariaLabel) {
+                this._elImg.setAttribute('alt', ariaLabel);
+            }
+        }
+
+        if (hasLabel && hasIcon) {
+            if ((this._elLabel as any).isConnected === false) {
+                this._elButton.appendChild(this._elLabel);
+            } else if (this._elIcon.parentNode !== (this._elButton as Node)) {
+                this.info('add label element');
+                this._elButton.appendChild(this._elLabel);
+            }
+            if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
+                this.info('insert icon after label');
+                if (this._elIcon.parentNode !== (this._elButton as Node)) {
+                    // if the icon element was not yet added to the button
+                    this._elButton.appendChild(this._elIcon);
+                } else {
+                    // if the icon element was already added and needs to be switched with the label element
+                    this._elButton.insertBefore(this._elLabel as Node, this._elIcon as Node);
+                }
+
+            } else if (['first', 'top'].indexOf(this.iconPosition) >= 0) {
+                this.info('insert icon before label');
+                if ((this._elLabel as any).isConnected === true) {
+                    this._elButton.insertBefore(this._elIcon as Node, this._elLabel as Node);
+                }
+            }
+        } else if (hasLabel && !hasIcon) {
+            this._elButton.appendChild(this._elLabel);
+            if (this._elIcon.parentNode) {
+                this._elIcon.remove();
+            }
+        } else if (!hasLabel && hasIcon) {
+            this._elButton.appendChild(this._elIcon);
+            if (this._elLabel.parentNode) {
+                this._elLabel.remove();
+            }
+        } else { // if no icon and no label
+            if (this._elIcon.parentNode) {
+                this._elIcon.remove();
+            }
+            if (this._elLabel.parentNode) {
+                this._elLabel.remove();
+            }
+        }
+
+        if (hasImage) {
+            const hasSvg = this.querySelectorAll(`svg.${this.cssClassPrefix}--img`);
+            if (hasSvg.length) {
+                hasSvg[0].remove();
+            }
+            if (this._elIcon.parentNode) {
+                this._elIcon.remove();
+            }
+            if (hasLabel) {
+                this._elImg.setAttribute('alt', "");
+                if ((this._elLabel as any).isConnected === false) {
+                    this._elButton.appendChild(this._elLabel);
+                } else if (this._elImg.parentNode !== (this._elButton as Node)) {
+                    this.info('add label element');
+                    this._elButton.appendChild(this._elLabel);
+                }
+                if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
+                    this.info('insert icon after label');
+                    if (this._elImg.parentNode !== (this._elButton as Node)) {
+                        // if the icon element was not yet added to the button
+                        this._elButton.appendChild(this._elImg);
+                    } else {
+                        // if the icon element was already added and needs to be switched with the label element
+                        this._elButton.insertBefore(this._elLabel as Node, this._elImg as Node);
+                    }
+
+                } else if (['first', 'top'].indexOf(this.iconPosition) >= 0) {
+                    this.info('insert icon before label');
+                    if ((this._elLabel as any).isConnected === true) {
+                        this._elButton.insertBefore(this._elImg as Node, this._elLabel as Node);
+                    }
+                }
+            } else {
+                this._elButton.appendChild(this._elImg);
+                if (this._elLabel.parentNode) {
+                    this._elLabel.remove();
+                }
+            }
+            this.imgToSvg(this._elImg);
+        }
+
+        // orientation
+        if (this.orientation === 'vertical') {
+            if (this.shape !== 'circle') {
+                this.createIosEllipsis();
+            }
+        }
+    }
+
+    public static get observedAttributes() {
+        const inheritedObsAttrs = Ch5Common.observedAttributes;
+        const newObsAttrs = [
+            'label',
+
+            'iconclass',
+            'iconposition',
+            'orientation',
+            'iconurl',
+
+            'checkboxShow',
+            'checkboxPosition',
+
+            'shape',
+            'size',
+            'stretch',
+            'type',
+            'formtype',
+
+            'selected',
+            'customclassselected',
+            'customclasspressed',
+            'customclassdisabled',
+            'receivestateselected',
+            'receivestatelabel',
+            'receivestatescriptlabelhtml',
+            'receivestateiconclass',
+            'receivestateiconurl',
+            'receivestatetype',
+
+            'sendeventonclick',
+            'sendeventontouch'
+        ];
+
+        return inheritedObsAttrs.concat(newObsAttrs);
+    }
+
+    protected initAttributes() {
+        super.initAttributes();
+
+        if (this.hasAttribute('label')) {
+            this.label = this.getAttribute('label') as string;
+        }
+        if (this.hasAttribute('iconclass')) {
+            this.iconClass = this.getAttribute('iconclass') as string;
+        }
+        if (this.hasAttribute('iconposition')) {
+            this.iconPosition = this.getAttribute('iconposition') as TCh5ButtonIconPosition;
+        }
+        if (this.hasAttribute('iconurl')) {
+            this.iconUrl = this.getAttribute('iconurl') as string;
+        }
+        let isCheckboxShow = false;
+        if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
+            const attrSelected = (this.getAttribute('selected') as string).toLowerCase();
+            if (attrSelected !== 'false' && attrSelected !== '0') {
+                isCheckboxShow = true;
+            }
+        }
+        this.selected = isCheckboxShow;
+        if (this.hasAttribute('checkboxPosition')) {
+            this.checkboxPosition = this.getAttribute('checkboxPosition') as TCh5ButtonIconPosition;
+        }
+        if (this.hasAttribute('orientation')) {
+            this.orientation = this.getAttribute('orientation') as TCh5ButtonOrientation;
+        }
+        if (this.hasAttribute('shape')) {
+            this.shape = this.getAttribute('shape') as TCh5ButtonShape;
+        }
+        if (this.hasAttribute('size')) {
+            this.size = this.getAttribute('size') as TCh5ButtonSize;
+        }
+        if (this.hasAttribute('stretch')) {
+            this.stretch = this.getAttribute('stretch') as TCh5ButtonStretch | null;
+        }
+        if (this.hasAttribute('type')) {
+            this.type = this.getAttribute('type') as TCh5ButtonType;
+        }
+        if (this.hasAttribute('formtype')) {
+            this.formType = this.getAttribute('formtype') as TCh5ButtonActionType | null;
+        }
+        let isSelected = false;
+        if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
+            const attrSelected = (this.getAttribute('selected') as string).toLowerCase();
+            if (attrSelected !== 'false' && attrSelected !== '0') {
+                isSelected = true;
+            }
+        }
+        this.selected = isSelected;
+
+        if (this.hasAttribute('customclassselected')) {
+            this.customClassState = this.getAttribute('customclassselected') as string;
+        }
+        if (this.hasAttribute('customclasspressed')) {
+            this.customClassPressed = this.getAttribute('customclasspressed') as string;
+            this.customClassState = this.customClassPressed;
+        }
+        if (this.hasAttribute('customclassdisabled')) {
+            this.customClassDisabled = this.getAttribute('customclassdisabled') as string;
+            this.customClassState = this.customClassDisabled;
+        }
+        if (this.hasAttribute('receivestateselected')) {
+            this.receiveStateSelected = this.getAttribute('receivestateselected') as string;
+        }
+        if (this.hasAttribute('receivestatelabel')) {
+            this.receiveStateLabel = this.getAttribute('receivestatelabel') as string;
+        }
+        if (this.hasAttribute('receivestatescriptlabelhtml')) {
+            this.receiveStateScriptLabelHtml = this.getAttribute('receivestatescriptlabelhtml') as string;
+        }
+        if (this.hasAttribute('receivestateiconclass')) {
+            this.receiveStateIconClass = this.getAttribute('receivestateiconclass') as string;
+        }
+
+        if (this.hasAttribute('receivestateiconurl')) {
+            this.receiveStateIconUrl = this.getAttribute('receivestateiconurl');
+        }
+
+        if (this.hasAttribute('receivestatetype')) {
+            this.receiveStateType = this.getAttribute('receivestatetype') as string;
+        }
+
+        if (this.hasAttribute('sendeventonclick')) {
+            this.sendEventOnClick = this.getAttribute('sendeventonclick') as string;
+        }
+        if (this.hasAttribute('sendeventontouch')) {
+            this.sendEventOnTouch = this.getAttribute('sendeventontouch') as string;
+        }
+        this.updateInternalHtml();
+    }
+
+    protected attachEventListeners() {
+        super.attachEventListeners();
+
+        if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
+            this._hammerManager.on('tap', this._onTap);
+        }
+
+        this._elButton.addEventListener('mousedown', this._onPressClick);
+        this._elButton.addEventListener('mouseup', this._onMouseUp);
+        this._elButton.addEventListener('mousemove', this._onMouseMove);
+        this._elButton.addEventListener('touchstart', this._onPress, { passive: true });
+        this._elButton.addEventListener('mouseleave', this._onLeave);
+        this._elButton.addEventListener('touchend', this._onPressUp);
+        this._elButton.addEventListener('touchmove', this._onTouchMove, { passive: true });
+
+        this._elButton.addEventListener('touchend', this._onTouchEnd);
+        this._elButton.addEventListener('touchcancel', this._onTouchCancel);
+
+        this._elButton.addEventListener('focus', this._onFocus);
+        this._elButton.addEventListener('blur', this._onBlur);
+    }
+
+    protected removeEventListeners() {
+        super.removeEventListeners();
+
+        this._elButton.removeEventListener('touchstart', this._onPress);
+        this._elButton.removeEventListener('touchend', this._onPressUp);
+        this._hammerManager.off('tap', this._onTap);
+
+        this._elButton.removeEventListener('touchend', this._onTouchEnd);
+        this._elButton.removeEventListener('touchcancel', this._onTouchCancel);
+        this._elButton.removeEventListener('touchmove', this._onTouchMove);
+
+        this._elButton.removeEventListener('focus', this._onFocus);
+        this._elButton.removeEventListener('blur', this._onBlur);
+        this._elButton.removeEventListener('mousedown', this._onPressClick);
+        this._elButton.removeEventListener('mouseup', this._onMouseUp);
+        this._elButton.removeEventListener('mouseleave', this._onLeave);
+    }
+
+    protected getTargetElementForCssClassesAndStyle(): HTMLElement {
+        return this._elContainer;
+    }
+
+    /**
+     * Called when an HTML attribute is changed, added or removed
+     */
+    public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
+        if (oldValue === newValue) {
+            return;
+        }
+
+        this.info('ch5-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
+
+        switch (attr) {
+            case 'label':
+                if (this.hasAttribute('label')) {
+                    this.label = newValue;
+                } else {
+                    this.label = '';
+                }
+                this.updateInternalHtml(); // updates label and icon elements if needed
+                break;
+            case 'iconclass':
+                if (this.hasAttribute('iconclass')) {
+                    this.iconClass = newValue;
+                } else {
+                    this.iconClass = '';
+                }
+                this.refreshComponent();  // updates classes and html content if needed
+                break;
+            case 'iconposition':
+                if (this.hasAttribute('iconposition')) {
+                    this.iconPosition = newValue as TCh5ButtonIconPosition;
+                } else {
+                    this.iconPosition = Ch5Button.ICON_POSITIONS[0];
+                }
+                this.refreshComponent();  // updates classes and html content if needed
+                break;
+            case 'iconurl':
+                if (this.hasAttribute('iconurl')) {
+                    this.iconUrl = newValue;
+                } else {
+                    this.iconUrl = '';
+                }
+                this.refreshComponent();  // updates classes and html content if needed
+                break;
+            case 'orientation':
+                if (this.hasAttribute('orientation')) {
+                    this.orientation = newValue as TCh5ButtonOrientation;
+                } else {
+                    this.orientation = Ch5Button.ORIENTATIONS[0];
+                }
+                this.updateCssClasses();
+                break;
+            case 'type':
+                if (this.hasAttribute('type')) {
+                    this.type = newValue as TCh5ButtonType;
+                } else {
+                    this.type = Ch5Button.TYPES[0];
+                }
+                this.updateCssClasses();
+                break;
+            case 'shape':
+                if (this.hasAttribute('shape')) {
+                    this.shape = newValue as TCh5ButtonShape;
+                } else {
+                    this.shape = Ch5Button.SHAPES[0];
+                }
+                this.updateCssClasses();
+                break;
+            case 'size':
+                if (this.hasAttribute('size')) {
+                    this.size = newValue as TCh5ButtonSize;
+                } else {
+                    this.size = Ch5Button.SIZES[0];
+                }
+                this.updateCssClasses();
+                break;
+            case 'stretch':
+                if (this.hasAttribute('stretch')) {
+                    this.stretch = newValue as TCh5ButtonStretch | null;
+                } else {
+                    this.stretch = null;
+                }
+                this.updateForChangeInStretch();
+                break;
+            case 'selected':
+                if (!this.hasAttribute('customclassselected')) {
+                    let isSelected = false;
+                    if (this.hasAttribute('selected')) {
+                        const attrSelected = (this.getAttribute('selected') as string).toLowerCase();
+                        if ('false' !== attrSelected && '0' !== attrSelected) {
+                            isSelected = true;
+                        }
+                    }
+                    this.selected = isSelected;
+                    this.updateCssClasses();
+                }
+                break;
+            case 'formtype':
+                if (this.hasAttribute('formtype')) {
+                    this.formType = this.getAttribute('formtype') as TCh5ButtonActionType | null;
+                }
+                break;
+            case 'customclassselected':
+                if (this.hasAttribute('customclassselected')) {
+                    this.customClassState = newValue;
+                } else {
+                    this.customClassState = '';
+                }
+                this.updateCssClassesForCustomState();
+                break;
+            case 'customclasspressed':
+                if (this.hasAttribute('customclasspressed')) {
+                    this.customClassPressed = newValue;
+                } else {
+                    this.customClassPressed = '';
+                }
+                this.customClassState = this.customClassPressed;
+                this.updatePressedClass(this.customClassState);
+                break;
+            case 'customclassdisabled':
+                if (this.hasAttribute('customclassdisabled')) {
+                    this.customClassDisabled = newValue;
+                } else {
+                    this.customClassDisabled = '';
+                }
+                this.customClassState = this.customClassDisabled;
+                this.updateCssClassesForCustomState();
+                break;
+            case 'receivestateselected':
+                if (this.hasAttribute('receivestateselected')) {
+                    this.receiveStateSelected = newValue;
+                } else {
+                    this.receiveStateSelected = '';
+                }
+                break;
+            case 'receivestatelabel':
+                if (this.hasAttribute('receivestatelabel')) {
+                    this.receiveStateLabel = newValue;
+                } else {
+                    this.receiveStateLabel = '';
+                }
+                break;
+            case 'receivestatescriptlabelhtml':
+                if (this.hasAttribute('receivestatescriptlabelhtml')) {
+                    this.receiveStateScriptLabelHtml = newValue;
+                } else {
+                    this.receiveStateScriptLabelHtml = '';
+                }
+                break;
+            case 'sendeventonclick':
+                if (this.hasAttribute('sendeventonclick')) {
+                    this.sendEventOnClick = newValue;
+                } else {
+                    this.sendEventOnClick = '';
+                }
+                break;
+            case 'sendeventontouch':
+                if (this.hasAttribute('sendeventontouch')) {
+                    this.sendEventOnTouch = newValue;
+                } else {
+                    this.sendEventOnTouch = '';
+                }
+                break;
+            case 'receivestateiconclass':
+                if (this.hasAttribute('receivestateiconclass')) {
+                    this.receiveStateIconClass = newValue;
+                } else {
+                    this.receiveStateIconClass = '';
+                }
+                break;
+            case 'receivestateiconurl':
+                if (this.hasAttribute('receivestateiconurl')) {
+                    this.receiveStateIconUrl = newValue;
+                } else {
+                    this.receiveStateIconUrl = '';
+                }
+                break;
+            case 'receivestatetype':
+                if (this.hasAttribute('receivestatetype')) {
+                    this.receiveStateType = newValue;
+                } else {
+                    this.receiveStateType = '';
+                }
+                break;
+
+            default:
+                super.attributeChangedCallback(attr, oldValue, newValue);
+                break;
+        }
+    }
+
+    public getCssClassDisabled() {
+        return this.cssClassPrefix + '--disabled';
+    }
+
+    //#endregion
+
+    //#region 5. Events
 
     private _onTap(): void {
         this.info('Ch5Button._onTap()');
@@ -2139,6 +2233,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.allowPress = true;
         }, Ch5Button.DEBOUNCE_PRESS_TIME) as never as number;
     }
+
+    //#endregion
+
 }
 
 if (typeof window === "object"

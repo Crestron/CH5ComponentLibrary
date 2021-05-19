@@ -63,7 +63,7 @@ export interface ICh5CommonAttributes {
      * "`receivestatecustomclass` attribute",
      * "***",
      * "The value of this signal will be applied as an equivalent property on 'customClass'.",
-     * "The change of value will remove  theprior value and apply the new value."
+     * "The change of value will remove the prior value and apply the new value."
      * ]
      * @name receivestatecustomclass
      */

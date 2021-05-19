@@ -185,7 +185,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -272,7 +272,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -389,7 +392,7 @@
             "documentation": [
               "`iconposition` attribute",
               "***",
-              "The default value is 'left'.",
+              "The default value is 'first'.",
               "Valid values: 'first', 'last', 'top', 'bottom'.",
               "The icon position relative to the label."
             ],
@@ -411,6 +414,21 @@
             "value": [],
             "name": "iconurl",
             "default": null
+          },
+          {
+            "documentation": [
+              "`checkboxShow` attribute",
+              "***",
+              "The default value is false.",
+              "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
+              "'ch5-button__checkbox' will be applied as the CSS class on the component."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "checkboxShow",
+            "default": "false"
           },
           {
             "documentation": [
@@ -499,7 +517,6 @@
               "cancel: The value cancel, reset all the controls of form to their initial values."
             ],
             "value": [
-              "",
               "cancel",
               "submit"
             ],
@@ -648,7 +665,7 @@
               "true"
             ],
             "name": "selected",
-            "default": null
+            "default": "false"
           },
           {
             "documentation": [
@@ -765,7 +782,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -852,7 +869,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -1235,7 +1255,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -1322,7 +1342,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -1634,7 +1657,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -1721,7 +1744,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -2138,7 +2164,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -2225,7 +2251,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -2583,7 +2612,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -2670,7 +2699,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -3144,7 +3176,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -3231,7 +3263,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -3804,7 +3839,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -3891,7 +3926,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -4115,7 +4153,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -4202,7 +4240,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -4716,7 +4757,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -4803,7 +4844,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -5265,7 +5309,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -5352,7 +5396,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -5875,7 +5922,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -5962,7 +6009,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -6303,7 +6353,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -6390,7 +6440,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -6505,7 +6558,10 @@
               "***",
               "Disables the swipe-like animation when navigating through the ChildViews of the TriggerView."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "disableanimation",
             "default": null
           },
@@ -6671,7 +6727,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -6758,7 +6814,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -6946,7 +7005,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -7033,7 +7092,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -7205,7 +7267,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -7292,7 +7354,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -7471,7 +7536,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -7558,7 +7623,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },
@@ -7895,7 +7963,7 @@
               "`receivestatecustomclass` attribute",
               "***",
               "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove  theprior value and apply the new value."
+              "The change of value will remove the prior value and apply the new value."
             ],
             "value": [],
             "name": "receivestatecustomclass",
@@ -7982,7 +8050,10 @@
               "The visibility of the component depends upon the boolean value. The component is visible ",
               "when the value is true and hides when it is false."
             ],
-            "value": [],
+            "value": [
+              "false",
+              "true"
+            ],
             "name": "show",
             "default": null
           },

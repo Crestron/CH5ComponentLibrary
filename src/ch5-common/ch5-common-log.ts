@@ -10,9 +10,9 @@ export class Ch5CommonLog {
 
   constructor(public isDebugEnabled: boolean) { }
 
-  public start(message: string) {
+  public start(message: string, componentName: string = "") {
     if (true === this.isDebugEnabled) {
-      console.group(message);
+      console.group((componentName !== "" ? componentName + " " : "") + message);
     }
   }
 
