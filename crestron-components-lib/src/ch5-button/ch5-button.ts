@@ -83,57 +83,52 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     //#region 1. Variables
 
-    //#region 1.1 static readonly variables
+    //#region 1.1 readonly variables
 
     /**
      * The first value is considered the default one
      */
-    private static readonly TYPES: TCh5ButtonType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+    private readonly TYPES: TCh5ButtonType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
 
     /**
      * The first value is considered the default one
      */
-    private static readonly SHAPES: TCh5ButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'];
+    private readonly SHAPES: TCh5ButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'];
 
     /**
      * The first value is considered the default one
      */
-    private static readonly SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+    private readonly SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
     /**
      * No default value for Stretch
      */
-    private static readonly STRETCHES: TCh5ButtonStretch[] = ['both', 'width', 'height'];
+    private readonly STRETCHES: TCh5ButtonStretch[] = ['both', 'width', 'height'];
 
     /**
      * The first value is considered the default one
      */
-    private static readonly ICON_POSITIONS: TCh5ButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
+    private readonly ICON_POSITIONS: TCh5ButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
 
     /**
      * The first value is considered the default one
      */
-    private static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
-
-    /**
-     * Time needed for the sendOnTouch to trigger/reinforce
-     */
-    private static readonly TOUCH_TIMEOUT: number = 250;
-
-    private static readonly PRESS_MOVE_THRESHOLD: number = 10;
-
-    private static readonly CONTAINER_CLASS: string = 'cb-cntr';
-
-    private static readonly SVG: string = 'svg';
-
-    private static readonly DEBOUNCE_PRESS_TIME: number = 200;
-
-    //#endregion
-
-    //#region 1.2 public readonly variables
+    private readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
 
     public readonly primaryCssClass: string = 'ch5-button';
     public readonly cssClassPrefix: string = 'ch5-button';
+
+    // Time needed for the sendOnTouch to trigger/reinforce
+    private readonly TOUCH_TIMEOUT: number = 250;
+
+    private readonly PRESS_MOVE_THRESHOLD: number = 10;
+
+    private readonly CSS_CLASS_LIST = {
+        CONTAINER_CLASS: 'cb-cntr',
+        BUTTON_PRIMARY_CLASS: 'cb-btn'
+    };
+
+    private readonly DEBOUNCE_PRESS_TIME: number = 200;
 
     //#endregion
 
@@ -143,6 +138,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private _elButton: HTMLElement = {} as HTMLElement;
     private _elLabel: HTMLElement = {} as HTMLElement;
     private _elIcon: HTMLElement = {} as HTMLElement;
+    private _elCheckboxIcon: HTMLElement = {} as HTMLElement;
     private _elImg: HTMLImageElement = {} as HTMLImageElement;
     private _elIosDots: HTMLElement = {} as HTMLElement;
 
@@ -198,7 +194,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * HTML attribute name: iconPosition or iconposition
      */
     private _iconPosition: TCh5ButtonIconPosition = 'first';
-
 
     /**
      * Icon position relative to label
@@ -534,10 +529,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set checkboxPosition(value: TCh5ButtonIconPosition) {
         this.info('set iconPosition("' + value + '")');
         if (this._checkboxPosition !== value) {
-            if (Ch5Button.ICON_POSITIONS.indexOf(value) >= 0) {
+            if (this.ICON_POSITIONS.indexOf(value) >= 0) {
                 this._checkboxPosition = value;
             } else {
-                this._checkboxPosition = Ch5Button.ICON_POSITIONS[0];
+                this._checkboxPosition = this.ICON_POSITIONS[0];
             }
             this.setAttribute('checkboxPosition', this._checkboxPosition);
         }
@@ -548,15 +543,44 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
     public set checkboxShow(value: boolean) {
         this.info('set checkboxShow("' + value + '")');
+
+        if (typeof this._elCheckboxIcon.classList === "undefined") {
+            return;
+        }
+        let classForCheckbox: string = "far fa-square";
+        if (this.selected === true) {
+            classForCheckbox = "far fa-check-square";
+        }
         if (this._checkboxShow !== value) {
             this._checkboxShow = value;
             if (value === true) {
+                classForCheckbox.split(' ').forEach((className: string) => {
+                    className = className.trim();
+                    if ('' !== className) {
+                        this._elCheckboxIcon.classList.remove(className); // adds the new icon class if present
+                    }
+                });
+
+                classForCheckbox.split(' ').forEach((className: string) => {
+                    className = className.trim();
+                    if ('' !== className) {
+                        this._elCheckboxIcon.classList.add(className); // adds the new icon class if present
+                    }
+                });
                 this.setAttribute('checkboxShow', 'true');
             } else {
+                classForCheckbox.split(' ').forEach((className: string) => {
+                    className = className.trim();
+                    if ('' !== className) {
+                        this._elCheckboxIcon.classList.remove(className); // adds the new icon class if present
+                    }
+                });
                 this.removeAttribute('checkboxShow');
             }
 
         }
+
+
     }
 
     public get checkboxShow(): boolean {
@@ -566,10 +590,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set iconPosition(value: TCh5ButtonIconPosition) {
         this.info('set iconPosition("' + value + '")');
         if (this._iconPosition !== value) {
-            if (Ch5Button.ICON_POSITIONS.indexOf(value) >= 0) {
+            if (this.ICON_POSITIONS.indexOf(value) >= 0) {
                 this._iconPosition = value;
             } else {
-                this._iconPosition = Ch5Button.ICON_POSITIONS[0];
+                this._iconPosition = this.ICON_POSITIONS[0];
             }
             this.setAttribute('iconposition', this._iconPosition);
         }
@@ -592,15 +616,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set orientation(value: TCh5ButtonOrientation) {
         this.info('set orientation("' + value + '")');
         if (this._orientation !== value) {
-            if (Ch5Button.ORIENTATIONS.indexOf(value) >= 0) {
+            if (this.ORIENTATIONS.indexOf(value) >= 0) {
                 this._orientation = value;
             } else {
-                this._orientation = Ch5Button.ORIENTATIONS[0];
+                this._orientation = this.ORIENTATIONS[0];
             }
             this.setAttribute('orientation', this._orientation);
         }
     }
-
     public get orientation(): TCh5ButtonOrientation {
         return this._orientation;
     }
@@ -608,15 +631,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set type(value: TCh5ButtonType) {
         this.info('set type("' + value + '")');
         if (this._type !== value && value !== null) {
-            if (Ch5Button.TYPES.indexOf(value) >= 0) {
+            if (this.TYPES.indexOf(value) >= 0) {
                 this._type = value;
             } else {
-                this._type = Ch5Button.TYPES[0];
+                this._type = this.TYPES[0];
             }
             this.setAttribute('type', this._type);
         }
     }
-
     public get type(): TCh5ButtonType {
         return this._type;
     }
@@ -624,15 +646,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set shape(value: TCh5ButtonShape) {
         this.info('set shape("' + value + '")');
         if (this._shape !== value && value !== null) {
-            if (Ch5Button.SHAPES.indexOf(value) >= 0) {
+            if (this.SHAPES.indexOf(value) >= 0) {
                 this._shape = value;
             } else {
-                this._shape = Ch5Button.SHAPES[0];
+                this._shape = this.SHAPES[0];
             }
             this.setAttribute('shape', this._shape);
         }
     }
-
     public get shape() {
         return this._shape;
     }
@@ -640,15 +661,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set size(value: TCh5ButtonSize) {
         this.info('set size("' + value + '")');
         if (this._size !== value && null !== value) {
-            if (Ch5Button.SIZES.indexOf(value) >= 0) {
+            if (this.SIZES.indexOf(value) >= 0) {
                 this._size = value;
             } else {
-                this._size = Ch5Button.SIZES[0];
+                this._size = this.SIZES[0];
             }
             this.setAttribute('size', this._size);
         }
     }
-
     public get size() {
         return this._size;
     }
@@ -656,15 +676,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set stretch(value: TCh5ButtonStretch | null) {
         this.info('set stretch("' + value + '")');
         if (this._stretch !== value && value !== null) {
-            if (Ch5Button.STRETCHES.indexOf(value) >= 0) {
+            if (this.STRETCHES.indexOf(value) >= 0) {
                 this._stretch = value;
+                this.setAttribute('stretch', this._stretch);
             } else {
-                this._stretch = Ch5Button.STRETCHES[0];
+                this._stretch = null;
             }
-            this.setAttribute('stretch', this._stretch);
         }
     }
-
     public get stretch(): TCh5ButtonStretch | null {
         return this._stretch;
     }
@@ -681,7 +700,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         }
     }
-
     public get selected(): boolean {
         return this._selected;
     }
@@ -727,7 +745,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.setAttribute('sendeventonclick', value);
         }
     }
-
     public get sendEventOnClick(): string {
         return this._sigNameSendOnClick;
     }
@@ -739,7 +756,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.setAttribute('sendeventontouch', value);
         }
     }
-
     public get sendEventOnTouch(): string {
         return this._sigNameSendOnTouch;
     }
@@ -782,7 +798,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             }
         });
     }
-
     public get receiveStateSelected(): string {
         // The internal property is changed if/when the element is removed from DOM
         // Returning the attribute instead of the internal property preserves functionality
@@ -824,7 +839,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             }
         });
     }
-
     public get receiveStateLabel(): string {
         // The internal property is changed if/when the element is removed from DOM
         // Returning the attribute instead of the internal property preserves functionality
@@ -865,7 +879,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             }
         });
     }
-
     public get receiveStateScriptLabelHtml(): string {
         // The internal property is changed if/when the element is removed from DOM
         // Returning the attribute instead of the internal property preserves functionality
@@ -902,7 +915,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.iconClass = newValue;
         });
     }
-
     public get receiveStateIconClass(): string | null {
         return this._receiveStateIconClass;
     }
@@ -910,7 +922,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set subReceiveSignalIconClass(subscription: string | null) {
         this._subReceiveSignalIconClass = subscription;
     }
-
     public get subReceiveSignalIconClass(): string | null {
         return this._subReceiveSignalIconClass;
     }
@@ -946,7 +957,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.iconUrl = newValue;
         });
     }
-
     public get receiveStateIconUrl(): string | null {
         return this._attributeValueAsString('receivestateiconurl');
     }
@@ -954,7 +964,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set subReceiveSignalSvgUrl(subscription: string | null) {
         this._subReceiveSignalSvgUrl = subscription;
     }
-
     public get subReceiveSignalSvgUrl(): string | null {
         return this._subReceiveSignalSvgUrl;
     }
@@ -993,7 +1002,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.type = newValue as TCh5ButtonType;
         });
     }
-
     public get receiveStateType(): string | null {
         return this._attributeValueAsString('receivestatetype');
     }
@@ -1001,7 +1009,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     public set subReceiveSignalType(subscription: string | null) {
         this._subReceiveSignalType = subscription;
     }
-
     public get subReceiveSignalType(): string | null {
         return this._subReceiveSignalType;
     }
@@ -1009,11 +1016,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private sendValueForRepeatDigital(value: boolean): void {
         if (!this._sigNameSendOnTouch && !this._sigNameSendOnClick) { return; }
 
-        const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-            .getObjectAsBooleanSignal(this._sigNameSendOnTouch);
+        const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this._sigNameSendOnTouch);
 
-        const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-            .getObjectAsBooleanSignal(this._sigNameSendOnClick);
+        const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this._sigNameSendOnClick);
 
         if (clickSignal && touchSignal && clickSignal.name === touchSignal.name) {
             // send signal only once if it has the same value
@@ -1141,38 +1146,38 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         wrapper.appendChild(el);
     }
 
-    public getListOfAllPossibleComponentCssClasses(): string[] {
-        return this._listOfAllPossibleComponentCssClasses;
-    }
+    // public getListOfAllPossibleComponentCssClasses(): string[] {
+    //     return this._listOfAllPossibleComponentCssClasses;
+    // }
 
     private generateListOfAllPossibleComponentCssClasses(): string[] {
         const cssClasses: string[] = this._listOfAllPossibleComponentCssClasses;
         cssClasses.push(this.primaryCssClass);
 
         // shapes
-        Ch5Button.SHAPES.forEach((shape: TCh5ButtonShape) => {
+        this.SHAPES.forEach((shape: TCh5ButtonShape) => {
             const newClass = this.cssClassPrefix + '--' + shape;
             cssClasses.push(newClass);
         });
 
         // types
-        Ch5Button.TYPES.forEach((type: TCh5ButtonType) => {
+        this.TYPES.forEach((type: TCh5ButtonType) => {
             const newCssClass = this.cssClassPrefix + '--' + type;
             cssClasses.push(newCssClass);
         });
 
         // sizes
-        Ch5Button.SIZES.forEach((size: TCh5ButtonSize) => {
+        this.SIZES.forEach((size: TCh5ButtonSize) => {
             cssClasses.push(this.cssClassPrefix + '--size-' + size);
         });
 
         // stretches
-        Ch5Button.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
+        this.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
             cssClasses.push(this.cssClassPrefix + '--stretch-' + stretch);
         });
 
         // orientation
-        Ch5Button.ORIENTATIONS.forEach((orientation: TCh5ButtonOrientation) => {
+        this.ORIENTATIONS.forEach((orientation: TCh5ButtonOrientation) => {
             cssClasses.push(this.cssClassPrefix + '--' + orientation);
         });
 
@@ -1211,13 +1216,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         const imgClass: string = img.className;
         const imgURL: string = img.src;
         const imgType = imgURL.split('.').pop();
-        if (!isNil(imgURL) && (imgType === Ch5Button.SVG)) {
+        const SVG = "svg";
+        if (!isNil(imgURL) && (imgType === SVG)) {
             const xmlHttpObject = new XMLHttpRequest();
             xmlHttpObject.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     const parser = new DOMParser();
                     const xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
-                    const svg = xmlDoc.getElementsByTagName(Ch5Button.SVG)[0];
+                    const svg = xmlDoc.getElementsByTagName(SVG)[0];
                     if (!isNil(svg)) {
                         if (!isNil(imgID)) {
                             svg.setAttribute('id', imgID);
@@ -1244,11 +1250,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this.log.start('createInternalHtml');
         this.clearComponentContent();
         this._elContainer = document.createElement('div');
-        this._elContainer.classList.add(Ch5Button.CONTAINER_CLASS);
+        this._elContainer.classList.add(this.CSS_CLASS_LIST.CONTAINER_CLASS);
         this._elButton = document.createElement('button');
-        this._elButton.classList.add('cb-btn');
+        this._elButton.classList.add(this.CSS_CLASS_LIST.BUTTON_PRIMARY_CLASS);
         this._elIcon = document.createElement('i');
         this._elIcon.classList.add('cb-icon');
+        this._elCheckboxIcon = document.createElement('i');
+        this._elCheckboxIcon.classList.add('cb-icon');
         this._elLabel = document.createElement('span');
         this._elLabel.classList.add('cb-lbl');
 
@@ -1257,6 +1265,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         this._elContainer.classList.add(this.primaryCssClass);
         this._elButton.setAttribute('data-ch5-id', this.getCrId());
+        this._elCheckboxIcon.classList.add(this.cssClassPrefix + '--icon');
         this._elIcon.classList.add(this.cssClassPrefix + '--icon');
         this._elImg.classList.add(this.cssClassPrefix + '--img');
         this._elLabel.classList.add(this.cssClassPrefix + '--label');
@@ -1313,7 +1322,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      * @return {void}
      */
     protected clearComponentContent() {
-        const containers = this.getElementsByClassName(Ch5Button.CONTAINER_CLASS);
+        const containers = this.getElementsByClassName(this.CSS_CLASS_LIST.CONTAINER_CLASS);
         Array.from(containers).forEach((container) => {
             container.remove();
         });
@@ -1393,7 +1402,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 stretchCssClassNameToAdd = this.cssClassPrefix + '--stretch-both';
                 break;
         }
-        Ch5Button.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
+        this.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
             const cssClass = this.cssClassPrefix + '--stretch-' + stretch;
             if (cssClass !== stretchCssClassNameToAdd) {
                 targetEl.classList.remove(cssClass);
@@ -1418,16 +1427,17 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     protected updateCssClassesForCheckboxShow() {
+        this.log.start("updateCssClassesForCheckboxShow");
         const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-        if (typeof targetEl.classList === 'undefined') {
-            return;
-        }
-        const checkboxShowCssClass = this.cssClassPrefix + this.selectedCssClassPostfix;
-        if (this._checkboxShow) {
+        if (typeof targetEl.classList !== 'undefined') {
+            const checkboxShowCssClass: string = this.cssClassPrefix + "__checkbox";
+            // if (this._checkboxShow) {
             targetEl.classList.add(checkboxShowCssClass);
-        } else {
-            targetEl.classList.remove(checkboxShowCssClass);
+            // } else {
+            // targetEl.classList.remove(checkboxShowCssClass);
+            // }
         }
+        this.log.stop();
     }
 
     protected updateCssClassesForCustomState() {
@@ -1451,6 +1461,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
         this.info('update internal html');
 
+        this._elCheckboxIcon.classList.remove('cx-button-icon-pos-first');
+        this._elCheckboxIcon.classList.remove('cx-button-icon-pos-last');
+        this._elCheckboxIcon.classList.remove('cx-button-icon-pos-top');
+        this._elCheckboxIcon.classList.remove('cx-button-icon-pos-bottom');
+        this._elCheckboxIcon.classList.add('cx-button-icon-pos-' + this.iconPosition);
+
         this._elIcon.classList.remove('cx-button-icon-pos-first');
         this._elIcon.classList.remove('cx-button-icon-pos-last');
         this._elIcon.classList.remove('cx-button-icon-pos-top');
@@ -1464,7 +1480,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         this._elImg.classList.add('cx-button-icon-pos-' + this.iconPosition);
 
         // Handle vertical button with iconPosition top or bottom
-        if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
+        if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === this.ORIENTATIONS[1]) {
             this._elButton.classList.add(`ch5-button--vertical--icon-${this.iconPosition}`)
         }
 
@@ -1472,6 +1488,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         let hasLabel = false;
         let hasImage = false;
         let hasAriaLabel = false;
+        let hasCheckboxIcon = false;
 
         if (this.hasAttribute('iconclass') && '' !== this.getAttribute('iconclass')) {
             hasIcon = true;
@@ -1492,6 +1509,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         // updates the iconposition ( otherwise it might use the previous value of the attribute )
         if (this.hasAttribute('iconposition')) {
             this.iconPosition = this.getAttribute('iconposition') as TCh5ButtonIconPosition;
+        }
+
+        if (this.hasAttribute("checkboxShow") === true) {
+            hasCheckboxIcon = true;
         }
 
         if (!hasLabel && hasAriaLabel && hasImage) {
@@ -1584,6 +1605,25 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.imgToSvg(this._elImg);
         }
 
+        if (hasCheckboxIcon) {
+            if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
+                this.info('insert icon after label');
+                if (this._elCheckboxIcon.parentNode !== (this._elButton as Node)) {
+                    // if the icon element was not yet added to the button
+                    this._elButton.appendChild(this._elCheckboxIcon);
+                } else {
+                    // if the icon element was already added and needs to be switched with the label element
+                    this._elButton.insertBefore(this._elLabel as Node, this._elCheckboxIcon as Node);
+                }
+
+            } else if (['first', 'top'].indexOf(this.iconPosition) >= 0) {
+                this.info('insert icon before label');
+                if ((this._elLabel as any).isConnected === true) {
+                    this._elButton.insertBefore(this._elCheckboxIcon as Node, this._elLabel as Node);
+                }
+            }
+        }
+
         // orientation
         if (this.orientation === 'vertical') {
             if (this.shape !== 'circle') {
@@ -1602,8 +1642,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             'orientation',
             'iconurl',
 
-            'checkboxShow',
-            'checkboxPosition',
+            'checkboxshow',
+            'checkboxposition',
 
             'shape',
             'size',
@@ -1645,7 +1685,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.iconUrl = this.getAttribute('iconurl') as string;
         }
         let isCheckboxShow = false;
-        if (this.hasAttribute('checkboxshow')){ // } && !this.hasAttribute('customclassselected')) {
+        if (this.hasAttribute('checkboxshow')) { // } && !this.hasAttribute('customclassselected')) {
             const attrSelected = (this.getAttribute('checkboxshow') as string).toLowerCase();
             if (attrSelected !== 'false' && attrSelected !== '0') {
                 isCheckboxShow = true;
@@ -1798,7 +1838,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 if (this.hasAttribute('iconposition')) {
                     this.iconPosition = newValue as TCh5ButtonIconPosition;
                 } else {
-                    this.iconPosition = Ch5Button.ICON_POSITIONS[0];
+                    this.iconPosition = this.ICON_POSITIONS[0];
                 }
                 this.refreshComponent();  // updates classes and html content if needed
                 break;
@@ -1814,7 +1854,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 if (this.hasAttribute('orientation')) {
                     this.orientation = newValue as TCh5ButtonOrientation;
                 } else {
-                    this.orientation = Ch5Button.ORIENTATIONS[0];
+                    this.orientation = this.ORIENTATIONS[0];
                 }
                 this.updateCssClasses();
                 break;
@@ -1822,7 +1862,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 if (this.hasAttribute('type')) {
                     this.type = newValue as TCh5ButtonType;
                 } else {
-                    this.type = Ch5Button.TYPES[0];
+                    this.type = this.TYPES[0];
                 }
                 this.updateCssClasses();
                 break;
@@ -1830,7 +1870,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 if (this.hasAttribute('shape')) {
                     this.shape = newValue as TCh5ButtonShape;
                 } else {
-                    this.shape = Ch5Button.SHAPES[0];
+                    this.shape = this.SHAPES[0];
                 }
                 this.updateCssClasses();
                 break;
@@ -1838,7 +1878,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 if (this.hasAttribute('size')) {
                     this.size = newValue as TCh5ButtonSize;
                 } else {
-                    this.size = Ch5Button.SIZES[0];
+                    this.size = this.SIZES[0];
                 }
                 this.updateCssClasses();
                 break;
@@ -1861,6 +1901,17 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                     }
                     this.selected = isSelected;
                     this.updateCssClasses();
+                }
+                break;
+            case 'checkboxshow':
+                if (this.hasAttribute('checkboxshow')) {
+                    let isCheckboxShow = false;
+                    const attrSelected = (this.getAttribute('checkboxshow') as string).toLowerCase();
+                    if ('false' !== attrSelected && '0' !== attrSelected) {
+                        isCheckboxShow = true;
+                    }
+                    this.checkboxShow = isCheckboxShow;
+                    this.updateCssClassesForCheckboxShow();
                 }
                 break;
             case 'formtype':
@@ -2054,7 +2105,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
         const timeSinceLastPress = new Date().valueOf() - this._lastTapTime;
-        if (this._lastTapTime && timeSinceLastPress < Ch5Button.DEBOUNCE_PRESS_TIME) {
+        if (this._lastTapTime && timeSinceLastPress < this.DEBOUNCE_PRESS_TIME) {
             // sometimes a both click and press can happen on iOS/iPadOS, don't publish both
             this.info('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
         }
@@ -2198,7 +2249,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this._pressTimeout = window.setTimeout(() => {
                 pressHandler();
                 resolve(this._pressed);
-            }, Ch5Button.TOUCH_TIMEOUT);
+            }, this.TOUCH_TIMEOUT);
         });
 
         return pressPromise;
@@ -2216,7 +2267,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         this._intervalIdForRepeatDigital = window.setInterval(() => {
             this.sendValueForRepeatDigital(true);
-        }, Ch5Button.TOUCH_TIMEOUT);
+        }, this.TOUCH_TIMEOUT);
     }
 
     private isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
@@ -2224,14 +2275,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         const endingPoint = y2 - y1;
         const distance = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
 
-        return distance > Ch5Button.PRESS_MOVE_THRESHOLD;
+        return distance > this.PRESS_MOVE_THRESHOLD;
     }
 
     private reactivatePress(): void {
         clearTimeout(this.allowPressTimeout);
         this.allowPressTimeout = setTimeout(() => {
             this.allowPress = true;
-        }, Ch5Button.DEBOUNCE_PRESS_TIME) as never as number;
+        }, this.DEBOUNCE_PRESS_TIME) as never as number;
     }
 
     //#endregion
