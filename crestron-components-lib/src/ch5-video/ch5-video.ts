@@ -8,7 +8,7 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState } from "../ch5-core";
 import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
-import { iElementDimensions, iTouchOrdinates, TVideoResponse, TDimension, TPosDimension, TReceiveState, TSnapShotSignalName } from "../_interfaces/ch5-video/types";
+import { iElementDimensions, iTouchOrdinates, TVideoResponse, TDimension, TPosDimension, TReceiveState, TSnapShotSignalName, TVideoTouchManagerParams } from "../_interfaces/ch5-video/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5-video-publish-event-request';
@@ -22,6 +22,7 @@ import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import _ from "lodash";
 import { CH5VideoUtils } from "./ch5-video-utils";
+import { Ch5VideoTouchManager } from "./ch5-video-touch-manager";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 export type TSignalTypeT = string | number | boolean | any;
@@ -476,8 +477,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private previousYPos: number = 0;
 
     // touch specific [params]
-    private isTouchStartEvtBound: boolean = false;
-    private isTouchEndEvtBound: boolean = false;
+    private videoTouchHandler: Ch5VideoTouchManager = {} as Ch5VideoTouchManager;
     private isTouchPollingStarted: boolean = false;
     private isTouchInProgress: boolean = false;
     private touchInProgressInterval: any = null;
@@ -1824,6 +1824,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this._OnVideoAspectRatioConditionNotMet();
             }, 200);
         }
+
+        // Removes or Adds document level touch handlers if in view
+        if (this.elementIntersectionEntry.intersectionRatio > 0.1) {
+            this.addTouchPollingForVideoMonitor();
+        } else {
+            this.removeTouchPollingForVideoMonitor();
+        }
     }
 
     /**
@@ -2491,7 +2498,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.initAttributes();
         this.cacheComponentChildrens();
         this.attachEventListeners();
-        this.addTouchPollingForVideoMonitor();
         this.setAttribute("id", this.getCrId());
         const uID = this.getCrId().split('cr-id-');
         this.ch5UId = parseInt(uID[1], 0);
@@ -2616,61 +2622,72 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     private addTouchPollingForVideoMonitor() {
-        const alreadyBodyTouchIntantiated = this.addClassToBodyTag();
-        this.info(`HH TEST: TOUCH Event attached ${alreadyBodyTouchIntantiated}`);
-
-        if (!alreadyBodyTouchIntantiated) {
-            this.updateTouchBasedSignals();
-        }
-        subscribeState('b', 'Csig.Touch_Activity_fb', (val: boolean) => {
-            const state = this._toBoolean(val);
-            this.info(`Csig.Touch_Activity_fb : ${state}`);
-            this.pollForStateUntilFalseAndRerenderVideo(state);
-        }); // subscribes for touch state and plays along
+        this.info('HH Test: Ch5VideoTouchManager triggered');
+        this.videoTouchHandler = new Ch5VideoTouchManager({
+            onTouchStartHandler: this.touchBeginHandler.bind(this),
+            onTouchMoveHandler: this.checkIfVideoStoppedMoving.bind(this),
+            onTouchEndHandler: this.stopVideoWhileSectionStoppedMoving.bind(this),
+            onTouchCancelHandler: this.stopVideoWhileSectionStoppedMoving.bind(this),
+            pollingDuration: 300,
+            componentID: this.videoTagId
+        } as TVideoTouchManagerParams);
     }
 
-    private pollForStateUntilFalseAndRerenderVideo(isScreenTouched: boolean) {
+    /**
+     * Function to remove touch listeners when polling is stopped
+     */
+    private removeTouchPollingForVideoMonitor() {
+        this.info('HH Test: Destructor triggered');
+        if (!!this.videoTouchHandler &&
+            this.videoTouchHandler !== null &&
+            typeof (this.videoTouchHandler) !== 'undefined' &&
+            this.videoTouchHandler.destructor) {
+            this.videoTouchHandler.destructor();
+        }
+    }
+
+    private touchBeginHandler() {
+        this.pollForStateUntilFalseAndRerenderVideo();
+    }
+
+    private pollForStateUntilFalseAndRerenderVideo() {
         if (!this.firstTime) {
-            this.info(`HH TEST: TOUCH TRIGGERED START : ${isScreenTouched} 
-            ${this.isTouchInProgress}`);
-            if (isScreenTouched && !this.isTouchInProgress &&
-                (!this.touchInProgressInterval || this.touchInProgressInterval === null)) {
-                // keep hiding the background
-                const boundedRect = this.getBoundingClientRect();
-                this.touchCoordinates.startX = boundedRect.left;
-                this.touchCoordinates.startY = boundedRect.top;
+            this.info(`HH TEST: TOUCH TRIGGERED START : ${this.isTouchInProgress}`);
+            // keep hiding the background
+            const boundedRect = this.getBoundingClientRect();
+            this.touchCoordinates.startX = boundedRect.left;
+            this.touchCoordinates.startY = boundedRect.top;
+            this.isTouchInProgress = false;
+        }
+    }
+
+    /**
+     * Function to check if the touch swipe has stopped and video finally is a static position
+     */
+    private checkIfVideoStoppedMoving() {
+        if (!this.isTouchInProgress) {
+            const boundedRect = this.getBoundingClientRect();
+            this.touchCoordinates.endX = boundedRect.left;
+            this.touchCoordinates.endY = boundedRect.top;
+            if (Math.abs(this.touchCoordinates.startX - this.touchCoordinates.endX) > this.swipeDeltaCheckNum ||
+                Math.abs(this.touchCoordinates.startY - this.touchCoordinates.endY) > this.swipeDeltaCheckNum) {
                 this.isTouchInProgress = true;
-                this.clearVideoTouchPolling();
-                this.touchInProgressInterval = 5;
-                // this.touchInProgressInterval = setInterval(() => {
-                //     this.pollForStateUntilFalseAndRerenderVideo(true);
-                // }, 300);
-            } else if (isScreenTouched && this.isTouchInProgress) {
-                this.info("HH TEST: Touch move handler");
-                this.checkIfVideoStoppedMoving();
-            } else if (!isScreenTouched) {
-                this.info("HH TEST: Touchend handler");
-                // reveal background
-                this.stopVideoWhileSectionStoppedMoving();
+                this.clearBackgroundOfVideoWrapper(false);
             }
         }
     }
 
     /**
-     * Function to reset touch timer whenever a touch ends
+     * Function to manage video play/stop based on the position on touch end or cancel
      */
-    private updateTouchBasedSignals() {
-        this.info("HH TEST: Csig.Reset_Activity_Timer");
-        publishEvent('n', "Csig.Reset_Activity_Timer", 300); // resets timer
-        publishEvent('n', "Csig.Time", 300); // starts timer
-    }
-
-    /**
-     * Function to stop the polling when video onTouch happens
-     */
-    private clearVideoTouchPolling() {
-        // clearInterval(this.touchInProgressInterval);
-        this.touchInProgressInterval = null;
+    private stopVideoWhileSectionStoppedMoving() {
+        if (this.isTouchInProgress) {
+            setTimeout(() => {
+                this.clearBackgroundOfVideoWrapper(true);
+                this.videoIntersectionObserver();
+            }, 300);
+        }
+        this.isTouchInProgress = false;
     }
 
     /**
@@ -2678,44 +2695,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param isShowVideoBehind if true, clears background
      */
     private clearBackgroundOfVideoWrapper(isShowVideoBehind: boolean) {
-        this.videoElement.style.background = isShowVideoBehind ? 'transparent' : 'red';
-    }
-
-    private stopVideoWhileSectionStoppedMoving() {
-        this.isTouchInProgress = false;
-        this.clearVideoTouchPolling();
-        setTimeout(() => {
-            this.clearBackgroundOfVideoWrapper(true);
-            this.updateTouchBasedSignals();
-            this.videoIntersectionObserver();
-        }, 300);
-    }
-
-    /**
-     * Function to check if the touch swipe has stopped and video finally is a static position
-     */
-    private checkIfVideoStoppedMoving() {
-        const boundedRect = this.getBoundingClientRect();
-        if (!this.isTouchPollingStarted) {
-            this.touchCoordinates.endX = boundedRect.left;
-            this.touchCoordinates.endY = boundedRect.top;
-            if (Math.abs(this.touchCoordinates.startX - this.touchCoordinates.endX) > this.swipeDeltaCheckNum ||
-                Math.abs(this.touchCoordinates.startY - this.touchCoordinates.endY) > this.swipeDeltaCheckNum) {
-                this.isTouchPollingStarted = true;
-                this.clearBackgroundOfVideoWrapper(false);
-            }
-        } else {
-            // else case means : touch based swipe had begun and polling is going on
-            // check if touch end occured by noticing if the positions have rested
-            if (this.touchCoordinates.endX === boundedRect.left && this.touchCoordinates.endY === boundedRect.top) {
-                this.stopVideoWhileSectionStoppedMoving();
-            } else {
-                this.touchCoordinates.startX = this.touchCoordinates.startX;
-                this.touchCoordinates.startY = this.touchCoordinates.endY;
-            }
-            this.touchCoordinates.endX = boundedRect.left;
-            this.touchCoordinates.endY = boundedRect.top;
-        }
+        this.videoElement.style.background = isShowVideoBehind ? 'transparent' : 'black';
     }
 
     /**
@@ -2732,18 +2712,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             bodyTagAlreadyHadClass = false;
         }
         return bodyTagAlreadyHadClass;
-    }
-
-    /**
-     * 
-     * @returns Function to get the position of the current video element w.r.t the viewport
-     */
-    private getVideoElementOffset() {
-        const el = this;
-        const rect = el.getBoundingClientRect();
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
     }
 
     /**

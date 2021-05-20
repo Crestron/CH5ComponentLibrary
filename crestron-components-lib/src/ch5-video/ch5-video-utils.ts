@@ -247,4 +247,15 @@ export class CH5VideoUtils {
         return { xPos, yPos };
     }
 
+    /**
+     * 
+     * @returns Function to get the position of the current video element w.r.t the viewport
+     */
+    public static getVideoElementOffset(el: HTMLElement) {
+        const rect = el.getBoundingClientRect();
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+    }
+
 }
