@@ -1645,13 +1645,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             this.iconUrl = this.getAttribute('iconurl') as string;
         }
         let isCheckboxShow = false;
-        if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
-            const attrSelected = (this.getAttribute('selected') as string).toLowerCase();
+        if (this.hasAttribute('checkboxshow')){ // } && !this.hasAttribute('customclassselected')) {
+            const attrSelected = (this.getAttribute('checkboxshow') as string).toLowerCase();
             if (attrSelected !== 'false' && attrSelected !== '0') {
                 isCheckboxShow = true;
             }
         }
-        this.selected = isCheckboxShow;
+        this.checkboxShow = isCheckboxShow;
         if (this.hasAttribute('checkboxPosition')) {
             this.checkboxPosition = this.getAttribute('checkboxPosition') as TCh5ButtonIconPosition;
         }
