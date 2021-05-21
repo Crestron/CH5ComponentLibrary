@@ -27,8 +27,12 @@ export class Ch5VideoSnapshot {
     private snapShotTimer: any;
     private snapShotObj: TSnapShotSignalName;
     private isSnapShotloaded: boolean = false;
+    private videoImage = new Image();
 
     public constructor(snapShotObj: TSnapShotSignalName) {
+        this.videoImage.style.width = "100%";
+        this.videoImage.style.height = "100%";
+        this.videoImage.alt = "Video Snapshot";
         this.snapShotObj = snapShotObj;
         if (this.snapShotObj.isMultipleVideo) {
             this.unSubscribeStates(); // Unsubscribe if it is already subscribed
@@ -97,7 +101,6 @@ export class Ch5VideoSnapshot {
     /**
      * Check the snapshot url and append web protocol and credentials to it
      */
-    // TODO - No return required here
     private processUri(processUriParams: TCh5ProcessUriParams): void | string {
         // Assuming the video only plays on touch devices 
         const { http, https } = { "http": "ch5-img-auth", "https": "ch5-img-auths" };
@@ -135,19 +138,17 @@ export class Ch5VideoSnapshot {
      * Load the snapshot once on CH5-video load`
      */
     private setSnapShot() {
-        const videoImage = new Image();
-
-        videoImage.onerror = () => {
+        this.videoImage.onerror = () => {
             this.snapShotImage = "";
             this.isSnapShotloaded = false;
             console.log("Video Tag Id: " + this.snapShotObj.videoTagId + ", snapshot failed to load.");
         }
 
-        videoImage.onload = (ev: Event) => {
-            this.snapShotImage = videoImage;
+        this.videoImage.onload = (ev: Event) => {
+            this.snapShotImage = this.videoImage;
             this.isSnapShotloaded = true;
         };
-        videoImage.src = this.insertParamToUrl('ch5-avoid-cache', new Date().getTime().toString(), this.url);
+        this.videoImage.src = this.insertParamToUrl('ch5-avoid-cache', CH5VideoUtils.rfc3339TimeStamp(), this.url);
     }
 
     /**
@@ -289,8 +290,6 @@ export class Ch5VideoSnapshot {
                 vars.set(hash[0], hash[1]);
             }
         }
-
         return vars;
     }
-
 }
