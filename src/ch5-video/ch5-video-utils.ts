@@ -137,13 +137,7 @@ export class CH5VideoUtils {
      */
     public static rfc3339TimeStamp = () => {
         const d = new Date();
-        return d.getFullYear() + "-" +
-            CH5VideoUtils.pad(d.getMonth() + 1) + "-" +
-            CH5VideoUtils.pad(d.getDate()) + "T" +
-            CH5VideoUtils.pad(d.getHours()) + ":" +
-            CH5VideoUtils.pad(d.getMinutes()) + ":" +
-            CH5VideoUtils.pad(d.getSeconds()) +
-            CH5VideoUtils.timezoneOffset(d.getTimezoneOffset());
+        return (d.getTime() / 1000.0); // epoch time
     }
 
     /**

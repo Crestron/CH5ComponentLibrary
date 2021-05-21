@@ -594,6 +594,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                 this.manageVideoInfo(request);
                 this.videoBGAction();
             } else if (request.action === this.VIDEO_ACTION.RESIZE) {
+                this.manageVideoInfo(request);
                 this.refillBackground();
                 this.videoBGAction();
             }
@@ -1008,8 +1009,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (response.action === this.VIDEO_ACTION.STARTED || response.action === this.VIDEO_ACTION.RESIZE) {
             if (index > -1) {
                 this._videoDimensions[index] = response;
+                this.refillBackground();
             } else {
                 this._videoDimensions.push(response);
+                this.refillBackground();                
             }
         } else if (response.action === this.VIDEO_ACTION.STOP) {
             if (index >= 0) {
