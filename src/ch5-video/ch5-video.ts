@@ -2519,9 +2519,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 const sData: Ch5VideoSnapshot = this.snapShotMap.get(this.receivedStateSelect);
                 if (sData.getSnapShotStatus()) {
                     if (nodeList.length > 1) {
-                        if (nodeList[1] && nodeList[1].nodeName.toLowerCase() === 'img') {
-                            nodeList[1].replaceChild(sData.getSnapShot(), nodeList[1]);
-                        }
+                        this.videoElement.childNodes[1].remove(); // remove the image tag
+                        this.videoElement.appendChild(sData.getSnapShot());
                     } else {
                         this.videoElement.appendChild(sData.getSnapShot());
                     }
@@ -2769,7 +2768,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private _observePositionChangesAfterScrollEnds() {
         this.info('Ch5Video.observePositionChangesAfterScrollEnds()');
-        // this._calculatePositions();
         if (this.previousXPos !== this.videoLeft || this.previousYPos !== this.videoTop) {
             if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL) {
                 this.ch5BackgroundRequest(this.VIDEO_ACTION.REFILL, 'observePositionChangesAfterScrollEnds');
@@ -2881,12 +2879,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param sHeight height of the requested element
      * @returns this.position
      */
-    private _getSizeAndPositionObj(sWidth: number, sHeight: number) {
-        this.sizeObj = CH5VideoUtils.getDisplayWxH(this.aspectRatio, sWidth, sHeight);
-        if (this.sizeObj.width < sWidth) {
-            this.position = CH5VideoUtils.calculatePillarBoxPadding(sWidth, this.sizeObj.width);
-        } else if (this.sizeObj.height < sHeight) {
-            this.position = CH5VideoUtils.calculateLetterBoxPadding(sHeight, this.sizeObj.height);
+    private _getSizeAndPositionObj(sizeObj: TDimension, sWidth: number, sHeight: number) {
+        if (sizeObj.width < sWidth) {
+            this.position = CH5VideoUtils.calculatePillarBoxPadding(sWidth, sizeObj.width);
+        } else if (sizeObj.height < sHeight) {
+            this.position = CH5VideoUtils.calculateLetterBoxPadding(sHeight, sizeObj.height);
         }
         return this.position;
     }
@@ -2926,7 +2923,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this._sendEvent(this.sendEventResolution, this.sizeObj.width + "x" + this.sizeObj.height + "@24fps", 'string');
         this.responseObj = {} as TVideoResponse;
         this.isAlphaBlend = !this.isFullScreen;
-        // Suresh TODO: Check whether _clearOldResponseData is serving any purpose
+        // reset old response, required to check whether the second response is same.
         this._clearOldResponseData();
         switch (actionType) {
             case this.VIDEO_ACTION.START:
@@ -3405,6 +3402,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Clear the previous response data
+     * This prevents execution of blocks if the response is same
      */
     private _clearOldResponseData() {
         this.oldResponseStatus = '';
@@ -3438,16 +3436,15 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.sizeObj = { width: 0, height: 0 };
             if (this.stretch === 'false') {
                 // Calculation for fixed display size like small, medium large
-                this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
-                this.videoTop = Math.ceil(rect.top);
-                this.videoLeft = Math.ceil(rect.left);
+                this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);                
             } else if (this.stretch === 'true') {
-                this._getSizeAndPositionObj(this.clientWidth, this.clientHeight);
-                this.vidControlPanel.style.left = -5 + "px";
-                this.vidControlPanel.style.top = (this.position.yPos + 5) + "px";
-                this.videoLeft = rect.left + this.position.xPos;
-                this.videoTop = rect.top + this.position.yPos;
+                this.sizeObj = CH5VideoUtils.getDisplayWxH(this.aspectRatio, this.clientWidth, this.clientHeight);
             }
+            this._getSizeAndPositionObj(this.sizeObj, this.clientWidth, this.clientHeight);
+            this.vidControlPanel.style.left = -5 + "px";
+            this.vidControlPanel.style.top = (this.position.yPos + 5) + "px";
+            this.videoLeft = rect.left + this.position.xPos;
+            this.videoTop = rect.top + this.position.yPos;            
             this.videoElement.style.width = this.sizeObj.width + "px";
             this.videoElement.style.height = this.sizeObj.height + "px";
         }
