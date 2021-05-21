@@ -148,7 +148,7 @@ export class Ch5VideoSnapshot {
             this.snapShotImage = this.videoImage;
             this.isSnapShotloaded = true;
         };
-        this.videoImage.src += '#' + CH5VideoUtils.rfc3339TimeStamp();
+        this.videoImage.src = this.url + '#' + CH5VideoUtils.rfc3339TimeStamp();
     }
 
     /**

@@ -3158,7 +3158,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             case this.VIDEO_ACTION.STOP:
                 clearTimeout(this.exitSnapsShotTimer); // clear timer to stop refreshing image
                 if (this.elementIsInViewPort) {
-                    this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.STOP));
+                    this.resetVideoElement();
+                    // this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.STOP));
                 } else {
                     isActionExecuted = false;
                 }
