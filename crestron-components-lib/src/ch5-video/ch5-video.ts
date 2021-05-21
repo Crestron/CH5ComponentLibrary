@@ -1277,7 +1277,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this._scrollableElm = getScrollableParent(this); // TODO: Is not working in all the scenarios
                 this._initializeVideo();
                 this.isInitialized = false;
-                // this._initiateSubscriptions();
                 if (!this.isMultipleVideo) {
                     this.getAllSnapShotData(1);
                     this.loadAllSnapshots(); // start loading snapshots
@@ -1291,46 +1290,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.videoScrollableParentElement = this._scrollableElm as HTMLElement; // initializing the parent
         Ch5CoreIntersectionObserver.getInstance().observe(this, this.videoIntersectionObserver.bind(this));
         this.isIntersectionObserve = true;
-    }
-
-    /**
-     * Function to handle the subscrptions of state w.r.t video
-     */
-    private _initiateSubscriptions() {
-        subscribeState('b', 'triggerview.touchend', (res: boolean) => {
-            if (res && this._isSlideMoved) {
-                this.info("initiateSubscriptions()#triggerview.touchend");
-                let timer: any;
-                clearTimeout(timer);
-                timer = setTimeout(() => {
-                    if (this.elementIntersectionEntry.intersectionRatio > 0.5) {
-                        // Send the start request to avoid the second start request from intersection observer
-                        this.info("*** 8");
-                        this.calculation();
-                        this.loadAllSnapshots();
-                        this._publishVideoEvent(this.VIDEO_ACTION.START);
-                    }
-                    this._isSlideMoved = false;
-                }, 1000);
-            }
-        });
-        subscribeState('b', 'triggerview.slidechange', (res: boolean) => {
-            this.info("initiateSubscriptions()#triggerview.slidechange");
-            this.info("initiateSubscriptions()#res: " + res);
-            this.info("initiateSubscriptions()#elementIsInViewPort: " + this.elementIsInViewPort);
-            if (res && this.elementIsInViewPort) {
-                this.stopLoadingSnapShots();
-
-                // STOPPED -> remove the cut information from background + refill
-                if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL) {
-                    this.ch5BackgroundRequest(this.VIDEO_ACTION.STOPPED, 'initiateSubscriptions()#triggerview.slidechange');
-                }
-
-                if (this.lastRequestStatus === this.VIDEO_ACTION.START || this.lastRequestStatus === this.VIDEO_ACTION.RESIZE) {
-                    this._publishVideoEvent(this.VIDEO_ACTION.STOP);
-                }
-            }
-        });
     }
 
     /**
@@ -2403,7 +2362,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      */
     private switchLoadingSnapShot(): void {
         for (let idx = 0; idx < this.maxVideoCount; idx++) {
-            const sData: Ch5VideoSnapshot = this.snapShotMap.get(this.receivedStateSelect);
+            const sData: Ch5VideoSnapshot = this.snapShotMap.get(idx);
             if (this.receivedStateSelect === idx) {
                 sData.stopLoadingSnapShot();
             } else {
@@ -2707,7 +2666,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * @param isShowVideoBehind if true, clears background
      */
     private clearBackgroundOfVideoWrapper(isShowVideoBehind: boolean) {
-        this.videoElement.style.background = isShowVideoBehind ? 'transparent' : 'black';
+        if(this.videoElement) {
+            this.videoElement.style.background = isShowVideoBehind ? 'transparent' : 'black';
+        }
     }
 
     /**
@@ -3074,18 +3035,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _videoStopRequest(actionType: string) {
         // Stop the video immediately
         publishEvent('o', 'Csig.video.request', this.videoStopObjJSON(actionType, this.ch5UId));
-
-        /*
-        if (this.lastBackGroundRequest !== this.VIDEO_ACTION.REFILL && !this.elementIsInViewPort) {
-            this.ch5BackgroundRequest(this.VIDEO_ACTION.REFILL, 'videoStopRequest');
-        } else {
-            this.ch5BackgroundRequest(this.VIDEO_ACTION.STOP, 'videoStopRequest');
-        }*/
-
+        this.stopLoadingSnapShots();
         this.fromExitFullScreen = false;
         this.lastRequestUrl = '';
         this._performanceDuration(this.VIDEO_ACTION.STOP, performance.now(), 'timerStart');
-
         this.isVideoReady = false;
         this._sendEvent(this.sendEventState, 3, 'number');
     }
@@ -3149,16 +3102,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             case this.VIDEO_ACTION.RESIZE:
                 this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.RESIZE));
                 break;
-            case this.VIDEO_ACTION.SNAPSHOT:
-                // the below condition prevents snapshot loading
-                // if (this.lastResponseStatus !== this.VIDEO_ACTION.STARTED) {
-                // this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.SNAPSHOT));
-                // Suresh TODO: Move it inside ch5-video-snapshot.ts, we need to send once snapshot image is loaded 
-                // this._sendEvent(this.sendEventSnapShotLastUpdateTime, CH5VideoUtils.rfc3339TimeStamp(), 'string');
-                break;
-            case this.VIDEO_ACTION.START:
-                // Nothing here, place holder
-                break;
             case this.VIDEO_ACTION.STARTED:
                 clearTimeout(this.exitSnapsShotTimer); // clear timer to stop refreshing image
                 this.resetVideoElement();
@@ -3170,14 +3113,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 clearTimeout(this.exitSnapsShotTimer); // clear timer to stop refreshing image
                 if (this.elementIsInViewPort) {
                     this.resetVideoElement();
-                    // this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.STOP));
+                    this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.STOP));
                 } else {
                     isActionExecuted = false;
                 }
-                break;
-            case this.VIDEO_ACTION.STOPPED:
-                this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.STOPPED));
-                this.ch5BackgroundAction(this.videoBGObjJSON(this.VIDEO_ACTION.REFILL));
                 break;
             case this.VIDEO_ACTION.ERROR:
                 if (this.elementIsInViewPort) {
