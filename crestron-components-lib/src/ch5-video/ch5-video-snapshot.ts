@@ -13,7 +13,7 @@ import _ from "lodash";
 import { CH5VideoUtils } from "./ch5-video-utils";
 
 export class Ch5VideoSnapshot {
-    private snapShotImage: any;
+    private snapShotImage: HTMLImageElement = {} as HTMLImageElement;
     private isSnapShotLoading: boolean = false;
     private protocol: string = '';
     private videoSnapShotUrl: string = '';
@@ -81,7 +81,7 @@ export class Ch5VideoSnapshot {
      */
     public stopLoadingSnapShot() {
         this.isSnapShotLoading = false;
-        this.snapShotImage = ''; // clear the image
+        this.snapShotImage = {} as HTMLImageElement; // clear the image
         this.isSnapShotloaded = false;
         clearInterval(this.snapShotTimer);
     }
@@ -90,7 +90,7 @@ export class Ch5VideoSnapshot {
      * Returns an image
      * @returns {} loaded snapshot image or blank
      */
-    public getSnapShot() {
+    public getSnapShot(): HTMLImageElement {
         return this.snapShotImage;
     }
 
@@ -139,7 +139,7 @@ export class Ch5VideoSnapshot {
      */
     private setSnapShot() {
         this.videoImage.onerror = () => {
-            this.snapShotImage = "";
+            this.snapShotImage = {} as HTMLImageElement;
             this.isSnapShotloaded = false;
             console.log("Video Tag Id: " + this.snapShotObj.videoTagId + ", snapshot failed to load.");
         }
