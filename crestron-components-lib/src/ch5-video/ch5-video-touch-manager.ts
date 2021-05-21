@@ -88,12 +88,12 @@ export class Ch5VideoTouchManager {
     }
 
     /**
-     * Function to 
+     * Function to unbind event handlers from touch
      */
     public destructor() {
         document.removeEventListener('touchstart', this._onTouchStart);
-        document.addEventListener('touchmove', this._onTouchMove);
-        document.addEventListener('touchend', this._onTouchEnd);
-        document.addEventListener('touchcancel', this._onTouchCancel);
+        document.removeEventListener('touchmove', this._onTouchMove);
+        document.removeEventListener('touchend', this._onTouchEnd);
+        document.removeEventListener('touchcancel', this._onTouchCancel);
     }
 }

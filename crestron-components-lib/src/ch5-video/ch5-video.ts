@@ -2647,13 +2647,20 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         }
     }
 
+    /**
+     * Function to handle touch start event
+     */
     private touchBeginHandler() {
         this.pollForStateUntilFalseAndRerenderVideo();
     }
 
+    /**
+     * Function to handle onTouchStartEvent when triggered
+     */
     private pollForStateUntilFalseAndRerenderVideo() {
+        // video should have played atleast once for polling to be addressed
         if (!this.firstTime) {
-            this.info(`HH TEST: TOUCH TRIGGERED START : ${this.isTouchInProgress}`);
+            this.info(`HH TEST: TOUCH TRIGGERED START : ${this.isTouchInProgress} ${this.videoTagId}`);
             // keep hiding the background
             const boundedRect = this.getBoundingClientRect();
             this.touchCoordinates.startX = boundedRect.left;
@@ -2666,12 +2673,14 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Function to check if the touch swipe has stopped and video finally is a static position
      */
     private checkIfVideoStoppedMoving() {
+        this.info(`HH TEST: touch in progress/move  ${this.videoTagId}`);
         if (!this.isTouchInProgress) {
             const boundedRect = this.getBoundingClientRect();
             this.touchCoordinates.endX = boundedRect.left;
             this.touchCoordinates.endY = boundedRect.top;
             if (Math.abs(this.touchCoordinates.startX - this.touchCoordinates.endX) > this.swipeDeltaCheckNum ||
                 Math.abs(this.touchCoordinates.startY - this.touchCoordinates.endY) > this.swipeDeltaCheckNum) {
+                this.info(`HH TEST: touch move [did move]  ${this.videoTagId}`);
                 this.isTouchInProgress = true;
                 this.clearBackgroundOfVideoWrapper(false);
             }
@@ -2682,7 +2691,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * Function to manage video play/stop based on the position on touch end or cancel
      */
     private stopVideoWhileSectionStoppedMoving() {
+        this.info(`HH TEST: touch stop  ${this.videoTagId}`);
         if (this.isTouchInProgress) {
+            this.info(`HH TEST: touch stop [did stop]  ${this.videoTagId}`);
             setTimeout(() => {
                 this.clearBackgroundOfVideoWrapper(true);
                 this.videoIntersectionObserver();
@@ -3437,7 +3448,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.sizeObj = { width: 0, height: 0 };
             if (this.stretch === 'false') {
                 // Calculation for fixed display size like small, medium large
-                this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);                
+                this.sizeObj = CH5VideoUtils.getAspectRatioForVideo(this.aspectRatio, this.size);
             } else if (this.stretch === 'true') {
                 this.sizeObj = CH5VideoUtils.getDisplayWxH(this.aspectRatio, this.clientWidth, this.clientHeight);
             }
@@ -3445,7 +3456,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this.vidControlPanel.style.left = -5 + "px";
             this.vidControlPanel.style.top = (this.position.yPos + 5) + "px";
             this.videoLeft = rect.left + this.position.xPos;
-            this.videoTop = rect.top + this.position.yPos;            
+            this.videoTop = rect.top + this.position.yPos;
             this.videoElement.style.width = this.sizeObj.width + "px";
             this.videoElement.style.height = this.sizeObj.height + "px";
         }
