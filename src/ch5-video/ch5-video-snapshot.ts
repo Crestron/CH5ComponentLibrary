@@ -123,7 +123,7 @@ export class Ch5VideoSnapshot {
 
         // adding a '#' makes the request a new one, while not intrusing with the request
         // this way, it won't be a "bad request" while making a new img request
-        this.url = uri.toString() + '#' + CH5VideoUtils.rfc3339TimeStamp();
+        this.url = uri.toString();
         return;
     }
 
@@ -148,7 +148,7 @@ export class Ch5VideoSnapshot {
             this.snapShotImage = this.videoImage;
             this.isSnapShotloaded = true;
         };
-        this.videoImage.src = this.insertParamToUrl('ch5-avoid-cache', CH5VideoUtils.rfc3339TimeStamp(), this.url);
+        this.videoImage.src += '#' + CH5VideoUtils.rfc3339TimeStamp();
     }
 
     /**
@@ -237,59 +237,5 @@ export class Ch5VideoSnapshot {
                 }
             }
         });
-    }
-
-    /**
-     * Add unique param value to the url to avoid caching of image
-     *
-     * @param key
-     * @param value
-     * @param url
-     * @return {string} url value with new param and value
-     */
-    private insertParamToUrl(key: string, value: string, url: string): string {
-        key = encodeURI(key);
-        value = encodeURI(value);
-
-        if (this.getUrlVars(url).size === 0) {
-            return url + '?' + key + '=' + value;
-        }
-
-        const kvp = url.split('&');
-
-        let i = kvp.length; let x; while (i--) {
-            x = kvp[i].split('=');
-
-            if (x[0] === key) {
-                x[1] = value;
-                kvp[i] = x.join('=');
-                break;
-            }
-        }
-
-        if (i < 0) { kvp[kvp.length] = [key, value].join('='); }
-
-        return kvp.join('&');
-    }
-
-    /**
-     * Get url vars
-     * @param url
-     * @return {Map} returns params
-     */
-    private getUrlVars(url: string) {
-        const vars: Map<string, string> = new Map();
-        let hash: string[];
-        const questionMarkIndex = url.indexOf('?');
-
-        if (questionMarkIndex > 1) {
-            const hashes = url.slice(questionMarkIndex + 1).split('&');
-
-            for (const iterator of hashes) {
-                hash = iterator.split('=');
-                vars.set(hash[0], hash[1]);
-            }
-        }
-        return vars;
     }
 }
