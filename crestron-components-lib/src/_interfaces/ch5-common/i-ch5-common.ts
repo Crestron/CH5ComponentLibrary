@@ -10,6 +10,7 @@ import { TBoolAttribute } from "./types/t-bool-attribute";
 
 /**
  * @ignore
+ * TODO - to remove this file, the below properties must be in ICh5CommonAttributes
  */
 export interface ICh5Common extends ICh5CommonAttributes {
 

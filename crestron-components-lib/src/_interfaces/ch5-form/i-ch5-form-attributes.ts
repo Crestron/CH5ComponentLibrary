@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from "../ch5-common";
-import { TCh5ButtonType } from "../ch5-button/types";
+import { TCh5ButtonType } from "../../ch5-button/interfaces/t-ch5-button";
 
 /**
  * @ignore

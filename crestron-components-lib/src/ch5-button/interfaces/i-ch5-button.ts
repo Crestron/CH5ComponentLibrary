@@ -6,10 +6,12 @@
 // under which you licensed this source code.
 
 import { ICh5ButtonAttributes } from "./i-ch5-button-attributes";
-import { ICh5Common } from "../ch5-common";
+import { ICh5Common } from "../../_interfaces/ch5-common";
+import { TBoolAttribute } from "../../_interfaces/ch5-common/types/t-bool-attribute";
 
 /**
  * @ignore
+ * TODO - to remove this file, the below properties must be in ICh5ButtonAttributes
  */
 export interface ICh5Button extends ICh5ButtonAttributes, ICh5Common {
 
