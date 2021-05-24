@@ -15,7 +15,7 @@ export * from "./ch5-custom-attrs/index";
 /**
  * Export controls.
  */
-export * from "./ch5-button/i-ch5-button";
+export * from "./../ch5-button/interfaces/i-ch5-button";
 export * from "./ch5-form/i-ch5-form";
 export * from "./ch5-image/i-ch5-image";
 export * from "./ch5-list/i-ch5-list";

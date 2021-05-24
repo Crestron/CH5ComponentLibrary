@@ -30,6 +30,8 @@ import { Ch5CommonLog } from './ch5-common-log';
 
 export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
+    //#region Variables
+
     public static DIRECTION: string[] = ['ltr', 'rtl'];
 
     /**
@@ -117,7 +119,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     /**
      * Reflects the gestureable ability of the components
-     *
      */
     private _gestureable: boolean = false;
 
@@ -327,6 +328,380 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     private _commonMutationObserver: Ch5MutationObserver = {} as Ch5MutationObserver;
 
+    //#endregion
+
+    //#region Setters and Getters
+
+    public set customClass(value: string) {
+        this.info('set customClass(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value);
+        if (value !== this._customClass) {
+            this._customClass = value;
+            this.setAttribute('customclass', value);
+        }
+    }
+
+    public get customClass(): string {
+        return this._customClass;
+    }
+
+    public set customStyle(value: string) {
+        this.info('set customStyle(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value);
+        if (value !== this._customStyle) {
+            this._prevAddedStyle = this._customStyle;
+            this._customStyle = value;
+            this.setAttribute('customstyle', value);
+        }
+    }
+
+    public get customStyle(): string {
+        return this._customStyle;
+    }
+
+    public set show(value: boolean) {
+        this.info('set show(\'' + value + '\')');
+        if (value !== this._show) {
+            this._show = value;
+            this.setAttribute('show', value.toString());
+        }
+    }
+
+    public get show(): boolean {
+        return this._show;
+    }
+
+    public set noshowType(value: TCh5ShowType) {
+        this.info('set noshowType(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value, 'none') as TCh5ShowType;
+        if (value !== this._noshowType) {
+            if (this.showTypes.indexOf(value) > 0) {
+                this._noshowType = value;
+            } else {
+                this._noshowType = this.showTypes[0];
+            }
+            this.setAttribute('noshowtype', this._noshowType);
+        }
+    }
+
+    public get noshowType(): TCh5ShowType {
+        return this._noshowType;
+    }
+
+    public set disabled(value: boolean) {
+        if (null === value || undefined === value) {
+            value = false;
+        }
+        if (value !== this._disabled) {
+            this._disabled = this._toBoolean(value);
+            if (this._disabled) {
+                this.setAttribute('disabled', '');
+            } else {
+                this.removeAttribute('disabled');
+            }
+        }
+    }
+
+    public get disabled(): boolean {
+        return this._disabled;
+    }
+
+    public set gestureable(value: boolean | string) {
+        this.info('set gestureable(\'' + value + '\')');
+        const booleanValue = this._toBoolean(value);
+
+        if (value !== this._gestureable) {
+            this.observableGestureableProperty.next(booleanValue);
+            this._gestureable = booleanValue;
+            this.setAttribute('gestureable', booleanValue.toString());
+        }
+    }
+
+    public get gestureable() {
+        return this._gestureable;
+    }
+
+    public set receiveStateCustomClass(value: string) {
+        this.info('set receiveStateCustomClass(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateCustomClass) {
+            return;
+        }
+
+        this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
+
+        this._receiveStateCustomClass = value;
+        this.setAttribute('receivestatecustomclass', value);
+
+        const recSigCustomClassName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomClass);
+        const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomClassName);
+
+        if (null === recSig) {
+            return;
+        }
+        let hasSignalChanged = false;
+
+        this._subKeySigReceiveCustomClass = recSig.subscribe((newVal: string) => {
+            this.info(' subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
+            if ('' !== newVal) {
+                hasSignalChanged = true;
+            }
+            if (newVal !== this.customClass && hasSignalChanged) {
+                // this.setAttribute('customclass', newVal);
+                this.customClass = newVal;
+            }
+        });
+
+    }
+
+    public get receiveStateCustomClass(): string {
+        // The internal property is changed if/when the element is removed from dom
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receivestatecustomclass');
+    }
+
+    public set receiveStateCustomStyle(value: string) {
+        this.info('set receiveStateCustomStyle(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateCustomStyle) {
+            return;
+        }
+
+        this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
+
+        this._receiveStateCustomStyle = value;
+        this.setAttribute('receivestatecustomstyle', value);
+
+        const recSigCustomStyleName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomStyle);
+        const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomStyleName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        let hasSignalChanged = false;
+        this._subKeySigReceiveCustomStyle = recSig.subscribe((newVal: string) => {
+            this.info(' subs callback for signalReceiveCustomStyle: ', this._subKeySigReceiveCustomStyle, ' Signal has value ', newVal);
+            if ('' !== newVal) {
+                hasSignalChanged = true;
+            }
+            if (newVal !== this.customStyle && hasSignalChanged) {
+                this.setAttribute('customStyle', newVal);
+            }
+        });
+    }
+    public get receiveStateCustomStyle(): string {
+        // The internal property is changed if/when the element is removed from dom
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receivestatecustomstyle');
+    }
+
+    public set receiveStateEnable(value: string) {
+        this.info('set receiveStateEnable(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateEnable) {
+            return;
+        }
+
+        this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
+
+        this._receiveStateEnable = value;
+        this.setAttribute('receivestateenable', value);
+
+        const recSigEnableName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateEnable);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigEnableName);
+
+        if (null === recSig) {
+            return;
+        }
+        let hasSignalChanged = false;
+        this._subKeySigReceiveEnable = recSig.subscribe((newVal: boolean) => {
+            this.info(' subs callback for signalReceiveEnable: ', this._subKeySigReceiveEnable, ' Signal has value ', newVal);
+
+            if (!this.disabled !== newVal) {
+                hasSignalChanged = true;
+            }
+            if (hasSignalChanged) {
+                if (true === newVal) {
+                    this.removeAttribute('disabled');
+                } else {
+                    this.setAttribute('disabled', '');
+                }
+            }
+        });
+    }
+    public get receiveStateEnable(): string {
+        // The internal property is changed if/when the element is removed from dom
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receivestateenable');
+    }
+
+    public set receiveStateHidePulse(value: string) {
+        this.info('set receiveStateHidePulse(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateHidePulse) {
+            return;
+        }
+
+        this.clearBooleanSignalSubscription(this._receiveStateHidePulse, this._subKeySigReceiveHidePulse);
+
+        this._receiveStateHidePulse = value;
+        this.setAttribute('receivestatehidepulse', value);
+
+        const recSigHidePulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateHidePulse);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigHidePulseName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        this._subKeySigReceiveHidePulse = recSig.subscribe((newVal: boolean) => {
+            this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' Signal has value ', newVal);
+            if (null !== recSig) {
+                if (false === recSig.prevValue && true === newVal) {
+                    this.setAttribute('show', 'false');
+                }
+            } else {
+                this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' recSig is null');
+            }
+        });
+    }
+
+    public get receiveStateHidePulse(): string {
+        // The internal property is changed if/when the element is removed from dom
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receivestatehidepulse');
+    }
+
+    public set receiveStateShowPulse(value: string) {
+        this.info('set receiveStateShowPulse(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateShowPulse) {
+            return;
+        }
+
+        this.clearBooleanSignalSubscription(this._receiveStateShowPulse, this._subKeySigReceiveShowPulse);
+
+        this._receiveStateShowPulse = value;
+        this.setAttribute('receivestateshowpulse', value);
+
+        const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowPulse);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowPulseName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        this._subKeySigReceiveShowPulse = recSig.subscribe((newVal: boolean) => {
+            this.info(' subs callback for signalReceiveShowPulse: ', this._subKeySigReceiveShowPulse, ' Signal has value ', newVal);
+            if (null !== recSig) {
+                const _newVal = (newVal as never as { repeatdigital: boolean }).repeatdigital !== undefined ? (newVal as never as { repeatdigital: boolean }).repeatdigital : newVal;
+                if ((recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital !== undefined) {
+                    if (false === (recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital && true === _newVal) {
+                        this.setAttribute('show', 'true')
+                    }
+                    return;
+                }
+                if (false === recSig.prevValue && true === _newVal) {
+                    this.setAttribute('show', 'true')
+                }
+            }
+        });
+    }
+    public get receiveStateShowPulse(): string {
+        // The internal property is changed if/when the element is removed from DOM
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receivestateshowpulse');
+    }
+
+    public set receiveStateShow(value: string) {
+        this.info('set receiveStateShow(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateShow) {
+            return;
+        }
+
+        this.clearBooleanSignalSubscription(this._receiveStateShow, this._subKeySigReceiveShow);
+
+        this._receiveStateShow = value;
+        this.setAttribute('receivestateshow', value);
+
+        const recSigShowName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShow);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        this._subKeySigReceiveShow = recSig.subscribe((newVal: boolean) => {
+            this.info(' subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newVal);
+            this.show = newVal;
+        });
+    }
+
+    public get receiveStateShow(): string {
+        // The internal property is changed if/when the element is removed from DOM
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receivestateshow');
+    }
+
+    public set sendEventOnShow(value: string) {
+        this.sigNameSendOnShow = value;
+    }
+
+    public get sendEventOnShow(): string {
+        return this.sigNameSendOnShow;
+    }
+
+    public set sigNameSendOnShow(value: string) {
+        this.info('set sigNameSendOnShow(\'' + value + '\')');
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._sigNameSendOnShow) {
+            return;
+        }
+
+        this._sigNameSendOnShow = value;
+        this.setAttribute('sendeventonshow', value);
+
+        this._sigSendOnShow = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnShow);
+
+    }
+
+    public get sigNameSendOnShow(): string {
+        return this._sigNameSendOnShow;
+    }
+
+    public set onrelease(callback: {}) {
+        this._onrelease = callback;
+    }
+
+    public get onrelease(): {} {
+        return this._onrelease;
+    }
+
+    public set onpress(callback: {}) {
+        this._onpress = callback;
+    }
+
+    public get onpress(): {} {
+        return this._onpress;
+    }
+
+    public set appendClassWhenInViewPort(value: string) {
+        if (value !== this._appendClassWhenInViewPort) {
+            this._appendClassWhenInViewPort = value;
+            this.setAttribute('appendClassWhenInViewPort', value.toString());
+        }
+    }
+
+    public get appendClassWhenInViewport(): string {
+        return this._appendClassWhenInViewPort;
+    }
+
+    //#endregion
+
+    //#region Lifecycle Hooks
+
     public constructor() {
         super();
         this.log = new Ch5CommonLog(false);
@@ -363,6 +738,10 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             }
         });
     }
+
+    //#endregion
+
+    //#region Other Methods
 
     /**
      * Getting the measurement unit from size (eg. 35px, returned value gonna be px)
@@ -508,7 +887,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
         return processedValue;
     }
-
 
     public static processUri(processUriParams: TCh5ProcessUriParams): void | string {
         let uriStr: string = "";
@@ -1292,378 +1670,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         }
     }
 
-    // Attr getters and setters
-
-    public set customClass(value: string) {
-        this.info('set customClass(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value);
-        if (value !== this._customClass) {
-            this._customClass = value;
-            this.setAttribute('customclass', value);
-        }
-    }
-
-    public get customClass(): string {
-        return this._customClass;
-    }
-
-    public set customStyle(value: string) {
-        this.info('set customStyle(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value);
-        if (value !== this._customStyle) {
-            this._prevAddedStyle = this._customStyle;
-            this._customStyle = value;
-            this.setAttribute('customstyle', value);
-        }
-    }
-
-    public get customStyle(): string {
-        return this._customStyle;
-    }
-
-    public set show(value: boolean) {
-        this.info('set show(\'' + value + '\')');
-        if (value !== this._show) {
-            this._show = value;
-            this.setAttribute('show', value.toString());
-        }
-    }
-
-    public get show(): boolean {
-        return this._show;
-    }
-
-    public set noshowType(value: TCh5ShowType) {
-        this.info('set noshowType(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value, 'none') as TCh5ShowType;
-        if (value !== this._noshowType) {
-            if (this.showTypes.indexOf(value) > 0) {
-                this._noshowType = value;
-            } else {
-                this._noshowType = this.showTypes[0];
-            }
-            this.setAttribute('noshowtype', this._noshowType);
-        }
-    }
-
-    public get noshowType(): TCh5ShowType {
-        return this._noshowType;
-    }
-
-    public set disabled(value: boolean) {
-        if (null === value || undefined === value) {
-            value = false;
-        }
-        if (value !== this._disabled) {
-            this._disabled = this._toBoolean(value);
-            if (this._disabled) {
-                this.setAttribute('disabled', '');
-            } else {
-                this.removeAttribute('disabled');
-            }
-        }
-    }
-
-    public get disabled(): boolean {
-        return this._disabled;
-    }
-
-    public set gestureable(value: boolean | string) {
-        this.info('set gestureable(\'' + value + '\')');
-        const booleanValue = this._toBoolean(value);
-
-        if (value !== this._gestureable) {
-            this.observableGestureableProperty.next(booleanValue);
-            this._gestureable = booleanValue;
-            this.setAttribute('gestureable', booleanValue.toString());
-        }
-    }
-
-    public get gestureable() {
-        return this._gestureable;
-    }
-
-    public set receiveStateCustomClass(value: string) {
-        this.info('set receiveStateCustomClass(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value);
-        if ('' === value || value === this._receiveStateCustomClass) {
-            return;
-        }
-
-        this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
-
-        this._receiveStateCustomClass = value;
-        this.setAttribute('receivestatecustomclass', value);
-
-        const recSigCustomClassName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomClass);
-        const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomClassName);
-
-        if (null === recSig) {
-            return;
-        }
-        let hasSignalChanged = false;
-
-        this._subKeySigReceiveCustomClass = recSig.subscribe((newVal: string) => {
-            this.info(' subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
-            if ('' !== newVal) {
-                hasSignalChanged = true;
-            }
-            if (newVal !== this.customClass && hasSignalChanged) {
-                // this.setAttribute('customclass', newVal);
-                this.customClass = newVal;
-            }
-        });
-
-    }
-
-    public get receiveStateCustomClass(): string {
-        // The internal property is changed if/when the element is removed from dom
-        // Returning the attribute instead of the internal property preserves functionality
-        return this._attributeValueAsString('receivestatecustomclass');
-    }
-
-    public set receiveStateCustomStyle(value: string) {
-        this.info('set receiveStateCustomStyle(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value);
-        if ('' === value || value === this._receiveStateCustomStyle) {
-            return;
-        }
-
-        this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
-
-        this._receiveStateCustomStyle = value;
-        this.setAttribute('receivestatecustomstyle', value);
-
-        const recSigCustomStyleName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomStyle);
-        const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomStyleName);
-
-        if (null === recSig) {
-            return;
-        }
-
-        let hasSignalChanged = false;
-        this._subKeySigReceiveCustomStyle = recSig.subscribe((newVal: string) => {
-            this.info(' subs callback for signalReceiveCustomStyle: ', this._subKeySigReceiveCustomStyle, ' Signal has value ', newVal);
-            if ('' !== newVal) {
-                hasSignalChanged = true;
-            }
-            if (newVal !== this.customStyle && hasSignalChanged) {
-                this.setAttribute('customStyle', newVal);
-            }
-        });
-    }
-    public get receiveStateCustomStyle(): string {
-        // The internal property is changed if/when the element is removed from dom
-        // Returning the attribute instead of the internal property preserves functionality
-        return this._attributeValueAsString('receivestatecustomstyle');
-    }
-
-    public set receiveStateEnable(value: string) {
-        this.info('set receiveStateEnable(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value);
-        if ('' === value || value === this._receiveStateEnable) {
-            return;
-        }
-
-        this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
-
-        this._receiveStateEnable = value;
-        this.setAttribute('receivestateenable', value);
-
-        const recSigEnableName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateEnable);
-        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigEnableName);
-
-        if (null === recSig) {
-            return;
-        }
-        let hasSignalChanged = false;
-        this._subKeySigReceiveEnable = recSig.subscribe((newVal: boolean) => {
-            this.info(' subs callback for signalReceiveEnable: ', this._subKeySigReceiveEnable, ' Signal has value ', newVal);
-
-            if (!this.disabled !== newVal) {
-                hasSignalChanged = true;
-            }
-            if (hasSignalChanged) {
-                if (true === newVal) {
-                    this.removeAttribute('disabled');
-                } else {
-                    this.setAttribute('disabled', '');
-                }
-            }
-        });
-    }
-    public get receiveStateEnable(): string {
-        // The internal property is changed if/when the element is removed from dom
-        // Returning the attribute instead of the internal property preserves functionality
-        return this._attributeValueAsString('receivestateenable');
-    }
-
-    public set receiveStateHidePulse(value: string) {
-        this.info('set receiveStateHidePulse(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value);
-        if ('' === value || value === this._receiveStateHidePulse) {
-            return;
-        }
-
-        this.clearBooleanSignalSubscription(this._receiveStateHidePulse, this._subKeySigReceiveHidePulse);
-
-        this._receiveStateHidePulse = value;
-        this.setAttribute('receivestatehidepulse', value);
-
-        const recSigHidePulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateHidePulse);
-        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigHidePulseName);
-
-        if (null === recSig) {
-            return;
-        }
-
-        this._subKeySigReceiveHidePulse = recSig.subscribe((newVal: boolean) => {
-            this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' Signal has value ', newVal);
-            if (null !== recSig) {
-                if (false === recSig.prevValue && true === newVal) {
-                    this.setAttribute('show', 'false');
-                }
-            } else {
-                this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' recSig is null');
-            }
-        });
-    }
-    public get receiveStateHidePulse(): string {
-        // The internal property is changed if/when the element is removed from dom
-        // Returning the attribute instead of the internal property preserves functionality
-        return this._attributeValueAsString('receivestatehidepulse');
-    }
-
-    public set receiveStateShowPulse(value: string) {
-        this.info('set receiveStateShowPulse(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value);
-        if ('' === value || value === this._receiveStateShowPulse) {
-            return;
-        }
-
-        this.clearBooleanSignalSubscription(this._receiveStateShowPulse, this._subKeySigReceiveShowPulse);
-
-        this._receiveStateShowPulse = value;
-        this.setAttribute('receivestateshowpulse', value);
-
-        const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowPulse);
-        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowPulseName);
-
-        if (null === recSig) {
-            return;
-        }
-
-        this._subKeySigReceiveShowPulse = recSig.subscribe((newVal: boolean) => {
-            this.info(' subs callback for signalReceiveShowPulse: ', this._subKeySigReceiveShowPulse, ' Signal has value ', newVal);
-
-            if (null !== recSig) {
-
-                const _newVal = (newVal as never as { repeatdigital: boolean }).repeatdigital !== undefined ? (newVal as never as { repeatdigital: boolean }).repeatdigital : newVal;
-
-                if ((recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital !== undefined) {
-                    if (false === (recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital && true === _newVal) {
-                        this.setAttribute('show', 'true')
-                    }
-
-                    return;
-                }
-
-                if (false === recSig.prevValue && true === _newVal) {
-                    this.setAttribute('show', 'true')
-                }
-            }
-        });
-    }
-    public get receiveStateShowPulse(): string {
-        // The internal property is changed if/when the element is removed from DOM
-        // Returning the attribute instead of the internal property preserves functionality
-        return this._attributeValueAsString('receivestateshowpulse');
-    }
-
-    public set receiveStateShow(value: string) {
-        this.info('set receiveStateShow(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value);
-        if ('' === value || value === this._receiveStateShow) {
-            return;
-        }
-
-        this.clearBooleanSignalSubscription(this._receiveStateShow, this._subKeySigReceiveShow);
-
-        this._receiveStateShow = value;
-        this.setAttribute('receivestateshow', value);
-
-        const recSigShowName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShow);
-        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowName);
-
-        if (null === recSig) {
-            return;
-        }
-
-        this._subKeySigReceiveShow = recSig.subscribe((newVal: boolean) => {
-            this.info(' subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newVal);
-            this.show = newVal;
-        });
-    }
-
-    public get receiveStateShow(): string {
-        // The internal property is changed if/when the element is removed from DOM
-        // Returning the attribute instead of the internal property preserves functionality
-        return this._attributeValueAsString('receivestateshow');
-    }
-
-    public set sendEventOnShow(value: string) {
-        this.sigNameSendOnShow = value;
-    }
-
-    public get sendEventOnShow(): string {
-        return this.sigNameSendOnShow;
-    }
-
-    public set sigNameSendOnShow(value: string) {
-        this.info('set sigNameSendOnShow(\'' + value + '\')');
-        value = this._checkAndSetStringValue(value);
-        if ('' === value || value === this._sigNameSendOnShow) {
-            return;
-        }
-
-        this._sigNameSendOnShow = value;
-        this.setAttribute('sendeventonshow', value);
-
-        this._sigSendOnShow = Ch5SignalFactory.getInstance()
-            .getBooleanSignal(this._sigNameSendOnShow);
-
-    }
-
-    public get sigNameSendOnShow(): string {
-        return this._sigNameSendOnShow;
-    }
-
-    public set onrelease(callback: {}) {
-        this._onrelease = callback;
-    }
-
-    public get onrelease(): {} {
-        return this._onrelease;
-    }
-
-    public set onpress(callback: {}) {
-        this._onpress = callback;
-    }
-
-    public get onpress(): {} {
-        return this._onpress;
-    }
-
-    public set appendClassWhenInViewPort(value: string) {
-        if (value !== this._appendClassWhenInViewPort) {
-            this._appendClassWhenInViewPort = value;
-            this.setAttribute('appendClassWhenInViewPort', value.toString());
-        }
-    }
-
-    public get appendClassWhenInViewport(): string {
-        return this._appendClassWhenInViewPort;
-    }
 
     /**
      * Invoke an incompatibility warning when an attribute cannot work as 
@@ -1770,4 +1776,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             this._commonMutationObserver.disconnectObserver();
         }
     }
+
+    //#endregion 
+
 }
