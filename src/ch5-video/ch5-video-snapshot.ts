@@ -94,6 +94,14 @@ export class Ch5VideoSnapshot {
         return this.snapShotImage;
     }
 
+    /**
+     * Returns cached image src url
+     * @returns {} loaded snapshot image or blank
+     */
+     public getSnapShotUrl(): string {
+        return this.snapShotImage.src;
+    }    
+
     public getSnapShotStatus(): boolean {
         return this.isSnapShotloaded;
     }
