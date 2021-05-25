@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { subscribeState, unsubscribeState } from "../ch5-core";
-import { TSnapShotSignalName } from "../_interfaces/ch5-video/types";
+import { TSnapShotSignalName } from "./interfaces/types";
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import _ from "lodash";
 import { TCh5ProcessUriParams } from "../ch5-common/interfaces";
