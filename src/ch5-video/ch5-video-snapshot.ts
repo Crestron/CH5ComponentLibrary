@@ -13,7 +13,7 @@ import _ from "lodash";
 import { CH5VideoUtils } from "./ch5-video-utils";
 
 export class Ch5VideoSnapshot {
-    private snapShotImage: any;
+    private snapShotImage: HTMLImageElement = {} as HTMLImageElement;
     private isSnapShotLoading: boolean = false;
     private protocol: string = '';
     private videoSnapShotUrl: string = '';
@@ -27,8 +27,12 @@ export class Ch5VideoSnapshot {
     private snapShotTimer: any;
     private snapShotObj: TSnapShotSignalName;
     private isSnapShotloaded: boolean = false;
+    private videoImage = new Image();
 
     public constructor(snapShotObj: TSnapShotSignalName) {
+        this.videoImage.style.width = "100%";
+        this.videoImage.style.height = "100%";
+        this.videoImage.alt = "Video Snapshot";
         this.snapShotObj = snapShotObj;
         if (this.snapShotObj.isMultipleVideo) {
             this.unSubscribeStates(); // Unsubscribe if it is already subscribed
@@ -77,7 +81,7 @@ export class Ch5VideoSnapshot {
      */
     public stopLoadingSnapShot() {
         this.isSnapShotLoading = false;
-        this.snapShotImage = ''; // clear the image
+        this.snapShotImage = {} as HTMLImageElement; // clear the image
         this.isSnapShotloaded = false;
         clearInterval(this.snapShotTimer);
     }
@@ -86,8 +90,16 @@ export class Ch5VideoSnapshot {
      * Returns an image
      * @returns {} loaded snapshot image or blank
      */
-    public getSnapShot() {
+    public getSnapShot(): HTMLImageElement {
         return this.snapShotImage;
+    }
+
+    /**
+    * Returns cached image src url
+    * @returns {} loaded snapshot image or blank
+    */
+    public getSnapShotUrl(): string {
+        return this.snapShotImage.src;
     }
 
     public getSnapShotStatus(): boolean {
@@ -97,7 +109,6 @@ export class Ch5VideoSnapshot {
     /**
      * Check the snapshot url and append web protocol and credentials to it
      */
-    // TODO - No return required here
     private processUri(processUriParams: TCh5ProcessUriParams): void | string {
         // Assuming the video only plays on touch devices 
         const { http, https } = { "http": "ch5-img-auth", "https": "ch5-img-auths" };
@@ -120,7 +131,7 @@ export class Ch5VideoSnapshot {
 
         // adding a '#' makes the request a new one, while not intrusing with the request
         // this way, it won't be a "bad request" while making a new img request
-        this.url = uri.toString() + '#' + CH5VideoUtils.rfc3339TimeStamp();
+        this.url = uri.toString();
         return;
     }
 
@@ -135,19 +146,17 @@ export class Ch5VideoSnapshot {
      * Load the snapshot once on CH5-video load`
      */
     private setSnapShot() {
-        const videoImage = new Image();
-
-        videoImage.onerror = () => {
-            this.snapShotImage = "";
+        this.videoImage.onerror = () => {
+            this.snapShotImage = {} as HTMLImageElement;
             this.isSnapShotloaded = false;
             console.log("Video Tag Id: " + this.snapShotObj.videoTagId + ", snapshot failed to load.");
         }
 
-        videoImage.onload = (ev: Event) => {
-            this.snapShotImage = videoImage;
+        this.videoImage.onload = (ev: Event) => {
+            this.snapShotImage = this.videoImage;
             this.isSnapShotloaded = true;
         };
-        videoImage.src = this.insertParamToUrl('ch5-avoid-cache', new Date().getTime().toString(), this.url);
+        this.videoImage.src = this.url + '#' + CH5VideoUtils.rfc3339TimeStamp();
     }
 
     /**
@@ -237,60 +246,4 @@ export class Ch5VideoSnapshot {
             }
         });
     }
-
-    /**
-     * Add unique param value to the url to avoid caching of image
-     *
-     * @param key
-     * @param value
-     * @param url
-     * @return {string} url value with new param and value
-     */
-    private insertParamToUrl(key: string, value: string, url: string): string {
-        key = encodeURI(key);
-        value = encodeURI(value);
-
-        if (this.getUrlVars(url).size === 0) {
-            return url + '?' + key + '=' + value;
-        }
-
-        const kvp = url.split('&');
-
-        let i = kvp.length; let x; while (i--) {
-            x = kvp[i].split('=');
-
-            if (x[0] === key) {
-                x[1] = value;
-                kvp[i] = x.join('=');
-                break;
-            }
-        }
-
-        if (i < 0) { kvp[kvp.length] = [key, value].join('='); }
-
-        return kvp.join('&');
-    }
-
-    /**
-     * Get url vars
-     * @param url
-     * @return {Map} returns params
-     */
-    private getUrlVars(url: string) {
-        const vars: Map<string, string> = new Map();
-        let hash: string[];
-        const questionMarkIndex = url.indexOf('?');
-
-        if (questionMarkIndex > 1) {
-            const hashes = url.slice(questionMarkIndex + 1).split('&');
-
-            for (const iterator of hashes) {
-                hash = iterator.split('=');
-                vars.set(hash[0], hash[1]);
-            }
-        }
-
-        return vars;
-    }
-
 }

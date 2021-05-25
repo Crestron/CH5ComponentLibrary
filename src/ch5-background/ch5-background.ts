@@ -567,8 +567,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
             /*
                 1. STOP 
-                    a. Refill the background
-                    b. Draw a rectangle as a place holder for the video
+                    a. Remove the registered cut info from the array
+                    b. Refill the background
                 2. RESIZE
                     a. Refill the cut background 
                     b. Cut the background with new dimensions
@@ -589,29 +589,14 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                     }
                 }
             } else if (request.action === this.VIDEO_ACTION.STOP) {
-                if (this.isTimeToRefill(this.lastRefillTime)) {
-                    if (!this.isInViewport(request.id)) {
-                        this.refillBackground();
-                    }
-                }
                 this.manageVideoInfo(request);
-                // clearTimeout(this.lastClearCutBGTimeout);
-                // this.lastClearCutBGTimeout = setTimeout(() => {
-                this.videoBGAction();
-                // }, 300);
-            } else if (request.action === this.VIDEO_ACTION.STARTED || request.action === this.VIDEO_ACTION.SNAPSHOT ||
-                request.action === this.VIDEO_ACTION.MARK || request.action === this.VIDEO_ACTION.ERROR ||
-                request.action === this.VIDEO_ACTION.NOURL) {
+            } else if (request.action === this.VIDEO_ACTION.STARTED) {
                 this.manageVideoInfo(request);
-                if (request.action === this.VIDEO_ACTION.SNAPSHOT) {
-                    this.videoSnapShot = request.image;
-                }
                 this.videoBGAction();
             } else if (request.action === this.VIDEO_ACTION.RESIZE) {
+                this.manageVideoInfo(request);
                 this.refillBackground();
                 this.videoBGAction();
-            } else if (request.action === this.VIDEO_ACTION.STOPPED) {
-                this.manageVideoInfo(request);
             }
         }
     }
@@ -1021,16 +1006,15 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     private manageVideoInfo(response: IBACKGROUND) {
         const index = this._videoDimensions.findIndex((item: IBACKGROUND) => item.id === response.id);
-        if (response.action === this.VIDEO_ACTION.STARTED || response.action === this.VIDEO_ACTION.RESIZE ||
-            response.action === this.VIDEO_ACTION.MARK || response.action === this.VIDEO_ACTION.SNAPSHOT ||
-            response.action === this.VIDEO_ACTION.NOURL || response.action === this.VIDEO_ACTION.ERROR ||
-            response.action === this.VIDEO_ACTION.STOP) {
+        if (response.action === this.VIDEO_ACTION.STARTED || response.action === this.VIDEO_ACTION.RESIZE) {
             if (index > -1) {
                 this._videoDimensions[index] = response;
+                this.refillBackground();
             } else {
                 this._videoDimensions.push(response);
+                this.refillBackground();                
             }
-        } else if (response.action === this.VIDEO_ACTION.STOPPED) {
+        } else if (response.action === this.VIDEO_ACTION.STOP) {
             if (index >= 0) {
                 this._videoDimensions.splice(index, 1);
                 this.refillBackground();
