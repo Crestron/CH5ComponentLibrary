@@ -4,7 +4,6 @@
 // or natural, without the express written consent of Crestron Electronics.
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
-import { Ch5Common } from './ch5-common';
 
 export class Ch5CommonLog {
 

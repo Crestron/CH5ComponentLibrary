@@ -5,9 +5,16 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+export enum Ch5Alignments {
+  Left = 'left',
+  Right = 'right',
+  Center = 'center',
+  Justify = 'justify'
+}
+
 export type TCh5ButtonActionType = 'cancel' | 'submit';
 
-export type TCh5ButtonCheckboxPosition = 'left' | 'right';
+export type TCh5ButtonCheckboxPosition = 'left' | 'right'; // Ch5Alignments.Left | Ch5Alignments.Right;
 
 export type TCh5ButtonHorizontalAlignLabel = 'left' | 'right' | 'center' | 'justify';
 
@@ -21,6 +28,6 @@ export type TCh5ButtonSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-larg
 
 export type TCh5ButtonStretch = 'both' | 'width' | 'height';
 
-export type TCh5ButtonType = 'default' | 'primary' | 'info' | 'text' | 'danger'| 'warning'| 'success'| 'secondary';
+export type TCh5ButtonType = 'default' | 'primary' | 'info' | 'text' | 'danger' | 'warning' | 'success' | 'secondary';
 
-export type TCh5ButtonVerticalAlignLabel = 'start' | 'end' | 'center' | 'baseline' ;
+export type TCh5ButtonVerticalAlignLabel = 'start' | 'end' | 'center' | 'baseline';

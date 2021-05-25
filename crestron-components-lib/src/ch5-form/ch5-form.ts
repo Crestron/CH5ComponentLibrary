@@ -8,10 +8,9 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 import { Ch5Button } from "../ch5-button/ch5-button";
-import { ICh5FormAttributes } from "../_interfaces/ch5-form";
 import { TCh5ButtonType } from "../ch5-button/interfaces/t-ch5-button";
 import { isEmpty, isNil } from 'lodash';
-
+import { ICh5FormAttributes } from "./interfaces/i-ch5-form-attributes";
 
 export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 

@@ -8,11 +8,11 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
-import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
-import { ICh5ImageAttributes } from "../_interfaces/ch5-image/i-ch5-image-attributes";
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { isNil, isEmpty} from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { TCh5ProcessUriParams } from "../ch5-common/interfaces";
+import { ICh5ImageAttributes } from "./interfaces/i-ch5-image-attributes";
 
 export interface IShowStyle {
     visibility: string;

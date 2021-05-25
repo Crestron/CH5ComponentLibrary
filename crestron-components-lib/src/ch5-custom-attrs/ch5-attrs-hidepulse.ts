@@ -7,9 +7,7 @@
 
 import { Ch5AttrsLog } from './ch5-attrs-log';
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
-import { Ch5AttrShowTypes } from '../_interfaces/ch5-custom-attrs/types/ch5-attr-show-types';
-import { CustomAttribute } from '../_interfaces/ch5-custom-attrs/helpers/custom-attribute';
-import { ICh5AttrsShow } from '../_interfaces/ch5-custom-attrs/i-ch5-attrs-show';
+import { CustomAttribute, Ch5AttrShowTypes, ICh5AttrsShow } from './interfaces';
 
 export class Ch5AttrsHidePulse extends CustomAttribute<Ch5AttrShowTypes> implements ICh5AttrsShow {
 

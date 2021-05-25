@@ -9,9 +9,9 @@ import isNil from "lodash/isNil";
 import isUndefined from "lodash/isUndefined";
 import { ICh5ListItemInfo, Ch5List } from "./ch5-list";
 import { Ch5ListAbstractHelper } from "./ch5-list-abstract-helper";
-import { TCh5ListElementOrientation } from "../_interfaces/ch5-list/types";
 import { Ch5Animation, TAnimationCallback } from "./animation/ch5-animation";
 import { Ch5Common } from "../ch5-common/ch5-common";
+import { TCh5ListElementOrientation } from "./interfaces/t-ch5-list";
 
 // horizontal % needed to trigger swipe
 export const defaultTransitionDuration = 0;

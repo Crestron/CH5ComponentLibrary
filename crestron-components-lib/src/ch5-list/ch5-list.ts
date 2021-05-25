@@ -10,7 +10,7 @@ import { Ch5Common } from '../ch5-common/ch5-common';
 import 'hammerjs';
 import { Ch5ListLog } from './ch5-list-log';
 import { noop } from '../ch5-common/utils/noop';
-import { TCh5ListElementOrientation } from '../_interfaces/ch5-list/types';
+import { TCh5ListElementOrientation } from "./interfaces";
 import { Ch5Config } from '..';
 import { clamp } from '../ch5-triggerview/utils';
 import { Ch5ListTemplate } from './ch5-list-template';
@@ -19,7 +19,7 @@ import { Ch5ListSignalManager, SignalSubscriptionCallback } from './ch5-list-sig
 import { Ch5ListAnimation } from './ch5-list-animation';
 import { Ch5ListBufferedItems, ICh5ListBufferedItems } from './ch5-list-buffered-items';
 import { Ch5AnimationFactory } from './animation/ch5-animation-factory';
-import { ICh5ListAttributes } from '../_interfaces/ch5-list';
+import { ICh5ListAttributes } from "./interfaces";
 import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
 import { subscribeInViewPortChange } from '../ch5-core';
 

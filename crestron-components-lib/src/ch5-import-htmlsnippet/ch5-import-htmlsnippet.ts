@@ -8,7 +8,7 @@
 import isNil from 'lodash/isNil';
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
-import { ICh5ImportHtmlSnippetAttributes } from "../_interfaces/ch5-import-htmlsnippet/i-ch5-import-htmlsnippet-attributes";
+import { ICh5ImportHtmlSnippetAttributes } from './interfaces/i-ch5-import-htmlsnippet-attributes';
 
 /**
  * HTML ATTRIBUTES

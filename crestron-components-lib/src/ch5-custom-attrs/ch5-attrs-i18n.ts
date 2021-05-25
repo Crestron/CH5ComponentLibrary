@@ -7,11 +7,9 @@
 
 import { Ch5AttrsLog } from './ch5-attrs-log';
 import { CH5_I18N_ATTRIBUTE_CONSTANT } from './utils/ch5-attrs-constants';
-import { ICh5AttrsI18n } from '../_interfaces/ch5-custom-attrs/i-ch5-attrs-i18n';
 import { randomFixedInteger } from './utils/ch5-attrs-utility';
-import { SavedElementInfo, SubAtrribute } from '../_interfaces/ch5-custom-attrs/types/ch5-attr-i18n-types'
-import { CustomAttribute } from '../_interfaces/ch5-custom-attrs/helpers/custom-attribute';
 import { Ch5TranslationUtility } from "../ch5-core/ch5-translation-utility";
+import { CustomAttribute, ICh5AttrsI18n, SavedElementInfo, SubAtrribute } from './interfaces';
 
 export class Ch5AttrsI18n extends CustomAttribute<string> implements ICh5AttrsI18n {
     public static DATA_CH5_ATTR_NAME: string = CH5_I18N_ATTRIBUTE_CONSTANT.dataCh5AttrName;

@@ -7,9 +7,9 @@
 
 import { subscribeState, unsubscribeState } from "../ch5-core";
 import { TSnapShotSignalName } from "../_interfaces/ch5-video/types";
-import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import _ from "lodash";
+import { TCh5ProcessUriParams } from "../ch5-common/interfaces";
 
 export class Ch5VideoSnapshot {
     private snapShotImage: any;

@@ -14,7 +14,7 @@ import { Ch5Common } from '../ch5-common/ch5-common';
 import { TAnimateCallback } from './ch5-list-animation';
 import { debounce, IDebouncerDetails } from '../ch5-core/utility-functions/debounce';
 import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
-import { TCh5ListElementOrientation } from '../_interfaces/ch5-list/types';
+import { TCh5ListElementOrientation } from "./interfaces";
 import { elementAt } from 'rxjs/operators';
 
 export interface ICh5ListStylesheet {

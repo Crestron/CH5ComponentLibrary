@@ -8,7 +8,7 @@
 
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5TemplateStructure } from "./ch5-template-structure";
-import { ICh5TemplateAttributes } from "../_interfaces/ch5-template/i-ch5-template-attributes";
+import { ICh5TemplateAttributes } from "./interfaces/i-ch5-template-attributes";
 
 export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 

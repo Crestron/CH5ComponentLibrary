@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import 'jsdom-global/register';
 import { describe } from 'mocha';
 import { Ch5List } from './ch5-list';
-import { TCh5ListElementOrientation } from '../_interfaces/ch5-list/types';
+import { TCh5ListElementOrientation } from "./interfaces";
 
 describe('Ch5List', () => {
 

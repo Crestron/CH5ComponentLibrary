@@ -11,14 +11,13 @@ import { Ch5SpinnerTemplate } from "./ch5-spinner-template";
 import { Ch5SpinnerMutationObserver } from "./ch5-spinner-mutation-observer";
 import { Ch5SpinnerScroll } from "./ch5-spinner-scroll";
 import { Ch5SpinnerEvents } from "./ch5-spinner-events";
-import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 
-import { TCh5CommonInputFeedbackModes } from '../_interfaces/ch5-common-input/types';
-import { TCh5SpinnerIconPosition } from '../_interfaces/ch5-spinner/types';
 import HtmlCallback from "../ch5-common/utils/html-callback";
-import { ICh5SpinnerAttributes } from '../_interfaces/ch5-spinner';
-import { Ch5MutationObserver } from '../ch5-common/ch5-mutation-observer';
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { ICh5SpinnerAttributes } from './interfaces/i-ch5-spinner-attributes';
+import { TCh5CommonInputFeedbackModes } from '../ch5-common-input/interfaces/t-ch5-common-input';
+import { TCh5SpinnerIconPosition } from './interfaces';
 
 export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 

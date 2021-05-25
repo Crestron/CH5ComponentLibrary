@@ -18,15 +18,13 @@ import {
 } from '../ch5-core';
 
 import { Subject } from 'rxjs';
-import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
-import { TCh5ShowType } from '../_interfaces/ch5-common/types/t-ch5-show-type';
-import { ICh5CommonAttributes } from '../_interfaces/ch5-common/i-ch5-common-attributes';
 import { Ch5Config } from './ch5-config';
 import { Ch5MutationObserver } from './ch5-mutation-observer';
 import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import { Ch5CommonLog } from './ch5-common-log';
+import { ICh5CommonAttributes, TCh5ShowType, TCh5ProcessUriParams } from './interfaces';
 
 export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 

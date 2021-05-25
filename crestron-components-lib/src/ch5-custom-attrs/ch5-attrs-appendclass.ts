@@ -7,8 +7,8 @@
 
 import {Ch5AttrsLog} from './ch5-attrs-log';
 import {Ch5Signal, Ch5SignalFactory} from "../ch5-core";
-import {ICh5AttrsAppendclass} from '../_interfaces/ch5-custom-attrs/i-ch5-attrs-appendclass';
-import { CustomAttribute } from '../_interfaces/ch5-custom-attrs/helpers/custom-attribute';
+import { CustomAttribute, ICh5AttrsAppendclass } from './interfaces';
+
 /**
  * TODO: Ch5AttrsTextContent, Ch5AttrsInnerhtml, Ch5AttrsAppendstyle, Ch5AttrsAppendclass are very similar.
  * Extract common functionality in a new class that is is extended by these classes (future task)
