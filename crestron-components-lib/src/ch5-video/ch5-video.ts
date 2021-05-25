@@ -7,11 +7,11 @@
 
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState } from "../ch5-core";
-import { ICh5VideoAttributes } from "../_interfaces/ch5-video/i-ch5-video-attributes";
-import { iTouchOrdinates, TVideoResponse, TDimension, TPosDimension, TReceiveState, TSnapShotSignalName, TVideoTouchManagerParams } from "../_interfaces/ch5-video/types";
+import { ICh5VideoAttributes } from "./interfaces/i-ch5-video-attributes";
+import { iTouchOrdinates, TVideoResponse, TDimension, TPosDimension, TReceiveState, TSnapShotSignalName, TVideoTouchManagerParams } from "./interfaces/types";
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
-import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5-video-publish-event-request';
+import { IPUBLISHEVENT, IBACKGROUND } from './interfaces/types/t-ch5-video-publish-event-request';
 import { Subscription } from "rxjs";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
@@ -1987,7 +1987,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         if (this.maxVideoCount) {
             for (let idx = 0; idx < this.maxVideoCount; idx++) {
                 const sData: Ch5VideoSnapshot = this.snapShotMap.get(idx);
-                sData.stopLoadingSnapShot();
+                if (sData) {
+                    sData.stopLoadingSnapShot();
+                }
             }
         }
     }

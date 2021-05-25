@@ -1,5 +1,5 @@
 import { getAspectRatio } from "../ch5-common/utils/viewport";
-import { TPosDimension, TDimension, iElementDimensions } from "../_interfaces/ch5-video/types";
+import { TPosDimension, TDimension, iElementDimensions } from "./interfaces/types";
 
 export class CH5VideoUtils {
 

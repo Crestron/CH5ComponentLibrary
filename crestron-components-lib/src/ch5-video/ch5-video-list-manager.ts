@@ -1,4 +1,4 @@
-import { iCh5VideoCollection, iCh5VideoListMgr, iCh5VideoRef } from '../_interfaces/ch5-video/types';
+import { iCh5VideoCollection, iCh5VideoListMgr, iCh5VideoRef } from './interfaces/types';
 import './i-ch5-video.d.ts';
 
 declare var window: any;
