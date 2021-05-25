@@ -1,7 +1,32 @@
 import { getAspectRatio } from "../ch5-common/utils/viewport";
-import { TDimension, iElementDimensions } from "../_interfaces/ch5-video/types";
+import { TPosDimension, TDimension, iElementDimensions } from "../_interfaces/ch5-video/types";
 
 export class CH5VideoUtils {
+
+    /**
+     * Calculate the fullscreen landscape or potrait positons
+     * @param aspectRatio Pass the aspect ratio
+     * @returns {TPosDimension} returns calculated dimensions
+     */
+    public static getFullScreenDimensions(aspectRatio: string, width: number, height: number): TPosDimension {
+        let sizeObj: TDimension = {} as TDimension;
+        let position: { xPos: number, yPos: number } = { xPos: 0, yPos: 0 };
+        const fullScreenObj: TPosDimension = {} as TPosDimension;
+
+        sizeObj = CH5VideoUtils.getDisplayWxH(aspectRatio, width, height);
+        if (sizeObj.width < width) {
+            position = CH5VideoUtils.calculatePillarBoxPadding(width, sizeObj.width);
+        } else if (sizeObj.height < height) {
+            position = CH5VideoUtils.calculateLetterBoxPadding(height, sizeObj.height);
+        }
+
+        fullScreenObj.width = sizeObj.width;
+        fullScreenObj.height = sizeObj.height;
+        fullScreenObj.posX = position.xPos;
+        fullScreenObj.posY = position.yPos;
+
+        return fullScreenObj;
+    }
 
     /**
      * Function to calculate the position based on the fixed size like small, large, medium
@@ -112,13 +137,7 @@ export class CH5VideoUtils {
      */
     public static rfc3339TimeStamp = () => {
         const d = new Date();
-        return d.getFullYear() + "-" +
-            CH5VideoUtils.pad(d.getMonth() + 1) + "-" +
-            CH5VideoUtils.pad(d.getDate()) + "T" +
-            CH5VideoUtils.pad(d.getHours()) + ":" +
-            CH5VideoUtils.pad(d.getMinutes()) + ":" +
-            CH5VideoUtils.pad(d.getSeconds()) +
-            CH5VideoUtils.timezoneOffset(d.getTimezoneOffset());
+        return (d.getTime() / 1000.0); // epoch time
     }
 
     /**
@@ -220,6 +239,17 @@ export class CH5VideoUtils {
         const xPos: number = 0;
         const yPos: number = Math.round((availableHeight - displayHeight) / 2);
         return { xPos, yPos };
+    }
+
+    /**
+     * 
+     * @returns Function to get the position of the current video element w.r.t the viewport
+     */
+    public static getVideoElementOffset(el: HTMLElement) {
+        const rect = el.getBoundingClientRect();
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
     }
 
 }
