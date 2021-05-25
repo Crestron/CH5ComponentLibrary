@@ -1099,16 +1099,17 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
         if (this.children && this.children.length > 0) {
-            for (const childButtonElement of this.children) {
-                if (childButtonElement.nodeName.toString().toLowerCase() === "ch5-button-label") {
-                    const templateData = childButtonElement.children[0];
+            for (let i: number = 0; i < this.children.length; i++) {
+                const newChild = this.children[i];
+                if (newChild .nodeName.toString().toLowerCase() === "ch5-button-label") {
+                    const templateData = newChild.children[0];
                     if (templateData && templateData.nodeName.toString().toLowerCase() === "template") {
                         // this.info("templateData.innerHTML", templateData.innerHTML);
                         // this.setAttribute('label', templateData.innerHTML);
                         this._elLabel.innerHTML = templateData.innerHTML;
                         // break;
                     }
-                } else if (childButtonElement.nodeName.toString().toLowerCase() === "ch5-button-mode") {
+                } else if (newChild.nodeName.toString().toLowerCase() === "ch5-button-mode") {
                     // const templateData: Ch5ButtonMode = this.children[i].children[0];
                     // this._childButtonModes.push(templateData);
                     const optionTemplate = this.getElementsByTagName('ch5-button-mode')[0] as HTMLElement;
