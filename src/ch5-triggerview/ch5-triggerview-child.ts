@@ -6,12 +6,11 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { TCh5ShowType } from "../_interfaces/ch5-common/types/t-ch5-show-type";
 import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
 import { Ch5TriggerView } from "./ch5-triggerview";
-import { ICh5TriggerViewChild } from "../_interfaces/ch5-triggerview/i-ch5-triggerview-child";
 import _ from "lodash";
-import { ICh5TriggerViewChildAttributes } from "../_interfaces/ch5-triggerview";
+import { TCh5ShowType } from "../ch5-common/interfaces";
+import { ICh5TriggerViewChildAttributes } from "./interfaces/i-ch5-triggerview-child-attributes";
 
 const _parentTriggerviewNodeName = 'CH5-TRIGGERVIEW';
 

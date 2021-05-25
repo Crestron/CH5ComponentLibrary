@@ -6,8 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5ButtonAttributes } from "./i-ch5-button-attributes";
-import { ICh5Common } from "../../_interfaces/ch5-common";
-import { TBoolAttribute } from "../../_interfaces/ch5-common/types/t-bool-attribute";
+import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
  * @ignore

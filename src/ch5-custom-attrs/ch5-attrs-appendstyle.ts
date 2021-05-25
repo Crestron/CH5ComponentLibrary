@@ -7,9 +7,7 @@
 
 import {Ch5AttrsLog} from './ch5-attrs-log';
 import {Ch5Signal, Ch5SignalFactory} from "../ch5-core";
-
-import {ICh5AttrsAppendstyle} from '../_interfaces/ch5-custom-attrs/i-ch5-attrs-appendstyle';
-import { CustomAttribute } from '../_interfaces/ch5-custom-attrs/helpers/custom-attribute';
+import { CustomAttribute, ICh5AttrsAppendstyle } from './interfaces';
 
 /**
  * TODO: Ch5AttrsTextContent, Ch5AttrsInnerhtml, Ch5AttrsAppendstyle, Ch5AttrsAppendslass are very similar.

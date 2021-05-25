@@ -7,7 +7,7 @@
 
 import _ from 'lodash';
 import { Ch5Animation, TAnimationCallback } from "./ch5-animation";
-import { TCh5ListElementOrientation } from "../../_interfaces/ch5-list/types";
+import { TCh5ListElementOrientation } from '../interfaces/t-ch5-list';
 import { Ch5List } from "../ch5-list";
 
 type Animation = {};

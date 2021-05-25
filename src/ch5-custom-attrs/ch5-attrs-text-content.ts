@@ -7,10 +7,8 @@
 
 import { Ch5AttrsLog } from './ch5-attrs-log';
 import {Ch5Signal, Ch5SignalFactory} from "../ch5-core";
-import { ICh5AttrsTextContent } from '../_interfaces/ch5-custom-attrs/i-ch5-attrs-text-content';
-import { CustomAttribute } from '../_interfaces/ch5-custom-attrs/helpers/custom-attribute';
-
 import {Ch5TranslationUtility} from "../ch5-core/ch5-translation-utility";
+import { CustomAttribute, ICh5AttrsTextContent } from './interfaces';
 
 export class Ch5AttrsTextContent extends CustomAttribute<string> implements ICh5AttrsTextContent {
 

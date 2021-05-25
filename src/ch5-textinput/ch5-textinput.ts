@@ -6,21 +6,15 @@
 // under which you licensed this source code.
 
 import _ from "lodash";
-import {Ch5CommonInput} from "../ch5-common-input/ch5-common-input";
-import {Ch5Signal, Ch5SignalFactory} from "../ch5-core";
-import {Ch5TextInputScaling} from "./ch5-textinput-scaling";
-import {Ch5tTextInputMask} from "./ch5-textinput-mask";
-import {Ch5Common} from "../ch5-common/ch5-common";
-
-import {TCh5TextInputType} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-type';
-import {TCh5TextInputTextTransform} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-text-transform';
-import {TCh5TextInputStretch} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-stretch';
-import {TCh5TextInputSize} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-size';
-import {TCh5TextInputIconPosition} from '../_interfaces/ch5-textinput/types/t-ch5-textinput-icon-position';
-import {TCh5CommonInputFeedbackModes} from '../_interfaces/ch5-common-input/types';
+import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
+import { Ch5TextInputScaling } from "./ch5-textinput-scaling";
+import { Ch5tTextInputMask } from "./ch5-textinput-mask";
+import { Ch5Common } from "../ch5-common/ch5-common";
 import HtmlCallback from "../ch5-common/utils/html-callback";
-import {ICh5TextInputAttributes} from "../_interfaces/ch5-textinput";
-import {Ch5RoleAttributeMapping} from "../utility-models";
+import { Ch5RoleAttributeMapping } from "../utility-models";
+import { TCh5CommonInputFeedbackModes } from "../ch5-common-input/interfaces/t-ch5-common-input";
+import { ICh5TextInputAttributes, TCh5TextInputIconPosition, TCh5TextInputSize, TCh5TextInputStretch, TCh5TextInputTextTransform, TCh5TextInputType } from "./interfaces";
 
 export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttributes {
 
@@ -484,7 +478,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      * @static
      * @return {Array.<String>}
      */
-    public static get observedAttributes(){
+    public static get observedAttributes() {
 
         const superAttributes = Ch5CommonInput.observedAttributes;
         const commonAttributes = Ch5Common.observedAttributes;
@@ -770,7 +764,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      *
      * @param {string} placeholder
      */
-    public set placeholder(placeholder:string) {
+    public set placeholder(placeholder: string) {
 
         let _placeholder = placeholder;
         this.info("set <ch5-textinput placeholder='" + placeholder + "'/>");
@@ -1010,7 +1004,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         if (
             this.minValue &&
             (minValue === undefined || minValue === null)
-        ){
+        ) {
             minValue = 0;
         }
 
@@ -1116,8 +1110,8 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
         if (
             this.textTransform !== style &&
-           (style === undefined || style === null)
-        ){
+            (style === undefined || style === null)
+        ) {
             style = 'none';
         }
 
@@ -1205,7 +1199,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             this.pattern !== value &&
             (value === undefined || value === null)
         ) {
-           value = '';
+            value = '';
         }
 
         this._pattern = value;
@@ -1338,7 +1332,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             || this._receiveStateFocus === value
             || null === value
             || undefined === value) {
-          return;
+            return;
         }
 
         // remove old subcription, if exist
@@ -1468,7 +1462,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         this.info('set <ch5-textinput dirtycustomevent />');
 
         if (this.dirtyCustomEvent !== inEvent) {
-            if (inEvent !== undefined && inEvent !== null){
+            if (inEvent !== undefined && inEvent !== null) {
                 this._dirtyCustomEvent = inEvent;
             }
         }
@@ -1570,7 +1564,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         }
 
         this._mask = mask;
-        this._elInput.setAttribute('mask',this.mask);
+        this._elInput.setAttribute('mask', this.mask);
         this._maskInit();
 
         if (this.hasAttribute('placeholder')) {
@@ -1607,7 +1601,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
         size = Ch5Textinput.SIZES[_sizeIndex];
 
-        if (this.size !== size){
+        if (this.size !== size) {
 
             if (size === undefined || size === null) {
                 size = 'regular';
@@ -1720,7 +1714,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             callback = {} as HtmlCallback;
         }
 
-        if (callback instanceof HtmlCallback  && this.onvaliditychange instanceof Function) {
+        if (callback instanceof HtmlCallback && this.onvaliditychange instanceof Function) {
             return;
         }
 
@@ -1887,8 +1881,8 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
     public getValid(): boolean {
 
         return this._elInput.validity.valid &&
-                !this._elInput.validity.tooLong &&
-                !this._elInput.validity.tooShort;
+            !this._elInput.validity.tooLong &&
+            !this._elInput.validity.tooShort;
     }
 
     public _onKeyPress(inEvent: Event) {
@@ -1966,8 +1960,8 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             (this.sendEventOnFocus !== undefined || this.sendEventOnFocus !== null)
         ) {
             sigClick = Ch5SignalFactory
-            .getInstance()
-            .getBooleanSignal(this.sendEventOnFocus);
+                .getInstance()
+                .getBooleanSignal(this.sendEventOnFocus);
 
             if (sigClick !== null) {
                 sigClick.publish(true);
@@ -2100,7 +2094,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             this._elIcon.remove();
         }
 
-        if (this.iconPosition === Ch5Textinput.ICONPOSITION[1]){
+        if (this.iconPosition === Ch5Textinput.ICONPOSITION[1]) {
             this._assetsWrapper.appendChild(this._elIcon);
         } else {
             (this._elInput.parentNode as HTMLElement).insertBefore(

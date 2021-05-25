@@ -20,13 +20,12 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Config } from "../ch5-common/ch5-config";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5SelectOption } from "../ch5-select-option";
-import { TCh5SelectIconPosition, TCh5SelectMode } from "../_interfaces/ch5-select/types";
-import { TCh5CommonInputFeedbackModes } from "../_interfaces/ch5-common-input/types/t-ch5-common-input-feedback-modes";
 import HtmlCallback from "../ch5-common/utils/html-callback";
-import { ICh5SelectAttributes } from "../_interfaces/ch5-select/i-ch5-select-attributes";
 import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { isNil } from "lodash";
+import { TCh5CommonInputFeedbackModes } from "../ch5-common-input/interfaces/t-ch5-common-input";
+import { ICh5SelectAttributes, TCh5SelectMode, TCh5SelectIconPosition } from "./interfaces";
 
 export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 

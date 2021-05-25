@@ -8,16 +8,11 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
 import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
-import { ICh5ToggleAttributes } from "../_interfaces/ch5-toggle/i-ch5-toggle-attributes";
 
-import {
-    TCh5ToggleFeedbackMode,
-    TCh5ToggleOrientation,
-    TCh5ToggleShape
-} from '../_interfaces/ch5-toggle/types';
 import HtmlCallback from "../ch5-common/utils/html-callback";
 import { Ch5MutationObserver } from "../ch5-common/ch5-mutation-observer";
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { ICh5ToggleAttributes, TCh5ToggleShape, TCh5ToggleOrientation, TCh5ToggleFeedbackMode } from "./interfaces";
 
 export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 

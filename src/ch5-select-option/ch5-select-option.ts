@@ -10,8 +10,8 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
 import { Ch5Select } from "../ch5-select/ch5-select";
 import { Ch5Toggle } from "../ch5-toggle/ch5-toggle";
-import { ICh5SelectOptionAttributes } from "../_interfaces/ch5-select-option/i-ch5-select-option-attributes";
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { ICh5SelectOptionAttributes } from "./interfaces/i-ch5-select-option-attributes";
 
 export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttributes {
 

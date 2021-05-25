@@ -8,16 +8,10 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5OverlayPanel,} from "../ch5-overlay-panel/index";
 import { Ch5Signal, Ch5SignalFactory, Ch5TranslationUtility } from "../ch5-core/index";
-import {
-    TCh5OverlayPanelPositionOffset,
-    TCh5OverlayPanelStretch,
-    TCh5OverlayPanelOverflow
-} from "../_interfaces/ch5-overlay-panel/types";
-import { ICh5ModalDialog } from "../_interfaces/ch5-modal-dialog/i-ch5-modal-dialog";
 import { Ch5MutationObserver } from "../ch5-common/ch5-mutation-observer";
-import { ICh5ModalDialogAttributes } from "../_interfaces/ch5-modal-dialog";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Button } from "../ch5-button/ch5-button";
+import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attributes";
 
 /**
  * Html Attributes

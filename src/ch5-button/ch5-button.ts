@@ -19,7 +19,8 @@ import {
     TCh5ButtonActionType,
     TCh5ButtonCheckboxPosition,
     TCh5ButtonHorizontalAlignLabel,
-    TCh5ButtonVerticalAlignLabel
+    TCh5ButtonVerticalAlignLabel,
+    Ch5Alignments
 } from './interfaces/t-ch5-button';
 
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
@@ -30,6 +31,7 @@ import { Ch5ButtonPressInfo } from "./ch5-button-pressinfo";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
+import { Ch5ButtonMode } from "./ch5-button-mode";
 
 /**
  * Html Attributes
@@ -117,7 +119,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     /**
      * The first value is considered the default one
      */
-    private readonly CHECKBOX_POSITIONS: TCh5ButtonCheckboxPosition[] = ['left', 'right'];
+    private readonly CHECKBOX_POSITIONS: TCh5ButtonCheckboxPosition[] = ['left', 'right']; // this.getAllCheckboxPositions() // ['left', 'right'];
 
     /**
      * The first value is considered the default one
@@ -218,7 +220,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      *
      * HTML attribute name: iconPosition or iconposition
      */
-    private _checkboxPosition: TCh5ButtonCheckboxPosition = 'left';
+    private _checkboxPosition: TCh5ButtonCheckboxPosition = "left"; // Ch5Alignments.Left;
 
     /**
      * Reflects the checkbox display part of the component. If set to true, a checkbox is displayed and a CSS class named 'ch5-button__checkbox' will be applied
@@ -458,6 +460,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     private allowPressTimeout: number = 0;
 
     private isTouch: boolean = false;
+
+    private _childButtonModes: Ch5ButtonMode[] = [];
 
     //#endregion
 
@@ -1022,8 +1026,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
         // setup new subscription.
         const receiveLabelSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateType);
-        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(receiveLabelSigName);
+        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveLabelSigName);
 
         if (receiveSignal === null) {
             return;
@@ -1042,6 +1045,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
     public get subReceiveSignalType(): string | null {
         return this._subReceiveSignalType;
+    }
+
+    private getChildButtonModes(): Ch5ButtonMode[] {
+        return this._childButtonModes;
     }
 
     //#endregion
@@ -1092,14 +1099,21 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
         if (this.children && this.children.length > 0) {
-            for (let i:number = 0; i < this.children.length; i++) {
-                if (this.children[i].nodeName.toString().toLowerCase() === "ch5-button-label") {
-                    const templateData = this.children[i].children[0];
+            for (const childButtonElement of this.children) {
+                if (childButtonElement.nodeName.toString().toLowerCase() === "ch5-button-label") {
+                    const templateData = childButtonElement.children[0];
                     if (templateData && templateData.nodeName.toString().toLowerCase() === "template") {
                         // this.info("templateData.innerHTML", templateData.innerHTML);
                         // this.setAttribute('label', templateData.innerHTML);
                         this._elLabel.innerHTML = templateData.innerHTML;
-                        break;
+                        // break;
+                    }
+                } else if (childButtonElement.nodeName.toString().toLowerCase() === "ch5-button-mode") {
+                    // const templateData: Ch5ButtonMode = this.children[i].children[0];
+                    // this._childButtonModes.push(templateData);
+                    const optionTemplate = this.getElementsByTagName('ch5-button-mode')[0] as HTMLElement;
+                    if (optionTemplate && optionTemplate.innerHTML && optionTemplate.innerHTML.length > 0) {
+                        this.info("optionTemplate.innerHTML", optionTemplate.innerHTML);
                     }
                 }
             }
@@ -2378,6 +2392,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }, this.DEBOUNCE_PRESS_TIME) as never as number;
     }
 
+    // private getAllCheckboxPositions(): TCh5ButtonCheckboxPosition[] {
+    //    const output:TCh5ButtonCheckboxPosition[] = [];
+    //     Object.keys(Ch5Alignments).forEach(key => {
+    //         output.push(Ch5Alignments[key]);
+    //     });
+    //     return output;
+    // }
     //#endregion
 
 }

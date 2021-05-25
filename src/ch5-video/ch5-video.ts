@@ -12,7 +12,6 @@ import { iElementDimensions, iTouchOrdinates, TDimension, TReceiveState, TSnapSh
 import { publishEvent } from '../ch5-core/utility-functions/publish-signal';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { IPUBLISHEVENT, IBACKGROUND } from '../_interfaces/ch5-video/types/t-ch5-video-publish-event-request';
-import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
 import { Subscription } from "rxjs";
 import { Ch5VideoSubscription } from "./ch5-video-subscription";
 import { Ch5VideoSnapshot } from "./ch5-video-snapshot";
@@ -21,6 +20,7 @@ import { getScrollableParent } from "../ch5-core/get-scrollable-parent";
 import isNil from "lodash/isNil";
 import _ from "lodash";
 import { CH5VideoUtils } from "./ch5-video-utils";
+import { TCh5ProcessUriParams } from "../ch5-common/interfaces/t-ch5-common";
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 export type TSignalTypeT = string | number | boolean | any;

@@ -12,8 +12,8 @@ import {Ch5Signal, Ch5SignalFactory, subscribeInViewPortChange} from "../ch5-cor
 import {Ch5TriggerViewChild} from "./ch5-triggerview-child";
 import {Ch5TriggerViewSlidesManager} from "./ch5-triggerview-slides-manager";
 import { isNil } from 'lodash';
-import { ICh5TriggerviewAttributes } from "../_interfaces/ch5-triggerview";
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { ICh5TriggerviewAttributes } from './interfaces/i-ch5-triggerview-attributes';
 
 export type TactiveViewCallback = () => {};
 
