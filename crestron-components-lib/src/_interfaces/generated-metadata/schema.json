@@ -295,65 +295,6 @@
           },
           {
             "documentation": [
-              "`class` attribute",
-              "***",
-              "This is a standard class HTML attribute."
-            ],
-            "value": [],
-            "name": "class",
-            "default": null
-          },
-          {
-            "documentation": [
-              "`style` attribute",
-              "***",
-              "This is a standard style HTML attribute."
-            ],
-            "value": [],
-            "name": "style",
-            "default": null
-          },
-          {
-            "documentation": [
-              "`role` attribute",
-              "***",
-              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
-              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
-              "The default value for this ch5-component can be overridden via this attribute."
-            ],
-            "value": [],
-            "name": "role",
-            "default": null
-          },
-          {
-            "documentation": [
-              "`debug` attribute",
-              "***",
-              "The default value is false. Used to get useful developer-related information about component behavior."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "debug",
-            "default": null
-          },
-          {
-            "documentation": [
-              "`disabled` attribute",
-              "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners ",
-              "to reflect a disabled state when true."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "disabled",
-            "default": null
-          },
-          {
-            "documentation": [
               "`size` attribute",
               "***",
               "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
@@ -428,6 +369,21 @@
               "true"
             ],
             "name": "checkboxShow",
+            "default": "false"
+          },
+          {
+            "documentation": [
+              "`checkboxPosition` attribute",
+              "***",
+              "The default value is false.",
+              "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
+              "'ch5-button__checkbox' will be applied as the CSS class on the component."
+            ],
+            "value": [
+              "left",
+              "right"
+            ],
+            "name": "checkboxPosition",
             "default": "false"
           },
           {
@@ -507,6 +463,52 @@
             ],
             "name": "type",
             "default": "default"
+          },
+          {
+            "documentation": [
+              "`hAlignLabel` attribute",
+              "***",
+              "Valid values: 'width', 'height', 'both'.",
+              "When the stretch property is set, the button element inherits the ",
+              "width and/or height of the container. If stretch=height is used, ",
+              "the button will be responsive based on the label length until it ",
+              "reaches the max-width of the container. If stretch=width is ",
+              "applied, there is no responsiveness after reaching the max-width, and ",
+              "the text will overflow. The same applies if stretch=both is used. Note ",
+              "that if the button element shape is 'circle' or 'oval', the stretch ",
+              "property will be ignored."
+            ],
+            "value": [
+              "left",
+              "right",
+              "center",
+              "justify"
+            ],
+            "name": "hAlignLabel",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`vAlignLabel` attribute",
+              "***",
+              "Valid values: 'width', 'height', 'both'.",
+              "When the stretch property is set, the button element inherits the ",
+              "width and/or height of the container. If stretch=height is used, ",
+              "the button will be responsive based on the label length until it ",
+              "reaches the max-width of the container. If stretch=width is ",
+              "applied, there is no responsiveness after reaching the max-width, and ",
+              "the text will overflow. The same applies if stretch=both is used. Note ",
+              "that if the button element shape is 'circle' or 'oval', the stretch ",
+              "property will be ignored."
+            ],
+            "value": [
+              "start",
+              "end",
+              "center",
+              "baseline"
+            ],
+            "name": "vAlignLabel",
+            "default": null
           },
           {
             "documentation": [
@@ -634,26 +636,6 @@
           },
           {
             "documentation": [
-              "`onpress` attribute",
-              "***",
-              "Runs when a press event is initiated."
-            ],
-            "value": [],
-            "name": "onpress",
-            "default": null
-          },
-          {
-            "documentation": [
-              "`onrelease` attribute",
-              "***",
-              "Runs when a release event is initiated."
-            ],
-            "value": [],
-            "name": "onrelease",
-            "default": null
-          },
-          {
-            "documentation": [
               "`selected` attribute",
               "***",
               "The default value is false.",
@@ -666,16 +648,6 @@
             ],
             "name": "selected",
             "default": "false"
-          },
-          {
-            "documentation": [
-              "`customclassselected` attribute",
-              "***",
-              "Specifies a custom class for the selected state of the button."
-            ],
-            "value": [],
-            "name": "customclassselected",
-            "default": null
           }
         ],
         "documentation": [
@@ -2485,7 +2457,7 @@
             "documentation": [
               "`closable` attribute",
               "***",
-              "The default value is 'false'. If true, shows a close icon on the corner of the panel. If fales, ",
+              "The default value is 'false'. If true, shows a close icon on the corner of the panel. If false, ",
               "the close icon is not shown."
             ],
             "value": [
@@ -8569,7 +8541,7 @@
             "prefix": "ch5-video:default",
             "description": "Provides a view onto a streaming video window. Components that are to reside above the video that need to be visible and active, examples include buttons to control playback, text describing the video, and annotation controls, need to be defined as children elements to this component.",
             "body": [
-              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9}\" size=\"${3:large}\" sourcetype=\"${4:Network}\" userid=\"${5}\" snapshotuserid=\"${6}\" password=\"${7}\" snapshotpassword=\"${8}\" snapshoturl=\"${9}\" url=\"${10}\" stretch=\"${11:false}\" zindex=\"${12:0}\" snapshotrefreshrate=\"${13:0}\">",
+              "<ch5-video aspectratio=\"${1:16:9}\" size=\"${2:large}\" sourcetype=\"${3:Network}\" userid=\"${4}\" snapshotuserid=\"${5}\" password=\"${6}\" snapshotpassword=\"${7}\" snapshoturl=\"${8}\" url=\"${9}\" stretch=\"${10:false}\" zindex=\"${11:0}\" snapshotrefreshrate=\"${12:60}\">",
               "</ch5-video>$0"
             ]
           },
@@ -8577,7 +8549,7 @@
             "prefix": "ch5-video:all-attributes",
             "description": "Provides a view onto a streaming video window. Components that are to reside above the video that need to be visible and active, examples include buttons to control playback, text describing the video, and annotation controls, need to be defined as children elements to this component.",
             "body": [
-              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9}\" size=\"${3:large}\" sourcetype=\"${4:Network}\" userid=\"${5}\" snapshotuserid=\"${6}\" password=\"${7}\" snapshotpassword=\"${8}\" snapshoturl=\"${9}\" url=\"${10}\" stretch=\"${11:false}\" zindex=\"${12:0}\" snapshotrefreshrate=\"${13:0}\" receivestatesourcetype=\"${14}\" receivestateuserid=\"${15}\" receivestatepassword=\"${16}\" receivestatesnapshoturl=\"${17}\" receivestatesnapshotrefreshrate=\"${18}\" receivestatesnapshotuserid=\"${19}\" receivestatesnapshotpassword=\"${20}\" receivestateplay=\"${21}\" receivestateselect=\"${22}\" receivestateurl=\"${23}\" receivestatevideocount=\"${24}\" sendeventonclick=\"${25}\" sendeventstate=\"${26}\" sendeventselectionurl=\"${27}\" sendeventerrorcode=\"${28}\" sendeventerrormessage=\"${29}\" sendeventsnapshoturl=\"${30}\" sendeventselectionsourcetype=\"${31}\" sendeventselectionchange=\"${32}\" sendeventretrycount=\"${33}\" sendeventsnapshotlastupdatetime=\"${34}\" sendeventresolution=\"${35}\" sendeventsnapshotstatus=\"${36}\">",
+              "<ch5-video indexid=\"${1}\" aspectratio=\"${2:16:9}\" size=\"${3:large}\" sourcetype=\"${4:Network}\" userid=\"${5}\" snapshotuserid=\"${6}\" password=\"${7}\" snapshotpassword=\"${8}\" snapshoturl=\"${9}\" url=\"${10}\" stretch=\"${11:false}\" zindex=\"${12:0}\" snapshotrefreshrate=\"${13:60}\" receivestatesourcetype=\"${14}\" receivestateuserid=\"${15}\" receivestatepassword=\"${16}\" receivestatesnapshoturl=\"${17}\" receivestatesnapshotrefreshrate=\"${18}\" receivestatesnapshotuserid=\"${19}\" receivestatesnapshotpassword=\"${20}\" receivestateplay=\"${21}\" receivestateselect=\"${22}\" receivestateurl=\"${23}\" receivestatevideocount=\"${24}\" sendeventonclick=\"${25}\" sendeventstate=\"${26}\" sendeventselectionurl=\"${27}\" sendeventerrorcode=\"${28}\" sendeventerrormessage=\"${29}\" sendeventsnapshoturl=\"${30}\" sendeventselectionsourcetype=\"${31}\" sendeventselectionchange=\"${32}\" sendeventretrycount=\"${33}\" sendeventsnapshotlastupdatetime=\"${34}\" sendeventresolution=\"${35}\" sendeventsnapshotstatus=\"${36}\">",
               "</ch5-video>$0"
             ]
           }
