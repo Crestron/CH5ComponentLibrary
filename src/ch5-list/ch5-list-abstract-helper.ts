@@ -21,7 +21,6 @@ export abstract class Ch5ListAbstractHelper {
         this._list = list;
     }
 
-
     public addTemplateHelper(templateHelper: Ch5ListTemplate) {
         this._templateHelper = templateHelper;
     }

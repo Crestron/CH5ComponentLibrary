@@ -213,7 +213,6 @@ export class Ch5Pressable {
      * Register callback functions
      */
     private _callbackRegistration() {
-
         if (this._ch5Component.hasAttribute('onpress')) {
             const onPressAttribute = this._ch5Component.getAttribute('onpress');
             this.onPressCallback = new HtmlCallback(this._ch5Component, onPressAttribute as string);

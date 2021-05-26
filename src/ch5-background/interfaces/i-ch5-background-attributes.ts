@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
-import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './types';
+import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './index';
 
 
 /**

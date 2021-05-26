@@ -81,7 +81,7 @@ export interface ICh5OverlayPanel extends ICh5OverlayPanelAttributes, ICh5Common
    * [
    * "`closable` attribute",
    * "***",
-   * "The default value is 'false'. If true, shows a close icon on the corner of the panel. If fales, ",
+   * "The default value is 'false'. If true, shows a close icon on the corner of the panel. If false, ",
    * "the close icon is not shown."
    * ]
    * @name closable

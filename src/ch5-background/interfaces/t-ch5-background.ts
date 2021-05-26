@@ -6,3 +6,5 @@
 // under which you licensed this source code.
 
 export type TCh5BackgroundRepeat = '' | 'no-repeat' | 'repeat' | 'repeat-x' | 'repeat-y';
+
+export type TCh5BackgroundScale = 'stretch' | 'fill' | 'fit';
