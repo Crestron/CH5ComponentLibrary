@@ -14,6 +14,74 @@ import { TCh5TextInputStretch,
 } from "./index";
 
 /**
+ * @name Ch5 Textinput
+ * @isattribute false
+ * @tagName ch5-textinput
+ * @role input
+ * @description Ch5 Textinput inherits the default html input behavior, but also provides extra features.
+ * @componentVersion 1.0.0
+ * @documentation
+ * [
+ * "`ch5-textinput` attribute",
+ * "***",
+ * "The TextEntry component allows the user to enter textual input. This is an extension of the ",
+ * "input HTML element."
+ * ]
+ * @snippets
+ * [
+ *    {
+ *       "prefix": "ch5-textinput:blank",
+ *       "description": "Crestron Textinput (Blank)",
+ *       "body": [
+ *           "<ch5-textinput>",
+ *           "</ch5-textinput>$0"
+ *       ]
+ *    },
+ *    {
+ *       "prefix": "ch5-textinput:default",
+ *       "description": "Crestron Textinput (Default)",
+ *       "body": [
+ *           "<ch5-textinput",
+ *           "     type=\"${1|text,number,month,week,email|}\">",
+ *           "</ch5-textinput>$0"
+ *       ]
+ *   },
+ *    {
+ *        "prefix": "ch5-textinput:phone",
+ *        "description": "Crestron Textinput phone mask attribute",
+ *        "body": [
+ *            "<ch5-textinput",
+ *            "    label=\"${1:Phone number:}\"",
+ *            "    icon=\"${2:fa fa-phone}\"",
+ *            "    size=\"${3:x-large}\"",
+ *            "    placeholder=\"${4:Phone Number}\"",
+ *            "    mask=\"${5:(+99) 999 999 999}\"",
+ *            "    id=\"${7:phoneNumber}\">",
+ *            "</ch5-textinput>"
+ *        ]
+ *    },
+ *    {
+ *        "prefix": "ch5-textinput:signals",
+ *        "description": "Crestron Textinput phone mask attribute",
+ *        "body": [
+ *            "<ch5-textinput",
+ *            "    label=\"${1:Phone number:}\"",
+ *            "    icon=\"${2:fa fa-phone}\"",
+ *            "    size=\"${3:x-large}\"",
+ *            "    placeholder=\"${4:Phone Number}\"",
+ *            "    mask=\"${5:(+99) 999 999 999}\"",
+ *            "    id=\"${7:phoneNumber}\"",
+ *            "    sendeventonchange=\"${8:input_changed}\"",
+ *            "    sendeventonfocus=\"${9:input_focus}\"",
+ *            "    sendeventonblur=\"${10:input_blur}\">",
+ *            "</ch5-textinput>"
+ *        ]
+ *    }
+ * ]
+ * 
+ */
+
+/**
  * @ignore
  */
 export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
@@ -185,6 +253,17 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name text-transform
    */
   textTransform: TCh5TextInputTextTransform;
+
+  /**
+   * @documentation
+   * [
+   * "`scaling` attribute",
+   * "***",
+   * "Scales the input font size when it reaches the edge."
+   * ]
+   * @name scaling
+   */
+  scaling: boolean;
 
   /**
    * @documentation

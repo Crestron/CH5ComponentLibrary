@@ -270,7 +270,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      * @memberof Ch5Textinput
      * @type {boolean}
      */
-    private _scaling: boolean = false as boolean;
+    private _scaling: boolean = false;
 
     /**
      * The minimum font size
@@ -279,7 +279,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      * @memberof Ch5Textinput
      * @type {number}
      */
-    private _minimumFontSize: number = 12 as number;
+    private _minimumFontSize: number = 12;
 
     /**
      * The utility object which contains functionality for scaling
