@@ -22,7 +22,7 @@ export * from "./../ch5-image/interfaces/i-ch5-image";
 // export * from "./../ch5-overlay-panel/interfaces/i-ch5-overlay-panel";
 // export * from "./../ch5-modal-dialog/interfaces/i-ch5-modal-dialog";
 // export * from "./../ch5-select/interfaces/i-ch5-select";
-export * from "./../ch5-select-option/interfaces/i-ch5-select-option";
+// export * from "./../ch5-select-option/interfaces/i-ch5-select-option";
 export * from "./../ch5-slider/interfaces/i-ch5-slider";
 export * from "./../ch5-spinner/interfaces/i-ch5-spinner";
 export * from "./../ch5-textinput/interfaces/i-ch5-text-input";

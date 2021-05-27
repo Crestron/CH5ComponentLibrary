@@ -9,6 +9,21 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 import { TCh5SelectOptionIconPosition } from "./types/t-ch5-select-option-icon-position";
 
 /**
+ * @name Ch5 Select option
+ * @isattribute false
+ * @tagName ch5-select-option
+ * @role option
+ * @description
+ * @componentVersion 1.0.0
+ * @documentation
+ * [
+ * "`ch5-select-option` element",
+ * "***",
+ * "An extension to standard HTML option element."
+ * ]
+ */
+
+/**
  * @ignore
  */
 export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
@@ -28,62 +43,73 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    */
   iconPosition: TCh5SelectOptionIconPosition | string;
 
-    /**
-     * @documentation
-     * [
-     * "`receivestateselected` attribute",
-     * "***",
-     * "When received, applies a true value to the selected class (ch5-button--selected)."
-     * ]
-     * @name receivestateselected
-     */
-    receiveStateSelected: string | null;
+  /**
+   * @documentation
+   * [
+   * "`useDefaultTmpl` attribute",
+   * "***",
+   * "Provides the ability to initialise ch5-select with the default template."
+   * ]
+   * @name usedefaulttmpl
+   */
+  useDefaultTmpl: boolean;
 
-    /**
-     * @documentation
-     * [
-     * "`receivestatelabel` attribute",
-     * "***",
-     * "The label or name of the ch5-select-option is received via this attribute."
-     * ]
-     * @name receivestatelabel
-     */
-    receiveStateLabel: string | null;
+  /**
+   * @documentation
+   * [
+   * "`receivestateselected` attribute",
+   * "***",
+   * "When received, applies a true value to the selected class (ch5-button--selected)."
+   * ]
+   * @name receivestateselected
+   */
+  receiveStateSelected: string | null;
 
-    /**
-     * @documentation
-     * [
-     * "`receivestateurl` attribute",
-     * "***",
-     * "Provides the image or icon url."
-     * ]
-     * @name receivestateurl
-     */
-    receiveStateUrl: string | null;
+  /**
+   * @documentation
+   * [
+   * "`receivestatelabel` attribute",
+   * "***",
+   * "The label or name of the ch5-select-option is received via this attribute."
+   * ]
+   * @name receivestatelabel
+   */
+  receiveStateLabel: string | null;
 
-    /**
-     * @documentation
-     * [
-     * "`receivestatescriptlabelhtml` attribute",
-     * "***",
-     * "A signal script evaluation will be applied to the ",
-     * "button.innerHTML. Allows for multiline, multistyled labels."
-     * ]
-     * @name receivestatescriptlabelhtml
-     */
-    receiveStateScriptLabelHTML: string | null;
+  /**
+   * @documentation
+   * [
+   * "`receivestateurl` attribute",
+   * "***",
+   * "Provides the image or icon url."
+   * ]
+   * @name receivestateurl
+   */
+  receiveStateUrl: string | null;
 
-    /**
-     * @documentation
-     * [
-     * "`sendeventonclick` attribute",
-     * "***",
-     * "Sends an on click or tap event (mouse or swipe up and down quickly). ",
-     * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
-     * "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
-     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-     * ]
-     * @name sendeventonclick
-     */
-    sendEventOnClick: string | null;
+  /**
+   * @documentation
+   * [
+   * "`receivestatescriptlabelhtml` attribute",
+   * "***",
+   * "A signal script evaluation will be applied to the ",
+   * "button.innerHTML. Allows for multiline, multistyled labels."
+   * ]
+   * @name receivestatescriptlabelhtml
+   */
+  receiveStateScriptLabelHTML: string | null;
+
+  /**
+   * @documentation
+   * [
+   * "`sendeventonclick` attribute",
+   * "***",
+   * "Sends an on click or tap event (mouse or swipe up and down quickly). ",
+   * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
+   * "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
+   * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
+   * ]
+   * @name sendeventonclick
+   */
+  sendEventOnClick: string | null;
 }
