@@ -492,9 +492,9 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
     /**
      * Setter value
-     * @param {boolean | string} value
+     * @param {boolean} value
      */
-    public set value(value: boolean | string) {
+    public set value(value: boolean) {
         const booleanValue = this._toBoolean(value);
 
         if (this._dirtyTimerHandle !== null) {
@@ -876,7 +876,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
                 break;
             case 'value':
                 if (this.hasAttribute('value')) {
-                    this.value = newValue;
+                    this.value = this.checkIfValueIsTruey(newValue);
                     this.checked = newValue;
                 } else {
                     this.value = false;
@@ -994,7 +994,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
      */
     public reset() {
         this.setClean();
-        this.value = this._cleanValue;
+        this.value = this._cleanValue as boolean;
         this.checked = this._cleanValue;
     }
 
