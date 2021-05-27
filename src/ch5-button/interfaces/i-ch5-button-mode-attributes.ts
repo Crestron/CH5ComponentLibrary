@@ -13,6 +13,7 @@ import { TCh5ButtonType } from ".";
  * @tagName ch5-button-label
  * @role label
  * @description Ch5 Button label extends the button text to work with HTML content.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  *   "`ch5-button-label` element",
