@@ -12,6 +12,7 @@ export class JsonTagsConfiguration {
         "name",
         "tagName",
         "role",
+        "componentVersion",
         "documentation",
         "maximum",
         "exclusiveMaximum",

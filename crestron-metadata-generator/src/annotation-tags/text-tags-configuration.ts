@@ -17,6 +17,7 @@ export class TextTagsConfiguration {
         "pattern",
         "snippets",
         "isattribute",
-        "default"
+        "default",
+        "componentVersion"
     ];
 }
