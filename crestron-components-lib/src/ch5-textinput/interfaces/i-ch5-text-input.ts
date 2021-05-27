@@ -15,6 +15,7 @@ import { ICh5TextInputAttributes } from "./i-ch5-text-input-attributes";
  * @tagName ch5-textinput
  * @role input
  * @description Ch5 Textinput inherits the default html input behavior, but also provides extra features.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-textinput` attribute",

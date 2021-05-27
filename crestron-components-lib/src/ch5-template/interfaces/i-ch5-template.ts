@@ -13,6 +13,7 @@ import { ICh5TemplateAttributes } from "./i-ch5-template-attributes";
  * @isattribute false
  * @tagName ch5-template
  * @description ch5-template create new instances of the user provided <template>.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  *   "`ch5-template` element",

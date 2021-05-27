@@ -14,6 +14,7 @@ import { ICh5ModalDialogAttributes } from "./i-ch5-modal-dialog-attributes";
  * @tagName ch5-modal-dialog
  * @role dialog
  * @description Ch5 Modal
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-modal-dialog` element",

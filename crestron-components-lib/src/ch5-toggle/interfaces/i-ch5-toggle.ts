@@ -14,6 +14,7 @@ import { ICh5ToggleAttributes } from "./i-ch5-toggle-attributes";
  * @tagName ch5-toggle
  * @role switch
  * @description Ch5 Toggle represents an input with two states behaving like a switch
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-toggle` element",

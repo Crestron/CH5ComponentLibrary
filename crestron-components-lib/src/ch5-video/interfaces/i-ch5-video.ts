@@ -13,6 +13,7 @@ import { ICh5VideoAttributes } from "./i-ch5-video-attributes";
  * @isattribute false
  * @tagName ch5-video
  * @description Ch5 Video offers a wide range of functionality out-of-the-box.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-video` element",

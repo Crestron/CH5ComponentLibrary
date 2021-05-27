@@ -14,6 +14,7 @@ import { ICh5SelectAttributes } from "./i-ch5-select-attributes";
  * @tagName ch5-select
  * @role listbox
  * @description Ch5 Select inherits the default html select, but provides a lot of extra features
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-select` element",

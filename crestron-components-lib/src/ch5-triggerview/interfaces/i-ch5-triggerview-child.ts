@@ -13,6 +13,7 @@ import { ICh5TriggerViewChildAttributes } from "./i-ch5-triggerview-child-attrib
  * @isAttribute false
  * @tagName ch5-triggerview-child
  * @description Ch5 View Child - content wrapper for ch5-triggerview.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-triggerview-child` attribute",

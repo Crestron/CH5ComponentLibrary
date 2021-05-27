@@ -14,6 +14,7 @@ import { ICh5Common, TBoolAttribute } from "../../ch5-common/interfaces";
  * @tagName ch5-form
  * @role form
  * @description Ch5 Form offers a wide range of functionality out-of-the-box.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  *   "`ch5-form` element",
