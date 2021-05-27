@@ -11,6 +11,51 @@ import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/
 import { TCh5ToggleOrientation, TCh5ToggleShape } from "./index";
 
 /**
+ * @name Ch5 Toggle
+ * @isattribute false
+ * @tagName ch5-toggle
+ * @role switch
+ * @description Ch5 Toggle represents an input with two states behaving like a switch
+ * @componentVersion 1.0.0
+ * @documentation
+ * [
+ * "`ch5-toggle` element",
+ * "***",
+ * "Appears as a two-state switch with easy transition between states. The component has the ",
+ * "functionality of an HTML checkbox-type input element."
+ * ]
+ * @snippets
+ * [
+ *   {
+ *      "prefix": "ch5-toggle:label-on-off",
+ *      "description": "Crestron Toggle (Default)",
+ *       "body": [
+ *         "<ch5-toggle label=\"${1:Alarm}\"",
+ *        "\tvalue=\"${2:false}\"",
+ *         "\tlabelon=\"${3:On}\"",
+ *         "\tlabeloff=\"${4:Off}\"",
+ *         "\tsendeventonclick=\"${5:send_switch_value}\"",
+ *         "\treceivestatevalue=\"${5:receive_switch_value}\">",
+ *         "</ch5-toggle>$0"
+ *       ]
+ *    },
+ *    {
+ *       "prefix": "ch5-toggle:icon-on-off",
+ *       "description": "Crestron Toggle (Default)",
+ *       "body": [
+ *         "<ch5-toggle label=\"${1:Alarm}\"",
+ *         "\tvalue=\"${2:false}\"",
+ *         "\ticonon=\"${3:fas fa-bell}\"",
+ *         "\ticonoff=\"${4:fas fa-bell-slash}\"",
+ *         "\tsendeventonclick=\"${5:send_switch_value}\"",
+ *         "\treceivestatevalue=\"${5:receive_switch_value}\">",
+ *         "</ch5-toggle>$0"
+ *       ]
+ *    }
+ * ]
+ */
+
+/**
  * @ignore
  */
 export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
@@ -97,6 +142,41 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * @default horizontal
    */
   orientation: TCh5ToggleOrientation;
+  /**
+   * @documentation
+   * [
+   * "`onclean` attribute",
+   * "***",
+   * "Runs when a clean event is initiated."
+   * ]
+   * @name onclean
+   */
+  onclean: {};
+
+  /**
+   * @documentation
+   * [
+   * "`ondirty` attribute",
+   * "***",
+   * "Runs when a dirty event is initiated."
+   * ]
+   * @name ondirty
+   */
+  ondirty: {};
+
+  /**
+   * @documentation
+   * [
+   * "`value` attribute",
+   * "***",
+   * "The default value is false. The initial value of the component. ",
+   * "When feedbackMode=submit, this property will change to the last ",
+   * "value submitted. When reset, the value property will be changed to ",
+   * "the initial value or last value on submit."
+   * ]
+   * @name value
+   */
+  value: boolean;
 
   /**
    * @documentation
