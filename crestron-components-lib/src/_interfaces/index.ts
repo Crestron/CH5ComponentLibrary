@@ -32,4 +32,4 @@ export * from "./../ch5-textinput/interfaces/i-ch5-text-input";
 // export * from "./../ch5-template/interfaces/i-ch5-template";
 export * from "./../ch5-import-htmlsnippet/interfaces/index";
 export * from './../ch5-background/interfaces/i-ch5-background';
-export * from './../ch5-video/interfaces/i-ch5-video';
+// export * from './../ch5-video/interfaces/i-ch5-video';
