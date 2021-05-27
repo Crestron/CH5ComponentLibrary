@@ -18,7 +18,7 @@ export * from "./../ch5-custom-attrs/interfaces/index";
 export * from "./../ch5-button/interfaces/i-ch5-button";
 // export * from "./../ch5-form/interfaces/i-ch5-form";
 export * from "./../ch5-image/interfaces/i-ch5-image";
-export * from "./../ch5-list/interfaces/i-ch5-list";
+// export * from "./../ch5-list/interfaces/i-ch5-list";
 export * from "./../ch5-overlay-panel/interfaces/i-ch5-overlay-panel";
 export * from "./../ch5-modal-dialog/interfaces/i-ch5-modal-dialog";
 export * from "./../ch5-select/interfaces/i-ch5-select";
