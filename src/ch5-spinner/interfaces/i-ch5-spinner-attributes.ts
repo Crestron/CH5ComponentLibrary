@@ -10,6 +10,79 @@ import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
 /**
+ * @name Ch5 Spinner
+ * @isattribute false
+ * @tagName ch5-spinner
+ * @role listbox
+ * @description CH5 Spinner provides a list of items where items can be moved between by dragging the spinner element.
+ * @componentVersion 1.0.0
+ * @documentation
+ * [
+ * "`ch5-spinner` element",
+ * "***",
+ * "Functionally, the Spinner component is similar to the Select component. The primary differences are in the visual representation. ",
+ * "The Spinner component presents a vertical list of values centered around one centrally-orientated ",
+ * "item, which is considered the single selected item. Swiping up and down on the items allow the user ",
+ * "to see other selections, and placing an item in the center chooses that item."
+ * ]
+ * @snippets
+ * [
+ *    {
+ *       "prefix": "ch5-spinner:blank",
+ *       "description": "Crestron Spinner (Blank)",
+ *       "body": [
+ *           "<ch5-spinner>",
+ *           "</ch5-spinner>$0"
+ *       ]
+ *    },
+ *    {
+ *       "prefix": "ch5-spinner:default",
+ *       "description": "Crestron Spinner (Default)",
+ *       "body": [
+ *           "<ch5-spinner",
+ *           "    label=\"${1:item {{idx}}}\"",
+ *           "    indexid=\"${2:idx}\"",
+ *           "    size=\"${3:40}\"",
+ *           "    itemheight=\"${4:40}\"",
+ *           "    visibleitemscroll=\"${5:3}\"",
+ *           "    sendeventonchange=\"${6:changed_signal}\">",
+ *           "</ch5-spinner>$0"
+ *       ]
+ *   },
+ *     {
+ *        "prefix": "ch5-spinner:endless",
+ *        "description": "Crestron Spinner endless attribute allows the user to continuously drag the spinner.",
+ *        "body": [
+ *            "<ch5-spinner",
+ *            "    label=\"${1:item {{idx}}}\"",
+ *            "    indexid=\"${2:idx}\"",
+ *            "    size=\"${3:20}\"",
+ *            "    itemheight=\"${4:40}\"",
+ *            "    visibleitemscroll=\"${5:3}\"",
+ *            "    endless=\"${6:true}\">",
+ *            "</ch5-spinner>$0"
+ *        ]
+ *   },
+ *   {
+ *      "prefix": "ch5-spinner:signals",
+ *      "description": "Crestron Spinner sending signals when interact with the component.",
+ *      "body": [
+ *            "<ch5-spinner",
+ *            "    label=\"${1:item {{idx}}}\"",
+ *            "    indexid=\"${2:idx}\"",
+ *            "    size=\"${3:20}\"",
+ *            "    itemheight=\"${4:40}\"",
+ *            "    visibleitemscroll=\"${5:3}\"",
+ *            "    endless=\"${6:true}\"",
+ *            "    sendeventonchange=\"${7:changed_signal}\"",
+ *            "    sendeventonfocus=\"${8:spinner_focusin}\">",
+ *            "</ch5-spinner>$0"
+ *      ]
+ *   }
+ * ]
+ */
+
+/**
  * @ignore
  */
 export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
@@ -143,6 +216,63 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * @name indexid
    */
   indexId: string;
+  /**
+   * @documentation
+   * [
+   * "`onclean` attribute",
+   * "***",
+   * "Runs when a clean event is initiated."
+   * ]
+   * @name onclean
+   */
+  onclean: {};
+
+  /**
+   * @documentation
+   * [
+   * "`ondirty` attribute",
+   * "***",
+   * "Runs when a dirty event is initiated."
+   * ]
+   * @name ondirty
+   */
+  ondirty: {};
+
+  /**
+   * @documentation
+   * [
+   * "`resize` attribute",
+   * "***",
+   * "If true, the options panel is resized to fit content width. ",
+   * "Apply only with the CSS rule 'width=fit-content' and/or 'width =auto' ",
+   * "(depending on the browser agent)."
+   * ]
+   * @name resize
+   */
+  resize: boolean;
+
+  /**
+   * @documentation
+   * [
+   * "`endless` attribute",
+   * "***",
+   * "The default value is false. Creates an infinite spinner. This will trigger the next ",
+   * "element after the last to be the first element in the list."
+   * ]
+   * @name endless
+   */
+  endless: boolean;
+  
+  /**
+   * @documentation
+   * [
+   * "`autoSetItemHeight` attribute",
+   * "***",
+   * "Adjusts the height of ch5-spinner items automatically."
+   * ]
+   * @name autoSetItemHeight
+   */
+  autoSetItemHeight: boolean;
 
   /**
    * @documentation

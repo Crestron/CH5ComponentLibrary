@@ -524,7 +524,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
       this.templateHelper.constructor === Ch5SpinnerTemplate &&
       this.templateHelper.wrapperElement.constructor === HTMLDivElement
     ) {
-      this.templateHelper.wrapperElement.setAttribute('role', 'listbox');
+      (this.templateHelper.wrapperElement as HTMLDivElement).setAttribute('role', 'listbox');
     }
   }
 
