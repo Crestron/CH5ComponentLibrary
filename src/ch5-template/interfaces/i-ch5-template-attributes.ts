@@ -8,6 +8,33 @@
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
 /**
+ * @name Ch5 Template
+ * @isattribute false
+ * @tagName ch5-template
+ * @description ch5-template create new instances of the user provided <template>.
+ * @componentVersion 1.0.0
+ * @documentation
+ * [
+ *   "`ch5-template` element",
+ *   "***",
+ *   "The primary functionality of this component is to create new instances ",
+ *   "of the user-provided <template> and to substitute event and state names ",
+ *   "where indicated by the integrator."
+ * ]
+ * @snippets
+ * [
+ *   {
+ *       "prefix": "ch5-template:default",
+ *       "description": "Crestron Ch5-Template (default)",
+ *       "body": [
+ *           "<ch5-template templateId=\"[provideTemplateId]\" context=\"[original]:[replacement]\"></ch5-template>"
+ *      ]
+ *     }
+ * ]
+ *
+ */
+
+/**
  * @ignore
  */
 export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
