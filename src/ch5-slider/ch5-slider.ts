@@ -519,9 +519,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
     /**
      * Setter range
-     * @param {boolean } value
+     * @param {boolean} value
      */
-    public set range(value: boolean | string) {
+    public set range(value: boolean) {
         const booleanValue = this._toBoolean(value);
 
         if (this._range !== booleanValue) {
@@ -829,9 +829,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
     /**
      * Setter showTickValues
-     * @param {boolean } value
+     * @param {boolean} value
      */
-    public set showTickValues(value: boolean | string) {
+    public set showTickValues(value: boolean) {
         const booleanValue = this._toBoolean(value);
 
         if (this._showTickValues !== booleanValue) {
@@ -911,9 +911,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
     /**
      * Setter tapsettable
-     * @param {boolean | string } value
+     * @param {boolean} value
      */
-    set tapSettable(value: boolean | string) {
+    set tapSettable(value: boolean) {
         const booleanValue = this._toBoolean(value);
 
         if (this._tapSettable !== booleanValue) {
@@ -1395,7 +1395,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
                 break;
             case 'range':
                 if (this.hasAttribute('range')) {
-                    this.range = newValue
+                    this.range = this.checkIfValueIsTruey(newValue);
                 } else {
                     this.range = false;
                 }
@@ -1485,14 +1485,14 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
                 break;
             case 'showtickvalues':
                 if (this.hasAttribute('showtickvalues')) {
-                    this.showTickValues = newValue
+                    this.showTickValues = this.checkIfValueIsTruey(newValue);
                 } else {
                     this.showTickValues = false;
                 }
                 break;
             case 'tapsettable':
                 if (this.hasAttribute('tapsettable')) {
-                    this.tapSettable = newValue
+                    this.tapSettable = this.checkIfValueIsTruey(newValue);
                 } else {
                     this.tapSettable = false;
                 }

@@ -5,6 +5,6 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export * from "./i-ch5-slider";
+// export * from "./i-ch5-slider";
 export * from "./i-ch5-slider-attributes";
 export * from "./t-ch5-slider";
