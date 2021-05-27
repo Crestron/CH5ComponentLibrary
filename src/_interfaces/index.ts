@@ -27,7 +27,7 @@ export * from "./../ch5-image/interfaces/i-ch5-image";
 // export * from "./../ch5-spinner/interfaces/i-ch5-spinner";
 export * from "./../ch5-textinput/interfaces/i-ch5-text-input";
 // export * from "./../ch5-toggle/interfaces/i-ch5-toggle";
-export * from "./../ch5-triggerview/interfaces/i-ch5-triggerview";
+// export * from "./../ch5-triggerview/interfaces/i-ch5-triggerview";
 export * from "./../ch5-triggerview/interfaces/i-ch5-triggerview-child";
 // export * from "./../ch5-template/interfaces/i-ch5-template";
 export * from "./../ch5-import-htmlsnippet/interfaces/index";
