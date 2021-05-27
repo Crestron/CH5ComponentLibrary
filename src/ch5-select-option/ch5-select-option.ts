@@ -38,6 +38,8 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
      * @private
      */
     private _iconPosition: string = Ch5SelectOption.ICON_POSITION_VALUES[0];
+    
+    private _useDefaultTmpl: boolean = false
 
     /**
      * Item is selected
@@ -301,6 +303,20 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
         if (this._iconPosition !== value) {
             this._iconPosition = value;
             this.setAttribute('iconposition', value);
+        }
+    }
+
+    public get useDefaultTmpl() {
+        return this._useDefaultTmpl;
+    }
+
+    public set useDefaultTmpl(value: boolean) {
+        value = this.checkIfValueIsTruey(value.toString());
+        if (this._useDefaultTmpl !== value) {
+            this._useDefaultTmpl = value;
+            // HH: BELOW CODE CHANGE NOT REQUIRED 
+            // NEEDS TO BE VERIFIED BEFORE SETTING THE ATTRIBUTE WITH THE VALUE IF REQUIRED
+            // this.setAttribute('useDefaultTmpl', value.toString());
         }
     }
 
