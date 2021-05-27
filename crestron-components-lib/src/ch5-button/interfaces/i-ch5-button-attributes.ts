@@ -25,6 +25,7 @@ import {
  * @tagName ch5-button
  * @role button
  * @description Ch5 Button offers a wide range of functionality out-of-the-box.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  *   "`ch5-button` element",

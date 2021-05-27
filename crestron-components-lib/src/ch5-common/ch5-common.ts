@@ -1775,6 +1775,15 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         }
     }
 
+    /**
+     * Function to check if the input string is truey or not
+     * @param str input string to check if its truey or not
+     * @returns boolean
+     */
+    public checkIfValueIsTruey(str: string = '') {
+        return (!!str && str.length > 0 && str !== 'false' && str !== '0' && str !== null);
+    }
+
     //#endregion 
 
 }
