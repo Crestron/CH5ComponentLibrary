@@ -700,7 +700,8 @@
         "description": "Ch5 Button offers a wide range of functionality out-of-the-box.",
         "name": "Ch5 Button",
         "tagName": "ch5-button",
-        "role": "button"
+        "role": "button",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -1173,7 +1174,8 @@
         "description": "Ch5 Form offers a wide range of functionality out-of-the-box.",
         "name": "Ch5 Form",
         "tagName": "ch5-form",
-        "role": "form"
+        "role": "form",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -1575,7 +1577,8 @@
         "description": "Ch5 Image offers a wide range of functionality out-of-the-box.",
         "name": "Ch5 Image",
         "tagName": "ch5-image",
-        "role": "img"
+        "role": "img",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -2082,7 +2085,8 @@
         "description": "Ch5 List offers a wide range of functionality out-of-the-box.",
         "name": "Ch5 List",
         "tagName": "ch5-list",
-        "role": "list"
+        "role": "list",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -2530,7 +2534,8 @@
         "description": "Ch5 Overlay Panel",
         "name": "Ch5 Overlay Panel",
         "tagName": "ch5-overlay-panel",
-        "role": "dialog"
+        "role": "dialog",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -3094,7 +3099,8 @@
         "description": "Ch5 Modal",
         "name": "Ch5 Modal Dialog",
         "tagName": "ch5-modal-dialog",
-        "role": "dialog"
+        "role": "dialog",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -3757,7 +3763,8 @@
         "description": "Ch5 Select inherits the default html select, but provides a lot of extra features",
         "name": "Ch5 Select",
         "tagName": "ch5-select",
-        "role": "listbox"
+        "role": "listbox",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -4071,7 +4078,8 @@
         "description": "",
         "name": "Ch5 Select option",
         "tagName": "ch5-select-option",
-        "role": "option"
+        "role": "option",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -4675,7 +4683,8 @@
         "description": "Ch5 Slider inherits the default input range behavior but provides a lot of extra features.",
         "name": "Ch5 Slider",
         "tagName": "ch5-slider",
-        "role": "slider"
+        "role": "slider",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -5227,7 +5236,8 @@
         "description": "CH5 Spinner provides a list of items where items can be moved between by dragging the spinner element.",
         "name": "Ch5 Spinner",
         "tagName": "ch5-spinner",
-        "role": "listbox"
+        "role": "listbox",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -5840,7 +5850,8 @@
         "description": "Ch5 Textinput inherits the default html input behavior, but also provides extra features.",
         "name": "Ch5 Textinput",
         "tagName": "ch5-textinput",
-        "role": "input"
+        "role": "input",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -6271,7 +6282,8 @@
         "description": "Ch5 Toggle represents an input with two states behaving like a switch",
         "name": "Ch5 Toggle",
         "tagName": "ch5-toggle",
-        "role": "switch"
+        "role": "switch",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -6645,7 +6657,8 @@
         "description": "Ch5 Trigger View will be used to group content, each component will be wrap inside an ChildView Component",
         "name": "Ch5 Trigger View",
         "tagName": "ch5-triggerview",
-        "role": "listbox"
+        "role": "listbox",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -6923,7 +6936,8 @@
         "description": "Ch5 View Child - content wrapper for ch5-triggerview.",
         "name": "Ch5 View Child",
         "tagName": "ch5-triggerview-child",
-        "role": ""
+        "role": "",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -7185,7 +7199,8 @@
         "description": "ch5-template create new instances of the user provided <template>.",
         "name": "Ch5 Template",
         "tagName": "ch5-template",
-        "role": ""
+        "role": "",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -7454,7 +7469,8 @@
         "description": "Ch5 import-htmlsnippet allows to import the HTML snippet.",
         "name": "Ch5 import-htmlsnippet",
         "tagName": "ch5-import-htmlsnippet",
-        "role": ""
+        "role": "",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -7881,7 +7897,8 @@
         "description": "Ch5 Background offers a wide range of functionality out-of-the-box.",
         "name": "Ch5 Background",
         "tagName": "ch5-background",
-        "role": ""
+        "role": "",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -8557,7 +8574,8 @@
         "description": "Ch5 Video offers a wide range of functionality out-of-the-box.",
         "name": "Ch5 Video",
         "tagName": "ch5-video",
-        "role": ""
+        "role": "",
+        "componentVersion": ""
       }
     ]
   }

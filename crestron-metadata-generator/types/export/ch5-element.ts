@@ -16,6 +16,7 @@ export class Ch5Element {
     public attributes: Ch5Attribute[];
     public documentation?: string[];
     public snippets?: Ch5Snippet[];
+    public componentVersion?: string;
 
     public static New(): Ch5Element {
         const result = new Ch5Element();

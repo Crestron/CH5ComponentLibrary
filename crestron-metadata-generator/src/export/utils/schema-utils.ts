@@ -57,6 +57,10 @@ function getTypeForAriaRoles(definition: Definition): string {
     return parser.getTypeForAriaRolesFromObject(definition);
 }
 
+function getComponentVersion(definition: Definition): string {
+    return parser.getComponentVersionFromObject(definition);
+}
+
 function getTagName(definition: Definition): string {
     return parser.getTagNameFromObject(definition);
 }
@@ -88,5 +92,6 @@ export {
     getSnippets,
     getDescription,
     getDefault,
-    getTypeForAriaRoles
+    getTypeForAriaRoles,
+    getComponentVersion
 };

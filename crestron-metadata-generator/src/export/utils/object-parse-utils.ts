@@ -46,6 +46,26 @@ function getTypeForAriaRolesFromObject(definition: Object): string {
     return "";
 }
 
+function getComponentVersionFromObject(definition: Object): string {
+    const documentationTag = "componentVersion";
+    // console.log(definition);
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return "";
+    }
+
+    // get the documentation property which should be a JSON string.
+    const value: string = definition[documentationTag];
+
+    if (!isNil(value)) {
+        return value;
+    }
+
+    return "";
+}
+
 function getSnippetsFromObject(definition: Object): Ch5Snippet[] {
     const documentationTag = "snippets";
     const keys = Object.keys(definition);
@@ -131,5 +151,6 @@ export {
     getSnippetsFromObject,
     getTagNameFromObject,
     getDefaultFromObject,
-    getTypeForAriaRolesFromObject
+    getTypeForAriaRolesFromObject,
+    getComponentVersionFromObject
 };

@@ -37,5 +37,6 @@ export interface Definition {
     isAliasType?: boolean;
     typeof?: "function";
     role?: string;
+    componentVersion?: string;
 }
 

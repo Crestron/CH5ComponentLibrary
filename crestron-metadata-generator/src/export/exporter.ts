@@ -46,7 +46,6 @@ export class Exporter {
         if (!schemaUtils.hasKeys(this.schema)) {
             throw new ValidationError("No definitions were extracted");
         }
-        
         const aliases: DefinitionTuple[] = schemaUtils.getAliasTypes(this.schema);
         const actualTypes: Definition[] = schemaUtils.getTypes(this.schema);
 

@@ -48,7 +48,8 @@ export class SchemaGenerator {
     public createSchemaForTypes(names: string[]): Schema {
         const rootTypes: RootTypeDefinition[] = names.map(fullName => {
             const rootNode = this.findRootNode(fullName);
-            const rootType = this.nodeParser.createType(rootNode, fullName, new Context());
+            const context = new Context();
+            const rootType = this.nodeParser.createType(rootNode, fullName, context);
             return <RootTypeDefinition>{
                 name: fullName,
                 rootType: rootType,

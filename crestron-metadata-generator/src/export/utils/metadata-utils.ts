@@ -21,6 +21,7 @@ function addTypeDefinition(definition: Definition, aliases: DefinitionTuple[]): 
     result.role = _.getTypeForAriaRoles(definition);
     result.snippets = _.getSnippets(definition);
     result.attributes = getProperties(definition, aliases);
+    result.componentVersion = _.getComponentVersion(definition);
     return result;
 }
 
