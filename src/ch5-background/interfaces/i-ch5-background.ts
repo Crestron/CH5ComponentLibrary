@@ -13,6 +13,7 @@ import { ICh5BackgroundAttributes } from './i-ch5-background-attributes';
  * @isattribute false
  * @tagName ch5-background
  * @description Ch5 Background offers a wide range of functionality out-of-the-box.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-background` element",

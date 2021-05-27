@@ -14,6 +14,7 @@ import { ICh5SelectOptionAttributes } from "./i-ch5-select-option-attributes";
  * @tagName ch5-select-option
  * @role option
  * @description
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-select-option` element",

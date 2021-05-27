@@ -14,6 +14,7 @@ import { ICh5OverlayPanelAttributes } from "./i-ch5-overlay-panel-attributes";
  * @tagName ch5-overlay-panel
  * @role dialog
  * @description Ch5 Overlay Panel
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-overlay-panel` element",

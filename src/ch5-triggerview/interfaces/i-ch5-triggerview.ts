@@ -14,6 +14,7 @@ import { ICh5TriggerviewAttributes } from "./i-ch5-triggerview-attributes";
  * @tagName ch5-triggerview
  * @role listbox
  * @description Ch5 Trigger View will be used to group content, each component will be wrap inside an ChildView Component
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-triggerview` element",

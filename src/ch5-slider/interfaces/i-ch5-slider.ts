@@ -14,6 +14,7 @@ import { ICh5SliderAttributes } from "./i-ch5-slider-attributes";
  * @tagName ch5-slider
  * @role slider
  * @description Ch5 Slider inherits the default input range behavior but provides a lot of extra features.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-slider` element",

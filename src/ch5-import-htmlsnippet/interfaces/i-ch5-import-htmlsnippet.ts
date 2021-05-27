@@ -12,6 +12,7 @@ import { ICh5ImportHtmlSnippetAttributes } from "./i-ch5-import-htmlsnippet-attr
  * @isattribute false
  * @tagName ch5-import-htmlsnippet
  * @description Ch5 import-htmlsnippet allows to import the HTML snippet.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  *    "`ch5-import-htmlsnippet` element",

@@ -14,6 +14,7 @@ import { ICh5SpinnerAttributes } from "./i-ch5-spinner-attributes";
  * @tagName ch5-spinner
  * @role listbox
  * @description CH5 Spinner provides a list of items where items can be moved between by dragging the spinner element.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-spinner` element",

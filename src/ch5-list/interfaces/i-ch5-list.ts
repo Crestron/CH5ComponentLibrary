@@ -14,6 +14,7 @@ import { ICh5ListAttributes } from "./i-ch5-list-attributes";
  * @tagName ch5-list
  * @role list
  * @description Ch5 List offers a wide range of functionality out-of-the-box.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-list` element",

@@ -14,6 +14,7 @@ import { ICh5ImageAttributes } from "./i-ch5-image-attributes";
  * @tagName ch5-image
  * @role img
  * @description Ch5 Image offers a wide range of functionality out-of-the-box.
+ * @componentVersion 1.0.0
  * @documentation
  * [
  * "`ch5-image` element",
