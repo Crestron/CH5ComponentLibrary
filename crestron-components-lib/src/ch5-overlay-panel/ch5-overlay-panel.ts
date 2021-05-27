@@ -95,6 +95,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
      */
     protected _closable: boolean = false;
 
+    protected _mask: boolean = false;
+
     /**
      * A string containing css class names that will be added to the close icon element.
      *
@@ -980,6 +982,21 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
     public get closable(): boolean {
         return this._closable;
+    }
+
+    public set mask(value: boolean) {
+        this.info('set mask("' + value + '")');
+        if (this._mask !== value) {
+            if (value === undefined || value === null) {
+                value = false;
+            }
+            this._mask = value;
+            this.setAttribute('mask', value.toString());
+        }
+    }
+
+    public get mask(): boolean {
+        return this._mask;
     }
 
     public set closeIcon(value: string) {
