@@ -121,7 +121,7 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
 
         // For ARIA
         if (!this.hasAttribute('role')) {
-            this.setAttribute('role', 'option');
+            this.setAttribute('role', Ch5RoleAttributeMapping.ch5SelectOption);
         }
 
         if (!this.classList.contains(Ch5SelectOption.ITEM_STYLE_CLASS)) {
@@ -306,6 +306,10 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
         }
     }
 
+    /**
+     * TODO: This proprety was not existing earlier, but is consumed/referred within the code
+     * This property is created for the same and needs to be tested
+     */
     public get useDefaultTmpl() {
         return this._useDefaultTmpl;
     }
@@ -314,7 +318,7 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
         value = this.checkIfValueIsTruey(value.toString());
         if (this._useDefaultTmpl !== value) {
             this._useDefaultTmpl = value;
-            // HH: BELOW CODE CHANGE NOT REQUIRED 
+            // TODO: BELOW CODE CHANGE NOT REQUIRED 
             // NEEDS TO BE VERIFIED BEFORE SETTING THE ATTRIBUTE WITH THE VALUE IF REQUIRED
             // this.setAttribute('useDefaultTmpl', value.toString());
         }

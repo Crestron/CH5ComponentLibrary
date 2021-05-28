@@ -22,6 +22,7 @@ import { Ch5AnimationFactory } from './animation/ch5-animation-factory';
 import { ICh5ListAttributes } from "./interfaces";
 import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
 import { subscribeInViewPortChange } from '../ch5-core';
+import { Ch5RoleAttributeMapping } from '../utility-models';
 
 /**
  * An object containing information about a item.
@@ -453,7 +454,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
         const listInitialization = () => {
             // WAI-ARIA Attributes
             if (!this.hasAttribute('role')) {
-                this.setAttribute('role', 'list');
+                this.setAttribute('role', Ch5RoleAttributeMapping.ch5List);
             }
 
             // TODO: andrei - what happens if the endless attribute is set at a given time

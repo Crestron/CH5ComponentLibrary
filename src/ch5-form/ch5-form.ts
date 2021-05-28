@@ -11,6 +11,7 @@ import { Ch5Button } from "../ch5-button/ch5-button";
 import { TCh5ButtonType } from "../ch5-button/interfaces/t-ch5-button";
 import { isEmpty, isNil } from 'lodash';
 import { ICh5FormAttributes } from "./interfaces/i-ch5-form-attributes";
+import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 
 export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
@@ -656,7 +657,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
     public connectedCallback() {
         // WAI-ARIA Attributes
         if (!this.hasAttribute('role')) {
-            this.setAttribute('role', 'form');
+            this.setAttribute('role', Ch5RoleAttributeMapping.ch5Form);
         }
 
         this.ready.then(() => {

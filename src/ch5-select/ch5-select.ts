@@ -297,7 +297,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
         // For ARIA
         if (!this.hasAttribute('role')) {
-            this.setAttribute('role', 'listbox');
+            this.setAttribute('role', Ch5RoleAttributeMapping.ch5Spinner);
         }
         if (!this.hasAttribute('tabindex')) {
             // set tabindex to enable focus/blur events

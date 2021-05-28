@@ -315,7 +315,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
 
         // // If this is executed, JavaScript is working and the element
         // // changes its role to `triggerview-child`.
-        // this.setAttribute('role', 'triggerview-child');
+        // this.setAttribute('role', Ch5RoleAttributeMapping.ch5TriggerViewChild);
 
         // set data-ch5-id
         this.setAttribute('data-ch5-id', this.getCrId());
