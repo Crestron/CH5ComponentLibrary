@@ -214,7 +214,7 @@ export class Ch5ButtonLabel extends Ch5Common implements ICh5ButtonLabelAttribut
 
     //     // If this is executed, JavaScript is working and the element
     //     // changes its role to `triggerview-child`.
-    //     this.setAttribute('role', 'triggerview-child');
+        // this.setAttribute('role', Ch5RoleAttributeMapping.ch5TriggerViewChild);
 
     //     // set data-ch5-id
     //     this.setAttribute('data-ch5-id', this.getCrId());

@@ -11,6 +11,7 @@ import { Ch5TriggerView } from "./ch5-triggerview";
 import _ from "lodash";
 import { TCh5ShowType } from "../ch5-common/interfaces";
 import { ICh5TriggerViewChildAttributes } from "./interfaces/i-ch5-triggerview-child-attributes";
+import { Ch5RoleAttributeMapping } from "../utility-models";
 
 const _parentTriggerviewNodeName = 'CH5-TRIGGERVIEW';
 
@@ -226,7 +227,7 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 
         // If this is executed, JavaScript is working and the element
         // changes its role to `triggerview-child`.
-        this.setAttribute('role', 'triggerview-child');
+        this.setAttribute('role', Ch5RoleAttributeMapping.ch5TriggerViewChild);
 
         // set data-ch5-id
         this.setAttribute('data-ch5-id', this.getCrId());

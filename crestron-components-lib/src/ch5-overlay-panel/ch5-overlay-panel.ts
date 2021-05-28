@@ -984,6 +984,10 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
         return this._closable;
     }
 
+    /**
+     * TODO: This proprety was not existing earlier, but is consumed/referred within the code
+     * This property is created for the same and needs to be tested
+     */
     public set mask(value: boolean) {
         this.info('set mask("' + value + '")');
         if (this._mask !== value) {
