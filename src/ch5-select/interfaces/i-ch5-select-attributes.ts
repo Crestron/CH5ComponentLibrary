@@ -7,7 +7,6 @@
 
 import { TCh5SelectIconPosition, TCh5SelectMode } from ".";
 import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/t-ch5-common-input";
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
 /**
  * @name Ch5 Select
@@ -211,7 +210,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 /**
  * @ignore
  */
-export interface ICh5SelectAttributes extends ICh5CommonAttributes {
+export interface ICh5SelectAttributes {
 
   /**
    * @documentation
@@ -397,7 +396,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * 
    */
   resize: boolean;
-  
+
   /**
    * @documentation
    * [

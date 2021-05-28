@@ -7,7 +7,6 @@
 
 import { TCh5SpinnerIconPosition } from ".";
 import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/t-ch5-common-input";
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
 /**
  * @name Ch5 Spinner
@@ -85,8 +84,8 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 /**
  * @ignore
  */
-export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
-  
+export interface ICh5SpinnerAttributes {
+
   /**
    * @documentation
    * [
@@ -262,7 +261,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * @name endless
    */
   endless: boolean;
-  
+
   /**
    * @documentation
    * [

@@ -6,7 +6,6 @@
 // under which you licensed this source code.
 
 import { TCh5ButtonType } from "../../ch5-button/interfaces/t-ch5-button";
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
 /**
  * @name Ch5 Form
@@ -127,7 +126,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 /**
  * @ignore
  */
-export interface ICh5FormAttributes extends ICh5CommonAttributes {
+export interface ICh5FormAttributes {
 
   /**
    * @name submitbuttonlabel

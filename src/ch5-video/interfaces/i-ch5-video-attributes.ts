@@ -5,7 +5,6 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceType } from './types';
 
 /**
@@ -62,7 +61,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
 /**
  * @ignore
  */
-export interface ICh5VideoAttributes extends ICh5CommonAttributes {
+export interface ICh5VideoAttributes {
 
     /**
      * @name indexid
@@ -229,7 +228,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      * @name onpress
      */
     onpress: {};
-  
+
     /**
      * @documentation
      * [
@@ -397,7 +396,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      */
     receiveStateSnapShotURL: string;
 
-	/**
+    /**
      * @name receivestateplay
      * @documentation
      * [
@@ -410,7 +409,7 @@ export interface ICh5VideoAttributes extends ICh5CommonAttributes {
      */
     receiveStatePlay: string;
 
-	/**
+    /**
      * @name receivestateselect
      * @documentation
      * [
