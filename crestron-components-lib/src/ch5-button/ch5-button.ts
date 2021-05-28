@@ -1099,9 +1099,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         }
 
         if (this.children && this.children.length > 0) {
-            for (let i: number = 0; i < this.children.length; i++) {
-                const newChild = this.children[i];
-                if (newChild .nodeName.toString().toLowerCase() === "ch5-button-label") {
+            Array.from(this.children).forEach((newChild) => {
+                if (newChild.nodeName.toString().toLowerCase() === "ch5-button-label") {
                     const templateData = newChild.children[0];
                     if (templateData && templateData.nodeName.toString().toLowerCase() === "template") {
                         // this.info("templateData.innerHTML", templateData.innerHTML);
@@ -1117,7 +1116,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                         this.info("optionTemplate.innerHTML", optionTemplate.innerHTML);
                     }
                 }
-            }
+            });
         }
 
         if (this._elContainer.parentElement !== this) {
