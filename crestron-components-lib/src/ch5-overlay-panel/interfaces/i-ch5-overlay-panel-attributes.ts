@@ -6,7 +6,6 @@
 // under which you licensed this source code.
 
 import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow, TCh5OverlayPanelPositionOffset } from ".";
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
 /**
  * @name Ch5 Overlay Panel
@@ -68,8 +67,8 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 /**
  * @ignore
  */
-export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
-  
+export interface ICh5OverlayPanelAttributes {
+
   /**
    * @documentation
    * [
@@ -80,7 +79,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @name closeicon
    */
   closeIcon: string
-  
+
   /**
    * @documentation
    * [
@@ -93,7 +92,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @name stretch
    */
   stretch: TCh5OverlayPanelStretch
-  
+
   /**
    * @documentation
    * [
@@ -108,7 +107,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @name overflow
    */
   overflow: TCh5OverlayPanelOverflow
-  
+
   /**
    * @documentation
    * [
@@ -120,7 +119,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @name positionto
    */
   positionTo: string
-  
+
   /**
    * @documentation
    * [
@@ -144,7 +143,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @name dismissable
    */
   dismissable: boolean;
-  
+
   /**
    * @documentation
    * [
