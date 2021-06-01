@@ -92,6 +92,7 @@ export interface ICh5ListAttributes {
    *  "***",
    *  "The number of items in a list. The max value is 1000."
    * ]
+   * @default 1
    */
   size: number | null;
 
@@ -119,6 +120,7 @@ export interface ICh5ListAttributes {
    * "viewport (visible area)."
    * ]
    * @name bufferamount
+   * @default 0
    */
   bufferAmount: number | null;
 
@@ -232,6 +234,7 @@ export interface ICh5ListAttributes {
    * "The default value is false. If true, shows a scrollbar for the list."
    * ]
    * @name scrollbar
+   * @default false
    */
   scrollbar: boolean;
 
@@ -246,6 +249,7 @@ export interface ICh5ListAttributes {
    * "for a vertical list or on left for dir='ltr' attribute lists."
    * ]
    * @name pagedswipe
+   * @default false
    */
   pagedSwipe: boolean;
 
@@ -262,6 +266,7 @@ export interface ICh5ListAttributes {
    * "prior to the first."
    * ]
    * @name endless
+   * @default false
    */
   endless: boolean;
 

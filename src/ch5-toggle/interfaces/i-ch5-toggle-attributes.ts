@@ -175,6 +175,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "the initial value or last value on submit."
    * ]
    * @name value
+   * @default false
    */
   value: boolean;
 

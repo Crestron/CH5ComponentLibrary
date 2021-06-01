@@ -94,6 +94,7 @@ export interface ICh5SpinnerAttributes {
    * "The number of of items that can be in a spinner element."
    * ]
    * @name size
+   * @default 1
    */
   size: number;
 
@@ -137,6 +138,7 @@ export interface ICh5SpinnerAttributes {
    * "and <= size."
    * ]
    * @name selectedvalue
+   * @default 0
    */
   selectedValue: number;
 
@@ -247,6 +249,7 @@ export interface ICh5SpinnerAttributes {
    * "(depending on the browser agent)."
    * ]
    * @name resize
+   * @default false
    */
   resize: boolean;
 
@@ -259,6 +262,7 @@ export interface ICh5SpinnerAttributes {
    * "element after the last to be the first element in the list."
    * ]
    * @name endless
+   * @default false
    */
   endless: boolean;
 
@@ -270,6 +274,7 @@ export interface ICh5SpinnerAttributes {
    * "Adjusts the height of ch5-spinner items automatically."
    * ]
    * @name autoSetItemHeight
+   * @default false
    */
   autoSetItemHeight: boolean;
 

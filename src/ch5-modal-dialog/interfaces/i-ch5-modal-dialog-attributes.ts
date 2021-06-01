@@ -71,46 +71,48 @@ import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow } from "../../ch5-ove
  * @ignore
  */
 export interface ICh5ModalDialogAttributes {
-    
-    /**
-     * @documentation
-     * [
-     * "`closeicon` attribute",
-     * "***",
-     * "A class name of the close icon. It may be a font awesome class."
-     * ]
-     * @name closeicon
-     */
-    closeIcon: string
-    
-    /**
-     * @documentation
-     * [
-     * "`stretch` attribute",
-     * "***",
-     * "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
-     * "the available width or the available height in the parent component. Using ",
-     * "'both' will stretch the component both ways."
-     * ]
-     * @name stretch
-     */
-    stretch: TCh5OverlayPanelStretch
-    
-    /**
-     * @documentation
-     * [
-     * "`overflow` attribute",
-     * "***",
-     * "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
-     * "happens if content does or does not overflow the component box. ",
-     * "This is related to the stretch property. This property specifies whether to add ",
-     * "scrollbars when an element's content is too big to fit in a specified area. ",
-     * "If 'show' is selected, the overflow is not clipped."
-     * ]
-     * @name overflow
-     */
-    overflow: TCh5OverlayPanelOverflow
-  
+
+  /**
+   * @documentation
+   * [
+   * "`closeicon` attribute",
+   * "***",
+   * "A class name of the close icon. It may be a font awesome class."
+   * ]
+   * @name closeicon
+   */
+  closeIcon: string
+
+  /**
+   * @documentation
+   * [
+   * "`stretch` attribute",
+   * "***",
+   * "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
+   * "the available width or the available height in the parent component. Using ",
+   * "'both' will stretch the component both ways."
+   * ]
+   * @name stretch
+   * @default null
+   */
+  stretch: TCh5OverlayPanelStretch
+
+  /**
+   * @documentation
+   * [
+   * "`overflow` attribute",
+   * "***",
+   * "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
+   * "happens if content does or does not overflow the component box. ",
+   * "This is related to the stretch property. This property specifies whether to add ",
+   * "scrollbars when an element's content is too big to fit in a specified area. ",
+   * "If 'show' is selected, the overflow is not clipped."
+   * ]
+   * @name overflow
+   * @default scroll
+   */
+  overflow: TCh5OverlayPanelOverflow
+
   /**
    * @documentation
    * [
@@ -121,7 +123,7 @@ export interface ICh5ModalDialogAttributes {
    * @name width
    */
   width: string;
-  
+
   /**
    * @documentation
    * [
@@ -132,7 +134,7 @@ export interface ICh5ModalDialogAttributes {
    * @name height
    */
   height: string;
-  
+
   /**
    * @documentation
    * [
@@ -143,7 +145,7 @@ export interface ICh5ModalDialogAttributes {
    * @name title
    */
   title: string;
-  
+
   /**
    * @documentation
    * [
@@ -154,7 +156,7 @@ export interface ICh5ModalDialogAttributes {
    * @name maskstyle
    */
   maskStyle: string;
-  
+
   /**
    * @documentation
    * [
@@ -164,7 +166,7 @@ export interface ICh5ModalDialogAttributes {
    * @name okbuttonlabel
    */
   okButtonLabel: string;
-  
+
   /**
    * @documentation
    * [
@@ -175,7 +177,7 @@ export interface ICh5ModalDialogAttributes {
    * @name okbuttonicon
    */
   okButtonIcon: string;
-  
+
   /**
    * @documentation
    * [
@@ -186,7 +188,7 @@ export interface ICh5ModalDialogAttributes {
    * @name okbuttonstyle
    */
   okButtonStyle: string;
-  
+
   /**
    * @documentation
    * [
@@ -198,7 +200,7 @@ export interface ICh5ModalDialogAttributes {
    * @name cancelbuttonlabel
    */
   cancelButtonLabel: string;
-  
+
   /**
    * @documentation
    * [
@@ -209,7 +211,7 @@ export interface ICh5ModalDialogAttributes {
    * @name cancelbuttonicon
    */
   cancelButtonIcon: string;
-  
+
   /**
    * @documentation
    * [
@@ -220,7 +222,7 @@ export interface ICh5ModalDialogAttributes {
    * @name cancelbuttonstyle
    */
   cancelButtonStyle: string;
-  
+
   /**
    * @documentation
    * [
@@ -231,7 +233,7 @@ export interface ICh5ModalDialogAttributes {
    * @name prompt
    */
   prompt: string;
-  
+
   /**
    * @documentation
    * [
@@ -251,9 +253,10 @@ export interface ICh5ModalDialogAttributes {
    * "The default value is 'true'. If false, the panel will not automatically hide if a touch event occurs outside of it."
    * ]
    * @name dismissable
+   * @default true
    */
   dismissable: boolean
-  
+
   /**
    * @documentation
    * [
@@ -263,6 +266,7 @@ export interface ICh5ModalDialogAttributes {
    * "the close icon is not showed."
    * ]
    * @name closable
+   * @default false
    */
   closable: boolean
 
@@ -274,6 +278,7 @@ export interface ICh5ModalDialogAttributes {
    * "Specifies whether to apply a background mask."
    * ]
    * @name mask
+   * @default false
    */
   mask: boolean;
 
@@ -285,6 +290,7 @@ export interface ICh5ModalDialogAttributes {
    * "The default value is false. If true, the button is hidden."
    * ]
    * @name hideokbutton
+   * @default false
    */
   hideOkButton: boolean;
 
@@ -296,9 +302,10 @@ export interface ICh5ModalDialogAttributes {
    * "The default value is false. If true, the button is hidden."
    * ]
    * @name hidecancelbutton
+   * @default false
    */
   hideCancelButton: boolean;
-  
+
   /**
    * @documentation
    * [

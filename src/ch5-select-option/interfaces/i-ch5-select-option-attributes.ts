@@ -50,6 +50,7 @@ export interface ICh5SelectOptionAttributes {
    * "Provides the ability to initialise ch5-select with the default template."
    * ]
    * @name usedefaulttmpl
+   * @default false
    */
   useDefaultTmpl: boolean;
 

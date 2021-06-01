@@ -45,6 +45,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * "This will work only if a scaling attribute is set."
    * ]
    * @name minimumfontsize
+   * @default 12
    */
   minimumfontsize: number;
 
@@ -58,6 +59,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * "keyboard navigation."
    * ]
    * @name tabindex
+   * @default 0
    */
   tabIndex: number;
 }

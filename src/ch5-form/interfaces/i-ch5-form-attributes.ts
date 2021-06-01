@@ -169,6 +169,7 @@ export interface ICh5FormAttributes {
    *  "***",
    *  "Represents the type of the auto-generated Submit button."
    * ]
+   * @default default
    */
     submitButtonType: TCh5ButtonType;
 
@@ -213,6 +214,7 @@ export interface ICh5FormAttributes {
    *  "***",
    *  "Represents the type of the auto-generated Cancel button."
    * ]
+   * @default default
    */
   cancelButtonType: TCh5ButtonType;
 
