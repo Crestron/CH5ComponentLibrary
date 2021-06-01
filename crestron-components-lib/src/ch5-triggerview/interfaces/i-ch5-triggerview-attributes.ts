@@ -105,6 +105,7 @@ export interface ICh5TriggerviewAttributes {
      * "The default value is false. The nextChildView method can be called on the last ChildView to open the first-child."
      * ]
      * @name endless
+     * @default false
      */
     endless: boolean;
 
@@ -118,6 +119,7 @@ export interface ICh5TriggerviewAttributes {
      * "Refer to Gesture - Use Cases for more information."
      * ]
      * @name gestureable
+     * @default false
      */
     gestureable: boolean;
 
@@ -129,6 +131,7 @@ export interface ICh5TriggerviewAttributes {
      * "A boolean attribute used to flag that ch5-triggerview is the child element on ch5-triggerview-child."
      * ]
      * @name nested
+     * @default false
      */
     nested: boolean;
 
@@ -164,6 +167,7 @@ export interface ICh5TriggerviewAttributes {
      * "Disables the swipe-like animation when navigating through the ChildViews of the TriggerView."
      * ]
      * @name disableanimation
+     * @default false
      */
     disableAnimation: boolean;
 }

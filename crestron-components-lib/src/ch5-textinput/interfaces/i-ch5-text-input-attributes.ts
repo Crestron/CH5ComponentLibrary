@@ -158,6 +158,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "The type of the input."
    * ]
    * @name type
+   * @default text
    */
   inputType: TCh5TextInputType;
 
@@ -169,6 +170,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Applicable only in feedbackmode='submit'. The minimum length of the attribute."
    * ]
    * @name minlength
+   * @default 0
    */
   minLength: number;
 
@@ -180,6 +182,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Applicable only in feedbackmode='submit'. The maximum length of the attribute"
    * ]
    * @name maxlength
+   * @default 0
    */
   maxLength: number;
 
@@ -192,6 +195,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "The field will result in an error if the value supplied by user is less than value of the attribute."
    * ]
    * @name minvalue
+   * @default 0
    */
   minValue: number;
 
@@ -205,6 +209,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "the attribute."
    * ]
    * @name maxvalue
+   * @default 0
    */
   maxValue: number;
 
@@ -216,6 +221,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Sets the relative size of this component."
    * ]
    * @name size
+   * @default regular
    */
   size: TCh5TextInputSize;
 
@@ -249,6 +255,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "'none' – Does not change the input"
    * ]
    * @name text-transform
+   * @default none
    */
   textTransform: TCh5TextInputTextTransform;
 
@@ -260,6 +267,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Scales the input font size when it reaches the edge."
    * ]
    * @name scaling
+   * @default false
    */
   scaling: boolean;
 

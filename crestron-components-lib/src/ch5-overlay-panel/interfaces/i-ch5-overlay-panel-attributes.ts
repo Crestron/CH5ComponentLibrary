@@ -90,6 +90,7 @@ export interface ICh5OverlayPanelAttributes {
    * "'both' will stretch the component both directions."
    * ]
    * @name stretch
+   * @default null
    */
   stretch: TCh5OverlayPanelStretch
 
@@ -105,6 +106,7 @@ export interface ICh5OverlayPanelAttributes {
    * "If 'show' is selected, the overflow is not clipped."
    * ]
    * @name overflow
+   * @default scroll
    */
   overflow: TCh5OverlayPanelOverflow
 
@@ -130,6 +132,7 @@ export interface ICh5OverlayPanelAttributes {
    * "to the event element's position."
    * ]
    * @name positionoffset
+   * @default top-left
    */
   positionOffset: TCh5OverlayPanelPositionOffset
 
@@ -141,6 +144,7 @@ export interface ICh5OverlayPanelAttributes {
    * "The default value is 'true'. If false, the panel won't automatically hide if a touch event occurs outside of it."
    * ]
    * @name dismissable
+   * @default true
    */
   dismissable: boolean;
 
@@ -153,6 +157,7 @@ export interface ICh5OverlayPanelAttributes {
    * "the close icon is not shown."
    * ]
    * @name closable
+   * @default false
    */
   closable: boolean;
 
@@ -164,6 +169,7 @@ export interface ICh5OverlayPanelAttributes {
    * "Specifies whether or not to apply a background mask."
    * ]
    * @name mask
+   * @default false
    */
   mask: boolean;
 

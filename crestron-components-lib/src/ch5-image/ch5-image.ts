@@ -9,7 +9,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
-import { isNil, isEmpty} from 'lodash';
+import { isNil, isEmpty } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { TCh5ProcessUriParams } from "../ch5-common/interfaces";
 import { ICh5ImageAttributes } from "./interfaces/i-ch5-image-attributes";
@@ -160,12 +160,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     /**
      *
      */
-    private _timerIdForTouch: number|null = null;
+    private _timerIdForTouch: number | null = null;
 
     /**
      * Min length of time we want the user to touch before we do something
      */
-    private _minTouchDuration : number = 500;
+    private _minTouchDuration: number = 500;
 
     /**
      * Reflects the long touch state of the component.
@@ -176,7 +176,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
      * The interval id ( from setInterval ) for reenforcing the  onTouch signal
      * This id allow canceling the interval.
      */
-    private _intervalIdForOnTouch: number|null = null;
+    private _intervalIdForOnTouch: number | null = null;
 
     /**
      * Value in ms for reenforcing the  onTouch signal
@@ -187,7 +187,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
      * The interval id ( from setInterval ) for refresh rate interval
      * This id allow canceling the interval.
      */
-    private _intervalIdForRefresh: number|null = null;
+    private _intervalIdForRefresh: number | null = null;
 
     private _imageWasLoaded: boolean = false;
 
@@ -225,7 +225,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             value = '';
         }
         const trValue = this._getTranslatedValue('alt', value);
-        if ( this._alt !== trValue || this._img.alt !== trValue) {
+        if (this._alt !== trValue || this._img.alt !== trValue) {
             this._alt = trValue;
             this._img.alt = trValue;
             this.setAttribute('alt', trValue);
@@ -263,7 +263,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         return this._refreshRate;
     }
 
-    public set refreshRate(value: string | number) {
+    public set refreshRate(value: number) {
         value = Number(value);
 
         if (isNaN(value)) {
@@ -275,17 +275,17 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         }
     }
 
-    public get url():string {
+    public get url(): string {
         return this._url;
     }
 
     public set url(value: string) {
         if (this._url !== value) {
             this.updateImageUrl(value);
-            
+
             if (this.canProcessUri()) {
                 this.processUri();
-            } 
+            }
         }
     }
 
@@ -312,7 +312,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
      * SIGNALS GETTERS AND SETTERS
      */
 
-    public get receiveStateUrl():string {
+    public get receiveStateUrl(): string {
         // The internal property is changed if/when the element is removed from dom
         // Returning the attribute instead of the internal property preserves functionality
         return this._attributeValueAsString('receivestateurl');
@@ -324,7 +324,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         if ('' === value
             || this._sigNameReceiveUrl === value
             || null === value
-            || undefined === value ) {
+            || undefined === value) {
             return;
         }
 
@@ -377,7 +377,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
         if (this._sigNameSendOnClick !== value) {
             this._sigNameSendOnClick = value;
-            this.setAttribute('sendeventonclick',value);
+            this.setAttribute('sendeventonclick', value);
         }
     }
 
@@ -449,7 +449,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
         this._password = password;
 
-        
+
         if (this.canProcessUri()) {
             this.processUri();
         }
@@ -473,7 +473,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     public get protocol(): string {
         return this._protocol;
     }
-    
+
     /**
      * CONSTRUCTOR
      */
@@ -492,7 +492,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         // events binding
         this._onClick = this._onClick.bind(this);
         this._onTouchStart = this._onTouchStart.bind(this);
-        this._onTouchEnd =  this._onTouchEnd.bind(this);
+        this._onTouchEnd = this._onTouchEnd.bind(this);
         this._onTouchCancel = this._onTouchCancel.bind(this);
         this._onTouchMove = this._onTouchMove.bind(this);
         this._onError = this._onError.bind(this);
@@ -523,16 +523,16 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         this.setAttribute('data-ch5-id', this.getCrId());
 
         // init pressable before initAttributes because pressable subscribe to gestureable attribute
-        if ( null !== this._pressable) {
+        if (null !== this._pressable) {
             this._pressable.init();
         }
 
         customElements.whenDefined('ch5-image').then(() => {
             this.cacheComponentChildrens();
             const img = this.querySelector('img');
-            
+
             if (img) {
-              img.remove();
+                img.remove();
             }
 
             if (this._img.parentElement !== this) {
@@ -565,7 +565,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         // disconnect common mutation observer
         this.disconnectCommonMutationObserver();
 
-        if (null !== this._intervalIdForRefresh){
+        if (null !== this._intervalIdForRefresh) {
             window.clearInterval(this._intervalIdForRefresh);
 
             if (Ch5CoreIntersectionObserver.getInstance() instanceof Ch5CoreIntersectionObserver) {
@@ -573,12 +573,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             }
         }
 
-        if ( null !== this._timerIdForTouch) {
+        if (null !== this._timerIdForTouch) {
             window.clearTimeout(this._timerIdForTouch);
             this._timerIdForTouch = null;
         }
 
-        if ( null !== this._intervalIdForOnTouch){
+        if (null !== this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
             this._intervalIdForOnTouch = null;
         }
@@ -620,14 +620,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
         switch (attr) {
             case 'url':
-                if (this.hasAttribute('url')){
+                if (this.hasAttribute('url')) {
                     this.url = newValue;
                 } else {
                     this.url = '';
                 }
                 break;
             case 'alt':
-                if (this.hasAttribute('alt')){
+                if (this.hasAttribute('alt')) {
                     this.alt = newValue;
                     this.setAttribute('aria-label', this.alt);
                 } else {
@@ -636,54 +636,54 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
                 }
                 break;
             case 'width':
-                if (this.hasAttribute('width')){
+                if (this.hasAttribute('width')) {
                     this.width = newValue;
                 } else {
                     this.width = '';
                 }
                 break;
             case 'height':
-                if (this.hasAttribute('height')){
+                if (this.hasAttribute('height')) {
                     this.height = newValue;
                 } else {
                     this.height = '';
                 }
                 break;
             case 'refreshrate':
-                if (this.hasAttribute('refreshrate')){
-                    this.refreshRate = newValue;
-                    if (null !== this._refreshRate &&
-                        0    !== this._refreshRate ) {
+                if (this.hasAttribute('refreshrate')) {
+                    this.refreshRate = Number(newValue);
+                    if (this._refreshRate !== null &&
+                        this._refreshRate !== 0) {
                         Ch5CoreIntersectionObserver.getInstance().observe(this, this.updateElementInViewportChange);
                     }
                 } else {
-                    this.refreshRate = '';
+                    this.refreshRate = 0;
                 }
                 this._initRefreshRate();
                 break;
             case 'receivestateurl':
-                if (this.hasAttribute('receivestateurl')){
+                if (this.hasAttribute('receivestateurl')) {
                     this.receiveStateUrl = newValue;
                 } else {
                     this.receiveStateUrl = '';
                 }
                 break;
             case 'sendeventonclick':
-                if (this.hasAttribute('sendeventonclick')){
+                if (this.hasAttribute('sendeventonclick')) {
                     this.sendEventOnClick = newValue;
                 } else {
                     this.sendEventOnClick = '';
                 }
                 break;
             case 'sendeventontouch':
-                if (this.hasAttribute('sendeventontouch')){
+                if (this.hasAttribute('sendeventontouch')) {
                     this.sendEventOnTouch = newValue;
                 } else {
                     this.sendEventOnTouch = '';
                 }
                 break;
             case 'sendeventonerror':
-                if (this.hasAttribute('sendeventonerror')){
+                if (this.hasAttribute('sendeventonerror')) {
                     this.sendEventOnError = newValue;
                 } else {
                     this.sendEventOnError = '';
@@ -725,8 +725,8 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
         const csf = Ch5SignalFactory.getInstance();
         if ('' !== this._subReceiveUrl && '' !== this._sigNameReceiveUrl) {
-            const sigLabel:Ch5Signal<string>|null=csf.getStringSignal(this._sigNameReceiveUrl);
-            if (null !== sigLabel){
+            const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(this._sigNameReceiveUrl);
+            if (null !== sigLabel) {
                 sigLabel.unsubscribe(this._subReceiveUrl);
                 this._sigNameReceiveUrl = '';
             }
@@ -765,9 +765,9 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
         this.addEventListener('click', this._onClick);
 
-        this.addEventListener('touchstart', this._onTouchStart, {passive: true});
+        this.addEventListener('touchstart', this._onTouchStart, { passive: true });
         this.addEventListener('touchend', this._onTouchEnd);
-        this.addEventListener('touchmove',this._onTouchMove, {passive: true});
+        this.addEventListener('touchmove', this._onTouchMove, { passive: true });
         this.addEventListener('touchcancel', this._onTouchCancel);
 
         this._img.addEventListener('error', this._onError);
@@ -794,17 +794,17 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
     public disableImageLoading() {
         this.info('disableImageLoading()');
-        if (null !== this._intervalIdForRefresh){
+        if (null !== this._intervalIdForRefresh) {
             window.clearInterval(this._intervalIdForRefresh);
             this._imageWasLoaded = false;
-         }
+        }
     }
-    
+
     public getCssClassDisabled() {
         return this.cssClassPrefix + '--disabled';
     }
 
-    
+
     public canProcessUri(): boolean {
         if (
             (isNil(this.password) || isEmpty(this.password)) ||
@@ -823,7 +823,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
      * @returns {boolean}
      * @memberof Ch5Image
      */
-    public isVisible():boolean {
+    public isVisible(): boolean {
         /**
          * @param (el)      the DOM element to check if is visible
          *
@@ -837,15 +837,15 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
          * @param (w)       Element width number
          * @param (h)       Element height number
          */
-        function _isVisible(el:HTMLElement, t?:number, r?:number, b?:number, l?:number, w?:number, h?:number): boolean {
+        function _isVisible(el: HTMLElement, t?: number, r?: number, b?: number, l?: number, w?: number, h?: number): boolean {
             const p = el.parentNode as HTMLElement;
 
-            if ( !_elementInDocument(el) ) {
+            if (!_elementInDocument(el)) {
                 return false;
             }
 
             // -- Return true for document node
-            if ( 9 === p.nodeType ) {
+            if (9 === p.nodeType) {
                 return true;
             }
 
@@ -855,7 +855,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             }
 
             // -- If we have a parent, let's continue:
-            if ( p ) {
+            if (p) {
                 // -- Let's recursively check upwards:
                 return _isVisible(p);
             }
@@ -863,7 +863,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         }
 
         // -- Cross browser method to get style properties:
-        function _getStyle(el:HTMLElement) {
+        function _getStyle(el: HTMLElement) {
             let styles: IShowStyle = {} as IShowStyle;
 
             if (window.getComputedStyle) {
@@ -877,11 +877,11 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             return true;
         }
 
-        function _elementInDocument(element:any) {
+        function _elementInDocument(element: any) {
             /* tslint:disable:no-conditional-assignment */
             while (element = element.parentNode) {
                 if (element === document) {
-                        return true;
+                    return true;
                 }
             }
             return false;
@@ -903,7 +903,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         }
     }
 
-    protected afterHandlingShow():void {
+    protected afterHandlingShow(): void {
         this.info('afterHandlingShow()');
 
         if (null === this.refreshRate || this.refreshRate === 0) {
@@ -913,10 +913,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         }
     }
 
-    protected afterHandlingHide():void {
+    protected afterHandlingHide(): void {
         this.info('afterHandlingHide()');
         // image is not visible, stop refreshing
-        if (null !== this._intervalIdForRefresh){
+        if (null !== this._intervalIdForRefresh) {
             window.clearInterval(this._intervalIdForRefresh);
         }
 
@@ -932,13 +932,13 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         this.removeEventListener('click', this._onClick);
         this.removeEventListener('touchstart', this._onTouchStart);
         this.removeEventListener('touchend', this._onTouchEnd);
-        this.removeEventListener('touchmove',this._onTouchMove);
+        this.removeEventListener('touchmove', this._onTouchMove);
         this.removeEventListener('touchcancel', this._onTouchCancel);
 
         this._img.removeEventListener('error', this._onError);
 
         // remove press events from pressable
-        if ( null !== this._pressable) {
+        if (null !== this._pressable) {
             this._pressable.destroy();
         }
     }
@@ -956,7 +956,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
          * browser reserved space for the component)
          */
         if (this.elementIsVisible) {
-            if ( null !== this._url && '' !== this.url && true === this.show) {
+            if (null !== this._url && '' !== this.url && true === this.show) {
                 candidateUrl = refreshParam ? this._insertParamToUrl('__cr_avoid_cache', new Date().getTime().toString()) : this._url;
 
                 this._img.src = candidateUrl;
@@ -973,17 +973,17 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     private _initRefreshRate() {
         this.info('initRefreshRate');
 
-        if (this._intervalIdForRefresh){
+        if (this._intervalIdForRefresh) {
             window.clearInterval(this._intervalIdForRefresh);
         }
 
         if (null !== this._url &&
-            ''   !== this._url &&
+            '' !== this._url &&
             null !== this._refreshRate &&
-            0    !== this._refreshRate
+            0 !== this._refreshRate
         ) {
             this._maybeLoadImage(true);
-            this._intervalIdForRefresh = window.setInterval( () => { this._maybeLoadImage(true) }, this._refreshRate * 1000);
+            this._intervalIdForRefresh = window.setInterval(() => { this._maybeLoadImage(true) }, this._refreshRate * 1000);
         }
     }
 
@@ -995,7 +995,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         this.info("Ch5Image._onTouchStart()");
         // inEvent.preventDefault();
 
-        if (this._timerIdForTouch){
+        if (this._timerIdForTouch) {
             window.clearTimeout(this._timerIdForTouch);
         }
 
@@ -1048,7 +1048,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         this._sendValueForTouchSignal(true);
 
         // reassert sendEventOnTouch while finger is still on the glass
-        if (this._intervalIdForOnTouch){
+        if (this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
         }
 
@@ -1067,12 +1067,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             this._longTouch = false;
         }
 
-        if ( null !== this._timerIdForTouch) {
+        if (null !== this._timerIdForTouch) {
             window.clearTimeout(this._timerIdForTouch);
             this._timerIdForTouch = null;
         }
 
-        if ( null !== this._intervalIdForOnTouch){
+        if (null !== this._intervalIdForOnTouch) {
             window.clearInterval(this._intervalIdForOnTouch);
             this._intervalIdForOnTouch = null;
         }
@@ -1083,14 +1083,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
      *
      * @param value
      */
-    private _sendValueForTouchSignal(value:boolean):void {
+    private _sendValueForTouchSignal(value: boolean): void {
         if (this._sigNameSendOnTouch !== '' && !isNil(this._sigNameSendOnTouch)) {
 
-            const touchSignal: Ch5Signal<object|boolean> | null = Ch5SignalFactory.getInstance()
+            const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
                 .getObjectAsBooleanSignal(this._sigNameSendOnTouch);
 
             if (touchSignal !== null) {
-                touchSignal.publish({[Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value});
+                touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
             }
         }
     }
@@ -1098,7 +1098,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     /**
      * Send boolean values for signal on click
      */
-    private _sendValueForClickSignal(): void  {
+    private _sendValueForClickSignal(): void {
         let sigClick: Ch5Signal<boolean> | null = null;
 
         if ('' !== this._sigNameSendOnClick
@@ -1115,7 +1115,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         }
     }
 
-    private _sendValueForErrorSignal(errorMessage:string): void {
+    private _sendValueForErrorSignal(errorMessage: string): void {
         let sigError: Ch5Signal<string> | null = null;
 
         if ('' !== this._sigNameSendOnError
@@ -1137,10 +1137,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
      * @param key
      * @param value
      */
-    private _insertParamToUrl(key: string, value: string): string{
+    private _insertParamToUrl(key: string, value: string): string {
         key = encodeURI(key); value = encodeURI(value);
 
-        if ( this._getUrlVars().size === 0) {
+        if (this._getUrlVars().size === 0) {
             return this._url + '?' + key + '=' + value;
         }
 
@@ -1156,7 +1156,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             }
         }
 
-        if (i < 0) { kvp[kvp.length] = [key, value].join('=');}
+        if (i < 0) { kvp[kvp.length] = [key, value].join('='); }
 
         return kvp.join('&');
     }
@@ -1169,7 +1169,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         let hash: string[];
         const questionMarkIndex = this._url.indexOf('?');
 
-        if ( questionMarkIndex > 1 ) {
+        if (questionMarkIndex > 1) {
             const hashes = this._url.slice(questionMarkIndex + 1).split('&');
 
             for (const iterator of hashes) {

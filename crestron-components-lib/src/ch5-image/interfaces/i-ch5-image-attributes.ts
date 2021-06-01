@@ -49,8 +49,9 @@ export interface ICh5ImageAttributes {
    * "be refreshed."
    * ]
    * @name refreshrate
+   * @default 0
    */
-  refreshRate: number | string;
+  refreshRate: number;
 
   /**
    * @documentation

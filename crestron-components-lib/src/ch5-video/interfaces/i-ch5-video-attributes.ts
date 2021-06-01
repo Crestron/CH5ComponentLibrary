@@ -197,13 +197,13 @@ export interface ICh5VideoAttributes {
      * [
      * "`size` attribute",
      *  "***",
-     *  "The display size for the video. The default size is 'small' if not entered. ",
+     *  "The display size for the video. The default size is 'large' if not entered. ",
      *  "The size options for the aspect ratio 16:9 and 4:3 are 'x-small' (width: 25vw, height: 25vh), ",
      *  "'small' (width: 40vw, height: 40vh), 'large' (width: 55vw, ",
      *  "height: 55vh), 'x-large' (width: 70vw, height: 70vh) and 'xx-large' (width: 85vw, height: 80vh). ",
      *  "The user needs to select the appropriate size to fit the container."
      * ]
-     * @default small
+     * @default large
      */
     size: TCH5VideoSize | string;
 

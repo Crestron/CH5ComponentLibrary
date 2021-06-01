@@ -25,6 +25,7 @@ export interface ICh5CommonInputAttributes {
    * "sendEventOnChange attribute only when the submit() method is called by a Form Component."
    * ]
    * @name feedbackmode
+   * @default direct
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -39,6 +40,7 @@ export interface ICh5CommonInputAttributes {
    * "If the value is not equal, it will apply the value from the signal automatically. Apply only for feedbackMode direct."
    * ]
    * @name signalvaluesynctimeout
+   * @default 1500ms
    */
   signalValueSyncTimeout: number | string;
 

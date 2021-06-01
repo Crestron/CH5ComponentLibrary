@@ -263,6 +263,7 @@ export interface ICh5SliderAttributes {
    * "if the value is equal with the value from the signal. If not, it will automatically apply the value from the signal."
    * ]
    * @name signalvaluesynctimeout
+   * @default 1500
    */
   signalValueSyncTimeout: string | number;
 
@@ -275,6 +276,7 @@ export interface ICh5SliderAttributes {
    * "will send and listen for the first received event."
    * ]
    * @name feedbackmode
+   * @default direct
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -308,6 +310,7 @@ export interface ICh5SliderAttributes {
    * "The default value is false. If true, the slider will have two handles so two different values can be defined."
    * ]
    * @name range
+   * @default false
    */
   range: boolean;
 
@@ -320,6 +323,7 @@ export interface ICh5SliderAttributes {
    * "at each tick increment."
    * ]
    * @name showtickvalues
+   * @default false
    */
   showTickValues: boolean;
 
@@ -331,6 +335,7 @@ export interface ICh5SliderAttributes {
    * "The default value is false. Hides the slider handle."
    * ]
    * @name nohandle
+   * @default false
    */
   noHandle: boolean
 
@@ -342,6 +347,7 @@ export interface ICh5SliderAttributes {
    * "The default value is false. Sets the slider value on tap."
    * ]
    * @name tapsettable
+   * @default false
    */
   tapSettable: boolean
 

@@ -248,6 +248,7 @@ export interface ICh5SelectAttributes {
    * "If true, the value of the selection will be an array of values."
    * ]
    * @name selectedvalue
+   * @default -1
    */
   selectedValue: string | number;
 
@@ -259,6 +260,7 @@ export interface ICh5SelectAttributes {
    * "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select. "
    * ]
    * @name panelscrollheight
+   * @default 0
    */
   panelScrollHeight: number;
 
@@ -328,6 +330,7 @@ export interface ICh5SelectAttributes {
    * "Allows the form submission functionality. Valid values: 'direct', 'submit'."
    * ]
    * @name feedbackmode
+   * @default direct
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -380,6 +383,7 @@ export interface ICh5SelectAttributes {
    * "If true, the value of the selection will be an array of values."
    * ]
    * @name multiselect
+   * @default false
    * 
    */
   multiselect: boolean;
@@ -393,6 +397,7 @@ export interface ICh5SelectAttributes {
    * "The maximum width and height cannot be bigger then parent HTML element."
    * ]
    * @name resize
+   * @default false
    * 
    */
   resize: boolean;
