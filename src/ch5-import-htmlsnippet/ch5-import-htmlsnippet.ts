@@ -211,7 +211,6 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
         customElements.whenDefined('ch5-import-htmlsnippet').then(() => {
             this.cacheComponentChildrens();
             this.appendChild(this._elContainer);
-            this.dispatchEvent(this.loadEvent);
             this._sendSignalValueOnShow();
             this.info(`ch5-import-htmlsnippet connectedCallback() - end`);            
         });
@@ -264,30 +263,51 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
      * @param url 
      */
     private loadHTMLContent(url: string) {
-        this.loadJSON(url, (response: string) => {
-            this._elContainer.innerHTML = response;
-        });
+        this.asyncLoadContent(url)
+            .then((response: string) => {
+                this._elContainer.innerHTML = response;
+                this.dispatchEvent(this.loadEvent);
+            })
+            .catch((rejectionReason) => {
+                this.info(`ch5-import-htmlsnippet failed to load the URL: ${url}, ${rejectionReason}`);
+            });
     }
 
     /**
      * Getting the local file
      * @param url 
-     * @param callback 
+     * @return Promise with content from URL  
      */
-    private loadJSON(url: string, callback: any) {
-        try {
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', url, false);
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === 4) {
-                    callback(xhr.responseText);
-                }
-            };
-            xhr.send();
-        } catch (e) {
-            this.info(`ch5-import-htmlsnippet failed to load the URL: ${url}`);
-        }
-    }
+    private asyncLoadContent(url: string) : Promise<string> {
+        // Create new promise with the Promise() constructor;
+        // This has as its argument a function
+        // with two parameters, resolve and reject
+        return new Promise((resolve, reject) => {
+          // Standard XHR to load an image
+          const request = new XMLHttpRequest();
+          request.open("GET", url);
+          // When the request loads, check whether it was successful
+          request.onload = () => {
+            if (request.status >= 200 && request.status <= 299 && request.response !== null 
+                && (request.responseType === "" || request.responseType === "text")) {
+              // If successful, resolve the promise by passing back the request response
+              resolve(request.responseText);
+            } else {
+              // If it fails, reject the promise with a error message
+              reject(`load failed with status ${request.status}, ${request.statusText}`);
+            }
+          };
+          request.onerror = () => {
+            // Also deal with the case when the entire request fails to begin with
+            // This is probably a network error, so reject the promise with an appropriate message
+            reject("There was a network error.");
+          };
+          // Send the request
+          request.send();
+        });
+      }
+    
+
 
     /**
      * Send digital pulse(boolean values) when component is selected|active
