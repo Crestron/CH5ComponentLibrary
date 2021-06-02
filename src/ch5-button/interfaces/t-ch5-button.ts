@@ -16,9 +16,13 @@ export type TCh5ButtonActionType = 'cancel' | 'submit';
 
 export type TCh5ButtonCheckboxPosition = 'left' | 'right'; // Ch5Alignments.Left | Ch5Alignments.Right;
 
-export type TCh5ButtonHorizontalAlignLabel = 'left' | 'right' | 'center' | 'justify';
+export type TCh5ButtonHorizontalAlignLabel = 'left' | 'right' | 'center';
 
 export type TCh5ButtonIconPosition = 'first' | 'last' | 'top' | 'bottom';
+
+// TODO - try after upgrading typsecript version
+// export const TCh5ButtonListOfOrientations = ['horizontal', 'vertical'] as const;
+// export type TCh5ButtonOrientationNew =  typeof TCh5ButtonListOfOrientations[number];  // 'horizontal' | 'vertical';
 
 export type TCh5ButtonOrientation = 'horizontal' | 'vertical';
 
@@ -30,4 +34,6 @@ export type TCh5ButtonStretch = 'both' | 'width' | 'height';
 
 export type TCh5ButtonType = 'default' | 'primary' | 'info' | 'text' | 'danger' | 'warning' | 'success' | 'secondary';
 
-export type TCh5ButtonVerticalAlignLabel = 'start' | 'end' | 'center' | 'baseline';
+export type TCh5ButtonVerticalAlignLabel = 'center' | 'top' | 'bottom';
+
+export type TCh5ButtonModeState = 'normal' | 'pressed' | 'selected';

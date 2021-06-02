@@ -6,481 +6,218 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
 import _ from "lodash";
-import { ICh5ButtonLabelAttributes } from "./interfaces/i-ch5-button-label-attributes";
+import { Ch5Button } from "./ch5-button";
 
 // const _parentTriggerviewNodeName = 'CH5-BUTTON';
+// const COMPONENT_NAME: string = "ch5-button-label";
 
-export class Ch5ButtonLabel extends Ch5Common implements ICh5ButtonLabelAttributes {
+export class Ch5ButtonLabel extends Ch5Common {
 
-    // /**
-    //  * CSS classes
-    //  */
-    // public primaryCssClass = 'ch5-viewchild';
-    // public cssClassPrefix = 'ch5-viewchild';
+    public getParentButton(): Ch5Button {
+        const getTheMatchingParent = (node: Node): Ch5Button => {
+            if (!_.isNil(node) && node.nodeName !== "CH5-BUTTON") {
+                return getTheMatchingParent(node.parentNode as Node);
+            }
+            return node as Ch5Button;
+        }
 
-    // /**
-    //  * COMPONENT ATTRIBUTES
-    //  *
-    //  * - selected
-    //  */
+        // if (!_.isNil(this.parentElement)) {
+        return getTheMatchingParent(this.parentElement as Node);
+        // }
+    }
 
-    // get selected() {
-    //     this.info('Ch5TriggerViewChild get selected()');
+    constructor() {
+        super();
+        this.info('Ch5ButtonLabel.constructor()');
+    }
 
-    //     return this.hasAttribute('selected');
-    // }
+    /**
+     * 	Called every time the element is inserted into the DOM.
+     *  Useful for running setup code, such as fetching resources or rendering.
+     */
+    public connectedCallback() {
+        this.info('Ch5ButtonLabel.connectedCallback()');
+        this.cacheComponentChildrens();
 
-    // set selected(value) {
-    //     this.info('Ch5TriggerViewChild set selected()');
+        // if (!(this.parentElement instanceof Ch5TriggerView)) {
+        //     throw new Error(`Invalid parent element for ch5-triggerview-child. Required ch5-triggerview as parent`);
+        // }
 
-    //     value = Boolean(value);
-    //     if (value) {
-    //         this.setAttribute('selected', '');
-    //         this.setAttribute('aria-selected', 'true');
-    //     }
-    //     else {
-    //         this.removeAttribute('selected');
-    //         this.setAttribute('aria-selected', 'false');
-    //     }
-    // }
-
-    // /**
-    //  * COMPONENT SEND SIGNALS
-    //  *
-    //  * - sendEventOnShow
-    //  */
-
-    // /**
-    //  * The name of the digital pulse signal that will be sent to native of current visible item on select
-    //  *
-    //  * HTML attribute name: sendEventOnShow or sendeventonshow
-    //  * @private
-    //  * @type {string}
-    //  */
-    // private _sendEventOnShowSigName: string = '';
-
-
-    // /**
-    //  * COMPONENT RECEIVE SIGNALS
-    //  *
-    //  * - receiveStateShow
-    //  */
-
-    // /**
-    //  * The name of a boolean signal
-    //  * In case the value of this is true, it will tell the parent component ( trigger view)
-    //  * to hide all the other childview and show this one.
-    //  * 
-    //  * HTML attribute name: receiveStateShow or receivestateshow
-    //  */
-    // private _receiveStateShowSigName: string = '';
-
-    // /**
-    //  * The subscription id for the receiveStateShow signal
-    //  */
-    // private _subReceiveSignalShowId: string = '';
-
-
-    // /**
-    //  * SEND SIGNALS GETTERS AND SETTERS
-    //  */
-
-    // /**
-    //  * Getter sendEventOnShow
-    //  */
-    // public get sendEventOnShow(): string {
-    //     return this._sendEventOnShowSigName;
-    // }
-
-    // /**
-    //  * Setter sendEventOnShow
-    //  */
-    // public set sendEventOnShow(value: string) {
-    //     this.info('set sendEventOnShow(\'' + value + '\')');
-        
-    //     if ('' === value) {
-    //         return;
-    //     }
-
-    //     if (this._sendEventOnShowSigName !== value) {
-    //         this._sendEventOnShowSigName = value;
-    //         this.setAttribute('sendeventonshow', value);
-    //     }
-    // }
-
-
-    // /**
-    //  * RECEIVED SIGNALS GETTERS AND SETTERS
-    //  */
-
-    // /**
-    //  * Getter receiveStateShow
-    //  */
-    // public get receiveStateShow(): string {
-    //     // The internal property is changed if/when the element is removed from DOM
-    //     // Returning the attribute instead of the internal property preserves functionality
-    //     return this._attributeValueAsString('receivestateshow');
-    // }
-
-    // /**
-    //  * Setter receiveStateShow
-    //  */
-    // public set receiveStateShow(value: string) {
-    //     this.info('set receiveStateShow(\'' + value + '\')');
-        
-    //     if ('' === value 
-    //         || this._receiveStateShowSigName === value
-    //         || null === value
-    //         || undefined === value ) {
-    //         return;
-    //     }
-
-    //     // clean up old subscription
-    //     if (this._receiveStateShowSigName !== ''
-    //         && this._receiveStateShowSigName !== undefined
-    //         && this._receiveStateShowSigName !== null) {
-
-    //         const oldSignalName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowSigName);
-    //         const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-    //             .getBooleanSignal(oldSignalName);
-
-    //         if (oldSignal !== null) {
-    //             oldSignal.unsubscribe(this._subReceiveSignalShowId);
-    //         }
-    //     }
-
-    //     // setup new subscription.
-    //     this._receiveStateShowSigName = value;
-    //     this.setAttribute('receivestateshow', value);
-
-    //     const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowSigName);
-    //     const receiveState: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-    //         .getBooleanSignal(receiveStateName);
-
-    //     if (receiveState === null) {
-    //         return;
-    //     }
-
-    //     let hasSignalChanged = false;
-    //     this._subReceiveSignalShowId = receiveState.subscribe((newValue: boolean) => {
-    //         if (newValue && newValue === true && receiveState.hasChangedSinceInit()) {
-    //             const parentElement = this.getTriggerViewParent();
-    //             if (parentElement !== null) {
-    //                 parentElement.setActiveViewChild(this);
-    //                 hasSignalChanged = true;
-    //             }
-    //         }
-
-    //         if (newValue !== this.show && hasSignalChanged) {
-    //             this.setAttribute('show', '' + newValue);
-    //         }
-    //     });
-    // }
-
-    // // ignore functionality from common sense in this case is not needed
-    // public set sigNameReceiveShow(value: string) {
-    //     return;
-    // }
-
-
-    // ////// COMPONENT START ///////
-
-    // constructor() {
-    //     super();
-    //     this.info('Ch5TriggerViewChild.constructor()');
-
-    //     this._listOfAllPossibleComponentCssClasses = this._generateListOfAllPossibleComponentCssClasses();
-    // }
-
-    // /**
-    //  * 	Called every time the element is inserted into the DOM.
-    //  *  Useful for running setup code, such as fetching resources or rendering.
-    //  */
-    // public connectedCallback() {
-    //     this.info('Ch5TriggerViewChild.connectedCallback()');
-    //     this.cacheComponentChildrens();
-
-    //     // TODO: temporarily disabled because in Ch5TriggerView was added a wrapper div
-    //     // if (!(this.parentElement instanceof Ch5TriggerView)) {
-    //     //     throw new Error(`Invalid parent element for ch5-triggerview-child. Required ch5-triggerview as parent`);
-    //     // }
-
-    //     // set noshowtype attribute
-    //     this.setAttribute('noshowtype', Ch5TriggerViewChild.SHOW_TYPES[0]);
-
-    //     this.updateCssClasses();
-
-    //     // If this is executed, JavaScript is working and the element
-    //     // changes its role to `triggerview-child`.
+        // // If this is executed, JavaScript is working and the element
+        // // changes its role to `triggerview-child`.
         // this.setAttribute('role', Ch5RoleAttributeMapping.ch5TriggerViewChild);
 
-    //     // set data-ch5-id
-    //     this.setAttribute('data-ch5-id', this.getCrId());
+        // set data-ch5-id
+        this.setAttribute('data-ch5-id', this.getCrId());
 
-    //     /**
-    //      * The tabindex global attribute indicates if its element can be focused.
-    //      * Makes available focus and blur events on element
-    //      *
-    //      */
-    //     if (!this.hasAttribute('tabindex')) {
-    //         this.tabIndex = -1;
-    //     }
+        // init attributes
+        this.initAttributes();
 
-    //     // init attributes
-    //     this.initAttributes();
+        this.initCommonMutationObserver(this);
 
-    //     this.initCommonMutationObserver(this);
-    // }
+        const templateData = this.children[0];
+        if (templateData) {
+            if (this.shouldUpdateLabelAttribute()) {
+                this.getParentButton().labelHtml = templateData.innerHTML;
+            }
+        }
+        // if (this.children && this.children.length > 0) {
+        //     Array.from(this.children).forEach((newChild) => {
+        //         if (newChild.nodeName.toString().toLowerCase() === "ch5-button-label") {
+        //             const templateData = newChild.children[0];
+        //             if (templateData && templateData.nodeName.toString().toLowerCase() === "template") {
+        //                 // this.info("templateData.innerHTML", templateData.innerHTML);
+        //                 // this.setAttribute('label', templateData.innerHTML);
+        //                 this._elLabel.innerHTML = templateData.innerHTML;
+        //                 // break;
+        //             }
+        //         } else if (newChild.nodeName.toString().toLowerCase() === "ch5-button-mode") {
+        //             // const templateData: Ch5ButtonMode = this.children[i].children[0];
+        //             // this._childButtonModes.push(templateData);
+        //             const optionTemplate = this.getElementsByTagName('ch5-button-mode')[0] as HTMLElement;
+        //             if (optionTemplate && optionTemplate.innerHTML && optionTemplate.innerHTML.length > 0) {
+        //                 this.info("optionTemplate.innerHTML", optionTemplate.innerHTML);
+        //             }
+        //         }
+        //     });
+        // }
+        this.info("READY ch5-button-label");
+    }
 
+    /**
+     * The concept revolves around which child node should update the attributes of ch5-button.
+     * To start off, I am aware of 
+     *      current child node name, 
+     *      parent node, and 
+     *      ch5-button (and its properties like mode, data-ch5-id etc - including child element properties)
+     * TODO - Multiple junk nodes like 2 ch5-button-label in ch5-button
+     * TODO = check state by state name
+     * @returns 
+     */
+    private shouldUpdateLabelAttribute(): boolean {
+        /*
+        <ch5-button mode="0">
+            <ch5-button-label></ch5-button-label>
+            <ch5-button-mode>
+                <ch5-button-label></ch5-button-label>
+                <ch5-button-mode-state>
+                    <ch5-button-label></ch5-button-label>
+                </ch5-button-mode-state>
+            </ch5-button-mode>
+        <ch5-button>                
+        */
+
+        const ch5Button: Ch5Button = this.getParentButton();
+        const selectedMode: number = ch5Button.mode;
+        const parentNode: HTMLElement | null = this.parentElement;
+
+        if (parentNode) {
+            const parentNodeName: string = parentNode.nodeName.toString().toLowerCase();
+
+            if (parentNodeName === "ch5-button") {
+                // Case: "ch5-button-label" is an immediate child for the parent "ch5-button"
+                // Check if ch5-button-mode exists
+                const ch5ButtonModesArray = parentNode.getElementsByTagName("ch5-button-mode");
+                if (ch5ButtonModesArray && ch5ButtonModesArray.length > 0) {
+                    // Implies multi-mode is true
+                    // Now check if ch5-button-label exists in ch5-button-mode or ch5-button-mode-state
+                    const ch5ButtonModeLabelArray = ch5ButtonModesArray[selectedMode].getElementsByTagName("ch5-button-label");
+                    if (ch5ButtonModeLabelArray && ch5ButtonModeLabelArray.length > 0) {
+                        // Since there is "ch5-button-label" in ch5ButtonModesArray (for selected mode), so the "ch5-button-label" 
+                        // immediately inside the parent "ch5-button" must be ignored.
+                        return false;
+                    } else {
+                        // No "ch5-button-label" in ch5ButtonModesArray (for selected mode)
+                        // Check if ch5-button-mode-state exists
+                        const ch5ButtonModeStatesArray = ch5ButtonModesArray[selectedMode].getElementsByTagName("ch5-button-mode-state");
+                        console.log("ch5ButtonModeStatesArray[j]", ch5ButtonModeStatesArray);
+                        if (ch5ButtonModeStatesArray && ch5ButtonModeStatesArray.length > 0) {
+                            // Now check if ch5-button-label exists in ch5-button-mode-state
+                            let stateModeIndex: number = -1;
+                            for (let j: number = 0; j < ch5ButtonModeStatesArray.length; j++) {
+                                console.log("ch5ButtonModeStatesArray[j]", ch5ButtonModeStatesArray[j]);
+                                if (ch5ButtonModeStatesArray[j].getAttribute("state") === "selected" && ch5Button.selected === true) {
+                                    stateModeIndex = j;
+                                    break;
+                                } else if (ch5ButtonModeStatesArray[j].getAttribute("state") === "normal" && ch5Button.selected === false) {
+                                    console.log("instate");
+                                    stateModeIndex = j;
+                                    break;
+                                }
+                            }
+                            const ch5ButtonModeStateLabelArray = ch5ButtonModeStatesArray[stateModeIndex].getElementsByTagName("ch5-button-label");
+                            if (ch5ButtonModeStateLabelArray && ch5ButtonModeStateLabelArray.length > 0) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        } else {
+                            return true;
+                        }
+                    }
+                } else {
+                    // Implies multi-mode is false
+                    // So if the current node is "ch5-button-label" and parent is "ch5-button", 
+                    // and there are no "ch5-button-mode" elements, then "ch5-button-label" takes preference.
+                    return true;
+                }
+            } else if (parentNodeName === "ch5-button-mode") {
+                // Implies multi-mode is true
+                // Check if ch5-button-mode-state exists
+                const ch5ButtonModeStatesArray = parentNode.getElementsByTagName("ch5-button-mode-state");
+                if (ch5ButtonModeStatesArray && ch5ButtonModeStatesArray.length > 0) {
+                    // Now check if ch5-button-label exists in ch5-button-mode-state
+                    const ch5ButtonModeLabelArray = ch5ButtonModeStatesArray[0].getElementsByTagName("ch5-button-label");
+                    if (ch5ButtonModeLabelArray && ch5ButtonModeLabelArray.length > 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            } else if (parentNodeName === "ch5-button-mode-state") {
+                const ch5ButtonModesArray = ch5Button.getElementsByTagName("ch5-button-mode");
+                if (ch5ButtonModesArray && ch5ButtonModesArray.length > 0) {
+                    let buttonModeIndex: number = -1;
+                    // for (let i: number = 0; i < ch5ButtonModesArray.length; i++) {
+                    // const ch5ButtonModeStatesArray = ch5ButtonModesArray[i].getElementsByTagName("ch5-button-mode-state");
+                    const ch5ButtonModeStatesArray = ch5ButtonModesArray[selectedMode].getElementsByTagName("ch5-button-mode-state");
+                    if (ch5ButtonModeStatesArray && ch5ButtonModeStatesArray.length > 0) {
+
+                        for (let j: number = 0; j < ch5ButtonModeStatesArray.length; j++) {
+                            if (ch5ButtonModeStatesArray[j].getAttribute("data-ch5-id") === parentNode.getAttribute("data-ch5-id")) {
+                                if (parentNode.getAttribute("state") === "selected" && ch5Button.selected === true) {
+                                    buttonModeIndex = j;
+                                } else if (parentNode.getAttribute("state") === "normal" && ch5Button.selected === false) {
+                                    buttonModeIndex = j;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    if (buttonModeIndex !== -1) {
+                        const ch5ButtonModeLabelArray = ch5ButtonModeStatesArray[buttonModeIndex].getElementsByTagName("ch5-button-label");
+                        if (ch5ButtonModeLabelArray && ch5ButtonModeLabelArray.length > 0) {
+                            // Since there is "ch5-button-label" in ch5ButtonModesArray (for selected mode), so the "ch5-button-label" 
+                            // immediately inside the parent "ch5-button" must be ignored.
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
     // /**
     //  * Called every time the element is removed from the DOM.
     //  * Useful for running clean up code.
     //  */
     // public disconnectedCallback() {
-    //     this.info('Ch5TriggerViewChild.disconnectedCallback()');
-
-    //     this.unsubscribeFromSignals();
-
-    //     // disconnect common mutation observer
-    //     this.disconnectCommonMutationObserver();
-    // }
-
-    // /**
-    //  * Respond to attribute changes.
-    //  * @readonly
-    //  */
-    // static get observedAttributes() {
-    //     const commonAttributes = Ch5Common.observedAttributes;
-
-    //     const ch5TriggerViewChildAttributes: string[] = [
-    //         'selected',
-
-    //         // SEND SIGNALS
-    //         'sendeventonshow',
-
-    //         // RECEIVE SIGNALS
-    //         'receivestateshow'
-    //     ];
-
-    //     return commonAttributes.concat(ch5TriggerViewChildAttributes);
-    // }
-
-    // /**
-    //  * Called when an HTML attribute is changed, added or removed
-    //  */
-    // public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-    //     if (oldValue === newValue) {
-    //         return;
-    //     }
-    //     this.info('Ch5TriggerViewChild.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
-
-    //     switch (attr) {
-    //         case 'selected':
-    //             // only handling the *side effects* of setting the attribute.
-    //             if (this.hasAttribute('selected')){
-    //                 this.setAttribute('aria-selected', 'true');
-    //                 this._sendSignalValueOnShow();
-    //             } else {
-    //                 this.setAttribute('aria-selected', 'false');
-    //             }
-    //             break;
-    //         case 'sendeventonshow':
-    //             if (this.hasAttribute('sendeventonshow')){
-    //                 this.sendEventOnShow = newValue;
-    //             } else {
-    //                 this.sendEventOnShow = '';
-    //             }
-    //             break;
-    //         case 'receivestateshow':
-    //             if (this.hasAttribute('receivestateshow')){
-    //                 this.receiveStateShow = newValue;
-    //             } else {
-    //                 this.receiveStateShow = '';
-    //             }
-    //             break;
-    //         case 'noshowtype':
-    //             //  assure that noshowtype attribute value is allways 'visibility'
-    //             this.noshowType = Ch5TriggerViewChild.SHOW_TYPES[0];
-    //             break;
-    //         case 'show':
-    //             if (this.hasAttribute('show')) {
-    //                 const tmpShow = this.getAttribute('show') as string;
-    //                 if ('false' === tmpShow || '0' === tmpShow) {
-    //                     this.show = false;
-    //                 } else {
-    //                     this.show = true;
-    //                 }
-    //             } else {
-    //                 this.show = true;
-    //             }
-
-    //             //  assure that noshowtype attribute value is allways 'visibility'
-    //             this.noshowType = Ch5TriggerViewChild.SHOW_TYPES[0];
-
-    //             this.updateForChangeInShowStatus();
-    //             break;
-    //         default:
-    //             super.attributeChangedCallback(attr, oldValue, newValue);
-    //             break;
-    //     }
-    // }
-
-    // /**
-    //  * Unsubscribe signals
-    //  */
-    // public unsubscribeFromSignals(): void {
-    //     super.unsubscribeFromSignals();
-
-    //     const csf = Ch5SignalFactory.getInstance();
-
-    //     if ('' !== this._subReceiveSignalShowId && '' !== this._receiveStateShowSigName) {
-    //         const sigSelectedName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowSigName);
-    //         const sigSelected:Ch5Signal<number>|null=csf.getNumberSignal(sigSelectedName);
-    //         if (null !== sigSelected){
-    //             sigSelected.unsubscribe(this._subReceiveSignalShowId);
-    //             this._receiveStateShowSigName = '';
-    //         }
-    //     }
-    // }
-
-    // /**
-    //  * Returns css class when disabled
-    //  *
-    //  * @return {string }
-    //  */
-    // public getCssClassDisabled(): string {
-    //     return this.cssClassPrefix + '--disabled';
-    // }
-
-    // public getTriggerViewParent(): Ch5TriggerView | null {
-        
-    //     const getTheMatchingParent = (node: Node): Ch5TriggerView => {
-    //         if (!_.isNil(node) && node.nodeName !== _parentTriggerviewNodeName) {
-    //             return getTheMatchingParent(node.parentNode as Node);
-    //         }
-
-    //         return node as Ch5TriggerView;
-    //     }
-
-    //     if (!_.isNil(this.parentElement)) {
-    //         return getTheMatchingParent(this.parentElement as Node);
-    //     }
-
-    //     return null;
 
     // }
 
-    // /**
-    //  * Called to initialize all attributes
-    //  * @protected
-    //  */
-    // protected initAttributes(): void {
-    //     super.initAttributes();
-
-    //     this._upgradeProperty('sendEventOnShow');
-    //     this._upgradeProperty('receiveStateShow');
-    // }
-
-    // /**
-    //  * Apply css classes for attrs inherited from common (e.g. customClass, customStyle )
-    //  * @protected
-    //  */
-    // protected updateCssClasses(): void {
-    //     // apply css classes for attrs inherited from common (e.g. customClass, customStyle )
-    //     super.updateCssClasses();
-
-    //     const setOfCssClassesToBeApplied = new Set<string>();
-
-    //     // primary
-    //     setOfCssClassesToBeApplied.add(this.primaryCssClass);
-
-    //     const targetEl:HTMLElement = this.getTargetElementForCssClassesAndStyle();
-    //     if (typeof targetEl.classList !== 'undefined') {
-    //         this._listOfAllPossibleComponentCssClasses.forEach((cssClass:string) => {
-    //             if (setOfCssClassesToBeApplied.has(cssClass)){
-    //                 targetEl.classList.add(cssClass);
-    //                 // this.classList.add(cssClass);
-    //                 this.info('add CSS class',cssClass);
-    //             } else {
-    //                 targetEl.classList.remove(cssClass);
-    //                 // this.classList.remove(cssClass);
-    //                 this.info('remove CSS class',cssClass);
-    //             }
-    //         });
-    //     }
-    // }
-
-    // /**
-    //  * Called to bind proper listeners
-    //  * @protected
-    //  */
-    // protected attachEventListeners(): void {
-    //     super.attachEventListeners();
-    // }
-
-    // /**
-    //  * Removes listeners
-    //  * @protected
-    //  */
-    // protected removeEvents(): void {
-    //     super.removeEventListeners();
-    //     // TODO
-    // }
-
-    // /**
-    //  * Generates a list of all possible components css classes
-    //  *
-    //  * @private
-    //  * @returns {string[]}
-    //  */
-    // private _generateListOfAllPossibleComponentCssClasses():string[] {
-    //     const cssClasses:string[] = this._listOfAllPossibleComponentCssClasses;
-
-    //     // primary class
-    //     cssClasses.push(this.primaryCssClass);
-
-    //     return cssClasses;
-    // }
-
-    // /**
-    //  * Send digital pulse(boolean values) when component is selected|active
-    //  * @private
-    //  */
-    // private _sendSignalValueOnShow(): void  {
-    //     this.info('Ch5TriggerViewChild._sendSignalValueOnShow()');
-
-    //     let sigShow: Ch5Signal<boolean> | null = null;
-
-    //     if ('' !== this._sendEventOnShowSigName
-    //         && undefined !== this._sendEventOnShowSigName
-    //         && null !== this._sendEventOnShowSigName) {
-
-    //         sigShow = Ch5SignalFactory.getInstance()
-    //             .getBooleanSignal(this._sendEventOnShowSigName);
-
-    //         if (sigShow !== null) {
-    //             sigShow.publish(true);
-    //             sigShow.publish(false);
-    //         }
-    //     }
-    // }
-
-    // /**
-    //  * Upgrade the property on this element with the given name.
-    //  *
-    //  * @private
-    //  * @param {string} prop
-    //  *   The name of a property.
-    //  */
-    // private _upgradeProperty(prop: string) {
-    //     if (this.constructor.prototype.hasOwnProperty(prop)) {
-    //         const val = (this as any)[prop];
-    //         delete (this as any)[prop];
-    //         (this as any)[prop] = val;
-    //     }
-    // }
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"

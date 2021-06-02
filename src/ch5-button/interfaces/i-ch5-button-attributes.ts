@@ -264,6 +264,7 @@ export interface ICh5ButtonAttributes {
   * @name vAlignLabel
   */
   vAlignLabel: TCh5ButtonVerticalAlignLabel;
+  
   /**
    * @documentation
    * [
