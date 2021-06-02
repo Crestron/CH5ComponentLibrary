@@ -5,6 +5,9 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
+import { TCh5ButtonModeState } from "./t-ch5-button";
+
 /**
  * @name Ch5 Button Label
  * @isattribute false
@@ -63,7 +66,25 @@
  * ]
  *
  */
-export interface ICh5ButtonModeStateAttributes {
+export interface ICh5ButtonModeStateAttributes extends ICh5ButtonModeCommonAttributes {
 
+  /**
+  * @documentation
+  * [
+  * "`vAlignLabel` attribute",
+  * "***",
+  * "Valid values: 'width', 'height', 'both'.",
+  * "When the stretch property is set, the button element inherits the ",
+  * "width and/or height of the container. If stretch=height is used, ",
+  * "the button will be responsive based on the label length until it ",
+  * "reaches the max-width of the container. If stretch=width is ",
+  * "applied, there is no responsiveness after reaching the max-width, and ",
+  * "the text will overflow. The same applies if stretch=both is used. Note ",
+  * "that if the button element shape is 'circle' or 'oval', the stretch ",
+  * "property will be ignored."
+  * ]
+  * @name vAlignLabel
+  */
+  state: TCh5ButtonModeState;
 
 }

@@ -37,15 +37,15 @@ const CH5_BUTTON_MASTERS = {
 }
 
 function getDiv(myCh5Button) {
-  return myCh5Button.children[0];
+  return myCh5Button.getElementsByTagName('div')[0];
 }
 
 function getButton(myCh5Button) {
-  return myCh5Button.children[0].children[0];
+  return getDiv(myCh5Button).children[0];
 }
 
 function getSpan(myCh5Button) {
-  return myCh5Button.children[0].children[0].children[0];
+  return getButton(myCh5Button).children[0];
 }
 
 function log(...input) {

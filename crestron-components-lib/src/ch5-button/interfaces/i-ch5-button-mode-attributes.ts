@@ -5,7 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { TCh5ButtonType } from ".";
+import { TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from ".";
+import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
 
 /**
  * @name Ch5 Button Label
@@ -65,21 +66,6 @@ import { TCh5ButtonType } from ".";
  * ]
  *
  */
-export interface ICh5ButtonModeAttributes {
+export interface ICh5ButtonModeAttributes extends ICh5ButtonModeCommonAttributes {
 
-    /**
-     * @documentation
-     * [
-     * "`type` attribute",
-     * "***",
-     * "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
-     * "Overrides the appearance of the button with alternative CSS ",
-     * "defined in classes defined with ch5-button--type, where type is ",
-     * "the value of the property. If no 'type' is provided, the type of ",
-     * "'default' is used."
-     * ]
-     * @name type
-     * @default default
-     */
-     type: TCh5ButtonType;
 }
