@@ -262,15 +262,14 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
      * Getting the HTML content
      * @param url 
      */
-    private loadHTMLContent(url: string) {
-        this.asyncLoadContent(url)
-            .then((response: string) => {
-                this._elContainer.innerHTML = response;
-                this.dispatchEvent(this.loadEvent);
-            })
-            .catch((rejectionReason) => {
-                this.info(`ch5-import-htmlsnippet failed to load the URL: ${url}, ${rejectionReason}`);
-            });
+    private async loadHTMLContent(url: string) {
+        try {
+            const response: string = await this.asyncLoadContent(url);
+            this._elContainer.innerHTML = response;
+            this.dispatchEvent(this.loadEvent);
+        } catch (rejectionReason) {
+            this.info(`ch5-import-htmlsnippet failed to load the URL: ${url}, ${rejectionReason}`);
+        }
     }
 
     /**
