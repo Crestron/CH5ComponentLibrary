@@ -9,17 +9,17 @@ import { TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonI
 import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
 
 /**
- * @name Ch5 Button Label
+ * @name Ch5 Button Mode
  * @isattribute false
- * @tagName ch5-button-label
- * @role label
- * @description Ch5 Button label extends the button text to work with HTML content.
+ * @tagName ch5-button-mode
+ * @role ch5-button-mode
+ * @description Ch5 Button ch5-button-mode.
  * @componentVersion 1.0.0
  * @documentation
  * [
- *   "`ch5-button-label` element",
+ *   "`ch5-button-mode` element",
  *   "***",
- *   "An extension to standard HTML ch5-button element with icons and simple formats."
+ *   "PENDING DOCUMENTATION"
  * ]
  * @snippets
  * [
