@@ -80,9 +80,6 @@
  *
  */
 
-/**
- * @ignore
- */
 export interface ICh5TriggerviewAttributes {
 
     /**
@@ -128,6 +125,7 @@ export interface ICh5TriggerviewAttributes {
      * [
      * "`nested` attribute",
      * "***",
+    * "The default value is false. ",
      * "A boolean attribute used to flag that ch5-triggerview is the child element on ch5-triggerview-child."
      * ]
      * @name nested
@@ -164,6 +162,7 @@ export interface ICh5TriggerviewAttributes {
      * [
      * "`disableanimation` attribute",
      * "***",
+     * "The default value is false. ",
      * "Disables the swipe-like animation when navigating through the ChildViews of the TriggerView."
      * ]
      * @name disableanimation

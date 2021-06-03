@@ -58,9 +58,6 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
  *
  */
 
-/**
- * @ignore
- */
 export interface ICh5VideoAttributes {
 
     /**
@@ -197,6 +194,7 @@ export interface ICh5VideoAttributes {
      * [
      * "`size` attribute",
      *  "***",
+     * "The default value is large. ",
      *  "The display size for the video. The default size is 'large' if not entered. ",
      *  "The size options for the aspect ratio 16:9 and 4:3 are 'x-small' (width: 25vw, height: 25vh), ",
      *  "'small' (width: 40vw, height: 40vh), 'large' (width: 55vw, ",

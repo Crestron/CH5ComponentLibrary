@@ -32,9 +32,6 @@
  *
  */
 
-/**
- * @ignore
- */
 export interface ICh5TemplateAttributes {
      
     /**

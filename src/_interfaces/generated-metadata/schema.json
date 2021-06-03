@@ -139,6 +139,7 @@
             "documentation": [
               "`size` attribute",
               "***",
+              "The default value is 'regular'. ",
               "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
             ],
             "value": [
@@ -175,7 +176,7 @@
             "documentation": [
               "`iconposition` attribute",
               "***",
-              "The default value is 'first'.",
+              "The default value is 'first'. ",
               "Valid values: 'first', 'last', 'top', 'bottom'.",
               "The icon position relative to the label."
             ],
@@ -202,7 +203,7 @@
             "documentation": [
               "`checkboxShow` attribute",
               "***",
-              "The default value is false.",
+              "The default value is false. ",
               "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
               "'ch5-button__checkbox' will be applied as the CSS class on the component."
             ],
@@ -217,7 +218,7 @@
             "documentation": [
               "`checkboxPosition` attribute",
               "***",
-              "The default value is false.",
+              "The default value is false. ",
               "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
               "'ch5-button__checkbox' will be applied as the CSS class on the component."
             ],
@@ -287,6 +288,7 @@
             "documentation": [
               "`type` attribute",
               "***",
+              "The default value is 'default'. ",
               "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
               "Overrides the appearance of the button with alternative CSS ",
               "defined in classes defined with ch5-button--type, where type is ",
@@ -323,8 +325,7 @@
             "value": [
               "left",
               "right",
-              "center",
-              "justify"
+              "center"
             ],
             "name": "hAlignLabel",
             "default": null
@@ -344,10 +345,9 @@
               "property will be ignored."
             ],
             "value": [
-              "start",
-              "end",
               "center",
-              "baseline"
+              "top",
+              "bottom"
             ],
             "name": "vAlignLabel",
             "default": null
@@ -480,7 +480,7 @@
             "documentation": [
               "`selected` attribute",
               "***",
-              "The default value is false.",
+              "The default value is false. ",
               "This property reflects the state of the component. If set to true, ",
               "'ch5-button--selected' will be applied as the CSS class on the component."
             ],
@@ -495,7 +495,7 @@
         "documentation": [
           "`ch5-button` element",
           "***",
-          "An extension to standard HTML ch5-button element with icons and simple formats."
+          "A custom component designed to provide options to add icons, label, text, multiselect among other powerful options."
         ],
         "snippets": [
           {
@@ -560,6 +560,7 @@
           {
             "documentation": [
               "`height` attribute",
+              "***",
               "The intrinsic height of the image, in pixels. Must be a string of the form Npx or N%."
             ],
             "value": [],
@@ -569,6 +570,7 @@
           {
             "documentation": [
               "`width` attribute",
+              "***",
               "The intrinsic width of the image, in pixels. Must be a string of the form Npx or N%."
             ],
             "value": [],
@@ -579,12 +581,13 @@
             "documentation": [
               "`refreshrate` attribute",
               "***",
+              "The default value is '0'. ",
               "The number of seconds between each URL refresh. If 0, the URL will not",
               "be refreshed."
             ],
             "value": [],
             "name": "refreshrate",
-            "default": null
+            "default": "0"
           },
           {
             "documentation": [
@@ -966,7 +969,7 @@
               "submit"
             ],
             "name": "feedbackmode",
-            "default": null
+            "default": "direct"
           },
           {
             "documentation": [
@@ -979,7 +982,7 @@
             ],
             "value": [],
             "name": "signalvaluesynctimeout",
-            "default": null
+            "default": "1500ms"
           },
           {
             "documentation": [
@@ -999,7 +1002,7 @@
             "documentation": [
               "`icon` attribute",
               "***",
-              "The icon to be shown."
+              "The icon to be shown. Its either prefixed or suffixed based on the iconposition attribute."
             ],
             "value": [],
             "name": "icon",
@@ -1009,7 +1012,7 @@
             "documentation": [
               "`label` attribute",
               "***",
-              "Provides the label for the input."
+              "Provides the label for the input on left top corner of the control."
             ],
             "value": [],
             "name": "label",
@@ -1029,7 +1032,7 @@
             "documentation": [
               "`iconposition` attribute",
               "***",
-              "Valid values: 'first' and 'last'. The default value is 'first'. ",
+              "The default value is 'first'. Valid values: 'first' and 'last'. ",
               "If the direction attribute is 'ltr', as will be typical in locales with a left-to-right language ",
               "direction, 'first' is equivalent to the icon being placed on the left and the text on the ",
               "right. ",
@@ -1048,6 +1051,7 @@
             "documentation": [
               "`type` attribute",
               "***",
+              "The default value is text. ",
               "The type of the input."
             ],
             "value": [
@@ -1056,55 +1060,60 @@
               "email"
             ],
             "name": "type",
-            "default": null
+            "default": "text"
           },
           {
             "documentation": [
               "`minlength` attribute",
               "***",
+              "The default value is 0. ",
               "Applicable only in feedbackmode='submit'. The minimum length of the attribute."
             ],
             "value": [],
             "name": "minlength",
-            "default": null
+            "default": "0"
           },
           {
             "documentation": [
               "`maxlength` attribute",
               "***",
+              "The default value is 0. ",
               "Applicable only in feedbackmode='submit'. The maximum length of the attribute"
             ],
             "value": [],
             "name": "maxlength",
-            "default": null
+            "default": "0"
           },
           {
             "documentation": [
               "`minvalue` attribute",
               "***",
+              "The default value is 0. ",
               "Applicable only for type=numeric and feedbackmode='submit'. ",
               "The field will result in an error if the value supplied by user is less than value of the attribute."
             ],
             "value": [],
             "name": "minvalue",
-            "default": null
+            "default": "0"
           },
           {
             "documentation": [
               "`maxvalue` attribute",
               "***",
               "Applicable only for type=numeric and feedbackmode='submit'. ",
+              "The default value is 0. ",
               "The field will result in an error if the value supplied by user is greater than value of ",
               "the attribute."
             ],
             "value": [],
             "name": "maxvalue",
-            "default": null
+            "default": "0"
           },
           {
             "documentation": [
               "`size` attribute",
               "***",
+              "The default value is 'regular'. Valid values: 'regular',  'x-small', 'small', 'large' and 'x-large'. ",
               "Sets the relative size of this component."
             ],
             "value": [
@@ -1115,7 +1124,7 @@
               "x-large"
             ],
             "name": "size",
-            "default": null
+            "default": "regular"
           },
           {
             "documentation": [
@@ -1123,7 +1132,6 @@
               "***",
               "The default value is 'fixed'. Valid values: 'fixed', 'width', and 'content'.",
               "Sets the width of the input.",
-              "***",
               "Fixed - fixed position (from CSS classes) ",
               "Width - Width of the parent content ",
               "Content - Width will be equal to the content width"
@@ -1140,7 +1148,7 @@
             "documentation": [
               "`text-transform` attribute",
               "***",
-              "Only used for type=text. The default value is 'none'. ",
+              "The default value is 'none'. Only used for type=text. ",
               "Valid values: ",
               "'capitalize' – Makes all first characters of each word uppercase ",
               "'uppercase' – Makes all characters uppercase ",
@@ -1154,12 +1162,13 @@
               "lowercase"
             ],
             "name": "text-transform",
-            "default": null
+            "default": "none"
           },
           {
             "documentation": [
               "`scaling` attribute",
               "***",
+              "The default value is false. ",
               "Scales the input font size when it reaches the edge."
             ],
             "value": [
@@ -1167,7 +1176,7 @@
               "true"
             ],
             "name": "scaling",
-            "default": null
+            "default": "false"
           },
           {
             "documentation": [
@@ -1223,8 +1232,8 @@
         "documentation": [
           "`ch5-textinput` attribute",
           "***",
-          "The TextEntry component allows the user to enter textual input. This is an extension of the ",
-          "input HTML element."
+          "The TextEntry component allows the user to enter textual input. Extending on a default",
+          "input HTML element, it allows additional customization like icons, label among others."
         ],
         "snippets": [
           {

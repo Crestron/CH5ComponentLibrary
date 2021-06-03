@@ -612,7 +612,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
   /**
    * The 1-based index of the selected slide.
    * @type {number}
-   * @default 0
    */
   set activeView(index: number) {
     index = Number(index);
@@ -673,7 +672,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
   /**
    * Whether the slider is looping (e.g wrapping around).
    * @type {boolean}
-   * @default false
    */
   set endless(flag) {
     booleanSetter(this, 'endless', flag);
@@ -692,7 +690,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
   /**
    * If true, the slides can not be dragged with pointer events.
    * @type {boolean}
-   * @default false
    */
   set gestureable(flag) {
     if (this.disableAnimation) {
@@ -711,7 +708,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
   /**
    * If true, disables CSS transitions and drag deceleration.
    * @type {boolean}
-   * @default false
    */
   set disableAnimation(flag) {
     booleanSetter(this, 'disableanimation', flag);
@@ -832,7 +828,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
   /**
    * Flag to mark the component as child of ch5-triggerview-child
    * @type {boolean}
-   * @default false
    */
   set nested(nestedValue) {
     if (nestedValue !== this._nested) {

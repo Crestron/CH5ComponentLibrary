@@ -25,8 +25,8 @@ import { TCh5TextInputStretch,
  * [
  * "`ch5-textinput` attribute",
  * "***",
- * "The TextEntry component allows the user to enter textual input. This is an extension of the ",
- * "input HTML element."
+ * "The TextEntry component allows the user to enter textual input. Extending on a default",
+ * "input HTML element, it allows additional customization like icons, label among others."
  * ]
  * @snippets
  * [
@@ -104,7 +104,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`icon` attribute",
    * "***",
-   * "The icon to be shown."
+   * "The icon to be shown. Its either prefixed or suffixed based on the iconposition attribute."
    * ]
    * @name icon
    */
@@ -115,7 +115,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`label` attribute",
    * "***",
-   * "Provides the label for the input."
+   * "Provides the label for the input on left top corner of the control."
    * ]
    * @name label
    */
@@ -137,7 +137,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
+   * "The default value is 'first'. Valid values: 'first' and 'last'. ",
    * "If the direction attribute is 'ltr', as will be typical in locales with a left-to-right language ",
    * "direction, 'first' is equivalent to the icon being placed on the left and the text on the ",
    * "right. ",
@@ -155,6 +155,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`type` attribute",
    * "***",
+   * "The default value is text. ",
    * "The type of the input."
    * ]
    * @name type
@@ -167,6 +168,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`minlength` attribute",
    * "***",
+   * "The default value is 0. ",
    * "Applicable only in feedbackmode='submit'. The minimum length of the attribute."
    * ]
    * @name minlength
@@ -179,6 +181,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`maxlength` attribute",
    * "***",
+   * "The default value is 0. ",
    * "Applicable only in feedbackmode='submit'. The maximum length of the attribute"
    * ]
    * @name maxlength
@@ -191,6 +194,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`minvalue` attribute",
    * "***",
+   * "The default value is 0. ",
    * "Applicable only for type=numeric and feedbackmode='submit'. ",
    * "The field will result in an error if the value supplied by user is less than value of the attribute."
    * ]
@@ -205,6 +209,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "`maxvalue` attribute",
    * "***",
    * "Applicable only for type=numeric and feedbackmode='submit'. ",
+   * "The default value is 0. ",
    * "The field will result in an error if the value supplied by user is greater than value of ",
    * "the attribute."
    * ]
@@ -218,6 +223,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`size` attribute",
    * "***",
+   * "The default value is 'regular'. Valid values: 'regular',  'x-small', 'small', 'large' and 'x-large'. ",
    * "Sets the relative size of this component."
    * ]
    * @name size
@@ -232,7 +238,6 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "***",
    * "The default value is 'fixed'. Valid values: 'fixed', 'width', and 'content'.",
    * "Sets the width of the input.",
-   * "***",
    * "Fixed - fixed position (from CSS classes) ",
    * "Width - Width of the parent content ",
    * "Content - Width will be equal to the content width"
@@ -247,7 +252,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`text-transform` attribute",
    * "***",
-   * "Only used for type=text. The default value is 'none'. ",
+   * "The default value is 'none'. Only used for type=text. ",
    * "Valid values: ",
    * "'capitalize' – Makes all first characters of each word uppercase ",
    * "'uppercase' – Makes all characters uppercase ",
@@ -264,6 +269,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`scaling` attribute",
    * "***",
+   * "The default value is false. ",
    * "Scales the input font size when it reaches the edge."
    * ]
    * @name scaling

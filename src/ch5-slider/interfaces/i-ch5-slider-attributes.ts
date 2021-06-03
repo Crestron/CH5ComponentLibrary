@@ -77,9 +77,6 @@ import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/
  * ]
  */
 
-/**
- * @ignore
- */
 export interface ICh5SliderAttributes {
 
   /**
@@ -170,8 +167,8 @@ export interface ICh5SliderAttributes {
    * [
    * "`handlesize` attribute",
    * "***",
-   * "The size of the handle.",
-   * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'x-large'."
+   * "The default value is 'regular'. The size of the handle.",
+   * "Valid values: 'x-small', 'small', 'regular', 'large', 'x-large'."
    * ]
    * @name handlesize
    * @default regular
@@ -229,7 +226,7 @@ export interface ICh5SliderAttributes {
    * [
    * "`tooltipshowtype` attribute",
    * "***",
-   * "The Default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values: ",
+   * "The default value is 'off'.  Provides the ability to display a tooltip above (horizontal) or right (vertical) of the handle.  Valid values: ",
    * "-'off': Not displayed ",
    * "-'on': Always displayed ",
    * "-'auto': Displayed while user interacts with the slider"
@@ -272,6 +269,7 @@ export interface ICh5SliderAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
+   * "The default value is direct. ",
    * "If set to direct, value send and receive will be instant. On submit, it ",
    * "will send and listen for the first received event."
    * ]

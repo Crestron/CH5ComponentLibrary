@@ -1508,9 +1508,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
     }
 
     /**
-     * The 0-based index of the selected item.
-     * @type {number}
-     * @default 0
+     * The 0-based index of the selected item. defaults to zero
      */
     public get selected() {
         const value = this.getAttribute('selected');
