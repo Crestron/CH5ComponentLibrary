@@ -207,9 +207,6 @@ import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/
  * 
  */
 
-/**
- * @ignore
- */
 export interface ICh5SelectAttributes {
 
   /**
@@ -217,6 +214,7 @@ export interface ICh5SelectAttributes {
    * [
    * "`size` attribute",
    * "***",
+   * "The default value is 1. ",
    * "The initial number of entries in a selection. The default value is 1. The accepted range is 1-30."
    * ]
    * @name size
@@ -229,7 +227,8 @@ export interface ICh5SelectAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
+   * "The default value is first. ",
+   * "Valid values: 'first' and 'last'. ",
    * "This attribute only applies when a template is not provided ",
    * "and the implied template is in use. If a template is provided, ",
    * "this property is ignored."
@@ -244,7 +243,7 @@ export interface ICh5SelectAttributes {
    * [
    * "`selectedvalue` attribute",
    * "***",
-   * "The default value is false. Set to true if multiple selections can be selected. ",
+   * "The default value is -1. Set to true if multiple selections can be selected. ",
    * "If true, the value of the selection will be an array of values."
    * ]
    * @name selectedvalue
@@ -257,6 +256,7 @@ export interface ICh5SelectAttributes {
    * [
    * "`panelscrollheight` attribute",
    * "***",
+   * "The default value is 0. ",
    * "height of the panel containing the list of options, supports px, vw, vh and % (% is based on the parent height of the ch5-select. "
    * ]
    * @name panelscrollheight
@@ -313,7 +313,7 @@ export interface ICh5SelectAttributes {
    * [
    * "`mode` attribute",
    * "***",
-   * "Two values are possible as show below. The default value is 'plain'. ",
+   * "The default value is 'plain'. Two values are possible as show below. ",
    * "plain - The select menu opens and closes as clicked by user. ",
    * "panel – The select menu stays open even when not in focus."
    * ]
@@ -327,6 +327,7 @@ export interface ICh5SelectAttributes {
    * [
    * "`feedbackmode` attribute",
    * "***",
+   * "The default value is direct. ",
    * "Allows the form submission functionality. Valid values: 'direct', 'submit'."
    * ]
    * @name feedbackmode
@@ -393,6 +394,7 @@ export interface ICh5SelectAttributes {
    * [
    * "`resize` attribute",
    * "***",
+   * "The default value is false. ",
    * "If true, the options panel will be resized to fit content width. ",
    * "The maximum width and height cannot be bigger then parent HTML element."
    * ]

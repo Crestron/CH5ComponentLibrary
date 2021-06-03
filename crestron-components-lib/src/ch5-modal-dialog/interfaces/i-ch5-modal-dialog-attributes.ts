@@ -67,9 +67,6 @@ import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow } from "../../ch5-ove
  * ]
  */
 
-/**
- * @ignore
- */
 export interface ICh5ModalDialogAttributes {
 
   /**
@@ -102,6 +99,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`overflow` attribute",
    * "***",
+   * "The default value is scroll. ",
    * "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
    * "happens if content does or does not overflow the component box. ",
    * "This is related to the stretch property. This property specifies whether to add ",
@@ -275,6 +273,7 @@ export interface ICh5ModalDialogAttributes {
    * [
    * "`mask` attribute",
    * "***",
+   * "The default value is false. ",
    * "Specifies whether to apply a background mask."
    * ]
    * @name mask

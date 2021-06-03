@@ -123,9 +123,6 @@ import { TCh5ButtonType } from "../../ch5-button/interfaces/t-ch5-button";
  *
  */
 
-/**
- * @ignore
- */
 export interface ICh5FormAttributes {
 
   /**
@@ -166,12 +163,13 @@ export interface ICh5FormAttributes {
    * @documentation
    * [
    * "`submitbuttontype` attribute",
-   *  "***",
-   *  "Represents the type of the auto-generated Submit button."
+   * "***",
+   * "The default value is 'default'. ",
+   * "Represents the type of the auto-generated Submit button."
    * ]
    * @default default
    */
-    submitButtonType: TCh5ButtonType;
+  submitButtonType: TCh5ButtonType;
 
   /**
    * @name cancelbuttonlabel
@@ -211,8 +209,9 @@ export interface ICh5FormAttributes {
    * @documentation
    * [
    * "`cancelButtonType` attribute",
-   *  "***",
-   *  "Represents the type of the auto-generated Cancel button."
+   * "***",
+   * "The default value is 'default'. ",
+   * "Represents the type of the auto-generated Cancel button."
    * ]
    * @default default
    */

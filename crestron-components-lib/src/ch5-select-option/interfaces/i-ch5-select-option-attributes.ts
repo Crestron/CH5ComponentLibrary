@@ -22,9 +22,6 @@ import { TCh5SelectOptionIconPosition } from "./types/t-ch5-select-option-icon-p
  * ]
  */
 
-/**
- * @ignore
- */
 export interface ICh5SelectOptionAttributes {
 
   /**
@@ -32,7 +29,7 @@ export interface ICh5SelectOptionAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
+   * "The default value is 'first'. Valid values: 'first' and 'last'. ",
    * "This attribute only applies when a template is not provided ",
    * "and the implied template is in use. If a template is provided, ",
    * "this property is ignored."
@@ -47,6 +44,7 @@ export interface ICh5SelectOptionAttributes {
    * [
    * "`useDefaultTmpl` attribute",
    * "***",
+   * "The default value is false.",
    * "Provides the ability to initialise ch5-select with the default template."
    * ]
    * @name usedefaulttmpl

@@ -64,9 +64,6 @@ import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow, TCh5OverlayPanelPosi
  * ]
  */
 
-/**
- * @ignore
- */
 export interface ICh5OverlayPanelAttributes {
 
   /**
@@ -99,6 +96,7 @@ export interface ICh5OverlayPanelAttributes {
    * [
    * "`overflow` attribute",
    * "***",
+   * "The default value is scroll. ",
    * "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
    * "happens if content does or does not overflow the component box. ",
    * "This is related with stretch property. This property specifies whether to add ",
@@ -127,6 +125,7 @@ export interface ICh5OverlayPanelAttributes {
    * [
    * "`positionoffset` attribute",
    * "***",
+   * "The default value is top-left. ",
    * "Valid values 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', ",
    * "'bottom-right', 'left-center', and 'right-center'. Auto-positions the panel offset ",
    * "to the event element's position."
@@ -166,6 +165,7 @@ export interface ICh5OverlayPanelAttributes {
    * [
    * "`mask` attribute",
    * "***",
+   * "The default value is false. ",
    * "Specifies whether or not to apply a background mask."
    * ]
    * @name mask

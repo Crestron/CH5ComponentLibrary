@@ -55,9 +55,6 @@ import { TCh5ToggleOrientation, TCh5ToggleShape } from "./index";
  * ]
  */
 
-/**
- * @ignore
- */
 export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
 
   /**

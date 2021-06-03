@@ -63,9 +63,6 @@ import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './index';
  * 
  */
 
-/**
- * @ignore
- */
 export interface ICh5BackgroundAttributes {
   /**
    * @documentation
@@ -101,8 +98,9 @@ export interface ICh5BackgroundAttributes {
    * [
    * "`repeat` attribute",
    * "***",
+   * "The default value is 'no-repeat'. ",
    * "The repeat property sets how a background image will be repeated. In the absence of ",
-   * "the repeat attribute, 'no-repeat' will be applied by default. Valid values: 'no-repeat', ",
+   * "the repeat attribute. Valid values: 'no-repeat', ",
    * "'repeat-x', 'repeat-y', and 'repeat'.",
    * "The value 'repeat-x' repeats image horizontally, 'repeat-y' repeats the image vertically, and 'repeat' ",
    * "repeats both vertically and horizontally. The last image will be clipped if it does not fit."
@@ -154,7 +152,7 @@ export interface ICh5BackgroundAttributes {
    * [
    * "`imgbackgroundcolor` attribute",
    * "***",
-   * "The default value is 'black'.",
+   * "The default value is 'black'. ",
    * "Related to the scale attribute having a value of 'fit'. ",
    * "This attribute defines the color of the pillar box or ",
    * "letter box borders when the image aspect ratio is not the ",
@@ -170,7 +168,7 @@ export interface ICh5BackgroundAttributes {
    * [
    * "`transitioneffect` attribute",
    * "***",
-   * "The default value is 'ease'.",
+   * "The default value is 'ease'. ",
    * "When more than one image or color is provided in url or backgroundcolor attribute, ",
    * "this attribute provide the type of transition using the CSS transition-timing-syntax ",
    * "property syntax. See the related attribute transition-duration."
@@ -185,7 +183,7 @@ export interface ICh5BackgroundAttributes {
    * [
    * "`transitionduration` attribute",
    * "***",
-   * "The default value is '1s'.",
+   * "The default value is '1s'. ",
    * "when more than one image or color is provided in url or backgroundcolor attribute, ",
    * "this attribute provides the duration of the transition ",
    * "using CSS transition-duration syntax."

@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 /**
- * @name Ch5 import-htmlsnippet
+ * @name Ch5 Import Html Snippet
  * @isattribute false
  * @tagName ch5-import-htmlsnippet
  * @description Ch5 import-htmlsnippet allows to import the HTML snippet.
@@ -15,7 +15,7 @@
  * [
  *    "`ch5-import-htmlsnippet` element",
  *    "***",
- *    "The component used to load HTML snippets during run time. ",
+ *    "The component is used to load HTML snippets during run time. ",
  *    "This component allows users to load HTML snippets. The snippets should not contain HTML, HEAD, and BODY tags. ",
  *    "Users can modularize the HTML files into pages or sections using this component, ",
  *    "and the snippet is inserted into the DOM at the respective location ",
@@ -50,9 +50,6 @@
  * 
  */
 
-/**
- * @ignore
- */
 export interface ICh5ImportHtmlSnippetAttributes {
     /**
      * @documentation

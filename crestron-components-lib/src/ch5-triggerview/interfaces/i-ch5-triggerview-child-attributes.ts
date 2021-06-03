@@ -6,10 +6,10 @@
 // under which you licensed this source code.
 
 /**
- * @name Ch5 View Child
+ * @name Ch5 Trigger View Child
  * @isAttribute false
  * @tagName ch5-triggerview-child
- * @description Ch5 View Child - content wrapper for ch5-triggerview.
+ * @description Ch5 Trigger View Child - content wrapper for ch5-triggerview.
  * @componentVersion 1.0.0
  * @documentation
  * [
@@ -68,10 +68,6 @@
  * ]
  */
 
-
-/**
- * @ignore
- */
 export interface ICh5TriggerViewChildAttributes {
   
   /**

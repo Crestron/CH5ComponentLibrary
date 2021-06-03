@@ -509,9 +509,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
     /**
      * States whether or not this element is checked.
-     *
-     * @public
-     * @default false
      */
     public get checked() {
         return this.hasAttribute('checked');

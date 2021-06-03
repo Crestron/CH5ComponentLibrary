@@ -76,12 +76,17 @@ import { TCh5ListElementOrientation } from '../interfaces/t-ch5-list';
  *    }
  *    
  * ]
+ * @innerTags
+ * [
+ *  {
+ *    "tagName": "template", 
+      "optional": "false", 
+      "innerTags": "" 
+ *  }
+ * ]
  * 
  */
 
-/**
- * @ignore
- */
 export interface ICh5ListAttributes {
 
   /**
@@ -90,6 +95,7 @@ export interface ICh5ListAttributes {
    * [
    * "`size` attribute",
    *  "***",
+   * "The default value is '1'. ",
    *  "The number of items in a list. The max value is 1000."
    * ]
    * @default 1
@@ -116,6 +122,7 @@ export interface ICh5ListAttributes {
    * [
    * "`bufferammount` attribute",
    * "***",
+   * "The default value is '0'. ",
    * "The number of elements to be rendered outside of the current container's ",
    * "viewport (visible area)."
    * ]

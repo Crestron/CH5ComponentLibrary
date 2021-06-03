@@ -41,6 +41,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * [
    * "`minimumfontsize` attribute",
    * "***",
+   * "The default value is 12. ",
    * "The minimum font size is applied when the input text exceeds the width of the input text box. ", 
    * "This will work only if a scaling attribute is set."
    * ]
@@ -54,6 +55,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * [
    * "`tabIndex` attribute",
    * "***",
+   * "The default value is 0. ",
    * "The tabIndex global attribute indicates that its element ",
    * "can be focused and indicates where it places in sequential ",
    * "keyboard navigation."

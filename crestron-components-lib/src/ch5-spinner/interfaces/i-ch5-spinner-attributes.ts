@@ -81,9 +81,6 @@ import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/
  * ]
  */
 
-/**
- * @ignore
- */
 export interface ICh5SpinnerAttributes {
 
   /**
@@ -91,6 +88,7 @@ export interface ICh5SpinnerAttributes {
    * [
    * "`size` attribute",
    * "***",
+   * "The default value is 1. ",
    * "The number of of items that can be in a spinner element."
    * ]
    * @name size
@@ -114,7 +112,7 @@ export interface ICh5SpinnerAttributes {
    * [
    * "`iconposition` attribute",
    * "***",
-   * "Valid values: 'first' and 'last'. The default value is 'first'. ",
+   * "The default value is 'first'. Valid values: 'first' and 'last'. ",
    * "This attribute only applies when a template is not provided ",
    * "and the implied template is in use. ",
    * "If a template is provided, this property is ignored. ",
@@ -134,6 +132,7 @@ export interface ICh5SpinnerAttributes {
    * [
    * "`selectedValue` attribute",
    * "***",
+   * "The default value is 0. ",
    * "The 1-based index of the selected item. Valid values are >=1",
    * "and <= size."
    * ]
@@ -244,6 +243,7 @@ export interface ICh5SpinnerAttributes {
    * [
    * "`resize` attribute",
    * "***",
+   * "The default value is false. ",
    * "If true, the options panel is resized to fit content width. ",
    * "Apply only with the CSS rule 'width=fit-content' and/or 'width =auto' ",
    * "(depending on the browser agent)."
@@ -271,6 +271,7 @@ export interface ICh5SpinnerAttributes {
    * [
    * "`autoSetItemHeight` attribute",
    * "***",
+   * "The default value is false. ",
    * "Adjusts the height of ch5-spinner items automatically."
    * ]
    * @name autoSetItemHeight
