@@ -296,7 +296,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
      *
      * HTML attribute name: type
      */
-    private _type: TCh5ButtonType = 'default';
+     private _type: TCh5ButtonType = 'default';
+     private _activeType: TCh5ButtonType = 'default';
 
     /**
      * Reflects the selected state of the component. If set to true a CSS class named 'ch5-button--..._selected' will be applied
@@ -704,6 +705,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             } else {
                 this._type = this.TYPES[0];
             }
+            this.activeType = this._type;
             this.setAttribute('type', this._type);
         }
     }
@@ -712,18 +714,20 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
     }
 
     public set activeType(value: TCh5ButtonType) {
-        this.info('set type("' + value + '")');
-        if (this._type !== value && value !== null) {
+        this.info('set activeType("' + value + '")');
+        if (this._activeType !== value && value !== null) {
+            // The active should be checked much before for each node
             if (this.TYPES.indexOf(value) >= 0) {
-                this._type = value;
+                this._activeType = value;
             } else {
-                this._type = this.TYPES[0];
+                // this._activeType = this.TYPES[0];
             }
-            this.setAttribute('type', this._type);
+            // this.setAttribute('activeType', this._activeType);
         }
+        this.updateCssClasses();
     }
     public get activeType(): TCh5ButtonType {
-        return this._type;
+        return this._activeType;
     }
 
     public set shape(value: TCh5ButtonShape) {
@@ -1892,7 +1896,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
         setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.shape);
 
         // type
-        setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.type);
+        // setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.type);
+        setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.activeType);
 
 
         // size
@@ -2126,7 +2131,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
             }
 
             if (!isNil(updatedNodes.type)) {
-                this.type = updatedNodes.type;
+                this.activeType = updatedNodes.type;
             }
             if (!isNil(updatedNodes.iconClass)) {
                 this.iconClass = updatedNodes.iconClass;
@@ -2156,33 +2161,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
                 this.labelHtml = updatedNodes.label;
             }
         }
-        // if (this.children && this.children.length > 0) {
-        //     // Array.from(this.children).forEach((newChild) => {
-        //     for (let i: number = 0; i < this.children.length; i++) {
-        //         const newChild = this.children[i];
-        //         // console.log("newChild: ", newChild.nodeName.toString().toLowerCase());
-        //         if (newChild.nodeName.toString().toLowerCase() === "ch5-button-label") {
-        //             // We need not worry about this. ch5-button-label is immediate child , and no change in attribute
-        //             // affects the data from immediate child.
-        //             // const templateData = newChild.children[0];
-        //             // if (templateData && templateData.nodeName.toString().toLowerCase() === "template") {
-        //             //     // this.info("templateData.innerHTML", templateData.innerHTML);
-        //             //     // this.setAttribute('label', templateData.innerHTML);
-        //             //     this._elLabel.innerHTML = templateData.innerHTML;
-        //             //     // break;
-        //             // }
-        //         } else if (newChild.nodeName.toString().toLowerCase() === "ch5-button-mode") {
-        //         console.log(newChild.getElementsByTagName)
-        //             // // const templateData: Ch5ButtonMode = this.children[i].children[0];
-        //             // // this._childButtonModes.push(templateData);
-        //             // const optionTemplate = this.getElementsByTagName('ch5-button-mode')[0] as HTMLElement;
-        //             // if (optionTemplate && optionTemplate.innerHTML && optionTemplate.innerHTML.length > 0) {
-        //             //     this.info("optionTemplate.innerHTML", optionTemplate.innerHTML);
-        //             // }
-        //         }
-        //     }
-        // });
-        // }
+
+        
     }
 
     /**

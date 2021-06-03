@@ -82,11 +82,11 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
     public set type(value: TCh5ButtonType) {
         this.info('set type("' + value + '")');
         const parentElement: Ch5Button = this.getParentButton();
-        parentElement.type = value;
+        parentElement.activeType = value;
     }
     public get type(): TCh5ButtonType {
         const parentElement: Ch5Button = this.getParentButton();
-        return parentElement.type;
+        return parentElement.activeType;
     }
 
     //#endregion
@@ -359,6 +359,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
                 // immediately inside the parent "ch5-button" must be ignored.
                 return true;
               } else {
+                // TODO: Pending implementation
               }
               return false;
             }
