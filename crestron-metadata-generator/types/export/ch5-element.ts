@@ -17,12 +17,14 @@ export class Ch5Element {
     public documentation?: string[];
     public snippets?: Ch5Snippet[];
     public componentVersion?: string;
+    public innerTags?: string[];
 
     public static New(): Ch5Element {
         const result = new Ch5Element();
         result.attributes = [];
         result.documentation = [];
         result.snippets = [];
+        result.innerTags = [];
 
         return result;
     }

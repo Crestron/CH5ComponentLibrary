@@ -45,6 +45,10 @@ function getDocumentation(definition: Definition): string[] {
     return parser.getDocumentationFromObject(definition);
 }
 
+function getInnerTags(definition: Definition): string[] {
+    return parser.getInnerTagsFromObject(definition);
+}
+
 function getDescription(definition: Definition): string {
     return definition.description || "";
 }
@@ -89,6 +93,7 @@ export {
     getName,
     getTagName,
     getDocumentation,
+    getInnerTags,
     getSnippets,
     getDescription,
     getDefault,

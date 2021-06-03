@@ -29,11 +29,19 @@ export class SpecialJsonTags {
             },
             <SpecialTag>{
                 /**
-                 * Snippets property actually contains JSON
+                 * Documentation property actually contains JSON
                  */
                 name: "documentation",
                 check: SpecialJsonTags.isDocumentationTagValid,
                 provideExample: SpecialJsonTags.getDocumentationExample,
+            },
+            <SpecialTag>{
+                /**
+                 * innerTags property actually contains JSON
+                 */
+                name: "innerTags",
+                check: SpecialJsonTags.isInnerTagsTagValid,
+                provideExample: SpecialJsonTags.getInnerTagsExample,
             },
             <SpecialTag>{
                 /**
@@ -52,6 +60,16 @@ export class SpecialJsonTags {
             return documentationIsValid;
         } catch (error) {
             ConsoleDebugger.error("Documentation tag not valid", error);
+            return false;
+        }
+    }
+
+    private static isInnerTagsTagValid(innerTagsTag: string): boolean {
+        try {
+            const innerTagsIsValid = SpecialJsonTags.isArray(JSON.parse(innerTagsTag));
+            return innerTagsIsValid;
+        } catch (error) {
+            ConsoleDebugger.error("innerTags tag not valid", error);
             return false;
         }
     }
@@ -89,6 +107,13 @@ export class SpecialJsonTags {
     private static getDocumentationExample(): string[] {
         return [
             "Documentation",
+            "Multiline",
+        ];
+    }
+
+    private static getInnerTagsExample(): string[] {
+        return [
+            "innerTags",
             "Multiline",
         ];
     }

@@ -86,7 +86,6 @@ function getSnippetsFromObject(definition: Object): Ch5Snippet[] {
     return [];
 }
 
-
 function getDocumentationFromObject(definition: Object): string[] {
     const documentationTag = "documentation";
     const keys = Object.keys(definition);
@@ -111,6 +110,29 @@ function getDocumentationFromObject(definition: Object): string[] {
     return [];
 }
 
+function getInnerTagsFromObject(definition: Object): string[] {
+    const innerTagsTag = "innerTags";
+    const keys = Object.keys(definition);
+    const containsInnerTags = keys.find(x => x === innerTagsTag) !== undefined;
+    if (!containsInnerTags) {
+        return [];
+    }
+
+    // get the innerTags property which should be a JSON string.
+    const value: string = definition[innerTagsTag];
+    console.log(value);
+
+    if (!isNil(value)) {
+        try {
+            const jsonValue = JSON.parse(value) as string[];
+            return jsonValue;
+        } catch (e) {
+            throw new Error(`${e}, from ${value}`)
+        }
+    }
+
+    return [];
+}
 
 function getNameFromObject(definition: Object): string {
     const documentationTag = "name";
@@ -147,6 +169,7 @@ function getDefaultFromObject(definition: Object): string | null{
 
 export {
     getDocumentationFromObject,
+    getInnerTagsFromObject,
     getNameFromObject,
     getSnippetsFromObject,
     getTagNameFromObject,
