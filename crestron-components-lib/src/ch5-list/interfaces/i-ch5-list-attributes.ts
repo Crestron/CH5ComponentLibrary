@@ -14,6 +14,20 @@ import { TCh5ListElementOrientation } from '../interfaces/t-ch5-list';
  * @role list
  * @description Ch5 List offers a wide range of functionality out-of-the-box.
  * @componentVersion 1.0.0
+ * @childElements
+ * [
+ *   {
+ *     "tagName": "template",
+ *     "optional": false,
+ *     "childElements": [
+ *       {
+ *         "tagName": "ch5-button",
+ *         "optional": true,
+ *         "childElements": []
+ *       }
+ *     ]
+ *   }
+ * ]
  * @documentation
  * [
  * "`ch5-list` element",

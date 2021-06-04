@@ -14,6 +14,19 @@ import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow } from "../../ch5-ove
  * @role dialog
  * @description Ch5 Modal
  * @componentVersion 1.0.0
+ * @childElements
+ * [
+ *   {
+ *     "tagName": "p",
+ *     "optional": true,
+ *     "childElements": []
+ *   },
+ *   {
+ *     "tagName": "ch5-image",
+ *     "optional": true,
+ *     "childElements": []
+ *   }
+ * ]
  * @documentation
  * [
  * "`ch5-modal-dialog` element",

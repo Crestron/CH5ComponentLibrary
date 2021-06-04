@@ -48,7 +48,6 @@ function getTypeForAriaRolesFromObject(definition: Object): string {
 
 function getComponentVersionFromObject(definition: Object): string {
     const documentationTag = "componentVersion";
-    // console.log(definition);
     const keys = Object.keys(definition);
 
     const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
@@ -120,7 +119,6 @@ function getChildElementsFromObject(definition: Object): string[] {
 
     // get the childElements property which should be a JSON string.
     const value: string = definition[childElementsTag];
-    console.log(value);
 
     if (!isNil(value)) {
         try {
