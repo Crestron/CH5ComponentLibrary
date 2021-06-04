@@ -17,19 +17,7 @@
  *   {
  *     "tagName": "ch5-triggerview-child",
  *     "optional": false,
- *     "childElements": [
- *       {
- *         "tagName": "div",
- *         "optional": true,
- *         "childElements": [
- *           {
- *             "tagName": "h1",
- *             "optional": true,
- *             "childElements": []
- *           }
- *         ]
- *       }
- *     ]
+ *     "childElements": []
  *   }
  * ]
  * @documentation
