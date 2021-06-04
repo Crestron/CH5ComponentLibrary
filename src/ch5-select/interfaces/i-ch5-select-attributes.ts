@@ -15,6 +15,20 @@ import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/
  * @role listbox
  * @description Ch5 Select inherits the default html select, but provides a lot of extra features
  * @componentVersion 1.0.0
+ * @childElements
+ * [
+ *   {
+ *     "tagName": "template",
+ *     "optional": false,
+ *     "childElements": [
+ *       {
+ *         "tagName": "ch5-select-option",
+ *         "optional": true,
+ *         "childElements": []
+ *       }
+ *     ]
+ *   }
+ * ]
  * @documentation
  * [
  * "`ch5-select` element",

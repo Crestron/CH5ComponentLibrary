@@ -14,6 +14,19 @@ import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow, TCh5OverlayPanelPosi
  * @role dialog
  * @description Ch5 Overlay Panel
  * @componentVersion 1.0.0
+ * @childElements
+ * [
+ *   {
+ *     "tagName": "p",
+ *     "optional": true,
+ *     "childElements": []
+ *   },
+ *   {
+ *     "tagName": "ch5-image",
+ *     "optional": true,
+ *     "childElements": []
+ *   }
+ * ]
  * @documentation
  * [
  * "`ch5-overlay-panel` element",

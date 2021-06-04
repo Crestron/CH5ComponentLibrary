@@ -12,6 +12,26 @@
  * @role listbox
  * @description Ch5 Trigger View will be used to group content, each component will be wrap inside an ChildView Component
  * @componentVersion 1.0.0
+ * @childElements
+ * [
+ *   {
+ *     "tagName": "ch5-triggerview-child",
+ *     "optional": false,
+ *     "childElements": [
+ *       {
+ *         "tagName": "div",
+ *         "optional": true,
+ *         "childElements": [
+ *           {
+ *             "tagName": "h1",
+ *             "optional": true,
+ *             "childElements": []
+ *           }
+ *         ]
+ *       }
+ *     ]
+ *   }
+ * ]
  * @documentation
  * [
  * "`ch5-triggerview` element",
