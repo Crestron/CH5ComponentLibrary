@@ -19,13 +19,7 @@ import { TCh5ListElementOrientation } from '../interfaces/t-ch5-list';
  *   {
  *     "tagName": "template",
  *     "optional": false,
- *     "childElements": [
- *       {
- *         "tagName": "ch5-button",
- *         "optional": true,
- *         "childElements": []
- *       }
- *     ]
+ *     "childElements": []
  *   }
  * ]
  * @documentation
