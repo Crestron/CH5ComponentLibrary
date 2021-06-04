@@ -29,7 +29,7 @@ import {
  * [
  *   "`ch5-button` element",
  *   "***",
- *   "An extension to standard HTML ch5-button element with icons and simple formats."
+ *   "A custom component designed to provide options to add icons, label, text, multiselect among other powerful options."
  * ]
  * @snippets
  * [
