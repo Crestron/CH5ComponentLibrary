@@ -13,7 +13,7 @@ export class TextTagsConfiguration {
         "tagName",
         "role",
         "documentation",
-        "innerTags",
+        "childElements",
         "format",
         "pattern",
         "snippets",

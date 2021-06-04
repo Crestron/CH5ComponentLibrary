@@ -45,8 +45,8 @@ function getDocumentation(definition: Definition): string[] {
     return parser.getDocumentationFromObject(definition);
 }
 
-function getInnerTags(definition: Definition): string[] {
-    return parser.getInnerTagsFromObject(definition);
+function getChildElements(definition: Definition): string[] {
+    return parser.getChildElementsFromObject(definition);
 }
 
 function getDescription(definition: Definition): string {
@@ -93,7 +93,7 @@ export {
     getName,
     getTagName,
     getDocumentation,
-    getInnerTags,
+    getChildElements as getChildElements,
     getSnippets,
     getDescription,
     getDefault,

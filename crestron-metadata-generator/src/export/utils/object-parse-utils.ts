@@ -110,16 +110,16 @@ function getDocumentationFromObject(definition: Object): string[] {
     return [];
 }
 
-function getInnerTagsFromObject(definition: Object): string[] {
-    const innerTagsTag = "innerTags";
+function getChildElementsFromObject(definition: Object): string[] {
+    const childElementsTag = "childElements";
     const keys = Object.keys(definition);
-    const containsInnerTags = keys.find(x => x === innerTagsTag) !== undefined;
-    if (!containsInnerTags) {
+    const containsChildElements = keys.find(x => x === childElementsTag) !== undefined;
+    if (!containsChildElements) {
         return [];
     }
 
-    // get the innerTags property which should be a JSON string.
-    const value: string = definition[innerTagsTag];
+    // get the childElements property which should be a JSON string.
+    const value: string = definition[childElementsTag];
     console.log(value);
 
     if (!isNil(value)) {
@@ -169,7 +169,7 @@ function getDefaultFromObject(definition: Object): string | null{
 
 export {
     getDocumentationFromObject,
-    getInnerTagsFromObject,
+    getChildElementsFromObject,
     getNameFromObject,
     getSnippetsFromObject,
     getTagNameFromObject,

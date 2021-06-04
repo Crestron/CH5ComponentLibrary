@@ -14,7 +14,7 @@ export class JsonTagsConfiguration {
         "role",
         "componentVersion",
         "documentation",
-        "innerTags",
+        "childElements",
         "maximum",
         "exclusiveMaximum",
         "snippets",

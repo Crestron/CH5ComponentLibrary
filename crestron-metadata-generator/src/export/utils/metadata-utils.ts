@@ -16,7 +16,7 @@ function addTypeDefinition(definition: Definition, aliases: DefinitionTuple[]): 
     const result = Ch5Element.New();
     result.description = _.getDescription(definition);
     result.documentation = _.getDocumentation(definition);
-    result.innerTags = _.getInnerTags(definition);
+    result.childElements = _.getChildElements(definition);
     result.name = _.getName(definition);
     result.tagName = _.getTagName(definition);
     result.role = _.getTypeForAriaRoles(definition);
@@ -29,7 +29,7 @@ function addTypeDefinition(definition: Definition, aliases: DefinitionTuple[]): 
 function addAttributeDefinition(definition: Definition, aliases: DefinitionTuple[]): Ch5Attribute {
     const result = Ch5Attribute.New();
     result.documentation = _.getDocumentation(definition);
-    result.innerTags = _.getInnerTags(definition);
+    result.childElements = _.getChildElements(definition);
     result.name = _.getName(definition);
     result.value = getProperties(definition, aliases)[0].value;
     result.default = _.getDefault(definition);
@@ -136,7 +136,7 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
 
     result.name = _.getName(definition);
     result.documentation = _.getDocumentation(definition);
-    result.innerTags = _.getInnerTags(definition);
+    result.childElements = _.getChildElements(definition);
     // const defaultValue = _.getDefault(definition);
     // if (!isNil(defaultValue) && defaultValue !== "") {
     result.default = _.getDefault(definition);

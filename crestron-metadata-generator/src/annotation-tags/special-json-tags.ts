@@ -37,11 +37,11 @@ export class SpecialJsonTags {
             },
             <SpecialTag>{
                 /**
-                 * innerTags property actually contains JSON
+                 * childElements property actually contains JSON
                  */
-                name: "innerTags",
-                check: SpecialJsonTags.isInnerTagsTagValid,
-                provideExample: SpecialJsonTags.getInnerTagsExample,
+                name: "childElements",
+                check: SpecialJsonTags.isChildElementsTagValid,
+                provideExample: SpecialJsonTags.getChildElementsExample,
             },
             <SpecialTag>{
                 /**
@@ -64,12 +64,12 @@ export class SpecialJsonTags {
         }
     }
 
-    private static isInnerTagsTagValid(innerTagsTag: string): boolean {
+    private static isChildElementsTagValid(childElementsTag: string): boolean {
         try {
-            const innerTagsIsValid = SpecialJsonTags.isArray(JSON.parse(innerTagsTag));
-            return innerTagsIsValid;
+            const childElementsIsValid = SpecialJsonTags.isArray(JSON.parse(childElementsTag));
+            return childElementsIsValid;
         } catch (error) {
-            ConsoleDebugger.error("innerTags tag not valid", error);
+            ConsoleDebugger.error("childElements tag not valid", error);
             return false;
         }
     }
@@ -111,9 +111,9 @@ export class SpecialJsonTags {
         ];
     }
 
-    private static getInnerTagsExample(): string[] {
+    private static getChildElementsExample(): string[] {
         return [
-            "innerTags",
+            "childElements",
             "Multiline",
         ];
     }
