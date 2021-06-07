@@ -42,42 +42,38 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
     return parentElement.iconClass;
   }
 
-  public set hAlignLabel(value: TCh5ButtonHorizontalAlignLabel) {
+  public set hAlignLabel(value: TCh5ButtonHorizontalAlignLabel | null) {
     this.info('set hAlignLabel("' + value + '")');
-    const parentElement: Ch5Button = this.getParentButton();
-    parentElement.hAlignLabel = value;
+    this.validateAndSetAttributeWithCustomType("halignlabel", value);
   }
-  public get hAlignLabel(): TCh5ButtonHorizontalAlignLabel {
+  public get hAlignLabel(): TCh5ButtonHorizontalAlignLabel | null {
     const parentElement: Ch5Button = this.getParentButton();
     return parentElement.hAlignLabel;
   }
 
-  public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel) {
+  public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel | null) {
     this.info('set vAlignLabel("' + value + '")');
-    const parentElement: Ch5Button = this.getParentButton();
-    parentElement.vAlignLabel = value;
+    this.validateAndSetAttributeWithCustomType("valignlabel", value);
   }
-  public get vAlignLabel(): TCh5ButtonVerticalAlignLabel {
+  public get vAlignLabel(): TCh5ButtonVerticalAlignLabel | null {
     const parentElement: Ch5Button = this.getParentButton();
     return parentElement.vAlignLabel;
   }
 
-  public set checkboxPosition(value: TCh5ButtonCheckboxPosition) {
+  public set checkboxPosition(value: TCh5ButtonCheckboxPosition | null) {
     this.info('set checkboxPosition("' + value + '")');
-    const parentElement: Ch5Button = this.getParentButton();
-    parentElement.checkboxPosition = value;
+    this.validateAndSetAttributeWithCustomType("checkboxposition", value);
   }
-  public get checkboxPosition(): TCh5ButtonCheckboxPosition {
+  public get checkboxPosition(): TCh5ButtonCheckboxPosition | null {
     const parentElement: Ch5Button = this.getParentButton();
     return parentElement.checkboxPosition;
   }
 
-  public set iconPosition(value: TCh5ButtonIconPosition) {
+  public set iconPosition(value: TCh5ButtonIconPosition | null) {
     this.info('set iconPosition("' + value + '")');
-    const parentElement: Ch5Button = this.getParentButton();
-    parentElement.iconPosition = value;
+    this.validateAndSetAttributeWithCustomType("iconposition", value);
   }
-  public get iconPosition(): TCh5ButtonIconPosition {
+  public get iconPosition(): TCh5ButtonIconPosition | null {
     const parentElement: Ch5Button = this.getParentButton();
     return parentElement.iconPosition;
   }
@@ -92,14 +88,25 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
     return parentElement.type;
   }
 
-  public set type(value: TCh5ButtonType) {
+  public set type(value: TCh5ButtonType | null) {
     this.info('set type("' + value + '")');
-    const parentElement: Ch5Button = this.getParentButton();
-    if (this.shouldUpdateButtonModeStateAttributes()) {
-      parentElement.activeType = value;
-    }
+    this.validateAndSetAttributeWithCustomType("type", value);
+    // const parentElement: Ch5Button = this.getParentButton();
+    // if (value !== null) {
+    //   if (parentElement.TYPES.indexOf(value) >= 0) {
+    //     this.setAttribute('type', value);
+    //     parentElement.changeAttributesOnModeChange(this);
+    //   } else {
+    //     this.removeAttribute("type");
+    //     // parentElement.resetActiveAttribute(this, "type"); is not required here. The set type will be called again to 
+    //     // go the below else block and the changeAttributesOnModeChange is called
+    //   }
+    // } else {
+    //   this.removeAttribute("type");
+    //   parentElement.changeAttributesOnModeChange(this);
+    // }
   }
-  public get type(): TCh5ButtonType {
+  public get type(): TCh5ButtonType | null {
     const parentElement: Ch5Button = this.getParentButton();
     return parentElement.activeType;
   }
@@ -269,6 +276,23 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
   //#endregion
 
   //#region 3. Other Methods
+
+  private validateAndSetAttributeWithCustomType(attributeName: string, value: any) {
+    const parentElement: Ch5Button = this.getParentButton();
+    if (value !== null) {
+      if (parentElement.TYPES.indexOf(value) >= 0) {
+        this.setAttribute(attributeName, value);
+        parentElement.changeAttributesOnModeChange(this);
+      } else {
+        this.removeAttribute(attributeName);
+        // parentElement.resetActiveAttribute(this, attributeName); is not required here. The set type will be called again to 
+        // go the below else block and the changeAttributesOnModeChange is called
+      }
+    } else {
+      this.removeAttribute(attributeName);
+      parentElement.changeAttributesOnModeChange(this);
+    }
+  }
 
   public getParentButton(): Ch5Button {
     const getTheMatchingParent = (node: Node): Ch5Button => {
