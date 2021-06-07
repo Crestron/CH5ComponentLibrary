@@ -7,7 +7,7 @@
 
 import isNil from 'lodash/isNil';
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory, publishEvent } from "../ch5-core";
 import { ICh5ImportHtmlSnippetAttributes } from './interfaces/i-ch5-import-htmlsnippet-attributes';
 
 /**
@@ -267,6 +267,8 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
             const response: string = await this.asyncLoadContent(url);
             this._elContainer.innerHTML = response;
             this.dispatchEvent(this.loadEvent);
+            publishEvent('object', `ch5-import-htmlsnippet:${this.id}`, {loaded: true});
+
         } catch (rejectionReason) {
             this.info(`ch5-import-htmlsnippet failed to load the URL: ${url}, ${rejectionReason}`);
         }
