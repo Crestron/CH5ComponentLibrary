@@ -7,8 +7,20 @@
 
 import { isEmpty, isNil } from 'lodash';
 import { Ch5Template } from "./ch5-template";
+import { publishEvent } from "../ch5-core";
 
 export class Ch5TemplateStructure {
+
+    /**
+     * The template of the component
+     *
+     * @private
+     * @static 
+     * @memberof Ch5TemplateStructure
+     * @type {Object}
+     */
+    private static _numInstances: {[key:string]:number;} = {};
+
 
     /**
      * ch5-template element
@@ -32,6 +44,23 @@ export class Ch5TemplateStructure {
      * Wrapper div for the ch5-template content
      */
     private _wrapperDiv: HTMLDivElement = {} as HTMLDivElement;
+
+    /**
+     * The id if created an instance of the template
+     */
+    private _instanceId: string|null = null;
+    
+    /**
+     * @private
+     * @param templateIdentifier 
+     * @returns monotomic incrementing integer for given templateIdentifer 
+     */
+    private static nextInstanceNum(templateIdentifier: string) : number {
+        const priorNumber = Ch5TemplateStructure._numInstances[templateIdentifier];
+        const nextNumber: number = (priorNumber === undefined ? 1 : priorNumber + 1);
+        Ch5TemplateStructure._numInstances[templateIdentifier] = nextNumber;
+        return nextNumber;
+    }
 
     constructor(element: Ch5Template) {
         this.element = element;
@@ -76,6 +105,10 @@ export class Ch5TemplateStructure {
      */
     public get templateElement(): HTMLTemplateElement {
         return this._templateElement;
+    }
+
+    public get instanceId(): string| null {
+        return this._instanceId;
     }
 
     /**
@@ -141,7 +174,7 @@ export class Ch5TemplateStructure {
         }
 
         const template = document.getElementById(templateId) as HTMLTemplateElement;
-        let newElement = null;
+        let newElement: HTMLElement | null = null;
 
         if (!(isNil(template))) {
             this.templateElement = template as HTMLTemplateElement;
@@ -211,8 +244,22 @@ export class Ch5TemplateStructure {
         } finally {
             this.setDefaultElementStyle();
             if (newElement !== null) {
-                this.element.info("Ch5TemplateStructure --- [FINAL] Adding content to ChTemplate: ", newElement);
+                // create unique id for each instance of this template
+                const thisInstanceNum = Ch5TemplateStructure.nextInstanceNum(templateId);
+                this._instanceId = `${templateId}:${thisInstanceNum}`;
+                newElement.id = this._instanceId;
+                // provide unique id for each first level element of the template unless it already has id
+                const elementIds: string[] = [];
+                for (let childcnt = 0; childcnt < newElement.children.length; childcnt++) {
+                    if (!newElement.children.item(childcnt).id) {
+                        newElement.children.item(childcnt).id = `${this._instanceId}:${childcnt}`;
+                    }
+                    elementIds.push(newElement.children.item(childcnt).id);
+                }
+                
+                this.element.info(`Ch5TemplateStructure --- [FINAL] Adding content to ChTemplate: ${this._instanceId}`, newElement);
                 this.element = newElement as Ch5Template;
+                publishEvent('object', `ch5-template:${templateId}`, {loaded: true, id: this._instanceId, elementIds});
             }
         }
     }
