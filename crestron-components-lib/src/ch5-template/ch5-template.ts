@@ -9,6 +9,7 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5TemplateStructure } from "./ch5-template-structure";
 import { ICh5TemplateAttributes } from "./interfaces/i-ch5-template-attributes";
+import { publishEvent } from "../ch5-core";
 
 export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
@@ -127,6 +128,26 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
         }
+    }
+
+    /**
+     * Called when disconnected from the document tree.
+     * 
+     */
+    public disconnectedCallback() {
+        this.info('Ch5Template.disconnectedCallback()');
+        // tell the world that no longer on DOM
+        if (this._templateHelper && this._templateHelper.instanceId) {
+            // keep this in sync with ch5-template-structure
+            publishEvent('object', `ch5-template:${this.templateId}`, {loaded: false, id: this._templateHelper.instanceId});
+        }
+
+        // , then undo the work in initializations 
+        this.classList.remove(Ch5Template.CH5_TEMPLATE_STYLE_CLASS);
+        if (this.firstElementChild) { // this should be only child
+            this.removeChild(this.firstElementChild);
+        }
+        this._templateHelper = {} as Ch5TemplateStructure;
     }
 }
 
