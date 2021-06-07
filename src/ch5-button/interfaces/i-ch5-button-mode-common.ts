@@ -79,10 +79,8 @@ export interface ICh5ButtonModeCommonAttributes {
      * "'default' is used."
      * ]
      * @name type
-     * @default default
      */
-    type: TCh5ButtonType;
-
+    type: TCh5ButtonType | null;
 
     /**
      * @documentation
@@ -107,7 +105,7 @@ export interface ICh5ButtonModeCommonAttributes {
      * @name iconposition
      * @default first
      */
-    iconPosition: TCh5ButtonIconPosition;
+    iconPosition: TCh5ButtonIconPosition | null;
 
     /**
      * @documentation
@@ -132,7 +130,7 @@ export interface ICh5ButtonModeCommonAttributes {
      * @name checkboxPosition
      * @default false
      */
-    checkboxPosition: TCh5ButtonCheckboxPosition;
+    checkboxPosition: TCh5ButtonCheckboxPosition | null;
 
     /**
       * @documentation
@@ -151,7 +149,7 @@ export interface ICh5ButtonModeCommonAttributes {
       * ]
       * @name hAlignLabel
       */
-    hAlignLabel: TCh5ButtonHorizontalAlignLabel;
+    hAlignLabel: TCh5ButtonHorizontalAlignLabel | null;
 
     /**
     * @documentation
@@ -170,5 +168,5 @@ export interface ICh5ButtonModeCommonAttributes {
     * ]
     * @name vAlignLabel
     */
-    vAlignLabel: TCh5ButtonVerticalAlignLabel;
+    vAlignLabel: TCh5ButtonVerticalAlignLabel | null;
 }
