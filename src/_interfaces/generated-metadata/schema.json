@@ -528,7 +528,7 @@
         "documentation": [
           "`ch5-button` element",
           "***",
-          "An extension to standard HTML ch5-button element with icons and simple formats."
+          "A custom component designed to provide options to add icons, label, text, multiselect among other powerful options."
         ],
         "snippets": [
           {
@@ -1877,7 +1877,13 @@
             ]
           }
         ],
-        "childElements": [],
+        "childElements": [
+          {
+            "tagName": "template",
+            "optional": false,
+            "childElements": []
+          }
+        ],
         "description": "Ch5 List offers a wide range of functionality out-of-the-box.",
         "name": "Ch5 List",
         "tagName": "ch5-list",
@@ -2818,7 +2824,7 @@
             "body": [
               "<ch5-select size=\"${1}\"",
               "\ticonposition=\"${2|first,last|}\"",
-              "\tmultiselect=\"${3}\"",
+              "\tmultiselect",
               "\tselectedvalue=\"${4}\"",
               "\tnoneselectedprompt=\"${5}\"",
               "\tpanelscrollheight=\"${6}\"",
@@ -2983,7 +2989,19 @@
             ]
           }
         ],
-        "childElements": [],
+        "childElements": [
+          {
+            "tagName": "template",
+            "optional": false,
+            "childElements": [
+              {
+                "tagName": "ch5-select-option",
+                "optional": true,
+                "childElements": []
+              }
+            ]
+          }
+        ],
         "description": "Ch5 Select inherits the default html select, but provides a lot of extra features",
         "name": "Ch5 Select",
         "tagName": "ch5-select",
@@ -4641,7 +4659,13 @@
             "description": "Crestron Triggerview Signals"
           }
         ],
-        "childElements": [],
+        "childElements": [
+          {
+            "tagName": "ch5-triggerview-child",
+            "optional": false,
+            "childElements": []
+          }
+        ],
         "description": "Ch5 Trigger View will be used to group content, each component will be wrap inside an ChildView Component",
         "name": "Ch5 Trigger View",
         "tagName": "ch5-triggerview",

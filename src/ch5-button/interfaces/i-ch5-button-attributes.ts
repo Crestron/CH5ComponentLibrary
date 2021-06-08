@@ -5,6 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import { ICh5Common } from "../../ch5-common/interfaces/i-ch5-common";
 import {
   TCh5ButtonSize,
   TCh5ButtonIconPosition,
@@ -76,7 +77,7 @@ import {
  * ]
  *
  */
-export interface ICh5ButtonAttributes {
+export interface ICh5ButtonAttributes extends ICh5Common {
   /**
    * @name size
    * @documentation

@@ -159,6 +159,7 @@ export interface ICh5CommonAttributes {
      * "when the value is true and hides when it is false."
      * ]
      * @name show
+     * @default true
      */
     show: boolean;
 

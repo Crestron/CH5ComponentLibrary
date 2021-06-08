@@ -5,6 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import { ICh5Common } from "../../ch5-common/interfaces";
 import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow } from "../../ch5-overlay-panel/interfaces/t-ch5-overlay-panel";
 
 /**
@@ -67,7 +68,7 @@ import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow } from "../../ch5-ove
  * ]
  */
 
-export interface ICh5ModalDialogAttributes {
+export interface ICh5ModalDialogAttributes extends ICh5Common {
 
   /**
    * @documentation

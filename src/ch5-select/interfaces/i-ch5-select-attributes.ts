@@ -7,6 +7,7 @@
 
 import { TCh5SelectIconPosition, TCh5SelectMode } from ".";
 import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/t-ch5-common-input";
+import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
  * @name Ch5 Select
@@ -53,7 +54,7 @@ import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/
  *           "body": [
  *             "<ch5-select size=\"${1}\"",
  *             "\ticonposition=\"${2|first,last|}\"",
- *             "\tmultiselect=\"${3}\"",
+ *             "\tmultiselect",
  *             "\tselectedvalue=\"${4}\"",
  *             "\tnoneselectedprompt=\"${5}\"",
  *             "\tpanelscrollheight=\"${6}\"",
@@ -221,7 +222,7 @@ import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/
  * 
  */
 
-export interface ICh5SelectAttributes {
+export interface ICh5SelectAttributes extends ICh5Common {
 
   /**
    * @documentation

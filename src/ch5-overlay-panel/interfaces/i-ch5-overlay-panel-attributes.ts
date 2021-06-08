@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow, TCh5OverlayPanelPositionOffset } from ".";
+import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
  * @name Ch5 Overlay Panel
@@ -64,7 +65,7 @@ import { TCh5OverlayPanelStretch, TCh5OverlayPanelOverflow, TCh5OverlayPanelPosi
  * ]
  */
 
-export interface ICh5OverlayPanelAttributes {
+export interface ICh5OverlayPanelAttributes extends ICh5Common {
 
   /**
    * @documentation
