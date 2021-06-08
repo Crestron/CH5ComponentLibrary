@@ -142,9 +142,9 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
             publishEvent('object', `ch5-template:${this.templateId}`, {loaded: false, id: this._templateHelper.instanceId});
         }
 
-        // , then undo the work in initializations 
+        // Then undo the work in initializations 
         this.classList.remove(Ch5Template.CH5_TEMPLATE_STYLE_CLASS);
-        if (this.firstElementChild) { // this should be only child
+        while (this.firstElementChild) { // there should be only one child
             this.removeChild(this.firstElementChild);
         }
         this._templateHelper = {} as Ch5TemplateStructure;
