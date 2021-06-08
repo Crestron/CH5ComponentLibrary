@@ -5,6 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import { ICh5Common } from '../../ch5-common/interfaces/i-ch5-common';
 import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './index';
 
 /**
@@ -63,7 +64,7 @@ import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './index';
  * 
  */
 
-export interface ICh5BackgroundAttributes {
+export interface ICh5BackgroundAttributes extends ICh5Common {
   /**
    * @documentation
    * [

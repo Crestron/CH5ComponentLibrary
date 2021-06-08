@@ -7,6 +7,7 @@
 
 import { TCh5SliderShape, TCh5SliderOrientation, TCh5SliderSize, TCh5SliderStretch, TCh5SliderTooltipType, TCh5SliderTooltipDisplay } from ".";
 import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/t-ch5-common-input";
+import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
  * @name Ch5 Slider
@@ -77,7 +78,7 @@ import { TCh5CommonInputFeedbackModes } from "../../ch5-common-input/interfaces/
  * ]
  */
 
-export interface ICh5SliderAttributes {
+export interface ICh5SliderAttributes extends ICh5Common {
 
   /**
    * @documentation

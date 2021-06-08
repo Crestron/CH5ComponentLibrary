@@ -57,6 +57,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * "The default value is false. Used to get useful developer-related information about component behavior."
      * ]
      * @name debug
+     * @default true
      */
     debug: TBoolAttribute;
 
@@ -69,6 +70,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * "to reflect a disabled state when true."
      * ]
      * @name disabled
+     * @default false
      */
     disabled: TBoolAttribute;
 }

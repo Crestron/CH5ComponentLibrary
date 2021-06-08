@@ -15,7 +15,7 @@ export * from "./../ch5-custom-attrs/interfaces/index";
  * DEV NOTE: The list of imports below help in the documentation per component level 
  * w.r.t crestron-metadata-generator project
  */
-export * from "./../ch5-button/interfaces/";
+export * from "./../ch5-button/interfaces/i-ch5-button-attributes";
 export * from "./../ch5-form/interfaces/";
 export * from "./../ch5-image/interfaces/";
 export * from "./../ch5-list/interfaces/";

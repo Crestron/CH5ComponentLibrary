@@ -5,6 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import { ICh5Common } from "../../ch5-common/interfaces";
+
 /**
  * @name Ch5 Trigger View
  * @isattribute false
@@ -88,7 +90,7 @@
  *
  */
 
-export interface ICh5TriggerviewAttributes {
+export interface ICh5TriggerviewAttributes extends ICh5Common {
 
     /**
      * @documentation
