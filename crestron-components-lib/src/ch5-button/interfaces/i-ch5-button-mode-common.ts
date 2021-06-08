@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from ".";
-import { ICh5Common } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributes } from "../../ch5-common/interfaces/";
 
 /**
  * @name Ch5 Button Mode Common
@@ -66,7 +66,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * ]
  *
  */
-export interface ICh5ButtonModeCommonAttributes extends ICh5Common {
+export interface ICh5ButtonModeCommonAttributes extends ICh5CommonAttributes {
 
     /**
      * @documentation

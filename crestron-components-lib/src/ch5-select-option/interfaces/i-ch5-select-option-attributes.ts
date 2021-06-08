@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5Common } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 import { TCh5SelectOptionIconPosition } from "./types/t-ch5-select-option-icon-position";
 
 /**
@@ -23,7 +23,7 @@ import { TCh5SelectOptionIconPosition } from "./types/t-ch5-select-option-icon-p
  * ]
  */
 
-export interface ICh5SelectOptionAttributes extends ICh5Common {
+export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
 
   /**
    * @documentation

@@ -147,6 +147,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`size` attribute",
               "***",
               "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
@@ -583,6 +755,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`type` attribute",
               "***",
               "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
@@ -603,7 +947,7 @@
               "secondary"
             ],
             "name": "type",
-            "default": "default"
+            "default": null
           },
           {
             "documentation": [
@@ -766,6 +1110,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`type` attribute",
               "***",
               "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
@@ -786,7 +1302,7 @@
               "secondary"
             ],
             "name": "type",
-            "default": "default"
+            "default": null
           },
           {
             "documentation": [
@@ -949,6 +1465,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`type` attribute",
               "***",
               "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
@@ -969,7 +1657,7 @@
               "secondary"
             ],
             "name": "type",
-            "default": "default"
+            "default": null
           },
           {
             "documentation": [
@@ -1153,6 +1841,178 @@
       },
       {
         "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
           {
             "documentation": [
               "`submitbuttonlabel` attribute",
@@ -1399,6 +2259,174 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "The image direction."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`alt` attribute",
               "***",
               "Defines an alternative text description for the image."
@@ -1463,17 +2491,6 @@
             "childElements": [],
             "value": [],
             "name": "password",
-            "default": null
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "The image direction."
-            ],
-            "childElements": [],
-            "value": [],
-            "name": "dir",
             "default": null
           },
           {
@@ -1589,6 +2606,178 @@
       },
       {
         "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
           {
             "documentation": [
               "`size` attribute",
@@ -1894,6 +3083,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`closeicon` attribute",
               "***",
               "A class name of the close icon. It may be a font awesome class."
@@ -2142,6 +3503,178 @@
       },
       {
         "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
           {
             "documentation": [
               "`closeicon` attribute",
@@ -2519,6 +4052,178 @@
       },
       {
         "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
           {
             "documentation": [
               "`size` attribute",
@@ -3012,6 +4717,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`iconposition` attribute",
               "***",
               "The default value is 'first'. Valid values: 'first' and 'last'. ",
@@ -3117,6 +4994,178 @@
       },
       {
         "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
           {
             "documentation": [
               "`handleshape` attribute",
@@ -3538,6 +5587,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`size` attribute",
               "***",
               "The default value is 1. ",
@@ -3905,6 +6126,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`feedbackmode` attribute",
               "***",
               "The default value is 'direct'. Valid values: 'direct', 'submit'.",
@@ -4267,6 +6660,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`feedbackmode` attribute",
               "***",
               "The default value is 'direct'. If direct, value send and receive will be ",
@@ -4502,6 +7067,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`activeview` attribute",
               "***",
               "The default value is 0. Sets the view that will be shown using a 0-based index."
@@ -4676,6 +7413,125 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, this will tell the parent component (ch5-triggerview) to hide all the other ChildViews and to only show this one."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
               "`sendeventonshow` attribute",
               "***",
               "Sends a digital pulse when a child view becomes visible. Allows the control system ",
@@ -4688,13 +7544,43 @@
           },
           {
             "documentation": [
-              "`receivestateshow` attribute",
+              "`appendclasswheninviewport` attribute",
               "***",
-              "When true, this will tell the parent component (ch5-triggerview) to hide all the other ChildViews and to only show this one."
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
             ],
             "childElements": [],
             "value": [],
-            "name": "receivestateshow",
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
             "default": null
           }
         ],
@@ -4762,6 +7648,178 @@
         "attributes": [
           {
             "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
               "`templateid` attribute",
               "***",
               "The ID of the template to be instantiated."
@@ -4811,13 +7869,86 @@
         "attributes": [
           {
             "documentation": [
-              "`url` attribute",
+              "`id` attribute",
               "***",
-              "The HTML file path."
+              "This is a standard id HTML attribute."
             ],
             "childElements": [],
             "value": [],
-            "name": "url",
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receiveStateShow` attribute",
+              "***",
+              "While true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
             "default": null
           },
           {
@@ -4844,13 +7975,79 @@
           },
           {
             "documentation": [
-              "`receiveStateShow` attribute",
+              "`receivestateenable` attribute",
               "***",
-              "While true, the boolean value of the signal determines if the component is visible."
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
             ],
             "childElements": [],
             "value": [],
-            "name": "receivestateshow",
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`url` attribute",
+              "***",
+              "The HTML file path."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "url",
             "default": null
           }
         ],
@@ -4897,6 +8094,178 @@
       },
       {
         "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
           {
             "documentation": [
               "`url` attribute",
@@ -5121,6 +8490,178 @@
       },
       {
         "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "id",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "customstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "childElements": [],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "receivestateenable",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": null
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "childElements": [],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "childElements": [],
+            "value": [],
+            "name": "dir",
+            "default": null
+          },
           {
             "documentation": [
               "`indexId` attribute",

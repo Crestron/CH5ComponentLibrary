@@ -5,13 +5,13 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5Common } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 import { TCh5CommonInputFeedbackModes } from "./t-ch5-common-input";
 
 /**
  * @ignore
  */
-export interface ICh5CommonInputAttributes extends ICh5Common {
+export interface ICh5CommonInputAttributes extends ICh5CommonAttributes {
 
   /**
    * @documentation
