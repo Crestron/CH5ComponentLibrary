@@ -93,7 +93,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * @name stretch
    * @default null
    */
-  stretch: TCh5OverlayPanelStretch
+  stretch: TCh5OverlayPanelStretch | null
 
   /**
    * @documentation

@@ -202,7 +202,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * @name stretch
    * @default both
    */
-  stretch: TCh5SliderStretch;
+  stretch: TCh5SliderStretch | null;
 
   /**
    * @documentation
