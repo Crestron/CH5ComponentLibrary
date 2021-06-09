@@ -16,7 +16,6 @@ export class Ch5Attribute {
     public static New(): Ch5Attribute {
         const result = new Ch5Attribute();
         result.documentation = [];
-        result.childElements = [];
         result.value = [];
         return result;
     }

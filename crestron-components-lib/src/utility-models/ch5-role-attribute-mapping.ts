@@ -19,5 +19,9 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5TextInput = 'textbox';
     public static readonly ch5Toggle = 'switch';
     public static readonly ch5TriggerView = 'listbox';
-    public static readonly ch5TriggerViewChild = 'triggerview-child';
+    public static readonly ch5TriggerViewChild = 'listbox';
+    public static readonly ch5Background = 'region';
+    public static readonly ch5Template = 'template';
+    public static readonly ch5Video = 'video';
+    public static readonly ch5ImportHtmlSnippet = 'template';
 }
