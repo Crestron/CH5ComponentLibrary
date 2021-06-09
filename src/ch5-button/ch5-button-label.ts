@@ -62,6 +62,19 @@ export class Ch5ButtonLabel extends Ch5Common {
                 this.getParentButton().labelHtml = templateData.innerHTML;
             }
         }
+        const callbackFn = (mutations: any) => console.log("mutations", mutations);
+        const configForMut = {
+            attributes: true,
+            subtree: true,
+            characterData: true
+        };
+        const observer = new MutationObserver(callbackFn);
+        observer.observe(this, configForMut);
+
+        // observer.disconnect();
+
+
+
         // if (this.children && this.children.length > 0) {
         //     Array.from(this.children).forEach((newChild) => {
         //         if (newChild.nodeName.toString().toLowerCase() === "ch5-button-label") {

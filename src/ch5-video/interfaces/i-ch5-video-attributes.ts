@@ -12,6 +12,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
  * @name Ch5 Video
  * @isattribute false
  * @tagName ch5-video
+ * @role video
  * @description Ch5 Video offers a wide range of functionality out-of-the-box.
  * @componentVersion 1.0.0
  * @documentation

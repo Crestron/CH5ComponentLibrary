@@ -11,6 +11,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  * @name Ch5 Trigger View Child
  * @isAttribute false
  * @tagName ch5-triggerview-child
+ * @role template
  * @description Ch5 Trigger View Child - content wrapper for ch5-triggerview.
  * @componentVersion 1.0.0
  * @documentation
