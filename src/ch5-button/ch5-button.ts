@@ -212,16 +212,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 	/**
 	 * Contains the ch5-button's label.
-	 *
-	 * HTML attribute name: label
 	 */
 	private _label: string = '';
 	private _activeLabel: string = '';
 
 	/**
 	 * The icon's CSS class name as defined in the iconClass HTML attribute
-	 *
-	 * HTML attribute name: iconClass or iconclass
 	 */
 	private _iconClass: string = '';
 	private _activeIconClass: string = '';
@@ -229,8 +225,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 	/**
 	 * Icon position relative to label
-	 *
-	 * HTML attribute name: iconPosition or iconposition
 	 */
 	private _iconPosition: TCh5ButtonIconPosition = 'first';
 	private _activeIconPosition: TCh5ButtonIconPosition = 'first';
@@ -246,15 +240,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	/**
 	 * Reflects the checkbox display part of the component. If set to true, a checkbox is displayed and a CSS class named 'ch5-button__checkbox' will be applied
 	 * on the button component
-	 *
-	 * HTML attribute name: checkboxShow
 	 */
 	private _checkboxShow: boolean = false;
 
 	/**
 	 * Horizontal Alignment for Label
-	 *
-	 * HTML attribute name: hAlignLabel or halignlabel
 	 */
 	private _hAlignLabel: TCh5ButtonHorizontalAlignLabel = 'center';
 	private _activeHAlignLabel: TCh5ButtonHorizontalAlignLabel = 'center';
@@ -285,15 +275,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 	/**
 	 * Size of the button
-	 *
-	 * HTML attribute name: size
 	 */
 	private _size: TCh5ButtonSize = 'regular';
 
 	/**
 	 * action type of the button
-	 *
-	 * HTML attribute name: actiontype
 	 */
 	private _formType: TCh5ButtonActionType | null = null;
 
@@ -304,8 +290,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 * If stretch width is applied, there is no responsiveness after reaching the max- width, the text will overflow.
 	 * Same if stretch both is used. Note that, if button element shape is "circle" or "oval", stretch property will be
 	 * ignored.
-	 *
-	 * HTML attribute name: stretch
 	 */
 	private _stretch: TCh5ButtonStretch | null = null;
 
@@ -313,8 +297,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 * Valid values: default, info, text, danger, warning, success, primary, secondary.
 	 * Overrides the appearance of the button with alternative css defined in classes defined with ch5-button--type
 	 * where type is the value of the property. If no "type" is provided, type of 'default' is used.
-	 *
-	 * HTML attribute name: type
 	 */
 	private _type: TCh5ButtonType = 'default';
 	private _activeType: TCh5ButtonType = 'default';
@@ -322,8 +304,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	/**
 	 * Reflects the selected state of the component. If set to true a CSS class named 'ch5-button--..._selected' will be applied
 	 * on the button component
-	 *
-	 * HTML attribute name: selected
 	 */
 	private _selected: boolean = false;
 
