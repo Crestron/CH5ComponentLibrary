@@ -14,6 +14,6 @@ export type TCh5SliderShape = 'rounded-rectangle' | 'rectangle' | 'circle' | 'ov
 
 export type TCh5SliderSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large';
 
-export type TCh5SliderStretch = ''| 'both' | 'width' | 'height';
+export type TCh5SliderStretch = 'both' | 'width' | 'height';
 export type TCh5SliderTooltipDisplay = '%' | 'value';
 export type TCh5SliderTooltipType = 'off' | 'on' | 'auto';
