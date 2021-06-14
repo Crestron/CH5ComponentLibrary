@@ -1039,13 +1039,17 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
      * @param {TCh5OverlayPanelStretch | null} value
      */
     public set stretch(value: TCh5OverlayPanelStretch | null) {
-        if (this._stretch !== value && value !== null) {
-            if (Ch5OverlayPanel.STRETCHES.indexOf(value) >= 0) {
-                this._stretch = value;
-                this.setAttribute('stretch', this._stretch);
-            } else {
-                this._stretch = null;
+        if (value !== null) {
+            if (this._stretch !== value) {
+                if (Ch5OverlayPanel.STRETCHES.indexOf(value) >= 0) {
+                    this._stretch = value;
+                    this.setAttribute('stretch', this._stretch);
+                } else {
+                    this._stretch = null;
+                }
             }
+        } else {
+            this._stretch = null;
         }
     }
 
