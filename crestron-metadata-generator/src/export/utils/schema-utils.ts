@@ -37,7 +37,7 @@ function getName(definition: Definition): string {
     return parser.getNameFromObject(definition);
 }
 
-function getDefault(definition: Definition): string | null {
+function getDefault(definition: Definition): string {
     return parser.getDefaultFromObject(definition);
 }
 
@@ -93,7 +93,7 @@ export {
     getName,
     getTagName,
     getDocumentation,
-    getChildElements as getChildElements,
+    getChildElements,
     getSnippets,
     getDescription,
     getDefault,
