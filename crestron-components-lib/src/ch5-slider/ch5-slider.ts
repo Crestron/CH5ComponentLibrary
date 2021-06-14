@@ -783,14 +783,18 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
      * @param {TCh5SliderStretch | null} value
      */
     public set stretch(value: TCh5SliderStretch | null) {
-        if (this._stretch !== value && value !== null) {
-            if (Ch5Slider.STRETCHES.indexOf(value) >= 0) {
-                this._stretch = value;
-                this.setAttribute('stretch', this._stretch);
-            } else {
-                this._stretch = null;
+        if (value !== null) {
+            if (this._stretch !== value) {
+                if (Ch5Slider.STRETCHES.indexOf(value) >= 0) {
+                    this._stretch = value;
+                    this.setAttribute('stretch', this._stretch);
+                } else {
+                    this._stretch = null;
+                }
+                if (this._wasRendered) { this._render(); }
             }
-            if (this._wasRendered) { this._render(); }
+        } else {
+            this._stretch = null;
         }
     }
 

@@ -149,11 +149,9 @@ export class Ch5Pressable {
     }
 
     public set onPressCallback(callback: HtmlCallback) {
-
         if (callback === undefined || callback === null) {
             callback = {} as HtmlCallback;
         }
-
         this._onPressCallback = callback;
     }
 
@@ -165,7 +163,6 @@ export class Ch5Pressable {
         if (callback === undefined || callback === null) {
             callback = {} as HtmlCallback;
         }
-
         this._onReleaseCallback = callback;
     }
 
@@ -395,7 +392,6 @@ export class Ch5Pressable {
 
         this._pressed = false;
         this._released = true;
-
     }
 
     /**

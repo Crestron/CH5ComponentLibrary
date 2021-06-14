@@ -280,7 +280,7 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
   private validateAndSetAttributeWithCustomType(attributeName: string, value: any) {
     const parentElement: Ch5Button = this.getParentButton();
     if (value !== null) {
-      if (parentElement.TYPES.indexOf(value) >= 0) {
+      if (Ch5Button.TYPES.indexOf(value) >= 0) {
         this.setAttribute(attributeName, value);
         parentElement.changeAttributesOnModeChange(this);
       } else {

@@ -21,6 +21,8 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
 
   public set iconClass(value: string) {
     console.log('set iconClass("' + value + '")');
+    this._parentCh5Button.activeIconClass = value;
+  
     // if (this.value !== null && this._iconClass !== value) {
     //   if (this.iconClass !== '') {
     //     this._iconClass.split(' ').forEach((className: string) => {
@@ -73,7 +75,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
 
   public set hAlignLabel(value: TCh5ButtonHorizontalAlignLabel | null) {
     console.log('set hAlignLabel("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("halignlabel", this._parentCh5Button.HORIZONTAL_LABEL_ALIGNMENTS, value);
+    this.validateAndSetAttributeWithCustomType("halignlabel", Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS, value);
   }
   public get hAlignLabel(): TCh5ButtonHorizontalAlignLabel | null {
     return this.getAttribute("hAlignLabel") as TCh5ButtonHorizontalAlignLabel | null;
@@ -81,7 +83,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
 
   public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel | null) {
     console.log('set vAlignLabel("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("valignlabel", this._parentCh5Button.VERTICAL_LABEL_ALIGNMENTS, value);
+    this.validateAndSetAttributeWithCustomType("valignlabel", Ch5Button.VERTICAL_LABEL_ALIGNMENTS, value);
   }
   public get vAlignLabel(): TCh5ButtonVerticalAlignLabel | null {
     return this.getAttribute("vAlignLabel") as TCh5ButtonVerticalAlignLabel | null;
@@ -89,7 +91,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
 
   public set checkboxPosition(value: TCh5ButtonCheckboxPosition | null) {
     console.log('set checkboxPosition("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("checkboxposition", this._parentCh5Button.CHECKBOX_POSITIONS, value);
+    this.validateAndSetAttributeWithCustomType("checkboxposition", Ch5Button.CHECKBOX_POSITIONS, value);
   }
   public get checkboxPosition(): TCh5ButtonCheckboxPosition | null {
     return this.getAttribute("checkboxPosition") as TCh5ButtonCheckboxPosition | null;
@@ -97,7 +99,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
 
   public set iconPosition(value: TCh5ButtonIconPosition | null) {
     console.log('set iconPosition("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("iconposition", this._parentCh5Button.ICON_POSITIONS, value);
+    this.validateAndSetAttributeWithCustomType("iconposition", Ch5Button.ICON_POSITIONS, value);
   }
   public get iconPosition(): TCh5ButtonIconPosition | null {
     return this.getAttribute("iconPosition") as TCh5ButtonIconPosition | null;
@@ -113,7 +115,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
 
   public set type(value: TCh5ButtonType | null) {
     console.log('set type("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("type", this._parentCh5Button.TYPES, value);
+    this.validateAndSetAttributeWithCustomType("type", Ch5Button.TYPES, value);
   }
   public get type(): TCh5ButtonType | null {
     return this.getAttribute("type") as TCh5ButtonType | null;
@@ -288,7 +290,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
       } else {
         this.removeAttribute(attributeName);
         // parentElement.changeAttributesOnModeChange(this); is not required here. The set type will be called again to 
-        // go the below else block and the changeAttributesOnModeChange is called
+        // go the below else block and the  is called
       }
     } else {
       this.removeAttribute(attributeName);
@@ -351,7 +353,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
     //     }
     //   });
     //   this.setAttribute('iconclass', value);
-    //   this._parentCh5Button.changeAttributesOnModeChange(this);
+    //   this._parentCh5Button.(this);
     // } else {
     //   this.removeAttribute(attributeName);
     //   this._parentCh5Button.changeAttributesOnModeChange(this);
