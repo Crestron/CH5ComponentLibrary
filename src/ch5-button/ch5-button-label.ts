@@ -56,32 +56,27 @@ export class Ch5ButtonLabel extends Ch5Common {
 
         this.initCommonMutationObserver(this);
 
-        const templateData = this.children[0];
-        if (templateData) {
-            if (this.shouldUpdateLabelAttribute()) {
-                this.getParentButton().labelHtml = templateData.innerHTML;
-            }
-        }
-        // if (this.children && this.children.length > 0) {
-        //     Array.from(this.children).forEach((newChild) => {
-        //         if (newChild.nodeName.toString().toLowerCase() === "ch5-button-label") {
-        //             const templateData = newChild.children[0];
-        //             if (templateData && templateData.nodeName.toString().toLowerCase() === "template") {
-        //                 // this.info("templateData.innerHTML", templateData.innerHTML);
-        //                 // this.setAttribute('label', templateData.innerHTML);
-        //                 this._elLabel.innerHTML = templateData.innerHTML;
-        //                 // break;
-        //             }
-        //         } else if (newChild.nodeName.toString().toLowerCase() === "ch5-button-mode") {
-        //             // const templateData: Ch5ButtonMode = this.children[i].children[0];
-        //             // this._childButtonModes.push(templateData);
-        //             const optionTemplate = this.getElementsByTagName('ch5-button-mode')[0] as HTMLElement;
-        //             if (optionTemplate && optionTemplate.innerHTML && optionTemplate.innerHTML.length > 0) {
-        //                 this.info("optionTemplate.innerHTML", optionTemplate.innerHTML);
-        //             }
-        //         }
-        //     });
+        // const templateData = this.children[0];
+        // if (templateData) {
+        //     if (this.shouldUpdateLabelAttribute()) {
+        //         // this.getParentButton().labelHtml = templateData.innerHTML;
+        //     }
         // }
+        const callbackFn = (mutations: any) => console.log("mutations", mutations);
+        const configForMut = {
+            attributes: true,
+            subtree: true,
+            characterData: true
+        };
+        const observer = new MutationObserver(callbackFn);
+        observer.observe(this, configForMut);
+
+        // observer.disconnect();
+
+
+
+        //     Array.from(this.children).forEach((newChild) => {
+       
         this.info("READY ch5-button-label");
     }
 

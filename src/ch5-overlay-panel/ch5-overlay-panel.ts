@@ -51,7 +51,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
     /**
      * The first value is considered the default one
      */
-    public static STRETCHES: TCh5OverlayPanelStretch[] = ['', 'both', 'width', 'height'];
+    public static STRETCHES: TCh5OverlayPanelStretch[] = ['both', 'width', 'height'];
     /**
      * The first value is considered the default one
      */
@@ -109,7 +109,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
      *
      * HTML attribute name: stretch
      */
-    protected _stretch: TCh5OverlayPanelStretch = '';
+    protected _stretch: TCh5OverlayPanelStretch | null = null;
 
     /**
      * Valid values: scroll, show.
@@ -366,7 +366,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
         // stretches
         Ch5OverlayPanel.STRETCHES.forEach((stretch: TCh5OverlayPanelStretch) => {
-            if ('' !== stretch) {
+            if (stretch !== null) {
                 cssClasses.push(this.cssClassPrefix + '--stretch-' + stretch);
             }
         });
@@ -680,9 +680,9 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
                 break;
             case 'stretch':
                 if (this.hasAttribute('stretch')) {
-                    this.stretch = newValue as TCh5OverlayPanelStretch;
+                    this.stretch = newValue as TCh5OverlayPanelStretch | null;
                 } else {
-                    this.stretch = '';
+                    this.stretch = null;
                 }
                 this.updateForChangeInStretch();
                 break;
@@ -1034,19 +1034,26 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
         return this._closeIcon;
     }
 
-    public set stretch(value: TCh5OverlayPanelStretch) {
-        this.info('set stretch("' + value + '")');
-        if (this._stretch !== value) {
-            if (Ch5OverlayPanel.STRETCHES.indexOf(value) >= 0) {
-                this._stretch = value;
-            } else {
-                this._stretch = Ch5OverlayPanel.STRETCHES[0];
+    /**
+     * Setter step
+     * @param {TCh5OverlayPanelStretch | null} value
+     */
+    public set stretch(value: TCh5OverlayPanelStretch | null) {
+        if (value !== null) {
+            if (this._stretch !== value) {
+                if (Ch5OverlayPanel.STRETCHES.indexOf(value) >= 0) {
+                    this._stretch = value;
+                    this.setAttribute('stretch', this._stretch);
+                } else {
+                    this._stretch = null;
+                }
             }
-            this.setAttribute('stretch', this._stretch);
+        } else {
+            this._stretch = null;
         }
     }
 
-    public get stretch(): TCh5OverlayPanelStretch {
+    public get stretch(): (TCh5OverlayPanelStretch | null) {
         return this._stretch;
     }
 

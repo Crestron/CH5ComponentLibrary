@@ -12,6 +12,7 @@ import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './index';
  * @name Ch5 Background
  * @isattribute false
  * @tagName ch5-background
+ * @role region
  * @description Ch5 Background offers a wide range of functionality out-of-the-box.
  * @componentVersion 1.0.0
  * @documentation

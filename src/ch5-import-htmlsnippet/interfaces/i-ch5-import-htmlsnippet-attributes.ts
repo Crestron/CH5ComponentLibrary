@@ -11,6 +11,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  * @name Ch5 Import Html Snippet
  * @isattribute false
  * @tagName ch5-import-htmlsnippet
+ * @role template
  * @description Ch5 import-htmlsnippet allows to import the HTML snippet.
  * @componentVersion 1.0.0
  * @documentation

@@ -1051,7 +1051,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * Allows writing debug/info messages using the console.
      * The messages are displayed only if _isDebugEnabled is true
      */
-    public info(message?: any, ...optionalParams: any[]): void {
+    public info(...message: any[]): void {
         if (true === this.isDebug()) {
             let ts: string = '';
             if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
@@ -1071,9 +1071,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                         callerName = "Method is " + callerName + ":";
                     }
                 }
-                console.info(ts + ':' + this.getCrId() + ':' + callerName + message + ':' + optionalParams);
+                console.info(ts + ':' + this.getCrId() + ':' + callerName + ':', message);
             } catch (e) {
-                console.info(ts + ':' + this.getCrId() + ':' + message + ':' + optionalParams);
+                console.info(ts + ':' + this.getCrId() + ':', message);
             }
         }
     }
@@ -1195,7 +1195,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             case 'disabled':
                 if (!this.hasAttribute('customclassdisabled')) {
                     if (this.hasAttribute('disabled')) {
-                        this._disabled = true;
+                        if (this._toBoolean(this.getAttribute("disabled")) === true) {
+                            this._disabled = true;
+                        } else {
+                            this._disabled = false;
+                        }
                     } else {
                         this._disabled = false;
                     }
@@ -1443,8 +1447,10 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
         this.info("from common - updateForChangeInDisabledStatus()");
         if (true === this._disabled) {
+            // console.log("ADD", this.getCssClassDisabled());
             targetElement.classList.add(this.getCssClassDisabled());
         } else {
+            // console.log("REMOVE", this.getCssClassDisabled());
             targetElement.classList.remove(this.getCssClassDisabled());
         }
     }
