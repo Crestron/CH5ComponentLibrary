@@ -12,4 +12,4 @@ export type TCh5OverlayPanelPositionOffset = 'top-left' | 'top-center' | 'top-ri
 export type TCh5OverlayPanelOverflow = 'scroll' | 'show';
 
 
-export type TCh5OverlayPanelStretch = '' | 'both' | 'width' | 'height';
+export type TCh5OverlayPanelStretch = 'both' | 'width' | 'height';

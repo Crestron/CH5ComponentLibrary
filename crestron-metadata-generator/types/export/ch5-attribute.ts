@@ -10,13 +10,11 @@ export class Ch5Attribute {
     public type?: string;
     public value: string[];
     public documentation?: string[];
-    public childElements?: string[];
-    public default?: string | null;
+    public default?: string;
 
     public static New(): Ch5Attribute {
         const result = new Ch5Attribute();
         result.documentation = [];
-        result.childElements = [];
         result.value = [];
         return result;
     }

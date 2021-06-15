@@ -121,8 +121,7 @@ function WriteSchema(schema: string, writeToPath?: string): void {
 }
 
 function Serialize(schema: Metadata): string {
-    const serializedSchema =
-           JSON.stringify(schema, undefined, 2);
+    const serializedSchema = JSON.stringify(schema, undefined, 2);
 
     return serializedSchema;
 }

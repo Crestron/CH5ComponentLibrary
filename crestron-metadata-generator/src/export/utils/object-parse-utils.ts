@@ -151,17 +151,19 @@ function getNameFromObject(definition: Object): string {
     return "";
 }
 
-function getDefaultFromObject(definition: Object): string | null{
+function getDefaultFromObject(definition: Object): string {
     const documentationTag = "default";
     const keys = Object.keys(definition);
 
     const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
     if (!containsDocumentation) {
-        return null;
+        return "null";
     }
 
     // get the documentation property which should be a JSON string.
-    const value: string | null = definition[documentationTag];
+    // The value type cannot be multiple datatypes, hence making it as null in string.
+    // This is because vscode extension schema is dependent on it and it cannot be more than one.
+    const value: string= (definition[documentationTag] === null) ? "null" : definition[documentationTag];
     return value;
 }
 

@@ -11,6 +11,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  * @name Ch5 Template
  * @isattribute false
  * @tagName ch5-template
+ * @role template
  * @description ch5-template create new instances of the user provided <template>.
  * @componentVersion 1.0.0
  * @documentation

@@ -54,7 +54,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
     /**
      * The first value is considered the default one
      */
-    public static STRETCHES: TCh5SliderStretch[] = ['', 'both', 'width', 'height'];
+    public static STRETCHES: TCh5SliderStretch[] = ['both', 'width', 'height'];
 
     /**
      * The first value is considered the default one
@@ -199,7 +199,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
      * @private
      * @type {TCh5SliderStretch}
      */
-    private _stretch: TCh5SliderStretch = '';
+    private _stretch: TCh5SliderStretch | null = null;
 
     /**
      * Defines the ticks on the slider.
@@ -772,26 +772,29 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
     /**
      * Getter stretch
-     * @type {TCh5SliderStretch}
+     * @type {TCh5SliderStretch | null}
      */
-    public get stretch(): TCh5SliderStretch {
+    public get stretch(): (TCh5SliderStretch | null) {
         return this._stretch;
     }
 
     /**
      * Setter step
-     * @param {TCh5SliderStretch } value
+     * @param {TCh5SliderStretch | null} value
      */
-    public set stretch(value: TCh5SliderStretch) {
-        if (this._stretch !== value) {
-            if (Ch5Slider.STRETCHES.indexOf(value) >= 0) {
-                this._stretch = value;
-            } else {
-                this._stretch = Ch5Slider.STRETCHES[0];
+    public set stretch(value: TCh5SliderStretch | null) {
+        if (value !== null) {
+            if (this._stretch !== value) {
+                if (Ch5Slider.STRETCHES.indexOf(value) >= 0) {
+                    this._stretch = value;
+                    this.setAttribute('stretch', this._stretch);
+                } else {
+                    this._stretch = null;
+                }
+                if (this._wasRendered) { this._render(); }
             }
-
-            this.setAttribute('stretch', this.stretch);
-            if (this._wasRendered) { this._render(); }
+        } else {
+            this._stretch = null;
         }
     }
 
@@ -1467,9 +1470,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
                 break;
             case 'stretch':
                 if (this.hasAttribute('stretch')) {
-                    this.stretch = newValue as TCh5SliderStretch;
+                    this.stretch = newValue as TCh5SliderStretch | null;
                 } else {
-                    this.stretch = '';
+                    this.stretch = null;
                 }
                 this.updateCssClasses();
                 break;
