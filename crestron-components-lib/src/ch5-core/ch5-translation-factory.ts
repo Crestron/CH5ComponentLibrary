@@ -49,7 +49,7 @@ export class Ch5TranslationFactory {
       this.runListeners();
     }
 
-    console.log(this.translator);
+    // console.log(this.translator);
   }
 
   private runListeners() {

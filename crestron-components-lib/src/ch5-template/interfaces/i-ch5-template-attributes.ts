@@ -20,7 +20,12 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  *   "***",
  *   "The primary functionality of this component is to create new instances ",
  *   "of the user-provided <template> and to substitute event and state names ",
- *   "where indicated by the integrator."
+ *   "where indicated by the developer.  ",
+ *   "Upon completion of creating a new instance of the the user-provided ",
+ *   "<template>, a container element is provided with a unique ",
+ *   "id attribute that is unique across all created instances.  ",
+ *   "Each top level element provided in user-provided <template> will ",
+ *   "also be provided a unique id, unless the element already has an id. "
  * ]
  * @snippets
  * [
