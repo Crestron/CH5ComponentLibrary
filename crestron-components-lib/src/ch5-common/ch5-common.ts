@@ -322,7 +322,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      */
     public elementIsVisible: boolean = true;
 
-    public log: Ch5CommonLog;
+    public logger: Ch5CommonLog;
 
     private _commonMutationObserver: Ch5MutationObserver = {} as Ch5MutationObserver;
 
@@ -678,10 +678,12 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     }
 
     public set onpress(callback: {}) {
+        this.info("set onpress");
         this._onpress = callback;
     }
 
     public get onpress(): {} {
+        this.info("get onpress");
         return this._onpress;
     }
 
@@ -702,9 +704,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     public constructor() {
         super();
-        this.log = new Ch5CommonLog(false);
         this._crId = Ch5Uid.getUid();
-
+        this.logger = new Ch5CommonLog(false, this._crId);        
         const cssClasses: string[] = [];
 
         cssClasses.push(this.cssClassPrefix + '--disabled');
@@ -1051,7 +1052,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * Allows writing debug/info messages using the console.
      * The messages are displayed only if _isDebugEnabled is true
      */
-    public info(...message: any[]): void {
+    public info(message?: any, ...optionalParams: any[]): void {
         if (true === this.isDebug()) {
             let ts: string = '';
             if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
@@ -1071,9 +1072,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                         callerName = "Method is " + callerName + ":";
                     }
                 }
-                console.info(ts + ':' + this.getCrId() + ':' + callerName + ':', message);
+                console.info(ts + ':' + this.getCrId() + ':' + callerName + message + ':' + optionalParams);
             } catch (e) {
-                console.info(ts + ':' + this.getCrId() + ':', message);
+                console.info(ts + ':' + this.getCrId() + ':' + message + ':' + optionalParams)
             }
         }
     }
@@ -1219,7 +1220,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 } else {
                     this._isDebugEnabled = false;
                 }
-                this.log.isDebugEnabled = this._isDebugEnabled;
+                this.logger.isDebugEnabled = this._isDebugEnabled;
                 break;
             case 'dir':
                 const newDir = this.getAttribute('dir') || '';
@@ -1600,9 +1601,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     }
 
     protected attributeChangeHandler(attr: string, oldValue: string, newValue: string): string {
-
         let attributeValue = '';
-
         if (this.hasAttribute(attr)) {
             if (oldValue !== newValue) {
                 attributeValue = newValue;
@@ -1610,7 +1609,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 attributeValue = oldValue;
             }
         }
-
         return attributeValue;
     }
 
@@ -1673,7 +1671,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             this._receiveStateCustomClass = '';
         }
     }
-
 
     /**
      * Invoke an incompatibility warning when an attribute cannot work as 

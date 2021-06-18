@@ -9,6 +9,7 @@ import { Ch5Common } from '../ch5-common/ch5-common';
 import { Subscription } from 'rxjs';
 import 'hammerjs';
 import HtmlCallback from './utils/html-callback';
+import { Subject } from 'rxjs';
 
 export interface ICh5PressableOptions {
     cssTargetElement: HTMLElement;
@@ -84,6 +85,12 @@ export class Ch5Pressable {
     private _onReleaseCallback: HtmlCallback = {} as HtmlCallback;
 
     /**
+     * An RxJs observable for the gestureable property.
+     * Other classes cand subscribe to this and be notified when the gestureable property changes.
+     */
+    public observablePressed: Subject<boolean>;
+
+    /**
      * Creates an instance of Ch5Pressable.
      * @param {Ch5Common} component
      * @memberof Ch5Pressable
@@ -91,6 +98,7 @@ export class Ch5Pressable {
     constructor(component: Ch5Common, options?: ICh5PressableOptions) {
         this._ch5Component = component;
         this._options = options || null;
+        this.observablePressed = new Subject<boolean>();
 
         // custom press event
         this._pressEvent = new CustomEvent("press", {
@@ -267,7 +275,6 @@ export class Ch5Pressable {
         }
     }
 
-
     /**
      * Remove events listeners related to hammerjs
      *
@@ -357,6 +364,8 @@ export class Ch5Pressable {
         }
 
         this._pressed = true;
+        this.observablePressed.next(this._pressed);
+
         this._released = false;
 
         if (!(this._ch5Component.onpress instanceof Function) && this.onPressCallback instanceof HtmlCallback) {
@@ -391,6 +400,8 @@ export class Ch5Pressable {
         }
 
         this._pressed = false;
+        this.observablePressed.next(this._pressed);
+
         this._released = true;
     }
 

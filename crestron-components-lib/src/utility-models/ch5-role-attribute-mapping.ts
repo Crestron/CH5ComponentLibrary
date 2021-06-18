@@ -24,4 +24,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5Template = 'template';
     public static readonly ch5Video = 'video';
     public static readonly ch5ImportHtmlSnippet = 'template';
+    public static readonly ch5ButtonLabel = 'label';
+    public static readonly ch5ButtonMode = 'template';
+    public static readonly ch5ButtonModeState = 'template';
 }
