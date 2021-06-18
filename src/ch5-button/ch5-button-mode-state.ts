@@ -6,16 +6,18 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5SignalFactory } from "../ch5-core";
 import _ from "lodash";
 import { ICh5ButtonModeStateAttributes, TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonModeState, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from "./interfaces";
 import { Ch5Button } from "./ch5-button";
+import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { Ch5ButtonMode } from "./ch5-button-mode";
 
 const COMPONENT_NAME: string = "ch5-button-mode-state";
 
 export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeStateAttributes {
 
   private _state: TCh5ButtonModeState = "normal";
+  private _parentCh5Button: Ch5Button;
 
   //#region 1. Setters and Getters
 
@@ -33,7 +35,6 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
     this.info('set iconClass("' + value + '")');
     const parentElement: Ch5Button = this.getParentButton();
     if (parentElement !== null) {
-
       parentElement.iconClass = value;
     }
   }
@@ -91,20 +92,6 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
   public set type(value: TCh5ButtonType | null) {
     this.info('set type("' + value + '")');
     this.validateAndSetAttributeWithCustomType("type", value);
-    // const parentElement: Ch5Button = this.getParentButton();
-    // if (value !== null) {
-    //   if (parentElement.TYPES.indexOf(value) >= 0) {
-    //     this.setAttribute('type', value);
-    //     parentElement.changeAttributesOnModeChange(this);
-    //   } else {
-    //     this.removeAttribute("type");
-    //     // parentElement.resetActiveAttribute(this, "type"); is not required here. The set type will be called again to 
-    //     // go the below else block and the changeAttributesOnModeChange is called
-    //   }
-    // } else {
-    //   this.removeAttribute("type");
-    //   parentElement.changeAttributesOnModeChange(this);
-    // }
   }
   public get type(): TCh5ButtonType | null {
     const parentElement: Ch5Button = this.getParentButton();
@@ -118,7 +105,7 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
   constructor() {
     super();
     this.info('Ch5ButtonMode.constructor()');
-    // this._isDebugEnabled = true; // TODO - fix this
+    this._parentCh5Button = this.getParentButton();
   }
 
   /**
@@ -126,27 +113,26 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
    *  Useful for running setup code, such as fetching resources or rendering.
    */
   public connectedCallback() {
-    this.log.start('connectedCallback()', COMPONENT_NAME);
+    this.logger.start('connectedCallback()', COMPONENT_NAME);
     this.cacheComponentChildrens();
 
-    // if (!(this.parentElement instanceof Ch5TriggerView)) {
-    //     throw new Error(`Invalid parent element for ch5-triggerview-child. Required ch5-triggerview as parent`);
-    // }
+    if (!(this.parentElement instanceof Ch5ButtonMode)) {
+      throw new Error(`Invalid parent element for ch5-button-mode-state.`);
+    }
+    if (_.isNil(this._parentCh5Button)) {
+      throw new Error(`Missing parent ch5-button element for ch5-button-mode-state.`);
+    }
 
     // // set noshowtype attribute
     // this.setAttribute('noshowtype', Ch5ButtonMode.SHOW_TYPES[0]);
 
-    // this.updateCssClasses();
-
-    // // If this is executed, JavaScript is working and the element
-    // // changes its role to `triggerview-child`.
-    // this.setAttribute('role', Ch5RoleAttributeMapping.ch5TriggerViewChild);
+    this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonModeState);
 
     this.setAttribute('data-ch5-id', this.getCrId());
     this.initAttributes();
 
     this.initCommonMutationObserver(this);
-    this.log.stop();
+    this.logger.stop();
   }
 
   /**
@@ -154,13 +140,13 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
    * Useful for running clean up code.
    */
   public disconnectedCallback() {
-    this.log.start('disconnectedCallback()', COMPONENT_NAME);
+    this.logger.start('disconnectedCallback()', COMPONENT_NAME);
 
     this.unsubscribeFromSignals();
 
     // disconnect common mutation observer
     this.disconnectCommonMutationObserver();
-    this.log.stop();
+    this.logger.stop();
   }
 
   /**
@@ -187,7 +173,7 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
    * Called when an HTML attribute is changed, added or removed
    */
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-    this.log.start("attributeChangedCallback", COMPONENT_NAME);
+    this.logger.start("attributeChangedCallback", COMPONENT_NAME);
     if (oldValue !== newValue) {
 
       this.info('Ch5ButtonModeState.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
@@ -252,25 +238,7 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
         //     break;
       }
     }
-    this.log.stop();
-  }
-
-  /**
-   * Unsubscribe signals
-   */
-  public unsubscribeFromSignals(): void {
-    super.unsubscribeFromSignals();
-
-    const csf = Ch5SignalFactory.getInstance();
-
-    // if ('' !== this._subReceiveSignalShowId && '' !== this._receiveStateShowSigName) {
-    //     const sigSelectedName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowSigName);
-    //     const sigSelected:Ch5Signal<number>|null=csf.getNumberSignal(sigSelectedName);
-    //     if (null !== sigSelected){
-    //         sigSelected.unsubscribe(this._subReceiveSignalShowId);
-    //         this._receiveStateShowSigName = '';
-    //     }
-    // }
+    this.logger.stop();
   }
 
   //#endregion
@@ -278,11 +246,10 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
   //#region 3. Other Methods
 
   private validateAndSetAttributeWithCustomType(attributeName: string, value: any) {
-    const parentElement: Ch5Button = this.getParentButton();
     if (value !== null) {
       if (Ch5Button.TYPES.indexOf(value) >= 0) {
         this.setAttribute(attributeName, value);
-        parentElement.changeAttributesOnModeChange(this);
+        this._parentCh5Button.changeAttributesOnModeChange(this);
       } else {
         this.removeAttribute(attributeName);
         // parentElement.resetActiveAttribute(this, attributeName); is not required here. The set type will be called again to 
@@ -290,255 +257,20 @@ export class Ch5ButtonModeState extends Ch5Common implements ICh5ButtonModeState
       }
     } else {
       this.removeAttribute(attributeName);
-      parentElement.changeAttributesOnModeChange(this);
+      this._parentCh5Button.changeAttributesOnModeChange(this);
     }
   }
 
   public getParentButton(): Ch5Button {
     const getTheMatchingParent = (node: Node): Ch5Button => {
-      if (!_.isNil(node) && node.nodeName !== "CH5-BUTTON") {
+      if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-BUTTON") {
         return getTheMatchingParent(node.parentNode as Node);
       }
       return node as Ch5Button;
     }
 
-    // if (!_.isNil(this.parentElement)) {
     return getTheMatchingParent(this.parentElement as Node);
-    // }
   }
-
-  private shouldUpdateButtonModeStateAttributes(): boolean {
-    /*
-    <ch5-button mode="0">
-        <ch5-button-label></ch5-button-label>
-        <ch5-button-mode>
-            <ch5-button-label></ch5-button-label>
-            <ch5-button-mode-state>
-                <ch5-button-label></ch5-button-label>
-            </ch5-button-mode-state>
-        </ch5-button-mode>
-    <ch5-button>                
-    */
-    const ch5Button: Ch5Button = this.getParentButton();
-    const selectedMode: number = ch5Button.mode;
-    const currentNode = this;
-    const currentNodeName = currentNode.nodeName.toString().toLowerCase();
-    const parentNode: HTMLElement | null = this.parentElement;
-
-    if (parentNode) {
-      const parentNodeName: string = parentNode.nodeName.toString().toLowerCase();
-
-      if (currentNodeName === "ch5-button-label") {
-        if (parentNodeName === "ch5-button") {
-          // Case: "ch5-button-label" is an immediate child for the parent "ch5-button"
-          // Check if ch5-button-mode exists
-          const ch5ButtonModesArray = parentNode.getElementsByTagName("ch5-button-mode");
-          if (ch5ButtonModesArray && ch5ButtonModesArray.length > 0) {
-            // Implies multi-mode is true
-            // Now check if ch5-button-label exists in ch5-button-mode or ch5-button-mode-state
-            const ch5ButtonModeLabelArray = ch5ButtonModesArray[selectedMode].getElementsByTagName("ch5-button-label");
-            if (ch5ButtonModeLabelArray && ch5ButtonModeLabelArray.length > 0) {
-              // Since there is "ch5-button-label" in ch5ButtonModesArray (for selected mode), so the "ch5-button-label" 
-              // immediately inside the parent "ch5-button" must be ignored.
-              return false;
-            } else {
-              // No "ch5-button-label" in ch5ButtonModesArray (for selected mode)
-              // Check if ch5-button-mode-state exists
-              const ch5ButtonModeStatesArray = ch5ButtonModesArray[selectedMode].getElementsByTagName("ch5-button-mode-state");
-              console.log("ch5ButtonModeStatesArray[j]", ch5ButtonModeStatesArray);
-              if (ch5ButtonModeStatesArray && ch5ButtonModeStatesArray.length > 0) {
-                // Now check if ch5-button-label exists in ch5-button-mode-state
-                let stateModeIndex: number = -1;
-                for (let j: number = 0; j < ch5ButtonModeStatesArray.length; j++) {
-                  console.log("ch5ButtonModeStatesArray[j]", ch5ButtonModeStatesArray[j]);
-                  if (ch5ButtonModeStatesArray[j].getAttribute("state") === "selected" && ch5Button.selected === true) {
-                    stateModeIndex = j;
-                    break;
-                  } else if (ch5ButtonModeStatesArray[j].getAttribute("state") === "normal" && ch5Button.selected === false) {
-                    console.log("instate");
-                    stateModeIndex = j;
-                    break;
-                  }
-                }
-                const ch5ButtonModeStateLabelArray = ch5ButtonModeStatesArray[stateModeIndex].getElementsByTagName("ch5-button-label");
-                if (ch5ButtonModeStateLabelArray && ch5ButtonModeStateLabelArray.length > 0) {
-                  return false;
-                } else {
-                  return true;
-                }
-              } else {
-                return true;
-              }
-            }
-          } else {
-            // Implies multi-mode is false
-            // So if the current node is "ch5-button-label" and parent is "ch5-button", 
-            // and there are no "ch5-button-mode" elements, then "ch5-button-label" takes preference.
-            return true;
-          }
-        } else if (parentNodeName === "ch5-button-mode") {
-          // Implies multi-mode is true
-          // Check if ch5-button-mode-state exists
-          const ch5ButtonModeStatesArray = parentNode.getElementsByTagName("ch5-button-mode-state");
-          if (ch5ButtonModeStatesArray && ch5ButtonModeStatesArray.length > 0) {
-            // Now check if ch5-button-label exists in ch5-button-mode-state
-            const ch5ButtonModeLabelArray = ch5ButtonModeStatesArray[0].getElementsByTagName("ch5-button-label");
-            if (ch5ButtonModeLabelArray && ch5ButtonModeLabelArray.length > 0) {
-              return false;
-            } else {
-              return true;
-            }
-          } else {
-            return true;
-          }
-        } else if (parentNodeName === "ch5-button-mode-state") {
-          const ch5ButtonModesArray = ch5Button.getElementsByTagName("ch5-button-mode");
-          if (ch5ButtonModesArray && ch5ButtonModesArray.length > 0) {
-            let buttonModeIndex: number = -1;
-            // for (let i: number = 0; i < ch5ButtonModesArray.length; i++) {
-            // const ch5ButtonModeStatesArray = ch5ButtonModesArray[i].getElementsByTagName("ch5-button-mode-state");
-            const ch5ButtonModeStatesArray = ch5ButtonModesArray[selectedMode].getElementsByTagName("ch5-button-mode-state");
-            if (ch5ButtonModeStatesArray && ch5ButtonModeStatesArray.length > 0) {
-              for (let j: number = 0; j < ch5ButtonModeStatesArray.length; j++) {
-                if (ch5ButtonModeStatesArray[j].getAttribute("data-ch5-id") === parentNode.getAttribute("data-ch5-id")) {
-                  if (currentNode.getAttribute("state") === "selected" && ch5Button.selected === true) {
-                    buttonModeIndex = selectedMode;
-                  } else if (currentNode.getAttribute("state") === "normal" && ch5Button.selected === false) {
-                    buttonModeIndex = selectedMode;
-                  }
-                  break;
-                }
-              }
-            }
-            if (buttonModeIndex !== -1) {
-              const ch5ButtonModeLabelArray = ch5ButtonModeStatesArray[buttonModeIndex].getElementsByTagName("ch5-button-label");
-              if (ch5ButtonModeLabelArray && ch5ButtonModeLabelArray.length > 0) {
-                // Since there is "ch5-button-label" in ch5ButtonModesArray (for selected mode), so the "ch5-button-label" 
-                // immediately inside the parent "ch5-button" must be ignored.
-                return true;
-              } else {
-                // TODO: Pending implementation
-              }
-              return false;
-            }
-          }
-        }
-      } else if (currentNodeName === "ch5-button-mode") {
-        // Implies multi-mode is true
-        if (parentNodeName === "ch5-button") {
-          const ch5ButtonModesArray = ch5Button.getElementsByTagName("ch5-button-mode");
-          if (ch5ButtonModesArray && ch5ButtonModesArray.length > 0) {
-            if (ch5ButtonModesArray[selectedMode] && currentNode && (String(ch5ButtonModesArray[selectedMode].getAttribute("data-ch5-id")) === currentNode.getAttribute("data-ch5-id"))) {
-              return true;
-            }
-          }
-        }
-      } else if (currentNodeName === "ch5-button-mode-state") {
-        // Implies multi-mode is true
-        if (parentNodeName === "ch5-button-mode") {
-          const ch5ButtonModesArray = ch5Button.getElementsByTagName("ch5-button-mode");
-          if (ch5ButtonModesArray && ch5ButtonModesArray.length > 0) {
-            if (ch5ButtonModesArray[selectedMode] &&
-              (String(ch5ButtonModesArray[selectedMode].getAttribute("data-ch5-id")) === parentNode.getAttribute("data-ch5-id"))) {
-              if (currentNode.getAttribute("state") === "selected" && ch5Button.selected === true) {
-                return true;
-              } else if (currentNode.getAttribute("state") === "normal" && ch5Button.selected === false) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    return false;
-  }
-
-  // /**
-  //  * Returns css class when disabled
-  //  *
-  //  * @return {string }
-  //  */
-  // public getCssClassDisabled(): string {
-  //     return this.cssClassPrefix + '--disabled';
-  // }
-
-  // public getTriggerViewParent(): Ch5TriggerView | null {
-
-  //     const getTheMatchingParent = (node: Node): Ch5TriggerView => {
-  //         if (!_.isNil(node) && node.nodeName !== _parentTriggerviewNodeName) {
-  //             return getTheMatchingParent(node.parentNode as Node);
-  //         }
-
-  //         return node as Ch5TriggerView;
-  //     }
-
-  //     if (!_.isNil(this.parentElement)) {
-  //         return getTheMatchingParent(this.parentElement as Node);
-  //     }
-
-  //     return null;
-
-  // }
-
-  // /**
-  //  * Called to initialize all attributes
-  //  * @protected
-  //  */
-  // protected initAttributes(): void {
-  //     super.initAttributes();
-
-  //     this._upgradeProperty('sendEventOnShow');
-  //     this._upgradeProperty('receiveStateShow');
-  // }
-
-  // /**
-  //  * Apply css classes for attrs inherited from common (e.g. customClass, customStyle )
-  //  * @protected
-  //  */
-  // protected updateCssClasses(): void {
-  //     // apply css classes for attrs inherited from common (e.g. customClass, customStyle )
-  //     super.updateCssClasses();
-
-  //     const setOfCssClassesToBeApplied = new Set<string>();
-
-  //     // primary
-  //     setOfCssClassesToBeApplied.add(this.primaryCssClass);
-
-  //     const targetEl:HTMLElement = this.getTargetElementForCssClassesAndStyle();
-  //     if (typeof targetEl.classList !== 'undefined') {
-  //         this._listOfAllPossibleComponentCssClasses.forEach((cssClass:string) => {
-  //             if (setOfCssClassesToBeApplied.has(cssClass)){
-  //                 targetEl.classList.add(cssClass);
-  //                 // this.classList.add(cssClass);
-  //                 this.info('add CSS class',cssClass);
-  //             } else {
-  //                 targetEl.classList.remove(cssClass);
-  //                 // this.classList.remove(cssClass);
-  //                 this.info('remove CSS class',cssClass);
-  //             }
-  //         });
-  //     }
-  // }
-
-  // /**
-  //  * Called to bind proper listeners
-  //  * @protected
-  //  */
-  // protected attachEventListeners(): void {
-  //     super.attachEventListeners();
-  // }
-
-  // /**
-  //  * Removes listeners
-  //  * @protected
-  //  */
-  // protected removeEvents(): void {
-  //     super.removeEventListeners();
-  //     // TODO
-  // }
 
   //#endregion
 
