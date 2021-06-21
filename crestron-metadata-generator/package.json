@@ -22,8 +22,7 @@
     "debug": "node -r ts-node/register --inspect-brk generator.ts generator.ts --path ../crestron-components-lib/src/_interfaces/index.ts --allTypes --writeto ../crestron-components-lib/src/_interfaces/generated-metadata/schema.json",
     "run": "ts-node generator.ts",
     "gen": "ts-node generator.ts --path test/complex/main.ts --allTypes --writeto test/complex/schema-custom.json",
-    "gen:metadata": "ts-node generator.ts --path ../crestron-components-lib/src/_interfaces/index.ts --allTypes --writeto ../crestron-components-lib/src/_interfaces/generated-metadata/schema.json",
-    "hh-gen:metadata": "ts-node generator.ts --path ../crestron-components-lib/src/_interfaces/index.ts --allTypes --writeto C:/REPOS/GH_CODE_2/CH5DocumentationViewers/ComponentsDocumentation/src/assets/data/temp/test-schema.json"
+    "gen:metadata": "ts-node generator.ts --path ../crestron-components-lib/src/_interfaces/index.ts --allTypes --writeto ../crestron-components-lib/src/_interfaces/generated-metadata/schema.json"
   },
   "jest": {
     "transform": {
