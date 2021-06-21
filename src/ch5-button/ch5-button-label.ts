@@ -5,14 +5,14 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Common } from "../ch5-common/ch5-common";
 import _ from "lodash";
 import { Ch5Button } from "./ch5-button";
 import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { Ch5Log } from "../ch5-common/ch5-log";
 
-export class Ch5ButtonLabel extends Ch5Common {
+export class Ch5ButtonLabel extends Ch5Log {
 
     constructor() {
         super();
@@ -25,7 +25,6 @@ export class Ch5ButtonLabel extends Ch5Common {
      */
     public connectedCallback() {
         this.info('Ch5ButtonLabel.connectedCallback()');
-        this.cacheComponentChildrens();
 
         if (!(this.parentElement instanceof Ch5Button || this.parentElement instanceof Ch5ButtonMode || this.parentElement instanceof Ch5ButtonModeState)) {
             throw new Error(`Invalid parent element for ch5-button-label.`);
@@ -37,7 +36,6 @@ export class Ch5ButtonLabel extends Ch5Common {
         this.setAttribute('data-ch5-id', this.getCrId());
 
         this.initAttributes();
-        this.initCommonMutationObserver(this);
 
         // const callbackFn = (mutations: any) => console.log("mutations", mutations);
         // const configForMut = {

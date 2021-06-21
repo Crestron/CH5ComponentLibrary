@@ -10,10 +10,11 @@ import _ from "lodash";
 import { ICh5ButtonModeAttributes, TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from "./interfaces";
 import { Ch5Button } from "./ch5-button";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { Ch5Log } from "../ch5-common/ch5-log";
 
 const COMPONENT_NAME: string = "ch5-button-mode";
 
-export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes {
+export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
 
   private _parentCh5Button: Ch5Button;
 
@@ -24,7 +25,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
     this._parentCh5Button.activeIconClass = value;
   }
   public get iconClass(): string {
-    return this.getAttribute("iconClass") as string;
+    return this.getAttribute("iconclass") as string;
   }
 
   public set hAlignLabel(value: TCh5ButtonHorizontalAlignLabel | null) {
@@ -32,7 +33,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
     this.validateAndSetAttributeWithCustomType("halignlabel", Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS, value);
   }
   public get hAlignLabel(): TCh5ButtonHorizontalAlignLabel | null {
-    return this.getAttribute("hAlignLabel") as TCh5ButtonHorizontalAlignLabel | null;
+    return this.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel | null;
   }
 
   public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel | null) {
@@ -40,7 +41,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
     this.validateAndSetAttributeWithCustomType("valignlabel", Ch5Button.VERTICAL_LABEL_ALIGNMENTS, value);
   }
   public get vAlignLabel(): TCh5ButtonVerticalAlignLabel | null {
-    return this.getAttribute("vAlignLabel") as TCh5ButtonVerticalAlignLabel | null;
+    return this.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel | null;
   }
 
   public set checkboxPosition(value: TCh5ButtonCheckboxPosition | null) {
@@ -48,7 +49,7 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
     this.validateAndSetAttributeWithCustomType("checkboxposition", Ch5Button.CHECKBOX_POSITIONS, value);
   }
   public get checkboxPosition(): TCh5ButtonCheckboxPosition | null {
-    return this.getAttribute("checkboxPosition") as TCh5ButtonCheckboxPosition | null;
+    return this.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition | null;
   }
 
   public set iconPosition(value: TCh5ButtonIconPosition | null) {
@@ -56,15 +57,15 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
     this.validateAndSetAttributeWithCustomType("iconposition", Ch5Button.ICON_POSITIONS, value);
   }
   public get iconPosition(): TCh5ButtonIconPosition | null {
-    return this.getAttribute("iconPosition") as TCh5ButtonIconPosition | null;
+    return this.getAttribute("iconposition") as TCh5ButtonIconPosition | null;
   }
 
   public set iconUrl(value: string) {
-    this.info('set type("' + value + '")');
+    this.info('set iconUrl("' + value + '")');
     this._parentCh5Button.iconUrl = value;
   }
   public get iconUrl(): string {
-    return this.getAttribute("iconUrl") as string;
+    return this.getAttribute("iconurl") as string;
   }
 
   public set type(value: TCh5ButtonType | null) {
@@ -73,6 +74,22 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
   }
   public get type(): TCh5ButtonType | null {
     return this.getAttribute("type") as TCh5ButtonType | null;
+  }
+
+  public set customClass(value: string) {
+    this.info('set customClass("' + value + '")');
+    this._parentCh5Button.customClass = value;
+  }
+  public get customClass(): string {
+    return this.getAttribute("customclass") as string;
+  }
+
+  public set customStyle(value: string) {
+    this.info('set customStyle("' + value + '")');
+    this._parentCh5Button.customStyle = value;
+  }
+  public get customStyle(): string {
+    return this.getAttribute("customstyle") as string;
   }
 
   //#endregion
@@ -91,21 +108,13 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', COMPONENT_NAME);
-    this.cacheComponentChildrens();
-
     if (!(this._parentCh5Button instanceof Ch5Button)) {
       throw new Error(`Invalid parent element for ch5-button-mode.`);
     }
-
-    // // set noshowtype attribute
-    // this.setAttribute('noshowtype', Ch5Button.SHOW_TYPES[0]);
-
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonMode);
 
     this.setAttribute('data-ch5-id', this.getCrId());
     this.initAttributes();
-
-    this.initCommonMutationObserver(this);
     this.logger.stop();
   }
 
@@ -115,11 +124,6 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
    */
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()', COMPONENT_NAME);
-
-    this.unsubscribeFromSignals();
-
-    // disconnect common mutation observer
-    this.disconnectCommonMutationObserver();
     this.logger.stop();
   }
 
@@ -136,7 +140,9 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
       'valignlabel',
       'checkboxposition',
       'iconposition',
-      'iconurl'
+      'iconurl',
+      'customclass',
+      'customstyle'
     ];
 
     return commonAttributes.concat(ch5ButtonModeChildAttributes);
@@ -163,6 +169,18 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
         case 'iconclass':
           if (this.hasAttribute('iconclass')) {
             this.iconClass = newValue as string;
+          }
+          break;
+
+        case 'customclass':
+          if (this.hasAttribute('customclass')) {
+            this.customClass = newValue as string;
+          }
+          break;
+
+        case 'customstyle':
+          if (this.hasAttribute('customstyle')) {
+            this.customStyle = newValue as string;
           }
           break;
 
@@ -200,9 +218,9 @@ export class Ch5ButtonMode extends Ch5Common implements ICh5ButtonModeAttributes
           }
           break;
 
-        // default:
-        //     super.attributeChangedCallback(attr, oldValue, newValue);
-        //     break;
+        default:
+          super.attributeChangedCallback(attr, oldValue, newValue);
+          break;
       }
     }
     this.logger.stop();
