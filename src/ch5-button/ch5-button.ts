@@ -141,7 +141,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	/**
 	 * The first value is considered the default one
 	 */
-	public static readonly VERTICAL_LABEL_ALIGNMENTS: TCh5ButtonVerticalAlignLabel[] = ['center', 'top', 'bottom'];
+	public static readonly VERTICAL_LABEL_ALIGNMENTS: TCh5ButtonVerticalAlignLabel[] = ['middle', 'top', 'bottom'];
 
 	/**
 	 * The first value is considered the default one
@@ -256,8 +256,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 *
 	 * HTML attribute name: vAlignLabel or valignlabel
 	 */
-	private _vAlignLabel: TCh5ButtonVerticalAlignLabel = 'center';
-	private _activeVAlignLabel: TCh5ButtonVerticalAlignLabel = 'center';
+	private _vAlignLabel: TCh5ButtonVerticalAlignLabel = 'middle';
+	private _activeVAlignLabel: TCh5ButtonVerticalAlignLabel = 'middle';
 
 	/**
 	 * Lays out the elements of the ch5-button in a horizontal or vertical manner.
@@ -820,6 +820,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		return this._size;
 	}
 
+	/**
+	 * Stretch takes preference over size
+	 */
 	public set stretch(value: TCh5ButtonStretch | null) {
 		this.info('set stretch("' + value + '")');
 		if (value !== null) {
@@ -1957,6 +1960,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
+	public setLabel(labelHtml: string) {
+		this.labelHtml = labelHtml;
+	}
+
+	public setMode(modeId: number) {
+		this.mode = modeId;
+	}
+
 	protected createInternalHtml() {
 		this.logger.start('createInternalHtml', this.COMPONENT_NAME);
 		this.clearComponentContent();
@@ -2081,8 +2092,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		if (typeof targetEl.classList !== 'undefined') {
 			this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
 				if (setOfCssClassesToBeApplied.has(cssClass)) {
+					this.info("cssClass to add", cssClass);
 					targetEl.classList.add(cssClass);
 				} else {
+					this.info("cssClass to remove", cssClass);
 					targetEl.classList.remove(cssClass);
 				}
 			});
@@ -2138,8 +2151,22 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 				targetEl.classList.remove(cssClass);
 			}
 		});
+
 		if (stretchCssClassNameToAdd !== '') {
+			Ch5Button.SIZES.forEach((size: TCh5ButtonSize) => {
+				const cssClass = this.cssClassPrefix + '--size-' + size;
+				if (cssClass !== stretchCssClassNameToAdd) {
+					targetEl.classList.remove(cssClass);
+				}
+			});
 			targetEl.classList.add(stretchCssClassNameToAdd);
+		} else {
+			Ch5Button.SIZES.forEach((size: TCh5ButtonSize) => {
+				const cssClass = this.cssClassPrefix + '--size-' + size;
+				if (size === this.size) {
+					targetEl.classList.add(cssClass);
+				}
+			});
 		}
 	}
 
