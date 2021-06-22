@@ -34,6 +34,6 @@ export type TCh5ButtonStretch = 'both' | 'width' | 'height';
 
 export type TCh5ButtonType = 'default' | 'primary' | 'info' | 'text' | 'danger' | 'warning' | 'success' | 'secondary';
 
-export type TCh5ButtonVerticalAlignLabel = 'center' | 'top' | 'bottom';
+export type TCh5ButtonVerticalAlignLabel = 'middle' | 'top' | 'bottom';
 
 export type TCh5ButtonModeState = 'normal' | 'pressed' | 'selected';
