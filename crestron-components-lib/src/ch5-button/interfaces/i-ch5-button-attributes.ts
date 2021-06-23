@@ -156,12 +156,12 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`checkboxPosition` attribute",
    * "***",
-   * "The default value is false.",
-   * "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
-   * "'ch5-button__checkbox' will be applied as the CSS class on the component."
+   * "The default value is left.",
+   * "This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button,",
+   * " and the value right would set the checkbox to the right of the button."
    * ]
    * @name checkboxPosition
-   * @default false
+   * @default left
    */
    checkboxPosition: TCh5ButtonCheckboxPosition;
 
@@ -233,7 +233,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`hAlignLabel` attribute",
    * "***",
-   * "Valid values: 'width', 'height', 'both'.",
+   * "Valid values: 'left', 'right', 'center'.",
    * "When the stretch property is set, the button element inherits the ",
    * "width and/or height of the container. If stretch=height is used, ",
    * "the button will be responsive based on the label length until it ",
@@ -252,7 +252,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   * [
   * "`vAlignLabel` attribute",
   * "***",
-  * "Valid values: 'width', 'height', 'both'.",
+  * "Valid values: 'top', 'bottom', 'middle'.",
   * "When the stretch property is set, the button element inherits the ",
   * "width and/or height of the container. If stretch=height is used, ",
   * "the button will be responsive based on the label length until it ",

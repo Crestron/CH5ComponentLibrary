@@ -5,37 +5,35 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
-
 /**
- * @name Ch5 Button Mode
+ * @name Ch5 Button Label
  * @isattribute false
- * @tagName ch5-button-mode
+ * @tagName ch5-button-label
  * @role button
- * @description Ch5 Button Mode is a child node for <ch5-button>.
+ * @description Ch5 Button Label is a child node for <ch5-button>, <ch5-button-mode> and <ch5-button-mode-state>.
  * @componentVersion 1.0.0
  * @documentation
  * [
- *   "`ch5-button-mode` element",
+ *   "`ch5-button-label` element",
  *   "***",
- *   "A child element designed to capture mode level attributes for Ch5 Button component."
+ *   "A child element designed to capture the label for Ch5 Button component."
  * ]
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-button-mode:blank",
- *     "description": "Crestron Button Mode",
+ *    "prefix": "ch5-button-label:blank",
+ *     "description": "Crestron Button Label",
  *     "body": [
- *       "<ch5-button-mode>",
+ *       "<ch5-button-label>",
  *       "\t<template>",
  *       "\t$1",
  *       "\t</template>",
- *       "</ch5-button-mode>$0"
+ *       "</ch5-button-label>$0"
  *     ]
  *   }
  * ]
  *
  */
-export interface ICh5ButtonModeAttributes extends ICh5ButtonModeCommonAttributes {
+export interface ICh5ButtonLabelAttributes {
 
 }

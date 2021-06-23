@@ -12,4 +12,5 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * @ignore
  */
 export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttributes {
+
 }
