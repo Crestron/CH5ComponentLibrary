@@ -2,11 +2,11 @@ import { isNil } from "lodash-es";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5RoleAttributeMapping } from "../utility-models";
-import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-interfaces";
+import { ICh5DpadCenterAttributes } from "./interfaces/i-ch5-dpad-center-interfaces";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
 
-export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
-    private COMPONENT_NAME: string = "ch5-dpad";
+export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes {
+    private COMPONENT_NAME: string = "ch5-dpad-center";
 
     //#region 1. Variables
 
@@ -27,8 +27,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     public static readonly STRETCHES: TCh5DpadStretch[] = ['both', 'width', 'height'];
 
-    public readonly primaryCssClass = 'ch5-dpad';
-    public readonly cssClassPrefix = 'ch5-dpad';
+    public readonly primaryCssClass = 'ch5-dpad-center';
+    public readonly cssClassPrefix = 'ch5-dpad-center';
 
     //#endregion
 
@@ -252,7 +252,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             this._pressable.init();
         }
 
-        customElements.whenDefined('ch5-dpad').then(() => {
+        customElements.whenDefined('ch5-dpad-center').then(() => {
 
             this.initAttributes();
             this.attachEventListeners();
@@ -314,7 +314,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         ];
 
         // sent signals
-        const sentSignals:string[] = [];
+        const sentSignals: string[] = [];
 
         const ch5DpadAttributes = commonAttributes.concat(attributes).concat(receivedSignals).concat(sentSignals);
 
@@ -326,7 +326,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             return;
         }
 
-        this.info('ch5-dpad attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+        this.info('ch5-dpad-center attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 
         switch (attr) {
             default:
@@ -368,5 +368,5 @@ if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
 
-    window.customElements.define('ch5-dpad', Ch5Dpad);
+    window.customElements.define('ch5-dpad-center', Ch5DpadCenter);
 }
