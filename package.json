@@ -55,10 +55,7 @@
     "wct:xml-report": "./node_modules/.bin/wct ./wct_tests/run-all.html",
     "doc": "npm-run-all clean:docs && npm-run-all doc:*",
     "doc:html": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --out docs/html src/ ",
-    "doc:json": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --json docs/json/typedoc.json src/ ",
-    "rags:c": "copyfiles build_bundles/umd/* ./../../../CH5/CH5SampleProjects/UISampleProjects/Shell/node_modules/@crestron/ch5-crcomlib/",
-    "rags:build:save": "npm run build:dev && npm run rags:c",
-    "rags:www": "reset && tsc -p tsconfig.umd.json"
+    "doc:json": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --json docs/json/typedoc.json src/ "
   },
   "engines": {
     "node": ">=8.11",
