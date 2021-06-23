@@ -9,64 +9,34 @@ import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
 import { TCh5ButtonModeState } from "./t-ch5-button";
 
 /**
- * @name Ch5 Button Label
+ * @name Ch5 Button Mode State
  * @isattribute false
- * @tagName ch5-button-label
- * @role label
- * @description Ch5 Button label extends the button text to work with HTML content.
+ * @tagName ch5-button-mode-state
+ * @role button
+ * @description Ch5 Button Mode State is a child node for <ch5-button-mode>.
  * @componentVersion 1.0.0
  * @documentation
  * [
- *   "`ch5-button-label` element",
+ *   "`ch5-button-mode-state` element",
  *   "***",
- *   "An extension to standard HTML ch5-button element with icons and simple formats."
+ *   "A child element designed to capture mode level attributes for Ch5 Button component."
  * ]
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-button:blank",
- *     "description": "Crestron Button",
+ *    "prefix": "ch5-button-mode-state:blank",
+ *     "description": "Crestron Button Mode State",
  *     "body": [
- *       "<ch5-button>",
- *       "</ch5-button>$0"
- *     ]
- *   },
- *   {
- *    "prefix": "ch5-button:default",
- *     "description": "Crestron Button",
- *     "body": [
- *       "<ch5-button id=\"btn_${1:id}\"",
- *       "\tlabel=\"${2:Crestron Button}\"",
- *       "\tsendeventonclick=\"${3:btn_${1}_clicked}\">",
- *       "</ch5-button>$0"
- *     ]
- *   },
- *   {
- *     "prefix": "ch5-button:all-attributes",
- *     "description": "Crestron Button (All Attributes)",
- *     "body": [
- *       "<ch5-button id=\"btn_${1:id}\"",
- *       "\tlabel=\"${2:Crestron Button}\"",
- *       "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
- *       "\tcustomClass=\"${4:customClass}\"",
- *       "\tshape=\"${5|rounded-rectangle,rectangle,tab,circle,oval|}\"",
- *       "\tsize=\"${6|regular,x-small,small,large,x-large|}\"",
- *       "\tstretch=\"${7|both,width,height|}\"",
- *       "\ticonposition=\"${8|first,last,top,bottom|}\"",
- *       "\ticonclass=\"${9:iconClass}\"",
- *       "\torientation=\"${10|horizontal,vertical|}\"",
- *       "\tsendeventonclick=\"${11:btn_${1}_clicked}\"",
- *       "\tsendeventontouch=\"${12:btn_${1}_touched}\"",
- *       "\treceivestateselected=\"${13}\"",
- *       "\treceivestatelabel=\"${14}\"",
- *       "\treceivestatescriptlabelhtml=\"${15}\">",
- *       "</ch5-button>$0"
+ *       "<ch5-button-mode-state>",
+ *       "\t<template>",
+ *       "\t$1",
+ *       "\t</template>",
+ *       "</ch5-button-mode-state>$0"
  *     ]
  *   }
  * ]
  *
- */
-export interface ICh5ButtonModeStateAttributes extends ICh5ButtonModeCommonAttributes {
+ */export interface ICh5ButtonModeStateAttributes extends ICh5ButtonModeCommonAttributes {
 
   /**
   * @documentation

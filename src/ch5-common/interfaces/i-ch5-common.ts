@@ -10,7 +10,6 @@ import { TBoolAttribute } from "./t-ch5-common";
 
 /**
  * @ignore
- * TODO - to remove this file, the below properties must be in ICh5CommonAttributes
  */
 export interface ICh5Common extends ICh5CommonAttributes {
 

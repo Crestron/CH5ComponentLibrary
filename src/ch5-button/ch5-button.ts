@@ -1813,10 +1813,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		wrapper.appendChild(el);
 	}
 
-	// public getListOfAllPossibleComponentCssClasses(): string[] {
-	//     return this._listOfAllPossibleComponentCssClasses;
-	// }
-
 	private generateListOfAllPossibleComponentCssClasses(): string[] {
 		const cssClasses: string[] = this._listOfAllPossibleComponentCssClasses;
 		cssClasses.push(this.primaryCssClass);
@@ -1949,7 +1945,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 				className = className.trim();
 				if (className !== '') {
 					if (this.activeIconUrl !== '') {
-						// if (this.hasAttribute('iconurl')) {
 						this._elImg.classList.add(className); // adds the new icon class if present
 					} else {
 						this._elIcon.classList.add(className); // adds the new icon class if present

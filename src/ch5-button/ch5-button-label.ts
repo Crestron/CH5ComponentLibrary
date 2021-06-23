@@ -11,8 +11,9 @@ import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5Log } from "../ch5-common/ch5-log";
+import { ICh5ButtonLabelAttributes } from "./interfaces/i-ch5-button-label-attributes";
 
-export class Ch5ButtonLabel extends Ch5Log {
+export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes {
 
     constructor() {
         super();
@@ -31,10 +32,7 @@ export class Ch5ButtonLabel extends Ch5Log {
         }
 
         this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonLabel);
-
-        // set data-ch5-id
         this.setAttribute('data-ch5-id', this.getCrId());
-
         this.initAttributes();
 
         // const callbackFn = (mutations: any) => console.log("mutations", mutations);
@@ -54,7 +52,7 @@ export class Ch5ButtonLabel extends Ch5Log {
      * Useful for running clean up code.
      */
     public disconnectedCallback() {
-        // Placeholder
+        this.info('Ch5ButtonLabel.disconnectedCallback()');
     }
 
 }
