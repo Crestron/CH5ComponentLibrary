@@ -2,11 +2,11 @@ import { isNil } from "lodash-es";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5RoleAttributeMapping } from "../utility-models";
-import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-interfaces";
+import { ICh5DpadRightAttributes } from "./interfaces/i-ch5-dpad-right-interfaces";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
 
-export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
-    private COMPONENT_NAME: string = "ch5-dpad";
+export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
+    private COMPONENT_NAME: string = "ch5-dpad-right";
 
     //#region 1. Variables
 
@@ -27,8 +27,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     public static readonly STRETCHES: TCh5DpadStretch[] = ['both', 'width', 'height'];
 
-    public readonly primaryCssClass = 'ch5-dpad';
-    public readonly cssClassPrefix = 'ch5-dpad';
+    public readonly primaryCssClass = 'ch5-dpad-right';
+    public readonly cssClassPrefix = 'ch5-dpad-right';
 
     //#endregion
 
@@ -252,7 +252,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             this._pressable.init();
         }
 
-        customElements.whenDefined('ch5-dpad').then(() => {
+        customElements.whenDefined('ch5-dpad-right').then(() => {
 
             this.initAttributes();
             this.attachEventListeners();
@@ -326,7 +326,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             return;
         }
 
-        this.info('ch5-dpad attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+        this.info('ch5-dpad-right attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 
         switch (attr) {
             default:
@@ -368,5 +368,5 @@ if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
 
-    window.customElements.define('ch5-dpad', Ch5Dpad);
+    window.customElements.define('ch5-dpad-right', Ch5DpadRight);
 }
