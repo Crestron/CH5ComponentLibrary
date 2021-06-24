@@ -1,4 +1,4 @@
-import { isNil } from "lodash-es";
+import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5RoleAttributeMapping } from "../utility-models";
@@ -6,7 +6,6 @@ import { ICh5DpadTopAttributes } from "./interfaces/i-ch5-dpad-top-interfaces";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
 
 export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
-    private COMPONENT_NAME: string = "ch5-dpad-top";
 
     //#region 1. Variables
 
@@ -33,6 +32,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
     //#endregion
 
     //#region 1.2 private / protected variables
+    private COMPONENT_NAME: string = "ch5-dpad-top";
     private _contractName: string = '';
     private _type: TCh5DpadType = 'default';
     private _shape: TCh5DpadShape = 'plus';
@@ -63,7 +63,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
     public set contractName(value: string) {
         this.info('set contractName("' + value + '")');
 
-        if (isNil(value)) {
+        if (_.isNil(value)) {
             value = '';
         }
 
@@ -85,7 +85,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
     public set type(value: TCh5DpadType) {
         this.info('set type("' + value + '")');
 
-        if (isNil(value)) {
+        if (_.isNil(value)) {
             value = 'default';
         }
 
@@ -107,7 +107,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
     public set shape(value: TCh5DpadShape) {
         this.info('set shape("' + value + '")');
 
-        if (isNil(value)) {
+        if (_.isNil(value)) {
             value = 'plus';
         }
 
@@ -129,7 +129,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
     public set stretch(value: TCh5DpadStretch) {
         this.info('set stretch("' + value + '")');
 
-        if (isNil(value)) {
+        if (_.isNil(value)) {
             value = 'both';
         }
 

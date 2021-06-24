@@ -28,5 +28,6 @@ export * from './ch5-import-htmlsnippet/index';
 export * from './ch5-logger/index';
 export * from './ch5-background/index';
 export * from './ch5-video/index';
+export * from './ch5-dpad/index';
 // Shared models used for WCT tests
 export * from './utility-models/index'; // Use CrComLib.Ch5RoleAttributeMapping to access
