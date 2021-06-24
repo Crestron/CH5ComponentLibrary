@@ -1,13 +1,17 @@
-import { isNil } from "lodash-es";
+import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { Ch5DpadCenter } from "./ch5-dpad-center";
+import { Ch5DpadTop } from "./ch5-dpad-top";
+import { Ch5DpadRight } from "./ch5-dpad-right";
+import { Ch5DpadBottom } from "./ch5-dpad-bottom";
+import { Ch5DpadLeft } from "./ch5-dpad-left";
+import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-interfaces";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
 
 export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
-    private COMPONENT_NAME: string = "ch5-dpad";
-
     //#region 1. Variables
 
     //#region 1.1 readonly variables
@@ -33,6 +37,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     //#endregion
 
     //#region 1.2 private / protected variables
+    private COMPONENT_NAME: string = "ch5-dpad";
     private _contractName: string = '';
     private _type: TCh5DpadType = 'default';
     private _shape: TCh5DpadShape = 'plus';
@@ -41,6 +46,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private _useContractforEnable: boolean = true;
     private _useContractForShow: boolean = true;
     private _useContractForIcons: boolean = true;
+
+    private isComponentLoaded: boolean = false;
 
     /**
      * Ch5Pressable manager
@@ -63,7 +70,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public set contractName(value: string) {
         this.info('set contractName("' + value + '")');
 
-        if (isNil(value)) {
+        if (_.isNil(value)) {
             value = '';
         }
 
@@ -85,7 +92,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public set type(value: TCh5DpadType) {
         this.info('set type("' + value + '")');
 
-        if (isNil(value)) {
+        if (_.isNil(value)) {
             value = 'default';
         }
 
@@ -107,7 +114,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public set shape(value: TCh5DpadShape) {
         this.info('set shape("' + value + '")');
 
-        if (isNil(value)) {
+        if (_.isNil(value)) {
             value = 'plus';
         }
 
@@ -129,7 +136,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public set stretch(value: TCh5DpadStretch) {
         this.info('set stretch("' + value + '")');
 
-        if (isNil(value)) {
+        if (_.isNil(value)) {
             value = 'both';
         }
 
@@ -230,6 +237,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         // events binding
 
         // check if the dpad element has been created by verifying one of its properties
+
+        this.logger.stop();
     }
 
     /**
@@ -237,7 +246,18 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      *  Useful for running setup code, such as fetching resources or rendering.
      */
     public connectedCallback() {
-        this.info(' connectedCallback() - start');
+        this.info(' connectedCallback() - start', this.COMPONENT_NAME);
+
+        const ready = Promise.all([
+            customElements.whenDefined('ch5-dpad-top'),
+            customElements.whenDefined('ch5-dpad-left'),
+            customElements.whenDefined('ch5-dpad-bottom'),
+            customElements.whenDefined('ch5-dpad-right'),
+            customElements.whenDefined('ch5-dpad-center')
+        ])
+            .then(() => {
+                this.isComponentLoaded = true;
+            });
 
         // WAI-ARIA Attributes
         if (!this.hasAttribute('role')) {
@@ -253,8 +273,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         }
 
         customElements.whenDefined('ch5-dpad').then(() => {
+            this.createInnerElements();
 
             this.initAttributes();
+
             this.attachEventListeners();
 
             this.updateCssClasses();
@@ -314,7 +336,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         ];
 
         // sent signals
-        const sentSignals:string[] = [];
+        const sentSignals: string[] = [];
 
         const ch5DpadAttributes = commonAttributes.concat(attributes).concat(receivedSignals).concat(sentSignals);
 
@@ -335,11 +357,37 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         }
     }
 
+    protected createInnerElements(): void {
+		this.logger.start('createInnerElements', this.COMPONENT_NAME);
+
+		CH5DpadUtils.clearComponentContent(this);
+
+        const centerBtn = new Ch5DpadCenter();
+        const topBtn = new Ch5DpadTop();
+        const rightBtn = new Ch5DpadRight();
+        const bottomBtn = new Ch5DpadBottom();
+        const leftBtn = new Ch5DpadLeft();
+
+        
+        
+		this.logger.stop();
+    }
+
     /**
      *  Called to initialize all attributes
      */
     protected initAttributes(): void {
         super.initAttributes();
+        this.logger.start("initAttributes", this.COMPONENT_NAME);
+
+        this.contractName = CH5DpadUtils.getAttributeAsString(this, 'contractName', '');
+        this.type = CH5DpadUtils.getAttributeAsString(this, 'type', Ch5Dpad.TYPES[0]) as TCh5DpadType;
+        this.shape = CH5DpadUtils.getAttributeAsString(this, 'shape', Ch5Dpad.SHAPES[0]) as TCh5DpadShape;
+        this.stretch = CH5DpadUtils.getAttributeAsString(this, 'stretch', Ch5Dpad.STRETCHES[0]) as TCh5DpadStretch;
+        this.useContractforLabel = CH5DpadUtils.getAttributeAsBool(this, 'useContractforLabel', true);
+        this.useContractforEnable = CH5DpadUtils.getAttributeAsBool(this, 'useContractforEnable', true);
+        this.useContractForShow = CH5DpadUtils.getAttributeAsBool(this, 'useContractForShow', true);
+        this.useContractForIcons = CH5DpadUtils.getAttributeAsBool(this, 'useContractForIcons', true);
     }
 
     /**
