@@ -1,12 +1,11 @@
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { Ch5RoleAttributeMapping } from "../utility-models";
-import { Ch5DpadCenter } from "./ch5-dpad-center";
-import { Ch5DpadTop } from "./ch5-dpad-top";
-import { Ch5DpadRight } from "./ch5-dpad-right";
-import { Ch5DpadBottom } from "./ch5-dpad-bottom";
-import { Ch5DpadLeft } from "./ch5-dpad-left";
+import { Ch5DpadCenter } from "./ch5-dpad-button-center";
+import { Ch5DpadTop } from "./ch5-dpad-button-top";
+import { Ch5DpadRight } from "./ch5-dpad-button-right";
+import { Ch5DpadBottom } from "./ch5-dpad-button-bottom";
+import { Ch5DpadLeft } from "./ch5-dpad-button-left";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-interfaces";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
@@ -37,6 +36,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     //#endregion
 
     //#region 1.2 private / protected variables
+
+    // private setter getter specific vars
     private COMPONENT_NAME: string = "ch5-dpad";
     private _contractName: string = '';
     private _type: TCh5DpadType = 'default';
@@ -47,16 +48,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private _useContractForShow: boolean = true;
     private _useContractForIcons: boolean = true;
 
+    // state specific vars
     private isComponentLoaded: boolean = false;
 
-    /**
-     * Ch5Pressable manager
-     *
-     * @private
-     * @type {(Ch5Pressable | null)}
-     * @memberof Ch5Image
-     */
-    private _pressable: Ch5Pressable | null = null;
+    // elements specific vars
 
     //#endregion
 
@@ -231,13 +226,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public constructor() {
         super();
         this.logger.start('constructor()', this.COMPONENT_NAME);
-
-        this._pressable = new Ch5Pressable(this);
-
-        // events binding
-
-        // check if the dpad element has been created by verifying one of its properties
-
+        // console.log('constructor >> ');
+        // console.log(this);
         this.logger.stop();
     }
 
@@ -249,42 +239,72 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.info(' connectedCallback() - start', this.COMPONENT_NAME);
 
         const ready = Promise.all([
-            customElements.whenDefined('ch5-dpad-top'),
-            customElements.whenDefined('ch5-dpad-left'),
-            customElements.whenDefined('ch5-dpad-bottom'),
-            customElements.whenDefined('ch5-dpad-right'),
-            customElements.whenDefined('ch5-dpad-center')
-        ])
-            .then(() => {
-                this.isComponentLoaded = true;
-            });
-
-        // WAI-ARIA Attributes
-        if (!this.hasAttribute('role')) {
-            this.setAttribute('role', Ch5RoleAttributeMapping.ch5Dpad);
+            customElements.whenDefined('ch5-dpad-button-top'),
+            customElements.whenDefined('ch5-dpad-button-left'),
+            customElements.whenDefined('ch5-dpad-button-bottom'),
+            customElements.whenDefined('ch5-dpad-button-right'),
+            customElements.whenDefined('ch5-dpad-button-center')
+        ]).then(() => {
+            // check if all components required to build dpad are ready, instantiated and available for consumption
+            this.onAllSubElementsCreated();
+        });
+        if (this.isComponentLoaded) {
+            this.info('connectedCallback() - end', this.COMPONENT_NAME);
         }
+        this.logger.stop();
+    }
 
-        // set data-ch5-id
-        this.setAttribute('data-ch5-id', this.getCrId());
-
-        // init pressable before initAttributes because pressable subscribe to gestureable attribute
-        if (null !== this._pressable) {
-            this._pressable.init();
-        }
-
+    /**
+     * Function create and bind events for dpad once all the expected child elements are defined and
+     * ready for consumption
+     */
+    private onAllSubElementsCreated() {
+        this.info(' onAllSubElementsCreated() - start', this.COMPONENT_NAME);
         customElements.whenDefined('ch5-dpad').then(() => {
-            this.createInnerElements();
-
+            // set attributes based on onload attributes
             this.initAttributes();
 
-            this.attachEventListeners();
+            // create element
+            this.createElementsAndInitialize();
 
+            // update class based on the current type chosen
             this.updateCssClasses();
 
-            this.initCommonMutationObserver(this);
+            // events binding
+            this.attachEventListeners();
 
-            this.info(' connectedCallback() - end');
+            // check if the dpad element has been created by verifying one of its properties
+
+
+            // initialize mutation observer if any
+            this.initCommonMutationObserver(this);
+            this.isComponentLoaded = true;
         });
+        this.logger.stop();
+    }
+
+    /**
+     * Function to create HTML elements of the components including child elements
+     */
+    private createElementsAndInitialize() {
+        if (!this._wasInstatiated) {
+            CH5DpadUtils.clearComponentContent(this);
+
+            // set data-ch5-id
+            this.setAttribute('data-ch5-id', this.getCrId());
+
+            CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad); // WAI-ARIA Attributes
+            CH5DpadUtils.setAttributeToElement(this, 'type', this.type);
+            CH5DpadUtils.setAttributeToElement(this, 'shape', this.shape);
+            CH5DpadUtils.setAttributeToElement(this, 'stretch', this.stretch);
+            CH5DpadUtils.setAttributeToElement(this, 'useContractforLabel', this.useContractforLabel.toString());
+            CH5DpadUtils.setAttributeToElement(this, 'useContractforEnable', this.useContractforEnable.toString());
+            CH5DpadUtils.setAttributeToElement(this, 'useContractForShow', this.useContractForShow.toString());
+            CH5DpadUtils.setAttributeToElement(this, 'useContractForIcons', this.useContractForIcons.toString());
+
+            this.createHtmlElements();
+        }
+        this._wasInstatiated = true;
     }
 
     /**
@@ -300,7 +320,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     }
 
     private removeEvents() {
-        throw new Error("Method not implemented.");
+        throw new Error("Method not implemented or element is not structured correctly.");
     }
 
     /**
@@ -357,20 +377,84 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         }
     }
 
-    protected createInnerElements(): void {
-		this.logger.start('createInnerElements', this.COMPONENT_NAME);
+    /**
+     * Function to create all the elements required under the parent DPAD tag
+     */
+    protected createHtmlElements(): void {
+        this.logger.start('createHtmlElements', this.COMPONENT_NAME);
 
-		CH5DpadUtils.clearComponentContent(this);
+        this.classList.add(this.primaryCssClass);
+        this.classList.add(this.shape);
 
+        const childItems = this.children;
+
+        if (childItems.length === 0) {
+            this.createAndAppendAllButtonsUnderDpad();
+        } else {
+            const isValidStructure = this.checkIfOrderOfTagsAreinTheRightOrder(childItems);
+            if (!isValidStructure) {
+                throw new Error("ch5-dpad not constructed correctly, please refer documentation.");
+            }
+        }
+
+        this.logger.stop();
+    }
+
+    /**
+     * Function to add all 5 buttons in the expected order if not added in the DOM
+     */
+    private createAndAppendAllButtonsUnderDpad() {
         const centerBtn = new Ch5DpadCenter();
         const topBtn = new Ch5DpadTop();
         const rightBtn = new Ch5DpadRight();
         const bottomBtn = new Ch5DpadBottom();
         const leftBtn = new Ch5DpadLeft();
+        // order of appending is --- center, top, left/right, right/left, bottom
+        this.appendChild(centerBtn);
+        this.appendChild(topBtn);
 
-        
-        
-		this.logger.stop();
+        if (this.shape === Ch5Dpad.SHAPES[0]) {
+            // if the selected shape is 'plus'
+            this.appendChild(leftBtn);
+            this.appendChild(rightBtn);
+        }
+        else if (this.shape === Ch5Dpad.SHAPES[1]) {
+            // if the selected shape is 'circle'
+            this.appendChild(rightBtn);
+            this.appendChild(leftBtn);
+        } else {
+            // if the selected shape is an invalid value
+            throw new Error("Seems to be an invalid shape. Must be 'plus' or 'circle' as values.");
+        }
+
+        this.appendChild(bottomBtn);
+    }
+
+    /**
+     * Function to check if the tags are sequenced in the right/expected order
+     * @param childItems 
+     * @returns true if the order is correct [order of appending is --- center, top, left/right, right/left, bottom]
+     */
+    private checkIfOrderOfTagsAreinTheRightOrder(childItems: HTMLCollection) {
+        let ret = false;
+        if (childItems.length === 5) {
+            const firstTag = this.shape === Ch5Dpad.SHAPES[0] ? 'left' : 'right';
+            const secondTag = this.shape === Ch5Dpad.SHAPES[0] ? 'right' : 'left';
+
+            ret = ((childItems[0].tagName === 'ch5-dpad-button-center') &&
+                (childItems[1].tagName === 'ch5-dpad-button-top') &&
+                (childItems[2].tagName === 'ch5-dpad-button-' + firstTag) &&
+                (childItems[3].tagName === 'ch5-dpad-button-' + secondTag) &&
+                (childItems[4].tagName === 'ch5-dpad-button-bottom'));
+        } else {
+            // removing child tags and emptying DPAD if the tag count is neither 0 or 5
+            if (childItems.length > 0) {
+                for (const item of Array.from(childItems)) {
+                    item.remove();
+                }
+            }
+        }
+        return ret;
     }
 
     /**

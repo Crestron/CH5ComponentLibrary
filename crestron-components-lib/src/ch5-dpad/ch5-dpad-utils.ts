@@ -38,9 +38,26 @@ export class CH5DpadUtils {
      * @param thisRef 
      */
     public static clearComponentContent(thisRef: any) {
-        const containers = thisRef.getElementsByClassName(thisRef.CSS_CLASS_LIST.CONTAINER_CLASS);
+        const containers = thisRef.getElementsByClassName(thisRef.primaryCssClass);
         Array.from(containers as HTMLElement[]).forEach((container) => {
             container.remove();
         });
+    }
+
+    public static isNullOrUndefined(input: any) {
+        return (typeof (input) === 'undefined' || input === null);
+    }
+
+    /**
+     * Function to set defaultValue to an attribute if it doesn't have one already
+     * @param thisRef html element
+     * @param attr attribute to check if its undefined, sets the default value
+     * @param defaultValue is set as attribute's value if it doesn't have one already
+     */
+    public static setAttributeToElement(thisRef: any, attr: string, defaultValue: string) {
+        attr = attr.toLowerCase();
+        if (!thisRef.hasAttribute(attr)) {
+            thisRef.setAttribute(attr, defaultValue);
+        }
     }
 }
