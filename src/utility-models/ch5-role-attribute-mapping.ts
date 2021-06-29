@@ -28,4 +28,5 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5ButtonMode = 'template';
     public static readonly ch5ButtonModeState = 'template';
     public static readonly ch5Dpad = 'dpad';
+    public static readonly ch5DpadChild = 'dpad-child';
 }
