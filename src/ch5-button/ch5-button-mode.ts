@@ -22,7 +22,7 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
 
   public set iconClass(value: string) {
     this.info('set iconClass("' + value + '")');
-    this._parentCh5Button.activeIconClass = value;
+    this.validateAndSetAttributeWithStringType("iconclass", value);
   }
   public get iconClass(): string {
     return this.getAttribute("iconclass") as string;
@@ -62,7 +62,7 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
 
   public set iconUrl(value: string) {
     this.info('set iconUrl("' + value + '")');
-    this._parentCh5Button.iconUrl = value;
+    this.validateAndSetAttributeWithStringType("iconurl", value);
   }
   public get iconUrl(): string {
     return this.getAttribute("iconurl") as string;
@@ -78,7 +78,7 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
 
   public set customClass(value: string) {
     this.info('set customClass("' + value + '")');
-    this._parentCh5Button.customClass = value;
+    this.validateAndSetAttributeWithStringType("customclass", value);
   }
   public get customClass(): string {
     return this.getAttribute("customclass") as string;
@@ -86,7 +86,7 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
 
   public set customStyle(value: string) {
     this.info('set customStyle("' + value + '")');
-    this._parentCh5Button.customStyle = value;
+    this.validateAndSetAttributeWithStringType("customstyle", value);
   }
   public get customStyle(): string {
     return this.getAttribute("customstyle") as string;
@@ -240,6 +240,16 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
         // parentElement.changeAttributesOnModeChange(this); is not required here. The set type will be called again to 
         // go the below else block and the  is called
       }
+    } else {
+      this.removeAttribute(attributeName);
+      this._parentCh5Button.changeAttributesOnModeChange(this);
+    }
+  }
+
+  private validateAndSetAttributeWithStringType(attributeName: string, value: any) {
+    if (value !== null) {
+      this.setAttribute(attributeName, value);
+      this._parentCh5Button.changeAttributesOnModeChange(this);
     } else {
       this.removeAttribute(attributeName);
       this._parentCh5Button.changeAttributesOnModeChange(this);

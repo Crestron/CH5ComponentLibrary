@@ -52,18 +52,20 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *       "\tshape=\"${5|rounded-rectangle,rectangle,tab,circle,oval|}\"",
  *       "\tsize=\"${6|regular,x-small,small,large,x-large|}\"",
  *       "\tstretch=\"${7|both,width,height|}\"",
- *       "\ticonposition=\"${8|first,last,top,bottom|}\"",
- *       "\ticonclass=\"${9:iconClass}\"",
- *       "\torientation=\"${10|horizontal,vertical|}\"",
- *       "\tsendeventonclick=\"${11:btn_${1}_clicked}\"",
- *       "\tsendeventontouch=\"${12:btn_${1}_touched}\"",
- *       "\treceivestateselected=\"${13}\"",
- *       "\treceivestatelabel=\"${14}\"",
- *       "\treceivestatescriptlabelhtml=\"${15}\">",
+ *       "\tcheckboxShow=\"${8|true,false|}\"",
+ *       "\tcheckboxPosition=\"${9|left,right|}\"",
+ *       "\thAlignLabel=\"${10|center,left,right|}\"",
+ *       "\tvAlignLabel=\"${11|middle,top,bottom|}\"",
+ *       "\ticonposition=\"${12|first,last,top,bottom|}\"",
+ *       "\ticonclass=\"${13:iconClass}\"",
+ *       "\torientation=\"${14|horizontal,vertical|}\"",
+ *       "\tsendeventonclick=\"${15:btn_${1}_clicked}\"",
+ *       "\tsendeventontouch=\"${16:btn_${1}_touched}\"",
+ *       "\treceivestateselected=\"${17}\"",
+ *       "\treceivestatelabel=\"${18}\"",
+ *       "\treceivestatescriptlabelhtml=\"${19}\">",
  *       "</ch5-button>$0"
  *     ]
- *   }
- * ]
  *
  */
 export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttributes {
@@ -77,28 +79,28 @@ export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttribute
    * ]
    * @name onpress
    */
-   onpress: string;
+  onpress: string;
 
-   /**
-    * @documentation
-    * [
-    * "`onrelease` attribute",
-    * "***",
-    * "Runs when a release event is initiated."
-    * ]
-    * @name onrelease
-    */
-   onrelease: string;
- 
-   /**
-    * @documentation
-    * [
-    * "`customclassselected` attribute",
-    * "***",
-    * "Specifies a custom class for the selected state of the button."
-    * ]
-    * @name customclassselected
-    */
-   customClassSelected: string | null;
+  /**
+   * @documentation
+   * [
+   * "`onrelease` attribute",
+   * "***",
+   * "Runs when a release event is initiated."
+   * ]
+   * @name onrelease
+   */
+  onrelease: string;
+
+  /**
+   * @documentation
+   * [
+   * "`customclassselected` attribute",
+   * "***",
+   * "Specifies a custom class for the selected state of the button."
+   * ]
+   * @name customclassselected
+   */
+  customClassSelected: string | null;
 
 }

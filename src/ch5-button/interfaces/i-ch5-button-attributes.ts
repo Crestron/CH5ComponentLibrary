@@ -85,6 +85,20 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
+   * "`mode` attribute",
+   * "***",
+   * "The default value is 0.",
+   * "This property is used to set or get the mode of the ch5-button in a multi-mode environment. ",
+   * "The maximum value that can be set is 99."
+   * ]
+   * @name mode
+   * @default 0
+   */
+   mode: number;
+
+  /**
+   * @documentation
+   * [
    * "`checkboxShow` attribute",
    * "***",
    * "The default value is false.",
@@ -108,7 +122,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @name checkboxPosition
    * @default left
    */
-   checkboxPosition: TCh5ButtonCheckboxPosition;
+  checkboxPosition: TCh5ButtonCheckboxPosition;
 
   /**
    * @documentation
@@ -179,16 +193,13 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "`hAlignLabel` attribute",
    * "***",
    * "Valid values: 'left', 'right', 'center'.",
-   * "When the stretch property is set, the button element inherits the ",
-   * "width and/or height of the container. If stretch=height is used, ",
-   * "the button will be responsive based on the label length until it ",
-   * "reaches the max-width of the container. If stretch=width is ",
-   * "applied, there is no responsiveness after reaching the max-width, and ",
-   * "the text will overflow. The same applies if stretch=both is used. Note ",
-   * "that if the button element shape is 'circle' or 'oval', the stretch ",
-   * "property will be ignored."
+   * "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
+   * "The center property sets the horizontal alignment of the label to the center of the button. ",
+   * "The left property sets the horizontal alignment of the label to the left of the button. ",
+   * "The right property sets the horizontal alignment of the label to the right of the button. "
    * ]
    * @name hAlignLabel
+   * @default center
    */
   hAlignLabel: TCh5ButtonHorizontalAlignLabel;
 
@@ -198,19 +209,16 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   * "`vAlignLabel` attribute",
   * "***",
   * "Valid values: 'top', 'bottom', 'middle'.",
-  * "When the stretch property is set, the button element inherits the ",
-  * "width and/or height of the container. If stretch=height is used, ",
-  * "the button will be responsive based on the label length until it ",
-  * "reaches the max-width of the container. If stretch=width is ",
-  * "applied, there is no responsiveness after reaching the max-width, and ",
-  * "the text will overflow. The same applies if stretch=both is used. Note ",
-  * "that if the button element shape is 'circle' or 'oval', the stretch ",
-  * "property will be ignored."
+   * "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
+   * "The middle property sets the horizontal alignment of the label to the middle of the button. ",
+   * "The top property sets the horizontal alignment of the label to the top of the button. ",
+   * "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
   * ]
   * @name vAlignLabel
+  * @default middle
   */
   vAlignLabel: TCh5ButtonVerticalAlignLabel;
-  
+
   /**
    * @documentation
    * [
@@ -223,6 +231,17 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @name formtype
    */
   formType: TCh5ButtonActionType | null;
+
+  /**
+   * @documentation
+   * [
+   * "`receiveStateMode` attribute",
+   * "***",
+   * "When received, applies a value to the mode attribute from the signal."
+   * ]
+   * @name receiveStateMode
+   */
+  receiveStateMode: string;
 
   /**
    * @documentation

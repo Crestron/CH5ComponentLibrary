@@ -27,9 +27,6 @@ import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
  *     "description": "Crestron Button Mode",
  *     "body": [
  *       "<ch5-button-mode>",
- *       "\t<template>",
- *       "\t$1",
- *       "\t</template>",
  *       "</ch5-button-mode>$0"
  *     ]
  *   }

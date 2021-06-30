@@ -28,9 +28,6 @@ import { TCh5ButtonModeState } from "./t-ch5-button";
  *     "description": "Crestron Button Mode State",
  *     "body": [
  *       "<ch5-button-mode-state>",
- *       "\t<template>",
- *       "\t$1",
- *       "\t</template>",
  *       "</ch5-button-mode-state>$0"
  *     ]
  *   }
@@ -41,19 +38,17 @@ import { TCh5ButtonModeState } from "./t-ch5-button";
   /**
   * @documentation
   * [
-  * "`vAlignLabel` attribute",
+  * "`state` attribute",
   * "***",
-  * "Valid values: 'width', 'height', 'both'.",
-  * "When the stretch property is set, the button element inherits the ",
-  * "width and/or height of the container. If stretch=height is used, ",
-  * "the button will be responsive based on the label length until it ",
-  * "reaches the max-width of the container. If stretch=width is ",
-  * "applied, there is no responsiveness after reaching the max-width, and ",
-  * "the text will overflow. The same applies if stretch=both is used. Note ",
-  * "that if the button element shape is 'circle' or 'oval', the stretch ",
-  * "property will be ignored."
+  * "Valid values: 'normal', 'pressed', 'selected'.",
+  * "This attribute is used to define the ch5-button-mode-state attribues on the basis of the state of the parent ch5-button. ",
+  * "If the button is neither in the 'pressed' state nor in the 'selected' state, then the button is considered to be in 'normal' state. ",
+  * "The attributes of 'state' as 'normal' are considered in this case for the ch5-button. ",
+  * "If the button is in the 'pressed' state, then the attributes of 'state' as 'pressed' are considered in this case for the ch5-button.  ",
+  * "If the button is in the 'selected' state, then the attributes of 'state' as 'selected' are considered in this case for the ch5-button.  "
   * ]
-  * @name vAlignLabel
+  * @name state
+  * @default normal
   */
   state: TCh5ButtonModeState;
 

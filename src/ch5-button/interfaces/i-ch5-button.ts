@@ -14,36 +14,4 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  */
 export interface ICh5Button extends ICh5ButtonAttributes, ICh5Common {
 
-  /**
-   * @documentation
-   * [
-   * "`onpress` attribute",
-   * "***",
-   * "Runs when a press event is initiated."
-   * ]
-   * @name onpress
-   */
-  onpress: string;
-
-  /**
-   * @documentation
-   * [
-   * "`onrelease` attribute",
-   * "***",
-   * "Runs when a release event is initiated."
-   * ]
-   * @name onrelease
-   */
-  onrelease: string;
-
-  /**
-   * @documentation
-   * [
-   * "`customclassselected` attribute",
-   * "***",
-   * "Specifies a custom class for the selected state of the button."
-   * ]
-   * @name customclassselected
-   */
-  customClassSelected: string | null;
 }
