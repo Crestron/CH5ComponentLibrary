@@ -707,8 +707,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set iconUrl(value: string) {
 		if (!isNil(value) && this._iconSvgUrl !== value) {
-			this._iconSvgUrl = value || '';
-			this._elImg.src = this._iconSvgUrl;
+			// this._iconSvgUrl = value || '';
+			// this._elImg.src = this._iconSvgUrl;
 			this.setAttribute('iconurl', value);
 			this.changeAttributesOnModeChange(this);
 		}
@@ -719,6 +719,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set activeIconUrl(value: string) {
 		this._activeIconUrl = value;
+		// this.setAttribute("activeIconUrl", this._activeIconUrl);
 	}
 	public get activeIconUrl(): string {
 		return this._activeIconUrl;
@@ -784,6 +785,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		if (this._activeCustomStyle !== value && value !== '') {
 			this._activeCustomStyle = value;
 			this.updateCssClasses();
+			this.updateForChangeInStyleCss();
 		}
 	}
 	public get activeCustomStyle(): string {
@@ -1065,9 +1067,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		if (receiveSignal === null) {
 			return;
 		}
-
+		this.info("Before subReceiveSignalIconClass");
 		this.subReceiveSignalIconClass = receiveSignal.subscribe((newValue: string) => {
+			this.info("subReceiveSignalIconClass: ", newValue);
 			this.iconClass = newValue;
+			this.updateIconClassAndPath(newValue);
 		});
 	}
 	public get receiveStateIconClass(): string | null {
@@ -1110,6 +1114,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 		this.subReceiveSignalSvgUrl = receiveSignal.subscribe((newValue: string) => {
 			this.iconUrl = newValue;
+			this.updateIconClassAndPath(newValue);
 		});
 	}
 	public get receiveStateIconUrl(): string | null {
@@ -1123,7 +1128,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		return this._subReceiveSignalSvgUrl;
 	}
 
-	public set receiveStateType(signalName: string | null) {
+	public set receiveStateType(signalName: string) {
 		this.info('set receiveStateType(\'' + signalName + '\')');
 
 		if (this._sigNameReceiveStateType === signalName || signalName === null) {
@@ -1133,8 +1138,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		if (this._sigNameReceiveStateType) {
 
 			const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateType);
-			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-				.getStringSignal(oldReceiveStateSigName);
+			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveStateSigName);
 
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceiveSignalType as string);
@@ -1154,17 +1158,17 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 		this._subReceiveSignalType = receiveSignal.subscribe((newValue: string) => {
 			this.type = newValue as TCh5ButtonType;
+			this.activeType = newValue as TCh5ButtonType;
 		});
 	}
-	public get receiveStateType(): string | null {
-		return this._attributeValueAsString('receivestatemode');
+	public get receiveStateType(): string {
+		return this._attributeValueAsString('receivestatetype');
 	}
 
-	public set receiveStateMode(signalName: string | null) {
+	public set receiveStateMode(signalName: string) {
 		this.info('set receiveStateMode(\'' + signalName + '\')');
-		console.log('set receiveStateMode(\'' + signalName + '\')');
-		console.log('this._sigNameReceiveStateMode' + this._sigNameReceiveStateMode);
-		console.log('signalName' + signalName);
+		this.info('this._sigNameReceiveStateMode' + this._sigNameReceiveStateMode);
+		this.info('signalName' + signalName);
 
 		if (this._sigNameReceiveStateMode === signalName || signalName === null) {
 			return;
@@ -1172,20 +1176,20 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 		// clean up old subscription
 		if (this._sigNameReceiveStateMode) {
-			console.log('_sigNameReceiveStateMode exists');
+			this.info('_sigNameReceiveStateMode exists');
 
 			const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateMode);
 			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveStateSigName);
 
-			console.log('oldReceiveStateSigName', oldReceiveStateSigName);
-			console.log('oldSignal', oldSignal);
+			this.info('oldReceiveStateSigName', oldReceiveStateSigName);
+			this.info('oldSignal', oldSignal);
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceiveSignalMode as string);
 			}
 		}
 
 		this._sigNameReceiveStateMode = signalName;
-		console.log('signalName2: ', signalName);
+		this.info('signalName2: ', signalName);
 		this.setAttribute('receivestatemode', signalName);
 
 		// setup new subscription.
@@ -1199,7 +1203,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			this.mode = (newValue) as number;
 		});
 	}
-	public get receiveStateMode(): string | null {
+	public get receiveStateMode(): string {
 		return this._attributeValueAsString('receivestatemode');
 	}
 
@@ -1506,6 +1510,73 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		this._elButton.removeEventListener('mouseleave', this._onLeave);
 	}
 
+	protected updateForChangeInCustomCssClass() {
+		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
+		this.logger.start("updateForChangeInCustomCssClass()");
+		this.logger.log("updateForChangeInCustomCssClass()", this._prevAddedCustomClasses);
+		this.logger.log("from ch5button - updateForChangeInCustomCssClass()", this.activeCustomClass);
+
+		this._prevAddedCustomClasses.forEach((className: string) => {
+			if ('' !== className) {
+				targetElement.classList.remove(className);
+			}
+		});
+		this._prevAddedCustomClasses = [];
+
+		this.activeCustomClass.split(' ').forEach((className: string) => {
+			if ('' !== className) {
+				this._prevAddedCustomClasses.push(className);
+				targetElement.classList.add(className);
+			}
+		});
+		this.logger.stop();
+	}
+
+	protected updateForChangeInStyleCss() {
+		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
+		this.info("from button - updateForChangeInStyleCss()");
+
+		targetElement.style.cssText = this.activeCustomStyle;
+	}
+
+	public set receiveStateCustomClass(value: string) {
+		this.info('set receiveStateCustomClass(\'' + value + '\')');
+		value = this._checkAndSetStringValue(value);
+		if ('' === value || value === this._receiveStateCustomClass) {
+				return;
+		}
+
+		this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
+
+		this._receiveStateCustomClass = value;
+		this.setAttribute('receivestatecustomclass', value);
+
+		const recSigCustomClassName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomClass);
+		const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomClassName);
+
+		if (null === recSig) {
+				return;
+		}
+		let hasSignalChanged = false;
+
+		this._subKeySigReceiveCustomClass = recSig.subscribe((newVal: string) => {
+				this.info('subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
+				if ('' !== newVal) {
+						hasSignalChanged = true;
+				}
+				if (newVal !== this.customClass && hasSignalChanged) {
+						// this.setAttribute('customclass', newVal);
+						this.activeCustomClass = newVal;
+				}
+		});
+}
+
+public get receiveStateCustomClass(): string {
+		// The internal property is changed if/when the element is removed from dom
+		// Returning the attribute instead of the internal property preserves functionality
+		return this._attributeValueAsString('receivestatecustomclass');
+}
+
 	/**
 	 * Called when an HTML attribute is changed, added or removed
 	 */
@@ -1520,19 +1591,19 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 		switch (attr) {
 			case 'customclass': // this is written to manage modes
-				if (this.hasAttribute('customclass')) {
-					this.customClass = this.getAttribute('customclass') as string;
-				} else {
-					this.customClass = '';
-				}
+				super.attributeChangedCallback(attr, oldValue, newValue);
+				this.changeAttributesOnModeChange(this);
 				this.updateForChangeInCustomCssClass();
 				break;
+			case 'receivestatecustomclass': // this is written to manage modes
+				super.attributeChangedCallback(attr, oldValue, newValue);
+				this.changeAttributesOnModeChange(this);
+				this.updateForChangeInCustomCssClass();
+				
+				break;
 			case 'customstyle': // this is written to manage modes
-				if (this.hasAttribute('customstyle')) {
-					this.customStyle = this.getAttribute('customstyle') as string;
-				} else {
-					this.customStyle = '';
-				}
+				super.attributeChangedCallback(attr, oldValue, newValue);
+				this.changeAttributesOnModeChange(this);
 				this.updateForChangeInStyleCss();
 				break;
 			case 'label':
@@ -1755,7 +1826,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 				}
 				break;
 			case 'receivestatemode':
-				console.log("inside attrchange", newValue);
 				if (this.hasAttribute('receivestatemode')) {
 					this.receiveStateMode = newValue;
 				} else {
@@ -1922,7 +1992,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
-	public updateIconUrlAndPath(value: string) {
+	public updateIconClassAndPath(value: string) {
 		this.logger.start("updateIconUrlAndPath");
 		this.info("this.activeIconClass", this.activeIconClass);
 		this.info("value", value);
@@ -2203,35 +2273,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
-	protected updateForChangeInCustomCssClass() {
-		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-		this.info("from button - updateForChangeInCustomCssClass()");
-
-		this._prevAddedCustomClasses.forEach((className: string) => {
-			if ('' !== className) {
-				targetElement.classList.remove(className);
-			}
-		});
-		this._prevAddedCustomClasses = [];
-
-		this.info("from button - this.customClass", this.activeCustomClass);
-		this.activeCustomClass.split(' ').forEach((className: string) => {
-			if ('' !== className) {
-				this._prevAddedCustomClasses.push(className);
-				targetElement.classList.add(className);
-			}
-		});
-		this.info("from button - targetElement.classList", targetElement.classList);
-
-	}
-
-	protected updateForChangeInStyleCss() {
-		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-		this.info("from button - updateForChangeInStyleCss()");
-
-		targetElement.style.cssText = this.customStyle;
-	}
-
 	private getModes() {
 		return this.getElementsByTagName("ch5-button-mode");
 	}
@@ -2323,15 +2364,19 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		// TODO - test cases for mode and state too
 		if (!isNil(updatedNodes.type)) {
 			if (isButtonModePressedAvailable === true) {
-				this.activeType = updatedNodes.type;
+				if (!(this.receiveStateType && this.receiveStateType !== '')) {
+					this.activeType = updatedNodes.type;
+				}
 			}
 		}
 
 		if (!isNil(updatedNodes.iconClass)) {
 			if (isButtonModePressedAvailable === true) {
-				this.updateIconUrlAndPath(updatedNodes.iconClass);
-				// this.activeIconClass = updatedNodes.iconClass;
-				this.refreshComponent();
+				if (!(this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
+					this.updateIconClassAndPath(updatedNodes.iconClass);
+					// this.activeIconClass = updatedNodes.iconClass;
+					this.refreshComponent();
+				}
 			}
 		}
 
@@ -2343,7 +2388,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 		if (!isNil(updatedNodes.iconUrl)) {
 			if (isButtonModePressedAvailable === true) {
-				this.activeIconUrl = updatedNodes.iconUrl;
+				if (!(this.receiveStateIconUrl && this.receiveStateIconUrl !== '')) {
+					this.activeIconUrl = updatedNodes.iconUrl;
+					this.refreshComponent();
+				}
 			}
 		}
 
@@ -2355,13 +2403,17 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 		if (!isNil(updatedNodes.customClass)) {
 			if (isButtonModePressedAvailable === true) {
-				this.activeCustomClass = updatedNodes.customClass;
+				if (!(this.receiveStateCustomClass && this.receiveStateCustomClass !== '')) {
+					this.activeCustomClass = updatedNodes.customClass;
+				}
 			}
 		}
 
 		if (!isNil(updatedNodes.customStyle)) {
 			if (isButtonModePressedAvailable === true) {
-				this.activeCustomStyle = updatedNodes.customStyle;
+				if (!(this.receiveStateCustomStyle && this.receiveStateCustomStyle !== '')) {
+					this.activeCustomStyle = updatedNodes.customStyle;
+				}
 			}
 		}
 
@@ -2379,7 +2431,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 		if (!isNil(updatedNodes.label)) {
 			if (isButtonModePressedAvailable === true) {
-				this.labelHtml = updatedNodes.label;
+				if (!((this.receiveStateLabel && this.receiveStateLabel !== '') || (this.receiveStateLabel && this.receiveStateLabel !== ''))) {
+					this.labelHtml = updatedNodes.label;
+				}
 			}
 		}
 		this.logger.log("updatedNodes Final: ", updatedNodes);
@@ -2408,7 +2462,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			// Applicable on Mode change and Selected change
 			// We need not worry about this. ch5-button-label is immediate child , and no change in attribute
 			// affects the data from immediate child.
-			// console.log("changeAttributesOnModeChange called");
+			// this.info("changeAttributesOnModeChange called");
 			const keyId = ['type', 'iconClass', 'iconPosition', 'iconUrl', 'checkboxPosition', 'customClass', 'customStyle', 'hAlignLabel', 'vAlignLabel', 'label'];
 			type KeyID = typeof keyId[number]; // === 'type' | 'iconClass' | 'iconPosition' ....
 			const updatedNodes: Record<KeyID, any> = {
@@ -2517,7 +2571,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 				}
 			}
 
-			// console.log("updatedNodes", updatedNodes);
+			// this.info("updatedNodes", updatedNodes);
 
 			// &&			(attibuteName !== null || attibuteName != "" || attibuteName.toString().toLowerCase() === "type")
 
@@ -2558,43 +2612,46 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			}
 			this.logger.log("updatedNodes Button: ", updatedNodes);
 
-			// TODO - test cases for mode and state too
 			if (!isNil(updatedNodes.type)) {
-				if (updateMandatory === true) {
-					this.activeType = updatedNodes.type;
-				} else {
-					if (fromNode instanceof Ch5Button) {
-						if (this.isComponentLoaded === false || this.getModes().length === 0) {
-							this.activeType = updatedNodes.type;
-						} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
+				if (!(this.receiveStateType && this.receiveStateType !== '')) {
+					if (updateMandatory === true) {
+						this.activeType = updatedNodes.type;
+					} else {
+						if (fromNode instanceof Ch5Button) {
+							if (this.isComponentLoaded === false || this.getModes().length === 0) {
+								this.activeType = updatedNodes.type;
+							} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
+								this.activeType = updatedNodes.type;
+							}
+						} else {
 							this.activeType = updatedNodes.type;
 						}
-					} else {
-						this.activeType = updatedNodes.type;
 					}
 				}
 			}
 
 			if (!isNil(updatedNodes.iconClass)) {
-				if (updateMandatory === true) {
-					this.updateIconUrlAndPath(updatedNodes.iconClass);
-					// this.activeIconClass = updatedNodes.iconClass;
-					this.refreshComponent();
-				} else {
-					if (fromNode instanceof Ch5Button) {
-						if (this.isComponentLoaded === false || this.getModes().length === 0) {
-							this.updateIconUrlAndPath(updatedNodes.iconClass);
-							// this.activeIconClass = updatedNodes.iconClass;
-							this.refreshComponent();
-						} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
-							this.updateIconUrlAndPath(updatedNodes.iconClass);
+				if (!(this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
+					if (updateMandatory === true) {
+						this.updateIconClassAndPath(updatedNodes.iconClass);
+						// this.activeIconClass = updatedNodes.iconClass;
+						this.refreshComponent();
+					} else {
+						if (fromNode instanceof Ch5Button) {
+							if (this.isComponentLoaded === false || this.getModes().length === 0) {
+								this.updateIconClassAndPath(updatedNodes.iconClass);
+								// this.activeIconClass = updatedNodes.iconClass;
+								this.refreshComponent();
+							} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
+								this.updateIconClassAndPath(updatedNodes.iconClass);
+								// this.activeIconClass = updatedNodes.iconClass;
+								this.refreshComponent();
+							}
+						} else {
+							this.updateIconClassAndPath(updatedNodes.iconClass);
 							// this.activeIconClass = updatedNodes.iconClass;
 							this.refreshComponent();
 						}
-					} else {
-						this.updateIconUrlAndPath(updatedNodes.iconClass);
-						// this.activeIconClass = updatedNodes.iconClass;
-						this.refreshComponent();
 					}
 				}
 			}
@@ -2616,17 +2673,27 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			}
 
 			if (!isNil(updatedNodes.iconUrl)) {
-				if (updateMandatory === true) {
-					this.activeIconUrl = updatedNodes.iconUrl;
-				} else {
-					if (fromNode instanceof Ch5Button) {
-						if (this.isComponentLoaded === false || this.getModes().length === 0) {
-							this.activeIconUrl = updatedNodes.iconUrl;
-						} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
-							this.activeIconUrl = updatedNodes.iconUrl;
-						}
-					} else {
+				if (!(this.receiveStateIconUrl && this.receiveStateIconUrl !== '')) {
+					if (updateMandatory === true) {
 						this.activeIconUrl = updatedNodes.iconUrl;
+						this.setIconUrlRefresh();
+						this.refreshComponent();
+					} else {
+						if (fromNode instanceof Ch5Button) {
+							if (this.isComponentLoaded === false || this.getModes().length === 0) {
+								this.activeIconUrl = updatedNodes.iconUrl;
+								this.setIconUrlRefresh();
+								this.refreshComponent();
+							} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
+								this.activeIconUrl = updatedNodes.iconUrl;
+								this.setIconUrlRefresh();
+								this.refreshComponent();
+							}
+						} else {
+							this.activeIconUrl = updatedNodes.iconUrl;
+							this.setIconUrlRefresh();
+							this.refreshComponent();
+						}
 					}
 				}
 			}
@@ -2648,33 +2715,37 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			}
 
 			if (!isNil(updatedNodes.customClass)) {
-				if (updateMandatory === true) {
-					this.activeCustomClass = updatedNodes.customClass;
-				} else {
-					if (fromNode instanceof Ch5Button) {
-						if (this.isComponentLoaded === false || this.getModes().length === 0) {
-							this.activeCustomClass = updatedNodes.customClass;
-						} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
+				if (!(this.receiveStateCustomClass && this.receiveStateCustomClass !== '')) {
+					if (updateMandatory === true) {
+						this.activeCustomClass = updatedNodes.customClass;
+					} else {
+						if (fromNode instanceof Ch5Button) {
+							if (this.isComponentLoaded === false || this.getModes().length === 0) {
+								this.activeCustomClass = updatedNodes.customClass;
+							} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
+								this.activeCustomClass = updatedNodes.customClass;
+							}
+						} else {
 							this.activeCustomClass = updatedNodes.customClass;
 						}
-					} else {
-						this.activeCustomClass = updatedNodes.customClass;
 					}
 				}
 			}
 
 			if (!isNil(updatedNodes.customStyle)) {
-				if (updateMandatory === true) {
-					this.activeCustomStyle = updatedNodes.customStyle;
-				} else {
-					if (fromNode instanceof Ch5Button) {
-						if (this.isComponentLoaded === false || this.getModes().length === 0) {
-							this.activeCustomStyle = updatedNodes.customStyle;
-						} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
+				if (!(this.receiveStateCustomStyle && this.receiveStateCustomStyle !== '')) {
+					if (updateMandatory === true) {
+						this.activeCustomStyle = updatedNodes.customStyle;
+					} else {
+						if (fromNode instanceof Ch5Button) {
+							if (this.isComponentLoaded === false || this.getModes().length === 0) {
+								this.activeCustomStyle = updatedNodes.customStyle;
+							} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
+								this.activeCustomStyle = updatedNodes.customStyle;
+							}
+						} else {
 							this.activeCustomStyle = updatedNodes.customStyle;
 						}
-					} else {
-						this.activeCustomStyle = updatedNodes.customStyle;
 					}
 				}
 			}
@@ -2712,25 +2783,27 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			}
 
 			if (!isNil(updatedNodes.label)) {
-				this.info("this.isComponentLoaded", this.isComponentLoaded);
-				if (updateMandatory === true) {
-					this.labelHtml = updatedNodes.label;
-				} else {
-					if (fromNode instanceof Ch5Button) {
-						if (this.isComponentLoaded === false || this.getModes().length === 0) {
-							if (!(this.receiveStateLabel !== '' || this.receiveStateScriptLabelHtml !== '')) {
-								this.labelHtml = updatedNodes.label;
-							}
-						} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
-							if (!(this.receiveStateLabel !== '' || this.receiveStateScriptLabelHtml !== '')) {
-								this.labelHtml = updatedNodes.label;
-							}
-						}
-					} else {
+				if (!((this.receiveStateLabel && this.receiveStateLabel !== '') || (this.receiveStateLabel && this.receiveStateLabel !== ''))) {
+					if (updateMandatory === true) {
 						this.labelHtml = updatedNodes.label;
+					} else {
+						if (fromNode instanceof Ch5Button) {
+							if (this.isComponentLoaded === false || this.getModes().length === 0) {
+								if (!(this.receiveStateLabel !== '' || this.receiveStateScriptLabelHtml !== '')) {
+									this.labelHtml = updatedNodes.label;
+								}
+							} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
+								if (!(this.receiveStateLabel !== '' || this.receiveStateScriptLabelHtml !== '')) {
+									this.labelHtml = updatedNodes.label;
+								}
+							}
+						} else {
+							this.labelHtml = updatedNodes.label;
+						}
 					}
 				}
 			}
+
 			this.logger.log("updatedNodes Final: ", updatedNodes);
 		} else {
 			this.changeAttributesOnButtonModePressedState();
@@ -2738,6 +2811,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
+	private setIconUrlRefresh() {
+		this._iconSvgUrl = this.activeIconUrl || '';
+		this._elImg.src = this._iconSvgUrl;
+
+	}
 	/**
 	 * Reorders ( if needed ) the position of the label and the icon inside the button
 	 */
@@ -2980,37 +3058,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 							// if the icon element was already added and needs to be switched with the label element
 							this._elSpanForLabelIconImg.insertBefore(this._elSpanForLabelOnly as Node, this._elImg as Node);
 						}
-
 					} else if (['first', 'top'].indexOf(this.activeIconPosition) >= 0) {
 						this.info('insert icon before label');
 						if ((this._elSpanForLabelOnly as any).isConnected === true) {
 							this._elSpanForLabelIconImg.insertBefore(this._elImg as Node, this._elSpanForLabelOnly as Node);
 						}
 					}
-
-					// this._elImg.setAttribute('alt', "");
-					// if ((this._elSpanForLabelIconImg as any).isConnected === false) {
-					// 	this._elButton.appendChild(this._elSpanForLabelIconImg);
-					// } else if (this._elImg.parentNode !== (this._elButton as Node)) {
-					// 	this._elButton.appendChild(this._elSpanForLabelIconImg);
-					// }
-					// this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
-					// if (['last', 'bottom'].indexOf(this.activeIconPosition) >= 0) {
-					// 	this.info('insert icon after label');
-					// 	if (this._elImg.parentNode !== (this._elSpanForLabelIconImg as Node)) {
-					// 		// if the icon element was not yet added to the button
-					// 		this._elSpanForLabelIconImg.appendChild(this._elImg);
-					// 	} else {
-					// 		// if the icon element was already added and needs to be switched with the label element
-					// 		this._elSpanForLabelIconImg.insertBefore(this._elSpanForLabelOnly as Node, this._elImg as Node);
-					// 	}
-
-					// } else if (['first', 'top'].indexOf(this.activeIconPosition) >= 0) {
-					// 	this.info('insert icon before label');
-					// 	if ((this._elSpanForLabelIconImg as any).isConnected === true) {
-					// 		this._elSpanForLabelIconImg.insertBefore(this._elImg as Node, this._elSpanForLabelOnly as Node);
-					// 	}
-					// }
 				} else {
 					// this._elButton.appendChild(this._elImg);
 					this._elSpanForLabelIconImg.appendChild(this._elImg);

@@ -90,50 +90,41 @@ export interface ICh5ButtonModeCommonAttributes {
    * [
    * "`checkboxPosition` attribute",
    * "***",
-   * "The default value is false.",
-   * "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
-   * "'ch5-button__checkbox' will be applied as the CSS class on the component."
+   * "The default value is left.",
+   * "This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button,",
+   * " and the value right would set the checkbox to the right of the button."
    * ]
    * @name checkboxPosition
-   * @default false
    */
-  checkboxPosition: TCh5ButtonCheckboxPosition | null;
+    checkboxPosition: TCh5ButtonCheckboxPosition | null;
 
   /**
-    * @documentation
-    * [
-    * "`hAlignLabel` attribute",
-    * "***",
-    * "Valid values: 'width', 'height', 'both'.",
-    * "When the stretch property is set, the button element inherits the ",
-    * "width and/or height of the container. If stretch=height is used, ",
-    * "the button will be responsive based on the label length until it ",
-    * "reaches the max-width of the container. If stretch=width is ",
-    * "applied, there is no responsiveness after reaching the max-width, and ",
-    * "the text will overflow. The same applies if stretch=both is used. Note ",
-    * "that if the button element shape is 'circle' or 'oval', the stretch ",
-    * "property will be ignored."
-    * ]
-    * @name hAlignLabel
-    */
+   * @documentation
+   * [
+   * "`hAlignLabel` attribute",
+   * "***",
+   * "Valid values: 'left', 'right', 'center'.",
+   * "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
+   * "The center property sets the horizontal alignment of the label to the center of the button. ",
+   * "The left property sets the horizontal alignment of the label to the left of the button. ",
+   * "The right property sets the horizontal alignment of the label to the right of the button. "
+   * ]
+   * @name hAlignLabel
+   */
   hAlignLabel: TCh5ButtonHorizontalAlignLabel | null;
 
   /**
-  * @documentation
-  * [
-  * "`vAlignLabel` attribute",
-  * "***",
-  * "Valid values: 'width', 'height', 'both'.",
-  * "When the stretch property is set, the button element inherits the ",
-  * "width and/or height of the container. If stretch=height is used, ",
-  * "the button will be responsive based on the label length until it ",
-  * "reaches the max-width of the container. If stretch=width is ",
-  * "applied, there is no responsiveness after reaching the max-width, and ",
-  * "the text will overflow. The same applies if stretch=both is used. Note ",
-  * "that if the button element shape is 'circle' or 'oval', the stretch ",
-  * "property will be ignored."
-  * ]
-  * @name vAlignLabel
-  */
+   * @documentation
+   * [
+   * "`vAlignLabel` attribute",
+   * "***",
+   * "Valid values: 'top', 'bottom', 'middle'.",
+   * "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
+   * "The middle property sets the horizontal alignment of the label to the middle of the button. ",
+   * "The top property sets the horizontal alignment of the label to the top of the button. ",
+   * "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
+   * ]
+   * @name vAlignLabel
+   */
   vAlignLabel: TCh5ButtonVerticalAlignLabel | null;
 }

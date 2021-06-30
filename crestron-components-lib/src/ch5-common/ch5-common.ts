@@ -440,7 +440,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         let hasSignalChanged = false;
 
         this._subKeySigReceiveCustomClass = recSig.subscribe((newVal: string) => {
-            this.info(' subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
+            this.info('subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
             if ('' !== newVal) {
                 hasSignalChanged = true;
             }
@@ -449,7 +449,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 this.customClass = newVal;
             }
         });
-
     }
 
     public get receiveStateCustomClass(): string {
@@ -705,7 +704,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     public constructor() {
         super();
         this._crId = Ch5Uid.getUid();
-        this.logger = new Ch5CommonLog(false, this._crId);        
+        this.logger = new Ch5CommonLog(false, this._crId);
         const cssClasses: string[] = [];
 
         cssClasses.push(this.cssClassPrefix + '--disabled');
@@ -1096,6 +1095,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
         switch (attr) {
             case 'customclass':
+                this.info("CustomClass Set in Common");
+
                 if (this.hasAttribute('customclass')) {
                     this.customClass = this.getAttribute('customclass') as string;
                 } else {
@@ -1196,7 +1197,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             case 'disabled':
                 if (!this.hasAttribute('customclassdisabled')) {
                     if (this.hasAttribute('disabled')) {
-                        if (this._toBoolean(this.getAttribute("disabled")) === true) {
+                        if (this.getAttribute("disabled") === '' || this._toBoolean(this.getAttribute("disabled")) === true) {
                             this._disabled = true;
                         } else {
                             this._disabled = false;
@@ -1216,6 +1217,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 break;
             case 'debug':
                 if (this.hasAttribute('debug')) {
+                    // TODO - set similar to disabled
                     this._isDebugEnabled = true;
                 } else {
                     this._isDebugEnabled = false;
@@ -1310,7 +1312,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     protected updateForChangeInCustomCssClass() {
         const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-        this.info("from common - updateForChangeInCustomCssClass()");
+        this.logger.start("updateForChangeInCustomCssClass()");
+        this.logger.log("updateForChangeInCustomCssClass()", this._prevAddedCustomClasses);
+        this.logger.log("from common - updateForChangeInCustomCssClass()", this.customClass);
 
         this._prevAddedCustomClasses.forEach((className: string) => {
             if ('' !== className) {
@@ -1325,6 +1329,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 targetElement.classList.add(className);
             }
         });
+        this.logger.stop();
     }
 
     protected updateForChangeInStyleCss() {
@@ -1448,10 +1453,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
         this.info("from common - updateForChangeInDisabledStatus()");
         if (true === this._disabled) {
-            // console.log("ADD", this.getCssClassDisabled());
             targetElement.classList.add(this.getCssClassDisabled());
         } else {
-            // console.log("REMOVE", this.getCssClassDisabled());
             targetElement.classList.remove(this.getCssClassDisabled());
         }
     }
