@@ -57,6 +57,7 @@ if (NO_CE === '1') { // for browsers that do not support customElements
 
 const bundledThemesPath = basePath + '/../crestron-components-sass/output/';
 let buildPath = path.resolve(basePath, 'build_bundles', moduleBuildFolder);
+let pathForSchemaJson = path.resolve(basePath, 'build_bundles');
 
 const CI = process.env.CI;
 
@@ -100,7 +101,7 @@ module.exports = function () {
             new CopyPlugin( [
                     { 
                         from: path.resolve(basePath, "src/_interfaces/generated-metadata/schema.json"), 
-                        to: path.resolve(buildPath, "generate-metadata") 
+                        to: path.resolve(pathForSchemaJson, "generate-metadata") 
                     }
                 ],
             ),
