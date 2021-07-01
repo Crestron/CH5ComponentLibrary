@@ -43,10 +43,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private _type: TCh5DpadType = 'default';
     private _shape: TCh5DpadShape = 'plus';
     private _stretch: TCh5DpadStretch = 'both';
-    private _useContractforLabel: boolean = true;
-    private _useContractforEnable: boolean = true;
-    private _useContractForShow: boolean = true;
-    private _useContractForIcons: boolean = true;
+    private _useContractforLabel: boolean = false;
+    private _useContractforEnable: boolean = false;
+    private _useContractForShow: boolean = false;
+    private _useContractForIcons: boolean = false;
 
     // state specific vars
     private isComponentLoaded: boolean = false;
@@ -226,8 +226,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public constructor() {
         super();
         this.logger.start('constructor()', this.COMPONENT_NAME);
-        // console.log('constructor >> ');
-        // console.log(this);
+
+        CH5DpadUtils.clearComponentContent(this);
+
+        // set attributes based on onload attributes
+        this.initAttributes();
+        // add missing elements, remove extra ones, before DPAD is finally rendered
+        this.checkAndRestructureDomOfDpad();
+
         this.logger.stop();
     }
 
@@ -261,9 +267,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private onAllSubElementsCreated() {
         this.info(' onAllSubElementsCreated() - start', this.COMPONENT_NAME);
         customElements.whenDefined('ch5-dpad').then(() => {
-            // set attributes based on onload attributes
-            this.initAttributes();
-
             // create element
             this.createElementsAndInitialize();
 
@@ -288,20 +291,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     private createElementsAndInitialize() {
         if (!this._wasInstatiated) {
-            CH5DpadUtils.clearComponentContent(this);
-
-            // set data-ch5-id
-            this.setAttribute('data-ch5-id', this.getCrId());
-
-            CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad); // WAI-ARIA Attributes
-            CH5DpadUtils.setAttributeToElement(this, 'type', this.type);
-            CH5DpadUtils.setAttributeToElement(this, 'shape', this.shape);
-            CH5DpadUtils.setAttributeToElement(this, 'stretch', this.stretch);
-            CH5DpadUtils.setAttributeToElement(this, 'useContractforLabel', this.useContractforLabel.toString());
-            CH5DpadUtils.setAttributeToElement(this, 'useContractforEnable', this.useContractforEnable.toString());
-            CH5DpadUtils.setAttributeToElement(this, 'useContractForShow', this.useContractForShow.toString());
-            CH5DpadUtils.setAttributeToElement(this, 'useContractForIcons', this.useContractForIcons.toString());
-
             this.createHtmlElements();
         }
         this._wasInstatiated = true;
@@ -347,12 +336,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
         // received signals
         const receivedSignals = [
-            "receiveStateCustomClass",
-            "receiveStateCustomStyle",
-            "receiveStateShow",
-            "receiveStateShowPulse",
-            "receiveStateHidePulse",
-            "receiveStateEnable"
+            "receivestatecustomclass",
+            "receivestatecustomstyle",
+            "receivestateshow",
+            "receivestateshowpulse",
+            "receivestatehidepulse",
+            "receivestateenable"
         ];
 
         // sent signals
@@ -438,14 +427,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private checkIfOrderOfTagsAreinTheRightOrder(childItems: HTMLCollection) {
         let ret = false;
         if (childItems.length === 5) {
-            const firstTag = this.shape === Ch5Dpad.SHAPES[0] ? 'left' : 'right';
-            const secondTag = this.shape === Ch5Dpad.SHAPES[0] ? 'right' : 'left';
+            const firstTag = this.shape === Ch5Dpad.SHAPES[0] ? 'left' : 'right'; // if 'plus'
+            const secondTag = this.shape === Ch5Dpad.SHAPES[0] ? 'right' : 'left'; // if 'circle'
 
-            ret = ((childItems[0].tagName === 'ch5-dpad-button-center') &&
-                (childItems[1].tagName === 'ch5-dpad-button-top') &&
-                (childItems[2].tagName === 'ch5-dpad-button-' + firstTag) &&
-                (childItems[3].tagName === 'ch5-dpad-button-' + secondTag) &&
-                (childItems[4].tagName === 'ch5-dpad-button-bottom'));
+            ret = ((childItems[0].tagName.toLowerCase() === 'ch5-dpad-button-center') &&
+                (childItems[1].tagName.toLowerCase() === 'ch5-dpad-button-top') &&
+                (childItems[2].tagName.toLowerCase() === 'ch5-dpad-button-' + firstTag) &&
+                (childItems[3].tagName.toLowerCase() === 'ch5-dpad-button-' + secondTag) &&
+                (childItems[4].tagName.toLowerCase() === 'ch5-dpad-button-bottom'));
         } else {
             // removing child tags and emptying DPAD if the tag count is neither 0 or 5
             if (childItems.length > 0) {
@@ -461,17 +450,38 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      *  Called to initialize all attributes
      */
     protected initAttributes(): void {
-        super.initAttributes();
         this.logger.start("initAttributes", this.COMPONENT_NAME);
+        super.initAttributes();
+        // set data-ch5-id
+        this.setAttribute('data-ch5-id', this.getCrId());
 
-        this.contractName = CH5DpadUtils.getAttributeAsString(this, 'contractName', '');
-        this.type = CH5DpadUtils.getAttributeAsString(this, 'type', Ch5Dpad.TYPES[0]) as TCh5DpadType;
-        this.shape = CH5DpadUtils.getAttributeAsString(this, 'shape', Ch5Dpad.SHAPES[0]) as TCh5DpadShape;
-        this.stretch = CH5DpadUtils.getAttributeAsString(this, 'stretch', Ch5Dpad.STRETCHES[0]) as TCh5DpadStretch;
-        this.useContractforLabel = CH5DpadUtils.getAttributeAsBool(this, 'useContractforLabel', true);
-        this.useContractforEnable = CH5DpadUtils.getAttributeAsBool(this, 'useContractforEnable', true);
-        this.useContractForShow = CH5DpadUtils.getAttributeAsBool(this, 'useContractForShow', true);
-        this.useContractForIcons = CH5DpadUtils.getAttributeAsBool(this, 'useContractForIcons', true);
+        CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad); // WAI-ARIA Attributes
+        
+        // below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
+        this.disabled = CH5DpadUtils.getBoolFromString(
+            CH5DpadUtils.setAttributeToElement(this, 'disabled', this._disabled.toString())
+        );
+        this.show = CH5DpadUtils.getBoolFromString(
+            CH5DpadUtils.setAttributeToElement(this, 'show', this._show.toString())
+        );
+        this.contractName = CH5DpadUtils.setAttributeToElement(this, 'contractName', this._contractName);
+        this.type = CH5DpadUtils.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
+        this.shape = CH5DpadUtils.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
+        this.stretch = CH5DpadUtils.setAttributeToElement(this, 'stretch', this._stretch) as TCh5DpadStretch;
+        this.useContractforLabel = CH5DpadUtils.getBoolFromString(
+            CH5DpadUtils.setAttributeToElement(this, 'useContractforLabel', this._useContractforLabel.toString())
+        );
+        this.useContractforEnable = CH5DpadUtils.getBoolFromString(
+            CH5DpadUtils.setAttributeToElement(this, 'useContractforEnable', this._useContractforEnable.toString())
+        );
+        this.useContractForShow = CH5DpadUtils.getBoolFromString(
+            CH5DpadUtils.setAttributeToElement(this, 'useContractForShow', this._useContractForShow.toString())
+        );
+        this.useContractForIcons = CH5DpadUtils.getBoolFromString(
+            CH5DpadUtils.setAttributeToElement(this, 'useContractForIcons', this._useContractForIcons.toString())
+        );
+
+        this.logger.stop();
     }
 
     /**
@@ -489,6 +499,81 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     //#endregion
 
     //#region 4. Other Methods
+
+    /**
+     * Function to restructure initial DOM before rendering commences
+     */
+    private checkAndRestructureDomOfDpad() {
+        this.logger.start('checkAndRestructureDomOfDpad()', this.COMPONENT_NAME);
+        if (this.children.length === 0) {
+            // nothing to do, all buttons will be appended as required
+            return;
+        } else {
+            this.removeDuplicateChildElements();
+        }
+
+        this.logger.stop();
+    }
+
+    private removeDuplicateChildElements() {
+        const childItems: Element[] = Array.from(this.children);
+        // DEV NOTE: DONT CHANGE THE SEQUENCE OF ENTRIES IN THIS ARRAY
+        const childElementArray: string[] = ["ch5-dpad-button-center",
+            "ch5-dpad-button-top",
+            "ch5-dpad-button-left",
+            "ch5-dpad-button-right",
+            "ch5-dpad-button-bottom"];
+
+        const refobj: any = {}; // stores the reference of all buttons relevant for dpad
+
+        // // FIRST: remove all duplciate entries under DPAD
+        if (childItems.length > 0) {
+            for (const item of childItems) {
+                const tagName = item.tagName;
+                if (!refobj.hasOwnProperty(tagName) && childElementArray.indexOf(tagName) > -1) {
+                    refobj[tagName] = item;
+                } else {
+                    item.remove(); // removing, as this is a duplicate node
+                }
+            }
+            // remove all child elements, since it will be created again in the right/expected order
+            for (const item of childItems) {
+                if (item.hasOwnProperty('remove')) {
+                    item.remove();
+                }
+            }
+        }
+
+        // // SECOND: create and add all non existing child tags 
+        if (refobj !== null) {
+            for (const tagName of childElementArray) {
+                if (!refobj.hasOwnProperty(tagName)) {
+                    const ele = document.createElement(tagName);
+                    refobj[tagName] = ele as HTMLElement;
+                }
+            }
+        }
+
+        // // THIRD: Finally, add the elements in the right order
+        if (this.shape === Ch5Dpad.SHAPES[0] && this !== null) {
+            // if the selected shape is 'plus'
+            // ORDER: center, top, left, right, bottom
+            this.appendChild(refobj[childElementArray[0]]);
+            this.appendChild(refobj[childElementArray[1]]);
+            this.appendChild(refobj[childElementArray[2]]); // first, left element
+            this.appendChild(refobj[childElementArray[3]]); // then, the right element
+            this.appendChild(refobj[childElementArray[4]]);
+        } else if (this.shape === Ch5Dpad.SHAPES[1] && this !== null) {
+            // if the selected shape is 'circle'
+            // ORDER: center, top, right, left, bottom
+            this.appendChild(refobj[childElementArray[0]]);
+            this.appendChild(refobj[childElementArray[1]]);
+            this.appendChild(refobj[childElementArray[3]]); // first, right element
+            this.appendChild(refobj[childElementArray[2]]); // then, the left element
+            this.appendChild(refobj[childElementArray[4]]);
+        }
+    }
+
     //#endregion
 
     //#region 5. Events
