@@ -28,6 +28,30 @@ import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./t-ch5-dpad";
  */
 
 export interface ICh5DpadCenterAttributes extends ICh5CommonAttributes {
+
+    /**
+     * @documentation
+     * [
+     * "`type` iconClass",
+     * "***",
+     * "The icon class gives the ability for the end developer to create custom arrow icons."
+     * ]
+     * @name iconClass
+     */
+     iconClass: string;
+
+    /**
+     * @documentation
+     * [
+     * "`type` iconUrl",
+     * "***",
+     * "A custom image that the user needs to pass the URL or the local file relative path, ",
+     * "the iconUrl takes precedence over iconClass."
+     * ]
+     * @name iconUrl
+     */
+     iconUrl: string;
+
     /**
      * @documentation
      * [
@@ -74,7 +98,7 @@ export interface ICh5DpadCenterAttributes extends ICh5CommonAttributes {
      * ]
      * @name receiveStateIconClass
      */
-     receiveStateIconClass: string;
+    receiveStateIconClass: string;
 
     /**
      * @documentation
@@ -87,30 +111,30 @@ export interface ICh5DpadCenterAttributes extends ICh5CommonAttributes {
      * ]
      * @name receiveStateIconUrl
      */
-     receiveStateIconUrl: string;
+    receiveStateIconUrl: string;
 
-     /**
-      * @documentation
-      * [
-      * "`type` receiveStateLabel",
-      * "***",
-      * "Label for the center button. Only the label attribute for center button will be a part of ",
-      * "<ch5-dpad> tag. Rest of the center button attributes will be a part of <ch5-dpad-button> tag."
-      * ]
-      * @name receiveStateLabel
-      */
-      receiveStateLabel: string;
- 
-     /**
-      * @documentation
-      * [
-      * "`type` receivestatescriptlabelhtml",
-      * "***",
-      * "Html syntax string appropriate for element.innerHTML parameter. Signal ",
-      * "script evaluation will be applied to the button.innerHTML.  Allows for ",
-      * "multiline, multistyled labels."
-      * ]
-      * @name receivestatescriptlabelhtml
-      */
-      receivestatescriptlabelhtml: string;
+    /**
+     * @documentation
+     * [
+     * "`type` receiveStateLabel",
+     * "***",
+     * "Label for the center button. Only the label attribute for center button will be a part of ",
+     * "<ch5-dpad> tag. Rest of the center button attributes will be a part of <ch5-dpad-button> tag."
+     * ]
+     * @name receiveStateLabel
+     */
+    receiveStateLabel: string;
+
+    /**
+     * @documentation
+     * [
+     * "`type` receivestatescriptlabelhtml",
+     * "***",
+     * "Html syntax string appropriate for element.innerHTML parameter. Signal ",
+     * "script evaluation will be applied to the button.innerHTML.  Allows for ",
+     * "multiline, multistyled labels."
+     * ]
+     * @name receivestatescriptlabelhtml
+     */
+    receivestatescriptlabelhtml: string;
 }

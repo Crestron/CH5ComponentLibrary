@@ -93,7 +93,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * "for the label of the center button."
      * ]
      * @name useContractforLabel
-     * @default true
+     * @default false
      */
      useContractforLabel: boolean;
 
@@ -109,7 +109,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
       * "The details can be seen in the table above."
       * ]
       * @name useContractforEnable
-      * @default true
+      * @default false
       */
       useContractforEnable: boolean;
 
@@ -123,7 +123,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
        * "<ch5-dpad> component. The details can be seen in the table above."
        * ]
        * @name useContractForShow
-       * @default true
+       * @default false
        */
        useContractForShow: boolean;
 
@@ -136,7 +136,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
         * "ch5-dpad button iconClass and iconUrl attributes."
         * ]
         * @name useContractForIcons
-        * @default true
+        * @default false
         */
         useContractForIcons: boolean;
 
