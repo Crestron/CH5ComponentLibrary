@@ -55,14 +55,14 @@ export interface ICh5DpadTopAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` disable",
+     * "`type` disabled",
      * "***",
      * "The default value is false. Enables or disables the button."
      * ]
-     * @name disable
+     * @name disabled
      * @default false
      */
-    disable: boolean;
+    disabled: boolean;
 
     /**
      * @documentation

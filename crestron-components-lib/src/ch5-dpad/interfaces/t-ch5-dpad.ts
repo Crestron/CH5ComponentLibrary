@@ -27,6 +27,7 @@ export type TButtonClassListType = {
 }
 
 export type TParentControlledContractRules = {
+    contractName: string,
     label: boolean,
     enable: boolean,
     show: boolean,

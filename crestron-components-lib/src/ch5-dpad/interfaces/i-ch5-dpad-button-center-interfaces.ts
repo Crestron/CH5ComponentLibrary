@@ -6,7 +6,6 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
-import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./t-ch5-dpad";
 
 /**
  * @name Ch5 Dpad Center

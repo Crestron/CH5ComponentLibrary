@@ -61,9 +61,9 @@ export class CH5DpadUtils {
     public static setAttributeToElement(thisRef: any, attr: string, defaultValue: string) {
         attr = attr.toLowerCase();
         let val = defaultValue;
-        if (!thisRef.hasAttribute(attr)) {
+        if (!thisRef.hasAttribute(attr) && defaultValue.length > 0) {
             thisRef.setAttribute(attr, defaultValue);
-        } else {
+        } else if (thisRef.hasAttribute(attr)) {
             val = thisRef.getAttribute(attr);
         }
         return val;
