@@ -289,13 +289,13 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
           request.open("GET", url);
           // When the request loads, check whether it was successful
           request.onload = () => {
-            if (request.status >= 200 && request.status <= 299 && request.response !== null 
+            if (request.status < 300 && request.response !== null 
                 && (request.responseType === "" || request.responseType === "text")) {
               // If successful, resolve the promise by passing back the request response
               resolve(request.responseText);
             } else {
               // If it fails, reject the promise with a error message
-              reject(`load failed with status ${request.status}, ${request.statusText}`);
+              reject(`load failed with status ${request.status}, statusText ${request.statusText}, resonseType ${request.responseType}`);
             }
           };
           request.onerror = () => {
