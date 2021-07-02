@@ -320,10 +320,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     }
 
     static get observedAttributes() {
-        const commonAttributes = Ch5Common.observedAttributes;
+        const commonAttributes: string[] = Ch5Common.observedAttributes;
 
         // attributes
-        const attributes = [
+        const attributes: string[] = [
             "contractname",
             "type",
             "shape",
@@ -335,14 +335,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         ];
 
         // received signals
-        const receivedSignals = [
-            "receivestatecustomclass",
-            "receivestatecustomstyle",
-            "receivestateshow",
-            "receivestateshowpulse",
-            "receivestatehidepulse",
-            "receivestateenable"
-        ];
+        const receivedSignals: string[] = [];
 
         // sent signals
         const sentSignals: string[] = [];
@@ -353,7 +346,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     }
 
     public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
+        this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
         if (oldValue === newValue) {
+            this.logger.stop();
             return;
         }
 
@@ -364,6 +359,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
         }
+
+        this.logger.stop();
     }
 
     /**
@@ -456,14 +453,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.setAttribute('data-ch5-id', this.getCrId());
 
         CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad); // WAI-ARIA Attributes
-        
-        // below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
-        this.disabled = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'disabled', this._disabled.toString())
-        );
-        this.show = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'show', this._show.toString())
-        );
         this.contractName = CH5DpadUtils.setAttributeToElement(this, 'contractName', this._contractName);
         this.type = CH5DpadUtils.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
         this.shape = CH5DpadUtils.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
@@ -529,7 +518,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         // // FIRST: remove all duplciate entries under DPAD
         if (childItems.length > 0) {
             for (const item of childItems) {
-                const tagName = item.tagName;
+                const tagName = item.tagName.toLowerCase();
                 if (!refobj.hasOwnProperty(tagName) && childElementArray.indexOf(tagName) > -1) {
                     refobj[tagName] = item;
                 } else {
@@ -538,9 +527,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             }
             // remove all child elements, since it will be created again in the right/expected order
             for (const item of childItems) {
-                if (item.hasOwnProperty('remove')) {
-                    item.remove();
-                }
+                item.remove();
             }
         }
 
@@ -553,7 +540,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                 }
             }
         }
-
         // // THIRD: Finally, add the elements in the right order
         if (this.shape === Ch5Dpad.SHAPES[0] && this !== null) {
             // if the selected shape is 'plus'
