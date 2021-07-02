@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Dpad } from "./ch5-dpad";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
@@ -34,6 +35,10 @@ export class Ch5DpadLeft extends Ch5Common implements ICh5DpadLeftAttributes {
     private _receiveStateIconClass: string = '';
     private _receiveStateIconUrl: string = '';
 
+    // signal based vars for each receive state
+    private _receiveStateIconClassSignalValue: string = '';
+    private _receiveStateIconUrlSignalValue: string = '';
+
     // elements specific vars
     private _icon: HTMLElement = {} as HTMLElement;
 
@@ -52,42 +57,6 @@ export class Ch5DpadLeft extends Ch5Common implements ICh5DpadLeftAttributes {
     //#endregion
 
     //#region 2. Setters and Getters
-
-    /**
-     * disable specif getter-setter
-     */
-    public set disabled(value: boolean) {
-        this.info('Ch5Form set disable("' + value + '")');
-
-        const isdisable = this._toBoolean(value);
-
-        if (this._disabled !== isdisable) {
-            this._disabled = isdisable;
-
-            this.setAttribute('disable', isdisable.toString());
-        }
-    }
-    public get disabled(): boolean {
-        return this._disabled;
-    }
-
-    /**
-     * show specif getter-setter
-     */
-    public set show(value: boolean) {
-        this.info('Ch5Form set show("' + value + '")');
-
-        const isshow = this._toBoolean(value);
-
-        if (this._show !== isshow) {
-            this._show = isshow;
-
-            this.setAttribute('show', isshow.toString());
-        }
-    }
-    public get show(): boolean {
-        return this._show;
-    }
 
     /**
      * iconClass specif getter-setter
@@ -137,44 +106,80 @@ export class Ch5DpadLeft extends Ch5Common implements ICh5DpadLeftAttributes {
      * receiveStateIconClass specif getter-setter
      */
     public set receiveStateIconClass(value: string) {
-        this.info('set receiveStateIconClass("' + value + '")');
+        if (!value || this._receiveStateIconClass === value) {
+            return;
+        }
+        // clean up old subscription
+        if (this._receiveStateIconClass) {
+            const oldReceiveIconClassSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconClass);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveIconClassSigName);
 
-        if (_.isNil(value)) {
-            value = '';
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(this._receiveStateIconClassSignalValue);
+            }
         }
 
-        const trValue: string = this._getTranslatedValue('receiveStateIconClass', value);
-        if (trValue === this.receiveStateIconClass) {
+        this._receiveStateIconClass = value;
+        this.setAttribute('receiveStateIconClass', value);
+
+        // setup new subscription.
+        const receiveIconClassSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconClass);
+        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveIconClassSigName);
+
+        if (receiveSignal === null) {
             return;
         }
 
-        this._receiveStateIconClass = trValue;
-        this.setAttribute('receiveStateIconClass', trValue);
+        this._receiveStateIconClassSignalValue = receiveSignal.subscribe((newValue: string) => {
+            if (newValue !== this.iconClass) {
+                this.setAttribute('iconclass', newValue);
+            }
+        });
     }
     public get receiveStateIconClass() {
-        return this._receiveStateIconClass;
+        // The internal property is changed if/when the element is removed from DOM
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receiveStateIconClass'.toLowerCase());
     }
 
     /**
      * receiveStateIconUrl specif getter-setter
      */
     public set receiveStateIconUrl(value: string) {
-        this.info('set receiveStateIconUrl("' + value + '")');
+        if (!value || this._receiveStateIconUrl === value) {
+            return;
+        }
+        // clean up old subscription
+        if (this._receiveStateIconUrl) {
+            const oldReceiveIconUrlSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconUrl);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveIconUrlSigName);
 
-        if (_.isNil(value)) {
-            value = '';
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(this._receiveStateIconUrlSignalValue);
+            }
         }
 
-        const trValue: string = this._getTranslatedValue('receiveStateIconUrl', value);
-        if (trValue === this.receiveStateIconUrl) {
+        this._receiveStateIconUrl = value;
+        this.setAttribute('receiveStateIconUrl', value);
+
+        // setup new subscription.
+        const receiveIconUrlSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateIconUrl);
+        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveIconUrlSigName);
+
+        if (receiveSignal === null) {
             return;
         }
 
-        this._receiveStateIconUrl = trValue;
-        this.setAttribute('receiveStateIconUrl', trValue);
+        this._receiveStateIconUrlSignalValue = receiveSignal.subscribe((newValue: string) => {
+            if (newValue !== this.iconUrl) {
+                this.setAttribute('iconurl', newValue);
+            }
+        });
     }
     public get receiveStateIconUrl() {
-        return this._receiveStateIconUrl;
+        // The internal property is changed if/when the element is removed from DOM
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receiveStateIconUrl'.toLowerCase());
     }
 
     //#endregion
@@ -292,20 +297,27 @@ export class Ch5DpadLeft extends Ch5Common implements ICh5DpadLeftAttributes {
      * Unsubscribe signals
      */
     public unsubscribeFromSignals() {
+        this.logger.start("unsubscribeFromSignals", this.COMPONENT_NAME);
         super.unsubscribeFromSignals();
+
+        const csf = Ch5SignalFactory.getInstance();
+        CH5DpadUtils.clearSignalValue(csf, this, "_receiveStateLabelSignalValue", "_receiveStateLabel");
+        CH5DpadUtils.clearSignalValue(csf, this, "_receivestatescriptlabelhtmlSignalValue", "_receivestatescriptlabelhtml");
+
+        this.logger.stop();
     }
 
     static get observedAttributes() {
-        const commonAttributes = Ch5Common.observedAttributes;
+        const commonAttributes: string[] = Ch5Common.observedAttributes;
 
         // attributes
-        const attributes = [
+        const attributes: string[] = [
             "iconclass",
             "iconurl"
         ];
 
         // received signals
-        const receivedSignals = [
+        const receivedSignals: string[] = [
             "receivestateiconclass",
             "receivestateiconurl"
         ];
@@ -319,6 +331,7 @@ export class Ch5DpadLeft extends Ch5Common implements ICh5DpadLeftAttributes {
     }
 
     public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
+        this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
         if (oldValue === newValue) {
             return;
         }
@@ -326,10 +339,40 @@ export class Ch5DpadLeft extends Ch5Common implements ICh5DpadLeftAttributes {
         this.info('ch5-dpad-button-left attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 
         switch (attr) {
+            case 'iconclass':
+                if (this.hasAttribute('iconclass')) {
+                    this.iconClass = newValue;
+                } else {
+                    this.iconClass = '';
+                }
+                break;
+            case 'iconurl':
+                if (this.hasAttribute('iconurl')) {
+                    this.iconUrl = newValue;
+                } else {
+                    this.iconUrl = '';
+                }
+                break;
+            case 'receivestateiconclass':
+                if (this.hasAttribute('receivestateiconclass')) {
+                    this.receiveStateIconClass = newValue;
+                } else {
+                    this.receiveStateIconClass = '';
+                }
+                break;
+            case 'receivestateiconurl':
+                if (this.hasAttribute('receivestateiconurl')) {
+                    this.receiveStateIconUrl = newValue;
+                } else {
+                    this.receiveStateIconUrl = '';
+                }
+                break;
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
         }
+
+        this.logger.stop();
     }
 
     /**
@@ -340,23 +383,20 @@ export class Ch5DpadLeft extends Ch5Common implements ICh5DpadLeftAttributes {
         super.initAttributes();
 
         // will have the flags ready for contract level content to be ready
-        this.buildParentControlledContractRules();
+        this.parentControlledContractRules = CH5DpadUtils.buildParentControlledContractRules(this);
 
         CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
         // below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
         this.iconClass = CH5DpadUtils.setAttributeToElement(this, 'iconClass', this._iconClass);
         this.iconUrl = CH5DpadUtils.setAttributeToElement(this, 'iconUrl', this._iconUrl);
-        this.updateDisableAttributeStatus(); // this updates "disabled" specific attribute
-        this.show = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'show', this._show.toString())
-        );
         this.receiveStateIconClass =
             CH5DpadUtils.setAttributeToElement(this, 'receiveStateIconClass', this._receiveStateIconClass);
+        this.receiveStateIconUrl = CH5DpadUtils.setAttributeToElement(this, 'receiveStateIconUrl', this._receiveStateIconUrl);
 
         // update attributes based on dpad (parent container)'s contract name
-        this.updateContractSpecificKeys_Show();
-        this.updateContractSpecificKeys_Enable();
+        CH5DpadUtils.updateContractSpecificKeys_Show(this);
+        CH5DpadUtils.updateContractSpecificKeys_Enable(this);
 
         this.logger.stop();
     }
@@ -376,66 +416,6 @@ export class Ch5DpadLeft extends Ch5Common implements ICh5DpadLeftAttributes {
     //#endregion
 
     //#region 4. Other Methods
-
-    /**
-     * Function to create and assign values for parentcontrolled contract rules
-     */
-    private buildParentControlledContractRules() {
-        // the default value for all the flags are 'false'
-        this.parentControlledContractRules = {
-            contractName: CH5DpadUtils.getAttributeAsString(this.parentElement, 'contractName', ''),
-            enable: CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractforEnable', false),
-            show: CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractForShow', false),
-            label: CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractforLabel', false),
-            icon: CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractForIcons', false)
-        };
-    }
-
-    /**
-     * Function to update the label based on the contract value
-     */
-    private updateContractSpecificKeys_Show() {
-        const { show, contractName } = this.parentControlledContractRules;
-        const leftBtnContractShow = CH5DpadContractUtils.getLeftBtnContract().LeftShow;
-        if (show) { // this meeans, DPAD enforces contract on this button
-            if (contractName.length > 0) {
-                const contractValue = `${contractName}.${leftBtnContractShow}`;
-                this.setAttribute("receiveStateShow", contractValue);
-            } else {
-                throw new Error(`Dpad has useContractForShow as true, but contract name is invalid. Reference id: ${this.crId}`);
-            }
-        }
-    }
-
-    /**
-     * Function to update the label based on the contract value
-     */
-    private updateContractSpecificKeys_Enable() {
-        const { enable, contractName } = this.parentControlledContractRules;
-        const leftBtnContractEnable = CH5DpadContractUtils.getLeftBtnContract().LeftEnable;
-        if (enable) { // this meeans, DPAD enforces contract on this button
-            if (contractName.length > 0) {
-                const contractValue = `${contractName}.${leftBtnContractEnable}`;
-                this.setAttribute("receiveStateEnable", contractValue);
-            } else {
-                throw new Error(`Dpad has useContractForEnable as true, but contract name is invalid. Reference id: ${this.crId}`);
-            }
-        }
-    }
-
-    /**
-     * Function to set disabled value and attribute if its true
-     */
-    private updateDisableAttributeStatus() {
-        this.disabled = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'disabled', this._disabled.toString())
-        );
-        if (!this.disabled) {
-            this.removeAttribute('disabled');
-        } else {
-            this.setAttribute('disabled', 'true');
-        }
-    }
 
     //#endregion
 

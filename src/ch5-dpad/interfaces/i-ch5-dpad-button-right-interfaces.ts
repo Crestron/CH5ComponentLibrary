@@ -55,30 +55,6 @@ export interface ICh5DpadRightAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` disabled",
-     * "***",
-     * "The default value is false. Enables or disables the button."
-     * ]
-     * @name disabled
-     * @default false
-     */
-     disabled: boolean;
-
-    /**
-     * @documentation
-     * [
-     * "`type` show",
-     * "***",
-     * "The default value is true. Shows or hides the button."
-     * ]
-     * @name show
-     * @default true
-     */
-    show: boolean;
-
-    /**
-     * @documentation
-     * [
      * "`type` receiveStateIconClass",
      * "***",
      * "Use receiveStateIconClass attribute in order to change the icon through a signal. ",

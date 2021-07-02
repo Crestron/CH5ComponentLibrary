@@ -1632,6 +1632,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     protected _attributeValueAsString(attrName: string) {
         let attributeValue = '';
+        attrName = attrName.toLowerCase();
         if (this.hasAttribute(attrName)) {
             attributeValue = '' + this.getAttribute(attrName); // convert to string
         }

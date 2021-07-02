@@ -1,6 +1,8 @@
 import { valid } from "semver";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5DpadCenter } from "./ch5-dpad-button-center";
-import { TDpadChildElement } from "./interfaces/t-ch5-dpad";
+import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
+import { TDpadChildElement, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
 
 export class CH5DpadUtils {
 
@@ -192,5 +194,88 @@ export class CH5DpadUtils {
         retEle.classList.add('label-class');
         retEle.innerHTML = labelInput;
         return retEle;
+    }
+
+    /**
+     * Function to clear subscription and value based on them
+     * @param csf ch5SignalFactory object
+     * @param obj source object
+     * @param receiveAttribute string
+     * @param signalReceiveAttribute string
+     */
+    public static clearSignalValue(csf: Ch5SignalFactory, obj: any, receiveAttribute: string, signalReceiveAttribute: string) {
+        if (obj[receiveAttribute] !== '' && obj[signalReceiveAttribute] !== '') {
+            const receiveValueSigName: string = Ch5Signal.getSubscriptionSignalName(obj[signalReceiveAttribute]);
+            const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(receiveValueSigName);
+            if (null !== sigLabel) {
+                sigLabel.unsubscribe(obj[receiveAttribute]);
+                obj[signalReceiveAttribute] = '';
+            }
+        }
+    }
+
+    /**
+     * Function to create and assign values for parentcontrolled contract rules
+     */
+    public static buildParentControlledContractRules(thisRef: any): TParentControlledContractRules {
+        // the default value for all the flags are 'false'
+        return {
+            contractName: CH5DpadUtils.getAttributeAsString(thisRef.parentElement, 'contractName', ''),
+            enable: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractforEnable', false),
+            show: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractForShow', false),
+            label: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractforLabel', false),
+            icon: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractForIcons', false)
+        };
+    }
+
+    /**
+     * Function to update the show based on the contract value
+     */
+    public static updateContractSpecificKeys_Show(thisRef: any) {
+        const { show, contractName } = thisRef.parentControlledContractRules;
+        const centerBtnContractShow = CH5DpadContractUtils.getCenterBtnContract().CenterShow;
+        if (show) { // this meeans, DPAD enforces contract on this button
+            if (contractName.length > 0) {
+                const contractValue = `${contractName}.${centerBtnContractShow}`;
+                thisRef.setAttribute("receiveStateShow".toLowerCase(), contractValue);
+            } else {
+                throw new Error(`Dpad has useContractForShow as true, but 
+                contract name is invalid. Reference id: ${thisRef.crId}`);
+            }
+        }
+    }
+
+    /**
+     * Function to update the enable based on the contract value
+     */
+    public static updateContractSpecificKeys_Enable(thisRef: any) {
+        const { enable, contractName } = thisRef.parentControlledContractRules;
+        const centerBtnContractEnable = CH5DpadContractUtils.getCenterBtnContract().CenterEnable;
+        if (enable) { // this meeans, DPAD enforces contract on this button
+            if (contractName.length > 0) {
+                const contractValue = `${contractName}.${centerBtnContractEnable}`;
+                thisRef.setAttribute("receiveStateEnable".toLowerCase(), contractValue);
+            } else {
+                throw new Error(`Dpad has useContractForEnable as true, but 
+                contract name is invalid. Reference id: ${thisRef.crId}`);
+            }
+        }
+    }
+
+    /**
+     * Function to update the label based on the contract value
+     */
+    public static updateContractSpecificKeys_Label(thisRef: any) {
+        const { label, contractName } = thisRef.parentControlledContractRules;
+        const centerBtnContractLabel = CH5DpadContractUtils.getCenterBtnContract().CenterLabel;
+        if (label) { // this meeans, DPAD enforces contract on this button
+            if (contractName.length > 0) {
+                const contractValue = `${contractName}.${centerBtnContractLabel}`;
+                thisRef.setAttribute("receiveStateLabel".toLowerCase(), contractValue);
+            } else {
+                throw new Error(`Dpad has useContractForLabel as true, but 
+                contract name is invalid. Reference id: ${thisRef.crId}`);
+            }
+        }
     }
 }
