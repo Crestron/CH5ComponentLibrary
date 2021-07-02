@@ -2,6 +2,7 @@ import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Dpad } from "./ch5-dpad";
+import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadCenterAttributes } from "./interfaces/i-ch5-dpad-button-center-interfaces";
 import { TButtonClassListType, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
@@ -39,7 +40,9 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     private _icon: HTMLElement = {} as HTMLElement;
 
     // state specific vars
+    private crId: string = '';
     private parentControlledContractRules: TParentControlledContractRules = {
+        contractName: '',
         label: false,
         enable: false,
         show: false,
@@ -264,13 +267,13 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     public connectedCallback() {
         this.info(' connectedCallback() - start');
 
-        const crId = this.getCrId();
-        this.setAttribute('data-ch5-id', crId);
+        this.crId = this.getCrId();
+        this.setAttribute('data-ch5-id', this.crId);
 
         if (!(this.parentElement instanceof Ch5Dpad)) {
-            throw new Error(`Invalid parent element for ch5-dpad-buitton-center. 
+            throw new Error(`Invalid parent element for ch5-dpad-button-center. 
             Please ensure the parent tag is ch5-dpad, and other mandatory sibling 
-            elements are available too. Reference id: ${crId}`);
+            elements are available too. Reference id: ${this.crId}`);
         }
         this.createElementsAndInitialize();
 
@@ -287,7 +290,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         if (!this._wasInstatiated) {
             this.initAttributes();
             this.createHtmlElements();
-            this.checkElementStatus();
             this.attachEventListeners();
             this.updateCssClasses();
         }
@@ -411,14 +413,15 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         this.logger.start("initAttributes", this.COMPONENT_NAME);
         super.initAttributes();
 
+        // will have the flags ready for contract level content to be ready
+        this.buildParentControlledContractRules();
+
         CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
         // below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
         this.iconClass = CH5DpadUtils.setAttributeToElement(this, 'iconClass', this._iconClass);
         this.iconUrl = CH5DpadUtils.setAttributeToElement(this, 'iconUrl', this._iconUrl);
-        this.disabled = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'disabled', this._disabled.toString())
-        );
+        this.updateDisableAttributeStatus(); // this updates "disabled" specific attribute
         this.show = CH5DpadUtils.getBoolFromString(
             CH5DpadUtils.setAttributeToElement(this, 'show', this._show.toString())
         );
@@ -430,21 +433,12 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         this.receivestatescriptlabelhtml =
             CH5DpadUtils.setAttributeToElement(this, 'receivestatescriptlabelhtml', this._receivestatescriptlabelhtml);
 
-        this.buildParentControlledContractRules();
+        // update attributes based on dpad (parent container)'s contract name
+        this.updateContractSpecificKeys_Show();
+        this.updateContractSpecificKeys_Enable();
+        this.updateContractSpecificKeys_Label();
 
         this.logger.stop();
-    }
-
-    /**
-     * Function to check if parent has contract and 
-     * whether enable and show statuses must be controlled by them instead of self attributes
-     */
-    protected checkElementStatus() {
-        const isForcedToEnableViaContractByParent = CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractforEnable', true);
-        const isForcedToShowViaContractByParent = CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractForShow', true);
-        if (isForcedToEnableViaContractByParent) {
-            this.removeAttribute('disabled');
-        }
     }
 
     /**
@@ -469,11 +463,74 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     private buildParentControlledContractRules() {
         // the default value for all the flags are 'false'
         this.parentControlledContractRules = {
+            contractName: CH5DpadUtils.getAttributeAsString(this.parentElement, 'contractName', ''),
             enable: CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractforEnable', false),
             show: CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractForShow', false),
             label: CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractforLabel', false),
             icon: CH5DpadUtils.getAttributeAsBool(this.parentElement, 'useContractForIcons', false)
         };
+    }
+
+    /**
+     * Function to update the label based on the contract value
+     */
+    private updateContractSpecificKeys_Show() {
+        const { show, contractName } = this.parentControlledContractRules;
+        const centerBtnContractShow = CH5DpadContractUtils.getCenterBtnContract().CenterShow;
+        if (show) { // this meeans, DPAD enforces contract on this button
+            if (contractName.length > 0) {
+                const contractValue = `${contractName}.${centerBtnContractShow}`;
+                this.setAttribute("receiveStateShow", contractValue);
+            } else {
+                throw new Error(`Dpad has useContractForShow as true, but contract name is invalid. Reference id: ${this.crId}`);
+            }
+        }
+    }
+
+    /**
+     * Function to update the label based on the contract value
+     */
+    private updateContractSpecificKeys_Enable() {
+        const { enable, contractName } = this.parentControlledContractRules;
+        const centerBtnContractEnable = CH5DpadContractUtils.getCenterBtnContract().CenterEnable;
+        if (enable) { // this meeans, DPAD enforces contract on this button
+            if (contractName.length > 0) {
+                const contractValue = `${contractName}.${centerBtnContractEnable}`;
+                this.setAttribute("receiveStateEnable", contractValue);
+            } else {
+                throw new Error(`Dpad has useContractForEnable as true, but contract name is invalid. Reference id: ${this.crId}`);
+            }
+        }
+    }
+
+    /**
+     * Function to update the label based on the contract value
+     */
+    private updateContractSpecificKeys_Label() {
+        const { label, contractName } = this.parentControlledContractRules;
+        const centerBtnContractLabel = CH5DpadContractUtils.getCenterBtnContract().CenterLabel;
+        if (label) { // this meeans, DPAD enforces contract on this button
+            if (contractName.length > 0) {
+                const contractValue = `${contractName}.${centerBtnContractLabel}`;
+                this.setAttribute("receiveStateShow", contractValue);
+            } else {
+                throw new Error(`Dpad has useContractForLabel as true, but contract name is invalid. Reference id: ${this.crId}`);
+            }
+        }
+    }
+
+    /**
+     * Function to set disabled value and attribute if its true
+     */
+    private updateDisableAttributeStatus() {
+        this.disabled = CH5DpadUtils.getBoolFromString(
+            CH5DpadUtils.setAttributeToElement(this, 'disabled', this._disabled.toString())
+        );
+        if (!this.disabled) {
+            this.removeAttribute('disabled');
+        } else {
+            this.setAttribute('disabled', 'true');
+        }
     }
 
     //#endregion
