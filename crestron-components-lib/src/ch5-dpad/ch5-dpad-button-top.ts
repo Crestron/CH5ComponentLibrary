@@ -6,6 +6,7 @@ import { Ch5Dpad } from "./ch5-dpad";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadTopAttributes } from "./interfaces/i-ch5-dpad-button-top-interfaces";
+import { ITopBtnContract } from "./interfaces/i-ch5-dpad-utils";
 import { TButtonClassListType, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
 
 export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
@@ -133,6 +134,10 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
         this._receiveStateIconClassSignalValue = receiveSignal.subscribe((newValue: string) => {
             if (newValue !== this.iconClass) {
                 this.setAttribute('iconclass', newValue);
+                if (this.receiveStateIconUrl.length < 1) {
+                    const ele = this.getElementsByClassName('dpad-btn-icon')[0] as HTMLElement;
+                    ele.classList.add(newValue);
+                }
             }
         });
     }
@@ -173,6 +178,8 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
         this._receiveStateIconUrlSignalValue = receiveSignal.subscribe((newValue: string) => {
             if (newValue !== this.iconUrl) {
                 this.setAttribute('iconurl', newValue);
+                const ele = this.getElementsByClassName('dpad-btn-icon')[0] as HTMLElement;
+                ele.style.backgroundImage = `url(${newValue})`;
             }
         });
     }
@@ -255,16 +262,16 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
         if (this.receiveStateIconUrl.length > 0 && this.receiveStateIconUrl === btnIconUrl) {
             elementToRender = CH5DpadUtils.getImageContainer(this.receiveStateIconUrl);
         } else if (this.receiveStateIconClass && this.receiveStateIconClass === btnIconClass) {
-            elementToRender = CH5DpadUtils.getIconContainer(this.receiveStateIconClass);
-            elementToRender.classList.add(this.CSS_CLASS_LIST.primaryIconClass); // 'fas'
+            elementToRender = CH5DpadUtils.getIconContainer();
         } else if (this.iconUrl.length > 0 && this.iconUrl === btnIconUrl) {
             elementToRender = CH5DpadUtils.getImageContainer(this.iconUrl);
         } else if (this.iconClass && this.iconClass === btnIconClass) {
-            elementToRender = CH5DpadUtils.getIconContainer(this.iconClass);
+            elementToRender = CH5DpadUtils.getIconContainer();
+            elementToRender.classList.add(this.iconClass);
         } else {
             // if nothing works, then render as default
-            elementToRender = CH5DpadUtils.getIconContainer(this.CSS_CLASS_LIST.defaultIconClass); // 'fa-circle'
-            elementToRender.classList.add(this.CSS_CLASS_LIST.primaryIconClass); // 'fas'
+            elementToRender = CH5DpadUtils.getIconContainer();
+            elementToRender.classList.add(this.CSS_CLASS_LIST.defaultIconClass); // 'fa-circle'
         }
 
         this._icon = elementToRender;
@@ -395,8 +402,10 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
             CH5DpadUtils.setAttributeToElement(this, 'receiveStateIconUrl', this._receiveStateIconUrl);
 
         // update attributes based on dpad (parent container)'s contract name
-        CH5DpadUtils.updateContractSpecificKeys_Show(this);
-        CH5DpadUtils.updateContractSpecificKeys_Enable(this);
+        const contract: ITopBtnContract = CH5DpadContractUtils.getTopBtnContract();
+        const type = "Top";
+        const hasLabelAttr = false;
+        CH5DpadUtils.updateContractSpecificKeys(this, contract, type, hasLabelAttr);
 
         this.logger.stop();
     }

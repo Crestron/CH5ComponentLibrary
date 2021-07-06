@@ -27,7 +27,9 @@ export class CH5DpadContractUtils {
             CenterClicked: "CenterClicked",
             CenterEnable: "CenterEnable",
             CenterShow: "CenterShow",
-            CenterLabel: "CenterLabel"
+            CenterLabel: "CenterLabel",
+            CenterIconClass: "iconClassCenterButton",
+            CenterIconUrl: "iconClassCenterUrl"
         };
         return centerBtn;
     }
@@ -40,7 +42,9 @@ export class CH5DpadContractUtils {
         const topBtn: ITopBtnContract = {
             TopClicked: "TopClicked",
             TopEnable: "TopEnable",
-            TopShow: "TopShow"
+            TopShow: "TopShow",
+            TopIconClass: "iconClassTopButton",
+            TopIconUrl: "iconClassTopUrl"
         };
         return topBtn;
     }
@@ -53,7 +57,9 @@ export class CH5DpadContractUtils {
         const rightBtn: IRightBtnContract = {
             RightClicked: "RightClicked",
             RightEnable: "RightEnable",
-            RightShow: "RightShow"
+            RightShow: "RightShow",
+            RightIconClass: "iconClassRightButton",
+            RightIconUrl: "iconClassRightUrl"
         };
         return rightBtn;
     }
@@ -66,7 +72,9 @@ export class CH5DpadContractUtils {
         const bottomBtn: IBottomBtnContract = {
             BottomClicked: "BottomClicked",
             BottomEnable: "BottomEnable",
-            BottomShow: "BottomShow"
+            BottomShow: "BottomShow",
+            BottomIconClass: "iconClassBottomButton",
+            BottomIconUrl: "iconClassBottomUrl"
         };
         return bottomBtn;
     }
@@ -79,7 +87,9 @@ export class CH5DpadContractUtils {
         const leftBtn: ILeftBtnContract = {
             LeftClicked: "LeftClicked",
             LeftEnable: "LeftEnable",
-            LeftShow: "LeftShow"
+            LeftShow: "LeftShow",
+            LeftIconClass: "iconClassLeftButton",
+            LeftIconUrl: "iconClassLeftUrl"
         };
         return leftBtn;
     }

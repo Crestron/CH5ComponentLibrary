@@ -10,40 +10,50 @@
  * DEV NOTE: This file is specific for utils and need not be part of documentation
  */
 export interface ICh5DpadContract {
-    centerBtn:ICenterBtnContract,
-    topBtn:ITopBtnContract,
-    rightBtn:IRightBtnContract,
-    bottomBtn:IBottomBtnContract,
-    leftBtn:ILeftBtnContract,
+    centerBtn: ICenterBtnContract,
+    topBtn: ITopBtnContract,
+    rightBtn: IRightBtnContract,
+    bottomBtn: IBottomBtnContract,
+    leftBtn: ILeftBtnContract,
 }
-
+// Center
 export interface ICenterBtnContract {
     CenterShow: string,
     CenterEnable: string,
     CenterClicked: string,
-    CenterLabel: string
+    CenterLabel: string,
+    CenterIconClass: string,
+    CenterIconUrl: string
 }
-
+//Top
 export interface ITopBtnContract {
     TopShow: string,
     TopEnable: string,
-    TopClicked: string
+    TopClicked: string,
+    TopIconClass: string,
+    TopIconUrl: string
 }
-
+//Right
 export interface IRightBtnContract {
     RightShow: string,
     RightEnable: string,
-    RightClicked: string
+    RightClicked: string,
+    RightIconClass: string,
+    RightIconUrl: string
 }
-
+// Bottom
 export interface IBottomBtnContract {
     BottomShow: string,
     BottomEnable: string,
-    BottomClicked: string
+    BottomClicked: string,
+    BottomIconClass: string,
+    BottomIconUrl: string
 }
-
+// Left
 export interface ILeftBtnContract {
     LeftShow: string,
     LeftEnable: string,
-    LeftClicked: string
+    LeftClicked: string,
+    LeftIconClass: string,
+    LeftIconUrl: string
 }
