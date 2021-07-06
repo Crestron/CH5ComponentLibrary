@@ -6,6 +6,7 @@ import { Ch5Dpad } from "./ch5-dpad";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadBottomAttributes } from "./interfaces/i-ch5-dpad-button-bottom-interfaces";
+import { IBottomBtnContract } from "./interfaces/i-ch5-dpad-utils";
 import { TButtonClassListType, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
 
 export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes {
@@ -20,7 +21,7 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
 
     //#region 1.2 private / protected variables
     private COMPONENT_NAME: string = "ch5-dpad-button-bottom";
-    private arrowBtnClass:string = 'direction-btn';
+    private arrowBtnClass: string = 'direction-btn';
     private readonly CSS_CLASS_LIST: TButtonClassListType = {
         primaryTagClass: 'bottom',
         primaryIconClass: 'fas',
@@ -106,6 +107,7 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
      * receiveStateIconClass specif getter-setter
      */
     public set receiveStateIconClass(value: string) {
+        console.log("receiveStateIconClass 1", value);
         if (!value || this._receiveStateIconClass === value) {
             return;
         }
@@ -133,6 +135,10 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         this._receiveStateIconClassSignalValue = receiveSignal.subscribe((newValue: string) => {
             if (newValue !== this.iconClass) {
                 this.setAttribute('iconclass', newValue);
+                if (this.receiveStateIconUrl.length < 1) {
+                    const ele = this.getElementsByClassName('dpad-btn-icon')[0] as HTMLElement;
+                    ele.classList.add(newValue);
+                }
             }
         });
     }
@@ -146,6 +152,7 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
      * receiveStateIconUrl specif getter-setter
      */
     public set receiveStateIconUrl(value: string) {
+        console.log("receiveStateIconUrl 1", value);
         if (!value || this._receiveStateIconUrl === value) {
             return;
         }
@@ -173,6 +180,8 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         this._receiveStateIconUrlSignalValue = receiveSignal.subscribe((newValue: string) => {
             if (newValue !== this.iconUrl) {
                 this.setAttribute('iconurl', newValue);
+                const ele = this.getElementsByClassName('dpad-btn-icon')[0] as HTMLElement;
+                ele.style.backgroundImage = `url(${newValue})`;
             }
         });
     }
@@ -256,16 +265,16 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         if (this.receiveStateIconUrl.length > 0 && this.receiveStateIconUrl === btnIconUrl) {
             elementToRender = CH5DpadUtils.getImageContainer(this.receiveStateIconUrl);
         } else if (this.receiveStateIconClass && this.receiveStateIconClass === btnIconClass) {
-            elementToRender = CH5DpadUtils.getIconContainer(this.receiveStateIconClass);
-            elementToRender.classList.add(this.CSS_CLASS_LIST.primaryIconClass); // 'fas'
+            elementToRender = CH5DpadUtils.getIconContainer();
         } else if (this.iconUrl.length > 0 && this.iconUrl === btnIconUrl) {
             elementToRender = CH5DpadUtils.getImageContainer(this.iconUrl);
         } else if (this.iconClass && this.iconClass === btnIconClass) {
-            elementToRender = CH5DpadUtils.getIconContainer(this.iconClass);
+            elementToRender = CH5DpadUtils.getIconContainer();
+            elementToRender.classList.add(this.iconClass);
         } else {
             // if nothing works, then render as default
-            elementToRender = CH5DpadUtils.getIconContainer(this.CSS_CLASS_LIST.defaultIconClass); // 'fa-circle'
-            elementToRender.classList.add(this.CSS_CLASS_LIST.primaryIconClass); // 'fas'
+            elementToRender = CH5DpadUtils.getIconContainer();
+            elementToRender.classList.add(this.CSS_CLASS_LIST.defaultIconClass); // 'fa-circle'
         }
 
         this._icon = elementToRender;
@@ -354,6 +363,7 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
                 }
                 break;
             case 'receivestateiconclass':
+                console.log('receivestateiconclass', newValue);
                 if (this.hasAttribute('receivestateiconclass')) {
                     this.receiveStateIconClass = newValue;
                 } else {
@@ -361,6 +371,7 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
                 }
                 break;
             case 'receivestateiconurl':
+                console.log('receiveStateIconUrl', newValue);
                 if (this.hasAttribute('receivestateiconurl')) {
                     this.receiveStateIconUrl = newValue;
                 } else {
@@ -395,8 +406,10 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         this.receiveStateIconUrl = CH5DpadUtils.setAttributeToElement(this, 'receiveStateIconUrl', this._receiveStateIconUrl);
 
         // update attributes based on dpad (parent container)'s contract name
-        CH5DpadUtils.updateContractSpecificKeys_Show(this);
-        CH5DpadUtils.updateContractSpecificKeys_Enable(this);
+        const contract: IBottomBtnContract = CH5DpadContractUtils.getBottomBtnContract();
+        const type = "Bottom";
+        const hasLabelAttr = false;
+        CH5DpadUtils.updateContractSpecificKeys(this, contract, type, hasLabelAttr);
 
         this.logger.stop();
     }
