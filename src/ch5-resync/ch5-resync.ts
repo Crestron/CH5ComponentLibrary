@@ -206,16 +206,16 @@ export class Ch5Resync {
                 try {
                     switch (state.type) {
                         case 'boolean':
-                            this.statesRef[state.type][state.name].publish(false);
+                            this.statesRef[state.type][state.name].fromSignalBridge(false);
                             break;
                         case 'number':
-                            this.statesRef[state.type][state.name].publish(0);
+                            this.statesRef[state.type][state.name].fromSignalBridge(0);
                             break;
                         case 'string':
-                            this.statesRef[state.type][state.name].publish('');
+                            this.statesRef[state.type][state.name].fromSignalBridge('');
                             break;
                         case 'object':
-                            this.statesRef[state.type][state.name].publish({"rcb": {"value": 0, "time": 0}});
+                            this.statesRef[state.type][state.name].fromSignalBridge({"rcb": {"value": 0, "time": 0}});
                             break;
                         default:
                             break;
