@@ -31,6 +31,7 @@ export class Ch5Signal<T extends TSignal> {
     private _subscriptions: TSignalSubscriptions;
     private _signalBridge: Ch5SignalBridge;
     private _hasChangedSinceInit: boolean = false;
+    private _receivedFromSignalBridge: boolean = false;
     private _ch5Resync: Ch5Resync;
 
     public static isIntegerSignalName(name: string): boolean {
@@ -154,6 +155,10 @@ export class Ch5Signal<T extends TSignal> {
         return this._hasChangedSinceInit;
     }
 
+    public get receivedFromSignalBridge(): boolean {
+        return this._receivedFromSignalBridge;
+    }
+
     public publish(value: T): void {
         this._hasChangedSinceInit = true;
         this._subject.next(value);
@@ -162,6 +167,7 @@ export class Ch5Signal<T extends TSignal> {
 
     public fromSignalBridge(value: T) { // for use only for signals received from native on signal bridge
         // console.log('from sb ',value,' subj',this._subject.observers);
+        this._receivedFromSignalBridge = true;
         this._hasChangedSinceInit = true;
         this._subject.next(value);
         // console.log('from sb ',value,' subj',this._subject.getValue());
