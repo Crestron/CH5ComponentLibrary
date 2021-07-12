@@ -1,8 +1,7 @@
 import { valid } from "semver";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5DpadCenter } from "./ch5-dpad-button-center";
-import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
-import { TDpadChildElement, TDpadChildElementContract, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
+import { signalStructure, TDpadChildElement, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
 
 export class CH5DpadUtils {
 
@@ -89,9 +88,8 @@ export class CH5DpadUtils {
     public static getImageUrl(thisRef: TDpadChildElement, buttonTag: string, isAllowedByParentContract: boolean): string {
         let retStr = '';
         const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
-        if (isAllowedByParentContract && thisRef.receiveStateIconUrl.length < 1) {
-            throw new Error(`The contract based icon url for ${buttonTag}  
-            seems to be incorrect. id = ${eleID}`);
+        if (isAllowedByParentContract) {
+            retStr = '';
         } else if (thisRef.receiveStateIconUrl.length > 0) {
             // TODO: check if its a valid URL
             retStr = thisRef.receiveStateIconUrl;
@@ -113,9 +111,8 @@ export class CH5DpadUtils {
         let retStr = '';
         const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
 
-        if (isAllowedByParentContract && thisRef.receiveStateIconClass.length < 1) {
-            throw new Error(`The contract based icon class for ${buttonTag}  
-            seems to be incorrect. id = ${eleID}`);
+        if (isAllowedByParentContract) {
+            retStr = '';
         } else if (thisRef.receiveStateIconClass.length > 0) {
             // TODO: check if its a valid icon class
             retStr = thisRef.receiveStateIconClass;
@@ -138,9 +135,8 @@ export class CH5DpadUtils {
         let retStr = '';
         const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
 
-        if (isAllowedByParentContract && thisRef.receiveStateLabel.length < 1) {
-            throw new Error(`The contract based label text for ${buttonTag}  
-            seems to be incorrect. id = ${eleID}`);
+        if (isAllowedByParentContract) {
+            retStr = '';
         } else if (thisRef.receivestatescriptlabelhtml.length > 0) {
             retStr = thisRef.receivestatescriptlabelhtml; // label as HTML input from contract
         } else if (thisRef.receiveStateLabel.length > 0) {
@@ -171,7 +167,7 @@ export class CH5DpadUtils {
      * @returns HTMLElement, a 'i' tag
      */
     public static getIconContainer() {
-        const retEle = document.createElement('i');
+        const retEle = document.createElement('span');
         retEle.classList.add('dpad-btn-icon');
         retEle.classList.add('icon-class');
         retEle.classList.add('fas'); // 'fas'
@@ -184,11 +180,9 @@ export class CH5DpadUtils {
      * @param labelInput label instead of icon
      * @returns HTMLElement, a 'span' tag
      */
-    public static getLabelContainer(labelInput: string) {
+    public static getLabelContainer(labelClassName: string) {
         const retEle = document.createElement('span');
-        retEle.classList.add('dpad-btn-label');
-        retEle.classList.add('label-class');
-        retEle.innerHTML = labelInput;
+        retEle.classList.add(labelClassName);
         return retEle;
     }
 
@@ -226,101 +220,146 @@ export class CH5DpadUtils {
         return retObj;
     }
 
-    public static updateContractSpecificKeys(thisRef: any, contract: any, type: string, hasLabel: boolean = false) {
-        CH5DpadUtils.updateContractSpecificKeys_Show(thisRef, contract, type);
-        CH5DpadUtils.updateContractSpecificKeys_Enable(thisRef, contract, type);
-        if (hasLabel) {
-            CH5DpadUtils.updateContractSpecificKeys_Label(thisRef, contract, type);
+    // public static updateContractSpecificKeys(thisRef: any, contract: any, type: string, hasLabel: boolean = false) {
+    //     CH5DpadUtils.updateContractSpecificKeys_Show(thisRef, contract, type);
+    //     CH5DpadUtils.updateContractSpecificKeys_Enable(thisRef, contract, type);
+    //     if (hasLabel) {
+    //         CH5DpadUtils.updateContractSpecificKeys_Label(thisRef, contract, type);
+    //     }
+    //     CH5DpadUtils.updateContractSpecificKeys_IconUrl(thisRef, contract, type);
+    //     CH5DpadUtils.updateContractSpecificKeys_IconClass(thisRef, contract, type);
+    // }
+
+    // /**
+    //  * Function to update the show based on the contract value
+    //  */
+    // public static updateContractSpecificKeys_Show(thisRef: any, contract: any, type: string) {
+    //     const { show, contractName } = thisRef.parentControlledContractRules;
+    //     const key = type + "Show";
+    //     const btnContractShow = contract[key];
+    //     if (show) { // this meeans, DPAD enforces contract on this button
+    //         if (contractName.length > 0) {
+    //             const contractValue = `${contractName}.${btnContractShow}`;
+    //             thisRef.setAttribute("receiveStateShow".toLowerCase(), contractValue);
+    //         } else {
+    //             throw new Error(`Dpad has useContractForShow as true, but 
+    //             contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
+    //         }
+    //     }
+    // }
+
+    // /**
+    //  * Function to update the enable based on the contract value
+    //  */
+    // public static updateContractSpecificKeys_Enable(thisRef: any, contract: any, type: string) {
+    //     const { enable, contractName } = thisRef.parentControlledContractRules;
+    //     const contractEnable = contract[type + "Enable"] as string;
+    //     if (enable) { // this meeans, DPAD enforces contract on this button
+    //         if (contractName.length > 0) {
+    //             const contractValue = `${contractName}.${contractEnable}`;
+    //             thisRef.setAttribute("receiveStateEnable".toLowerCase(), contractValue);
+    //         } else {
+    //             throw new Error(`Dpad has useContractForEnable as true, but 
+    //             contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
+    //         }
+    //     }
+    // }
+
+    // /**
+    //  * Function to update the label based on the contract value
+    //  */
+    // public static updateContractSpecificKeys_Label(thisRef: any, contract: any, type: string) {
+    //     const { label, contractName } = thisRef.parentControlledContractRules;
+    //     const contractLabel = contract[type + "Label"] as string;
+    //     if (label) { // this meeans, DPAD enforces contract on this button
+    //         if (contractName.length > 0) {
+    //             const contractValue = `${contractName}.${contractLabel}`;
+    //             thisRef.setAttribute("receiveStateLabel".toLowerCase(), contractValue);
+    //         } else {
+    //             throw new Error(`Dpad has useContractForLabel as true, but 
+    //             contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
+    //         }
+    //     }
+    // }
+
+    // /**
+    //  * Function to update the icon class based on the contract value
+    //  */
+    // public static updateContractSpecificKeys_IconClass(thisRef: any, contract: any, type: string) {
+    //     const { icon, contractName } = thisRef.parentControlledContractRules;
+    //     const contractIconClass = contract[type + "IconClass"] as string; // LeftIconClass
+    //     if (icon) { // this meeans, DPAD enforces contract on this button
+    //         if (contractName.length > 0) {
+    //             const contractValue = `${contractName}.${contractIconClass}`;
+    //             thisRef.setAttribute("receiveStateIconClass".toLowerCase(), contractValue);
+    //         } else {
+    //             throw new Error(`Dpad has receiveStateIconClass as true, but 
+    //             contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
+    //         }
+    //     }
+    // }
+
+    // /**
+    //  * Function to update the icon url based on the contract value
+    //  * TODO: Need contract identifier to this
+    //  */
+    // public static updateContractSpecificKeys_IconUrl(thisRef: any, contract: any, type: string) {
+    //     const { icon, contractName } = thisRef.parentControlledContractRules;
+    //     const contractIconUrl = contract[type + "IconUrl"] as string; // LeftIconUrl
+    //     if (icon) { // this meeans, DPAD enforces contract on this button
+    //         if (contractName.length > 0) {
+    //             const contractValue = `${contractName}.${contractIconUrl}`;
+    //             thisRef.setAttribute("receiveStateIconUrl".toLowerCase(), contractValue);
+    //         } else {
+    //             throw new Error(`Dpad has receiveStateIconUrl as true, but 
+    //             contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
+    //         }
+    //     }
+    // }
+
+    /**
+     * Function to subscribe state generically per state/contract object requested
+     * @param signalname signal name on which the subscription is to be created for
+     * @param signalValue signal value or contract name on which the subscription is called on
+     * @param onSubscribeStateHandler Function to execute when subscription completes
+     */
+    public static subscribeStateForContract(contractObj: signalStructure, onSubscribeStateHandler: () => void) {
+        // clean up old subscription
+        if (contractObj.signalName) {
+            const oldReceiveIconClassSigName: string = Ch5Signal.getSubscriptionSignalName(contractObj.signalName);
+            const oldSignal: Ch5Signal<string> | null =
+                Ch5SignalFactory.getInstance().getStringSignal(oldReceiveIconClassSigName);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(contractObj.signalValue);
+            }
         }
-        CH5DpadUtils.updateContractSpecificKeys_IconUrl(thisRef, contract, type);
-        CH5DpadUtils.updateContractSpecificKeys_IconClass(thisRef, contract, type);
+
+        // setup new subscription.
+        const receiveIconClassSigName: string = Ch5Signal.getSubscriptionSignalName(contractObj.signalName);
+        const receiveSignal: Ch5Signal<string> | null =
+            Ch5SignalFactory.getInstance().getStringSignal(receiveIconClassSigName);
+
+        if (receiveSignal !== null) {
+            contractObj.signalValue = receiveSignal.subscribe((newValue: string) => {
+                if (contractObj.response !== newValue) {
+                    contractObj.response = newValue;
+                }
+                onSubscribeStateHandler();
+            });
+        }
     }
 
     /**
-     * Function to update the show based on the contract value
+     * Function to instantiate empty contract object
+     * @returns signalStructure
      */
-    public static updateContractSpecificKeys_Show(thisRef: any, contract: any, type: string) {
-        const { show, contractName } = thisRef.parentControlledContractRules;
-        const key = type + "Show";
-        const btnContractShow = contract[key];
-        if (show) { // this meeans, DPAD enforces contract on this button
-            if (contractName.length > 0) {
-                const contractValue = `${contractName}.${btnContractShow}`;
-                thisRef.setAttribute("receiveStateShow".toLowerCase(), contractValue);
-            } else {
-                throw new Error(`Dpad has useContractForShow as true, but 
-                contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
-            }
-        }
-    }
-
-    /**
-     * Function to update the enable based on the contract value
-     */
-    public static updateContractSpecificKeys_Enable(thisRef: any, contract: any, type: string) {
-        const { enable, contractName } = thisRef.parentControlledContractRules;
-        const contractEnable = contract[type + "Enable"] as string;
-        if (enable) { // this meeans, DPAD enforces contract on this button
-            if (contractName.length > 0) {
-                const contractValue = `${contractName}.${contractEnable}`;
-                thisRef.setAttribute("receiveStateEnable".toLowerCase(), contractValue);
-            } else {
-                throw new Error(`Dpad has useContractForEnable as true, but 
-                contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
-            }
-        }
-    }
-
-    /**
-     * Function to update the label based on the contract value
-     */
-    public static updateContractSpecificKeys_Label(thisRef: any, contract: any, type: string) {
-        const { label, contractName } = thisRef.parentControlledContractRules;
-        const contractLabel = contract[type + "Label"] as string;
-        if (label) { // this meeans, DPAD enforces contract on this button
-            if (contractName.length > 0) {
-                const contractValue = `${contractName}.${contractLabel}`;
-                thisRef.setAttribute("receiveStateLabel".toLowerCase(), contractValue);
-            } else {
-                throw new Error(`Dpad has useContractForLabel as true, but 
-                contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
-            }
-        }
-    }
-
-    /**
-     * Function to update the icon class based on the contract value
-     */
-    public static updateContractSpecificKeys_IconClass(thisRef: any, contract: any, type: string) {
-        const { icon, contractName } = thisRef.parentControlledContractRules;
-        const contractIconClass = contract[type + "IconClass"] as string; // LeftIconClass
-        if (icon) { // this meeans, DPAD enforces contract on this button
-            if (contractName.length > 0) {
-                const contractValue = `${contractName}.${contractIconClass}`;
-                thisRef.setAttribute("receiveStateIconClass".toLowerCase(), contractValue);
-            } else {
-                throw new Error(`Dpad has receiveStateIconClass as true, but 
-                contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
-            }
-        }
-    }
-
-    /**
-     * Function to update the icon url based on the contract value
-     * TODO: Need contract identifier to this
-     */
-    public static updateContractSpecificKeys_IconUrl(thisRef: any, contract: any, type: string) {
-        const { icon, contractName } = thisRef.parentControlledContractRules;
-        const contractIconUrl = contract[type + "IconUrl"] as string; // LeftIconUrl
-        if (icon) { // this meeans, DPAD enforces contract on this button
-            console.log(thisRef.parentControlledContractRules);
-            if (contractName.length > 0) {
-                const contractValue = `${contractName}.${contractIconUrl}`;
-                thisRef.setAttribute("receiveStateIconUrl".toLowerCase(), contractValue);
-            } else {
-                throw new Error(`Dpad has receiveStateIconUrl as true, but 
-                contract name is invalid. Reference id of ${type}: ${thisRef.crId}`);
-            }
-        }
+    public static getBlankContractObj(): signalStructure {
+        const contractObj: signalStructure = {
+            signalName: '',
+            signalValue: '',
+            response: ''
+        };
+        return contractObj;
     }
 }

@@ -7,7 +7,7 @@ import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadCenterAttributes } from "./interfaces/i-ch5-dpad-button-center-interfaces";
 import { ICenterBtnContract } from "./interfaces/i-ch5-dpad-utils";
-import { TButtonClassListType, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
+import { TButtonClassListType, TParentContractBasedState, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
 
 export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes {
 
@@ -21,10 +21,13 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
 
     //#region 1.2 private / protected variables
     private COMPONENT_NAME: string = "ch5-dpad-button-center";
+    private labelClass: string = 'dpad-btn-label';
     private readonly CSS_CLASS_LIST: TButtonClassListType = {
         primaryTagClass: 'center',
         primaryIconClass: 'fas',
-        defaultIconClass: 'fa-circle'
+        defaultIconClass: 'fa-circle',
+        imageClassName: 'image-url',
+        defaultArrowClass: '' // not required for center button only
     };
 
     // private setter getter specific vars
@@ -35,14 +38,25 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     private _label: string = '';
     private _receiveStateIconClass: string = '';
     private _receiveStateIconUrl: string = '';
-    private _receiveStateLabel: string = '';
     private _receivestatescriptlabelhtml: string = '';
+    private _receiveStateLabel: string = '';
 
     // signal based vars for each receive state
     private _receiveStateIconClassSignalValue: string = '';
     private _receiveStateIconUrlSignalValue: string = '';
-    private _receiveStateLabelSignalValue: string = '';
     private _receivestatescriptlabelhtmlSignalValue: string = '';
+    private _receiveStateLabelSignalValue: string = '';
+
+    // parent specific contract based signals for each receive state
+    private parentContractBasedState: TParentContractBasedState = {
+        click: CH5DpadUtils.getBlankContractObj(),
+        show: CH5DpadUtils.getBlankContractObj(),
+        enable: CH5DpadUtils.getBlankContractObj(),
+        iconClass: CH5DpadUtils.getBlankContractObj(),
+        iconUrl: CH5DpadUtils.getBlankContractObj(),
+        label: CH5DpadUtils.getBlankContractObj()
+    };
+
 
     // elements specific vars
     private _icon: HTMLElement = {} as HTMLElement;
@@ -159,10 +173,10 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
 
         this._receiveStateIconClassSignalValue = receiveSignal.subscribe((newValue: string) => {
             if (newValue !== this.iconClass) {
-                this.setAttribute('iconclass', newValue);
-                if (this.receiveStateIconUrl.length < 1) {
-                    const ele = this.getElementsByClassName('dpad-btn-icon')[0] as HTMLElement;
-                    ele.classList.add(newValue);
+                if (this.receiveStateIconUrl.length < 1 &&
+                    !this.parentControlledContractRules.icon &&
+                    !this.parentControlledContractRules.label) {
+                    this._icon.classList.add(newValue);
                 }
             }
         });
@@ -203,9 +217,11 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
 
         this._receiveStateIconUrlSignalValue = receiveSignal.subscribe((newValue: string) => {
             if (newValue !== this.iconUrl) {
-                this.setAttribute('iconurl', newValue);
-                const ele = this.getElementsByClassName('dpad-btn-icon')[0] as HTMLElement;
-                ele.style.backgroundImage = `url(${newValue})`;
+                if (!this.parentControlledContractRules.icon &&
+                    !this.parentControlledContractRules.label) {
+                    this._icon.style.backgroundImage = `url(${newValue})`;
+                    this._icon.classList.add(this.CSS_CLASS_LIST.imageClassName);
+                }
             }
         });
     }
@@ -247,6 +263,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         this._receiveStateLabelSignalValue = receiveSignal.subscribe((newValue: string) => {
             if (newValue !== this.label) {
                 this.setAttribute('label', newValue);
+                this._icon.innerHTML = newValue;
             }
         });
     }
@@ -360,23 +377,25 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         const btnIconClass = CH5DpadUtils.getIconClass(this, this.primaryCssClass, this.parentControlledContractRules.icon);
         const btnLabel = CH5DpadUtils.getLabelText(this, this.primaryCssClass, this.parentControlledContractRules.label);
         let elementToRender = {} as HTMLElement;
-        if (btnIconUrl.length > 0) {
-            console.log({ iconUrl: ' ' + btnIconUrl });
-        }
 
         // Order of preference is:
+        // 0 parentContract
         // 1 recevieStateIconUrl
         // 2 receiveStateIconClass
         // 3 receiveStateLabel
         // 4 iconUrl
         // 5 iconClass
         // 6 label
-        if (this.receiveStateIconUrl.length > 0 && this.receiveStateIconUrl === btnIconUrl) {
+        if (Boolean(this.parentControlledContractRules.contractName) &&
+            (this.parentControlledContractRules.icon || this.parentControlledContractRules.label)) {
+            elementToRender = document.createElement('span');
+            elementToRender.classList.add('dpad-btn-icon');
+        } else if (this.receiveStateIconUrl.length > 0 && this.receiveStateIconUrl === btnIconUrl) {
             elementToRender = CH5DpadUtils.getImageContainer(this.receiveStateIconUrl);
         } else if (this.receiveStateIconClass && this.receiveStateIconClass === btnIconClass) {
             elementToRender = CH5DpadUtils.getIconContainer();
         } else if (this.receiveStateLabel.length > 0) {
-            elementToRender = CH5DpadUtils.getLabelContainer(btnLabel);
+            elementToRender = CH5DpadUtils.getLabelContainer(this.labelClass);
         } else if (this.iconUrl.length > 0 && this.iconUrl === btnIconUrl) {
             elementToRender = CH5DpadUtils.getImageContainer(this.iconUrl);
             elementToRender.style.backgroundImage = `url(${this.iconUrl})`;
@@ -384,7 +403,8 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             elementToRender = CH5DpadUtils.getIconContainer();
             elementToRender.classList.add(this.iconClass);
         } else if (this.label.length > 0) {
-            elementToRender = CH5DpadUtils.getLabelContainer(btnLabel);
+            elementToRender = CH5DpadUtils.getLabelContainer(this.labelClass);
+            elementToRender.innerHTML = btnLabel;
         } else {
             // if nothing works, then render as default
             elementToRender = CH5DpadUtils.getIconContainer();
@@ -529,7 +549,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         super.initAttributes();
 
         // will have the flags ready for contract level content to be ready
-        this.parentControlledContractRules = CH5DpadUtils.buildParentControlledContractRules(this);
+        this.buildParentBasedContract();
 
         CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
@@ -543,12 +563,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         this.receiveStateLabel = CH5DpadUtils.setAttributeToElement(this, 'receiveStateLabel', this._receiveStateLabel);
         this.receivestatescriptlabelhtml =
             CH5DpadUtils.setAttributeToElement(this, 'receivestatescriptlabelhtml', this._receivestatescriptlabelhtml);
-
-        // update attributes based on dpad (parent container)'s contract name
-        const contract: ICenterBtnContract = CH5DpadContractUtils.getCenterBtnContract();
-        const type = "Center";
-        const hasLabelAttr = true;
-        CH5DpadUtils.updateContractSpecificKeys(this, contract, type, hasLabelAttr);
 
         this.logger.stop();
     }
@@ -568,6 +582,31 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     //#endregion
 
     //#region 4. Other Methods
+
+    /**
+     * Function to build parent controlled contract rules and contract structure based on them
+     */
+    private buildParentBasedContract() {
+        const contract: ICenterBtnContract = CH5DpadContractUtils.getCenterBtnContract();
+        this.parentControlledContractRules = CH5DpadUtils.buildParentControlledContractRules(this);
+        // TODO: need to set this value
+        const { contractName, show, enable, icon } = this.parentControlledContractRules;
+        if (Boolean(contractName)) {
+            this._icon = document.createElement('span');
+            CH5DpadContractUtils.checkAndUpdateClickHandler(this, `${contractName}.${contract.CenterClicked}`);
+            if (show) {
+                CH5DpadContractUtils.checkAndUpdateShowHandler(this, `${contractName}.${contract.CenterShow}`);
+            }
+            if (enable) {
+                CH5DpadContractUtils.checkAndUpdateEnableHandler(this, `${contractName}.${contract.CenterEnable}`);
+            }
+            if (icon) {
+                CH5DpadContractUtils.checkAndUpdateIconClassHandler(this, `${contractName}.${contract.CenterIconClass}`);
+                CH5DpadContractUtils.checkAndUpdateIconUrlHandler(this, `${contractName}.${contract.CenterIconUrl}`);
+            }
+            CH5DpadContractUtils.checkAndUpdateLabelHandler(this, this.labelClass, `${contractName}.${contract.CenterLabel}`);
+        }
+    }
 
     //#endregion
 
