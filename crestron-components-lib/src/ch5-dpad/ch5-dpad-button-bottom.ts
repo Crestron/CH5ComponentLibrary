@@ -7,7 +7,7 @@ import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadBottomAttributes } from "./interfaces/i-ch5-dpad-button-bottom-interfaces";
 import { IBottomBtnContract } from "./interfaces/i-ch5-dpad-utils";
-import { TButtonClassListType, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
+import { TButtonClassListType, TParentContractBasedState, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
 
 export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes {
 
@@ -21,11 +21,12 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
 
     //#region 1.2 private / protected variables
     private COMPONENT_NAME: string = "ch5-dpad-button-bottom";
-    private arrowBtnClass: string = 'direction-btn';
     private readonly CSS_CLASS_LIST: TButtonClassListType = {
         primaryTagClass: 'bottom',
         primaryIconClass: 'fas',
-        defaultIconClass: 'fa-caret-down'
+        defaultIconClass: 'fa-caret-down',
+        imageClassName: 'image-url',
+        defaultArrowClass: 'direction-btn'
     };
 
     // private setter getter specific vars
@@ -39,6 +40,17 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
     // signal based vars for each receive state
     private _receiveStateIconClassSignalValue: string = '';
     private _receiveStateIconUrlSignalValue: string = '';
+
+    // parent specific contract based signals for each receive state
+    private parentContractBasedState: TParentContractBasedState = {
+        click: CH5DpadUtils.getBlankContractObj(),
+        show: CH5DpadUtils.getBlankContractObj(),
+        enable: CH5DpadUtils.getBlankContractObj(),
+        iconClass: CH5DpadUtils.getBlankContractObj(),
+        iconUrl: CH5DpadUtils.getBlankContractObj(),
+        label: CH5DpadUtils.getBlankContractObj()
+    };
+
 
     // elements specific vars
     private _icon: HTMLElement = {} as HTMLElement;
@@ -107,7 +119,6 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
      * receiveStateIconClass specif getter-setter
      */
     public set receiveStateIconClass(value: string) {
-        console.log("receiveStateIconClass 1", value);
         if (!value || this._receiveStateIconClass === value) {
             return;
         }
@@ -135,9 +146,8 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         this._receiveStateIconClassSignalValue = receiveSignal.subscribe((newValue: string) => {
             if (newValue !== this.iconClass) {
                 this.setAttribute('iconclass', newValue);
-                if (this.receiveStateIconUrl.length < 1) {
-                    const ele = this.getElementsByClassName('dpad-btn-icon')[0] as HTMLElement;
-                    ele.classList.add(newValue);
+                if (this.receiveStateIconUrl.length < 1 || !this.parentControlledContractRules.icon) {
+                    this._icon.classList.add(newValue);
                 }
             }
         });
@@ -152,7 +162,6 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
      * receiveStateIconUrl specif getter-setter
      */
     public set receiveStateIconUrl(value: string) {
-        console.log("receiveStateIconUrl 1", value);
         if (!value || this._receiveStateIconUrl === value) {
             return;
         }
@@ -180,8 +189,8 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         this._receiveStateIconUrlSignalValue = receiveSignal.subscribe((newValue: string) => {
             if (newValue !== this.iconUrl) {
                 this.setAttribute('iconurl', newValue);
-                const ele = this.getElementsByClassName('dpad-btn-icon')[0] as HTMLElement;
-                ele.style.backgroundImage = `url(${newValue})`;
+                this._icon.style.backgroundImage = `url(${newValue})`;
+                this._icon.classList.add(this.CSS_CLASS_LIST.imageClassName);
             }
         });
     }
@@ -249,25 +258,29 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         this.logger.start('createHtmlElements', this.COMPONENT_NAME);
         this.classList.add(this.primaryCssClass);
         this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
-        this.classList.add(this.arrowBtnClass);
+        this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
 
         const btnIconUrl = CH5DpadUtils.getImageUrl(this, this.primaryCssClass, this.parentControlledContractRules.icon);
         const btnIconClass = CH5DpadUtils.getIconClass(this, this.primaryCssClass, this.parentControlledContractRules.icon);
         let elementToRender = {} as HTMLElement;
 
         // Order of preference is:
+        // 0 parentContract
         // 1 recevieStateIconUrl
         // 2 receiveStateIconClass
-        // 3 receiveStateLabel
-        // 4 iconUrl
-        // 5 iconClass
-        // 6 label
-        if (this.receiveStateIconUrl.length > 0 && this.receiveStateIconUrl === btnIconUrl) {
+        // 3 iconUrl
+        // 4 iconClass
+        if (Boolean(this.parentControlledContractRules.contractName) &&
+            this.parentControlledContractRules.icon) {
+            elementToRender = document.createElement('span');
+            elementToRender.classList.add('dpad-btn-icon');
+        } else if (this.receiveStateIconUrl.length > 0 && this.receiveStateIconUrl === btnIconUrl) {
             elementToRender = CH5DpadUtils.getImageContainer(this.receiveStateIconUrl);
         } else if (this.receiveStateIconClass && this.receiveStateIconClass === btnIconClass) {
             elementToRender = CH5DpadUtils.getIconContainer();
         } else if (this.iconUrl.length > 0 && this.iconUrl === btnIconUrl) {
             elementToRender = CH5DpadUtils.getImageContainer(this.iconUrl);
+            elementToRender.style.backgroundImage = `url(${this.iconUrl})`;
         } else if (this.iconClass && this.iconClass === btnIconClass) {
             elementToRender = CH5DpadUtils.getIconContainer();
             elementToRender.classList.add(this.iconClass);
@@ -310,8 +323,6 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         super.unsubscribeFromSignals();
 
         const csf = Ch5SignalFactory.getInstance();
-        CH5DpadUtils.clearSignalValue(csf, this, "_receiveStateLabelSignalValue", "_receiveStateLabel");
-        CH5DpadUtils.clearSignalValue(csf, this, "_receivestatescriptlabelhtmlSignalValue", "_receivestatescriptlabelhtml");
 
         this.logger.stop();
     }
@@ -363,7 +374,6 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
                 }
                 break;
             case 'receivestateiconclass':
-                console.log('receivestateiconclass', newValue);
                 if (this.hasAttribute('receivestateiconclass')) {
                     this.receiveStateIconClass = newValue;
                 } else {
@@ -371,7 +381,6 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
                 }
                 break;
             case 'receivestateiconurl':
-                console.log('receiveStateIconUrl', newValue);
                 if (this.hasAttribute('receivestateiconurl')) {
                     this.receiveStateIconUrl = newValue;
                 } else {
@@ -394,7 +403,7 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         super.initAttributes();
 
         // will have the flags ready for contract level content to be ready
-        this.parentControlledContractRules = CH5DpadUtils.buildParentControlledContractRules(this);
+        this.buildParentBasedContract();
 
         CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
@@ -404,12 +413,6 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
         this.receiveStateIconClass =
             CH5DpadUtils.setAttributeToElement(this, 'receiveStateIconClass', this._receiveStateIconClass);
         this.receiveStateIconUrl = CH5DpadUtils.setAttributeToElement(this, 'receiveStateIconUrl', this._receiveStateIconUrl);
-
-        // update attributes based on dpad (parent container)'s contract name
-        const contract: IBottomBtnContract = CH5DpadContractUtils.getBottomBtnContract();
-        const type = "Bottom";
-        const hasLabelAttr = false;
-        CH5DpadUtils.updateContractSpecificKeys(this, contract, type, hasLabelAttr);
 
         this.logger.stop();
     }
@@ -429,6 +432,29 @@ export class Ch5DpadBottom extends Ch5Common implements ICh5DpadBottomAttributes
     //#endregion
 
     //#region 4. Other Methods
+
+    /**
+     * Function to build parent controlled contract rules and contract structure based on them
+     */
+    private buildParentBasedContract() {
+        const contract: IBottomBtnContract = CH5DpadContractUtils.getBottomBtnContract();
+        this.parentControlledContractRules = CH5DpadUtils.buildParentControlledContractRules(this);
+        // TODO: need to set this value
+        const { contractName, show, enable, icon } = this.parentControlledContractRules;
+        if (Boolean(contractName)) {
+            CH5DpadContractUtils.checkAndUpdateClickHandler(this, `${contractName}.${contract.BottomClicked}`);
+            if (show) {
+                CH5DpadContractUtils.checkAndUpdateShowHandler(this, `${contractName}.${contract.BottomShow}`);
+            }
+            if (enable) {
+                CH5DpadContractUtils.checkAndUpdateEnableHandler(this, `${contractName}.${contract.BottomEnable}`);
+            }
+            if (icon) {
+                CH5DpadContractUtils.checkAndUpdateIconClassHandler(this, `${contractName}.${contract.BottomIconClass}`);
+                CH5DpadContractUtils.checkAndUpdateIconUrlHandler(this, `${contractName}.${contract.BottomIconUrl}`);
+            }
+        }
+    }
 
     //#endregion
 

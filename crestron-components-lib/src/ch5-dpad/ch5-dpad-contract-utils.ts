@@ -1,3 +1,4 @@
+import { CH5DpadUtils } from "./ch5-dpad-utils";
 import {
     IBottomBtnContract, ICenterBtnContract, ICh5DpadContract, ILeftBtnContract, IRightBtnContract, ITopBtnContract
 } from "./interfaces/i-ch5-dpad-utils";
@@ -92,5 +93,91 @@ export class CH5DpadContractUtils {
             LeftIconUrl: "iconClassLeftUrl"
         };
         return leftBtn;
+    }
+
+    /**
+     * Function to update click handler based on contract
+     * @param signalName contract signal name for click
+     */
+    public static checkAndUpdateClickHandler(thisRef: any, signalName: string = '') {
+        thisRef.parentContractBasedState.click.signalName = signalName;
+        CH5DpadUtils.subscribeStateForContract(thisRef.parentContractBasedState.click,
+            () => {
+                console.log(thisRef.parentContractBasedState.click.response);
+            }
+        );
+    }
+
+    /**
+     * Function to update Show based on contract
+     * @param signalName contract signal name for show
+     */
+    public static checkAndUpdateShowHandler(thisRef: any, signalName: string = '') {
+        thisRef.parentContractBasedState.show.signalName = signalName;
+        CH5DpadUtils.subscribeStateForContract(thisRef.parentContractBasedState.show,
+            () => {
+                thisRef.show = (thisRef.parentContractBasedState.show.response.toString() === 'true');
+            }
+        );
+    }
+
+    /**
+     * Function to update Enable handler based on contract
+     * @param signalName contract signal name for Enable
+     */
+    public static checkAndUpdateEnableHandler(thisRef: any, signalName: string = '') {
+        thisRef.parentContractBasedState.enable.signalName = signalName;
+        CH5DpadUtils.subscribeStateForContract(thisRef.parentContractBasedState.enable,
+            () => {
+                thisRef.show = (thisRef.parentContractBasedState.enable.response.toString() === 'true');
+            }
+        );
+    }
+
+    /**
+     * Function to update iconClass based on contract
+     * @param signalName contract signal name for iconClass
+     */
+    public static checkAndUpdateIconClassHandler(thisRef: any, signalName: string = '') {
+        thisRef.parentContractBasedState.iconClass.signalName = signalName;
+        CH5DpadUtils.subscribeStateForContract(thisRef.parentContractBasedState.iconClass,
+            () => {
+                const ele = thisRef._icon as HTMLElement;
+                ele.classList.add(thisRef.parentContractBasedState.iconClass.response);
+                ele.classList.add('dpad-btn-icon');
+            }
+        );
+    }
+
+    /**
+     * Function to update iconUrl handler based on contract
+     * @param signalName contract signal name for iconUrl
+     */
+    public static checkAndUpdateIconUrlHandler(thisRef: any, signalName: string = '') {
+        thisRef.parentContractBasedState.iconUrl.signalName = signalName;
+        CH5DpadUtils.subscribeStateForContract(thisRef.parentContractBasedState.iconUrl,
+            () => {
+                const ele = thisRef._icon as HTMLElement;
+                ele.classList.add(thisRef.parentContractBasedState.iconClass.response);
+                ele.classList.add(thisRef.CSS_CLASS_LIST.imageClassName);
+                ele.classList.add('dpad-btn-icon');
+            }
+        );
+    }
+
+    /**
+     * Function to update label based on contract
+     * @param signalName contract signal name for label
+     */
+    public static checkAndUpdateLabelHandler(thisRef: any, labelClassName: string, signalName: string = '') {
+        thisRef.parentContractBasedState.label.signalName = signalName;
+        CH5DpadUtils.subscribeStateForContract(thisRef.parentContractBasedState.label,
+            () => {
+                const ele = thisRef._icon as HTMLElement;
+                ele.innerHTML = thisRef.parentContractBasedState.label.response;
+                ele.classList.add(labelClassName);
+                // dpad-btn-label label-class
+            }
+        );
     }
 }

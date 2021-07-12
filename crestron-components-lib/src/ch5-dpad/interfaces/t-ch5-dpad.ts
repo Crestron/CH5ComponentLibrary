@@ -26,7 +26,9 @@ export type TCh5DpadStretch = 'both' | 'width' | 'height';
 export type TButtonClassListType = {
     primaryTagClass: string,
     primaryIconClass: string,
-    defaultIconClass: string
+    defaultIconClass: string,
+    imageClassName: string,
+    defaultArrowClass: string
 }
 
 export type TParentControlledContractRules = {
@@ -35,4 +37,19 @@ export type TParentControlledContractRules = {
     enable: boolean,
     show: boolean,
     icon: boolean
+};
+
+export type TParentContractBasedState = {
+    click: signalStructure,
+    label: signalStructure,
+    iconUrl: signalStructure,
+    iconClass: signalStructure,
+    enable: signalStructure,
+    show: signalStructure
+};
+
+export type signalStructure = {
+    signalName: string,
+    signalValue: string,
+    response: string
 };
