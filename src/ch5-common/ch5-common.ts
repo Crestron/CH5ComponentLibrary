@@ -1114,7 +1114,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 break;
             case 'show':
                 if (this.hasAttribute('show')) {
-                    const tmpShow = this.getAttribute('show') as string;
+                    const tmpShow = (this.getAttribute('show') as string).toString().toLowerCase();
                     if ('false' === tmpShow || '0' === tmpShow) {
                         this.show = false;
                     } else {
@@ -1137,6 +1137,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 } else {
                     this.noshowType = 'display';
                 }
+                this.updateForChangeInShowStatus();
                 break;
             case 'receivestatecustomclass':
                 if (this.hasAttribute('receivestatecustomclass')) {
@@ -1711,6 +1712,22 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         switch (str.toLowerCase().trim()) {
             case "true": case "yes": case "1": return true;
             case "false": case "no": case "0": case null: return false;
+            default: return Boolean(false);
+        }
+    }
+
+    /**
+     * Converts value to boolean
+     * Applicable for 'true', 'false', and null
+     * @private
+     * @param {string|boolean} str
+     * @returns {boolean}
+     */
+     protected toBoolean(val: any): boolean {
+        const str = String(val);
+        switch (str.toLowerCase().trim()) {
+            case "true": return true;
+            case "false": case null: return false;
             default: return Boolean(false);
         }
     }
