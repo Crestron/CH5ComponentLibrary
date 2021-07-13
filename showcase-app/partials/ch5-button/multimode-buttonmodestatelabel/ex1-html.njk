@@ -1,0 +1,354 @@
+
+ch5-button-label inside ch5-button
+        
+        <ch5-button type="danger" stretch="both">
+            <ch5-button-label>
+                <template>
+                    <b>ch5-button-label inside ch5-button</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button>
+    
+
+    <div class="databox">
+        <div id="div_btnA">
+            1. Override Label using ch5-button-label inside ch5-button
+        
+        <ch5-button label="A" type="danger" stretch="both" iconclass="fa fa-play" checkboxShow="true" checkboxPosition="right">
+            <ch5-button-label>
+                <template>
+                    <b>B</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button>
+    
+
+    2. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type warning in ch5-button-mode
+            overriding type danger along with iconclass in ch5-button-mode
+        <ch5-button label="A" type="danger" stretch="both" mode="0" checkboxShow="true" checkboxPosition="right">
+            <ch5-button-label>
+                <template>
+                    <b>B</b>
+                </template>
+            </ch5-button-label>
+            <ch5-button-mode type="warning">
+                <ch5-button-label>
+                    <template>
+                        C
+                    </template>
+                </ch5-button-label>
+            </ch5-button-mode>
+        </ch5-button>
+    
+
+    3. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type warning in ch5-button-mode
+            overriding type danger along with iconclass in ch5-button-mode
+        <ch5-button label="A" type="danger" mode="1" stretch="both" iconclass="fa fa-play" checkboxShow="true" checkboxPosition="right">
+            <ch5-button-label>
+                <template>
+                    <b>B</b>
+                </template>
+            </ch5-button-label>
+            <ch5-button-mode type="warning" iconclass="fa fa-play">
+                <ch5-button-label>
+                    <template>
+                        C
+                    </template>
+                </ch5-button-label>
+            </ch5-button-mode>
+            <ch5-button-mode type="default" iconclass="fa fa-play">
+                <ch5-button-label>
+                    <template>
+                        D
+                    </template>
+                </ch5-button-label>
+            </ch5-button-mode>
+        </ch5-button>
+    
+
+    4. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type warning in ch5-button-mode
+            overriding type danger along with iconclass in ch5-button-mode
+        <ch5-button iconposition="left" label="Default Label" halignlabel="left" type="default" stretch="width">
+            <ch5-button-mode type="warning" halignLabel="right" valignLabel="bottom" iconclass="fa fa-play">
+            </ch5-button-mode>
+            <ch5-button-mode type="danger" valignlabel="middle" iconclass="fa fa-pause">
+            </ch5-button-mode>
+            <ch5-button-mode type="secondary" iconclass="fa fa-play">
+            </ch5-button-mode>
+        </ch5-button>
+    
+
+    5. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type warning in ch5-button-mode
+            overriding type danger along with iconclass in ch5-button-mode
+        <ch5-button iconposition="left" label="Default Label" mode="0" checkboxShow="true" halignlabel="left" type="default" stretch="width">
+            <ch5-button-mode type="warning" halignLabel="right" valignLabel="bottom" iconclass="fa fa-play">
+            </ch5-button-mode>
+            <ch5-button-mode type="danger" valignlabel="middle" iconclass="fa fa-pause">
+                <ch5-button-label>
+                    <template>
+                        D
+                    </template>
+                </ch5-button-label>
+            </ch5-button-mode>
+            <ch5-button-mode type="secondary" checkboxPosition="right" iconclass="fa fa-play">
+            </ch5-button-mode>
+            <ch5-button-label>
+                <template>
+                    E
+                </template>
+            </ch5-button-label>
+        </ch5-button>
+    
+
+    6. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type warning in ch5-button-mode
+            overriding type danger along with iconclass in ch5-button-mode
+        <ch5-button label="A" type="danger" stretch="width">
+            <ch5-button-mode type="warning" iconclass="fa fa-play">
+                <ch5-button-label>
+                    <template>
+                        C
+                    </template>
+                </ch5-button-label>
+            </ch5-button-mode>
+            <ch5-button-label>
+                <template>
+                    B
+                </template>
+            </ch5-button-label>
+        </ch5-button>
+    
+
+    7. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type primary in ch5-button-mode
+            overriding type danger along with iconclass in ch5-button-mode
+        
+        <ch5-button label="A" onpress="console.log('a')" type="danger" stretch="width">
+            <ch5-button-label>
+                <template>
+                    <b>B</b>
+                </template>
+            </ch5-button-label>
+            <ch5-button-mode type="primary" iconclass="fa fa-play">
+                <ch5-button-label>
+                    <template>
+                        C
+                    </template>
+                </ch5-button-label>
+            </ch5-button-mode>
+        </ch5-button>
+    
+
+    8. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type default in ch5-button-mode-state
+            overriding type warning in ch5-button-mode danger along with iconclass in ch5-button-mode-state
+        
+        <ch5-button onpress="page1Module.setButtonSignal10()" label="A" type="info" mode="1" checkboxShow="true" stretch="width">
+            <ch5-button-mode type="text">
+                <ch5-button-label>
+                    <template>
+                        <b>C</b>
+                    </template>
+                </ch5-button-label>
+                <ch5-button-mode-state state="normal" iconclass="fa fa-play">
+                    <ch5-button-label>
+                        <template>
+                            D
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+            </ch5-button-mode>
+            <ch5-button-mode type="primary">
+                <ch5-button-label>
+                    <template>
+                        <b>F</b>
+                    </template>
+                </ch5-button-label>
+                <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="success">
+                    <ch5-button-label>
+                        <template>
+                            Normal
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+                <ch5-button-mode-state state="pressed" iconclass="fa fa-pause" type="danger">
+                    <ch5-button-label>
+                        <template>
+                            Pressed
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+                <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="warning">
+                    <ch5-button-label>
+                        <template>
+                            Selected
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+            </ch5-button-mode>
+            <ch5-button-label>
+                <template>
+                    <b>B</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button>
+    
+
+    9. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type default in ch5-button-mode-state
+            overriding type warning in ch5-button-mode danger along with iconclass in ch5-button-mode-state
+        
+        <ch5-button label="A" type="info" mode="1" checkboxShow="true" sendeventonclick="signal10" receivestatemode="signal9" stretch="width">
+            <ch5-button-mode type="primary">
+                <ch5-button-label>
+                    <template>
+                        <b>C</b>
+                    </template>
+                </ch5-button-label>
+                <ch5-button-mode-state state="normal" iconclass="fa fa-play">
+                    <ch5-button-label>
+                        <template>
+                            D
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+            </ch5-button-mode>
+            <ch5-button-mode type="secondary">
+                <ch5-button-label>
+                    <template>
+                        <b>F</b>
+                    </template>
+                </ch5-button-label>
+                <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
+                    <ch5-button-label>
+                        <template>
+                            Normal
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+                <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="text">
+                    <ch5-button-label>
+                        <template>
+                            Pressed
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+                <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
+                    <ch5-button-label>
+                        <template>
+                            Selected
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+            </ch5-button-mode>
+            <ch5-button-label>
+                <template>
+                    <b>B</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button>
+    
+
+    10. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type default in ch5-button-mode-state
+            overriding type warning in ch5-button-mode danger along with iconclass in ch5-button-mode-state
+        
+        <ch5-button label="A" type="info" mode="1" checkboxShow="true" sendeventonclick="signal10" receivestateselected="signal10" stretch="width">
+            <ch5-button-mode type="primary">
+                <ch5-button-label>
+                    <template>
+                        <b>C</b>
+                    </template>
+                </ch5-button-label>
+                <ch5-button-mode-state state="normal" iconclass="fa fa-play">
+                    <ch5-button-label>
+                        <template>
+                            D
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+            </ch5-button-mode>
+            <ch5-button-mode type="secondary">
+                <ch5-button-label>
+                    <template>
+                        <b>F</b>
+                    </template>
+                </ch5-button-label>
+                <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
+                    <ch5-button-label>
+                        <template>
+                            Normal
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+                <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="text">
+                    <ch5-button-label>
+                        <template>
+                            Pressed
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+                <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
+                    <ch5-button-label>
+                        <template>
+                            Selected
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+            </ch5-button-mode>
+            <ch5-button-label>
+                <template>
+                    <b>B</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button>
+    
+
+    11. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type default in ch5-button-mode-state
+            overriding type warning in ch5-button-mode danger along with iconclass in ch5-button-mode-state
+        
+        <ch5-button label="A" type="info" mode="1" checkboxShow="true" onpress="page1Module.setButtonSignal10()" receivestateselected="signal10" stretch="width">
+            <ch5-button-mode type="primary">
+                <ch5-button-label>
+                    <template>
+                        <b>C</b>
+                    </template>
+                </ch5-button-label>
+                <ch5-button-mode-state state="normal" iconclass="fa fa-play">
+                    <ch5-button-label>
+                        <template>
+                            D
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+            </ch5-button-mode>
+            <ch5-button-mode type="secondary">
+                <ch5-button-label>
+                    <template>
+                        <b>F</b>
+                    </template>
+                </ch5-button-label>
+                <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
+                    <ch5-button-label>
+                        <template>
+                            Normal
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+                <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="text">
+                    <ch5-button-label>
+                        <template>
+                            Pressed
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+                <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
+                    <ch5-button-label>
+                        <template>
+                            Selected
+                        </template>
+                    </ch5-button-label>
+                </ch5-button-mode-state>
+            </ch5-button-mode>
+            <ch5-button-label>
+                <template>
+                    <b>B</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button>
+    

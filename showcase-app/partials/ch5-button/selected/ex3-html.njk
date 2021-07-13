@@ -1,15 +1,5 @@
-<p>
-    Selected buttons
-    <ch5-button type="success" shape="rectangle"
-                 label="Button1" selected></ch5-button>
-    <ch5-button type="success" shape="rectangle"
-                 label="Button2" selected="true"></ch5-button>
-</p>
-
-<p>
-    Default/Unselected buttons
-    <ch5-button type="success" shape="rectangle"
-                 label="Button3"></ch5-button>
-    <ch5-button type="success" shape="rectangle"
-                 label="Button4" selected="false"></ch5-button>
-</p>
+<div class="btn_rec_sel_container content">
+    <button class="btn_rec_sel_true button is-info" type="button">Set btn_receive_selected to true</button>
+    <button class="btn_rec_sel_false button is-info" type="button">Set btn_receive_selected to false</button>
+</div>
+<ch5-button stretch="width" type="success" shape="rectangle" label="ReceiveSelectedFromSignal" receiveStateSelected="btn_receive_selected"></ch5-button>

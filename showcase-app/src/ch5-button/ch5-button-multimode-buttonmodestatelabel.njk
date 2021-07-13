@@ -1,0 +1,16 @@
+---
+title: "ch5-button: multi-mode ch5-button > ch5-button-mode > ch5-button-mode-state > ch5-button-label"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/ch5-button/multimode-buttonmodestatelabel.json" %}
+    {%- endset %}
+
+    {% call exampleSectionFromPartials('ch5-button/multimode-buttonmodestatelabel/','ex1') %}{% endcall %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-button/multimode-buttonmodestatelabel/','ex2') %}{% endcall %}
+
+{% endblock %}

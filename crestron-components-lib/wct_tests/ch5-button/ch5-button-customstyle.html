@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-customstyle-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+
+        suite('ch5-button', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/customstyle.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Button = fixture('ch5-button-customstyle-fixture');
+            });
+
+            const customStyleAttribute = "border: solid 2px black;";
+            const customStyleSelectedAttribute = "border: solid 2px red;";
+            const customStylePressedAttribute = "border: solid 2px orange;";
+            const customStyleDisabledAttribute = "border: solid 2px green;";
+
+            test(`Check attribute customstyle: "${customStyleAttribute}"`, () => {
+                ch5Button.setAttribute('customStyle', customStyleAttribute);
+                expect(ch5Button.customStyle).to.be.equal(customStyleAttribute);
+                expect(ch5Button.activeCustomStyle).to.be.equal(customStyleAttribute);
+            });
+            // test(`Check ch5-button > div css style name for customStyle: "${customStyleAttribute}"`, (done) => {
+            //     ch5Button.setAttribute('customStyle', customStyleAttribute);
+            //     flush(() => {
+            //         setTimeout(() => {
+            //             console.log("A", getDiv(ch5Button).getAttribute("style"));
+            //             const x = String(getDiv(ch5Button).getAttribute("style"));
+            //             console.log("B", x);
+            //             console.log("C", x.indexOf(customStyleAttribute) >= 0);
+            //             console.log("C1", (customStyleAttribute));
+            //             console.log("D", x === customStyleAttribute);
+            //             // TODO: Issue is solid 2px black vs 2px solid black;
+            //             expect(String(getDiv(ch5Button).getAttribute("style")).indexOf(customStyleAttribute) >= 0).to.be.equal(true);
+            //             done();
+            //         }, 100);
+            //     });
+
+            // });
+
+            // test(`Check attribute customStyleSelected: "${customStyleSelectedAttribute}"`, () => {
+            //     ch5Button.setAttribute('customStyleselected', customStyleSelectedAttribute);
+            //     expect(ch5Button.customStyleState).to.be.equal(customStyleSelectedAttribute);
+            // });
+            // test(`Check ch5-button > div css class name for customStyleSelected: "${customStyleSelectedAttribute}"`, () => {
+            //     ch5Button.setAttribute('customStyleSelected', customStyleSelectedAttribute);
+            //     expect(getDiv(ch5Button).classList.contains(customStyleSelectedAttribute)).to.be.equal(true);
+            // });
+
+            // test(`Check attribute customStylePressed: "${customStylePressedAttribute}"`, () => {
+            //     ch5Button.setAttribute('customStylePressed', customStylePressedAttribute);
+            //     // Note: Even customStyleState has this value
+            //     expect(ch5Button.customStylePressed).to.be.equal(customStylePressedAttribute);
+            // });
+            // // TODO: Commenting the test case below becos we are unable to set customStyleedPressed in Javascript way
+            // // test(`Check ch5-button > div css class name for customStylePressed: "${customStylePressedAttribute}"`, (done) => {
+            // //     ch5Button.setAttribute('customStylepressed', customStylePressedAttribute);
+            // //     flush(() => {
+            // //         setTimeout(() => {
+            // //             triggerEvent(ch5Button, "touchstart");
+            // //             console.log(getDiv(ch5Button).classList);
+            // //             expect(getDiv(ch5Button).classList.contains("ch5-button--pressed")).to.be.equal(true);
+            // //             expect(getDiv(ch5Button).classList.contains(customStylePressedAttribute)).to.be.equal(true);
+            // //             triggerEvent(ch5Button, "touchend");
+            // //             console.log(getDiv(ch5Button).classList);
+            // //             done();
+            // //         }, 100);
+            // //     });
+            // // });
+
+            // test(`Check attribute customStyleDisabled: "${customStyleDisabledAttribute}"`, () => {
+            //     ch5Button.setAttribute('customStyleDisabled', customStyleDisabledAttribute);
+            //     expect(ch5Button.customStyleDisabled).to.be.equal(customStyleDisabledAttribute);
+            // });
+            // test(`Check ch5-button > div css class name for customStyleDisabled: "${customStyleDisabledAttribute}"`, () => {
+            //     ch5Button.setAttribute('customStyleDisabled', customStyleDisabledAttribute);
+            //     expect(getDiv(ch5Button).classList.contains(customStyleDisabledAttribute)).to.be.equal(true);
+            // });
+
+        });
+    </script>
+</body>
+
+</html>

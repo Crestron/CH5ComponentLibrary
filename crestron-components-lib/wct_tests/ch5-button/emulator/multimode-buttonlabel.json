@@ -1,0 +1,54 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "trig1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "labelForButton",
+          "type": "string",
+          "logic": "set",
+          "value": "Label received from event - emulator"
+        },
+        {
+          "state": "labelForButtonHtml",
+          "type": "string",
+          "logic": "set",
+          "value": "He<b>ll</b>o <span style='color:red'>World</span><i style='color: blue;'>!</i>"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "trig2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "labelForButton",
+          "type": "string",
+          "logic": "set",
+          "value": "Another label received from signal - emulator"
+        },
+        {
+          "state": "labelForButtonHtml",
+          "type": "string",
+          "logic": "set",
+          "value": "Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>Hello<br/>World!<br/>"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "labelForButton",
+      "type": "s",
+      "value": "Hello from receiveStateLabel"
+    },
+    {
+      "state": "labelForButtonHtml",
+      "type": "s",
+      "value": "He<b>ll</b>o <span style='color:red'> from labelHTML</span> <i style='color: blue;'>!!!</i>"
+    }
+  ]
+}

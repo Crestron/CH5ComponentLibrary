@@ -1,0 +1,21 @@
+The below button contains <strong>receiveStateLabel</strong> which takes preference over <i>label</i> attribute in <strong>ch5-button</strong> and <strong>ch5-button-label</strong>. <br/><br/>
+
+<ch5-button type="info" label="Primary label which is overridden" receiveStateLabel="labelForButton" stretch="both">
+  <ch5-button-label>
+    <template>
+      <i>How is the weather today?</i>
+    </template>
+  </ch5-button-label>
+</ch5-button>
+
+<hr/>
+
+The below button contains <strong>receiveStateScriptLabelHtml</strong> which takes preference over <i>label</i> attribute in <strong>ch5-button</strong>, <strong>receiveStateLabel</strong> and <strong>ch5-button-label</strong>. <br/><br/>
+
+<ch5-button type="text" label="Primary label which is overridden" receiveStateLabel="labelForButton" receiveStateScriptLabelHtml="labelForButtonHtml" stretch="both">
+  <ch5-button-label>
+    <template>
+      <i>How is the weather today?</i>
+    </template>
+  </ch5-button-label>
+</ch5-button>

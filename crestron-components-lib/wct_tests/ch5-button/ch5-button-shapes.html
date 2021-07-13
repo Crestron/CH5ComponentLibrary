@@ -54,8 +54,11 @@
                 ch5Button = fixture('ch5-button-shapes-fixture');
             });
 
-            const availableShapes = CH5_BUTTON_MASTERS.SHAPES.values;
-            availableShapes.forEach((shapeName, i) => {
+            const valid_shapes = CH5_BUTTON_MASTERS.SHAPES.values;
+            const invalid_shapes = ['', null, 'Circle', 'Square', 'Rectangle'];
+            const defaultShape = "rounded-rectangle";
+
+            valid_shapes.forEach((shapeName, i) => {
                 test(`Check attribute shape: "${shapeName}"`, () => {
                     ch5Button.setAttribute('shape', shapeName);
                     expect(ch5Button.shape).to.be.equal(shapeName);
@@ -66,6 +69,16 @@
                 });
             });
         
+            invalid_shapes.forEach((shapeName, i) => {
+                test(`Check attribute shape: "${shapeName}"`, () => {
+                    ch5Button.setAttribute('shape', shapeName);
+                    expect(ch5Button.shape).to.be.equal(defaultShape);
+                });
+                test(`Check ch5-button > div css class name for shape: "${shapeName}"`, () => {
+                    ch5Button.setAttribute('shape', shapeName);
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--" + defaultShape)).to.be.equal(true);
+                });
+            });
         });
     </script>
 </body>

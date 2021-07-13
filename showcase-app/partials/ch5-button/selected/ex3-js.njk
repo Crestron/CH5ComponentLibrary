@@ -1,0 +1,11 @@
+(function($, crLib){
+    var container = $('.btn_rec_sel_container');
+    var sigName = 'btn_receive_selected';
+    container.off('click');
+    container.on('click', '.btn_rec_sel_true', function() {
+        crLib.publishEvent('b', sigName, true);
+    });
+    container.on('click', '.btn_rec_sel_false', function() {
+        crLib.publishEvent('b',sigName, false);
+    });
+})(jQuery,CrComLib);
