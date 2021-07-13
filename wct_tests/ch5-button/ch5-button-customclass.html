@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-customclass-fixture">
+        <template>
+            <ch5-button ontouchstart="mouseDown()" ontouchend="mouseUp()" onmousedown="mouseDown()" onmouseup="mouseUp()"></ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        function mouseDown() {
+            console.log("mouseDown");
+        }
+        function mouseUp() {
+            console.log("mouseUp");
+        }
+
+        function triggerEvent(el, type) {
+            if ('createEvent' in document) {
+                // modern browsers, IE9+
+                var e = document.createEvent('HTMLEvents');
+                e.initEvent(type, false, true);
+                el.dispatchEvent(e);
+            } else {
+                // IE 8
+                var e = document.createEventObject();
+                e.eventType = type;
+                el.fireEvent('on' + e.eventType, e);
+            }
+        }
+        suite('ch5-button', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                // const emulatorJson = await fetch('./emulator/labels.json').then((response) => response.json());
+                // const emulator = CrComLib.Ch5Emulator.getInstance();
+                // emulator.loadScenario(emulatorJson);
+
+                ch5Button = fixture('ch5-button-customclass-fixture');
+            });
+
+            const customClassAttribute = "blue-border red-color-font";
+            const customClassSelectedAttribute = "border-green-selected";
+            const customClassPressedAttribute = "border-yellow-pressed";
+            const customClassDisabledAttribute = "border-black-disabled";
+
+            test(`Check attribute customclass: "${customClassAttribute}"`, () => {
+                ch5Button.setAttribute('customClass', customClassAttribute);
+                expect(ch5Button.customClass).to.be.equal(customClassAttribute);
+            });
+            test(`Check ch5-button > div css class name for customClass: "${customClassAttribute}"`, () => {
+                ch5Button.setAttribute('customClass', customClassAttribute);
+                const splitClass = customClassAttribute.split(" ");
+                for (let i = 0; i < splitClass.length; i++) {
+                    expect(getDiv(ch5Button).classList.contains(splitClass[i])).to.be.equal(true);
+                }
+            });
+
+            test(`Check attribute customClassSelected: "${customClassSelectedAttribute}"`, () => {
+                ch5Button.setAttribute('customclassselected', customClassSelectedAttribute);
+                expect(ch5Button.customClassState).to.be.equal(customClassSelectedAttribute);
+            });
+            test(`Check ch5-button > div css class name for customClassSelected: "${customClassSelectedAttribute}"`, () => {
+                ch5Button.setAttribute('customClassSelected', customClassSelectedAttribute);
+                expect(getDiv(ch5Button).classList.contains(customClassSelectedAttribute)).to.be.equal(true);
+            });
+
+            test(`Check attribute customClassPressed: "${customClassPressedAttribute}"`, () => {
+                ch5Button.setAttribute('customClassPressed', customClassPressedAttribute);
+                // Note: Even customClassState has this value
+                expect(ch5Button.customClassPressed).to.be.equal(customClassPressedAttribute);
+            });
+            // TODO: Commenting the test case below becos we are unable to set customClassedPressed in Javascript way
+            // test(`Check ch5-button > div css class name for customClassPressed: "${customClassPressedAttribute}"`, (done) => {
+            //     ch5Button.setAttribute('customclasspressed', customClassPressedAttribute);
+            //     flush(() => {
+            //         setTimeout(() => {
+            //             triggerEvent(ch5Button, "touchstart");
+            //             console.log(getDiv(ch5Button).classList);
+            //             expect(getDiv(ch5Button).classList.contains("ch5-button--pressed")).to.be.equal(true);
+            //             expect(getDiv(ch5Button).classList.contains(customClassPressedAttribute)).to.be.equal(true);
+            //             triggerEvent(ch5Button, "touchend");
+            //             console.log(getDiv(ch5Button).classList);
+            //             done();
+            //         }, 100);
+            //     });
+            // });
+
+            test(`Check attribute customClassDisabled: "${customClassDisabledAttribute}"`, () => {
+                ch5Button.setAttribute('customClassDisabled', customClassDisabledAttribute);
+                expect(ch5Button.customClassDisabled).to.be.equal(customClassDisabledAttribute);
+            });
+            test(`Check ch5-button > div css class name for customClassDisabled: "${customClassDisabledAttribute}"`, () => {
+                ch5Button.setAttribute('customClassDisabled', customClassDisabledAttribute);
+                expect(getDiv(ch5Button).classList.contains(customClassDisabledAttribute)).to.be.equal(true);
+            });
+
+        });
+    </script>
+</body>
+
+</html>

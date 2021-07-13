@@ -29,13 +29,22 @@
                 // const emulatorJson = await fetch('./emulator/labels.json').then((response) => response.json());
                 // const emulator = CrComLib.Ch5Emulator.getInstance();
                 // emulator.loadScenario(emulatorJson);
-                
+
                 ch5Button = fixture('ch5-button-sizes-fixture');
             });
 
-            // Size
-            const availableSizes = CH5_BUTTON_MASTERS.SIZES.values;
-            availableSizes.forEach((sizeName, i) => {
+            test(`Check attribute size if not added by default to the button`, () => {
+                expect(ch5Button.size).to.be.equal("regular");
+            });
+            test(`Check ch5-button > div css class name for size if not added by default to the button`, () => {
+                expect(getDiv(ch5Button).classList.contains("ch5-button--size-regular")).to.be.equal(true);
+            });
+
+            const valid_sizes = CH5_BUTTON_MASTERS.SIZES.values;
+            const default_size = "regular";
+            const invalid_sizes = ['', 'junk', 'null', 'undefined', '0', '1', null, undefined];
+
+            valid_sizes.forEach((sizeName, i) => {
                 test(`Check attribute size: "${sizeName}"`, () => {
                     ch5Button.setAttribute('size', sizeName);
                     expect(ch5Button.size).to.be.equal(sizeName);
@@ -46,6 +55,16 @@
                 });
             });
 
+            invalid_sizes.forEach((sizeName, i) => {
+                test(`Check attribute size: "${sizeName}" for invalid values`, () => {
+                    ch5Button.setAttribute('size', sizeName);
+                    expect(ch5Button.size).to.be.equal(default_size);
+                });
+                test(`Check ch5-button > div css class name for size: "${sizeName}" for invalid values`, () => {
+                    ch5Button.setAttribute('size', sizeName);
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + default_size)).to.be.equal(true);
+                });
+            });
         });
     </script>
 </body>

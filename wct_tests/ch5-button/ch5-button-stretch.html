@@ -20,31 +20,6 @@
         </template>
     </test-fixture>
 
-    <!--
-
-<div class="ch5-btn-container1">
-    <ch5-button type="success" label="stretch height" shape="rectangle" stretch="height"></ch5-button>
-</div>
-
-<ch5-button 
-    type="danger" 
-    label="Danger" 
-    role="button" 
-    dir="ltr" 
-    style="touch-action: auto; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-    <div 
-        class="cb-cntr ch5-button ch5-button--rounded-rectangle ch5-button--danger ch5-button--size-regular" 
-        style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-        <button 
-            class="cb-btn" 
-            data-ch5-id="cr-id-43">
-            <span class="cb-lbl ch5-button--label">Danger</span>
-        </button>
-    </div>
-</ch5-button>
-
-    -->
-
     <script>
         suite('ch5-button', () => {
 
@@ -54,8 +29,10 @@
                 ch5Button = fixture('ch5-button-stretch-fixture');
             });
 
-            const availableStretches = ['height', 'width', 'both'];
-            availableStretches.forEach((stretchName, i) => {
+            const valid_stretches = ['height', 'width', 'both'];
+            const invalid_stretches = ['', 'junk', 'null', 'undefined', '0', '1', null, undefined];
+
+            valid_stretches.forEach((stretchName, i) => {
                 test(`Check attribute stretch: "${stretchName}"`, () => {
                     ch5Button.setAttribute('stretch', stretchName);
                     expect(ch5Button.stretch).to.be.equal(stretchName);
@@ -63,6 +40,17 @@
                 test(`Check ch5-button > div css class name for stretch: "${stretchName}"`, () => {
                     ch5Button.setAttribute('stretch', stretchName);
                     expect(getDiv(ch5Button).classList.contains("ch5-button--stretch-" + stretchName)).to.be.equal(true);
+                });
+            });
+
+            invalid_stretches.forEach((stretchName, i) => {
+                test(`Check attribute stretch: "${stretchName}" for invalid values`, () => {
+                    ch5Button.setAttribute('stretch', stretchName);
+                    expect(!!ch5Button.stretch).to.be.equal(false);
+                });
+                test(`Check ch5-button > div css class name for stretch: "${stretchName}" for invalid values`, () => {
+                    ch5Button.setAttribute('stretch', stretchName);
+                    expect(!!getDiv(ch5Button)).to.be.equal(true);
                 });
             });
 

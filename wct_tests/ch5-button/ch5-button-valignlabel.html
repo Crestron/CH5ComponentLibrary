@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-valignlabel-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-button', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/labels.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Button = fixture('ch5-button-valignlabel-fixture');
+            });
+
+            const valid_vAlignLabelValues = CH5_BUTTON_MASTERS.VERTICAL_ALIGN_LABELS.values;
+            const invalid_vAlignLabelValues = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1'];
+
+            valid_vAlignLabelValues.forEach((vAlignLabelName, i) => {
+                test(`Check attribute vAlignLabel: "${vAlignLabelName}"`, () => {
+                    ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
+                    expect(ch5Button.vAlignLabel).to.be.equal(vAlignLabelName);
+                });
+                test(`Check ch5-button > div css class name for vAlignLabel: "${vAlignLabelName}"`, () => {
+                    ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
+                    expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-" + vAlignLabelName)).to.be.equal(true);
+                    valid_vAlignLabelValues.forEach((vAlignLabelNameErrorCheck, j) => {
+                        if (vAlignLabelNameErrorCheck !== vAlignLabelName) {
+                            expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-" + vAlignLabelNameErrorCheck)).to.be.equal(false);
+                        }
+                    });
+                });
+            });
+
+            invalid_vAlignLabelValues.forEach((vAlignLabelName, i) => {
+                test(`Check attribute vAlignLabel: "${vAlignLabelName}"`, () => {
+                    ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
+                    expect(ch5Button.vAlignLabel).to.be.equal("middle");
+                });
+                test(`Check ch5-button > div css class name for vAlignLabel: "${vAlignLabelName}"`, () => {
+                    ch5Button.setAttribute('vAlignLabel', vAlignLabelName);
+                    expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-middle")).to.be.equal(true);
+                    valid_vAlignLabelValues.forEach((vAlignLabelNameErrorCheck, j) => {
+                        if (vAlignLabelNameErrorCheck !== "middle") {
+                            expect(getSpan(ch5Button).classList.contains("ch5-button--vertical-" + vAlignLabelNameErrorCheck)).to.be.equal(false);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

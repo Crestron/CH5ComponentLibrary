@@ -81,10 +81,12 @@
 
             // Orientation
             // TODO: Check input with case sensitivity
-            // TODO: Check orientation and other attributes directly from button along with setAttribute
+            // TODO: Check orientation on shapes and sizes
+            // TODO check orientation with icons etc
             // TODO: Test Ellipsis for Label
 
             const availableOrientations = CH5_BUTTON_MASTERS.ORIENTATIONS.values;
+            const invalidOrientations = ['', 'junk', 'null', 'Vertical', 'Horizontal', 'undefined', '0', '1', 'top', 'left', 'right', 'bottom', 'center'];
 
             availableOrientations.forEach((orientationName, i) => {
                 test(`Check attribute orientation: "${orientationName}"`, () => {
@@ -94,18 +96,20 @@
 
                 // The css class of vertical is dynamically added for vertical orientation, 
                 // and the css class of vertical is dynamically removed incase of horizontal
-                test(`Check ch5-button > div css class name for orientation: vertical`, () => {
-                    ch5Button.setAttribute('orientation', 'vertical');
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--vertical")).to.be.equal(true);
-                });
-                test(`Check ch5-button > div css class name for orientation: horizontal`, () => {
-                    ch5Button.setAttribute('orientation', 'horizontal');
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--vertical")).to.be.equal(false);
-                });
-                test(`Check ch5-button > div css class name for orientation: horizontal`, () => {
-                    ch5Button.setAttribute('orientation', 'vertical');
-                    ch5Button.setAttribute('orientation', 'horizontal');
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--vertical")).to.be.equal(false);
+                test(`Check ch5-button > div css class name for orientation: "${orientationName}"`, () => {
+                    ch5Button.setAttribute('orientation', orientationName);
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--" + orientationName)).to.satisfy((getValue) => {
+                        if (orientationName === 'horizontal') {
+                            return (getValue === true || getValue === false);
+                        } else {
+                            return getValue;
+                        }
+                    });
+                    availableOrientations.forEach((orientationNameNew, j) => {
+                        if (orientationNameNew !== orientationName) {
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--" + orientationNameNew)).to.be.equal(false);
+                        }
+                    });
                 });
             });
 
