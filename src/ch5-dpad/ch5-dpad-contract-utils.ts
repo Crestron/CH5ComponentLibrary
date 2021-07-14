@@ -103,7 +103,8 @@ export class CH5DpadContractUtils {
         thisRef.parentContractBasedState.click.signalName = signalName;
         CH5DpadUtils.subscribeStateForContract(thisRef.parentContractBasedState.click,
             () => {
-                console.log(thisRef.parentContractBasedState.click.response);
+                const res = thisRef.parentContractBasedState.click.response;
+                console.log(`Click response is :${res}: for ${thisRef.crId} is rendered void.`);
             }
         );
     }
@@ -129,7 +130,7 @@ export class CH5DpadContractUtils {
         thisRef.parentContractBasedState.enable.signalName = signalName;
         CH5DpadUtils.subscribeStateForContract(thisRef.parentContractBasedState.enable,
             () => {
-                thisRef.show = (thisRef.parentContractBasedState.enable.response.toString() === 'true');
+                thisRef.enable = (thisRef.parentContractBasedState.enable.response.toString() === 'true');
             }
         );
     }

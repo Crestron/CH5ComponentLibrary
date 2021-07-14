@@ -457,18 +457,19 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.type = CH5DpadUtils.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
         this.shape = CH5DpadUtils.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
         this.stretch = CH5DpadUtils.setAttributeToElement(this, 'stretch', this._stretch) as TCh5DpadStretch;
+
+        // DEV NOTE: if contract name exists, and the individual attribute values don't exist, 
+        // then the default value is true for useContractFor*
+        // else useContractFor* picks value from attributes
+        const isContractNameAvailable = Boolean(this.contractName).toString();
         this.useContractforLabel = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractforLabel', this._useContractforLabel.toString())
-        );
+            CH5DpadUtils.setAttributeToElement(this, 'useContractforLabel', isContractNameAvailable));
         this.useContractforEnable = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractforEnable', this._useContractforEnable.toString())
-        );
+            CH5DpadUtils.setAttributeToElement(this, 'useContractforEnable', isContractNameAvailable));
         this.useContractForShow = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractForShow', this._useContractForShow.toString())
-        );
+            CH5DpadUtils.setAttributeToElement(this, 'useContractForShow', isContractNameAvailable));
         this.useContractForIcons = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractForIcons', this._useContractForIcons.toString())
-        );
+            CH5DpadUtils.setAttributeToElement(this, 'useContractForIcons', isContractNameAvailable));
 
         this.logger.stop();
     }
