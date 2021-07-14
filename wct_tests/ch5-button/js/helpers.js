@@ -60,28 +60,6 @@ const CH5_BUTTON_MASTERS = {
   }
 };
 
-/*
-public static readonly TYPES: TCh5ButtonType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
-
-public static readonly SHAPES: TCh5ButtonShape[] = ['rounded-rectangle', 'rectangle', 'tab', 'circle', 'oval'];
-
-
-public static readonly SIZES: TCh5ButtonSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
-
-public static readonly STRETCHES: TCh5ButtonStretch[] = ['both', 'width', 'height'];
-
-public static readonly ICON_POSITIONS: TCh5ButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
-
-public static readonly CHECKBOX_POSITIONS: TCh5ButtonCheckboxPosition[] = ['left', 'right']; // this.getAllCheckboxPositions() // ['left', 'right'];
-
-public static readonly HORIZONTAL_LABEL_ALIGNMENTS: TCh5ButtonHorizontalAlignLabel[] = ['center', 'left', 'right'];
-public static readonly VERTICAL_LABEL_ALIGNMENTS: TCh5ButtonVerticalAlignLabel[] = ['middle', 'top', 'bottom'];
-
-
-public static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
-
-*/
-
 function getDiv(myCh5Button) {
   return myCh5Button.getElementsByTagName('div')[0];
   // return myCh5Button.getImmediateChildrenElementsByTagName('div', Ch5Button)[0];
@@ -110,6 +88,14 @@ function getImmediateChildrenElementsByTagName(controlObject, tagName, parentEle
   }
   return output;
   // return getElementById(tagName);
+}
+
+function getAttributesList(id) {
+  const arr = [];
+  for (let k = 0; k < id.attributes.length; k++) {
+    arr.push(id.attributes[k].nodeName + ": " + id.attributes[k].nodeValue);
+  }
+  return arr;
 }
 
 function log(...input) {
