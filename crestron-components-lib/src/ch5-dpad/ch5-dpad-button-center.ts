@@ -3,6 +3,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Dpad } from "./ch5-dpad";
+import { CH5DpadAttributesUtils } from "./ch5-dpad-attributes-utils";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadCenterAttributes } from "./interfaces/i-ch5-dpad-button-center-interfaces";
@@ -147,6 +148,11 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
      * receiveStateIconClass specif getter-setter
      */
     public set receiveStateIconClass(value: string) {
+        this.info('set receiveStateIconClass("' + value + '")');
+        // if contract name exists in parent, receiveState based values must be ignored
+        if (Boolean(this.parentControlledContractRules.contractName)) {
+            return;
+        }
         if (!value || this._receiveStateIconClass === value) {
             return;
         }
@@ -188,9 +194,62 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     /**
+     * Overriding receiveStateShow to not do anything if parent has contractName attribute set
+     */
+    public set receiveStateShow(value: string) {
+        this.info('set receiveStateShow("' + value + '")');
+        // if contract name exists in parent, receiveState based values must be ignored
+        if (Boolean(this.parentControlledContractRules.contractName)) {
+            return;
+        }
+        super.receiveStateShow = value;
+    }
+
+    /**
+     * Overriding receiveStateEnable to not do anything if parent has contractName attribute set
+     */
+    public set receiveStateEnable(value: string) {
+        this.info('set receiveStateEnable("' + value + '")');
+        // if contract name exists in parent, receiveState based values must be ignored
+        if (Boolean(this.parentControlledContractRules.contractName)) {
+            return;
+        }
+        super.receiveStateEnable = value;
+    }
+
+    /**
+     * Overriding receiveStateShowPulse to not do anything if parent has contractName attribute set
+     */
+    public set receiveStateShowPulse(value: string) {
+        this.info('set receiveStateShowPulse("' + value + '")');
+        // if contract name exists in parent, receiveState based values must be ignored
+        if (Boolean(this.parentControlledContractRules.contractName)) {
+            return;
+        }
+        super.receiveStateShowPulse = value;
+    }
+
+    /**
+     * Overriding receiveStateHidePulse to not do anything if parent has contractName attribute set
+     */
+    public set receiveStateHidePulse(value: string) {
+        this.info('set receiveStateHidePulse("' + value + '")');
+        // if contract name exists in parent, receiveState based values must be ignored
+        if (Boolean(this.parentControlledContractRules.contractName)) {
+            return;
+        }
+        super.receiveStateHidePulse = value;
+    }
+
+    /**
      * receiveStateIconUrl specif getter-setter
      */
     public set receiveStateIconUrl(value: string) {
+        this.info('set receiveStateIconUrl("' + value + '")');
+        // if contract name exists in parent, receiveState based values must be ignored
+        if (Boolean(this.parentControlledContractRules.contractName)) {
+            return;
+        }
         if (!value || this._receiveStateIconUrl === value) {
             return;
         }
@@ -236,6 +295,11 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
      */
     public set receiveStateLabel(value: string) {
         this.info('set receiveStateLabel("' + value + '")');
+        // if contract name exists in parent, receiveState based values must be ignored
+        if (Boolean(this.parentControlledContractRules.contractName)) {
+            return;
+        }
+
         if (!value || this._receiveStateLabel === value) {
             return;
         }
@@ -278,6 +342,11 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
      */
     public set receivestatescriptlabelhtml(value: string) {
         this.info('set receivestatescriptlabelhtml("' + value + '")');
+        // if contract name exists in parent, receiveState based values must be ignored
+        if (Boolean(this.parentControlledContractRules.contractName)) {
+            return;
+        }
+
         if (!value || this._receivestatescriptlabelhtml === value) {
             return;
         }
@@ -344,6 +413,9 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             Please ensure the parent tag is ch5-dpad, and other mandatory sibling 
             elements are available too. Reference id: ${this.crId}`);
         }
+
+        // will have the flags ready for contract level content to be ready
+        this.buildParentBasedContractRef();
         this.createElementsAndInitialize();
 
         customElements.whenDefined('ch5-dpad-button-center').then(() => {
@@ -477,65 +549,65 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
 
     public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
         this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
+        attr = attr.toLowerCase();
         if (oldValue === newValue) {
             return;
         }
 
         this.info('ch5-dpad-button-center attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-
-        switch (attr) {
-            case 'iconclass':
-                if (this.hasAttribute('iconclass')) {
-                    this.iconClass = newValue;
-                } else {
-                    this.iconClass = '';
-                }
-                break;
-            case 'iconurl':
-                if (this.hasAttribute('iconurl')) {
-                    this.iconUrl = newValue;
-                } else {
-                    this.iconUrl = '';
-                }
-                break;
-            case 'label':
-                if (this.hasAttribute('label')) {
-                    this.label = newValue;
-                } else {
-                    this.label = '';
-                }
-                break;
-            case 'receivestateiconclass':
-                if (this.hasAttribute('receivestateiconclass')) {
-                    this.receiveStateIconClass = newValue;
-                } else {
-                    this.receiveStateIconClass = '';
-                }
-                break;
-            case 'receivestateiconurl':
-                if (this.hasAttribute('receivestateiconurl')) {
-                    this.receiveStateIconUrl = newValue;
-                } else {
-                    this.receiveStateIconUrl = '';
-                }
-                break;
-            case 'receivestatelabel':
-                if (this.hasAttribute('receivestatelabel')) {
-                    this.receiveStateLabel = newValue;
-                } else {
-                    this.receiveStateLabel = '';
-                }
-                break;
-            case 'receivestatescriptlabelhtml':
-                if (this.hasAttribute('receivestatescriptlabelhtml')) {
-                    this.receivestatescriptlabelhtml = newValue;
-                } else {
-                    this.receivestatescriptlabelhtml = '';
-                }
-                break;
-            default:
-                super.attributeChangedCallback(attr, oldValue, newValue);
-                break;
+        const callback = super.attributeChangedCallback.bind(this);
+        const parentContractName: string = CH5DpadUtils.getAttributeAsString(this.parentElement, 'contractname', '');
+        const isAttributeFound = CH5DpadAttributesUtils.onParentContractBasedAttrChangedCallback(
+            this, attr, oldValue, newValue, parentContractName, callback
+        );
+        if (!isAttributeFound) {
+            switch (attr) {
+                case 'receivestatescriptlabelhtml': // higher than receivestatelabel and label
+                    if (!Boolean(parentContractName)) {
+                        this.receivestatescriptlabelhtml = CH5DpadAttributesUtils.setAttributesBasedValue(
+                            this.hasAttribute(attr), newValue, '');
+                    }
+                    break;
+                case 'receivestatelabel': // higher than label
+                    if (!Boolean(parentContractName)) {
+                        this.receiveStateLabel = CH5DpadAttributesUtils.setAttributesBasedValue(
+                            this.hasAttribute(attr), newValue, '');
+                    }
+                    break;
+                case 'label':
+                    // rules for label are:
+                    // 1. (parent contract name should not exist && useContractforLabel must be false) ||
+                    // 2. receivestatescriptlabelhtml && receivestatelabel must be empty, while parentContractName is empty
+                    const isParentContractLabel = CH5DpadUtils.getAttributeAsBool(
+                        this.parentElement, 'usecontractforlabel', true);
+                    const stateLabel: string = CH5DpadUtils.getAttributeAsString(this.parentElement, 'receivestatelabel', '');
+                    const stateLabelHtml: string = CH5DpadUtils.getAttributeAsString(this.parentElement, 'receivestatescriptlabelhtml', '');
+                    if ((Boolean(parentContractName) && !isParentContractLabel) ||
+                        (!Boolean(parentContractName) && !Boolean(stateLabel) && !Boolean(stateLabelHtml))) {
+                        this.label = CH5DpadAttributesUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    }
+                    break;
+                case 'iconclass':
+                    // rules for icon are:
+                    // 1. (parent contract name should not exist && useContractForIcons must be false) ||
+                    // 2. receiveStateIconClass must be empty, while parentContractName is empty
+                    if (!Boolean(parentContractName)) {
+                        this.iconUrl = CH5DpadAttributesUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    }
+                    break;
+                case 'iconurl':
+                    // rules for icon are:
+                    // 1. (parent contract name should not exist && useContractForIcons must be false) ||
+                    // 2. receiveStateIconUrl must be empty, while parentContractName is empty
+                    const stateIconUrl: string = CH5DpadUtils.getAttributeAsString(this.parentElement, 'receivestateiconurl', '');
+                    if (!Boolean(parentContractName)) {
+                        this.iconUrl = CH5DpadAttributesUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    }
+                    break;
+                default:
+                    callback(attr, oldValue, newValue);
+                    break;
+            }
         }
 
         this.logger.stop();
@@ -548,8 +620,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         this.logger.start("initAttributes", this.COMPONENT_NAME);
         super.initAttributes();
 
-        // will have the flags ready for contract level content to be ready
-        this.buildParentBasedContract();
 
         CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
@@ -586,11 +656,11 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     /**
      * Function to build parent controlled contract rules and contract structure based on them
      */
-    private buildParentBasedContract() {
+    private buildParentBasedContractRef() {
         const contract: ICenterBtnContract = CH5DpadContractUtils.getCenterBtnContract();
         this.parentControlledContractRules = CH5DpadUtils.buildParentControlledContractRules(this);
         // TODO: need to set this value
-        const { contractName, show, enable, icon } = this.parentControlledContractRules;
+        const { contractName, show, enable, icon, label } = this.parentControlledContractRules;
         if (Boolean(contractName)) {
             this._icon = document.createElement('span');
             CH5DpadContractUtils.checkAndUpdateClickHandler(this, `${contractName}.${contract.CenterClicked}`);
@@ -604,7 +674,9 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
                 CH5DpadContractUtils.checkAndUpdateIconClassHandler(this, `${contractName}.${contract.CenterIconClass}`);
                 CH5DpadContractUtils.checkAndUpdateIconUrlHandler(this, `${contractName}.${contract.CenterIconUrl}`);
             }
-            CH5DpadContractUtils.checkAndUpdateLabelHandler(this, this.labelClass, `${contractName}.${contract.CenterLabel}`);
+            if (label) {
+                CH5DpadContractUtils.checkAndUpdateLabelHandler(this, this.labelClass, `${contractName}.${contract.CenterLabel}`);
+            }
         }
     }
 
