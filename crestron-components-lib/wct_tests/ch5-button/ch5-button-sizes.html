@@ -26,10 +26,6 @@
             let ch5Button;
 
             setup(async () => {
-                // const emulatorJson = await fetch('./emulator/labels.json').then((response) => response.json());
-                // const emulator = CrComLib.Ch5Emulator.getInstance();
-                // emulator.loadScenario(emulatorJson);
-
                 ch5Button = fixture('ch5-button-sizes-fixture');
             });
 
@@ -40,9 +36,9 @@
                 expect(getDiv(ch5Button).classList.contains("ch5-button--size-regular")).to.be.equal(true);
             });
 
-            const valid_sizes = CH5_BUTTON_MASTERS.SIZES.values;
-            const default_size = "regular";
-            const invalid_sizes = ['', 'junk', 'null', 'undefined', '0', '1', null, undefined];
+            const valid_sizes = CrComLib.Ch5Button.SIZES;
+            const default_size = CrComLib.Ch5Button.SIZES[0];
+            const invalid_sizes = ['', 'junk', 'null', 'undefined', '0', '1', null, undefined, 'Regular', "X-LARGE"];
 
             valid_sizes.forEach((sizeName, i) => {
                 test(`Check attribute size: "${sizeName}"`, () => {
@@ -65,6 +61,14 @@
                     expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + default_size)).to.be.equal(true);
                 });
             });
+
+            test(`Check attribute type "regular" by not adding the size attribute in HTML or through javascript to the button`, () => {
+                expect(ch5Button.size).to.be.equal(default_size);
+            });
+            test(`Check ch5-button > div css class name for attribute type "regular" by not adding the size attribute in HTML or through javascript to the button`, () => {
+                expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + default_size)).to.be.equal(true);
+            });
+
         });
     </script>
 </body>

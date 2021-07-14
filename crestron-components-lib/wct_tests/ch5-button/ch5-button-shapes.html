@@ -20,43 +20,18 @@
         </template>
     </test-fixture>
 
-    <!--
-
-<ch5-button 
-    type="danger" 
-    label="Danger" 
-    role="button" 
-    dir="ltr" 
-    style="touch-action: auto; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-    <div 
-        class="cb-cntr ch5-button ch5-button--rounded-rectangle ch5-button--danger ch5-button--size-regular" 
-        style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-        <button 
-            class="cb-btn" 
-            data-ch5-id="cr-id-43">
-            <span class="cb-lbl ch5-button--label">Danger</span>
-        </button>
-    </div>
-</ch5-button>
-
-    -->
-
     <script>
         suite('ch5-button', () => {
 
             let ch5Button;
 
             setup(async () => {
-                // const emulatorJson = await fetch('./emulator/shapes.json').then((response) => response.json());
-                // const emulator = CrComLib.Ch5Emulator.getInstance();
-                // emulator.loadScenario(emulatorJson);
-                
-                ch5Button = fixture('ch5-button-shapes-fixture');
+               ch5Button = fixture('ch5-button-shapes-fixture');
             });
 
-            const valid_shapes = CH5_BUTTON_MASTERS.SHAPES.values;
+            const valid_shapes = CrComLib.Ch5Button.SHAPES;
             const invalid_shapes = ['', null, 'Circle', 'Square', 'Rectangle'];
-            const defaultShape = "rounded-rectangle";
+            const default_shape = CrComLib.Ch5Button.SHAPES[0];
 
             valid_shapes.forEach((shapeName, i) => {
                 test(`Check attribute shape: "${shapeName}"`, () => {
@@ -69,14 +44,21 @@
                 });
             });
         
+            test(`Check attribute shape "rounded-rectangle" by not adding the type attribute in HTML or through javascript to the button`, () => {
+                expect(ch5Button.shape).to.be.equal(default_shape);
+            });
+            test(`Check ch5-button > div css class name for attribute shape "rounded-rectangle" by not adding the type attribute in HTML or through javascript to the button`, () => {
+                expect(getDiv(ch5Button).classList.contains("ch5-button--" + default_shape)).to.be.equal(true);
+            });
+
             invalid_shapes.forEach((shapeName, i) => {
-                test(`Check attribute shape: "${shapeName}"`, () => {
+                test(`Check attribute shape for invalid value: "${shapeName}"`, () => {
                     ch5Button.setAttribute('shape', shapeName);
-                    expect(ch5Button.shape).to.be.equal(defaultShape);
+                    expect(ch5Button.shape).to.be.equal(default_shape);
                 });
-                test(`Check ch5-button > div css class name for shape: "${shapeName}"`, () => {
+                test(`Check ch5-button > div css class name for shape for invalid value: "${shapeName}"`, () => {
                     ch5Button.setAttribute('shape', shapeName);
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--" + defaultShape)).to.be.equal(true);
+                    expect(getDiv(ch5Button).classList.contains("ch5-button--" + default_shape)).to.be.equal(true);
                 });
             });
         });

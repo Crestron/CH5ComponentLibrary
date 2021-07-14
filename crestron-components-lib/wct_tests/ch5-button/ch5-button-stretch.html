@@ -29,8 +29,11 @@
                 ch5Button = fixture('ch5-button-stretch-fixture');
             });
 
-            const valid_stretches = ['height', 'width', 'both'];
-            const invalid_stretches = ['', 'junk', 'null', 'undefined', '0', '1', null, undefined];
+            const valid_stretches = CrComLib.Ch5Button.STRETCHES;
+            const invalid_stretches = ['', 'junk', 'null', 'undefined', '0', '1', null, undefined, 'BOTH', 'WIDTH', 'HEIGHT'];
+            const valid_sizes = CrComLib.Ch5Button.SIZES;
+            const default_size = CrComLib.Ch5Button.SIZES[0];
+            const invalid_sizes = ['', 'junk', 'null', 'undefined', '0', '1', null, undefined, 'Regular', "X-LARGE"];
 
             valid_stretches.forEach((stretchName, i) => {
                 test(`Check attribute stretch: "${stretchName}"`, () => {
@@ -51,6 +54,70 @@
                 test(`Check ch5-button > div css class name for stretch: "${stretchName}" for invalid values`, () => {
                     ch5Button.setAttribute('stretch', stretchName);
                     expect(!!getDiv(ch5Button)).to.be.equal(true);
+                });
+            });
+
+            valid_stretches.forEach((stretchName, i) => {
+                valid_sizes.forEach((sizeName, j) => {
+                    test(`Check attribute stretch: "${stretchName}" and valid size attribute: "${sizeName}"`, () => {
+                        ch5Button.setAttribute('stretch', stretchName);
+                        ch5Button.setAttribute('size', sizeName);
+                        expect(ch5Button.size).to.be.equal(sizeName);
+                        expect(ch5Button.stretch).to.be.equal(stretchName);
+                    });
+                    test(`Check ch5-button > div css class name for stretch: "${stretchName}" and valid size attribute: "${sizeName}"`, () => {
+                        ch5Button.setAttribute('stretch', stretchName);
+                        ch5Button.setAttribute('size', sizeName);
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + sizeName)).to.be.equal(false);
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--stretch-" + stretchName)).to.be.equal(true);
+                    });
+                });
+
+                invalid_sizes.forEach((sizeName, j) => {
+                    test(`Check attribute stretch: "${stretchName}" and invalid size attribute: "${sizeName}"`, () => {
+                        ch5Button.setAttribute('stretch', stretchName);
+                        ch5Button.setAttribute('size', sizeName);
+                        expect(ch5Button.size).to.be.equal(default_size);
+                        expect(ch5Button.stretch).to.be.equal(stretchName);
+                    });
+                    test(`Check ch5-button > div css class name for stretch: "${stretchName}" and invalid size attribute: "${sizeName}"`, () => {
+                        ch5Button.setAttribute('stretch', stretchName);
+                        ch5Button.setAttribute('size', sizeName);
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + default_size)).to.be.equal(false);
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--stretch-" + stretchName)).to.be.equal(true);
+                    });
+                });
+            });
+
+            invalid_stretches.forEach((stretchName, i) => {
+                valid_sizes.forEach((sizeName, j) => {
+                    test(`Check attribute stretch: "${stretchName}" for invalid values and valid size attribute: "${sizeName}"`, () => {
+                        ch5Button.setAttribute('stretch', stretchName);
+                        ch5Button.setAttribute('size', sizeName);
+                        expect(ch5Button.size).to.be.equal(sizeName);
+                        expect(!!ch5Button.stretch).to.be.equal(false);
+                    });
+                    test(`Check ch5-button > div css class name for stretch: "${stretchName}" for invalid values and valid size attribute: "${sizeName}"`, () => {
+                        ch5Button.setAttribute('stretch', stretchName);
+                        ch5Button.setAttribute('size', sizeName);
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + sizeName)).to.be.equal(true);
+                        expect(!!getDiv(ch5Button)).to.be.equal(true);
+                    });
+                });
+
+                invalid_sizes.forEach((sizeName, j) => {
+                    test(`Check attribute stretch: "${stretchName}" for invalid values and invalid size attribute: "${sizeName}"`, () => {
+                        ch5Button.setAttribute('stretch', stretchName);
+                        ch5Button.setAttribute('size', sizeName);
+                        expect(ch5Button.size).to.be.equal(default_size);
+                        expect(!!ch5Button.stretch).to.be.equal(false);
+                    });
+                    test(`Check ch5-button > div css class name for stretch: "${stretchName}" for invalid values and invalid size attribute: "${sizeName}"`, () => {
+                        ch5Button.setAttribute('stretch', stretchName);
+                        ch5Button.setAttribute('size', sizeName);
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + default_size)).to.be.equal(true);
+                        expect(!!getDiv(ch5Button)).to.be.equal(true);
+                    });
                 });
             });
 

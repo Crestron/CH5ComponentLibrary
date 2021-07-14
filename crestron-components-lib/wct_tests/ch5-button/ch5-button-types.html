@@ -30,25 +30,25 @@
 
     <test-fixture id="ch5-button-types-fixture2">
         <template>
-            <ch5-button receiveStateMode="current_mode" stretch="width" label="Verify Type for ch5-button-mode" type="danger">
-                <ch5-button-mode type="success" iconClass="fa fa-play"></ch5-button-mode>
-                <ch5-button-mode type="warning" iconClass="fas fa-pause"></ch5-button-mode>
-                <ch5-button-mode type="danger" iconClass="fab fa-amilia"></ch5-button-mode>
-                <ch5-button-mode type="text" iconClass="fas fa-anchor"></ch5-button-mode>
-                <ch5-button-mode type="info" iconClass="fas fa-battery-quarter"></ch5-button-mode>
-                <ch5-button-mode type="primary" iconClass="fas fa-at"></ch5-button-mode>
-                <ch5-button-mode type="secondary" iconClass="fab fa-apple"></ch5-button-mode>
+            <ch5-button receiveStateMode="current_mode_types_fixture2" label="Verify Type for ch5-button-mode" type="danger">
+                <ch5-button-mode type="success"></ch5-button-mode>
+                <ch5-button-mode type="warning"></ch5-button-mode>
+                <ch5-button-mode type="danger"></ch5-button-mode>
+                <ch5-button-mode type="text"></ch5-button-mode>
+                <ch5-button-mode type="info"></ch5-button-mode>
+                <ch5-button-mode type="primary"></ch5-button-mode>
+                <ch5-button-mode type="secondary"></ch5-button-mode>
             </ch5-button>
         </template>
     </test-fixture>
 
     <test-fixture id="ch5-button-types-fixture3">
         <template>
-            <ch5-button label="Verify Type for Mode State" stretch="width" type="text" mode="0" receivestateselected="receive_selected_state" sendeventonclick="trigger_set_selected_state">
+            <ch5-button label="Verify Type for Mode State" stretch="width" type="text" mode="0" receivestateselected="receive_selected_state_types_fixture3">
                 <ch5-button-mode type="secondary">
-                    <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="warning"></ch5-button-mode-state>
-                    <ch5-button-mode-state state="pressed" iconclass="fa-2x fas fa-circle-notch" type="info"></ch5-button-mode-state>
-                    <ch5-button-mode-state state="selected" iconclass="fas fa-pause" type="success"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="normal" type="warning"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="pressed" type="info"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="selected" type="success"></ch5-button-mode-state>
                 </ch5-button-mode>
             </ch5-button>
         </template>
@@ -80,7 +80,6 @@
                 test(`Check attribute type: "${typeName}"`, () => {
                     ch5Button.setAttribute('type', typeName);
                     expect(ch5Button.type).to.be.equal(typeName);
-                    // expect(ch5Button.activeType).to.be.equal(typeName);
                 });
                 test(`Check ch5-button > div css class name for type: "${typeName}"`, () => {
                     ch5Button.setAttribute('type', typeName);
@@ -88,11 +87,17 @@
                 });
             });
 
+            test(`Check attribute type "default" by not adding the type attribute in HTML or through javascript to the button`, () => {
+                expect(ch5Button.type).to.be.equal(default_type);
+            });
+            test(`Check ch5-button > div css class name for attribute type "default" by not adding the type attribute in HTML or through javascript to the button`, () => {
+                expect(getDiv(ch5Button).classList.contains("ch5-button--" + default_type)).to.be.equal(true);
+            });
+
             invalid_types.forEach((typeName, i) => {
                 test(`Check invalid attribute type: "${typeName}"`, () => {
                     ch5Button.setAttribute('type', typeName);
                     expect(ch5Button.type).to.be.equal(default_type);
-                    // expect(ch5Button.activeType).to.be.equal(default_type);
                 });
                 test(`Check ch5-button > div css class name for invalid attribute type: "${typeName}"`, () => {
                     ch5Button.setAttribute('type', typeName);
@@ -106,10 +111,9 @@
                     CrComLib.publishEvent('s', 'current_type' + i, typeName);
                     flush(() => {
                         setTimeout(() => {
-                            // expect(ch5Button.getAttribute('receiveStateType')).to.be.equal('current_type');
+                            expect(ch5Button.getAttribute('receiveStateType')).to.be.equal('current_type' + i);
                             expect(ch5Button.getAttribute('type')).to.be.equal(typeName);
                             expect(ch5Button.type).to.be.equal(typeName);
-                            // expect(ch5Button.activeType).to.be.equal(typeName);
                             done();
                         }, 100);
                     });
@@ -123,15 +127,15 @@
                     flush(() => {
                         setTimeout(() => {
                             expect(ch5Button.getAttribute('type')).to.be.equal(default_type);
-                            // expect(ch5Button.getAttribute('receiveStateType')).to.be.equal('current_type');
+                            expect(ch5Button.getAttribute('receiveStateType')).to.be.equal('current_type_new' + i);
                             expect(ch5Button.type).to.be.equal(default_type);
-                            // expect(ch5Button.activeType).to.be.equal(default_type);
                             done();
                         }, 100);
                     });
                 });
             });
 
+            // ch5Button1
             test(`Check attribute type for ch5-button-mode and mode value=0`, () => {
                 ch5Button1.setAttribute('mode', "0");
                 const expectedValue = "default";
@@ -161,11 +165,102 @@
                 const expectedValue = "default";
                 expect(ch5Button1.getAttribute('type')).to.be.equal("danger");
                 expect(ch5Button1.type).to.be.equal(expectedValue);
-           });
+            });
             test(`Check ch5-button > div css class name for ch5-button-mode and mode value=2`, () => {
                 ch5Button1.setAttribute('mode', "2");
                 const expectedValue = "default";
                 expect(getDiv(ch5Button1).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+            });
+
+            // ch5Button2
+            const modeTypeArray = [{
+                mode: 0,
+                typeName: 'success'
+            },
+            {
+                mode: 1,
+                typeName: 'warning'
+            },
+            {
+                mode: 2,
+                typeName: 'danger'
+            },
+            {
+                mode: 3,
+                typeName: 'text'
+            },
+            {
+                mode: 4,
+                typeName: 'info'
+            },
+            {
+                mode: 5,
+                typeName: 'primary'
+            },
+            {
+                mode: 6,
+                typeName: 'secondary'
+            }];
+
+            modeTypeArray.forEach((modeTypeObj, i) => {
+                test(`Check attribute type for ch5-button-mode using receiveStateMode "${modeTypeObj.mode}"`, (done) => {
+                    CrComLib.publishEvent('n', 'current_mode_types_fixture2', modeTypeObj.mode);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button2.getAttribute('type')).to.be.equal("danger");
+                            expect(ch5Button2.type).to.be.equal(modeTypeObj.typeName);
+                            done();
+                        }, 100);
+                    });
+                });
+
+                test(`Check ch5-button > div css class name for ch5-button-mode using receiveStateMode "${modeTypeObj.mode}"`, (done) => {
+                    CrComLib.publishEvent('s', 'current_mode_types_fixture2', modeTypeObj.mode);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(getDiv(ch5Button2).classList.contains("ch5-button--" + modeTypeObj.typeName)).to.be.equal(true);
+                            done();
+                        }, 100);
+                    });
+                });
+            });
+
+            // ch5Button3
+            [true, false].forEach((selectionObj, i) => {
+                test(`Check attribute type for ch5-button-mode-state with selected as "${selectionObj}"`, () => {
+                    ch5Button3.setAttribute('selected', selectionObj);
+                    const expectedValue = selectionObj === true ? "success" : "warning";
+                    expect(ch5Button3.getAttribute('type')).to.be.equal("text");
+                    expect(ch5Button3.type).to.be.equal(expectedValue);
+                });
+                test(`Check ch5-button > div css class name for ch5-button-mode-state with selected as "${selectionObj}"`, () => {
+                    ch5Button3.setAttribute('selected', selectionObj);
+                    const expectedValue = selectionObj === true ? "success" : "warning";
+                    expect(getDiv(ch5Button3).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+                });
+
+                test(`Check attribute type for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_types_fixture3', selectionObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button3.getAttribute('type')).to.be.equal("text");
+                            const expectedValue = selectionObj === true ? "success" : "warning";
+                            expect(ch5Button3.type).to.be.equal(expectedValue);
+                            done();
+                        }, 100);
+                    });
+                });
+
+                test(`Check ch5-button > div css class name  for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_types_fixture3', selectionObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            const expectedValue = selectionObj === true ? "success" : "warning";
+                            expect(getDiv(ch5Button3).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+                            done();
+                        }, 100);
+                    });
+                });
             });
 
         });
@@ -173,42 +268,3 @@
 </body>
 
 </html>
-
-<!--
-     <ch5-button mode="0" stretch="width" label="Verify Type for ch5-button-mode" type="danger">
-    <ch5-button-mode type="default" iconClass="fa fa-play"></ch5-button-mode>
-    <ch5-button-mode type="warning" iconClass="fas fa-pause"></ch5-button-mode>
-</ch5-button>
-
-<hr />
-
-<h5>Change the mode (receiveStateMode) by clicking on the '+ Mode' / '- Mode' button.</h5>
-
-<br />
-
-<ch5-button type="primary" sendeventonclick="trigger_type_increment_mode" iconClass="fas fa-plus" label="Mode"></ch5-button>
-<ch5-button type="primary" sendeventonclick="trigger_type_decrement_mode" iconClass="fas fa-minus" label="Mode"></ch5-button>
-
-<br /><br />
-
-<ch5-button receiveStateMode="current_mode" stretch="width" label="Verify Type for ch5-button-mode" type="danger">
-    <ch5-button-mode type="success" iconClass="fa fa-play"></ch5-button-mode>
-    <ch5-button-mode type="warning" iconClass="fas fa-pause"></ch5-button-mode>
-    <ch5-button-mode type="danger" iconClass="fab fa-amilia"></ch5-button-mode>
-    <ch5-button-mode type="text" iconClass="fas fa-anchor"></ch5-button-mode>
-    <ch5-button-mode type="info" iconClass="fas fa-battery-quarter"></ch5-button-mode>
-    <ch5-button-mode type="primary" iconClass="fas fa-at"></ch5-button-mode>
-    <ch5-button-mode type="secondary" iconClass="fab fa-apple"></ch5-button-mode>
-</ch5-button>
-
-<h5>Click on the button to see the change of 'type' attribute based on 'state'.</h5>
-
-<br />
-
-<ch5-button label="Verify Type for Mode State" stretch="width" type="text" mode="0" receivestateselected="receive_selected_state" sendeventonclick="trigger_set_selected_state">
-    <ch5-button-mode type="secondary">
-        <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="warning"></ch5-button-mode-state>
-        <ch5-button-mode-state state="pressed" iconclass="fa-2x fas fa-circle-notch" type="info"></ch5-button-mode-state>
-        <ch5-button-mode-state state="selected" iconclass="fas fa-pause" type="success"></ch5-button-mode-state>
-    </ch5-button-mode>
-</ch5-button> -->

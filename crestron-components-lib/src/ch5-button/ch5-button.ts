@@ -306,7 +306,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 * Horizontal Alignment for Label
 	 */
 	private _hAlignLabel: TCh5ButtonHorizontalAlignLabel = 'center';
-	private _activeHAlignLabel: TCh5ButtonHorizontalAlignLabel = 'center';
+	// private _activeHAlignLabel: TCh5ButtonHorizontalAlignLabel = 'center';
 
 	/**
 	 * Vertical Alignment for Label
@@ -314,7 +314,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 * HTML attribute name: vAlignLabel or valignlabel
 	 */
 	private _vAlignLabel: TCh5ButtonVerticalAlignLabel = 'middle';
-	private _activeVAlignLabel: TCh5ButtonVerticalAlignLabel = 'middle';
+	// private _activeVAlignLabel: TCh5ButtonVerticalAlignLabel = 'middle';
 
 	/**
 	 * Lays out the elements of the ch5-button in a horizontal or vertical manner.
@@ -358,7 +358,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 * where type is the value of the property. If no "type" is provided, type of 'default' is used.
 	 */
 	private _type: TCh5ButtonType = 'default';
-	// private _activeType: TCh5ButtonType = 'default';
 	private _receiveStateTypeResponseValue: TCh5ButtonType | null = null;
 
 	/**
@@ -613,11 +612,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		this.info('set hAlignLabel("' + value + '")');
 		if (this._hAlignLabel !== value) {
 			if (Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS.indexOf(value) >= 0) {
-				this._hAlignLabel = value;
+				this.setAttribute('hAlignLabel', value);
 			} else {
-				this._hAlignLabel = Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS[0];
+				this.setAttribute('hAlignLabel', Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS[0]);
 			}
-			this.setAttribute('hAlignLabel', this._hAlignLabel);
 			this.changeAttributesOnModeChange(this);
 		}
 	}
@@ -625,18 +623,18 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		return this._hAlignLabel;
 	}
 
-	public set activeHAlignLabel(value: TCh5ButtonHorizontalAlignLabel) {
-		this.info('set activeHAlignLabel("' + value + '")');
-		if (this._activeHAlignLabel !== value && value !== null) {
-			if (Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS.indexOf(value) >= 0) {
-				this._activeHAlignLabel = value;
-			}
-			this.updateCssClasses();
-		}
-	}
-	public get activeHAlignLabel(): TCh5ButtonHorizontalAlignLabel {
-		return this._activeHAlignLabel;
-	}
+	// public set activeHAlignLabel(value: TCh5ButtonHorizontalAlignLabel) {
+	// 	this.info('set activeHAlignLabel("' + value + '")');
+	// 	if (this._activeHAlignLabel !== value && value !== null) {
+	// 		if (Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS.indexOf(value) >= 0) {
+	// 			this._activeHAlignLabel = value;
+	// 		}
+	// 		this.updateCssClasses();
+	// 	}
+	// }
+	// public get activeHAlignLabel(): TCh5ButtonHorizontalAlignLabel {
+	// 	return this._activeHAlignLabel;
+	// }
 
 	public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel) {
 		this.info('set vAlignLabel("' + value + '")');
@@ -648,24 +646,25 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			}
 			this.setAttribute('vAlignLabel', this._vAlignLabel);
 			this.changeAttributesOnModeChange(this);
+			this.updateCssClasses();
 		}
 	}
 	public get vAlignLabel(): TCh5ButtonVerticalAlignLabel {
 		return this._vAlignLabel;
 	}
 
-	public set activeVAlignLabel(value: TCh5ButtonVerticalAlignLabel) {
-		this.info('set activeVAlignLabel("' + value + '")');
-		if (this._activeVAlignLabel !== value && value !== null) {
-			if (Ch5Button.VERTICAL_LABEL_ALIGNMENTS.indexOf(value) >= 0) {
-				this._activeVAlignLabel = value;
-			}
-			this.updateCssClasses();
-		}
-	}
-	public get activeVAlignLabel(): TCh5ButtonVerticalAlignLabel {
-		return this._activeVAlignLabel;
-	}
+	// public set activeVAlignLabel(value: TCh5ButtonVerticalAlignLabel) {
+	// 	this.info('set activeVAlignLabel("' + value + '")');
+	// 	if (this._activeVAlignLabel !== value && value !== null) {
+	// 		if (Ch5Button.VERTICAL_LABEL_ALIGNMENTS.indexOf(value) >= 0) {
+	// 			this._activeVAlignLabel = value;
+	// 		}
+	// 		this.updateCssClasses();
+	// 	}
+	// }
+	// public get activeVAlignLabel(): TCh5ButtonVerticalAlignLabel {
+	// 	return this._activeVAlignLabel;
+	// }
 
 	public set mode(value: number) {
 		this.info('set mode("' + value + '")');
@@ -902,19 +901,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	private identity<T>(value: T): T {
 		return value;
 	}
-
-	// public set activeType(value: TCh5ButtonType) {
-	// 	this.info('set activeType("' + value + '")');
-	// 	if (this._activeType !== value) {
-	// 		if (Ch5Button.TYPES.indexOf(value) >= 0) {
-	// 			this._activeType = value;
-	// 		}
-	// 		this.updateCssClasses();
-	// 	}
-	// }
-	// public get activeType(): TCh5ButtonType {
-	// 	return this._activeType;
-	// }
 
 	public set activeCustomClass(value: string) {
 		this.info('set activeCustomClass("' + value + '")');
@@ -1307,7 +1293,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			// }
 			this._receiveStateTypeResponseValue = newValue as TCh5ButtonType;
 			this.type = newValue as TCh5ButtonType;
-			// this.activeType = newValue as TCh5ButtonType;
 		});
 	}
 	public get receiveStateType(): string {
@@ -1800,29 +1785,14 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 				break;
 			case 'iconclass':
 				this.iconClass = this.setHasAttributeValue<string>('iconclass', newValue, '');
-				// if (this.hasAttribute('iconclass')) {
-				// 	this.iconClass = newValue;
-				// } else {
-				// 	this.iconClass = '';
-				// }
 				this.refreshComponent();  // updates classes and html content if needed
 				break;
 			case 'iconposition':
 				this.iconPosition = this.setHasAttributeValue<TCh5ButtonIconPosition>('iconposition', newValue as TCh5ButtonIconPosition, Ch5Button.ICON_POSITIONS[0]);
-				// if (this.hasAttribute('iconposition')) {
-				// 	this.iconPosition = newValue as TCh5ButtonIconPosition;
-				// } else {
-				// 	this.iconPosition = Ch5Button.ICON_POSITIONS[0];
-				// }
 				this.refreshComponent();  // updates classes and html content if needed
 				break;
 			case 'iconurl':
 				this.iconUrl = this.setHasAttributeValue<string>('iconurl', newValue, '');
-				// if (this.hasAttribute('iconurl')) {
-				// 	this.iconUrl = newValue;
-				// } else {
-				// 	this.iconUrl = '';
-				// }
 				this.refreshComponent();  // updates classes and html content if needed
 				break;
 			case 'mode':
@@ -2340,8 +2310,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.shape);
 
 		// type
-		this.info("******** this.type", this.type); // TODO REMOVE
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.type); // activeType);
+		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.type);
 
 		// size
 		if (this.stretch === null) {
@@ -2354,9 +2323,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		// orientation
-		// if ('vertical' === this.orientation) {
 		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--' + this.orientation);
-		// }
 
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (typeof targetEl.classList !== 'undefined') {
@@ -2374,10 +2341,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		const setOfCssClassesToBeAppliedForLabelAlignment = new Set<string>();
 
 		// horizontal align
-		setOfCssClassesToBeAppliedForLabelAlignment.add(this.cssClassPrefix + '--horizontal-' + this.activeHAlignLabel);
+		setOfCssClassesToBeAppliedForLabelAlignment.add(this.cssClassPrefix + '--horizontal-' + this.hAlignLabel); // activeHAlignLabel);
 
 		// vertical align
-		setOfCssClassesToBeAppliedForLabelAlignment.add(this.cssClassPrefix + '--vertical-' + this.activeVAlignLabel);
+		setOfCssClassesToBeAppliedForLabelAlignment.add(this.cssClassPrefix + '--vertical-' + this.vAlignLabel); //  + this.activeVAlignLabel);
 
 		// const targetBtn: HTMLElement = this._elLabelIconImage();
 		// if (typeof targetBtn.classList !== 'undefined') {
@@ -2483,9 +2450,22 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		}, this.TOUCH_TIMEOUT);
 	}
 
-	public changeAttributesOnButtonModePressedState() {
-		this.logger.start("changeAttributesOnButtonModePressedState");
-		let isButtonModePressedAvailable: boolean = false;
+	/**
+	 * If type node is updated via html or js or signal, the change set attribue of type;
+	 * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
+	 * if receivestate is false, then
+	 * if mode attribute is updated, always call this method, and update all attributes 
+	 * @param fromNode 
+	 * @param isModeAttributeUpdated 
+	 * @param attibuteName 
+	 */
+	public changeAttributesOnModeChange(fromNode: Ch5Button | Ch5ButtonMode | Ch5ButtonModeState, isModeAttributeUpdated: boolean = false, attibuteName?: string) {
+		this.logger.start("changeAttributesOnModeChange");
+
+		// Applicable on Mode change and Selected change
+		// We need not worry about this. ch5-button-label is immediate child , and no change in attribute
+		// affects the data from immediate child.
+		// this.info("changeAttributesOnModeChange called");
 		const keyId = ['type', 'iconClass', 'iconPosition', 'iconUrl', 'checkboxPosition', 'customClass', 'customStyle', 'hAlignLabel', 'vAlignLabel', 'label'];
 		type KeyID = typeof keyId[number]; // === 'type' | 'iconClass' | 'iconPosition' ....
 		const updatedNodes: Record<KeyID, any> = {
@@ -2500,199 +2480,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			vAlignLabel: null,
 			label: null
 		};
-		const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
-		if (buttonModesArray && buttonModesArray.length > 0) {
-			const selectedButtonMode = buttonModesArray[this.mode];
-			const buttonModeStatesArray = selectedButtonMode.getElementsByTagName("ch5-button-mode-state");
-			if (buttonModeStatesArray && buttonModeStatesArray.length > 0) {
-				const selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-					return (buttonModeState.getAttribute("state") === "pressed");
-				});
-				this.logger.log("selectedButtonModeState", selectedButtonModeState);
-				if (selectedButtonModeState) {
-					isButtonModePressedAvailable = true;
 
-					if (!isNil(selectedButtonModeState.getAttribute("type"))) {
-						updatedNodes.type = selectedButtonModeState.getAttribute("type") as TCh5ButtonType;
-					}
-					if (!isNil(selectedButtonModeState.getAttribute("iconclass"))) {
-						updatedNodes.iconClass = selectedButtonModeState.getAttribute("iconclass") as string;
-					}
-					if (!isNil(selectedButtonModeState.getAttribute("iconposition"))) {
-						updatedNodes.iconPosition = selectedButtonModeState.getAttribute("iconposition") as TCh5ButtonIconPosition;
-					}
-					if (!isNil(selectedButtonModeState.getAttribute("iconurl"))) {
-						updatedNodes.iconUrl = selectedButtonModeState.getAttribute("iconurl") as string;
-					}
-					if (!isNil(selectedButtonModeState.getAttribute("checkboxposition"))) {
-						updatedNodes.checkboxPosition = selectedButtonModeState.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
-					}
-					if (!isNil(selectedButtonModeState.getAttribute("customclass"))) {
-						updatedNodes.customClass = selectedButtonModeState.getAttribute("customclass") as string;
-					}
-					if (!isNil(selectedButtonModeState.getAttribute("customclass"))) {
-						updatedNodes.customStyle = selectedButtonModeState.getAttribute("customstyle") as string;
-					}
-					if (!isNil(selectedButtonModeState.getAttribute("halignlabel"))) {
-						updatedNodes.hAlignLabel = selectedButtonModeState.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
-					}
-					if (!isNil(selectedButtonModeState.getAttribute("valignlabel"))) {
-						updatedNodes.vAlignLabel = selectedButtonModeState.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
-					}
-
-					const selectedButtonModeStateLabelButton = selectedButtonModeState.getElementsByTagName("ch5-button-label");
-					if (selectedButtonModeStateLabelButton && selectedButtonModeStateLabelButton.length > 0 &&
-						(selectedButtonModeStateLabelButton[0].children[0])) {
-						updatedNodes.label = selectedButtonModeStateLabelButton[0].children[0].innerHTML as string;
-					}
-				}
-				this.logger.log("updatedNodes Mode States: ", updatedNodes);
-			}
-
-			this.logger.log("updatedNodes Mode: ", updatedNodes);
-		}
-
-		// TODO - test cases for mode and state too
-		if (!isNil(updatedNodes.type)) {
-			if (isButtonModePressedAvailable === true) {
-				if (!(this.receiveStateType && this.receiveStateType !== '')) {
-					this.info("*****updatedNodes.type1", updatedNodes.type);
-					if (Ch5Button.TYPES.indexOf(updatedNodes.type) >= 0) {
-						this._type = updatedNodes.type as TCh5ButtonType;
-					} else {
-						this._type = Ch5Button.TYPES[0];
-					}
-					this.info("*****this._type1", this._type);
-					this.updateCssClasses();
-
-					// this.type = updatedNodes.type;
-					// this.activeType = updatedNodes.type;
-				}
-			}
-		} else {
-			this._type = Ch5Button.TYPES[0];
-			this.updateCssClasses();
-		}
-
-		if (!isNil(updatedNodes.iconClass)) {
-			if (isButtonModePressedAvailable === true) {
-				if (!(this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
-					this.updateIconClassAndPath(updatedNodes.iconClass);
-					// this.activeIconClass = updatedNodes.iconClass;
-					this.refreshComponent();
-				}
-			}
-		}
-
-		if (!isNil(updatedNodes.iconPosition)) {
-			if (isButtonModePressedAvailable === true) {
-				this.activeIconPosition = updatedNodes.iconPosition;
-			}
-		}
-
-		if (!isNil(updatedNodes.iconUrl)) {
-			if (isButtonModePressedAvailable === true) {
-				if (!(this.receiveStateIconUrl && this.receiveStateIconUrl !== '')) {
-					this.activeIconUrl = updatedNodes.iconUrl;
-					this.refreshComponent();
-				}
-			}
-		}
-
-		if (!isNil(updatedNodes.checkboxPosition)) {
-			if (isButtonModePressedAvailable === true) {
-				this.activeCheckboxPosition = updatedNodes.checkboxPosition;
-			}
-		}
-
-		if (!isNil(updatedNodes.customClass)) {
-			if (isButtonModePressedAvailable === true) {
-				if (!(this.receiveStateCustomClass && this.receiveStateCustomClass !== '')) {
-					this.activeCustomClass = updatedNodes.customClass;
-				}
-			}
-		}
-
-		if (!isNil(updatedNodes.customStyle)) {
-			if (isButtonModePressedAvailable === true) {
-				if (!(this.receiveStateCustomStyle && this.receiveStateCustomStyle !== '')) {
-					this.activeCustomStyle = updatedNodes.customStyle;
-				}
-			}
-		}
-
-		if (!isNil(updatedNodes.hAlignLabel)) {
-			if (isButtonModePressedAvailable === true) {
-				this.activeHAlignLabel = updatedNodes.hAlignLabel;
-			}
-		}
-
-		if (!isNil(updatedNodes.vAlignLabel)) {
-			if (isButtonModePressedAvailable === true) {
-				this.activeVAlignLabel = updatedNodes.vAlignLabel;
-			}
-		}
-
-		if (!isNil(updatedNodes.label)) {
-			if (isButtonModePressedAvailable === true) {
-				if (!((this.receiveStateLabel && this.receiveStateLabel !== '') || (this.receiveStateLabel && this.receiveStateLabel !== ''))) {
-					this.activeLabel = updatedNodes.label;
-				}
-			}
-		}
-		this.logger.log("updatedNodes Final: ", updatedNodes);
-		this.logger.stop();
-	}
-
-	/**
-	 * If type node is updated via html or js or signal, the change set attribue of type;
-	 * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
-	 * if receivestate is false, then
-	 * if mode attribute is updated, always call this method, and update all attributes 
-	 * @param fromNode 
-	 * @param isModeAttributeUpdated 
-	 * @param attibuteName 
-	 */
-	public changeAttributesOnModeChange(fromNode: Ch5Button | Ch5ButtonMode | Ch5ButtonModeState, isModeAttributeUpdated: boolean = false, attibuteName?: string) {
-		this.logger.start("changeAttributesOnModeChange");
-		this.logger.log("this._intervalIdForRepeatDigital", this._intervalIdForRepeatDigital);
-		this.logger.log("this.buttonPressed", this.buttonPressed);
-
-		this.info("this._pressed", this._pressed);
-		this.info("this._buttonPressed", this._buttonPressed);
-		this.info("this._buttonPressedInPressable", this._buttonPressedInPressable);
-
-		// let isPressedByOnPressEvent: boolean = false;
-		// if (this._pressable) {
-		// 	isPressedByOnPressEvent = this._pressable.isPressed();
-		// 	this.info("this._pressable.isPressed()", this._pressable.isPressed());
-		// } else {
-		// 	isPressedByOnPressEvent = false;
-		// 	this.info("this._pressable.isPressed() is NULL");
-		// }
 		if (this._pressed === false && (this._buttonPressedInPressable === false)) {
-
-			// Applicable on Mode change and Selected change
-			// We need not worry about this. ch5-button-label is immediate child , and no change in attribute
-			// affects the data from immediate child.
-			// this.info("changeAttributesOnModeChange called");
-			const keyId = ['type', 'iconClass', 'iconPosition', 'iconUrl', 'checkboxPosition', 'customClass', 'customStyle', 'hAlignLabel', 'vAlignLabel', 'label'];
-			type KeyID = typeof keyId[number]; // === 'type' | 'iconClass' | 'iconPosition' ....
-			const updatedNodes: Record<KeyID, any> = {
-				type: null,
-				iconClass: null,
-				iconPosition: null,
-				iconUrl: null,
-				checkboxPosition: null,
-				customClass: null,
-				customStyle: null,
-				hAlignLabel: null,
-				vAlignLabel: null,
-				label: null
-			};
-			// TODO receive state label and pressed
-			// TODO - check why this get called twice ech time we remove an attribute from child
-			// TODO - Must be called once all is loaded - whendefined
 			const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
 			if (buttonModesArray && buttonModesArray.length > 0) {
 				const selectedButtonMode = buttonModesArray[this.mode];
@@ -2784,10 +2573,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 				}
 			}
 
-			// this.info("updatedNodes", updatedNodes);
-
-			// &&			(attibuteName !== null || attibuteName != "" || attibuteName.toString().toLowerCase() === "type")
-
 			// ----- ch5-button Attributes and corresponding ch5-button-label inside ch5-button
 			if (isNil(updatedNodes.type) && !isNil(this.getAttribute("type"))) {
 				updatedNodes.type = this.getAttribute("type") as TCh5ButtonType;
@@ -2826,61 +2611,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			this.logger.log("updatedNodes Button: ", updatedNodes);
 
 			if (!isNil(updatedNodes.type)) {
-				// if (!(this.receiveStateType && this.receiveStateType !== '')) {
-				// 	if (isModeAttributeUpdated === true) {
-				// 		this.info("*****updatedNodes.type2", updatedNodes.type);
-				// 		if (Ch5Button.TYPES.indexOf(updatedNodes.type) >= 0) {
-				// 			this._type = updatedNodes.type as TCh5ButtonType;
-				// 		} else {
-				// 			this._type = Ch5Button.TYPES[0];
-				// 		}
-				// 		this.info("*****this._type2", this._type);
-				// 		this.updateCssClasses();
-
-				// 		// this.type = updatedNodes.type;
-				// 		// this.activeType = updatedNodes.type;
-				// 	} else {
-				// 		if (fromNode instanceof Ch5Button) {
-				// 			if (this.isComponentLoaded === false || this.getModes().length === 0) {
-				// 				this.info("*****updatedNodes.type3", updatedNodes.type);
-				// 				if (Ch5Button.TYPES.indexOf(updatedNodes.type) >= 0) {
-				// 					this._type = updatedNodes.type as TCh5ButtonType;
-				// 				} else {
-				// 					this._type = Ch5Button.TYPES[0];
-				// 				}
-				// 				this.info("*****this._type3", this._type);
-				// 				this.updateCssClasses();
-
-				// 				// this.type = updatedNodes.type;
-				// 				// this.activeType = updatedNodes.type;
-				// 			} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
-				// 				this.info("*****updatedNodes.type4", updatedNodes.type);
-				// 				if (Ch5Button.TYPES.indexOf(updatedNodes.type) >= 0) {
-				// 					this._type = updatedNodes.type as TCh5ButtonType;
-				// 				} else {
-				// 					this._type = Ch5Button.TYPES[0];
-				// 				}
-				// 				this.info("*****this._type4", this._type);
-				// 				this.updateCssClasses();
-
-				// 				// this.type = updatedNodes.type;
-				// 				// this.activeType = updatedNodes.type;
-				// 			}
-				// 		} else {
-				// 			this.info("*****updatedNodes.type5", updatedNodes.type);
-				// 			if (Ch5Button.TYPES.indexOf(updatedNodes.type) >= 0) {
-				// 				this._type = updatedNodes.type as TCh5ButtonType;
-				// 			} else {
-				// 				this._type = Ch5Button.TYPES[0];
-				// 			}
-				// 			this.info("*****this._type5", this._type);
-				// 			this.updateCssClasses();
-
-				// 			// this.type = updatedNodes.type;
-				// 			// this.activeType = updatedNodes.type;
-				// 		}
-				// 	}
-				// }
 				if (this.receiveStateType && this.receiveStateType !== '') {
 					if (!isNil(this._receiveStateTypeResponseValue) && Ch5Button.TYPES.indexOf(this._receiveStateTypeResponseValue) >= 0) {
 						this._type = this._receiveStateTypeResponseValue as TCh5ButtonType;
@@ -3023,35 +2753,27 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			}
 
 			if (!isNil(updatedNodes.hAlignLabel)) {
-				if (isModeAttributeUpdated === true) {
-					this.activeHAlignLabel = updatedNodes.hAlignLabel;
+				if (Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS.indexOf(updatedNodes.hAlignLabel) >= 0) {
+					this._hAlignLabel = updatedNodes.hAlignLabel as TCh5ButtonHorizontalAlignLabel;
 				} else {
-					if (fromNode instanceof Ch5Button) {
-						if (this.isComponentLoaded === false || this.getModes().length === 0) {
-							this.activeHAlignLabel = updatedNodes.hAlignLabel;
-						} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
-							this.activeHAlignLabel = updatedNodes.hAlignLabel;
-						}
-					} else {
-						this.activeHAlignLabel = updatedNodes.hAlignLabel;
-					}
+					this._hAlignLabel = Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS[0];
 				}
+				this.updateCssClasses();
+			} else {
+				this._hAlignLabel = Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS[0];
+				this.updateCssClasses();
 			}
 
 			if (!isNil(updatedNodes.vAlignLabel)) {
-				if (isModeAttributeUpdated === true) {
-					this.activeVAlignLabel = updatedNodes.vAlignLabel;
+				if (Ch5Button.VERTICAL_LABEL_ALIGNMENTS.indexOf(updatedNodes.vAlignLabel) >= 0) {
+					this._vAlignLabel = updatedNodes.vAlignLabel as TCh5ButtonVerticalAlignLabel;
 				} else {
-					if (fromNode instanceof Ch5Button) {
-						if (this.isComponentLoaded === false || this.getModes().length === 0) {
-							this.activeVAlignLabel = updatedNodes.vAlignLabel;
-						} else if (this.isComponentLoaded === true && this.getModes().length > 0) {
-							this.activeVAlignLabel = updatedNodes.vAlignLabel;
-						}
-					} else {
-						this.activeVAlignLabel = updatedNodes.vAlignLabel;
-					}
+					this._vAlignLabel = Ch5Button.VERTICAL_LABEL_ALIGNMENTS[0];
 				}
+				this.updateCssClasses();
+			} else {
+				this._vAlignLabel = Ch5Button.VERTICAL_LABEL_ALIGNMENTS[0];
+				this.updateCssClasses();
 			}
 
 			if (!isNil(updatedNodes.label)) {
@@ -3078,7 +2800,149 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 			this.logger.log("updatedNodes Final: ", updatedNodes);
 		} else {
-			this.changeAttributesOnButtonModePressedState();
+			let isButtonModePressedAvailable: boolean = false;
+
+			const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
+			if (buttonModesArray && buttonModesArray.length > 0) {
+				const selectedButtonMode = buttonModesArray[this.mode];
+				const buttonModeStatesArray = selectedButtonMode.getElementsByTagName("ch5-button-mode-state");
+				if (buttonModeStatesArray && buttonModeStatesArray.length > 0) {
+					const selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
+						return (buttonModeState.getAttribute("state") === "pressed");
+					});
+					this.logger.log("selectedButtonModeState", selectedButtonModeState);
+					if (selectedButtonModeState) {
+						isButtonModePressedAvailable = true;
+
+						if (!isNil(selectedButtonModeState.getAttribute("type"))) {
+							updatedNodes.type = selectedButtonModeState.getAttribute("type") as TCh5ButtonType;
+						}
+						if (!isNil(selectedButtonModeState.getAttribute("iconclass"))) {
+							updatedNodes.iconClass = selectedButtonModeState.getAttribute("iconclass") as string;
+						}
+						if (!isNil(selectedButtonModeState.getAttribute("iconposition"))) {
+							updatedNodes.iconPosition = selectedButtonModeState.getAttribute("iconposition") as TCh5ButtonIconPosition;
+						}
+						if (!isNil(selectedButtonModeState.getAttribute("iconurl"))) {
+							updatedNodes.iconUrl = selectedButtonModeState.getAttribute("iconurl") as string;
+						}
+						if (!isNil(selectedButtonModeState.getAttribute("checkboxposition"))) {
+							updatedNodes.checkboxPosition = selectedButtonModeState.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
+						}
+						if (!isNil(selectedButtonModeState.getAttribute("customclass"))) {
+							updatedNodes.customClass = selectedButtonModeState.getAttribute("customclass") as string;
+						}
+						if (!isNil(selectedButtonModeState.getAttribute("customclass"))) {
+							updatedNodes.customStyle = selectedButtonModeState.getAttribute("customstyle") as string;
+						}
+						if (!isNil(selectedButtonModeState.getAttribute("halignlabel"))) {
+							updatedNodes.hAlignLabel = selectedButtonModeState.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
+						}
+						if (!isNil(selectedButtonModeState.getAttribute("valignlabel"))) {
+							updatedNodes.vAlignLabel = selectedButtonModeState.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
+						}
+
+						const selectedButtonModeStateLabelButton = selectedButtonModeState.getElementsByTagName("ch5-button-label");
+						if (selectedButtonModeStateLabelButton && selectedButtonModeStateLabelButton.length > 0 &&
+							(selectedButtonModeStateLabelButton[0].children[0])) {
+							updatedNodes.label = selectedButtonModeStateLabelButton[0].children[0].innerHTML as string;
+						}
+					}
+					this.logger.log("updatedNodes Mode States: ", updatedNodes);
+				}
+
+				this.logger.log("updatedNodes Mode: ", updatedNodes);
+			}
+
+
+			if (!isNil(updatedNodes.type)) {
+				if (isButtonModePressedAvailable === true) {
+					if (!(this.receiveStateType && this.receiveStateType !== '')) {
+						if (Ch5Button.TYPES.indexOf(updatedNodes.type) >= 0) {
+							this._type = updatedNodes.type as TCh5ButtonType;
+						} else {
+							this._type = Ch5Button.TYPES[0];
+						}
+						this.updateCssClasses();
+					}
+				}
+			} else {
+				this._type = Ch5Button.TYPES[0];
+				this.updateCssClasses();
+			}
+
+			if (!isNil(updatedNodes.iconClass)) {
+				if (isButtonModePressedAvailable === true) {
+					if (!(this.receiveStateIconClass && this.receiveStateIconClass !== '')) {
+						this.updateIconClassAndPath(updatedNodes.iconClass);
+						// this.activeIconClass = updatedNodes.iconClass;
+						this.refreshComponent();
+					}
+				}
+			}
+
+			if (!isNil(updatedNodes.iconPosition)) {
+				if (isButtonModePressedAvailable === true) {
+					this.activeIconPosition = updatedNodes.iconPosition;
+				}
+			}
+
+			if (!isNil(updatedNodes.iconUrl)) {
+				if (isButtonModePressedAvailable === true) {
+					if (!(this.receiveStateIconUrl && this.receiveStateIconUrl !== '')) {
+						this.activeIconUrl = updatedNodes.iconUrl;
+						this.refreshComponent();
+					}
+				}
+			}
+
+			if (!isNil(updatedNodes.checkboxPosition)) {
+				if (isButtonModePressedAvailable === true) {
+					this.activeCheckboxPosition = updatedNodes.checkboxPosition;
+				}
+			}
+
+			if (!isNil(updatedNodes.customClass)) {
+				if (isButtonModePressedAvailable === true) {
+					if (!(this.receiveStateCustomClass && this.receiveStateCustomClass !== '')) {
+						this.activeCustomClass = updatedNodes.customClass;
+					}
+				}
+			}
+
+			if (!isNil(updatedNodes.customStyle)) {
+				if (isButtonModePressedAvailable === true) {
+					if (!(this.receiveStateCustomStyle && this.receiveStateCustomStyle !== '')) {
+						this.activeCustomStyle = updatedNodes.customStyle;
+					}
+				}
+			}
+
+			if (!isNil(updatedNodes.hAlignLabel)) {
+				if (isButtonModePressedAvailable === true) {
+					this._hAlignLabel = updatedNodes.hAlignLabel;
+				}
+			}
+
+			if (!isNil(updatedNodes.vAlignLabel)) {
+				if (isButtonModePressedAvailable === true) {
+					this._vAlignLabel = updatedNodes.vAlignLabel;
+				}
+			}
+
+			if (!isNil(updatedNodes.label)) {
+				if (isButtonModePressedAvailable === true) {
+					if (!((this.receiveStateLabel && this.receiveStateLabel !== '') || (this.receiveStateLabel && this.receiveStateLabel !== ''))) {
+						this.activeLabel = updatedNodes.label;
+					}
+				}
+			}
+			this.logger.log("updatedNodes Final: ", updatedNodes);
+
+
+
+
+
 		}
 		this.logger.stop();
 	}

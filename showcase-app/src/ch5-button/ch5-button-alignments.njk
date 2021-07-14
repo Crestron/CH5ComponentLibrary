@@ -5,7 +5,15 @@ title: "ch5-button: hAlignLabel and vAlignLabel"
 {% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
 
 {% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/ch5-button/alignments.json" %}
+    {%- endset %}
 
     {% call exampleSectionFromPartials('ch5-button/alignments/','ex1') %}{% endcall %}
+
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-button/alignments/','ex2') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-button/alignments/','ex3') %}{% endcall %}
 
 {% endblock %}

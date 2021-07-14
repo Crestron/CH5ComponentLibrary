@@ -1,0 +1,30 @@
+<h5>Click on the button to see the change of 'hAlignLabel' and 'vAlignLabel' attributes based on 'state'.</h5>
+
+<br/>
+
+<ch5-button label="center middle" stretch="width" hAlignLabel="center" vAlignLabel="middle" type="text" mode="0" receivestateselected="receive_selected_state" sendeventonclick="trigger_set_selected_state">
+    <ch5-button-mode type="secondary">
+        <ch5-button-mode-state state="normal" hAlignLabel="left" vAlignLabel="top" type="warning">
+            <ch5-button-label>
+                <template>
+                    <b>Normal</b> State with hAlignLabel: <b>left</b> and vAlignLabel: <b>top</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="pressed" hAlignLabel="center" vAlignLabel="middle" type="info">
+            <ch5-button-label>
+                <template>
+                    <b>Pressed</b> State with hAlignLabel: <b>center</b> and vAlignLabel: <b>middle</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="selected" hAlignLabel="right" vAlignLabel="bottom" type="success">
+            <ch5-button-label>
+                <template>
+                    <b>Selected</b> State with hAlignLabel: <b>right</b> and vAlignLabel: <b>bottom</b>
+                </template>
+            </ch5-button-label>
+            
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+</ch5-button>
