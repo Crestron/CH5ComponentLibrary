@@ -76,7 +76,7 @@ export class Ch5Resync {
      * Store the name of all _signals
      * @memberof Ch5Resync
      */
-    public onReceiveClearAll(excludeStatesWithThesePrefixes: ICh5ExcludePrefixesModel): void {
+    public onReceiveStartOfUpdate(excludeStatesWithThesePrefixes: ICh5ExcludePrefixesModel): void {
         this._inUpdateState = true;
         this.setDefaultStatesOnClearAll(excludeStatesWithThesePrefixes);
     }
@@ -87,7 +87,7 @@ export class Ch5Resync {
      * @param statesToReset
      * @param excludePrefixes
      */
-    public onReceiveClearRange(statesToReset: ICh5ClearRangeDataModel, excludePrefixes: string[]): void {
+    public onReceiveStartOfUpdateRange(statesToReset: ICh5ClearRangeDataModel, excludePrefixes: string[]): void {
         console.log("[ch5-resync] Received ClearRange");
         this._inUpdateState = true;
 
