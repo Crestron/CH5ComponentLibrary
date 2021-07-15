@@ -2,6 +2,7 @@ import { CH5DpadUtils } from "./ch5-dpad-utils";
 import {
     IBottomBtnContract, ICenterBtnContract, ICh5DpadContract, ILeftBtnContract, IRightBtnContract, ITopBtnContract
 } from "./interfaces/i-ch5-dpad-utils";
+import { signalStructure } from "./interfaces/t-ch5-dpad";
 
 export class CH5DpadContractUtils {
 
@@ -114,7 +115,7 @@ export class CH5DpadContractUtils {
      * @param signalName contract signal name for show
      */
     public static checkAndUpdateShowHandler(thisRef: any, signalName: string = '') {
-        thisRef.parentContractBasedState.show.signalName = signalName;
+        (thisRef.parentContractBasedState.show as signalStructure).signalName = signalName;
         CH5DpadUtils.subscribeStateForContract(thisRef.parentContractBasedState.show,
             () => {
                 thisRef.show = (thisRef.parentContractBasedState.show.response.toString() === 'true');
