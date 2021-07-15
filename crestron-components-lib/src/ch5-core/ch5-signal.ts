@@ -64,13 +64,13 @@ export class Ch5Signal<T extends TSignal> {
             }
 
             // CLEAR ALL
-            if (resyncRequest.state === ResetEventNames.clearAll) {
+            if (resyncRequest.state === ResetEventNames.startOfUpdate) {
                 Ch5Signal._receivedClearEvent = true;
                 if (resyncRequest.value !== undefined && resyncRequest.value.excludePrefixes !== undefined) {
                     const excludePrefixes: ICh5ExcludePrefixesModel = {
                         excludePrefixes: resyncRequest.value.excludePrefixes
                     };
-                    ch5Resync.onReceiveClearAll(excludePrefixes);
+                    ch5Resync.onReceiveStartOfUpdate(excludePrefixes);
                 } else {
                     Ch5Signal._receivedClearEvent = false;
                     throw new Error('Invalid resyncRequest object');
@@ -78,11 +78,11 @@ export class Ch5Signal<T extends TSignal> {
             }
 
             // CLEAR RANGE
-            else if (resyncRequest.state === ResetEventNames.clearRange) {
+            else if (resyncRequest.state === ResetEventNames.startOfUpdateRange) {
                 Ch5Signal._receivedClearEvent = true;
                 if (resyncRequest.value !== undefined && resyncRequest.value.range !== undefined &&
                     resyncRequest.value.excludePrefixes !== undefined) {
-                    ch5Resync.onReceiveClearRange(resyncRequest.value.range, resyncRequest.value.excludePrefixes);
+                    ch5Resync.onReceiveStartOfUpdateRange(resyncRequest.value.range, resyncRequest.value.excludePrefixes);
                 } else {
                     Ch5Signal._receivedClearEvent = false;
                     throw new Error('Invalid resyncRequest object');
