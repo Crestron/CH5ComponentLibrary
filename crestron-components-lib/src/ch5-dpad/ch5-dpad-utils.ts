@@ -266,4 +266,19 @@ export class CH5DpadUtils {
         };
         return contractObj;
     }
+
+    /**
+     * Function to check and return the required value for a given params
+     * @param hasAttribute pre-existing attribute status
+     * @param valToAssign new value to assign
+     * @param defaultValue defaultvalue if required
+     * @returns final value assigned as attribute's value
+     */
+    public static setAttributesBasedValue = (hasAttribute: boolean, valToAssign: any, defaultValue: string) => {
+        if (hasAttribute) {
+            return valToAssign;
+        } else {
+            return defaultValue;
+        }
+    }
 }
