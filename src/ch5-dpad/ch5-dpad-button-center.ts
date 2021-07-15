@@ -513,8 +513,12 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         super.unsubscribeFromSignals();
 
         const csf = Ch5SignalFactory.getInstance();
-        CH5DpadUtils.clearSignalValue(csf, this, "_receiveStateLabelSignalValue", "_receiveStateLabel");
-        CH5DpadUtils.clearSignalValue(csf, this, "_receivestatescriptlabelhtmlSignalValue", "_receivestatescriptlabelhtml");
+        const signalArr = ["receiveStateIconClass", "receiveStateIconUrl", "receiveStateLabel", "receivestatescriptlabelhtml"];
+        for (const sigName of signalArr) {
+            const attrKeyPvt = '_' + sigName;
+            const attrKeySigName = attrKeyPvt + 'SignalValue';
+            CH5DpadUtils.clearSignalValue(csf, this, "attrKeySigName", "attrKeyPvt");
+        }
 
         this.logger.stop();
     }
