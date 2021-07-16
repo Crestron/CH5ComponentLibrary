@@ -59,8 +59,6 @@
                 }
             ];
 
-            // TODO - failing for FALSE
-
             const valid_noShowTypes = [
                 { key: 'display', css: 'ch5-hide-dis' },
                 { key: 'remove', css: '' },
@@ -97,8 +95,8 @@
 
             [true, false].forEach((showName, i) => {
                 test(`receiveStateShow: "${showName}"`, (done) => {
-                    ch5Button.setAttribute('receiveStateShow', 'show_button');
-                    CrComLib.publishEvent('b', 'toggle_btn_visibility', showName);
+                    ch5Button.setAttribute('receiveStateShow', 'toggle_btn_visibility1');
+                    CrComLib.publishEvent('b', 'toggle_btn_visibility1', showName);
                     flush(() => {
                         setTimeout(() => {
                             expect(ch5Button.getAttribute('show')).to.be.equal(String(showName).toLowerCase());
@@ -107,13 +105,10 @@
                         }, 100);
                     });
                 });
-            });
 
-            // Creating separate for loops to manage flush and setTimeout individiually for each text fixture
-            [true, false].forEach((showName, i) => {
                 test(`Check ch5-button > div css class name for receiveStateShow: "${showName}"`, (done) => {
-                    ch5Button.setAttribute('receiveStateShow', 'show_button');
-                    CrComLib.publishEvent('b', 'toggle_btn_visibility', showName);
+                    ch5Button.setAttribute('receiveStateShow', 'toggle_btn_visibility2');
+                    CrComLib.publishEvent('b', 'toggle_btn_visibility2', showName);
                     flush(() => {
                         setTimeout(() => {
                             expect(ch5Button.classList.contains(valid_noShowTypes.find(val => val.key === 'display').css)).to.be.equal(!showName);
@@ -121,96 +116,79 @@
                         }, 100);
                     });
                 });
-            });
 
-            // TODO - issue is with toggle - need to change in emulator
+                valid_noShowTypes.forEach((validNoShowType, j) => {
+                    test(`Check attribute show: "${showName}" and noShowType: "${validNoShowType.key}"`, (done) => {
+                        ch5Button.setAttribute('receiveStateShow', 'toggle_btn_visibility3');
+                        CrComLib.publishEvent('b', 'toggle_btn_visibility3', showName);
+                        ch5Button.setAttribute('noShowType', validNoShowType.key);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.show).to.be.equal(showName);
+                                done();
+                            }, 100);
+                        });
+                    });
 
-            // // Creating separate for loops to manage flush and setTimeout individiually for each text fixture
-            // [true, false].forEach((showName, i) => {
-            //     valid_noShowTypes.forEach((validNoShowType, j) => {
-            //         test(`Check attribute show: "${showName}" and noShowType: "${validNoShowType.key}"`, (done) => {
-            //             ch5Button.setAttribute('receiveStateShow', 'show_button');
-            //             CrComLib.publishEvent('b', 'toggle_btn_visibility', showName);
-            //             ch5Button.setAttribute('noShowType', validNoShowType.key);
-            //             flush(() => {
-            //                 setTimeout(() => {
-            //                     expect(ch5Button.show).to.be.equal(showName);
-            //                     done();
-            //                 }, 100);
-            //             });
-            //         });
-            //     });
-            // });
-
-            // // Creating separate for loops to manage flush and setTimeout individiually for each text fixture
-            // [true, false].forEach((showName, i) => {
-            //     valid_noShowTypes.forEach((validNoShowType, j) => {
-            //         test(`Check attribute show: "${showName}" and noShowType: "${validNoShowType.key}"`, () => {
-            //             ch5Button.setAttribute('receiveStateShow', 'show_button');
-            //             CrComLib.publishEvent('b', 'toggle_btn_visibility', showName);
-            //             ch5Button.setAttribute('noShowType', validNoShowType.key);
-            //             flush(() => {
-            //                 setTimeout(() => {
-            //                     expect(ch5Button.show).to.be.equal(showName);
-            //                     done();
-            //                 }, 100);
-            //             });
-            //         });
-            //     });
-            // });
-
-            // // Creating separate for loops to manage flush and setTimeout individiually for each text fixture
-            // [true, false].forEach((showName, i) => {
-            //     valid_noShowTypes.forEach((validNoShowType, j) => {
-            //         test(`Check ch5-button > div css class name for show: "${showName}" and noShowType: "${validNoShowType.key}"`, (done) => {
-            //             ch5Button.setAttribute('show', showName);
-            //             ch5Button.setAttribute('receiveStateShow', 'show_button');
-            // CrComLib.publishEvent('b', 'toggle_btn_visibility', showName);
-
-            //             ch5Button.setAttribute('noShowType', validNoShowType.key);
-
-            //             flush(() => {
-            //                 setTimeout(() => {
-            //                     if (validNoShowType.key === 'remove') {
-            //                         expect(!!(ch5Button)).to.be.equal(true);
-            //                     } else {
-            //                         expect(ch5Button.classList.contains(valid_noShowTypes.find(val => val.key === validNoShowType.key).css)).to.be.equal(!showName);
-            //                     }
-            //                     done();
-            //                 }, 100);
-            //             });
-            //         });
-            //     });
-            // });
-
-            // TODO - test the pulse for false
-            test(`receiveStateShowPulse: true"`, (done) => {
-                ch5Button.setAttribute('receiveStateShowPulse', 'sig_pulse_show');
-                ch5Button.setAttribute('receiveStateHidePulse', 'sig_pulse_hide');
-                CrComLib.publishEvent('b', 'sig_pulse_show', true);
-                flush(() => {
-                    setTimeout(() => {
-                        expect(ch5Button.getAttribute('show')).to.be.equal('true');
-                        expect(ch5Button.show).to.be.equal(true);
-                        done();
-                    }, 100);
+                    test(`Check attribute show: "${showName}" and noShowType: "${validNoShowType.key}"`, (done) => {
+                        ch5Button.setAttribute('receiveStateShow', 'toggle_btn_visibility4');
+                        CrComLib.publishEvent('b', 'toggle_btn_visibility4', showName);
+                        ch5Button.setAttribute('noShowType', validNoShowType.key);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.show).to.be.equal(showName);
+                                done();
+                            }, 100);
+                        });
+                    });
+              
+                    test(`Check ch5-button > div css class name for show: "${showName}" and noShowType: "${validNoShowType.key}"`, (done) => {
+                            ch5Button.setAttribute('show', showName);
+                            ch5Button.setAttribute('receiveStateShow', 'toggle_btn_visibility5');
+                            CrComLib.publishEvent('b', 'toggle_btn_visibility5', showName);
+                            ch5Button.setAttribute('noShowType', validNoShowType.key);
+                            flush(() => {
+                                setTimeout(() => {
+                                    if (validNoShowType.key === 'remove') {
+                                        expect(!!(ch5Button)).to.be.equal(true);
+                                    } else {
+                                        expect(ch5Button.classList.contains(valid_noShowTypes.find(val => val.key === validNoShowType.key).css)).to.be.equal(!showName);
+                                    }
+                                    done();
+                                }, 100);
+                            });
+                        });
+                    });
                 });
-            });
 
-            test(`receiveStateHidePulse: true"`, (done) => {
-                ch5Button.setAttribute('receiveStateShowPulse', 'sig_pulse_show');
-                ch5Button.setAttribute('receiveStateHidePulse', 'sig_pulse_hide');
-                CrComLib.publishEvent('b', 'sig_pulse_hide', true);
-                flush(() => {
-                    setTimeout(() => {
-                        expect(ch5Button.getAttribute('show')).to.be.equal('false');
-                        expect(ch5Button.show).to.be.equal(false);
-                        done();
-                    }, 100);
+                // TODO - test the pulse for false
+                test(`receiveStateShowPulse: true"`, (done) => {
+                    ch5Button.setAttribute('receiveStateShowPulse', 'sig_pulse_show');
+                    ch5Button.setAttribute('receiveStateHidePulse', 'sig_pulse_hide');
+                    CrComLib.publishEvent('b', 'sig_pulse_show', true);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.getAttribute('show')).to.be.equal('true');
+                            expect(ch5Button.show).to.be.equal(true);
+                            done();
+                        }, 100);
+                    });
                 });
-            });
 
-        });
+                test(`receiveStateHidePulse: true"`, (done) => {
+                    ch5Button.setAttribute('receiveStateShowPulse', 'sig_pulse_show');
+                    ch5Button.setAttribute('receiveStateHidePulse', 'sig_pulse_hide');
+                    CrComLib.publishEvent('b', 'sig_pulse_hide', true);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.getAttribute('show')).to.be.equal('false');
+                            expect(ch5Button.show).to.be.equal(false);
+                            done();
+                        }, 100);
+                    });
+                });
+
+            });
     </script>
 </body>
 

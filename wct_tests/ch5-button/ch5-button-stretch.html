@@ -49,7 +49,8 @@
             invalid_stretches.forEach((stretchName, i) => {
                 test(`Check attribute stretch: "${stretchName}" for invalid values`, () => {
                     ch5Button.setAttribute('stretch', stretchName);
-                    expect(!!ch5Button.stretch).to.be.equal(false);
+                    expect(ch5Button.getAttribute("stretch")).to.be.equal(null);
+                    expect(ch5Button.stretch).to.be.equal(null);
                 });
                 test(`Check ch5-button > div css class name for stretch: "${stretchName}" for invalid values`, () => {
                     ch5Button.setAttribute('stretch', stretchName);
@@ -94,8 +95,9 @@
                     test(`Check attribute stretch: "${stretchName}" for invalid values and valid size attribute: "${sizeName}"`, () => {
                         ch5Button.setAttribute('stretch', stretchName);
                         ch5Button.setAttribute('size', sizeName);
+                        expect(ch5Button.getAttribute("stretch")).to.be.equal(null);
+                        expect(ch5Button.stretch).to.be.equal(null);
                         expect(ch5Button.size).to.be.equal(sizeName);
-                        expect(!!ch5Button.stretch).to.be.equal(false);
                     });
                     test(`Check ch5-button > div css class name for stretch: "${stretchName}" for invalid values and valid size attribute: "${sizeName}"`, () => {
                         ch5Button.setAttribute('stretch', stretchName);
@@ -110,7 +112,8 @@
                         ch5Button.setAttribute('stretch', stretchName);
                         ch5Button.setAttribute('size', sizeName);
                         expect(ch5Button.size).to.be.equal(default_size);
-                        expect(!!ch5Button.stretch).to.be.equal(false);
+                        expect(ch5Button.getAttribute("stretch")).to.be.equal(null);
+                        expect(ch5Button.stretch).to.be.equal(null);
                     });
                     test(`Check ch5-button > div css class name for stretch: "${stretchName}" for invalid values and invalid size attribute: "${sizeName}"`, () => {
                         ch5Button.setAttribute('stretch', stretchName);

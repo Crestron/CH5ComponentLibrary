@@ -127,6 +127,337 @@
         "attributes": [
           {
             "documentation": [
+              "`type` attribute",
+              "***",
+              "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
+              "Overrides the appearance of the button with alternative CSS ",
+              "defined in classes defined with ch5-button--type, where type is ",
+              "the value of the property. If no 'type' is provided, the type of ",
+              "'default' is used."
+            ],
+            "value": [
+              "default",
+              "primary",
+              "info",
+              "text",
+              "danger",
+              "warning",
+              "success",
+              "secondary"
+            ],
+            "name": "type",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`icon` attribute",
+              "***",
+              "The icon class."
+            ],
+            "value": [],
+            "name": "iconclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`iconposition` attribute",
+              "***",
+              "The default value is 'first'.",
+              "Valid values: 'first', 'last', 'top', 'bottom'.",
+              "The icon position relative to the label."
+            ],
+            "value": [
+              "first",
+              "last",
+              "top",
+              "bottom"
+            ],
+            "name": "iconposition",
+            "default": "first"
+          },
+          {
+            "documentation": [
+              "`iconurl` attribute",
+              "***",
+              "The attribute used for add a SVG image."
+            ],
+            "value": [],
+            "name": "iconurl",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customClass` attribute",
+              "***",
+              "The attribute used for add a SVG image."
+            ],
+            "value": [],
+            "name": "customClass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customStyle` attribute",
+              "***",
+              "The attribute used for add a SVG image."
+            ],
+            "value": [],
+            "name": "customStyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`checkboxPosition` attribute",
+              "***",
+              "The default value is left.",
+              "This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button,",
+              " and the value right would set the checkbox to the right of the button."
+            ],
+            "value": [
+              "left",
+              "right"
+            ],
+            "name": "checkboxPosition",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`hAlignLabel` attribute",
+              "***",
+              "Valid values: 'left', 'right', 'center'.",
+              "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
+              "The center property sets the horizontal alignment of the label to the center of the button. ",
+              "The left property sets the horizontal alignment of the label to the left of the button. ",
+              "The right property sets the horizontal alignment of the label to the right of the button. "
+            ],
+            "value": [
+              "left",
+              "right",
+              "center"
+            ],
+            "name": "hAlignLabel",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`vAlignLabel` attribute",
+              "***",
+              "Valid values: 'top', 'bottom', 'middle'.",
+              "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
+              "The middle property sets the horizontal alignment of the label to the middle of the button. ",
+              "The top property sets the horizontal alignment of the label to the top of the button. ",
+              "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
+            ],
+            "value": [
+              "middle",
+              "top",
+              "bottom"
+            ],
+            "name": "vAlignLabel",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-button-mode` element",
+          "***",
+          "A child element designed to capture mode level attributes for Ch5 Button component."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-button-mode:blank",
+            "description": "Crestron Button Mode",
+            "body": [
+              "<ch5-button-mode>",
+              "</ch5-button-mode>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Button Mode is a child node for <ch5-button>.",
+        "name": "Ch5 Button Mode",
+        "tagName": "ch5-button-mode",
+        "role": "button",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`type` attribute",
+              "***",
+              "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
+              "Overrides the appearance of the button with alternative CSS ",
+              "defined in classes defined with ch5-button--type, where type is ",
+              "the value of the property. If no 'type' is provided, the type of ",
+              "'default' is used."
+            ],
+            "value": [
+              "default",
+              "primary",
+              "info",
+              "text",
+              "danger",
+              "warning",
+              "success",
+              "secondary"
+            ],
+            "name": "type",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`icon` attribute",
+              "***",
+              "The icon class."
+            ],
+            "value": [],
+            "name": "iconclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`iconposition` attribute",
+              "***",
+              "The default value is 'first'.",
+              "Valid values: 'first', 'last', 'top', 'bottom'.",
+              "The icon position relative to the label."
+            ],
+            "value": [
+              "first",
+              "last",
+              "top",
+              "bottom"
+            ],
+            "name": "iconposition",
+            "default": "first"
+          },
+          {
+            "documentation": [
+              "`iconurl` attribute",
+              "***",
+              "The attribute used for add a SVG image."
+            ],
+            "value": [],
+            "name": "iconurl",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customClass` attribute",
+              "***",
+              "The attribute used for add a SVG image."
+            ],
+            "value": [],
+            "name": "customClass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customStyle` attribute",
+              "***",
+              "The attribute used for add a SVG image."
+            ],
+            "value": [],
+            "name": "customStyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`checkboxPosition` attribute",
+              "***",
+              "The default value is left.",
+              "This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button,",
+              " and the value right would set the checkbox to the right of the button."
+            ],
+            "value": [
+              "left",
+              "right"
+            ],
+            "name": "checkboxPosition",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`hAlignLabel` attribute",
+              "***",
+              "Valid values: 'left', 'right', 'center'.",
+              "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
+              "The center property sets the horizontal alignment of the label to the center of the button. ",
+              "The left property sets the horizontal alignment of the label to the left of the button. ",
+              "The right property sets the horizontal alignment of the label to the right of the button. "
+            ],
+            "value": [
+              "left",
+              "right",
+              "center"
+            ],
+            "name": "hAlignLabel",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`vAlignLabel` attribute",
+              "***",
+              "Valid values: 'top', 'bottom', 'middle'.",
+              "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
+              "The middle property sets the horizontal alignment of the label to the middle of the button. ",
+              "The top property sets the horizontal alignment of the label to the top of the button. ",
+              "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
+            ],
+            "value": [
+              "middle",
+              "top",
+              "bottom"
+            ],
+            "name": "vAlignLabel",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`state` attribute",
+              "***",
+              "Valid values: 'normal', 'pressed', 'selected'.",
+              "This attribute is used to define the ch5-button-mode-state attribues on the basis of the state of the parent ch5-button. ",
+              "If the button is neither in the 'pressed' state nor in the 'selected' state, then the button is considered to be in 'normal' state. ",
+              "The attributes of 'state' as 'normal' are considered in this case for the ch5-button. ",
+              "If the button is in the 'pressed' state, then the attributes of 'state' as 'pressed' are considered in this case for the ch5-button.  ",
+              "If the button is in the 'selected' state, then the attributes of 'state' as 'selected' are considered in this case for the ch5-button.  "
+            ],
+            "value": [
+              "normal",
+              "pressed",
+              "selected"
+            ],
+            "name": "state",
+            "default": "normal"
+          }
+        ],
+        "documentation": [
+          "`ch5-button-mode-state` element",
+          "***",
+          "A child element designed to capture mode level attributes for Ch5 Button component."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-button-mode-state:blank",
+            "description": "Crestron Button Mode State",
+            "body": [
+              "<ch5-button-mode-state>",
+              "</ch5-button-mode-state>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Button Mode State is a child node for <ch5-button-mode>.",
+        "name": "Ch5 Button Mode State",
+        "tagName": "ch5-button-mode-state",
+        "role": "button",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
               "`id` attribute",
               "***",
               "This is a standard id HTML attribute."
@@ -348,6 +679,18 @@
           },
           {
             "documentation": [
+              "`mode` attribute",
+              "***",
+              "The default value is 0.",
+              "This property is used to set or get the mode of the ch5-button in a multi-mode environment. ",
+              "The maximum value that can be set is 99."
+            ],
+            "value": [],
+            "name": "mode",
+            "default": "0"
+          },
+          {
+            "documentation": [
               "`checkboxShow` attribute",
               "***",
               "The default value is false.",
@@ -365,16 +708,16 @@
             "documentation": [
               "`checkboxPosition` attribute",
               "***",
-              "The default value is false.",
-              "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
-              "'ch5-button__checkbox' will be applied as the CSS class on the component."
+              "The default value is left.",
+              "This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button,",
+              " and the value right would set the checkbox to the right of the button."
             ],
             "value": [
               "left",
               "right"
             ],
             "name": "checkboxPosition",
-            "default": "false"
+            "default": "left"
           },
           {
             "documentation": [
@@ -458,15 +801,11 @@
             "documentation": [
               "`hAlignLabel` attribute",
               "***",
-              "Valid values: 'width', 'height', 'both'.",
-              "When the stretch property is set, the button element inherits the ",
-              "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it ",
-              "reaches the max-width of the container. If stretch=width is ",
-              "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
+              "Valid values: 'left', 'right', 'center'.",
+              "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
+              "The center property sets the horizontal alignment of the label to the center of the button. ",
+              "The left property sets the horizontal alignment of the label to the left of the button. ",
+              "The right property sets the horizontal alignment of the label to the right of the button. "
             ],
             "value": [
               "left",
@@ -474,29 +813,25 @@
               "center"
             ],
             "name": "hAlignLabel",
-            "default": "null"
+            "default": "center"
           },
           {
             "documentation": [
               "`vAlignLabel` attribute",
               "***",
-              "Valid values: 'width', 'height', 'both'.",
-              "When the stretch property is set, the button element inherits the ",
-              "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it ",
-              "reaches the max-width of the container. If stretch=width is ",
-              "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
+              "Valid values: 'top', 'bottom', 'middle'.",
+              "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
+              "The middle property sets the horizontal alignment of the label to the middle of the button. ",
+              "The top property sets the horizontal alignment of the label to the top of the button. ",
+              "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
             ],
             "value": [
-              "center",
+              "middle",
               "top",
               "bottom"
             ],
             "name": "vAlignLabel",
-            "default": "null"
+            "default": "middle"
           },
           {
             "documentation": [
@@ -511,6 +846,16 @@
               "submit"
             ],
             "name": "formtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receiveStateMode` attribute",
+              "***",
+              "When received, applies a value to the mode attribute from the signal."
+            ],
+            "value": [],
+            "name": "receiveStateMode",
             "default": "null"
           },
           {
@@ -636,6 +981,95 @@
             ],
             "name": "selected",
             "default": "false"
+          },
+          {
+            "documentation": [
+              "`class` attribute",
+              "***",
+              "This is a standard class HTML attribute."
+            ],
+            "value": [],
+            "name": "class",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`style` attribute",
+              "***",
+              "This is a standard style HTML attribute."
+            ],
+            "value": [],
+            "name": "style",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`role` attribute",
+              "***",
+              "This is an accessibility attribute implemented by all ch5-components and added automatically if not set by the user. ",
+              "Where possible, it represents the closest supported type for a ch5-component. In the case of a ch5-button, the value of the role attribute is 'button', for a ch5-modal-dialog the value is 'dialog', and so on. ",
+              "The default value for this ch5-component can be overridden via this attribute."
+            ],
+            "value": [],
+            "name": "role",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`debug` attribute",
+              "***",
+              "The default value is false. Used to get useful developer-related information about component behavior."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "debug",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`disabled` attribute",
+              "***",
+              "The default value is false. This property will direct the component to change CSS and event listeners ",
+              "to reflect a disabled state when true."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "disabled",
+            "default": "false"
+          },
+          {
+            "documentation": [
+              "`onpress` attribute",
+              "***",
+              "Runs when a press event is initiated."
+            ],
+            "value": [],
+            "name": "onpress",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`onrelease` attribute",
+              "***",
+              "Runs when a release event is initiated."
+            ],
+            "value": [],
+            "name": "onrelease",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclassselected` attribute",
+              "***",
+              "Specifies a custom class for the selected state of the button."
+            ],
+            "value": [],
+            "name": "customclassselected",
+            "default": "null"
           }
         ],
         "documentation": [
@@ -690,1030 +1124,6 @@
         "name": "Ch5 Button",
         "tagName": "ch5-button",
         "role": "button",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true"
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`type` attribute",
-              "***",
-              "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
-              "Overrides the appearance of the button with alternative CSS ",
-              "defined in classes defined with ch5-button--type, where type is ",
-              "the value of the property. If no 'type' is provided, the type of ",
-              "'default' is used."
-            ],
-            "value": [
-              "default",
-              "primary",
-              "info",
-              "text",
-              "danger",
-              "warning",
-              "success",
-              "secondary"
-            ],
-            "name": "type",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`icon` attribute",
-              "***",
-              "The icon class."
-            ],
-            "value": [],
-            "name": "iconclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`iconposition` attribute",
-              "***",
-              "The default value is 'first'.",
-              "Valid values: 'first', 'last', 'top', 'bottom'.",
-              "The icon position relative to the label."
-            ],
-            "value": [
-              "first",
-              "last",
-              "top",
-              "bottom"
-            ],
-            "name": "iconposition",
-            "default": "first"
-          },
-          {
-            "documentation": [
-              "`iconurl` attribute",
-              "***",
-              "The attribute used for add a SVG image."
-            ],
-            "value": [],
-            "name": "iconurl",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`checkboxPosition` attribute",
-              "***",
-              "The default value is false.",
-              "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
-              "'ch5-button__checkbox' will be applied as the CSS class on the component."
-            ],
-            "value": [
-              "left",
-              "right"
-            ],
-            "name": "checkboxPosition",
-            "default": "false"
-          },
-          {
-            "documentation": [
-              "`hAlignLabel` attribute",
-              "***",
-              "Valid values: 'width', 'height', 'both'.",
-              "When the stretch property is set, the button element inherits the ",
-              "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it ",
-              "reaches the max-width of the container. If stretch=width is ",
-              "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
-            ],
-            "value": [
-              "left",
-              "right",
-              "center"
-            ],
-            "name": "hAlignLabel",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`vAlignLabel` attribute",
-              "***",
-              "Valid values: 'width', 'height', 'both'.",
-              "When the stretch property is set, the button element inherits the ",
-              "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it ",
-              "reaches the max-width of the container. If stretch=width is ",
-              "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
-            ],
-            "value": [
-              "center",
-              "top",
-              "bottom"
-            ],
-            "name": "vAlignLabel",
-            "default": "null"
-          }
-        ],
-        "documentation": [
-          "`ch5-button-mode-common` element",
-          "***",
-          "PENDING DOCUMENTATION"
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-button:blank",
-            "description": "Crestron Button",
-            "body": [
-              "<ch5-button>",
-              "</ch5-button>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-button:default",
-            "description": "Crestron Button",
-            "body": [
-              "<ch5-button id=\"btn_${1:id}\"",
-              "\tlabel=\"${2:Crestron Button}\"",
-              "\tsendeventonclick=\"${3:btn_${1}_clicked}\">",
-              "</ch5-button>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-button:all-attributes",
-            "description": "Crestron Button (All Attributes)",
-            "body": [
-              "<ch5-button id=\"btn_${1:id}\"",
-              "\tlabel=\"${2:Crestron Button}\"",
-              "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
-              "\tcustomClass=\"${4:customClass}\"",
-              "\tshape=\"${5|rounded-rectangle,rectangle,tab,circle,oval|}\"",
-              "\tsize=\"${6|regular,x-small,small,large,x-large|}\"",
-              "\tstretch=\"${7|both,width,height|}\"",
-              "\ticonposition=\"${8|first,last,top,bottom|}\"",
-              "\ticonclass=\"${9:iconClass}\"",
-              "\torientation=\"${10|horizontal,vertical|}\"",
-              "\tsendeventonclick=\"${11:btn_${1}_clicked}\"",
-              "\tsendeventontouch=\"${12:btn_${1}_touched}\"",
-              "\treceivestateselected=\"${13}\"",
-              "\treceivestatelabel=\"${14}\"",
-              "\treceivestatescriptlabelhtml=\"${15}\">",
-              "</ch5-button>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Button Mode Common.",
-        "name": "Ch5 Button Mode Common",
-        "tagName": "ch5-button-mode-common",
-        "role": "ch5-button-mode-common",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true"
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`type` attribute",
-              "***",
-              "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
-              "Overrides the appearance of the button with alternative CSS ",
-              "defined in classes defined with ch5-button--type, where type is ",
-              "the value of the property. If no 'type' is provided, the type of ",
-              "'default' is used."
-            ],
-            "value": [
-              "default",
-              "primary",
-              "info",
-              "text",
-              "danger",
-              "warning",
-              "success",
-              "secondary"
-            ],
-            "name": "type",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`icon` attribute",
-              "***",
-              "The icon class."
-            ],
-            "value": [],
-            "name": "iconclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`iconposition` attribute",
-              "***",
-              "The default value is 'first'.",
-              "Valid values: 'first', 'last', 'top', 'bottom'.",
-              "The icon position relative to the label."
-            ],
-            "value": [
-              "first",
-              "last",
-              "top",
-              "bottom"
-            ],
-            "name": "iconposition",
-            "default": "first"
-          },
-          {
-            "documentation": [
-              "`iconurl` attribute",
-              "***",
-              "The attribute used for add a SVG image."
-            ],
-            "value": [],
-            "name": "iconurl",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`checkboxPosition` attribute",
-              "***",
-              "The default value is false.",
-              "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
-              "'ch5-button__checkbox' will be applied as the CSS class on the component."
-            ],
-            "value": [
-              "left",
-              "right"
-            ],
-            "name": "checkboxPosition",
-            "default": "false"
-          },
-          {
-            "documentation": [
-              "`hAlignLabel` attribute",
-              "***",
-              "Valid values: 'width', 'height', 'both'.",
-              "When the stretch property is set, the button element inherits the ",
-              "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it ",
-              "reaches the max-width of the container. If stretch=width is ",
-              "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
-            ],
-            "value": [
-              "left",
-              "right",
-              "center"
-            ],
-            "name": "hAlignLabel",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`vAlignLabel` attribute",
-              "***",
-              "Valid values: 'width', 'height', 'both'.",
-              "When the stretch property is set, the button element inherits the ",
-              "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it ",
-              "reaches the max-width of the container. If stretch=width is ",
-              "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
-            ],
-            "value": [
-              "center",
-              "top",
-              "bottom"
-            ],
-            "name": "vAlignLabel",
-            "default": "null"
-          }
-        ],
-        "documentation": [
-          "`ch5-button-mode` element",
-          "***",
-          "PENDING DOCUMENTATION"
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-button:blank",
-            "description": "Crestron Button",
-            "body": [
-              "<ch5-button>",
-              "</ch5-button>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-button:default",
-            "description": "Crestron Button",
-            "body": [
-              "<ch5-button id=\"btn_${1:id}\"",
-              "\tlabel=\"${2:Crestron Button}\"",
-              "\tsendeventonclick=\"${3:btn_${1}_clicked}\">",
-              "</ch5-button>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-button:all-attributes",
-            "description": "Crestron Button (All Attributes)",
-            "body": [
-              "<ch5-button id=\"btn_${1:id}\"",
-              "\tlabel=\"${2:Crestron Button}\"",
-              "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
-              "\tcustomClass=\"${4:customClass}\"",
-              "\tshape=\"${5|rounded-rectangle,rectangle,tab,circle,oval|}\"",
-              "\tsize=\"${6|regular,x-small,small,large,x-large|}\"",
-              "\tstretch=\"${7|both,width,height|}\"",
-              "\ticonposition=\"${8|first,last,top,bottom|}\"",
-              "\ticonclass=\"${9:iconClass}\"",
-              "\torientation=\"${10|horizontal,vertical|}\"",
-              "\tsendeventonclick=\"${11:btn_${1}_clicked}\"",
-              "\tsendeventontouch=\"${12:btn_${1}_touched}\"",
-              "\treceivestateselected=\"${13}\"",
-              "\treceivestatelabel=\"${14}\"",
-              "\treceivestatescriptlabelhtml=\"${15}\">",
-              "</ch5-button>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Button ch5-button-mode.",
-        "name": "Ch5 Button Mode",
-        "tagName": "ch5-button-mode",
-        "role": "ch5-button-mode",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true"
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`type` attribute",
-              "***",
-              "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
-              "Overrides the appearance of the button with alternative CSS ",
-              "defined in classes defined with ch5-button--type, where type is ",
-              "the value of the property. If no 'type' is provided, the type of ",
-              "'default' is used."
-            ],
-            "value": [
-              "default",
-              "primary",
-              "info",
-              "text",
-              "danger",
-              "warning",
-              "success",
-              "secondary"
-            ],
-            "name": "type",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`icon` attribute",
-              "***",
-              "The icon class."
-            ],
-            "value": [],
-            "name": "iconclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`iconposition` attribute",
-              "***",
-              "The default value is 'first'.",
-              "Valid values: 'first', 'last', 'top', 'bottom'.",
-              "The icon position relative to the label."
-            ],
-            "value": [
-              "first",
-              "last",
-              "top",
-              "bottom"
-            ],
-            "name": "iconposition",
-            "default": "first"
-          },
-          {
-            "documentation": [
-              "`iconurl` attribute",
-              "***",
-              "The attribute used for add a SVG image."
-            ],
-            "value": [],
-            "name": "iconurl",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`checkboxPosition` attribute",
-              "***",
-              "The default value is false.",
-              "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
-              "'ch5-button__checkbox' will be applied as the CSS class on the component."
-            ],
-            "value": [
-              "left",
-              "right"
-            ],
-            "name": "checkboxPosition",
-            "default": "false"
-          },
-          {
-            "documentation": [
-              "`hAlignLabel` attribute",
-              "***",
-              "Valid values: 'width', 'height', 'both'.",
-              "When the stretch property is set, the button element inherits the ",
-              "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it ",
-              "reaches the max-width of the container. If stretch=width is ",
-              "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
-            ],
-            "value": [
-              "left",
-              "right",
-              "center"
-            ],
-            "name": "hAlignLabel",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`vAlignLabel` attribute",
-              "***",
-              "Valid values: 'width', 'height', 'both'.",
-              "When the stretch property is set, the button element inherits the ",
-              "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it ",
-              "reaches the max-width of the container. If stretch=width is ",
-              "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
-            ],
-            "value": [
-              "center",
-              "top",
-              "bottom"
-            ],
-            "name": "vAlignLabel",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`vAlignLabel` attribute",
-              "***",
-              "Valid values: 'width', 'height', 'both'.",
-              "When the stretch property is set, the button element inherits the ",
-              "width and/or height of the container. If stretch=height is used, ",
-              "the button will be responsive based on the label length until it ",
-              "reaches the max-width of the container. If stretch=width is ",
-              "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
-            ],
-            "value": [
-              "normal",
-              "pressed",
-              "selected"
-            ],
-            "name": "vAlignLabel",
-            "default": "null"
-          }
-        ],
-        "documentation": [
-          "`ch5-button-label` element",
-          "***",
-          "An extension to standard HTML ch5-button element with icons and simple formats."
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-button:blank",
-            "description": "Crestron Button",
-            "body": [
-              "<ch5-button>",
-              "</ch5-button>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-button:default",
-            "description": "Crestron Button",
-            "body": [
-              "<ch5-button id=\"btn_${1:id}\"",
-              "\tlabel=\"${2:Crestron Button}\"",
-              "\tsendeventonclick=\"${3:btn_${1}_clicked}\">",
-              "</ch5-button>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-button:all-attributes",
-            "description": "Crestron Button (All Attributes)",
-            "body": [
-              "<ch5-button id=\"btn_${1:id}\"",
-              "\tlabel=\"${2:Crestron Button}\"",
-              "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
-              "\tcustomClass=\"${4:customClass}\"",
-              "\tshape=\"${5|rounded-rectangle,rectangle,tab,circle,oval|}\"",
-              "\tsize=\"${6|regular,x-small,small,large,x-large|}\"",
-              "\tstretch=\"${7|both,width,height|}\"",
-              "\ticonposition=\"${8|first,last,top,bottom|}\"",
-              "\ticonclass=\"${9:iconClass}\"",
-              "\torientation=\"${10|horizontal,vertical|}\"",
-              "\tsendeventonclick=\"${11:btn_${1}_clicked}\"",
-              "\tsendeventontouch=\"${12:btn_${1}_touched}\"",
-              "\treceivestateselected=\"${13}\"",
-              "\treceivestatelabel=\"${14}\"",
-              "\treceivestatescriptlabelhtml=\"${15}\">",
-              "</ch5-button>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Button label extends the button text to work with HTML content.",
-        "name": "Ch5 Button Label",
-        "tagName": "ch5-button-label",
-        "role": "label",
         "componentVersion": "1.0.0"
       },
       {
@@ -7326,7 +6736,12 @@
           "***",
           "The primary functionality of this component is to create new instances ",
           "of the user-provided <template> and to substitute event and state names ",
-          "where indicated by the integrator."
+          "where indicated by the developer.  ",
+          "Upon completion of creating a new instance of the the user-provided ",
+          "<template>, a container element is provided with a unique ",
+          "id attribute that is unique across all created instances.  ",
+          "Each top level element provided in user-provided <template> will ",
+          "also be provided a unique id, unless the element already has an id. "
         ],
         "snippets": [
           {
