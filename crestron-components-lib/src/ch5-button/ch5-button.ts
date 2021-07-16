@@ -2296,7 +2296,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 						if (isNil(updatedNodes.customClass) && !isNil(selectedButtonModeState.getAttribute("customclass"))) {
 							updatedNodes.customClass = selectedButtonModeState.getAttribute("customclass") as string;
 						}
-						if (isNil(updatedNodes.customStyle) && !isNil(selectedButtonModeState.getAttribute("customclass"))) {
+						if (isNil(updatedNodes.customStyle) && !isNil(selectedButtonModeState.getAttribute("customstyle"))) {
 							updatedNodes.customStyle = selectedButtonModeState.getAttribute("customstyle") as string;
 						}
 						if (isNil(updatedNodes.hAlignLabel) && !isNil(selectedButtonModeState.getAttribute("halignlabel"))) {
