@@ -1,0 +1,58 @@
+<b>ch5-button-mode</b> has no attributes. The attributes are picked up from <b>ch5-button</b>. 
+
+<br/><br/>
+
+<ch5-button type="warning" label="Button 1" stretch="both"  iconClass="fab fa-amilia" iconPosition="bottom" customStyle="border:3px solid darkgreen;" customClass="my-custom-class2" checkboxPosition="left" halignLabel="center" valignlabel="middle">
+    <ch5-button-mode>
+        <ch5-button-label>
+            <template>Button 1 Value from ch5 button label</template>
+        </ch5-button-label>
+    </ch5-button-mode>
+</ch5-button>
+
+<hr/>
+
+
+Setting all attributes in <b>ch5-button-mode</b>. If <i>'mode'</i> attribute is not set, then the default value of mode is 0 (zero). 
+
+<br/><br/>
+
+<ch5-button label="Button 2" size="x-large" checkboxshow="true">
+    <ch5-button-mode type="danger" iconClass="fab fa-amilia" iconPosition="bottom" checkboxPosition="right" halignLabel="left" valignlabel="bottom">
+        <ch5-button-label>
+            <template>New Value</template>
+        </ch5-button-label>
+    </ch5-button-mode>
+</ch5-button>
+
+<hr/>
+
+
+Setting all attributes in <b>ch5-button</b> and <b>ch5-button-mode</b>. <b>ch5-button-mode</b> will override attributes in ch5-button.
+<br/><br/>
+
+<ch5-button label="Button 3" size="x-large" checkboxshow="true" type="danger" customStyle="border:3px solid red;" customClass="my-custom-class1" iconClass="fa fa-play" iconPosition="top" checkboxPosition="right" halignLabel="center" valignlabel="middle">
+    <ch5-button-mode type="primary" iconClass="fas fa-battery-quarter" iconPosition="last" customStyle="border:3px solid orange;" customClass="my-custom-class2" checkboxPosition="left" halignLabel="left" valignlabel="top">
+        <ch5-button-label>
+            <template>Third Button</template>
+        </ch5-button-label>
+    </ch5-button-mode>
+</ch5-button>
+
+<hr/>
+
+Setting all attributes in <b>ch5-button</b> and <b>ch5-button-mode</b> for multi-mode button. <b>ch5-button-mode</b> (as per the mode value) will override attributes in ch5-button.
+<br/><br/>
+
+<ch5-button label="Button 4" mode="0" size="x-large" checkboxshow="true" type="danger" customStyle="border:3px solid red;" customClass="my-custom-class1" iconClass="fa fa-play" iconPosition="top" checkboxPosition="right" halignLabel="center" valignlabel="middle">
+    <ch5-button-mode type="success" iconClass="fas fa-at" iconPosition="top" customStyle="border:3px solid orange;" customClass="my-custom-class2" checkboxPosition="left" halignLabel="left" valignlabel="top">
+        <ch5-button-label>
+            <template>Mode 0 - Button 4</template>
+        </ch5-button-label>
+    </ch5-button-mode>
+    <ch5-button-mode type="info" iconClass="fab fa-apple" iconPosition="top" customStyle="border:3px solid green;" customClass="my-custom-class3" checkboxPosition="left" halignLabel="right" valignlabel="bottom">
+        <ch5-button-label>
+            <template>Mode 1 - Button 4</template>
+        </ch5-button-label>
+    </ch5-button-mode>
+</ch5-button>

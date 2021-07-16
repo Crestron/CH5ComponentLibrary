@@ -80,7 +80,6 @@
                     CrComLib.publishEvent('b', 'hall_lights_tap', enabledName);
                     flush(() => {
                         setTimeout(() => {
-                            console.log("ch5Button.getAttribute('disabled')", ch5Button.getAttribute('disabled'));
                             expect(ch5Button.getAttribute('disabled')).to.satisfy((getValue) => {
                                 if (getValue === null || getValue === true) {
                                     return enabledName;

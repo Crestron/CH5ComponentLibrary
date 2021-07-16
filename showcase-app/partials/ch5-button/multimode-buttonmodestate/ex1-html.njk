@@ -1,299 +1,110 @@
+Click the below button to change the mode and state attributes
+<ch5-button type="text" mode="0" sendeventonclick="signal.trig_1" stretch="width" label="Click me to Change Mode and Selected for below button">
+</ch5-button>
+<br /><br />
 
-    1. All attributes are defined in ch5-button-mode-state. No attributes are defined in ch5-button-mode. No attributes (matching ones) are defined in ch5-button. The button state has 'normal', 'pressed' and 'selected' nodes. The number of modes is 1. 
-        
-        <div class="row">
-            <div class="col">
-                <div>
-                    Button is shown in 'normal' state.
-                
-                <div>
-                    <ul>
-                        <li>selected: 'false'</li>
-                        <li>type: 'text'</li>
-                        <li>label: 'The button is in the normal state.'</li>
-                        <li>stretch: 'width'</li>
-                        <li>checkboxShow: 'true'</li>
-                        <li>iconClass: 'fab fa-chrome'</li>
-                        <li>iconPosition: 'bottom'</li>
-                        <li>customStyle: 'border:3px solid orange;'</li>
-                        <li>customClass: 'my-custom-class2'</li>
-                        <li>checkboxPosition: 'left'</li>
-                        <li>hAlignLabel: 'left'</li>
-                        <li>vAlignLabel: 'bottom'</li>
-                    </ul>
-                
-                <div>
-                    <ch5-button label="A" type="success" mode="0" checkboxShow="true" stretch="width">
-                        <ch5-button-mode>
-                            <ch5-button-mode-state state="normal" type="info" iconClass="fab fa-chrome" customStyle="border:3px solid orange;" customClass="my-custom-class3" iconPosition="bottom" checkboxPosition="left" halignlabel="left" valignlabel="bottom">
-                            </ch5-button-mode-state>
-                            <ch5-button-mode-state state="pressed">
-                            </ch5-button-mode-state>
-                            <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="warning">
-                            </ch5-button-mode-state>
-                        </ch5-button-mode>
-                        <ch5-button-label>
-                            <template>
-                                The button is in the normal state.
-                            </template>
-                        </ch5-button-label>
-                    </ch5-button>
-                
-            
-            <div class="col">
-                <div>
-                    Button is shown in 'selected' state.
-                
-                <div>
-                    <ul>
-                        <li>selected: 'true'</li>
-                        <li>type: 'success'</li>
-                        <li>label: 'The button is in the selected state.'</li>
-                        <li>stretch: 'width'</li>
-                        <li>checkboxShow: 'true'</li>
-                        <li>iconClass: 'fab fa-chrome'</li>
-                        <li>iconPosition: 'bottom'</li>
-                        <li>customStyle: 'border:3px solid orange;'</li>
-                        <li>customClass: 'my-custom-class2'</li>
-                        <li>checkboxPosition: 'left'</li>
-                        <li>hAlignLabel: 'left'</li>
-                        <li>vAlignLabel: 'bottom'</li>
-                    </ul>
-                
-                <div>
-                    <ch5-button label="A" selected type="success" mode="0" checkboxShow="true" stretch="width">
-                        <ch5-button-mode>
-                            <ch5-button-mode-state state="normal">
-                            </ch5-button-mode-state>
-                            <ch5-button-mode-state state="pressed">
-                            </ch5-button-mode-state>
-                            <ch5-button-mode-state state="selected" type="warning" iconClass="fab fa-chrome" customStyle="border:3px solid orange;" customClass="my-custom-class3" iconPosition="bottom" checkboxPosition="left" halignlabel="left" valignlabel="bottom">
-                            </ch5-button-mode-state>
-                        </ch5-button-mode>
-                        <ch5-button-label>
-                            <template>
-                                The button is in the normal state.
-                            </template>
-                        </ch5-button-label>
-                    </ch5-button>
-                
-            
-            <div class="col">
-                <div>
-                    Button is shown in 'normal' state. Button has 'pressed' state attributes. Button click changes state.
-                
-                <div>
-                    <ul>
-                        <li>selected: 'false'</li>
-                        <li>type: 'text'</li>
-                        <li>label: 'The button is in the normal state.'</li>
-                        <li>stretch: 'width'</li>
-                        <li>checkboxShow: 'true'</li>
-                        <li>iconClass: 'fab fa-chrome'</li>
-                        <li>iconPosition: 'bottom'</li>
-                        <li>customStyle: 'border:3px solid orange;'</li>
-                        <li>customClass: 'my-custom-class2'</li>
-                        <li>checkboxPosition: 'left'</li>
-                        <li>hAlignLabel: 'left'</li>
-                        <li>vAlignLabel: 'bottom'</li>
-                    </ul>
-                
-                <div>
-                    <ch5-button label="A" type="info" selected="false" mode="0" id="ch5-button-mode-state-test-one" onclick="ch5buttonmodestateModule.setButtonSelectionChange(this)" checkboxShow="true" stretch="width">
-                        <ch5-button-mode>
-                            <ch5-button-mode-state state="normal" type="danger" iconClass="fa fa-play" customStyle="border:3px solid orange;" customClass="my-custom-class3" iconPosition="bottom" checkboxPosition="left" halignlabel="left" valignlabel="bottom">
-                            </ch5-button-mode-state>
-                            <ch5-button-mode-state state="pressed" type="warning">
-                            </ch5-button-mode-state>
-                            <ch5-button-mode-state state="selected" type="success" iconclass="fa fa-pause">
-                            </ch5-button-mode-state>
-                        </ch5-button-mode>
-                        <ch5-button-label>
-                            <template>
-                                The button is in the normal state.
-                            </template>
-                        </ch5-button-label>
-                    </ch5-button>
-                
-
-            
-        
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    9. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type default in ch5-button-mode-state
-            overriding type warning in ch5-button-mode danger along with iconclass in ch5-button-mode-state
-        
-        <ch5-button label="A" type="info" mode="1" checkboxShow="true" sendeventonclick="signal10" receivestatemode="signal9" stretch="width">
-            <ch5-button-mode type="primary">
-                <ch5-button-label>
-                    <template>
-                        <b>C</b>
-                    </template>
-                </ch5-button-label>
-                <ch5-button-mode-state state="normal" iconclass="fa fa-play">
-                    <ch5-button-label>
-                        <template>
-                            D
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-            </ch5-button-mode>
-            <ch5-button-mode type="secondary">
-                <ch5-button-label>
-                    <template>
-                        <b>F</b>
-                    </template>
-                </ch5-button-label>
-                <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
-                    <ch5-button-label>
-                        <template>
-                            Normal
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-                <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="text">
-                    <ch5-button-label>
-                        <template>
-                            Pressed
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-                <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
-                    <ch5-button-label>
-                        <template>
-                            Selected
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-            </ch5-button-mode>
+<ch5-button type="info" mode="0" checkboxShow="true" receivestatemode="signal.trig_1.mode" receivestateselected="signal.trig_1.selected" stretch="width">
+    <ch5-button-mode type="primary">
+        <ch5-button-label>
+            <template>
+                <b>Button Label for Mode 0 from ch5-button-mode</b>
+            </template>
+        </ch5-button-label>
+        <ch5-button-mode-state state="normal" iconclass="fa fa-play">
             <ch5-button-label>
                 <template>
-                    <b>B</b>
+                    <b>Button Label for Mode 0 from ch5-button-mode-state 'normal'</b>
                 </template>
             </ch5-button-label>
-        </ch5-button>
-    
-
-    10. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type default in ch5-button-mode-state
-            overriding type warning in ch5-button-mode danger along with iconclass in ch5-button-mode-state
-        
-        <ch5-button label="A" type="info" mode="0" checkboxShow="true" sendeventonclick="signal10" receivestateselected="signal10" stretch="width">
-            <ch5-button-mode type="primary">
-                <ch5-button-label>
-                    <template>
-                        <b>C</b>
-                    </template>
-                </ch5-button-label>
-                <ch5-button-mode-state type="warning" state="normal" iconclass="fa fa-play">
-                    <ch5-button-label>
-                        <template>
-                            D
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-            </ch5-button-mode>
-            <ch5-button-mode type="secondary">
-                <ch5-button-label>
-                    <template>
-                        <b>F</b>
-                    </template>
-                </ch5-button-label>
-                <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
-                    <ch5-button-label>
-                        <template>
-                            Normal
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-                <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="text">
-                    <ch5-button-label>
-                        <template>
-                            Pressed
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-                <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
-                    <ch5-button-label>
-                        <template>
-                            Selected
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-            </ch5-button-mode>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode type="secondary">
+        <ch5-button-label>
+            <template>
+                <b>Button Label for Mode 1 from ch5-button-mode</b>
+            </template>
+        </ch5-button-label>
+        <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
             <ch5-button-label>
                 <template>
-                    <b>B</b>
+                    <b>Button Label for Mode 1 from ch5-button-mode-state 'normal'</b>
                 </template>
             </ch5-button-label>
-        </ch5-button>
-    
-
-    11. <b>Bolded Ch5-Button-Label</b> overriding label in the button tag and type default in ch5-button-mode-state
-            overriding type warning in ch5-button-mode danger along with iconclass in ch5-button-mode-state
-        
-        <ch5-button label="A" type="info" mode="1" checkboxShow="true" onpress="page1Module.setButtonSignal10()" receivestateselected="signal10" stretch="width">
-            <ch5-button-mode type="primary">
-                <ch5-button-label>
-                    <template>
-                        <b>C</b>
-                    </template>
-                </ch5-button-label>
-                <ch5-button-mode-state state="normal" iconclass="fa fa-play">
-                    <ch5-button-label>
-                        <template>
-                            D
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-            </ch5-button-mode>
-            <ch5-button-mode type="secondary">
-                <ch5-button-label>
-                    <template>
-                        <b>F</b>
-                    </template>
-                </ch5-button-label>
-                <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
-                    <ch5-button-label>
-                        <template>
-                            Normal
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-                <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="text">
-                    <ch5-button-label>
-                        <template>
-                            Pressed
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-                <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
-                    <ch5-button-label>
-                        <template>
-                            Selected
-                        </template>
-                    </ch5-button-label>
-                </ch5-button-mode-state>
-            </ch5-button-mode>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="text">
             <ch5-button-label>
                 <template>
-                    <b>B</b>
+                    <b>Button Label for Mode 1 from ch5-button-mode-state 'pressed'</b>
                 </template>
             </ch5-button-label>
-        </ch5-button>
-    
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
+            <ch5-button-label>
+                <template>
+                    <b>Button Label for Mode 1 from ch5-button-mode-state 'selected'</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-label>
+        <template>
+            <b>Button Label from ch5-button</b>
+        </template>
+    </ch5-button-label>
+</ch5-button>
+
+<hr />
+
+Click the below button to view the <i>pressed</i> state from the ch5-button-mode-state attributes.
+<br />
+<br />
+
+<ch5-button type="primary" mode="0" checkboxShow="true" sendeventonclick="signal.trig_2" receivestatemode="signal.trig_2.mode" receivestateselected="signal.trig_2.selected" stretch="width">
+    <ch5-button-mode type="primary">
+        <ch5-button-label>
+            <template>
+                <i>Button Label for Mode 0 from ch5-button-mode</i>
+            </template>
+        </ch5-button-label>
+        <ch5-button-mode-state state="normal" iconclass="fa fa-play">
+            <ch5-button-label>
+                <template>
+                    <i>Button Label for Mode 0 from ch5-button-mode-state 'normal'</i>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode type="secondary">
+        <ch5-button-label>
+            <template>
+                <i>Button Label for Mode 1 from ch5-button-mode</i>
+            </template>
+        </ch5-button-label>
+        <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
+            <ch5-button-label>
+                <template>
+                    <i>Button Label for Mode 1 from ch5-button-mode-state 'normal'</i>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="warning" customStyle="font-weight:bold;">
+            <ch5-button-label>
+                <template>
+                    <i>Button Label for Mode 1 from ch5-button-mode-state 'pressed'</i>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
+            <ch5-button-label>
+                <template>
+                    <i>Button Label for Mode 1 from ch5-button-mode-state 'selected'</i>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-label>
+        <template>
+            <i>Button Label from ch5-button</i>
+        </template>
+    </ch5-button-label>
+</ch5-button>

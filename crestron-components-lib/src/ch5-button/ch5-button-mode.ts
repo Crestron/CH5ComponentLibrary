@@ -234,7 +234,7 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
     if (value !== null) {
       if (parentMasterData.indexOf(value) >= 0) {
         this.setAttribute(attributeName, value);
-        this._parentCh5Button.changeAttributesOnModeChange(this);
+        this._parentCh5Button.setButtonDisplay(this);
       } else {
         this.removeAttribute(attributeName);
         // parentElement.changeAttributesOnModeChange(this); is not required here. The set type will be called again to 
@@ -242,17 +242,17 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
       }
     } else {
       this.removeAttribute(attributeName);
-      this._parentCh5Button.changeAttributesOnModeChange(this);
+      this._parentCh5Button.setButtonDisplay(this);
     }
   }
 
   private validateAndSetAttributeWithStringType(attributeName: string, value: any) {
     if (value !== null) {
       this.setAttribute(attributeName, value);
-      this._parentCh5Button.changeAttributesOnModeChange(this);
+      this._parentCh5Button.setButtonDisplay(this);
     } else {
       this.removeAttribute(attributeName);
-      this._parentCh5Button.changeAttributesOnModeChange(this);
+      this._parentCh5Button.setButtonDisplay(this);
     }
   }
 

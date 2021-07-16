@@ -1,14 +1,22 @@
-<h1>Type attribute</h1>
-<p>
-    Possible values
-    <b>danger</b>,
-    <b>text</b>,
-    <b>warning</b>,
-    <b>info</b>,
-    <b>success</b>,
-    <b>default</b>,
-    <b>primary</b>,
-    <b>secondary</b>
-</p>
+This child element is used to add label text to the button. The attribute 'label' of <b>ch5-button</b> will be ignored if the <ch5-button-label> tag is provided. 
+This child element allows us to use HTML content in the label.
+The ch5-label-button will have &lt;template&gt; as its child.
+<pre style="background:transparent;">
+&lt;ch5-button label=&quot;abc&quot;&gt;
+    &lt;ch5-button-label&gt;
+        &lt;template&gt;
+            Label&lt;br&gt;
+            &lt;i&gt;Here&lt;/i&gt;
+        &lt;/template&gt;
+    &lt;/ch5-button-label&gt;
+&lt;/ch5-button&gt;
+</pre>
+<br />
 
-
+<u>Order of Preference:</u><br/>
+If multimode is enabled, then the order of preference goes from the bottom-to-top approach.<br/>
+1. receiveStateLabel on &lt;ch5-button&gt; tag<br/>
+2. &lt;ch5-button-label&gt; inside the &lt;ch5-button-mode-state&gt; tag<br/>
+3. &lt;ch5-button-label&gt; inside the &lt;ch5-button-mode&gt; tag<br/>
+4. &lt;ch5-button-label&gt; inside the &lt;ch5-button&gt; tag<br/>
+5. label attribute on &lt;ch5-button&gt; tag<br/>

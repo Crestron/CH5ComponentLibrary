@@ -1723,12 +1723,19 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @param {string|boolean} str
      * @returns {boolean}
      */
-    protected toBoolean(val: any): boolean {
+    protected toBoolean(val: any, isEmptyValueEqualToTrue = false): boolean {
         const str = String(val);
         switch (str.toLowerCase().trim()) {
             case "true": return true;
             case "false": case null: return false;
-            default: return Boolean(false);
+            case "":
+                if (isEmptyValueEqualToTrue === true) {
+                    return true;
+                } else {
+                    return Boolean(false);
+                }
+            default:
+                return Boolean(false);
         }
     }
 
