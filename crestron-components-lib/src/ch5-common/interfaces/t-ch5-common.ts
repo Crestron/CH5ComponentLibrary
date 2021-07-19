@@ -20,6 +20,5 @@ export type TCh5CreateReceiveStateSigParams = {
   caller: any,
   attrKey: string,
   value: string,
-  isBoolType: boolean,
-  callbackOnSignalReceived: (val: string | boolean, recSig: any) => void, // recSig is of type : <Ch5Signal<string | boolean> | null>, any to avoid import
+  callbackOnSignalReceived: (val: string | boolean) => void
 };
