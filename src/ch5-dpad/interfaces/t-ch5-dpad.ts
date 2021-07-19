@@ -33,7 +33,7 @@ export type TButtonClassListType = {
 
 export type TParentControlledContractRules = {
     contractName: string,
-    label: boolean,
+    label?: boolean,
     enable: boolean,
     show: boolean,
     icon: boolean
@@ -41,7 +41,7 @@ export type TParentControlledContractRules = {
 
 export type TParentContractBasedState = {
     click: signalStructure,
-    label: signalStructure,
+    label?: signalStructure,
     iconUrl: signalStructure,
     iconClass: signalStructure,
     enable: signalStructure,
