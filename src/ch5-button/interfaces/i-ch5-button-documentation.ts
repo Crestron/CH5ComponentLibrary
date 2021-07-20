@@ -65,8 +65,9 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *       "\treceivestatelabel=\"${18}\"",
  *       "\treceivestatescriptlabelhtml=\"${19}\">",
  *       "</ch5-button>$0"
- *     ]
- *
+ *       ]
+ *    }
+ *  ]
  */
 export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttributes {
 
