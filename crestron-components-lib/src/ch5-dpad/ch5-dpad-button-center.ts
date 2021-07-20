@@ -41,12 +41,26 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     private _receiveStateIconUrl: string = '';
     private _receivestatescriptlabelhtml: string = '';
     private _receiveStateLabel: string = '';
+    // protected _receiveStateShow: string = '';
+    // protected _receiveStateEnable: string = '';
 
     // signal based vars for each receive state
-    private _receiveStateIconClassSignalValue: string = '';
-    private _receiveStateIconUrlSignalValue: string = '';
-    private _receivestatescriptlabelhtmlSignalValue: string = '';
-    private _receiveStateLabelSignalValue: string = '';
+    private _receiveStateShowSignalName: string = '';
+    private _receiveStateEnableSignalName: string = '';
+    private _receiveStateShowPulseSignalName: string = '';
+    private _receiveStateHidePulseSignalName: string = '';
+    private _receiveStateIconClassSignalName: string = '';
+    private _receiveStateIconUrlSignalName: string = '';
+    private _receivestatescriptlabelhtmlSignalName: string = '';
+    private _receiveStateLabelSignalName: string = '';
+    private _receiveStateShowSignalValue: Ch5Signal<boolean> | null = null;
+    private _receiveStateEnableSignalValue: Ch5Signal<boolean> | null = null;
+    private _receiveStateShowPulseSignalValue: Ch5Signal<boolean> | null = null;
+    private _receiveStateHidePulseSignalValue: Ch5Signal<boolean> | null = null;
+    private _receiveStateIconClassSignalValue: Ch5Signal<string> | null = null;
+    private _receiveStateIconUrlSignalValue: Ch5Signal<string> | null = null;
+    private _receivestatescriptlabelhtmlSignalValue: Ch5Signal<string> | null = null;
+    private _receiveStateLabelSignalValue: Ch5Signal<string> | null = null;
 
     // parent specific contract based signals for each receive state
     private parentContractBasedState: TParentContractBasedState = {
@@ -158,15 +172,15 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             caller: this,
             attrKey: 'receiveStateShow',
             value,
-            isBoolType: true,
-            callbackOnSignalReceived: (newValue: string | boolean, recSig: Ch5Signal<string | boolean> | null) => {
+            callbackOnSignalReceived: (newValue: string | boolean) => {
                 newValue = newValue as boolean;
-                this.info(' subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newValue);
+                this.info(' subs callback for signalReceiveShow: ', this._receiveStateShowSignalValue,
+                    ' Signal has value ', newValue);
                 this.show = newValue;
             }
         };
 
-        this.setValueForReceiveStateAttr(params);
+        this.setValueForReceiveStateBoolean(params);
     }
 
     /**
@@ -183,10 +197,10 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             caller: this,
             attrKey: 'receiveStateEnable',
             value,
-            isBoolType: true,
-            callbackOnSignalReceived: (newValue: string | boolean, recSig: Ch5Signal<string | boolean> | null) => {
+            callbackOnSignalReceived: (newValue: string | boolean) => {
                 newValue = newValue as boolean;
-                this.info(' subs callback for signalReceiveEnable: ', this._subKeySigReceiveEnable, ' Signal has value ', newValue);
+                this.info(' subs callback for signalReceiveEnable: ', this._receiveStateEnableSignalValue,
+                    ' Signal has value ', newValue);
                 if (!this.disabled !== newValue) {
                     if (true === newValue) {
                         this.removeAttribute('disabled');
@@ -197,7 +211,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             }
         };
 
-        this.setValueForReceiveStateAttr(params);
+        this.setValueForReceiveStateBoolean(params);
     }
 
     /**
@@ -214,28 +228,28 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             caller: this,
             attrKey: 'receiveStateShowPulse',
             value,
-            isBoolType: true,
-            callbackOnSignalReceived: (newValue: string | boolean, recSig: Ch5Signal<string | boolean> | null) => {
+            callbackOnSignalReceived: (newValue: string | boolean) => {
                 newValue = newValue as boolean;
-                this.info(' subs callback for signalReceiveShowPulse: ', this._subKeySigReceiveShowPulse, ' Signal has value ', newValue);
-                if (null !== recSig) {
+                this.info(' subs callback for signalReceiveShowPulse: ',
+                    this._receiveStateShowPulseSignalValue, ' Signal has value ', newValue);
+                if (this._receiveStateShowPulseSignalValue !== null) {
                     const refVal = newValue as never as { repeatdigital: boolean };
                     const _newVal = refVal.repeatdigital !== undefined ? refVal.repeatdigital : newValue;
-                    const recSigVal = recSig.prevValue as never as { repeatdigital: boolean };
+                    const recSigVal = this._receiveStateShowPulseSignalValue.prevValue as never as { repeatdigital: boolean };
                     if (recSigVal.repeatdigital !== undefined) {
-                        if (false === recSigVal.repeatdigital && true === _newVal) {
+                        if (recSigVal.repeatdigital === false && _newVal === true) {
                             this.setAttribute('show', 'true')
                         }
                         return;
                     }
-                    if (recSig.prevValue === false && true === _newVal) {
+                    if (this._receiveStateShowPulseSignalValue.prevValue === false && true === _newVal) {
                         this.setAttribute('show', 'true')
                     }
                 }
             }
         };
 
-        this.setValueForReceiveStateAttr(params);
+        this.setValueForReceiveStateBoolean(params);
     }
 
     /**
@@ -252,20 +266,20 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             caller: this,
             attrKey: 'receiveStateHidePulse',
             value,
-            isBoolType: true,
-            callbackOnSignalReceived: (newValue: string | boolean, recSig: Ch5Signal<string | boolean> | null) => {
-                this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' Signal has value ', newValue);
-                if (null !== recSig) {
-                    if (false === recSig.prevValue && newValue === true) {
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                this.info(' subs callback for signalReceiveHidePulse: ',
+                    this._receiveStateHidePulseSignalValue, ' Signal has value ', newValue);
+                if (this._receiveStateHidePulseSignalValue !== null) {
+                    if (false === this._receiveStateHidePulseSignalValue.prevValue && newValue === true) {
                         this.setAttribute('show', 'false');
                     }
                 } else {
-                    this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' recSig is null');
+                    this.info(' subs callback for signalReceiveHidePulse: ', this._receiveStateHidePulseSignalValue, ' is null');
                 }
             }
         };
 
-        this.setValueForReceiveStateAttr(params);
+        this.setValueForReceiveStateBoolean(params);
     }
 
     /**
@@ -276,8 +290,9 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             caller: this,
             attrKey: 'receiveStateIconClass',
             value,
-            isBoolType: false,
-            callbackOnSignalReceived: (newValue: string | boolean, recSig: Ch5Signal<string | boolean> | null) => {
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                this.info(' subs callback for receiveStateIconClass: ',
+                    this._receiveStateIconClassSignalValue, ' Signal has value ', newValue);
                 newValue = newValue as string;
                 if (newValue !== this.iconClass) {
                     if (this.receiveStateIconUrl.length < 1 &&
@@ -289,7 +304,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             }
         };
 
-        this.setValueForReceiveStateAttr(params);
+        this.setValueForReceiveStateString(params);
     }
     public get receiveStateIconClass() {
         // The internal property is changed if/when the element is removed from DOM
@@ -305,8 +320,9 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             caller: this,
             attrKey: 'receiveStateIconUrl',
             value,
-            isBoolType: false,
-            callbackOnSignalReceived: (newValue: string | boolean, recSig: Ch5Signal<string | boolean> | null) => {
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                this.info(' subs callback for receiveStateIconUrl: ',
+                    this._receiveStateIconUrlSignalValue, ' Signal has value ', newValue);
                 newValue = newValue as string;
                 if (newValue !== this.iconUrl) {
                     if (!this.parentControlledContractRules.icon &&
@@ -318,7 +334,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             }
         };
 
-        this.setValueForReceiveStateAttr(params);
+        this.setValueForReceiveStateString(params);
     }
     public get receiveStateIconUrl() {
         // The internal property is changed if/when the element is removed from DOM
@@ -334,8 +350,9 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             caller: this,
             attrKey: 'receiveStateLabel',
             value,
-            isBoolType: false,
-            callbackOnSignalReceived: (newValue: string | boolean, recSig: Ch5Signal<string | boolean> | null) => {
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                this.info(' subs callback for receiveStateLabel: ',
+                    this._receiveStateLabelSignalValue, ' Signal has value ', newValue);
                 newValue = newValue as string;
                 if (newValue !== this.label) {
                     this.setAttribute('label', newValue);
@@ -344,7 +361,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             }
         };
 
-        this.setValueForReceiveStateAttr(params);
+        this.setValueForReceiveStateString(params);
     }
     public get receiveStateLabel() {
         // The internal property is changed if/when the element is removed from DOM
@@ -360,8 +377,9 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             caller: this,
             attrKey: 'receivestatescriptlabelhtml',
             value,
-            isBoolType: false,
-            callbackOnSignalReceived: (newValue: string | boolean, recSig: Ch5Signal<string | boolean> | null) => {
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                this.info(' subs callback for receivestatescriptlabelhtml: ',
+                    this._receivestatescriptlabelhtmlSignalValue, ' Signal has value ', newValue);
                 newValue = newValue as string;
                 if ('' !== newValue && newValue !== this._icon.innerHTML) {
                     this._icon.innerHTML = newValue;
@@ -369,7 +387,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             }
         };
 
-        this.setValueForReceiveStateAttr(params);
+        this.setValueForReceiveStateString(params);
     }
     public get receivestatescriptlabelhtml() {
         // The internal property is changed if/when the element is removed from DOM
@@ -441,7 +459,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
 
         const btnIconUrl = CH5DpadUtils.getImageUrl(this, this.primaryCssClass, this.parentControlledContractRules.icon);
         const btnIconClass = CH5DpadUtils.getIconClass(this, this.primaryCssClass, this.parentControlledContractRules.icon);
-        const btnLabel = CH5DpadUtils.getLabelText(this, this.primaryCssClass, this.parentControlledContractRules.label);
+        const btnLabel = CH5DpadUtils.getLabelText(this, this.primaryCssClass, this.parentControlledContractRules.label as boolean);
         // Order of preference is:
         // 0 parentContract
         // 1 recevieStateIconUrl
@@ -558,8 +576,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         this.info('ch5-dpad-button-center attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
         const parentContractName: string = CH5DpadUtils.getAttributeAsString(this.parentElement, 'contractname', '');
         switch (attr) {
-            case 'receivestateiconclass':
-            case 'receivestateiconurl':
             case 'receivestateshow':
             case 'receivestateenable':
             case 'receivestateshowpulse':
@@ -570,6 +586,26 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
                     super.attributeChangedCallback(attr, oldValue, newValue);
                 } else {
                     this.info(`Parent container DPad has a contract and so, ${attr} for ${this.crId} is rendered void.`);
+                }
+                break;
+            // Order of preference is:
+            // 0 parentContract
+            // 1 recevieStateIconUrl
+            // 2 receiveStateIconClass
+            // 3 receiveStateLabel
+            // 4 iconUrl
+            // 5 iconClass
+            // 6 label
+            case 'receivestateiconclass':
+                if (!Boolean(parentContractName)) {
+                    this.receiveStateIconClass = CH5DpadUtils.setAttributesBasedValue(
+                        this.hasAttribute(attr), newValue, '');
+                }
+                break;
+            case 'receivestateiconurl':
+                if (!Boolean(parentContractName)) {
+                    this.receiveStateIconUrl = CH5DpadUtils.setAttributesBasedValue(
+                        this.hasAttribute(attr), newValue, '');
                 }
                 break;
             case 'receivestatescriptlabelhtml': // higher than receivestatelabel and label
