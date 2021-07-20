@@ -22,7 +22,7 @@
 
     <test-fixture id="ch5-button-checkbox-fixture1">
         <template>
-            <ch5-button mode="0" checkboxShow="true" label="Verify Type for ch5-button-mode" type="danger">
+            <ch5-button mode="0" checkboxShow="true" label="Verify Checkbox for ch5-button-mode" type="danger">
                 <ch5-button-mode checkboxPosition="left"></ch5-button-mode>
                 <ch5-button-mode checkboxPosition="right"></ch5-button-mode>
             </ch5-button>
@@ -31,7 +31,7 @@
 
     <test-fixture id="ch5-button-checkbox-fixture2">
         <template>
-            <ch5-button receiveStateMode="current_mode_checkbox_fixture2" checkboxShow="true" checkboxPosition="left" label="Verify Type for ch5-button-mode" type="danger">
+            <ch5-button receiveStateMode="current_mode_checkbox_fixture2" checkboxShow="true" checkboxPosition="left" label="Verify Checkbox for ch5-button-mode" type="danger">
                 <ch5-button-mode type="success" checkboxPosition="left"></ch5-button-mode>
                 <ch5-button-mode type="warning" checkboxPosition="right"></ch5-button-mode>
                 <ch5-button-mode type="danger" checkboxPosition="left"></ch5-button-mode>
@@ -45,7 +45,7 @@
 
     <test-fixture id="ch5-button-checkbox-fixture3">
         <template>
-            <ch5-button label="Verify Type for Mode State" checkboxShow="true" checkboxPosition="right" stretch="width" type="text" mode="0" receivestateselected="receive_selected_state_checkboxPosition_fixture3">
+            <ch5-button label="Verify Checkbox for Mode State" checkboxShow="true" checkboxPosition="right" stretch="width" type="text" mode="0" receivestateselected="receive_selected_state_checkboxPosition_fixture3">
                 <ch5-button-mode checkboxPosition="right">
                     <ch5-button-mode-state state="normal" type="warning" checkboxPosition="left"></ch5-button-mode-state>
                     <ch5-button-mode-state state="pressed" type="info" checkboxPosition="left"></ch5-button-mode-state>
@@ -72,8 +72,8 @@
                 ch5Button3 = fixture('ch5-button-checkbox-fixture3');
             });
 
-            const valid_checkboxPosition = CH5_BUTTON_MASTERS.CHECKBOX_POSITIONS.values;
-            const valid_checkboxShow = CH5_BUTTON_MASTERS.CHECKBOX_SHOW.values;
+            const valid_checkboxPosition = CrComLib.Ch5Button.CHECKBOX_POSITIONS;
+            const valid_checkboxShow = [true, false];
             const invalid_checkboxPosition = ['', ' ', 'null', null, undefined, 'undefined', 'top', 'LEFT', 'RIGHT'];
             const invalid_checkboxShow = ['', 'junk', 'null', 'undefined', '0', '1'];
             const valid_selected = [true, false];
@@ -237,7 +237,7 @@
             });
 
             // ch5Button2
-            const modeTypeArray = [{
+            const modeCheckboxArray = [{
                 mode: 0,
                 checkboxPosition: 'left'
             },
@@ -267,23 +267,23 @@
             }];
 
             valid_selected.forEach((selected, k) => {
-                modeTypeArray.forEach((modeTypeObj, i) => {
-                    test(`ch5-button-checkbox-fixture2 - Check attribute checkboxPosition for ch5-button-mode using receiveStateMode "${modeTypeObj.mode}"`, (done) => {
-                        CrComLib.publishEvent('n', 'current_mode_checkbox_fixture2', modeTypeObj.mode);
+                modeCheckboxArray.forEach((modeObj, i) => {
+                    test(`ch5-button-checkbox-fixture2 - Check attribute checkboxPosition for ch5-button-mode using receiveStateMode "${modeObj.mode}"`, (done) => {
+                        CrComLib.publishEvent('n', 'current_mode_checkbox_fixture2', modeObj.mode);
                         flush(() => {
                             setTimeout(() => {
                                 expect(ch5Button2.getAttribute('checkboxPosition')).to.be.equal("left");
-                                expect(ch5Button2.checkboxPosition).to.be.equal(modeTypeObj.checkboxPosition);
+                                expect(ch5Button2.checkboxPosition).to.be.equal(modeObj.checkboxPosition);
                                 done();
                             }, 100);
                         });
                     });
 
-                    test(`ch5-button-checkbox-fixture2 - Check ch5-button > div css class name for ch5-button-mode using receiveStateMode "${modeTypeObj.mode}"`, (done) => {
-                        CrComLib.publishEvent('s', 'current_mode_checkbox_fixture2', modeTypeObj.mode);
+                    test(`ch5-button-checkbox-fixture2 - Check ch5-button > div css class name for ch5-button-mode using receiveStateMode "${modeObj.mode}"`, (done) => {
+                        CrComLib.publishEvent('s', 'current_mode_checkbox_fixture2', modeObj.mode);
                         flush(() => {
                             setTimeout(() => {
-                                const expectedValue = modeTypeObj.checkboxPosition;
+                                const expectedValue = modeObj.checkboxPosition;
                                 ch5Button2.setAttribute('selected', selected);
                                 expect(!!getITagInButtonForCheckbox(ch5Button2)).to.be.equal(true);
                                 expect(getITagInButtonForCheckbox(ch5Button2).classList.contains("ch5-button__checkbox")).to.be.equal(true);

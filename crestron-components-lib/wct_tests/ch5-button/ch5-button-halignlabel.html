@@ -35,16 +35,26 @@
             valid_hAlignLabel.forEach((hAlignLabelName, i) => {
                 test(`Check attribute hAlignLabel: "${hAlignLabelName}"`, () => {
                     ch5Button.setAttribute('hAlignLabel', hAlignLabelName);
-                    expect(ch5Button.hAlignLabel).to.be.equal(hAlignLabelName);
+                    // flush(() => {
+                    //     setTimeout(() => {
+                            expect(ch5Button.hAlignLabel).to.be.equal(hAlignLabelName);
+                            // done();
+                    //     }, 500);
+                    // });
                 });
                 test(`Check ch5-button > div css class name for hAlignLabel: "${hAlignLabelName}"`, () => {
                     ch5Button.setAttribute('hAlignLabel', hAlignLabelName);
-                    expect(getSpan(ch5Button).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
-                    valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
-                        if (hAlignLabelNameErrorCheck !== hAlignLabelName) {
-                            expect(getSpan(ch5Button).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
-                        }
-                    });
+                    // flush(() => {
+                    //     setTimeout(() => {
+                            expect(getSpan(ch5Button).classList.contains("ch5-button--horizontal-" + hAlignLabelName)).to.be.equal(true);
+                            valid_hAlignLabel.forEach((hAlignLabelNameErrorCheck, j) => {
+                                if (hAlignLabelNameErrorCheck !== hAlignLabelName) {
+                                    expect(getSpan(ch5Button).classList.contains("ch5-button--horizontal-" + hAlignLabelNameErrorCheck)).to.be.equal(false);
+                                }
+                            });
+                        //     done();
+                        // }, 500);
+                    // });
                 });
             });
 
