@@ -1853,58 +1853,76 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @param value to set
      * @returns 
      */
-    public setValueForReceiveStateAttr(params: TCh5CreateReceiveStateSigParams) {
-        const { caller, attrKey, value, callbackOnSignalReceived, isBoolType } = params;
-
-        caller.info(`set ${attrKey}("' + ${value} + '")`);
-        // if contract name exists in parent, receiveState based values must be ignored
-        if (this.checkIfValueIsTruey(caller.parentControlledContractRules.contractName)) {
-            return;
-        }
+    public setValueForReceiveStateString(params: TCh5CreateReceiveStateSigParams) {
+        const { caller, attrKey, value, callbackOnSignalReceived } = params;
+        this.info(`set ${attrKey}(\'' + ${value} + ')`);
 
         const attrKeyPvt = '_' + attrKey;
-        const attrKeySigName = attrKeyPvt + 'SignalValue';
-
+        const attrKeySigName = '_' + attrKey + 'SignalValue';
         if (!value || caller[attrKeyPvt] === value) {
             return;
         }
-        // clean up old subscription
-        if (!isBoolType) {
-            this.clearStringSignalSubscription(caller[attrKeyPvt], caller[attrKeySigName]);
-        } else {
-            this.clearBooleanSignalSubscription(caller[attrKeyPvt], this._subKeySigReceiveCustomStyle);
-        }
+
+        this.clearStringSignalSubscription(caller[attrKeyPvt], caller[attrKeySigName]);
 
         caller[attrKeyPvt] = value;
-        caller.setAttribute(attrKey.toLowerCase(), value);
-
-        // setup new subscription.
-        const receiveSignal: Ch5Signal<any> | null = this.createReceiveStateSignalObject(caller[attrKeyPvt], isBoolType);
-
-        if (receiveSignal !== null) {
-            caller[attrKeySigName] = receiveSignal.subscribe((newValue: string | boolean) => {
-                if (Boolean(callbackOnSignalReceived)) {
-                    callbackOnSignalReceived(newValue, receiveSignal);
-                }
-            });
+        if (caller.getAttribute(attrKey) !== value) {
+            caller.setAttribute(attrKey.toLowerCase(), value);
         }
+
+        const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(caller[attrKeyPvt]);
+        const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigShowPulseName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        caller[attrKeySigName] = recSig.subscribe((newValue: string) => {
+            if (callbackOnSignalReceived !== null) {
+                callbackOnSignalReceived(newValue);
+            }
+        });
     }
 
     /**
-     * Function - Internal helper to create a "Ch5Signal" signal object
-     * @param sigName signal name to create a subscription for
-     * @param isBoolType type of the signal required
-     * @returns ch5Signal type object
+     * (Generic) Function to set the value of a given attribute and perform the callback if required
+     * DEVNOTE: 
+     * 1. Refer ch5-dpad-button-center.ts for usage example
+     * 2. The "attrKeyPvt" and "attrKeyPvt" are actual variables to be existing in the same manner within the caller class
+     * @param caller the dpad child component
+     * @param attrKey receiveState* for the child component
+     * @param value to set
+     * @returns 
      */
-    protected createReceiveStateSignalObject(sigName: string, isBoolType: boolean): Ch5Signal<any> | null {
-        const receiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(sigName);
-        let receiveSignal: Ch5Signal<any> | null = null;
-        if (isBoolType) {
-            receiveSignal = Ch5SignalFactory.getInstance().getBooleanSignal(receiveStateSigName) as Ch5Signal<boolean>;
-        } else {
-            receiveSignal = Ch5SignalFactory.getInstance().getStringSignal(receiveStateSigName) as Ch5Signal<string>;
+    public setValueForReceiveStateBoolean(params: TCh5CreateReceiveStateSigParams) {
+        const { caller, attrKey, value, callbackOnSignalReceived } = params;
+        this.info(`set ${attrKey}(\'' + ${value} + ')`);
+
+        const attrKeyPvt = '_' + attrKey;
+        const attrKeySigName = '_' + attrKey + 'SignalValue';
+        if (!value || caller[attrKeyPvt] === value) {
+            return;
         }
-        return receiveSignal;
+
+        this.clearBooleanSignalSubscription(caller[attrKeyPvt], caller[attrKeySigName]);
+
+        caller[attrKeyPvt] = value;
+        if (caller.getAttribute(attrKey) !== value) {
+            caller.setAttribute(attrKey.toLowerCase(), value);
+        }
+
+        const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(caller[attrKeyPvt]);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowPulseName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        caller[attrKeySigName] = recSig.subscribe((newValue: boolean) => {
+            if (callbackOnSignalReceived !== null) {
+                callbackOnSignalReceived(newValue);
+            }
+        });
     }
 
     //#endregion 
