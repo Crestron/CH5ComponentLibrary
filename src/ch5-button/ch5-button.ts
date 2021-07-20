@@ -150,6 +150,63 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
 
+	public static readonly COMPONENT_DATA: any = {
+		TYPES: {
+			default: Ch5Button.TYPES[0],
+			values: Ch5Button.TYPES,
+			key: 'type',
+			classListPrefix: 'ch5-button--'
+		},
+		SHAPES: {
+			default: Ch5Button.SHAPES[0],
+			values: Ch5Button.SHAPES,
+			key: 'shape',
+			classListPrefix: 'ch5-button--shape-'
+		},
+		SIZES: {
+			default: Ch5Button.SIZES[0],
+			values: Ch5Button.SIZES,
+			key: 'size',
+			classListPrefix: 'ch5-button--size-'
+		},
+		STRETCH: {
+			default: null,
+			values: Ch5Button.STRETCHES,
+			key: 'stretch',
+			classListPrefix: 'ch5-button--stretch-'
+		},
+		ICON_POSITIONS: {
+			default: Ch5Button.ICON_POSITIONS[0],
+			values: Ch5Button.ICON_POSITIONS,
+			key: 'iconposition',
+			classListPrefix: 'ch5-button--iconposition-'
+		},
+		CHECKBOX_POSITIONS: {
+			default: Ch5Button.CHECKBOX_POSITIONS[0],
+			values: Ch5Button.CHECKBOX_POSITIONS,
+			key: 'checkboxposition',
+			classListPrefix: 'cx-button-checkbox-pos-'
+		},
+		HORIZONTAL_LABEL_ALIGNMENTS: {
+			default: Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS[0],
+			values: Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS,
+			key: 'halignlabel',
+			classListPrefix: 'ch5-button--horizontal-'
+		},
+		VERTICAL_LABEL_ALIGNMENTS: {
+			default: Ch5Button.VERTICAL_LABEL_ALIGNMENTS[0],
+			values: Ch5Button.VERTICAL_LABEL_ALIGNMENTS,
+			key: 'valignlabel',
+			classListPrefix: 'ch5-button--vertical-'
+		},
+		ORIENTATIONS: {
+			default: Ch5Button.ORIENTATIONS[0],
+			values: Ch5Button.ORIENTATIONS,
+			key: 'orientation',
+			classListPrefix: 'ch5-button--'
+		}
+	};
+
 	public readonly primaryCssClass: string = 'ch5-button';
 	public readonly cssClassPrefix: string = 'ch5-button';
 
