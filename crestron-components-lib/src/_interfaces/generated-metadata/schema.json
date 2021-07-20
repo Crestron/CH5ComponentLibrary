@@ -187,27 +187,27 @@
           },
           {
             "documentation": [
-              "`customClass` attribute",
+              "`customclass` attribute",
               "***",
               "The attribute used for add a SVG image."
             ],
             "value": [],
-            "name": "customClass",
+            "name": "customclass",
             "default": "null"
           },
           {
             "documentation": [
-              "`customStyle` attribute",
+              "`customstyle` attribute",
               "***",
               "The attribute used for add a SVG image."
             ],
             "value": [],
-            "name": "customStyle",
+            "name": "customstyle",
             "default": "null"
           },
           {
             "documentation": [
-              "`checkboxPosition` attribute",
+              "`checkboxposition` attribute",
               "***",
               "The default value is left.",
               "This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button,",
@@ -217,12 +217,12 @@
               "left",
               "right"
             ],
-            "name": "checkboxPosition",
+            "name": "checkboxposition",
             "default": "null"
           },
           {
             "documentation": [
-              "`hAlignLabel` attribute",
+              "`halignlabel` attribute",
               "***",
               "Valid values: 'left', 'right', 'center'.",
               "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
@@ -235,12 +235,12 @@
               "right",
               "center"
             ],
-            "name": "hAlignLabel",
+            "name": "halignlabel",
             "default": "null"
           },
           {
             "documentation": [
-              "`vAlignLabel` attribute",
+              "`valignlabel` attribute",
               "***",
               "Valid values: 'top', 'bottom', 'middle'.",
               "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
@@ -253,7 +253,7 @@
               "top",
               "bottom"
             ],
-            "name": "vAlignLabel",
+            "name": "valignlabel",
             "default": "null"
           }
         ],
@@ -343,27 +343,27 @@
           },
           {
             "documentation": [
-              "`customClass` attribute",
+              "`customclass` attribute",
               "***",
               "The attribute used for add a SVG image."
             ],
             "value": [],
-            "name": "customClass",
+            "name": "customclass",
             "default": "null"
           },
           {
             "documentation": [
-              "`customStyle` attribute",
+              "`customstyle` attribute",
               "***",
               "The attribute used for add a SVG image."
             ],
             "value": [],
-            "name": "customStyle",
+            "name": "customstyle",
             "default": "null"
           },
           {
             "documentation": [
-              "`checkboxPosition` attribute",
+              "`checkboxposition` attribute",
               "***",
               "The default value is left.",
               "This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button,",
@@ -373,12 +373,12 @@
               "left",
               "right"
             ],
-            "name": "checkboxPosition",
+            "name": "checkboxposition",
             "default": "null"
           },
           {
             "documentation": [
-              "`hAlignLabel` attribute",
+              "`halignlabel` attribute",
               "***",
               "Valid values: 'left', 'right', 'center'.",
               "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
@@ -391,12 +391,12 @@
               "right",
               "center"
             ],
-            "name": "hAlignLabel",
+            "name": "halignlabel",
             "default": "null"
           },
           {
             "documentation": [
-              "`vAlignLabel` attribute",
+              "`valignlabel` attribute",
               "***",
               "Valid values: 'top', 'bottom', 'middle'.",
               "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
@@ -409,7 +409,7 @@
               "top",
               "bottom"
             ],
-            "name": "vAlignLabel",
+            "name": "valignlabel",
             "default": "null"
           },
           {
@@ -691,7 +691,7 @@
           },
           {
             "documentation": [
-              "`checkboxShow` attribute",
+              "`checkboxshow` attribute",
               "***",
               "The default value is false.",
               "This property is used to display or hide a checkbox. If set to true, a checkbox is displayed and ",
@@ -701,12 +701,12 @@
               "false",
               "true"
             ],
-            "name": "checkboxShow",
+            "name": "checkboxshow",
             "default": "false"
           },
           {
             "documentation": [
-              "`checkboxPosition` attribute",
+              "`checkboxposition` attribute",
               "***",
               "The default value is left.",
               "This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button,",
@@ -716,7 +716,7 @@
               "left",
               "right"
             ],
-            "name": "checkboxPosition",
+            "name": "checkboxposition",
             "default": "left"
           },
           {
@@ -799,7 +799,7 @@
           },
           {
             "documentation": [
-              "`hAlignLabel` attribute",
+              "`halignlabel` attribute",
               "***",
               "Valid values: 'left', 'right', 'center'.",
               "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
@@ -812,12 +812,12 @@
               "right",
               "center"
             ],
-            "name": "hAlignLabel",
+            "name": "halignlabel",
             "default": "center"
           },
           {
             "documentation": [
-              "`vAlignLabel` attribute",
+              "`valignlabel` attribute",
               "***",
               "Valid values: 'top', 'bottom', 'middle'.",
               "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
@@ -830,7 +830,7 @@
               "top",
               "bottom"
             ],
-            "name": "vAlignLabel",
+            "name": "valignlabel",
             "default": "middle"
           },
           {
@@ -850,12 +850,12 @@
           },
           {
             "documentation": [
-              "`receiveStateMode` attribute",
+              "`receivestatemode` attribute",
               "***",
               "When received, applies a value to the mode attribute from the signal."
             ],
             "value": [],
-            "name": "receiveStateMode",
+            "name": "receivestatemode",
             "default": "null"
           },
           {
@@ -1107,14 +1107,18 @@
               "\tshape=\"${5|rounded-rectangle,rectangle,tab,circle,oval|}\"",
               "\tsize=\"${6|regular,x-small,small,large,x-large|}\"",
               "\tstretch=\"${7|both,width,height|}\"",
-              "\ticonposition=\"${8|first,last,top,bottom|}\"",
-              "\ticonclass=\"${9:iconClass}\"",
-              "\torientation=\"${10|horizontal,vertical|}\"",
-              "\tsendeventonclick=\"${11:btn_${1}_clicked}\"",
-              "\tsendeventontouch=\"${12:btn_${1}_touched}\"",
-              "\treceivestateselected=\"${13}\"",
-              "\treceivestatelabel=\"${14}\"",
-              "\treceivestatescriptlabelhtml=\"${15}\">",
+              "\tcheckboxshow=\"${8|true,false|}\"",
+              "\tcheckboxposition=\"${9|left,right|}\"",
+              "\thalignlabel=\"${10|center,left,right|}\"",
+              "\tvalignlabel=\"${11|middle,top,bottom|}\"",
+              "\ticonposition=\"${12|first,last,top,bottom|}\"",
+              "\ticonclass=\"${13:iconClass}\"",
+              "\torientation=\"${14|horizontal,vertical|}\"",
+              "\tsendeventonclick=\"${15:btn_${1}_clicked}\"",
+              "\tsendeventontouch=\"${16:btn_${1}_touched}\"",
+              "\treceivestateselected=\"${17}\"",
+              "\treceivestatelabel=\"${18}\"",
+              "\treceivestatescriptlabelhtml=\"${19}\">",
               "</ch5-button>$0"
             ]
           }
