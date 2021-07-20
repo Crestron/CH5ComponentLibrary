@@ -66,42 +66,42 @@ export interface ICh5ButtonModeCommonAttributes {
   /**
    * @documentation
    * [
-   * "`customClass` attribute",
+   * "`customclass` attribute",
    * "***",
    * "The attribute used for add a SVG image."
    * ]
-   * @name customClass
+   * @name customclass
    */
   customClass: string;
 
   /**
    * @documentation
    * [
-   * "`customStyle` attribute",
+   * "`customstyle` attribute",
    * "***",
    * "The attribute used for add a SVG image."
    * ]
-   * @name customStyle
+   * @name customstyle
    */
   customStyle: string;
 
   /**
    * @documentation
    * [
-   * "`checkboxPosition` attribute",
+   * "`checkboxposition` attribute",
    * "***",
    * "The default value is left.",
    * "This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button,",
    * " and the value right would set the checkbox to the right of the button."
    * ]
-   * @name checkboxPosition
+   * @name checkboxposition
    */
     checkboxPosition: TCh5ButtonCheckboxPosition | null;
 
   /**
    * @documentation
    * [
-   * "`hAlignLabel` attribute",
+   * "`halignlabel` attribute",
    * "***",
    * "Valid values: 'left', 'right', 'center'.",
    * "When the hAlignLabel property is set, the label and the icon of the button are horizontally aligned. ",
@@ -109,14 +109,14 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The left property sets the horizontal alignment of the label to the left of the button. ",
    * "The right property sets the horizontal alignment of the label to the right of the button. "
    * ]
-   * @name hAlignLabel
+   * @name halignlabel
    */
   hAlignLabel: TCh5ButtonHorizontalAlignLabel | null;
 
   /**
    * @documentation
    * [
-   * "`vAlignLabel` attribute",
+   * "`valignlabel` attribute",
    * "***",
    * "Valid values: 'top', 'bottom', 'middle'.",
    * "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
@@ -124,7 +124,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The top property sets the horizontal alignment of the label to the top of the button. ",
    * "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
    * ]
-   * @name vAlignLabel
+   * @name valignlabel
    */
   vAlignLabel: TCh5ButtonVerticalAlignLabel | null;
 }

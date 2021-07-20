@@ -704,7 +704,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     public constructor() {
         super();
         this._crId = Ch5Uid.getUid();
-        this.logger = new Ch5CommonLog(false, this._crId);
+        this.logger = new Ch5CommonLog(false, false, this._crId);
         const cssClasses: string[] = [];
 
         cssClasses.push(this.cssClassPrefix + '--disabled');
@@ -1225,6 +1225,16 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 }
                 this.logger.isDebugEnabled = this._isDebugEnabled;
                 break;
+            case 'trace':
+                let _isTraceEnabled: boolean = false;
+                if (this.hasAttribute('trace')) {
+                    // TODO - set similar to disabled
+                    _isTraceEnabled = true;
+                } else {
+                    _isTraceEnabled = false;
+                }
+                this.logger.isTraceEnabled = _isTraceEnabled;
+                break;
             case 'dir':
                 const newDir = this.getAttribute('dir') || '';
                 if (newDir !== this.dir) {
@@ -1715,6 +1725,24 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             default: return Boolean(false);
         }
     }
+
+
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // `wait` milliseconds.
+    public debounce = (func: any, wait: number) => {
+        let timeout: any;
+        return function executedFunction(...args: any[]) {
+            const later = () => {
+                window.clearTimeout(timeout);
+                func(...args);
+            };
+            // if (timeout) {
+            window.clearTimeout(timeout);
+            // }
+            timeout = window.setTimeout(later, wait);
+        };
+    };
 
     /**
      * Converts value to boolean

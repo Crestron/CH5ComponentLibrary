@@ -33,6 +33,7 @@ import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Subscription } from "rxjs";
 import { Ch5ButtonUtils } from "./ch5-button-utils";
+import { Ch5ButtonExtendedProperties } from "./ch5-button-extended-properties";
 
 /**
  * Html Attributes
@@ -101,6 +102,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 	//#region 1. Variables
 
+	public static VAR_FOR_NUMBER: number = 0;
+
 	//#region 1.1 readonly variables
 
 	/**
@@ -166,6 +169,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	private readonly iosCssClassPostfix: string = '--ios-vertical';
 
 	private readonly MAX_MODE_LENGTH: number = 99;
+	private readonly DEBOUNCE_SETBUTTON_DISPLAY: number = 25;
 
 	//#endregion
 
@@ -221,7 +225,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 * Icon position relative to label
 	 */
 	private _iconPosition: TCh5ButtonIconPosition = 'first';
-	private _activeIconPosition: TCh5ButtonIconPosition = 'first';
+	// private _activeIconPosition: TCh5ButtonIconPosition = 'first';
 
 	/**
 	 * Icon position relative to label
@@ -448,6 +452,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 	private isTouch: boolean = false;
 
+	private previousExtendedProperties: Ch5ButtonExtendedProperties = new Ch5ButtonExtendedProperties();
+
 	//#endregion
 
 	//#endregion
@@ -480,13 +486,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		if (value !== this._activeLabel) {
 			this._activeLabel = value;
 			this._elSpanForLabelOnly.innerHTML = value;
-			this.updateInternalHtml();
+			this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
 		} else if (value === '') {
 			// Happens first time when <template></template> is present
 			// TODO - this make sense only in ch5-button-label
 			this._activeLabel = value;
 			this._elSpanForLabelOnly.innerHTML = value;
-			this.updateInternalHtml();
+			this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
 		}
 	}
 	public get activeLabel() {
@@ -647,12 +653,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	public set iconPosition(value: TCh5ButtonIconPosition) {
 		this.info('set iconPosition("' + value + '")');
 		if (this._iconPosition !== value) {
-			if (Ch5Button.ICON_POSITIONS.indexOf(value) >= 0) {
-				this._iconPosition = value;
-			} else {
-				this._iconPosition = Ch5Button.ICON_POSITIONS[0];
-			}
-			this.setAttribute('iconposition', this._iconPosition);
+			// if (Ch5Button.ICON_POSITIONS.indexOf(value) >= 0) {
+			// 	this._iconPosition = value;
+			// } else {
+			// 	this._iconPosition = Ch5Button.ICON_POSITIONS[0];
+			// }
+			this.setAttribute('iconposition', Ch5ButtonUtils.getValidInputValue(Ch5Button.ICON_POSITIONS, value));
 			this.setButtonDisplay(this);
 		}
 	}
@@ -660,16 +666,16 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		return this._iconPosition;
 	}
 
-	public set activeIconPosition(value: TCh5ButtonIconPosition) {
-		this.info('set activeIconPosition("' + value + '")');
-		if (this._activeIconPosition !== value) {
-			this._activeIconPosition = value;
-		}
-		this.setAttribute("activeIconPosition", value); // this condition must get set becos there is a default value for active position
-	}
-	public get activeIconPosition(): TCh5ButtonIconPosition {
-		return this._activeIconPosition;
-	}
+	// public set activeIconPosition(value: TCh5ButtonIconPosition) {
+	// 	this.info('set activeIconPosition("' + value + '")');
+	// 	if (this._activeIconPosition !== value) {
+	// 		this._activeIconPosition = value;
+	// 	}
+	// 	this.setAttribute("activeIconPosition", value); // this condition must get set becos there is a default value for active position
+	// }
+	// public get activeIconPosition(): TCh5ButtonIconPosition {
+	// 	return this._activeIconPosition;
+	// }
 
 	public set iconUrl(value: string) {
 		if (!isNil(value) && this._iconUrl !== value) {
@@ -1607,27 +1613,31 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 			case 'label':
 				this.label = Ch5ButtonUtils.getAttributeValue<string>(this, 'label', newValue, '');
-				this.updateInternalHtml();
+				this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
 				break;
 
 			case 'iconclass':
 				this.iconClass = Ch5ButtonUtils.getAttributeValue<string>(this, 'iconclass', newValue, '');
-				this.refreshComponent();
+				this.updateCssClasses();
+				this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
 				break;
 
 			case 'iconposition':
 				this.iconPosition = Ch5ButtonUtils.getAttributeValue<TCh5ButtonIconPosition>(this, 'iconposition', newValue as TCh5ButtonIconPosition, Ch5Button.ICON_POSITIONS[0]);
-				this.refreshComponent();
+				this.updateCssClasses();
+				this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
 				break;
 
 			case 'iconurl':
 				this.iconUrl = Ch5ButtonUtils.getAttributeValue<string>(this, 'iconurl', newValue, '');
-				this.refreshComponent();
+				this.updateCssClasses();
+				this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
 				break;
 
 			case 'mode':
 				this.mode = Ch5ButtonUtils.getAttributeValue<number>(this, 'mode', Number(newValue), 0);
-				this.refreshComponent();
+				this.updateCssClasses();
+				this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
 				break;
 
 			case 'orientation':
@@ -1910,32 +1920,47 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
-	public updateIconClassAndPath(value: string) {
-		this.logger.start("updateIconUrlAndPath");
-		this.info("this.iconClass", this.iconClass);
-		this.info("value", value);
-		if (!isNil(this.iconClass) && this.iconClass !== value) {
-			this.iconClass.split(' ').forEach((className: string) => {
-				className = className.trim();
-				if (className !== '') {
-					if (this.iconUrl !== '') {
-						this._elImg.classList.remove(className); // adds the new icon class if present
-					} else {
-						this._elIcon.classList.remove(className); // adds the new icon class if present
-					}
-				}
-			});
-		}
-		this._iconClass = value;
+	private updateIconClassAndPath() {
+		this.logger.start("updateIconClassAndPath");
 		if (!isNil(this.iconClass) && this.iconClass !== '') {
 			this.iconClass.split(' ').forEach((className: string) => {
 				className = className.trim();
 				if (className !== '') {
-					if (this.iconUrl !== '') {
-						this._elImg.classList.add(className); // adds the new icon class if present
-					} else {
-						this._elIcon.classList.add(className); // adds the new icon class if present
-					}
+					this._elIcon.classList.add(className); // adds the new icon class if present
+				}
+			});
+		}
+
+		this.logger.stop();
+	}
+
+	private clearIconUrlAndClass() {
+		if (!isNil(this.iconUrl) && this.iconUrl !== '') {
+			this.iconUrl.split(' ').forEach((className: string) => {
+				className = className.trim();
+				if (this._elImg && this._elImg.classList) {
+					this._elImg.classList.remove(className); // remove the icon class if present
+				}
+			});
+		}
+		if (!isNil(this.iconClass) && this.iconClass !== '') {
+			this.iconClass.split(' ').forEach((className: string) => {
+				className = className.trim();
+				if (this._elIcon && this._elIcon.classList) {
+					this._elIcon.classList.remove(className); // remove the icon class if present
+				}
+			});
+		}
+	}
+
+	// TODO - method is not correct below - uses iconclass instead of url
+	private updateIconUrlAndPath() {
+		this.logger.start("updateIconUrlAndPath");
+		if (!isNil(this.iconClass) && this.iconClass !== '') {
+			this.iconClass.split(' ').forEach((className: string) => {
+				className = className.trim();
+				if (className !== '') {
+					this._elImg.classList.add(className); // adds the new icon class if present
 				}
 			});
 		}
@@ -2032,11 +2057,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		Array.from(containers).forEach((container) => {
 			container.remove();
 		});
-	}
-
-	protected refreshComponent() {
-		this.updateCssClasses();
-		this.updateInternalHtml();
 	}
 
 	protected updateCssClasses(): void {
@@ -2189,6 +2209,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		}, this.TOUCH_TIMEOUT);
 	}
 
+	private debounceSetButtonDisplay = this.debounce(() => {
+		this.setButtonDisplayDetails(this);
+	}, this.DEBOUNCE_SETBUTTON_DISPLAY);
+
 	/**
 	 * If type node is updated via html or js or signal, the change set attribue of type;
 	 * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
@@ -2199,57 +2223,67 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 * @param attibuteName 
 	 */
 	public setButtonDisplay(fromNode: Ch5Button | Ch5ButtonMode | Ch5ButtonModeState) {
+		// this.debounceSetButtonDisplay();
+		this.setButtonDisplayDetails(this);
+	}
+
+	private setButtonDisplayDetails(fromNode: Ch5Button | Ch5ButtonMode | Ch5ButtonModeState) {
+		Ch5Button.VAR_FOR_NUMBER += 1;
+		// console.log("Ch5Button.VAR_FOR_NUMBER: ", Ch5Button.VAR_FOR_NUMBER);
+
 		this.logger.start("changeAttributesOnModeChange");
 		// Applicable on Mode change and Selected change
 		// We need not worry about this. ch5-button-label is immediate child , and no change in attribute
 		// affects the data from immediate child.
 		// const keyId = ['type', 'iconClass', 'iconPosition', 'iconUrl', 'checkboxPosition', 'customClass', 'customStyle', 'hAlignLabel', 'vAlignLabel', 'label'];
-		const keyId = ['type', 'iconClass', 'iconPosition', 'iconUrl', 'checkboxPosition', 'customClass', 'customStyle', 'hAlignLabel', 'vAlignLabel', 'label'];
-		type KeyID = typeof keyId[number]; // === 'type' | 'iconClass' | 'iconPosition' ....
-		const updatedNodes: Record<KeyID, any> = {
-			type: null,
-			iconClass: null,
-			iconPosition: null,
-			iconUrl: null,
-			checkboxPosition: null,
-			customClass: null,
-			customStyle: null,
-			hAlignLabel: null,
-			vAlignLabel: null,
-			label: null
-		};
+		// type KeyID = typeof keyId[number]; // === 'type' | 'iconClass' | 'iconPosition' ....
+		// const updatedNodes: Record<KeyID, any> = {
+		// 	type: null,
+		// 	iconClass: null,
+		// 	iconPosition: null,
+		// 	iconUrl: null,
+		// 	checkboxPosition: null,
+		// 	customClass: null,
+		// 	customStyle: null,
+		// 	hAlignLabel: null,
+		// 	vAlignLabel: null,
+		// 	label: null
+		// };
+
+		const extendedProperties: Ch5ButtonExtendedProperties = new Ch5ButtonExtendedProperties();
+
 		let isButtonModePressedAvailable: boolean = false;
 
 		// Priority 1: ReceiveState Signals
 		if (this.receiveStateType && this.receiveStateType !== '') {
 			if (!isNil(this._receiveStateTypeResponseValue) && Ch5Button.TYPES.indexOf(this._receiveStateTypeResponseValue) >= 0) {
-				updatedNodes.type = this._receiveStateTypeResponseValue as TCh5ButtonType;
+				extendedProperties.type = this._receiveStateTypeResponseValue as TCh5ButtonType;
 			} else {
-				updatedNodes.type = Ch5Button.TYPES[0];
+				extendedProperties.type = Ch5Button.TYPES[0];
 				this._receiveStateTypeResponseValue = Ch5Button.TYPES[0];
 			}
 		}
 
 		if (this.receiveStateIconClass && this.receiveStateIconClass !== '') {
-			updatedNodes.iconClass = this._receiveStateIconClassResponseValue;
+			extendedProperties.iconClass = this._receiveStateIconClassResponseValue;
 		}
 
 		if (this.receiveStateIconUrl && this.receiveStateIconUrl !== '') {
-			updatedNodes.iconUrl = this._receiveStateIconUrlResponseValue;
+			extendedProperties.iconUrl = this._receiveStateIconUrlResponseValue;
 		}
 
 		if (this.receiveStateCustomClass && this.receiveStateCustomClass !== '') {
-			updatedNodes.customClass = this._receiveStateCustomClassResponseValue;
+			extendedProperties.customClass = this._receiveStateCustomClassResponseValue;
 		}
 
 		if (this.receiveStateCustomStyle && this.receiveStateCustomStyle !== '') {
-			updatedNodes.customStyle = this._receiveStateCustomStyleResponseValue;
+			extendedProperties.customStyle = this._receiveStateCustomStyleResponseValue;
 		}
 
-		this.logger.log("updatedNodes Signals: ", updatedNodes);
+		this.logger.log("updatedNodes Signals: ", extendedProperties);
 
 		// TODO - recieve state for label
-
+		// TODO - update nodes cannot be on pressed becos it cannot take debounce
 
 		// Priority 2: Button Mode State Attributes for Selected Mode
 		const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
@@ -2274,146 +2308,132 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 							isButtonModePressedAvailable = true;
 						}
 
-						if (isNil(updatedNodes.type) && !isNil(selectedButtonModeState.getAttribute("type"))) {
-							updatedNodes.type = selectedButtonModeState.getAttribute("type") as TCh5ButtonType;
+						if (isNil(extendedProperties.type) && !isNil(selectedButtonModeState.getAttribute("type"))) {
+							extendedProperties.type = selectedButtonModeState.getAttribute("type") as TCh5ButtonType;
 						}
-						if (isNil(updatedNodes.iconUrl) && !isNil(selectedButtonModeState.getAttribute("iconclass")) && !isNil(selectedButtonModeState.getAttribute("iconurl"))) {
-							updatedNodes.iconUrl = selectedButtonModeState.getAttribute("iconurl") as string;
-						} else {
-							if (isNil(updatedNodes.iconClass) && !isNil(selectedButtonModeState.getAttribute("iconclass"))) {
-								updatedNodes.iconClass = selectedButtonModeState.getAttribute("iconclass") as string;
-							}
-							if (isNil(updatedNodes.iconUrl) && !isNil(selectedButtonModeState.getAttribute("iconurl"))) {
-								updatedNodes.iconUrl = selectedButtonModeState.getAttribute("iconurl") as string;
-							}
+						if (isNil(extendedProperties.iconUrl) && !isNil(selectedButtonModeState.getAttribute("iconurl"))) {
+							extendedProperties.iconUrl = selectedButtonModeState.getAttribute("iconurl") as string;
 						}
-						if (isNil(updatedNodes.iconPosition) && !isNil(selectedButtonModeState.getAttribute("iconposition"))) {
-							updatedNodes.iconPosition = selectedButtonModeState.getAttribute("iconposition") as TCh5ButtonIconPosition;
+						if (isNil(extendedProperties.iconClass) && !isNil(selectedButtonModeState.getAttribute("iconclass"))) {
+							extendedProperties.iconClass = selectedButtonModeState.getAttribute("iconclass") as string;
 						}
-						if (isNil(updatedNodes.checkboxPosition) && !isNil(selectedButtonModeState.getAttribute("checkboxposition"))) {
-							updatedNodes.checkboxPosition = selectedButtonModeState.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
+						if (isNil(extendedProperties.iconPosition) && !isNil(selectedButtonModeState.getAttribute("iconposition"))) {
+							extendedProperties.iconPosition = selectedButtonModeState.getAttribute("iconposition") as TCh5ButtonIconPosition;
 						}
-						if (isNil(updatedNodes.customClass) && !isNil(selectedButtonModeState.getAttribute("customclass"))) {
-							updatedNodes.customClass = selectedButtonModeState.getAttribute("customclass") as string;
+						if (isNil(extendedProperties.checkboxPosition) && !isNil(selectedButtonModeState.getAttribute("checkboxposition"))) {
+							extendedProperties.checkboxPosition = selectedButtonModeState.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
 						}
-						if (isNil(updatedNodes.customStyle) && !isNil(selectedButtonModeState.getAttribute("customstyle"))) {
-							updatedNodes.customStyle = selectedButtonModeState.getAttribute("customstyle") as string;
+						if (isNil(extendedProperties.customClass) && !isNil(selectedButtonModeState.getAttribute("customclass"))) {
+							extendedProperties.customClass = selectedButtonModeState.getAttribute("customclass") as string;
 						}
-						if (isNil(updatedNodes.hAlignLabel) && !isNil(selectedButtonModeState.getAttribute("halignlabel"))) {
-							updatedNodes.hAlignLabel = selectedButtonModeState.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
+						if (isNil(extendedProperties.customStyle) && !isNil(selectedButtonModeState.getAttribute("customstyle"))) {
+							extendedProperties.customStyle = selectedButtonModeState.getAttribute("customstyle") as string;
 						}
-						if (isNil(updatedNodes.vAlignLabel) && !isNil(selectedButtonModeState.getAttribute("valignlabel"))) {
-							updatedNodes.vAlignLabel = selectedButtonModeState.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
+						if (isNil(extendedProperties.hAlignLabel) && !isNil(selectedButtonModeState.getAttribute("halignlabel"))) {
+							extendedProperties.hAlignLabel = selectedButtonModeState.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
+						}
+						if (isNil(extendedProperties.vAlignLabel) && !isNil(selectedButtonModeState.getAttribute("valignlabel"))) {
+							extendedProperties.vAlignLabel = selectedButtonModeState.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
 						}
 
 						const selectedButtonModeStateLabelButton = selectedButtonModeState.getElementsByTagName("ch5-button-label");
 						if (selectedButtonModeStateLabelButton && selectedButtonModeStateLabelButton.length > 0 &&
 							(selectedButtonModeStateLabelButton[0].children[0])) {
-							updatedNodes.label = selectedButtonModeStateLabelButton[0].children[0].innerHTML as string;
+							extendedProperties.label = selectedButtonModeStateLabelButton[0].children[0].innerHTML as string;
 						}
 					}
-					this.logger.log("updatedNodes Mode States: ", updatedNodes);
+					this.logger.log("updatedNodes Mode States: ", extendedProperties);
 				}
 
 				// Priority 3: Button Mode Attributes for Selected Mode
 				if (this._pressed === false && this._buttonPressedInPressable === false) {
-					if (isNil(updatedNodes.type) && !isNil(selectedButtonMode.getAttribute("type"))) {
-						updatedNodes.type = selectedButtonMode.getAttribute("type") as TCh5ButtonType;
+					if (isNil(extendedProperties.type) && !isNil(selectedButtonMode.getAttribute("type"))) {
+						extendedProperties.type = selectedButtonMode.getAttribute("type") as TCh5ButtonType;
 					}
-					if (isNil(updatedNodes.iconClass) && isNil(updatedNodes.iconUrl)) {
-						if (selectedButtonMode.getAttribute("iconurl") && selectedButtonMode.getAttribute("iconurl") !== '') {
-							updatedNodes.iconUrl = selectedButtonMode.getAttribute("iconurl") as string;
-						} else if (selectedButtonMode.getAttribute("iconclass") && selectedButtonMode.getAttribute("iconclass") !== '') {
-							updatedNodes.iconClass = selectedButtonMode.getAttribute("iconclass") as string;
-						}
+					if (isNil(extendedProperties.iconUrl) && !isNil(selectedButtonMode.getAttribute("iconurl"))) {
+						extendedProperties.iconUrl = selectedButtonMode.getAttribute("iconurl") as string;
 					}
-					if (isNil(updatedNodes.iconPosition) && !isNil(selectedButtonMode.getAttribute("iconposition"))) {
-						updatedNodes.iconPosition = selectedButtonMode.getAttribute("iconposition") as TCh5ButtonIconPosition;
+					if (isNil(extendedProperties.iconClass) && !isNil(selectedButtonMode.getAttribute("iconclass"))) {
+						extendedProperties.iconClass = selectedButtonMode.getAttribute("iconclass") as string;
 					}
-					if (isNil(updatedNodes.checkboxPosition) && !isNil(selectedButtonMode.getAttribute("checkboxposition"))) {
-						updatedNodes.checkboxPosition = selectedButtonMode.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
+					if (isNil(extendedProperties.iconPosition) && !isNil(selectedButtonMode.getAttribute("iconposition"))) {
+						extendedProperties.iconPosition = selectedButtonMode.getAttribute("iconposition") as TCh5ButtonIconPosition;
 					}
-					if (isNil(updatedNodes.customClass) && !isNil(selectedButtonMode.getAttribute("customclass"))) {
-						updatedNodes.customClass = selectedButtonMode.getAttribute("customclass") as string;
+					if (isNil(extendedProperties.checkboxPosition) && !isNil(selectedButtonMode.getAttribute("checkboxposition"))) {
+						extendedProperties.checkboxPosition = selectedButtonMode.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
 					}
-					if (isNil(updatedNodes.customStyle) && !isNil(selectedButtonMode.getAttribute("customstyle"))) {
-						updatedNodes.customStyle = selectedButtonMode.getAttribute("customstyle") as string;
+					if (isNil(extendedProperties.customClass) && !isNil(selectedButtonMode.getAttribute("customclass"))) {
+						extendedProperties.customClass = selectedButtonMode.getAttribute("customclass") as string;
 					}
-					if (isNil(updatedNodes.hAlignLabel) && !isNil(selectedButtonMode.getAttribute("halignlabel"))) {
-						updatedNodes.hAlignLabel = selectedButtonMode.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
+					if (isNil(extendedProperties.customStyle) && !isNil(selectedButtonMode.getAttribute("customstyle"))) {
+						extendedProperties.customStyle = selectedButtonMode.getAttribute("customstyle") as string;
 					}
-					if (isNil(updatedNodes.vAlignLabel) && !isNil(selectedButtonMode.getAttribute("valignlabel"))) {
-						updatedNodes.vAlignLabel = selectedButtonMode.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
+					if (isNil(extendedProperties.hAlignLabel) && !isNil(selectedButtonMode.getAttribute("halignlabel"))) {
+						extendedProperties.hAlignLabel = selectedButtonMode.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
+					}
+					if (isNil(extendedProperties.vAlignLabel) && !isNil(selectedButtonMode.getAttribute("valignlabel"))) {
+						extendedProperties.vAlignLabel = selectedButtonMode.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
 					}
 
 					const selectedButtonModeLabelButton = selectedButtonMode.getElementsByTagName("ch5-button-label");
 					if (selectedButtonModeLabelButton && selectedButtonModeLabelButton.length > 0 &&
-						!isNil(selectedButtonModeLabelButton[0].children[0]) && isNil(updatedNodes.label)) {
-						updatedNodes.label = selectedButtonModeLabelButton[0].children[0].innerHTML as string;
+						!isNil(selectedButtonModeLabelButton[0].children[0]) && isNil(extendedProperties.label)) {
+						extendedProperties.label = selectedButtonModeLabelButton[0].children[0].innerHTML as string;
 					}
-					this.logger.log("updatedNodes Mode: ", updatedNodes);
+					this.logger.log("updatedNodes Mode: ", extendedProperties);
 				}
 			}
 		}
 
 		// Priority 4: Button Attributes
 		if (this._pressed === false && this._buttonPressedInPressable === false) {
-			if (isNil(updatedNodes.type) && !isNil(this.getAttribute("type"))) {
-				updatedNodes.type = this.getAttribute("type") as TCh5ButtonType;
+			if (isNil(extendedProperties.type) && !isNil(this.getAttribute("type"))) {
+				extendedProperties.type = this.getAttribute("type") as TCh5ButtonType;
 			}
-			// if (isNil(updatedNodes.iconClass) && isNil(updatedNodes.iconUrl)) {
-			// 	if (this.getAttribute("iconurl") && this.getAttribute("iconurl") !== '') {
-			// 		updatedNodes.iconUrl = this.getAttribute("iconurl") as string;
-			// 	} else if (this.getAttribute("iconclass") && this.getAttribute("iconclass") !== '') {
-			// 		updatedNodes.iconClass = this.getAttribute("iconclass") as string;
-			// 	}
-			// }
-			// if (isNil(updatedNodes.iconClass) && isNil(updatedNodes.iconUrl)) {
-			if (isNil(updatedNodes.iconUrl) && this.getAttribute("iconurl") && this.getAttribute("iconurl") !== '') {
-				updatedNodes.iconUrl = this.getAttribute("iconurl") as string;
+			if (isNil(extendedProperties.iconUrl) && this.getAttribute("iconurl") && this.getAttribute("iconurl") !== '') {
+				extendedProperties.iconUrl = this.getAttribute("iconurl") as string;
 			}
-			if (isNil(updatedNodes.iconClass) && this.getAttribute("iconclass") && this.getAttribute("iconclass") !== '') {
-				this.info("YES INSIDE", this.getAttribute("iconclass") as string);
-				updatedNodes.iconClass = this.getAttribute("iconclass") as string;
+			if (isNil(extendedProperties.iconClass) && this.getAttribute("iconclass") && this.getAttribute("iconclass") !== '') {
+				extendedProperties.iconClass = this.getAttribute("iconclass") as string;
 			}
-			// }
-			if (isNil(updatedNodes.iconPosition) && !isNil(this.getAttribute("iconposition"))) {
-				updatedNodes.iconPosition = this.getAttribute("iconposition") as TCh5ButtonIconPosition;
+			if (isNil(extendedProperties.iconPosition) && !isNil(this.getAttribute("iconposition"))) {
+				extendedProperties.iconPosition = this.getAttribute("iconposition") as TCh5ButtonIconPosition;
 			}
-			if (isNil(updatedNodes.checkboxPosition) && !isNil(this.getAttribute("checkboxposition"))) {
-				updatedNodes.checkboxPosition = this.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
+			if (isNil(extendedProperties.checkboxPosition) && !isNil(this.getAttribute("checkboxposition"))) {
+				extendedProperties.checkboxPosition = this.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition;
 			}
-			if (isNil(updatedNodes.customClass) && !isNil(this.getAttribute("customclass"))) {
-				updatedNodes.customClass = this.getAttribute("customclass") as string;
+			if (isNil(extendedProperties.customClass) && !isNil(this.getAttribute("customclass"))) {
+				extendedProperties.customClass = this.getAttribute("customclass") as string;
 			}
-			if (isNil(updatedNodes.customStyle) && !isNil(this.getAttribute("customstyle"))) {
-				updatedNodes.customStyle = this.getAttribute("customstyle") as string;
+			if (isNil(extendedProperties.customStyle) && !isNil(this.getAttribute("customstyle"))) {
+				extendedProperties.customStyle = this.getAttribute("customstyle") as string;
 			}
-			if (isNil(updatedNodes.hAlignLabel) && !isNil(this.getAttribute("halignlabel"))) {
-				updatedNodes.hAlignLabel = this.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
+			if (isNil(extendedProperties.hAlignLabel) && !isNil(this.getAttribute("halignlabel"))) {
+				extendedProperties.hAlignLabel = this.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel;
 			}
-			if (isNil(updatedNodes.vAlignLabel) && !isNil(this.getAttribute("valignlabel"))) {
-				updatedNodes.vAlignLabel = this.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
+			if (isNil(extendedProperties.vAlignLabel) && !isNil(this.getAttribute("valignlabel"))) {
+				extendedProperties.vAlignLabel = this.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel;
 			}
-			if (isNil(updatedNodes.label)) {
+			if (isNil(extendedProperties.label)) {
 				const templateData = this.getElementsByTagName("ch5-button-label");
 				if (templateData && templateData.length > 0 && templateData[0].children) {
-					updatedNodes.label = templateData[0].children[0].innerHTML as string;
+					extendedProperties.label = templateData[0].children[0].innerHTML as string;
 				}
 			}
-			this.logger.log("updatedNodes Button: ", updatedNodes);
+			this.logger.log("updatedNodes Button: ", extendedProperties);
 		}
 
 		if (this._pressed === false && this._buttonPressedInPressable === false) {
-			this.updatePropertiesObject(updatedNodes);
+			this.updatePropertiesObject(extendedProperties);
 		} else {
 			if (isButtonModePressedAvailable === true) {
 				// TODO - set only if applicable and avoid defaults
-				this.updatePropertiesObject(updatedNodes);
+				this.updatePropertiesObject(extendedProperties);
 			}
 		}
 
-		this.logger.log("updatedNodes Final: ", updatedNodes);
+		this.logger.log("updatedNodes Final: ", extendedProperties);
+		this.previousExtendedProperties = extendedProperties;
 		this.logger.stop();
 	}
 
@@ -2425,27 +2445,49 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			} else {
 				this._type = Ch5Button.TYPES[0];
 			}
-			this.updateCssClasses();
+			if (this.previousExtendedProperties.type !== updatedNodes.type) {
+				this.updateCssClasses();
+			}
 		} else {
 			this._type = Ch5Button.TYPES[0];
-			this.updateCssClasses();
+			if (this.previousExtendedProperties.type !== updatedNodes.type) {
+				this.updateCssClasses();
+			}
 		}
 
-		if (!isNil(updatedNodes.iconClass)) {
-			// this._iconClass = updatedNodes.iconClass as string;
-			this.updateIconClassAndPath(updatedNodes.iconClass);
-			this.refreshComponent();
-		}
+		this.clearIconUrlAndClass();
+		if (!isNil(updatedNodes.iconUrl) || !isNil(updatedNodes.iconClass)) {
+			if (!isNil(updatedNodes.iconUrl)) {
+				this._iconUrl = updatedNodes.iconUrl;
+				this._elImg.src = this._iconUrl;
+			}
+			if (!isNil(updatedNodes.iconClass)) {
+				this._iconClass = updatedNodes.iconClass;
+			}
 
-		if (!isNil(updatedNodes.iconPosition)) {
-			this.activeIconPosition = updatedNodes.iconPosition;
-		}
+			if (!isNil(updatedNodes.iconUrl)) {
+				if (this.previousExtendedProperties.iconUrl !== updatedNodes.iconUrl) {
+					this.updateIconUrlAndPath();
+				}
+			} else if (!isNil(updatedNodes.iconClass)) {
+				this.updateIconClassAndPath();
+			}
 
-		if (!isNil(updatedNodes.iconUrl)) {
-			this._iconUrl = updatedNodes.iconUrl;
-			this.setIconUrlRefresh();
-			this.updateIconClassAndPath(this._iconUrl);
-			this.refreshComponent();
+			if (!isNil(updatedNodes.iconPosition)) {
+				this._iconPosition = updatedNodes.iconPosition;
+				// this.activeIconPosition = updatedNodes.iconPosition;
+			} else {
+				this._iconPosition = Ch5Button.ICON_POSITIONS[0];
+				// this.activeIconPosition = Ch5Button.ICON_POSITIONS[0];
+			}
+			if (this.previousExtendedProperties.iconPosition !== updatedNodes.iconPosition) {
+				this.updateCssClasses();
+				this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
+			}
+		} else {
+			// We do not require iconPosition, so remove it			
+			this.removeAttribute("iconPosition");
+			// this.removeAttribute("activeIconPosition");
 		}
 
 		if (!isNil(updatedNodes.checkboxPosition)) {
@@ -2497,11 +2539,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	private setIconUrlRefresh() {
-		this._iconUrl = this.iconUrl || '';
-		this._elImg.src = this._iconUrl;
-	}
-
 	/**
 	 * Reorders ( if needed ) the position of the label and the icon inside the button
 	 */
@@ -2520,18 +2557,29 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			this._elIcon.classList.remove('cx-button-icon-pos-last');
 			this._elIcon.classList.remove('cx-button-icon-pos-top');
 			this._elIcon.classList.remove('cx-button-icon-pos-bottom');
-			this._elIcon.classList.add('cx-button-icon-pos-' + this.activeIconPosition);
+			this._elIcon.classList.add('cx-button-icon-pos-' + this.iconPosition); // this.activeIconPosition);
 
 			this._elImg.classList.remove('cx-button-icon-pos-first');
 			this._elImg.classList.remove('cx-button-icon-pos-last');
 			this._elImg.classList.remove('cx-button-icon-pos-top');
 			this._elImg.classList.remove('cx-button-icon-pos-bottom');
-			this._elImg.classList.add('cx-button-icon-pos-' + this.activeIconPosition);
+			this._elImg.classList.add('cx-button-icon-pos-' + this.iconPosition); // this.activeIconPosition);
 
 			// Handle vertical button with iconPosition top or bottom
-			if (['top', 'bottom'].indexOf(this.activeIconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
-				this._elButton.classList.add(`ch5-button--vertical--icon-${this.activeIconPosition}`)
+			// if (['top', 'bottom'].indexOf(this.activeIconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
+			// 	this._elButton.classList.add(`ch5-button--vertical--icon-${this.activeIconPosition}`)
+			// }
+			if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
+				this._elButton.classList.add(`ch5-button--vertical--icon-${this.iconPosition}`);
 			}
+
+			Ch5Button.ICON_POSITIONS.forEach((iconPositionObj, i) => {
+				if (this.iconPosition === iconPositionObj) {
+					this._elContainer.classList.add(`ch5-button--iconposition-${iconPositionObj}`);
+				} else {
+					this._elContainer.classList.remove(`ch5-button--iconposition-${iconPositionObj}`);
+				}
+			});
 
 			let hasIcon = false;
 			let hasLabel = false;
@@ -2558,9 +2606,9 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 			// TODO - not clear on the below point
 			// updates the iconposition ( otherwise it might use the previous value of the attribute )
-			if (this.hasAttribute('iconposition')) {
-				this.iconPosition = this.getAttribute('iconposition') as TCh5ButtonIconPosition;
-			}
+			// if (this.hasAttribute('iconposition')) {
+			// 	this.iconPosition = this.getAttribute('iconposition') as TCh5ButtonIconPosition;
+			// }
 
 			if (this.hasAttribute("checkboxShow") === true) {
 				hasCheckboxIcon = true;
@@ -2597,7 +2645,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 					}
 				}
 
-				if (['last', 'bottom'].indexOf(this.activeIconPosition) >= 0) {
+				if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) { // (this.activeIconPosition) >= 0) {
 					this.info('insert icon after label');
 					if (this._elIcon.parentNode !== (this._elButton as Node)) {
 						// if the icon element was not yet added to the button
@@ -2608,7 +2656,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 						this._elSpanForLabelIconImg.insertBefore(this._elSpanForLabelOnly as Node, this._elIcon as Node);
 						// this._elButton.insertBefore(this._elLabel as Node, this._elIcon as Node);
 					}
-				} else if (['first', 'top'].indexOf(this.activeIconPosition) >= 0) {
+				} else if (['first', 'top'].indexOf(this.iconPosition) >= 0) { // this.activeIconPosition) >= 0) {
 					this.info('insert icon before label');
 					if ((this._elSpanForLabelOnly as any).isConnected === true) {
 						// this._elButton.insertBefore(this._elIcon as Node, this._elLabel as Node);
@@ -2677,7 +2725,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 						this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
 					}
 
-					if (['last', 'bottom'].indexOf(this.activeIconPosition) >= 0) {
+					if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) { // this.activeIconPosition) >= 0) {
 						this.info('insert icon after label');
 						if (this._elImg.parentNode !== (this._elButton as Node)) {
 							// if the icon element was not yet added to the button
@@ -2686,7 +2734,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 							// if the icon element was already added and needs to be switched with the label element
 							this._elSpanForLabelIconImg.insertBefore(this._elSpanForLabelOnly as Node, this._elImg as Node);
 						}
-					} else if (['first', 'top'].indexOf(this.activeIconPosition) >= 0) {
+					} else if (['first', 'top'].indexOf(this.iconPosition) >= 0) { // this.activeIconPosition) >= 0) {
 						this.info('insert icon before label');
 						if ((this._elSpanForLabelOnly as any).isConnected === true) {
 							this._elSpanForLabelIconImg.insertBefore(this._elImg as Node, this._elSpanForLabelOnly as Node);
@@ -3033,7 +3081,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 				this._elCheckboxIcon.classList.add(className);
 			}
 		});
-		this.updateInternalHtml();
+		this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
 	}
 
 	private reactivatePress(): void {
