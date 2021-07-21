@@ -131,7 +131,7 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
    * Respond to attribute changes.
    */
   static get observedAttributes() {
-    const commonAttributes = Ch5Common.observedAttributes;
+    const commonAttributes = Ch5Log.observedAttributes;
 
     const ch5ButtonModeChildAttributes: string[] = [
       'type',
