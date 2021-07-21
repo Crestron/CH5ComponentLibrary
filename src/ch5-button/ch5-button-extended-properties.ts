@@ -14,14 +14,14 @@ import {
 } from './interfaces/t-ch5-button';
 
 export class Ch5ButtonExtendedProperties {
-	type: TCh5ButtonType | null = null;
-	iconClass: string | null = null;
-	iconPosition: TCh5ButtonIconPosition | null = null;
-	iconUrl: string | null = null;
-	checkboxPosition: TCh5ButtonCheckboxPosition | null = null;
-	customClass: string | null = null;
-	customStyle: string | null = null;
-	hAlignLabel: TCh5ButtonHorizontalAlignLabel | null = null;
-	vAlignLabel: TCh5ButtonVerticalAlignLabel | null = null;
-	label: string | null = null;
+	public type: TCh5ButtonType | null = null;
+	public iconClass: string | null = null;
+	public iconPosition: TCh5ButtonIconPosition | null = null;
+	public iconUrl: string | null = null;
+	public checkboxPosition: TCh5ButtonCheckboxPosition | null = null;
+	public customClass: string | null = null;
+	public customStyle: string | null = null;
+	public hAlignLabel: TCh5ButtonHorizontalAlignLabel | null = null;
+	public vAlignLabel: TCh5ButtonVerticalAlignLabel | null = null;
+	public label: string | null = null;
 }

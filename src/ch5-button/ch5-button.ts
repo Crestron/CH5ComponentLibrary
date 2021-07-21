@@ -282,7 +282,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 * Icon position relative to label
 	 */
 	private _iconPosition: TCh5ButtonIconPosition = 'first';
-	// private _activeIconPosition: TCh5ButtonIconPosition = 'first';
 
 	/**
 	 * Icon position relative to label
@@ -489,8 +488,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _iconUrl: string = '';
 
-	// private _activeCustomClass: string = ""; // TODO - Remove
-	// private _activeCustomStyle: string = ""; // TODO - Remove
 	private _receiveStateCustomClassResponseValue: string = "";
 	private _receiveStateCustomStyleResponseValue: string = "";
 
@@ -511,6 +508,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 	private previousExtendedProperties: Ch5ButtonExtendedProperties = new Ch5ButtonExtendedProperties();
 
+	private debounceSetButtonDisplay = this.debounce(() => {
+		this.setButtonDisplayDetails(this);
+	}, this.DEBOUNCE_SETBUTTON_DISPLAY);
+
 	//#endregion
 
 	//#endregion
@@ -528,6 +529,11 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		if (trValue === this.label) {
 			return;
 		}
+		// // TODO - the below lines are temporary comments to
+		// // this._elSpanForLabelOnly.textContent = trValue;
+		// // this._label = trValue;
+		// this.setAttribute('label', trValue);
+		// this.setButtonDisplay(this);
 
 		this._elSpanForLabelOnly.textContent = trValue;
 		this._label = trValue;
@@ -544,7 +550,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			this._activeLabel = value;
 			this._elSpanForLabelOnly.innerHTML = value;
 			this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
-		} else if (value === '') {
+		} else if (value === '') {	
 			// Happens first time when <template></template> is present
 			// TODO - this make sense only in ch5-button-label
 			this._activeLabel = value;
@@ -723,17 +729,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		return this._iconPosition;
 	}
 
-	// public set activeIconPosition(value: TCh5ButtonIconPosition) {
-	// 	this.info('set activeIconPosition("' + value + '")');
-	// 	if (this._activeIconPosition !== value) {
-	// 		this._activeIconPosition = value;
-	// 	}
-	// 	this.setAttribute("activeIconPosition", value); // this condition must get set becos there is a default value for active position
-	// }
-	// public get activeIconPosition(): TCh5ButtonIconPosition {
-	// 	return this._activeIconPosition;
-	// }
-
 	public set iconUrl(value: string) {
 		if (!isNil(value) && this._iconUrl !== value) {
 			// this._iconSvgUrl = value || '';
@@ -745,14 +740,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	public get iconUrl(): string {
 		return this._iconUrl;
 	}
-
-	// public set activeIconUrl(value: string) {
-	// 	this._activeIconUrl = value;
-	// 	// this.setAttribute("activeIconUrl", this._activeIconUrl);
-	// }
-	// public get activeIconUrl(): string {
-	// 	return this._activeIconUrl;
-	// }
 
 	public set orientation(value: TCh5ButtonOrientation) {
 		this.info('set orientation("' + value + '")');
@@ -775,29 +762,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	public get type(): TCh5ButtonType {
 		return this._type;
 	}
-
-	// public set activeCustomClass(value: string) {
-	// 	this.info('set activeCustomClass("' + value + '")');
-	// 	if (this._activeCustomClass !== value && value !== '') {
-	// 		this._activeCustomClass = value;
-	// 		this.updateForChangeInCustomCssClass();
-	// 	}
-	// }
-	// public get activeCustomClass(): string {
-	// 	return this._activeCustomClass;
-	// }
-
-	// public set activeCustomStyle(value: string) {
-	// 	this.info('set activeCustomStyle("' + value + '")');
-	// 	if (this._activeCustomStyle !== value && value !== '') {
-	// 		this._activeCustomStyle = value;
-	// 		this.updateCssClasses();
-	// 		this.updateForChangeInStyleCss();
-	// 	}
-	// }
-	// public get activeCustomStyle(): string {
-	// 	return this._activeCustomStyle;
-	// }
 
 	public set shape(value: TCh5ButtonShape) {
 		this.info('set shape("' + value + '")');
@@ -1240,7 +1204,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			// }
 			// if (newVal !== this.customClass && hasSignalChanged) {
 			// this.setAttribute('customclass', newVal);
-			// this.activeCustomClass = newVal;
 			// this._customClass = newVal;
 			this._receiveStateCustomClassResponseValue = newValue;
 			this.setButtonDisplay(this);
@@ -1283,7 +1246,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			// }
 			// if (newVal !== this.customStyle && hasSignalChanged) {
 			// 	// this.setAttribute('customStyle', newVal);
-			// 	// this.activeCustomStyle = newVal;
 			// 	this._customStyle = newVal;
 			// }
 			this._receiveStateCustomStyleResponseValue = newValue;
@@ -2159,10 +2121,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		const setOfCssClassesToBeAppliedForLabelAlignment = new Set<string>();
 
 		// horizontal align
-		setOfCssClassesToBeAppliedForLabelAlignment.add(this.cssClassPrefix + '--horizontal-' + this.hAlignLabel); // activeHAlignLabel);
+		setOfCssClassesToBeAppliedForLabelAlignment.add(this.cssClassPrefix + '--horizontal-' + this.hAlignLabel);
 
 		// vertical align
-		setOfCssClassesToBeAppliedForLabelAlignment.add(this.cssClassPrefix + '--vertical-' + this.vAlignLabel); //  + this.activeVAlignLabel);
+		setOfCssClassesToBeAppliedForLabelAlignment.add(this.cssClassPrefix + '--vertical-' + this.vAlignLabel);
 
 		// const targetBtn: HTMLElement = this._elLabelIconImage();
 		// if (typeof targetBtn.classList !== 'undefined') {
@@ -2266,10 +2228,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		}, this.TOUCH_TIMEOUT);
 	}
 
-	private debounceSetButtonDisplay = this.debounce(() => {
-		this.setButtonDisplayDetails(this);
-	}, this.DEBOUNCE_SETBUTTON_DISPLAY);
-
 	/**
 	 * If type node is updated via html or js or signal, the change set attribue of type;
 	 * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
@@ -2292,20 +2250,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		// Applicable on Mode change and Selected change
 		// We need not worry about this. ch5-button-label is immediate child , and no change in attribute
 		// affects the data from immediate child.
-		// const keyId = ['type', 'iconClass', 'iconPosition', 'iconUrl', 'checkboxPosition', 'customClass', 'customStyle', 'hAlignLabel', 'vAlignLabel', 'label'];
-		// type KeyID = typeof keyId[number]; // === 'type' | 'iconClass' | 'iconPosition' ....
-		// const updatedNodes: Record<KeyID, any> = {
-		// 	type: null,
-		// 	iconClass: null,
-		// 	iconPosition: null,
-		// 	iconUrl: null,
-		// 	checkboxPosition: null,
-		// 	customClass: null,
-		// 	customStyle: null,
-		// 	hAlignLabel: null,
-		// 	vAlignLabel: null,
-		// 	label: null
-		// };
+
 
 		const extendedProperties: Ch5ButtonExtendedProperties = new Ch5ButtonExtendedProperties();
 
@@ -2532,10 +2477,8 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 			if (!isNil(updatedNodes.iconPosition)) {
 				this._iconPosition = updatedNodes.iconPosition;
-				// this.activeIconPosition = updatedNodes.iconPosition;
 			} else {
 				this._iconPosition = Ch5Button.ICON_POSITIONS[0];
-				// this.activeIconPosition = Ch5Button.ICON_POSITIONS[0];
 			}
 			if (this.previousExtendedProperties.iconPosition !== updatedNodes.iconPosition) {
 				this.updateCssClasses();
@@ -2544,7 +2487,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		} else {
 			// We do not require iconPosition, so remove it			
 			this.removeAttribute("iconPosition");
-			// this.removeAttribute("activeIconPosition");
 		}
 
 		if (!isNil(updatedNodes.checkboxPosition)) {
@@ -2614,18 +2556,15 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			this._elIcon.classList.remove('cx-button-icon-pos-last');
 			this._elIcon.classList.remove('cx-button-icon-pos-top');
 			this._elIcon.classList.remove('cx-button-icon-pos-bottom');
-			this._elIcon.classList.add('cx-button-icon-pos-' + this.iconPosition); // this.activeIconPosition);
+			this._elIcon.classList.add('cx-button-icon-pos-' + this.iconPosition); 
 
 			this._elImg.classList.remove('cx-button-icon-pos-first');
 			this._elImg.classList.remove('cx-button-icon-pos-last');
 			this._elImg.classList.remove('cx-button-icon-pos-top');
 			this._elImg.classList.remove('cx-button-icon-pos-bottom');
-			this._elImg.classList.add('cx-button-icon-pos-' + this.iconPosition); // this.activeIconPosition);
+			this._elImg.classList.add('cx-button-icon-pos-' + this.iconPosition); 
 
 			// Handle vertical button with iconPosition top or bottom
-			// if (['top', 'bottom'].indexOf(this.activeIconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
-			// 	this._elButton.classList.add(`ch5-button--vertical--icon-${this.activeIconPosition}`)
-			// }
 			if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5Button.ORIENTATIONS[1]) {
 				this._elButton.classList.add(`ch5-button--vertical--icon-${this.iconPosition}`);
 			}
@@ -2644,12 +2583,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			let hasAriaLabel = false;
 			let hasCheckboxIcon = false;
 
-			if (this.iconClass !== "") {
-				// if ((this.hasAttribute('iconclass') && '' !== this.getAttribute('iconclass')) || (this.activeIconClass !== "")) {
+			if (!isNil(this.iconClass) && this.iconClass !== "") {
 				hasIcon = true;
 			}
-			if (this.iconUrl !== "") {
-				// if ((this.hasAttribute('iconUrl') && '' !== this.getAttribute('iconUrl')) || (this.activeIconUrl !== "")) {
+			if (!isNil(this.iconUrl) && this.iconUrl !== "") {
 				hasImage = true;
 			}
 
@@ -2702,7 +2639,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 					}
 				}
 
-				if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) { // (this.activeIconPosition) >= 0) {
+				if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
 					this.info('insert icon after label');
 					if (this._elIcon.parentNode !== (this._elButton as Node)) {
 						// if the icon element was not yet added to the button
@@ -2713,7 +2650,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 						this._elSpanForLabelIconImg.insertBefore(this._elSpanForLabelOnly as Node, this._elIcon as Node);
 						// this._elButton.insertBefore(this._elLabel as Node, this._elIcon as Node);
 					}
-				} else if (['first', 'top'].indexOf(this.iconPosition) >= 0) { // this.activeIconPosition) >= 0) {
+				} else if (['first', 'top'].indexOf(this.iconPosition) >= 0) {
 					this.info('insert icon before label');
 					if ((this._elSpanForLabelOnly as any).isConnected === true) {
 						// this._elButton.insertBefore(this._elIcon as Node, this._elLabel as Node);
@@ -2782,7 +2719,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 						this._elSpanForLabelIconImg.appendChild(this._elSpanForLabelOnly);
 					}
 
-					if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) { // this.activeIconPosition) >= 0) {
+					if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
 						this.info('insert icon after label');
 						if (this._elImg.parentNode !== (this._elButton as Node)) {
 							// if the icon element was not yet added to the button
@@ -2791,7 +2728,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 							// if the icon element was already added and needs to be switched with the label element
 							this._elSpanForLabelIconImg.insertBefore(this._elSpanForLabelOnly as Node, this._elImg as Node);
 						}
-					} else if (['first', 'top'].indexOf(this.iconPosition) >= 0) { // this.activeIconPosition) >= 0) {
+					} else if (['first', 'top'].indexOf(this.iconPosition) >= 0) {
 						this.info('insert icon before label');
 						if ((this._elSpanForLabelOnly as any).isConnected === true) {
 							this._elSpanForLabelIconImg.insertBefore(this._elImg as Node, this._elSpanForLabelOnly as Node);
