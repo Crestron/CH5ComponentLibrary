@@ -351,7 +351,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
     private _pressable: Ch5Pressable | null = null;
     
     // private _lowInputValues: number[] = [];
-    private _highInputValues: number[] = [];
+    // private _highInputValues: number[] = [];
     // private sliderInProgress: boolean = false;
 
     /**
@@ -1149,47 +1149,72 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
 
         this._subReceiveValueHighId = receiveSignal.subscribe( (object: any) => {
             
-            let isTheLastValue = false;
+            // let isTheLastValue = false;
             
-            if (object.rcb !== undefined) {
-                isTheLastValue = this._highInputValues.indexOf(object.rcb.value) === this._highInputValues.length - 1;
+            // if (object.rcb !== undefined) {
+            //     isTheLastValue = this._highInputValues.indexOf(object.rcb.value) === this._highInputValues.length - 1;
+            // }
+            if (undefined === object ||
+                !object.hasOwnProperty('rcb') ||
+                !object.rcb.hasOwnProperty('value') ||
+                !receiveSignal.hasChangedSinceInit())
+            {   
+                return;
             }
-            
-            if ((object.rcb !== undefined && object.rcb.time > 0) || !this._highInputValues.length || isTheLastValue || this._highInputValues.length === 1) {
-                if (!object.hasOwnProperty('rcb') 
-                    || !object.rcb.hasOwnProperty('value') 
-                    || !receiveSignal.hasChangedSinceInit()
-                ) {
-                    return;
-                }
+
+            // if ((object.rcb !== undefined && object.rcb.time > 0) || !this._highInputValues.length || isTheLastValue || this._highInputValues.length === 1) {
+            //     if (!object.hasOwnProperty('rcb') 
+            //         || !object.rcb.hasOwnProperty('value') 
+            //         || !receiveSignal.hasChangedSinceInit()
+            //     ) {
+            //         return;
+            //     }
                 
-                if (isTheLastValue) {
-                    this._highInputValues = [];
-                }
+            //     if (isTheLastValue) {
+            //         this._highInputValues = [];
+            //     }
 
-                const rcb = (object as IRcbSignal).rcb;
+            //     const rcb = (object as IRcbSignal).rcb;
 
-                const animationDuration = rcb.time;
-                let newValue: number = rcb.value;
+            //     const animationDuration = rcb.time;
+            //     let newValue: number = rcb.value;
 
-                if (this._min < 0 && newValue > 0x7FFF) {
-                    newValue -= 0x10000;
-                }
+            //     if (this._min < 0 && newValue > 0x7FFF) {
+            //         newValue -= 0x10000;
+            //     }
+
+            const rcb = (object as IRcbSignal).rcb;
+            const animationDuration = rcb.time;
+            let newValue: number = rcb.value;
+            if (this._min < 0 && newValue > 0x7FFF) {
+                newValue -= 0x10000;
+            }            
+
+            this._rcbSignalValueHigh = {'rcb': {
+                'value': newValue,
+                'time': animationDuration,
+                'startv' : undefined !== rcb.startv ? rcb.startv : this._valueHigh,
+                'startt': undefined !== rcb.startt ? rcb.startt : Date.now()
+            }};
+
+            this._cleanValueHigh = newValue;
+                        
+            if (this._dirtyTimerHandleHigh === null) {
 
                 this._wasRendered = false;
                 this.setAttribute('valueHigh', newValue.toString());
                 this._wasRendered = true;
 
-                this._rcbSignalValueHigh = {'rcb': {
-                    'value': newValue,
-                    'time': animationDuration,
-                    'startv' : undefined !== rcb.startv ? rcb.startv : this._value,
-                    'startt': undefined !== rcb.startt ? rcb.startt : Date.now()
-                }};
+                // this._rcbSignalValueHigh = {'rcb': {
+                //     'value': newValue,
+                //     'time': animationDuration,
+                //     'startv' : undefined !== rcb.startv ? rcb.startv : this._value,
+                //     'startt': undefined !== rcb.startt ? rcb.startt : Date.now()
+                // }};
 
                 this._setSliderValue(newValue, TCh5SliderHandle.HIGHVALUE, animationDuration);
 
-                this._cleanValueHigh = newValue;
+                // this._cleanValueHigh = newValue;
 
                 // set first handle as clean
                 this._setCleanHigh();
@@ -1197,12 +1222,12 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
                 // set component state as clean
                 this.setClean();
                 
-                return;
+                // return;
             }
             
-            if (this._highInputValues.indexOf(object.rcb.value) >= 0) {
-                this._highInputValues.splice(this._highInputValues.indexOf(object.rcb.value), 1);
-            }
+            // if (this._highInputValues.indexOf(object.rcb.value) >= 0) {
+            //     this._highInputValues.splice(this._highInputValues.indexOf(object.rcb.value), 1);
+            // }
 
         });
     }
@@ -2106,9 +2131,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
         // if (handle === TCh5SliderHandle.VALUE) {
         //     this._lowInputValues.push(inputValue);
         // } else 
-        if (handle === TCh5SliderHandle.HIGHVALUE) {
-            this._highInputValues.push(inputValue);
-        }
+        // if (handle === TCh5SliderHandle.HIGHVALUE) {
+        //     this._highInputValues.push(inputValue);
+        // }
 
         // send value signal
         if ( undefined !== value
@@ -2362,6 +2387,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
                     this._setSliderValue(nrCleanValue, TCh5SliderHandle.HIGHVALUE);
 
                     this._setCleanHigh();
+
+                    this._applyTooltipValue(this._tooltip[TCh5SliderHandle.HIGHVALUE], nrCleanValue);
+
                 }
             default:
                 break;
@@ -2778,7 +2806,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes{
 
         if (null !== receiveAnalogSignal)  {
             this._subReceiveAnalogValueHighId = receiveAnalogSignal.subscribe((value) => {
-                this._applyTooltipValue(this._tooltip[TCh5SliderHandle.HIGHVALUE], value);
+                if (this._dirtyTimerHandleHigh === null) {
+                    this._applyTooltipValue(this._tooltip[TCh5SliderHandle.HIGHVALUE], value);
+                }
                 this._tooltipHighValueFromSignal = value;
             });
         }
