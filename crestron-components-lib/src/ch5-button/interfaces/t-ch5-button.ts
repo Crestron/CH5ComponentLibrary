@@ -12,6 +12,8 @@ export enum Ch5Alignments {
   Justify = 'justify'
 }
 
+// export type KeysMatching<T, V> = { [K in keyof T]: T[K] extends V ? K : never }[keyof T];
+
 export type TCh5ButtonActionType = 'cancel' | 'submit';
 
 export type TCh5ButtonCheckboxPosition = 'left' | 'right'; // Ch5Alignments.Left | Ch5Alignments.Right;
