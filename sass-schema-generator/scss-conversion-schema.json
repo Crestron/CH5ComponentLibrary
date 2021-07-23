@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "SCSS To Json",
+  "description": "Json generated based on the SCSS file for the OMNI team",
+  "type": "object",
+  "properties": {
+    "ch5-elements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "tagName": {
+                  "description": "Name of the component",
+                  "type": "string"
+                },
+                "version": {
+                  "description": "Version of the helper",
+                  "type": "string"
+                },
+                "style": {
+                  "description": "Actual conversed scss into json",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "className": {
+                        "description": "Name of the selector",
+                        "type": "string"
+                      },
+                      "description": {
+                        "description": "Documentation for the selector",
+                        "type": "string"
+                      },
+                      "supports": {
+                        "description": "Variable names that are used inside the selector as values",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 1
+                      },
+                      "showWhen": {
+                        "type": "object",
+                        "description": "Properties computed based on the selector string",
+                        "properties": {
+                          "platform": {
+                            "type": "array",
+                            "items": {
+                              "enum": ["ios"]
+                            },
+                            "uniqueItems": true
+                          },
+                          "icon": {
+                            "enum": [true]
+                          },
+                          "type": {
+                            "type": "array",
+                            "items": {
+                              "enum": ["default", "primary", "info", "text", "danger", "warning", "success", "secondary"]
+                            }
+                          },
+                          "orientation": {
+                            "type": "array",
+                            "items": {
+                              "enum": ["horizontal", "vertical"]
+                            }
+                          },
+                          "shape": {
+                            "type": "array",
+                            "items": {
+                              "enum": ["rounded-rectangle", "rectangle", "tab", "circle", "oval"]
+                            }
+                          },
+                          "size": {
+                            "type": "array",
+                            "items": {
+                              "enum": ["regular", "x-small", "small", "large", "x-large"]
+                            }
+                          },
+                          "stretch": {
+                            "type": "array",
+                            "items": {
+                              "enum": ["height", "width", "both"]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "required": ["className", "description", "supports", "showWhen"]
+                  }
+                }
+              },
+              "required": ["tagName", "version", "style"]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "sass-schema-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@crestron/ch5-crcomlib": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.4.0",
+    "@types/puppeteer": "^5.4.4",
+    "css-simple-parser": "^2.0.1",
+    "puppeteer": "^10.1.0",
+    "sass-flatten": "^0.1.1",
+    "typescript": "^4.3.5"
+  },
+  "scripts": {
+    "sass-convertor": "ts-node index.ts"
+  },
+  "author": "",
+  "license": "ISC"
+}
