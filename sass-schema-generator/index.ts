@@ -1,5 +1,5 @@
 import {processSassfile} from './sassToJson';
-import {BASE_OBJECT_INTERFACE, HELPERS_PATH, RULES_INTERFACE, THEME_EDITOR_PATH} from "./utils";
+import {BASE_OBJECT_INTERFACE, HELPERS_PATH, PROPERTIES_INTERFACE, THEME_EDITOR_PATH} from "./utils";
 
 const fs = require('fs');
 const flatten = require('sass-flatten');
@@ -23,6 +23,28 @@ function writeToFile(data: string, path: string) {
   })
 }
 
+function getHelperForComponent(name: string) {
+  try {
+    return import(HELPERS_PATH + name + `/helper.ts`);
+  } catch (err) {
+    throw new Error(`COULD NOT FIND HELPER FILE FOR ${name}`);
+  }
+}
+
+/**
+ * Each time the conversion is run generate a json output file of how the properties look like used in decoding showWhen
+ * @param properties
+ * @param path
+ */
+function generatePropertiesJson(properties: PROPERTIES_INTERFACE, path: string) {
+  const fileName = `${path}.properties.json`;
+  writeToFile(JSON.stringify(Object.values(properties).map(property => {
+    return {
+      [property.key]: property.values
+    }
+  })), HELPERS_PATH + path + '/' + fileName)
+}
+
 async function buildJsonStructure(flattenedComponents: {flattenedScss: string, name: string}[]) {
   const jsonObject: BASE_OBJECT_INTERFACE = {
     "ch5-elements": [
@@ -34,8 +56,10 @@ async function buildJsonStructure(flattenedComponents: {flattenedScss: string, n
 
   for (const component of flattenedComponents) {
     try {
-      const helper = await import(HELPERS_PATH + component.name + `/helper.ts`);
-      const outputJson = await processSassfile(component.flattenedScss, component.name);
+      const helper = await getHelperForComponent(component.name);
+      const properties = await helper.GET_PROPERTIES();
+      generatePropertiesJson(properties, component.name);
+      const outputJson = await processSassfile(component.flattenedScss, component.name, properties);
       jsonObject["ch5-elements"][0].component.push({
         tagName: component.name,
         version: helper.VERSION,

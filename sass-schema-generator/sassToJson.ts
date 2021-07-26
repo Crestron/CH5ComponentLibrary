@@ -169,17 +169,7 @@ function checkIfNodeIsMixin(selector: string) {
   return false;
 }
 
-function getHelperForComponent(name: string) {
-  try {
-    return import(HELPERS_PATH + name + `/helper.ts`);
-  } catch (err) {
-    throw new Error(`COULD NOT FIND HELPER FILE FOR ${name}`);
-  }
-}
-
-async function processSassfile(data: string, name: string) {
-  const helper = (await getHelperForComponent(name)).GET_PROPERTIES();
-
+async function processSassfile(data: string, name: string, helper: PROPERTIES_INTERFACE) {
   let stringifiedData = data;
 
   // STEP 1: Remove all the multiline/ single line comments, except the documentation marked with ///

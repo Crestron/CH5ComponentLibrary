@@ -1,0 +1,46 @@
+[
+  {
+    "orientation": [
+      "horizontal",
+      "vertical"
+    ]
+  },
+  {
+    "shape": [
+      "rounded-rectangle",
+      "rectangle",
+      "tab",
+      "circle",
+      "oval"
+    ]
+  },
+  {
+    "size": [
+      "regular",
+      "x-small",
+      "small",
+      "large",
+      "x-large"
+    ]
+  },
+  {
+    "stretch": [
+      "",
+      "both",
+      "width",
+      "height"
+    ]
+  },
+  {
+    "type": [
+      "default",
+      "primary",
+      "info",
+      "text",
+      "danger",
+      "warning",
+      "success",
+      "secondary"
+    ]
+  }
+]

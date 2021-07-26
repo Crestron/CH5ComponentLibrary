@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 
+// TODO: Add documentation as to why we do it like this. (README.MD)
 export async function getCrComLibComponent(name: string) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
