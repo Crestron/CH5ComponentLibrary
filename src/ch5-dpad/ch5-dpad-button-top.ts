@@ -92,13 +92,26 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
             value = '';
         }
 
-        const trValue: string = this._getTranslatedValue('iconClass', value);
+        let trValue: string = '';
+
+        if (this.parentControlledContractRules.contractName.length === 0 ||
+            (this.parentControlledContractRules.contractName.length > 0 && !this.parentControlledContractRules.icon)) {
+            trValue = this.CSS_CLASS_LIST.defaultIconClass;
+        }
+
+        trValue = this._getTranslatedValue('iconClass', value);
         if (trValue === this.iconClass) {
             return;
         }
 
         this._iconClass = trValue;
         this.setAttribute('iconClass', trValue);
+        if (this._iconClass.length > 0 && this._iconUrl.length < 1) {
+            this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
+            this._icon.classList.add(this._iconClass);
+        } else {
+            this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
+        }
     }
     public get iconClass() {
         return this._iconClass;
@@ -121,6 +134,12 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
 
         this._iconUrl = trValue;
         this.setAttribute('iconUrl', trValue);
+        if (this.iconUrl.length > 0) {
+            this._icon.classList.add(this.CSS_CLASS_LIST.imageClassName);
+            this._icon.style.backgroundImage = `url(${trValue})`;
+        } else {
+            this._icon.classList.remove(this.CSS_CLASS_LIST.imageClassName);
+        }
     }
     public get iconUrl() {
         return this._iconUrl;
@@ -263,7 +282,8 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
                     this._receiveStateIconClassSignalValue, ' Signal has value ', newValue);
                 newValue = newValue as string;
                 if (newValue !== this.iconClass) {
-                    if (this.receiveStateIconUrl.length < 1 &&
+                    if (this.parentControlledContractRules.contractName.length < 1 &&
+                        this.receiveStateIconUrl.length < 1 &&
                         !this.parentControlledContractRules.icon) {
                         this._icon.classList.add(newValue);
                     }
@@ -292,7 +312,8 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
                     this._receiveStateIconUrlSignalValue, ' Signal has value ', newValue);
                 newValue = newValue as string;
                 if (newValue !== this.iconUrl) {
-                    if (!this.parentControlledContractRules.icon) {
+                    if (this.parentControlledContractRules.contractName.length < 1 &&
+                        !this.parentControlledContractRules.icon) {
                         this._icon.style.backgroundImage = `url(${newValue})`;
                         this._icon.classList.add(this.CSS_CLASS_LIST.imageClassName);
                     }
@@ -354,6 +375,10 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
      */
     private createElementsAndInitialize() {
         if (!this._wasInstatiated) {
+            if (this._icon.classList === undefined || this._icon.classList.length <= 0) {
+                this._icon = document.createElement('span');
+            }
+
             this.initAttributes();
             this.createHtmlElements();
             this.attachEventListeners();
@@ -373,24 +398,21 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
 
         const btnIconUrl = CH5DpadUtils.getImageUrl(this, this.primaryCssClass, this.parentControlledContractRules.icon);
         const btnIconClass = CH5DpadUtils.getIconClass(this, this.primaryCssClass, this.parentControlledContractRules.icon);
+        const isParentContractName: boolean = Boolean(this.parentControlledContractRules.contractName);
         // Order of preference is:
         // 0 parentContract
         // 1 recevieStateIconUrl
         // 2 receiveStateIconClass
         // 4 iconUrl
         // 5 iconClass
-        if (Boolean(this.parentControlledContractRules.contractName) &&
-            (this.parentControlledContractRules.icon)) {
-            if (this._icon.classList.length <= 0) {
-                this._icon = document.createElement('span');
-            }
+        if (isParentContractName && this.parentControlledContractRules.icon) {
             this._icon.classList.add('dpad-btn-icon');
             if (this.parentControlledContractRules.icon) {
                 this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
             }
-        } else if (this.receiveStateIconUrl.length > 0 && this.receiveStateIconUrl === btnIconUrl) {
+        } else if (!isParentContractName && this.receiveStateIconUrl.length > 0 && this.receiveStateIconUrl === btnIconUrl) {
             this._icon = CH5DpadUtils.getImageContainer(this.receiveStateIconUrl);
-        } else if (this.receiveStateIconClass && this.receiveStateIconClass === btnIconClass) {
+        } else if (!isParentContractName && this.receiveStateIconClass && this.receiveStateIconClass === btnIconClass) {
             this._icon = CH5DpadUtils.getIconContainer();
         } else if (this.iconUrl.length > 0 && this.iconUrl === btnIconUrl) {
             this._icon = CH5DpadUtils.getImageContainer(this.iconUrl);

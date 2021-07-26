@@ -15,7 +15,7 @@ export class CH5DpadUtils {
     public static getAttributeAsString(thisRef: any, keyToCheck: string, defaultValue: string = '') {
         let retVal = defaultValue;
         keyToCheck = keyToCheck.toLowerCase(); // precaution for attributes, to keep them lower cased
-        if (thisRef.hasAttribute([keyToCheck])) {
+        if (!!thisRef && thisRef.hasAttribute([keyToCheck])) {
             retVal = thisRef.getAttribute([keyToCheck]) as string;
         }
         return retVal;
