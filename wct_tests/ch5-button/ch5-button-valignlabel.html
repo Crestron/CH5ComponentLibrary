@@ -159,10 +159,10 @@
                 ch5Button3 = fixture('ch5-button-valignlabel-fixture3');
             });
 
-            const valid_vAlignLabel = CH5_BUTTON_MASTERS.VERTICAL_ALIGN_LABELS.values;
+            const valid_vAlignLabel = CrComLib.Ch5Button.VERTICAL_LABEL_ALIGNMENTS;
             const invalid_vAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'left', 'right', 'center'];
 
-            const valid_hAlignLabel = CH5_BUTTON_MASTERS.HORIZONTAL_ALIGN_LABELS.values;
+            const valid_hAlignLabel = CrComLib.Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS;
             const invalid_hAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'top', 'bottom', 'middle'];
 
             valid_vAlignLabel.forEach((vAlignLabelName, i) => {

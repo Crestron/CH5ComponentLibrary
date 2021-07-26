@@ -33,7 +33,7 @@
             });
 
             // Type, ReceiveStateType, Selected
-            const availableTypes = CH5_BUTTON_MASTERS.TYPES.values;
+            const availableTypes = CrComLib.Ch5Button.TYPES;
             availableTypes.forEach((typeName, i) => {
                 test(`Check attribute type: "${typeName}"`, () => {
                     ch5Button.setAttribute('type', typeName);
