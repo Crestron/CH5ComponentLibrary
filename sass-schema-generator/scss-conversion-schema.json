@@ -85,7 +85,7 @@
                           "stretch": {
                             "type": "array",
                             "items": {
-                              "enum": ["height", "width", "both"]
+                              "enum": ["" ,"height", "width", "both"]
                             }
                           }
                         }
