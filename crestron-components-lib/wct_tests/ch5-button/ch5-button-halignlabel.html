@@ -29,7 +29,7 @@
                 ch5Button = fixture('ch5-button-halignlabel-fixture');
             });
 
-            const valid_hAlignLabel = CH5_BUTTON_MASTERS.HORIZONTAL_ALIGN_LABELS.values;
+            const valid_hAlignLabel = CrComLib.Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS;
             const invalid_hAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'top', 'bottom', 'middle'];
 
             valid_hAlignLabel.forEach((hAlignLabelName, i) => {

@@ -56,7 +56,7 @@
             });
 
             // Type, ReceiveStateType, Selected
-            const availableTypes = CH5_BUTTON_MASTERS.TYPES.values;
+            const availableTypes = CrComLib.Ch5Button.TYPES;
             availableTypes.forEach((typeName, i) => {
                 availableTypes.forEach((newTypeName, j) => {
                     test(`Check button attribute type: "${typeName}" and button-mode attribute: "${newTypeName}"`, () => {
