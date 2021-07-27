@@ -2,8 +2,6 @@ import {HELPERS_PATH, PROPERTIES_INTERFACE, RULES_INTERFACE} from "./utils";
 
 const Parser = require('css-simple-parser');
 
-const rules: RULES_INTERFACE[] = [];
-
 function flattenNestedRules(higherSelector: string[], lowerSelector: string[]): string[][] {
   return higherSelector.map(selector => {
     return lowerSelector.map(innerSelector => {
@@ -176,6 +174,8 @@ async function processSassfile(data: string, name: string, helper: PROPERTIES_IN
   stringifiedData = removeComments(stringifiedData);
 
   const mixins = extractMixins(stringifiedData);
+
+  const rules: RULES_INTERFACE[] = [];
 
   const ast = Parser.parse(stringifiedData);
 

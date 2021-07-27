@@ -120,8 +120,8 @@ async function traverseThemeEditorsObjects(): Promise<string[]> {
 async function initialize() {
   const componentsPath = await traverseThemeEditorsObjects();
 
-  // const flattenedComponents = await flattenScssComponents(componentsPath);
-  const flattenedComponents = await flattenScssComponents(['ch5-button']);
+  const flattenedComponents = await flattenScssComponents(componentsPath);
+  // const flattenedComponents = await flattenScssComponents(['ch5-video']);
 
   const outputJSON = await buildJsonStructure(flattenedComponents);
 
