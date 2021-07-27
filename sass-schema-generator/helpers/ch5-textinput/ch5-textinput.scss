@@ -1,0 +1,989 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-textinput
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@import './scss/_variables';
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-textinput
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-textinput-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// All rights reserved.
+// No part of this software may be reproduced in any form, machine
+// or natural, without the express written consent of Crestron Electronics.
+// Use of this source code is subject to the terms of the Crestron Software License Agreement
+// under which you licensed this source code.
+
+$ch5-font-size-unit: px !default;
+$ch5-font-size-value: 16 !default;
+$ch5-font-size: $ch5-font-size-value + $ch5-font-size-unit !default;
+$ch5-font-style: normal !default;
+$ch5-font-weight: normal !default;
+
+// scrollbar
+$ch5-scrollbar-width:          7px !default;
+$ch5-scrollbar-border-radius:  10px !default;
+$ch5-scrollbar-track-color:    rgba(0, 0, 0, 0.1) !default;
+$ch5-scrollbar-thumb-color:    rgba(0, 0, 0, 0.5) !default;
+
+
+// default
+/// the border radius for the textinput
+$ch5-textinput-input-border-radius: 5px !default;
+
+/// the color for box shadow of the textinput
+$ch5-textinput-input-box-shadow-color: #eee !default;
+
+/// set the textinput border's width
+$ch5-textinput-input-border-width: 1px !default;
+
+/// set the default font size unit for the textinput
+$ch5-textinput-font-size-unit: $ch5-font-size-unit !default;
+
+/// set the default font size value for the textinput
+$ch5-textinput-font-size-value: $ch5-font-size-value !default;
+
+/// set the default font size for the textinput
+$ch5-textinput-font-size: $ch5-textinput-font-size-value + $ch5-textinput-font-size-unit !default;
+
+/// set the default font style for the textinput
+$ch5-textinput-font-style: $ch5-font-style !default;
+
+/// set the default font weight for the textinput
+$ch5-textinput-font-weight: $ch5-font-weight !default;
+
+/// set the textinput border's width
+$ch5-textinput-input-border-width: 1px;
+
+/// set top and bottom padding for regular size of the textinput
+$ch5-textinput-input-regular-tb-padding: 15px !default;
+
+/// set left and right padding for regular size of the textinput
+$ch5-textinput-input-regular-lr-padding: 20px !default;
+
+/// set the min width for regular size of the textinput
+$ch5-textinput-input-regular-min-width: 400px !default;
+
+/// set the font size unit for regular size of the textinput
+$ch5-textinput-regular-font-size-unit: px !default;
+
+/// set the font size value for regular size of the textinput
+$ch5-textinput-regular-font-size-value: 16 !default;
+
+/// set the font size for regular size of the textinput
+$ch5-textinput-regular-font-size: $ch5-textinput-regular-font-size-value + $ch5-textinput-regular-font-size-unit !default;
+
+/// set the font style for regular size of the textinput
+$ch5-textinput-regular-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for regular size of the textinput
+$ch5-textinput-regular-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the font size of icon for regular size of the textinput
+$ch5-textinput-icon-regular-font-size: $ch5-textinput-input-regular-tb-padding !default;
+
+/// set top and bottom margin of icon for regular size of the textinput
+$ch5-textinput-icon-regular-tb-margin: $ch5-textinput-regular-font-size !default;
+
+/// set left and right margin of icon for regular size of the textinput
+$ch5-textinput-icon-regular-lr-margin: $ch5-textinput-regular-font-size !default;
+
+/// set the font size unit for x-small size of the textinput
+$ch5-textinput-x-small-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for x-small size of the textinput
+$ch5-textinput-x-small-font-size-value: 12 !default;
+
+/// set the font size for x-small size of the textinput
+$ch5-textinput-x-small-font-size: $ch5-textinput-x-small-font-size-value + $ch5-textinput-x-small-font-size-unit !default;
+
+/// set the font style for x-small size of the textinput
+$ch5-textinput-x-small-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for x-small size of the textinput
+$ch5-textinput-x-small-font-weight: $ch5-textinput-font-weight !default;
+
+/// set top and bottom padding for x-small size of the textinput
+$ch5-textinput-input-x-small-tb-padding: 10px !default;
+
+/// set left and right padding for x-small size of the textinput
+$ch5-textinput-input-x-small-lr-padding: 10px !default;
+
+/// set the min width for x-small size of the textinput
+$ch5-textinput-input-x-small-min-width: 200px !default;
+
+/// set the font size of icon for x-small size of the textinput
+$ch5-textinput-icon-x-small-font-size: $ch5-textinput-input-x-small-tb-padding !default;
+
+/// set top and bottom margin of icon for x-small size of the textinput
+$ch5-textinput-icon-x-small-tb-margin: $ch5-textinput-x-small-font-size !default;
+
+/// set left and right margin of icon for x-small size of the textinput
+$ch5-textinput-icon-x-small-lr-margin: $ch5-textinput-x-small-font-size !default;
+
+/// set top and bottom padding for small size of the textinput
+$ch5-textinput-input-small-tb-padding: 15px !default;
+
+/// set left and right padding for small size of the textinput
+$ch5-textinput-input-small-lr-padding: 20px !default;
+
+/// set the font size unit for small size of the textinput
+$ch5-textinput-small-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for small size of the textinput
+$ch5-textinput-small-font-size-value: 14 !default;
+
+/// set the font size for small size of the textinput
+$ch5-textinput-small-font-size: $ch5-textinput-small-font-size-value + $ch5-textinput-small-font-size-unit !default;
+
+/// set the font style for small size of the textinput
+$ch5-textinput-small-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for small size of the textinput
+$ch5-textinput-small-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the min width for small size of the textinput
+$ch5-textinput-input-small-min-width: 250px !default;
+
+/// set the font size of icon for small size of the textinput
+$ch5-textinput-icon-small-font-size: $ch5-textinput-small-font-size !default;
+
+/// set top and bottom margin of icon for small size of the textinput
+$ch5-textinput-icon-small-tb-margin: $ch5-textinput-small-font-size !default;
+
+/// set left and right margin of icon for small size of the textinput
+$ch5-textinput-icon-small-lr-margin: $ch5-textinput-small-font-size !default;
+
+/// set top and bottom padding for large size of the textinput
+$ch5-textinput-input-large-tb-padding: 20px !default;
+
+/// set left and right padding for large size of the textinput
+$ch5-textinput-input-large-lr-padding: 15px !default;
+
+/// set the font size value for large size of the textinput
+$ch5-textinput-large-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for large size of the textinput
+$ch5-textinput-large-font-size-value: 18 !default;
+
+/// set the font size for large size of the textinput
+$ch5-textinput-large-font-size: $ch5-textinput-large-font-size-value + $ch5-textinput-large-font-size-unit !default;
+
+/// set the font style for large size of the textinput
+$ch5-textinput-large-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for large size of the textinput
+$ch5-textinput-large-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the min width for large size of the textinput
+$ch5-textinput-input-large-min-width: 500px !default;
+
+/// set the font size of icon for large size of the textinput
+$ch5-textinput-icon-large-font-size: $ch5-textinput-large-font-size !default;
+
+/// set top and bottom margin of icon for large size of the textinput
+$ch5-textinput-icon-large-tb-margin: $ch5-textinput-large-font-size !default;
+
+/// et left and right margin of icon for large size of the textinput
+$ch5-textinput-icon-large-lr-margin: $ch5-textinput-large-font-size !default;
+
+/// set top and bottom padding for x-large size of the textinput
+$ch5-textinput-input-x-large-tb-padding: $ch5-textinput-input-large-tb-padding !default;
+
+/// set left and right padding for x-large size of the textinput
+$ch5-textinput-input-x-large-lr-padding: $ch5-textinput-input-large-lr-padding !default;
+
+/// set the font size unit for x-large size of the textinput
+$ch5-textinput-x-large-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for x-large size of the textinput
+$ch5-textinput-x-large-font-size-value: 22 !default;
+
+/// set the font size for x-large size of the textinput
+$ch5-textinput-x-large-font-size: $ch5-textinput-x-large-font-size-value + $ch5-textinput-x-large-font-size-unit !default;
+
+/// set the font style for x-large size of the textinput
+$ch5-textinput-x-large-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for x-large size of the textinput
+$ch5-textinput-x-large-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the min width for x-large size of the textinput
+$ch5-textinput-input-x-large-min-width: $ch5-textinput-input-large-min-width !default;
+
+/// set the font size of icon for x-large size of the textinput
+$ch5-textinput-icon-x-large-font-size:  $ch5-textinput-x-large-font-size !default;
+
+/// set top and bottom margin of icon for x-large size of the textinput
+$ch5-textinput-icon-x-large-tb-margin: $ch5-textinput-x-large-font-size !default;
+
+/// set left and right margin of icon for x-large size of the textinput
+$ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default;
+
+
+.ch5-textinput {
+  /// @require .ch5-textinput
+  /// Class apply on the label
+  &__label {
+    display: block;
+    color: $ch5-textinput-label-text-color;
+
+    &--x-large {
+      font-style: $ch5-textinput-x-large-font-style;
+      font-size: $ch5-textinput-x-large-font-size;
+      font-weight: $ch5-textinput-x-large-font-weight;
+    }
+
+    &--large {
+      font-style: $ch5-textinput-large-font-style;
+      font-size: $ch5-textinput-large-font-size;
+      font-weight: $ch5-textinput-large-font-weight;
+    }
+
+    &--regular {
+      font-style: $ch5-textinput-regular-font-style;
+      font-size: $ch5-textinput-regular-font-size;
+      font-weight: $ch5-textinput-regular-font-weight;
+    }
+
+    &--small {
+      font-style: $ch5-textinput-small-font-style;
+      font-size: $ch5-textinput-small-font-size;
+      font-weight: $ch5-textinput-small-font-weight;
+    }
+
+    &--x-small {
+      font-style: $ch5-textinput-x-small-font-style;
+      font-size: $ch5-textinput-x-small-font-size;
+      font-weight: $ch5-textinput-x-small-font-weight;
+    }
+
+  }
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-textinput
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-textinput-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// All rights reserved.
+// No part of this software may be reproduced in any form, machine
+// or natural, without the express written consent of Crestron Electronics.
+// Use of this source code is subject to the terms of the Crestron Software License Agreement
+// under which you licensed this source code.
+
+$ch5-font-size-unit: px !default;
+$ch5-font-size-value: 16 !default;
+$ch5-font-size: $ch5-font-size-value + $ch5-font-size-unit !default;
+$ch5-font-style: normal !default;
+$ch5-font-weight: normal !default;
+
+// scrollbar
+$ch5-scrollbar-width:          7px !default;
+$ch5-scrollbar-border-radius:  10px !default;
+$ch5-scrollbar-track-color:    rgba(0, 0, 0, 0.1) !default;
+$ch5-scrollbar-thumb-color:    rgba(0, 0, 0, 0.5) !default;
+
+
+// default
+/// the border radius for the textinput
+$ch5-textinput-input-border-radius: 5px !default;
+
+/// the color for box shadow of the textinput
+$ch5-textinput-input-box-shadow-color: #eee !default;
+
+/// set the textinput border's width
+$ch5-textinput-input-border-width: 1px !default;
+
+/// set the default font size unit for the textinput
+$ch5-textinput-font-size-unit: $ch5-font-size-unit !default;
+
+/// set the default font size value for the textinput
+$ch5-textinput-font-size-value: $ch5-font-size-value !default;
+
+/// set the default font size for the textinput
+$ch5-textinput-font-size: $ch5-textinput-font-size-value + $ch5-textinput-font-size-unit !default;
+
+/// set the default font style for the textinput
+$ch5-textinput-font-style: $ch5-font-style !default;
+
+/// set the default font weight for the textinput
+$ch5-textinput-font-weight: $ch5-font-weight !default;
+
+/// set the textinput border's width
+$ch5-textinput-input-border-width: 1px;
+
+/// set top and bottom padding for regular size of the textinput
+$ch5-textinput-input-regular-tb-padding: 15px !default;
+
+/// set left and right padding for regular size of the textinput
+$ch5-textinput-input-regular-lr-padding: 20px !default;
+
+/// set the min width for regular size of the textinput
+$ch5-textinput-input-regular-min-width: 400px !default;
+
+/// set the font size unit for regular size of the textinput
+$ch5-textinput-regular-font-size-unit: px !default;
+
+/// set the font size value for regular size of the textinput
+$ch5-textinput-regular-font-size-value: 16 !default;
+
+/// set the font size for regular size of the textinput
+$ch5-textinput-regular-font-size: $ch5-textinput-regular-font-size-value + $ch5-textinput-regular-font-size-unit !default;
+
+/// set the font style for regular size of the textinput
+$ch5-textinput-regular-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for regular size of the textinput
+$ch5-textinput-regular-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the font size of icon for regular size of the textinput
+$ch5-textinput-icon-regular-font-size: $ch5-textinput-input-regular-tb-padding !default;
+
+/// set top and bottom margin of icon for regular size of the textinput
+$ch5-textinput-icon-regular-tb-margin: $ch5-textinput-regular-font-size !default;
+
+/// set left and right margin of icon for regular size of the textinput
+$ch5-textinput-icon-regular-lr-margin: $ch5-textinput-regular-font-size !default;
+
+/// set the font size unit for x-small size of the textinput
+$ch5-textinput-x-small-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for x-small size of the textinput
+$ch5-textinput-x-small-font-size-value: 12 !default;
+
+/// set the font size for x-small size of the textinput
+$ch5-textinput-x-small-font-size: $ch5-textinput-x-small-font-size-value + $ch5-textinput-x-small-font-size-unit !default;
+
+/// set the font style for x-small size of the textinput
+$ch5-textinput-x-small-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for x-small size of the textinput
+$ch5-textinput-x-small-font-weight: $ch5-textinput-font-weight !default;
+
+/// set top and bottom padding for x-small size of the textinput
+$ch5-textinput-input-x-small-tb-padding: 10px !default;
+
+/// set left and right padding for x-small size of the textinput
+$ch5-textinput-input-x-small-lr-padding: 10px !default;
+
+/// set the min width for x-small size of the textinput
+$ch5-textinput-input-x-small-min-width: 200px !default;
+
+/// set the font size of icon for x-small size of the textinput
+$ch5-textinput-icon-x-small-font-size: $ch5-textinput-input-x-small-tb-padding !default;
+
+/// set top and bottom margin of icon for x-small size of the textinput
+$ch5-textinput-icon-x-small-tb-margin: $ch5-textinput-x-small-font-size !default;
+
+/// set left and right margin of icon for x-small size of the textinput
+$ch5-textinput-icon-x-small-lr-margin: $ch5-textinput-x-small-font-size !default;
+
+/// set top and bottom padding for small size of the textinput
+$ch5-textinput-input-small-tb-padding: 15px !default;
+
+/// set left and right padding for small size of the textinput
+$ch5-textinput-input-small-lr-padding: 20px !default;
+
+/// set the font size unit for small size of the textinput
+$ch5-textinput-small-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for small size of the textinput
+$ch5-textinput-small-font-size-value: 14 !default;
+
+/// set the font size for small size of the textinput
+$ch5-textinput-small-font-size: $ch5-textinput-small-font-size-value + $ch5-textinput-small-font-size-unit !default;
+
+/// set the font style for small size of the textinput
+$ch5-textinput-small-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for small size of the textinput
+$ch5-textinput-small-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the min width for small size of the textinput
+$ch5-textinput-input-small-min-width: 250px !default;
+
+/// set the font size of icon for small size of the textinput
+$ch5-textinput-icon-small-font-size: $ch5-textinput-small-font-size !default;
+
+/// set top and bottom margin of icon for small size of the textinput
+$ch5-textinput-icon-small-tb-margin: $ch5-textinput-small-font-size !default;
+
+/// set left and right margin of icon for small size of the textinput
+$ch5-textinput-icon-small-lr-margin: $ch5-textinput-small-font-size !default;
+
+/// set top and bottom padding for large size of the textinput
+$ch5-textinput-input-large-tb-padding: 20px !default;
+
+/// set left and right padding for large size of the textinput
+$ch5-textinput-input-large-lr-padding: 15px !default;
+
+/// set the font size value for large size of the textinput
+$ch5-textinput-large-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for large size of the textinput
+$ch5-textinput-large-font-size-value: 18 !default;
+
+/// set the font size for large size of the textinput
+$ch5-textinput-large-font-size: $ch5-textinput-large-font-size-value + $ch5-textinput-large-font-size-unit !default;
+
+/// set the font style for large size of the textinput
+$ch5-textinput-large-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for large size of the textinput
+$ch5-textinput-large-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the min width for large size of the textinput
+$ch5-textinput-input-large-min-width: 500px !default;
+
+/// set the font size of icon for large size of the textinput
+$ch5-textinput-icon-large-font-size: $ch5-textinput-large-font-size !default;
+
+/// set top and bottom margin of icon for large size of the textinput
+$ch5-textinput-icon-large-tb-margin: $ch5-textinput-large-font-size !default;
+
+/// et left and right margin of icon for large size of the textinput
+$ch5-textinput-icon-large-lr-margin: $ch5-textinput-large-font-size !default;
+
+/// set top and bottom padding for x-large size of the textinput
+$ch5-textinput-input-x-large-tb-padding: $ch5-textinput-input-large-tb-padding !default;
+
+/// set left and right padding for x-large size of the textinput
+$ch5-textinput-input-x-large-lr-padding: $ch5-textinput-input-large-lr-padding !default;
+
+/// set the font size unit for x-large size of the textinput
+$ch5-textinput-x-large-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for x-large size of the textinput
+$ch5-textinput-x-large-font-size-value: 22 !default;
+
+/// set the font size for x-large size of the textinput
+$ch5-textinput-x-large-font-size: $ch5-textinput-x-large-font-size-value + $ch5-textinput-x-large-font-size-unit !default;
+
+/// set the font style for x-large size of the textinput
+$ch5-textinput-x-large-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for x-large size of the textinput
+$ch5-textinput-x-large-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the min width for x-large size of the textinput
+$ch5-textinput-input-x-large-min-width: $ch5-textinput-input-large-min-width !default;
+
+/// set the font size of icon for x-large size of the textinput
+$ch5-textinput-icon-x-large-font-size:  $ch5-textinput-x-large-font-size !default;
+
+/// set top and bottom margin of icon for x-large size of the textinput
+$ch5-textinput-icon-x-large-tb-margin: $ch5-textinput-x-large-font-size !default;
+
+/// set left and right margin of icon for x-large size of the textinput
+$ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default;
+
+
+.ch5-textinput {
+    /// @require .ch5-textinput
+    /// Class apply on the input
+    &__input {
+        background: transparent;
+        border: 0;
+        color: $ch5-textinput-input-text-color;
+        max-width: 100%;
+        outline: 0;
+        /// @require .ch5-textinput__input
+        /// Class apply on the input when text-transform="uppercase"
+        &--uppercase {
+            text-transform: uppercase
+        }
+        /// @require .ch5-textinput__input
+        /// Class apply on the input when text-transform="lowercase"
+        &--lowercase {
+            text-transform: lowercase;
+        }
+        /// @require .ch5-textinput__input
+        /// Class apply on the input when text-transform="capitalize"
+        &--capitalize {
+            text-transform: capitalize;
+        }
+
+         /// @require .ch5-textinput__input
+        /// Class apply on the input when text-transform="none"
+        &--none {
+            text-transform: none;
+        }
+        /// @require .ch5-textinput__input
+        /// Class apply on the input when size="x-small"
+        &--x-small {
+            padding: $ch5-textinput-input-x-small-tb-padding $ch5-textinput-input-x-small-lr-padding;
+            font-style: $ch5-textinput-x-small-font-style;
+            font-size: $ch5-textinput-x-small-font-size;
+            font-weight: $ch5-textinput-x-small-font-weight;
+            min-width: $ch5-textinput-input-x-small-min-width;
+        }
+        /// @require .ch5-textinput__input
+        /// Class apply on the input when size="small"
+        &--small {
+            padding: $ch5-textinput-input-small-tb-padding $ch5-textinput-input-small-lr-padding;
+            font-style: $ch5-textinput-small-font-style;
+            font-size: $ch5-textinput-small-font-size;
+            font-weight: $ch5-textinput-small-font-weight;
+            min-width: $ch5-textinput-input-small-min-width;
+        }
+        /// @require .ch5-textinput__input
+        /// Class apply on the input when size="regular"
+        &--regular {
+            padding: $ch5-textinput-input-regular-tb-padding $ch5-textinput-input-regular-lr-padding;
+            font-style: $ch5-textinput-regular-font-style;
+            font-size: $ch5-textinput-regular-font-size;
+            font-weight: $ch5-textinput-regular-font-weight;
+            min-width: $ch5-textinput-input-regular-min-width;
+        }
+         /// @require .ch5-textinput__input
+        /// Class apply on the input when size="large"
+        &--large {
+            padding: $ch5-textinput-input-large-tb-padding $ch5-textinput-input-large-lr-padding;
+            font-style: $ch5-textinput-large-font-style;
+            font-size: $ch5-textinput-large-font-size;
+            font-weight: $ch5-textinput-large-font-weight;
+            min-width: $ch5-textinput-input-large-min-width;
+        }
+        /// @require .ch5-textinput__input
+        /// Class apply on the input when size="x-large"
+        &--x-large {
+            padding: $ch5-textinput-input-x-large-tb-padding $ch5-textinput-input-x-large-lr-padding;
+            font-style: $ch5-textinput-x-large-font-style;
+            font-size: $ch5-textinput-x-large-font-size;
+            font-weight: $ch5-textinput-x-large-font-weight;
+            min-width: $ch5-textinput-input-x-large-min-width;
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-textinput
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-textinput-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// All rights reserved.
+// No part of this software may be reproduced in any form, machine
+// or natural, without the express written consent of Crestron Electronics.
+// Use of this source code is subject to the terms of the Crestron Software License Agreement
+// under which you licensed this source code.
+
+$ch5-font-size-unit: px !default;
+$ch5-font-size-value: 16 !default;
+$ch5-font-size: $ch5-font-size-value + $ch5-font-size-unit !default;
+$ch5-font-style: normal !default;
+$ch5-font-weight: normal !default;
+
+// scrollbar
+$ch5-scrollbar-width:          7px !default;
+$ch5-scrollbar-border-radius:  10px !default;
+$ch5-scrollbar-track-color:    rgba(0, 0, 0, 0.1) !default;
+$ch5-scrollbar-thumb-color:    rgba(0, 0, 0, 0.5) !default;
+
+
+// default
+/// the border radius for the textinput
+$ch5-textinput-input-border-radius: 5px !default;
+
+/// the color for box shadow of the textinput
+$ch5-textinput-input-box-shadow-color: #eee !default;
+
+/// set the textinput border's width
+$ch5-textinput-input-border-width: 1px !default;
+
+/// set the default font size unit for the textinput
+$ch5-textinput-font-size-unit: $ch5-font-size-unit !default;
+
+/// set the default font size value for the textinput
+$ch5-textinput-font-size-value: $ch5-font-size-value !default;
+
+/// set the default font size for the textinput
+$ch5-textinput-font-size: $ch5-textinput-font-size-value + $ch5-textinput-font-size-unit !default;
+
+/// set the default font style for the textinput
+$ch5-textinput-font-style: $ch5-font-style !default;
+
+/// set the default font weight for the textinput
+$ch5-textinput-font-weight: $ch5-font-weight !default;
+
+/// set the textinput border's width
+$ch5-textinput-input-border-width: 1px;
+
+/// set top and bottom padding for regular size of the textinput
+$ch5-textinput-input-regular-tb-padding: 15px !default;
+
+/// set left and right padding for regular size of the textinput
+$ch5-textinput-input-regular-lr-padding: 20px !default;
+
+/// set the min width for regular size of the textinput
+$ch5-textinput-input-regular-min-width: 400px !default;
+
+/// set the font size unit for regular size of the textinput
+$ch5-textinput-regular-font-size-unit: px !default;
+
+/// set the font size value for regular size of the textinput
+$ch5-textinput-regular-font-size-value: 16 !default;
+
+/// set the font size for regular size of the textinput
+$ch5-textinput-regular-font-size: $ch5-textinput-regular-font-size-value + $ch5-textinput-regular-font-size-unit !default;
+
+/// set the font style for regular size of the textinput
+$ch5-textinput-regular-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for regular size of the textinput
+$ch5-textinput-regular-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the font size of icon for regular size of the textinput
+$ch5-textinput-icon-regular-font-size: $ch5-textinput-input-regular-tb-padding !default;
+
+/// set top and bottom margin of icon for regular size of the textinput
+$ch5-textinput-icon-regular-tb-margin: $ch5-textinput-regular-font-size !default;
+
+/// set left and right margin of icon for regular size of the textinput
+$ch5-textinput-icon-regular-lr-margin: $ch5-textinput-regular-font-size !default;
+
+/// set the font size unit for x-small size of the textinput
+$ch5-textinput-x-small-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for x-small size of the textinput
+$ch5-textinput-x-small-font-size-value: 12 !default;
+
+/// set the font size for x-small size of the textinput
+$ch5-textinput-x-small-font-size: $ch5-textinput-x-small-font-size-value + $ch5-textinput-x-small-font-size-unit !default;
+
+/// set the font style for x-small size of the textinput
+$ch5-textinput-x-small-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for x-small size of the textinput
+$ch5-textinput-x-small-font-weight: $ch5-textinput-font-weight !default;
+
+/// set top and bottom padding for x-small size of the textinput
+$ch5-textinput-input-x-small-tb-padding: 10px !default;
+
+/// set left and right padding for x-small size of the textinput
+$ch5-textinput-input-x-small-lr-padding: 10px !default;
+
+/// set the min width for x-small size of the textinput
+$ch5-textinput-input-x-small-min-width: 200px !default;
+
+/// set the font size of icon for x-small size of the textinput
+$ch5-textinput-icon-x-small-font-size: $ch5-textinput-input-x-small-tb-padding !default;
+
+/// set top and bottom margin of icon for x-small size of the textinput
+$ch5-textinput-icon-x-small-tb-margin: $ch5-textinput-x-small-font-size !default;
+
+/// set left and right margin of icon for x-small size of the textinput
+$ch5-textinput-icon-x-small-lr-margin: $ch5-textinput-x-small-font-size !default;
+
+/// set top and bottom padding for small size of the textinput
+$ch5-textinput-input-small-tb-padding: 15px !default;
+
+/// set left and right padding for small size of the textinput
+$ch5-textinput-input-small-lr-padding: 20px !default;
+
+/// set the font size unit for small size of the textinput
+$ch5-textinput-small-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for small size of the textinput
+$ch5-textinput-small-font-size-value: 14 !default;
+
+/// set the font size for small size of the textinput
+$ch5-textinput-small-font-size: $ch5-textinput-small-font-size-value + $ch5-textinput-small-font-size-unit !default;
+
+/// set the font style for small size of the textinput
+$ch5-textinput-small-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for small size of the textinput
+$ch5-textinput-small-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the min width for small size of the textinput
+$ch5-textinput-input-small-min-width: 250px !default;
+
+/// set the font size of icon for small size of the textinput
+$ch5-textinput-icon-small-font-size: $ch5-textinput-small-font-size !default;
+
+/// set top and bottom margin of icon for small size of the textinput
+$ch5-textinput-icon-small-tb-margin: $ch5-textinput-small-font-size !default;
+
+/// set left and right margin of icon for small size of the textinput
+$ch5-textinput-icon-small-lr-margin: $ch5-textinput-small-font-size !default;
+
+/// set top and bottom padding for large size of the textinput
+$ch5-textinput-input-large-tb-padding: 20px !default;
+
+/// set left and right padding for large size of the textinput
+$ch5-textinput-input-large-lr-padding: 15px !default;
+
+/// set the font size value for large size of the textinput
+$ch5-textinput-large-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for large size of the textinput
+$ch5-textinput-large-font-size-value: 18 !default;
+
+/// set the font size for large size of the textinput
+$ch5-textinput-large-font-size: $ch5-textinput-large-font-size-value + $ch5-textinput-large-font-size-unit !default;
+
+/// set the font style for large size of the textinput
+$ch5-textinput-large-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for large size of the textinput
+$ch5-textinput-large-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the min width for large size of the textinput
+$ch5-textinput-input-large-min-width: 500px !default;
+
+/// set the font size of icon for large size of the textinput
+$ch5-textinput-icon-large-font-size: $ch5-textinput-large-font-size !default;
+
+/// set top and bottom margin of icon for large size of the textinput
+$ch5-textinput-icon-large-tb-margin: $ch5-textinput-large-font-size !default;
+
+/// et left and right margin of icon for large size of the textinput
+$ch5-textinput-icon-large-lr-margin: $ch5-textinput-large-font-size !default;
+
+/// set top and bottom padding for x-large size of the textinput
+$ch5-textinput-input-x-large-tb-padding: $ch5-textinput-input-large-tb-padding !default;
+
+/// set left and right padding for x-large size of the textinput
+$ch5-textinput-input-x-large-lr-padding: $ch5-textinput-input-large-lr-padding !default;
+
+/// set the font size unit for x-large size of the textinput
+$ch5-textinput-x-large-font-size-unit: $ch5-textinput-font-size-unit !default;
+
+/// set the font size value for x-large size of the textinput
+$ch5-textinput-x-large-font-size-value: 22 !default;
+
+/// set the font size for x-large size of the textinput
+$ch5-textinput-x-large-font-size: $ch5-textinput-x-large-font-size-value + $ch5-textinput-x-large-font-size-unit !default;
+
+/// set the font style for x-large size of the textinput
+$ch5-textinput-x-large-font-style: $ch5-textinput-font-style !default;
+
+/// set the font weight for x-large size of the textinput
+$ch5-textinput-x-large-font-weight: $ch5-textinput-font-weight !default;
+
+/// set the min width for x-large size of the textinput
+$ch5-textinput-input-x-large-min-width: $ch5-textinput-input-large-min-width !default;
+
+/// set the font size of icon for x-large size of the textinput
+$ch5-textinput-icon-x-large-font-size:  $ch5-textinput-x-large-font-size !default;
+
+/// set top and bottom margin of icon for x-large size of the textinput
+$ch5-textinput-icon-x-large-tb-margin: $ch5-textinput-x-large-font-size !default;
+
+/// set left and right margin of icon for x-large size of the textinput
+$ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default;
+
+
+.ch5-textinput {
+  /// @require .ch5-textinput
+  /// Class apply on the icon
+  &__icon {
+    color: $ch5-textinput-icon-text-color;
+    &--x-large {
+      font-size: $ch5-textinput-icon-x-large-font-size;
+      margin: $ch5-textinput-icon-x-large-tb-margin $ch5-textinput-icon-x-large-lr-margin;
+    }
+
+    &--large {
+      font-size: $ch5-textinput-icon-large-font-size;
+      margin: $ch5-textinput-icon-large-tb-margin $ch5-textinput-icon-large-lr-margin;
+    }
+
+    &--regular {
+      font-size: $ch5-textinput-regular-font-size;
+      margin: $ch5-textinput-icon-regular-tb-margin $ch5-textinput-icon-large-lr-margin;
+    }
+
+    &--small {
+      font-size: $ch5-textinput-small-font-size;
+      margin: $ch5-textinput-icon-small-tb-margin $ch5-textinput-icon-small-lr-margin;
+    }
+
+    &--x-small {
+      font-size: $ch5-textinput-x-small-font-size;
+      margin: $ch5-textinput-icon-x-small-tb-margin $ch5-textinput-icon-x-small-lr-margin;
+
+    }
+    /// @require .ch5-textinput__icon
+    /// Class apply on the icon when iconPosition attribute is set to 'last'
+    &--last {
+      margin-left: 0;
+    }
+    /// @require .ch5-textinput__icon
+    /// Class apply on the icon when iconPosition attribute is set to 'first'
+    &--first {
+      margin-right: 0;
+    }
+  }
+}
+
+
+ch5-textinput {
+  display: inline-block;
+}
+
+/// Main class
+.ch5-textinput {
+
+  color: $ch5-textinput-text-color;
+
+  &__assets {
+
+    display: flex;
+    align-items: center;
+    border: $ch5-textinput-input-border-width solid $ch5-textinput-input-border-color;
+    border-radius: $ch5-textinput-input-border-radius;
+    box-shadow: 3px 3px 5px $ch5-textinput-input-box-shadow-color;
+    height: 100%;
+    width: 100%;
+
+  }
+
+  // text-transform
+  &--uppercase {
+    text-transform: uppercase;
+  }
+
+  &--lowercase {
+    text-transform: lowercase;
+  }
+
+  &--capitalize {
+    text-transform: capitalize;
+  }
+
+  &--none {
+    text-transform: none;
+  }
+
+  &--x-small {
+    span {
+      font-style: $ch5-textinput-x-small-font-style;
+      font-size: $ch5-textinput-x-small-font-size;
+      font-weight: $ch5-textinput-x-small-font-weight;
+    }
+  }
+
+  &--small {
+    span {
+      font-style: $ch5-textinput-small-font-style;
+      font-size: $ch5-textinput-small-font-size;
+      font-weight: $ch5-textinput-small-font-weight;
+    }
+  }
+
+  &--large {
+    span {
+      font-style: $ch5-textinput-large-font-style;
+      font-size: $ch5-textinput-large-font-size;
+      font-weight: $ch5-textinput-large-font-weight;
+    }
+  }
+
+  &--x-large {
+    span {
+      font-style: $ch5-textinput-x-large-font-style;
+      font-size: $ch5-textinput-x-large-font-size;
+      font-weight: $ch5-textinput-x-large-font-weight;
+    }
+  }
+
+  &--content {
+
+    height: 100%;
+    width: 100%;
+    .ch5-textinput__assets {
+      height: 100%;
+      width: 100%;
+      input {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  &--width {
+    width: 100%;
+    .ch5-textinput__assets {
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/// Added automatically based on the disabled attribute or by receiveStateEnable
+.ch5-textinput--disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
