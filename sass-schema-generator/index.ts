@@ -121,7 +121,7 @@ async function initialize() {
   const componentsPath = await traverseThemeEditorsObjects();
 
   const flattenedComponents = await flattenScssComponents(componentsPath);
-  // const flattenedComponents = await flattenScssComponents(['ch5-video']);
+  // const flattenedComponents = await flattenScssComponents(['ch5-textinput']);
 
   const outputJSON = await buildJsonStructure(flattenedComponents);
 
