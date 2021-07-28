@@ -68,6 +68,8 @@ export type TSignalTypeT = string | number | boolean | any;
 
 export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
+    public static readonly COMPONENT_DATA: any = {};
+
     //#region Variables
 
     /**
@@ -109,9 +111,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         EMPTY: ''
     }
 
+
+
     /**
      * EVENTS
-     * 
+     *
      * error - inherited
      */
 
@@ -176,9 +180,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _snapShotRefreshRate: string = "5";
 
     /**
-     * Provides the name of the offset identifier to substituted with 0 based index of the item in list 
+     * Provides the name of the offset identifier to substituted with 0 based index of the item in list
      * within the signal names provided in other attributes surrounded by {{ }} delimiters.
-     * 
+     *
      * @type {string}
      * @private
      */
@@ -217,9 +221,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _snapShotPassword: string = '';
 
     /**
-     * Sets the ratio of width to height of the video.  
-     * Width and height of the component to be controlled by css style classes.  
-     * Values are 16:9 (default), 4:3, and custom.  When size of container is not match the aspect ratio, 
+     * Sets the ratio of width to height of the video.
+     * Width and height of the component to be controlled by css style classes.
+     * Values are 16:9 (default), 4:3, and custom.  When size of container is not match the aspect ratio,
      * the full height or the full width should be used and the dimension that is not full should be centered.
      *
      * @type {string}
@@ -228,9 +232,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _aspectRatio: string = '16:9';
 
     /**
-     * Default false.  When true, video will be displayed in the whole component.  
-     * When false, video will be displayed as letter or pillar box based upon the aspect ratio of the video 
-     * feed and the size of the component.  Note: this attribute is independent of aspectRatio. 
+     * Default false.  When true, video will be displayed in the whole component.
+     * When false, video will be displayed as letter or pillar box based upon the aspect ratio of the video
+     * feed and the size of the component.  Note: this attribute is independent of aspectRatio.
      *
      * @type {string}
      * @private
@@ -296,16 +300,16 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _receiveStateVideoCount: string = '';
 
     /**
-     * When defined, will play video only when the value is true, will stop video when value is false.  
-     * If not defined, the video will play whenever the component is visible.  
+     * When defined, will play video only when the value is true, will stop video when value is false.
+     * If not defined, the video will play whenever the component is visible.
      * If defined and value of false, display background of ch5-video--nosource css class.
      */
     private _receiveStatePlay: string = '';
 
     /**
-     * When defined, will play 0-based index of the video source list. 
-     * Value of < 0 or > 31 will select no video to play Value of 0 to 31 will play the selected video source 
-     * provided the video source type (see receiveStateSourceType) is valid. 
+     * When defined, will play 0-based index of the video source list.
+     * Value of < 0 or > 31 will select no video to play Value of 0 to 31 will play the selected video source
+     * provided the video source type (see receiveStateSourceType) is valid.
      * When not defined, the first video source defined (equivalent of index 0) in the list will be played.
      */
     private _receiveStateSelect: string = '';
@@ -326,7 +330,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     private _receiveStateSourceType: string = '';
 
     /**
-     * Defines the refresh rate for a snapshot url.  0 indicates no refresh. 
+     * Defines the refresh rate for a snapshot url.  0 indicates no refresh.
      */
     private _receiveStateSnapShotRefreshRate: string = '';
 
@@ -496,8 +500,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     //#region Getter and Setter functions for each attribute
 
     /**
-     * Provides the name of the offset identifier to substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters.   
-     * This component is 0-based. 
+     * Provides the name of the offset identifier to substituted with 0 based index of the item in list within the signal names provided in other attributes surrounded by {{ }} delimiters.
+     * This component is 0-based.
      */
     public get indexId(): string {
         return this._indexId;
@@ -513,11 +517,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * Sets the ratio of width to height of the video.  
-     * Width and height of the component to be controlled by css style classes.  
-     * Values are 16:9 (default), 4:3, and custom. 
-     * When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.  
-     * In other words, use letterbox or pillerbox logic to place the video component view.  
+     * Sets the ratio of width to height of the video.
+     * Width and height of the component to be controlled by css style classes.
+     * Values are 16:9 (default), 4:3, and custom.
+     * When size of container is not match the aspect ratio, the full height or the full width should be used and the dimension that is not full should be centered.
+     * In other words, use letterbox or pillerbox logic to place the video component view.
      * This attribute only defines the size of the component within the project, it does not define the size of video displayed within the component.
      */
     public get aspectRatio(): string {
@@ -1291,7 +1295,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * Called every time the element is removed from the DOM. 
+     * Called every time the element is removed from the DOM.
      * Useful for running clean up code.
      */
     public disconnectedCallback() {
@@ -1319,12 +1323,12 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Create the Video JSON object to start the video
-     * @param actionType 
-     * @param xPosition 
-     * @param yPosition 
-     * @param width 
-     * @param height 
-     * @param zIndex 
+     * @param actionType
+     * @param xPosition
+     * @param yPosition
+     * @param width
+     * @param height
+     * @param zIndex
      */
     public videoStartObjJSON(actionType: string, logInfo: string): IPUBLISHEVENT {
         const uId: number = this.ch5UId;
@@ -1385,13 +1389,13 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Create the Video JSON object to stop the video
-     * @param actionType 
-     * @param uId 
-     * @param xPosition 
-     * @param yPosition 
-     * @param width 
-     * @param height 
-     * @param zIndex 
+     * @param actionType
+     * @param uId
+     * @param xPosition
+     * @param yPosition
+     * @param width
+     * @param height
+     * @param zIndex
      */
     public videoStopObjJSON(actionType: string, uId: number): IPUBLISHEVENT {
         this.lastRequestStatus = actionType;
@@ -1405,11 +1409,11 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Create the Video JSON object to send the video for background
-     * @param actionStatus 
-     * @param xPosition 
-     * @param yPosition 
-     * @param width 
-     * @param height 
+     * @param actionStatus
+     * @param xPosition
+     * @param yPosition
+     * @param width
+     * @param height
      */
     private videoBGObjJSON(actionStatus: string): IBACKGROUND {
         const retObj: IBACKGROUND = {
@@ -1789,7 +1793,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * Function to render video if it is under the visible range | supposed to be shown 
+     * Function to render video if it is under the visible range | supposed to be shown
      * this.elementIntersectionEntry.intersectionRatio >= this.INTERSECTION_RATIO_VALUE
      */
     private _onRatioAboveLimitToRenderVideo() {
@@ -1832,7 +1836,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
      * this.elementIntersectionEntry.intersectionRatio < this.INTERSECTION_RATIO_VALUE
      */
     private _OnVideoAspectRatioConditionNotMet() {
-        /* 
+        /*
          * Return if the video is playing in fullscreen or
          * check firstTime flag to prevent execution of this from other pages
          * when the project starts
@@ -1845,7 +1849,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         this.info("Task: Video to be stopped.");
 
 
-        // Suresh: Commenting this out, not allowing the video to play 
+        // Suresh: Commenting this out, not allowing the video to play
         // if (this.isSwipeDebounce) {
         // window.clearTimeout(this.isSwipeDebounce);
         // }
@@ -1868,7 +1872,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             this._publishVideoEvent(this.VIDEO_ACTION.STOP);
         }
 
-        // In some of the iOS devices, there is a delay in getting orientation 
+        // In some of the iOS devices, there is a delay in getting orientation
         // change information, a small delay solves this problem.
         // setTimeout(() => {
         if (!this.firstTime && !this.isExitFullscreen && !this.isPositionChanged) {
@@ -1881,7 +1885,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 }
             }
 
-            // The above refill can't be called inside this block as it produces an additional 
+            // The above refill can't be called inside this block as it produces an additional
             // unecessary cut in the background sometimes.
             if (!this.isOrientationChanged && !this.elementIsInViewPort && !this.fromExitFullScreen) {
                 this.info(">>> Stopping Video4");
@@ -1892,7 +1896,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * When the user makes the app to background by clicking on home button 
+     * When the user makes the app to background by clicking on home button
      * from video page and resume the app, the video has to play again
      */
     private _updateAppBackgroundStatus() {
@@ -1947,7 +1951,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Get all the data of the snapshots based on the video count provided
-     * @param videoCount 
+     * @param videoCount
      */
     private getAllSnapShotData(vCount: number) {
         if (vCount === 0) {
@@ -2041,7 +2045,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * To subscribe receive state attributes
-     * @param index 
+     * @param index
      */
     private _subscribeVideos(index: string) {
         this._hideFullScreenIcon();
@@ -2327,8 +2331,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     /**
      * Checks whether the attribute count and receiveState attributes count w.r.t receiveStateSelect matches,
      * if matches this.VIDEO_ACTION.START video request will be sent to play the video
-     * @param attributeCount 
-     * @param responseCount 
+     * @param attributeCount
+     * @param responseCount
      */
     private _matchAttributeResponse(attributeCount: number, responseCount: number) {
         if (attributeCount === responseCount) {
@@ -2348,7 +2352,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Stop loading snapshot when the camera is about to play video
-     * @param activeIndex 
+     * @param activeIndex
      */
     private loadAllSnapshots(): void {
         if (this.snapShotMap.size > 0) {
@@ -2361,7 +2365,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Stop loading the snapshot of the camera which is going to stream video
-     * @param activeIndex 
+     * @param activeIndex
      */
     private switchLoadingSnapShot(): void {
         for (let idx = 0; idx < this.maxVideoCount; idx++) {
@@ -2376,7 +2380,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Publish send event
-     * 
+     *
      * @param signalName name of the signal or join nmber
      * @param signalValue signal value
      * @param signalType type
@@ -2417,7 +2421,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * To unsubscribe receive state attributes
-     * @param selectObject 
+     * @param selectObject
      */
     private _unSubscribeVideos(selectObject: TReceiveState) {
         if (selectObject.subscriptionIds.url) {
@@ -2519,7 +2523,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Checks the 4 scenarios of receiveStatePlay value and Element Visibility
-     * @param playVal 
+     * @param playVal
      */
     private _videoScenariosCheck(playVal: boolean) {
         let actionType: string = this.VIDEO_ACTION.STOP;
@@ -2716,7 +2720,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * To avoid unwanted events on touch in the full screen mode
-     * @param event 
+     * @param event
      */
     private _videoCP(event: Event) {
         event.stopPropagation();
@@ -2741,7 +2745,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * When the user scolls the page, video will disappear and when the scrolling gets stopped 
+     * When the user scolls the page, video will disappear and when the scrolling gets stopped
      * then video starts playing in the new position.
      */
     private _positionChange() {
@@ -2850,9 +2854,9 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Calculate the duration based on the key
-     * @param key 
-     * @param duration 
-     * @param action 
+     * @param key
+     * @param duration
+     * @param action
      */
     private _performanceDuration(key: string, duration: number, action: string) {
         this.info("performanceDuration -> key: " + key + "; duration: " + duration + "; action: " + action);
@@ -2962,7 +2966,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 if (this.lastResponseStatus === this.VIDEO_ACTION.STARTED || this.lastResponseStatus === this.VIDEO_ACTION.RESIZED) {
                     this.fromExitFullScreen = false;
                     // Fill the background, this will be useful when user gets into fullscreen mode in potrait,
-                    // then turns the mobile to landscape and exits. Making a refill and recalculating during 
+                    // then turns the mobile to landscape and exits. Making a refill and recalculating during
                     // exit will have bad UI experience.
                     // if (!isCrestronTouchscreen()) {
                     // this.ch5BackgroundRequest(this.VIDEO_ACTION.REFILL, 'publishVideoEvent');
@@ -2991,7 +2995,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Publish the video start request
-     * @param actionType 
+     * @param actionType
      */
     private _videoStartRequest(actionType: string) {
         // Empty URL scenario
@@ -3019,7 +3023,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Publish the video stop request
-     * @param actionType 
+     * @param actionType
      */
     private _videoStopRequest(actionType: string) {
         // Stop the video immediately
@@ -3033,7 +3037,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
     }
 
     /**
-     * Delete any elements other than control panel element 
+     * Delete any elements other than control panel element
      */
     private resetVideoElement() {
         const nodeList: NodeList = this.videoElement.childNodes;
@@ -3046,7 +3050,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * This will call the methods in ch5-background component
-     * @param videoInfo send the video id, size and position details 
+     * @param videoInfo send the video id, size and position details
      */
     private ch5BackgroundAction(videoInfo: IBACKGROUND) {
         // avoid calls before proper initialization
@@ -3131,7 +3135,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Call back function if the video response has an error
-     * @param error 
+     * @param error
      */
     private _errorResponse(error: any) {
         this.info("Ch5Video - Error when the video response", error);
@@ -3139,7 +3143,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     /**
      * Video Response on subscribe
-     * @param response 
+     * @param response
      */
     private _videoResponse(response: TVideoResponse) {
         // Process the backend response
@@ -3258,8 +3262,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.isPositionChanged = false;
                 this.ch5BackgroundRequest(this.VIDEO_ACTION.STARTED, 'videoResponse');
 
-                /* 
-                 * If this.VIDEO_ACTION.STARTED response is delayed Check visibility. 
+                /*
+                 * If this.VIDEO_ACTION.STARTED response is delayed Check visibility.
                  * If the visibility is false send a stop request to stop the video
                  */
                 if (this.elementIntersectionEntry.intersectionRatio < this.INTERSECTION_RATIO_VALUE) {
@@ -3318,7 +3322,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
                 this.lastResponseStatus = this.VIDEO_ACTION.ERROR;
                 this.lastRequestStatus = this.VIDEO_ACTION.EMPTY;
                 this.isVideoReady = false;
-                // Increment the errorCount and send the background stop only once to avoid flickering during 
+                // Increment the errorCount and send the background stop only once to avoid flickering during
                 // continuous error feedback
                 if (this.errorCount === 0) {
                     this.ch5BackgroundRequest(this.VIDEO_ACTION.ERROR, 'videoResponse');

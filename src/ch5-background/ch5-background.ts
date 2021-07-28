@@ -25,6 +25,21 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     public static REFRESHRATE: number = 600;
     public static IMGBGCOLOR: string = 'black';
 
+    public static readonly COMPONENT_DATA: any = {
+        SCALE: {
+            default: Ch5Background.SCALE[0],
+            values: Ch5Background.SCALE,
+            key: 'scale',
+            classListPrefix: 'ch5-background--'
+        },
+        REPEAT: {
+            default: Ch5Background.REPEAT[0],
+            values: Ch5Background.REPEAT,
+            key: 'repeat',
+            classListPrefix: 'ch5-background--'
+        },
+    };
+
     /**
      * COMPONENT ATTRIBUTES
      *
@@ -200,7 +215,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private _videoSubscriptionId: string = '';
 
     /**
-     * 
+     *
      */
     private _canvasSubscriptionId: string = '';
 
@@ -520,7 +535,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
     /**
      * To avoid the multiple refills within 100 milliseconds
-     * @param lastRefillTime 
+     * @param lastRefillTime
      */
     private isTimeToRefill(lastRefillTime: number) {
         return performance.now() - lastRefillTime > 500 ? true : false;
@@ -528,7 +543,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
     /**
      * Identifies whether the passed element is in viewport or not
-     * @param elId 
+     * @param elId
      * @returns {boolean} return true or false
      */
     private isInViewport(elId: string): boolean {
@@ -548,7 +563,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
     /**
      * Callback for the video subscription
-     * @param request 
+     * @param request
      */
     public videoBGRequest(request: IBACKGROUND) {
         this.info("In videoBGRequest(): Video Tag Id -> " + request.id + " action: " + request.action);
@@ -566,11 +581,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             this.setAttribute('videocrop', JSON.stringify(tempObj));
 
             /*
-                1. STOP 
+                1. STOP
                     a. Remove the registered cut info from the array
                     b. Refill the background
                 2. RESIZE
-                    a. Refill the cut background 
+                    a. Refill the cut background
                     b. Cut the background with new dimensions
                 3. REFILL
                     a. Refill the background
@@ -1005,7 +1020,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     }
 
     /**
-     * Manage Video dimensions 
+     * Manage Video dimensions
      */
     private manageVideoInfo(response: IBACKGROUND) {
         const index = this._videoDimensions.findIndex((item: IBACKGROUND) => item.id === response.id);

@@ -22,6 +22,15 @@ export interface IShowStyle {
 
 export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
+    public static readonly COMPONENT_DATA: any = {
+        DIRECTIONS: {
+            default: Ch5Common.DIRECTION[0],
+            values: Ch5Common.DIRECTION,
+            key: 'direction',
+            classListPrefix: 'ch5-image--dir--'
+        },
+    };
+
     public primaryCssClass = 'ch5-image';
     public cssClassPrefix = 'ch5-image';
 

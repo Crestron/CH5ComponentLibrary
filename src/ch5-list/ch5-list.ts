@@ -84,6 +84,15 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
      * The first value is considered the default one
      */
     public static ORIENTATION: TCh5ListElementOrientation[] = ['vertical', 'horizontal'];
+
+    public static readonly COMPONENT_DATA: any = {
+        SCALE: {
+            default: Ch5List.ORIENTATION[0],
+            values: Ch5List.ORIENTATION,
+            key: 'scale',
+            classListPrefix: 'ch5-orientation--'
+        },
+    };
     /**
      * Default css class name
      */

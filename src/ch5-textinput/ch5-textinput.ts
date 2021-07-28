@@ -63,6 +63,39 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      */
     public static ICONPOSITION: TCh5TextInputIconPosition[] = ['first', 'last'];
 
+    public static readonly COMPONENT_DATA: any = {
+        TYPES: {
+            default: Ch5Textinput.TYPES[0],
+            values: Ch5Textinput.TYPES,
+            key: 'type',
+            classListPrefix: 'ch5-textinput--'
+        },
+        SIZES: {
+            default: Ch5Textinput.SIZES[0],
+            values: Ch5Textinput.SIZES,
+            key: 'size',
+            classListPrefix: 'ch5-textinput--'
+        },
+        STRETCH: {
+            default: Ch5Textinput.STRETCH[0],
+            values: Ch5Textinput.STRETCH,
+            key: 'stretch',
+            classListPrefix: 'ch5-textinput--'
+        },
+        TEXT_TRANSFORM: {
+            default: Ch5Textinput.TEXTTRANSFORM[0],
+            values: Ch5Textinput.TEXTTRANSFORM,
+            key: 'text_transform',
+            classListPrefix: 'ch5-textinput--'
+        },
+        ICON_POSITION: {
+            default: Ch5Textinput.ICONPOSITION[0],
+            values: Ch5Textinput.ICONPOSITION,
+            key: 'icon_position',
+            classListPrefix: 'ch5-textinput--'
+        }
+    };
+
     /**
      * Css class postfix
      *

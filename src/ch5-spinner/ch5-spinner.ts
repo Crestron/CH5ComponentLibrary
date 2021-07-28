@@ -40,6 +40,21 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
    */
   public static FEEDBACKMODES: TCh5CommonInputFeedbackModes[] = ['direct', 'submit'] as TCh5CommonInputFeedbackModes[];
 
+  public static readonly COMPONENT_DATA: any = {
+    ICON_POSITIONS: {
+      default: Ch5Spinner.ICONPOSITIONS[0],
+      values: Ch5Spinner.ICONPOSITIONS,
+      key: 'icon_position',
+      classListPrefix: 'ch5-spinner--'
+    },
+    FEEDBACK_MODES: {
+      default: Ch5Spinner.FEEDBACKMODES[0],
+      values: Ch5Spinner.FEEDBACKMODES,
+      key: 'feedback_modes',
+      classListPrefix: 'ch5-spinner--'
+    },
+  };
+
   /**
    * Spinner can have max 30 items
    * @type {number}
