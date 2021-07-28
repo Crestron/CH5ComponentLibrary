@@ -69,6 +69,51 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
     public static TDISPLAY: TCh5SliderTooltipDisplay[] = ['%', 'value'];
 
+    public static readonly COMPONENT_DATA: any = {
+        SHAPES: {
+            default: Ch5Slider.SHAPES[0],
+            values: Ch5Slider.SHAPES,
+            key: 'shape',
+            classListPrefix: 'ch5-slider--'
+        },
+        ORIENTATIONS: {
+            default: Ch5Slider.ORIENTATIONS[0],
+            values: Ch5Slider.ORIENTATIONS,
+            key: 'orientation',
+            classListPrefix: 'ch5-slider--'
+        },
+        SIZES: {
+            default: Ch5Slider.SIZES[0],
+            values: Ch5Slider.SIZES,
+            key: 'size',
+            classListPrefix: 'ch5-slider--'
+        },
+        STRETCH: {
+            default: Ch5Slider.STRETCHES[0],
+            values: Ch5Slider.STRETCHES,
+            key: 'stretch',
+            classListPrefix: 'ch5-slider--'
+        },
+        DIRECTION: {
+            default: Ch5Slider.DIRECTION[0],
+            values: Ch5Slider.DIRECTION,
+            key: 'direction',
+            classListPrefix: 'ch5-slider--'
+        },
+        TOOLTIPS: {
+            default: Ch5Slider.TOOLTIPS[0],
+            values: Ch5Slider.TOOLTIPS,
+            key: 'tooltip',
+            classListPrefix: 'ch5-slider--'
+        },
+        TDISPLAY: {
+            default: Ch5Slider.TDISPLAY[0],
+            values: Ch5Slider.TDISPLAY,
+            key: 'tdisplay',
+            classListPrefix: 'ch5-slider--'
+        },
+    };
+
     /**
      * Component internal HTML elements
      */

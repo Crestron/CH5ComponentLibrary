@@ -58,6 +58,27 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
     public static OVERFLOWS: TCh5OverlayPanelOverflow[] = ['scroll', 'show'];
 
 
+    public static readonly COMPONENT_DATA: any = {
+        POSITION_OFFSETS: {
+            default: Ch5OverlayPanel.POSITION_OFFSETS[0],
+            values: Ch5OverlayPanel.POSITION_OFFSETS,
+            key: 'position_offset',
+            classListPrefix: 'ch5-overlay-panel--'
+        },
+        STRETCH: {
+            default: Ch5OverlayPanel.STRETCHES[0],
+            values: Ch5OverlayPanel.STRETCHES,
+            key: 'stretch',
+            classListPrefix: 'ch5-overlay-panel--'
+        },
+        OVERFLOWS: {
+            default: Ch5OverlayPanel.OVERFLOWS[0],
+            values: Ch5OverlayPanel.OVERFLOWS,
+            key: 'overflow',
+            classListPrefix: 'ch5-overlay-panel--'
+        },
+    };
+
     public primaryCssClass = 'ch5-overlay-panel';
     public cssClassPrefix = 'ch5-overlay-panel';
 

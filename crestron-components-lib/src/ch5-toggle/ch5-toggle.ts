@@ -29,6 +29,27 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
      */
     public static MODES: TCh5ToggleFeedbackMode[] = ['direct', 'submit'];
 
+    public static readonly COMPONENT_DATA: any = {
+        SHAPES: {
+            default: Ch5Toggle.SHAPES[0],
+            values: Ch5Toggle.SHAPES,
+            key: 'shape',
+            classListPrefix: 'ch5-toggle--'
+        },
+        ORIENTATIONS: {
+            default: Ch5Toggle.ORIENTATIONS[0],
+            values: Ch5Toggle.ORIENTATIONS,
+            key: 'orientation',
+            classListPrefix: 'ch5-toggle--'
+        },
+        MODES: {
+            default: Ch5Toggle.MODES[0],
+            values: Ch5Toggle.MODES,
+            key: 'mode',
+            classListPrefix: 'ch5-toggle--'
+        },
+    };
+
     /**
      * Component internal HTML elements
      */

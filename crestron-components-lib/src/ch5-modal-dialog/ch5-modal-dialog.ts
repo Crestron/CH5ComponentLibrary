@@ -61,6 +61,8 @@ import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attri
  */
 export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAttributes {
 
+    public static readonly COMPONENT_DATA: any = {};
+
     public primaryCssClass = 'ch5-modal-dialog';
     public cssClassPrefix = 'ch5-modal-dialog';
 

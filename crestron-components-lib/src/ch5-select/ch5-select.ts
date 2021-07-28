@@ -33,6 +33,20 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
     public static MAX_SIZE: number = 30;
     public static MODE_VALUES: TCh5SelectMode[] = ['plain', 'panel'];
     public static FEEDBACK_MODE_VALUES: TCh5CommonInputFeedbackModes[] = ['direct', 'submit'];
+    public static readonly COMPONENT_DATA: any = {
+        MODE_VALUES: {
+            default: Ch5Select.MODE_VALUES[0],
+            values: Ch5Select.MODE_VALUES,
+            key: 'mode_values',
+            classListPrefix: 'ch5-select--'
+        },
+        FEEDBACK_MODE_VALUES: {
+            default: Ch5Select.FEEDBACK_MODE_VALUES[0],
+            values: Ch5Select.FEEDBACK_MODE_VALUES,
+            key: 'feedback_mode_values',
+            classListPrefix: 'ch5-select--'
+        },
+    };
     public static DEFAULT_SIGNAL_VALUE_SYNC_TIMEOUT: number = 1500;
     public static PLACEHOLDER_DEFAULT: string = '';
 
