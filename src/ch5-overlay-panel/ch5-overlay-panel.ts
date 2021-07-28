@@ -63,19 +63,19 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
             default: Ch5OverlayPanel.POSITION_OFFSETS[0],
             values: Ch5OverlayPanel.POSITION_OFFSETS,
             key: 'position_offset',
-            classListPrefix: 'ch5-overlay-panel--'
+            classListPrefix: 'ch5-overlay-panel--pos-'
         },
         STRETCH: {
             default: Ch5OverlayPanel.STRETCHES[0],
             values: Ch5OverlayPanel.STRETCHES,
             key: 'stretch',
-            classListPrefix: 'ch5-overlay-panel--'
+            classListPrefix: 'ch5-overlay-panel--stretch-'
         },
         OVERFLOWS: {
             default: Ch5OverlayPanel.OVERFLOWS[0],
             values: Ch5OverlayPanel.OVERFLOWS,
             key: 'overflow',
-            classListPrefix: 'ch5-overlay-panel--'
+            classListPrefix: 'ch5-overlay-panel--overflow-'
         },
     };
 
