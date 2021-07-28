@@ -48,6 +48,12 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
             key: 'mode',
             classListPrefix: 'ch5-toggle--'
         },
+        DIRECTION: {
+            default: Ch5Common.DIRECTION[0],
+            values: Ch5Common.DIRECTION,
+            key: 'mode',
+            classListPrefix: 'ch5-toggle--dir--'
+        },
     };
 
     /**

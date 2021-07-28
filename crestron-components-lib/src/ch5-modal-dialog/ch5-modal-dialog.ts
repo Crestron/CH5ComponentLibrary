@@ -61,7 +61,26 @@ import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attri
  */
 export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAttributes {
 
-    public static readonly COMPONENT_DATA: any = {};
+    public static readonly COMPONENT_DATA: any = {
+        POSITION_OFFSETS: {
+            default: Ch5OverlayPanel.POSITION_OFFSETS[0],
+            values: Ch5OverlayPanel.POSITION_OFFSETS,
+            key: 'position_offset',
+            classListPrefix: 'ch5-modal-dialog--pos-'
+        },
+        STRETCH: {
+            default: Ch5OverlayPanel.STRETCHES[0],
+            values: Ch5OverlayPanel.STRETCHES,
+            key: 'stretch',
+            classListPrefix: 'ch5-modal-dialog--stretch-'
+        },
+        OVERFLOWS: {
+            default: Ch5OverlayPanel.OVERFLOWS[0],
+            values: Ch5OverlayPanel.OVERFLOWS,
+            key: 'overflow',
+            classListPrefix: 'ch5-modal-dialog--overflow-'
+        },
+    };
 
     public primaryCssClass = 'ch5-modal-dialog';
     public cssClassPrefix = 'ch5-modal-dialog';
