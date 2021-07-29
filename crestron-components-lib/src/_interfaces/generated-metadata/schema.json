@@ -270,6 +270,23 @@
               "<ch5-button-mode>",
               "</ch5-button-mode>$0"
             ]
+          },
+          {
+            "prefix": "ch5-button-mode:all-attributes",
+            "description": "Crestron Button Mode (All Attributes)",
+            "body": [
+              "<ch5-button-mode",
+              "\ttype=\"${1|default,primary,info,text,danger,warning,success,secondary|}\"",
+              "\tcustomClass=\"${2:customClass}\"",
+              "\tcustomStyle=\"${3:customStyle}\"",
+              "\tcheckboxposition=\"${4|left,right|}\"",
+              "\thalignlabel=\"${5|center,left,right|}\"",
+              "\tvalignlabel=\"${6|middle,top,bottom|}\"",
+              "\ticonposition=\"${7|first,last,top,bottom|}\"",
+              "\ticonClass=\"${8:iconClass}\"",
+              "\ticonUrl=\"${9:iconUrl}\">",
+              "</ch5-button-mode>$0"
+            ]
           }
         ],
         "childElements": [],
@@ -435,7 +452,7 @@
         "documentation": [
           "`ch5-button-mode-state` element",
           "***",
-          "A child element designed to capture mode level attributes for Ch5 Button component."
+          "A child element designed to capture state level attributes for Ch5 Button component."
         ],
         "snippets": [
           {
@@ -443,6 +460,24 @@
             "description": "Crestron Button Mode State",
             "body": [
               "<ch5-button-mode-state>",
+              "</ch5-button-mode-state>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-button-mode-state:all-attributes",
+            "description": "Crestron Button Mode State (All Attributes)",
+            "body": [
+              "<ch5-button-mode-state",
+              "\tstate=\"${1|normal,pressed,selected|}\"",
+              "\ttype=\"${2|default,primary,info,text,danger,warning,success,secondary|}\"",
+              "\tcustomClass=\"${3:customClass}\"",
+              "\tcustomStyle=\"${4:customStyle}\"",
+              "\tcheckboxposition=\"${5|left,right|}\"",
+              "\thalignlabel=\"${6|center,left,right|}\"",
+              "\tvalignlabel=\"${7|middle,top,bottom|}\"",
+              "\ticonposition=\"${8|first,last,top,bottom|}\"",
+              "\ticonClass=\"${9:iconClass}\"",
+              "\ticonUrl=\"${10:iconUrl}\">",
               "</ch5-button-mode-state>$0"
             ]
           }
@@ -1104,21 +1139,22 @@
               "\tlabel=\"${2:Crestron Button}\"",
               "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
               "\tcustomClass=\"${4:customClass}\"",
-              "\tshape=\"${5|rounded-rectangle,rectangle,tab,circle,oval|}\"",
-              "\tsize=\"${6|regular,x-small,small,large,x-large|}\"",
-              "\tstretch=\"${7|both,width,height|}\"",
-              "\tcheckboxshow=\"${8|true,false|}\"",
-              "\tcheckboxposition=\"${9|left,right|}\"",
-              "\thalignlabel=\"${10|center,left,right|}\"",
-              "\tvalignlabel=\"${11|middle,top,bottom|}\"",
-              "\ticonposition=\"${12|first,last,top,bottom|}\"",
-              "\ticonclass=\"${13:iconClass}\"",
-              "\torientation=\"${14|horizontal,vertical|}\"",
-              "\tsendeventonclick=\"${15:btn_${1}_clicked}\"",
-              "\tsendeventontouch=\"${16:btn_${1}_touched}\"",
-              "\treceivestateselected=\"${17}\"",
-              "\treceivestatelabel=\"${18}\"",
-              "\treceivestatescriptlabelhtml=\"${19}\">",
+              "\tcustomStyle=\"${5:customStyle}\"",
+              "\tshape=\"${6|rounded-rectangle,rectangle,tab,circle,oval|}\"",
+              "\tsize=\"${7|regular,x-small,small,large,x-large|}\"",
+              "\tstretch=\"${8|both,width,height|}\"",
+              "\tcheckboxshow=\"${9|true,false|}\"",
+              "\tcheckboxposition=\"${10|left,right|}\"",
+              "\thalignlabel=\"${11|center,left,right|}\"",
+              "\tvalignlabel=\"${12|middle,top,bottom|}\"",
+              "\ticonposition=\"${13|first,last,top,bottom|}\"",
+              "\ticonclass=\"${14:iconClass}\"",
+              "\torientation=\"${15|horizontal,vertical|}\"",
+              "\tsendeventonclick=\"${16:btn_${1}_clicked}\"",
+              "\tsendeventontouch=\"${17:btn_${1}_touched}\"",
+              "\treceivestateselected=\"${18}\"",
+              "\treceivestatelabel=\"${19}\"",
+              "\treceivestatescriptlabelhtml=\"${20}\">",
               "</ch5-button>$0"
             ]
           }

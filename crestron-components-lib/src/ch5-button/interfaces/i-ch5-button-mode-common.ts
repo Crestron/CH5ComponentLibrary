@@ -96,7 +96,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * ]
    * @name checkboxposition
    */
-    checkboxPosition: TCh5ButtonCheckboxPosition | null;
+  checkboxPosition: TCh5ButtonCheckboxPosition | null;
 
   /**
    * @documentation

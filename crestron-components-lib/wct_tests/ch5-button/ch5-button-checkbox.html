@@ -75,33 +75,43 @@
             const valid_checkboxPosition = CrComLib.Ch5Button.CHECKBOX_POSITIONS;
             const valid_checkboxShow = [true, false];
             const invalid_checkboxPosition = ['', ' ', 'null', null, undefined, 'undefined', 'top', 'LEFT', 'RIGHT'];
-            const invalid_checkboxShow = ['', 'junk', 'null', 'undefined', '0', '1'];
+            const invalid_checkboxShow = ['', 'junk', 'null', 'undefined'];
             const valid_selected = [true, false];
 
             valid_checkboxPosition.forEach((checkboxPosition, i) => {
                 valid_checkboxShow.forEach((checkboxShow, j) => {
-                    test(`Check attribute checkboxPosition: "${checkboxPosition}" and checkboxShow: "${checkboxShow}"`, () => {
+                    test(`Check attribute checkboxPosition: "${checkboxPosition}" and checkboxShow: "${checkboxShow}"`, (done) => {
                         ch5Button.setAttribute('checkboxPosition', checkboxPosition);
                         ch5Button.setAttribute('checkboxShow', checkboxShow);
-                        expect(ch5Button.checkboxShow).to.be.equal(checkboxShow);
-                        expect(ch5Button.checkboxPosition).to.be.equal(checkboxPosition);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.checkboxShow).to.be.equal(checkboxShow);
+                                expect(ch5Button.checkboxPosition).to.be.equal(checkboxPosition);
+                                done();
+                            }, BASIC_TESTING_TIMEOUT);
+                        });
                     });
 
                     valid_selected.forEach((selected, k) => {
-                        test(`Check ch5-button > div > i css class name for checkboxPosition: "${checkboxPosition}", checkboxShow: "${checkboxShow}", and selected: "${selected}"`, () => {
+                        test(`Check ch5-button > div > i css class name for checkboxPosition: "${checkboxPosition}", checkboxShow: "${checkboxShow}", and selected: "${selected}"`, (done) => {
                             ch5Button.setAttribute('checkboxPosition', checkboxPosition);
                             ch5Button.setAttribute('checkboxShow', checkboxShow);
                             ch5Button.setAttribute('selected', selected);
-                            expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(true);
-                            expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox")).to.be.equal(ch5Button.checkboxShow);
-                            if (ch5Button.checkboxShow === true) {
-                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button.selected);
-                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.selected);
-                            } else {
-                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(ch5Button.checkboxShow);
-                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.checkboxShow);
-                            }
-                            expect(getITagInButtonForCheckbox(ch5Button).classList.contains("cx-button-checkbox-pos-" + checkboxPosition)).to.be.equal(ch5Button.checkboxShow);
+                            flush(() => {
+                                setTimeout(() => {
+                                    expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(true);
+                                    expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox")).to.be.equal(ch5Button.checkboxShow);
+                                    if (ch5Button.checkboxShow === true) {
+                                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button.selected);
+                                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.selected);
+                                    } else {
+                                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(ch5Button.checkboxShow);
+                                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.checkboxShow);
+                                    }
+                                    expect(getITagInButtonForCheckbox(ch5Button).classList.contains("cx-button-checkbox-pos-" + checkboxPosition)).to.be.equal(ch5Button.checkboxShow);
+                                    done();
+                                }, BASIC_TESTING_TIMEOUT);
+                            });
                         });
                     });
                 });
@@ -109,34 +119,34 @@
 
             invalid_checkboxPosition.forEach((checkboxPosition, i) => {
                 invalid_checkboxShow.forEach((checkboxShow, j) => {
-                    test(`Check Invalid attributes for checkboxPosition: "${checkboxPosition}" and checkboxShow: "${checkboxShow}"`, () => {
+                    test(`Check Invalid attributes for checkboxPosition: "${checkboxPosition}" and checkboxShow: "${checkboxShow}"`, (done) => {
                         ch5Button.setAttribute('checkboxPosition', checkboxPosition);
                         ch5Button.setAttribute('checkboxShow', checkboxShow);
-                        expect(ch5Button.checkboxShow).to.be.equal(false);
-                        expect(ch5Button.checkboxPosition).to.be.equal("left");
-                    });
-
-                    test(`Check ch5-button > div > i css class name for Invalid attributes for checkboxPosition: "${checkboxPosition}" and checkboxShow: "${checkboxShow}"`, () => {
-                        ch5Button.setAttribute('checkboxPosition', checkboxPosition);
-                        ch5Button.setAttribute('checkboxShow', checkboxShow);
-                        expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(false);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.checkboxShow).to.be.equal(false);
+                                expect(ch5Button.checkboxPosition).to.be.equal("left");
+                                expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(false);
+                                done();
+                            }, BASIC_TESTING_TIMEOUT);
+                        });
                     });
                 });
             });
 
             valid_checkboxPosition.forEach((checkboxPosition, i) => {
                 invalid_checkboxShow.forEach((checkboxShow, j) => {
-                    test(`Check attribute checkboxPosition: "${checkboxPosition}" and invalid checkboxShow: "${checkboxShow}"`, () => {
+                    test(`Check attribute checkboxPosition: "${checkboxPosition}" and invalid checkboxShow: "${checkboxShow}"`, (done) => {
                         ch5Button.setAttribute('checkboxPosition', checkboxPosition);
                         ch5Button.setAttribute('checkboxShow', checkboxShow);
-                        expect(ch5Button.checkboxShow).to.be.equal(false);
-                        expect(ch5Button.checkboxPosition).to.be.equal(checkboxPosition);
-                    });
-
-                    test(`Check ch5-button > div > i css class name for valid checkboxPosition: "${checkboxPosition}" and invalid checkboxShow: "${checkboxShow}"`, () => {
-                        ch5Button.setAttribute('checkboxPosition', checkboxPosition);
-                        ch5Button.setAttribute('checkboxShow', checkboxShow);
-                        expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(false);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.checkboxShow).to.be.equal(false);
+                                expect(ch5Button.checkboxPosition).to.be.equal(checkboxPosition);
+                                expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(false);
+                                done();
+                            }, BASIC_TESTING_TIMEOUT);
+                        });
                     });
 
                 });
@@ -144,42 +154,47 @@
 
             invalid_checkboxPosition.forEach((checkboxPosition, i) => {
                 valid_checkboxShow.forEach((checkboxShow, j) => {
-                    test(`Check Invalid attributes for invalid checkboxPosition: "${checkboxPosition}" and checkboxShow: "${checkboxShow}"`, () => {
+                    test(`Check Invalid attributes for invalid checkboxPosition: "${checkboxPosition}" and checkboxShow: "${checkboxShow}"`, (done) => {
                         ch5Button.setAttribute('checkboxPosition', checkboxPosition);
                         ch5Button.setAttribute('checkboxShow', checkboxShow);
-                        expect(ch5Button.checkboxShow).to.be.equal(checkboxShow);
-                        expect(ch5Button.checkboxPosition).to.be.equal("left");
-                    });
-
-                    test(`Check ch5-button > div > i css class name for Invalid attributes for checkboxPosition: "${checkboxPosition}" and valid checkboxShow: "${checkboxShow}"`, () => {
-                        ch5Button.setAttribute('checkboxPosition', checkboxPosition);
-                        ch5Button.setAttribute('checkboxShow', checkboxShow);
-                        expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(true);
-                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox")).to.be.equal(ch5Button.checkboxShow);
-                        if (ch5Button.checkboxShow === true) {
-                            expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button.selected);
-                            expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.selected);
-                        } else {
-                            expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(ch5Button.checkboxShow);
-                            expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.checkboxShow);
-                        }
-                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("cx-button-checkbox-pos-left")).to.be.equal(ch5Button.checkboxShow);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.checkboxShow).to.be.equal(checkboxShow);
+                                expect(ch5Button.checkboxPosition).to.be.equal("left");
+                                expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(true);
+                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox")).to.be.equal(ch5Button.checkboxShow);
+                                if (ch5Button.checkboxShow === true) {
+                                    expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button.selected);
+                                    expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.selected);
+                                } else {
+                                    expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(ch5Button.checkboxShow);
+                                    expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.checkboxShow);
+                                }
+                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("cx-button-checkbox-pos-left")).to.be.equal(ch5Button.checkboxShow);
+                                done();
+                            }, BASIC_TESTING_TIMEOUT);
+                        });
                     });
 
                     valid_selected.forEach((selected, k) => {
-                        test(`Check ch5-button > div > i css class name for Invalid attributes forcheckboxPosition: "${checkboxPosition}", and valid checkboxShow: "${checkboxShow}", and selected: "${selected}"`, () => {
+                        test(`Check ch5-button > div > i css class name for Invalid attributes forcheckboxPosition: "${checkboxPosition}", and valid checkboxShow: "${checkboxShow}", and selected: "${selected}"`, (done) => {
                             ch5Button.setAttribute('checkboxPosition', checkboxPosition);
                             ch5Button.setAttribute('checkboxShow', checkboxShow);
                             ch5Button.setAttribute('selected', selected);
-                            expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(true);
-                            expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox")).to.be.equal(ch5Button.checkboxShow);
-                            if (ch5Button.checkboxShow === true) {
-                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button.selected);
-                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.selected);
-                            } else {
-                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(ch5Button.checkboxShow);
-                                expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.checkboxShow);
-                            }
+                            flush(() => {
+                                setTimeout(() => {
+                                    expect(!!getITagInButtonForCheckbox(ch5Button)).to.be.equal(true);
+                                    expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox")).to.be.equal(ch5Button.checkboxShow);
+                                    if (ch5Button.checkboxShow === true) {
+                                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button.selected);
+                                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.selected);
+                                    } else {
+                                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(ch5Button.checkboxShow);
+                                        expect(getITagInButtonForCheckbox(ch5Button).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button.checkboxShow);
+                                    }
+                                    done();
+                                }, BASIC_TESTING_TIMEOUT);
+                            });
                         });
                     });
                 });
@@ -187,52 +202,72 @@
 
             // ch5Button1
             valid_selected.forEach((selected, k) => {
-                test(`ch5-button-checkbox-fixture1 - Check attribute checkboxPosition for ch5-button-mode and mode value=0, and selected: "${selected}"`, () => {
+                test(`ch5-button-checkbox-fixture1 - Check attribute checkboxPosition for ch5-button-mode and mode value=0, and selected: "${selected}"`, (done) => {
                     ch5Button1.setAttribute('mode', "0");
                     const expectedValue = "left";
-                    expect(ch5Button1.checkboxPosition).to.be.equal(expectedValue);
-                });
-                test(`ch5-button-checkbox-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=0, and selected: "${selected}"`, () => {
-                    ch5Button1.setAttribute('mode', "0");
-                    const expectedValue = "left";
-                    ch5Button.setAttribute('selected', selected);
-                    expect(!!getITagInButtonForCheckbox(ch5Button1)).to.be.equal(true);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox")).to.be.equal(true);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button1.selected);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button1.selected);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button1.checkboxPosition).to.be.equal(expectedValue);
+                            expect(!!getITagInButtonForCheckbox(ch5Button1)).to.be.equal(true);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox")).to.be.equal(true);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button1.selected);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button1.selected);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
 
-                test(`ch5-button-checkbox-fixture1 - Check attribute checkboxPosition for ch5-button-mode and mode value=1, and selected: "${selected}"`, () => {
+                test(`ch5-button-checkbox-fixture1 - Check attribute checkboxPosition for ch5-button-mode and mode value=1, and selected: "${selected}"`, (done) => {
                     ch5Button1.setAttribute('mode', "1");
                     const expectedValue = "right";
-                    expect(ch5Button1.checkboxPosition).to.be.equal(expectedValue);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button1.checkboxPosition).to.be.equal(expectedValue);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
-                test(`ch5-button-checkbox-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=1, and selected: "${selected}"`, () => {
+                test(`ch5-button-checkbox-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=1, and selected: "${selected}"`, (done) => {
                     ch5Button1.setAttribute('mode', "1");
                     const expectedValue = "right";
                     ch5Button1.setAttribute('selected', selected);
-                    expect(!!getITagInButtonForCheckbox(ch5Button1)).to.be.equal(true);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox")).to.be.equal(true);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button1.selected);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button1.selected);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(!!getITagInButtonForCheckbox(ch5Button1)).to.be.equal(true);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox")).to.be.equal(true);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button1.selected);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button1.selected);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
 
-                test(`ch5-button-checkbox-fixture1 - Check attribute checkboxPosition for ch5-button-mode and mode value=2, and selected: "${selected}"`, () => {
+                test(`ch5-button-checkbox-fixture1 - Check attribute checkboxPosition for ch5-button-mode and mode value=2, and selected: "${selected}"`, (done) => {
                     ch5Button1.setAttribute('mode', "2");
                     const expectedValue = "left";
-                    expect(ch5Button1.checkboxPosition).to.be.equal(expectedValue);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button1.checkboxPosition).to.be.equal(expectedValue);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
-                test(`ch5-button-checkbox-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=2, and selected: "${selected}"`, () => {
+                test(`ch5-button-checkbox-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=2, and selected: "${selected}"`, (done) => {
                     ch5Button1.setAttribute('mode', "2");
                     const expectedValue = "left";
                     ch5Button1.setAttribute('selected', selected);
-                    expect(!!getITagInButtonForCheckbox(ch5Button1)).to.be.equal(true);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox")).to.be.equal(true);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button1.selected);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button1.selected);
-                    expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(!!getITagInButtonForCheckbox(ch5Button1)).to.be.equal(true);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox")).to.be.equal(true);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button1.selected);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button1.selected);
+                            expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
             });
 
@@ -274,15 +309,6 @@
                             setTimeout(() => {
                                 expect(ch5Button2.getAttribute('checkboxPosition')).to.be.equal("left");
                                 expect(ch5Button2.checkboxPosition).to.be.equal(modeObj.checkboxPosition);
-                                done();
-                            }, 100);
-                        });
-                    });
-
-                    test(`ch5-button-checkbox-fixture2 - Check ch5-button > div css class name for ch5-button-mode using receiveStateMode "${modeObj.mode}"`, (done) => {
-                        CrComLib.publishEvent('s', 'current_mode_checkbox_fixture2', modeObj.mode);
-                        flush(() => {
-                            setTimeout(() => {
                                 const expectedValue = modeObj.checkboxPosition;
                                 ch5Button2.setAttribute('selected', selected);
                                 expect(!!getITagInButtonForCheckbox(ch5Button2)).to.be.equal(true);
@@ -291,7 +317,7 @@
                                 expect(getITagInButtonForCheckbox(ch5Button2).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button2.selected);
                                 expect(getITagInButtonForCheckbox(ch5Button2).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
                                 done();
-                            }, 100);
+                            }, BASIC_TESTING_TIMEOUT);
                         });
                     });
                 });
@@ -299,20 +325,21 @@
 
             // ch5Button3
             valid_selected.forEach((selectionObj, i) => {
-                test(`ch5-button-checkbox-fixture3 - Check attribute checkboxPosition for ch5-button-mode-state with selected as "${selectionObj}"`, () => {
+                test(`ch5-button-checkbox-fixture3 - Check attribute checkboxPosition for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
                     ch5Button3.setAttribute('selected', selectionObj);
-                    const expectedValue = selectionObj === true ? "right" : "left";
-                    expect(ch5Button3.getAttribute('checkboxPosition')).to.be.equal("right");
-                    expect(ch5Button3.checkboxPosition).to.be.equal(expectedValue);
-                });
-                test(`ch5-button-checkbox-fixture3 - Check ch5-button > div css class name for ch5-button-mode-state with selected as "${selectionObj}"`, () => {
-                    ch5Button3.setAttribute('selected', selectionObj);
-                    const expectedValue = selectionObj === true ? "right" : "left";
-                    expect(!!getITagInButtonForCheckbox(ch5Button3)).to.be.equal(true);
-                    expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__checkbox")).to.be.equal(true);
-                    expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button3.selected);
-                    expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button3.selected);
-                    expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
+                    flush(() => {
+                        setTimeout(() => {
+                            const expectedValue = selectionObj === true ? "right" : "left";
+                            expect(ch5Button3.getAttribute('checkboxPosition')).to.be.equal("right");
+                            expect(ch5Button3.checkboxPosition).to.be.equal(expectedValue);
+                            expect(!!getITagInButtonForCheckbox(ch5Button3)).to.be.equal(true);
+                            expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__checkbox")).to.be.equal(true);
+                            expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button3.selected);
+                            expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button3.selected);
+                            expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
 
                 test(`ch5-button-checkbox-fixture3 - Check attribute checkboxPosition for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
@@ -322,23 +349,13 @@
                             expect(ch5Button3.getAttribute('checkboxPosition')).to.be.equal("right");
                             const expectedValue = selectionObj === true ? "right" : "left";
                             expect(ch5Button3.checkboxPosition).to.be.equal(expectedValue);
-                            done();
-                        }, 100);
-                    });
-                });
-
-                test(`ch5-button-checkbox-fixture3 - Check ch5-button > div css class name  for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
-                    CrComLib.publishEvent('b', 'receive_selected_state_checkboxPosition_fixture3', selectionObj);
-                    flush(() => {
-                        setTimeout(() => {
-                            const expectedValue = selectionObj === true ? "right" : "left";
                             expect(!!getITagInButtonForCheckbox(ch5Button3)).to.be.equal(true);
                             expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__checkbox")).to.be.equal(true);
                             expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__checkbox--unchecked")).to.be.equal(!ch5Button3.selected);
                             expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__checkbox--checked")).to.be.equal(ch5Button3.selected);
                             expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("cx-button-checkbox-pos-" + expectedValue)).to.be.equal(true);
                             done();
-                        }, 100);
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
             });
