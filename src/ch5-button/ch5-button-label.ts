@@ -15,49 +15,49 @@ import { ICh5ButtonLabelAttributes } from "./interfaces/i-ch5-button-label-attri
 
 export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes {
 
-    constructor() {
-        super();
-        this.info('Ch5ButtonLabel.constructor()');
-    }
+	constructor() {
+		super();
+	}
 
-    /**
-     * 	Called every time the element is inserted into the DOM.
-     *  Useful for running setup code, such as fetching resources or rendering.
-     */
-    public connectedCallback() {
-        this.info('Ch5ButtonLabel.connectedCallback()');
+	/**
+	 * 	Called every time the element is inserted into the DOM.
+	 *  Useful for running setup code, such as fetching resources or rendering.
+	 */
+	public connectedCallback() {
+		this.logger.start('connectedCallback');
 
-        if (!(this.parentElement instanceof Ch5Button || this.parentElement instanceof Ch5ButtonMode || this.parentElement instanceof Ch5ButtonModeState)) {
-            throw new Error(`Invalid parent element for ch5-button-label.`);
-        }
+		if (!(this.parentElement instanceof Ch5Button || this.parentElement instanceof Ch5ButtonMode || this.parentElement instanceof Ch5ButtonModeState)) {
+			throw new Error(`Invalid parent element for ch5-button-label.`);
+		}
 
-        this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonLabel);
-        this.setAttribute('data-ch5-id', this.getCrId());
-        this.initAttributes();
+		this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonLabel);
+		this.setAttribute('data-ch5-id', this.getCrId());
+		this.initAttributes();
 
-        // const callbackFn = (mutations: any) => console.log("mutations", mutations);
-        // const configForMut = {
-        //     attributes: true,
-        //     subtree: true,
-        //     characterData: true
-        // };
-        // const observer = new MutationObserver(callbackFn);
-        // observer.observe(this, configForMut);
-        // observer.disconnect();
-        //     Array.from(this.children).forEach((newChild) => {
-    }
+		// const callbackFn = (mutations: any) => console.log("mutations", mutations);
+		// const configForMut = {
+		//     attributes: true,
+		//     subtree: true,
+		//     characterData: true
+		// };
+		// const observer = new MutationObserver(callbackFn);
+		// observer.observe(this, configForMut);
+		// observer.disconnect();
+		//     Array.from(this.children).forEach((newChild) => {
+		this.logger.stop();
+	}
 
-    /**
-     * Called every time the element is removed from the DOM.
-     * Useful for running clean up code.
-     */
-    public disconnectedCallback() {
-        this.info('Ch5ButtonLabel.disconnectedCallback()');
-    }
+	/**
+	 * Called every time the element is removed from the DOM.
+	 * Useful for running clean up code.
+	 */
+	public disconnectedCallback() {
+		this.logger.log('Ch5ButtonLabel.disconnectedCallback()');
+	}
 
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
-    && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-button-label', Ch5ButtonLabel);
+	&& typeof window.customElements.define === "function") {
+	window.customElements.define('ch5-button-label', Ch5ButtonLabel);
 }

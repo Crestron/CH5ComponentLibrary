@@ -151,9 +151,6 @@
             test(`Check attribute customstyle: "${customStyleAttribute}"`, () => {
                 ch5Button.setAttribute('customStyle', customStyleAttribute);
                 expect(ch5Button.customStyle).to.be.equal(customStyleAttribute);
-            });
-            test(`Check ch5-button > div css style name for customStyle: "${customStyleAttribute}"`, () => {
-                ch5Button.setAttribute('customStyle', customStyleAttribute);
                 expect(getDiv(ch5Button).getAttribute("style").indexOf(customStyleAttribute) >= 0).to.be.equal(true);
             });
 
@@ -163,10 +160,6 @@
                 const expectedValue = "color: green;";
                 expect(ch5Button1.getAttribute('customstyle')).to.be.equal("color: white;");
                 expect(ch5Button1.customStyle).to.be.equal(expectedValue);
-            });
-            test(`Check ch5-button > div css style name for ch5-button-mode and mode value=0`, () => {
-                ch5Button1.setAttribute('mode', "0");
-                const expectedValue = "color: green;";
                 expect(getDiv(ch5Button1).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
             });
 
@@ -175,10 +168,6 @@
                 const expectedValue = "color: orange;";
                 expect(ch5Button1.getAttribute('customstyle')).to.be.equal("color: white;");
                 expect(ch5Button1.customStyle).to.be.equal(expectedValue);
-            });
-            test(`Check ch5-button > div css style name for ch5-button-mode and mode value=1`, () => {
-                ch5Button1.setAttribute('mode', "1");
-                const expectedValue = "color: orange;";
                 expect(getDiv(ch5Button1).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
             });
 
@@ -187,12 +176,7 @@
                 const expectedValue = "color: green;";
                 expect(ch5Button1.getAttribute('customstyle')).to.be.equal("color: white;");
                 expect(ch5Button1.customStyle).to.be.equal(expectedValue);
-            });
-            test(`Check ch5-button > div css style name for ch5-button-mode and mode value=2`, () => {
-                ch5Button1.setAttribute('mode', "2");
-                const expectedValue = "color: green;";
                 expect(getDiv(ch5Button1).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
-
             });
 
             [0, 1, 2, 3, 4, 5, 6].forEach((modeTypeObj, j) => {
@@ -200,17 +184,7 @@
                     CrComLib.publishEvent('n', 'current_mode_customstyle_fixture2', modeTypeObj);
                     flush(() => {
                         setTimeout(() => {
-                            // expect(ch5Button2.getAttribute('customstyle')).to.be.equal("danger");
                             expect(ch5Button2.customStyle).to.be.equal(customStyleAttributeArray[modeTypeObj]);
-                            done();
-                        }, 100);
-                    });
-                });
-
-                test(`Check ch5-button > div css style name for ch5-button-mode using receiveStateMode "${modeTypeObj}"`, (done) => {
-                    CrComLib.publishEvent('s', 'current_mode_customstyle_fixture2', modeTypeObj);
-                    flush(() => {
-                        setTimeout(() => {
                             const expectedValue = customStyleAttributeArray[modeTypeObj];
                             expect(getDiv(ch5Button2).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
                             done();
@@ -232,7 +206,7 @@
                 });
 
                 test(`Check ch5-button > div css style name for ch5-button-mode using receiveStateMode "${modeTypeObj}" with a setAttribute of customStyle on parent button`, (done) => {
-                    CrComLib.publishEvent('s', 'current_mode_customstyle_fixture2', modeTypeObj);
+                    CrComLib.publishEvent('n', 'current_mode_customstyle_fixture2', modeTypeObj);
                     flush(() => {
                         setTimeout(() => {
                             const expectedValue = customStyleAttributeArray[modeTypeObj];
@@ -250,10 +224,6 @@
                     const expectedValue = selectionObj === true ? "color: green;" : "color: orange;";
                     expect(ch5Button3.getAttribute('customstyle')).to.be.equal("color: white;");
                     expect(ch5Button3.customStyle).to.be.equal(expectedValue);
-                });
-                test(`Check ch5-button > div css style name for ch5-button-mode-state with selected as "${selectionObj}"`, () => {
-                    ch5Button3.setAttribute('selected', selectionObj);
-                    const expectedValue = ((selectionObj === true) ? "color: green;" : "color: orange;");
                     expect(getDiv(ch5Button3).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
                 });
 
@@ -264,16 +234,6 @@
                             expect(ch5Button3.getAttribute('customstyle')).to.be.equal("color: white;");
                             const expectedValue = selectionObj === true ? "color: green;" : "color: orange;";
                             expect(ch5Button3.customStyle).to.be.equal(expectedValue);
-                            done();
-                        }, 100);
-                    });
-                });
-
-                test(`Check ch5-button > div css style name  for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
-                    CrComLib.publishEvent('b', 'receive_selected_state_customstyle_fixture3', selectionObj);
-                    flush(() => {
-                        setTimeout(() => {
-                            const expectedValue = ((selectionObj === true) ? "color: green;" : "color: orange;");
                             expect(getDiv(ch5Button3).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
                             done();
                         }, 100);
