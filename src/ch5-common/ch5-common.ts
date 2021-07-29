@@ -222,7 +222,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     /**
      * If this param is true then the component will display debug/info messages in the browser's console
      */
-    protected _isDebugEnabled: boolean = false;
+     protected _isDebugEnabled: boolean = false;
+     protected _isTraceEnabled: boolean = false;
 
     /**
      * Is populated on construct.
@@ -1034,6 +1035,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             'receivestateenable',
             'sendeventonshow',
             'debug',
+            'trace',
             'dir',
             'appendclasswheninviewport'
         ]
@@ -1052,30 +1054,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * The messages are displayed only if _isDebugEnabled is true
      */
     public info(message?: any, ...optionalParams: any[]): void {
-        if (true === this.isDebug()) {
-            let ts: string = '';
-            if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
-                ts = (new Date()).toISOString();
-            }
-            try {
-                let callerName: string = String(new Error().stack).trim();
-                if (callerName !== null) {
-                    if (callerName) { callerName = callerName.replace(/^Error\s+/, ''); }
-                    if (callerName) { callerName = callerName.split("\n")[1]; } // 1st item is this, 2nd item is caller
-                    if (callerName) { callerName = callerName.replace(/^\s+at Object./, ''); }
-                    if (callerName) { callerName = callerName.replace(/^\s+at HTMLElement./, ''); }
-                    if (callerName) { callerName = callerName.replace(/^\s+at /, ''); }
-                    if (callerName) { callerName = callerName.replace(/ \(.+\)$/, ''); }
-                    if (callerName) { callerName = callerName.replace(/\@.+/, ''); }
-                    if (callerName && callerName !== "") {
-                        callerName = "Method is " + callerName + ":";
-                    }
-                }
-                console.info(ts + ':' + this.getCrId() + ':' + callerName + message + ':' + optionalParams);
-            } catch (e) {
-                console.info(ts + ':' + this.getCrId() + ':' + message + ':' + optionalParams)
-            }
-        }
+        this.logger.info(message, optionalParams);
     }
 
     /**
@@ -1085,6 +1064,10 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      */
     public isDebug() {
         return this._isDebugEnabled;
+    }
+
+    public isTrace() {
+        return this._isTraceEnabled;
     }
 
     public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
@@ -1754,8 +1737,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     protected toBoolean(val: any, isEmptyValueEqualToTrue = false): boolean {
         const str = String(val);
         switch (str.toLowerCase().trim()) {
-            case "true": return true;
-            case "false": case null: return false;
+            case "true": case "yes": case "1": return true;
+            case "false": case "no": case "0": case null: return false;
             case "":
                 if (isEmptyValueEqualToTrue === true) {
                     return true;
