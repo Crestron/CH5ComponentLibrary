@@ -100,7 +100,7 @@ function extractVariables(body: string, mixins: {name: string, content: string}[
 function extractMixins(data: string) {
   const mixins = [];
   // This will match the whole mixin except the last closing bracket } which we will consider to be the last one.
-  const mixinsRegex = new RegExp(/(@mixin[ a-zA-Z0-9-($,){:;\r\n]+)/, 'g');
+  const mixinsRegex = new RegExp(/(@mixin[ a-zA-Z0-9-($,){:.%;\r\n]+)/, 'g');
   const mixinNameRegex = new RegExp(/(@mixin[ a-zA-Z0-9-]+)/, 'g');
   const mixinContentRegex = new RegExp(/(?<={)[^}]*/, 'g');
   for (const mixin of (data.match(mixinsRegex) || [])) {
@@ -167,13 +167,13 @@ function checkIfNodeIsMixin(selector: string) {
   return false;
 }
 
-async function processSassfile(data: string, name: string, helper: PROPERTIES_INTERFACE) {
+async function processSassfile(data: string, name: string, helper: PROPERTIES_INTERFACE, globalMixins: ReturnType<typeof extractMixins>) {
   let stringifiedData = data;
 
   // STEP 1: Remove all the multiline/ single line comments, except the documentation marked with ///
   stringifiedData = removeComments(stringifiedData);
 
-  const mixins = extractMixins(stringifiedData);
+  const mixins = extractMixins(stringifiedData).concat(globalMixins);
 
   const rules: RULES_INTERFACE[] = [];
 
@@ -237,5 +237,6 @@ async function processSassfile(data: string, name: string, helper: PROPERTIES_IN
 }
 
 export  {
-  processSassfile
+  processSassfile,
+  extractMixins
 }

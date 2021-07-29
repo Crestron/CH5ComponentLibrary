@@ -1,4 +1,4 @@
-import {processSassfile} from './sassToJson';
+import {extractMixins, processSassfile} from './sassToJson';
 import {BASE_OBJECT_INTERFACE, HELPERS_PATH, PROPERTIES_INTERFACE, THEME_EDITOR_PATH} from "./utils";
 
 const fs = require('fs');
@@ -45,7 +45,20 @@ function generatePropertiesJson(properties: PROPERTIES_INTERFACE, path: string) 
   })), HELPERS_PATH + path + '/' + fileName)
 }
 
+/**
+ * Utils function used to extract the global mixins used throughout all the components
+ */
+function extractGlobalMixins() {
+  const mainScss = '@import "./style/mixins";';
+  const flattenedScss = flatten(mainScss, THEME_EDITOR_PATH);
+
+  const mixins = extractMixins(flattenedScss);
+
+  return mixins;
+}
+
 async function buildJsonStructure(flattenedComponents: {flattenedScss: string, name: string}[]) {
+  // The default base structure
   const jsonObject: BASE_OBJECT_INTERFACE = {
     "ch5-elements": [
       {
@@ -54,12 +67,21 @@ async function buildJsonStructure(flattenedComponents: {flattenedScss: string, n
     ]
   };
 
+  // Extract the global mixins which are used throughout the whole application
+  const globalMixins = extractGlobalMixins();
+
+
+  // For each flattened SCSS component
   for (const component of flattenedComponents) {
     try {
+      // Get the helper
       const helper = await getHelperForComponent(component.name);
+      // Get the properties
       const properties = await helper.GET_PROPERTIES();
+      // Save the properties to a json for future reference
       generatePropertiesJson(properties, component.name);
-      const outputJson = await processSassfile(component.flattenedScss, component.name, properties);
+      // Process the flattened scss
+      const outputJson = await processSassfile(component.flattenedScss, component.name, properties, globalMixins);
       jsonObject["ch5-elements"][0].component.push({
         tagName: component.name,
         version: helper.VERSION,
@@ -101,8 +123,10 @@ async function flattenScssComponents(paths: string[]) {
   return flattenedComponents;
 }
 
+
 /**
  * Get an array of ch5 components name found in ch5 theme editor
+ * Temporarily not used at the moment - we keep a hardcoded string
  */
 async function traverseThemeEditorsObjects(): Promise<string[]> {
   const CH5ComponentsPath = [];
@@ -117,12 +141,26 @@ async function traverseThemeEditorsObjects(): Promise<string[]> {
   return CH5ComponentsPath;
 }
 
+
 async function initialize() {
-  const componentsPath = await traverseThemeEditorsObjects();
+  // Dynamically traversing items is temporarily removed
+  // const componentsPath = await traverseThemeEditorsObjects();
 
-  const flattenedComponents = await flattenScssComponents(componentsPath);
-  // const flattenedComponents = await flattenScssComponents(['ch5-modal-dialog']);
+  // extractGlobalMixins();
+  //
+  // return;
 
+  // All the components that are interested in are hardcoded. We will compute the path based on THEME_EDITOR_PATH constant + values below
+  const componentsPath = [
+    'ch5-background', 'ch5-button', 'ch5-image', 'ch5-list', 'ch5-modal-dialog', 'ch5-overlay-panel',
+    'ch5-select', 'ch5-slider', 'ch5-spinner', 'ch5-textinput', 'ch5-toggle', 'ch5-video'
+  ];
+
+  // For each component flatten its scss
+  // const flattenedComponents = await flattenScssComponents(componentsPath);
+  const flattenedComponents = await flattenScssComponents(['ch5-button']);
+
+  // Build the final json structure and compute
   const outputJSON = await buildJsonStructure(flattenedComponents);
 
   writeToFile(JSON.stringify(outputJSON), './output.json');
