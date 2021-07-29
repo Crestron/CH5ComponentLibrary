@@ -9,6 +9,8 @@ import { Ch5DpadLeft } from "./ch5-dpad-button-left";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-interfaces";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
+import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 
 export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     //#region 1. Variables
@@ -43,10 +45,15 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private _type: TCh5DpadType = 'default';
     private _shape: TCh5DpadShape = 'plus';
     private _stretch: TCh5DpadStretch = 'both';
-    private _useContractforLabel: boolean = false;
+    private _sendEventOnClickStart: string = '';
     private _useContractforEnable: boolean = false;
     private _useContractForShow: boolean = false;
-    private _useContractForIcons: boolean = false;
+    private _useContractForCustomStyle: boolean = false;
+    private _useContractForCustomClass: boolean = false;
+    private _useContractforEnableSignalValue: string = '';
+    private _useContractForShowSignalValue: string = '';
+    private _useContractForCustomStyleSignalValue: string = '';
+    private _useContractForCustomClassSignalValue: string = '';
 
     // state specific vars
     private isComponentLoaded: boolean = false;
@@ -148,36 +155,57 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     }
 
     /**
-     * useContractforLabel specif getter-setter
+     * sendEventOnClickStart specif getter-setter
      */
-    public set useContractforLabel(value: boolean) {
-        this.info('Ch5Form set useContractforLabel("' + value + '")');
+    public set sendEventOnClickStart(value: string) {
+        this.info('set sendEventOnClickStart("' + value + '")');
 
-        const isUseContractforLabel = this._toBoolean(value);
-
-        if (this._useContractforLabel !== isUseContractforLabel) {
-            this._useContractforLabel = isUseContractforLabel;
-
-            this.setAttribute('useContractforLabel', isUseContractforLabel.toString());
+        if (_.isNil(value)) {
+            value = '';
         }
+
+        const trValue: string = this._getTranslatedValue('sendEventOnClickStart', value);
+        if (trValue === this.sendEventOnClickStart) {
+            return;
+        }
+
+        this._sendEventOnClickStart = trValue;
+        this.setAttribute('sendEventOnClickStart'.toLowerCase(), trValue);
     }
-    public get useContractforLabel(): boolean {
-        return this._useContractforLabel;
+    public get sendEventOnClickStart(): string {
+        return this._sendEventOnClickStart;
     }
 
     /**
      * useContractforEnable specif getter-setter
      */
     public set useContractforEnable(value: boolean) {
-        this.info('Ch5Form set useContractforEnable("' + value + '")');
+        this.info('Ch5Dpad set useContractforEnable("' + value + '")');
 
         const isUseContractforEnable = this._toBoolean(value);
+        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
 
-        if (this._useContractforEnable !== isUseContractforEnable) {
-            this._useContractforEnable = isUseContractforEnable;
-
-            this.setAttribute('useContractforEnable', isUseContractforEnable.toString());
+        if (contractName.length === 0 || this._useContractForShow === isUseContractforEnable) {
+            return;
         }
+
+        this.setAttribute('usecontractforcustomstyle', isUseContractforEnable.toString());
+        this._useContractForCustomClass = isUseContractforEnable;
+        const sigVal = contractName + ".Enable";
+
+        const params: TCh5CreateReceiveStateSigParams = {
+            caller: this,
+            attrKey: 'useContractforEnable',
+            value: sigVal,
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                newValue = (!newValue).toString();
+                this.info(' subs callback for useContractforEnable: ', this._useContractforEnableSignalValue,
+                    ' Signal has value ', newValue);
+                CH5DpadUtils.setAttributeToElement(this, 'disabled', newValue);
+            }
+        };
+
+        this.setValueForReceiveStateBoolean(params);
     }
     public get useContractforEnable(): boolean {
         return this._useContractforEnable;
@@ -187,36 +215,375 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * useContractForShow specif getter-setter
      */
     public set useContractForShow(value: boolean) {
-        this.info('Ch5Form set useContractForShow("' + value + '")');
+        this.info('Ch5Dpad set useContractForShow("' + value + '")');
 
-        const isuseContractForShow = this._toBoolean(value);
+        const isUseContractForShow = this._toBoolean(value);
+        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
 
-        if (this._useContractForShow !== isuseContractForShow) {
-            this._useContractForShow = isuseContractForShow;
-
-            this.setAttribute('useContractForShow', isuseContractForShow.toString());
+        if (contractName.length === 0 || this._useContractForShow === isUseContractForShow) {
+            return;
         }
+
+        this.setAttribute('useContractForShow', isUseContractForShow.toString());
+        const sigVal = contractName + ".Show";
+
+        const params: TCh5CreateReceiveStateSigParams = {
+            caller: this,
+            attrKey: 'useContractForShow',
+            value: sigVal,
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                newValue = newValue.toString();
+                this.info(' subs callback for signalReceiveShow: ', this._useContractForShowSignalValue,
+                    ' Signal has value ', newValue);
+                CH5DpadUtils.setAttributeToElement(this, 'show', newValue);
+            }
+        };
+
+        this.setValueForReceiveStateBoolean(params);
     }
     public get useContractForShow(): boolean {
         return this._useContractForShow;
     }
 
     /**
-     * useContractForIcons specif getter-setter
+     * useContractForCustomStyle specif getter-setter
      */
-    public set useContractForIcons(value: boolean) {
-        this.info('Ch5Form set useContractForIcons("' + value + '")');
+    public set useContractForCustomStyle(value: boolean) {
+        this.info('Ch5Dpad set useContractForCustomStyle("' + value + '")');
 
-        const isuseContractForIcons = this._toBoolean(value);
+        const isUseContractForCustomStyle = this._toBoolean(value);
+        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
 
-        if (this._useContractForIcons !== isuseContractForIcons) {
-            this._useContractForIcons = isuseContractForIcons;
+        if (contractName.length === 0 || this._useContractForShow === isUseContractForCustomStyle) {
+            return;
+        }
 
-            this.setAttribute('useContractForIcons', isuseContractForIcons.toString());
+        this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
+        this._useContractForCustomClass = isUseContractForCustomStyle;
+        const sigVal = contractName + ".CustomStyle";
+
+        const params: TCh5CreateReceiveStateSigParams = {
+            caller: this,
+            attrKey: 'useContractForCustomStyle',
+            value: sigVal,
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                newValue = newValue as string;
+                this.info(' subs callback for useContractForCustomStyle: ', this._useContractForCustomStyleSignalValue,
+                    ' Signal has value ', newValue);
+                this.customStyle = newValue;
+            }
+        };
+
+        this.setValueForReceiveStateString(params);
+    }
+    public get useContractForCustomStyle(): boolean {
+        return this._useContractForCustomStyle;
+    }
+
+    /**
+     * useContractForCustomClass specif getter-setter
+     */
+    public set useContractForCustomClass(value: boolean) {
+        this.info('Ch5Dpad set useContractForCustomClass("' + value + '")');
+
+        const isUuseContractForCustomClass = this._toBoolean(value);
+        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
+
+        if (contractName.length === 0 || this._useContractForShow === isUuseContractForCustomClass) {
+            return;
+        }
+
+        this.setAttribute('usecontractforcustomclass', isUuseContractForCustomClass.toString());
+        this._useContractForCustomClass = isUuseContractForCustomClass;
+        const sigVal = contractName + ".CustomClass";
+
+        const params: TCh5CreateReceiveStateSigParams = {
+            caller: this,
+            attrKey: 'useContractForCustomClass',
+            value: sigVal,
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                newValue = newValue as string;
+                this.info(' subs callback for useContractForCustomClass: ', this._useContractForCustomClassSignalValue,
+                    ' Signal has value ', newValue);
+                this.customClass = newValue;
+            }
+        };
+
+        this.setValueForReceiveStateString(params);
+    }
+    public get useContractForCustomClass(): boolean {
+        return this._useContractForCustomClass;
+    }
+
+    /**
+     *  overriding default receiveStateShow specif getter-setter
+     */
+    public set show(value: boolean) {
+        const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShow", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateShow becomes void
+            return;
+        }
+        if (value !== this._show) {
+            this._show = value;
+            this.setAttribute('show', value.toString());
         }
     }
-    public get useContractForIcons(): boolean {
-        return this._useContractForIcons;
+
+    /**
+     *  overriding default receiveStateShow specif getter-setter
+     */
+    public set disabled(value: boolean) {
+        const isContractBased = this.checkIfContractAllows("useContractforEnable", "receiveStateEnable", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateEnable becomes void
+            return;
+        }
+        if (null === value || undefined === value) {
+            value = false;
+        }
+        if (value !== this._disabled) {
+            this._disabled = this._toBoolean(value);
+            if (this._disabled) {
+                this.setAttribute('disabled', '');
+            } else {
+                this.removeAttribute('disabled');
+            }
+        }
+    }
+
+    /**
+     * overriding default receiveStateShow specif getter-setter
+     */
+    public set receiveStateShow(value: string) {
+        const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShow", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateShow becomes void
+            return;
+        }
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateShow) {
+            return;
+        }
+
+        this.clearBooleanSignalSubscription(this._receiveStateShow, this._subKeySigReceiveShow);
+
+        this._receiveStateShow = value;
+        this.setAttribute('receivestateshow', value);
+
+        const recSigShowName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShow);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        this._subKeySigReceiveShow = recSig.subscribe((newVal: boolean) => {
+            this.info(' subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newVal);
+            this.show = newVal;
+        });
+    }
+
+    /**
+     * overriding default receiveStateEnable specif getter-setter
+     */
+    public set receiveStateEnable(value: string) {
+        const isContractBased = this.checkIfContractAllows("useContractforEnable", "receiveStateEnable", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateEnable becomes void
+            return;
+        }
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateEnable) {
+            return;
+        }
+
+        this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
+
+        this._receiveStateEnable = value;
+        this.setAttribute('receivestateenable', value);
+
+        const recSigEnableName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateEnable);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigEnableName);
+
+        if (null === recSig) {
+            return;
+        }
+        let hasSignalChanged = false;
+        this._subKeySigReceiveEnable = recSig.subscribe((newVal: boolean) => {
+            this.info(' subs callback for signalReceiveEnable: ', this._subKeySigReceiveEnable, ' Signal has value ', newVal);
+
+            if (!this.disabled !== newVal) {
+                hasSignalChanged = true;
+            }
+            if (hasSignalChanged) {
+                if (true === newVal) {
+                    this.removeAttribute('disabled');
+                } else {
+                    this.setAttribute('disabled', '');
+                }
+            }
+        });
+    }
+
+    /**
+     * overriding default receiveStateHidePulse specif getter-setter
+     */
+    public set receiveStateHidePulse(value: string) {
+        this.info('Ch5Dpad set receiveStateHidePulse("' + value + '")');
+        const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateHidePulse", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateHidePulse becomes void
+            return;
+        }
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateHidePulse) {
+            return;
+        }
+
+        this.clearBooleanSignalSubscription(this._receiveStateHidePulse, this._subKeySigReceiveHidePulse);
+
+        this._receiveStateHidePulse = value;
+        this.setAttribute('receivestatehidepulse', value);
+
+        const recSigHidePulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateHidePulse);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigHidePulseName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        this._subKeySigReceiveHidePulse = recSig.subscribe((newVal: boolean) => {
+            this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' Signal has value ', newVal);
+            if (null !== recSig) {
+                if (false === recSig.prevValue && true === newVal) {
+                    this.setAttribute('show', 'false');
+                }
+            } else {
+                this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' recSig is null');
+            }
+        });
+    }
+
+    /**
+     * overriding default receiveStateShowPulse specif getter-setter
+     */
+    public set receiveStateShowPulse(value: string) {
+        this.info('Ch5Dpad set receiveStateShowPulse("' + value + '")');
+        const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShowPulse", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateShowPulse becomes void
+            return;
+        }
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateShowPulse) {
+            return;
+        }
+
+        this.clearBooleanSignalSubscription(this._receiveStateShowPulse, this._subKeySigReceiveShowPulse);
+
+        this._receiveStateShowPulse = value;
+        this.setAttribute('receivestateshowpulse', value);
+
+        const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowPulse);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowPulseName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        this._subKeySigReceiveShowPulse = recSig.subscribe((newVal: boolean) => {
+            this.info(' subs callback for signalReceiveShowPulse: ', this._subKeySigReceiveShowPulse, ' Signal has value ', newVal);
+            if (null !== recSig) {
+                const _newVal = (newVal as never as { repeatdigital: boolean }).repeatdigital !== undefined ? (newVal as never as { repeatdigital: boolean }).repeatdigital : newVal;
+                if ((recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital !== undefined) {
+                    if (false === (recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital && true === _newVal) {
+                        this.setAttribute('show', 'true')
+                    }
+                    return;
+                }
+                if (false === recSig.prevValue && true === _newVal) {
+                    this.setAttribute('show', 'true')
+                }
+            }
+        });
+    }
+
+    /**
+     * overriding default receiveStateCustomStyle specif getter-setter
+     */
+    public set receiveStateCustomStyle(value: string) {
+        const isContractBased = this.checkIfContractAllows("useContractForCustomStyle", "receiveStateCustomStyle", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateCustomStyle becomes void
+            return;
+        }
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateCustomStyle) {
+            return;
+        }
+
+        this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
+
+        this._receiveStateCustomStyle = value;
+        this.setAttribute('receivestatecustomstyle', value);
+
+        const recSigCustomStyleName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomStyle);
+        const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomStyleName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        let hasSignalChanged = false;
+        this._subKeySigReceiveCustomStyle = recSig.subscribe((newVal: string) => {
+            this.info(' subs callback for signalReceiveCustomStyle: ', this._subKeySigReceiveCustomStyle, ' Signal has value ', newVal);
+            if ('' !== newVal) {
+                hasSignalChanged = true;
+            }
+            if (newVal !== this.customStyle && hasSignalChanged) {
+                this.setAttribute('customStyle', newVal);
+            }
+        });
+    }
+
+    /**
+     * overriding default receiveStateCustomClass specif getter-setter
+     */
+    public set receiveStateCustomClass(value: string) {
+        const isContractBased = this.checkIfContractAllows("useContractForCustomClass", "receiveStateCustomClass", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateCustomClass becomes void
+            return;
+        }
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateCustomClass) {
+            return;
+        }
+
+        this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
+
+        this._receiveStateCustomClass = value;
+        this.setAttribute('receivestatecustomclass', value);
+
+        const recSigCustomClassName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomClass);
+        const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomClassName);
+
+        if (null === recSig) {
+            return;
+        }
+        let hasSignalChanged = false;
+
+        this._subKeySigReceiveCustomClass = recSig.subscribe((newVal: string) => {
+            this.info('subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
+            if ('' !== newVal) {
+                hasSignalChanged = true;
+            }
+            if (newVal !== this.customClass && hasSignalChanged) {
+                // this.setAttribute('customclass', newVal);
+                this.customClass = newVal;
+            }
+        });
     }
 
     //#endregion
@@ -328,10 +695,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             "type",
             "shape",
             "stretch",
-            "usecontractforlabel",
+            "sendEventOnClickStart",
             "usecontractforenable",
-            "usecontractforshow",
-            "usecontractforicons"
+            "usecontractforshow"
         ];
 
         // received signals
@@ -353,8 +719,56 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         }
 
         this.info('ch5-dpad attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+        const isValidContract: boolean = (CH5DpadUtils.getAttributeAsString(this, 'contractname', '').length > 0);
 
         switch (attr) {
+            case 'usecontractforshow':
+                this.useContractForShow = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
+            case 'usecontractforenable':
+                this.useContractforEnable = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
+            case 'usecontractforcustomstyle':
+                this.useContractForCustomStyle = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
+            case 'usecontractforcustomclass':
+                this.useContractForCustomClass = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
+            case 'receivestateshow':
+                if (!isValidContract) {
+                    this.receiveStateShow = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                }
+                break;
+            case 'receivestateenable':
+                if (!isValidContract) {
+                    this.receiveStateEnable = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                }
+                break;
+            case 'receivestateshowpulse':
+                if (!isValidContract) {
+                    this.receiveStateShowPulse = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                }
+                break;
+            case 'receivestatehidepulse':
+                if (!isValidContract) {
+                    this.receiveStateHidePulse = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                }
+                break;
+            case 'receivestatecustomstyle':
+                if (!isValidContract) {
+                    this.receiveStateCustomStyle = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                }
+                break;
+            case 'receivestatecustomclass':
+                if (!isValidContract) {
+                    this.receiveStateCustomClass = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                }
+                break;
+            case 'sendeventonclickstart':
+                if (!isValidContract) {
+                    this.sendEventOnClickStart = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                }
+                break;
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
@@ -453,7 +867,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.setAttribute('data-ch5-id', this.getCrId());
 
         CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad); // WAI-ARIA Attributes
-        this.contractName = CH5DpadUtils.setAttributeToElement(this, 'contractName', this._contractName);
+        this.contractName = CH5DpadUtils.setAttributeToElement(this, 'contractName'.toLowerCase(), this._contractName);
         this.type = CH5DpadUtils.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
         this.shape = CH5DpadUtils.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
         this.stretch = CH5DpadUtils.setAttributeToElement(this, 'stretch', this._stretch) as TCh5DpadStretch;
@@ -462,14 +876,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         // then the default value is true for useContractFor*
         // else useContractFor* picks value from attributes
         const isContractNameAvailable = Boolean(this.contractName).toString();
-        this.useContractforLabel = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractforLabel', isContractNameAvailable));
         this.useContractforEnable = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractforEnable', isContractNameAvailable));
+            CH5DpadUtils.setAttributeToElement(this, 'useContractforEnable'.toLowerCase(), isContractNameAvailable));
         this.useContractForShow = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractForShow', isContractNameAvailable));
-        this.useContractForIcons = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractForIcons', isContractNameAvailable));
+            CH5DpadUtils.setAttributeToElement(this, 'useContractForShow'.toLowerCase(), isContractNameAvailable));
+        this.useContractForCustomStyle = CH5DpadUtils.getBoolFromString(
+            CH5DpadUtils.setAttributeToElement(this, 'useContractForCustomStyle'.toLowerCase(), isContractNameAvailable));
+        this.useContractForCustomStyle = CH5DpadUtils.getBoolFromString(
+            CH5DpadUtils.setAttributeToElement(this, 'useContractForCustomClass'.toLowerCase(), isContractNameAvailable));
 
         this.logger.stop();
     }
@@ -559,6 +973,16 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             this.appendChild(refobj[childElementArray[2]]); // then, the left element
             this.appendChild(refobj[childElementArray[4]]);
         }
+    }
+
+    private checkIfContractAllows(attrToCheck: string, attrToSet: string, value: string | boolean): boolean {
+        attrToCheck = attrToCheck.toLowerCase();
+        attrToSet = attrToSet.toLowerCase();
+        this.info('Ch5Dpad set ' + attrToCheck + '("' + value + '")');
+        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
+        const isContractBased = CH5DpadUtils.getAttributeAsBool(this, attrToSet, this.checkIfValueIsTruey(contractName));
+
+        return isContractBased;
     }
 
     //#endregion
