@@ -56,7 +56,7 @@
 
     <script>
         const valid_iconPosition = CrComLib.Ch5Button.ICON_POSITIONS;
-        const invalid_iconPosition = ['', ' ', 'null', null, undefined, 'undefined', 'middle', 'LEFT', 'RIGHT'];
+        const invalid_iconPosition = ['sadfadsfas', '', ' ', 'null', null, undefined, 'undefined', 'middle', 'LEFT', 'RIGHT'];
         const valid_selected = [true, false];
         const iconClassArray = [
             "fab fa-amilia",
@@ -88,150 +88,210 @@
         //     });
 
         //     iconClassArray.forEach((iconClass, i) => {
-        //         test(`Check attribute iconClass: "${iconClass}"`, () => {
+        //         test(`Check attribute iconClass: "${iconClass}"`, (done) => {
         //             ch5Button.setAttribute('iconClass', iconClass);
-        //             expect(ch5Button.iconClass).to.be.equal(iconClass);
-        //             expect(ch5Button.iconPosition).to.be.equal("first");
-        //         });
-        //         test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}"`, () => {
-        //             ch5Button.setAttribute('iconClass', iconClass);
-        //             const expectedValueForIconClass = iconClass.split(" ");
-        //             const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
-        //             for (let z = 0; z < expectedValueForIconClass.length; z++) {
-        //                 expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
-        //             }
-        //             const expectedIconPositionForIconClass = "first";
-        //             expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + expectedIconPositionForIconClass)).to.be.equal(true);
-        //             expect(ch5Button.getAttribute("iconPosition")).to.satisfy((getValue) => {
-        //                 if (getValue === '' || getValue === null) {
-        //                     return (true);
-        //                 } else {
-        //                     return (false);
-        //                 }
+        //             flush(() => {
+        //                 setTimeout(() => {
+        //                     expect(ch5Button.iconClass).to.be.equal(iconClass);
+        //                     expect(ch5Button.iconPosition).to.be.equal("first");
+        //                     done();
+        //                 }, BASIC_TESTING_TIMEOUT);
         //             });
         //         });
+        //         test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}"`, (done) => {
+        //             ch5Button.setAttribute('iconClass', iconClass);
+        //             flush(() => {
+        //                 setTimeout(() => {
+        //                     const expectedValueForIconClass = iconClass.split(" ");
+        //                     const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
+        //                     for (let z = 0; z < expectedValueForIconClass.length; z++) {
+        //                         expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
+        //                     }
+        //                     const expectedIconPositionForIconClass = "first";
+        //                     expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + expectedIconPositionForIconClass)).to.be.equal(true);
+        //                     expect(ch5Button.getAttribute("iconPosition")).to.satisfy((getValue) => {
+        //                         if (getValue === '' || getValue === null) {
+        //                             return (true);
+        //                         } else {
+        //                             return (false);
+        //                         }
+        //                     });
+        //                     done();
+        //                 }, BASIC_TESTING_TIMEOUT);
+        //             });
 
-        //         test(`Check attribute iconClass: "${iconClass}" with Label`, () => {
+        //         });
+
+        //         test(`Check attribute iconClass: "${iconClass}" with Label`, (done) => {
         //             ch5Button.setAttribute('iconClass', iconClass);
         //             const newLabel = createRandomString(10);
         //             ch5Button.setAttribute('label', newLabel);
-        //             expect(ch5Button.iconClass).to.be.equal(iconClass);
-        //             expect(ch5Button.label).to.be.equal(newLabel);
+        //             flush(() => {
+        //                 setTimeout(() => {
+        //                     expect(ch5Button.iconClass).to.be.equal(iconClass);
+        //                     expect(ch5Button.label).to.be.equal(newLabel);
+        //                     done();
+        //                 }, BASIC_TESTING_TIMEOUT);
+        //             });
         //         });
-        //         test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}" with Label`, () => {
+        //         test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}" with Label`, (done) => {
         //             ch5Button.setAttribute('iconClass', iconClass);
         //             const newLabel = createRandomString(10);
         //             const expectedValueForIconClass = iconClass.split(" ");
         //             ch5Button.setAttribute('label', newLabel);
-        //             const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
-        //             for (let z = 0; z < expectedValueForIconClass.length; z++) {
-        //                 expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
-        //             }
-        //             expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
-        //             const expectedIconPositionForIconClass = "first";
-        //             expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + expectedIconPositionForIconClass)).to.be.equal(true);
+        //             flush(() => {
+        //                 setTimeout(() => {
+        //                     const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
+        //                     for (let z = 0; z < expectedValueForIconClass.length; z++) {
+        //                         expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
+        //                     }
+        //                     expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
+        //                     const expectedIconPositionForIconClass = "first";
+        //                     expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + expectedIconPositionForIconClass)).to.be.equal(true);
+        //                     done();
+        //                 }, BASIC_TESTING_TIMEOUT);
+        //             });
         //         });
 
         //         valid_iconPosition.forEach((iconPosition, i) => {
-        //             test(`Check attribute iconClass: "${iconClass}" and iconPosition: "${iconPosition}"`, () => {
+        //             test(`Check attribute iconClass: "${iconClass}" and iconPosition: "${iconPosition}"`, (done) => {
         //                 ch5Button.setAttribute('iconClass', iconClass);
         //                 ch5Button.setAttribute('iconPosition', iconPosition);
-        //                 expect(ch5Button.iconClass).to.be.equal(iconClass);
-        //                 expect(ch5Button.iconPosition).to.be.equal(iconPosition);
-        //             });
-        //             test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}" and iconPosition: "${iconPosition}"`, () => {
-        //                 ch5Button.setAttribute('iconClass', iconClass);
-        //                 ch5Button.setAttribute('iconPosition', iconPosition);
-        //                 const expectedValueForIconClass = iconClass.split(" ");
-        //                 const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
-        //                 for (let z = 0; z < expectedValueForIconClass.length; z++) {
-        //                     expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
-        //                 }
-        //                 expect(ch5Button.getAttribute("iconPosition")).to.satisfy((getValue) => {
-        //                     if (getValue === '' || getValue === null) {
-        //                         return (iconPosition === 'first');
-        //                     } else {
-        //                         return (iconPosition === getValue);
-        //                     }
+        //                 flush(() => {
+        //                     setTimeout(() => {
+        //                         expect(ch5Button.iconClass).to.be.equal(iconClass);
+        //                         expect(ch5Button.iconPosition).to.be.equal(iconPosition);
+        //                         done();
+        //                     }, BASIC_TESTING_TIMEOUT);
         //                 });
-        //                 expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + iconPosition)).to.be.equal(true);
+        //             });
+        //             test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}" and iconPosition: "${iconPosition}"`, (done) => {
+        //                 ch5Button.setAttribute('iconClass', iconClass);
+        //                 ch5Button.setAttribute('iconPosition', iconPosition);
+        //                 flush(() => {
+        //                     setTimeout(() => {
+        //                         const expectedValueForIconClass = iconClass.split(" ");
+        //                         const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
+        //                         for (let z = 0; z < expectedValueForIconClass.length; z++) {
+        //                             expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
+        //                         }
+        //                         expect(ch5Button.getAttribute("iconPosition")).to.satisfy((getValue) => {
+        //                             if (getValue === '' || getValue === null) {
+        //                                 return (iconPosition === 'first');
+        //                             } else {
+        //                                 return (iconPosition === getValue);
+        //                             }
+        //                         });
+        //                         expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + iconPosition)).to.be.equal(true);
+        //                         done();
+        //                     }, BASIC_TESTING_TIMEOUT);
+        //                 });
         //             });
 
-        //             test(`Check attribute iconClass: "${iconClass}", iconPosition: "${iconPosition}" with Label`, () => {
+        //             test(`Check attribute iconClass: "${iconClass}", iconPosition: "${iconPosition}" with Label`, (done) => {
         //                 const newLabel = createRandomString(10);
         //                 ch5Button.setAttribute('iconClass', iconClass);
         //                 ch5Button.setAttribute('iconPosition', iconPosition);
         //                 ch5Button.setAttribute('label', newLabel);
-        //                 expect(ch5Button.iconPosition).to.be.equal(iconPosition);
-        //                 expect(ch5Button.iconClass).to.be.equal(iconClass);
-        //                 expect(ch5Button.label).to.be.equal(newLabel);
+        //                 flush(() => {
+        //                     setTimeout(() => {
+        //                         expect(ch5Button.iconPosition).to.be.equal(iconPosition);
+        //                         expect(ch5Button.iconClass).to.be.equal(iconClass);
+        //                         expect(ch5Button.label).to.be.equal(newLabel);
+        //                         done();
+        //                     }, BASIC_TESTING_TIMEOUT);
+        //                 });
         //             });
-        //             test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}", iconPosition: "${iconPosition}" with Label`, () => {
+        //             test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}", iconPosition: "${iconPosition}" with Label`, (done) => {
         //                 const newLabel = createRandomString(10);
         //                 const expectedValueForIconClass = iconClass.split(" ");
         //                 ch5Button.setAttribute('iconClass', iconClass);
         //                 ch5Button.setAttribute('iconPosition', iconPosition);
         //                 ch5Button.setAttribute('label', newLabel);
-        //                 const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
-        //                 for (let z = 0; z < expectedValueForIconClass.length; z++) {
-        //                     expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
-        //                 }
-        //                 expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
-        //                 expect(ch5Button.getAttribute("iconPosition")).to.satisfy((getValue) => {
-        //                     if (getValue === '' || getValue === null) {
-        //                         return (iconPosition === 'first');
-        //                     } else {
-        //                         return (iconPosition === getValue);
-        //                     }
+        //                 flush(() => {
+        //                     setTimeout(() => {
+        //                         const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
+        //                         for (let z = 0; z < expectedValueForIconClass.length; z++) {
+        //                             expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
+        //                         }
+        //                         expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
+        //                         expect(ch5Button.getAttribute("iconPosition")).to.satisfy((getValue) => {
+        //                             if (getValue === '' || getValue === null) {
+        //                                 return (iconPosition === 'first');
+        //                             } else {
+        //                                 return (iconPosition === getValue);
+        //                             }
+        //                         });
+        //                         expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + iconPosition)).to.be.equal(true);
+        //                         done();
+        //                     }, BASIC_TESTING_TIMEOUT);
         //                 });
-        //                 expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + iconPosition)).to.be.equal(true);
         //             });
         //         });
 
         //         invalid_iconPosition.forEach((iconPosition, i) => {
-        //             test(`Check attribute iconClass: "${iconClass}" and iconPosition: "${iconPosition}"`, () => {
+        //             test(`Check attribute iconClass: "${iconClass}" and iconPosition: "${iconPosition}"`, (done) => {
         //                 ch5Button.setAttribute('iconClass', iconClass);
         //                 ch5Button.setAttribute('iconPosition', iconPosition);
-        //                 expect(ch5Button.iconClass).to.be.equal(iconClass);
-        //                 expect(ch5Button.iconPosition).to.be.equal("first");
-        //                 expect(ch5Button.iconPosition).to.be.equal("first");
+        //                 flush(() => {
+        //                     setTimeout(() => {
+        //                         expect(ch5Button.iconClass).to.be.equal(iconClass);
+        //                         expect(ch5Button.iconPosition).to.be.equal("first");
+        //                         done();
+        //                     }, BASIC_TESTING_TIMEOUT);
+        //                 });
         //             });
-        //             test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}" and iconPosition: "${iconPosition}"`, () => {
+        //             test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}" and iconPosition: "${iconPosition}"`, (done) => {
         //                 ch5Button.setAttribute('iconClass', iconClass);
         //                 ch5Button.setAttribute('iconPosition', iconPosition);
-        //                 const expectedValueForIconClass = iconClass.split(" ");
-        //                 const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
-        //                 for (let z = 0; z < expectedValueForIconClass.length; z++) {
-        //                     expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
-        //                 }
-        //                 expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
-        //                 const expectedIconPositionForIconClass = "first";
-        //                 expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + expectedIconPositionForIconClass)).to.be.equal(true);
+        //                 flush(() => {
+        //                     setTimeout(() => {
+        //                         const expectedValueForIconClass = iconClass.split(" ");
+        //                         const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
+        //                         for (let z = 0; z < expectedValueForIconClass.length; z++) {
+        //                             expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
+        //                         }
+        //                         expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
+        //                         const expectedIconPositionForIconClass = "first";
+        //                         expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + expectedIconPositionForIconClass)).to.be.equal(true);
+        //                         done();
+        //                     }, BASIC_TESTING_TIMEOUT);
+        //                 });
         //             });
 
-        //             test(`Check attribute iconClass: "${iconClass}", iconPosition: "${iconPosition}" with Label`, () => {
+        //             test(`Check attribute iconClass: "${iconClass}", iconPosition: "${iconPosition}" with Label`, (done) => {
         //                 const newLabel = createRandomString(10);
         //                 ch5Button.setAttribute('iconClass', iconClass);
         //                 ch5Button.setAttribute('iconPosition', iconPosition);
         //                 ch5Button.setAttribute('label', newLabel);
-        //                 expect(ch5Button.iconPosition).to.be.equal("first");
-        //                 expect(ch5Button.iconClass).to.be.equal(iconClass);
-        //                 expect(ch5Button.label).to.be.equal(newLabel);
+        //                 flush(() => {
+        //                     setTimeout(() => {
+        //                         expect(ch5Button.iconPosition).to.be.equal("first");
+        //                         expect(ch5Button.iconClass).to.be.equal(iconClass);
+        //                         expect(ch5Button.label).to.be.equal(newLabel);
+        //                         done();
+        //                     }, BASIC_TESTING_TIMEOUT);
+        //                 });
         //             });
-        //             test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}", iconPosition: "${iconPosition}" with Label`, () => {
+        //             test(`Check ch5-button > div > i css class name for iconClass: "${iconClass}", iconPosition: "${iconPosition}" with Label`, (done) => {
         //                 const newLabel = createRandomString(10);
         //                 const expectedValueForIconClass = iconClass.split(" ");
         //                 ch5Button.setAttribute('iconClass', iconClass);
         //                 ch5Button.setAttribute('iconPosition', iconPosition);
         //                 ch5Button.setAttribute('label', newLabel);
-        //                 const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
-        //                 for (let z = 0; z < expectedValueForIconClass.length; z++) {
-        //                     expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
-        //                 }
-        //                 expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
-        //                 expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
-        //                 const expectedIconPositionForIconClass = "first";
-        //                 expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + expectedIconPositionForIconClass)).to.be.equal(true);
+        //                 flush(() => {
+        //                     setTimeout(() => {
+        //                         const getObjectClassListForIconClass = getITagInSpanForIcon(ch5Button).classList;
+        //                         for (let z = 0; z < expectedValueForIconClass.length; z++) {
+        //                             expect(getObjectClassListForIconClass.contains(expectedValueForIconClass[z])).to.be.equal(true);
+        //                         }
+        //                         expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
+        //                         expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
+        //                         const expectedIconPositionForIconClass = "first";
+        //                         expect(getObjectClassListForIconClass.contains("cx-button-icon-pos-" + expectedIconPositionForIconClass)).to.be.equal(true);
+        //                         done();
+        //                     }, BASIC_TESTING_TIMEOUT);
+        //                 });
         //             });
         //         });
         //     });
@@ -253,53 +313,70 @@
             });
 
             iconUrlArray.forEach((iconUrl, i) => {
-                test(`Check attribute iconUrl: "${iconUrl}"`, () => {
-                    ch5Button.setAttribute('iconUrl', iconUrl);
-                    expect(ch5Button.iconUrl).to.be.equal(iconUrl);
-                    expect(ch5Button.iconPosition).to.be.equal("first");
-                });
-                test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}"`, (done) => {
-                    ch5Button.setAttribute('iconUrl', iconUrl);
-                    const expectedValueForIconUrl = iconUrl;
-                    flush(() => {
-                        setTimeout(() => {
-                            const expectedIconPositionForIconUrl = "first";
-                            const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
-                            expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + expectedIconPositionForIconUrl)).to.be.equal(true);
-                            done();
-                        }, 100);
-                    });
-                });
+                // test(`Check attribute iconUrl: "${iconUrl}"`, (done) => {
+                //     ch5Button.setAttribute('iconUrl', iconUrl);
+                //     flush(() => {
+                //         setTimeout(() => {
+                //             expect(ch5Button.iconUrl).to.be.equal(iconUrl);
+                //             expect(ch5Button.iconPosition).to.be.equal("first");
+                //             done();
+                //         }, BASIC_TESTING_TIMEOUT);
+                //     });
+                // });
 
-                test(`Check attribute iconUrl: "${iconUrl}" with Label`, () => {
-                    ch5Button.setAttribute('iconUrl', iconUrl);
-                    const newLabel = createRandomString(10);
-                    ch5Button.setAttribute('label', newLabel);
-                    expect(ch5Button.iconUrl).to.be.equal(iconUrl);
-                    expect(ch5Button.iconPosition).to.be.equal("first");
-                    expect(ch5Button.label).to.be.equal(newLabel);
-                });
-                test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}" with Label`, (done) => {
-                    ch5Button.setAttribute('iconUrl', iconUrl);
-                    const newLabel = createRandomString(10);
-                    ch5Button.setAttribute('label', newLabel);
-                    flush(() => {
-                        setTimeout(() => {
-                            const expectedIconPositionForIconUrl = "first";
-                            const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
-                            expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + expectedIconPositionForIconUrl)).to.be.equal(true);
-                            expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
-                            done();
-                        }, 100);
-                    });
-                });
+                // test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}"`, (done) => {
+                //     ch5Button.setAttribute('iconUrl', iconUrl);
+                //     const expectedValueForIconUrl = iconUrl;
+                //     flush(() => {
+                //         setTimeout(() => {
+                //             const expectedIconPositionForIconUrl = "first";
+                //             const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
+                //             expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + expectedIconPositionForIconUrl)).to.be.equal(true);
+                //             done();
+                //         }, BASIC_TESTING_TIMEOUT);
+                //     });
+                // });
+
+                // test(`Check attribute iconUrl: "${iconUrl}" with Label`, (done) => {
+                //     ch5Button.setAttribute('iconUrl', iconUrl);
+                //     const newLabel = createRandomString(10);
+                //     ch5Button.setAttribute('label', newLabel);
+                //     flush(() => {
+                //         setTimeout(() => {
+                //             expect(ch5Button.iconUrl).to.be.equal(iconUrl);
+                //             expect(ch5Button.iconPosition).to.be.equal("first");
+                //             expect(ch5Button.label).to.be.equal(newLabel);
+                //             done();
+                //         }, BASIC_TESTING_TIMEOUT);
+                //     });
+                // });
+
+                // test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}" with Label`, (done) => {
+                //     ch5Button.setAttribute('iconUrl', iconUrl);
+                //     const newLabel = createRandomString(10);
+                //     ch5Button.setAttribute('label', newLabel);
+                //     flush(() => {
+                //         setTimeout(() => {
+                //             const expectedIconPositionForIconUrl = "first";
+                //             const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
+                //             expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + expectedIconPositionForIconUrl)).to.be.equal(true);
+                //             expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
+                //             done();
+                //         }, BASIC_TESTING_TIMEOUT);
+                //     });
+                // });
 
                 valid_iconPosition.forEach((iconPosition, k) => {
-                    test(`Check attribute iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}"`, () => {
+                    test(`Check attribute iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}"`, (done) => {
                         ch5Button.setAttribute('iconUrl', iconUrl);
                         ch5Button.setAttribute('iconPosition', iconPosition);
-                        expect(ch5Button.iconUrl).to.be.equal(iconUrl);
-                        expect(ch5Button.iconPosition).to.be.equal(iconPosition);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.iconUrl).to.be.equal(iconUrl);
+                                expect(ch5Button.iconPosition).to.be.equal(iconPosition);
+                                done();
+                            }, BASIC_TESTING_TIMEOUT);
+                        });
                     });
                     test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}"`, (done) => {
                         ch5Button.setAttribute('iconUrl', iconUrl);
@@ -310,82 +387,101 @@
                                 expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + ch5Button.iconPosition)).to.be.equal(true);
                                 expect(ch5Button.getAttribute("iconPosition")).to.be.equal(iconPosition);
                                 done();
-                            }, 100);
+                            }, BASIC_TESTING_TIMEOUT);
                         });
                     });
 
-                //     test(`Check attribute iconUrl: "${iconUrl}", iconPosition: "${iconPosition}" with Label`, () => {
-                //         const newLabel = createRandomString(10);
-                //         ch5Button.setAttribute('iconUrl', iconUrl);
-                //         ch5Button.setAttribute('iconPosition', iconPosition);
-                //         ch5Button.setAttribute('label', newLabel);
-                //         expect(ch5Button.iconPosition).to.be.equal(iconPosition);
-                //         expect(ch5Button.iconUrl).to.be.equal(iconUrl);
-                //         expect(ch5Button.label).to.be.equal(newLabel);
-                //         expect(ch5Button.iconPosition).to.be.equal(iconPosition);
-                //     });
-                //     test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}", iconPosition: "${iconPosition}" with Label`, (done) => {
-                //         const newLabel = createRandomString(10);
-                //         ch5Button.setAttribute('iconUrl', iconUrl);
-                //         ch5Button.setAttribute('iconPosition', iconPosition);
-                //         ch5Button.setAttribute('label', newLabel);
-                //         flush(() => {
-                //             setTimeout(() => {
-                //                 const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
-                //                 expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + ch5Button.iconPosition)).to.be.equal(true);
-                //                 expect(ch5Button.getAttribute("iconPosition")).to.be.equal(ch5Button.iconPosition);
-                //                 expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
-                //                 done();
-                //             }, 100);
-                //         });
-                //     });
+                    test(`Check attribute iconUrl: "${iconUrl}", iconPosition: "${iconPosition}" with Label`, (done) => {
+                        const newLabel = createRandomString(10);
+                        ch5Button.setAttribute('iconUrl', iconUrl);
+                        ch5Button.setAttribute('iconPosition', iconPosition);
+                        ch5Button.setAttribute('label', newLabel);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.iconPosition).to.be.equal(iconPosition);
+                                expect(ch5Button.iconUrl).to.be.equal(iconUrl);
+                                expect(ch5Button.label).to.be.equal(newLabel);
+                                done();
+                            }, BASIC_TESTING_TIMEOUT);
+                        });
+                    });
+                    test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}", iconPosition: "${iconPosition}" with Label`, (done) => {
+                        const newLabel = createRandomString(10);
+                        ch5Button.setAttribute('iconUrl', iconUrl);
+                        ch5Button.setAttribute('iconPosition', iconPosition);
+                        ch5Button.setAttribute('label', newLabel);
+                        flush(() => {
+                            setTimeout(() => {
+                                const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
+                                expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + ch5Button.iconPosition)).to.be.equal(true);
+                                expect(ch5Button.getAttribute("iconPosition")).to.be.equal(ch5Button.iconPosition);
+                                expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
+                                done();
+                            }, BASIC_TESTING_TIMEOUT);
+                        });
+                    });
                 });
 
-                // invalid_iconPosition.forEach((iconPosition, k) => {
-                //     test(`Check attribute iconUrl: "${iconUrl}" and Invalid iconPosition: "${iconPosition}"`, () => {
-                //         ch5Button.setAttribute('iconUrl', iconUrl);
-                //         ch5Button.setAttribute('iconPosition', iconPosition);
-                //         expect(ch5Button.iconUrl).to.be.equal(iconUrl);
-                //         expect(ch5Button.iconPosition).to.be.equal("first");
-                //     });
-                //     test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}" and Invalid iconPosition: "${iconPosition}"`, (done) => {
-                //         ch5Button.setAttribute('iconUrl', iconUrl);
-                //         ch5Button.setAttribute('iconPosition', iconPosition);
-                //         flush(() => {
-                //             setTimeout(() => {
-                //                 const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
-                //                 expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + ch5Button.iconPosition)).to.be.equal(true);
-                //                 expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
-                //                 done();
-                //             }, 100);
-                //         });
-                //     });
+                invalid_iconPosition.forEach((iconPosition, k) => {
+                    test(`Check attribute iconUrl: "${iconUrl}" and Invalid iconPosition: "${iconPosition}"`, (done) => {
+                        ch5Button.setAttribute('iconUrl', iconUrl);
+                        ch5Button.setAttribute('iconPosition', iconPosition);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.iconUrl).to.be.equal(iconUrl);
+                                expect(ch5Button.iconPosition).to.be.equal("first");
+                                done();
+                            }, BASIC_TESTING_TIMEOUT * 2);
+                        });
+                    });
 
-                //     test(`Check attribute iconUrl: "${iconUrl}", Invalid iconPosition: "${iconPosition}" with Label`, () => {
-                //         const newLabel = createRandomString(10);
-                //         ch5Button.setAttribute('iconUrl', iconUrl);
-                //         ch5Button.setAttribute('iconPosition', iconPosition);
-                //         ch5Button.setAttribute('label', newLabel);
-                //         expect(ch5Button.iconPosition).to.be.equal("first");
-                //         expect(ch5Button.iconUrl).to.be.equal(iconUrl);
-                //         expect(ch5Button.label).to.be.equal(newLabel);
-                //     });
-                //     test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}", Invalid iconPosition: "${iconPosition}" with Label`, (done) => {
-                //         const newLabel = createRandomString(10);
-                //         ch5Button.setAttribute('label', newLabel);
-                //         ch5Button.setAttribute('iconUrl', iconUrl);
-                //         ch5Button.setAttribute('iconPosition', iconPosition);
-                //         flush(() => {
-                //             setTimeout(() => {
-                //                 const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
-                //                 expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + ch5Button.iconPosition)).to.be.equal(true);
-                //                 expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
-                //                 expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
-                //                 done();
-                //             }, 100);
-                //         });
-                //     });
-                // });
+                    test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}" and Invalid iconPosition: "${iconPosition}"`, (done) => {
+                        ch5Button.setAttribute('iconUrl', iconUrl);
+                        ch5Button.setAttribute('iconPosition', iconPosition);
+                        flush(() => {
+                            setTimeout(() => {
+                                const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
+                                expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-first")).to.be.equal(true);
+                                expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
+                                done();
+                            }, BASIC_TESTING_TIMEOUT * 2);
+                        });
+                    });
+
+                    test(`Check attribute iconUrl: "${iconUrl}", Invalid iconPosition: "${iconPosition}" with Label`, (done) => {
+                        const newLabel = createRandomString(10);
+                        ch5Button.setAttribute('iconUrl', iconUrl);
+                        ch5Button.setAttribute('iconPosition', iconPosition);
+                        ch5Button.setAttribute('label', newLabel);
+                        flush(() => {
+                            setTimeout(() => {
+                                expect(ch5Button.iconPosition).to.be.equal("first");
+                                expect(ch5Button.iconUrl).to.be.equal(iconUrl);
+                                expect(ch5Button.label).to.be.equal(newLabel);
+                                done();
+                            }, BASIC_TESTING_TIMEOUT * 2);
+                        });
+                    });
+
+                    test(`Check ch5-button > div > i css class name for iconUrl: "${iconUrl}", Invalid iconPosition: "${iconPosition}" with Label`, (done) => {
+                        const newLabel = createRandomString(10);
+                        ch5Button.setAttribute('iconUrl', iconUrl);
+                        ch5Button.setAttribute('iconPosition', iconPosition);
+                        ch5Button.setAttribute('label', newLabel);
+                        flush(() => {
+                            setTimeout(() => {
+                                const getObjectClassListForIconUrl = getSVGTagInSpanForIcon(ch5Button).classList;
+                                expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-first")).to.be.equal(true);
+                                expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
+                                expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
+                                done();
+                            }, BASIC_TESTING_TIMEOUT * 2);
+                            // TODO Note that the timeout is increased becos we create imgToSvg
+                        });
+                    });
+                });
+
+
             });
         });
 
@@ -418,7 +514,7 @@
 
     //         iconClassArray.forEach((iconClass, i) => {
     //             iconUrlArray.forEach((iconUrl, j) => {
-    //                 test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}"`, () => {
+    //                 test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}"`, (done) => {
     //                     ch5Button.setAttribute('iconClass', iconClass);
     //                     ch5Button.setAttribute('iconUrl', iconUrl);
     //                     expect(ch5Button.iconUrl).to.be.equal(iconUrl);
@@ -447,11 +543,11 @@
     //                                 }
     //                             });
     //                             done();
-    //                         }, 100);
+    //                         }, BASIC_TESTING_TIMEOUT);
     //                     });
     //                 });
 
-    //                 test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" with Label`, () => {
+    //                 test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" with Label`, (done) => {
     //                     const newLabel = createRandomString(10);
     //                     ch5Button.setAttribute('label', newLabel);
     //                     ch5Button.setAttribute('iconClass', iconClass);
@@ -484,14 +580,14 @@
     //                             });
     //                             expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
     //                             done();
-    //                         }, 100);
+    //                         }, BASIC_TESTING_TIMEOUT);
     //                     });
     //                 });
 
 
 
     //                 valid_iconPosition.forEach((iconPosition, k) => {
-    //                     test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}"`, () => {
+    //                     test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}"`, (done) => {
     //                         ch5Button.setAttribute('iconClass', iconClass);
     //                         ch5Button.setAttribute('iconUrl', iconUrl);
     //                         ch5Button.setAttribute('iconPosition', iconPosition);
@@ -518,11 +614,11 @@
     //                                     }
     //                                 });
     //                                 done();
-    //                             }, 100);
+    //                             }, BASIC_TESTING_TIMEOUT);
     //                         });
     //                     });
 
-    //                     test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}" with Label`, () => {
+    //                     test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}" with Label`, (done) => {
     //                         const newLabel = createRandomString(10);
     //                         ch5Button.setAttribute('label', newLabel);
     //                         ch5Button.setAttribute('iconClass', iconClass);
@@ -555,13 +651,13 @@
     //                                 });
     //                                 expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
     //                                 done();
-    //                             }, 100);
+    //                             }, BASIC_TESTING_TIMEOUT);
     //                         });
     //                     });
     //                 });
 
     //                 invalid_iconPosition.forEach((iconPosition, k) => {
-    //                     test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}"`, () => {
+    //                     test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}"`, (done) => {
     //                         ch5Button.setAttribute('iconClass', iconClass);
     //                         ch5Button.setAttribute('iconPosition', iconPosition);
     //                         ch5Button.setAttribute('iconUrl', iconUrl);
@@ -583,11 +679,11 @@
     //                                 expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + expectedIconPositionForIconUrl)).to.be.equal(true);
     //                                 expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
     //                                 done();
-    //                             }, 100);
+    //                             }, BASIC_TESTING_TIMEOUT);
     //                         });
     //                     });
 
-    //                     test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}" with Label`, () => {
+    //                     test(`Check attribute iconClass: "${iconClass}" and iconUrl: "${iconUrl}" and iconPosition: "${iconPosition}" with Label`, (done) => {
     //                         const newLabel = createRandomString(10);
     //                         ch5Button.setAttribute('iconPosition', iconPosition);
     //                         ch5Button.setAttribute('label', newLabel);
@@ -615,7 +711,7 @@
     //                                 expect(ch5Button.getAttribute("iconPosition")).to.be.equal("first");
     //                                 expect(getSpanForLabel(ch5Button).innerText).to.be.equal(newLabel);
     //                                 done();
-    //                             }, 100);
+    //                             }, BASIC_TESTING_TIMEOUT);
     //                         });
     //                     });
     //                 });
@@ -634,12 +730,12 @@
 
     //         // // ch5Button1
     //         // valid_selected.forEach((selected, k) => {
-    //         //     test(`ch5-button-icon-fixture1 - Check attribute iconPosition for ch5-button-mode and mode value=0, and selected: "${selected}"`, () => {
+    //         //     test(`ch5-button-icon-fixture1 - Check attribute iconPosition for ch5-button-mode and mode value=0, and selected: "${selected}"`, (done) => {
     //         //         ch5Button1.setAttribute('mode', "0");
     //         //         const expectedValue = "left";
     //         //         expect(ch5Button1.iconPosition).to.be.equal(expectedValue);
     //         //     });
-    //         //     test(`ch5-button-icon-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=0, and selected: "${selected}"`, () => {
+    //         //     test(`ch5-button-icon-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=0, and selected: "${selected}"`, (done) => {
     //         //         ch5Button1.setAttribute('mode', "0");
     //         //         const expectedValue = "left";
     //         //         ch5Button.setAttribute('selected', selected);
@@ -650,12 +746,12 @@
     //         //         expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("cx-button-icon-pos-" + ch5Button.iconPosition)).to.be.equal(true);
     //         //     });
 
-    //         //     test(`ch5-button-icon-fixture1 - Check attribute iconPosition for ch5-button-mode and mode value=1, and selected: "${selected}"`, () => {
+    //         //     test(`ch5-button-icon-fixture1 - Check attribute iconPosition for ch5-button-mode and mode value=1, and selected: "${selected}"`, (done) => {
     //         //         ch5Button1.setAttribute('mode', "1");
     //         //         const expectedValue = "right";
     //         //         expect(ch5Button1.iconPosition).to.be.equal(expectedValue);
     //         //     });
-    //         //     test(`ch5-button-icon-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=1, and selected: "${selected}"`, () => {
+    //         //     test(`ch5-button-icon-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=1, and selected: "${selected}"`, (done) => {
     //         //         ch5Button1.setAttribute('mode', "1");
     //         //         const expectedValue = "right";
     //         //         ch5Button1.setAttribute('selected', selected);
@@ -666,12 +762,12 @@
     //         //         expect(getITagInButtonForCheckbox(ch5Button1).classList.contains("cx-button-icon-pos-" + expectedValue)).to.be.equal(true);
     //         //     });
 
-    //         //     test(`ch5-button-icon-fixture1 - Check attribute iconPosition for ch5-button-mode and mode value=2, and selected: "${selected}"`, () => {
+    //         //     test(`ch5-button-icon-fixture1 - Check attribute iconPosition for ch5-button-mode and mode value=2, and selected: "${selected}"`, (done) => {
     //         //         ch5Button1.setAttribute('mode', "2");
     //         //         const expectedValue = "left";
     //         //         expect(ch5Button1.iconPosition).to.be.equal(expectedValue);
     //         //     });
-    //         //     test(`ch5-button-icon-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=2, and selected: "${selected}"`, () => {
+    //         //     test(`ch5-button-icon-fixture1 - Check ch5-button > div css class name for ch5-button-mode and mode value=2, and selected: "${selected}"`, (done) => {
     //         //         ch5Button1.setAttribute('mode', "2");
     //         //         const expectedValue = "left";
     //         //         ch5Button1.setAttribute('selected', selected);
@@ -722,7 +818,7 @@
     //         //                     expect(ch5Button2.getAttribute('iconPosition')).to.be.equal("left");
     //         //                     expect(ch5Button2.iconPosition).to.be.equal(modeIconClassObj.iconPosition);
     //         //                     done();
-    //         //                 }, 100);
+    //         //                 }, BASIC_TESTING_TIMEOUT);
     //         //             });
     //         //         });
 
@@ -738,7 +834,7 @@
     //         //                     expect(getITagInButtonForCheckbox(ch5Button2).classList.contains("ch5-button__icon--checked")).to.be.equal(ch5Button2.selected);
     //         //                     expect(getITagInButtonForCheckbox(ch5Button2).classList.contains("cx-button-icon-pos-" + expectedValue)).to.be.equal(true);
     //         //                     done();
-    //         //                 }, 100);
+    //         //                 }, BASIC_TESTING_TIMEOUT);
     //         //             });
     //         //         });
     //         //     });
@@ -746,13 +842,13 @@
 
     //         // // ch5Button3
     //         // valid_selected.forEach((selectionObj, i) => {
-    //         //     test(`ch5-button-icon-fixture3 - Check attribute iconPosition for ch5-button-mode-state with selected as "${selectionObj}"`, () => {
+    //         //     test(`ch5-button-icon-fixture3 - Check attribute iconPosition for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
     //         //         ch5Button3.setAttribute('selected', selectionObj);
     //         //         const expectedValue = selectionObj === true ? "right" : "left";
     //         //         expect(ch5Button3.getAttribute('iconPosition')).to.be.equal("right");
     //         //         expect(ch5Button3.iconPosition).to.be.equal(expectedValue);
     //         //     });
-    //         //     test(`ch5-button-icon-fixture3 - Check ch5-button > div css class name for ch5-button-mode-state with selected as "${selectionObj}"`, () => {
+    //         //     test(`ch5-button-icon-fixture3 - Check ch5-button > div css class name for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
     //         //         ch5Button3.setAttribute('selected', selectionObj);
     //         //         const expectedValue = selectionObj === true ? "right" : "left";
     //         //         expect(!!getITagInButtonForCheckbox(ch5Button3)).to.be.equal(true);
@@ -770,7 +866,7 @@
     //         //                 const expectedValue = selectionObj === true ? "right" : "left";
     //         //                 expect(ch5Button3.iconPosition).to.be.equal(expectedValue);
     //         //                 done();
-    //         //             }, 100);
+    //         //             }, BASIC_TESTING_TIMEOUT);
     //         //         });
     //         //     });
 
@@ -785,7 +881,7 @@
     //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("ch5-button__icon--checked")).to.be.equal(ch5Button3.selected);
     //         //                 expect(getITagInButtonForCheckbox(ch5Button3).classList.contains("cx-button-icon-pos-" + expectedValue)).to.be.equal(true);
     //         //                 done();
-    //         //             }, 100);
+    //         //             }, BASIC_TESTING_TIMEOUT);
     //         //         });
     //         //     });
     //         // });
