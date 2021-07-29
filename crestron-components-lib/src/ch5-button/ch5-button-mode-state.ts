@@ -5,27 +5,30 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Common } from "../ch5-common/ch5-common";
-import _ from "lodash";
 import { ICh5ButtonModeStateAttributes, TCh5ButtonCheckboxPosition, TCh5ButtonHorizontalAlignLabel, TCh5ButtonIconPosition, TCh5ButtonModeState, TCh5ButtonType, TCh5ButtonVerticalAlignLabel } from "./interfaces";
 import { Ch5Button } from "./ch5-button";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5Log } from "../ch5-common/ch5-log";
+import _ from "lodash";
 
 const COMPONENT_NAME: string = "ch5-button-mode-state";
 
 export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAttributes {
 
+  //#region 1. Variables
+
   private _state: TCh5ButtonModeState = "normal";
   private _parentCh5Button: Ch5Button;
 
-  //#region 1. Setters and Getters
+  //#endregion
+
+  //#region 2. Setters and Getters
 
   public set state(value: TCh5ButtonModeState) {
     // TODO - check if invalid state from list
     // TODO - check if get should give this._state or getAttribute
-    this.info('set state("' + value + '")');
+    this.logger.log('set state("' + value + '")');
     if (this._state !== value) {
       this._state = value;
     }
@@ -35,55 +38,48 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
   }
 
   public set iconClass(value: string) {
-    this.info('set iconClass("' + value + '")');
-    this.validateAndSetAttributeWithStringType("iconclass", value);
+    this.validateAndSetAttributeWithStringType("iconClass", value);
   }
   public get iconClass(): string {
     return this.getAttribute("iconclass") as string;
   }
 
   public set hAlignLabel(value: TCh5ButtonHorizontalAlignLabel | null) {
-    this.info('set hAlignLabel("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("halignlabel", Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS, value);
+    this.validateAndSetAttributeWithCustomType("hAlignLabel", Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS, value);
   }
   public get hAlignLabel(): TCh5ButtonHorizontalAlignLabel | null {
     return this.getAttribute("halignlabel") as TCh5ButtonHorizontalAlignLabel | null;
   }
 
   public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel | null) {
-    this.info('set vAlignLabel("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("valignlabel", Ch5Button.VERTICAL_LABEL_ALIGNMENTS, value);
+    this.validateAndSetAttributeWithCustomType("vAlignLabel", Ch5Button.VERTICAL_LABEL_ALIGNMENTS, value);
   }
   public get vAlignLabel(): TCh5ButtonVerticalAlignLabel | null {
     return this.getAttribute("valignlabel") as TCh5ButtonVerticalAlignLabel | null;
   }
 
   public set checkboxPosition(value: TCh5ButtonCheckboxPosition | null) {
-    this.info('set checkboxPosition("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("checkboxposition", Ch5Button.CHECKBOX_POSITIONS, value);
+    this.validateAndSetAttributeWithCustomType("checkboxPosition", Ch5Button.CHECKBOX_POSITIONS, value);
   }
   public get checkboxPosition(): TCh5ButtonCheckboxPosition | null {
     return this.getAttribute("checkboxposition") as TCh5ButtonCheckboxPosition | null;
   }
 
   public set iconPosition(value: TCh5ButtonIconPosition | null) {
-    this.info('set iconPosition("' + value + '")');
-    this.validateAndSetAttributeWithCustomType("iconposition", Ch5Button.ICON_POSITIONS, value);
+    this.validateAndSetAttributeWithCustomType("iconPosition", Ch5Button.ICON_POSITIONS, value);
   }
   public get iconPosition(): TCh5ButtonIconPosition | null {
     return this.getAttribute("iconposition") as TCh5ButtonIconPosition | null;
   }
 
   public set iconUrl(value: string) {
-    this.info('set iconUrl("' + value + '")');
-    this.validateAndSetAttributeWithStringType("iconurl", value);
+    this.validateAndSetAttributeWithStringType("iconUrl", value);
   }
   public get iconUrl(): string {
     return this.getAttribute("iconurl") as string;
   }
 
   public set type(value: TCh5ButtonType | null) {
-    this.info('set type("' + value + '")');
     this.validateAndSetAttributeWithCustomType("type", Ch5Button.TYPES, value);
   }
   public get type(): TCh5ButtonType | null {
@@ -91,16 +87,14 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
   }
 
   public set customClass(value: string) {
-    this.info('set customClass("' + value + '")');
-    this.validateAndSetAttributeWithStringType("customclass", value);
+    this.validateAndSetAttributeWithStringType("customClass", value);
   }
   public get customClass(): string {
     return this.getAttribute("customclass") as string;
   }
 
   public set customStyle(value: string) {
-    this.info('set customStyle("' + value + '")');
-    this.validateAndSetAttributeWithStringType("customstyle", value);
+    this.validateAndSetAttributeWithStringType("customStyle", value);
   }
   public get customStyle(): string {
     return this.getAttribute("customstyle") as string;
@@ -108,12 +102,13 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
 
   //#endregion
 
-  //#region 2. Life Cycle Hooks
+  //#region 3. Life Cycle Hooks
 
   constructor() {
     super();
-    this.info('Ch5ButtonMode.constructor()');
+    this.logger.start('constructor');
     this._parentCh5Button = this.getParentButton();
+    this.logger.stop();
   }
 
   /**
@@ -121,7 +116,7 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
    *  Useful for running setup code, such as fetching resources or rendering.
    */
   public connectedCallback() {
-    this.logger.start('connectedCallback()', COMPONENT_NAME);
+    this.logger.start('connectedCallback');
 
     if (!(this.parentElement instanceof Ch5ButtonMode)) {
       throw new Error(`Invalid parent element for ch5-button-mode-state.`);
@@ -142,7 +137,7 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
    * Useful for running clean up code.
    */
   public disconnectedCallback() {
-    this.logger.start('disconnectedCallback()', COMPONENT_NAME);
+    this.logger.start('disconnectedCallback');
     this.logger.stop();
   }
 
@@ -172,10 +167,10 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
    * Called when an HTML attribute is changed, added or removed
    */
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-    this.logger.start("attributeChangedCallback", COMPONENT_NAME);
+    this.logger.start("attributeChangedCallback");
     if (oldValue !== newValue) {
 
-      this.info('Ch5ButtonModeState.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
+      this.logger.log('Ch5ButtonModeState.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
 
       switch (attr) {
         case 'type':
@@ -254,32 +249,36 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
 
   //#endregion
 
-  //#region 3. Other Methods
+  //#region 4. Other Methods
 
   private validateAndSetAttributeWithCustomType(attributeName: string, parentMasterData: any, value: any) {
+    this.logger.start('set ' + attributeName + '("' + value + '")');
     if (value !== null) {
       if (parentMasterData.indexOf(value) >= 0) {
-        this.setAttribute(attributeName, value);
+        this.setAttribute(attributeName.toLowerCase(), value);
         this._parentCh5Button.setButtonDisplay(this);
       } else {
         this.removeAttribute(attributeName);
-        // parentElement.changeAttributesOnModeChange(this); is not required here. The set type will be called again to 
+        // parentElement.setButtonDisplay(this); is not required here. The set type will be called again to 
         // go the below else block and the  is called
       }
     } else {
       this.removeAttribute(attributeName);
       this._parentCh5Button.setButtonDisplay(this);
     }
+    this.logger.stop();
   }
 
   private validateAndSetAttributeWithStringType(attributeName: string, value: any) {
+    this.logger.start('set ' + attributeName + '("' + value + '")');
     if (value !== null) {
-      this.setAttribute(attributeName, value);
+      this.setAttribute(attributeName.toLowerCase(), value);
       this._parentCh5Button.setButtonDisplay(this);
     } else {
       this.removeAttribute(attributeName);
       this._parentCh5Button.setButtonDisplay(this);
     }
+    this.logger.stop();
   }
 
   public getParentButton(): Ch5Button {
@@ -289,7 +288,6 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
       }
       return node as Ch5Button;
     }
-
     return getTheMatchingParent(this.parentElement as Node);
   }
 

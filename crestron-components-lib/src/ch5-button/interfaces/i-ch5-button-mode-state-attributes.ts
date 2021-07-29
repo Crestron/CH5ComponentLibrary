@@ -19,7 +19,7 @@ import { TCh5ButtonModeState } from "./t-ch5-button";
  * [
  *   "`ch5-button-mode-state` element",
  *   "***",
- *   "A child element designed to capture mode level attributes for Ch5 Button component."
+ *   "A child element designed to capture state level attributes for Ch5 Button component."
  * ]
  * @snippets
  * [
@@ -30,7 +30,25 @@ import { TCh5ButtonModeState } from "./t-ch5-button";
  *       "<ch5-button-mode-state>",
  *       "</ch5-button-mode-state>$0"
  *     ]
- *   }
+ *   },
+ *   {
+ *     "prefix": "ch5-button-mode-state:all-attributes",
+ *     "description": "Crestron Button Mode State (All Attributes)",
+ *     "body": [
+ *       "<ch5-button-mode-state",
+ *       "\tstate=\"${1|normal,pressed,selected|}\"",
+ *       "\ttype=\"${2|default,primary,info,text,danger,warning,success,secondary|}\"",
+ *       "\tcustomClass=\"${3:customClass}\"",
+ *       "\tcustomStyle=\"${4:customStyle}\"",
+ *       "\tcheckboxposition=\"${5|left,right|}\"",
+ *       "\thalignlabel=\"${6|center,left,right|}\"",
+ *       "\tvalignlabel=\"${7|middle,top,bottom|}\"",
+ *       "\ticonposition=\"${8|first,last,top,bottom|}\"",
+ *       "\ticonClass=\"${9:iconClass}\"",
+ *       "\ticonUrl=\"${10:iconUrl}\">",
+ *       "</ch5-button-mode-state>$0"
+ *       ]
+ *    }
  * ]
  *
  */export interface ICh5ButtonModeStateAttributes extends ICh5ButtonModeCommonAttributes {

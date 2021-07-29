@@ -19,6 +19,8 @@ export class Ch5CommonLog {
         ts = (new Date()).toISOString();
       }
       console.group((componentName !== "" ? componentName + " " : "") + ts + ": " + this.crId + ": " + message);
+    } else if (this.isDebugEnabled === true) {
+      this.info(message, componentName);
     }
   }
 
@@ -54,6 +56,33 @@ export class Ch5CommonLog {
         } catch (e) {
           console.log(ts + ':' + this.crId + ':', message);
         }
+      }
+    }
+  }
+
+  public info(message?: any, ...optionalParams: any[]) {
+    if (true === this.isDebugEnabled) {
+      let ts: string = '';
+      if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
+        ts = (new Date()).toISOString();
+      }
+      try {
+        let callerName: string = String(new Error().stack).trim();
+        if (callerName !== null) {
+          if (callerName) { callerName = callerName.replace(/^Error\s+/, ''); }
+          if (callerName) { callerName = callerName.split("\n")[1]; } // 1st item is this, 2nd item is caller
+          if (callerName) { callerName = callerName.replace(/^\s+at Object./, ''); }
+          if (callerName) { callerName = callerName.replace(/^\s+at HTMLElement./, ''); }
+          if (callerName) { callerName = callerName.replace(/^\s+at /, ''); }
+          if (callerName) { callerName = callerName.replace(/ \(.+\)$/, ''); }
+          if (callerName) { callerName = callerName.replace(/\@.+/, ''); }
+          if (callerName && callerName !== "") {
+            callerName = "Method is " + callerName + ":";
+          }
+        }
+        console.info(ts + ':' + this.crId + ':' + callerName + message + ':' + optionalParams);
+      } catch (e) {
+        console.info(ts + ':' + this.crId + ':' + message + ':' + optionalParams)
       }
     }
   }

@@ -68,7 +68,7 @@ export class Ch5ButtonUtils {
 	}
 
 	// private setPropertyValue<K extends keyof Ch5Button, T>(propertyName: K, value: T) {
-	// 	this.info('set ' + propertyName + '("' + value + '")');
+	// 	this.logger.log('set ' + propertyName + '("' + value + '")');
 	// 	let masterArray: any = [];
 	// 	let tempPropName: any = ("_" + propertyName); // this.typeAssert<T>(("_" + propertyName));
 	// 	// let tempPropName: any; // = "";

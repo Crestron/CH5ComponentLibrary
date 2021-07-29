@@ -29,7 +29,24 @@ import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
  *       "<ch5-button-mode>",
  *       "</ch5-button-mode>$0"
  *     ]
- *   }
+ *   },
+ *   {
+ *     "prefix": "ch5-button-mode:all-attributes",
+ *     "description": "Crestron Button Mode (All Attributes)",
+ *     "body": [
+ *       "<ch5-button-mode",
+ *       "\ttype=\"${1|default,primary,info,text,danger,warning,success,secondary|}\"",
+ *       "\tcustomClass=\"${2:customClass}\"",
+ *       "\tcustomStyle=\"${3:customStyle}\"",
+ *       "\tcheckboxposition=\"${4|left,right|}\"",
+ *       "\thalignlabel=\"${5|center,left,right|}\"",
+ *       "\tvalignlabel=\"${6|middle,top,bottom|}\"",
+ *       "\ticonposition=\"${7|first,last,top,bottom|}\"",
+ *       "\ticonClass=\"${8:iconClass}\"",
+ *       "\ticonUrl=\"${9:iconUrl}\">",
+ *       "</ch5-button-mode>$0"
+ *       ]
+ *    }
  * ]
  *
  */
