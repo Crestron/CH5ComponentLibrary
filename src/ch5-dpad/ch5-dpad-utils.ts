@@ -15,7 +15,7 @@ export class CH5DpadUtils {
     public static getAttributeAsString(thisRef: any, keyToCheck: string, defaultValue: string = '') {
         let retVal = defaultValue;
         keyToCheck = keyToCheck.toLowerCase(); // precaution for attributes, to keep them lower cased
-        if (thisRef.hasAttribute([keyToCheck])) {
+        if (!!thisRef && thisRef.hasAttribute([keyToCheck])) {
             retVal = thisRef.getAttribute([keyToCheck]) as string;
         }
         return retVal;
@@ -80,75 +80,6 @@ export class CH5DpadUtils {
     }
 
     /**
-     * Function to check and return if there is a valid image URL to be added for dpad child element
-     * @param thisRef dpad child element
-     * @param buttonTag tag as a string
-     * @returns image url if it exists
-     */
-    public static getImageUrl(thisRef: TDpadChildElement, buttonTag: string, isAllowedByParentContract: boolean): string {
-        let retStr = '';
-        const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
-        if (isAllowedByParentContract) {
-            retStr = '';
-        } else if (thisRef.receiveStateIconUrl.length > 0) {
-            // TODO: check if its a valid URL
-            retStr = thisRef.receiveStateIconUrl;
-        } else if (thisRef.iconUrl.length > 0) {
-            // TODO: check if its a valid URL
-            retStr = thisRef.iconUrl;
-        }
-
-        return retStr;
-    }
-
-    /**
-     * Function to check and return if there is a valid icon class to be added for dpad child element
-     * @param thisRef dpad child element
-     * @param buttonTag tag as a string
-     * @returns icon class if it exists
-     */
-    public static getIconClass(thisRef: TDpadChildElement, buttonTag: string, isAllowedByParentContract: boolean): string {
-        let retStr = '';
-        const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
-
-        if (isAllowedByParentContract) {
-            retStr = '';
-        } else if (thisRef.receiveStateIconClass.length > 0) {
-            // TODO: check if its a valid icon class
-            retStr = thisRef.receiveStateIconClass;
-        } else if (thisRef.iconClass.length > 0) {
-            // TODO: check if its a valid icon class
-            retStr = thisRef.iconClass;
-        }
-
-        return retStr;
-    }
-
-    /**
-     * Function to check and return if there is a valid icon class to be added for dpad child element
-     * useful only for dpad-button-center
-     * @param thisRef dpad child element
-     * @param buttonTag tag as a string
-     * @returns icon class if it exists
-     */
-    public static getLabelText(thisRef: Ch5DpadCenter, buttonTag: string, isAllowedByParentContract: boolean): string {
-        let retStr = '';
-        const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
-
-        if (isAllowedByParentContract) {
-            retStr = '';
-        } else if (thisRef.receivestatescriptlabelhtml.length > 0) {
-            retStr = thisRef.receivestatescriptlabelhtml; // label as HTML input from contract
-        } else if (thisRef.receiveStateLabel.length > 0) {
-            retStr = thisRef.receiveStateLabel; // label as string from contract
-        } else if (thisRef.label.length > 0) {
-            retStr = thisRef.label; // label as string from attribute
-        }
-
-        return retStr;
-    }
-
-    /**
      * Function to return a 'span' tag to be placed as icon for dpad child btn
      * @param imageUrl image url for icon
      * @returns HTMLElement, a 'span' tag
@@ -205,23 +136,6 @@ export class CH5DpadUtils {
     }
 
     /**
-     * Function to create and assign values for parentcontrolled contract rules
-     */
-    public static buildParentControlledContractRules(thisRef: any): TParentControlledContractRules {
-        // the default value for all the flags are 'false'
-        const contractName = CH5DpadUtils.getAttributeAsString(thisRef.parentElement, 'contractName', '');
-        const isContractNameAvailable = Boolean(contractName); // if contractName exists, then assign true as default value
-        const retObj: TParentControlledContractRules = {
-            contractName,
-            enable: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractforEnable', isContractNameAvailable),
-            show: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractForShow', isContractNameAvailable),
-            label: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractforLabel', isContractNameAvailable),
-            icon: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractForIcons', isContractNameAvailable)
-        };
-        return retObj;
-    }
-
-    /**
      * Function to subscribe state generically per state/contract object requested
      * @param signalname signal name on which the subscription is to be created for
      * @param signalValue signal value or contract name on which the subscription is called on
@@ -255,19 +169,6 @@ export class CH5DpadUtils {
     }
 
     /**
-     * Function to instantiate empty contract object
-     * @returns signalStructure
-     */
-    public static getBlankContractObj(): signalStructure {
-        const contractObj: signalStructure = {
-            signalName: '',
-            signalValue: '',
-            response: ''
-        };
-        return contractObj;
-    }
-
-    /**
      * Function to check and return the required value for a given params
      * @param hasAttribute pre-existing attribute status
      * @param valToAssign new value to assign
@@ -281,4 +182,104 @@ export class CH5DpadUtils {
             return defaultValue;
         }
     }
+
+    // TODO: HH - Delete all commented code below if not used
+    // /**
+    //  * Function to check and return if there is a valid image URL to be added for dpad child element
+    //  * @param thisRef dpad child element
+    //  * @param buttonTag tag as a string
+    //  * @returns image url if it exists
+    //  */
+    // public static getImageUrl(thisRef: TDpadChildElement, buttonTag: string, isAllowedByParentContract: boolean): string {
+    //     let retStr = '';
+    //     const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
+    //     if (isAllowedByParentContract) {
+    //         retStr = '';
+    //     } else if (thisRef.receiveStateIconUrl.length > 0) {
+    //         // TODO: check if its a valid URL
+    //         retStr = thisRef.receiveStateIconUrl;
+    //     } else if (thisRef.iconUrl.length > 0) {
+    //         // TODO: check if its a valid URL
+    //         retStr = thisRef.iconUrl;
+    //     }
+
+    //     return retStr;
+    // }
+
+    // /**
+    //  * Function to check and return if there is a valid icon class to be added for dpad child element
+    //  * @param thisRef dpad child element
+    //  * @param buttonTag tag as a string
+    //  * @returns icon class if it exists
+    //  */
+    // public static getIconClass(thisRef: TDpadChildElement, buttonTag: string, isAllowedByParentContract: boolean): string {
+    //     let retStr = '';
+    //     const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
+
+    //     if (isAllowedByParentContract) {
+    //         retStr = '';
+    //     } else if (thisRef.receiveStateIconClass.length > 0) {
+    //         // TODO: check if its a valid icon class
+    //         retStr = thisRef.receiveStateIconClass;
+    //     } else if (thisRef.iconClass.length > 0) {
+    //         // TODO: check if its a valid icon class
+    //         retStr = thisRef.iconClass;
+    //     }
+
+    //     return retStr;
+    // }
+
+    // /**
+    //  * Function to check and return if there is a valid icon class to be added for dpad child element
+    //  * useful only for dpad-button-center
+    //  * @param thisRef dpad child element
+    //  * @param buttonTag tag as a string
+    //  * @returns icon class if it exists
+    //  */
+    // public static getLabelText(thisRef: Ch5DpadCenter, buttonTag: string, isAllowedByParentContract: boolean): string {
+    //     let retStr = '';
+    //     const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
+
+    //     if (isAllowedByParentContract) {
+    //         retStr = '';
+    //     } else if (thisRef.receivestatescriptlabelhtml.length > 0) {
+    //         retStr = thisRef.receivestatescriptlabelhtml; // label as HTML input from contract
+    //     } else if (thisRef.receiveStateLabel.length > 0) {
+    //         retStr = thisRef.receiveStateLabel; // label as string from contract
+    //     } else if (thisRef.label.length > 0) {
+    //         retStr = thisRef.label; // label as string from attribute
+    //     }
+
+    //     return retStr;
+    // }
+
+    // /**
+    //  * Function to instantiate empty contract object
+    //  * @returns signalStructure
+    //  */
+    // public static getBlankContractObj(): signalStructure {
+    //     const contractObj: signalStructure = {
+    //         signalName: '',
+    //         signalValue: '',
+    //         response: ''
+    //     };
+    //     return contractObj;
+    // }
+
+    // /**
+    //  * Function to create and assign values for parentcontrolled contract rules
+    //  */
+    // public static buildParentControlledContractRules(thisRef: any): TParentControlledContractRules {
+    //     // the default value for all the flags are 'false'
+    //     const contractName = CH5DpadUtils.getAttributeAsString(thisRef.parentElement, 'contractName', '');
+    //     const isContractNameAvailable = Boolean(contractName); // if contractName exists, then assign true as default value
+    //     const retObj: TParentControlledContractRules = {
+    //         contractName,
+    //         enable: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractforEnable', isContractNameAvailable),
+    //         show: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractForShow', isContractNameAvailable),
+    //         label: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractforLabel', isContractNameAvailable),
+    //         icon: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractForIcons', isContractNameAvailable)
+    //     };
+    //     return retObj;
+    // }
 }

@@ -65,51 +65,14 @@ export interface ICh5DpadCenterAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` receiveStateIconClass",
+     * "`sendeventonclick` attribute",
      * "***",
-     * "Use receiveStateIconClass attribute in order to change the icon through a signal. ",
-     * "If a contract is used and 'useContractForIcons' is set to true, then the contract  ",
-     * "will override the receiveStateIconClass."
+     * "Sends an event on click or tap (mouse or swipe up and down quickly).",
+     * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+     * "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
+     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
-     * @name receiveStateIconClass
+     * @name sendeventonclick
      */
-    receiveStateIconClass: string;
-
-    /**
-     * @documentation
-     * [
-     * "`type` receiveStateIconUrl",
-     * "***",
-     * "Use receiveStateIconUrl attribute in order to change the icon through a signal.  If a ",
-     * "contract is used and 'useContractForIcons' is set to true, then the contract will override ",
-     * "the receiveStateIconUrl."
-     * ]
-     * @name receiveStateIconUrl
-     */
-    receiveStateIconUrl: string;
-
-    /**
-     * @documentation
-     * [
-     * "`type` receiveStateLabel",
-     * "***",
-     * "Label for the center button. Only the label attribute for center button will be a part of ",
-     * "<ch5-dpad> tag. Rest of the center button attributes will be a part of <ch5-dpad-button> tag."
-     * ]
-     * @name receiveStateLabel
-     */
-    receiveStateLabel: string;
-
-    /**
-     * @documentation
-     * [
-     * "`type` receivestatescriptlabelhtml",
-     * "***",
-     * "Html syntax string appropriate for element.innerHTML parameter. Signal ",
-     * "script evaluation will be applied to the button.innerHTML.  Allows for ",
-     * "multiline, multistyled labels."
-     * ]
-     * @name receivestatescriptlabelhtml
-     */
-    receivestatescriptlabelhtml: string;
+    sendEventOnClick: string;
 }
