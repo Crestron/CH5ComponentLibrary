@@ -1866,9 +1866,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         this.clearStringSignalSubscription(caller[attrKeyPvt], caller[attrKeySigName]);
 
         caller[attrKeyPvt] = value;
-        if (caller.getAttribute(attrKey) !== value) {
-            caller.setAttribute(attrKey.toLowerCase(), value);
-        }
 
         const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(caller[attrKeyPvt]);
         const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigShowPulseName);
@@ -1907,9 +1904,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         this.clearBooleanSignalSubscription(caller[attrKeyPvt], caller[attrKeySigName]);
 
         caller[attrKeyPvt] = value;
-        if (caller.getAttribute(attrKey) !== value) {
-            caller.setAttribute(attrKey.toLowerCase(), value);
-        }
 
         const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(caller[attrKeyPvt]);
         const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowPulseName);

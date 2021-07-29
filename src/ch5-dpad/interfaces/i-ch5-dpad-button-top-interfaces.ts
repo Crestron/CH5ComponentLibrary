@@ -55,26 +55,14 @@ export interface ICh5DpadTopAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` receiveStateIconClass",
+     * "`sendeventonclick` attribute",
      * "***",
-     * "Use receiveStateIconClass attribute in order to change the icon through a signal. ",
-     * "If a contract is used and 'useContractForIcons' is set to true, then the contract  ",
-     * "will override the receiveStateIconClass."
+     * "Sends an event on click or tap (mouse or swipe up and down quickly).",
+     * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+     * "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
+     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
-     * @name receiveStateIconClass
+     * @name sendeventonclick
      */
-    receiveStateIconClass: string;
-
-    /**
-     * @documentation
-     * [
-     * "`type` receiveStateIconUrl",
-     * "***",
-     * "Use receiveStateIconUrl attribute in order to change the icon through a signal.  If a ",
-     * "contract is used and 'useContractForIcons' is set to true, then the contract will override ",
-     * "the receiveStateIconUrl."
-     * ]
-     * @name receiveStateIconUrl
-     */
-    receiveStateIconUrl: string;
+    sendEventOnClick: string;
 }
