@@ -161,7 +161,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			default: Ch5Button.SHAPES[0],
 			values: Ch5Button.SHAPES,
 			key: 'shape',
-			classListPrefix: 'ch5-button--shape-'
+			classListPrefix: 'ch5-button--'
 		},
 		SIZES: {
 			default: Ch5Button.SIZES[0],
@@ -473,7 +473,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	private _intervalIdForRepeatDigital: number | null = null;
 
 	/**
-	 * this is last tap time used to determine if should send click pulse in focus event 
+	 * this is last tap time used to determine if should send click pulse in focus event
 	 */
 	private _lastTapTime: number = 0;
 
@@ -2274,10 +2274,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	 * If type node is updated via html or js or signal, the change set attribue of type;
 	 * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
 	 * if receivestate is false, then
-	 * if mode attribute is updated, always call this method, and update all attributes 
-	 * @param fromNode 
-	 * @param isModeAttributeUpdated 
-	 * @param attibuteName 
+	 * if mode attribute is updated, always call this method, and update all attributes
+	 * @param fromNode
+	 * @param isModeAttributeUpdated
+	 * @param attibuteName
 	 */
 	public setButtonDisplay(fromNode: Ch5Button | Ch5ButtonMode | Ch5ButtonModeState) {
 		// this.debounceSetButtonDisplay();
@@ -2542,7 +2542,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 				this.updateInternalHtml(); // TODO - commented for temporary purpose for testing
 			}
 		} else {
-			// We do not require iconPosition, so remove it			
+			// We do not require iconPosition, so remove it
 			this.removeAttribute("iconPosition");
 			// this.removeAttribute("activeIconPosition");
 		}
@@ -2858,7 +2858,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	private sendValueForRepeatDigital(value: boolean): void {
 		if (!this._sigNameSendOnTouch && !this._sigNameSendOnClick) { return; }
 
-		this.buttonPressed = value; // TODO - use this._pressed 
+		this.buttonPressed = value; // TODO - use this._pressed
 
 		const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this._sigNameSendOnTouch);
 		const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this._sigNameSendOnClick);
