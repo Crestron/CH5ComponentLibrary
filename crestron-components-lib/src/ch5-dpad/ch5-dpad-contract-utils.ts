@@ -6,6 +6,16 @@ import { signalStructure } from "./interfaces/t-ch5-dpad";
 
 export class CH5DpadContractUtils {
 
+    // the join number is applied to the top button, join+1 applies to bottom,
+    // join+2 applies to left, join+3 applies to right, join+4 to center
+    public static readonly sendEventOnClickSigCountToAdd = {
+        top: 0,
+        bottom: 1,
+        left: 2,
+        right: 3,
+        center: 4
+    };
+
     /**
      * Function to return the entire contract structure as a JSON for reference and consumption
      * @returns entire contract structure

@@ -87,57 +87,77 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractforLabel",
+     * "`type` useContractforEnable",
      * "***",
-     * "If this value is set to true then the value received from the contract will be considered ",
-     * "for the label of the center button."
+     * "If the contract name exists, by default this becomes true. ",
+     * "If the contract name does not exist, by default this becomes false. ",
+     * "If this value is set to true then the value received from the contract will be considered to enable ",
+     * "<ch5-dpad> tag and also to enable the buttons under <ch5-dpad> component i.e. <ch5-dpad-button-left>, ",
+     * "<ch5-dpad-button-right>, <ch5-dpad-button-top>, <ch5-dpad-button-bottom>, <ch5-dpad-button-center>. ",
+     * "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
+     * "The details can be seen in the table above."
      * ]
-     * @name useContractforLabel
+     * @name useContractforEnable
      * @default false
      */
-     useContractforLabel: boolean;
+    useContractforEnable: boolean;
 
-     /**
-      * @documentation
-      * [
-      * "`type` useContractforEnable",
-      * "***",
-      * "If this value is set to true then the value received from the contract will be considered to enable ",
-      * "<ch5-dpad> tag and also to enable the buttons under <ch5-dpad> component i.e. <ch5-dpad-button-left>, ",
-      * "<ch5-dpad-button-right>, <ch5-dpad-button-top>, <ch5-dpad-button-bottom>, <ch5-dpad-button-center>. ",
-      * "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
-      * "The details can be seen in the table above."
-      * ]
-      * @name useContractforEnable
-      * @default false
-      */
-      useContractforEnable: boolean;
+    /**
+     * @documentation
+     * [
+     * "`type` useContractForShow",
+     * "***",
+     * "If the contract name exists, by default this becomes true. ",
+     * "If the contract name does not exist, by default this becomes false. ",
+     * "If this value is set to true then the value received from the contract will be considered to show / hide ",
+     * "<ch5-dpad> tag. The names from the contract will be different for each of the buttons and the overall ",
+     * "<ch5-dpad> component. The details can be seen in the table above."
+     * ]
+     * @name useContractForShow
+     * @default false
+     */
+    useContractForShow: boolean;
 
-      /**
-       * @documentation
-       * [
-       * "`type` useContractForShow",
-       * "***",
-       * "If this value is set to true then the value received from the contract will be considered to show / hide ",
-       * "<ch5-dpad> tag. The names from the contract will be different for each of the buttons and the overall ",
-       * "<ch5-dpad> component. The details can be seen in the table above."
-       * ]
-       * @name useContractForShow
-       * @default false
-       */
-       useContractForShow: boolean;
+    /**
+     * @documentation
+     * [
+     * "`type` useContractForCustomClass",
+     * "***",
+     * "If the contract name exists, by default this becomes true. ",
+     * "If the contract name does not exist, by default this becomes false. ",
+     * "If this value is set to true then the value received from the contract will be considered for remaining ",
+     * "ch5-dpad button as a custom class."
+     * ]
+     * @name useContractForCustomClass 
+     * @default false
+     */
+    useContractForCustomClass: boolean;
 
-       /**
-        * @documentation
-        * [
-        * "`type` useContractForIcons",
-        * "***",
-        * "If this value is set to true then the value received from the contract will be considered for remaining ",
-        * "ch5-dpad button iconClass and iconUrl attributes."
-        * ]
-        * @name useContractForIcons
-        * @default false
-        */
-        useContractForIcons: boolean;
+    /**
+     * @documentation
+     * [
+     * "`type` useContractForCustomStyle",
+     * "***",
+     * "If the contract name exists, by default this becomes true. ",
+     * "If the contract name does not exist, by default this becomes false. ",
+     * "If this value is set to true then the value received from the contract will be considered ",
+     * "for the custom style."
+     * ]
+     * @name useContractForCustomStyle
+     * @default false
+     */
+    useContractForCustomStyle: boolean;
 
+    /**
+     * @documentation
+     * [
+     * "`type` sendEventOnClickStart",
+     * "***",
+     * "Only applies if contractName is not provided, if this parameter is supplied,",
+     * " the join number is applied to the top button, join+1 applies to bottom, ",
+     * "join+2 applies to left, join+3 applies to right, join+4 to center ."
+     * ]
+     * @name sendEventOnClickStart
+     */
+    sendEventOnClickStart: string;
 }
