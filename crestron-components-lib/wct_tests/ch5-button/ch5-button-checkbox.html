@@ -13,7 +13,6 @@
 </head>
 
 <body>
-    <!-- <canvas id="canvas" style="display:none"></canvas> -->
     <test-fixture id="ch5-button-checkbox-fixture">
         <template>
             <ch5-button></ch5-button>
@@ -91,7 +90,6 @@
                             }, BASIC_TESTING_TIMEOUT);
                         });
                     });
-
                     valid_selected.forEach((selected, k) => {
                         test(`Check ch5-button > div > i css class name for checkboxPosition: "${checkboxPosition}", checkboxShow: "${checkboxShow}", and selected: "${selected}"`, (done) => {
                             ch5Button.setAttribute('checkboxPosition', checkboxPosition);

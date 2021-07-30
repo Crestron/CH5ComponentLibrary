@@ -1271,9 +1271,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	protected updateForChangeInStyleCss() {
-		this.logger.log("from button - updateForChangeInStyleCss()");
+		this.logger.start("updateForChangeInStyleCss()");
 		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		targetElement.style.cssText = this.customStyle;
+		this.logger.stop();
 	}
 
 	/**
@@ -2402,7 +2403,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			updateUIMethods.updateInternalHtml = true;
 		}
 
-		this.logger.log("updateUIMethods", updateUIMethods);
+		this.logger.log("updateUIMethods", (updateUIMethods));
 
 		// Call methods
 		if (updateUIMethods.updateCssClasses === true) {
