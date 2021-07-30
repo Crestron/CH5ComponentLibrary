@@ -56,7 +56,10 @@
                             "uniqueItems": true
                           },
                           "icon": {
-                            "enum": [true]
+                            "type": "array",
+                            "items": {
+                              "enum": [true]
+                            }
                           },
                           "type": {
                             "type": "array",

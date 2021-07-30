@@ -157,8 +157,8 @@ async function initialize() {
   ];
 
   // For each component flatten its scss
-  // const flattenedComponents = await flattenScssComponents(componentsPath);
-  const flattenedComponents = await flattenScssComponents(['ch5-button']);
+  const flattenedComponents = await flattenScssComponents(componentsPath);
+  // const flattenedComponents = await flattenScssComponents(['ch5-button']);
 
   // Build the final json structure and compute
   const outputJSON = await buildJsonStructure(flattenedComponents);

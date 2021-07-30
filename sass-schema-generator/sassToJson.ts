@@ -104,7 +104,7 @@ function extractMixins(data: string) {
   const mixinNameRegex = new RegExp(/(@mixin[ a-zA-Z0-9-]+)/, 'g');
   const mixinContentRegex = new RegExp(/(?<={)[^}]*/, 'g');
   for (const mixin of (data.match(mixinsRegex) || [])) {
-    const name = mixin.match(mixinNameRegex)[0].substr(7);
+    const name = mixin.match(mixinNameRegex)[0].substr(7).trim();
     const content = mixin.match(mixinContentRegex)[0].replace(/\s\s+/g, ' ').trim();
     mixins.push({name, content});
   }
@@ -137,16 +137,20 @@ function processInclude(body: string, mixins: {name: string, content: string}[])
  */
 function computeShowWhen(selector: string, properties: PROPERTIES_INTERFACE) {
   let showWhen = {};
+
+  // TODO: Business rules different based on the components ! These are only for ch5 button right now.
   let icon = selector.toLowerCase().includes('iconposition');
   let ios = selector.toLowerCase().includes('ios');
   if (icon) {
-    Object.assign(showWhen, {icon: true});
+    Object.assign(showWhen, {icon: [true]});
   }
   if (ios) {
     Object.assign(showWhen, {platform: ['ios']});
   }
+
+
   for (const value of Object.values(properties)) {
-    for (const data of value.values) {
+    for (const data of value.values.filter(propertyValue => propertyValue.length)) {
       if (selector.indexOf(value.classListPrefix + data) !== -1) {
         // If the 'not' operator is present pipe all the other values except the negated one.
         if (selector.indexOf(`:not(.${value.classListPrefix + data})`) !== -1) {
