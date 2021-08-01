@@ -78,10 +78,11 @@ async function buildJsonStructure(flattenedComponents: {flattenedScss: string, n
       const helper = await getHelperForComponent(component.name);
       // Get the properties
       const properties = await helper.GET_PROPERTIES();
+      const businessRules = helper.BUSINESS_RULES;
       // Save the properties to a json for future reference
       generatePropertiesJson(properties, component.name);
       // Process the flattened scss
-      const outputJson = await processSassfile(component.flattenedScss, component.name, properties, globalMixins);
+      const outputJson = await processSassfile(component.flattenedScss, component.name, properties, globalMixins, businessRules);
       jsonObject["ch5-elements"][0].component.push({
         tagName: component.name,
         version: helper.VERSION,
@@ -145,10 +146,6 @@ async function traverseThemeEditorsObjects(): Promise<string[]> {
 async function initialize() {
   // Dynamically traversing items is temporarily removed
   // const componentsPath = await traverseThemeEditorsObjects();
-
-  // extractGlobalMixins();
-  //
-  // return;
 
   // All the components that are interested in are hardcoded. We will compute the path based on THEME_EDITOR_PATH constant + values below
   const componentsPath = [

@@ -7,3 +7,5 @@ export const GET_PROPERTIES = async (): Promise<PROPERTIES_INTERFACE> => {
   const CrComLibHelper = await getCrComLibComponent('Ch5Slider');
   return CrComLibHelper.COMPONENT_DATA;
 };
+
+export const BUSINESS_RULES: any = [];

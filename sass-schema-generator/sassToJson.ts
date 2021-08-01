@@ -130,24 +130,27 @@ function processInclude(body: string, mixins: {name: string, content: string}[])
   return processBody;
 }
 
+function applyBusinessRules(selector: string, showWhen: object, businessRules: object) {
+  for (const rule of Object.values(businessRules)) {
+    if (rule.contains) {
+      let containsProperty = selector.toLowerCase().includes(rule.contains);
+      if (containsProperty) {
+        Object.assign(showWhen, {[rule.key]: [rule.value]})
+      }
+    }
+  }
+}
+
 /**
  * Compute the showWhen field
  * @param selector
  * @param properties
+ * @param businessRules
  */
-function computeShowWhen(selector: string, properties: PROPERTIES_INTERFACE) {
+function computeShowWhen(selector: string, properties: PROPERTIES_INTERFACE, businessRules: object) {
   let showWhen = {};
 
-  // TODO: Business rules different based on the components ! These are only for ch5 button right now.
-  let icon = selector.toLowerCase().includes('iconposition');
-  let ios = selector.toLowerCase().includes('ios');
-  if (icon) {
-    Object.assign(showWhen, {icon: [true]});
-  }
-  if (ios) {
-    Object.assign(showWhen, {platform: ['ios']});
-  }
-
+  applyBusinessRules(selector, showWhen, businessRules);
 
   for (const value of Object.values(properties)) {
     for (const data of value.values.filter(propertyValue => propertyValue.length)) {
@@ -165,13 +168,10 @@ function computeShowWhen(selector: string, properties: PROPERTIES_INTERFACE) {
 }
 
 function checkIfNodeIsMixin(selector: string) {
-  if (selector.trim().startsWith('@mixin')) {
-    return true;
-  }
-  return false;
+  return selector.trim().startsWith('@mixin');
 }
 
-async function processSassfile(data: string, name: string, helper: PROPERTIES_INTERFACE, globalMixins: ReturnType<typeof extractMixins>) {
+async function processSassfile(data: string, name: string, helper: PROPERTIES_INTERFACE, globalMixins: ReturnType<typeof extractMixins>, businessRules: object) {
   let stringifiedData = data;
 
   // STEP 1: Remove all the multiline/ single line comments, except the documentation marked with ///
@@ -233,7 +233,7 @@ async function processSassfile(data: string, name: string, helper: PROPERTIES_IN
         description,
         supports,
         // STEP 7: Extract the show when based on the flattened and individual selectors.
-        showWhen: computeShowWhen(selector, helper)
+        showWhen: computeShowWhen(selector, helper, businessRules)
       })
     }
   });
