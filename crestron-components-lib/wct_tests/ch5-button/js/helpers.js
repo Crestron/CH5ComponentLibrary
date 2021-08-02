@@ -63,7 +63,10 @@ function getAttributesList(id) {
 
 function log(...input) {
   console.log(...input);
-  // console.log('fullTestingArray:', JSON.stringify(fullTestingArray, null, 4));
+}
+
+function logStringify(input) {
+  console.log(JSON.stringify(input, null, 2));
 }
 
 function mouseDown() {

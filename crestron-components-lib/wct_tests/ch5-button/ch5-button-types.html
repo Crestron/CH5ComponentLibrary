@@ -77,31 +77,45 @@
             const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', null];
 
             valid_types.forEach((typeName, i) => {
-                test(`Check attribute type: "${typeName}"`, () => {
+                test(`Check attribute type: "${typeName}"`, (done) => {
                     ch5Button.setAttribute('type', typeName);
-                    expect(ch5Button.type).to.be.equal(typeName);
-                });
-                test(`Check ch5-button > div css class name for type: "${typeName}"`, () => {
-                    ch5Button.setAttribute('type', typeName);
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.type).to.be.equal(typeName);
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
             });
 
-            test(`Check attribute type "default" by not adding the type attribute in HTML or through javascript to the button`, () => {
-                expect(ch5Button.type).to.be.equal(default_type);
+            test(`Check attribute type "default" by not adding the type attribute in HTML or through javascript to the button`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.type).to.be.equal(default_type);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
-            test(`Check ch5-button > div css class name for attribute type "default" by not adding the type attribute in HTML or through javascript to the button`, () => {
-                expect(getDiv(ch5Button).classList.contains("ch5-button--" + default_type)).to.be.equal(true);
+            test(`Check ch5-button > div css class name for attribute type "default" by not adding the type attribute in HTML or through javascript to the button`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--" + default_type)).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
 
             invalid_types.forEach((typeName, i) => {
-                test(`Check invalid attribute type: "${typeName}"`, () => {
+                test(`Check invalid attribute type: "${typeName}"`, (done) => {
                     ch5Button.setAttribute('type', typeName);
-                    expect(ch5Button.type).to.be.equal(default_type);
-                });
-                test(`Check ch5-button > div css class name for invalid attribute type: "${typeName}"`, () => {
-                    ch5Button.setAttribute('type', typeName);
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--" + default_type)).to.be.equal(true);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.type).to.be.equal(default_type);
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--" + default_type)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
             });
 
@@ -115,7 +129,7 @@
                             // expect(ch5Button.getAttribute('type')).to.be.equal(typeName);
                             expect(ch5Button.type).to.be.equal(typeName);
                             done();
-                        }, 100);
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
             });
@@ -130,46 +144,49 @@
                             expect(ch5Button.getAttribute('receiveStateType')).to.be.equal('current_type_new' + i);
                             expect(ch5Button.type).to.be.equal(default_type);
                             done();
-                        }, 100);
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
             });
 
             // ch5Button1
-            test(`Check attribute type for ch5-button-mode and mode value=0`, () => {
+            test(`Check attribute type for ch5-button-mode and mode value=0`, (done) => {
                 ch5Button1.setAttribute('mode', "0");
                 const expectedValue = "default";
-                expect(ch5Button1.getAttribute('type')).to.be.equal("danger");
-                expect(ch5Button1.type).to.be.equal(expectedValue);
-            });
-            test(`Check ch5-button > div css class name for ch5-button-mode and mode value=0`, () => {
-                ch5Button1.setAttribute('mode', "0");
-                const expectedValue = "default";
-                expect(getDiv(ch5Button1).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
-            });
-
-            test(`Check attribute type for ch5-button-mode and mode value=1`, () => {
-                ch5Button1.setAttribute('mode', "1");
-                const expectedValue = "warning";
-                expect(ch5Button1.getAttribute('type')).to.be.equal("danger");
-                expect(ch5Button1.type).to.be.equal(expectedValue);
-            });
-            test(`Check ch5-button > div css class name for ch5-button-mode and mode value=1`, () => {
-                ch5Button1.setAttribute('mode', "1");
-                const expectedValue = "warning";
-                expect(getDiv(ch5Button1).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button1.getAttribute('type')).to.be.equal("danger");
+                        expect(ch5Button1.type).to.be.equal(expectedValue);
+                        expect(getDiv(ch5Button1).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
 
-            test(`Check attribute type for ch5-button-mode and mode value=2`, () => {
-                ch5Button1.setAttribute('mode', "2");
-                const expectedValue = "default";
-                expect(ch5Button1.getAttribute('type')).to.be.equal("danger");
-                expect(ch5Button1.type).to.be.equal(expectedValue);
+            test(`Check attribute type for ch5-button-mode and mode value=1`, (done) => {
+                ch5Button1.setAttribute('mode', "1");
+                const expectedValue = "warning";
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button1.getAttribute('type')).to.be.equal("danger");
+                        expect(ch5Button1.type).to.be.equal(expectedValue);
+                        expect(getDiv(ch5Button1).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
-            test(`Check ch5-button > div css class name for ch5-button-mode and mode value=2`, () => {
+
+            test(`Check attribute type for ch5-button-mode and mode value=2`, (done) => {
                 ch5Button1.setAttribute('mode', "2");
                 const expectedValue = "default";
-                expect(getDiv(ch5Button1).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button1.getAttribute('type')).to.be.equal("danger");
+                        expect(ch5Button1.type).to.be.equal(expectedValue);
+                        expect(getDiv(ch5Button1).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
 
             // ch5Button2
@@ -210,7 +227,7 @@
                             expect(ch5Button2.getAttribute('type')).to.be.equal("danger");
                             expect(ch5Button2.type).to.be.equal(modeTypeObj.typeName);
                             done();
-                        }, 100);
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
 
@@ -220,23 +237,24 @@
                         setTimeout(() => {
                             expect(getDiv(ch5Button2).classList.contains("ch5-button--" + modeTypeObj.typeName)).to.be.equal(true);
                             done();
-                        }, 100);
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
             });
 
             // ch5Button3
             [true, false].forEach((selectionObj, i) => {
-                test(`Check attribute type for ch5-button-mode-state with selected as "${selectionObj}"`, () => {
+                test(`Check attribute type for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
                     ch5Button3.setAttribute('selected', selectionObj);
-                    const expectedValue = selectionObj === true ? "success" : "warning";
-                    expect(ch5Button3.getAttribute('type')).to.be.equal("text");
-                    expect(ch5Button3.type).to.be.equal(expectedValue);
-                });
-                test(`Check ch5-button > div css class name for ch5-button-mode-state with selected as "${selectionObj}"`, () => {
-                    ch5Button3.setAttribute('selected', selectionObj);
-                    const expectedValue = selectionObj === true ? "success" : "warning";
-                    expect(getDiv(ch5Button3).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+                    flush(() => {
+                        setTimeout(() => {
+                            const expectedValue = selectionObj === true ? "success" : "warning";
+                            expect(ch5Button3.getAttribute('type')).to.be.equal("text");
+                            expect(ch5Button3.type).to.be.equal(expectedValue);
+                            expect(getDiv(ch5Button3).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
 
                 test(`Check attribute type for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
@@ -247,7 +265,7 @@
                             const expectedValue = selectionObj === true ? "success" : "warning";
                             expect(ch5Button3.type).to.be.equal(expectedValue);
                             done();
-                        }, 100);
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
 
@@ -258,7 +276,7 @@
                             const expectedValue = selectionObj === true ? "success" : "warning";
                             expect(getDiv(ch5Button3).classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
                             done();
-                        }, 100);
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
             });
