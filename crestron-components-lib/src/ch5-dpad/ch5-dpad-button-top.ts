@@ -316,7 +316,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
     }
 
     private removeEvents() {
-        throw new Error("Method not implemented or element is not structured correctly.");
+        // throw new Error("Method not implemented or element is not structured correctly.");
     }
 
     /**

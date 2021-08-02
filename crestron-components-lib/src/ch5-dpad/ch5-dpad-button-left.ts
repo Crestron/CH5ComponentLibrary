@@ -316,7 +316,7 @@ export class Ch5DpadLeft extends Ch5Common implements ICh5DpadLeftAttributes {
     }
 
     private removeEvents() {
-        throw new Error("Method not implemented or element is not structured correctly.");
+        // throw new Error("Method not implemented or element is not structured correctly.");
     }
 
     /**
