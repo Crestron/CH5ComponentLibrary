@@ -93,18 +93,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     public set type(value: TCh5DpadType) {
         this.info('set type("' + value + '")');
-
-        if (_.isNil(value)) {
-            value = 'default';
+        if (value !== this._type) {
+            if (Ch5Dpad.TYPES.indexOf(value) >= 0) {
+                this._type = value;
+            } else {
+                this._type = Ch5Dpad.TYPES[0];
+            }
+            this.setAttribute('type', value);
         }
-
-        const trValue: TCh5DpadType = this._getTranslatedValue('type', value) as TCh5DpadType;
-        if (trValue === this.type) {
-            return;
-        }
-
-        this._type = trValue;
-        this.setAttribute('type', trValue);
     }
     public get type(): TCh5DpadType {
         return this._type;
@@ -676,7 +672,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     }
 
     private removeEvents() {
-        throw new Error("Method not implemented or element is not structured correctly.");
+        // throw new Error("Method not implemented or element is not structured correctly.");
     }
 
     /**
@@ -769,6 +765,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                     this.sendEventOnClickStart = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 }
                 break;
+            case 'type':
+                this.type = newValue as TCh5DpadType;
+                this.updateCssClasses();
+                break;
+
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
@@ -871,6 +872,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.type = CH5DpadUtils.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
         this.shape = CH5DpadUtils.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
         this.stretch = CH5DpadUtils.setAttributeToElement(this, 'stretch', this._stretch) as TCh5DpadStretch;
+        this.updateCssClasses();
 
         // DEV NOTE: if contract name exists, and the individual attribute values don't exist, 
         // then the default value is true for useContractFor*
@@ -898,6 +900,43 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     protected updateCssClasses(): void {
         // apply css classes for attrs inherited from common (e.g. customClass, customStyle )
         super.updateCssClasses();
+        const childLeftButton: Ch5DpadLeft = this.getElementsByTagName("ch5-dpad-button-left")[0] as Ch5DpadLeft;
+        const childRightButton: Ch5DpadRight = this.getElementsByTagName("ch5-dpad-button-right")[0] as Ch5DpadRight;
+        const childTopButton: Ch5DpadTop = this.getElementsByTagName("ch5-dpad-button-top")[0] as Ch5DpadTop;
+        const childBottomButton: Ch5DpadBottom = this.getElementsByTagName("ch5-dpad-button-bottom")[0] as Ch5DpadBottom;
+        const childCenterButton: Ch5DpadCenter = this.getElementsByTagName("ch5-dpad-button-center")[0] as Ch5DpadCenter;
+        for (let i: number = 0; i < Ch5Dpad.TYPES.length; i++) {
+            if (childLeftButton) {
+                childLeftButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
+            }
+            if (childRightButton) {
+                childRightButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
+            }
+            if (childTopButton) {
+                childTopButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
+            }
+            if (childBottomButton) {
+                childBottomButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
+            }
+            if (childCenterButton) {
+                childCenterButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
+            }
+        }
+        if (childLeftButton) {
+            childLeftButton.classList.add("ch5-dpad-button--type-" + this.type);
+        }
+        if (childRightButton) {
+            childRightButton.classList.add("ch5-dpad-button--type-" + this.type);
+        }
+        if (childTopButton) {
+            childTopButton.classList.add("ch5-dpad-button--type-" + this.type);
+        }
+        if (childBottomButton) {
+            childBottomButton.classList.add("ch5-dpad-button--type-" + this.type);
+        }
+        if (childCenterButton) {
+            childCenterButton.classList.add("ch5-dpad-button--type-" + this.type);
+        }
     }
 
     //#endregion

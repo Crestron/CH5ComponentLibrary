@@ -343,7 +343,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private removeEvents() {
-        throw new Error("Method not implemented or element is not structured correctly.");
+        // throw new Error("Method not implemented or element is not structured correctly.");
     }
 
     /**
