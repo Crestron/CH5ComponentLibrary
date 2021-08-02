@@ -21,63 +21,133 @@
     </test-fixture>
 
     <script>
-        function loopData(fullTestingArray, masterArray, inputObj, newObjArr, newIndex) {
+        function loopData(fullTestingArray, masterArray, newObjArr, newIndex) {
             if (newIndex < masterArray.length) {
                 for (let i = 0; i < masterArray[newIndex].values.length; i++) {
-                   const inputObjNew = { key: masterArray[newIndex].key, value: masterArray[newIndex].values[i] };
+                    const inputObjNew = { key: masterArray[newIndex].key, value: masterArray[newIndex].values[i], original: masterArray[newIndex] };
                     const newX = [];
                     for (let j = 0; j < newObjArr.length; j++) {
                         newX.push(newObjArr[j]);
                     }
                     newX.push(inputObjNew);
                     fullTestingArray.push(newX);
-                    loopData(fullTestingArray, masterArray, inputObjNew, newX, newIndex + 1);
+                    loopData(fullTestingArray, masterArray, newX, newIndex + 1);
                 }
             }
         }
 
-        suite('ch5-button', () => {
-
-            let ch5Button;
-
-            setup(() => {
-                // const emulatorJson = await fetch('./emulator/types.json').then((response) => response.json());
-                // const emulator = CrComLib.Ch5Emulator.getInstance();
-                // emulator.loadScenario(emulatorJson);
-                ch5Button = fixture('ch5-button-all-combinations-fixture');
-            });
-
-            const fullTestingArray = [];
-            const masterArray = Object.values(CH5_BUTTON_MASTERS);
-            const indexForMasterArray = 0;
-            for (let i = 0; i < masterArray[indexForMasterArray].values.length; i++) {
-                const inputObj = { key: masterArray[indexForMasterArray].key, value: masterArray[indexForMasterArray].values[i] };
-                const newArray = [];
-                newArray.push(inputObj);
-                fullTestingArray.push(newArray);
-                loopData(fullTestingArray, masterArray, inputObj, newArray, indexForMasterArray + 1);
+        function getObjectByCategory(categoryType) {
+            // logStringify(masterArrayPRE);
+            const typeObject = masterArrayPRE.find(obj => obj.key.toString().toLowerCase() === categoryType.toString().toLowerCase());
+            if (typeObject) {
+                typeObject.id = masterArray.length + 1;
+                masterArray.push(typeObject);
             }
+        }
 
-            fullTestingArray.forEach((testingObject, i) => {
-                let validationString = "";
-                for (let j = 0; j < testingObject.length; j++) {
-                    validationString += testingObject[j].key + ": " + testingObject[j].value + "; "
-                }
+        const COMPONENT_DATA = CrComLib.Ch5Button.COMPONENT_DATA;
+        COMPONENT_DATA['CHECKBOXSHOW'] = {
+            default: false,
+            values: [false, true],
+            key: 'checkboxshow',
+            attribute: 'checkboxShow',
+            classListPrefix: ''
+        };
+        COMPONENT_DATA['SHOW'] = {
+            default: true,
+            values: [false, true],
+            key: 'show',
+            attribute: 'show',
+            classListPrefix: ''
+        };
+        COMPONENT_DATA['DISABLED'] = {
+            default: false,
+            values: [false, true],
+            key: 'disabled',
+            attribute: 'disabled',
+            classListPrefix: ''
+        };
+        const masterArrayPRE = Object.values(COMPONENT_DATA);
 
-                test(validationString, () => {
-                    for (let j = 0; j < testingObject.length; j++) {
-                        ch5Button.setAttribute(testingObject[j].key, testingObject[j].value);
-                    }
-                    for (let j = 0; j < testingObject.length; j++) {
-                        expect(ch5Button[testingObject[j].key]).to.be.equal(testingObject[j].value);
-                    }
+        const fullTestingArray = [];
+        const masterArray = [];
+        const suiteArray = [];
+        getObjectByCategory("type");
+        getObjectByCategory("size");
+        getObjectByCategory("stretch");
+        getObjectByCategory("shape");
+        getObjectByCategory("hAlignLabel");
+        getObjectByCategory("vAlignLabel");
+        getObjectByCategory("show");
+        getObjectByCategory("disabled");
+
+        // createSuite("type");
+        // createSuite("hAlignLabel");
+        createSuite("type", "size", "stretch", "shape", "hAlignLabel", "vAlignLabel", "show", "disabled");
+        // logStringify(suiteArray);
+
+        function createSuite(...categoryList) {
+            const outputArray = [];
+            let outputList = "";
+            for (let i = 0; i < categoryList.length; i++) {
+                outputList += categoryList[i] + ", ";
+                outputArray.push(masterArray.find(obj => obj.key.toString().toLowerCase() === categoryList[i].toString().toLowerCase()));
+            }
+            if (outputArray.length > 0) {
+                const indexForMasterArray = 0;
+                const outARR = [];
+                loopData(outARR, outputArray, [], indexForMasterArray);
+                suiteArray.push({ key: outputList.trim().substr(0, outputList.trim().length - 1), values: outARR });
+            }
+        }
+
+        suiteArray.forEach((suiteArrayObject, sa) => {
+            suite('ch5-button: ' + suiteArrayObject.key, () => {
+
+                let ch5Button;
+
+                setup(() => {
+                    // const emulatorJson = await fetch('./emulator/types.json').then((response) => response.json());
+                    // const emulator = CrComLib.Ch5Emulator.getInstance();
+                    // emulator.loadScenario(emulatorJson);
+                    ch5Button = fixture('ch5-button-all-combinations-fixture');
                 });
-                // test(`Check ch5-button > div css class name for type: "${typeName}"`, () => {
-                //     ch5Button.setAttribute('type', typeName);
-                //     expect(getDiv(ch5Button).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
-                // });
-            });
 
+                suiteArrayObject.values.forEach((testingObject, i) => {
+                    let validationString = "";
+                    for (let j = 0; j < testingObject.length; j++) {
+                        validationString += testingObject[j].key + " === " + testingObject[j].value + "; ";
+                    }
+
+                    test(validationString, (done) => {
+                        for (let j = 0; j < testingObject.length; j++) {
+                            ch5Button.setAttribute(testingObject[j].key, testingObject[j].value);
+                        }
+                        flush(() => {
+                            setTimeout(() => {
+                                for (let j = 0; j < testingObject.length; j++) {
+                                    if ((testingObject[j].key.toString().toLowerCase() === "halignlabel") ||
+                                        (testingObject[j].key.toString().toLowerCase() === "valignlabel")) {
+                                        expect(ch5Button[testingObject[j].original.attribute]).to.be.equal(testingObject[j].value);
+                                        expect(getSpan(ch5Button).classList.contains(testingObject[j].original.classListPrefix + testingObject[j].value)).to.be.equal(true);
+                                    } else if (testingObject[j].key.toString().toLowerCase() === "size" && ch5Button.hasAttribute("size") && ch5Button.hasAttribute("stretch")) {
+                                        expect(ch5Button[testingObject[j].key]).to.be.equal(testingObject[j].value);
+                                        expect(getDiv(ch5Button).classList.contains(testingObject[j].original.classListPrefix + testingObject[j].value)).to.be.equal(false);
+                                    } else if (testingObject[j].key.toString().toLowerCase() === "show" || testingObject[j].key.toString().toLowerCase() === "disabled") {
+                                        expect(ch5Button[testingObject[j].key]).to.be.equal(testingObject[j].value);
+                                        // expect(getDiv(ch5Button).classList.contains(testingObject[j].original.classListPrefix + testingObject[j].value)).to.be.equal(false);
+                                    } else {
+                                        expect(ch5Button[testingObject[j].key]).to.be.equal(testingObject[j].value);
+                                        expect(getDiv(ch5Button).classList.contains(testingObject[j].original.classListPrefix + testingObject[j].value)).to.be.equal(true);
+                                    }
+                                }
+                                done();
+                            }, BASIC_TESTING_TIMEOUT);
+                        });
+                    });
+                });
+
+            });
         });
     </script>
 </body>

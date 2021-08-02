@@ -29,11 +29,21 @@
                 ch5Button = fixture('ch5-button-sizes-fixture');
             });
 
-            test(`Check attribute size if not added by default to the button`, () => {
-                expect(ch5Button.size).to.be.equal("regular");
+            test(`Check attribute size if not added by default to the button`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.size).to.be.equal("regular");
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
-            test(`Check ch5-button > div css class name for size if not added by default to the button`, () => {
-                expect(getDiv(ch5Button).classList.contains("ch5-button--size-regular")).to.be.equal(true);
+            test(`Check ch5-button > div css class name for size if not added by default to the button`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--size-regular")).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
 
             const valid_sizes = CrComLib.Ch5Button.SIZES;
@@ -41,32 +51,46 @@
             const invalid_sizes = ['', 'junk', 'null', 'undefined', '0', '1', null, undefined, 'Regular', "X-LARGE"];
 
             valid_sizes.forEach((sizeName, i) => {
-                test(`Check attribute size: "${sizeName}"`, () => {
+                test(`Check attribute size: "${sizeName}"`, (done) => {
                     ch5Button.setAttribute('size', sizeName);
-                    expect(ch5Button.size).to.be.equal(sizeName);
-                });
-                test(`Check ch5-button > div css class name for size: "${sizeName}"`, () => {
-                    ch5Button.setAttribute('size', sizeName);
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + sizeName)).to.be.equal(true);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.size).to.be.equal(sizeName);
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + sizeName)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
             });
 
             invalid_sizes.forEach((sizeName, i) => {
-                test(`Check attribute size: "${sizeName}" for invalid values`, () => {
+                test(`Check attribute size: "${sizeName}" for invalid values`, (done) => {
                     ch5Button.setAttribute('size', sizeName);
-                    expect(ch5Button.size).to.be.equal(default_size);
-                });
-                test(`Check ch5-button > div css class name for size: "${sizeName}" for invalid values`, () => {
-                    ch5Button.setAttribute('size', sizeName);
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + default_size)).to.be.equal(true);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.size).to.be.equal(default_size);
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + default_size)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
             });
 
-            test(`Check attribute type "regular" by not adding the size attribute in HTML or through javascript to the button`, () => {
-                expect(ch5Button.size).to.be.equal(default_size);
+            test(`Check attribute type "regular" by not adding the size attribute in HTML or through javascript to the button`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.size).to.be.equal(default_size);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
-            test(`Check ch5-button > div css class name for attribute type "regular" by not adding the size attribute in HTML or through javascript to the button`, () => {
-                expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + default_size)).to.be.equal(true);
+            test(`Check ch5-button > div css class name for attribute type "regular" by not adding the size attribute in HTML or through javascript to the button`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--size-" + default_size)).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
 
         });

@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-dpad-types-fixture">
+        <template>
+            <ch5-dpad></ch5-dpad>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-dpad', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/types.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Button = fixture('ch5-dpad-types-fixture');
+            });
+
+            const valid_types = CrComLib.Ch5Button.TYPES;
+            const default_type = CrComLib.Ch5Button.TYPES[0];
+            const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', null];
+
+            valid_types.forEach((typeName, i) => {
+                test(`Check attribute type: "${typeName}"`, (done) => {
+                    ch5Button.setAttribute('type', typeName);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.type).to.be.equal(typeName);
+                            expect(getDiv(ch5Button).classList.contains("ch5-dpad--" + typeName)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+
+            test(`Check attribute type "default" by not adding the type attribute in HTML or through javascript to the button`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.type).to.be.equal(default_type);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+            test(`Check ch5-dpad > div css class name for attribute type "default" by not adding the type attribute in HTML or through javascript to the button`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(getDiv(ch5Button).classList.contains("ch5-dpad--" + default_type)).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            invalid_types.forEach((typeName, i) => {
+                test(`Check invalid attribute type: "${typeName}"`, (done) => {
+                    ch5Button.setAttribute('type', typeName);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.type).to.be.equal(default_type);
+                            expect(getDiv(ch5Button).classList.contains("ch5-dpad--" + default_type)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

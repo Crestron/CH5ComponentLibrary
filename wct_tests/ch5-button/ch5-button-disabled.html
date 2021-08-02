@@ -26,9 +26,6 @@
             let ch5Button;
 
             setup(async () => {
-                const emulatorJson = await fetch('./emulator/disabled.json').then((response) => response.json());
-                const emulator = CrComLib.Ch5Emulator.getInstance();
-                emulator.loadScenario(emulatorJson);
                 ch5Button = fixture('ch5-button-disabled-fixture');
             });
 
@@ -64,32 +61,38 @@
             ];
 
             availabledisabled.forEach((disabledName, i) => {
-                test(`Check attribute disabled: "${disabledName.key}"`, () => {
+                test(`Check attribute disabled: "${disabledName.key}"`, (done) => {
                     ch5Button.setAttribute('disabled', disabledName.key);
-                    expect(ch5Button.disabled).to.be.equal(disabledName.value);
-                });
-                test(`Check ch5-button > div css class name for disabled: "${disabledName.key}"`, () => {
-                    ch5Button.setAttribute('disabled', disabledName.key);
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--disabled")).to.be.equal(disabledName.value);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.disabled).to.be.equal(disabledName.value);
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--disabled")).to.be.equal(disabledName.value);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
             });
 
             [true, false].forEach((enabledName, i) => {
                 test(`receiveStateEnable: "${enabledName}"`, (done) => {
-                    ch5Button.setAttribute('receiveStateEnable', 'hall_lights_selected');
-                    CrComLib.publishEvent('b', 'hall_lights_tap', enabledName);
+                    ch5Button.setAttribute('receiveStateEnable', 'hall_lights_selected_' + String(enabledName));
+                    CrComLib.publishEvent('b', 'hall_lights_selected_' + String(enabledName), enabledName);
                     flush(() => {
                         setTimeout(() => {
+                            // Add to helper as a function
+                            // for (let i = 0; i < ch5Button.attributes.length; i++) {
+                            //     console.log(ch5Button.attributes[i].nodeName, ch5Button.attributes[i].nodeValue);
+                            // }
                             expect(ch5Button.getAttribute('disabled')).to.satisfy((getValue) => {
-                                if (getValue === null || getValue === true) {
-                                    return enabledName;
-                                } else {
+                                if (getValue === "" || getValue === true) {
                                     return !enabledName;
+                                } else {
+                                    return enabledName;
                                 }
                             });
                             expect(ch5Button.disabled).to.be.equal(!enabledName);
                             done();
-                        }, 100);
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
             });

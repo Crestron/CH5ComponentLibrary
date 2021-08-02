@@ -20,56 +20,6 @@
         </template>
     </test-fixture>
 
-    <!--
-
-    <ch5-button orientation="vertical" type="danger" label="Danger"></ch5-button>
-    <ch5-button orientation="vertical" type="text" label="Text"></ch5-button>
-    <ch5-button orientation="vertical" type="warning" label="Warning"></ch5-button>
-    <ch5-button orientation="vertical" type="info" label="Info"></ch5-button>
-    <ch5-button orientation="vertical" type="success" label="Success"></ch5-button>
-    <ch5-button orientation="vertical" type="default" label="Default"></ch5-button>
-    <ch5-button type="primary" label="Primary"></ch5-button>
-    <ch5-button type="secondary" label="Secondary"></ch5-button>
-    <ch5-button type="danger" size="x-small" label="x-small"></ch5-button>
-    <ch5-button orientation="vertical" type="text" size="small" label="small"></ch5-button>
-    <ch5-button orientation="vertical" type="warning" size="regular" label="regular"></ch5-button>
-    <ch5-button orientation="vertical" type="info" size="large" label="large"></ch5-button>
-    <ch5-button orientation="vertical" type="success" size="x-large" label="x-large"></ch5-button>
-    <ch5-button type="success" orientation="vertical" shape="rectangle" label="Btn1"
-                iconClass="fas fa-address-book"></ch5-button>
-    <ch5-button type="success" orientation="vertical" shape="rectangle" label="Btn2"
-                iconClass="fas fa-anchor"></ch5-button>
-    <ch5-button type="success" orientation="vertical" shape="rectangle" label="Btn3"
-                iconClass="fas fa-battery-full"></ch5-button>
-    <ch5-button type="success" orientation="vertical" shape="rectangle" label="Icon First"
-                iconClass="fas fa-arrow-alt-circle-left" iconPosition="first"></ch5-button>
-    <ch5-button type="success" orientation="vertical" shape="rectangle" label="Icon Last" iconClass="fas fa-arrow-right"
-                iconPosition="last"></ch5-button>
-    <ch5-button type="success" orientation="vertical" shape="rectangle" label="Icon Top" iconClass="fas fa-battery-full"
-                iconPosition="top"></ch5-button>
-    <ch5-button type="success" orientation="vertical" shape="rectangle" label="Icon Bottom"
-                iconClass="fas fa-chevron-down"
-                iconPosition="bottom"></ch5-button>
-
-<ch5-button 
-    type="danger" 
-    label="Danger" 
-    role="button" 
-    dir="ltr" 
-    style="touch-action: auto; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-    <div 
-        class="cb-cntr ch5-button ch5-button--rounded-rectangle ch5-button--danger ch5-button--size-regular" 
-        style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-        <button 
-            class="cb-btn" 
-            data-ch5-id="cr-id-43">
-            <span class="cb-lbl ch5-button--label">Danger</span>
-        </button>
-    </div>
-</ch5-button>
-
-    -->
-
     <script>
         suite('ch5-button', () => {
 
@@ -80,35 +30,37 @@
             });
 
             // Orientation
-            // TODO: Check input with case sensitivity
             // TODO: Check orientation on shapes and sizes
             // TODO check orientation with icons etc
+            // TODO with halign and valign 
             // TODO: Test Ellipsis for Label
 
-            const availableOrientations = CH5_BUTTON_MASTERS.ORIENTATIONS.values;
+            const availableOrientations = CrComLib.Ch5Button.ORIENTATIONS;
             const invalidOrientations = ['', 'junk', 'null', 'Vertical', 'Horizontal', 'undefined', '0', '1', 'top', 'left', 'right', 'bottom', 'center'];
 
             availableOrientations.forEach((orientationName, i) => {
-                test(`Check attribute orientation: "${orientationName}"`, () => {
+                test(`Check attribute orientation: "${orientationName}"`, (done) => {
                     ch5Button.setAttribute('orientation', orientationName);
-                    expect(ch5Button.orientation).to.be.equal(orientationName);
-                });
-
-                // The css class of vertical is dynamically added for vertical orientation, 
-                // and the css class of vertical is dynamically removed incase of horizontal
-                test(`Check ch5-button > div css class name for orientation: "${orientationName}"`, () => {
-                    ch5Button.setAttribute('orientation', orientationName);
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--" + orientationName)).to.satisfy((getValue) => {
-                        if (orientationName === 'horizontal') {
-                            return (getValue === true || getValue === false);
-                        } else {
-                            return getValue;
-                        }
-                    });
-                    availableOrientations.forEach((orientationNameNew, j) => {
-                        if (orientationNameNew !== orientationName) {
-                            expect(getDiv(ch5Button).classList.contains("ch5-button--" + orientationNameNew)).to.be.equal(false);
-                        }
+                    ch5Button.setAttribute('label', orientationName);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.orientation).to.be.equal(orientationName);
+                            // The css class of vertical is dynamically added for vertical orientation, 
+                            // and the css class of vertical is dynamically removed incase of horizontal
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--" + orientationName)).to.satisfy((getValue) => {
+                                if (orientationName === 'horizontal') {
+                                    return (getValue === true || getValue === false);
+                                } else {
+                                    return getValue;
+                                }
+                            });
+                            availableOrientations.forEach((orientationNameNew, j) => {
+                                if (orientationNameNew !== orientationName) {
+                                    expect(getDiv(ch5Button).classList.contains("ch5-button--" + orientationNameNew)).to.be.equal(false);
+                                }
+                            });
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
             });

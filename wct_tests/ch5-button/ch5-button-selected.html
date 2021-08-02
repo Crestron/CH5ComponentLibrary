@@ -64,20 +64,22 @@
             ];
 
             availableSelected.forEach((selectedName, i) => {
-                test(`Check attribute selected: "${selectedName.key}"`, () => {
+                test(`Check attribute selected: "${selectedName.key}"`, (done) => {
                     ch5Button.setAttribute('selected', selectedName.key);
-                    expect(ch5Button.selected).to.be.equal(selectedName.value);
-                });
-                test(`Check ch5-button > div css class name for selected: "${selectedName.key}"`, () => {
-                    ch5Button.setAttribute('selected', selectedName.key);
-                    expect(getDiv(ch5Button).classList.contains("ch5-button--selected")).to.be.equal(selectedName.value);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.selected).to.be.equal(selectedName.value);
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--selected")).to.be.equal(selectedName.value);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
                 });
             });
 
             [true, false].forEach((selectedName, i) => {
                 test(`receiveStateSelected: "${selectedName}"`, (done) => {
-                    ch5Button.setAttribute('receiveStateSelected', 'hall_lights_selected');
-                    CrComLib.publishEvent('b', 'hall_lights_tap', selectedName);
+                    ch5Button.setAttribute('receiveStateSelected', 'hall_lights_selected_' + String(selectedName));
+                    CrComLib.publishEvent('b',  'hall_lights_selected_' + String(selectedName), selectedName);
                     flush(() => {
                         setTimeout(() => {
                             expect(ch5Button.getAttribute('selected')).to.satisfy((getValue) => {
@@ -89,7 +91,7 @@
                             });
                             expect(ch5Button.selected).to.be.equal(selectedName);
                             done();
-                        }, 100);
+                        }, BASIC_TESTING_TIMEOUT);
                     });
                 });
             });
