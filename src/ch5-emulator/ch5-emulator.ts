@@ -49,8 +49,8 @@ export interface IEmulatorAction {
 }
 
 export class Ch5Emulator {
-    private static _instance: Ch5Emulator;
-    private static _scenario: IEmulatorScenario= {} as IEmulatorScenario;
+    private static _instance: Ch5Emulator | undefined;
+    private static _scenario: IEmulatorScenario = {} as IEmulatorScenario;
 
     public static getInstance(): Ch5Emulator {
         if (isUndefined(Ch5Emulator._instance)) {
@@ -60,11 +60,14 @@ export class Ch5Emulator {
     }
 
     public static clear() {
-        delete Ch5Emulator._instance;
-        delete Ch5Emulator._scenario;
+        Ch5Emulator._instance = undefined;
+        Ch5Emulator._scenario = {} as IEmulatorScenario;
     }
 
     public loadScenario(scenario:IEmulatorScenario) {
+        if (!Ch5Emulator._instance) {
+            return;
+        }
         Ch5Emulator._scenario = scenario;
         if (isUndefined(scenario.cues)) {
             throw new Error('The loaded scenario has no cues');
