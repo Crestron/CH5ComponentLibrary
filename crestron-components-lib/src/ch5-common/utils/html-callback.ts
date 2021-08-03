@@ -14,16 +14,16 @@ export interface ICallback {
 }
 
 export default class HtmlCallback {
-  
+
   protected _pattern = new RegExp('([\\w\\.]*)\\((.*)\\)','i');
   protected _callbacks: ICallback[] = [];
   protected _context: HTMLElement = {} as HTMLElement;
-  
+
   constructor(context: HTMLElement, callbacks: string) {
     this.context = context;
     this.prepareCallbacks(callbacks);
   }
-  
+
   public run(target: Event | HTMLElement | undefined): void {
     this._callbacks.forEach((callback: ICallback) => {
 
@@ -31,7 +31,7 @@ export default class HtmlCallback {
 
       if (!_.isNil(methodReference)) {
         if (this.isNativeMethod(methodReference)) {
-          methodReference.apply(null, callback.arguments);
+          methodReference.apply(null, callback.arguments as []);
         } else {
           let args = callback.arguments;
           if (_.isNil(target)) {
@@ -39,7 +39,7 @@ export default class HtmlCallback {
           } else {
             args[0] = target;
           }
-          methodReference.apply(this.context, args);
+          methodReference.apply(this.context, args as []);
         }
       }
     });
@@ -81,7 +81,7 @@ export default class HtmlCallback {
         }
       }
 
-      
+
 
       return false;
     }).map(
@@ -91,7 +91,7 @@ export default class HtmlCallback {
         const callbackMethodName = !_.isNil(callbackMethodSplitted) ? callbackMethodSplitted[1] : '';
         const callbackMethodArguments = !_.isNil(callbackMethodSplitted) && !_.isNil(callbackMethodSplitted[2]) ? callbackMethodSplitted[2] : '';
         let methodArguments = callbackMethodArguments.split(',');
-        
+
         methodArguments = methodArguments.map(stringArgument => {
 
           const _stringArgument = stringArgument.replace(/['"]/g, '');
@@ -107,7 +107,7 @@ export default class HtmlCallback {
           }
 
           return _window[_stringArgument];
-        }); 
+        });
 
         return {
           reference: callbackMethodName,
@@ -118,8 +118,8 @@ export default class HtmlCallback {
 
   /**
    * Get method reference from multi level objects
-   * 
-   * @param nestedObject 
+   *
+   * @param nestedObject
    */
   protected getNestedMethod(_nestedObject: string, ref?: {[key: string]: any}): (() => void) | undefined {
 
@@ -128,7 +128,7 @@ export default class HtmlCallback {
     if (_.isNil(_nestedObject)) {
       return;
     }
-      
+
     const nestedObject = _nestedObject.split('.');
     let methodReference = null;
 
@@ -137,19 +137,19 @@ export default class HtmlCallback {
     } else {
       methodReference = _window[nestedObject[0]];
     }
-    
+
     if (_.isObject(methodReference) && !_.isFunction(methodReference)) {
       methodReference = this.getNestedMethod(nestedObject[1], methodReference as {[key: string]: string});
     }
 
     return methodReference;
-    
+
   }
 
   /**
    * Check if method is native or not
-   * 
-   * @param {() => void} methodReference 
+   *
+   * @param {() => void} methodReference
    * @return {boolean}
    */
   protected isNativeMethod(methodReference: (() => void)): boolean {

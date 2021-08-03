@@ -584,7 +584,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
     }
   }
 
-  public getSlidesAsArray():NodeListOf<Element> {
+  public getSlidesAsArray(): HTMLElement[] {
     return Array.prototype.slice.call(this.slidesManager.getSlidesArray(), 0);
   }
 
@@ -889,7 +889,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
    * Update the width style property with the width get from offsetWidth.
    * This is helpful when the triggerview is not in the viewport at initialization
    * and is need to determine the viewport sizes.
-   * 
+   *
    * @param {boolean} watchForResize apply size change in window.resize callback
    * @return {void}
    */

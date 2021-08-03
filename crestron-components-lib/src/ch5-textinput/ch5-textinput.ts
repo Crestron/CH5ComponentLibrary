@@ -501,7 +501,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      * @memberof Ch5Textinput
      * @type {HTMLElement}
      */
-    private _onvaliditychange: HtmlCallback | (() => void) = {} as HtmlCallback;
+    private _onvaliditychange: HtmlCallback | ((this: any, arg: any) => void) = {} as HtmlCallback;
 
     constructor() {
         super();
@@ -1742,7 +1742,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         return this._minimumFontSize;
     }
 
-    public set onvaliditychange(callback: HtmlCallback | (() => void)) {
+    public set onvaliditychange(callback: HtmlCallback | ((this: any, arg: any) => void)) {
         if (_.isNil(callback)) {
             callback = {} as HtmlCallback;
         }
@@ -1754,7 +1754,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         this._onvaliditychange = callback;
     }
 
-    public get onvaliditychange(): HtmlCallback | (() => void) {
+    public get onvaliditychange(): HtmlCallback | ((this: any, arg: any) => void) {
         return this._onvaliditychange;
     }
 
