@@ -39,8 +39,8 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
     private _lastScrollbarPosition: number = 0;
 
     private resizeDebouncer: IDebouncerDetails = {} as IDebouncerDetails;
-    public initializationTask: NodeJS.Timeout | undefined;
-    public resetListLayoutTask: NodeJS.Timeout | undefined;
+    public initializationTask: number | undefined;
+    public resetListLayoutTask: number | undefined;
 
     public set scrollbarElement(element: HTMLElement | null) {
         if (element !== undefined || element !== null) {
@@ -291,9 +291,9 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             this._list.orientation as TCh5ListElementOrientation,
         );
 
-        clearTimeout(this.initializationTask as unknown as number);
+        clearTimeout(this.initializationTask);
 
-        this.initializationTask = setTimeout(() => {
+        this.initializationTask = window.setTimeout(() => {
 
             this._list.sizeResolver.updateViewport(this._list);
             this.customScrollbar(element);
@@ -310,12 +310,12 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
     }
 
     public resetListLayout() {
-        clearTimeout(this.resetListLayoutTask as unknown as number);
+        clearTimeout(this.resetListLayoutTask);
 
-        this.resetListLayoutTask = setTimeout(() => {
+        this.resetListLayoutTask = window.setTimeout(() => {
 
             if (!(this._list.sizeResolver instanceof Ch5ListSizeResolver)) {
-                clearTimeout(this.resetListLayoutTask as unknown as number);
+                clearTimeout(this.resetListLayoutTask);
                 return;
             }
 
