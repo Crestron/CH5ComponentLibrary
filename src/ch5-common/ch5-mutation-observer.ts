@@ -92,7 +92,7 @@ export class Ch5MutationObserver {
     private _shouldUpdateComponentVisibility(node: Node) {
         let styles: IShowStyle = {} as IShowStyle;
 
-        if (window.getComputedStyle && document && document.defaultView) {
+        if (document && document.defaultView) {
             styles = document.defaultView.getComputedStyle(node as Element) as IShowStyle;
 
             if (styles.opacity === '0' || styles.visibility === 'hidden' ||  (node as Element).hasAttribute('inert')) {
