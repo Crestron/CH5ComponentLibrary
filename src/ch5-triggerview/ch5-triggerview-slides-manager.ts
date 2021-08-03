@@ -284,6 +284,7 @@ export class Ch5TriggerViewSlidesManager {
       let index = null;
 
       if (!isNil(this._swiper) && !isNil(this._swiper.slides)) {
+        // @ts-ignore
         Array.from(this._swiper!.slides).forEach((s: Ch5TriggerViewChild, i) => {
           if (!s.classList.contains('swiper-slide-duplicate') && childView === s) {
             slide = s;
