@@ -716,7 +716,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
             return false;
         }
 
-        if (isLtr) {
+        if (isLtr()) {
             if (
                 (isHorizontal && currentXPosition < maxOffsetTranslate)
                 || (!isHorizontal && currentYPosition < maxOffsetTranslate)
