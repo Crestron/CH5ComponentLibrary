@@ -433,7 +433,7 @@ export class Ch5SpinnerTemplate {
     const visibleItemScroll = this.element.visibleItemScroll;
     const endless = this.element.endless;
 
-    
+
 
     // create the overlay element
     // this will be appended to the document body
@@ -562,7 +562,7 @@ export class Ch5SpinnerTemplate {
     if (onTop === true) {
       this.overlayElement.style.zIndex = '999999';
     } else {
-      delete this.overlayElement.style.zIndex;
+      this.overlayElement.style.zIndex = '';
     }
 
     if (show === true) {

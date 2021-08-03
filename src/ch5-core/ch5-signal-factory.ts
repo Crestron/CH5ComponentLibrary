@@ -10,8 +10,8 @@ import { Ch5Signal } from './ch5-signal';
 import { TSignal, TSignalBagByType } from './types/signal.type';
 
 export class Ch5SignalFactory {
-    private static _instance: Ch5SignalFactory;
-    private _signals: TSignalBagByType;
+    private static _instance: Ch5SignalFactory | undefined;
+    private _signals: TSignalBagByType | undefined;
 
     public static getInstance(): Ch5SignalFactory {
         if (Ch5SignalFactory._instance === undefined) {
@@ -22,9 +22,9 @@ export class Ch5SignalFactory {
     }
 
     public static clear() {
-        if (typeof Ch5SignalFactory._instance !== "undefined") {
-            delete Ch5SignalFactory._instance._signals;
-            delete Ch5SignalFactory._instance;
+        if (Ch5SignalFactory._instance !== undefined) {
+            Ch5SignalFactory._instance._signals = undefined;
+            Ch5SignalFactory._instance = undefined;
         }
     }
 
@@ -35,8 +35,10 @@ export class Ch5SignalFactory {
 
     // Utility for testing purposes only
     public clearSignals(keepObjSignals: boolean) {
-        keepObjSignals ? this._signals = {'boolean': {}, 'number': {}, 'string': {}, 'object': this._signals.object}
-        : this._signals = {'boolean': {}, 'number': {}, 'string': {}, 'object': {}};
+        if (this._signals) {
+            keepObjSignals ? this._signals = {'boolean': {}, 'number': {}, 'string': {}, 'object': this._signals.object}
+              : this._signals = {'boolean': {}, 'number': {}, 'string': {}, 'object': {}};
+        }
     }
 
     public getStates():any{
@@ -64,7 +66,7 @@ export class Ch5SignalFactory {
     }
 
     public getState<T extends TSignal>(name: string, typeInstance: T, createNewIfNotFound=true): Ch5Signal<T> | null {
-        if (name === undefined) {
+        if (name === undefined || this._signals === undefined) {
             return null;
         }
         const type: string = typeof(typeInstance);
