@@ -131,14 +131,14 @@ export class Ch5TriggerViewSlidesManager {
     // publishing slidemove eevnt for ch5-video
     this._swiper.on('slideChangeTransitionStart', () => {
       publishEvent('b', 'triggerview.slidemove', true);
-    });    
+    });
 
     // set gestures on/off
     this.setAllowTouchMove(this.triggerViewEl.gestureable);
 
     this._swiper.on('touchStart', (...e: any[]) => {
       const target: HTMLElement = e[0].target;
-      if (this.eventTargetBelongsToCh5List(target)) {
+      if (target && this.eventTargetBelongsToCh5List(target)) {
         this.setAllowTouchMove(false);
         this._touchMoveListRelatedEventDisabled = true;
       }
@@ -146,7 +146,7 @@ export class Ch5TriggerViewSlidesManager {
 
     this._swiper.on('touchEnd', (...e: any[]) => {
       const target: HTMLElement = e[0].target;
-      if (this.eventTargetBelongsToCh5List(target) || this._touchMoveListRelatedEventDisabled) {
+      if (target && this.eventTargetBelongsToCh5List(target) || this._touchMoveListRelatedEventDisabled) {
         this.setAllowTouchMove(this.triggerViewEl.gestureable);
         this._touchMoveListRelatedEventDisabled = false;
       }
