@@ -253,14 +253,14 @@ export class Ch5SpinnerScroll {
   protected attachEventListeners(): void {
 
     try {
-      this._mouseDownListener = this._onMouseDown.bind(this);
-      this._mouseUpListener = this._onMouseUp.bind(this);
-      this._mouseMoveListener = this._onMouseMove.bind(this);
-      this._touchstartListener = this._onMouseDown.bind(this);
-      this._toucheendUpListener = this._onMouseUp.bind(this);
-      this._touchmoveListener = this._onMouseMove.bind(this);
-      this._mouseLeaveListener = this._onMouseLeave.bind(this);
-      this._touchendLeaveListener = this._onMouseLeave.bind(this);
+      this._mouseDownListener = this._onMouseDown.bind(this) as unknown as EventListener;
+      this._mouseUpListener = this._onMouseUp.bind(this) as unknown as EventListener;
+      this._mouseMoveListener = this._onMouseMove.bind(this) as unknown as EventListener;
+      this._touchstartListener = this._onMouseDown.bind(this) as unknown as EventListener;
+      this._toucheendUpListener = this._onMouseUp.bind(this) as unknown as EventListener;
+      this._touchmoveListener = this._onMouseMove.bind(this) as unknown as EventListener;
+      this._mouseLeaveListener = this._onMouseLeave.bind(this) as unknown as EventListener;
+      this._touchendLeaveListener = this._onMouseLeave.bind(this) as unknown as EventListener;
 
       this.element.templateHelper.wrapperElement.addEventListener('mousedown', this._mouseDownListener, { passive: true });
       this.element.addEventListener('mouseup', this._mouseUpListener);
