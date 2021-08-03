@@ -1981,11 +1981,11 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
             }
 
             if (this._orientation === 'vertical') {
-                this._elSlider.style.width = null;
+                this._elSlider.style.width = '';
                 this._elSlider.style.height = 'inherit';
             } else { // horizontal
                 this._elSlider.style.width = 'inherit';
-                this._elSlider.style.height = null;
+                this._elSlider.style.height = '';
             }
 
             // noUiSlider.Options
