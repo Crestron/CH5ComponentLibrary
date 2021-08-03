@@ -500,7 +500,12 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
              * call on element resize using ResizeObserver
              */
             if (this.parentElement) {
-                resizeObserver(this.parentElement, this.updateCanvasDimensions.bind(this));
+                // Removed so we can upgrade typescript to 4.3.5 - Resize-observer-polyfill has a pending PR to fix conflicting
+                // type definitions
+                // https://github.com/que-etc/resize-observer-polyfill/pull/85
+                // TODO: Suresh needs to verify later
+                // TODO: To be uncommented resize-observer.ts as well !
+                // resizeObserver(this.parentElement, this.updateCanvasDimensions.bind(this));
             }
             this.info("From connectedCallback of ch5-background");
         });
