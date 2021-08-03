@@ -574,7 +574,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         }
 
         if (request && Object.keys(request).length) {
-            const tempObj: IBACKGROUND = Object.assign({}, request);
+            const tempObj: Partial<IBACKGROUND> = Object.assign({}, request);
             delete tempObj.image;
             this.videoRequestObj = request;
 
@@ -1127,7 +1127,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         if (this._imgUrls.length === idx + 1) {
                             this.changeBackground(this._imgUrls.length);
                         }
-                        delete this._elImages[idx].onload;
+                        this._elImages[idx].onload = null;
                     };
 
                     // setting background color behind image
