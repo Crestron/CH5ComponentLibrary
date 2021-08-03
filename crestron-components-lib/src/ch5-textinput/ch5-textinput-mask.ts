@@ -14,28 +14,28 @@ export class Ch5tTextInputMask {
 
   /**
    * Used for id or classes attributes
-   * 
+   *
    * @type {string}
    */
   public prefix: string = '_ch5-textinput-mask' as string;
 
   /**
    * Modifer separator used to add classes for special cases (active|inactive)
-   * 
+   *
    * @type {string}
    */
   public modifierSeparator: string = '--' as string;
 
   /**
    * Prefix added before the block class
-   * 
+   *
    * @type {string}
    */
   public blockSeparator: string = '__' as string;
 
   /**
    * Determines if the mask element was added to the DOM
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @type {boolean}
@@ -45,7 +45,7 @@ export class Ch5tTextInputMask {
   /**
    * Determines if the input was wrapped in a wrapper element
    * example(<div><input /></div>)
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @type {boolean}
@@ -54,7 +54,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Contains the id of the wrapper element
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @type {boolean}
@@ -63,7 +63,7 @@ export class Ch5tTextInputMask {
 
   /**
    * The input element on which the mask feature will be used
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @type {HTMLInputElement}
@@ -71,19 +71,19 @@ export class Ch5tTextInputMask {
   private _input: HTMLInputElement = {} as HTMLInputElement;
 
   /**
-   * Contains the element which keep the mask pattern and show it 
+   * Contains the element which keep the mask pattern and show it
    * to the user
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @type {HTMLElement}
    */
   private _maskElement: HTMLElement = {} as HTMLElement;
-  
+
   /**
    * Contains the mask pattern and it is used for input validation and for showing
    * to the user
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @type {string}
@@ -92,8 +92,8 @@ export class Ch5tTextInputMask {
 
   /**
    * Determines the last value length. Help to find the user behavior
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @type {number}
    */
@@ -101,8 +101,8 @@ export class Ch5tTextInputMask {
 
   /**
    * Contains the action made by the user in input
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @type {string}
    */
@@ -110,9 +110,9 @@ export class Ch5tTextInputMask {
 
   /**
    * Determines when the mask will be shown
-   * Default value will show the mask only on input focus, 
+   * Default value will show the mask only on input focus,
    * otherwise will be shown everytime
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @type {boolean}
@@ -121,7 +121,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Determines the show behavior of mask element
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @type {boolean}
@@ -130,7 +130,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Contains the input placeholder
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @type {string}
@@ -139,7 +139,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Listener for input event
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @type {Function}
@@ -148,8 +148,8 @@ export class Ch5tTextInputMask {
 
   /**
    * Listener for input keyUp event
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @type {EventListenerOrEventListenerObject}
    */
@@ -157,8 +157,8 @@ export class Ch5tTextInputMask {
 
   /**
    * Listener for input keyDown event
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @type {EventListenerOrEventListenerObject}
    */
@@ -166,8 +166,8 @@ export class Ch5tTextInputMask {
 
   /**
    * Listener for input blur event
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @type {EventListenerOrEventListenerObject}
    */
@@ -175,8 +175,8 @@ export class Ch5tTextInputMask {
 
   /**
    * Listener for input focus event
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @type {EventListenerOrEventListenerObject}
    */
@@ -191,24 +191,24 @@ export class Ch5tTextInputMask {
 
     this._cleanTheInput();
 
-    this._inputListener = this._onInput.bind(this);
-    this._inputKeyUpListener = this._onInputKeyUp.bind(this);
-    this._inputKeyDownListener = this._onInputKeyDown.bind(this);
-    this._inputFocusListener = this._onInputFocus.bind(this);
-    this._inputBlurListener = this._onInputBlur.bind(this);
+    this._inputListener = this._onInput.bind(this) as unknown as EventListener;
+    this._inputKeyUpListener = this._onInputKeyUp.bind(this) as unknown as EventListener;
+    this._inputKeyDownListener = this._onInputKeyDown.bind(this) as unknown as EventListener;
+    this._inputFocusListener = this._onInputFocus.bind(this) as unknown as EventListener;
+    this._inputBlurListener = this._onInputBlur.bind(this) as unknown as EventListener;
   }
 
   /**
    * Initialize the mask
    */
   public init() {
-  
+
     if (!this._wasWrapped && !this.didMounted) {
       this._wrap();
     }
 
     if (this.alwaysShow === false) {
-      this.show = false; 
+      this.show = false;
     } else {
       this.show = true;
     }
@@ -223,7 +223,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Dispatch maskError event
-   * 
+   *
    * @see {@link _createInputMaskErrorEvent}
    * @param {string} errorType (invalidCharacter | invalidLength)
    * @return {void}
@@ -243,24 +243,24 @@ export class Ch5tTextInputMask {
 
   /**
    * Dispatch mask update event
-   * 
+   *
    * @see {@link _createMaskUpdateEvent}
    * @return {void}
    */
   public dispatchMaskUpdateEvent(): void {
-    
-    const maskUpdateEvent = this._createMaskUpdateEvent(this.input.value);    
+
+    const maskUpdateEvent = this._createMaskUpdateEvent(this.input.value);
     this.maskElement.dispatchEvent(maskUpdateEvent);
     this.input.dispatchEvent(maskUpdateEvent);
   }
 
   /**
    * Dispatch the complete event
-   * 
+   *
    * @see {@link _createInputMaskCompleteEvent}
    * @return {void}
    */
-  public dispatchMaskCompleteEvent(): void{ 
+  public dispatchMaskCompleteEvent(): void{
 
     const maskCompleteEvent = this._createInputMaskCompleteEvent();
     this.maskElement.dispatchEvent(maskCompleteEvent);
@@ -272,7 +272,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Setter for didMounted property
-   * 
+   *
    * @param {boolean} mounted
    */
   public set didMounted(mounted: boolean) {
@@ -288,7 +288,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for didMounted property
-   * 
+   *
    * @return {boolean}
    */
   public get didMounted(): boolean {
@@ -298,17 +298,17 @@ export class Ch5tTextInputMask {
 
   /**
    * Setter for input element
-   * 
+   *
    * @param {HTMLInputElement} input
    */
   public set input(input: HTMLInputElement) {
-    
+
     this._input = input;
   }
 
   /**
    * Getter for input element
-   * 
+   *
    * @return {HTMLInputElement}
    */
   public get input(): HTMLInputElement {
@@ -318,12 +318,12 @@ export class Ch5tTextInputMask {
 
   /**
    * Setter for wasWrapped property
-   * 
+   *
    * @param {boolean} wrapped
    */
   public set wasWrapped(wrapped: boolean) {
     if (
-      this.wasWrapped !== wrapped && 
+      this.wasWrapped !== wrapped &&
       (wrapped === undefined || wrapped === null)
     ) {
       wrapped = false;
@@ -334,7 +334,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for wasWrapped property
-   * 
+   *
    * @return {boolean}
    */
   public get wasWrapped(): boolean {
@@ -344,7 +344,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for wrapperId property
-   * 
+   *
    * @param {number} id
    */
   public set wrapperId(id: number) {
@@ -358,17 +358,17 @@ export class Ch5tTextInputMask {
 
   /**
    * Setter for wrapperId
-   * 
+   *
    * @return {number}
    */
   public get wrapperId(): (number) {
-    
+
     return this._wrapperId as (number);
   }
 
   /**
    * Setter for maskElement
-   * 
+   *
    * @param {HTMLElement} element
    */
   public set maskElement(element: HTMLElement) {
@@ -378,7 +378,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for maskElement
-   * 
+   *
    * @return {HTMLElement}
    */
   public get maskElement(): HTMLElement {
@@ -388,13 +388,13 @@ export class Ch5tTextInputMask {
 
   /**
    * Setter for maskValue
-   * 
+   *
    * @param {string} value
    */
   public set maskValue(value: string) {
 
     if (
-      this.maskValue !== value && 
+      this.maskValue !== value &&
       (value === undefined || value === null)
     ) {
       value = '';
@@ -405,7 +405,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for maskValue
-   * 
+   *
    * @return {string}
    */
   public get maskValue(): string {
@@ -415,7 +415,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Getting the input styles
-   * 
+   *
    * @return {CSSStyleDeclaration}
    */
   public getInputStyles(): CSSStyleDeclaration {
@@ -426,13 +426,13 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for lastValueLength
-   * 
+   *
    * @param {number} length
    */
   public set lastValueLength(length: number) {
 
     if (
-      this.lastValueLength !== length && 
+      this.lastValueLength !== length &&
       (length === undefined || length === null)) {
         length = 0;
     }
@@ -442,23 +442,23 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for lastValueLength
-   * 
+   *
    * @return {number}
    */
   public get lastValueLength(): number {
-    
+
     return this._lastValueLength;
   }
 
   /**
    * Setter for inputType property
-   * 
+   *
    * @param {string} code
    */
   public set inputType(action: string) {
 
     if (
-      this.inputType !== action && 
+      this.inputType !== action &&
       (action === undefined || action === null)
     ) {
       action = '';
@@ -469,7 +469,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for inputType property
-   * 
+   *
    * @return {string}
    */
   public get inputType(): string {
@@ -479,23 +479,23 @@ export class Ch5tTextInputMask {
 
   /**
    * Setter for alwaysShow property
-   * 
+   *
    * @param {boolean} show
    */
   public set alwaysShow(show: boolean) {
     if (
-      this.alwaysShow !== show && 
+      this.alwaysShow !== show &&
       (show === undefined || show === null)
     ) {
       show = false;
     }
 
     this._alwaysShow = show;
-  } 
+  }
 
   /**
    * Getter for alwaysShow property
-   * 
+   *
    * @return {boolean}
    */
   public get alwaysShow(): boolean {
@@ -505,13 +505,13 @@ export class Ch5tTextInputMask {
 
   /**
    * Setter for show property
-   * 
+   *
    * @param {boolean} show
    */
   public set show(show: boolean) {
 
     if (
-      this.show !== show && 
+      this.show !== show &&
       (show === undefined || show === null)
     ) {
       show = false;
@@ -526,23 +526,23 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for show property
-   * 
+   *
    * @return {boolean}
    */
   public get show(): boolean {
 
     return this._show;
   }
-  
+
   /**
    * Setter for placeholder property
-   * 
+   *
    * @param {string} placeholder
    */
   public set placeholder(placeholder: string) {
 
     if (
-      this.placeholder !== placeholder && 
+      this.placeholder !== placeholder &&
       (placeholder === undefined || placeholder === null)) {
         placeholder = '';
     }
@@ -552,7 +552,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Getter for placeholder property
-   * 
+   *
    * @return {void}
    */
   public get placeholder(): string {
@@ -563,7 +563,7 @@ export class Ch5tTextInputMask {
   /**
    * Adding styles to the input and maskElement for making maskElement feel & look
    * like an input
-   * 
+   *
    * @return {void}
    */
   public _makeMaskElementLookAsInputPlaceholder(): void {
@@ -587,22 +587,22 @@ export class Ch5tTextInputMask {
   /**
    * Adding static characters from the mask to input value
    * example("-","_","#")
-   * 
+   *
    * @return {void}
    */
   public addStaticCharactersToInputValue(letterIndex: number): void {
 
     const nextLetter = this.maskValue.substr(letterIndex, 1) !== '' ?
       this.maskValue.substr(letterIndex, 1) : null;
-    
+
     if (
       this._isUserTyping() &&
-      nextLetter !== null && 
-      nextLetter.match(/[-_#().,\\\/=@$&\s+]/g) !== null      
+      nextLetter !== null &&
+      nextLetter.match(/[-_#().,\\\/=@$&\s+]/g) !== null
     ) {
 
       this.dispatchMaskUpdateEvent();
-      
+
       this.input.value = this.input.value + nextLetter;
       this.lastValueLength++;
 
@@ -614,7 +614,7 @@ export class Ch5tTextInputMask {
    * Update the characters in the mask element
    * That's because the mask element should look like an placeholder
    * and some letters doesn't have the same dimenssions
-   * 
+   *
    * @return {void}
    */
   public _updateCharactersInMask() {
@@ -635,7 +635,7 @@ export class Ch5tTextInputMask {
       }
 
       childNode = this.maskElement.childNodes[inputValueLength];
-      
+
       if (childNode !== undefined) {
         (childNode as HTMLElement).innerHTML = currentLetter;
       }
@@ -644,7 +644,7 @@ export class Ch5tTextInputMask {
 
   /**
    * If alwaysShow=false toggle placeholder on blur/focus events
-   * 
+   *
    * @return {void}
    */
   public togglePlaceholder(): void {
@@ -660,9 +660,9 @@ export class Ch5tTextInputMask {
 
   /**
    * Attach event listeners on input and maskElement
-   * For maskElement will be a custom event which is fired 
+   * For maskElement will be a custom event which is fired
    * when input has any of key type events
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @return {void}
@@ -679,8 +679,8 @@ export class Ch5tTextInputMask {
 
   /**
    * Detach the event listeners
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @return {void}
    */
@@ -694,8 +694,8 @@ export class Ch5tTextInputMask {
 
   /**
    * Create the mask element
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @param {HTMLElement} wrapper
    * @return {void}
@@ -711,7 +711,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Moving the input and mask element inside the wrapper
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @return {void}
@@ -732,8 +732,8 @@ export class Ch5tTextInputMask {
   /**
    * Create the wrapper element, the place where the mask element and input
    * will be moved
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @return {HTMLElement}
    */
@@ -748,7 +748,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Create the mask element
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @return {void}
@@ -759,15 +759,15 @@ export class Ch5tTextInputMask {
 
     this.maskElement = document.createElement('span');
     this.maskElement.setAttribute('data-mask', this.maskValue);
-    
+
     this.maskElement.innerHTML = htmlMaskValue;
   }
 
   /**
    * Clean the placeholder and pattern attributes
    * Using mask element the placeholder and pattern attributes are not needed
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @return {void}
    */
@@ -784,8 +784,8 @@ export class Ch5tTextInputMask {
 
   /**
    * Single wrapping of each character from the maskElement
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @return {string}
    */
@@ -801,9 +801,9 @@ export class Ch5tTextInputMask {
   }
 
   /**
-   * Create keydown event 
-   * 
-   * @param {string} message 
+   * Create keydown event
+   *
+   * @param {string} message
    * @private
    * @memberof Ch5tTextInputMask
    * @return {CustomEvent}
@@ -826,13 +826,13 @@ export class Ch5tTextInputMask {
   /**
    * This event will be dispatched when the input value doesn't respect
    * the mask
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
-   * @param {string} errorType 
+   * @param {string} errorType
    * @return {CustomEvent}
    */
-  private _createInputMaskErrorEvent(errorType: string): CustomEvent { 
+  private _createInputMaskErrorEvent(errorType: string): CustomEvent {
 
     const errorCustomEvent = new CustomEvent('maskerror', {
       detail: {
@@ -848,12 +848,12 @@ export class Ch5tTextInputMask {
 
   /**
    * Create complete event, this event is fired when the input value completely match the mask pattern
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
    * @return {CustomEvent}
    */
-  private _createInputMaskCompleteEvent(): CustomEvent { 
+  private _createInputMaskCompleteEvent(): CustomEvent {
 
     const completeEvent = new CustomEvent('maskcomplete', {
       detail: {
@@ -869,10 +869,10 @@ export class Ch5tTextInputMask {
 
   /**
    * Mask the pattern character
-   * 
-   * @private 
+   *
+   * @private
    * @memberof Ch5tTextInputMask
-   * @param {number} letterIndex 
+   * @param {number} letterIndex
    * @return {void}
    */
   private _maskCharacterOnTyping(letterIndex: number): void {
@@ -893,10 +893,10 @@ export class Ch5tTextInputMask {
 
   /**
    * Unmask the pattern character
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
-   * @param {number} letterIndex 
+   * @param {number} letterIndex
    * @return {void}
    */
   private _unmaskCharacterOnTyping(letterIndex: number): void {
@@ -920,7 +920,7 @@ export class Ch5tTextInputMask {
   /**
    * Check if user is typing
    * Returning false means that user is erasing the input
-   * 
+   *
    * @return {boolean}
    */
   private _isUserTyping(): boolean {
@@ -934,8 +934,8 @@ export class Ch5tTextInputMask {
 
   /**
    * - more characters than mask has should not be allowed
-   * - following the character type 
-   * 
+   * - following the character type
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @param {string} key
@@ -966,7 +966,7 @@ export class Ch5tTextInputMask {
         return false;
       }
     }
-    
+
     return true;
   }
 
@@ -993,7 +993,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Getting the data type from a character
-   * 
+   *
    * @private
    * @memberof Ch5tTextInputMask
    * @param {string} character
@@ -1020,11 +1020,11 @@ export class Ch5tTextInputMask {
   }
 
   /**
-   * 
-   * @param {string} character 
+   *
+   * @param {string} character
    */
   private _getCapsType(character: string) {
-    
+
     if (character !== null && character !== '*') {
       if (character === character.toUpperCase()) {
         return 'uppercase';
@@ -1038,7 +1038,7 @@ export class Ch5tTextInputMask {
 
   /**
    * Change caps following the mask patter
-   * 
+   *
    * @param {number} letterIndex
    */
   private _transformLetterCapsType(letterIndex: number) {
@@ -1062,7 +1062,7 @@ export class Ch5tTextInputMask {
       // contains only the last letter
       const currentLetter = this.input.value.substr(letterIndex, 1);
       const inputValueRight = this.input.value.substr(letterIndex + 1);
-      
+
       if (letterCapsType === 'uppercase' && typedKeyCapsType !== 'uppercase') {
         this.input.value = inputValue + currentLetter.toUpperCase() + inputValueRight;
         (letterElement as HTMLElement).innerHTML = currentLetter.toUpperCase();
@@ -1070,17 +1070,17 @@ export class Ch5tTextInputMask {
         this.input.value = inputValue + currentLetter.toLowerCase() + inputValueRight;
         (letterElement as HTMLElement).innerHTML = currentLetter.toLowerCase();
       }
-      
+
       this._transformLetterCapsType(--letterIndex);
     }
   }
 
   /**
-   * 
-   * @param {KeyboardEvent} inEvent 
+   *
+   * @param {KeyboardEvent} inEvent
    */
   private _onInputKeyDown(inEvent: KeyboardEvent): void {
-    
+
     this.inputType = inEvent.key;
 
     if (this._isUserTyping()){
@@ -1095,8 +1095,8 @@ export class Ch5tTextInputMask {
   }
 
   /**
-   * 
-   * @param inEvent 
+   *
+   * @param inEvent
    */
   private _onInput(inputEvent: ICustomInputEvent) {
 
@@ -1125,8 +1125,8 @@ export class Ch5tTextInputMask {
   }
 
   /**
-   * 
-   * @param {KeyboardEvent} inEvent 
+   *
+   * @param {KeyboardEvent} inEvent
    */
   private _onInputKeyUp(inEvent: KeyboardEvent): void {
 
@@ -1136,8 +1136,8 @@ export class Ch5tTextInputMask {
   }
 
   /**
-   * 
-   * @param {MouseEvent} inEvent 
+   *
+   * @param {MouseEvent} inEvent
    */
   private _onInputFocus(inEvent: MouseEvent): void {
 
@@ -1146,10 +1146,10 @@ export class Ch5tTextInputMask {
       this.togglePlaceholder();
     }
   }
-  
+
   /**
-   * 
-   * @param {MouseEvent} inEvent 
+   *
+   * @param {MouseEvent} inEvent
    */
   private _onInputBlur(inEvent: MouseEvent): void {
     if (this.alwaysShow === false) {
@@ -1167,10 +1167,10 @@ export class Ch5tTextInputMask {
 
   /**
    * Fire custom keydown event
-   * 
+   *
    * @param {CustomEvent} inEvent
    */
-  private _onMaskUpdate(inEvent: CustomEvent): void {
+  private _onMaskUpdate(inEvent: any): void {
 
     if (this._isUserTyping()) {
       this._maskCharacterOnTyping(this.lastValueLength);
