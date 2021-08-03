@@ -548,7 +548,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      */
     private isInViewport(elId: string): boolean {
         const el: any = document.getElementById(elId);
-        if (el) {
+        if (el && document && document.documentElement) {
             const rect = el.getBoundingClientRect();
             return (
                 rect.top >= 0 &&
