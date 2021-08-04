@@ -834,35 +834,23 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     }
 
     public static convertVhUnitsToPx(vh: number): number {
-        if (document && document.documentElement) {
-            const height = window.innerHeight || document.documentElement.clientHeight;
-            return (vh * height) / 100;
-        }
-        return 0;
+        const height = window.innerHeight || document.documentElement.clientHeight;
+        return (vh * height) / 100;
     }
 
     public static convertVwUnitsToPx(vw: number): number {
-        if (document && document.documentElement) {
-            const width = window.innerWidth || document.documentElement.clientWidth;
-            return (vw * width) / 100;
-        }
-        return 0;
+        const width = window.innerWidth || document.documentElement.clientWidth;
+        return (vw * width) / 100;
     }
 
     public static convertPxUnitToVh(px: number): number {
-        if (document && document.documentElement) {
-            const height = window.innerHeight || document.documentElement.clientHeight;
-            return (px / height) * 100;
-        }
-        return 0;
+        const height = window.innerHeight || document.documentElement.clientHeight;
+        return (px / height) * 100;
     }
 
     public static convertPxUnitToVw(px: number): number {
-        if (document && document.documentElement) {
-            const width = window.innerWidth || document.documentElement.clientWidth;
-            return (px / width) * 100;
-        }
-        return 0;
+        const width = window.innerWidth || document.documentElement.clientWidth;
+        return (px / width) * 100;
     }
 
     /**
