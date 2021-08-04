@@ -11,6 +11,7 @@ import { TActionLogic, TSignalNonStandardTypeName, TSignalValue, TRepeatDigitalS
 import { Ch5SignalUpdateCallback } from '../ch5-core/types/callbacks';
 import { TCh5Signal } from '../ch5-core/types/signal.type';
 import { isNull, isUndefined, isBoolean, isString, isNumber, isObject } from 'lodash';
+import { throwError } from 'rxjs';
 
 export type TScenarioOnStart = {
     type: TSignalNonStandardTypeName,
@@ -52,6 +53,10 @@ export class Ch5Emulator {
     private static _instance: Ch5Emulator | undefined;
     private static _scenario: IEmulatorScenario = {} as IEmulatorScenario;
 
+    /**
+     * The Singleton's constructor should always be private to prevent direct
+     * construction calls with the `new` operator.
+     */
     private constructor() {}
 
     public static getInstance(): Ch5Emulator {
@@ -74,6 +79,8 @@ export class Ch5Emulator {
             }
 
             scenario.cues.forEach(Ch5Emulator._instance.processCue);
+        } else {
+            throw new Error('The Ch5Emulator instance is not created');
         }
     }
 
