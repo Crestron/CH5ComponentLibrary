@@ -4,7 +4,7 @@
 // or natural, without the express written consent of Crestron Electronics.
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
-import ResizeObserver from 'resize-observer-polyfill';
+// import ResizeObserver from 'resize-observer-polyfill';
 
 /**
  * Utility function that returns the first scrollable parent

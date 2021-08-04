@@ -286,13 +286,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     protected _wasInstatiated: boolean = false;
 
     /**
-     * This property is set to true when the component is instantiated in viewport. 
+     * This property is set to true when the component is instantiated in viewport.
      * For example the ch5-modal-dialog component at the render time may
      * be hidden and then the size of the ch5-modal-dialog cannot be computed.
-     * 
-     * This property is used to check if the component 
+     *
+     * This property is used to check if the component
      * was instantied in the viewport
-     * 
+     *
      * @protected
      * @type {boolean}
      */
@@ -311,9 +311,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     public elementIsInViewPort: boolean = true;
 
     /**
-     * Whenever the target meets a threshold specified for the IntersectionObserver, 
-     * the callback is invoked. The callback receives a list of IntersectionObserverEntry 
-     * objects 
+     * Whenever the target meets a threshold specified for the IntersectionObserver,
+     * the callback is invoked. The callback receives a list of IntersectionObserverEntry
+     * objects
      */
     public elementIntersectionEntry: IntersectionObserverEntry = {} as IntersectionObserverEntry;
 
@@ -1671,12 +1671,12 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     }
 
     /**
-     * Invoke an incompatibility warning when an attribute cannot work as 
-     * expected because of the component definition. 
-     * 
+     * Invoke an incompatibility warning when an attribute cannot work as
+     * expected because of the component definition.
+     *
      * A good example in this case is `pagedSwipe` attribute which cannot work
      * properly when the list size doesn't correspond to at least two pages.
-     * 
+     *
      * @param {string} attribute the attribute name to invoke incompatibility
      */
     protected invokePropIncompatibility(attribute: string): void {
@@ -1777,8 +1777,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     /**
      * Defines the information to be logged on
-     * 
-     * @param {string} attribute 
+     *
+     * @param {string} attribute
      * @param {string[]} reasons
      */
     private definePropIncompatibilityInfo(attribute: string, reasons: string[]): string {
@@ -1828,13 +1828,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     /**
      * (Generic) Function to set the value of a given attribute and perform the callback if required
-     * DEVNOTE: 
+     * DEVNOTE:
      * 1. Refer ch5-dpad-button-center.ts for usage example
      * 2. The "attrKeyPvt" and "attrKeyPvt" are actual variables to be existing in the same manner within the caller class
      * @param caller the dpad child component
      * @param attrKey receiveState* for the child component
      * @param value to set
-     * @returns 
+     * @returns
      */
     public setValueForReceiveStateString(params: TCh5CreateReceiveStateSigParams) {
         const { caller, attrKey, value, callbackOnSignalReceived } = params;
@@ -1866,13 +1866,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
     /**
      * (Generic) Function to set the value of a given attribute and perform the callback if required
-     * DEVNOTE: 
+     * DEVNOTE:
      * 1. Refer ch5-dpad-button-center.ts for usage example
      * 2. The "attrKeyPvt" and "attrKeyPvt" are actual variables to be existing in the same manner within the caller class
      * @param caller the dpad child component
      * @param attrKey receiveState* for the child component
      * @param value to set
-     * @returns 
+     * @returns
      */
     public setValueForReceiveStateBoolean(params: TCh5CreateReceiveStateSigParams) {
         const { caller, attrKey, value, callbackOnSignalReceived } = params;
@@ -1902,6 +1902,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         });
     }
 
-    //#endregion 
+    //#endregion
 
 }

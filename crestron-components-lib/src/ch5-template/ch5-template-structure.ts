@@ -15,11 +15,11 @@ export class Ch5TemplateStructure {
      * The template of the component
      *
      * @private
-     * @static 
+     * @static
      * @memberof Ch5TemplateStructure
      * @type {Object}
      */
-    private static _numInstances: {[key:string]:number;} = {};
+    private static _numInstances: { [key: string]: number; } = {};
 
 
     /**
@@ -48,14 +48,14 @@ export class Ch5TemplateStructure {
     /**
      * The id if created an instance of the template
      */
-    private _instanceId: string|null = null;
-    
+    private _instanceId: string | null = null;
+
     /**
      * @private
-     * @param templateIdentifier 
-     * @returns monotomic incrementing integer for given templateIdentifer 
+     * @param templateIdentifier
+     * @returns monotomic incrementing integer for given templateIdentifer
      */
-    private static nextInstanceNum(templateIdentifier: string) : number {
+    private static nextInstanceNum(templateIdentifier: string): number {
         const priorNumber = Ch5TemplateStructure._numInstances[templateIdentifier];
         const nextNumber: number = (priorNumber === undefined ? 1 : priorNumber + 1);
         Ch5TemplateStructure._numInstances[templateIdentifier] = nextNumber;
@@ -107,7 +107,7 @@ export class Ch5TemplateStructure {
         return this._templateElement;
     }
 
-    public get instanceId(): string| null {
+    public get instanceId(): string | null {
         return this._instanceId;
     }
 
@@ -208,9 +208,9 @@ export class Ch5TemplateStructure {
 
                 for (let i = 0; i < contextPairs.length; i++) {
                     const parsedContext = contextPairs[i].split(':');
-                    
+
                     this.element.info(`Processing original:replacement pair: ${parsedContext}`);
-                    
+
                     if (parsedContext.length !== 2 || isEmpty(parsedContext[0]) || isEmpty(parsedContext[1])) {
                         console.warn(`[ch5-template] Warning: Invalid context pair structure, expected: "original:replacement", but received "${parsedContext}", moving to the next context pair`);
                         continue;
@@ -220,7 +220,7 @@ export class Ch5TemplateStructure {
                     this.element.info(`Ch5TemplateStructure --- Count: [${i + 1}/${parsedContext.length}] 
                     Replace original string: ${parsedContext[0]} 
                     with provided replacement string: ${parsedContext[1]}`);
-                
+
                     const patternIdentifier = new RegExp(parsedContext[0], "g");
                     newInnerHtml = newInnerHtml.replace(patternIdentifier, parsedContext[1]);
                 }
@@ -243,7 +243,7 @@ export class Ch5TemplateStructure {
             throw new Error(`[ch5-template] Error: Failed to generate content: ${e}`);
         } finally {
             this.setDefaultElementStyle();
-            if (newElement !== null) {
+            if (newElement !== null && newElement.children) {
                 // create unique id for each instance of this template
                 const thisInstanceNum = Ch5TemplateStructure.nextInstanceNum(templateId);
                 this._instanceId = `${templateId}:${thisInstanceNum}`;
@@ -251,15 +251,15 @@ export class Ch5TemplateStructure {
                 // provide unique id for each first level element of the template unless it already has id
                 const elementIds: string[] = [];
                 for (let childcnt = 0; childcnt < newElement.children.length; childcnt++) {
-                    if (!newElement.children.item(childcnt).id) {
-                        newElement.children.item(childcnt).id = `${this._instanceId}:${childcnt}`;
+                    if (!newElement.children[childcnt].id) {
+                        newElement.children[childcnt].id = `${this._instanceId}:${childcnt}`;
                     }
-                    elementIds.push(newElement.children.item(childcnt).id);
+                    elementIds.push(newElement.children[childcnt].id);
                 }
-                
+
                 this.element.info(`Ch5TemplateStructure --- [FINAL] Adding content to ChTemplate: ${this._instanceId}`, newElement);
                 this.element = newElement as Ch5Template;
-                publishEvent('object', `ch5-template:${templateId}`, {loaded: true, id: this._instanceId, elementIds});
+                publishEvent('object', `ch5-template:${templateId}`, { loaded: true, id: this._instanceId, elementIds });
             }
         }
     }

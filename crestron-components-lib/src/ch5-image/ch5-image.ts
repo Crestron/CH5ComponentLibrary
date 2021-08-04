@@ -875,7 +875,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         function _getStyle(el: HTMLElement) {
             let styles: IShowStyle = {} as IShowStyle;
 
-            if (window.getComputedStyle) {
+            if (document && document.defaultView) {
                 styles = document.defaultView.getComputedStyle(el) as IShowStyle;
 
                 if (styles.opacity === '0' || styles.visibility === 'hidden' || styles.display === 'none') {

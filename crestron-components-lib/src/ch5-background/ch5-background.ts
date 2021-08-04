@@ -608,7 +608,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             } else if (request.action === this.VIDEO_ACTION.STARTED) {
                 this.manageVideoInfo(request);
                 if (request.action === this.VIDEO_ACTION.SNAPSHOT) {
-                    this.videoSnapShot = request.image;
+                    if (request.image) {
+                        this.videoSnapShot = request.image;
+                    }
                 }
                 this.videoBGAction();
             } else if (request.action === this.VIDEO_ACTION.RESIZE) {
@@ -1096,9 +1098,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * update transition effect and duration
      */
     private setBgTransition() {
-        let timer: number = 0;
-        clearTimeout(timer);
-        timer = setTimeout(() => {
+        setTimeout(() => {
             if (this.isCanvasListValid()) {
                 this._canvasList.forEach((canvas: HTMLCanvasElement) => {
                     if (this._transitionEffect) {
@@ -1127,7 +1127,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                         if (this._imgUrls.length === idx + 1) {
                             this.changeBackground(this._imgUrls.length);
                         }
-                        delete this._elImages[idx].onload;
+                        this._elImages[idx].onload = null;
                     };
 
                     // setting background color behind image

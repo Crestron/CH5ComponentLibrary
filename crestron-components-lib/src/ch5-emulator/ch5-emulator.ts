@@ -11,6 +11,7 @@ import { TActionLogic, TSignalNonStandardTypeName, TSignalValue, TRepeatDigitalS
 import { Ch5SignalUpdateCallback } from '../ch5-core/types/callbacks';
 import { TCh5Signal } from '../ch5-core/types/signal.type';
 import { isNull, isUndefined, isBoolean, isString, isNumber, isObject } from 'lodash';
+import { throwError } from 'rxjs';
 
 export type TScenarioOnStart = {
     type: TSignalNonStandardTypeName,
@@ -49,8 +50,14 @@ export interface IEmulatorAction {
 }
 
 export class Ch5Emulator {
-    private static _instance: Ch5Emulator;
-    private static _scenario: IEmulatorScenario= {} as IEmulatorScenario;
+    private static _instance: Ch5Emulator | undefined;
+    private static _scenario: IEmulatorScenario = {} as IEmulatorScenario;
+
+    /**
+     * The Singleton's constructor should always be private to prevent direct
+     * construction calls with the `new` operator.
+     */
+    private constructor() {}
 
     public static getInstance(): Ch5Emulator {
         if (isUndefined(Ch5Emulator._instance)) {
@@ -60,17 +67,21 @@ export class Ch5Emulator {
     }
 
     public static clear() {
-        delete Ch5Emulator._instance;
-        delete Ch5Emulator._scenario;
+        Ch5Emulator._instance = undefined;
+        Ch5Emulator._scenario = {} as IEmulatorScenario;
     }
 
     public loadScenario(scenario:IEmulatorScenario) {
-        Ch5Emulator._scenario = scenario;
-        if (isUndefined(scenario.cues)) {
-            throw new Error('The loaded scenario has no cues');
-        }
+        if (Ch5Emulator._instance) {
+            Ch5Emulator._scenario = scenario;
+            if (isUndefined(scenario.cues)) {
+                throw new Error('The loaded scenario has no cues');
+            }
 
-        scenario.cues.forEach(Ch5Emulator._instance.processCue);
+            scenario.cues.forEach(Ch5Emulator._instance.processCue);
+        } else {
+            throw new Error('The Ch5Emulator instance is not created');
+        }
     }
 
     public getScenario():IEmulatorScenario {
