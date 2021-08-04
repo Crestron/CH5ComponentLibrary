@@ -81,9 +81,7 @@ function addHeightElement(): HTMLElement {
     const elem: HTMLElement = document.createElement('div');
     elem.style.position = 'fixed';
     elem.style.height = '100vh';
-    if (document && document.documentElement) {
-        document.documentElement.appendChild(elem);
-    }
+    document.documentElement.appendChild(elem);
     return elem;
 }
 
