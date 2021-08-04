@@ -11,6 +11,7 @@ import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-interfaces";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
+import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 
 export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     //#region 1. Variables
@@ -42,9 +43,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     // private setter getter specific vars
     private COMPONENT_NAME: string = "ch5-dpad";
     private _contractName: string = '';
-    private _type: TCh5DpadType = 'default';
-    private _shape: TCh5DpadShape = 'plus';
-    private _stretch: TCh5DpadStretch = 'both';
+    private _type: TCh5DpadType = Ch5Dpad.TYPES[0];
+    private _shape: TCh5DpadShape = Ch5Dpad.SHAPES[0];
+    private _stretch: TCh5DpadStretch = Ch5Dpad.STRETCHES[0];
     private _sendEventOnClickStart: string = '';
     private _useContractforEnable: boolean = false;
     private _useContractForShow: boolean = false;
@@ -57,6 +58,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
     // state specific vars
     private isComponentLoaded: boolean = false;
+    private btnTypeClassPrefix: string = "ch5-dpad--type-";
 
     // elements specific vars
 
@@ -72,17 +74,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public set contractName(value: string) {
         this.info('set contractName("' + value + '")');
 
-        if (_.isNil(value)) {
-            value = '';
-        }
+        value = (_.isNil(value)) ? '' : value;
 
-        const trValue: string = this._getTranslatedValue('contractName', value);
-        if (trValue === this.contractName) {
-            return;
+        if (value !== this.contractName) {
+            this._contractName = value;
+            if (this.getAttribute('type') !== this._type) {
+                this.setAttribute('contractname', this._contractName);
+            }
         }
-
-        this._contractName = trValue;
-        this.setAttribute('contractName', trValue);
     }
     public get contractName(): string {
         return this._contractName;
@@ -92,15 +91,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * type specif getter-setter
      */
     public set type(value: TCh5DpadType) {
-        this.info('set type("' + value + '")');
-        if (value !== this._type) {
-            if (Ch5Dpad.TYPES.indexOf(value) >= 0) {
-                this._type = value;
-            } else {
-                this._type = Ch5Dpad.TYPES[0];
-            }
-            this.setAttribute('type', value);
-        }
+        CH5DpadUtils.setAttributeValueOnControl(this, 'type', value, Ch5Dpad.TYPES,
+            this.updateCssClasses.bind(this));
     }
     public get type(): TCh5DpadType {
         return this._type;
@@ -110,19 +102,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * shape specif getter-setter
      */
     public set shape(value: TCh5DpadShape) {
-        this.info('set shape("' + value + '")');
-
-        if (_.isNil(value)) {
-            value = 'plus';
-        }
-
-        const trValue: TCh5DpadShape = this._getTranslatedValue('shape', value) as TCh5DpadShape;
-        if (trValue === this.shape) {
-            return;
-        }
-
-        this._shape = trValue;
-        this.setAttribute('shape', trValue);
+        CH5DpadUtils.setAttributeValueOnControl(this, 'shape', value, Ch5Dpad.SHAPES,
+            this.removeDuplicateChildElements.bind(this));
     }
     public get shape(): TCh5DpadShape {
         return this._shape;
@@ -132,19 +113,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * stretch specif getter-setter
      */
     public set stretch(value: TCh5DpadStretch) {
-        this.info('set stretch("' + value + '")');
-
-        if (_.isNil(value)) {
-            value = 'both';
-        }
-
-        const trValue: TCh5DpadStretch = this._getTranslatedValue('stretch', value) as TCh5DpadStretch;
-        if (trValue === this.stretch) {
-            return;
-        }
-
-        this._stretch = trValue;
-        this.setAttribute('stretch', trValue);
+        CH5DpadUtils.setAttributeValueOnControl(this, 'stretch', value, Ch5Dpad.STRETCHES);
     }
     public get stretch(): TCh5DpadStretch {
         return this._stretch;
@@ -156,17 +125,17 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public set sendEventOnClickStart(value: string) {
         this.info('set sendEventOnClickStart("' + value + '")');
 
-        if (_.isNil(value)) {
+        if (_.isNil(value) || isNaN(parseInt(value, 10))) {
             value = '';
         }
 
-        const trValue: string = this._getTranslatedValue('sendEventOnClickStart', value);
-        if (trValue === this.sendEventOnClickStart) {
+        if (value === this.sendEventOnClickStart) {
             return;
         }
 
-        this._sendEventOnClickStart = trValue;
-        this.setAttribute('sendEventOnClickStart'.toLowerCase(), trValue);
+        this._sendEventOnClickStart = value;
+        this.setAttribute('sendEventOnClickStart'.toLowerCase(), value);
+        this.updateEventClickHandlers(parseInt(value, 10));
     }
     public get sendEventOnClickStart(): string {
         return this._sendEventOnClickStart;
@@ -767,9 +736,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                 break;
             case 'type':
                 this.type = newValue as TCh5DpadType;
-                this.updateCssClasses();
                 break;
-
+            case 'shape':
+                this.shape = newValue as TCh5DpadShape;
+                break;
+            case 'contractname':
+                this.contractName = newValue;
+                this.updateContractNameBasedHandlers(this._contractName);
+                break;
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
@@ -872,7 +846,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.type = CH5DpadUtils.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
         this.shape = CH5DpadUtils.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
         this.stretch = CH5DpadUtils.setAttributeToElement(this, 'stretch', this._stretch) as TCh5DpadStretch;
-        this.updateCssClasses();
 
         // DEV NOTE: if contract name exists, and the individual attribute values don't exist, 
         // then the default value is true for useContractFor*
@@ -900,43 +873,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     protected updateCssClasses(): void {
         // apply css classes for attrs inherited from common (e.g. customClass, customStyle )
         super.updateCssClasses();
-        const childLeftButton: Ch5DpadLeft = this.getElementsByTagName("ch5-dpad-button-left")[0] as Ch5DpadLeft;
-        const childRightButton: Ch5DpadRight = this.getElementsByTagName("ch5-dpad-button-right")[0] as Ch5DpadRight;
-        const childTopButton: Ch5DpadTop = this.getElementsByTagName("ch5-dpad-button-top")[0] as Ch5DpadTop;
-        const childBottomButton: Ch5DpadBottom = this.getElementsByTagName("ch5-dpad-button-bottom")[0] as Ch5DpadBottom;
-        const childCenterButton: Ch5DpadCenter = this.getElementsByTagName("ch5-dpad-button-center")[0] as Ch5DpadCenter;
-        for (let i: number = 0; i < Ch5Dpad.TYPES.length; i++) {
-            if (childLeftButton) {
-                childLeftButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
-            }
-            if (childRightButton) {
-                childRightButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
-            }
-            if (childTopButton) {
-                childTopButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
-            }
-            if (childBottomButton) {
-                childBottomButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
-            }
-            if (childCenterButton) {
-                childCenterButton.classList.remove("ch5-dpad-button--type-" + Ch5Dpad.TYPES[i]);
-            }
+
+        for (const typeVal of Ch5Dpad.TYPES) {
+            this.classList.remove(this.btnTypeClassPrefix + typeVal);
         }
-        if (childLeftButton) {
-            childLeftButton.classList.add("ch5-dpad-button--type-" + this.type);
-        }
-        if (childRightButton) {
-            childRightButton.classList.add("ch5-dpad-button--type-" + this.type);
-        }
-        if (childTopButton) {
-            childTopButton.classList.add("ch5-dpad-button--type-" + this.type);
-        }
-        if (childBottomButton) {
-            childBottomButton.classList.add("ch5-dpad-button--type-" + this.type);
-        }
-        if (childCenterButton) {
-            childCenterButton.classList.add("ch5-dpad-button--type-" + this.type);
-        }
+        this.classList.add(this.btnTypeClassPrefix + this.type);
     }
 
     //#endregion
@@ -1012,6 +953,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             this.appendChild(refobj[childElementArray[2]]); // then, the left element
             this.appendChild(refobj[childElementArray[4]]);
         }
+        this.classList.remove(...Ch5Dpad.SHAPES);
+        this.classList.add(this.shape);
     }
 
     private checkIfContractAllows(attrToCheck: string, attrToSet: string, value: string | boolean): boolean {
@@ -1022,6 +965,71 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         const isContractBased = CH5DpadUtils.getAttributeAsBool(this, attrToSet, this.checkIfValueIsTruey(contractName));
 
         return isContractBased;
+    }
+
+    /**
+     * Function to add the send event on click attribute to child elements if valid scenario
+     * contractName.length === 0 and eventKeyStart is a valid number
+     * @param eventKeyStart sendEventOnClickStart event's initial value
+     */
+    private updateEventClickHandlers(eventKeyStart: number) {
+        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
+        if (contractName.length === 0 && !isNaN(eventKeyStart)) {
+            const centerBtn = this.getElementsByTagName("ch5-dpad-button-center")[0];
+            if (!_.isNil(centerBtn)) {
+                const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.center;
+                centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+            const topBtn = this.getElementsByTagName("ch5-dpad-button-top")[0];
+            if (!_.isNil(topBtn)) {
+                const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.top;
+                topBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+            const rightBtn = this.getElementsByTagName("ch5-dpad-button-right")[0];
+            if (!_.isNil(rightBtn)) {
+                const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.right;
+                rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+            const bottomBtn = this.getElementsByTagName("ch5-dpad-button-bottom")[0];
+            if (!_.isNil(bottomBtn)) {
+                const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.bottom;
+                bottomBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+            const leftBtn = this.getElementsByTagName("ch5-dpad-button-left")[0];
+            if (!_.isNil(leftBtn)) {
+                const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.left;
+                leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+        }
+    }
+    private updateContractNameBasedHandlers(contractName: string) {
+        if (contractName.length > 0) {
+            const centerBtn = this.getElementsByTagName("ch5-dpad-button-center")[0];
+            if (!_.isNil(centerBtn)) {
+                const contractVal = CH5DpadContractUtils.contractSuffix.center;
+                centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+            const topBtn = this.getElementsByTagName("ch5-dpad-button-top")[0];
+            if (!_.isNil(topBtn)) {
+                const contractVal = CH5DpadContractUtils.contractSuffix.top;
+                topBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+            const rightBtn = this.getElementsByTagName("ch5-dpad-button-right")[0];
+            if (!_.isNil(rightBtn)) {
+                const contractVal = CH5DpadContractUtils.contractSuffix.right;
+                rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+            const bottomBtn = this.getElementsByTagName("ch5-dpad-button-bottom")[0];
+            if (!_.isNil(bottomBtn)) {
+                const contractVal = CH5DpadContractUtils.contractSuffix.bottom;
+                bottomBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+            const leftBtn = this.getElementsByTagName("ch5-dpad-button-left")[0];
+            if (!_.isNil(leftBtn)) {
+                const contractVal = CH5DpadContractUtils.contractSuffix.left;
+                leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+            }
+        }
     }
 
     //#endregion

@@ -21,6 +21,7 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     //#region 1.2 private / protected variables
     private COMPONENT_NAME: string = "ch5-dpad-button-right";
     private readonly CSS_CLASS_LIST: TButtonClassListType = {
+        commonBtnClass: 'ch5-dpad-child',
         primaryTagClass: 'right',
         primaryIconClass: 'fas',
         defaultIconClass: 'fa-caret-right',
@@ -69,13 +70,17 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
             return;
         }
 
+        const prevValue = this._iconClass;
         this._iconClass = trValue;
         this.setAttribute('iconClass', trValue);
         if (this._iconUrl.length < 1) {
             if (this._iconClass.length > 0) {
+                this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
+                this._icon.classList.remove(this.CSS_CLASS_LIST.defaultIconClass);
                 this._icon.classList.add(...(this._iconClass.split(' ')));
             } else {
-                this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
+                this._icon.classList.remove(...(prevValue.split(' ')));
+                this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
                 this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
             }
         }
@@ -276,6 +281,7 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     protected createHtmlElements(): void {
         this.logger.start('createHtmlElements', this.COMPONENT_NAME);
         this.classList.add(this.primaryCssClass);
+        this.classList.add(this.CSS_CLASS_LIST.commonBtnClass);
         this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
         this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
 

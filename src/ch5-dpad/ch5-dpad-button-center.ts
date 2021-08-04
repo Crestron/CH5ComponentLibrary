@@ -22,6 +22,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     private COMPONENT_NAME: string = "ch5-dpad-button-center";
     private labelClass: string = 'dpad-btn-label';
     private readonly CSS_CLASS_LIST: TButtonClassListType = {
+        commonBtnClass: 'ch5-dpad-child',
         primaryTagClass: 'center',
         primaryIconClass: 'fas',
         defaultIconClass: 'fa-circle',
@@ -71,13 +72,17 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             return;
         }
 
+        const prevValue = this._iconClass;
         this._iconClass = trValue;
         this.setAttribute('iconClass', trValue);
         if (this._iconUrl.length < 1) {
             if (this._iconClass.length > 0) {
+                this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
+                this._icon.classList.remove(this.CSS_CLASS_LIST.defaultIconClass);
                 this._icon.classList.add(...(this._iconClass.split(' ')));
             } else {
-                this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
+                this._icon.classList.remove(...(prevValue.split(' ')));
+                this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
                 this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
             }
         }
@@ -300,6 +305,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     protected createHtmlElements(): void {
         this.logger.start('createHtmlElements', this.COMPONENT_NAME);
         this.classList.add(this.primaryCssClass);
+        this.classList.add(this.CSS_CLASS_LIST.commonBtnClass);
         this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
 
         // Order of preference is:
