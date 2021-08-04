@@ -18,6 +18,7 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
 
   //#region 1. Variables
 
+  private static readonly STATES: TCh5ButtonModeState[] = ["normal", "pressed", "selected"];
   private _state: TCh5ButtonModeState = "normal";
   private _parentCh5Button: Ch5Button;
 
@@ -26,11 +27,15 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
   //#region 2. Setters and Getters
 
   public set state(value: TCh5ButtonModeState) {
-    // TODO - check if invalid state from list
-    // TODO - check if get should give this._state or getAttribute
     this.logger.log('set state("' + value + '")');
     if (this._state !== value) {
-      this._state = value;
+      if (Ch5ButtonModeState.STATES.indexOf(value) >= 0) {
+        this._state = value;
+      } else {
+        this._state = Ch5ButtonModeState.STATES[0];
+      }
+      this.setAttribute("state", this._state);
+      this._parentCh5Button.setButtonDisplay(this);
     }
   }
   public get state(): TCh5ButtonModeState {
@@ -251,20 +256,30 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
 
   //#region 4. Other Methods
 
-  private validateAndSetAttributeWithCustomType(attributeName: string, parentMasterData: any, value: any) {
+  private validateAndSetAttributeWithCustomType<T>(attributeName: string, parentMasterData: T[], value: T | null, removeAttribute: boolean = true) {
     this.logger.start('set ' + attributeName + '("' + value + '")');
     if (value !== null) {
       if (parentMasterData.indexOf(value) >= 0) {
-        this.setAttribute(attributeName.toLowerCase(), value);
+        this.setAttribute(attributeName.toLowerCase(), String(value));
         this._parentCh5Button.setButtonDisplay(this);
       } else {
-        this.removeAttribute(attributeName);
-        // parentElement.setButtonDisplay(this); is not required here. The set type will be called again to 
-        // go the below else block and the  is called
+        if (removeAttribute === true) {
+          this.removeAttribute(attributeName);
+          // parentElement.setButtonDisplay(this); is not required here. The set type will be called again to 
+          // go the below else block and the  is called
+        } else {
+          this.setAttribute(attributeName.toLowerCase(), String(parentMasterData[0]));
+          this._parentCh5Button.setButtonDisplay(this);
+        }
       }
     } else {
-      this.removeAttribute(attributeName);
-      this._parentCh5Button.setButtonDisplay(this);
+      if (removeAttribute === true) {
+        this.removeAttribute(attributeName);
+        this._parentCh5Button.setButtonDisplay(this);
+      } else {
+        this.setAttribute(attributeName.toLowerCase(), String(parentMasterData[0]));
+        this._parentCh5Button.setButtonDisplay(this);
+      }
     }
     this.logger.stop();
   }
