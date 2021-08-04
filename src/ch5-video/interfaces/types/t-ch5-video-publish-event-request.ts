@@ -45,5 +45,5 @@ export interface IBACKGROUND {
     left: number;
     width: number;
     height: number;
-    image: HTMLImageElement;
+    image?: HTMLImageElement;
 }

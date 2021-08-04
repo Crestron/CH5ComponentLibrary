@@ -574,7 +574,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         }
 
         if (request && Object.keys(request).length) {
-            const tempObj: Partial<IBACKGROUND> = Object.assign({}, request);
+            const tempObj: IBACKGROUND = Object.assign({}, request);
             delete tempObj.image;
             this.videoRequestObj = request;
 
@@ -608,7 +608,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             } else if (request.action === this.VIDEO_ACTION.STARTED) {
                 this.manageVideoInfo(request);
                 if (request.action === this.VIDEO_ACTION.SNAPSHOT) {
-                    this.videoSnapShot = request.image;
+                    if (request.image) {
+                        this.videoSnapShot = request.image;
+                    }
                 }
                 this.videoBGAction();
             } else if (request.action === this.VIDEO_ACTION.RESIZE) {
