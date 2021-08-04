@@ -24,6 +24,7 @@ export type TCh5DpadShape = 'plus' | 'circle';
 export type TCh5DpadStretch = 'both' | 'width' | 'height';
 
 export type TButtonClassListType = {
+    commonBtnClass: string,
     primaryTagClass: string,
     primaryIconClass: string,
     defaultIconClass: string,

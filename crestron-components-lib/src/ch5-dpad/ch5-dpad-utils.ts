@@ -175,7 +175,7 @@ export class CH5DpadUtils {
      * @param defaultValue defaultvalue if required
      * @returns final value assigned as attribute's value
      */
-    public static setAttributesBasedValue = (hasAttribute: boolean, valToAssign: any, defaultValue: string) => {
+    public static setAttributesBasedValue(hasAttribute: boolean, valToAssign: any, defaultValue: string) {
         if (hasAttribute) {
             return valToAssign;
         } else {
@@ -183,103 +183,26 @@ export class CH5DpadUtils {
         }
     }
 
-    // TODO: HH - Delete all commented code below if not used
-    // /**
-    //  * Function to check and return if there is a valid image URL to be added for dpad child element
-    //  * @param thisRef dpad child element
-    //  * @param buttonTag tag as a string
-    //  * @returns image url if it exists
-    //  */
-    // public static getImageUrl(thisRef: TDpadChildElement, buttonTag: string, isAllowedByParentContract: boolean): string {
-    //     let retStr = '';
-    //     const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
-    //     if (isAllowedByParentContract) {
-    //         retStr = '';
-    //     } else if (thisRef.receiveStateIconUrl.length > 0) {
-    //         // TODO: check if its a valid URL
-    //         retStr = thisRef.receiveStateIconUrl;
-    //     } else if (thisRef.iconUrl.length > 0) {
-    //         // TODO: check if its a valid URL
-    //         retStr = thisRef.iconUrl;
-    //     }
-
-    //     return retStr;
-    // }
-
-    // /**
-    //  * Function to check and return if there is a valid icon class to be added for dpad child element
-    //  * @param thisRef dpad child element
-    //  * @param buttonTag tag as a string
-    //  * @returns icon class if it exists
-    //  */
-    // public static getIconClass(thisRef: TDpadChildElement, buttonTag: string, isAllowedByParentContract: boolean): string {
-    //     let retStr = '';
-    //     const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
-
-    //     if (isAllowedByParentContract) {
-    //         retStr = '';
-    //     } else if (thisRef.receiveStateIconClass.length > 0) {
-    //         // TODO: check if its a valid icon class
-    //         retStr = thisRef.receiveStateIconClass;
-    //     } else if (thisRef.iconClass.length > 0) {
-    //         // TODO: check if its a valid icon class
-    //         retStr = thisRef.iconClass;
-    //     }
-
-    //     return retStr;
-    // }
-
-    // /**
-    //  * Function to check and return if there is a valid icon class to be added for dpad child element
-    //  * useful only for dpad-button-center
-    //  * @param thisRef dpad child element
-    //  * @param buttonTag tag as a string
-    //  * @returns icon class if it exists
-    //  */
-    // public static getLabelText(thisRef: Ch5DpadCenter, buttonTag: string, isAllowedByParentContract: boolean): string {
-    //     let retStr = '';
-    //     const eleID = CH5DpadUtils.getAttributeAsString(thisRef, 'data-ch5-id', '');
-
-    //     if (isAllowedByParentContract) {
-    //         retStr = '';
-    //     } else if (thisRef.receivestatescriptlabelhtml.length > 0) {
-    //         retStr = thisRef.receivestatescriptlabelhtml; // label as HTML input from contract
-    //     } else if (thisRef.receiveStateLabel.length > 0) {
-    //         retStr = thisRef.receiveStateLabel; // label as string from contract
-    //     } else if (thisRef.label.length > 0) {
-    //         retStr = thisRef.label; // label as string from attribute
-    //     }
-
-    //     return retStr;
-    // }
-
-    // /**
-    //  * Function to instantiate empty contract object
-    //  * @returns signalStructure
-    //  */
-    // public static getBlankContractObj(): signalStructure {
-    //     const contractObj: signalStructure = {
-    //         signalName: '',
-    //         signalValue: '',
-    //         response: ''
-    //     };
-    //     return contractObj;
-    // }
-
-    // /**
-    //  * Function to create and assign values for parentcontrolled contract rules
-    //  */
-    // public static buildParentControlledContractRules(thisRef: any): TParentControlledContractRules {
-    //     // the default value for all the flags are 'false'
-    //     const contractName = CH5DpadUtils.getAttributeAsString(thisRef.parentElement, 'contractName', '');
-    //     const isContractNameAvailable = Boolean(contractName); // if contractName exists, then assign true as default value
-    //     const retObj: TParentControlledContractRules = {
-    //         contractName,
-    //         enable: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractforEnable', isContractNameAvailable),
-    //         show: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractForShow', isContractNameAvailable),
-    //         label: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractforLabel', isContractNameAvailable),
-    //         icon: CH5DpadUtils.getAttributeAsBool(thisRef.parentElement, 'useContractForIcons', isContractNameAvailable)
-    //     };
-    //     return retObj;
-    // }
+    /**
+     * Function to check and assign value based on the attribute received
+     * @param thisRef the control for setting attribute value
+     * @param attrKey attribute key for the given control to set value 
+     * @param value actual value to be ste
+     * @param validValues valid values to be tested against before checking
+     */
+    public static setAttributeValueOnControl(thisRef: any, attrKey: string, value: string, validValues: string[], callback?: () => void) {
+        thisRef.info('set ' + attrKey + '("' + value + '")');
+        const pvtAttrKey = '_' + attrKey;
+        if (value !== thisRef[pvtAttrKey]) {
+            if (validValues.indexOf(value) >= 0) {
+                thisRef[pvtAttrKey] = value;
+            } else {
+                thisRef[pvtAttrKey] = validValues[0];
+            }
+            thisRef.setAttribute(attrKey, thisRef[pvtAttrKey]);
+            if (callback) {
+                callback();
+            }
+        }
+    }
 }

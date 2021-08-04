@@ -16,6 +16,14 @@ export class CH5DpadContractUtils {
         center: 4
     };
 
+    public static readonly contractSuffix = {
+        top: '.Top',
+        bottom: '.Bottom',
+        left: '.Left',
+        right: '.Right',
+        center: '.Center'
+    };
+
     /**
      * Function to return the entire contract structure as a JSON for reference and consumption
      * @returns entire contract structure
