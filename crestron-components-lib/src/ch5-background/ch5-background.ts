@@ -1096,9 +1096,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
      * update transition effect and duration
      */
     private setBgTransition() {
-        let timer: number;
-        // clearTimeout(timer); // This doesn't seem to be necessary, nor useful.
-        timer = window.setTimeout(() => {
+        setTimeout(() => {
             if (this.isCanvasListValid()) {
                 this._canvasList.forEach((canvas: HTMLCanvasElement) => {
                     if (this._transitionEffect) {

@@ -19,7 +19,7 @@ export class Ch5TemplateStructure {
      * @memberof Ch5TemplateStructure
      * @type {Object}
      */
-    private static _numInstances: {[key:string]:number;} = {};
+    private static _numInstances: { [key: string]: number; } = {};
 
 
     /**
@@ -48,14 +48,14 @@ export class Ch5TemplateStructure {
     /**
      * The id if created an instance of the template
      */
-    private _instanceId: string|null = null;
+    private _instanceId: string | null = null;
 
     /**
      * @private
      * @param templateIdentifier
      * @returns monotomic incrementing integer for given templateIdentifer
      */
-    private static nextInstanceNum(templateIdentifier: string) : number {
+    private static nextInstanceNum(templateIdentifier: string): number {
         const priorNumber = Ch5TemplateStructure._numInstances[templateIdentifier];
         const nextNumber: number = (priorNumber === undefined ? 1 : priorNumber + 1);
         Ch5TemplateStructure._numInstances[templateIdentifier] = nextNumber;
@@ -107,7 +107,7 @@ export class Ch5TemplateStructure {
         return this._templateElement;
     }
 
-    public get instanceId(): string| null {
+    public get instanceId(): string | null {
         return this._instanceId;
     }
 
@@ -250,19 +250,16 @@ export class Ch5TemplateStructure {
                 newElement.id = this._instanceId;
                 // provide unique id for each first level element of the template unless it already has id
                 const elementIds: string[] = [];
-                for (let childcnt = 0; childcnt < newElement.children.item.length; childcnt++) {
-                    // @ts-ignore
-                    if (!newElement.children.item(childcnt).id) {
-                        // @ts-ignore
-                        newElement.children.item(childcnt).id = `${this._instanceId}:${childcnt}`;
+                for (let childcnt = 0; childcnt < newElement.children.length; childcnt++) {
+                    if (!newElement.children[childcnt].id) {
+                        newElement.children[childcnt].id = `${this._instanceId}:${childcnt}`;
                     }
-                    // @ts-ignore
-                    elementIds.push(newElement.children.item(childcnt).id);
+                    elementIds.push(newElement.children[childcnt].id);
                 }
 
                 this.element.info(`Ch5TemplateStructure --- [FINAL] Adding content to ChTemplate: ${this._instanceId}`, newElement);
                 this.element = newElement as Ch5Template;
-                publishEvent('object', `ch5-template:${templateId}`, {loaded: true, id: this._instanceId, elementIds});
+                publishEvent('object', `ch5-template:${templateId}`, { loaded: true, id: this._instanceId, elementIds });
             }
         }
     }
