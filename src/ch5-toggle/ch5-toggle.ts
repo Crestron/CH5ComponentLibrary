@@ -10,7 +10,6 @@ import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
 import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 
 import HtmlCallback from "../ch5-common/utils/html-callback";
-import { Ch5MutationObserver } from "../ch5-common/ch5-mutation-observer";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5ToggleAttributes, TCh5ToggleShape, TCh5ToggleOrientation, TCh5ToggleFeedbackMode } from "./interfaces";
 

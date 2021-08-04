@@ -255,7 +255,6 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
       }
       return node as Ch5Button;
     }
-
     return getTheMatchingParent(this.parentElement as Node);
   }
 

@@ -5,10 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import {
-	Ch5Uid,
-	Ch5Debug
-} from '../ch5-core';
+import { Ch5Uid } from '../ch5-core';
 import { Ch5CommonLog } from './ch5-common-log';
 
 export class Ch5Log extends HTMLElement {
@@ -19,15 +16,6 @@ export class Ch5Log extends HTMLElement {
 	 * Standard html attribute.
 	 */
 	protected _id: string = '';
-
-	/**
-	 * If this param is true then the component will display debug/info messages in the browser's console
-	 */
-	// protected _isDebugEnabled: boolean = false;
-	/**
-	 * If this param is true then the component will display debug/info messages in the browser's console
-	 */
-	// protected _isTraceEnabled: boolean = false;
 
 	/**
 	 * Ch5 internal unique ID
@@ -76,24 +64,6 @@ export class Ch5Log extends HTMLElement {
 		this.logger.info(message, optionalParams);
 	}
 
-	// /**
-	//  * Returns true if debugging has been enabled on the component.
-	//  * When this returns true the info method will output messages on the console ( assuming there are 'info' calls in
-	//  * the component's code )
-	//  */
-	// public isDebug() {
-	// 	return this._isDebugEnabled;
-	// }
-
-	// /**
-	//  * Returns true if debugging has been enabled on the component.
-	//  * When this returns true the info method will output messages on the console ( assuming there are 'info' calls in
-	//  * the component's code )
-	//  */
-	// public isTrace() {
-	// 	return this._isTraceEnabled;
-	// }
-
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
 		if (oldValue === newValue) {
 			return;
@@ -102,20 +72,18 @@ export class Ch5Log extends HTMLElement {
 
 		switch (attr) {
 			case 'debug':
-				if (this.hasAttribute('debug') && this.toBoolean(this.getAttribute('debug')) === true) {
+				if (this.hasAttribute('debug') && this.toBoolean(this.getAttribute('debug'), true) === true) {
 					this.logger.isDebugEnabled = true;
 				} else {
 					this.logger.isDebugEnabled = false;
 				}
-				// this.logger.isDebugEnabled = this._isDebugEnabled;
 				break;
 			case 'trace':
-				if (this.hasAttribute('trace') && this.toBoolean(this.getAttribute('trace')) === true) {
+				if (this.hasAttribute('trace') && this.toBoolean(this.getAttribute('trace'), true) === true) {
 					this.logger.isTraceEnabled = true;
 				} else {
 					this.logger.isTraceEnabled = false;
 				}
-				// this.logger.isTraceEnabled = this._isTraceEnabled;
 				break;
 			default:
 				break;
@@ -126,11 +94,15 @@ export class Ch5Log extends HTMLElement {
 	 * Initializes the values of the common attributes, taking into account the attribute values declared in the HTML
 	 */
 	protected initAttributes() {
-		if (this.hasAttribute('debug') && this.toBoolean(this.getAttribute('debug')) === true) {
+		if (this.hasAttribute('debug') && this.toBoolean(this.getAttribute('debug'), true) === true) {
 			this.logger.isDebugEnabled = true;
+		} else {
+			this.logger.isDebugEnabled = false;
 		}
-		if (this.hasAttribute('trace') && this.toBoolean(this.getAttribute('trace')) === true) {
+		if (this.hasAttribute('trace') && this.toBoolean(this.getAttribute('trace'), true) === true) {
 			this.logger.isTraceEnabled = true;
+		} else {
+			this.logger.isTraceEnabled = false;
 		}
 	}
 
