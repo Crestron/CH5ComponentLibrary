@@ -65,15 +65,14 @@ export class Ch5Emulator {
     }
 
     public loadScenario(scenario:IEmulatorScenario) {
-        if (!Ch5Emulator._instance) {
-            return;
-        }
-        Ch5Emulator._scenario = scenario;
-        if (isUndefined(scenario.cues)) {
-            throw new Error('The loaded scenario has no cues');
-        }
+        if (Ch5Emulator._instance) {
+            Ch5Emulator._scenario = scenario;
+            if (isUndefined(scenario.cues)) {
+                throw new Error('The loaded scenario has no cues');
+            }
 
-        scenario.cues.forEach(Ch5Emulator._instance.processCue);
+            scenario.cues.forEach(Ch5Emulator._instance.processCue);
+        }
     }
 
     public getScenario():IEmulatorScenario {
