@@ -138,7 +138,7 @@ export class Ch5TriggerViewSlidesManager {
 
     this._swiper.on('touchStart', (...e: any[]) => {
       const target: HTMLElement = e[0].target;
-      if (target && this.eventTargetBelongsToCh5List(target)) {
+      if (this.eventTargetBelongsToCh5List(target)) {
         this.setAllowTouchMove(false);
         this._touchMoveListRelatedEventDisabled = true;
       }
@@ -146,7 +146,7 @@ export class Ch5TriggerViewSlidesManager {
 
     this._swiper.on('touchEnd', (...e: any[]) => {
       const target: HTMLElement = e[0].target;
-      if (target && this.eventTargetBelongsToCh5List(target) || this._touchMoveListRelatedEventDisabled) {
+      if (this.eventTargetBelongsToCh5List(target) || this._touchMoveListRelatedEventDisabled) {
         this.setAllowTouchMove(this.triggerViewEl.gestureable);
         this._touchMoveListRelatedEventDisabled = false;
       }
