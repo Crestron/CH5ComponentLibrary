@@ -52,6 +52,8 @@ export class Ch5Emulator {
     private static _instance: Ch5Emulator | undefined;
     private static _scenario: IEmulatorScenario = {} as IEmulatorScenario;
 
+    private constructor() {}
+
     public static getInstance(): Ch5Emulator {
         if (isUndefined(Ch5Emulator._instance)) {
             Ch5Emulator._instance = new Ch5Emulator();
