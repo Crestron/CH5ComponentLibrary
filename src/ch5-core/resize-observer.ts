@@ -6,11 +6,10 @@
 // under which you licensed this source code.
 // import ResizeObserver from 'resize-observer-polyfill';
 
-// TODO: When resize-observer-polyfill is fixed we can uncomment this out.
 /**
  * Utility function that returns the first scrollable parent
  */
 export function resizeObserver(node: HTMLElement, callback: any) {
-    // const myObserver = new ResizeObserver(callback);
-    // myObserver.observe(node);
+    const myObserver = new ResizeObserver(callback);
+    myObserver.observe(node);
 }
