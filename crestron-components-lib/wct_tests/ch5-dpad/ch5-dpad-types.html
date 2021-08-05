@@ -37,8 +37,8 @@
                 test(`Check valid attribute type: "${typeName}"`, () => {
                     ch5Dpad.setAttribute('type', typeName);
                     expect(ch5Dpad.getAttribute("type")).to.be.equal(typeName);
-                    // expect(ch5Dpad.type).to.be.equal(typeName);
-                    // expect(getDiv(ch5Dpad).classList.contains("ch5-dpad--" + typeName)).to.be.equal(true);
+                    expect(ch5Dpad.type).to.be.equal(typeName);
+                    expect(ch5Dpad.classList.contains("ch5-dpad--type-" + typeName)).to.be.equal(true);
                 });
             });
 
@@ -46,7 +46,7 @@
                 test(`Check invalid attribute type: "${typeName}"`, () => {
                     ch5Dpad.setAttribute('type', typeName);
                     expect(ch5Dpad.type).to.be.equal(default_type);
-                    // expect(getDiv(ch5Dpad).classList.contains("ch5-dpad--" + default_type)).to.be.equal(true);
+                    expect(ch5Dpad.classList.contains("ch5-dpad--type-" + default_type)).to.be.equal(true);
                 });
             });
 
