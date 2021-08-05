@@ -11,7 +11,6 @@ import { TActionLogic, TSignalNonStandardTypeName, TSignalValue, TRepeatDigitalS
 import { Ch5SignalUpdateCallback } from '../ch5-core/types/callbacks';
 import { TCh5Signal } from '../ch5-core/types/signal.type';
 import { isNull, isUndefined, isBoolean, isString, isNumber, isObject } from 'lodash';
-import { throwError } from 'rxjs';
 
 export type TScenarioOnStart = {
     type: TSignalNonStandardTypeName,

@@ -4349,6 +4349,11 @@ he@1.2.0, he@1.2.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
 
+he@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/he/-/he-0.5.0.tgz#2c05ffaef90b68e860f3fd2b54ef580989277ee2"
+  integrity sha1-LAX/rvkLaOhg8/0rVO9YCYknfuI=
+
 highlight.js@^9.13.1:
   version "9.18.5"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.18.5.tgz#d18a359867f378c138d6819edfc2a8acd5f29825"
@@ -6932,6 +6937,11 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
+pixl-xml@^1.0.4:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/pixl-xml/-/pixl-xml-1.0.13.tgz#5ba71408bdf37994c239dd01251c10c53c0587e3"
+  integrity sha1-W6cUCL3zeZTCOd0BJRwQxTwFh+M=
+
 pkg-dir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-3.0.0.tgz#2749020f239ed990881b1f71210d51eb6523bea3"
@@ -9401,6 +9411,14 @@ wbuf@^1.1.0, wbuf@^1.7.2, wbuf@^1.7.3:
   resolved "https://registry.yarnpkg.com/wbuf/-/wbuf-1.7.3.tgz#c1d8d149316d3ea852848895cb6a0bfe887b87df"
   dependencies:
     minimalistic-assert "^1.0.0"
+
+"wct-junit-reporter@https://github.com/candreitodorut/wct-junit-reporter.git":
+  version "0.1.0"
+  resolved "https://github.com/candreitodorut/wct-junit-reporter.git#4ac5b5ed59799c6d76532ca9213df441bf6e9469"
+  dependencies:
+    he "^0.5.0"
+    lodash "^3.10.1"
+    pixl-xml "^1.0.4"
 
 wct-local@^2.1.1:
   version "2.1.4"
