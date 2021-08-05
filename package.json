@@ -55,17 +55,7 @@
     "wct:xml-report": "./node_modules/.bin/wct ./wct_tests/run-all.html",
     "doc": "npm-run-all clean:docs && npm-run-all doc:*",
     "doc:html": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --out docs/html src/ ",
-    "doc:json": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --json docs/json/typedoc.json src/ ",
-    "rags:showcase": "copyfiles -u 1 'build_bundles/**/*' './../../../CH5/CH5ComponentLibrary/showcase-app/node_modules/@crestron/ch5-crcomlib/build_bundles/'",
-    "rags:advanced-button": "copyfiles -u 1 'build_bundles/**/*' './../../../MyShellProjects/AdvancedButton/node_modules/@crestron/ch5-crcomlib/build_bundles/'",
-    "rags:advanced-button-angular": "copyfiles build_bundles/umd/* ./../../../MyShellProjects/AdvancedButtonAngular/node_modules/@crestron/ch5-crcomlib/",
-    "rags:shell": "copyfiles build_bundles/umd/* ./../../../CH5/CH5SampleProjects/UISampleProjects/Shell/node_modules/@crestron/ch5-crcomlib/",
-    "rags:build:save": "npm run build:dev && npm run rags:advanced-button",
-    "rags:build:save:advancedButtonAngular": "npm run build:dev && npm run rags:advanced-button-angular",
-    "rags:build:save:shell": "npm run build:dev && npm run rags:shell",
-    "rags:build:showcase": "npm run build:dev && npm run rags:showcase",
-    "rags:build:www": "reset && tsc -p tsconfig.umd.json",
-    "rags:build:save:all": "npm run build:dev && npm run rags:advanced-button && npm run rags:shell && npm run rags:advanced-button-angular "
+    "doc:json": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --json docs/json/typedoc.json src/ "
   },
   "engines": {
     "node": ">=8.11",
