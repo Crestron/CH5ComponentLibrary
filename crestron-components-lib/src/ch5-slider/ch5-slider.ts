@@ -124,7 +124,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
      * Component internal HTML elements
      */
     private _elSlider: HTMLElement = {} as HTMLElement;
-    private _tgtEls: Array<NodeListOf<HTMLElement>> = [];
+    private _tgtEls: NodeListOf<HTMLElement>[] = [];
     private _tooltip: NodeListOf<HTMLElement> = {} as NodeListOf<HTMLElement>;
 
     /**
@@ -2030,7 +2030,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
         if (this._elSlider === undefined || (this._elSlider as noUiSlider.Instance).noUiSlider === undefined) { return; }
 
         const animationLength: number = time !== undefined ? Math.round(time) : 0;
-        let slideValue: number | Array<(null | number)> = [value, null];
+        let slideValue: number | (null | number)[] = [value, null];
 
         if (handle === TCh5SliderHandle.HIGHVALUE) {
             slideValue = [null, value];
