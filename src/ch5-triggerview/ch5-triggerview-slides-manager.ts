@@ -157,8 +157,8 @@ export class Ch5TriggerViewSlidesManager {
   }
 
   private eventTargetBelongsToCh5List(el: HTMLElement): boolean {
-    const isSlideEl = el.closest('ch5-slider') !== null;
-    const isListEl = el.closest('ch5-list') !== null;
+    const isSlideEl = !!el && el.closest('ch5-slider') !== null;
+    const isListEl = !!el && el.closest('ch5-list') !== null;
     let touchMoveForList = false;
     if (isListEl) {
       const listEl = el.closest('ch5-list');
