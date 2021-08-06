@@ -262,7 +262,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         } else {
             this._list.items = this._list.items.map((elData: ICh5ListItemInfo) => {
                 elData.element.style.transform = '';
-                return {...elData, translateX: 0, translateY: 0}
+                return { ...elData, translateX: 0, translateY: 0 }
             });
         }
 
@@ -347,7 +347,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
                 }
             }
 
-            if (this._list.sizeResolver.viewPortSize > 0 ) {
+            if (this._list.sizeResolver.viewPortSize > 0) {
                 this._list.templateHelper.customScrollbar(this._list.divList);
             }
 
@@ -699,7 +699,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
     private resetItemsTransform() {
         this._list.items = this._list.items.map((elData: ICh5ListItemInfo) => {
             elData.element.style.transform = 'translate3d(0,0,0)';
-            return {...elData, translateX: 0, translateY: 0};
+            return { ...elData, translateX: 0, translateY: 0 };
         });
     }
 
@@ -710,13 +710,13 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         }
 
         const { maxOffsetTranslate } = this._list.animationHelper;
-        const { currentYPosition, currentXPosition, isHorizontal, isLtr } = this._list;
+        const { currentYPosition, currentXPosition, isHorizontal } = this._list;
 
         if (!maxOffsetTranslate) {
             return false;
         }
 
-        if (isLtr()) {
+        if (this._list && this._list.isLtr()) {
             if (
                 (isHorizontal && currentXPosition < maxOffsetTranslate)
                 || (!isHorizontal && currentYPosition < maxOffsetTranslate)
