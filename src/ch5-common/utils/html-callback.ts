@@ -5,11 +5,10 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Common } from "../ch5-common";
 import _ from 'lodash';
 
 export interface ICallback {
-  arguments: Array<string | {}>;
+  arguments: string[] | {}[];
   reference: string;
 }
 
