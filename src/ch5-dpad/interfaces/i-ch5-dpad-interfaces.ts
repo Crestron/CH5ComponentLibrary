@@ -81,7 +81,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * ]
      * @name stretch
      */
-    stretch: TCh5DpadStretch;
+    stretch: TCh5DpadStretch | null;
 
     /**
      * @documentation

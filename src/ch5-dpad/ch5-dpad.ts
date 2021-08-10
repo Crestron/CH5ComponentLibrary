@@ -31,7 +31,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     /**
      * No default value for Stretch
      */
-    public static readonly STRETCHES: TCh5DpadStretch[] = ['', 'both', 'width', 'height'];
+    public static readonly STRETCHES: TCh5DpadStretch[] = ['both', 'width', 'height'];
 
     public readonly primaryCssClass = 'ch5-dpad';
     public readonly cssClassPrefix = 'ch5-dpad';
@@ -45,8 +45,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private _contractName: string = '';
     private _type: TCh5DpadType = Ch5Dpad.TYPES[0];
     private _shape: TCh5DpadShape = Ch5Dpad.SHAPES[0];
-    private _shapePrevVal: TCh5DpadShape | null = null;
-    private _stretch: TCh5DpadStretch = Ch5Dpad.STRETCHES[0];
+    private _shapePrevVal: TCh5DpadShape | null = null; // TODO: HH - check and remove this
+    private _stretch: TCh5DpadStretch | null = null;
     private _sendEventOnClickStart: string = '';
     private _useContractforEnable: boolean = false;
     private _useContractForShow: boolean = false;
@@ -76,7 +76,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * contractName specif getter-setter
      */
     public set contractName(value: string) {
-        this.info('set contractName("' + value + '")');
+        this.logger.start('set contractName("' + value + '")');
 
         value = (_.isNil(value)) ? '' : value;
 
@@ -86,6 +86,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                 this.setAttribute('contractname', this._contractName);
             }
         }
+        this.logger.stop();
     }
     public get contractName(): string {
         return this._contractName;
@@ -95,9 +96,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * type specif getter-setter
      */
     public set type(value: TCh5DpadType) {
-        this.info('set type ("' + value + '")');
+        this.logger.start('set type ("' + value + '")');
         CH5DpadUtils.setAttributeValueOnControl(this, 'type', value, Ch5Dpad.TYPES,
             this.updateCssClasses.bind(this));
+            this.logger.stop();
     }
     public get type(): TCh5DpadType {
         return this._type;
@@ -107,7 +109,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * shape specif getter-setter
      */
     public set shape(value: TCh5DpadShape) {
-        this.info('set shape ("' + value + '")');
+        this.logger.start('set shape ("' + value + '")');
 
         if (value !== this._shapePrevVal || this._shapePrevVal !== this._shape) {
             if (Ch5Dpad.SHAPES.indexOf(value) >= 0) {
@@ -122,7 +124,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             this.updateCssClasses();
             this._shapePrevVal = this._shape;
         }
-
+        this.logger.stop();
     }
     public get shape(): TCh5DpadShape {
         return this._shape;
@@ -131,12 +133,15 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     /**
      * stretch specif getter-setter
      */
-    public set stretch(value: TCh5DpadStretch) {
-        this.info('set stretch ("' + value + '")');
-        CH5DpadUtils.setAttributeValueOnControl(this, 'stretch', value, Ch5Dpad.STRETCHES,
-            this.stretchHandler.bind(this));
+    public set stretch(value: TCh5DpadStretch | null) {
+        this.logger.start('set stretch ("' + value + '")');
+        if (value !== null) {
+            CH5DpadUtils.setAttributeValueOnControl(this, 'stretch', value, Ch5Dpad.STRETCHES,
+                this.stretchHandler.bind(this));
+        }
+        this.logger.stop();
     }
-    public get stretch(): TCh5DpadStretch {
+    public get stretch(): TCh5DpadStretch | null {
         return this._stretch;
     }
 
@@ -144,7 +149,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * sendEventOnClickStart specif getter-setter
      */
     public set sendEventOnClickStart(value: string) {
-        this.info('set sendEventOnClickStart("' + value + '")');
+        this.logger.start('set sendEventOnClickStart("' + value + '")');
 
         if (_.isNil(value) || isNaN(parseInt(value, 10))) {
             value = '';
@@ -157,6 +162,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this._sendEventOnClickStart = value;
         this.setAttribute('sendEventOnClickStart'.toLowerCase(), value);
         this.updateEventClickHandlers(parseInt(value, 10));
+        this.logger.stop();
     }
     public get sendEventOnClickStart(): string {
         return this._sendEventOnClickStart;
@@ -166,9 +172,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * useContractforEnable specif getter-setter
      */
     public set useContractforEnable(value: boolean) {
-        this.info('Ch5Dpad set useContractforEnable("' + value + '")');
+        this.logger.start('Ch5Dpad set useContractforEnable("' + value + '")');
 
-        const isUseContractforEnable = this._toBoolean(value);
+        const isUseContractforEnable = this.toBoolean(value);
         const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
 
         if (contractName.length === 0 || this._useContractForShow === isUseContractforEnable) {
@@ -192,6 +198,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         };
 
         this.setValueForReceiveStateBoolean(params);
+        this.logger.stop();
     }
     public get useContractforEnable(): boolean {
         return this._useContractforEnable;
@@ -201,9 +208,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * useContractForShow specif getter-setter
      */
     public set useContractForShow(value: boolean) {
-        this.info('Ch5Dpad set useContractForShow("' + value + '")');
+        this.logger.start('Ch5Dpad set useContractForShow("' + value + '")');
 
-        const isUseContractForShow = this._toBoolean(value);
+        const isUseContractForShow = this.toBoolean(value);
         const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
 
         if (contractName.length === 0 || this._useContractForShow === isUseContractForShow) {
@@ -226,6 +233,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         };
 
         this.setValueForReceiveStateBoolean(params);
+        this.logger.stop();
     }
     public get useContractForShow(): boolean {
         return this._useContractForShow;
@@ -235,9 +243,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * useContractForCustomStyle specif getter-setter
      */
     public set useContractForCustomStyle(value: boolean) {
-        this.info('Ch5Dpad set useContractForCustomStyle("' + value + '")');
+        this.logger.start('Ch5Dpad set useContractForCustomStyle("' + value + '")');
 
-        const isUseContractForCustomStyle = this._toBoolean(value);
+        const isUseContractForCustomStyle = this.toBoolean(value);
         const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
 
         if (contractName.length === 0 || this._useContractForShow === isUseContractForCustomStyle) {
@@ -261,6 +269,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         };
 
         this.setValueForReceiveStateString(params);
+        this.logger.stop();
     }
     public get useContractForCustomStyle(): boolean {
         return this._useContractForCustomStyle;
@@ -270,9 +279,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * useContractForCustomClass specif getter-setter
      */
     public set useContractForCustomClass(value: boolean) {
-        this.info('Ch5Dpad set useContractForCustomClass("' + value + '")');
+        this.logger.start('Ch5Dpad set useContractForCustomClass("' + value + '")');
 
-        const isUuseContractForCustomClass = this._toBoolean(value);
+        const isUuseContractForCustomClass = this.toBoolean(value);
         const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
 
         if (contractName.length === 0 || this._useContractForShow === isUuseContractForCustomClass) {
@@ -296,6 +305,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         };
 
         this.setValueForReceiveStateString(params);
+        this.logger.stop();
     }
     public get useContractForCustomClass(): boolean {
         return this._useContractForCustomClass;
@@ -329,7 +339,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             value = false;
         }
         if (value !== this._disabled) {
-            this._disabled = this._toBoolean(value);
+            this._disabled = this.toBoolean(value);
             if (this._disabled) {
                 this.setAttribute('disabled', '');
             } else {
@@ -608,7 +618,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             this.onAllSubElementsCreated();
         });
         if (this.isComponentLoaded) {
-            this.info('connectedCallback() - end', this.COMPONENT_NAME);
+            this.info('connectedCallback() - rendered', this.COMPONENT_NAME);
         }
         this.logger.stop();
     }
@@ -891,7 +901,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.contractName = CH5DpadUtils.setAttributeToElement(this, 'contractName'.toLowerCase(), this._contractName);
         this.type = CH5DpadUtils.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
         this.shape = CH5DpadUtils.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
-        this.stretch = CH5DpadUtils.setAttributeToElement(this, 'stretch', this._stretch) as TCh5DpadStretch;
+        this.stretch = CH5DpadUtils.setAttributeToElement(this, 'stretch', this._stretch as string) as TCh5DpadStretch;
 
         // DEV NOTE: if contract name exists, and the individual attribute values don't exist, 
         // then the default value is true for useContractFor*
