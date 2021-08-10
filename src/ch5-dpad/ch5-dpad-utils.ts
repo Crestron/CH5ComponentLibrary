@@ -1,7 +1,5 @@
-import { valid } from "semver";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
-import { Ch5DpadCenter } from "./ch5-dpad-button-center";
-import { signalStructure, TDpadChildElement, TParentControlledContractRules } from "./interfaces/t-ch5-dpad";
+import { signalStructure } from "./interfaces/t-ch5-dpad";
 
 export class CH5DpadUtils {
 
@@ -190,8 +188,8 @@ export class CH5DpadUtils {
      * @param value actual value to be ste
      * @param validValues valid values to be tested against before checking
      */
-    public static setAttributeValueOnControl(thisRef: any, attrKey: string, value: string, validValues: string[], callback?: () => void) {
-        thisRef.info('set ' + attrKey + '("' + value + '")');
+    public static setAttributeValueOnControl(thisRef: any, attrKey: string, value: string,
+        validValues: string[], callback: any) {
         const pvtAttrKey = '_' + attrKey;
         if (value !== thisRef[pvtAttrKey]) {
             if (validValues.indexOf(value) >= 0) {
@@ -200,9 +198,15 @@ export class CH5DpadUtils {
                 thisRef[pvtAttrKey] = validValues[0];
             }
             thisRef.setAttribute(attrKey, thisRef[pvtAttrKey]);
-            if (callback) {
+            if (callback !== null) {
                 callback();
             }
+        }
+    }
+
+    public static createIconTag(thisRef: any) {
+        if (thisRef._icon.classList === undefined || thisRef._icon.classList.length <= 0) {
+            thisRef._icon = document.createElement('span');
         }
     }
 }

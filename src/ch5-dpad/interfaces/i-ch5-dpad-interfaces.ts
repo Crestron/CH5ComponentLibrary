@@ -80,7 +80,6 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * "for the shapes of plus and circle)."
      * ]
      * @name stretch
-     * @default both
      */
     stretch: TCh5DpadStretch;
 
