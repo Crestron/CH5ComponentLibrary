@@ -1,6 +1,9 @@
 import _ from "lodash";
+import { Ch5ButtonPressInfo } from "../ch5-button/ch5-button-pressinfo";
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5SignalFactory } from "../ch5-core";
+import { Ch5Pressable } from "../ch5-common/ch5-pressable";
+import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
+import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Dpad } from "./ch5-dpad";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
@@ -27,6 +30,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
         defaultIconClass: 'fa-caret-up',
         imageClassName: 'image-url',
         defaultArrowClass: 'direction-btn'
+
     };
 
     // private setter getter specific vars
@@ -46,6 +50,36 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
 
     // state specific vars
     private crId: string = '';
+    private isTouch: boolean = false;
+    private allowPress: boolean = true;
+    private allowPressTimeout: number = 0;
+    // The interval id ( from setInterval ) for reenforcing the  onTouch signal
+    // This id allow canceling the interval.
+    private _intervalIdForRepeatDigital: number | null = null;
+    // this is last tap time used to determine if should send click pulse in focus event 
+    private _lastTapTime: number = 0;
+    private _pressable: Ch5Pressable | null = null;
+    private _hammerManager: HammerManager = {} as HammerManager;
+    // Time after that press will be triggered
+    private _pressTimeout: number = 0;
+    // State of the button ( pressed or not )
+    private _pressed: boolean = false;
+    private _buttonPressed: boolean = false;
+    private _buttonPressedInPressable: boolean = false;
+
+    private readonly TOUCH_TIMEOUT: number = 250;
+    private readonly DEBOUNCE_PRESS_TIME: number = 200;
+    private readonly PRESS_MOVE_THRESHOLD: number = 10;
+    private readonly STATE_CHANGE_TIMEOUTS: number = 500;
+
+    private _pressHorizontalStartingPoint: number | null = null;
+    private _pressVerticalStartingPoint: number | null = null;
+
+    /**
+     * Information about start and end position
+     * Including the threshold of px for valid presses
+     */
+    private _pressInfo: Ch5ButtonPressInfo = {} as Ch5ButtonPressInfo;
 
     //#endregion
 
@@ -127,13 +161,12 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
             value = '';
         }
 
-        const trValue: string = this._getTranslatedValue('sendEventOnClick'.toLowerCase(), value);
-        if (trValue === this.sendEventOnClick) {
+        if (value === this.sendEventOnClick) {
             return;
         }
 
-        this._sendEventOnClick = trValue;
-        this.setAttribute('sendEventOnClick'.toLowerCase(), trValue);
+        this._sendEventOnClick = value;
+        this.setAttribute('sendEventOnClick'.toLowerCase(), value);
     }
     public get sendEventOnClick() {
         return this._sendEventOnClick;
@@ -227,8 +260,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
         CH5DpadUtils.clearComponentContent(this);
 
         // events binding
-
-        // check if the dpad element has been created by verifying one of its properties
+        this.bindEventListenersToThis();
 
         this.logger.stop();
     }
@@ -238,12 +270,14 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
      *  Useful for running setup code, such as fetching resources or rendering.
      */
     public connectedCallback() {
-        this.info(' connectedCallback() - start');
+        this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
         this.crId = this.getCrId();
         this.setAttribute('data-ch5-id', this.crId);
 
-        if (!(this.parentElement instanceof Ch5Dpad)) {
+        if (this.parentElement &&
+            this.parentElement.parentElement &&
+            !(this.parentElement.parentElement instanceof Ch5Dpad)) {
             throw new Error(`Invalid parent element for ch5-dpad-button-top. 
             Please ensure the parent tag is ch5-dpad, and other mandatory sibling 
             elements are available too. Reference id: ${this.crId}`);
@@ -254,7 +288,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
 
         customElements.whenDefined('ch5-dpad-button-top').then(() => {
             this.initCommonMutationObserver(this);
-            this.info(' connectedCallback() - end');
+            this.logger.stop();
         });
     }
 
@@ -263,9 +297,7 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
      */
     private createElementsAndInitialize() {
         if (!this._wasInstatiated) {
-            if (this._icon.classList === undefined || this._icon.classList.length <= 0) {
-                this._icon = document.createElement('span');
-            }
+            CH5DpadUtils.createIconTag(this);
 
             this.initAttributes();
             this.createHtmlElements();
@@ -314,15 +346,25 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
      * Useful for running clean up code.
      */
     public disconnectedCallback() {
-        this.removeEvents();
-        this.unsubscribeFromSignals();
+        this.removeEventListeners();
+        // this.unsubscribeFromSignals();
 
         // disconnect common mutation observer
-        this.disconnectCommonMutationObserver();
+        // this.disconnectCommonMutationObserver();
     }
 
-    private removeEvents() {
-        // throw new Error("Method not implemented or element is not structured correctly.");
+    public removeEventListeners() {
+        this.removeEventListener('mousedown', this._onPressClick);
+        this.removeEventListener('mouseup', this._onMouseUp);
+        this.removeEventListener('mousemove', this._onMouseMove);
+        this.removeEventListener('touchstart', this._onPress);
+        this.removeEventListener('mouseleave', this._onLeave);
+        this.removeEventListener('touchend', this._onPressUp);
+        this.removeEventListener('touchmove', this._onTouchMove);
+        this.removeEventListener('touchend', this._onTouchEnd);
+        this.removeEventListener('touchcancel', this._onTouchCancel);
+        this.removeEventListener('focus', this._onFocus);
+        this.removeEventListener('blur', this._onBlur);
     }
 
     /**
@@ -372,8 +414,6 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
         }
 
         this.info('ch5-dpad-button-top attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-        const parentContractName: string = CH5DpadUtils.getAttributeAsString(this.parentElement, 'contractname', '');
-        const isValidParentContractName = !Boolean(parentContractName);
         switch (attr) {
             case 'receivestateshow':
             case 'receivestateenable':
@@ -385,9 +425,11 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
                 // Do nothing for any of the receiveState*
                 break;
             case 'iconclass':
+                CH5DpadUtils.createIconTag(this);
                 this.iconClass = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'iconurl':
+                CH5DpadUtils.createIconTag(this);
                 this.iconUrl = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'show':
@@ -413,16 +455,21 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
         this.iconClass = CH5DpadUtils.setAttributeToElement(this, 'iconClass', this._iconClass);
         this.iconUrl = CH5DpadUtils.setAttributeToElement(this, 'iconUrl', this._iconUrl);
 
-        const parentContractName: string = CH5DpadUtils.getAttributeAsString(this.parentElement, 'contractname', '');
-        const parentContractEvent: string = CH5DpadUtils.getAttributeAsString(this.parentElement, 'sendeventonclickstart', '');
-        if (parentContractName.length > 0) {
-            const joinValue = parentContractName + '.Top';
-            this.sendEventOnClick = joinValue.toString();
-        } else if (parentContractEvent.length > 0) {
-            const joinValue = parseInt(parentContractEvent, 10) + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.top;
-            this.sendEventOnClick = joinValue.toString();
-        } else {
-            this.sendEventOnClick = "";
+        if (this.parentElement &&
+            this.parentElement.parentElement) {
+            const ele = this.parentElement.parentElement;
+            const parentContractName: string = CH5DpadUtils.getAttributeAsString(ele, 'contractname', '');
+            const parentContractEvent: string = CH5DpadUtils.getAttributeAsString(ele, 'sendeventonclickstart', '');
+            if (parentContractName.length > 0) {
+                const joinValue = parentContractName + CH5DpadContractUtils.contractSuffix.top;
+                this.sendEventOnClick = joinValue.toString();
+            } else if (parentContractEvent.length > 0) {
+                const joinValue = parseInt(parentContractEvent, 10) +
+                    CH5DpadContractUtils.sendEventOnClickSigCountToAdd.top;
+                this.sendEventOnClick = joinValue.toString();
+            } else {
+                this.sendEventOnClick = "";
+            }
         }
 
         this.logger.stop();
@@ -433,6 +480,22 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
      */
     protected attachEventListeners() {
         super.attachEventListeners();
+
+        if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
+            this._hammerManager.on('tap', this._onTap);
+        }
+
+        this.addEventListener('mousedown', this._onPressClick);
+        this.addEventListener('mouseup', this._onMouseUp);
+        this.addEventListener('mousemove', this._onMouseMove);
+        this.addEventListener('touchstart', this._onPress, { passive: true });
+        this.addEventListener('mouseleave', this._onLeave);
+        this.addEventListener('touchend', this._onPressUp);
+        this.addEventListener('touchmove', this._onTouchMove, { passive: true });
+        this.addEventListener('touchend', this._onTouchEnd);
+        this.addEventListener('touchcancel', this._onTouchCancel);
+        this.addEventListener('focus', this._onFocus);
+        this.addEventListener('blur', this._onBlur);
     }
 
     protected updateCssClasses(): void {
@@ -443,11 +506,298 @@ export class Ch5DpadTop extends Ch5Common implements ICh5DpadTopAttributes {
     //#endregion
 
     //#region 4. Other Methods
+    private bindEventListenersToThis(): void {
+        this._onTap = this._onTap.bind(this);
+        this._onPressClick = this._onPressClick.bind(this);
+        this._onMouseUp = this._onMouseUp.bind(this);
+        this._onMouseMove = this._onMouseMove.bind(this);
+        this._onPress = this._onPress.bind(this);
+        this._onLeave = this._onLeave.bind(this);
+        this._onPressUp = this._onPressUp.bind(this);
+        this._onTouchMove = this._onTouchMove.bind(this);
+        this._onTouchEnd = this._onTouchEnd.bind(this);
+        this._onTouchCancel = this._onTouchCancel.bind(this);
+        this._onFocus = this._onFocus.bind(this);
+        this._onBlur = this._onBlur.bind(this);
+    }
+
+    private sendValueForRepeatDigital(value: boolean): void {
+        if (!this._sendEventOnClick) { return; }
+
+        const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this._sendEventOnClick);
+
+        if (clickSignal && clickSignal.name) {
+            clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+        }
+    }
+
+    /**
+     * Sends the signal passed via sendEventOnClick or sendEventOnTouch
+     */
+    private _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
+        let sigClick: Ch5Signal<boolean> | null = null;
+        if (this._sendEventOnClick) {
+            sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sendEventOnClick);
+
+            if (sigClick !== null) {
+                if (!preventTrue) {
+                    this.sendValueForRepeatDigital(true);
+                }
+                if (!preventFalse) {
+                    this.sendValueForRepeatDigital(false);
+                }
+            }
+        }
+    }
+
+    private stopRepeatDigital() {
+        this.logger.log("stopRepeatDigital", this._intervalIdForRepeatDigital);
+        if (this._intervalIdForRepeatDigital) {
+            window.clearInterval(this._intervalIdForRepeatDigital);
+            this.sendValueForRepeatDigital(false);
+            this._intervalIdForRepeatDigital = null;
+            return;
+        }
+        this.sendValueForRepeatDigital(true);
+
+        this._intervalIdForRepeatDigital = window.setInterval(() => {
+            this.sendValueForRepeatDigital(true);
+        }, this.TOUCH_TIMEOUT);
+    }
+
+    /**
+     * Press Handler
+     *
+     * @return {Promise}
+     */
+    private pressHandler(): Promise<boolean> {
+        const pressHandler = () => {
+            this.logger.log("Ch5Button._onPress()");
+            this._pressed = true;
+        }
+
+        const pressPromise = new Promise<boolean>((resolve, reject) => {
+            this._pressTimeout = window.setTimeout(() => {
+                pressHandler();
+                resolve(this._pressed);
+            }, this.TOUCH_TIMEOUT);
+        });
+
+        return pressPromise;
+    }
+
+    private cancelPress() {
+        window.clearTimeout(this._pressTimeout);
+        this._pressed = false;
+    }
+
+    private reactivatePress(): void {
+        clearTimeout(this.allowPressTimeout);
+        this.allowPressTimeout = setTimeout(() => {
+            this.allowPress = true;
+        }, this.DEBOUNCE_PRESS_TIME) as never as number;
+    }
+
+    private isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
+        const startingPoint: number = x2 - x1;
+        const endingPoint: number = y2 - y1;
+        const distance: number = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
+        return distance > this.PRESS_MOVE_THRESHOLD;
+    }
 
     //#endregion
 
-    //#region 5. Events
+
+    //#region 5. Events - event binding
+
+    private _onTap(): void {
+        this.logger.log('_onTap()');
+        this._onTapAction();
+    }
+
+    private _onTapAction() {
+        if (null !== this._intervalIdForRepeatDigital) {
+            window.clearInterval(this._intervalIdForRepeatDigital);
+            this.sendValueForRepeatDigital(false);
+            this._intervalIdForRepeatDigital = null;
+        } else {
+            this._sendOnClickSignal(false, false);
+        }
+    }
+
+    private async _onPressClick(event: MouseEvent) {
+        this.info(this.COMPONENT_NAME, "- _onPressClick - ", this.crId);
+        if (this.isTouch) {
+            return;
+        }
+
+        clearTimeout(this.allowPressTimeout);
+        await this.pressHandler();
+
+        this._pressHorizontalStartingPoint = event.clientX;
+        this._pressVerticalStartingPoint = event.clientY;
+
+        this._lastTapTime = new Date().valueOf();
+
+        if (!this.allowPress) {
+            return;
+        }
+
+        this.allowPress = false;
+        this.stopRepeatDigital();
+    }
+
+    private _onMouseUp() {
+        this.info("_onMouseUp - ", this.crId);
+        if (this.isTouch) {
+            ((btnObj) => {
+                setTimeout(() => {
+                    if (btnObj._intervalIdForRepeatDigital != null) {
+                        clearTimeout(btnObj._intervalIdForRepeatDigital);
+                        btnObj._intervalIdForRepeatDigital = null;
+                    }
+                    btnObj.sendValueForRepeatDigital(false);
+                }, 200);
+            })(this);
+            return;
+        }
+
+        this.cancelPress();
+        this.reactivatePress();
+
+        if (this._intervalIdForRepeatDigital) {
+            this.stopRepeatDigital();
+        } else if (this._pressed) {
+            // this._onTapAction();
+        }
+
+        const timeSinceLastPress = new Date().valueOf() - this._lastTapTime;
+        if (this._lastTapTime && timeSinceLastPress < this.DEBOUNCE_PRESS_TIME) {
+            // sometimes a both click and press can happen on iOS/iPadOS, don't publish both
+            this.logger.log('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
+        }
+    }
+
+    private _onMouseMove(event: MouseEvent) {
+        this.info("_onMouseMove - ", this.crId);
+        if (!this.isTouch
+            && this._intervalIdForRepeatDigital
+            && this._pressHorizontalStartingPoint
+            && this._pressVerticalStartingPoint
+            && this.isExceedingPressMoveThreshold(
+                this._pressHorizontalStartingPoint,
+                this._pressVerticalStartingPoint,
+                event.clientX,
+                event.clientY)
+        ) {
+            this.stopRepeatDigital();
+        }
+    }
+
+    private async _onPress(event: TouchEvent) {
+        this.info("_onPress - ", this.crId);
+        const normalizedEvent = normalizeEvent(event);
+        this.isTouch = true;
+        clearTimeout(this.allowPressTimeout);
+        this._pressInfo.saveStart(
+            normalizedEvent.x,
+            normalizedEvent.y
+        );
+        await this.pressHandler();
+        if (!this.allowPress) {
+            return;
+        }
+        this.allowPress = false;
+        this.stopRepeatDigital();
+    }
+
+    private _onLeave() {
+        this.info("_onPressUp - ", this.crId);
+        if (this._intervalIdForRepeatDigital) {
+            this.stopRepeatDigital();
+        }
+    }
+
+    private _onPressUp(): void {
+        this.info("_onPressUp - ", this.crId);
+        window.clearTimeout(this._pressTimeout);
+        this.reactivatePress();
+        if (this._pressed) {
+            this.logger.log("Ch5Button._onPressUp()");
+
+            this._pressed = false;
+
+            if (this._intervalIdForRepeatDigital) {
+                window.clearInterval(this._intervalIdForRepeatDigital);
+                this.sendValueForRepeatDigital(false);
+                this._intervalIdForRepeatDigital = null;
+            }
+        }
+    }
+
+    private _onTouchMove(event: TouchEvent) {
+        this.info("_onTouchMove - ", this.crId);
+        // The event must be cancelable
+        if (event.cancelable) {
+            event.preventDefault();
+        }
+        const normalizedEvent = normalizeEvent(event);
+
+        this._pressInfo.saveEnd(
+            normalizedEvent.x,
+            normalizedEvent.y
+        );
+
+        const validPress = this._pressInfo.valid();
+
+        if (!validPress) {
+            window.clearTimeout(this._pressTimeout);
+            if (this._intervalIdForRepeatDigital !== null) {
+                this.stopRepeatDigital();
+            }
+            return;
+        }
+    }
+
+    private _onTouchEnd(inEvent: Event): void {
+        this.info("_onTouchEnd - ", this.crId);
+        if (this._intervalIdForRepeatDigital) {
+            this.stopRepeatDigital();
+        }
+    }
+
+    private _onTouchCancel(inEvent: Event): void {
+        this.info("_onTouchCancel - ", this.crId);
+        if (this._intervalIdForRepeatDigital) {
+            this.stopRepeatDigital();
+        }
+    }
+
+    private _onFocus(inEvent: Event): void {
+        this.info("_onFocus - ", this.crId);
+        let clonedEvent: Event;
+        clonedEvent = new Event(inEvent.type, inEvent);
+        this.dispatchEvent(clonedEvent);
+
+        inEvent.preventDefault();
+        inEvent.stopPropagation();
+    }
+
+    private _onBlur(inEvent: Event): void {
+        this.info("_onBlur - ", this.crId);
+        let clonedEvent: Event;
+
+        this.reactivatePress();
+
+        clonedEvent = new Event(inEvent.type, inEvent);
+        this.dispatchEvent(clonedEvent);
+
+        inEvent.preventDefault();
+        inEvent.stopPropagation();
+    }
+
     //#endregion
+
 
 }
 
