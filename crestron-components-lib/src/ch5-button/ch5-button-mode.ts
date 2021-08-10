@@ -227,24 +227,24 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
     if (value !== null) {
       if (parentMasterData.indexOf(value) >= 0) {
         this.setAttribute(attributeName.toLowerCase(), value);
-        this._parentCh5Button.setButtonDisplay(this);
+        this._parentCh5Button.setButtonDisplay();
       } else {
         this.removeAttribute(attributeName);
-        // parentElement.setButtonDisplay(this); is not required here.
+        // parentElement.setButtonDisplay(); is not required here.
       }
     } else {
       this.removeAttribute(attributeName);
-      this._parentCh5Button.setButtonDisplay(this);
+      this._parentCh5Button.setButtonDisplay();
     }
   }
 
   private validateAndSetAttributeWithStringType(attributeName: string, value: any) {
     if (value !== null) {
       this.setAttribute(attributeName.toLowerCase(), value);
-      this._parentCh5Button.setButtonDisplay(this);
+      this._parentCh5Button.setButtonDisplay();
     } else {
       this.removeAttribute(attributeName);
-      this._parentCh5Button.setButtonDisplay(this);
+      this._parentCh5Button.setButtonDisplay();
     }
   }
 
