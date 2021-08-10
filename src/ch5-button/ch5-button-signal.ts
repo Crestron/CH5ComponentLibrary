@@ -7,7 +7,6 @@
 
 import { Ch5SignalFactory } from "../ch5-core";
 import { Ch5Signal } from "../ch5-core/ch5-signal";
-import isNil from 'lodash/isNil';
 
 export interface ICh5ButtonSignalDetails {
 	signalName: string;
@@ -22,9 +21,9 @@ export class Ch5ButtonSignal {
 
 	constructor() {
 		const signalsForCh5Button = ["receiveStateType", "receiveStateCustomClass", "receiveStateCustomStyle", "receiveStateIconClass", "receiveStateIconUrl", "receiveStateLabel", "receiveStateScriptLabelHtml"];
-		for (let i: number = 0; i < signalsForCh5Button.length; i++) {
+		for (const eachSignal of signalsForCh5Button) {
 			this.signals.push({
-				signalName: signalsForCh5Button[i],
+				signalName: eachSignal,
 				signalValue: "",
 				signalState: "",
 				currentValue: ""
@@ -78,14 +77,14 @@ export class Ch5ButtonSignal {
 
 	public unsubscribeAll() {
 		const csf = Ch5SignalFactory.getInstance();
-		for (let i: number = 0; i < this.signals.length; i++) {
-			if (this.signals[i].signalState !== '' && this.signals[i].signalValue !== '') {
-				const receiveValueSigName: string = Ch5Signal.getSubscriptionSignalName(this.signals[i].signalValue);
+		for (const eachSignal of this.signals) {
+			if (eachSignal.signalState !== '' && eachSignal.signalValue !== '') {
+				const receiveValueSigName: string = Ch5Signal.getSubscriptionSignalName(eachSignal.signalValue);
 				const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(receiveValueSigName);
 				if (null !== sigLabel) {
-					sigLabel.unsubscribe(this.signals[i].signalState);
-					this.signals[i].signalValue = "";
-					this.signals[i].signalState = "";
+					sigLabel.unsubscribe(eachSignal.signalState);
+					eachSignal.signalValue = "";
+					eachSignal.signalState = "";
 				}
 			}
 		}

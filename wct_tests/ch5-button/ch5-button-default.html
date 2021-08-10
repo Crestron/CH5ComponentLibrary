@@ -9,8 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
     <script src="/build_bundles/umd/cr-com-lib.js"></script>
-    <script src="/webcomponentsjs/html2canvas.min.js"></script>
-
+    <script src="/wct_tests/js/helpers.js"></script>
     <script src="/wct_tests/ch5-button/js/helpers.js"></script>
 </head>
 
@@ -21,36 +20,6 @@
             <ch5-button></ch5-button>
         </template>
     </test-fixture>
-
-    <!--
-
-<ch5-button type="danger" label="danger"></ch5-button>
-<ch5-button type="text" label="text"></ch5-button>
-<ch5-button type="warning" label="warning"></ch5-button>
-<ch5-button type="info" label="info"></ch5-button>
-<ch5-button type="success" label="success"></ch5-button>
-<ch5-button type="default" label="default"></ch5-button>
-<ch5-button type="primary" label="primary"></ch5-button>
-<ch5-button type="secondary" label="secondary"></ch5-button>
-
-<ch5-button 
-    type="danger" 
-    label="Danger" 
-    role="button" 
-    dir="ltr" 
-    style="touch-action: auto; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-    <div 
-        class="cb-cntr ch5-button ch5-button--rounded-rectangle ch5-button--danger ch5-button--size-regular" 
-        style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-        <button 
-            class="cb-btn" 
-            data-ch5-id="cr-id-43">
-            <span class="cb-lbl ch5-button--label">Danger</span>
-        </button>
-    </div>
-</ch5-button>
-
-    -->
 
     <script>
         suite('ch5-button', async () => {
@@ -68,7 +37,6 @@
 
             test('Default role is "button"', () => {
                 expect(ch5Button.getAttribute("role")).to.be.equal('button');
-                takeshot();
             });
 
             test('Default dir is "ltr"', () => {

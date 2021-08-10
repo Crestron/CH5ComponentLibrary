@@ -35,7 +35,7 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
         this._state = Ch5ButtonModeState.STATES[0];
       }
       this.setAttribute("state", this._state);
-      this._parentCh5Button.setButtonDisplay(this);
+      this._parentCh5Button.setButtonDisplay();
     }
   }
   public get state(): TCh5ButtonModeState {
@@ -261,24 +261,24 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
     if (value !== null) {
       if (parentMasterData.indexOf(value) >= 0) {
         this.setAttribute(attributeName.toLowerCase(), String(value));
-        this._parentCh5Button.setButtonDisplay(this);
+        this._parentCh5Button.setButtonDisplay();
       } else {
         if (removeAttribute === true) {
           this.removeAttribute(attributeName);
-          // parentElement.setButtonDisplay(this); is not required here. The set type will be called again to 
+          // parentElement.setButtonDisplay(); is not required here. The set type will be called again to 
           // go the below else block and the  is called
         } else {
           this.setAttribute(attributeName.toLowerCase(), String(parentMasterData[0]));
-          this._parentCh5Button.setButtonDisplay(this);
+          this._parentCh5Button.setButtonDisplay();
         }
       }
     } else {
       if (removeAttribute === true) {
         this.removeAttribute(attributeName);
-        this._parentCh5Button.setButtonDisplay(this);
+        this._parentCh5Button.setButtonDisplay();
       } else {
         this.setAttribute(attributeName.toLowerCase(), String(parentMasterData[0]));
-        this._parentCh5Button.setButtonDisplay(this);
+        this._parentCh5Button.setButtonDisplay();
       }
     }
     this.logger.stop();
@@ -288,10 +288,10 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
     this.logger.start('set ' + attributeName + '("' + value + '")');
     if (value !== null) {
       this.setAttribute(attributeName.toLowerCase(), value);
-      this._parentCh5Button.setButtonDisplay(this);
+      this._parentCh5Button.setButtonDisplay();
     } else {
       this.removeAttribute(attributeName);
-      this._parentCh5Button.setButtonDisplay(this);
+      this._parentCh5Button.setButtonDisplay();
     }
     this.logger.stop();
   }
