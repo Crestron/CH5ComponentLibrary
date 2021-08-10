@@ -1,5 +1,4 @@
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
-import { signalStructure } from "./interfaces/t-ch5-dpad";
 
 export class CH5DpadUtils {
 
@@ -59,9 +58,9 @@ export class CH5DpadUtils {
      */
     public static setAttributeToElement(thisRef: any, attr: string, defaultValue: string) {
         attr = attr.toLowerCase();
-        let val = defaultValue;
-        if (!thisRef.hasAttribute(attr) && defaultValue.length > 0) {
-            thisRef.setAttribute(attr, defaultValue);
+        let val = (defaultValue === null) ? '' : defaultValue;
+        if (!thisRef.hasAttribute(attr) && val.length > 0) {
+            thisRef.setAttribute(attr, val);
         } else if (thisRef.hasAttribute(attr)) {
             val = thisRef.getAttribute(attr);
         }
@@ -134,39 +133,6 @@ export class CH5DpadUtils {
     }
 
     /**
-     * Function to subscribe state generically per state/contract object requested
-     * @param signalname signal name on which the subscription is to be created for
-     * @param signalValue signal value or contract name on which the subscription is called on
-     * @param onSubscribeStateHandler Function to execute when subscription completes
-     */
-    public static subscribeStateForContract(contractObj: signalStructure, onSubscribeStateHandler: () => void) {
-        // clean up old subscription
-        if (contractObj.signalName) {
-            const oldReceiveIconClassSigName: string = Ch5Signal.getSubscriptionSignalName(contractObj.signalName);
-            const oldSignal: Ch5Signal<string> | null =
-                Ch5SignalFactory.getInstance().getStringSignal(oldReceiveIconClassSigName);
-
-            if (oldSignal !== null) {
-                oldSignal.unsubscribe(contractObj.signalValue);
-            }
-        }
-
-        // setup new subscription.
-        const receiveIconClassSigName: string = Ch5Signal.getSubscriptionSignalName(contractObj.signalName);
-        const receiveSignal: Ch5Signal<string> | null =
-            Ch5SignalFactory.getInstance().getStringSignal(receiveIconClassSigName);
-
-        if (receiveSignal !== null) {
-            contractObj.signalValue = receiveSignal.subscribe((newValue: string) => {
-                if (contractObj.response !== newValue) {
-                    contractObj.response = newValue;
-                }
-                onSubscribeStateHandler();
-            });
-        }
-    }
-
-    /**
      * Function to check and return the required value for a given params
      * @param hasAttribute pre-existing attribute status
      * @param valToAssign new value to assign
@@ -197,7 +163,9 @@ export class CH5DpadUtils {
             } else {
                 thisRef[pvtAttrKey] = validValues[0];
             }
-            thisRef.setAttribute(attrKey, thisRef[pvtAttrKey]);
+            if (thisRef[pvtAttrKey] !== null) {
+                thisRef.setAttribute(attrKey, thisRef[pvtAttrKey]);
+            }
             if (callback !== null) {
                 callback();
             }

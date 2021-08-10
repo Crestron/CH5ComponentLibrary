@@ -222,8 +222,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     /**
      * If this param is true then the component will display debug/info messages in the browser's console
      */
-     protected _isDebugEnabled: boolean = false;
-     protected _isTraceEnabled: boolean = false;
+    protected _isDebugEnabled: boolean = false;
+    protected _isTraceEnabled: boolean = false;
 
     /**
      * Is populated on construct.
@@ -1737,8 +1737,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     protected toBoolean(val: any, isEmptyValueEqualToTrue = false): boolean {
         const str = String(val);
         switch (str.toLowerCase().trim()) {
-            case "true": case "yes": case "1": return true;
-            case "false": case "no": case "0": case null: return false;
+            case "true": case "1": return true;
+            case "false": case "0": case null: return false;
             case "":
                 if (isEmptyValueEqualToTrue === true) {
                     return true;

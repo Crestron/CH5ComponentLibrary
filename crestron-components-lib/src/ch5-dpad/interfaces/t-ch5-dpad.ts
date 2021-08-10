@@ -21,9 +21,9 @@ export type TCh5DpadType = 'default' | 'info' | 'text' | 'danger' | 'warning' | 
 
 export type TCh5DpadShape = 'plus' | 'circle';
 
-export type TCh5DpadStretch = '' | 'both' | 'width' | 'height';
+export type TCh5DpadStretch = 'both' | 'width' | 'height';
 
-export type TButtonClassListType = {
+export type TCh5DpadButtonClassListType = {
     commonBtnClass: string,
     primaryTagClass: string,
     primaryIconClass: string,
@@ -31,26 +31,3 @@ export type TButtonClassListType = {
     imageClassName: string,
     defaultArrowClass: string
 }
-
-export type TParentControlledContractRules = {
-    contractName: string,
-    label?: boolean,
-    enable: boolean,
-    show: boolean,
-    icon: boolean
-};
-
-export type TParentContractBasedState = {
-    click: signalStructure,
-    label?: signalStructure,
-    iconUrl: signalStructure,
-    iconClass: signalStructure,
-    enable: signalStructure,
-    show: signalStructure
-};
-
-export type signalStructure = {
-    signalName: string,
-    signalValue: string,
-    response: string
-};

@@ -9,7 +9,7 @@ import { Ch5Dpad } from "./ch5-dpad";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadCenterAttributes } from "./interfaces/i-ch5-dpad-button-center-interfaces";
-import { TButtonClassListType } from "./interfaces/t-ch5-dpad";
+import { TCh5DpadButtonClassListType } from "./interfaces/t-ch5-dpad";
 
 export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes {
 
@@ -24,7 +24,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     //#region 1.2 private / protected variables
     private COMPONENT_NAME: string = "ch5-dpad-button-center";
     private labelClass: string = 'dpad-btn-label';
-    private readonly CSS_CLASS_LIST: TButtonClassListType = {
+    private readonly CSS_CLASS_LIST: TCh5DpadButtonClassListType = {
         commonBtnClass: 'ch5-dpad-child',
         primaryTagClass: 'center',
         primaryIconClass: 'fas',
@@ -50,7 +50,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     private _icon: HTMLElement = {} as HTMLElement;
 
     // state specific vars
-    private crId: string = '';
     private isTouch: boolean = false;
     private allowPress: boolean = true;
     private allowPressTimeout: number = 0;
@@ -92,22 +91,19 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
      * iconClass specif getter-setter
      */
     public set iconClass(value: string) {
-        this.info('set iconClass("' + value + '")');
+        this.logger.start('set iconClass("' + value + '")');
 
         if (_.isNil(value)) {
             value = this.CSS_CLASS_LIST.defaultIconClass;
         }
 
-        let trValue: string = '';
-
-        trValue = this._getTranslatedValue('iconClass'.toLowerCase(), value);
-        if (trValue === this.iconClass) {
+        if (value === this.iconClass) {
             return;
         }
 
         const prevValue = this._iconClass;
-        this._iconClass = trValue;
-        this.setAttribute('iconClass', trValue);
+        this._iconClass = value;
+        this.setAttribute('iconClass', value);
         if (this._iconUrl.length < 1) {
             if (this._iconClass.length > 0) {
                 this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
@@ -128,22 +124,21 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
      * iconUrl specif getter-setter
      */
     public set iconUrl(value: string) {
-        this.info('set iconUrl("' + value + '")');
+        this.logger.start('set iconUrl("' + value + '")');
 
         if (_.isNil(value)) {
             value = '';
         }
 
-        const trValue: string = this._getTranslatedValue('iconUrl'.toLowerCase(), value);
-        if (trValue === this.iconUrl) {
+        if (value === this.iconUrl) {
             return;
         }
 
-        this._iconUrl = trValue;
-        this.setAttribute('iconUrl', trValue);
+        this._iconUrl = value;
+        this.setAttribute('iconUrl', value);
         if (this.iconUrl.length > 0) {
             this._icon.classList.add(this.CSS_CLASS_LIST.imageClassName);
-            this._icon.style.backgroundImage = `url(${trValue})`;
+            this._icon.style.backgroundImage = `url(${value})`;
         } else {
             this._icon.classList.remove(this.CSS_CLASS_LIST.imageClassName);
         }
@@ -156,19 +151,18 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
      * label specif getter-setter
      */
     public set label(value: string) {
-        this.info('set label("' + value + '")');
+        this.logger.start('set label("' + value + '")');
 
         if (_.isNil(value)) {
             value = '';
         }
 
-        const trValue: string = this._getTranslatedValue('label'.toLowerCase(), value);
-        if (trValue === this.label) {
+        if (value === this.label) {
             return;
         }
 
-        this._label = trValue;
-        this.setAttribute('label', trValue);
+        this._label = value;
+        this.setAttribute('label', value);
     }
     public get label() {
         return this._label;
@@ -178,7 +172,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
      * sendEventOnClick specif getter-setter
      */
     public set sendEventOnClick(value: string) {
-        this.info('set sendEventOnClick("' + value + '")');
+        this.logger.start('set sendEventOnClick("' + value + '")');
 
         if (_.isNil(value)) {
             value = '';
@@ -295,15 +289,14 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     public connectedCallback() {
         this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
-        this.crId = this.getCrId();
-        this.setAttribute('data-ch5-id', this.crId);
+        this.setAttribute('data-ch5-id', this.getCrId());
 
         if (this.parentElement &&
             this.parentElement.parentElement &&
             !(this.parentElement.parentElement instanceof Ch5Dpad)) {
             throw new Error(`Invalid parent element for ch5-dpad-button-center. 
             Please ensure the parent tag is ch5-dpad, and other mandatory sibling 
-            elements are available too. Reference id: ${this.crId}`);
+            elements are available too.`);
         }
 
         // will have the flags ready for contract level content to be ready
@@ -658,7 +651,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private async _onPressClick(event: MouseEvent) {
-        this.info(this.COMPONENT_NAME, "- _onPressClick - ", this.crId);
+        this.logger.start(this.COMPONENT_NAME, "- _onPressClick - ");
         if (this.isTouch) {
             return;
         }
@@ -680,7 +673,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private _onMouseUp() {
-        this.info("_onMouseUp - ", this.crId);
+        this.logger.start("_onMouseUp - ");
         if (this.isTouch) {
             ((btnObj) => {
                 setTimeout(() => {
@@ -711,7 +704,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private _onMouseMove(event: MouseEvent) {
-        this.info("_onMouseMove - ", this.crId);
+        this.logger.start("_onMouseMove - ");
         if (!this.isTouch
             && this._intervalIdForRepeatDigital
             && this._pressHorizontalStartingPoint
@@ -727,7 +720,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private async _onPress(event: TouchEvent) {
-        this.info("_onPress - ", this.crId);
+        this.logger.start("_onPress - ");
         const normalizedEvent = normalizeEvent(event);
         this.isTouch = true;
         clearTimeout(this.allowPressTimeout);
@@ -744,14 +737,14 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private _onLeave() {
-        this.info("_onPressUp - ", this.crId);
+        this.logger.start("_onPressUp - ");
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
     private _onPressUp(): void {
-        this.info("_onPressUp - ", this.crId);
+        this.logger.start("_onPressUp - ");
         window.clearTimeout(this._pressTimeout);
         this.reactivatePress();
         if (this._pressed) {
@@ -768,7 +761,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private _onTouchMove(event: TouchEvent) {
-        this.info("_onTouchMove - ", this.crId);
+        this.logger.start("_onTouchMove - ");
         // The event must be cancelable
         if (event.cancelable) {
             event.preventDefault();
@@ -792,21 +785,21 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private _onTouchEnd(inEvent: Event): void {
-        this.info("_onTouchEnd - ", this.crId);
+        this.logger.start("_onTouchEnd - ");
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
     private _onTouchCancel(inEvent: Event): void {
-        this.info("_onTouchCancel - ", this.crId);
+        this.logger.start("_onTouchCancel - ");
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
     private _onFocus(inEvent: Event): void {
-        this.info("_onFocus - ", this.crId);
+        this.logger.start("_onFocus - ");
         let clonedEvent: Event;
         clonedEvent = new Event(inEvent.type, inEvent);
         this.dispatchEvent(clonedEvent);
@@ -816,7 +809,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private _onBlur(inEvent: Event): void {
-        this.info("_onBlur - ", this.crId);
+        this.logger.start("_onBlur - ");
         let clonedEvent: Event;
 
         this.reactivatePress();
