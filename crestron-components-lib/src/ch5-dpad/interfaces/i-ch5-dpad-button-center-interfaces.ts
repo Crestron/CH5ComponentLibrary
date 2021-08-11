@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base";
 
 /**
  * @name Ch5 Dpad Center
@@ -26,31 +26,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  * 
  */
 
-export interface ICh5DpadCenterAttributes extends ICh5CommonAttributes {
-
-    /**
-     * @documentation
-     * [
-     * "`type` iconClass",
-     * "***",
-     * "The icon class gives the ability for the end developer to create custom arrow icons."
-     * ]
-     * @name iconClass
-     */
-     iconClass: string;
-
-    /**
-     * @documentation
-     * [
-     * "`type` iconUrl",
-     * "***",
-     * "A custom image that the user needs to pass the URL or the local file relative path, ",
-     * "the iconUrl takes precedence over iconClass."
-     * ]
-     * @name iconUrl
-     */
-     iconUrl: string;
-
+export interface ICh5DpadCenterAttributes extends ICh5DpadChildBaseAttributes {
     /**
      * @documentation
      * [
@@ -61,18 +37,4 @@ export interface ICh5DpadCenterAttributes extends ICh5CommonAttributes {
      * @name label
      */
     label: string;
-
-    /**
-     * @documentation
-     * [
-     * "`sendeventonclick` attribute",
-     * "***",
-     * "Sends an event on click or tap (mouse or swipe up and down quickly).",
-     * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-     * "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-     * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-     * ]
-     * @name sendeventonclick
-     */
-    sendEventOnClick: string;
 }
