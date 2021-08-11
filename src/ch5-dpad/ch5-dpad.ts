@@ -99,7 +99,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.logger.start('set type ("' + value + '")');
         CH5DpadUtils.setAttributeValueOnControl(this, 'type', value, Ch5Dpad.TYPES,
             this.updateCssClasses.bind(this));
-            this.logger.stop();
+        this.logger.stop();
     }
     public get type(): TCh5DpadType {
         return this._type;
@@ -110,20 +110,25 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     public set shape(value: TCh5DpadShape) {
         this.logger.start('set shape ("' + value + '")');
-
-        if (value !== this._shapePrevVal || this._shapePrevVal !== this._shape) {
-            if (Ch5Dpad.SHAPES.indexOf(value) >= 0) {
-                this._shape = value;
-            } else {
-                this._shape = Ch5Dpad.SHAPES[0];
-            }
-            this.setAttribute('shape', this._shape);
-            if (this._shapePrevVal !== null) {
+        CH5DpadUtils.setAttributeValueOnControl(this, 'shape', value, Ch5Dpad.SHAPES,
+            () => {
                 this.removeDuplicateChildElements();
-            }
-            this.updateCssClasses();
-            this._shapePrevVal = this._shape;
-        }
+                this.updateCssClasses();
+            });
+
+        // if (value !== this._shape) {
+        //     if (Ch5Dpad.SHAPES.indexOf(value) >= 0) {
+        //         this._shape = value;
+        //     } else {
+        //         this._shape = Ch5Dpad.SHAPES[0];
+        //     }
+        //     this.setAttribute('shape', this._shape);
+        //     // if (this._shapePrevVal !== null) {
+        //     // }
+        //     this.removeDuplicateChildElements();
+        //     this.updateCssClasses();
+        //     this._shapePrevVal = this._shape;
+        // }
         this.logger.stop();
     }
     public get shape(): TCh5DpadShape {
