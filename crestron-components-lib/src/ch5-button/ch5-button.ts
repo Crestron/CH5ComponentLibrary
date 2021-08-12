@@ -481,7 +481,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		} else {
 			this.removeAttribute('formType');
 		}
-		// Note that _formType isnt set anywhere
+		// Note that _formType is not set anywhere
 	}
 	public get formType(): TCh5ButtonActionType | null {
 		return this._formType;
@@ -849,7 +849,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	public set receiveStateMode(signalName: string) {
 		this.logger.log('set receiveStateMode(\'' + signalName + '\')');
 		this.logger.log('this._sigNameReceiveStateMode' + this._sigNameReceiveStateMode);
-		this.logger.log('signalName' + signalName);
 
 		if (this._sigNameReceiveStateMode === signalName || signalName === null) {
 			return;
@@ -870,7 +869,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		this._sigNameReceiveStateMode = signalName;
-		this.logger.log('signalName2: ', signalName);
 		this.setAttribute('receivestatemode', signalName);
 
 		// setup new subscription.
@@ -1742,7 +1740,6 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		);
 
 		const validPress = this._pressInfo.valid();
-
 		if (!validPress) {
 			window.clearTimeout(this._pressTimeout);
 			if (this._intervalIdForRepeatDigital !== null) {
@@ -1953,7 +1950,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		if (this._checkboxShow === true && this._selected === true) {
 			classForCheckboxAdd = ["ch5-button__checkbox", "ch5-button__checkbox--checked"];
 		} else if (this._checkboxShow === false) {
-			// This case is taken care of
+			// This case is addressed.
 		} else if (this._checkboxShow === true) {
 			classForCheckboxAdd = ["ch5-button__checkbox", "ch5-button__checkbox--unchecked"];
 		}
@@ -2048,7 +2045,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.start("setButtonDisplayDetails");
 		this.isButtonInitated = true;
 		// Applicable on Mode change and Selected change
-		// We need not worry about this. ch5-button-label is immediate child , and no change in attribute
+		// We need not worry about this. ch5-button-label is immediate child, and no change in attribute
 		// affects the data from immediate child.
 
 		const extendedProperties: ICh5ButtonExtendedProperties = {};
@@ -2368,7 +2365,7 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 		this.logger.log("updateUIMethods", (updateUIMethods));
 
-		// Call methods
+		// Methods to be invoked
 		if (updateUIMethods.updateCssClasses === true) {
 			this.updateCssClasses();
 		}
@@ -2581,12 +2578,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 
 	protected updateForChangeInStretch() {
 		const parentEl = this.parentElement as HTMLElement;
-		const targetEl = this.getTargetElementForCssClassesAndStyle();
+		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (!parentEl) {
 			this.logger.log('updateForChangeInStretch() - parent element not found');
 			return;
 		}
-		let stretchCssClassNameToAdd = '';
+		let stretchCssClassNameToAdd: string = '';
 		if (!isNil(this.stretch) && Ch5Button.STRETCHES.indexOf(this.stretch) >= 0) {
 			stretchCssClassNameToAdd = this.primaryCssClass + '--stretch-' + this.stretch;
 		}

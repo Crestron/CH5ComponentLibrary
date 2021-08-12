@@ -12,8 +12,6 @@ import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import _ from "lodash";
 
-const COMPONENT_NAME: string = "ch5-button-mode-state";
-
 export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAttributes {
 
   //#region 1. Variables
