@@ -41,6 +41,7 @@ export class Ch5Debug {
         'bridge.rcbTimerCallback':false,
         'bridge.clearTimersForSignal':false,
         'bridge.rcbIntervalTimerCallback':false,
+        'Ch5Resync': false,
         'Logger.messagesFilter.defaultLevel': LogLevelEnum.warning
     };
 
