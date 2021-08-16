@@ -31,6 +31,7 @@ export class Ch5Signal<T extends TSignal> {
     private _subscriptions: TSignalSubscriptions;
     private _signalBridge: Ch5SignalBridge;
     private _hasChangedSinceInit: boolean = false;
+    private _receivedFromSignalBridge: boolean = false;
     private _ch5Resync: Ch5Resync;
 
     public static isIntegerSignalName(name: string): boolean {
@@ -63,13 +64,13 @@ export class Ch5Signal<T extends TSignal> {
             }
 
             // CLEAR ALL
-            if (resyncRequest.state === ResetEventNames.clearAll) {
+            if (resyncRequest.state === ResetEventNames.startOfUpdate) {
                 Ch5Signal._receivedClearEvent = true;
                 if (resyncRequest.value !== undefined && resyncRequest.value.excludePrefixes !== undefined) {
                     const excludePrefixes: ICh5ExcludePrefixesModel = {
                         excludePrefixes: resyncRequest.value.excludePrefixes
                     };
-                    ch5Resync.onReceiveClearAll(excludePrefixes);
+                    ch5Resync.onReceiveStartOfUpdate(excludePrefixes);
                 } else {
                     Ch5Signal._receivedClearEvent = false;
                     throw new Error('Invalid resyncRequest object');
@@ -77,11 +78,11 @@ export class Ch5Signal<T extends TSignal> {
             }
 
             // CLEAR RANGE
-            else if (resyncRequest.state === ResetEventNames.clearRange) {
+            else if (resyncRequest.state === ResetEventNames.startOfUpdateRange) {
                 Ch5Signal._receivedClearEvent = true;
                 if (resyncRequest.value !== undefined && resyncRequest.value.range !== undefined &&
                     resyncRequest.value.excludePrefixes !== undefined) {
-                    ch5Resync.onReceiveClearRange(resyncRequest.value.range, resyncRequest.value.excludePrefixes);
+                    ch5Resync.onReceiveStartOfUpdateRange(resyncRequest.value.range, resyncRequest.value.excludePrefixes);
                 } else {
                     Ch5Signal._receivedClearEvent = false;
                     throw new Error('Invalid resyncRequest object');
@@ -154,6 +155,10 @@ export class Ch5Signal<T extends TSignal> {
         return this._hasChangedSinceInit;
     }
 
+    public get receivedFromSignalBridge(): boolean {
+        return this._receivedFromSignalBridge;
+    }
+
     public publish(value: T): void {
         this._hasChangedSinceInit = true;
         this._subject.next(value);
@@ -162,6 +167,7 @@ export class Ch5Signal<T extends TSignal> {
 
     public fromSignalBridge(value: T) { // for use only for signals received from native on signal bridge
         // console.log('from sb ',value,' subj',this._subject.observers);
+        this._receivedFromSignalBridge = true;
         this._hasChangedSinceInit = true;
         this._subject.next(value);
         // console.log('from sb ',value,' subj',this._subject.getValue());
