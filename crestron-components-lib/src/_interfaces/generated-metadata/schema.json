@@ -124,6 +124,33 @@
     },
     "elements": [
       {
+        "attributes": [],
+        "documentation": [
+          "`ch5-button-label` element",
+          "***",
+          "A child element designed to capture the label for Ch5 Button component."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-button-label:blank",
+            "description": "Crestron Button Label",
+            "body": [
+              "<ch5-button-label>",
+              "\t<template>",
+              "\t$1",
+              "\t</template>",
+              "</ch5-button-label>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Button Label is a child node for <ch5-button>, <ch5-button-mode> and <ch5-button-mode-state>.",
+        "name": "Ch5 Button Label",
+        "tagName": "ch5-button-label",
+        "role": "button",
+        "componentVersion": "1.0.0"
+      },
+      {
         "attributes": [
           {
             "documentation": [

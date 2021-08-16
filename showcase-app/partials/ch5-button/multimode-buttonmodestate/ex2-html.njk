@@ -1,0 +1,1815 @@
+<h4>receiveStateMode changes based on Slider</h4>
+<br />
+<ch5-button checkboxshow="true" stretch="width" id="lightAdv" receivestatemode="signal.receivestatemode.signalOne" iconPosition="left" orientation="horizontal" shape="rounded-rectangle">
+    <ch5-button-mode checkboxPosition="left">
+        <ch5-button-mode-state checkboxPosition="left" state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 0</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state checkboxPosition="left" state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 0</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state checkboxPosition="right" state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 0</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode checkboxPosition="left">
+        <ch5-button-mode-state checkboxPosition="left" state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 1</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state checkboxPosition="left" state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 1</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state checkboxPosition="right" state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 1</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 2</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 2</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 2</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state checkboxPosition="right" state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 3</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 3</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 3</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 4</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 4</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 4</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 5</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 5</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 5</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 6</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 6</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 6</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 7</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 7</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 7</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 8</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 8</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 8</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 9</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 9</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 9</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 10</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 10</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 10</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 11</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 11</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 11</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 12</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 12</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 12</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 13</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 13</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 13</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 14</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 14</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 14</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 15</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 15</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 15</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 16</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 16</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 16</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 17</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 17</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 17</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 18</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 18</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 18</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 19</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 19</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 19</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 20</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 20</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 20</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 21</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 21</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 21</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 22</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 22</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 22</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 23</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 23</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 23</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 24</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 24</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 24</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 25</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 25</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 25</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 26</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 26</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 26</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 27</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 27</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 27</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 28</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 28</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 28</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 29</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 29</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 29</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 30</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 30</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 30</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 31</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 31</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 31</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 32</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 32</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 32</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 33</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 33</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 33</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 34</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 34</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 34</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 35</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 35</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 35</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 36</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 36</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 36</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 37</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 37</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 37</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 38</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 38</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 38</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 39</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 39</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 39</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 40</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Lights40</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 40</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 41</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 41</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 41</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 42</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 42</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 42</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 43</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 43</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 43</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 44</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 44</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 44</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 45</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 45</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 45</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 46</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 46</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 46</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 47</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 47</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 47</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 48</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 48</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 48</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 49</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 49</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 49</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 50</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 50</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 50</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 51</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 51</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 51</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 52</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 52</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 52</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 53</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 53</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 53</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 54</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 54</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 54</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 55</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 55</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 55</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 56</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 56</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 56</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 57</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 57</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 57</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 58</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 58</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 58</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 59</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 59</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 59</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 60</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 60</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 60</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 61</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 61</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 61</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 62</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 62</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 62</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 63</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 63</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 63</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 64</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 64</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 64</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 65</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 65</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 65</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 66</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 66</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 66</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 67</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 67</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 67</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 68</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 68</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 68</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 69</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 69</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 69</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 70</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 70</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 70</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 71</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 71</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 71</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 72</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 72</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 72</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 73</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 73</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 73</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 74</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 74</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 74</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 75</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 75</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 75</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 76</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 76</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 76</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 77</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 77</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 77</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 78</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 78</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 78</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 79</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 79</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 79</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 80</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 80</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 80</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 81</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 81</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 81</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 82</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 82</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 82</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 83</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 83</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 83</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 84</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 84</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 84</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 85</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 85</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 85</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 86</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 86</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 86</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 87</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 87</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 87</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 88</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 88</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 88</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 89</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 89</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 89</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 90</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 90</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 90</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 91</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 91</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 91</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 92</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 92</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 92</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 93</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 93</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 93</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 94</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 94</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 94</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 95</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 95</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 95</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 96</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 96</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 96</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 97</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 97</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 97</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 98</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 98</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 98</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 99</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 99</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 99</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 100</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 100</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 100</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 101</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 101</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 101</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 102</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 102</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 102</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 103</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 103</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 103</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 104</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 104</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 104</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode>
+        <ch5-button-mode-state state='normal' iconclass='fas fa-play' type='secondary'>
+            <ch5-button-label>
+                <template>Mode Normal 105</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='pressed' type='warning' iconclass='fas fa-pause'>
+            <ch5-button-label>
+                <template>Mode Pressed 105</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state='selected' type='danger' iconclass='fas fa-stop-circle'>
+            <ch5-button-label>
+                <template>Mode Selected 105</template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+</ch5-button>
+
+<br />
+<br />
+<label>
+    Scroll slider to update mode on ch5 advanced button.
+</label>
+<br />
+<ch5-slider toolTipShowType="on" toolTipDisplayType="value" sendeventonchange="signal.sendeventonchange.signalOne" receivestatevalue="signal.receivestatemode.signalOne" min="0" max="145">
+</ch5-slider>

@@ -37,6 +37,18 @@
           "value": 1
         }
       ]
+    },
+    {
+      "type": "n",
+      "event": "signal.sendeventonchange.signalOne",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "signal.receivestatemode.signalOne",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
     }
   ]
 }

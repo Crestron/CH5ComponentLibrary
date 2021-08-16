@@ -227,7 +227,13 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 	private readonly selectedCssClassPostfix: string = '--selected';
 	private readonly iosCssClassPostfix: string = '--ios-vertical';
 
-	private readonly MAX_MODE_LENGTH: number = 99;
+	private readonly MODES: {
+		MIN_LENGTH: number,
+		MAX_LENGTH: number
+	} = {
+			MIN_LENGTH: 0,
+			MAX_LENGTH: 99
+		};
 	private readonly DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
 	//#endregion
@@ -541,14 +547,10 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			if (Number.isNaN(value)) {
 				this._mode = 0;
 			} else {
-				if (value >= this.getElementsByTagName("ch5-button-mode").length) {
-					this._mode = 0;
+				if (value >= this.MODES.MIN_LENGTH && value <= this.MODES.MAX_LENGTH) {
+					this._mode = value;
 				} else {
-					if (this.getElementsByTagName("ch5-button-mode").length > this.MAX_MODE_LENGTH) {
-						this._mode = this.MAX_MODE_LENGTH;
-					} else {
-						this._mode = value;
-					}
+					this._mode = 0;
 				}
 			}
 		}
@@ -2180,9 +2182,12 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 					}
 
 					const selectedButtonModeLabelButton = selectedButtonMode.getElementsByTagName("ch5-button-label");
-					if ((isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) && selectedButtonModeLabelButton && selectedButtonModeLabelButton.length > 0 &&
-						!isNil(selectedButtonModeLabelButton[0].children[0]) && isNil(extendedProperties.label)) {
-						extendedProperties.labelHtml = selectedButtonModeLabelButton[0].children[0].innerHTML as string;
+					if ((isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label) &&
+						selectedButtonModeLabelButton && selectedButtonModeLabelButton.length > 0)) {
+						const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(selectedButtonModeLabelButton).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === "ch5-button-mode");
+						if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
+							extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
+						}
 					}
 
 					this.logger.log("extendedProperties Mode: ", extendedProperties);
@@ -2221,8 +2226,15 @@ export class Ch5Button extends Ch5Common implements ICh5ButtonAttributes {
 			}
 			if (isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) {
 				const templateData = this.getElementsByTagName("ch5-button-label");
-				if (templateData && templateData.length > 0 && templateData[0].children) {
-					extendedProperties.labelHtml = templateData[0].children[0].innerHTML as string;
+				if (templateData && templateData.length > 0) {
+					const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(templateData).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === "ch5-button");
+					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
+						if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) {
+							extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
+						} else if (!isNil(this.getAttribute("label"))) {
+							extendedProperties.label = this.getAttribute("label") as string
+						}
+					}
 				} else if (!isNil(this.getAttribute("label"))) {
 					extendedProperties.label = this.getAttribute("label") as string
 				}
