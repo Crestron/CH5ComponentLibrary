@@ -10,6 +10,7 @@ import { ICh5StatesAtDefaultValueModel } from "./models/ch5-states-at-default-va
 import { ICh5ExcludePrefixesModel } from "./models/ch5-exclude-prefixes-model";
 import { ICh5ClearRangeDataModel } from "./models/ch5-clear-range-data-model";
 import { Ch5ResyncConstants } from "./models/ch5-resync-constants";
+import { Ch5Debug } from "../ch5-core";
 
 /**
  * Contains the business logic of the resynchronization with the Crestron Control System flows (single / multiple CCS)
@@ -23,6 +24,7 @@ export class Ch5Resync {
     private _inUpdateState: boolean = false;
     private readonly statesRef: any;
     private ch5SignalFactory = Ch5SignalFactory.getInstance();
+    private LOG_KEY = 'Ch5Resync';
 
     /**
      * Check if the state should be excluded from defaultStates
@@ -74,7 +76,7 @@ export class Ch5Resync {
      * Store the name of all _signals
      * @memberof Ch5Resync
      */
-    public onReceiveClearAll(excludeStatesWithThesePrefixes: ICh5ExcludePrefixesModel): void {
+    public onReceiveStartOfUpdate(excludeStatesWithThesePrefixes: ICh5ExcludePrefixesModel): void {
         this._inUpdateState = true;
         this.setDefaultStatesOnClearAll(excludeStatesWithThesePrefixes);
     }
@@ -85,7 +87,7 @@ export class Ch5Resync {
      * @param statesToReset
      * @param excludePrefixes
      */
-    public onReceiveClearRange(statesToReset: ICh5ClearRangeDataModel, excludePrefixes: string[]): void {
+    public onReceiveStartOfUpdateRange(statesToReset: ICh5ClearRangeDataModel, excludePrefixes: string[]): void {
         console.log("[ch5-resync] Received ClearRange");
         this._inUpdateState = true;
 
@@ -182,7 +184,8 @@ export class Ch5Resync {
                 for (const state in this.statesRef[key]) {
                     if (this.statesRef[key].hasOwnProperty(state)) {
                         const currentState = this.statesRef[key];
-                        if (Ch5Resync.checkIfStateShouldBeIncluded(excludeStatesWithThesePrefixes, currentState[state]._name)) {
+                        if (Ch5Resync.checkIfStateShouldBeIncluded(excludeStatesWithThesePrefixes, currentState[state]._name)
+                            && currentState[state].receivedFromSignalBridge) {
                             this._statesAtDefaultValue.push({
                                 name: currentState[state]._name,
                                 type: key
@@ -192,12 +195,18 @@ export class Ch5Resync {
                 }
             }
         }
+        if (Ch5Debug.shouldDisplay(this.LOG_KEY)) {
+            Ch5Debug.info(this.LOG_KEY, `Clear All:${JSON.stringify(this._statesAtDefaultValue)}`);
+        }
     }
 
     /**
      * Set remaining states to their corresponding default value based on their type
      */
     public setRemainingStatesToDefaultValue(): void {
+        if (Ch5Debug.shouldDisplay(this.LOG_KEY)) {
+            Ch5Debug.info(this.LOG_KEY, `End Of Update:${JSON.stringify(this._statesAtDefaultValue)}`);
+        }
         if (this._statesAtDefaultValue.length === 0) {
             return;
         }
@@ -206,16 +215,16 @@ export class Ch5Resync {
                 try {
                     switch (state.type) {
                         case 'boolean':
-                            this.statesRef[state.type][state.name].publish(false);
+                            this.statesRef[state.type][state.name].fromSignalBridge(false);
                             break;
                         case 'number':
-                            this.statesRef[state.type][state.name].publish(0);
+                            this.statesRef[state.type][state.name].fromSignalBridge(0);
                             break;
                         case 'string':
-                            this.statesRef[state.type][state.name].publish('');
+                            this.statesRef[state.type][state.name].fromSignalBridge('');
                             break;
                         case 'object':
-                            this.statesRef[state.type][state.name].publish({"rcb": {"value": 0, "time": 0}});
+                            this.statesRef[state.type][state.name].fromSignalBridge({"rcb": {"value": 0, "time": 0}});
                             break;
                         default:
                             break;
