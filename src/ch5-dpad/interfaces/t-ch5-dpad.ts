@@ -33,13 +33,20 @@ export type TCh5DpadButtonClassListType = {
 }
 
 export type TCh5DpadConstructorParam = {
-    compName: string,
     primaryTagClass: string,
     defaultIconClass: string,
     defaultArrowClass: string,
-    btnType: TCh5DpadChildBtnType,
-    primaryCssClass: string,
-    cssClassPrefix: string
+    btnType: TCh5DpadChildBtnType
 };
+
+/*
+compName: 'ch5-dpad-button-center',
+primaryTagClass: 'center',
+defaultIconClass: 'fa-caret-center',
+defaultArrowClass: 'direction-btn',
+btnType: 'center',
+primaryCssClass: 'ch5-dpad-button-center',
+cssClassPrefix: 'ch5-dpad-button-center'
+*/
 
 export type TCh5DpadChildBtnType = 'top' | 'bottom' | 'left' | 'right' | 'center';
