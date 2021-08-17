@@ -1,14 +1,14 @@
 # Creston CH5 Components Library - Developer Readme
- 
+
 ## Build Requirements
 
 - Node and npm versions:
-    - node v8.11.1 
-    - npm v5.6.0  ( npm is not being used, yarn is used instead )
-- Yarn v1.6.0 (https://yarnpkg.com/lang/en/docs/install)
+- node v8.11.1
+- npm v5.6.0  ( npm is not being used, yarn is used instead )
+- Yarn v1.6.0 ("https://yarnpkg.com/lang/en/docs/install")
 - Global packages:
-    - typescript 2.8.3
-    
+-- typescript 2.8.3
+
 ### Available yarn commands
 
 - yarn clean:build - removes the build_bundles folder
@@ -19,12 +19,12 @@
 - yarn clean:ci:dev - removes the build_bundles_dev folder
 - yarn compile:ts:cjs - uses the typescript (tsc) compiler to output compiled js files and typescript definition files to
 the compiled_bundles/cjs folder
-- yarn compile:ts:esm - uses the tsc compiler to output js files and typescript definition 
-files to the compiled_bundles/esm folder 
-- yarn compile:ts:umd  uses the tsc compiler to output js files and typescript definition 
-files to the compiled_bundles/umd folder 
-- yarn compile:ts:amd - uses the tsc compiler to output js files and typescript definition 
-files to the compiled_bundles/amd folder 
+- yarn compile:ts:esm - uses the tsc compiler to output js files and typescript definition  
+files to the compiled_bundles/esm folder
+- yarn compile:ts:umd  uses the tsc compiler to output js files and typescript definition  
+files to the compiled_bundles/umd folder
+- yarn compile:ts:amd - uses the tsc compiler to output js files and typescript definition  
+files to the compiled_bundles/amd folder
 - yarn build:dev - currently the same as yarn build:dev:umd with the addition the it clears the build_bundles folder first
 - yarn build:prod - currently the same as yarn build:prod:umd with the addition the it clears the build_bundles folder first
 - yarn build:dev:cjs - creates a development bundle in build_bundles/cjs
@@ -53,19 +53,19 @@ files to the compiled_bundles/amd folder
 - yarn doc:html - generates the html documentation in docs/html
 - yarn doc:json - generates the json documentation in docs/json
 - yarn doc - shortcut for clearing the docs folder and generating both the html and json documentation
-- yarn test:wct - starts http-server instance in the main folder and opens a browser window 
+- yarn test:wct - starts http-server instance in the main folder and opens a browser window  
 - yarn wct-xml-report - generates wct xml report in test-report.xml
 
 NOTES
-- currently the ES target for the library is set to ES6 instead of ES5 
 
+- currently the ES target for the library is set to ES6 instead of ES5.
 
 ## Running the tests from the wct_tests folder
 
-Make sure bower is installed 
+Make sure bower is installed
 ```bower --version```
 
-If not then install it 
+If not then install it
 ```npm -g install bower```
 
 Install the bower dependencies
@@ -77,7 +77,7 @@ Build the library
 Open a http-server
 ```yarn test:wct```
 
-Note the port and navigate to http://localhost:port/wct_tests
+Note the port and navigate to "http://localhost:port/wct_tests"
 
 ### Running the tests from the wct_tests folder and generating xml report
 
@@ -85,3 +85,8 @@ Make sure that you have Java installed and available on your PATH
 
 Start Selenium and build report
 ```yarn wct:xml-report```
+
+### Generic dev reference
+
+A custom element must always have a closing tag to render. A simple "< custom-element/>" won't suffice. It should consist the closing tag too "< custom-element><//custom-element>".
+"https://stackoverflow.com/questions/23961178/do-custom-elements-require-a-close-tag?answertab=active#tab-top"
