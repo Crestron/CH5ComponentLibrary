@@ -11,10 +11,10 @@ export class CH5DpadContractUtils {
     };
 
     public static readonly contractSuffix = {
-        top: '.Top',
-        bottom: '.Bottom',
-        left: '.Left',
-        right: '.Right',
-        center: '.Center'
+        top: 'Up',
+        bottom: 'Down',
+        left: 'Left',
+        right: 'Right',
+        center: 'Center'
     }
 }

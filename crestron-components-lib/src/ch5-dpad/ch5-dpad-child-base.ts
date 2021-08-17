@@ -23,23 +23,24 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
     //#endregion
 
-    //#region 1.2 private / protected variables
-    private COMPONENT_NAME: string = "";
-    private readonly CSS_CLASS_LIST: TCh5DpadButtonClassListType = {
+    //#region 1.2 protected / protected variables
+    protected COMPONENT_NAME: string = "";
+    protected componentPrefix: string = 'ch5-dpad-button-';
+    protected readonly CSS_CLASS_LIST: TCh5DpadButtonClassListType = {
         commonBtnClass: 'ch5-dpad-child',
-        primaryTagClass: '',
         primaryIconClass: 'fas',
-        defaultIconClass: '',
         imageClassName: 'image-url',
+        primaryTagClass: '',
+        defaultIconClass: '',
         defaultArrowClass: ''
     };
 
-    // private setter getter specific vars
-    // private _disabled: boolean = true; // not required as its in common.ts
-    // private _show: boolean = true; // not required as its in common.ts
-    private _iconClass: string = '';
-    private _iconUrl: string = '';
-    private _sendEventOnClick: string = '';
+    // protected setter getter specific vars
+    // protected _disabled: boolean = true; // not required as its in common.ts
+    // protected _show: boolean = true; // not required as its in common.ts
+    protected _iconClass: string = '';
+    protected _iconUrl: string = '';
+    protected _sendEventOnClick: string = '';
 
     // signal based vars for each receive state
 
@@ -47,42 +48,42 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 
     // elements specific vars
-    private _icon: HTMLElement = {} as HTMLElement;
+    protected _icon: HTMLElement = {} as HTMLElement;
 
     // state specific vars
-    private buttonType: TCh5DpadChildBtnType | null = null;
-    private isTouch: boolean = false;
-    private allowPress: boolean = true;
-    private allowPressTimeout: number = 0;
+    protected buttonType: TCh5DpadChildBtnType | null = null;
+    protected isTouch: boolean = false;
+    protected allowPress: boolean = true;
+    protected allowPressTimeout: number = 0;
     // The interval id ( from setInterval ) for reenforcing the  onTouch signal
     // This id allow canceling the interval.
-    private _intervalIdForRepeatDigital: number | null = null;
+    protected _intervalIdForRepeatDigital: number | null = null;
     // this is last tap time used to determine if should send click pulse in focus event 
-    private _lastTapTime: number = 0;
-    private _pressable: Ch5Pressable | null = null;
-    private _hammerManager: HammerManager = {} as HammerManager;
+    protected _lastTapTime: number = 0;
+    protected _pressable: Ch5Pressable | null = null;
+    protected _hammerManager: HammerManager = {} as HammerManager;
     // Time after that press will be triggered
-    private _pressTimeout: number = 0;
+    protected _pressTimeout: number = 0;
     // State of the button ( pressed or not )
-    private _pressed: boolean = false;
-    private _buttonPressed: boolean = false;
-    private _buttonPressedInPressable: boolean = false;
-    private _pressableIsPressedSubscription: Subscription | null = null;
+    protected _pressed: boolean = false;
+    protected _buttonPressed: boolean = false;
+    protected _buttonPressedInPressable: boolean = false;
+    protected _pressableIsPressedSubscription: Subscription | null = null;
     // This variable ensures that the first time load on a project happens without debounce and buttons do not appear blank.
-    private isButtonInitated: boolean = false;
+    protected isButtonInitated: boolean = false;
 
-    private readonly TOUCH_TIMEOUT: number = 250;
-    private readonly DEBOUNCE_PRESS_TIME: number = 200;
-    private readonly PRESS_MOVE_THRESHOLD: number = 10;
-    private readonly STATE_CHANGE_TIMEOUTS: number = 500;
+    protected readonly TOUCH_TIMEOUT: number = 250;
+    protected readonly DEBOUNCE_PRESS_TIME: number = 200;
+    protected readonly PRESS_MOVE_THRESHOLD: number = 10;
+    protected readonly STATE_CHANGE_TIMEOUTS: number = 500;
 
-    private readonly MAX_MODE_LENGTH: number = 99;
-    private readonly DEBOUNCE_BUTTON_DISPLAY: number = 25;
+    protected readonly MAX_MODE_LENGTH: number = 99;
+    protected readonly DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
-    private _pressHorizontalStartingPoint: number | null = null;
-    private _pressVerticalStartingPoint: number | null = null;
+    protected _pressHorizontalStartingPoint: number | null = null;
+    protected _pressVerticalStartingPoint: number | null = null;
 
-    private debounceSetButtonDisplay = this.debounce(() => {
+    protected debounceSetButtonDisplay = this.debounce(() => {
         this.setButtonDisplayDetails();
     }, this.DEBOUNCE_BUTTON_DISPLAY);
 
@@ -90,7 +91,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
      * Information about start and end position
      * Including the threshold of px for valid presses
      */
-    private _pressInfo: Ch5ButtonPressInfo = {} as Ch5ButtonPressInfo;
+    protected _pressInfo: Ch5ButtonPressInfo = {} as Ch5ButtonPressInfo;
 
     //#endregion
 
@@ -163,17 +164,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
      */
     public set sendEventOnClick(value: string) {
         this.logger.start('set sendEventOnClick("' + value + '")');
-
-        if (_.isNil(value)) {
-            value = '';
+        if ((value !== '') && (value !== this._sendEventOnClick)) {
+            this._sendEventOnClick = value;
+            this.setAttribute('sendEventOnClick'.toLowerCase(), value);
         }
-
-        if (value === this.sendEventOnClick) {
-            return;
-        }
-
-        this._sendEventOnClick = value;
-        this.setAttribute('sendEventOnClick'.toLowerCase(), value);
     }
     public get sendEventOnClick() {
         return this._sendEventOnClick;
@@ -275,12 +269,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     protected initializeParams(params: TCh5DpadConstructorParam) {
-        this.COMPONENT_NAME = params.compName;
-        this.CSS_CLASS_LIST.primaryTagClass = params.primaryTagClass;
+        this.buttonType = params.btnType;
+        this.COMPONENT_NAME = this.componentPrefix + params.btnType;
+        this.CSS_CLASS_LIST.primaryTagClass = params.btnType;
         this.CSS_CLASS_LIST.defaultIconClass = params.defaultIconClass;
         this.CSS_CLASS_LIST.defaultArrowClass = params.defaultArrowClass;
-        this.primaryCssClass = params.primaryCssClass;
-        this.cssClassPrefix = params.cssClassPrefix;
+        this.primaryCssClass = this.componentPrefix + params.btnType;
+        this.cssClassPrefix = this.componentPrefix + params.btnType;
     }
 
     /**
@@ -320,7 +315,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     /**
      * Function to create HTML elements of the components including child elements
      */
-    private createElementsAndInitialize() {
+    protected createElementsAndInitialize() {
         if (!this._wasInstatiated) {
             CH5DpadUtils.createIconTag(this);
 
@@ -493,7 +488,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             const parentContractName: string = CH5DpadUtils.getAttributeAsString(ele, 'contractname', '');
             const parentContractEvent: string = CH5DpadUtils.getAttributeAsString(ele, 'sendeventonclickstart', '');
             if (parentContractName.length > 0) {
-                const joinValue = parentContractName + CH5DpadContractUtils.contractSuffix[btnType];
+                const joinValue = parentContractName + '.' + CH5DpadContractUtils.contractSuffix[btnType];
                 this.sendEventOnClick = joinValue.toString();
             } else if (parentContractEvent.length > 0) {
                 const joinValue = parseInt(parentContractEvent, 10) +
@@ -543,13 +538,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
      * Called when pressed class will be available
      * @param pressedClass is class name. it will add after press the ch5 button
      */
-    private updatePressedClass(pressedClass: string) {
+    protected updatePressedClass(pressedClass: string) {
         this._pressable = new Ch5Pressable(this, {
             cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
             cssPressedClass: pressedClass
         });
     }
-    private bindEventListenersToThis(): void {
+    protected bindEventListenersToThis(): void {
         this._onTap = this._onTap.bind(this);
         this._onPressClick = this._onPressClick.bind(this);
         this._onMouseUp = this._onMouseUp.bind(this);
@@ -564,7 +559,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         this._onBlur = this._onBlur.bind(this);
     }
 
-    private sendValueForRepeatDigital(value: boolean): void {
+    protected sendValueForRepeatDigital(value: boolean): void {
         if (!this._sendEventOnClick) { return; }
 
         const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance().getObjectAsBooleanSignal(this._sendEventOnClick);
@@ -577,7 +572,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     /**
      * Sends the signal passed via sendEventOnClick or sendEventOnTouch
      */
-    private _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
+    protected _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
         let sigClick: Ch5Signal<boolean> | null = null;
         if (this._sendEventOnClick) {
             sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sendEventOnClick);
@@ -593,7 +588,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         }
     }
 
-    private stopRepeatDigital() {
+    protected stopRepeatDigital() {
         this.logger.log("stopRepeatDigital", this._intervalIdForRepeatDigital);
         if (this._intervalIdForRepeatDigital) {
             window.clearInterval(this._intervalIdForRepeatDigital);
@@ -613,7 +608,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
      *
      * @return {Promise}
      */
-    private pressHandler(): Promise<boolean> {
+    protected pressHandler(): Promise<boolean> {
         const pressHandler = () => {
             this.logger.log("Ch5Button._onPress()");
             this._pressed = true;
@@ -629,26 +624,26 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         return pressPromise;
     }
 
-    private cancelPress() {
+    protected cancelPress() {
         window.clearTimeout(this._pressTimeout);
         this._pressed = false;
     }
 
-    private reactivatePress(): void {
+    protected reactivatePress(): void {
         clearTimeout(this.allowPressTimeout);
         this.allowPressTimeout = setTimeout(() => {
             this.allowPress = true;
         }, this.DEBOUNCE_PRESS_TIME) as never as number;
     }
 
-    private isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
+    protected isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
         const startingPoint: number = x2 - x1;
         const endingPoint: number = y2 - y1;
         const distance: number = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
         return distance > this.PRESS_MOVE_THRESHOLD;
     }
 
-    private _subscribeToPressableIsPressed() {
+    protected _subscribeToPressableIsPressed() {
         if (this._pressableIsPressedSubscription === null && this._pressable !== null) {
             this._pressableIsPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
                 if (value !== this._buttonPressedInPressable) {
@@ -664,7 +659,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             });
         }
     }
-    private _unsubscribeFromPressableIsPressed() {
+    protected _unsubscribeFromPressableIsPressed() {
         if (this._pressableIsPressedSubscription !== null) {
             this._pressableIsPressedSubscription.unsubscribe();
             this._pressableIsPressedSubscription = null;
@@ -689,7 +684,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         }
     }
 
-    private setButtonDisplayDetails() {
+    protected setButtonDisplayDetails() {
         this.logger.start("setButtonDisplayDetails");
         this.logger.stop();
     }
@@ -699,13 +694,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
     //#region 5. Events - event binding
 
-    private _onTap(): void {
+    protected _onTap(): void {
         this.logger.start(this.COMPONENT_NAME, "- _onTap");
         this._onTapAction();
         this.logger.stop();
     }
 
-    private _onTapAction() {
+    protected _onTapAction() {
         this.logger.start(this.COMPONENT_NAME, "- _onTapAction");
         if (null !== this._intervalIdForRepeatDigital) {
             window.clearInterval(this._intervalIdForRepeatDigital);
@@ -717,7 +712,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         this.logger.stop();
     }
 
-    private async _onPressClick(event: MouseEvent) {
+    protected async _onPressClick(event: MouseEvent) {
         this.logger.start(this.COMPONENT_NAME, "- _onPressClick");
         if (this.isTouch) {
             return;
@@ -740,7 +735,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         this.logger.stop();
     }
 
-    private _onMouseUp() {
+    protected _onMouseUp() {
         this.logger.start("_onMouseUp");
         if (this.isTouch) {
             ((btnObj) => {
@@ -772,7 +767,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         this.logger.stop();
     }
 
-    private _onMouseMove(event: MouseEvent) {
+    protected _onMouseMove(event: MouseEvent) {
         // this.logger.start("_onMouseMove");
         if (!this.isTouch
             && this._intervalIdForRepeatDigital
@@ -789,7 +784,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         // this.logger.stop();
     }
 
-    private async _onPress(event: TouchEvent) {
+    protected async _onPress(event: TouchEvent) {
         this.logger.start("_onPress");
         const normalizedEvent = normalizeEvent(event);
         this.isTouch = true;
@@ -806,14 +801,14 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         this.stopRepeatDigital();
     }
 
-    private _onLeave() {
+    protected _onLeave() {
         this.logger.start("_onPressUp");
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
-    private _onPressUp(): void {
+    protected _onPressUp(): void {
         this.logger.start("_onPressUp");
         window.clearTimeout(this._pressTimeout);
         this.reactivatePress();
@@ -830,7 +825,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         }
     }
 
-    private _onTouchMove(event: TouchEvent) {
+    protected _onTouchMove(event: TouchEvent) {
         this.logger.start("_onTouchMove");
         // The event must be cancelable
         if (event.cancelable) {
@@ -854,21 +849,21 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         }
     }
 
-    private _onTouchEnd(inEvent: Event): void {
+    protected _onTouchEnd(inEvent: Event): void {
         this.logger.start("_onTouchEnd");
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
-    private _onTouchCancel(inEvent: Event): void {
+    protected _onTouchCancel(inEvent: Event): void {
         this.logger.start("_onTouchCancel");
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
-    private _onFocus(inEvent: Event): void {
+    protected _onFocus(inEvent: Event): void {
         this.logger.start("_onFocus");
         let clonedEvent: Event;
         clonedEvent = new Event(inEvent.type, inEvent);
@@ -878,7 +873,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         inEvent.stopPropagation();
     }
 
-    private _onBlur(inEvent: Event): void {
+    protected _onBlur(inEvent: Event): void {
         this.logger.start("_onBlur");
         let clonedEvent: Event;
 

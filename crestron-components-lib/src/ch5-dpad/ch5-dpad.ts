@@ -1088,27 +1088,27 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         if (contractName.length > 0) {
             const centerBtn = this.getElementsByTagName("ch5-dpad-button-center")[0];
             if (!_.isNil(centerBtn)) {
-                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.center;
+                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.center;
                 centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
             const topBtn = this.getElementsByTagName("ch5-dpad-button-top")[0];
             if (!_.isNil(topBtn)) {
-                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.top;
+                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.top;
                 topBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
             const rightBtn = this.getElementsByTagName("ch5-dpad-button-right")[0];
             if (!_.isNil(rightBtn)) {
-                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.right;
+                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.right;
                 rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
             const bottomBtn = this.getElementsByTagName("ch5-dpad-button-bottom")[0];
             if (!_.isNil(bottomBtn)) {
-                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.bottom;
+                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.bottom;
                 bottomBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
             const leftBtn = this.getElementsByTagName("ch5-dpad-button-left")[0];
             if (!_.isNil(leftBtn)) {
-                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.left;
+                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.left;
                 leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
         }
