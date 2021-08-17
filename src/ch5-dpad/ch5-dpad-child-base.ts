@@ -285,7 +285,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     public connectedCallback() {
         this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
-        this.setAttribute('data-ch5-id', this.getCrId());
+        if (!this.parentElement ||
+            (this.parentElement && this.parentElement instanceof Ch5Dpad)) {
+            // user created DOM structure brings the code here
+            // can be ignored on this run, since its restructured under dpad
+            // and will be rendered correctly skipping this step
+            return;
+        }
 
         if (this.parentElement &&
             this.parentElement.parentElement &&
@@ -294,6 +300,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             Please ensure the parent tag is ch5-dpad, and other mandatory sibling 
             elements are available too.`);
         }
+
+        this.setAttribute('data-ch5-id', this.getCrId());
 
         // init pressable before initAttributes because pressable subscribe to gestureable attribute
         if (!_.isNil(this._pressable)) {
@@ -379,7 +387,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     public removeEventListeners() {
-        this._hammerManager.off('tap', this._onTap);
+        if (!!this._hammerManager && !!this._hammerManager.off) {
+            this._hammerManager.off('tap', this._onTap);
+        }
         this.removeEventListener('mousedown', this._onPressClick);
         this.removeEventListener('mouseup', this._onMouseUp);
         this.removeEventListener('mousemove', this._onMouseMove);
