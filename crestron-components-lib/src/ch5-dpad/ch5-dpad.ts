@@ -112,23 +112,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.logger.start('set shape ("' + value + '")');
         CH5DpadUtils.setAttributeValueOnControl(this, 'shape', value, Ch5Dpad.SHAPES,
             () => {
-                this.removeDuplicateChildElements();
+                this.checkAndRestructureDomOfDpad();
                 this.updateCssClasses();
-            });
-
-        // if (value !== this._shape) {
-        //     if (Ch5Dpad.SHAPES.indexOf(value) >= 0) {
-        //         this._shape = value;
-        //     } else {
-        //         this._shape = Ch5Dpad.SHAPES[0];
-        //     }
-        //     this.setAttribute('shape', this._shape);
-        //     // if (this._shapePrevVal !== null) {
-        //     // }
-        //     this.removeDuplicateChildElements();
-        //     this.updateCssClasses();
-        //     this._shapePrevVal = this._shape;
-        // }
+            }
+        );
         this.logger.stop();
     }
     public get shape(): TCh5DpadShape {
@@ -141,7 +128,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public set stretch(value: TCh5DpadStretch | null) {
         this.logger.start('set stretch ("' + value + '")');
         if (value !== null) {
-            CH5DpadUtils.setAttributeValueOnControl(this, 'stretch', value, Ch5Dpad.STRETCHES,
+            const stretches = ['', ...Ch5Dpad.STRETCHES];
+            CH5DpadUtils.setAttributeValueOnControl(this, 'stretch', value, stretches,
                 this.stretchHandler.bind(this));
         }
         this.logger.stop();
@@ -959,7 +947,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             // nothing to do, all buttons will be appended as required
             return;
         } else if (this.children.length === 1 &&
-            this.children[0].tagName === 'div' &&
+            this.children[0].tagName.toLowerCase() === 'div' &&
             this.children[0].classList.contains(this.containerClass)) {
             this.removeDuplicateChildElements(this.children[0], true);
         } else {
@@ -1120,15 +1108,16 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         let dimensionVal = Math.min(parseInt(dpadHeight.replace(/\D/g, ''), 10), parseInt(dpadWidth.replace(/\D/g, ''), 10));
         let justifyContent = 'start';
         let alignItems = 'start';
-        // ['', 'both', 'width', 'height'];
-        if (this.stretch === Ch5Dpad.STRETCHES[0]) { // ''
+        if (!!this.stretch && this.stretch.length === 0) {
             dimensionVal = 0;
-        } else if (this.stretch === Ch5Dpad.STRETCHES[1]) { // 'both'
+        } else if (this.stretch === Ch5Dpad.STRETCHES[0]) { // 'both'
             justifyContent = 'center';
             alignItems = 'center';
-        } else if (this.stretch === Ch5Dpad.STRETCHES[2]) { // 'width'
+        } else if (this.stretch === Ch5Dpad.STRETCHES[1]) { // 'width'
             justifyContent = 'center';
-        } else if (this.stretch === Ch5Dpad.STRETCHES[3]) { // 'height'
+            alignItems = 'start';
+        } else if (this.stretch === Ch5Dpad.STRETCHES[2]) { // 'height'
+            justifyContent = 'start';
             alignItems = 'center';
         } else {
             // just like first one
