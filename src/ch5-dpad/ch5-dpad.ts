@@ -186,7 +186,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             return;
         }
 
-        this.setAttribute('usecontractforcustomstyle', isUseContractforEnable.toString());
+        this.setAttribute('useContractforEnable'.toLowerCase(), isUseContractforEnable.toString());
         this._useContractForCustomClass = isUseContractforEnable;
         const sigVal = contractName + ".Enable";
 
@@ -222,7 +222,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             return;
         }
 
-        this.setAttribute('useContractForShow', isUseContractForShow.toString());
+        this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
         const sigVal = contractName + ".Show";
 
         const params: TCh5CreateReceiveStateSigParams = {
@@ -253,7 +253,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         const isUseContractForCustomStyle = this.toBoolean(value);
         const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
 
-        if (contractName.length === 0 || this._useContractForShow === isUseContractForCustomStyle) {
+        if (contractName.length === 0 || this._useContractForCustomStyle === isUseContractForCustomStyle) {
             return;
         }
 
@@ -289,11 +289,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         const isUuseContractForCustomClass = this.toBoolean(value);
         const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
 
-        if (contractName.length === 0 || this._useContractForShow === isUuseContractForCustomClass) {
+        if (contractName.length === 0 || this._useContractForCustomClass === isUuseContractForCustomClass) {
             return;
         }
 
-        this.setAttribute('usecontractforcustomclass', isUuseContractForCustomClass.toString());
+        this.setAttribute('useContractForCustomClass'.toLowerCase(), isUuseContractForCustomClass.toString());
         this._useContractForCustomClass = isUuseContractForCustomClass;
         const sigVal = contractName + ".CustomClass";
 

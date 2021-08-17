@@ -31,3 +31,15 @@ export type TCh5DpadButtonClassListType = {
     imageClassName: string,
     defaultArrowClass: string
 }
+
+export type TCh5DpadConstructorParam = {
+    compName: string,
+    primaryTagClass: string,
+    defaultIconClass: string,
+    defaultArrowClass: string,
+    btnType: TCh5DpadChildBtnType,
+    primaryCssClass: string,
+    cssClassPrefix: string
+};
+
+export type TCh5DpadChildBtnType = 'top' | 'bottom' | 'left' | 'right' | 'center';
