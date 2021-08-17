@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { Subscription } from "rxjs";
 import { Ch5ButtonPressInfo } from "../ch5-button/ch5-button-pressinfo";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
@@ -18,6 +19,7 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     //#region 1.1 readonly variables
     public readonly primaryCssClass = 'ch5-dpad-button-right';
     public readonly cssClassPrefix = 'ch5-dpad-button-right';
+    public readonly pressedCssClassPostfix = '-pressed';
 
     //#endregion
 
@@ -64,14 +66,24 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     private _pressed: boolean = false;
     private _buttonPressed: boolean = false;
     private _buttonPressedInPressable: boolean = false;
+    private _pressableIsPressedSubscription: Subscription | null = null;
+    // This variable ensures that the first time load on a project happens without debounce and buttons do not appear blank.
+    private isButtonInitated: boolean = false;
 
     private readonly TOUCH_TIMEOUT: number = 250;
     private readonly DEBOUNCE_PRESS_TIME: number = 200;
     private readonly PRESS_MOVE_THRESHOLD: number = 10;
     private readonly STATE_CHANGE_TIMEOUTS: number = 500;
 
+    private readonly MAX_MODE_LENGTH: number = 99;
+    private readonly DEBOUNCE_BUTTON_DISPLAY: number = 25;
+
     private _pressHorizontalStartingPoint: number | null = null;
     private _pressVerticalStartingPoint: number | null = null;
+
+    private debounceSetButtonDisplay = this.debounce(() => {
+        this.setButtonDisplayDetails();
+    }, this.DEBOUNCE_BUTTON_DISPLAY);
 
     /**
      * Information about start and end position
@@ -255,6 +267,7 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
 
         // events binding
         this.bindEventListenersToThis();
+        this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 
         this.logger.stop();
     }
@@ -275,6 +288,14 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
             Please ensure the parent tag is ch5-dpad, and other mandatory sibling 
             elements are available too.`);
         }
+
+        // init pressable before initAttributes because pressable subscribe to gestureable attribute
+        if (!_.isNil(this._pressable)) {
+            this._pressable.init();
+            this._subscribeToPressableIsPressed();
+        }
+
+        this._hammerManager = new Hammer(this);
 
         // will have the flags ready for contract level content to be ready
         this.createElementsAndInitialize();
@@ -340,6 +361,11 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
      */
     public disconnectedCallback() {
         this.removeEventListeners();
+
+        // destroy pressable
+        if (null !== this._pressable) {
+            this._pressable.destroy();
+        }
         // this.unsubscribeFromSignals();
 
         // disconnect common mutation observer
@@ -347,6 +373,7 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     }
 
     public removeEventListeners() {
+        this._hammerManager.off('tap', this._onTap);
         this.removeEventListener('mousedown', this._onPressClick);
         this.removeEventListener('mouseup', this._onMouseUp);
         this.removeEventListener('mousemove', this._onMouseMove);
@@ -499,6 +526,17 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     //#endregion
 
     //#region 4. Other Methods
+
+    /**
+     * Called when pressed class will be available
+     * @param pressedClass is class name. it will add after press the ch5 button
+     */
+    private updatePressedClass(pressedClass: string) {
+        this._pressable = new Ch5Pressable(this, {
+            cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
+            cssPressedClass: pressedClass
+        });
+    }
     private bindEventListenersToThis(): void {
         this._onTap = this._onTap.bind(this);
         this._onPressClick = this._onPressClick.bind(this);
@@ -598,17 +636,65 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
         return distance > this.PRESS_MOVE_THRESHOLD;
     }
 
+    private _subscribeToPressableIsPressed() {
+        if (this._pressableIsPressedSubscription === null && this._pressable !== null) {
+            this._pressableIsPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
+                if (value !== this._buttonPressedInPressable) {
+                    this._buttonPressedInPressable = value;
+                    if (value === false) {
+                        setTimeout(() => {
+                            this.setButtonDisplay();
+                        }, this.STATE_CHANGE_TIMEOUTS);
+                    } else {
+                        this.setButtonDisplay();
+                    }
+                }
+            });
+        }
+    }
+    private _unsubscribeFromPressableIsPressed() {
+        if (this._pressableIsPressedSubscription !== null) {
+            this._pressableIsPressedSubscription.unsubscribe();
+            this._pressableIsPressedSubscription = null;
+        }
+    }
+    /**
+     * If type node is updated via html or js or signal, the change set attribue of type;
+     * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
+     * if receivestate is false, then
+     * if mode attribute is updated, always call this method, and update all attributes 
+     * @param fromNode 
+     * @param isModeAttributeUpdated 
+     * @param attibuteName 
+     */
+    public setButtonDisplay() {
+        if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {
+            this.setButtonDisplayDetails();
+        } else if (this.isButtonInitated === false) {
+            this.setButtonDisplayDetails();
+        } else {
+            this.debounceSetButtonDisplay();
+        }
+    }
+
+    private setButtonDisplayDetails() {
+        this.logger.start("setButtonDisplayDetails");
+        this.logger.stop();
+    }
+
     //#endregion
 
 
     //#region 5. Events - event binding
 
     private _onTap(): void {
-        this.logger.log('_onTap()');
+        this.logger.start(this.COMPONENT_NAME, "- _onTap");
         this._onTapAction();
+        this.logger.stop();
     }
 
     private _onTapAction() {
+        this.logger.start(this.COMPONENT_NAME, "- _onTapAction");
         if (null !== this._intervalIdForRepeatDigital) {
             window.clearInterval(this._intervalIdForRepeatDigital);
             this.sendValueForRepeatDigital(false);
@@ -616,10 +702,11 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
         } else {
             this._sendOnClickSignal(false, false);
         }
+        this.logger.stop();
     }
 
     private async _onPressClick(event: MouseEvent) {
-        this.logger.start(this.COMPONENT_NAME, "- _onPressClick - ");
+        this.logger.start(this.COMPONENT_NAME, "- _onPressClick");
         if (this.isTouch) {
             return;
         }
@@ -638,10 +725,11 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
 
         this.allowPress = false;
         this.stopRepeatDigital();
+        this.logger.stop();
     }
 
     private _onMouseUp() {
-        this.logger.start("_onMouseUp - ");
+        this.logger.start("_onMouseUp");
         if (this.isTouch) {
             ((btnObj) => {
                 setTimeout(() => {
@@ -669,10 +757,11 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
             // sometimes a both click and press can happen on iOS/iPadOS, don't publish both
             this.logger.log('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
         }
+        this.logger.stop();
     }
 
     private _onMouseMove(event: MouseEvent) {
-        this.logger.start("_onMouseMove - ");
+        // this.logger.start("_onMouseMove");
         if (!this.isTouch
             && this._intervalIdForRepeatDigital
             && this._pressHorizontalStartingPoint
@@ -685,10 +774,11 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
         ) {
             this.stopRepeatDigital();
         }
+        // this.logger.stop();
     }
 
     private async _onPress(event: TouchEvent) {
-        this.logger.start("_onPress - ");
+        this.logger.start("_onPress");
         const normalizedEvent = normalizeEvent(event);
         this.isTouch = true;
         clearTimeout(this.allowPressTimeout);
@@ -705,14 +795,14 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     }
 
     private _onLeave() {
-        this.logger.start("_onPressUp - ");
+        this.logger.start("_onPressUp");
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
     private _onPressUp(): void {
-        this.logger.start("_onPressUp - ");
+        this.logger.start("_onPressUp");
         window.clearTimeout(this._pressTimeout);
         this.reactivatePress();
         if (this._pressed) {
@@ -729,7 +819,7 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     }
 
     private _onTouchMove(event: TouchEvent) {
-        this.logger.start("_onTouchMove - ");
+        this.logger.start("_onTouchMove");
         // The event must be cancelable
         if (event.cancelable) {
             event.preventDefault();
@@ -753,21 +843,21 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     }
 
     private _onTouchEnd(inEvent: Event): void {
-        this.logger.start("_onTouchEnd - ");
+        this.logger.start("_onTouchEnd");
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
     private _onTouchCancel(inEvent: Event): void {
-        this.logger.start("_onTouchCancel - ");
+        this.logger.start("_onTouchCancel");
         if (this._intervalIdForRepeatDigital) {
             this.stopRepeatDigital();
         }
     }
 
     private _onFocus(inEvent: Event): void {
-        this.logger.start("_onFocus - ");
+        this.logger.start("_onFocus");
         let clonedEvent: Event;
         clonedEvent = new Event(inEvent.type, inEvent);
         this.dispatchEvent(clonedEvent);
@@ -777,7 +867,7 @@ export class Ch5DpadRight extends Ch5Common implements ICh5DpadRightAttributes {
     }
 
     private _onBlur(inEvent: Event): void {
-        this.logger.start("_onBlur - ");
+        this.logger.start("_onBlur");
         let clonedEvent: Event;
 
         this.reactivatePress();

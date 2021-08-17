@@ -9,30 +9,29 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Dpad } from "./ch5-dpad";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
-import { ICh5DpadCenterAttributes } from "./interfaces/i-ch5-dpad-button-center-interfaces";
-import { TCh5DpadButtonClassListType } from "./interfaces/t-ch5-dpad";
+import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base";
+import { TCh5DpadButtonClassListType, TCh5DpadChildBtnType, TCh5DpadConstructorParam } from "./interfaces/t-ch5-dpad";
 
-export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes {
+export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttributes {
 
     //#region 1. Variables
 
     //#region 1.1 readonly variables
-    public readonly primaryCssClass = 'ch5-dpad-button-center';
-    public readonly cssClassPrefix = 'ch5-dpad-button-center';
+    public primaryCssClass = '';
+    public cssClassPrefix = '';
     public readonly pressedCssClassPostfix = '-pressed';
 
     //#endregion
 
     //#region 1.2 private / protected variables
-    private COMPONENT_NAME: string = "ch5-dpad-button-center";
-    private labelClass: string = 'dpad-btn-label';
+    private COMPONENT_NAME: string = "";
     private readonly CSS_CLASS_LIST: TCh5DpadButtonClassListType = {
         commonBtnClass: 'ch5-dpad-child',
-        primaryTagClass: 'center',
+        primaryTagClass: '',
         primaryIconClass: 'fas',
-        defaultIconClass: 'fa-circle',
+        defaultIconClass: '',
         imageClassName: 'image-url',
-        defaultArrowClass: '' // not required for center button only
+        defaultArrowClass: ''
     };
 
     // private setter getter specific vars
@@ -40,7 +39,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     // private _show: boolean = true; // not required as its in common.ts
     private _iconClass: string = '';
     private _iconUrl: string = '';
-    private _label: string = '';
     private _sendEventOnClick: string = '';
 
     // signal based vars for each receive state
@@ -52,6 +50,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     private _icon: HTMLElement = {} as HTMLElement;
 
     // state specific vars
+    private buttonType: TCh5DpadChildBtnType | null = null;
     private isTouch: boolean = false;
     private allowPress: boolean = true;
     private allowPressTimeout: number = 0;
@@ -76,6 +75,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     private readonly DEBOUNCE_PRESS_TIME: number = 200;
     private readonly PRESS_MOVE_THRESHOLD: number = 10;
     private readonly STATE_CHANGE_TIMEOUTS: number = 500;
+
     private readonly MAX_MODE_LENGTH: number = 99;
     private readonly DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
@@ -156,27 +156,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
     public get iconUrl() {
         return this._iconUrl;
-    }
-
-    /**
-     * label specif getter-setter
-     */
-    public set label(value: string) {
-        this.logger.start('set label("' + value + '")');
-
-        if (_.isNil(value)) {
-            value = '';
-        }
-
-        if (value === this.label) {
-            return;
-        }
-
-        this._label = value;
-        this.setAttribute('label', value);
-    }
-    public get label() {
-        return this._label;
     }
 
     /**
@@ -281,9 +260,10 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
 
     //#region 3. Lifecycle Hooks
 
-    public constructor() {
+    public constructor(params: TCh5DpadConstructorParam) {
         super();
         this.logger.start('constructor()', this.COMPONENT_NAME);
+        this.initializeParams(params);
 
         CH5DpadUtils.clearComponentContent(this);
 
@@ -292,6 +272,15 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 
         this.logger.stop();
+    }
+
+    protected initializeParams(params: TCh5DpadConstructorParam) {
+        this.COMPONENT_NAME = params.compName;
+        this.CSS_CLASS_LIST.primaryTagClass = params.primaryTagClass;
+        this.CSS_CLASS_LIST.defaultIconClass = params.defaultIconClass;
+        this.CSS_CLASS_LIST.defaultArrowClass = params.defaultArrowClass;
+        this.primaryCssClass = params.primaryCssClass;
+        this.cssClassPrefix = params.cssClassPrefix;
     }
 
     /**
@@ -306,10 +295,11 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         if (this.parentElement &&
             this.parentElement.parentElement &&
             !(this.parentElement.parentElement instanceof Ch5Dpad)) {
-            throw new Error(`Invalid parent element for ch5-dpad-button-center. 
+            throw new Error(`Invalid parent element for ch5-dpad-button-${this.buttonType}. 
             Please ensure the parent tag is ch5-dpad, and other mandatory sibling 
             elements are available too.`);
         }
+
         // init pressable before initAttributes because pressable subscribe to gestureable attribute
         if (!_.isNil(this._pressable)) {
             this._pressable.init();
@@ -321,7 +311,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         // will have the flags ready for contract level content to be ready
         this.createElementsAndInitialize();
 
-        customElements.whenDefined('ch5-dpad-button-center').then(() => {
+        customElements.whenDefined(`ch5-dpad-button-${this.buttonType}`).then(() => {
             this.initCommonMutationObserver(this);
             this.logger.stop();
         });
@@ -343,33 +333,30 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     /**
-     * Function to create all inner html elements required to complete dpad center button
+     * Function to create all inner html elements required to complete dpad child-base button
      */
     protected createHtmlElements(): void {
         this.logger.start('createHtmlElements', this.COMPONENT_NAME);
         this.classList.add(this.primaryCssClass);
         this.classList.add(this.CSS_CLASS_LIST.commonBtnClass);
         this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
+        this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
 
         // Order of preference is:
         // 0 parentContract
         // 4 iconUrl
         // 5 iconClass
-        // 6 label
         if (this.iconUrl.length > 0) {
             this._icon = CH5DpadUtils.getImageContainer(this.iconUrl);
             this._icon.style.backgroundImage = `url(${this.iconUrl})`;
         } else if (this.iconClass) {
             this._icon = CH5DpadUtils.getIconContainer();
             this._icon.classList.add(...(this.iconClass.split(' ')));
-        } else if (this.label.length > 0) {
-            this._icon = CH5DpadUtils.getLabelContainer(this.labelClass);
-            this._icon.innerHTML = this.label;
         } else {
             // if nothing works, then render as default
             this._icon = CH5DpadUtils.getIconContainer();
-            this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass); // 'fas'
-            this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass); // 'fa-circle'
+            this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
+            this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
         }
 
         if (this._icon.parentElement !== this) {
@@ -434,7 +421,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
 
         // attributes
         const attributes: string[] = [
-            "label",
             "iconclass",
             "iconurl"
         ];
@@ -458,7 +444,8 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             return;
         }
 
-        this.info('ch5-dpad-button-center attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+        this.info('ch5-dpad-button' + this.buttonType +
+            ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
         switch (attr) {
             case 'receivestateshow':
             case 'receivestateenable':
@@ -468,10 +455,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             case 'receivestatecustomclass':
             case 'dir':
                 // Do nothing for any of the receiveState*
-                break;
-            case 'label':
-                CH5DpadUtils.createIconTag(this);
-                this.label = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'iconclass':
                 CH5DpadUtils.createIconTag(this);
@@ -501,21 +484,20 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
         // below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
-        this.label = CH5DpadUtils.setAttributeToElement(this, 'label', this._label);
         this.iconClass = CH5DpadUtils.setAttributeToElement(this, 'iconClass', this._iconClass);
         this.iconUrl = CH5DpadUtils.setAttributeToElement(this, 'iconUrl', this._iconUrl);
-
+        const btnType = this.buttonType as TCh5DpadChildBtnType;
         if (this.parentElement &&
             this.parentElement.parentElement) {
             const ele = this.parentElement.parentElement;
             const parentContractName: string = CH5DpadUtils.getAttributeAsString(ele, 'contractname', '');
             const parentContractEvent: string = CH5DpadUtils.getAttributeAsString(ele, 'sendeventonclickstart', '');
             if (parentContractName.length > 0) {
-                const joinValue = parentContractName + CH5DpadContractUtils.contractSuffix.center;
+                const joinValue = parentContractName + CH5DpadContractUtils.contractSuffix[btnType];
                 this.sendEventOnClick = joinValue.toString();
             } else if (parentContractEvent.length > 0) {
                 const joinValue = parseInt(parentContractEvent, 10) +
-                    CH5DpadContractUtils.sendEventOnClickSigCountToAdd.center;
+                    CH5DpadContractUtils.sendEventOnClickSigCountToAdd[btnType];
                 this.sendEventOnClick = joinValue.toString();
             } else {
                 this.sendEventOnClick = "";
@@ -567,7 +549,6 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
             cssPressedClass: pressedClass
         });
     }
-
     private bindEventListenersToThis(): void {
         this._onTap = this._onTap.bind(this);
         this._onPressClick = this._onPressClick.bind(this);
@@ -792,7 +773,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     private _onMouseMove(event: MouseEvent) {
-        this.logger.start("_onMouseMove");
+        // this.logger.start("_onMouseMove");
         if (!this.isTouch
             && this._intervalIdForRepeatDigital
             && this._pressHorizontalStartingPoint
@@ -805,7 +786,7 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
         ) {
             this.stopRepeatDigital();
         }
-        this.logger.stop();
+        // this.logger.stop();
     }
 
     private async _onPress(event: TouchEvent) {
@@ -911,12 +892,4 @@ export class Ch5DpadCenter extends Ch5Common implements ICh5DpadCenterAttributes
     }
 
     //#endregion
-
-
-}
-
-if (typeof window === "object"
-    && typeof window.customElements === "object"
-    && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-dpad-button-center', Ch5DpadCenter);
 }
