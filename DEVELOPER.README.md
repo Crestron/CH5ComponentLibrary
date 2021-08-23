@@ -90,3 +90,8 @@ Start Selenium and build report
 
 A custom element must always have a closing tag to render. A simple "< custom-element/>" won't suffice. It should consist the closing tag too "< custom-element><//custom-element>".
 "https://stackoverflow.com/questions/23961178/do-custom-elements-require-a-close-tag?answertab=active#tab-top"
+
+### Development checklist
+1. Ensure that ```tsc -p tsconfig.umd.json``` is executed and any warnings and errors are addressed.
+2. Ensure to run ```yarn lint``` to identify linting errors.
+3. Execute wct cases to ensure completion of tasks.
