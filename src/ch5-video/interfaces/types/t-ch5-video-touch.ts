@@ -6,10 +6,10 @@ export type iTouchOrdinates = {
 }
 
 export type TVideoTouchManagerParams = {
-    onTouchStartHandler: Function; // will be called within document.onTouchStart, defaults to an empty method
-    onTouchMoveHandler: Function; // will be called within document.onTouchMove, defaults to an empty method
-    onTouchEndHandler: Function; // will be called within document.onTouchEnd, defaults to an empty method
-    onTouchCancelHandler: Function; // will be called within document.onTouchCancel, defaults to an empty method
+    onTouchStartHandler: () => {}; // will be called within document.onTouchStart, defaults to an empty method
+    onTouchMoveHandler: () => {}; // will be called within document.onTouchMove, defaults to an empty method
+    onTouchEndHandler: () => {}; // will be called within document.onTouchEnd, defaults to an empty method
+    onTouchCancelHandler: () => {}; // will be called within document.onTouchCancel, defaults to an empty method
     pollingDuration: number; // defaults to 300ms if not passed
     componentID: string; // * this is a mandatory field
 }
