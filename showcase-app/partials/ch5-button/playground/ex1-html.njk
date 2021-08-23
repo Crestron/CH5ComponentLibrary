@@ -1,179 +1,157 @@
-<div class="row row-height">
-        <div class="col-4 col-height">
-            <div class="data-changes">
-                <!-- <select  onChange="setIcons()" id="typeAttribute">
-                <option></option>
-            </select> -->
-                <div class="complete-table">
-                    <div class="row">
-                        <div class="col">
-                            shape:
-                            <select onChange="setIcons()" id="shapeAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            size:
-                            <select onChange="setIcons()" id="sizeAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            checkboxShow:
-                            <select onChange="setIcons()" id="checkboxShowAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            checkboxPosition:
-                            <select onChange="setIcons()" id="checkboxPositionAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            stretch:
-                            <select onChange="setIcons()" id="stretchAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            orientation:
-                            <select onChange="setIcons()" id="orientationAttribute">
-                                <option></option>
-                            </select>
-                        </div>
+<fieldset>
+    <legend>Options</legend>
+    <div class="wrap">
+    <table>
+        <tr>
+            <td>shape:<br/>
+                <select onChange="setIcons()" id="shapeAttribute">
+                    <option></option>
+                </select>
+            </td>
+            <td>size:<br/>
+                <select onChange="setIcons()" id="sizeAttribute">
+                    <option></option>
+                </select>
+            </td>
+         </tr>
+        <tr>
+           <td> checkboxShow:<br/>
+                <select onChange="setIcons()" id="checkboxShowAttribute">
+                    <option></option>
+                </select>
+            </td>
+            <td>checkboxPosition:<br/>
+                <select onChange="setIcons()" id="checkboxPositionAttribute">
+                    <option></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td> stretch:<br/>
+                <select onChange="setIcons()" id="stretchAttribute">
+                    <option></option>
+                </select>
+            </td>
+            <td> orientation:<br/>
+                <select onChange="setIcons()" id="orientationAttribute">
+                    <option></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td> hAlignLabel:<br/>
+                <select onChange="setIcons()" id="hAlignLabelAttribute">
+                    <option></option>
+                </select>
+            </td>
+            <td>vAlignLabel:<br/>
+                <select onChange="setIcons()" id="vAlignLabelAttribute">
+                    <option></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>iconPosition:<br/>
+                <select onChange="setIcons()" id="iconPositionAttribute">
+                    <option></option>
+                </select>
+            </td>
+            <td> selected:<br/>
+                <select onChange="setIcons()" id="selectedAttribute">
+                    <option></option>
+                </select>
+            </td>
+       </tr>
+        <tr>
+             <td> disabled:<br/>
+                <select onChange="setIcons()" id="disabledAttribute">
+                    <option></option>
+                </select>
+            </td>
+            <td>show:<br/>
+                <select onChange="setIcons()" id="showAttribute">
+                    <option></option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            hAlignLabel:
-                            <select onChange="setIcons()" id="hAlignLabelAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            vAlignLabel:
-                            <select onChange="setIcons()" id="vAlignLabelAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            iconPosition:
-                            <select onChange="setIcons()" id="iconPositionAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            selected:
-                            <select onChange="setIcons()" id="selectedAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            disabled:
-                            <select onChange="setIcons()" id="disabledAttribute">
-                                <option></option>
-                            </select>
-                        </div>
+    <div style="margin-top:10px;float:right;">
+        <ch5-button customClass="btn btn-warning btn-set-content" onrelease="reset()" label="Reset"></ch5-button>
+    </div>
+</fieldset>
 
-                        <div class="col">
-                            show:
-                            <select onChange="setIcons()" id="showAttribute">
-                                <option></option>
-                            </select>
-                        </div>
-                    </div>
+<hr/>
 
-                </div>
-
-                <div class="d-flex justify-content-between" style="margin-top:10px;">
-                    <div>
-                        <button type="button" class="btn btn-warning btn-set-content" onclick="reset()">Reset</button>
-                    </div>
-                    <!-- <div>
-                        <button type="button" class="btn btn-success btn-set-content" onclick="downloadCanvas()">Download</button>
-                    </div> -->
-                </div>
-                <!-- <div class="d-flex justify-content-between" style="margin-top:10px;">
-                        <div>
-                        <input type="text" maxlength="2" style="width:30px" id="timerId" value="2">&nbsp;seconds &nbsp;
-                    </div>
-                    <div>
-                      <button type="button" class="btn btn-dark btn-set-content" onclick="automate()">Automate</button>
-                    </div>
-                </div> -->
-            </div>
+<div class="col-8 col-height">
+    <div id="ch5button-page-buttons-div">
+        <div class="button-section">
+            <h5>iconClass + type</h5>
+            <ch5-button type="danger" iconClass="fab fa-amilia"></ch5-button>
+            <ch5-button type="text" iconClass="fas fa-ankh"></ch5-button>
+            <ch5-button type="warning" iconClass="fas fa-at"></ch5-button>
+            <ch5-button type="info" iconClass="fas fa-battery-quarter"></ch5-button>
+            <ch5-button type="success" iconClass="fab fa-chrome"></ch5-button>
+            <ch5-button type="default" iconClass="fab fa-css3-alt"></ch5-button>
+            <ch5-button type="primary" iconClass="fas fa-fan"></ch5-button>
+            <ch5-button type="secondary" iconClass="fab fa-apple"></ch5-button>
         </div>
-        <div class="col-8 col-height">
-            <canvas id="canvas" style="display:none"></canvas>
-            <div id="ch5button-page-buttons-div">
-                <div class="button-section">
-                    <div class="title">iconClass + type</div>
-                    <ch5-button type="danger" iconClass="fab fa-amilia"></ch5-button>
-                    <ch5-button type="text" iconClass="fas fa-ankh"></ch5-button>
-                    <ch5-button type="warning" iconClass="fas fa-at"></ch5-button>
-                    <ch5-button type="info" iconClass="fas fa-battery-quarter"></ch5-button>
-                    <ch5-button type="success" iconClass="fab fa-chrome"></ch5-button>
-                    <ch5-button type="default" iconClass="fab fa-css3-alt"></ch5-button>
-                    <ch5-button type="primary" iconClass="fas fa-fan"></ch5-button>
-                    <ch5-button type="secondary" iconClass="fab fa-apple"></ch5-button>
-                </div>
 
-                <div class="button-section">
-                    <div class="title">label + type</div>
-                    <ch5-button type="danger" label="Danger"></ch5-button>
-                    <ch5-button type="text" label="Text"></ch5-button>
-                    <ch5-button type="warning" label="Warning"></ch5-button>
-                    <ch5-button type="info" label="Info"></ch5-button>
-                    <ch5-button type="success" label="Success"></ch5-button>
-                    <ch5-button type="default" label="Default"></ch5-button>
-                    <ch5-button type="primary" label="Primary"></ch5-button>
-                    <ch5-button type="secondary" label="Secondary"></ch5-button>
-                </div>
+        <hr/>
 
-                <div class="button-section">
-                    <div class="title">label + iconClass + type</div>
-                    <ch5-button type="danger" iconClass="fab fa-amilia" label="Danger"></ch5-button>
-                    <ch5-button type="text" iconClass="fas fa-ankh" label="Text"></ch5-button>
-                    <ch5-button type="warning" iconClass="fas fa-at" label="Warning"></ch5-button>
-                    <ch5-button type="info" iconClass="fas fa-battery-quarter" label="Info"></ch5-button>
-                    <ch5-button type="success" iconClass="fab fa-chrome" label="Success"></ch5-button>
-                    <ch5-button type="default" iconClass="fab fa-css3-alt" label="Default"></ch5-button>
-                    <ch5-button type="primary" iconClass="fas fa-fan" label="Primary"></ch5-button>
-                    <ch5-button type="secondary" iconClass="fab fa-apple" label="Secondary"></ch5-button>
-                </div>
+        <div class="button-section">
+            <h5>label + type</h5>
+            <ch5-button type="danger" label="Danger"></ch5-button>
+            <ch5-button type="text" label="Text"></ch5-button>
+            <ch5-button type="warning" label="Warning"></ch5-button>
+            <ch5-button type="info" label="Info"></ch5-button>
+            <ch5-button type="success" label="Success"></ch5-button>
+            <ch5-button type="default" label="Default"></ch5-button>
+            <ch5-button type="primary" label="Primary"></ch5-button>
+            <ch5-button type="secondary" label="Secondary"></ch5-button>
+        </div>
 
-                <div class="button-section">
-                    <div class="title">iconUrl + type</div>
-                    <ch5-button type="danger" iconurl="./img/nav_icon.svg"></ch5-button>
-                    <ch5-button type="text" iconurl="./img/volume.svg"></ch5-button>
-                    <ch5-button type="warning" iconurl="./img/volume_unmute.svg"></ch5-button>
-                    <ch5-button type="info" iconurl="./img/volume_mute.svg"></ch5-button>
-                    <ch5-button type="success" iconurl="./img/jupiter.svg"></ch5-button>
-                    <ch5-button type="default" iconurl="./img/volume.svg"></ch5-button>
-                    <ch5-button type="primary" iconurl="./img/nav_icon.svg"></ch5-button>
-                    <ch5-button type="secondary" iconurl="./img/volume_unmute.svg"></ch5-button>
-                </div>
+        <hr/>
 
-                <div class="button-section">
-                    <div class="title">label + iconUrl + type</div>
-                    <ch5-button type="danger" iconurl="./img/nav_icon.svg" label="Danger"></ch5-button>
-                    <ch5-button type="text" iconurl="./img/volume.svg" label="Text"></ch5-button>
-                    <ch5-button type="warning" iconurl="./img/volume_unmute.svg" label="Warning"></ch5-button>
-                    <ch5-button type="info" iconurl="./img/volume_mute.svg" label="Info"></ch5-button>
-                    <ch5-button type="success" iconurl="./img/jupiter.svg" label="Success"></ch5-button>
-                    <ch5-button type="default" iconurl="./img/volume.svg" label="Default"></ch5-button>
-                    <ch5-button type="primary" iconurl="./img/nav_icon.svg" label="Primary"></ch5-button>
-                    <ch5-button type="secondary" iconurl="./img/volume_unmute.svg" label="Secondary"></ch5-button>
-                </div>
-            </div>
+        <div class="button-section">
+            <h5>label + iconClass + type</h5>
+            <ch5-button type="danger" iconClass="fab fa-amilia" label="Danger"></ch5-button>
+            <ch5-button type="text" iconClass="fas fa-ankh" label="Text"></ch5-button>
+            <ch5-button type="warning" iconClass="fas fa-at" label="Warning"></ch5-button>
+            <ch5-button type="info" iconClass="fas fa-battery-quarter" label="Info"></ch5-button>
+            <ch5-button type="success" iconClass="fab fa-chrome" label="Success"></ch5-button>
+            <ch5-button type="default" iconClass="fab fa-css3-alt" label="Default"></ch5-button>
+            <ch5-button type="primary" iconClass="fas fa-fan" label="Primary"></ch5-button>
+            <ch5-button type="secondary" iconClass="fab fa-apple" label="Secondary"></ch5-button>
+        </div>
+
+        <hr/>
+
+        <div class="button-section">
+            <h5>iconUrl + type</h5>
+            <ch5-button type="danger" iconurl="./img/nav_icon.svg"></ch5-button>
+            <ch5-button type="text" iconurl="./img/volume.svg"></ch5-button>
+            <ch5-button type="warning" iconurl="./img/volume_unmute.svg"></ch5-button>
+            <ch5-button type="info" iconurl="./img/volume_mute.svg"></ch5-button>
+            <ch5-button type="success" iconurl="./img/jupiter.svg"></ch5-button>
+            <ch5-button type="default" iconurl="./img/volume.svg"></ch5-button>
+            <ch5-button type="primary" iconurl="./img/nav_icon.svg"></ch5-button>
+            <ch5-button type="secondary" iconurl="./img/volume_unmute.svg"></ch5-button>
+        </div>
+
+        <hr/>
+
+        <div class="button-section">
+            <h5>label + iconUrl + type</h5>
+            <ch5-button type="danger" iconurl="./img/nav_icon.svg" label="Danger"></ch5-button>
+            <ch5-button type="text" iconurl="./img/volume.svg" label="Text"></ch5-button>
+            <ch5-button type="warning" iconurl="./img/volume_unmute.svg" label="Warning"></ch5-button>
+            <ch5-button type="info" iconurl="./img/volume_mute.svg" label="Info"></ch5-button>
+            <ch5-button type="success" iconurl="./img/jupiter.svg" label="Success"></ch5-button>
+            <ch5-button type="default" iconurl="./img/volume.svg" label="Default"></ch5-button>
+            <ch5-button type="primary" iconurl="./img/nav_icon.svg" label="Primary"></ch5-button>
+            <ch5-button type="secondary" iconurl="./img/volume_unmute.svg" label="Secondary"></ch5-button>
         </div>
     </div>
+</div>

@@ -6,3 +6,7 @@
  // under which you licensed this source code.
  
  export * from './ch5-slider';
+ export * from './ch5-slider-left-button';
+ export * from './ch5-slider-right-button';
+ export * from './ch5-slider-title-label';
+ export * from './ch5-slider-percentage-label';

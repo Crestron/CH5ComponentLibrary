@@ -90,12 +90,10 @@ attributeOptions = [
 
     function setIcons() {
         try {
-        typesArray = CrComLib.Ch5Button.TYPES; //['danger']; //
-console.log("typesArray", typesArray);
+        typesArray = CrComLib.Ch5Button.TYPES;
         typesArray.forEach((arrayValue, index) => {
             for (i = 0; i < attributeOptions.length; i++) {
                  buttonListArray = getButtonList('ch5-button', 'type', arrayValue);
-//console.log("buttonListArray", buttonListArray);
                 for (k = 0; k < buttonListArray.length; k++) {
                     key = attributeOptions[i].attributeName;
                     buttonObj = buttonListArray[k];
@@ -124,6 +122,8 @@ console.log("typesArray", typesArray);
         setIcons();
     }
 
- for (i = 0; i < attributeOptions.length; i++) {
+    (function initialize() {
+        for (i = 0; i < attributeOptions.length; i++) {
             loadSelectOptions(attributeOptions[i].controlName, attributeOptions[i].masterData);
         }
+    }());

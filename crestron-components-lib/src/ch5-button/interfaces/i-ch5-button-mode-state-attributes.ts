@@ -51,23 +51,24 @@ import { TCh5ButtonModeState } from "./t-ch5-button";
  *    }
  * ]
  *
- */export interface ICh5ButtonModeStateAttributes extends ICh5ButtonModeCommonAttributes {
+ */
+export interface ICh5ButtonModeStateAttributes extends ICh5ButtonModeCommonAttributes {
 
   /**
-  * @documentation
-  * [
-  * "`state` attribute",
-  * "***",
-  * "Valid values: 'normal', 'pressed', 'selected'.",
-  * "This attribute is used to define the ch5-button-mode-state attribues on the basis of the state of the parent ch5-button. ",
-  * "If the button is neither in the 'pressed' state nor in the 'selected' state, then the button is considered to be in 'normal' state. ",
-  * "The attributes of 'state' as 'normal' are considered in this case for the ch5-button. ",
-  * "If the button is in the 'pressed' state, then the attributes of 'state' as 'pressed' are considered in this case for the ch5-button.  ",
-  * "If the button is in the 'selected' state, then the attributes of 'state' as 'selected' are considered in this case for the ch5-button.  "
-  * ]
-  * @name state
-  * @default normal
-  */
+   * @documentation
+   * [
+   * "`state` attribute",
+   * "***",
+   * "Valid values: 'normal', 'pressed', 'selected'.",
+   * "This attribute is used to define the ch5-button-mode-state attribues on the basis of the state of the parent ch5-button. ",
+   * "If the button is neither in the 'pressed' state nor in the 'selected' state, then the button is considered to be in 'normal' state. ",
+   * "The attributes of 'state' as 'normal' are considered in this case for the ch5-button. ",
+   * "If the button is in the 'pressed' state, then the attributes of 'state' as 'pressed' are considered in this case for the ch5-button.  ",
+   * "If the button is in the 'selected' state, then the attributes of 'state' as 'selected' are considered in this case for the ch5-button.  "
+   * ]
+   * @name state
+   * @default normal
+   */
   state: TCh5ButtonModeState;
 
 }

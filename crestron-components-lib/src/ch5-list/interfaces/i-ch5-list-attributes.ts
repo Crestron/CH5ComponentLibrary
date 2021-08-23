@@ -89,8 +89,8 @@ import { TCh5ListElementOrientation } from '../interfaces/t-ch5-list';
  * [
  *  {
  *    "tagName": "template", 
-      "optional": "false", 
-      "innerTags": "" 
+ *    "optional": "false", 
+ *    "innerTags": "" 
  *  }
  * ]
  * 

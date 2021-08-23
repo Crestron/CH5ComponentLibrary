@@ -135,7 +135,7 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * [
      * "`nested` attribute",
      * "***",
-    * "The default value is false. ",
+     * "The default value is false. ",
      * "A boolean attribute used to flag that ch5-triggerview is the child element on ch5-triggerview-child."
      * ]
      * @name nested

@@ -25,7 +25,7 @@ export interface ICenterBtnContract {
     CenterIconClass: string,
     CenterIconUrl: string
 }
-//Top
+// Top
 export interface ITopBtnContract {
     TopShow: string,
     TopEnable: string,
@@ -33,7 +33,7 @@ export interface ITopBtnContract {
     TopIconClass: string,
     TopIconUrl: string
 }
-//Right
+// Right
 export interface IRightBtnContract {
     RightShow: string,
     RightEnable: string,

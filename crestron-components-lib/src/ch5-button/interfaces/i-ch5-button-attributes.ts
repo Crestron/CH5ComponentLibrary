@@ -204,19 +204,19 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   hAlignLabel: TCh5ButtonHorizontalAlignLabel;
 
   /**
-  * @documentation
-  * [
-  * "`valignlabel` attribute",
-  * "***",
-  * "Valid values: 'top', 'bottom', 'middle'.",
+   * @documentation
+   * [
+   * "`valignlabel` attribute",
+   * "***",
+   * "Valid values: 'top', 'bottom', 'middle'.",
    * "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
    * "The middle property sets the horizontal alignment of the label to the middle of the button. ",
    * "The top property sets the horizontal alignment of the label to the top of the button. ",
    * "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
-  * ]
-  * @name valignlabel
-  * @default middle
-  */
+   * ]
+   * @name valignlabel
+   * @default middle
+   */
   vAlignLabel: TCh5ButtonVerticalAlignLabel;
 
   /**
@@ -303,14 +303,6 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventontouch
    */
-  // * Implementation documentation for developers
-  // * "The signal will be sent with value true and reasserted",
-  // * "true every 200ms while the finger is on the",
-  // * "component. The reassertion is needed to avoid",
-  // * "unending ramp should there be a communications error,",
-  // * "a failure of the button itself, or any intermediate proxy of",
-  // * "the signal.",
-  // * "This signal should not be generated as part of a gesture."
   sendEventOnTouch: string;
 
   /**
@@ -371,17 +363,17 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   customClassDisabled: string | null;
 
   /**
-  * @documentation
-  * [
-  * "`selected` attribute",
-  * "***",
-  * "The default value is false.",
-  * "This property reflects the state of the component. If set to true, ",
-  * "'ch5-button--selected' will be applied as the CSS class on the component."
-  * ]
-  * @name selected
-  * @default false
-  */
+   * @documentation
+   * [
+   * "`selected` attribute",
+   * "***",
+   * "The default value is false.",
+   * "This property reflects the state of the component. If set to true, ",
+   * "'ch5-button--selected' will be applied as the CSS class on the component."
+   * ]
+   * @name selected
+   * @default false
+   */
   selected: boolean;
 
 }

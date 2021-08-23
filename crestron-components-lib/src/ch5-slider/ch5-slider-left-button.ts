@@ -5,9 +5,9 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5ButtonBase } from "./ch5-button-base";
+import { Ch5ButtonBase } from "../ch5-button/ch5-button-base";
 
-export class Ch5Button extends Ch5ButtonBase {
+export class Ch5SliderLeftButton extends Ch5ButtonBase {
 
 	constructor() {
 		super();
@@ -19,5 +19,5 @@ if (typeof window === "object"
 	&& typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 
-	window.customElements.define('ch5-button', Ch5Button);
+	window.customElements.define('ch5-slider-left-button', Ch5SliderLeftButton);
 }
