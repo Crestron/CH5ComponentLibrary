@@ -98,12 +98,16 @@ module.exports = function () {
             ]
         },
         plugins: [
-            new CopyPlugin( [
-                    { 
-                        from: path.resolve(basePath, "src/_interfaces/generated-metadata/schema.json"), 
-                        to: path.resolve(pathForSchemaJson, "generate-metadata") 
-                    }
-                ],
+            new CopyPlugin([
+                {
+                    from: path.resolve(basePath, "src/_interfaces/generated-metadata/schema.json"),
+                    to: path.resolve(pathForSchemaJson, "generate-metadata")
+                },
+                { 
+                    from: path.resolve(basePath, "src/_interfaces/generated-metadata/sass-output.json"), 
+                    to: path.resolve(pathForSchemaJson, "generate-metadata") 
+                }
+            ],
             ),
             new webpack.BannerPlugin({
                 banner:

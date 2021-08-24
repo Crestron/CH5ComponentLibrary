@@ -72,7 +72,6 @@ async function buildJsonStructure(flattenedComponents: { flattenedScss: string, 
   // Extract the global mixins which are used throughout the whole application
   const globalMixins = extractGlobalMixins();
 
-
   // For each flattened SCSS component
   for (const component of flattenedComponents) {
     try {
@@ -176,7 +175,20 @@ async function initialize() {
   // Build the final json structure and compute
   const outputJSON = await buildJsonStructure(flattenedComponents, componentsPath);
 
-  jsonfile.writeFileSync(OUTPUT_JSON, outputJSON,  { spaces: 2, EOL: '\r\n' });
+  const writeToIndex: number = process.argv.findIndex(element => element === "--writeTo");
+  console.log("writeToIndex", writeToIndex);
+  console.log("process.argv.length", process.argv.length);
+  if (writeToIndex >= 0 && process.argv.length > (writeToIndex + 1)) {
+    const writeTo = process.argv[writeToIndex + 1];
+    console.log("writeTo", writeTo);
+    if (writeTo && writeTo !== "") {
+      jsonfile.writeFileSync(writeTo, outputJSON, { spaces: 2, EOL: '\r\n' });
+    } else {
+      jsonfile.writeFileSync(OUTPUT_JSON, outputJSON, { spaces: 2, EOL: '\r\n' });
+    }
+  } else {
+    jsonfile.writeFileSync(OUTPUT_JSON, outputJSON, { spaces: 2, EOL: '\r\n' });
+  }
 }
 
 initialize();
