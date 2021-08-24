@@ -1,10 +1,12 @@
-import {extractMixins, processSassfile} from './sassToJson';
-import {BASE_OBJECT_INTERFACE, HELPERS_PATH, PROPERTIES_INTERFACE, THEME_EDITOR_PATH} from "./utils";
+import { getCrComLibComponentData } from './business-rules/headless-browser';
+import { extractMixins, processSassfile } from './sassToJson';
+import { BASE_OBJECT_INTERFACE, HELPERS_PATH, OUTPUT_JSON, OUTPUT_PROPERTIES, OUTPUT_SCSS, PROPERTIES_INTERFACE, THEME_EDITOR_PATH } from "./utils";
 
 const fs = require('fs');
 const flatten = require('sass-flatten');
+const jsonfile = require('jsonfile');
 
-
+export const VERSION = '1.0.0';
 
 /**
  * Write to file and create all the missing directories
@@ -14,7 +16,7 @@ const flatten = require('sass-flatten');
 function writeToFile(data: string, path: string) {
   const directoryPath = path.split('/').slice(0, -1).join('/');
   if (!fs.existsSync(directoryPath)) {
-    fs.mkdirSync(directoryPath, {recursive: true});
+    fs.mkdirSync(directoryPath, { recursive: true });
   }
   fs.writeFile(path, data, (err: NodeJS.ErrnoException | null) => {
     if (err) {
@@ -42,7 +44,7 @@ function generatePropertiesJson(properties: PROPERTIES_INTERFACE, path: string) 
     return {
       [property.key]: property.values
     }
-  })), HELPERS_PATH + path + '/' + fileName)
+  })), OUTPUT_PROPERTIES + fileName);
 }
 
 /**
@@ -57,7 +59,7 @@ function extractGlobalMixins() {
   return mixins;
 }
 
-async function buildJsonStructure(flattenedComponents: {flattenedScss: string, name: string}[]) {
+async function buildJsonStructure(flattenedComponents: { flattenedScss: string, name: string }[], componentsPath: any) {
   // The default base structure
   const jsonObject: BASE_OBJECT_INTERFACE = {
     "ch5-elements": [
@@ -75,17 +77,17 @@ async function buildJsonStructure(flattenedComponents: {flattenedScss: string, n
   for (const component of flattenedComponents) {
     try {
       // Get the helper
-      const helper = await getHelperForComponent(component.name);
+      // const helper = await getHelperForComponent(component.name);
       // Get the properties
-      const properties = await helper.GET_PROPERTIES();
-      const businessRules = helper.BUSINESS_RULES;
+      const properties = await GET_PROPERTIES(componentsPath[component.name]);
+      const businessRules = jsonfile.readFileSync("./business-rules/" + component.name + ".rules.json").businessRules;
       // Save the properties to a json for future reference
       generatePropertiesJson(properties, component.name);
       // Process the flattened scss
       const outputJson = await processSassfile(component.flattenedScss, component.name, properties, globalMixins, businessRules);
       jsonObject["ch5-elements"][0].component.push({
         tagName: component.name,
-        version: helper.VERSION,
+        version: VERSION,
         style: outputJson
       });
     } catch (err) {
@@ -101,16 +103,16 @@ async function buildJsonStructure(flattenedComponents: {flattenedScss: string, n
  * @param paths
  */
 async function flattenScssComponents(paths: string[]) {
-  const flattenedComponents: {flattenedScss: string, name: string}[] = [];
+  const flattenedComponents: { flattenedScss: string, name: string }[] = [];
   for (const componentPath of paths) {
     try {
       const fileName = '/' + componentPath + '.scss';
       // Read the content of the entry SCSS File so it can be passed on to the flatten function
       const entrySCSSContent = fs.readFileSync(THEME_EDITOR_PATH + componentPath + fileName, 'utf8');
       // Provide the content of the entry SCSS File and its location to the flatten function. Its location is required so the imports can be resolved
-      const output = flatten(entrySCSSContent, THEME_EDITOR_PATH+componentPath);
+      const output = flatten(entrySCSSContent, THEME_EDITOR_PATH + componentPath);
 
-      writeToFile(output, HELPERS_PATH + componentPath + fileName);
+      writeToFile(output, OUTPUT_SCSS + fileName);
 
       flattenedComponents.push({
         flattenedScss: output,
@@ -124,6 +126,10 @@ async function flattenScssComponents(paths: string[]) {
   return flattenedComponents;
 }
 
+export const GET_PROPERTIES = async (name: string): Promise<PROPERTIES_INTERFACE> => {
+  const CrComLibHelper = await getCrComLibComponentData(name);
+  return CrComLibHelper;
+};
 
 /**
  * Get an array of ch5 components name found in ch5 theme editor
@@ -148,19 +154,29 @@ async function initialize() {
   // const componentsPath = await traverseThemeEditorsObjects();
 
   // All the components that are interested in are hardcoded. We will compute the path based on THEME_EDITOR_PATH constant + values below
-  const componentsPath = [
-    'ch5-background', 'ch5-button', 'ch5-image', 'ch5-list', 'ch5-modal-dialog', 'ch5-overlay-panel',
-    'ch5-select', 'ch5-slider', 'ch5-spinner', 'ch5-textinput', 'ch5-toggle', 'ch5-video'
-  ];
+  const componentsPath: any = {
+    'ch5-background': 'Ch5Background',
+    'ch5-button': 'Ch5Button',
+    'ch5-image': 'Ch5Image',
+    'ch5-list': 'Ch5List',
+    'ch5-modal-dialog': 'Ch5ModalDialog',
+    'ch5-overlay-panel': 'Ch5OverlayPanel',
+    'ch5-select': 'Ch5Select',
+    'ch5-slider': 'Ch5Slider',
+    'ch5-spinner': 'Ch5Spinner',
+    'ch5-textinput': 'Ch5Textinput',
+    'ch5-toggle': 'Ch5Toggle',
+    'ch5-video': 'Ch5Video'
+  };
 
   // For each component flatten its scss
-  const flattenedComponents = await flattenScssComponents(componentsPath);
+  const flattenedComponents = await flattenScssComponents(Object.keys(componentsPath));
   // const flattenedComponents = await flattenScssComponents(['ch5-button']);
 
   // Build the final json structure and compute
-  const outputJSON = await buildJsonStructure(flattenedComponents);
+  const outputJSON = await buildJsonStructure(flattenedComponents, componentsPath);
 
-  writeToFile(JSON.stringify(outputJSON), './output.json');
+  jsonfile.writeFileSync(OUTPUT_JSON, outputJSON,  { spaces: 2, EOL: '\r\n' });
 }
 
 initialize();

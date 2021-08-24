@@ -1,0 +1,14 @@
+{
+  "businessRules": [
+    {
+      "contains": "iconposition",
+      "key": "icon",
+      "value": true
+    },
+    {
+      "contains": "ios",
+      "key": "platform",
+      "value": "ios"
+    }
+  ]
+}
