@@ -83,10 +83,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     protected _pressHorizontalStartingPoint: number | null = null;
     protected _pressVerticalStartingPoint: number | null = null;
 
-    protected debounceSetButtonDisplay = this.debounce(() => {
-        this.setButtonDisplayDetails();
-    }, this.DEBOUNCE_BUTTON_DISPLAY);
-
     /**
      * Information about start and end position
      * Including the threshold of px for valid presses
@@ -685,13 +681,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
      * @param attibuteName 
      */
     public setButtonDisplay() {
-        if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {
-            this.setButtonDisplayDetails();
-        } else if (this.isButtonInitated === false) {
-            this.setButtonDisplayDetails();
-        } else {
-            this.debounceSetButtonDisplay();
-        }
+        this.setButtonDisplayDetails();
     }
 
     protected setButtonDisplayDetails() {
