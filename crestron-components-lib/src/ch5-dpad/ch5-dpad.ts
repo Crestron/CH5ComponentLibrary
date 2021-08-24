@@ -45,7 +45,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private _contractName: string = '';
     private _type: TCh5DpadType = Ch5Dpad.TYPES[0];
     private _shape: TCh5DpadShape = Ch5Dpad.SHAPES[0];
-    private _shapePrevVal: TCh5DpadShape | null = null; // TODO: HH - check and remove this
     private _stretch: TCh5DpadStretch | null = null;
     private _sendEventOnClickStart: string = '';
     private _useContractforEnable: boolean = false;
