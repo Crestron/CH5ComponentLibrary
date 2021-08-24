@@ -1720,7 +1720,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	private _onTapAction() {
-		if (null !== this._intervalIdForRepeatDigital) {
+		if (this._intervalIdForRepeatDigital !== null) {
 			window.clearInterval(this._intervalIdForRepeatDigital);
 			this.sendValueForRepeatDigital(false);
 			this._intervalIdForRepeatDigital = null;
@@ -1897,7 +1897,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
 		let sigClick: Ch5Signal<boolean> | null = null;
-		if (this._sigNameSendOnClick) {
+		if (this._sigNameSendOnClick || this._sigNameSendOnTouch)  {
 			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnClick);
 
 			if (sigClick !== null) {
