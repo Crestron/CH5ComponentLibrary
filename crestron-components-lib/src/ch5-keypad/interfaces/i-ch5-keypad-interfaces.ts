@@ -6,7 +6,149 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { TCh5KeypadShape, TCh5KeypadStretch, TCh5KeypadType } from "./t-ch5-keypad";
 
 export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
 
+    /**
+     * @documentation
+     * [
+     * "`contractName` attribute",
+     * "***",
+     * "Defines the primary contract name to derive the component's contract details."
+     * ]
+     * @name contractName
+     */
+    contractName: string;
+
+    /**
+     * @documentation
+     * [
+     * "`type` attribute",
+     * "***",
+     * "Overrides the appearance of each of the buttons inside <ch5-Keypad> with alternative CSS ",
+     * "defined in classes defined with ch5-Keypad--type where type is the value of the property. "​,
+     * "If no "type" is provided, type of 'default' is used."
+     * ]
+     * @name type
+     * @default default
+     */
+    type: TCh5KeypadType;
+
+    /**
+     * @documentation
+     * [
+     * "`type` shape",
+     * "***",
+     * "Sets the overall <ch5-Keypad> component shape to plus or circle."
+     * ]
+     * @name shape
+     * @default plus
+     */
+    shape: TCh5KeypadShape;
+
+    /**
+     * @documentation
+     * [
+     * "`type` stretch",
+     * "***",
+     * "When the stretch property is set, the component inherits the width or/and height of the container. ",
+     * "If stretch by height is used, the <ch5-Keypad> will be responsive based on the width of the container. ",
+     * "If stretch width is applied, the <ch5-Keypad> will be responsive based on the height of the container. ",
+     * "This implies that the container height is picked for width and container width is picked for height ",
+     * "to ensure that the overall shape of the component is a 'square' in nature (equal in width and height ",
+     * "for the shapes of plus and circle)."
+     * ]
+     * @name stretch
+     */
+    stretch: TCh5KeypadStretch | null;
+
+    /**
+     * @documentation
+     * [
+     * "`type` useContractforEnable",
+     * "***",
+     * "If the contract name exists, by default this becomes true. ",
+     * "If the contract name does not exist, by default this becomes false. ",
+     * "If this value is set to true then the value received from the contract will be considered to enable ",
+     * "<ch5-Keypad> tag and also to enable the buttons under <ch5-Keypad> component i.e. <ch5-Keypad-button-left>, ",
+     * "<ch5-Keypad-button-right>, <ch5-Keypad-button-top>, <ch5-Keypad-button-bottom>, <ch5-Keypad-button-center>. ",
+     * "The names from the contract will be different for each of the buttons and the overall <ch5-Keypad> component. ",
+     * "The details can be seen in the table above."
+     * ]
+     * @name useContractforEnable
+     * @default false
+     */
+    useContractforEnable: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`type` useContractForShow",
+     * "***",
+     * "If the contract name exists, by default this becomes true. ",
+     * "If the contract name does not exist, by default this becomes false. ",
+     * "If this value is set to true then the value received from the contract will be considered to show / hide ",
+     * "<ch5-Keypad> tag. The names from the contract will be different for each of the buttons and the overall ",
+     * "<ch5-Keypad> component. The details can be seen in the table above."
+     * ]
+     * @name useContractForShow
+     * @default false
+     */
+    useContractForShow: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`type` useContractForCustomClass",
+     * "***",
+     * "If the contract name exists, by default this becomes true. ",
+     * "If the contract name does not exist, by default this becomes false. ",
+     * "If this value is set to true then the value received from the contract will be considered for remaining ",
+     * "ch5-Keypad button as a custom class."
+     * ]
+     * @name useContractForCustomClass 
+     * @default false
+     */
+    useContractForCustomClass: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`type` useContractForCustomStyle",
+     * "***",
+     * "If the contract name exists, by default this becomes true. ",
+     * "If the contract name does not exist, by default this becomes false. ",
+     * "If this value is set to true then the value received from the contract will be considered ",
+     * "for the custom style."
+     * ]
+     * @name useContractForCustomStyle
+     * @default false
+     */
+    useContractForCustomStyle: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`type` showExtraButton",
+     * "***",
+     * "."
+     * ]
+     * @name showExtraButton
+     * @default false
+     */
+    showExtraButton: boolean;
+
+    /**
+     * @documentation
+     * [
+     * "`type` sendEventOnClickStart",
+     * "***",
+     * "Only applies if contractName is not provided, if this parameter is supplied,",
+     * " the join number is applied to the top button, join+1 applies to bottom, ",
+     * "join+2 applies to left, join+3 applies to right, join+4 to center ."
+     * ]
+     * @name sendEventOnClickStart
+     */
+    sendEventOnClickStart: string;
 }

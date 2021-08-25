@@ -599,7 +599,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public connectedCallback() {
         this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
-        const ready = Promise.all([
+        Promise.all([
             customElements.whenDefined('ch5-dpad-button-top'),
             customElements.whenDefined('ch5-dpad-button-left'),
             customElements.whenDefined('ch5-dpad-button-bottom'),
@@ -687,7 +687,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             "type",
             "shape",
             "stretch",
-            "sendEventOnClickStart",
+            "sendeventonclickstart",
             "usecontractforenable",
             "usecontractforshow"
         ];

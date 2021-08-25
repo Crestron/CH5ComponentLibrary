@@ -6,5 +6,26 @@
 // under which you licensed this source code.
 
 export interface ICh5KeypadBtnAttributes {
-
+    
+    // /**
+    //  * @documentation
+    //  * [
+    //  * "`textMajor` attribute",
+    //  * "***",
+    //  * "Defines the primary/minor text value of the button."
+    //  * ]
+    //  * @name textMajor
+    //  */
+    //  textMajor: string;
+    
+    //  /**
+    //   * @documentation
+    //   * [
+    //   * "`textMinor` attribute",
+    //   * "***",
+    //   * "Defines the secondary/minor text value of the button."
+    //   * ]
+    //   * @name textMinor
+    //   */
+    //   textMinor: string;
 }
