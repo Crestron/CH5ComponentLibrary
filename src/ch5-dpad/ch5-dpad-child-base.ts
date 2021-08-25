@@ -46,7 +46,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
     // parent specific contract based signals for each receive state
 
-
     // elements specific vars
     protected _icon: HTMLElement = {} as HTMLElement;
 
@@ -665,12 +664,14 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             });
         }
     }
+
     protected _unsubscribeFromPressableIsPressed() {
         if (this._pressableIsPressedSubscription !== null) {
             this._pressableIsPressedSubscription.unsubscribe();
             this._pressableIsPressedSubscription = null;
         }
     }
+    
     /**
      * If type node is updated via html or js or signal, the change set attribue of type;
      * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
