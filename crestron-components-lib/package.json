@@ -4,7 +4,7 @@
   "description": "Crestron HTML5 (CH5) Components Library",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Crestron/CH5ComponentLibrary.git"
+    "url": "https://github.com/CrestronEng/CH5ComponentLibrary.git"
   },
   "keywords": [
     "ch5",
