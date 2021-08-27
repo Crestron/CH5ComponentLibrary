@@ -618,23 +618,36 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         this.setAttribute('data-ch5-id', this.getCrId());
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad); // WAI-ARIA Attributes
-        this.contractName = ComponentHelper.setAttributeToElement(this, 'contractName'.toLowerCase(), this._contractName);
-        this.type = ComponentHelper.setAttributeToElement(this, 'type', this._type) as TCh5KeypadType;
-        this.shape = ComponentHelper.setAttributeToElement(this, 'shape', this._shape) as TCh5KeypadShape;
-        this.stretch = ComponentHelper.setAttributeToElement(this, 'stretch', this._stretch as string) as TCh5KeypadStretch;
+        this.contractName = ComponentHelper.setAttributeToElement(this,
+            'contractName'.toLowerCase(), this._contractName);
+        this.type = ComponentHelper.setAttributeToElement(this,
+            'type', this._type) as TCh5KeypadType;
+        this.shape = ComponentHelper.setAttributeToElement(this,
+            'shape', this._shape) as TCh5KeypadShape;
+        this.stretch = ComponentHelper.setAttributeToElement(this,
+            'stretch', this._stretch as string) as TCh5KeypadStretch;
+
+        this.showExtraButton = ComponentHelper.getBoolFromString(
+            ComponentHelper.setAttributeToElement(this,
+                'showExtraButton', this._showExtraButton.toString())
+        );
 
         // DEV NOTE: if contract name exists, and the individual attribute values don't exist, 
         // then the default value is true for useContractFor*
         // else useContractFor* picks value from attributes
         const isContractNameAvailable = Boolean(this.contractName).toString();
         this.useContractforEnable = ComponentHelper.getBoolFromString(
-            ComponentHelper.setAttributeToElement(this, 'useContractforEnable'.toLowerCase(), isContractNameAvailable));
+            ComponentHelper.setAttributeToElement(this,
+                'useContractforEnable', isContractNameAvailable));
         this.useContractForShow = ComponentHelper.getBoolFromString(
-            ComponentHelper.setAttributeToElement(this, 'useContractForShow'.toLowerCase(), isContractNameAvailable));
+            ComponentHelper.setAttributeToElement(this,
+                'useContractForShow', isContractNameAvailable));
         this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
-            ComponentHelper.setAttributeToElement(this, 'useContractForCustomStyle'.toLowerCase(), isContractNameAvailable));
+            ComponentHelper.setAttributeToElement(this,
+                'useContractForCustomStyle', isContractNameAvailable));
         this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
-            ComponentHelper.setAttributeToElement(this, 'useContractForCustomClass'.toLowerCase(), isContractNameAvailable));
+            ComponentHelper.setAttributeToElement(this,
+                'useContractForCustomClass', isContractNameAvailable));
 
         this.logger.stop();
     }
@@ -878,6 +891,15 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             const btn = data[i];
             const keyBtn = new Ch5KeypadBtn(btn);
             rowEle.appendChild(keyBtn);
+        }
+        if (this.showExtraButton) {
+            const extraBtns: TCh5KeypadBtnCreateDTO[] = CH5KeypadBtnData.getBtnList_Extra();
+            rowEle = this.appendKeysRowToContainer();
+            this.container.appendChild(rowEle);
+            for (const btn of extraBtns) {
+                const keyBtn = new Ch5KeypadBtn(btn);
+                rowEle.appendChild(keyBtn);
+            }
         }
     }
 
