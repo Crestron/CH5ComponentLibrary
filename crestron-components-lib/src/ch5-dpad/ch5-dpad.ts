@@ -1,3 +1,10 @@
+// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+// All rights reserved.
+// No part of this software may be reproduced in any form, machine
+// or natural, without the express written consent of Crestron Electronics.
+// Use of this source code is subject to the terms of the Crestron Software License Agreement
+// under which you licensed this source code.
+
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models";
@@ -7,7 +14,7 @@ import { Ch5DpadRight } from "./ch5-dpad-button-right";
 import { Ch5DpadBottom } from "./ch5-dpad-button-bottom";
 import { Ch5DpadLeft } from "./ch5-dpad-button-left";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
-import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-interfaces";
+import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-attributes";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
