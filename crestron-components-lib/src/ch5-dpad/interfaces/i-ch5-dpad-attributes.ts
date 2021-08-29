@@ -1,11 +1,11 @@
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
 // All rights reserved.
 // No part of this software may be reproduced in any form, machine
 // or natural, without the express written consent of Crestron Electronics.
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributes } from "../../ch5-common/interfaces/i-ch5-common-attributes";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./t-ch5-dpad";
 
 /**
@@ -15,6 +15,34 @@ import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./t-ch5-dpad";
  * @role container
  * @description Ch5 Dpad offers a control set of 5 buttons to preform specific changes
  * @componentVersion 1.0.0
+ * @childElements
+ * [
+ *   {
+ *     "tagName": "ch5-dpad-button-center",
+ *     "optional": true,
+ *     "childElements": []
+ *   },
+ *   {
+ *     "tagName": "ch5-dpad-button-top",
+ *     "optional": true,
+ *     "childElements": []
+ *   },
+ *   {
+ *     "tagName": "ch5-dpad-button-left",
+ *     "optional": true,
+ *     "childElements": []
+ *   },
+ *   {
+ *     "tagName": "ch5-dpad-button-right",
+ *     "optional": true,
+ *     "childElements": []
+ *   },
+ *   {
+ *     "tagName": "ch5-dpad-button-bottom",
+ *     "optional": true,
+ *     "childElements": []
+ *   }
+ * ]
  * @documentation
  * [
  * "`ch5-dpad` element",
@@ -25,11 +53,58 @@ import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./t-ch5-dpad";
  * ]
  * @snippets
  * [
+ *  {
+ *    "prefix": "ch5-dpad:blank",
+ *     "description": "Crestron Dpad",
+ *     "body": [
+ *       "<ch5-dpad>",
+ *       "</ch5-dpad>$0"
+ *     ]
+ *  },
+ *  {
+ *    "prefix": "ch5-dpad:contractbased",
+ *     "description": "Crestron Dpad",
+ *     "body": [
+ *       "<ch5-dpad  id=\"btn_${1:id}\"",
+ *       "\tcontractname=\"${2:Contract Name}\"",
+*        ">",
+ *       "</ch5-dpad>$0"
+ *     ]
+ *  },
+ *  {
+ *    "prefix": "ch5-dpad:eventbased",
+ *     "description": "Crestron Dpad",
+ *     "body": [
+ *       "<ch5-dpad  id=\"btn_${1:id}\"",
+ *       "\tsendeventonclickstart=\"${2:Event_Click_Index}\"",
+*        ">",
+ *       "</ch5-dpad>$0"
+ *     ]
+ *  },
+ *  {
+ *    "prefix": "ch5-dpad:all-attributes",
+ *     "description": "Crestron Dpad",
+ *     "body": [
+ *       "<ch5-dpad  id=\"btn_${1:id}\"",
+ *       "\tcontractname=\"${2:Contract Name}\"",
+ *       "\tshape=\"${3:Shape}\"",
+ *       "\ttype=\"${4:type}\"",
+ *       "\tstretch=\"${5:stretch}\"",
+ *       "\tusecontractforenable=\"${6:useContractforEnable}\"",
+ *       "\tusecontractforshow=\"${7:useContractForShow}\"",
+ *       "\tusecontractforcustomclass=\"${8:useContractForCustomClass}\"",
+ *       "\tusecontractforcustomstyle=\"${9:useContractForCustomStyle}\"",
+ *       "\tsendeventonclickstart=\"${10:sendEventOnClickStart}\"",
+*        ">",
+ *       "</ch5-dpad>$0"
+ *     ]
+ *   }
  * ]
  * 
  */
 
 export interface ICh5DpadAttributes extends ICh5CommonAttributes {
+
     /**
      * @documentation
      * [
@@ -46,9 +121,9 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * [
      * "`type` attribute",
      * "***",
-     * "Overrides the appearance of each of the buttons inside <ch5-dpad> with alternative CSS ",
-     * "defined in classes defined with ch5-dpad--type where type is the value of the property. "​,
-     * "If no "type" is provided, type of 'default' is used."
+     * "Overrides the appearance of each of the buttons inside <ch5-dpad> with alternative CSS  ",
+     * "defined in classes defined with ch5-dpad--type where type is the value of the property. ",
+     * "If no 'type' is provided, type of 'default' is used."
      * ]
      * @name type
      * @default default
@@ -58,7 +133,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` shape",
+     * "`shape` attribute",
      * "***",
      * "Sets the overall <ch5-dpad> component shape to plus or circle."
      * ]
@@ -70,7 +145,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` stretch",
+     * "`stretch` attribute",
      * "***",
      * "When the stretch property is set, the component inherits the width or/and height of the container. ",
      * "If stretch by height is used, the <ch5-dpad> will be responsive based on the width of the container. ",
@@ -86,7 +161,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractforEnable",
+     * "`useContractforEnable` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -104,7 +179,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractForShow",
+     * "`useContractForShow` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -120,7 +195,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractForCustomClass",
+     * "`useContractForCustomClass` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -135,7 +210,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractForCustomStyle",
+     * "`useContractForCustomStyle` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -150,7 +225,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` sendEventOnClickStart",
+     * "`sendEventOnClickStart` attribute",
      * "***",
      * "Only applies if contractName is not provided, if this parameter is supplied,",
      * " the join number is applied to the top button, join+1 applies to bottom, ",
