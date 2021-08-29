@@ -548,14 +548,23 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				this._mode = 0;
 			} else {
 				if (value >= this.MODES.MIN_LENGTH && value <= this.MODES.MAX_LENGTH) {
-					this._mode = value;
+					const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
+					if (buttonModesArray && buttonModesArray.length > 0) {
+						if (value < buttonModesArray.length) {
+							this._mode = value;
+						} else {
+							this._mode = 0;
+						}					
+					} else {
+						this._mode = 0;
+					}
 				} else {
 					this._mode = 0;
 				}
 			}
+			this.setAttribute('mode', String(this._mode));
+			this.setButtonDisplay();
 		}
-		this.setAttribute('mode', String(this._mode));
-		this.setButtonDisplay();
 	}
 	public get mode(): number {
 		return this._mode;
@@ -1543,9 +1552,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			// this._elIcon.classList.remove(this.primaryCssClass + '--img');
 		}
 		if (!isNil(this._previousIconClass) && this._previousIconClass !== '') {
-			this.iconClass.split(' ').forEach((className: string) => {
+			this.iconUrl.split(' ').forEach((className: string) => {
 				className = className.trim();
-				if (this._elIcon && this._elIcon.classList) {
+				if (this._elIcon && this._elIcon.classList && className !== "") {
 					this._elIcon.classList.remove(className);
 				}
 			});
@@ -1897,7 +1906,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
 		let sigClick: Ch5Signal<boolean> | null = null;
-		if (this._sigNameSendOnClick || this._sigNameSendOnTouch)  {
+		if (this._sigNameSendOnClick || this._sigNameSendOnTouch) {
 			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnClick);
 
 			if (sigClick !== null) {
@@ -2284,12 +2293,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		// iconUrl, iconClass
+		this._previousIconUrl = this._iconUrl;
+		this._previousIconClass = this._iconClass;
 		if (!isNil(updatedNodes.iconUrl)) {
-			this._previousIconUrl = this._iconUrl;
 			this._iconUrl = updatedNodes.iconUrl;
 		}
 		if (!isNil(updatedNodes.iconClass)) {
-			this._previousIconClass = this._iconClass;
 			this._iconClass = updatedNodes.iconClass;
 		}
 		if (this.previousExtendedProperties.iconUrl !== this.iconUrl && !isNil(this.iconUrl) && this.iconUrl !== "") {
