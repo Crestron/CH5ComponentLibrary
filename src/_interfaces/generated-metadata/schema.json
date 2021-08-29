@@ -124,6 +124,2004 @@
     },
     "elements": [
       {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconClass",
+              "***",
+              "The icon class gives the ability for the end developer to create custom arrow icons."
+            ],
+            "value": [],
+            "name": "iconClass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconUrl",
+              "***",
+              "A custom image that the user needs to pass the URL or the local file relative path, ",
+              "the iconUrl takes precedence over iconClass."
+            ],
+            "value": [],
+            "name": "iconUrl",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonclick` attribute",
+              "***",
+              "Sends an event on click or tap (mouse or swipe up and down quickly).",
+              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
+              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
+            ],
+            "value": [],
+            "name": "sendeventonclick",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-dpad-button-top` element",
+          "***",
+          "DPad <ch5-dpad-button-top> component can be added under a <ch5-dpad> tag ",
+          "for customization related to icon as a url or an icon class. ",
+          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-dpad:blank",
+            "description": "Crestron Dpad Button Top",
+            "body": [
+              "<ch5-dpad-button-top>",
+              "</ch5-dpad-button-top>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconurl",
+            "description": "Crestron Dpad Button Top",
+            "body": [
+              "<ch5-dpad-button-top iconurl=\"btn_${1:Icon Url}\">",
+              "</ch5-dpad-button-top>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconclass",
+            "description": "Crestron Dpad Button Top",
+            "body": [
+              "<ch5-dpad-button-top iconclass=\"btn_${1:Icon Class}\">",
+              "</ch5-dpad-button-top>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:all-attributes",
+            "description": "Crestron Dpad Button Top",
+            "body": [
+              "<ch5-dpad-button-top",
+              "\ticonurl=\"btn_${1:Icon Url}\"",
+              "\\tshow=\"${2:Show}\"",
+              "\\tenable=\"${3:Enable}\"",
+              ">",
+              "</ch5-dpad-button-top>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Dpad Button Top",
+        "name": "Ch5 Dpad Top",
+        "tagName": "ch5-Dpad Button Top",
+        "role": "container",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconClass",
+              "***",
+              "The icon class gives the ability for the end developer to create custom arrow icons."
+            ],
+            "value": [],
+            "name": "iconClass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconUrl",
+              "***",
+              "A custom image that the user needs to pass the URL or the local file relative path, ",
+              "the iconUrl takes precedence over iconClass."
+            ],
+            "value": [],
+            "name": "iconUrl",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonclick` attribute",
+              "***",
+              "Sends an event on click or tap (mouse or swipe up and down quickly).",
+              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
+              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
+            ],
+            "value": [],
+            "name": "sendeventonclick",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-dpad-button-right` element",
+          "***",
+          "DPad <ch5-dpad-button-right> component can be added under a <ch5-dpad> tag ",
+          "for customization related to icon as a url or an icon class. ",
+          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-dpad:blank",
+            "description": "Crestron Dpad Button Right",
+            "body": [
+              "<ch5-dpad-button-right>",
+              "</ch5-dpad-button-right>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconurl",
+            "description": "Crestron Dpad Button Right",
+            "body": [
+              "<ch5-dpad-button-right iconurl=\"btn_${1:Icon Url}\">",
+              "</ch5-dpad-button-right>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconclass",
+            "description": "Crestron Dpad Button Right",
+            "body": [
+              "<ch5-dpad-button-right iconclass=\"btn_${1:Icon Class}\">",
+              "</ch5-dpad-button-right>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:all-attributes",
+            "description": "Crestron Dpad Button Right",
+            "body": [
+              "<ch5-dpad-button-right",
+              "\ticonurl=\"btn_${1:Icon Url}\"",
+              "\\tshow=\"${2:Show}\"",
+              "\\tenable=\"${3:Enable}\"",
+              ">",
+              "</ch5-dpad-button-right>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Dpad Button Right",
+        "name": "Ch5 Dpad Right",
+        "tagName": "ch5-Dpad Button Right",
+        "role": "container",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconClass",
+              "***",
+              "The icon class gives the ability for the end developer to create custom arrow icons."
+            ],
+            "value": [],
+            "name": "iconClass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconUrl",
+              "***",
+              "A custom image that the user needs to pass the URL or the local file relative path, ",
+              "the iconUrl takes precedence over iconClass."
+            ],
+            "value": [],
+            "name": "iconUrl",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonclick` attribute",
+              "***",
+              "Sends an event on click or tap (mouse or swipe up and down quickly).",
+              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
+              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
+            ],
+            "value": [],
+            "name": "sendeventonclick",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-dpad-button-left` element",
+          "***",
+          "DPad <ch5-dpad-button-left> component can be added under a <ch5-dpad> tag ",
+          "for customization related to icon as a url or an icon class. ",
+          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-dpad:blank",
+            "description": "Crestron Dpad Button Left",
+            "body": [
+              "<ch5-dpad-button-left>",
+              "</ch5-dpad-button-left>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconurl",
+            "description": "Crestron Dpad Button Left",
+            "body": [
+              "<ch5-dpad-button-left iconurl=\"btn_${1:Icon Url}\">",
+              "</ch5-dpad-button-left>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconclass",
+            "description": "Crestron Dpad Button Left",
+            "body": [
+              "<ch5-dpad-button-left iconclass=\"btn_${1:Icon Class}\">",
+              "</ch5-dpad-button-left>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:all-attributes",
+            "description": "Crestron Dpad Button Left",
+            "body": [
+              "<ch5-dpad-button-left",
+              "\ticonurl=\"btn_${1:Icon Url}\"",
+              "\\tshow=\"${2:Show}\"",
+              "\\tenable=\"${3:Enable}\"",
+              ">",
+              "</ch5-dpad-button-left>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Dpad Button Left",
+        "name": "Ch5 Dpad Left",
+        "tagName": "ch5-Dpad Button Left",
+        "role": "container",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconClass",
+              "***",
+              "The icon class gives the ability for the end developer to create custom arrow icons."
+            ],
+            "value": [],
+            "name": "iconClass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconUrl",
+              "***",
+              "A custom image that the user needs to pass the URL or the local file relative path, ",
+              "the iconUrl takes precedence over iconClass."
+            ],
+            "value": [],
+            "name": "iconUrl",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonclick` attribute",
+              "***",
+              "Sends an event on click or tap (mouse or swipe up and down quickly).",
+              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
+              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
+            ],
+            "value": [],
+            "name": "sendeventonclick",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-dpad-button-bottom` element",
+          "***",
+          "DPad <ch5-dpad-button-bottom> component can be added under a <ch5-dpad> tag ",
+          "for customization related to icon as a url or an icon class. ",
+          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-dpad:blank",
+            "description": "Crestron Dpad Button Bottom",
+            "body": [
+              "<ch5-dpad-button-bottom>",
+              "</ch5-dpad-button-bottom>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconurl",
+            "description": "Crestron Dpad Button Bottom",
+            "body": [
+              "<ch5-dpad-button-bottom iconurl=\"btn_${1:Icon Url}\">",
+              "</ch5-dpad-button-bottom>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconclass",
+            "description": "Crestron Dpad Button Bottom",
+            "body": [
+              "<ch5-dpad-button-bottom iconclass=\"btn_${1:Icon Class}\">",
+              "</ch5-dpad-button-bottom>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:all-attributes",
+            "description": "Crestron Dpad Button Bottom",
+            "body": [
+              "<ch5-dpad-button-bottom",
+              "\ticonurl=\"btn_${1:Icon Url}\"",
+              "\\tshow=\"${2:Show}\"",
+              "\\tenable=\"${3:Enable}\"",
+              ">",
+              "</ch5-dpad-button-bottom>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Dpad Button Bottom",
+        "name": "Ch5 Dpad Bottom",
+        "tagName": "ch5-Dpad Button Bottom",
+        "role": "container",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconClass",
+              "***",
+              "The icon class gives the ability for the end developer to create custom arrow icons."
+            ],
+            "value": [],
+            "name": "iconClass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` iconUrl",
+              "***",
+              "A custom image that the user needs to pass the URL or the local file relative path, ",
+              "the iconUrl takes precedence over iconClass."
+            ],
+            "value": [],
+            "name": "iconUrl",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonclick` attribute",
+              "***",
+              "Sends an event on click or tap (mouse or swipe up and down quickly).",
+              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
+              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
+              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
+            ],
+            "value": [],
+            "name": "sendeventonclick",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-dpad-button-center` element",
+          "***",
+          "DPad <ch5-dpad-button-center> component can be added under a <ch5-dpad> tag ",
+          "for customization related to icon as a url or an icon class. ",
+          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-dpad:blank",
+            "description": "Crestron Dpad Button Center",
+            "body": [
+              "<ch5-dpad-button-center>",
+              "</ch5-dpad-button-center>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconurl",
+            "description": "Crestron Dpad Button Center",
+            "body": [
+              "<ch5-dpad-button-center iconurl=\"btn_${1:Icon Url}\">",
+              "</ch5-dpad-button-center>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:iconclass",
+            "description": "Crestron Dpad Button Center",
+            "body": [
+              "<ch5-dpad-button-center iconclass=\"btn_${1:Icon Class}\">",
+              "</ch5-dpad-button-center>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:all-attributes",
+            "description": "Crestron Dpad Button Center",
+            "body": [
+              "<ch5-dpad-button-center",
+              "\ticonurl=\"btn_${1:Icon Url}\"",
+              "\\tshow=\"${2:Show}\"",
+              "\\tenable=\"${3:Enable}\"",
+              ">",
+              "</ch5-dpad-button-center>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Dpad Button Center",
+        "name": "Ch5 Dpad Center",
+        "tagName": "ch5-Dpad Button Center",
+        "role": "container",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`contractName` attribute",
+              "***",
+              "Defines the primary contract name to derive the component's contract details."
+            ],
+            "value": [],
+            "name": "contractName",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`type` attribute",
+              "***",
+              "Overrides the appearance of each of the buttons inside <ch5-dpad> with alternative CSS  ",
+              "defined in classes defined with ch5-dpad--type where type is the value of the property. ",
+              "If no 'type' is provided, type of 'default' is used."
+            ],
+            "value": [
+              "default",
+              "info",
+              "text",
+              "danger",
+              "warning",
+              "success",
+              "primary",
+              "secondary"
+            ],
+            "name": "type",
+            "default": "default"
+          },
+          {
+            "documentation": [
+              "`shape` attribute",
+              "***",
+              "Sets the overall <ch5-dpad> component shape to plus or circle."
+            ],
+            "value": [
+              "plus",
+              "circle"
+            ],
+            "name": "shape",
+            "default": "plus"
+          },
+          {
+            "documentation": [
+              "`stretch` attribute",
+              "***",
+              "When the stretch property is set, the component inherits the width or/and height of the container. ",
+              "If stretch by height is used, the <ch5-dpad> will be responsive based on the width of the container. ",
+              "If stretch width is applied, the <ch5-dpad> will be responsive based on the height of the container. ",
+              "This implies that the container height is picked for width and container width is picked for height ",
+              "to ensure that the overall shape of the component is a 'square' in nature (equal in width and height ",
+              "for the shapes of plus and circle)."
+            ],
+            "value": [
+              "both",
+              "width",
+              "height"
+            ],
+            "name": "stretch",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`useContractforEnable` attribute",
+              "***",
+              "If the contract name exists, by default this becomes true. ",
+              "If the contract name does not exist, by default this becomes false. ",
+              "If this value is set to true then the value received from the contract will be considered to enable ",
+              "<ch5-dpad> tag and also to enable the buttons under <ch5-dpad> component i.e. <ch5-dpad-button-left>, ",
+              "<ch5-dpad-button-right>, <ch5-dpad-button-top>, <ch5-dpad-button-bottom>, <ch5-dpad-button-center>. ",
+              "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
+              "The details can be seen in the table above."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "useContractforEnable",
+            "default": "false"
+          },
+          {
+            "documentation": [
+              "`useContractForShow` attribute",
+              "***",
+              "If the contract name exists, by default this becomes true. ",
+              "If the contract name does not exist, by default this becomes false. ",
+              "If this value is set to true then the value received from the contract will be considered to show / hide ",
+              "<ch5-dpad> tag. The names from the contract will be different for each of the buttons and the overall ",
+              "<ch5-dpad> component. The details can be seen in the table above."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "useContractForShow",
+            "default": "false"
+          },
+          {
+            "documentation": [
+              "`useContractForCustomClass` attribute",
+              "***",
+              "If the contract name exists, by default this becomes true. ",
+              "If the contract name does not exist, by default this becomes false. ",
+              "If this value is set to true then the value received from the contract will be considered for remaining ",
+              "ch5-dpad button as a custom class."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "useContractForCustomClass",
+            "default": "false"
+          },
+          {
+            "documentation": [
+              "`useContractForCustomStyle` attribute",
+              "***",
+              "If the contract name exists, by default this becomes true. ",
+              "If the contract name does not exist, by default this becomes false. ",
+              "If this value is set to true then the value received from the contract will be considered ",
+              "for the custom style."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "useContractForCustomStyle",
+            "default": "false"
+          },
+          {
+            "documentation": [
+              "`sendEventOnClickStart` attribute",
+              "***",
+              "Only applies if contractName is not provided, if this parameter is supplied,",
+              " the join number is applied to the top button, join+1 applies to bottom, ",
+              "join+2 applies to left, join+3 applies to right, join+4 to center ."
+            ],
+            "value": [],
+            "name": "sendEventOnClickStart",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-dpad` element",
+          "***",
+          "DPad <ch5-dpad> component consists of up, down, left, right and center buttons arranged in a grid. ",
+          "The DPad has a default theme associated with it. The center button can contain customizable text. ",
+          "Each button can send signals on click / touch events."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-dpad:blank",
+            "description": "Crestron Dpad",
+            "body": [
+              "<ch5-dpad>",
+              "</ch5-dpad>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:contractbased",
+            "description": "Crestron Dpad",
+            "body": [
+              "<ch5-dpad  id=\"btn_${1:id}\"",
+              "\tcontractname=\"${2:Contract Name}\"",
+              ">",
+              "</ch5-dpad>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:eventbased",
+            "description": "Crestron Dpad",
+            "body": [
+              "<ch5-dpad  id=\"btn_${1:id}\"",
+              "\tsendeventonclickstart=\"${2:Event_Click_Index}\"",
+              ">",
+              "</ch5-dpad>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-dpad:all-attributes",
+            "description": "Crestron Dpad",
+            "body": [
+              "<ch5-dpad  id=\"btn_${1:id}\"",
+              "\tcontractname=\"${2:Contract Name}\"",
+              "\tshape=\"${3:Shape}\"",
+              "\ttype=\"${4:type}\"",
+              "\tstretch=\"${5:stretch}\"",
+              "\tusecontractforenable=\"${6:useContractforEnable}\"",
+              "\tusecontractforshow=\"${7:useContractForShow}\"",
+              "\tusecontractforcustomclass=\"${8:useContractForCustomClass}\"",
+              "\tusecontractforcustomstyle=\"${9:useContractForCustomStyle}\"",
+              "\tsendeventonclickstart=\"${10:sendEventOnClickStart}\"",
+              ">",
+              "</ch5-dpad>$0"
+            ]
+          }
+        ],
+        "childElements": [
+          {
+            "tagName": "ch5-dpad-button-center",
+            "optional": true,
+            "childElements": []
+          },
+          {
+            "tagName": "ch5-dpad-button-top",
+            "optional": true,
+            "childElements": []
+          },
+          {
+            "tagName": "ch5-dpad-button-left",
+            "optional": true,
+            "childElements": []
+          },
+          {
+            "tagName": "ch5-dpad-button-right",
+            "optional": true,
+            "childElements": []
+          },
+          {
+            "tagName": "ch5-dpad-button-bottom",
+            "optional": true,
+            "childElements": []
+          }
+        ],
+        "description": "Ch5 Dpad offers a control set of 5 buttons to preform specific changes",
+        "name": "Ch5 Dpad",
+        "tagName": "ch5-Dpad",
+        "role": "container",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`url` attribute",
+              "***",
+              "For when one or more image URLs will be used as the background.",
+              "Supported image types include JPEG, PNG, SVG, and BMP.",
+              "Animated GIFs are not supported. Multiple URLs can be provided ",
+              "separated by | (vertical bar) to have images cycle over time."
+            ],
+            "value": [],
+            "name": "url",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`backgroundcolor` attribute",
+              "***",
+              "Use when one or more background colors will be used via the CSS background-color property ",
+              "syntax including color names, #hex codes, rgb(), rgba(), hsl() and hsla().",
+              "Multiple colors can be provided separated by a | (vertical bar) to have colors ",
+              "cycled based on the time defined. A black color will be used for invalid input.",
+              "This attribute is superseded by the url attribute."
+            ],
+            "value": [],
+            "name": "backgroundcolor",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`repeat` attribute",
+              "***",
+              "The default value is 'no-repeat'. ",
+              "The repeat property sets how a background image will be repeated. In the absence of ",
+              "the repeat attribute. Valid values: 'no-repeat', ",
+              "'repeat-x', 'repeat-y', and 'repeat'.",
+              "The value 'repeat-x' repeats image horizontally, 'repeat-y' repeats the image vertically, and 'repeat' ",
+              "repeats both vertically and horizontally. The last image will be clipped if it does not fit."
+            ],
+            "value": [
+              "",
+              "no-repeat",
+              "repeat",
+              "repeat-x",
+              "repeat-y"
+            ],
+            "name": "repeat",
+            "default": "no-repeat"
+          },
+          {
+            "documentation": [
+              "`scale` attribute",
+              "***",
+              "The default value is 'stretch'. Valid values: 'stretch', 'fill', 'fit'.",
+              "Defines how an image will fill the component when the ",
+              "component and the image do not have the same aspect ratio.",
+              "'stretch' will transform the image to have the same aspect ratio as the component, ",
+              "'fill' will size the image to leave no extra space ",
+              "but will crop off either the top and bottom or left and right to ",
+              "fill the component completely, and 'fit' will preserve the image aspect ratio by ",
+              "centering the image and leaving either a letter box on the top and bottom or ",
+              "a pillar box on the left and right. For fit attribute, see the related ",
+              "imgBackgroundColor attribute."
+            ],
+            "value": [
+              "stretch",
+              "fill",
+              "fit"
+            ],
+            "name": "scale",
+            "default": "stretch"
+          },
+          {
+            "documentation": [
+              "`refreshrate` attribute",
+              "***",
+              "The default value is 600. Min value is 10 and max value is 604800.",
+              "When more than one image is provided in the url attribute, ",
+              "this attribute provides the duration in seconds that each ",
+              "image will be displayed. Values outside of the min and max ",
+              "will be capped at the closest valid value."
+            ],
+            "value": [],
+            "name": "refreshrate",
+            "default": "600"
+          },
+          {
+            "documentation": [
+              "`imgbackgroundcolor` attribute",
+              "***",
+              "The default value is 'black'. ",
+              "Related to the scale attribute having a value of 'fit'. ",
+              "This attribute defines the color of the pillar box or ",
+              "letter box borders when the image aspect ratio is not the ",
+              "same as the component aspect ratio."
+            ],
+            "value": [],
+            "name": "imgbackgroundcolor",
+            "default": "black"
+          },
+          {
+            "documentation": [
+              "`transitioneffect` attribute",
+              "***",
+              "The default value is 'ease'. ",
+              "When more than one image or color is provided in url or backgroundcolor attribute, ",
+              "this attribute provide the type of transition using the CSS transition-timing-syntax ",
+              "property syntax. See the related attribute transition-duration."
+            ],
+            "value": [],
+            "name": "transitioneffect",
+            "default": "ease"
+          },
+          {
+            "documentation": [
+              "`transitionduration` attribute",
+              "***",
+              "The default value is '1s'. ",
+              "when more than one image or color is provided in url or backgroundcolor attribute, ",
+              "this attribute provides the duration of the transition ",
+              "using CSS transition-duration syntax."
+            ],
+            "value": [],
+            "name": "transitionduration",
+            "default": "1s"
+          },
+          {
+            "documentation": [
+              "`receivestaterefreshrate` attribute",
+              "***",
+              "When defined, this will set the refreshRate attribute."
+            ],
+            "value": [],
+            "name": "receivestaterefreshrate",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateurl` attribute",
+              "***",
+              "When defined, this will set the url attribute.  This attribute",
+              " takes precedence over backgroundcolor, url, and receiveStateBackgroundColor ",
+              " attributes."
+            ],
+            "value": [],
+            "name": "receivestateurl",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatebackgroundcolor` attribute",
+              "***",
+              "When defined, this will set the backgroundColor attribute. This attribute",
+              " is superseded by the receivestateurl attribute."
+            ],
+            "value": [],
+            "name": "receivestatebackgroundcolor",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-background` element",
+          "***",
+          "For backgrounds, standard HTML has a many available styles to provide backgrounds for HTML elements.",
+          "CH5 Video will be implemented using Alpha Blending, where portions of the HTML will become invisible to allow video ",
+          "playing below the HTML layer to be visible to the user. As such, to support background images and",
+          "colors of HTML element views that will be in CH5 projects, the ch5-background component provides much of the same",
+          "functionality, but works with the video component to make portions of the screen invisible to allow the video to appear."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-background:blank",
+            "description": "Crestron Background (Blank)",
+            "body": [
+              "<ch5-background>",
+              "</ch5-background>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-background:default",
+            "description": "Crestron Background (Default)",
+            "body": [
+              "<ch5-background url=\"${1:http://someServer/background.png}\">",
+              "</ch5-background>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-background:all-attributes",
+            "description": "Crestron Background (All Attributes)",
+            "body": [
+              "<ch5-background url=\"${1:http://someServer/background.png}\"",
+              "\trefreshrate=\"${2:10}\"",
+              "\tbackgroundcolor=\"${3:black}\"",
+              "\trepeat=\"${4|no-repeat,repeat,repeat-x,repeat-y|}\"",
+              "\tscale=\"${5|stretch,fill,fit|}\"",
+              "\timgbackgroundcolor=\"${6:black}\"",
+              "\ttransitioneffect=\"${7:ease}\"",
+              "\ttransitionduration=\"${8:1s}\"",
+              "\treceivestateurl=\"${9}\"",
+              "\treceivestatebackgroundcolor=\"${10}\"",
+              "\treceivestaterefreshrate=\"${11}\">",
+              "</ch5-background>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Background offers a wide range of functionality out-of-the-box.",
+        "name": "Ch5 Background",
+        "tagName": "ch5-background",
+        "role": "region",
+        "componentVersion": "1.0.0"
+      },
+      {
         "attributes": [],
         "documentation": [
           "`ch5-button-label` element",
@@ -1656,6 +3654,218 @@
           },
           {
             "documentation": [
+              "`receiveStateShow` attribute",
+              "***",
+              "While true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receiveStateShowPulse` attribute",
+              "***",
+              "On transition from false to true, this signal will direct the component to be visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receiveStateHidePulse` attribute",
+              "***",
+              "On transition from false to true, the signal will direct if the component to no longer be visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`url` attribute",
+              "***",
+              "The HTML file path."
+            ],
+            "value": [],
+            "name": "url",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-import-htmlsnippet` element",
+          "***",
+          "The component is used to load HTML snippets during run time. ",
+          "This component allows users to load HTML snippets. The snippets should not contain HTML, HEAD, and BODY tags. ",
+          "Users can modularize the HTML files into pages or sections using this component, ",
+          "and the snippet is inserted into the DOM at the respective location ",
+          "during run time. ",
+          "An afterload event occurs when a snippet HTML has been loaded and inserted into the DOM. ",
+          "Afterload is most often used within the ch5-import-htmlsnippet element to execute a script once an HTML ",
+          "snippet has completely loaded all content (including images, script files, CSS files, etc.). ",
+          "To import the snippet in Angular, the source directory must be added in angular.json file as follows: ",
+          "     \"assets\": [",
+          "         \"src/assets/htmlsnippets\" ",
+          "     ]"
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-import-htmlsnippet:default",
+            "description": "Crestron import-htmlsnippet (Default)",
+            "body": [
+              "<ch5-import-htmlsnippet url=\"\">",
+              "</ch5-import-htmlsnippet>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-import-htmlsnippet:All Attributes",
+            "description": "Crestron import-htmlsnippet (All Attributes)",
+            "body": [
+              "<ch5-import-htmlsnippet url=\"\" receivestateshowpulse=\"\" receivestatehidepulse=\"\" receivestateshow=\"\" sendeventonshow=\"\">",
+              "</ch5-import-htmlsnippet>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 import-htmlsnippet allows to import the HTML snippet.",
+        "name": "Ch5 Import Html Snippet",
+        "tagName": "ch5-import-htmlsnippet",
+        "role": "template",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
               "`receivestateshow` attribute",
               "***",
               "When true, the boolean value of the signal determines if the component is visible."
@@ -2529,399 +4739,6 @@
               "***",
               "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
               "the available width or the available height in the parent component. Using ",
-              "'both' will stretch the component both directions."
-            ],
-            "value": [
-              "both",
-              "width",
-              "height"
-            ],
-            "name": "stretch",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`overflow` attribute",
-              "***",
-              "The default value is scroll. ",
-              "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
-              "happens if content does or does not overflow the component box. ",
-              "This is related with stretch property. This property specifies whether to add ",
-              "scrollbars when an element's content is too big to fit in a specified area. ",
-              "If 'show' is selected, the overflow is not clipped."
-            ],
-            "value": [
-              "scroll",
-              "show"
-            ],
-            "name": "overflow",
-            "default": "scroll"
-          },
-          {
-            "documentation": [
-              "`positionto` attribute",
-              "***",
-              "If not set, the position will be related to the viewport. ",
-              "Positions the component related to either a window or an element by id."
-            ],
-            "value": [],
-            "name": "positionto",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`positionoffset` attribute",
-              "***",
-              "The default value is top-left. ",
-              "Valid values 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', ",
-              "'bottom-right', 'left-center', and 'right-center'. Auto-positions the panel offset ",
-              "to the event element's position."
-            ],
-            "value": [
-              "top-left",
-              "top-center",
-              "top-right",
-              "bottom-left",
-              "bottom-center",
-              "bottom-right",
-              "left-center",
-              "right-center"
-            ],
-            "name": "positionoffset",
-            "default": "top-left"
-          },
-          {
-            "documentation": [
-              "`dismissable` attribute",
-              "***",
-              "The default value is 'true'. If false, the panel won't automatically hide if a touch event occurs outside of it."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "dismissable",
-            "default": "true"
-          },
-          {
-            "documentation": [
-              "`closable` attribute",
-              "***",
-              "The default value is 'false'. If true, shows a close icon on the corner of the panel. If false, ",
-              "the close icon is not shown."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "closable",
-            "default": "false"
-          },
-          {
-            "documentation": [
-              "`mask` attribute",
-              "***",
-              "The default value is false. ",
-              "Specifies whether or not to apply a background mask."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "mask",
-            "default": "false"
-          },
-          {
-            "documentation": [
-              "`receivestatepositionto` attribute ",
-              "***",
-              "When received, positions to this component."
-            ],
-            "value": [],
-            "name": "receivestatepositionto",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatepositionoffset` attribute",
-              "***",
-              "when received, positions offset to this component. ",
-              "See attribute 'positionOffset' for valid values."
-            ],
-            "value": [],
-            "name": "receivestatepositionoffset",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendeventonbeforeshow` attribute",
-              "***",
-              "Sends a signal on the overlay panel before show."
-            ],
-            "value": [],
-            "name": "sendeventonbeforeshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendeventonaftershow` attribute",
-              "***",
-              "Sends a signal on the overlay panel after show."
-            ],
-            "value": [],
-            "name": "sendeventonaftershow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendisignalonbeforehide` attribute",
-              "***",
-              "Sends a signal on overlay panel before hide."
-            ],
-            "value": [],
-            "name": "sendeventonbeforehide",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendisgnalonafterhide` attribute",
-              "***",
-              "Sends a signal on overlay panel after hide."
-            ],
-            "value": [],
-            "name": "sendeventonafterhide",
-            "default": "null"
-          }
-        ],
-        "documentation": [
-          "`ch5-overlay-panel` element",
-          "***",
-          "The overlay panel component provides a content container for other components that ",
-          "'pop up' on top of and overlays the main content container."
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-overlay-panel:blank",
-            "description": "Crestron Overlay Panel (Blank)",
-            "body": [
-              "<ch5-overlay-panel>",
-              "</ch5-overlay-panel>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-overlay-panel:default",
-            "description": "Crestron Overlay Panel (Default)",
-            "body": [
-              "<ch5-overlay-panel receivestateshowpulse=\"${1:trigger_1}\" closable>",
-              "    <p>Sample text</p>",
-              "    <ch5-image id=\"${2:ex1-img}\" url=\"${3:some_server_url}\">",
-              "    </ch5-image>",
-              "</ch5-overlay-panel>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-overlay-panel:signals",
-            "description": "Crestron Overlay Panel Signals",
-            "body": [
-              "<ch5-overlay-panel",
-              "    receivestateshowpulse=\"${1:trigger_1}\"",
-              "    closable",
-              "    sendeventonshow=\"${1:signal_on_show}\"",
-              "    sendeventonbeforeshow=\"${2:signal_on_before_show}\"",
-              "    sendeventonaftershow=\"${3:signal_on_after_show}\"",
-              "    sendeventonbeforehide=\"${4:signal_on_before_hide}\"",
-              "    sendeventonafterhide=\"${5:signal_on_after_hide}\"",
-              "    >",
-              "    <p>Sample text</p>",
-              "    <ch5-image id=\"${8:ex1-img}\" url=\"${9:some_server_url}\">",
-              "    </ch5-image>",
-              "</ch5-overlay-panel>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Overlay Panel",
-        "name": "Ch5 Overlay Panel",
-        "tagName": "ch5-overlay-panel",
-        "role": "dialog",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true"
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`closeicon` attribute",
-              "***",
-              "A class name of the close icon. It may be a font awesome class."
-            ],
-            "value": [],
-            "name": "closeicon",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`stretch` attribute",
-              "***",
-              "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
-              "the available width or the available height in the parent component. Using ",
               "'both' will stretch the component both ways."
             ],
             "value": [
@@ -3251,6 +5068,399 @@
         "description": "Ch5 Modal",
         "name": "Ch5 Modal Dialog",
         "tagName": "ch5-modal-dialog",
+        "role": "dialog",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`closeicon` attribute",
+              "***",
+              "A class name of the close icon. It may be a font awesome class."
+            ],
+            "value": [],
+            "name": "closeicon",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`stretch` attribute",
+              "***",
+              "Valid values: 'width', 'height', and 'both'. The component will stretch to ",
+              "the available width or the available height in the parent component. Using ",
+              "'both' will stretch the component both directions."
+            ],
+            "value": [
+              "both",
+              "width",
+              "height"
+            ],
+            "name": "stretch",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`overflow` attribute",
+              "***",
+              "The default value is scroll. ",
+              "Valid values: 'scroll' and 'show'. The overflow property specifies what ",
+              "happens if content does or does not overflow the component box. ",
+              "This is related with stretch property. This property specifies whether to add ",
+              "scrollbars when an element's content is too big to fit in a specified area. ",
+              "If 'show' is selected, the overflow is not clipped."
+            ],
+            "value": [
+              "scroll",
+              "show"
+            ],
+            "name": "overflow",
+            "default": "scroll"
+          },
+          {
+            "documentation": [
+              "`positionto` attribute",
+              "***",
+              "If not set, the position will be related to the viewport. ",
+              "Positions the component related to either a window or an element by id."
+            ],
+            "value": [],
+            "name": "positionto",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`positionoffset` attribute",
+              "***",
+              "The default value is top-left. ",
+              "Valid values 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', ",
+              "'bottom-right', 'left-center', and 'right-center'. Auto-positions the panel offset ",
+              "to the event element's position."
+            ],
+            "value": [
+              "top-left",
+              "top-center",
+              "top-right",
+              "bottom-left",
+              "bottom-center",
+              "bottom-right",
+              "left-center",
+              "right-center"
+            ],
+            "name": "positionoffset",
+            "default": "top-left"
+          },
+          {
+            "documentation": [
+              "`dismissable` attribute",
+              "***",
+              "The default value is 'true'. If false, the panel won't automatically hide if a touch event occurs outside of it."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "dismissable",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`closable` attribute",
+              "***",
+              "The default value is 'false'. If true, shows a close icon on the corner of the panel. If false, ",
+              "the close icon is not shown."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "closable",
+            "default": "false"
+          },
+          {
+            "documentation": [
+              "`mask` attribute",
+              "***",
+              "The default value is false. ",
+              "Specifies whether or not to apply a background mask."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "mask",
+            "default": "false"
+          },
+          {
+            "documentation": [
+              "`receivestatepositionto` attribute ",
+              "***",
+              "When received, positions to this component."
+            ],
+            "value": [],
+            "name": "receivestatepositionto",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatepositionoffset` attribute",
+              "***",
+              "when received, positions offset to this component. ",
+              "See attribute 'positionOffset' for valid values."
+            ],
+            "value": [],
+            "name": "receivestatepositionoffset",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonbeforeshow` attribute",
+              "***",
+              "Sends a signal on the overlay panel before show."
+            ],
+            "value": [],
+            "name": "sendeventonbeforeshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonaftershow` attribute",
+              "***",
+              "Sends a signal on the overlay panel after show."
+            ],
+            "value": [],
+            "name": "sendeventonaftershow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendisignalonbeforehide` attribute",
+              "***",
+              "Sends a signal on overlay panel before hide."
+            ],
+            "value": [],
+            "name": "sendeventonbeforehide",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendisgnalonafterhide` attribute",
+              "***",
+              "Sends a signal on overlay panel after hide."
+            ],
+            "value": [],
+            "name": "sendeventonafterhide",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-overlay-panel` element",
+          "***",
+          "The overlay panel component provides a content container for other components that ",
+          "'pop up' on top of and overlays the main content container."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-overlay-panel:blank",
+            "description": "Crestron Overlay Panel (Blank)",
+            "body": [
+              "<ch5-overlay-panel>",
+              "</ch5-overlay-panel>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-overlay-panel:default",
+            "description": "Crestron Overlay Panel (Default)",
+            "body": [
+              "<ch5-overlay-panel receivestateshowpulse=\"${1:trigger_1}\" closable>",
+              "    <p>Sample text</p>",
+              "    <ch5-image id=\"${2:ex1-img}\" url=\"${3:some_server_url}\">",
+              "    </ch5-image>",
+              "</ch5-overlay-panel>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-overlay-panel:signals",
+            "description": "Crestron Overlay Panel Signals",
+            "body": [
+              "<ch5-overlay-panel",
+              "    receivestateshowpulse=\"${1:trigger_1}\"",
+              "    closable",
+              "    sendeventonshow=\"${1:signal_on_show}\"",
+              "    sendeventonbeforeshow=\"${2:signal_on_before_show}\"",
+              "    sendeventonaftershow=\"${3:signal_on_after_show}\"",
+              "    sendeventonbeforehide=\"${4:signal_on_before_hide}\"",
+              "    sendeventonafterhide=\"${5:signal_on_after_hide}\"",
+              "    >",
+              "    <p>Sample text</p>",
+              "    <ch5-image id=\"${8:ex1-img}\" url=\"${9:some_server_url}\">",
+              "    </ch5-image>",
+              "</ch5-overlay-panel>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Overlay Panel",
+        "name": "Ch5 Overlay Panel",
+        "tagName": "ch5-overlay-panel",
         "role": "dialog",
         "componentVersion": "1.0.0"
       },
@@ -5355,6 +7565,216 @@
           },
           {
             "documentation": [
+              "`templateid` attribute",
+              "***",
+              "The ID of the template to be instantiated."
+            ],
+            "value": [],
+            "name": "templateid",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`context` attribute",
+              "***",
+              "In the format of 'original:replacement;' original is the value to be replaced, and replacement ",
+              "is the replacement value."
+            ],
+            "value": [],
+            "name": "context",
+            "default": "null"
+          }
+        ],
+        "documentation": [
+          "`ch5-template` element",
+          "***",
+          "The primary functionality of this component is to create new instances ",
+          "of the user-provided <template> and to substitute event and state names ",
+          "where indicated by the developer.  ",
+          "Upon completion of creating a new instance of the the user-provided ",
+          "<template>, a container element is provided with a unique ",
+          "id attribute that is unique across all created instances.  ",
+          "Each top level element provided in user-provided <template> will ",
+          "also be provided a unique id, unless the element already has an id. "
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-template:default",
+            "description": "Crestron Ch5-Template (default)",
+            "body": [
+              "<ch5-template templateId=\"[provideTemplateId]\" context=\"[original]:[replacement]\"></ch5-template>"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "ch5-template create new instances of the user provided <template>.",
+        "name": "Ch5 Template",
+        "tagName": "ch5-template",
+        "role": "template",
+        "componentVersion": "1.0.0"
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`id` attribute",
+              "***",
+              "This is a standard id HTML attribute."
+            ],
+            "value": [],
+            "name": "id",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customclass` attribute",
+              "***",
+              "Contains a list of classes that are applied on the component"
+            ],
+            "value": [],
+            "name": "customclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`customstyle` attribute",
+              "***",
+              "Contains a list of space-delimited style classes applied on the component."
+            ],
+            "value": [],
+            "name": "customstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`noshowtype` attribute",
+              "***",
+              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
+              "custom HTML attribute for further information."
+            ],
+            "value": [
+              "visibility",
+              "display",
+              "remove"
+            ],
+            "name": "noshowtype",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomclass` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'customClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomclass",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatecustomstyle` attribute",
+              "***",
+              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
+              "The change of value will remove the prior value and apply the new value."
+            ],
+            "value": [],
+            "name": "receivestatecustomstyle",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateshow` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is visible."
+            ],
+            "value": [],
+            "name": "receivestateshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`'receivestateshowpulse` attribute",
+              "***",
+              "on transition from false to true, this signal directs the component to become visible."
+            ],
+            "value": [],
+            "name": "receivestateshowpulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestatehidepulse` attribute",
+              "***",
+              "on transition from false to true, this signal will direct if the component is no longer visible."
+            ],
+            "value": [],
+            "name": "receivestatehidepulse",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`receivestateenable` attribute",
+              "***",
+              "When true, the boolean value of the signal determines if the component is enabled.",
+              "Note that the signal name is provided, and the value of the signal has the opposite ",
+              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
+            ],
+            "value": [],
+            "name": "receivestateenable",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`sendeventonshow` attribute",
+              "***",
+              "Has a boolean value of true when the component is visible and false when not visible.",
+              "Note that even if component is completely covered by other visible elements, it is still considered visible."
+            ],
+            "value": [],
+            "name": "sendeventonshow",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`appendclasswheninviewport` attribute",
+              "***",
+              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
+            ],
+            "value": [],
+            "name": "appendclasswheninviewport",
+            "default": "null"
+          },
+          {
+            "documentation": [
+              "`show` attribute",
+              "***",
+              "The visibility of the component depends upon the boolean value. The component is visible ",
+              "when the value is true and hides when it is false."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "show",
+            "default": "true"
+          },
+          {
+            "documentation": [
+              "`dir` attribute",
+              "***",
+              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
+              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
+              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
+              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
+              "finds a character with a strong directionality then it applies that directionality to the whole element."
+            ],
+            "value": [],
+            "name": "dir",
+            "default": "null"
+          },
+          {
+            "documentation": [
               "`feedbackmode` attribute",
               "***",
               "The default value is 'direct'. Valid values: 'direct', 'submit'.",
@@ -6614,799 +9034,6 @@
         "name": "Ch5 Trigger View Child",
         "tagName": "ch5-triggerview-child",
         "role": "template",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true"
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`templateid` attribute",
-              "***",
-              "The ID of the template to be instantiated."
-            ],
-            "value": [],
-            "name": "templateid",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`context` attribute",
-              "***",
-              "In the format of 'original:replacement;' original is the value to be replaced, and replacement ",
-              "is the replacement value."
-            ],
-            "value": [],
-            "name": "context",
-            "default": "null"
-          }
-        ],
-        "documentation": [
-          "`ch5-template` element",
-          "***",
-          "The primary functionality of this component is to create new instances ",
-          "of the user-provided <template> and to substitute event and state names ",
-          "where indicated by the developer.  ",
-          "Upon completion of creating a new instance of the the user-provided ",
-          "<template>, a container element is provided with a unique ",
-          "id attribute that is unique across all created instances.  ",
-          "Each top level element provided in user-provided <template> will ",
-          "also be provided a unique id, unless the element already has an id. "
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-template:default",
-            "description": "Crestron Ch5-Template (default)",
-            "body": [
-              "<ch5-template templateId=\"[provideTemplateId]\" context=\"[original]:[replacement]\"></ch5-template>"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "ch5-template create new instances of the user provided <template>.",
-        "name": "Ch5 Template",
-        "tagName": "ch5-template",
-        "role": "template",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receiveStateShow` attribute",
-              "***",
-              "While true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receiveStateShowPulse` attribute",
-              "***",
-              "On transition from false to true, this signal will direct the component to be visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receiveStateHidePulse` attribute",
-              "***",
-              "On transition from false to true, the signal will direct if the component to no longer be visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true"
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`url` attribute",
-              "***",
-              "The HTML file path."
-            ],
-            "value": [],
-            "name": "url",
-            "default": "null"
-          }
-        ],
-        "documentation": [
-          "`ch5-import-htmlsnippet` element",
-          "***",
-          "The component is used to load HTML snippets during run time. ",
-          "This component allows users to load HTML snippets. The snippets should not contain HTML, HEAD, and BODY tags. ",
-          "Users can modularize the HTML files into pages or sections using this component, ",
-          "and the snippet is inserted into the DOM at the respective location ",
-          "during run time. ",
-          "An afterload event occurs when a snippet HTML has been loaded and inserted into the DOM. ",
-          "Afterload is most often used within the ch5-import-htmlsnippet element to execute a script once an HTML ",
-          "snippet has completely loaded all content (including images, script files, CSS files, etc.). ",
-          "To import the snippet in Angular, the source directory must be added in angular.json file as follows: ",
-          "     \"assets\": [",
-          "         \"src/assets/htmlsnippets\" ",
-          "     ]"
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-import-htmlsnippet:default",
-            "description": "Crestron import-htmlsnippet (Default)",
-            "body": [
-              "<ch5-import-htmlsnippet url=\"\">",
-              "</ch5-import-htmlsnippet>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-import-htmlsnippet:All Attributes",
-            "description": "Crestron import-htmlsnippet (All Attributes)",
-            "body": [
-              "<ch5-import-htmlsnippet url=\"\" receivestateshowpulse=\"\" receivestatehidepulse=\"\" receivestateshow=\"\" sendeventonshow=\"\">",
-              "</ch5-import-htmlsnippet>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 import-htmlsnippet allows to import the HTML snippet.",
-        "name": "Ch5 Import Html Snippet",
-        "tagName": "ch5-import-htmlsnippet",
-        "role": "template",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true"
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`url` attribute",
-              "***",
-              "For when one or more image URLs will be used as the background.",
-              "Supported image types include JPEG, PNG, SVG, and BMP.",
-              "Animated GIFs are not supported. Multiple URLs can be provided ",
-              "separated by | (vertical bar) to have images cycle over time."
-            ],
-            "value": [],
-            "name": "url",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`backgroundcolor` attribute",
-              "***",
-              "Use when one or more background colors will be used via the CSS background-color property ",
-              "syntax including color names, #hex codes, rgb(), rgba(), hsl() and hsla().",
-              "Multiple colors can be provided separated by a | (vertical bar) to have colors ",
-              "cycled based on the time defined. A black color will be used for invalid input.",
-              "This attribute is superseded by the url attribute."
-            ],
-            "value": [],
-            "name": "backgroundcolor",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`repeat` attribute",
-              "***",
-              "The default value is 'no-repeat'. ",
-              "The repeat property sets how a background image will be repeated. In the absence of ",
-              "the repeat attribute. Valid values: 'no-repeat', ",
-              "'repeat-x', 'repeat-y', and 'repeat'.",
-              "The value 'repeat-x' repeats image horizontally, 'repeat-y' repeats the image vertically, and 'repeat' ",
-              "repeats both vertically and horizontally. The last image will be clipped if it does not fit."
-            ],
-            "value": [
-              "",
-              "no-repeat",
-              "repeat",
-              "repeat-x",
-              "repeat-y"
-            ],
-            "name": "repeat",
-            "default": "no-repeat"
-          },
-          {
-            "documentation": [
-              "`scale` attribute",
-              "***",
-              "The default value is 'stretch'. Valid values: 'stretch', 'fill', 'fit'.",
-              "Defines how an image will fill the component when the ",
-              "component and the image do not have the same aspect ratio.",
-              "'stretch' will transform the image to have the same aspect ratio as the component, ",
-              "'fill' will size the image to leave no extra space ",
-              "but will crop off either the top and bottom or left and right to ",
-              "fill the component completely, and 'fit' will preserve the image aspect ratio by ",
-              "centering the image and leaving either a letter box on the top and bottom or ",
-              "a pillar box on the left and right. For fit attribute, see the related ",
-              "imgBackgroundColor attribute."
-            ],
-            "value": [
-              "stretch",
-              "fill",
-              "fit"
-            ],
-            "name": "scale",
-            "default": "stretch"
-          },
-          {
-            "documentation": [
-              "`refreshrate` attribute",
-              "***",
-              "The default value is 600. Min value is 10 and max value is 604800.",
-              "When more than one image is provided in the url attribute, ",
-              "this attribute provides the duration in seconds that each ",
-              "image will be displayed. Values outside of the min and max ",
-              "will be capped at the closest valid value."
-            ],
-            "value": [],
-            "name": "refreshrate",
-            "default": "600"
-          },
-          {
-            "documentation": [
-              "`imgbackgroundcolor` attribute",
-              "***",
-              "The default value is 'black'. ",
-              "Related to the scale attribute having a value of 'fit'. ",
-              "This attribute defines the color of the pillar box or ",
-              "letter box borders when the image aspect ratio is not the ",
-              "same as the component aspect ratio."
-            ],
-            "value": [],
-            "name": "imgbackgroundcolor",
-            "default": "black"
-          },
-          {
-            "documentation": [
-              "`transitioneffect` attribute",
-              "***",
-              "The default value is 'ease'. ",
-              "When more than one image or color is provided in url or backgroundcolor attribute, ",
-              "this attribute provide the type of transition using the CSS transition-timing-syntax ",
-              "property syntax. See the related attribute transition-duration."
-            ],
-            "value": [],
-            "name": "transitioneffect",
-            "default": "ease"
-          },
-          {
-            "documentation": [
-              "`transitionduration` attribute",
-              "***",
-              "The default value is '1s'. ",
-              "when more than one image or color is provided in url or backgroundcolor attribute, ",
-              "this attribute provides the duration of the transition ",
-              "using CSS transition-duration syntax."
-            ],
-            "value": [],
-            "name": "transitionduration",
-            "default": "1s"
-          },
-          {
-            "documentation": [
-              "`receivestaterefreshrate` attribute",
-              "***",
-              "When defined, this will set the refreshRate attribute."
-            ],
-            "value": [],
-            "name": "receivestaterefreshrate",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestateurl` attribute",
-              "***",
-              "When defined, this will set the url attribute.  This attribute",
-              " takes precedence over backgroundcolor, url, and receiveStateBackgroundColor ",
-              " attributes."
-            ],
-            "value": [],
-            "name": "receivestateurl",
-            "default": "null"
-          },
-          {
-            "documentation": [
-              "`receivestatebackgroundcolor` attribute",
-              "***",
-              "When defined, this will set the backgroundColor attribute. This attribute",
-              " is superseded by the receivestateurl attribute."
-            ],
-            "value": [],
-            "name": "receivestatebackgroundcolor",
-            "default": "null"
-          }
-        ],
-        "documentation": [
-          "`ch5-background` element",
-          "***",
-          "For backgrounds, standard HTML has a many available styles to provide backgrounds for HTML elements.",
-          "CH5 Video will be implemented using Alpha Blending, where portions of the HTML will become invisible to allow video ",
-          "playing below the HTML layer to be visible to the user. As such, to support background images and",
-          "colors of HTML element views that will be in CH5 projects, the ch5-background component provides much of the same",
-          "functionality, but works with the video component to make portions of the screen invisible to allow the video to appear."
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-background:blank",
-            "description": "Crestron Background (Blank)",
-            "body": [
-              "<ch5-background>",
-              "</ch5-background>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-background:default",
-            "description": "Crestron Background (Default)",
-            "body": [
-              "<ch5-background url=\"${1:http://someServer/background.png}\">",
-              "</ch5-background>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-background:all-attributes",
-            "description": "Crestron Background (All Attributes)",
-            "body": [
-              "<ch5-background url=\"${1:http://someServer/background.png}\"",
-              "\trefreshrate=\"${2:10}\"",
-              "\tbackgroundcolor=\"${3:black}\"",
-              "\trepeat=\"${4|no-repeat,repeat,repeat-x,repeat-y|}\"",
-              "\tscale=\"${5|stretch,fill,fit|}\"",
-              "\timgbackgroundcolor=\"${6:black}\"",
-              "\ttransitioneffect=\"${7:ease}\"",
-              "\ttransitionduration=\"${8:1s}\"",
-              "\treceivestateurl=\"${9}\"",
-              "\treceivestatebackgroundcolor=\"${10}\"",
-              "\treceivestaterefreshrate=\"${11}\">",
-              "</ch5-background>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Background offers a wide range of functionality out-of-the-box.",
-        "name": "Ch5 Background",
-        "tagName": "ch5-background",
-        "role": "region",
         "componentVersion": "1.0.0"
       },
       {
