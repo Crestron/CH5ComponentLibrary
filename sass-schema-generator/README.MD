@@ -1,4 +1,4 @@
-**Sas schema convertor**
+**Sass schema converter**
 
 - Paths to components are hardcoded
 
