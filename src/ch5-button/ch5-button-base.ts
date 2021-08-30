@@ -1552,7 +1552,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			// this._elIcon.classList.remove(this.primaryCssClass + '--img');
 		}
 		if (!isNil(this._previousIconClass) && this._previousIconClass !== '') {
-			this.iconUrl.split(' ').forEach((className: string) => {
+			this._previousIconClass.split(' ').forEach((className: string) => {
 				className = className.trim();
 				if (this._elIcon && this._elIcon.classList && className !== "") {
 					this._elIcon.classList.remove(className);
