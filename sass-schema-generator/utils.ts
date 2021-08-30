@@ -4,6 +4,7 @@ export const OUTPUT_PATH = './output/';
 export const OUTPUT_PROPERTIES = OUTPUT_PATH + 'properties/';
 export const OUTPUT_SCSS = OUTPUT_PATH + 'scss/';
 export const OUTPUT_JSON = OUTPUT_PATH + 'sass-output.json';
+export const COMPONENT_PATH = "../crestron-components-lib/src/";
 
 export interface PROPERTIES_INTERFACE {
   [key: string]: {

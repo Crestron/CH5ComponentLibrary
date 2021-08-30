@@ -1,12 +1,12 @@
 import { getCrComLibComponentData } from './business-rules/headless-browser';
 import { extractMixins, processSassfile } from './sassToJson';
-import { BASE_OBJECT_INTERFACE, HELPERS_PATH, OUTPUT_JSON, OUTPUT_PROPERTIES, OUTPUT_SCSS, PROPERTIES_INTERFACE, THEME_EDITOR_PATH } from "./utils";
+import { BASE_OBJECT_INTERFACE, COMPONENT_PATH, HELPERS_PATH, OUTPUT_JSON, OUTPUT_PROPERTIES, OUTPUT_SCSS, PROPERTIES_INTERFACE, THEME_EDITOR_PATH } from "./utils";
 
 const fs = require('fs');
 const flatten = require('sass-flatten');
 const jsonfile = require('jsonfile');
 
-export const VERSION = '1.0.0';
+export const VERSION: string = '1.0.0';
 
 /**
  * Write to file and create all the missing directories
@@ -25,11 +25,13 @@ function writeToFile(data: string, path: string) {
   })
 }
 
-function getHelperForComponent(name: string) {
+async function getComponent(folderName: string, fileName: string): Promise<void> {
   try {
-    return import(HELPERS_PATH + name + `/helper.ts`);
+    // const  myData = await import(COMPONENT_PATH  + `/${fileName}.ts`);
+    const myData = await import(COMPONENT_PATH + folderName + `/${fileName}.ts`);
+    console.log({ myData });
   } catch (err) {
-    throw new Error(`COULD NOT FIND HELPER FILE FOR ${name}`);
+    throw new Error(`COULD NOT FIND COMPONENT FILE FOR ${fileName}`);
   }
 }
 
@@ -53,10 +55,7 @@ function generatePropertiesJson(properties: PROPERTIES_INTERFACE, path: string) 
 function extractGlobalMixins() {
   const mainScss = '@import "./style/mixins";';
   const flattenedScss = flatten(mainScss, THEME_EDITOR_PATH);
-
-  const mixins = extractMixins(flattenedScss);
-
-  return mixins;
+  return extractMixins(flattenedScss);
 }
 
 async function buildJsonStructure(flattenedComponents: { flattenedScss: string, name: string }[], componentsPath: any) {
@@ -78,6 +77,8 @@ async function buildJsonStructure(flattenedComponents: { flattenedScss: string, 
       // Get the helper
       // const helper = await getHelperForComponent(component.name);
       // Get the properties
+      // const x = getComponent(component.name);
+      // main(component.name);
       const properties = await GET_PROPERTIES(componentsPath[component.name]);
       const businessRules = jsonfile.readFileSync("./business-rules/" + component.name + ".rules.json").businessRules;
       // Save the properties to a json for future reference
@@ -126,8 +127,7 @@ async function flattenScssComponents(paths: string[]) {
 }
 
 export const GET_PROPERTIES = async (name: string): Promise<PROPERTIES_INTERFACE> => {
-  const CrComLibHelper = await getCrComLibComponentData(name);
-  return CrComLibHelper;
+  return await getCrComLibComponentData(name);
 };
 
 /**
@@ -135,18 +135,17 @@ export const GET_PROPERTIES = async (name: string): Promise<PROPERTIES_INTERFACE
  * Temporarily not used at the moment - we keep a hardcoded string
  */
 async function traverseThemeEditorsObjects(): Promise<string[]> {
-  const CH5ComponentsPath = [];
+  const ch5ComponentsPath = [];
   const dir = await fs.promises.opendir(THEME_EDITOR_PATH);
 
   for await (const dirent of dir) {
     if (dirent.isDirectory() && /^(ch5)[-a-zA-Z]+/.test(dirent.name)) {
-      CH5ComponentsPath.push(dirent.name);
+      ch5ComponentsPath.push(dirent.name);
     }
   }
 
-  return CH5ComponentsPath;
+  return ch5ComponentsPath;
 }
-
 
 async function initialize() {
   // Dynamically traversing items is temporarily removed
@@ -170,17 +169,13 @@ async function initialize() {
 
   // For each component flatten its scss
   const flattenedComponents = await flattenScssComponents(Object.keys(componentsPath));
-  // const flattenedComponents = await flattenScssComponents(['ch5-button']);
 
   // Build the final json structure and compute
   const outputJSON = await buildJsonStructure(flattenedComponents, componentsPath);
 
   const writeToIndex: number = process.argv.findIndex(element => element === "--writeTo");
-  console.log("writeToIndex", writeToIndex);
-  console.log("process.argv.length", process.argv.length);
   if (writeToIndex >= 0 && process.argv.length > (writeToIndex + 1)) {
     const writeTo = process.argv[writeToIndex + 1];
-    console.log("writeTo", writeTo);
     if (writeTo && writeTo !== "") {
       jsonfile.writeFileSync(writeTo, outputJSON, { spaces: 2, EOL: '\r\n' });
     } else {
@@ -189,6 +184,7 @@ async function initialize() {
   } else {
     jsonfile.writeFileSync(OUTPUT_JSON, outputJSON, { spaces: 2, EOL: '\r\n' });
   }
+  console.log("Schema generated OK");
 }
 
 initialize();

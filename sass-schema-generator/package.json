@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@crestron/ch5-crcomlib": "^1.1.0",
     "jsonfile": "^6.1.0",
     "ts-node": "^10.2.1"
   },
