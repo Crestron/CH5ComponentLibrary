@@ -1283,13 +1283,8 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
         if (this.disabled) {
             return;
         }
-
-        inEvent.preventDefault();
-        inEvent.stopPropagation();
-
-        this.toggleChecked()
+        this.toggleChecked();
     }
-
 
     /**
      * `toggleChecked()` calls the either the `checked` setter and flips its state.
