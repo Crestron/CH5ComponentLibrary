@@ -288,7 +288,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
         if (!this.parentElement ||
-            (this.parentElement && this.parentElement instanceof Ch5Dpad)) {
+            (this.parentElement &&
+                this.parentElement.nodeName.toLowerCase() === 'ch5-dpad')) {
             // user created DOM structure brings the code here
             // can be ignored on this run, since its restructured under dpad
             // and will be rendered correctly skipping this step
@@ -678,7 +679,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             this._pressableIsPressedSubscription = null;
         }
     }
-    
+
     /**
      * If type node is updated via html or js or signal, the change set attribue of type;
      * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
