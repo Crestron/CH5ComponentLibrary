@@ -10,11 +10,12 @@ import _ from 'lodash';
 export interface ICallback {
   arguments: string[] | {}[];
   reference: string;
+  callbackString: string;
 }
 
 export default class HtmlCallback {
 
-  protected _pattern = new RegExp('([\\w\\.]*)\\((.*)\\)','i');
+  protected _pattern = new RegExp('([\\w\\.]*)\\((.*)\\)', 'i');
   protected _callbacks: ICallback[] = [];
   protected _context: HTMLElement = {} as HTMLElement;
 
@@ -25,20 +26,10 @@ export default class HtmlCallback {
 
   public run(target: Event | HTMLElement | undefined): void {
     this._callbacks.forEach((callback: ICallback) => {
-
-      const methodReference = this.getNestedMethod(callback.reference);
-
-      if (!_.isNil(methodReference)) {
-        if (this.isNativeMethod(methodReference)) {
-          methodReference.apply(null, callback.arguments as []);
-        } else {
-          let args = callback.arguments;
-          if (_.isNil(target)) {
-            args = callback.arguments;
-          } else {
-            args[0] = target;
-          }
-          methodReference.apply(this.context, args as []);
+      if (this.verifyMethodExists(callback.callbackString) === true) {
+        const methodReference = this.getNestedMethod(callback.reference);
+        if (!_.isNil(methodReference)) {
+          methodReference.apply(this.context, callback.arguments as []);
         }
       }
     });
@@ -65,54 +56,56 @@ export default class HtmlCallback {
       return;
     }
 
-    const _window = window as {[key: string]: any};
+    const _window = window as { [key: string]: any };
     const callbacksList = callbacks.split(';');
 
     this._callbacks = callbacksList.filter(callback => {
       if (this._pattern.test(callback)) {
-        const callbackMethodSplitted = callback.match(this._pattern);
-        const callbackMethodName = !_.isNil(callbackMethodSplitted) ? callbackMethodSplitted[1] : '';
-
-        if (!_.isUndefined(this.getNestedMethod(callbackMethodName))) {
-          return true;
-        } else {
-          console.warn('Undefined method ' + callback);
-        }
+        return true;
+      } else {
+        return false;
       }
+    }).map(callback => {
+      const callbackMethodSplitted = callback.match(this._pattern);
+      const callbackMethodName = !_.isNil(callbackMethodSplitted) ? callbackMethodSplitted[1] : '';
+      const callbackMethodArguments = !_.isNil(callbackMethodSplitted) && !_.isNil(callbackMethodSplitted[2]) ? callbackMethodSplitted[2] : '';
 
+      console.log("callbackMethodArguments", callbackMethodArguments);
+      let methodArguments = callbackMethodArguments.split(',');
+      methodArguments = methodArguments.map(stringArgument => {
+        const _stringArgument = stringArgument.replace(/['"]/g, '');
+        if (stringArgument.indexOf('\'') > -1) {
+          return _stringArgument;
+        } else if (!_.isNaN(parseFloat(stringArgument))) {
+          return parseFloat(_stringArgument);
+        }
 
+        if (_stringArgument === "true" || _stringArgument === "false") {
+          return _stringArgument === "true";
+        }
 
-      return false;
-    }).map(
-      callback => {
+        return _window[_stringArgument];
+      });
 
-        const callbackMethodSplitted = callback.match(this._pattern);
-        const callbackMethodName = !_.isNil(callbackMethodSplitted) ? callbackMethodSplitted[1] : '';
-        const callbackMethodArguments = !_.isNil(callbackMethodSplitted) && !_.isNil(callbackMethodSplitted[2]) ? callbackMethodSplitted[2] : '';
-        let methodArguments = callbackMethodArguments.split(',');
-
-        methodArguments = methodArguments.map(stringArgument => {
-
-          const _stringArgument = stringArgument.replace(/['"]/g, '');
-
-          if (stringArgument.indexOf('\'') > -1) {
-            return _stringArgument;
-          } else if (!_.isNaN(parseFloat(stringArgument))) {
-            return parseFloat(_stringArgument);
-          }
-
-          if (_stringArgument === "true" || _stringArgument === "false") {
-            return _stringArgument === "true";
-          }
-
-          return _window[_stringArgument];
-        });
-
-        return {
-          reference: callbackMethodName,
-          arguments: methodArguments
-        } as ICallback;
+      return {
+        reference: callbackMethodName,
+        arguments: methodArguments,
+        callbackString: callback
+      } as ICallback;
     });
+  }
+
+  protected verifyCallback(callback: string) {
+    if (this._pattern.test(callback)) {
+      const callbackMethodSplitted = callback.match(this._pattern);
+      const callbackMethodName = !_.isNil(callbackMethodSplitted) ? callbackMethodSplitted[1] : '';
+      if (!_.isUndefined(this.verifyMethodExists(callbackMethodName))) {
+        return true;
+      } else {
+        console.error('Undefined method ' + callback);
+      }
+    }
+    return false;
   }
 
   /**
@@ -120,10 +113,8 @@ export default class HtmlCallback {
    *
    * @param nestedObject
    */
-  protected getNestedMethod(_nestedObject: string, ref?: {[key: string]: any}): (() => void) | undefined {
-
-    const _window = window as {[key: string]: any};
-
+  protected getNestedMethod(_nestedObject: string, ref?: { [key: string]: any }): (() => void) | undefined {
+    const _window = window as { [key: string]: any };
     if (_.isNil(_nestedObject)) {
       return;
     }
@@ -138,11 +129,13 @@ export default class HtmlCallback {
     }
 
     if (_.isObject(methodReference) && !_.isFunction(methodReference)) {
-      methodReference = this.getNestedMethod(nestedObject[1], methodReference as {[key: string]: string});
+      methodReference = this.getNestedMethod(nestedObject[1], methodReference as { [key: string]: string });
     }
-
     return methodReference;
+  }
 
+  protected verifyMethodExists(_nestedObject: string) {
+    return (typeof eval(_nestedObject) === "function");
   }
 
   /**
@@ -152,13 +145,10 @@ export default class HtmlCallback {
    * @return {boolean}
    */
   protected isNativeMethod(methodReference: (() => void)): boolean {
-
     const methodString: string = methodReference.toString();
-
     if (methodString.indexOf('[native code]') === -1) {
       return false;
     }
-
     return true;
   }
 }
