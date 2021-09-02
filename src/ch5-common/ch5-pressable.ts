@@ -306,25 +306,31 @@ export class Ch5Pressable {
 	 */
 	private _onHold() {
 		if (!this._pressed) {
+			// add the visual feedback
 			this._addCssPressClass();
+
+			// update state of the button and tell the button the state
+			this._pressed = true;
+			this.observablePressed.next(this._pressed);
+			this._released = false;
+
+			// dispatch event for addEventListener consumers
 			this._ch5Component.dispatchEvent(this._pressEvent);
-		}
 
-		this._pressed = true;
-		this.observablePressed.next(this._pressed);
-		this._released = false;
-
-		// simply eval()uate the on<event> text.   
-		// This is consistent with how standard events are processed, example <div onclick="">
-		const onPressAttrib = this._ch5Component.getAttribute('onpress');
-		if (onPressAttrib !== null) {
-			try {
-				// tslint:disable-next-line: no-eval
-				eval(onPressAttrib);
+			// dispatch event for onpress="" consumers 
+			// simply eval()uate the on<event> text.   
+			// This is consistent with how standard events are processed, example <div onclick="">
+			const onPressAttrib = this._ch5Component.getAttribute('onpress');
+			if (onPressAttrib !== null) {
+				try {
+					// tslint:disable-next-line: no-eval
+					eval(onPressAttrib);
+				}
+				// tslint:disable-next-line: no-empty
+				catch (e) { };
 			}
-			// tslint:disable-next-line: no-empty
-			catch (e) { };
 		}
+
 	}
 
 	/**
@@ -337,24 +343,29 @@ export class Ch5Pressable {
 	 */
 	private _onRelease() {
 		if (!this._released) {
+			// remove the visual feedback
 			this._removeCssPressClass();
+
+			// update state of the button and tell the button the state
+			this._pressed = false;
+			this.observablePressed.next(this._pressed);
+			this._released = true;
+
+			// dispatch event for addEventListener consumers
 			this._ch5Component.dispatchEvent(this._releaseEvent);
-		}
 
-		this._pressed = false;
-		this.observablePressed.next(this._pressed);
-		this._released = true;
-
-		// simply eval()uate the on<event> text.   
-		// This is consistent with how standard events are processed, example <div onclick="">
-		const onReleaseAttrib = this._ch5Component.getAttribute('onrelease');
-		if (onReleaseAttrib !== null) {
-			try {
-				// tslint:disable-next-line: no-eval
-				eval(onReleaseAttrib);
+			// dispatch event for onrelease="" consumers 
+			// simply eval()uate the on<event> text.   
+			// This is consistent with how standard events are processed, example <div onclick="">
+			const onReleaseAttrib = this._ch5Component.getAttribute('onrelease');
+			if (onReleaseAttrib !== null) {
+				try {
+					// tslint:disable-next-line: no-eval
+					eval(onReleaseAttrib);
+				}
+				// tslint:disable-next-line: no-empty
+				catch (e) { };
 			}
-			// tslint:disable-next-line: no-empty
-			catch (e) { };
 		}
 	}
 
@@ -387,5 +398,5 @@ export class Ch5Pressable {
 			this._options.cssTargetElement.classList.remove(this._options.cssPressedClass);
 		}
 	}
-	
+
 }
