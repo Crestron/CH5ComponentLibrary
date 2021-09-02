@@ -37,7 +37,6 @@
         ]
       }
     ],
-    "no-eval": false, // temporary
     "no-console": false, // temporary
     "no-empty-interface": false,
     "whitespace": [true, "check-branch", "check-operator", "check-typecast"]
