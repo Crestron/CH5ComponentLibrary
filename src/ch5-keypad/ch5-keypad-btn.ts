@@ -12,7 +12,7 @@ import { Ch5Pressable } from "../ch5-common/ch5-pressable";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { normalizeEvent } from "../ch5-triggerview/utils";
-import { Ch5Keypad } from "./ch5-keypad";
+import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5KeypadBtnAttributes } from "./interfaces/i-ch5-keypad-btn-interfaces";
 import { TCh5KeypadBtnCreateDTO } from "./interfaces/t-ch5-keypad";
 
@@ -32,14 +32,16 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     private COMPONENT_NAME: string = "ch5-keypad";
     private params: TCh5KeypadBtnCreateDTO = {} as TCh5KeypadBtnCreateDTO;
     protected componentPrefix: string = 'ch5-keypad-button-';
-    private labelMajorCssClass: string = 'label-major';
-    private labelMinorCssClass: string = 'label-minor';
+    protected emptyBtnCssClass: string = 'empty-btn';
+    protected labelMajorCssClass: string = 'label-major';
+    protected labelMinorCssClass: string = 'label-minor';
+    protected specialBtnCssClass: string = 'special-center';
 
     // protected setter getter specific vars
     // protected _disabled: boolean = true; // not required as its in common.ts
     // protected _show: boolean = true; // not required as its in common.ts
-    protected _iconClass: string = '';
-    protected _iconUrl: string = '';
+    protected _labelMajor: string = '';
+    protected _labelMinor: string = '';
     protected _sendEventOnClick: string = '';
 
     // signal based vars for each receive state
@@ -92,6 +94,53 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     //#endregion
 
     //#region 2. Setters and Getters
+
+    /**
+     * labelMajor specif getter-setter
+     */
+    public set labelMajor(value: string) {
+        this.logger.start('set labelMajor("' + value + '")');
+        if ((value !== '') && (value !== this._labelMajor)) {
+            this._labelMajor = value;
+        } else {
+            this._labelMajor = this.params.major;
+        }
+        this.setAttribute('labelMajor'.toLowerCase(), value);
+    }
+    public get labelMajor() {
+        return this._labelMajor;
+    }
+
+    /**
+     * labelMinor specif getter-setter
+     */
+    public set labelMinor(value: string) {
+        this.logger.start('set labelMinor("' + value + '")');
+        if ((value !== '') && (value !== this._labelMinor)) {
+            this._labelMinor = value;
+        } else {
+            this._labelMinor = this.params.minor;
+        }
+        this.setAttribute('labelMinor'.toLowerCase(), value);
+    }
+    public get labelMinor() {
+        return this._labelMinor;
+    }
+
+    /**
+     * sendEventOnClick specif getter-setter
+     */
+    public set sendEventOnClick(value: string) {
+        this.logger.start('set sendEventOnClick("' + value + '")');
+        if ((value !== '') && (value !== this._sendEventOnClick)) {
+            this._sendEventOnClick = value;
+            this.setAttribute('sendEventOnClick'.toLowerCase(), value);
+        }
+    }
+    public get sendEventOnClick() {
+        return this._sendEventOnClick;
+    }
+
     //#endregion
 
     //#region 3. Lifecycle Hooks
@@ -102,6 +151,32 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         this.params = params;
 
         ComponentHelper.clearComponentContent(this);
+
+        // set attributes based on onload attributes
+        this.initAttributes();
+
+        this.logger.stop();
+    }
+
+    /**
+     *  Called to initialize all attributes
+     */
+    protected initAttributes(): void {
+        this.logger.start("initAttributes", this.COMPONENT_NAME);
+        super.initAttributes();
+        // set data-ch5-id
+        this.setAttribute('data-ch5-id', this.getCrId());
+
+        ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
+
+        this._labelMajor = this.params.major;
+        this._labelMinor = this.params.minor;
+        this._sendEventOnClick = this.params.contractName;
+
+        this.labelMajor = ComponentHelper.setAttributeToElement(this,
+            'contractName'.toLowerCase(), this._labelMajor);
+        this.labelMinor = ComponentHelper.setAttributeToElement(this,
+            'contractName'.toLowerCase(), this._labelMinor);
 
         this.logger.stop();
     }
@@ -153,10 +228,14 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         ComponentHelper.clearComponentContent(this);
         this.classList.add(this.primaryCssClass);
         this.classList.add(...(this.params.className.split(' ')));
-        const btn = document.createElement('button');
-        btn.appendChild(this.createLabelElementAndAppend(this.labelMajorCssClass, this.params.major));
-        btn.appendChild(this.createLabelElementAndAppend(this.labelMinorCssClass, this.params.minor));
-        this.appendChild(btn);
+        if (!!this.params.major || !!this.params.minor || this.params.iconClass.length > 0) {
+            const btn = document.createElement('button');
+            btn.appendChild(this.createLabelElementAndAppend(this.labelMajorCssClass, this.params.major));
+            btn.appendChild(this.createLabelElementAndAppend(this.labelMinorCssClass, this.params.minor));
+            this.appendChild(btn);
+        } else {
+            this.classList.add(this.emptyBtnCssClass);
+        }
         this.logger.stop();
     }
 
@@ -167,7 +246,15 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     protected createLabelElementAndAppend(className: string, value: string = '') {
         const labelEle = document.createElement('span');
         labelEle.classList.add(className);
-        labelEle.innerHTML = value;
+        if (this.params.iconClass.length > 0 && className === this.labelMajorCssClass) {
+            const icn = document.createElement('span');
+            icn.classList.add(...this.params.iconClass);
+            labelEle.appendChild(icn);
+            labelEle.classList.add('has-icon');
+            this.classList.add(this.specialBtnCssClass);
+        } else {
+            labelEle.innerHTML = value;
+        }
         return labelEle;
     }
 

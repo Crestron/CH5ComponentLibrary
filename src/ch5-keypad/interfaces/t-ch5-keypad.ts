@@ -11,11 +11,11 @@ export type TCh5KeypadShape = 'rounded' | 'square' | 'circle';
 
 export type TCh5KeypadStretch = 'both' | 'width' | 'height';
 
-export  type TCh5KeypadBtnCreateDTO = {
+export type TCh5KeypadBtnCreateDTO = {
     name: string,
     major: string,
     minor: string,
     className: string,
-    dimension?: number,
-    iconClass?: string
+    iconClass: string[],
+    contractName: string
 }

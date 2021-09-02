@@ -13,12 +13,12 @@ import { Ch5DpadTop } from "./ch5-dpad-button-top";
 import { Ch5DpadRight } from "./ch5-dpad-button-right";
 import { Ch5DpadBottom } from "./ch5-dpad-button-bottom";
 import { Ch5DpadLeft } from "./ch5-dpad-button-left";
-import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-attributes";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
+import { ComponentHelper } from "../ch5-common/utils/component-helper";
 
 export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     //#region 1. Variables
@@ -103,7 +103,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     public set type(value: TCh5DpadType) {
         this.logger.start('set type ("' + value + '")');
-        CH5DpadUtils.setAttributeValueOnControl(this, 'type', value, Ch5Dpad.TYPES,
+        ComponentHelper.setAttributeValueOnControl(this, 'type', value, Ch5Dpad.TYPES,
             this.updateCssClasses.bind(this));
         this.logger.stop();
     }
@@ -116,7 +116,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     public set shape(value: TCh5DpadShape) {
         this.logger.start('set shape ("' + value + '")');
-        CH5DpadUtils.setAttributeValueOnControl(this, 'shape', value, Ch5Dpad.SHAPES,
+        ComponentHelper.setAttributeValueOnControl(this, 'shape', value, Ch5Dpad.SHAPES,
             () => {
                 this.checkAndRestructureDomOfDpad();
                 this.updateCssClasses();
@@ -135,7 +135,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.logger.start('set stretch ("' + value + '")');
         if (value !== null) {
             const stretches = ['', ...Ch5Dpad.STRETCHES];
-            CH5DpadUtils.setAttributeValueOnControl(this, 'stretch', value, stretches,
+            ComponentHelper.setAttributeValueOnControl(this, 'stretch', value, stretches,
                 this.stretchHandler.bind(this));
         }
         this.logger.stop();
@@ -174,7 +174,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.logger.start('Ch5Dpad set useContractforEnable("' + value + '")');
 
         const isUseContractforEnable = this.toBoolean(value);
-        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
+        const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
         if (contractName.length === 0 || this._useContractForShow === isUseContractforEnable) {
             return;
@@ -192,7 +192,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                 newValue = (!newValue).toString();
                 this.info(' subs callback for useContractforEnable: ', this._useContractforEnableSignalValue,
                     ' Signal has value ', newValue);
-                CH5DpadUtils.setAttributeToElement(this, 'disabled', newValue);
+                ComponentHelper.setAttributeToElement(this, 'disabled', newValue);
             }
         };
 
@@ -210,7 +210,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.logger.start('Ch5Dpad set useContractForShow("' + value + '")');
 
         const isUseContractForShow = this.toBoolean(value);
-        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
+        const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
         if (contractName.length === 0 || this._useContractForShow === isUseContractForShow) {
             return;
@@ -227,7 +227,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                 newValue = newValue.toString();
                 this.info(' subs callback for signalReceiveShow: ', this._useContractForShowSignalValue,
                     ' Signal has value ', newValue);
-                CH5DpadUtils.setAttributeToElement(this, 'show', newValue);
+                ComponentHelper.setAttributeToElement(this, 'show', newValue);
             }
         };
 
@@ -245,7 +245,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.logger.start('Ch5Dpad set useContractForCustomStyle("' + value + '")');
 
         const isUseContractForCustomStyle = this.toBoolean(value);
-        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
+        const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
         if (contractName.length === 0 || this._useContractForCustomStyle === isUseContractForCustomStyle) {
             return;
@@ -281,7 +281,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.logger.start('Ch5Dpad set useContractForCustomClass("' + value + '")');
 
         const isUuseContractForCustomClass = this.toBoolean(value);
-        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
+        const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
         if (contractName.length === 0 || this._useContractForCustomClass === isUuseContractForCustomClass) {
             return;
@@ -589,7 +589,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         super();
         this.logger.start('constructor()', this.COMPONENT_NAME);
 
-        CH5DpadUtils.clearComponentContent(this);
+        ComponentHelper.clearComponentContent(this);
 
         // set attributes based on onload attributes
         this.initAttributes();
@@ -718,54 +718,54 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         }
 
         this.info('ch5-dpad attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-        const isValidContract: boolean = (CH5DpadUtils.getAttributeAsString(this, 'contractname', '').length > 0);
+        const isValidContract: boolean = (ComponentHelper.getAttributeAsString(this, 'contractname', '').length > 0);
 
         switch (attr) {
             case 'usecontractforshow':
-                this.useContractForShow = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'usecontractforenable':
-                this.useContractforEnable = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractforEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'usecontractforcustomstyle':
-                this.useContractForCustomStyle = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'usecontractforcustomclass':
-                this.useContractForCustomClass = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractForCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'receivestateshow':
                 if (!isValidContract) {
-                    this.receiveStateShow = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    this.receiveStateShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 }
                 break;
             case 'receivestateenable':
                 if (!isValidContract) {
-                    this.receiveStateEnable = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    this.receiveStateEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 }
                 break;
             case 'receivestateshowpulse':
                 if (!isValidContract) {
-                    this.receiveStateShowPulse = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    this.receiveStateShowPulse = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 }
                 break;
             case 'receivestatehidepulse':
                 if (!isValidContract) {
-                    this.receiveStateHidePulse = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    this.receiveStateHidePulse = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 }
                 break;
             case 'receivestatecustomstyle':
                 if (!isValidContract) {
-                    this.receiveStateCustomStyle = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    this.receiveStateCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 }
                 break;
             case 'receivestatecustomclass':
                 if (!isValidContract) {
-                    this.receiveStateCustomClass = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    this.receiveStateCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 }
                 break;
             case 'sendeventonclickstart':
                 if (!isValidContract) {
-                    this.sendEventOnClickStart = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    this.sendEventOnClickStart = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 }
                 break;
             case 'type':
@@ -896,24 +896,26 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         // set data-ch5-id
         this.setAttribute('data-ch5-id', this.getCrId());
 
-        CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad); // WAI-ARIA Attributes
-        this.contractName = CH5DpadUtils.setAttributeToElement(this, 'contractName'.toLowerCase(), this._contractName);
-        this.type = CH5DpadUtils.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
-        this.shape = CH5DpadUtils.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
-        this.stretch = CH5DpadUtils.setAttributeToElement(this, 'stretch', this._stretch as string) as TCh5DpadStretch;
+        ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad); // WAI-ARIA Attributes
+        this.contractName = ComponentHelper.setAttributeToElement(this, 'contractName'.toLowerCase(), this._contractName);
+        this.sendEventOnClickStart = ComponentHelper.setAttributeToElement(
+            this, 'sendEventOnClickStart'.toLowerCase(), this._sendEventOnClickStart);
+        this.type = ComponentHelper.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
+        this.shape = ComponentHelper.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
+        this.stretch = ComponentHelper.setAttributeToElement(this, 'stretch', this._stretch as string) as TCh5DpadStretch;
 
         // DEV NOTE: if contract name exists, and the individual attribute values don't exist, 
         // then the default value is true for useContractFor*
         // else useContractFor* picks value from attributes
         const isContractNameAvailable = Boolean(this.contractName).toString();
-        this.useContractforEnable = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractforEnable'.toLowerCase(), isContractNameAvailable));
-        this.useContractForShow = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractForShow'.toLowerCase(), isContractNameAvailable));
-        this.useContractForCustomStyle = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractForCustomStyle'.toLowerCase(), isContractNameAvailable));
-        this.useContractForCustomStyle = CH5DpadUtils.getBoolFromString(
-            CH5DpadUtils.setAttributeToElement(this, 'useContractForCustomClass'.toLowerCase(), isContractNameAvailable));
+        this.useContractforEnable = ComponentHelper.getBoolFromString(
+            ComponentHelper.setAttributeToElement(this, 'useContractforEnable'.toLowerCase(), isContractNameAvailable));
+        this.useContractForShow = ComponentHelper.getBoolFromString(
+            ComponentHelper.setAttributeToElement(this, 'useContractForShow'.toLowerCase(), isContractNameAvailable));
+        this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
+            ComponentHelper.setAttributeToElement(this, 'useContractForCustomStyle'.toLowerCase(), isContractNameAvailable));
+        this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
+            ComponentHelper.setAttributeToElement(this, 'useContractForCustomClass'.toLowerCase(), isContractNameAvailable));
 
         this.logger.stop();
     }
@@ -1037,8 +1039,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         attrToCheck = attrToCheck.toLowerCase();
         attrToSet = attrToSet.toLowerCase();
         this.info('Ch5Dpad set ' + attrToCheck + '("' + value + '")');
-        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
-        const isContractBased = CH5DpadUtils.getAttributeAsBool(this, attrToSet, this.checkIfValueIsTruey(contractName));
+        const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+        const isContractBased = ComponentHelper.getAttributeAsBool(this, attrToSet, this.checkIfValueIsTruey(contractName));
 
         return isContractBased;
     }
@@ -1049,7 +1051,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * @param eventKeyStart sendEventOnClickStart event's initial value
      */
     private updateEventClickHandlers(eventKeyStart: number) {
-        const contractName = CH5DpadUtils.getAttributeAsString(this, 'contractname', '');
+        const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
         if (contractName.length === 0 && !isNaN(eventKeyStart)) {
             const centerBtn = this.getElementsByTagName("ch5-dpad-button-center")[0];
             if (!_.isNil(centerBtn)) {

@@ -145,4 +145,29 @@ export class ComponentHelper {
             }
         }
     }
+
+    /**
+     * Function to check and assign value based on the attribute received
+     * @param thisRef the control for setting attribute value
+     * @param attrKey attribute key for the given control to set value 
+     * @param value actual value to be ste
+     * @param validValues valid values to be tested against before checking
+     */
+    public static setAttributeValueOnControlAsBool(
+        thisRef: any, attrKey: string, value: boolean, defaultValue: boolean, callback: any) {
+        const pvtAttrKey = '_' + attrKey;
+        if (value !== thisRef[pvtAttrKey]) {
+            if (typeof (value) === 'boolean') {
+                thisRef[pvtAttrKey] = value;
+            } else {
+                thisRef[pvtAttrKey] = defaultValue;
+            }
+            if (thisRef[pvtAttrKey] !== null) {
+                thisRef.setAttribute(attrKey, thisRef[pvtAttrKey].toString());
+            }
+            if (callback !== null) {
+                callback();
+            }
+        }
+    }
 }
