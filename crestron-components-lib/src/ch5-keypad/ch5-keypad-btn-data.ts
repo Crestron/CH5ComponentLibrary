@@ -37,21 +37,22 @@ export class CH5KeypadBtnData {
     public static getBtnList_Extra(): TCh5KeypadBtnCreateDTO[] {
         return [
             this.getButtonData('extra-left', '', '', 'extra-btn'),
-            this.getButtonData('extra-center', '', '', 'extra-btn'),
+            this.getButtonData('extra-center', '', '', 'extra-btn', ['fas', 'fa-phone-alt']),
             this.getButtonData('extra-right', '', '', 'extra-btn'),
         ];
     }
 
     public static getButtonData(
-        name: string, major: string, minor: string, className: string = 'number-btn'
+        name: string, major: string, minor: string,
+        className: string = 'number-btn', iconClass: string[] = []
     ): TCh5KeypadBtnCreateDTO {
-        const iconClass = !!major ? '' : 'fas fa-phone-alt';
         return {
             name,
             major,
             minor,
             className,
-            iconClass
+            iconClass,
+            contractName: '' // defaulting contractName to empty
         };
     }
 }

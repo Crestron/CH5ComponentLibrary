@@ -65,6 +65,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private container: HTMLElement = {} as HTMLElement;
     private containerClass: string = 'keypad-container';
     private keysRowClass: string = 'keypad-row';
+    private keysRowClassExtra: string = 'keypad-row-extra';
 
     //#endregion
 
@@ -113,7 +114,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         this.logger.start('set shape ("' + value + '")');
         ComponentHelper.setAttributeValueOnControl(this, 'shape', value, Ch5Keypad.SHAPES,
             () => {
-                // this.checkAndRestructureDomOfKeypad();
                 this.shapeHandler();
             }
         );
@@ -130,8 +130,10 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         this.logger.start('set stretch ("' + value + '")');
         if (value !== null) {
             const stretches = ['', ...Ch5Keypad.STRETCHES];
-            ComponentHelper.setAttributeValueOnControl(this, 'stretch', value, stretches,
-                this.stretchHandler.bind(this));
+            ComponentHelper.setAttributeValueOnControl(
+                this, 'stretch', value, stretches,
+                this.stretchHandler.bind(this)
+            );
         }
         this.logger.stop();
     }
@@ -144,8 +146,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      */
     public set showExtraButton(value: boolean) {
         this.logger.start('set showExtraButton ("' + value + '")');
-        ComponentHelper.setAttributeValueOnControl(this,
-            'showExtraButton'.toLowerCase(), value.toString(), Ch5Keypad.SHAPES,
+        ComponentHelper.setAttributeValueOnControlAsBool(
+            this, 'showExtraButton', value, false,
             () => {
                 this.showExtraButtonHandler();
             }
@@ -617,7 +619,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         // set data-ch5-id
         this.setAttribute('data-ch5-id', this.getCrId());
 
-        ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Dpad); // WAI-ARIA Attributes
+        ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Keypad); // WAI-ARIA Attributes
         this.contractName = ComponentHelper.setAttributeToElement(this,
             'contractName'.toLowerCase(), this._contractName);
         this.type = ComponentHelper.setAttributeToElement(this,
@@ -626,6 +628,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             'shape', this._shape) as TCh5KeypadShape;
         this.stretch = ComponentHelper.setAttributeToElement(this,
             'stretch', this._stretch as string) as TCh5KeypadStretch;
+            this.sendEventOnClickStart = ComponentHelper.setAttributeToElement(
+                this, 'sendEventOnClickStart'.toLowerCase(), this._sendEventOnClickStart);
 
         this.showExtraButton = ComponentHelper.getBoolFromString(
             ComponentHelper.setAttributeToElement(this,
@@ -852,6 +856,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             this.classList.remove(this.btnShapeClassPrefix + typeVal);
         }
         this.classList.add(this.btnShapeClassPrefix + this.shape);
+
+        this.classList.add(this.btnTypeClassPrefix +
+            ((this.showExtraButton) ? "extra-row-hide" : "extra-row-hide"));
     }
 
     //#endregion
@@ -892,15 +899,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             const keyBtn = new Ch5KeypadBtn(btn);
             rowEle.appendChild(keyBtn);
         }
-        if (this.showExtraButton) {
-            const extraBtns: TCh5KeypadBtnCreateDTO[] = CH5KeypadBtnData.getBtnList_Extra();
-            rowEle = this.appendKeysRowToContainer();
-            this.container.appendChild(rowEle);
-            for (const btn of extraBtns) {
-                const keyBtn = new Ch5KeypadBtn(btn);
-                rowEle.appendChild(keyBtn);
-            }
-        }
+        this.showExtraButtonHandler();
     }
 
     /**
@@ -963,6 +962,29 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private showExtraButtonHandler() {
         this.logger.start(this.COMPONENT_NAME + ' > showExtraButtonHandler');
         this.updateCssClasses();
+
+        // check if the row already exists, if yes then remove it and build again
+        const extraRow = this.getElementsByClassName(this.keysRowClassExtra);
+        if (extraRow.length > 0) {
+            Array.from(extraRow).forEach((row) => {
+                row.remove();
+            });
+        }
+
+        if (this.showExtraButton &&
+            (!!this.container.classList &&
+                this.container.classList.contains(this.containerClass))) {
+            const rowEle = this.appendKeysRowToContainer();
+            rowEle.classList.add(this.keysRowClassExtra);
+            const extraBtns: TCh5KeypadBtnCreateDTO[] = CH5KeypadBtnData.getBtnList_Extra();
+            this.container.appendChild(rowEle);
+            for (const btn of extraBtns) {
+                const keyBtn = new Ch5KeypadBtn(btn);
+                rowEle.appendChild(keyBtn);
+            }
+            this.container.appendChild(rowEle);
+        }
+
         this.logger.stop();
     }
 
