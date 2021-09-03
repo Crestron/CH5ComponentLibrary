@@ -28,10 +28,10 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "***",
      * "Overrides the appearance of each of the buttons inside <ch5-Keypad> with alternative CSS ",
      * "defined in classes defined with ch5-Keypad--type where type is the value of the property. "​,
-     * "If no "type" is provided, type of 'default' is used."
+     * "If no "type" is provided, type of 'primary' is used."
      * ]
      * @name type
-     * @default default
+     * @default primary
      */
     type: TCh5KeypadType;
 
