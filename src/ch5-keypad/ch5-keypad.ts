@@ -21,7 +21,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     /**
      * The first value is considered the default one
      */
-    public static readonly TYPES: TCh5KeypadType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+    public static readonly TYPES: TCh5KeypadType[] = ['primary', 'default', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
 
     /**
      * The first value is considered the default one
@@ -100,7 +100,10 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     public set type(value: TCh5KeypadType) {
         this.logger.start('set type ("' + value + '")');
         ComponentHelper.setAttributeValueOnControl(this, 'type', value, Ch5Keypad.TYPES,
-            this.typeHandler);
+            () => {
+                this.typeHandler();
+            }
+        );
         this.logger.stop();
     }
     public get type(): TCh5KeypadType {
@@ -628,8 +631,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             'shape', this._shape) as TCh5KeypadShape;
         this.stretch = ComponentHelper.setAttributeToElement(this,
             'stretch', this._stretch as string) as TCh5KeypadStretch;
-            this.sendEventOnClickStart = ComponentHelper.setAttributeToElement(
-                this, 'sendEventOnClickStart'.toLowerCase(), this._sendEventOnClickStart);
+        this.sendEventOnClickStart = ComponentHelper.setAttributeToElement(
+            this, 'sendEventOnClickStart'.toLowerCase(), this._sendEventOnClickStart);
 
         this.showExtraButton = ComponentHelper.getBoolFromString(
             ComponentHelper.setAttributeToElement(this,
