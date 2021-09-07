@@ -60,13 +60,7 @@ function extractGlobalMixins() {
 
 async function buildJsonStructure(flattenedComponents: { flattenedScss: string, name: string }[], componentsPath: any) {
   // The default base structure
-  const jsonObject: BASE_OBJECT_INTERFACE = {
-    "ch5-elements": [
-      {
-        component: [],
-      }
-    ]
-  };
+  const jsonObject: BASE_OBJECT_INTERFACE = {};
 
   // Extract the global mixins which are used throughout the whole application
   const globalMixins = extractGlobalMixins();
@@ -85,10 +79,8 @@ async function buildJsonStructure(flattenedComponents: { flattenedScss: string, 
       generatePropertiesJson(properties, component.name);
       // Process the flattened scss
       const outputJson = await processSassfile(component.flattenedScss, component.name, properties, globalMixins, businessRules);
-      jsonObject["ch5-elements"][0].component.push({
-        tagName: component.name,
-        version: VERSION,
-        style: outputJson
+      Object.assign(jsonObject, {
+        [component.name]: outputJson
       });
     } catch (err) {
       console.log(err, component.name, 'BUILD JSON STRUCTURE');
