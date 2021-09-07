@@ -66,6 +66,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private containerClass: string = 'keypad-container';
     private keysRowClass: string = 'keypad-row';
     private keysRowClassExtra: string = 'keypad-row-extra';
+    private childButtonList: { [key: string]: Ch5KeypadBtn; } = {};
 
     //#endregion
 
@@ -891,7 +892,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             item.remove();
         }
         this.createEmptyContainerDiv();
-        const data: TCh5KeypadBtnCreateDTO[] = CH5KeypadBtnData.getBtnList();
+        const data: TCh5KeypadBtnCreateDTO[] = CH5KeypadBtnData.getBtnList(this.contractName);
         let rowEle = this.appendKeysRowToContainer();
         for (let i = 0; i < data.length; i++) {
             if (i % 3 === 0) {
@@ -900,6 +901,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             }
             const btn = data[i];
             const keyBtn = new Ch5KeypadBtn(btn);
+            this.childButtonList[btn.name] = keyBtn;
             rowEle.appendChild(keyBtn);
         }
         this.showExtraButtonHandler();
@@ -979,10 +981,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 this.container.classList.contains(this.containerClass))) {
             const rowEle = this.appendKeysRowToContainer();
             rowEle.classList.add(this.keysRowClassExtra);
-            const extraBtns: TCh5KeypadBtnCreateDTO[] = CH5KeypadBtnData.getBtnList_Extra();
+            const extraBtns: TCh5KeypadBtnCreateDTO[] = CH5KeypadBtnData.getBtnList_Extra(this.contractName);
             this.container.appendChild(rowEle);
             for (const btn of extraBtns) {
                 const keyBtn = new Ch5KeypadBtn(btn);
+                this.childButtonList[btn.name] = keyBtn;
                 rowEle.appendChild(keyBtn);
             }
             this.container.appendChild(rowEle);
