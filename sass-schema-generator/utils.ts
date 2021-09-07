@@ -22,11 +22,5 @@ export interface RULES_INTERFACE {
 }
 
 export interface BASE_OBJECT_INTERFACE {
-  "ch5-elements": {
-    component: {
-      tagName: string,
-      version: string,
-      style: RULES_INTERFACE[]
-    }[]
-  }[]
+  [key: string]: RULES_INTERFACE[]
 }

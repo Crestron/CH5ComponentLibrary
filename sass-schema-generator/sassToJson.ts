@@ -37,7 +37,7 @@ function extractDocumentation(data: string): string {
   const documentation = data.match(documentationRegex);
 
   // Expect only one documentation per selector
-  return (documentation || []).map(doc => doc.replace(/\/\/\//, '').replace(/\s\s+/g, ' ').trim())[0] || '';
+  return (documentation || []).map(doc => doc.replace(/\/\/\//, '').replace(/\s\s+/g, ' ').trim())[documentation?.length - 1] || '';
 }
 
 /**
@@ -77,12 +77,10 @@ function processNodeParents(node: any) {
 /**
  * Process the body of a selector - its properties - so that we can extract those that support variables
  * @param body
- * @param mixins
  */
-function extractVariables(body: string, mixins: {name: string, content: string}[]) {
-  const processedBody = processInclude(body, mixins);
+function extractVariables(body: string) {
   let supportsVariables = [];
-  const splitProperties = processedBody.split(';').map(property => property.replace(/\s\s+/g, ' ').trim());
+  const splitProperties = body.split(';').map(property => property.replace(/\s\s+/g, ' ').trim());
 
   for (const property of splitProperties) {
     if (property.includes('$')) {
@@ -93,6 +91,12 @@ function extractVariables(body: string, mixins: {name: string, content: string}[
   return supportsVariables;
 }
 
+
+function removeMixins(data: string) {
+  const mixinsRegex = new RegExp(/(@mixin)([\s\S]*?)(^})/, 'gm');
+  return data.replace(mixinsRegex, '');
+}
+
 /**
  * Extract the mixins from the given scss. Return their name and content
  * @param data
@@ -100,9 +104,9 @@ function extractVariables(body: string, mixins: {name: string, content: string}[
 function extractMixins(data: string) {
   const mixins = [];
   // This will match the whole mixin except the last closing bracket } which we will consider to be the last one.
-  const mixinsRegex = new RegExp(/(@mixin[ a-zA-Z0-9-($,){:.%;\r\n]+)/, 'g');
+  const mixinsRegex = new RegExp(/(@mixin)([\s\S]*?)(^})/, 'gm');
   const mixinNameRegex = new RegExp(/(@mixin[ a-zA-Z0-9-]+)/, 'g');
-  const mixinContentRegex = new RegExp(/(?<={)[^}]*/, 'g');
+  const mixinContentRegex = new RegExp(/(?<={)[\s\S]*(?=})/, 'g');
   for (const mixin of (data.match(mixinsRegex) || [])) {
     const name = mixin.match(mixinNameRegex)[0].substr(7).trim();
     const content = mixin.match(mixinContentRegex)[0].replace(/\s\s+/g, ' ').trim();
@@ -167,10 +171,6 @@ function computeShowWhen(selector: string, properties: PROPERTIES_INTERFACE, bus
   return showWhen;
 }
 
-function checkIfNodeIsMixin(selector: string) {
-  return selector.trim().startsWith('@mixin');
-}
-
 async function processSassfile(data: string, name: string, helper: PROPERTIES_INTERFACE, globalMixins: ReturnType<typeof extractMixins>, businessRules: object) {
   let stringifiedData = data;
 
@@ -178,6 +178,10 @@ async function processSassfile(data: string, name: string, helper: PROPERTIES_IN
   stringifiedData = removeComments(stringifiedData);
 
   const mixins = extractMixins(stringifiedData).concat(globalMixins);
+
+  stringifiedData = removeMixins(stringifiedData);
+
+  stringifiedData = processInclude(stringifiedData, mixins);
 
   const rules: RULES_INTERFACE[] = [];
 
@@ -187,15 +191,12 @@ async function processSassfile(data: string, name: string, helper: PROPERTIES_IN
   // STEP 2: Traverse each selector
   // Selector and body are only some of the properties available.
   Parser.traverse(ast, async (node: {selector: string, body: string}) => {
-    if (checkIfNodeIsMixin(node.selector)) {
-      return;
-    }
     let selectors = [];
     let supports: string[] = [];
     let description = '';
 
     // STEP 3: Extract the supported properties - those that have variables - for the current selector
-    supports = extractVariables(node.body, mixins);
+    supports = extractVariables(node.body);
 
     // IF it doesn't support any variable, we are not interested in this node.
     if (!supports.length) {
