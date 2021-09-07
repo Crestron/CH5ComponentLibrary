@@ -35,7 +35,6 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     protected emptyBtnCssClass: string = 'empty-btn';
     protected labelMajorCssClass: string = 'label-major';
     protected labelMinorCssClass: string = 'label-minor';
-    protected specialBtnCssClass: string = 'special-center';
 
     // protected setter getter specific vars
     // protected _disabled: boolean = true; // not required as its in common.ts
@@ -174,9 +173,11 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         this._sendEventOnClick = this.params.contractName;
 
         this.labelMajor = ComponentHelper.setAttributeToElement(this,
-            'contractName'.toLowerCase(), this._labelMajor);
+            'major'.toLowerCase(), this._labelMajor);
         this.labelMinor = ComponentHelper.setAttributeToElement(this,
-            'contractName'.toLowerCase(), this._labelMinor);
+            'minor'.toLowerCase(), this._labelMinor);
+        this.sendEventOnClick = ComponentHelper.setAttributeToElement(this,
+            'sendEventOnClick'.toLowerCase(), this._sendEventOnClick);
 
         this.logger.stop();
     }
@@ -239,6 +240,118 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         this.logger.stop();
     }
 
+    /**
+     * Called every time the element is removed from the DOM.
+     * Useful for running clean up code.
+     */
+    public disconnectedCallback() {
+        this.removeEventListeners();
+
+        // destroy pressable
+        if (null !== this._pressable) {
+            this._pressable.destroy();
+        }
+        this.unsubscribeFromSignals();
+
+        // disconnect common mutation observer
+        this.disconnectCommonMutationObserver();
+    }
+
+    public removeEventListeners() {
+        if (!!this._hammerManager && !!this._hammerManager.off) {
+            this._hammerManager.off('tap', this._onTap);
+        }
+        this.removeEventListener('mousedown', this._onPressClick);
+        this.removeEventListener('mouseup', this._onMouseUp);
+        this.removeEventListener('mousemove', this._onMouseMove);
+        this.removeEventListener('touchstart', this._onPress);
+        this.removeEventListener('mouseleave', this._onLeave);
+        this.removeEventListener('touchend', this._onPressUp);
+        this.removeEventListener('touchmove', this._onTouchMove);
+        this.removeEventListener('touchend', this._onTouchEnd);
+        this.removeEventListener('touchcancel', this._onTouchCancel);
+        this.removeEventListener('focus', this._onFocus);
+        this.removeEventListener('blur', this._onBlur);
+    }
+
+    /**
+     * Unsubscribe signals
+     */
+    public unsubscribeFromSignals() {
+        this.logger.start("unsubscribeFromSignals", this.COMPONENT_NAME);
+        super.unsubscribeFromSignals();
+
+        const csf = Ch5SignalFactory.getInstance();
+        const signalArr = [""];
+        for (const sigName of signalArr) {
+            const attrKeyPvt = '_' + sigName;
+            const attrKeySigName = attrKeyPvt + 'SignalValue';
+            ComponentHelper.clearSignalValue(csf, this, "attrKeySigName", "attrKeyPvt");
+        }
+
+        this.logger.stop();
+    }
+
+    static get observedAttributes() {
+        const commonAttributes: string[] = Ch5Common.observedAttributes;
+
+        // attributes
+        const attributes: string[] = [
+            "labelmajor",
+            "labelminor",
+            "sendeventonclick"
+        ];
+
+        // received signals
+        const receivedSignals: string[] = [
+        ];
+
+        // sent signals
+        const sentSignals: string[] = [];
+
+        const ch5KeypadAttributes = commonAttributes.concat(attributes).concat(receivedSignals).concat(sentSignals);
+
+        return ch5KeypadAttributes;
+    }
+
+    public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
+        this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
+        attr = attr.toLowerCase();
+        if (oldValue === newValue) {
+            return;
+        }
+
+        this.info('ch5-keypad-btn' + this.params.name +
+            ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+        switch (attr) {
+            case 'receivestateshow':
+            case 'receivestateenable':
+            case 'receivestateshowpulse':
+            case 'receivestatehidepulse':
+            case 'receivestatecustomstyle':
+            case 'receivestatecustomclass':
+            case 'dir':
+                // Do nothing for any of the receiveState*
+                break;
+            case 'labelminor':
+                this.labelMinor = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
+            case 'labelmajor':
+                this.labelMajor = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
+            case 'sendeventonclick':
+                this.sendEventOnClick = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
+            case 'show':
+            case 'enable':
+            default:
+                super.attributeChangedCallback(attr, oldValue, newValue);
+                break;
+        }
+
+        this.logger.stop();
+    }
+
     //#endregion
 
     //#region 4. Other Methods
@@ -251,7 +364,6 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
             icn.classList.add(...this.params.iconClass);
             labelEle.appendChild(icn);
             labelEle.classList.add('has-icon');
-            this.classList.add(this.specialBtnCssClass);
         } else {
             labelEle.innerHTML = value;
         }
@@ -407,6 +519,11 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
 
     protected setButtonDisplayDetails() {
         this.logger.start("setButtonDisplayDetails");
+        this.logger.stop();
+    }
+
+    public setContractBasedEventHandler() {
+        this.logger.start("setContractBasedEventHandler");
         this.logger.stop();
     }
 

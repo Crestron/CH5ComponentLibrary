@@ -383,10 +383,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         if (null !== this._pressable) {
             this._pressable.destroy();
         }
-        // this.unsubscribeFromSignals();
+        this.unsubscribeFromSignals();
 
         // disconnect common mutation observer
-        // this.disconnectCommonMutationObserver();
+        this.disconnectCommonMutationObserver();
     }
 
     public removeEventListeners() {
@@ -430,7 +430,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         // attributes
         const attributes: string[] = [
             "iconclass",
-            "iconurl"
+            "iconurl",
+            "sendeventonclick"
         ];
 
         // received signals
@@ -471,6 +472,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             case 'iconurl':
                 CH5DpadUtils.createIconTag(this);
                 this.iconUrl = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
+            case 'sendeventonclick':
+                this.sendEventOnClick = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'show':
             case 'enable':

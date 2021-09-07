@@ -5,6 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import { Ch5KeypadBtn } from "../ch5-keypad-btn";
+
 export type TCh5KeypadType = 'default' | 'info' | 'text' | 'danger' | 'warning' | 'success' | 'primary' | 'secondary';
 
 export type TCh5KeypadShape = 'rounded' | 'square' | 'circle';
@@ -17,5 +19,5 @@ export type TCh5KeypadBtnCreateDTO = {
     minor: string,
     className: string,
     iconClass: string[],
-    contractName: string
+    contractName: string,
 }
