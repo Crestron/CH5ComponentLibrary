@@ -365,6 +365,9 @@
         "padding-left"
       ],
       "showWhen": {
+        "icon": [
+          true
+        ],
         "orientation": [
           "horizontal"
         ]
@@ -377,6 +380,9 @@
         "padding-left"
       ],
       "showWhen": {
+        "icon": [
+          true
+        ],
         "orientation": [
           "horizontal"
         ]
@@ -501,6 +507,9 @@
         "padding-top"
       ],
       "showWhen": {
+        "icon": [
+          true
+        ],
         "orientation": [
           "vertical"
         ]
@@ -513,6 +522,9 @@
         "padding-top"
       ],
       "showWhen": {
+        "icon": [
+          true
+        ],
         "orientation": [
           "vertical"
         ]
@@ -528,6 +540,9 @@
         "platform": [
           "ios"
         ],
+        "icon": [
+          true
+        ],
         "orientation": [
           "vertical"
         ]
@@ -542,6 +557,9 @@
       "showWhen": {
         "platform": [
           "ios"
+        ],
+        "icon": [
+          true
         ],
         "orientation": [
           "vertical"
@@ -734,7 +752,11 @@
       "supports": [
         "opacity"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "state": [
+          "disabled"
+        ]
+      }
     },
     {
       "className": ".ch5-button--img",
@@ -768,6 +790,9 @@
         "font-size"
       ],
       "showWhen": {
+        "checkbox": [
+          true
+        ],
         "size": [
           "x-small"
         ]
@@ -821,6 +846,9 @@
         "font-size"
       ],
       "showWhen": {
+        "checkbox": [
+          true
+        ],
         "size": [
           "small"
         ]
@@ -874,6 +902,9 @@
         "font-size"
       ],
       "showWhen": {
+        "checkbox": [
+          true
+        ],
         "size": [
           "large"
         ]
@@ -927,6 +958,9 @@
         "font-size"
       ],
       "showWhen": {
+        "checkbox": [
+          true
+        ],
         "size": [
           "x-large"
         ]
@@ -966,7 +1000,11 @@
         "font-weight",
         "font-size"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "checkbox": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-button__checkbox--unchecked:before",
@@ -993,7 +1031,11 @@
       "supports": [
         "margin-left"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "checkboxPosition": [
+          "right"
+        ]
+      }
     },
     {
       "className": ".cx-button-checkbox-pos-left .ch5-button--span",
@@ -1083,6 +1125,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "pressed"
+        ],
         "type": [
           "text"
         ]
@@ -1098,6 +1143,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "disabled"
+        ],
         "type": [
           "text"
         ]
@@ -1143,6 +1191,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "pressed"
+        ],
         "type": [
           "danger"
         ]
@@ -1158,6 +1209,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "disabled"
+        ],
         "type": [
           "danger"
         ]
@@ -1203,6 +1257,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "pressed"
+        ],
         "type": [
           "warning"
         ]
@@ -1218,6 +1275,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "disabled"
+        ],
         "type": [
           "warning"
         ]
@@ -1263,6 +1323,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "pressed"
+        ],
         "type": [
           "info"
         ]
@@ -1278,6 +1341,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "disabled"
+        ],
         "type": [
           "info"
         ]
@@ -1323,6 +1389,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "pressed"
+        ],
         "type": [
           "success"
         ]
@@ -1338,6 +1407,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "disabled"
+        ],
         "type": [
           "success"
         ]
@@ -1383,6 +1455,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "pressed"
+        ],
         "type": [
           "default"
         ]
@@ -1398,6 +1473,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "disabled"
+        ],
         "type": [
           "default"
         ]
@@ -1443,6 +1521,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "pressed"
+        ],
         "type": [
           "primary"
         ]
@@ -1458,6 +1539,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "disabled"
+        ],
         "type": [
           "primary"
         ]
@@ -1503,6 +1587,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "pressed"
+        ],
         "type": [
           "secondary"
         ]
@@ -1518,6 +1605,9 @@
         "fill"
       ],
       "showWhen": {
+        "state": [
+          "disabled"
+        ],
         "type": [
           "secondary"
         ]
