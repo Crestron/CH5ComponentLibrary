@@ -1,3 +1,9 @@
 {
-  "businessRules": []
+  "businessRules": [
+    {
+      "contains": "list--disabled",
+      "key": "state",
+      "value": "disabled"
+    }
+  ]
 }
