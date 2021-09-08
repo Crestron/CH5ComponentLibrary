@@ -26,12 +26,12 @@
       "value": "right"
     },
     {
-      "contains": "--disabled",
+      "contains": ".ch5-button--disabled",
       "key": "state",
       "value": "disabled"
     },
     {
-      "contains": "--pressed",
+      "contains": ".ch5-button--pressed",
       "key": "state",
       "value": "pressed"
     }
