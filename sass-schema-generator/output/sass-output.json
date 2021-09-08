@@ -1907,7 +1907,11 @@
         "height",
         "margin"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "mode": [
+          "combo-dropdown"
+        ]
+      }
     },
     {
       "className": ".ch5-select__main .ch5-select__selected_items",
@@ -1924,7 +1928,14 @@
         "background-color",
         "box-shadow"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "container": [
+          "items"
+        ],
+        "item": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-select__combo .ch5-select__panel__items",
@@ -1932,7 +1943,17 @@
       "supports": [
         "z-index"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "mode": [
+          "combo"
+        ],
+        "container": [
+          "items"
+        ],
+        "item": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-select__panel__item",
@@ -1943,7 +1964,11 @@
         "border",
         "background-color"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "item": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-select__panel__item:not(.ch5-select__panel__item--selected):hover",
@@ -1951,7 +1976,16 @@
       "supports": [
         "background-color"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "item": [
+          true
+        ],
+        "itemState": [
+          [
+            "disabled"
+          ]
+        ]
+      }
     },
     {
       "className": ".ch5-select__panel__item.ch5-select__panel__item--selected",
@@ -1959,7 +1993,14 @@
       "supports": [
         "background-color"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "item": [
+          true
+        ],
+        "itemState": [
+          "selected"
+        ]
+      }
     }
   ],
   "ch5-slider": [
@@ -2133,7 +2174,11 @@
       "supports": [
         "color"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "label": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__label--x-large",
@@ -2143,7 +2188,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "label": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__label--large",
@@ -2153,7 +2202,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "label": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__label--regular",
@@ -2163,7 +2216,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "label": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__label--small",
@@ -2173,7 +2230,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "label": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__label--x-small",
@@ -2183,7 +2244,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "label": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__input",
@@ -2191,7 +2256,11 @@
       "supports": [
         "color"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "input": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__input--x-small",
@@ -2203,7 +2272,11 @@
         "font-weight",
         "min-width"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "input": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__input--small",
@@ -2215,7 +2288,11 @@
         "font-weight",
         "min-width"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "input": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__input--regular",
@@ -2227,7 +2304,11 @@
         "font-weight",
         "min-width"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "input": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__input--large",
@@ -2239,7 +2320,11 @@
         "font-weight",
         "min-width"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "input": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__input--x-large",
@@ -2251,7 +2336,11 @@
         "font-weight",
         "min-width"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "input": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__icon",
@@ -2259,7 +2348,11 @@
       "supports": [
         "color"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "icon": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__icon--x-large",
@@ -2268,7 +2361,11 @@
         "font-size",
         "margin"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "icon": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__icon--large",
@@ -2277,7 +2374,11 @@
         "font-size",
         "margin"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "icon": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__icon--regular",
@@ -2286,7 +2387,11 @@
         "font-size",
         "margin"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "icon": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__icon--small",
@@ -2295,7 +2400,11 @@
         "font-size",
         "margin"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "icon": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput__icon--x-small",
@@ -2304,7 +2413,11 @@
         "font-size",
         "margin"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "icon": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-textinput",
@@ -2402,7 +2515,11 @@
         "color",
         "margin"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "label": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-toggle .ch5-toggle__on-label",
@@ -2413,7 +2530,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "labelValue": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-toggle .ch5-toggle__off-label",
@@ -2424,7 +2545,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "labelValue": [
+          false
+        ]
+      }
     },
     {
       "className": ".ch5-toggle .ch5-toggle__on-label",
@@ -2435,7 +2560,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "labelValue": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-toggle .ch5-toggle__off-label",
@@ -2446,7 +2575,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "labelValue": [
+          false
+        ]
+      }
     },
     {
       "className": ".ch5-toggle .ch5-toggle__on-icon",
@@ -2457,7 +2590,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "iconValue": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-toggle .ch5-toggle__off-icon",
@@ -2468,7 +2605,11 @@
         "font-size",
         "font-weight"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "iconValue": [
+          false
+        ]
+      }
     },
     {
       "className": ".ch5-toggle .ch5-toggle__handle div",
@@ -2476,7 +2617,11 @@
       "supports": [
         "z-index"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "handle": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-toggle .ch5-toggle__handle a",
@@ -2484,7 +2629,11 @@
       "supports": [
         "z-index"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "handle": [
+          true
+        ]
+      }
     },
     {
       "className": ".ch5-toggle.ch5-toggle--circle .ch5-toggle__handle",
@@ -2494,6 +2643,9 @@
         "margin"
       ],
       "showWhen": {
+        "handle": [
+          true
+        ],
         "shape": [
           "circle"
         ]
@@ -2506,6 +2658,9 @@
         "color"
       ],
       "showWhen": {
+        "handle": [
+          true
+        ],
         "shape": [
           "circle"
         ]
@@ -2518,6 +2673,9 @@
         "color"
       ],
       "showWhen": {
+        "handle": [
+          true
+        ],
         "shape": [
           "circle"
         ]
@@ -2531,6 +2689,9 @@
         "border"
       ],
       "showWhen": {
+        "handle": [
+          true
+        ],
         "shape": [
           "circle"
         ]
@@ -2544,6 +2705,9 @@
         "margin"
       ],
       "showWhen": {
+        "handle": [
+          true
+        ],
         "shape": [
           "rectangle"
         ]
@@ -2556,6 +2720,9 @@
         "color"
       ],
       "showWhen": {
+        "handle": [
+          true
+        ],
         "shape": [
           "rectangle"
         ]
@@ -2568,6 +2735,9 @@
         "color"
       ],
       "showWhen": {
+        "handle": [
+          true
+        ],
         "shape": [
           "rectangle"
         ]
@@ -2580,6 +2750,9 @@
         "background-color"
       ],
       "showWhen": {
+        "handle": [
+          true
+        ],
         "shape": [
           "rectangle"
         ]
@@ -2592,6 +2765,12 @@
         "box-shadow"
       ],
       "showWhen": {
+        "value": [
+          true
+        ],
+        "handle": [
+          true
+        ],
         "shape": [
           "circle"
         ]
@@ -2605,6 +2784,12 @@
         "border-color"
       ],
       "showWhen": {
+        "value": [
+          true
+        ],
+        "handle": [
+          true
+        ],
         "shape": [
           "circle"
         ]
@@ -2617,6 +2802,12 @@
         "background-color"
       ],
       "showWhen": {
+        "value": [
+          true
+        ],
+        "handle": [
+          true
+        ],
         "shape": [
           "rectangle"
         ]

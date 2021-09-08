@@ -138,7 +138,11 @@ function applyBusinessRules(selector: string, showWhen: object, businessRules: o
   for (const rule of Object.values(businessRules)) {
     if (rule.contains) {
       let containsProperty = selector.toLowerCase().includes(rule.contains);
-      if (containsProperty) {
+      const containsNot = selector.toLowerCase().includes(`not(${rule.contains})`);
+      if (containsNot) {
+        const otherRules = Object.values(businessRules).filter(notRule => notRule.key === rule.key && notRule.value !== rule.value);
+        Object.assign(showWhen, {[rule.key]: [otherRules.map(otherRule => otherRule.value)]});
+      } else if (containsProperty) {
         Object.assign(showWhen, {[rule.key]: [rule.value]})
       }
     }
