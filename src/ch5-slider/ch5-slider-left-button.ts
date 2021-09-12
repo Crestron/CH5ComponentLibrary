@@ -12,7 +12,59 @@ export class Ch5SliderLeftButton extends Ch5ButtonBase {
 	constructor() {
 		super();
 	}
-	
+
+	public connectedCallback() {
+		super.connectedCallback();
+
+		// preset attributes
+		// this.type = "danger";
+		// this.size = "regular";
+	}
+
+	public static get observedAttributes() {
+		const availableAttributes: string[] = [
+			'customclass',
+			'customstyle',
+			'show',
+			'noshowtype',
+			'disabled',
+			'debug',
+			'trace',
+			'dir',
+
+			'label',
+
+			'iconclass',
+			'iconposition',
+			'orientation',
+			'iconurl',
+
+			'halignlabel',
+			'valignlabel',
+
+			'shape',
+			'type',
+
+			'selected',
+			'customclassselected',
+			'customclasspressed',
+			'customclassdisabled',
+
+			'receivestateenable',
+			'receivestateselected',
+			'receivestatelabel',
+			'receivestatescriptlabelhtml',
+			'receivestateiconclass',
+			'receivestateiconurl',
+			'receivestatetype',
+
+			'sendeventonclick',
+			'sendeventontouch'
+		];
+
+		return availableAttributes;
+	}
+
 }
 
 if (typeof window === "object"

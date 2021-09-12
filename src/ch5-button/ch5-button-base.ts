@@ -211,9 +211,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	};
 
-	public readonly primaryCssClass: string = 'ch5-button';
-	public readonly cssClassPrefix: string = 'ch5-button'; // Can be removed if removed in ch5-common
-
 	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggerd after 250 ms of press and hold.
 	private readonly DEBOUNCE_PRESS_TIME: number = 200;
 	private readonly PRESS_MOVE_THRESHOLD: number = 10;
@@ -240,6 +237,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	//#region 1.2 private / protected variables
 
+	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
+	public cssClassPrefix: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
+
 	private _elContainer: HTMLElement = {} as HTMLElement;
 	private _elButton: HTMLElement = {} as HTMLElement;
 	private _elSpanForLabelOnly: HTMLElement = {} as HTMLElement;
@@ -254,7 +254,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private isLabelLoaded: boolean = false;
 
 	// This variable ensures that the first time load on a project happens without debounce and buttons do not appear blank.
-	private isButtonInitated: boolean = false;
+	private isButtonInitiated: boolean = false;
 
 	private _pressableIsPressedSubscription: Subscription | null = null;
 
@@ -554,7 +554,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 							this._mode = value;
 						} else {
 							this._mode = 0;
-						}					
+						}
 					} else {
 						this._mode = 0;
 					}
@@ -975,15 +975,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public constructor() {
 		super();
 		this.logger.start('constructor()', this.primaryCssClass);
-		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 
-		// TODO - Check this variable - seems to be in baseclass but is not required in base class
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
 		}
 		this._wasInstatiated = true;
-
-		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 
 		this._pressInfo = new Ch5ButtonPressInfo();
 		this._ch5ButtonSignal = new Ch5ButtonSignal();
@@ -1009,6 +1005,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', this.primaryCssClass);
+		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
+		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 
 		// WAI-ARIA Attributes
 		if (!this.hasAttribute('role')) {
@@ -1646,7 +1644,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._elSpanForLabelOnly.appendChild(this._elIosDots);
 			const wrapper: HTMLElement = document.createElement('span');
 			wrapper.classList.add(this.primaryCssClass + '--ios-label');
-			if (!this._elSpanForLabelOnly.closest('.ch5-button--ios-label')) {
+			if (!this._elSpanForLabelOnly.closest('.' + this.primaryCssClass + '--ios-label')) {
 				this.wrap(this._elSpanForLabelOnly, wrapper);
 			}
 		}
@@ -1957,13 +1955,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.start("checkboxDisplay");
 		let classForCheckboxRemove: string[] = [];
 		let classForCheckboxAdd: string[] = [];
-		classForCheckboxRemove = ["ch5-button__checkbox", "ch5-button__checkbox--unchecked", "ch5-button__checkbox--checked"];
+		const checkboxCssClass: string = this.primaryCssClass + "__checkbox";
+		classForCheckboxRemove = [checkboxCssClass, checkboxCssClass + "--unchecked", checkboxCssClass + "--checked"];
 		if (this._checkboxShow === true && this._selected === true) {
-			classForCheckboxAdd = ["ch5-button__checkbox", "ch5-button__checkbox--checked"];
+			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--checked"];
 		} else if (this._checkboxShow === false) {
 			// This case is addressed.
 		} else if (this._checkboxShow === true) {
-			classForCheckboxAdd = ["ch5-button__checkbox", "ch5-button__checkbox--unchecked"];
+			classForCheckboxAdd = [checkboxCssClass, checkboxCssClass + "--unchecked"];
 		}
 
 		classForCheckboxRemove.forEach((className: string) => {
@@ -2045,7 +2044,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public setButtonDisplay() {
 		if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {
 			this.setButtonDisplayDetails();
-		} else if (this.isButtonInitated === false) {
+		} else if (this.isButtonInitiated === false) {
 			this.setButtonDisplayDetails();
 		} else {
 			this.debounceSetButtonDisplay();
@@ -2054,7 +2053,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private setButtonDisplayDetails() {
 		this.logger.start("setButtonDisplayDetails");
-		this.isButtonInitated = true;
+		this.isButtonInitiated = true;
 		// Applicable on Mode change and Selected change
 		// We need not worry about this. ch5-button-label is immediate child, and no change in attribute
 		// affects the data from immediate child.
@@ -2421,17 +2420,17 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			Ch5ButtonBase.ICON_POSITIONS.forEach((iconPositionObj, i) => {
 				if (this.iconPosition === iconPositionObj) {
-					this._elContainer.classList.add(`ch5-button--iconposition-${iconPositionObj}`);
+					this._elContainer.classList.add(`${this.cssClassPrefix}--iconposition-${iconPositionObj}`);
 					this._elIcon.classList.add(`cx-button-icon-pos-${iconPositionObj}`);
 				} else {
-					this._elContainer.classList.remove(`ch5-button--iconposition-${iconPositionObj}`);
+					this._elContainer.classList.remove(`${this.cssClassPrefix}--iconposition-${iconPositionObj}`);
 					this._elIcon.classList.remove(`cx-button-icon-pos-${iconPositionObj}`);
 				}
 			});
 
 			// Handle vertical button with iconPosition top or bottom
 			if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5ButtonBase.ORIENTATIONS[1]) {
-				this._elButton.classList.add(`ch5-button--vertical--icon-${this.iconPosition}`);
+				this._elButton.classList.add(`${this.cssClassPrefix}--vertical--icon-${this.iconPosition}`);
 			}
 
 			let hasIcon = false;

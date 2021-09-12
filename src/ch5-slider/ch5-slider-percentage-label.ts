@@ -12,7 +12,11 @@ export class Ch5SliderPercentageLabel extends Ch5SliderLabelBase {
 	constructor() {
 		super();
 	}
-	
+
+	public connectedCallback() {
+		super.connectedCallback();
+	}
+
 }
 
 if (typeof window === "object"
