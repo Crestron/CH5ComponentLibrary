@@ -12,17 +12,6 @@ import { TCh5SliderHorizontalAlignLabel, TCh5SliderOrientation, TCh5SliderSize, 
  * @ignore
  */
 export interface ICh5SliderLabelAttributes {
-  /**
-   * @name size
-   * @documentation
-   * [
-   * "`size` attribute",
-   *  "***",
-   *  "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
-   * ]
-   * @default regular
-   */
-  size: TCh5SliderSize;
 
   /**
    * @documentation

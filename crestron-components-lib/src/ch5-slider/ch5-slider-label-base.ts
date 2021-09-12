@@ -10,7 +10,9 @@ import isNil from 'lodash/isNil';
 import { ICh5SliderLabelAttributes } from "./interfaces/i-ch5-slider-label-attributes";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Ch5CommonSignal } from "../ch5-common/ch5-common-signal";
-import { TCh5SliderType, TCh5SliderSize, TCh5SliderHorizontalAlignLabel, TCh5SliderVerticalAlignLabel, TCh5SliderOrientation } from "./interfaces";
+import { TCh5SliderType, TCh5SliderHorizontalAlignLabel, TCh5SliderVerticalAlignLabel, TCh5SliderOrientation } from "./interfaces";
+import { Ch5Slider } from "./ch5-slider";
+import _ from "lodash";
 
 export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttributes {
 
@@ -22,11 +24,6 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 	 * The first value is in the array is the default value
 	 */
 	public static readonly TYPES: TCh5SliderType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
-
-	/**
-	 * The first value is in the array is the default value
-	 */
-	public static readonly SIZES: TCh5SliderSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
 	/**
 	 * The first value is in the array is the default value
@@ -50,13 +47,6 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 			key: 'type',
 			attribute: 'type',
 			classListPrefix: 'ch5-slider-label--'
-		},
-		SIZES: {
-			default: Ch5SliderLabelBase.SIZES[0],
-			values: Ch5SliderLabelBase.SIZES,
-			key: 'size',
-			attribute: 'size',
-			classListPrefix: 'ch5-slider-label--size-'
 		},
 		HORIZONTAL_LABEL_ALIGNMENTS: {
 			default: Ch5SliderLabelBase.HORIZONTAL_LABEL_ALIGNMENTS[0],
@@ -101,6 +91,7 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 	private _label: string = '';
 	private _ch5CommonSignal: Ch5CommonSignal;
 
+  private _parentCh5Slider: Ch5Slider;
 	/**
 	 * Horizontal Alignment for Label
 	 */
@@ -117,11 +108,6 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 	 * 90 degrees counter clockwise )
 	 */
 	private _orientation: TCh5SliderOrientation = 'horizontal';
-
-	/**
-	 * Size of the button
-	 */
-	private _size: TCh5SliderSize = 'regular';
 
 	/**
 	 * Valid values: default, info, text, danger, warning, success, primary, secondary.
@@ -156,41 +142,41 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 	}
 
 	public set customClass(value: string) {
-		this.setButtonAttribute('customClass', value, []);
+		this.setLabelDisplayAttribute('customClass', value, []);
 	}
 	public get customClass(): string {
 		return this._customClass;
 	}
 
 	public set customStyle(value: string) {
-		this.setButtonAttribute('customStyle', value, []);
+		this.setLabelDisplayAttribute('customStyle', value, []);
 	}
 	public get customStyle(): string {
 		return this._customStyle;
 	}
 
 	public set hAlignLabel(value: TCh5SliderHorizontalAlignLabel) {
-		this.setButtonAttribute('hAlignLabel', value, Ch5SliderLabelBase.HORIZONTAL_LABEL_ALIGNMENTS);
+		this.setLabelDisplayAttribute('hAlignLabel', value, Ch5SliderLabelBase.HORIZONTAL_LABEL_ALIGNMENTS);
 	}
 	public get hAlignLabel(): TCh5SliderHorizontalAlignLabel {
 		return this._hAlignLabel;
 	}
 
-	private setButtonAttribute<T>(attribute: keyof Ch5SliderLabelBase, value: T, masterData: T[]) {
+	private setLabelDisplayAttribute<T>(attribute: keyof Ch5SliderLabelBase, value: T, masterData: T[]) {
 		this.logger.log('set ' + attribute + '("' + value + '")');
 		if (!isNil(value) && this[attribute] !== value) {
 			if (masterData.length === 0) {
 				this.setAttribute(attribute, String(value));
-				this.setButtonDisplay();
+				this.setLabelDisplay();
 			} else {
 				this.setAttribute(attribute, String(this.getValidInputValue<T>(masterData, value)));
-				this.setButtonDisplay();
+				this.setLabelDisplay();
 			}
 		}
 	}
 
 	public set vAlignLabel(value: TCh5SliderVerticalAlignLabel) {
-		this.setButtonAttribute('vAlignLabel', value, Ch5SliderLabelBase.VERTICAL_LABEL_ALIGNMENTS);
+		this.setLabelDisplayAttribute('vAlignLabel', value, Ch5SliderLabelBase.VERTICAL_LABEL_ALIGNMENTS);
 	}
 	public get vAlignLabel(): TCh5SliderVerticalAlignLabel {
 		return this._vAlignLabel;
@@ -211,26 +197,11 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 		this.logger.log('set type("' + value + '")');
 		if (this._type !== value) {
 			this.setAttribute('type', this.getValidInputValue(Ch5SliderLabelBase.TYPES, value));
-			this.setButtonDisplay();
+			this.setLabelDisplay();
 		}
 	}
 	public get type(): TCh5SliderType {
 		return this._type;
-	}
-
-	public set size(value: TCh5SliderSize) {
-		this.logger.log('set size("' + value + '")');
-		if (this._size !== value && null !== value) {
-			if (Ch5SliderLabelBase.SIZES.indexOf(value) >= 0) {
-				this._size = value;
-			} else {
-				this._size = Ch5SliderLabelBase.SIZES[0];
-			}
-			this.setAttribute('size', this._size);
-		}
-	}
-	public get size() {
-		return this._size;
 	}
 
 	//#region 2.1. Signals
@@ -256,18 +227,18 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 		return this._attributeValueAsString('receivestatecustomclass');
 	}
 
-	private receiveSignalAsString<T>(thisButton: Ch5SliderLabelBase, attributeName: string, attributeValue: string) {
+	private receiveSignalAsString<T>(thisLabel: Ch5SliderLabelBase, attributeName: string, attributeValue: string) {
 		this.logger.log('set ' + attributeName + '("' + attributeValue + '")');
 		const attributeNameLowerCase: string = attributeName.toLowerCase();
-		if (!thisButton.hasAttribute(attributeNameLowerCase) || thisButton.getAttribute(attributeNameLowerCase) !== attributeValue) {
-			thisButton.setAttribute(attributeNameLowerCase, attributeValue);
+		if (!thisLabel.hasAttribute(attributeNameLowerCase) || thisLabel.getAttribute(attributeNameLowerCase) !== attributeValue) {
+			thisLabel.setAttribute(attributeNameLowerCase, attributeValue);
 		}
-		const signalResponse = thisButton._ch5CommonSignal.setSignal(attributeName, attributeValue);
+		const signalResponse = thisLabel._ch5CommonSignal.setSignal(attributeName, attributeValue);
 		if (!isNil(signalResponse)) {
 			signalResponse.subscribe((newValue: string) => {
-				thisButton._ch5CommonSignal.getSignal(attributeName).currentValue = newValue;
-				thisButton._ch5CommonSignal.setVariable<T>(attributeName, newValue);
-				thisButton.setButtonDisplay();
+				thisLabel._ch5CommonSignal.getSignal(attributeName).currentValue = newValue;
+				thisLabel._ch5CommonSignal.setVariable<T>(attributeName, newValue);
+				thisLabel.setLabelDisplay();
 			});
 		}
 	}
@@ -294,6 +265,7 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 		this.createInternalHtml();
 		this._ch5CommonSignal = new Ch5CommonSignal(["receiveStateCustomStyle", "receiveStateCustomClass", "receiveStateLabel"]);
+		this._parentCh5Slider = this.getParent();
 		this.logger.stop();
 	}
 
@@ -302,6 +274,10 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', this.primaryCssClass);
+
+		if (!(this._parentCh5Slider instanceof Ch5Slider)) {
+			throw new Error(`Invalid parent element for ch5-slider-label.`);
+		}
 
 		if (this._elContainer.parentElement !== this) {
 			this.appendChild(this._elContainer);
@@ -321,7 +297,6 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 			'orientation',
 			'halignlabel',
 			'valignlabel',
-			'size',
 			'type',
 
 			'receivestatelabel'
@@ -342,9 +317,6 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 		}
 		if (this.hasAttribute('orientation')) {
 			this.orientation = this.getAttribute('orientation') as TCh5SliderOrientation;
-		}
-		if (this.hasAttribute('size')) {
-			this.size = this.getAttribute('size') as TCh5SliderSize;
 		}
 		if (this.hasAttribute('type')) {
 			this.type = this.getAttribute('type') as TCh5SliderType;
@@ -450,11 +422,6 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 				this.vAlignLabel = this.getAttributeValue<TCh5SliderVerticalAlignLabel>(this, 'valignlabel', newValue as TCh5SliderVerticalAlignLabel, Ch5SliderLabelBase.VERTICAL_LABEL_ALIGNMENTS[0]);
 				break;
 
-			case 'size':
-				this.size = this.getAttributeValue<TCh5SliderSize>(this, 'size', newValue as TCh5SliderSize, Ch5SliderLabelBase.SIZES[0]);
-				this.updateCssClasses();
-				break;
-
 			case 'receivestatelabel':
 				this.receiveStateLabel = this.getAttributeValue<string>(this, 'receivestatelabel', newValue, '');
 				break;
@@ -482,9 +449,19 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 
 	//#region 4. Other Methods
 
+	public getParent(): Ch5Slider {
+		const getTheMatchingParent = (node: Node): Ch5Slider => {
+			if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-SLIDER") {
+				return getTheMatchingParent(node.parentNode as Node);
+			}
+			return node as Ch5Slider;
+		}
+		return getTheMatchingParent(this.parentElement as Node);
+	}
+
 	/**
 	 * Called this method if you have to wrap the element
-	 * @param el html elemen which you have to wrap
+	 * @param el html element which you have to wrap
 	 * @param wrapper wrapper html element
 	 */
 	private wrap(el: any, wrapper: HTMLElement) {
@@ -512,11 +489,6 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 		Ch5SliderLabelBase.VERTICAL_LABEL_ALIGNMENTS.forEach((type: TCh5SliderVerticalAlignLabel) => {
 			const newCssClass = this.primaryCssClass + '--vertical-' + type;
 			cssClasses.push(newCssClass);
-		});
-
-		// sizes
-		Ch5SliderLabelBase.SIZES.forEach((size: TCh5SliderSize) => {
-			cssClasses.push(this.primaryCssClass + '--size-' + size);
 		});
 
 		// orientation
@@ -612,8 +584,8 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 	 * if receivestate is false, then
 	 * if mode attribute is updated, always call this method, and update all attributes  
 	 */
-	public setButtonDisplay() {
-		this.logger.start("setButtonDisplay");
+	public setLabelDisplay() {
+		this.logger.start("setLabelDisplay");
 		// Applicable on Mode change and Selected change
 		// We need not worry about this. ch5-slider-label-label is immediate child, and no change in attribute
 		// affects the data from immediate child.
@@ -659,9 +631,6 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 
 		// type
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.type);
-
-		// size
-		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--size-' + this.size);
 
 		// orientation
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.orientation);

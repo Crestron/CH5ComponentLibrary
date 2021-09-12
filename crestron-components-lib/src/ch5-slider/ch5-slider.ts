@@ -1260,7 +1260,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		const childItemsContainer = this.children as HTMLCollection;
 		this.logger.log("childItemsContainer", childItemsContainer);
-			if (childItemsContainer.length === 0 || childItemsContainer.length === 1) {
+		if (childItemsContainer.length === 0 || childItemsContainer.length === 1) {
 			// this.createAndAppendAllButtonsUnderDpad();
 		} else {
 			this.resetOrderOfElements(this, true);
@@ -1732,7 +1732,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public getCssClassDisabled(): string {
 		return this.cssClassPrefix + '--disabled';
 	}
-
+	
 	/**
 	 * METHODS
 	 *
