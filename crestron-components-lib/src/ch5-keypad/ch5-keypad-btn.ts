@@ -151,9 +151,6 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
 
         ComponentHelper.clearComponentContent(this);
 
-        // set attributes based on onload attributes
-        this.initAttributes();
-
         this.logger.stop();
     }
 
@@ -238,6 +235,11 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
             this.classList.add(this.emptyBtnCssClass);
         }
         this.logger.stop();
+    }
+
+    protected attachEventListeners() {
+        // events binding
+        this.bindEventListenersToThis();
     }
 
     /**
