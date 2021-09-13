@@ -21,7 +21,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     /**
      * The first value is considered the default one
      */
-    public static readonly TYPES: TCh5KeypadType[] = ['primary', 'default', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
+    public static readonly TYPES: TCh5KeypadType[] = ['default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'];
 
     /**
      * The first value is considered the default one
