@@ -417,14 +417,14 @@ body {
   position: fixed;
   height: 60px !important;
   overflow: hidden;
-  z-index: 10;
+  z-index: 200;
   background-color: $headerBackgroundColor;
   border-bottom: solid 1px $headerBorderColor;
 }
 .main {
   margin: 0 auto;
   display: block;
-  height: 100%;
+  height: calc(100% - 60px);
   position: fixed;
   left: 250px;
   top: 60px;
@@ -440,7 +440,7 @@ body {
   box-sizing: border-box;
   cursor: pointer;
   position: absolute;
-  z-index: 99;
+  z-index: 300;
   height: 100%;
   width: 100%;
   top: 22px;
