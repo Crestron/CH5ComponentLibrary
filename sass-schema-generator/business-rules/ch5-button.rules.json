@@ -9,6 +9,31 @@
       "contains": "ios",
       "key": "platform",
       "value": "ios"
+    },
+    {
+      "contains": "icon-pos",
+      "key": "icon",
+      "value": true
+    },
+    {
+      "contains": "checkbox--checked",
+      "key": "checkbox",
+      "value": true
+    },
+    {
+      "contains": "checkbox--right",
+      "key": "checkboxPosition",
+      "value": "right"
+    },
+    {
+      "contains": ".ch5-button--disabled",
+      "key": "state",
+      "value": "disabled"
+    },
+    {
+      "contains": ".ch5-button--pressed",
+      "key": "state",
+      "value": "pressed"
     }
   ]
 }
