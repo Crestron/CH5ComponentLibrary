@@ -165,9 +165,12 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 
-        this._labelMajor = this.params.major;
-        this._labelMinor = this.params.minor;
-        this._sendEventOnClick = this.params.contractName;
+        const { major, minor, contractName, joinCountToAdd } = this.params;
+        this._labelMajor = major;
+        this._labelMinor = minor;
+
+        const eventHandlerValue = (contractName.length > 0) ? contractName : joinCountToAdd;
+        this._sendEventOnClick = eventHandlerValue;
 
         this.labelMajor = ComponentHelper.setAttributeToElement(this,
             'major'.toLowerCase(), this._labelMajor);
@@ -395,6 +398,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         this._onTouchCancel = this._onTouchCancel.bind(this);
         this._onFocus = this._onFocus.bind(this);
         this._onBlur = this._onBlur.bind(this);
+        this._hammerManager.on('tap', this._onTap);
     }
 
     protected sendValueForRepeatDigital(value: boolean): void {
@@ -524,8 +528,15 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         this.logger.stop();
     }
 
-    public setContractBasedEventHandler() {
+    public setContractBasedEventHandler(parentContractName: string) {
         this.logger.start("setContractBasedEventHandler");
+        this.sendEventOnClick = parentContractName + '.Press' + this.params.contractKey;
+        this.logger.stop();
+    }
+
+    public setJoinBasedEventHandler(joinValue: number) {
+        this.logger.start("setJoinBasedEventHandler");
+        this.sendEventOnClick = joinValue + this.params.joinCountToAdd + '';
         this.logger.stop();
     }
 

@@ -14,10 +14,13 @@ export type TCh5KeypadShape = 'rounded' | 'square' | 'circle';
 export type TCh5KeypadStretch = 'both' | 'width' | 'height';
 
 export type TCh5KeypadBtnCreateDTO = {
+    indexRef: number,
     name: string,
     major: string,
     minor: string,
     className: string,
     iconClass: string[],
     contractName: string,
+    contractKey: string,
+    joinCountToAdd: string,
 }
