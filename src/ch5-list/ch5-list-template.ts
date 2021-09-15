@@ -96,7 +96,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
         divTemplate.classList.add(Ch5List.ITEMCLASS);
 
         // replace indexId in list item elements attributes and text content
-        const documentContainer: HTMLElement = document.createElement('template');
+        const documentContainer: HTMLTemplateElement = document.createElement('template');
         documentContainer.innerHTML = this._tmplString;
 
         if (this._list.indexId !== null) {

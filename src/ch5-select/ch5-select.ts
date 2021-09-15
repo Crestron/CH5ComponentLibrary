@@ -1217,7 +1217,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
             optHTML = this._getOptionTemplateWithReplacedVars(optHTML, index);
         }
 
-        const documentContainer: HTMLElement = document.createElement('template');
+        const documentContainer: HTMLTemplateElement = document.createElement('template');
         documentContainer.innerHTML = optHTML;
 
         if (this.indexId !== null) {

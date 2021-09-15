@@ -7,6 +7,7 @@
 
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core/index";
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import isNil from 'lodash/isNil';
 
 import {
@@ -209,6 +210,20 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			key: 'orientation',
 			classListPrefix: 'ch5-button--'
 		}
+	};
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatemode: {direction: "state", numericJoin: 1, contractName: true},
+		receivestateselected: {direction: "state", booleanJoin: 1, contractName: true},
+		receivestatelabel: {direction: "state", stringJoin: 1, contractName: true},
+		receivestatelabelhtml: {direction: "state", stringJoin: 1, contractName: true},
+		receivestateiconclass: {direction: "state", stringJoin: 1, contractName: true},
+		receivestateiconurl: {direction: "state", stringJoin: 1, contractName: true},
+		receivestatetype: {direction: "state", stringJoin: 1, contractName: true},
+
+		sendeventonclick: {direction: "event", booleanJoin: 1, contractName: true},
+		sendeventontouch: {direction: "event", booleanJoin: 1, contractName: true}
 	};
 
 	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggerd after 250 ms of press and hold.
