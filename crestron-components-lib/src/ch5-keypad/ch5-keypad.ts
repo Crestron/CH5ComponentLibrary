@@ -51,10 +51,12 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private _useContractForShow: boolean = false;
     private _useContractForCustomStyle: boolean = false;
     private _useContractForCustomClass: boolean = false;
+    private _useContractForExtraButtonShow: boolean = false;
     private _useContractforEnableSignalValue: string = '';
     private _useContractForShowSignalValue: string = '';
     private _useContractForCustomStyleSignalValue: string = '';
     private _useContractForCustomClassSignalValue: string = '';
+    private _useContractForExtraButtonShowSignalValue: string = '';
 
     // state specific vars
     private isComponentLoaded: boolean = false;
@@ -153,7 +155,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         ComponentHelper.setAttributeValueOnControlAsBool(
             this, 'showExtraButton', value, false,
             () => {
-                this.showExtraButtonHandler();
+                if (!this._useContractForExtraButtonShow) {
+                    this.showExtraButtonHandler();
+                }
             }
         );
     }
@@ -314,8 +318,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             value: sigVal,
             callbackOnSignalReceived: (newValue: string | boolean) => {
                 newValue = newValue as string;
-                this.info(' subs callback for useContractForCustomClass: ', this._useContractForCustomClassSignalValue,
-                    ' Signal has value ', newValue);
+                this.info(' subs callback for useContractForCustomClass: ',
+                    this._useContractForCustomClassSignalValue, ' Signal has value ', newValue);
                 this.customClass = newValue;
             }
         };
@@ -325,6 +329,44 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
     public get useContractForCustomClass(): boolean {
         return this._useContractForCustomClass;
+    }
+
+    /**
+     * useContractForExtraButtonShow specif getter-setter
+     */
+    public set useContractForExtraButtonShow(value: boolean) {
+        this.logger.start(this.COMPONENT_NAME + ' set useContractForExtraButtonShow("' + value + '")');
+
+        const isUuseContractForExtraButtonShow = this.toBoolean(value);
+        const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+
+        if (contractName.length === 0 || this._useContractForExtraButtonShow === isUuseContractForExtraButtonShow) {
+            return;
+        }
+
+        this.setAttribute('useContractForExtraButtonShow'.toLowerCase(), isUuseContractForExtraButtonShow.toString());
+        this._useContractForExtraButtonShow = isUuseContractForExtraButtonShow;
+        const sigVal = contractName + ".CustomClass";
+
+        const params: TCh5CreateReceiveStateSigParams = {
+            caller: this,
+            attrKey: 'useContractForExtraButtonShow',
+            value: sigVal,
+            callbackOnSignalReceived: (newValue: string | boolean) => {
+                newValue = newValue as boolean;
+                this.info(' subs callback for useContractForExtraButtonShow: ', this._useContractForExtraButtonShowSignalValue,
+                    ' Signal has value ', newValue);
+                if (newValue || (!newValue && this.showExtraButton)) {
+                    this.showExtraButtonHandler();
+                }
+            }
+        };
+
+        this.setValueForReceiveStateString(params);
+        this.logger.stop();
+    }
+    public get useContractForExtraButtonShow(): boolean {
+        return this._useContractForExtraButtonShow;
     }
 
     /**
@@ -892,7 +934,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             item.remove();
         }
         this.createEmptyContainerDiv();
-        const data: TCh5KeypadBtnCreateDTO[] = CH5KeypadBtnData.getBtnList(this.contractName);
+        const data: TCh5KeypadBtnCreateDTO[] =
+            CH5KeypadBtnData.getBtnList(this.contractName, this.sendEventOnClickStart);
         let rowEle = this.appendKeysRowToContainer();
         for (let i = 0; i < data.length; i++) {
             if (i % 3 === 0) {
@@ -904,7 +947,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             this.childButtonList[btn.name] = keyBtn;
             rowEle.appendChild(keyBtn);
         }
-        this.showExtraButtonHandler();
+        if (this.useContractForExtraButtonShow || this.showExtraButton) {
+            this.showExtraButtonHandler();
+        }
     }
 
     /**
@@ -923,6 +968,41 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         while (this.container.firstChild) {
             this.container.removeChild(this.container.firstChild);
         }
+    }
+
+    /**
+     * Function to add the extra row of buttons if contract or attribute permits
+     */
+    private showExtraButtonHandler() {
+        this.logger.start(this.COMPONENT_NAME + ' > showExtraButtonHandler');
+        this.updateCssClasses();
+        // check if the row already exists, if yes then remove it and build again
+        const extraRow = this.getElementsByClassName(this.keysRowClassExtra);
+        if (extraRow.length > 0) {
+            Array.from(extraRow).forEach((row) => {
+                row.remove();
+            });
+        }
+
+        const doesContractPermit = (this.contractName.length > 0 && this.useContractForExtraButtonShow);
+
+        if ((doesContractPermit || (!doesContractPermit && this.showExtraButton)) &&
+            (!!this.container.classList &&
+                this.container.classList.contains(this.containerClass))) {
+            const rowEle = this.appendKeysRowToContainer();
+            rowEle.classList.add(this.keysRowClassExtra);
+            const extraBtns: TCh5KeypadBtnCreateDTO[] =
+                CH5KeypadBtnData.getBtnList_Extra(this.contractName, this.sendEventOnClickStart);
+            this.container.appendChild(rowEle);
+            for (const btn of extraBtns) {
+                const keyBtn = new Ch5KeypadBtn(btn);
+                this.childButtonList[btn.name] = keyBtn;
+                rowEle.appendChild(keyBtn);
+            }
+            this.container.appendChild(rowEle);
+        }
+
+        this.logger.stop();
     }
 
     private appendKeysRowToContainer() {
@@ -964,38 +1044,16 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         this.logger.stop();
     }
 
-    private showExtraButtonHandler() {
-        this.logger.start(this.COMPONENT_NAME + ' > showExtraButtonHandler');
-        this.updateCssClasses();
-
-        // check if the row already exists, if yes then remove it and build again
-        const extraRow = this.getElementsByClassName(this.keysRowClassExtra);
-        if (extraRow.length > 0) {
-            Array.from(extraRow).forEach((row) => {
-                row.remove();
-            });
-        }
-
-        if (this.showExtraButton &&
-            (!!this.container.classList &&
-                this.container.classList.contains(this.containerClass))) {
-            const rowEle = this.appendKeysRowToContainer();
-            rowEle.classList.add(this.keysRowClassExtra);
-            const extraBtns: TCh5KeypadBtnCreateDTO[] = CH5KeypadBtnData.getBtnList_Extra(this.contractName);
-            this.container.appendChild(rowEle);
-            for (const btn of extraBtns) {
-                const keyBtn = new Ch5KeypadBtn(btn);
-                this.childButtonList[btn.name] = keyBtn;
-                rowEle.appendChild(keyBtn);
-            }
-            this.container.appendChild(rowEle);
-        }
-
-        this.logger.stop();
-    }
-
     private updateEventClickHandlers(startIndex: number) {
         this.logger.start(this.COMPONENT_NAME + ' > updateEventClickHandlers');
+        if (this.contractName.length <= 0) {
+            for (const key in this.childButtonList) {
+                if (this.childButtonList.hasOwnProperty(key)) {
+                    const btn = this.childButtonList[key];
+                    btn.setJoinBasedEventHandler(startIndex);
+                }
+            }
+        }
         this.logger.stop();
     }
 
