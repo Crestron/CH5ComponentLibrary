@@ -18,13 +18,14 @@ export class CH5KeypadBtnData {
         const majors: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
         const minors: string[] = ['&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '+', ''];
         const contractList: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', '0', 'Hash'];
+        const joinCountList: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 9, 11]; // STAR is 10, ZERO is 9, when it comes to serial joins
         const classNameList: string[] = ['', '', '', '', '', '', '', '', '', 'misc-btn misc-btn-one', '', 'misc-btn misc-btn-two'];
 
         for (let i = 0; i < majors.length; i++) {
             const contractName = parentContractName.length > 0 ? (parentContractName + '.Press' + contractList[i]) : '';
             const className = classNameList[i].length > 0 ? classNameList[i] : 'number-btn';
             const joinCount = (sendEventOnClickStartVal.length > 0) ?
-                parseInt(sendEventOnClickStartVal, 10) + i : sendEventOnClickStartVal;
+                parseInt(sendEventOnClickStartVal, 10) + joinCountList[i] : sendEventOnClickStartVal;
             const obj: TCh5KeypadBtnCreateDTO = {
                 indexRef: i,
                 name: 'kbtn' + i,

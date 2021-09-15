@@ -990,16 +990,16 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             (!!this.container.classList &&
                 this.container.classList.contains(this.containerClass))) {
             const rowEle = this.appendKeysRowToContainer();
+            this.container.appendChild(rowEle);
+            
             rowEle.classList.add(this.keysRowClassExtra);
             const extraBtns: TCh5KeypadBtnCreateDTO[] =
                 CH5KeypadBtnData.getBtnList_Extra(this.contractName, this.sendEventOnClickStart);
-            this.container.appendChild(rowEle);
             for (const btn of extraBtns) {
                 const keyBtn = new Ch5KeypadBtn(btn);
                 this.childButtonList[btn.name] = keyBtn;
                 rowEle.appendChild(keyBtn);
             }
-            this.container.appendChild(rowEle);
         }
 
         this.logger.stop();
