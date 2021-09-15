@@ -11,7 +11,7 @@ import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./t-ch5-dpad";
 /**
  * @name Ch5 Dpad
  * @isattribute false
- * @tagName ch5-Dpad
+ * @tagName ch5-dpad
  * @role container
  * @description Ch5 Dpad offers a control set of 5 buttons to preform specific changes
  * @componentVersion 1.0.0
