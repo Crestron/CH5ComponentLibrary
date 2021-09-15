@@ -25,6 +25,7 @@ import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import { Ch5CommonLog } from './ch5-common-log';
 import { ICh5CommonAttributes, TCh5ShowType, TCh5ProcessUriParams, TCh5CreateReceiveStateSigParams } from './interfaces';
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 
 export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
@@ -37,6 +38,18 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * @type {string[]}
      */
     public static ELEMENTS_MO_EXCEPTION = ['swiper-wrapper'];
+
+
+	protected static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
+		receivestateshow: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestateshowpulse: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestatehidepulse: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
+		sendeventonshow: { direction: "event", booleanJoin: 1, contractName: true }
+	};
+
 
     /**
      * The first value of the array is considered the default one
@@ -1040,6 +1053,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             'appendclasswheninviewport'
         ]
     }
+
 
     /**
      * Returns the internal ch5 unique identifier assigned to the component

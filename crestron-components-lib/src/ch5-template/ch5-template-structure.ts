@@ -8,6 +8,7 @@
 import { isEmpty, isNil } from 'lodash';
 import { Ch5Template } from "./ch5-template";
 import { publishEvent } from "../ch5-core";
+import { Ch5AugmentVarSignalsNames } from '../ch5-common/ch5-augment-var-signals-names';
 
 export class Ch5TemplateStructure {
 
@@ -225,8 +226,17 @@ export class Ch5TemplateStructure {
                     newInnerHtml = newInnerHtml.replace(patternIdentifier, parsedContext[1]);
                 }
 
-                this.element.info("Original template inner HTML after rename: ", newInnerHtml);
                 templateContent.innerHTML = newInnerHtml as string;
+
+                // update templateContent attributes to increment join numbers and prefix contract name
+                Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(templateContent, this.element.contractName, 
+                    parseInt(this.element.booleanJoinOffset, 10) || 0, 
+                    parseInt(this.element.numericJoinOffset, 10) || 0, 
+                    parseInt(this.element.stringJoinOffset, 10) || 0);    
+                
+                if (this.element.isDebug()) {
+                    this.element.info("After substitution and increment/prefix:", templateContent.innerHTML);
+                }
             }
 
             // keep the ch5-template (parent) after its content has been added

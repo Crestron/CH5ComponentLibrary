@@ -50,7 +50,7 @@
     "build:prod_publish": "npm-run-all clean:* build:prod:amd build:prod:cjs build:prod:umd",
     "build:ci:dev_publish": "npm-run-all clean:ci:dev build:ci:dev:*",
     "lint": "tslint --project tsconfig.cjs.json",
-    "test:mocha": "npm-run-all compile:ts && mocha --opts mocha.opts",
+    "test:mocha": "npm-run-all clean:compiled && tsc -p tsconfig.umd.json --target ES6 && mocha",
     "test:wct": "yarn ws -o",
     "wct:xml-report": "./node_modules/.bin/wct ./wct_tests/run-all.html",
     "doc": "npm-run-all clean:docs && npm-run-all doc:*",

@@ -7,6 +7,7 @@
 
 
 import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5TemplateStructure } from "./ch5-template-structure";
 import { ICh5TemplateAttributes } from "./interfaces/i-ch5-template-attributes";
 import { publishEvent } from "../ch5-core";
@@ -14,6 +15,15 @@ import { publishEvent } from "../ch5-core";
 export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
     public static CH5_TEMPLATE_STYLE_CLASS: string = 'ch5-template';
+	public static readonly ELEMENT_NAME = 'ch5-template';
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		contractname: { contractName: true },
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 }
+	};
+
 
     // COMPONENT ATTRIBUTES
 
@@ -35,16 +45,49 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
      */
     private _context: string = '';
 
+    // TODO: add comments for these
+    private _contractName: string = '';
+    private _booleanJoinOffset: string = '';
+    private _numericJoinOffset: string = '';
+    private _stringJoinOffset: string = '';
+
     /**
      * @type {Ch5TemplateStructure}
      */
     private _templateHelper: Ch5TemplateStructure = {} as Ch5TemplateStructure;
 
+    public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Template.ELEMENT_NAME, Ch5Template.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+    public static registerSignalAttributeDefaults() {
+        Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Template.ELEMENT_NAME, {
+            contractName: {attributes: ["contractname"], defaultValue: ""},
+            booleanJoin: {attributes: ["booleanjoinoffset"], defaultValue: "0"},
+            numericJoin: {attributes: ["numericjoinoffset"], defaultValue: "0"},
+            stringJoin: {attributes: ["stringjoinoffset"], defaultValue: "0"}
+        })
+    }
+
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5Template.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5Template.ELEMENT_NAME, Ch5Template);
+		}
+	}
+
+
     public static get observedAttributes() {
         const commonObservedAttributes = Ch5Common.observedAttributes;
         const contextObservedAttributes = [
             'templateid',
-            'context'
+            'context',
+            'contractname',
+            'booleanjoinoffset',
+            'numericjoinoffset',
+            'stringjoinoffset'
         ];
 
         return contextObservedAttributes.concat(commonObservedAttributes);
@@ -70,6 +113,52 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
     public get context() {
         return this._context;
+    }
+
+
+    public set contractName(value: string) {
+        if (this._contractName !== value) {
+            this._contractName = value;
+            this.setAttribute('contractname', value);
+        } 
+    }
+
+    public get contractName() {
+        return this._contractName;
+    }
+
+    public set booleanJoinOffset(value: string) {
+        if (this._booleanJoinOffset !== value) {
+            this._booleanJoinOffset = value;
+            this.setAttribute('booleanjoinoffset', value);
+        }
+    }
+
+    public get booleanJoinOffset() {
+        return this._booleanJoinOffset;
+    }
+
+    public set numericJoinOffset(value: string) {
+        if (this._numericJoinOffset !== value) {
+            this._numericJoinOffset = value;
+            this.setAttribute('numericjoinoffset', value);
+        }
+    }
+
+    public get numericJoinOffset() {
+        return this._numericJoinOffset;
+    }
+
+
+    public set stringJoinOffset(value: string) {
+        if (this._stringJoinOffset !== value) {
+            this._stringJoinOffset = value;
+            this.setAttribute('stringjoinoffset', value);
+        }
+    }
+
+    public get stringJoinOffset() {
+        return this._stringJoinOffset;
     }
 
     public connectedCallback() {
@@ -124,6 +213,18 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
             case 'context':
                 this.context = this.getAttribute('context') as string;
                 break;
+            case 'contractname':
+                this.contractName = this.getAttribute('contractname') as string;
+                break;
+            case 'booleanjoinoffset':
+                this.booleanJoinOffset = this.getAttribute('booleanjoinoffset') as string;
+                break;
+            case 'numericjoinoffset':
+                this.numericJoinOffset = this.getAttribute('numericjoinoffset') as string;
+                break;
+            case 'stringjoinoffset':
+                this.stringJoinOffset = this.getAttribute('stringjoinoffset') as string;
+                break;
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
@@ -149,10 +250,9 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
         }
         this._templateHelper = {} as Ch5TemplateStructure;
     }
+
 }
 
-if (typeof window === "object" &&
-    typeof window.customElements === "object" &&
-    typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-template', Ch5Template);
-}
+Ch5Template.registerCustomElement();
+Ch5Template.registerSignalAttributeTypes();
+Ch5Template.registerSignalAttributeDefaults();
