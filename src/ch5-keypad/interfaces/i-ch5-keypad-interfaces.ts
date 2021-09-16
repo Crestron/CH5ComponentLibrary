@@ -66,6 +66,22 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
+     * "`type` textOrientation",
+     * "***",
+     * "Default value is 'top'. ",
+     * "Allows to customize the orientation of the keypad buttons' major-minor. ",
+     * "The value dictates the position of the labelMajor and labelMinor is complimented. ",
+     * "If value is top: then, major will be on top and minor will be below it. ",
+     * "join+2 applies to left, join+3 applies to right, join+4 to center ."
+     * ]
+     * @name textOrientation
+     * @default top
+     */
+     textOrientation: string;
+
+    /**
+     * @documentation
+     * [
      * "`type` useContractforEnable",
      * "***",
      * "If the contract name exists, by default this becomes true. ",

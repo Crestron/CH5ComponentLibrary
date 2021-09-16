@@ -149,7 +149,7 @@ export class CH5KeypadBtnData {
     }
 
     private static getClassNameForChildBtn(existingClassList: string | null, index: number) {
-        let ret = !!existingClassList ? [existingClassList] : [];
+        const ret = !!existingClassList ? [existingClassList] : [];
         if (index > -1 && index < 10) {
             ret.push(this.numberTypeBtnCssClass);
         } else if (index === 11) {
