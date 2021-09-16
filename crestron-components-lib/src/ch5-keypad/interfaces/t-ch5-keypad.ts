@@ -12,6 +12,7 @@ export type TCh5KeypadType = 'default' | 'info' | 'text' | 'danger' | 'warning' 
 export type TCh5KeypadShape = 'rounded' | 'square' | 'circle';
 
 export type TCh5KeypadStretch = 'both' | 'width' | 'height';
+export type TCh5KeypadTextOrientation = 'top' | 'right' | 'bottom' | 'left';
 
 export type TCh5KeypadBtnCreateDTO = {
     indexRef: number,

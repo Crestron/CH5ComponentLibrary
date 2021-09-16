@@ -13,7 +13,7 @@ import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-ma
 import { Ch5KeypadBtn } from "./ch5-keypad-btn";
 import { CH5KeypadBtnData } from "./ch5-keypad-btn-data";
 import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-interfaces";
-import { TCh5KeypadBtnCreateDTO, TCh5KeypadShape, TCh5KeypadStretch, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
+import { TCh5KeypadBtnCreateDTO, TCh5KeypadShape, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#region 1. Variables
@@ -32,6 +32,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      * No default value for Stretch
      */
     public static readonly STRETCHES: TCh5KeypadStretch[] = ['both', 'width', 'height'];
+    public static readonly TEXTORIENTATIONS: TCh5KeypadTextOrientation[] = ['top', 'right', 'bottom', 'left'];
 
     public readonly primaryCssClass = 'ch5-keypad';
     public readonly cssClassPrefix = 'ch5-keypad';
@@ -45,6 +46,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private _type: TCh5KeypadType = Ch5Keypad.TYPES[0];
     private _shape: TCh5KeypadShape = Ch5Keypad.SHAPES[0];
     private _stretch: TCh5KeypadStretch | null = null;
+    private _textOrientation: TCh5KeypadTextOrientation = Ch5Keypad.TEXTORIENTATIONS[0];
     private _sendEventOnClickStart: string = '';
     private _showExtraButton: boolean = false;
     private _useContractforEnable: boolean = false;
@@ -62,6 +64,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private isComponentLoaded: boolean = false;
     private btnTypeClassPrefix: string = "ch5-keypad--type-";
     private btnShapeClassPrefix: string = "ch5-keypad--shape-";
+    private btnTextOrientationClassPrefix: string = "ch5-keypad--orientation-";
 
     // elements specific vars
     private container: HTMLElement = {} as HTMLElement;
@@ -146,6 +149,24 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
     public get stretch(): TCh5KeypadStretch | null {
         return this._stretch;
+    }
+
+    /**
+     * textOrientation specif getter-setter
+     */
+    public set textOrientation(value: TCh5KeypadTextOrientation) {
+        this.logger.start('set textOrientation ("' + value + '")');
+        if (value !== null) {
+            const orientations = ['', ...Ch5Keypad.TEXTORIENTATIONS];
+            ComponentHelper.setAttributeValueOnControl(
+                this, 'textOrientation', value, orientations,
+                this.textOrientationHandler.bind(this)
+            );
+        }
+        this.logger.stop();
+    }
+    public get textOrientation(): TCh5KeypadTextOrientation {
+        return this._textOrientation;
     }
 
     /**
@@ -654,7 +675,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
         // build child elements ref object
         this.buildRuntimeChildButtonList();
-        
+
         ComponentHelper.clearComponentContent(this);
 
         this.logger.stop();
@@ -678,6 +699,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             'shape', this._shape) as TCh5KeypadShape;
         this.stretch = ComponentHelper.setAttributeToElement(this,
             'stretch', this._stretch as string) as TCh5KeypadStretch;
+        this.textOrientation = ComponentHelper.setAttributeToElement(this,
+            'textOrientation', this._textOrientation as string) as TCh5KeypadTextOrientation;
         this.sendEventOnClickStart = ComponentHelper.setAttributeToElement(
             this, 'sendEventOnClickStart'.toLowerCase(), this._sendEventOnClickStart);
 
@@ -881,6 +904,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             case 'stretch':
                 this.stretch = newValue as TCh5KeypadStretch;
                 break;
+            case 'textorientation':
+                this.textOrientation = newValue as TCh5KeypadTextOrientation;
+                break;
             case 'contractname':
                 this.contractName = newValue;
                 this.updateContractNameBasedHandlers(this._contractName);
@@ -906,6 +932,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             this.classList.remove(this.btnShapeClassPrefix + typeVal);
         }
         this.classList.add(this.btnShapeClassPrefix + this.shape);
+
+        for (const typeVal of Ch5Keypad.TEXTORIENTATIONS) {
+            this.classList.remove(this.btnTextOrientationClassPrefix + typeVal);
+        }
+        this.classList.add(this.btnTextOrientationClassPrefix + this.textOrientation);
 
         this.classList.add(this.btnTypeClassPrefix +
             ((this.showExtraButton) ? "extra-row-hide" : "extra-row-hide"));
@@ -1058,6 +1089,12 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
     private typeHandler() {
         this.logger.start(this.COMPONENT_NAME + ' > typeHandler');
+        this.updateCssClasses();
+        this.logger.stop();
+    }
+
+    private textOrientationHandler() {
+        this.logger.start(this.COMPONENT_NAME + ' > textOrientationHandler');
         this.updateCssClasses();
         this.logger.stop();
     }
