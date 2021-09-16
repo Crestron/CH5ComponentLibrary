@@ -377,6 +377,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
      * Useful for running clean up code.
      */
     public disconnectedCallback() {
+        this.logger.start('disconnectedCallback() - start', this.COMPONENT_NAME);
         this.removeEventListeners();
 
         // destroy pressable
@@ -387,6 +388,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
         // disconnect common mutation observer
         this.disconnectCommonMutationObserver();
+        this.logger.stop();
     }
 
     public removeEventListeners() {
