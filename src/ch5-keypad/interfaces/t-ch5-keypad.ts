@@ -9,7 +9,7 @@ import { Ch5KeypadBtn } from "../ch5-keypad-btn";
 
 export type TCh5KeypadType = 'default' | 'info' | 'text' | 'danger' | 'warning' | 'success' | 'primary' | 'secondary';
 
-export type TCh5KeypadShape = 'rounded' | 'square' | 'circle';
+export type TCh5KeypadShape = 'rounded-rectangle' | 'square' | 'circle';
 
 export type TCh5KeypadStretch = 'both' | 'width' | 'height';
 export type TCh5KeypadTextOrientation = 'top' | 'right' | 'bottom' | 'left';

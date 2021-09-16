@@ -26,7 +26,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     /**
      * The first value is considered the default one
      */
-    public static readonly SHAPES: TCh5KeypadShape[] = ['rounded', 'square', 'circle'];
+    public static readonly SHAPES: TCh5KeypadShape[] = ['rounded-rectangle', 'square', 'circle'];
 
     /**
      * No default value for Stretch
