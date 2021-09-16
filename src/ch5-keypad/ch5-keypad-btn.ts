@@ -35,6 +35,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     protected emptyBtnCssClass: string = 'empty-btn';
     protected labelMajorCssClass: string = 'label-major';
     protected labelMinorCssClass: string = 'label-minor';
+    protected parentDivCssClass: string = 'keypad-row';
 
     // protected setter getter specific vars
     // protected _disabled: boolean = true; // not required as its in common.ts
@@ -147,6 +148,11 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     public constructor(params: TCh5KeypadBtnCreateDTO) {
         super();
         this.logger.start('constructor()', this.COMPONENT_NAME);
+
+        if (this.parentElement && !this.parentElement.classList.contains(this.parentDivCssClass)) {
+            this.logger.stop();
+            return;
+        }
         this.params = params;
 
         ComponentHelper.clearComponentContent(this);
@@ -173,9 +179,9 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         this._sendEventOnClick = eventHandlerValue;
 
         this.labelMajor = ComponentHelper.setAttributeToElement(this,
-            'major'.toLowerCase(), this._labelMajor);
+            'labelmajor'.toLowerCase(), this._labelMajor);
         this.labelMinor = ComponentHelper.setAttributeToElement(this,
-            'minor'.toLowerCase(), this._labelMinor);
+            'labelminor'.toLowerCase(), this._labelMinor);
         this.sendEventOnClick = ComponentHelper.setAttributeToElement(this,
             'sendEventOnClick'.toLowerCase(), this._sendEventOnClick);
 
@@ -188,6 +194,11 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
      */
     public connectedCallback() {
         this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
+
+        if (this.parentElement && !this.parentElement.classList.contains(this.parentDivCssClass)) {
+            this.logger.stop();
+            return;
+        }
 
         this.setAttribute('data-ch5-id', this.getCrId());
 
@@ -202,10 +213,8 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         // will have the flags ready for contract level content to be ready
         this.createElementsAndInitialize();
 
-        customElements.whenDefined(`ch5-keypad-button-${this.params.name}`).then(() => {
-            this.initCommonMutationObserver(this);
-            this.logger.stop();
-        });
+        this.initCommonMutationObserver(this);
+        this.logger.stop();
     }
 
     /**
@@ -229,7 +238,10 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         ComponentHelper.clearComponentContent(this);
         this.classList.add(this.primaryCssClass);
         this.classList.add(...(this.params.className.split(' ')));
-        if (!!this.params.major || !!this.params.minor || this.params.iconClass.length > 0) {
+        this.setAttribute('key', this.params.name);
+        if (this.params.major.length > 0 ||
+            this.params.minor.length > 0 ||
+            this.params.iconClass.length > 0) {
             const btn = document.createElement('button');
             btn.appendChild(this.createLabelElementAndAppend(this.labelMajorCssClass, this.params.major));
             btn.appendChild(this.createLabelElementAndAppend(this.labelMinorCssClass, this.params.minor));
@@ -250,6 +262,13 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
      * Useful for running clean up code.
      */
     public disconnectedCallback() {
+        this.logger.start('disconnectedCallback() - start', this.COMPONENT_NAME);
+
+        if (this.parentElement && !this.parentElement.classList.contains(this.parentDivCssClass)) {
+            this.logger.stop();
+            return;
+        }
+
         this.removeEventListeners();
 
         // destroy pressable
@@ -260,6 +279,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
 
         // disconnect common mutation observer
         this.disconnectCommonMutationObserver();
+        this.logger.stop();
     }
 
     public removeEventListeners() {
