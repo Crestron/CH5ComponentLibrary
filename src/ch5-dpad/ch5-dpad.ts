@@ -40,6 +40,33 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     public static readonly STRETCHES: TCh5DpadStretch[] = ['both', 'width', 'height'];
 
+    /**
+     * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
+     */
+    public static readonly COMPONENT_DATA: any = {
+        TYPES: {
+            default: Ch5Dpad.TYPES[0],
+            values: Ch5Dpad.TYPES,
+            key: 'type',
+            attribute: 'type',
+            classListPrefix: 'ch5-dpad--type-'
+        },
+        STRETCHES: {
+            default: null,
+            values: Ch5Dpad.STRETCHES,
+            key: 'stretch',
+            attribute: 'stretch',
+            classListPrefix: 'ch5-dpad--stretch-'
+        },
+        SHAPES: {
+            default: Ch5Dpad.SHAPES[0],
+            values: Ch5Dpad.SHAPES,
+            key: 'shape',
+            attribute: 'shape',
+            classListPrefix: 'ch5-dpad--shape-'
+        },
+    };
+
     public readonly primaryCssClass = 'ch5-dpad';
     public readonly cssClassPrefix = 'ch5-dpad';
 

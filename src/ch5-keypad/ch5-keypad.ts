@@ -32,7 +32,51 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      * No default value for Stretch
      */
     public static readonly STRETCHES: TCh5KeypadStretch[] = ['both', 'width', 'height'];
+
+    /**
+     * No default value for Text Orientation
+     * Value controls the way the major and minor render together
+     */
     public static readonly TEXTORIENTATIONS: TCh5KeypadTextOrientation[] = ['top', 'right', 'bottom', 'left'];
+
+    public static readonly btnTypeClassPrefix: string = "ch5-keypad--type-";
+    public static readonly btnStretchClassPrefix: string = "ch5-keypad--stretch-";
+    public static readonly btnShapeClassPrefix: string = "ch5-keypad--shape-";
+    public static readonly btnTextOrientationClassPrefix: string = "ch5-keypad--orientation-";
+
+    /**
+     * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
+     */
+    public static readonly COMPONENT_DATA: any = {
+        TYPES: {
+            default: Ch5Keypad.TYPES[0],
+            values: Ch5Keypad.TYPES,
+            key: 'type',
+            attribute: 'type',
+            classListPrefix: Ch5Keypad.btnTypeClassPrefix
+        },
+        STRETCHES: {
+            default: null,
+            values: Ch5Keypad.STRETCHES,
+            key: 'stretch',
+            attribute: 'stretch',
+            classListPrefix: Ch5Keypad.btnStretchClassPrefix
+        },
+        SHAPES: {
+            default: Ch5Keypad.SHAPES[0],
+            values: Ch5Keypad.SHAPES,
+            key: 'shape',
+            attribute: 'shape',
+            classListPrefix: Ch5Keypad.btnShapeClassPrefix
+        },
+        TEXTORIENTATIONS: {
+            default: Ch5Keypad.TEXTORIENTATIONS[0],
+            values: Ch5Keypad.TEXTORIENTATIONS,
+            key: 'textorientation',
+            attribute: 'textorientation',
+            classListPrefix: Ch5Keypad.btnTextOrientationClassPrefix
+        },
+    };
 
     public readonly primaryCssClass = 'ch5-keypad';
     public readonly cssClassPrefix = 'ch5-keypad';
@@ -62,9 +106,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
     // state specific vars
     private isComponentLoaded: boolean = false;
-    private btnTypeClassPrefix: string = "ch5-keypad--type-";
-    private btnShapeClassPrefix: string = "ch5-keypad--shape-";
-    private btnTextOrientationClassPrefix: string = "ch5-keypad--orientation-";
 
     // elements specific vars
     private container: HTMLElement = {} as HTMLElement;
@@ -924,21 +965,21 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         super.updateCssClasses();
 
         for (const typeVal of Ch5Keypad.TYPES) {
-            this.classList.remove(this.btnTypeClassPrefix + typeVal);
+            this.classList.remove(Ch5Keypad.btnTypeClassPrefix + typeVal);
         }
-        this.classList.add(this.btnTypeClassPrefix + this.type);
+        this.classList.add(Ch5Keypad.btnTypeClassPrefix + this.type);
 
         for (const typeVal of Ch5Keypad.SHAPES) {
-            this.classList.remove(this.btnShapeClassPrefix + typeVal);
+            this.classList.remove(Ch5Keypad.btnShapeClassPrefix + typeVal);
         }
-        this.classList.add(this.btnShapeClassPrefix + this.shape);
+        this.classList.add(Ch5Keypad.btnShapeClassPrefix + this.shape);
 
         for (const typeVal of Ch5Keypad.TEXTORIENTATIONS) {
-            this.classList.remove(this.btnTextOrientationClassPrefix + typeVal);
+            this.classList.remove(Ch5Keypad.btnTextOrientationClassPrefix + typeVal);
         }
-        this.classList.add(this.btnTextOrientationClassPrefix + this.textOrientation);
+        this.classList.add(Ch5Keypad.btnTextOrientationClassPrefix + this.textOrientation);
 
-        this.classList.add(this.btnTypeClassPrefix +
+        this.classList.add(Ch5Keypad.btnTypeClassPrefix +
             ((this.showExtraButton) ? "extra-row-hide" : "extra-row-hide"));
     }
 
