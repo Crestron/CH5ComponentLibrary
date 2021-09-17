@@ -74,9 +74,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private _videoDimensions: IBACKGROUND[] = [];
     private _isRefilled: boolean = true;
     private lastRefillTime: number = 100;
-    private lastCutTime: number = 100;
-    private lastClearCutBGTimeout: any;
-    private videoRequestObj: IBACKGROUND = {} as IBACKGROUND;
     private videoSnapShot: HTMLImageElement = {} as HTMLImageElement;
     private isInitialized: boolean = false;
 
@@ -240,7 +237,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     }
 
     public set backgroundColor(value: string) {
-        if (this._backgroundColor !== value && !this.hasAttribute('url') && !this.hasAttribute('receivestateurl')) {
+        if (!this.hasAttribute('url') && !this.hasAttribute('receivestateurl')) {
+            this._backgroundColor = (value.trim() !== "") ? this.imgBackgroundColor : 'value';
             this._backgroundColor = value;
             this.getBackgroundColor(this._backgroundColor);
             this.setAttribute('backgroundcolor', this._backgroundColor);
@@ -576,7 +574,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (request && Object.keys(request).length) {
             const tempObj: IBACKGROUND = Object.assign({}, request);
             delete tempObj.image;
-            this.videoRequestObj = request;
 
             this.setAttribute('videocrop', JSON.stringify(tempObj));
 
@@ -1284,7 +1281,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
                     }
                 })
             }
-            this.lastCutTime = performance.now();
         }
     }
 
