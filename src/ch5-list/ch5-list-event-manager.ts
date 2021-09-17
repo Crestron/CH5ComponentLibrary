@@ -97,12 +97,11 @@ export class Ch5ListEventManager extends Ch5ListAbstractHelper {
     window.addEventListener('resize', this.onWindowResize);
     window.addEventListener('orientationchange', this.onOrientationChange);
 
-    const isTouchSupported = this.checkTouchSupport();
-
-    if (isTouchSupported) {
+    if (isCrestronDevice()) {
       this.initializeTouchEvents(additionalElement);
     } else {
       this.initializeMouseEvents(additionalElement);
+      this.initializeTouchEvents(additionalElement);
     }
 
     // fixes weird safari 10 bug where preventDefault is prevented
