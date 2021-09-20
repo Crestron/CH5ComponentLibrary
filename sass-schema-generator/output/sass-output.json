@@ -805,6 +805,9 @@
         "font-size"
       ],
       "showWhen": {
+        "checkbox": [
+          false
+        ],
         "size": [
           "x-small"
         ]
@@ -861,6 +864,9 @@
         "font-size"
       ],
       "showWhen": {
+        "checkbox": [
+          false
+        ],
         "size": [
           "small"
         ]
@@ -917,6 +923,9 @@
         "font-size"
       ],
       "showWhen": {
+        "checkbox": [
+          false
+        ],
         "size": [
           "large"
         ]
@@ -973,6 +982,9 @@
         "font-size"
       ],
       "showWhen": {
+        "checkbox": [
+          false
+        ],
         "size": [
           "x-large"
         ]
@@ -1015,7 +1027,11 @@
         "font-weight",
         "font-size"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "checkbox": [
+          false
+        ]
+      }
     },
     {
       "className": ".ch5-button__checkbox--left",
@@ -1023,7 +1039,11 @@
       "supports": [
         "margin-right"
       ],
-      "showWhen": {}
+      "showWhen": {
+        "checkboxPosition": [
+          "left"
+        ]
+      }
     },
     {
       "className": ".ch5-button__checkbox--right",

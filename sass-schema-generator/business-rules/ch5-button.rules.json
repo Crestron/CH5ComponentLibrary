@@ -21,9 +21,19 @@
       "value": true
     },
     {
+      "contains": "checkbox--unchecked",
+      "key": "checkbox",
+      "value": false
+    },
+    {
       "contains": "checkbox--right",
       "key": "checkboxPosition",
       "value": "right"
+    },
+    {
+      "contains": "checkbox--left",
+      "key": "checkboxPosition",
+      "value": "left"
     },
     {
       "contains": ".ch5-button--disabled",
