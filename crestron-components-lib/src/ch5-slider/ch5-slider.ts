@@ -16,6 +16,7 @@ import isNil from "lodash/isNil";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SliderAttributes, TCh5SliderShape, TCh5SliderOrientation, TCh5SliderSize, TCh5SliderStretch, TCh5SliderDirection, TCh5SliderTooltipType, TCh5SliderTooltipDisplay, TCh5SliderHandle } from "./interfaces";
 import _ from "lodash";
+import { Subject } from "rxjs";
 
 export interface IRcbSignal {
 	rcb: {
@@ -131,6 +132,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	private _tooltip: NodeListOf<HTMLElement> = {} as NodeListOf<HTMLElement>;
 
 	private containerClass: string = 'ch5-slider-container';
+	private getPercentageValueSubject: Subject<string> = new Subject<string>(); // TODO - this is not the right way
 
 	/**
 	 * CSS classes
@@ -1113,7 +1115,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				}
 			};
 
-			this._cleanValue = newValue;
+
+			this.setCleanValue(newValue);
 
 			if (this._dirtyTimerHandle === null) {
 				this._wasRendered = false;
@@ -1131,6 +1134,12 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		});
 	}
 
+	public getPercentageValue(): Subject<string> {
+		// if (!this.getPercentageValueSubject) {
+		// 	this.getPercentageValueSubject = new Subject<string>();
+		// }
+		return this.getPercentageValueSubject;
+	}
 	/**
 	 * Getter receiveStateValueHigh
 	 * @type {string}
@@ -1440,11 +1449,15 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			// this.stretchHandler();
 
 			// init clean values
-			this._cleanValue = this.value;
+			this.setCleanValue(this.value);
 			this._cleanValueHigh = this.valueHigh;
 		});
 	}
 
+	private setCleanValue(value: string | number) {
+		this._cleanValue = value;
+		this.getPercentageValueSubject.next(this._toolTipDisplayTypeFormatter(value));
+	}
 	/**
 	 * Called every time the element is removed from the DOM.
 	 * Useful for running clean up code.
@@ -1732,7 +1745,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public getCssClassDisabled(): string {
 		return this.cssClassPrefix + '--disabled';
 	}
-	
+
 	/**
 	 * METHODS
 	 *
@@ -2610,7 +2623,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		const tooltips =
 			this._toolTipShowType === "off"
 				? false
-				: this._range ? [{ to: this._toolTipDisplayTypeFormater.bind(this) }, { to: this._toolTipDisplayTypeFormater.bind(this) }] : [{ to: this._toolTipDisplayTypeFormater.bind(this) }];
+				: this._range ? [{ to: this._toolTipDisplayTypeFormatter.bind(this) }, { to: this._toolTipDisplayTypeFormatter.bind(this) }] : [{ to: this._toolTipDisplayTypeFormatter.bind(this) }];
 
 		// The start option sets the number of handles and corresponding start positions.
 		const start = this._getStartValue();
@@ -2756,7 +2769,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @param {*} value
 	 * @returns {string}
 	 */
-	private _toolTipDisplayTypeFormater(value: any): string {
+	private _toolTipDisplayTypeFormatter(value: any): string {
 		if (this.toolTipDisplayType === '%') {
 			return this._tooltipValueToPercent(value);
 		}
@@ -2993,7 +3006,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		if (undefined !== tooltip
 			&& null !== tooltip
 		) {
-			tooltip.textContent = this._toolTipDisplayTypeFormater(value);
+			tooltip.textContent = this._toolTipDisplayTypeFormatter(value);
 		}
 	}
 
