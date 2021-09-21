@@ -93,7 +93,7 @@ import { Ch5ButtonSignal } from "./ch5-button-signal";
  * | ch5-button--vertical-* 					| applied for vertical alignment of the label
  * | ch5-button__checkbox 						| applied to define the checkbox position
  * | ch5-button__checkbox--checked 		| applied to define the icon for 'selected (checked) checkbox'
- * | ch5-button__checkbox--unchecked 	| applied to define the icon for for 'deselected (unchecked) checkbox'
+ * | ch5-button__checkbox--unchecked 	| applied to define the icon for 'deselected (unchecked) checkbox'
  * | ch5-button__checkbox--checked-disabled | applied to define the icon for 'disabled selected (checked) checkbox'
  * | ch5-button__checkbox--unchecked-disabled | applied to define the icon for 'disabled deselected (unchecked) checkbox'
  */

@@ -91,7 +91,7 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 	private _label: string = '';
 	private _ch5CommonSignal: Ch5CommonSignal;
 
-  private _parentCh5Slider: Ch5Slider;
+	private _parentCh5Slider: Ch5Slider;
 	/**
 	 * Horizontal Alignment for Label
 	 */
@@ -600,6 +600,7 @@ export class Ch5SliderLabelBase extends Ch5Common implements ICh5SliderLabelAttr
 		}
 
 		if (this.receiveStateLabel && this.receiveStateLabel !== '') {
+			// this._elSpan.setAttribute("data-ch5-innerhtml", this.receiveStateLabel);
 			// extendedProperties.label = this._ch5CommonSignal.getVariable<string>("receiveStateLabel");
 		}
 

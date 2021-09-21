@@ -15,6 +15,10 @@ export class Ch5SliderPercentageLabel extends Ch5SliderLabelBase {
 
 	public connectedCallback() {
 		super.connectedCallback();
+		
+		this.getParent().getPercentageValue().subscribe((data) => {
+			this.label = data;
+		})
 	}
 
 }
