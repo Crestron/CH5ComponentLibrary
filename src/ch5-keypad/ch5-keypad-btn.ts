@@ -42,6 +42,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     // protected _show: boolean = true; // not required as its in common.ts
     protected _labelMajor: string = '';
     protected _labelMinor: string = '';
+    protected _iconClass: string = '';
     protected _sendEventOnClick: string = '';
 
     // signal based vars for each receive state
@@ -128,6 +129,22 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     }
 
     /**
+     * iconClass specif getter-setter
+     */
+    public set iconClass(value: string) {
+        this.logger.start('set iconClass("' + value + '")');
+        if ((value !== '') && (value !== this._iconClass)) {
+            this._iconClass = value;
+        } else {
+            this._iconClass = this.params.iconClass.join(' ');
+        }
+        this.setAttribute('iconClass'.toLowerCase(), value);
+    }
+    public get iconClass() {
+        return this._iconClass;
+    }
+
+    /**
      * sendEventOnClick specif getter-setter
      */
     public set sendEventOnClick(value: string) {
@@ -171,17 +188,20 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 
-        const { major, minor, contractName, joinCountToAdd } = this.params;
+        const { major, minor, contractName, joinCountToAdd, iconClass } = this.params;
         this._labelMajor = major;
         this._labelMinor = minor;
+        this._iconClass = iconClass.join(' ');
 
         const eventHandlerValue = (contractName.length > 0) ? contractName : joinCountToAdd;
         this._sendEventOnClick = eventHandlerValue;
 
         this.labelMajor = ComponentHelper.setAttributeToElement(this,
-            'labelmajor'.toLowerCase(), this._labelMajor);
+            'labelMajor'.toLowerCase(), this._labelMajor);
         this.labelMinor = ComponentHelper.setAttributeToElement(this,
-            'labelminor'.toLowerCase(), this._labelMinor);
+            'labelMinor'.toLowerCase(), this._labelMinor);
+        this.iconClass = ComponentHelper.setAttributeToElement(this,
+            'iconClass'.toLowerCase(), this._iconClass);
         this.sendEventOnClick = ComponentHelper.setAttributeToElement(this,
             'sendEventOnClick'.toLowerCase(), this._sendEventOnClick);
 
@@ -324,6 +344,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         const attributes: string[] = [
             "labelmajor",
             "labelminor",
+            "iconclass",
             "sendeventonclick"
         ];
 
@@ -364,6 +385,9 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
             case 'labelmajor':
                 this.labelMajor = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
+            case 'iconclass':
+                this.iconClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
             case 'sendeventonclick':
                 this.sendEventOnClick = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
@@ -384,9 +408,9 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     protected createLabelElementAndAppend(className: string, value: string = '') {
         const labelEle = document.createElement('span');
         labelEle.classList.add(className);
-        if (this.params.iconClass.length > 0 && className === this.labelMajorCssClass) {
+        if (this.iconClass.length > 0 && className === this.labelMajorCssClass) {
             const icn = document.createElement('span');
-            icn.classList.add(...this.params.iconClass);
+            icn.classList.add(...this.iconClass.split(' '));
             labelEle.appendChild(icn);
             labelEle.classList.add('has-icon');
         } else {

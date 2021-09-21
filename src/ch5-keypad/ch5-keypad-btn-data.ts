@@ -107,7 +107,7 @@ export class CH5KeypadBtnData {
         const key = ele.getAttribute('key');
         const index = (!!key && key.length > 0) ? key.replace('button', '') : null;
         if (index !== null) {
-            const contractList: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', '0', 'Hash'];
+            const contractList: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', '0', 'Hash', 'ExtraButton'];
             const indexRef = this.getIndexRefForChildBtn(index);
             const major = ele.getAttribute('labelmajor');
             const minor = ele.getAttribute('labelminor');
@@ -138,8 +138,14 @@ export class CH5KeypadBtnData {
             case 'star':
                 ret = 9;
                 break;
+            case '0': // this is special because its after 'Star' character
+                ret = 10;
+                break;
             case 'hash':
                 ret = 11;
+                break;
+            case 'center':
+                ret = 12;
                 break;
             default:
                 ret = parseInt(str, 10) - 1;
@@ -150,13 +156,13 @@ export class CH5KeypadBtnData {
 
     private static getClassNameForChildBtn(existingClassList: string | null, index: number) {
         const ret = !!existingClassList ? [existingClassList] : [];
-        if (index > -1 && index < 10) {
+        if (index > -1 && index < 9 || index === 10) {
             ret.push(this.numberTypeBtnCssClass);
-        } else if (index === 11) {
+        } else if (index === 9) {
             ret.push(this.miscOneBtnCssClass);
-        } else if (index === 12) {
+        } else if (index === 11) {
             ret.push(this.miscTwoBtnCssClass);
-        } else if (index === 13) {
+        } else if (index === 12) {
             ret.push(this.specialBtnCssClass);
         }
         return ret.join(' ');
