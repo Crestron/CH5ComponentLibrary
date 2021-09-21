@@ -106,6 +106,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
     // state specific vars
     private isComponentLoaded: boolean = false;
+    private isResizeInProgress: boolean = false;
+    private readonly resizeDebounce: number = 500;
 
     // elements specific vars
     private container: HTMLElement = {} as HTMLElement;
@@ -730,6 +732,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         super.initAttributes();
         // set data-ch5-id
         this.setAttribute('data-ch5-id', this.getCrId());
+        this.setAttribute('id', this.getCrId());
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Keypad); // WAI-ARIA Attributes
         this.contractName = ComponentHelper.setAttributeToElement(this,
@@ -843,6 +846,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private removeEvents() {
         // throw new Error("Method not implemented or element is not structured correctly.");
         super.removeEventListeners();
+        window.removeEventListener('resize', this.onWindowResizeHandler);
     }
 
     /**
@@ -979,8 +983,20 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         }
         this.classList.add(Ch5Keypad.btnTextOrientationClassPrefix + this.textOrientation);
 
+        for (const typeVal of Ch5Keypad.STRETCHES) {
+            this.classList.remove(Ch5Keypad.btnStretchClassPrefix + typeVal);
+        }
+        if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
+            this.classList.add(Ch5Keypad.btnStretchClassPrefix + this.stretch);
+        }
+
         this.classList.add(Ch5Keypad.btnTypeClassPrefix +
             ((this.showExtraButton) ? "extra-row-hide" : "extra-row-hide"));
+    }
+
+    protected attachEventListeners() {
+        super.attachEventListeners();
+        window.addEventListener('resize', this.onWindowResizeHandler.bind(this));
     }
 
     //#endregion
@@ -1125,6 +1141,26 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private stretchHandler() {
         this.logger.start(this.COMPONENT_NAME + ' > stretchHandler');
         this.updateCssClasses();
+        if (!!this.container.classList &&
+            this.container.classList.contains(this.containerClass)) {
+            if (!!this.stretch && this.stretch.length > 0) {
+                const doesContractPermit = (this.contractName.length > 0 && this.useContractForExtraButtonShow);
+                const rowCount = (doesContractPermit || (!doesContractPermit && this.showExtraButton)) ? 5 : 4;
+                const colCount = 3;
+
+                const requiredCellHeight: number = this.offsetHeight / rowCount;
+                const requiredCellWidth: number = this.offsetWidth / colCount;
+
+                const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
+                console.log('cellDimensionToRender > ', cellDimensionToRender);
+
+                this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
+                this.container.style.width = (cellDimensionToRender * colCount) + 'px';
+            } else {
+                this.container.style.removeProperty('height');
+                this.container.style.removeProperty('width');
+            }
+        }
         this.logger.stop();
     }
 
@@ -1153,7 +1189,19 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         this.logger.stop();
     }
 
-
+    /**
+     * Function to handle the resize event for dpad to be redrawn if required
+     */
+    private onWindowResizeHandler() {
+        // since stretch has no default value, should fire stretchHandler only if required
+        if (!!this.stretch && this.stretch.length > 0 && !this.isResizeInProgress) {
+            this.isResizeInProgress = true;
+            setTimeout(() => {
+                this.stretchHandler();
+                this.isResizeInProgress = false; // reset debounce once completed
+            }, this.resizeDebounce);
+        }
+    }
 
     //#endregion
 

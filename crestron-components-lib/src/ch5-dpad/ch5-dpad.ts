@@ -40,6 +40,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     public static readonly STRETCHES: TCh5DpadStretch[] = ['both', 'width', 'height'];
 
+    public static readonly btnStretchClassPrefix: string = "ch5-dpad--stretch-";
+    public static readonly btnTypeClassPrefix: string = "ch5-dpad--type-";
+    public static readonly btnShapeClassPrefix: string = "ch5-dpad--shape-";
+
     /**
      * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
      */
@@ -56,7 +60,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             values: Ch5Dpad.STRETCHES,
             key: 'stretch',
             attribute: 'stretch',
-            classListPrefix: 'ch5-dpad--stretch-'
+            classListPrefix: Ch5Dpad.btnStretchClassPrefix
         },
         SHAPES: {
             default: Ch5Dpad.SHAPES[0],
@@ -92,8 +96,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
     // state specific vars
     private isComponentLoaded: boolean = false;
-    private btnTypeClassPrefix: string = "ch5-dpad--type-";
-    private btnShapeClassPrefix: string = "ch5-dpad--shape-";
+    private isResizeInProgress: boolean = false;
+    private readonly resizeDebounce: number = 500;
 
     // elements specific vars
     private container: HTMLElement = {} as HTMLElement;
@@ -703,6 +707,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private removeEvents() {
         // throw new Error("Method not implemented or element is not structured correctly.");
         super.removeEventListeners();
+        window.removeEventListener('resize', this.onWindowResizeHandler);
     }
 
     /**
@@ -952,6 +957,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      */
     protected attachEventListeners() {
         super.attachEventListeners();
+        window.addEventListener('resize', this.onWindowResizeHandler.bind(this));
     }
 
     protected updateCssClasses(): void {
@@ -959,14 +965,21 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         super.updateCssClasses();
 
         for (const typeVal of Ch5Dpad.TYPES) {
-            this.classList.remove(this.btnTypeClassPrefix + typeVal);
+            this.classList.remove(Ch5Dpad.btnTypeClassPrefix + typeVal);
         }
-        this.classList.add(this.btnTypeClassPrefix + this.type);
+        this.classList.add(Ch5Dpad.btnTypeClassPrefix + this.type);
 
         for (const typeVal of Ch5Dpad.SHAPES) {
-            this.classList.remove(this.btnShapeClassPrefix + typeVal);
+            this.classList.remove(Ch5Dpad.btnShapeClassPrefix + typeVal);
         }
-        this.classList.add(this.btnShapeClassPrefix + this.shape);
+        this.classList.add(Ch5Dpad.btnShapeClassPrefix + this.shape);
+
+        for (const typeVal of Ch5Dpad.STRETCHES) {
+            this.classList.remove(Ch5Dpad.btnStretchClassPrefix + typeVal);
+        }
+        if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
+            this.classList.add(Ch5Dpad.btnStretchClassPrefix + this.stretch);
+        }
     }
 
     //#endregion
@@ -1138,29 +1151,15 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     }
 
     private stretchHandler() {
-        const dpadHeight = this.style.height;
-        const dpadWidth = this.style.width;
-        let dimensionVal = Math.min(parseInt(dpadHeight.replace(/\D/g, ''), 10), parseInt(dpadWidth.replace(/\D/g, ''), 10));
-        let justifyContent = 'start';
-        let alignItems = 'start';
+        this.logger.start(this.COMPONENT_NAME + ' > stretchHandler');
+        this.updateCssClasses();
+        const dpadHeight = this.offsetHeight;
+        const dpadWidth = this.offsetWidth;
+        let dimensionVal = Math.min(dpadHeight, dpadWidth);
         if (!!this.stretch && this.stretch.length === 0) {
-            dimensionVal = 0;
-        } else if (this.stretch === Ch5Dpad.STRETCHES[0]) { // 'both'
-            justifyContent = 'center';
-            alignItems = 'center';
-        } else if (this.stretch === Ch5Dpad.STRETCHES[1]) { // 'width'
-            justifyContent = 'center';
-            alignItems = 'start';
-        } else if (this.stretch === Ch5Dpad.STRETCHES[2]) { // 'height'
-            justifyContent = 'start';
-            alignItems = 'center';
-        } else {
-            // just like first one
             dimensionVal = 0;
         }
         if (!!this.container && !!this.container.style) {
-            this.style.justifyContent = justifyContent;
-            this.style.alignItems = alignItems;
             if (dimensionVal > 0) {
                 this.container.style.height = dimensionVal + 'px';
                 this.container.style.width = dimensionVal + 'px';
@@ -1178,6 +1177,21 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                     (ele[0] as HTMLElement).style.lineHeight = dimensionVal / 3 + 'px';
                 }
             }
+        }
+        this.logger.stop();
+    }
+
+    /**
+     * Function to handle the resize event for dpad to be redrawn if required
+     */
+    private onWindowResizeHandler() {
+        // since stretch has no default value, should fire stretchHandler only if required
+        if (!!this.stretch && this.stretch.length > 0 && !this.isResizeInProgress) {
+            this.isResizeInProgress = true;
+            setTimeout(() => {
+                this.stretchHandler();
+                this.isResizeInProgress = false; // reset debounce once completed
+            }, this.resizeDebounce);
         }
     }
 
