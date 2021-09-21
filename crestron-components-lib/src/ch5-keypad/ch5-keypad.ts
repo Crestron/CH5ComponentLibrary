@@ -1117,7 +1117,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         const childElements: Element[] = Array.from(this.children);
         if (childElements.length > 0) {
             for (const ele of childElements) {
-                if (ele.tagName.toLowerCase() === 'ch5-child-btn') {
+                if (ele.tagName.toLowerCase() === 'ch5-keypad-child-btn') {
                     const item = CH5KeypadBtnData.getChildBtnDTOFromElement(ele, this.contractName, this.sendEventOnClickStart);
                     if (!this.runtimeChildButtonList.hasOwnProperty(item.name)) {
                         this.runtimeChildButtonList[item.name] = item;
@@ -1152,7 +1152,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 const requiredCellWidth: number = this.offsetWidth / colCount;
 
                 const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
-                console.log('cellDimensionToRender > ', cellDimensionToRender);
 
                 this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
                 this.container.style.width = (cellDimensionToRender * colCount) + 'px';

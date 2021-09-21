@@ -28,6 +28,17 @@ export interface ICh5KeypadBtnAttributes {
       * @name labelMinor
       */
       labelMinor: string;
+    
+      /**
+       * @documentation
+       * [
+       * "`iconClass` attribute",
+       * "***",
+       * "Defines the secondary/minor text value of the button."
+       * ]
+       * @name iconClass
+       */
+       iconClass: string;
 
       /**
        * @documentation
