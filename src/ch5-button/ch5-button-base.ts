@@ -214,16 +214,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatemode: {direction: "state", numericJoin: 1, contractName: true},
-		receivestateselected: {direction: "state", booleanJoin: 1, contractName: true},
-		receivestatelabel: {direction: "state", stringJoin: 1, contractName: true},
-		receivestatelabelhtml: {direction: "state", stringJoin: 1, contractName: true},
-		receivestateiconclass: {direction: "state", stringJoin: 1, contractName: true},
-		receivestateiconurl: {direction: "state", stringJoin: 1, contractName: true},
-		receivestatetype: {direction: "state", stringJoin: 1, contractName: true},
+		receivestatemode: { direction: "state", numericJoin: 1, contractName: true },
+		receivestateselected: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatelabelhtml: { direction: "state", stringJoin: 1, contractName: true },
+		receivestateiconclass: { direction: "state", stringJoin: 1, contractName: true },
+		receivestateiconurl: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatetype: { direction: "state", stringJoin: 1, contractName: true },
 
-		sendeventonclick: {direction: "event", booleanJoin: 1, contractName: true},
-		sendeventontouch: {direction: "event", booleanJoin: 1, contractName: true}
+		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
 	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggerd after 250 ms of press and hold.
@@ -1920,7 +1920,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
 		let sigClick: Ch5Signal<boolean> | null = null;
 		if (this._sigNameSendOnClick || this._sigNameSendOnTouch) {
-			sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnClick);
+			if (this._sigNameSendOnClick) {
+				sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnClick);
+			} else if (this._sigNameSendOnTouch) {
+				sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnTouch);
+			}
 
 			if (sigClick !== null) {
 				if (!preventTrue) {
