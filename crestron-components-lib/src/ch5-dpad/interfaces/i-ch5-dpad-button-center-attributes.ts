@@ -10,7 +10,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
 /**
  * @name Ch5 Dpad Center
  * @isattribute false
- * @tagName ch5-Dpad Button Center
+ * @tagName ch5-dpad-button-center
  * @role container
  * @description Ch5 Dpad Button Center
  * @componentVersion 1.0.0
@@ -25,7 +25,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-dpad:blank",
+ *    "prefix": "ch5-dpad-button-center:blank",
  *     "description": "Crestron Dpad Button Center",
  *     "body": [
  *       "<ch5-dpad-button-center>",
@@ -33,7 +33,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad:iconurl",
+ *    "prefix": "ch5-dpad-button-center:iconurl",
  *     "description": "Crestron Dpad Button Center",
  *     "body": [
  *       "<ch5-dpad-button-center iconurl=\"btn_${1:Icon Url}\">",
@@ -41,7 +41,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad:iconclass",
+ *    "prefix": "ch5-dpad-button-center:iconclass",
  *     "description": "Crestron Dpad Button Center",
  *     "body": [
  *       "<ch5-dpad-button-center iconclass=\"btn_${1:Icon Class}\">",
@@ -49,7 +49,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad:all-attributes",
+ *    "prefix": "ch5-dpad-button-center:all-attributes",
  *     "description": "Crestron Dpad Button Center",
  *     "body": [
  *       "<ch5-dpad-button-center",

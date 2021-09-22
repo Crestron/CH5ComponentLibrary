@@ -65,44 +65,43 @@ import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./t-ch5-dpad";
  *    "prefix": "ch5-dpad:contractbased",
  *     "description": "Crestron Dpad",
  *     "body": [
- *       "<ch5-dpad  id=\"btn_${1:id}\"",
- *       "\tcontractname=\"${2:Contract Name}\"",
+ *       "<ch5-dpad  id=\"btn_${0:id}\"",
+ *       "\tcontractname=\"${1:Contract Name}\"",
 *        ">",
- *       "</ch5-dpad>$0"
+ *       "</ch5-dpad>"
  *     ]
  *  },
  *  {
  *    "prefix": "ch5-dpad:eventbased",
  *     "description": "Crestron Dpad",
  *     "body": [
- *       "<ch5-dpad  id=\"btn_${1:id}\"",
- *       "\tsendeventonclickstart=\"${2:Event_Click_Index}\"",
+ *       "<ch5-dpad  id=\"btn_${0:id}\"",
+ *       "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
 *        ">",
- *       "</ch5-dpad>$0"
+ *       "</ch5-dpad>"
  *     ]
  *  },
  *  {
  *    "prefix": "ch5-dpad:all-attributes",
  *     "description": "Crestron Dpad",
  *     "body": [
- *       "<ch5-dpad  id=\"btn_${1:id}\"",
- *       "\tcontractname=\"${2:Contract Name}\"",
- *       "\tshape=\"${3:Shape}\"",
- *       "\ttype=\"${4:type}\"",
- *       "\tstretch=\"${5:stretch}\"",
- *       "\tusecontractforenable=\"${6:useContractforEnable}\"",
- *       "\tusecontractforshow=\"${7:useContractForShow}\"",
- *       "\tusecontractforcustomclass=\"${8:useContractForCustomClass}\"",
- *       "\tusecontractforcustomstyle=\"${9:useContractForCustomStyle}\"",
- *       "\tsendeventonclickstart=\"${10:sendEventOnClickStart}\"",
+ *       "<ch5-dpad  id=\"btn_${0:id}\"",
+ *       "\tcontractname=\"${1:Contract Name}\"",
+ *       "\tshape=\"${2:Shape}\"",
+ *       "\ttype=\"${3:type}\"",
+ *       "\tstretch=\"${4:stretch}\"",
+ *       "\tusecontractforenable=\"${5:useContractforEnable}\"",
+ *       "\tusecontractforshow=\"${6:useContractForShow}\"",
+ *       "\tusecontractforcustomclass=\"${7:useContractForCustomClass}\"",
+ *       "\tusecontractforcustomstyle=\"${8:useContractForCustomStyle}\"",
+ *       "\tsendeventonclickstart=\"${9:sendEventOnClickStart}\"",
 *        ">",
- *       "</ch5-dpad>$0"
+ *       "</ch5-dpad>"
  *     ]
  *   }
  * ]
  * 
  */
-
 export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 
     /**

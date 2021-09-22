@@ -10,7 +10,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
 /**
  * @name Ch5 Dpad Right
  * @isattribute false
- * @tagName ch5-Dpad Button Right
+ * @tagName ch5-dpad-button-right
  * @role container
  * @description Ch5 Dpad Button Right
  * @componentVersion 1.0.0
@@ -25,7 +25,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-dpad:blank",
+ *    "prefix": "ch5-dpad-button-right:blank",
  *     "description": "Crestron Dpad Button Right",
  *     "body": [
  *       "<ch5-dpad-button-right>",
@@ -33,7 +33,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad:iconurl",
+ *    "prefix": "ch5-dpad-button-right:iconurl",
  *     "description": "Crestron Dpad Button Right",
  *     "body": [
  *       "<ch5-dpad-button-right iconurl=\"btn_${1:Icon Url}\">",
@@ -41,7 +41,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad:iconclass",
+ *    "prefix": "ch5-dpad-button-right:iconclass",
  *     "description": "Crestron Dpad Button Right",
  *     "body": [
  *       "<ch5-dpad-button-right iconclass=\"btn_${1:Icon Class}\">",
@@ -49,7 +49,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad:all-attributes",
+ *    "prefix": "ch5-dpad-button-right:all-attributes",
  *     "description": "Crestron Dpad Button Right",
  *     "body": [
  *       "<ch5-dpad-button-right",
