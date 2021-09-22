@@ -13,7 +13,7 @@ import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { ICh5KeypadBtnAttributes } from "./interfaces/i-ch5-keypad-btn-interfaces";
+import { ICh5KeypadBtnAttributes } from "./interfaces/i-ch5-keypad-btn-attributes";
 import { TCh5KeypadBtnCreateDTO } from "./interfaces/t-ch5-keypad";
 
 export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
@@ -23,6 +23,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
 
     public readonly primaryCssClass = 'keypad-btn';
     public readonly cssClassPrefix = 'keypad-btn-';
+    public readonly pressedCssClassPostfix = '-pressed';
 
     //#endregion
 
@@ -173,6 +174,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
         this.params = params;
 
         ComponentHelper.clearComponentContent(this);
+        this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 
         this.logger.stop();
     }
