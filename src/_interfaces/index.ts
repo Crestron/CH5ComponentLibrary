@@ -15,12 +15,13 @@ export * from "./../ch5-custom-attrs/interfaces/index";
  * DEV NOTE: The list of imports below help in the documentation per component level 
  * w.r.t crestron-metadata-generator project
  */
-export * from './../ch5-dpad/interfaces/i-ch5-dpad-documentation';
 export * from './../ch5-background/interfaces/i-ch5-background-documentation';
 export * from "./../ch5-button/interfaces/i-ch5-button-documentation";
+export * from './../ch5-dpad/interfaces/i-ch5-dpad-documentation';
 export * from "./../ch5-form/interfaces/i-ch5-form-documentation";
 export * from "./../ch5-import-htmlsnippet/interfaces/i-ch5-htmlsnippet-documentation";
 export * from "./../ch5-image/interfaces/i-ch5-image-documentation";
+export * from "./../ch5-keypad/interfaces/i-ch5-keypad-documentation";
 export * from "./../ch5-list/interfaces/i-ch5-list-documentation";
 export * from "./../ch5-modal-dialog/interfaces/i-ch5-modal-dialog-documentation";
 export * from "./../ch5-overlay-panel/interfaces/i-ch5-overlay-panel-documentation";

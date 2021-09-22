@@ -12,7 +12,7 @@ import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5KeypadBtn } from "./ch5-keypad-btn";
 import { CH5KeypadBtnData } from "./ch5-keypad-btn-data";
-import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-interfaces";
+import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-attributes";
 import { TCh5KeypadBtnCreateDTO, TCh5KeypadShape, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
@@ -1117,7 +1117,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         const childElements: Element[] = Array.from(this.children);
         if (childElements.length > 0) {
             for (const ele of childElements) {
-                if (ele.tagName.toLowerCase() === 'ch5-keypad-child-btn') {
+                if (ele.tagName.toLowerCase() === 'ch5-keypad-child-button') {
                     const item = CH5KeypadBtnData.getChildBtnDTOFromElement(ele, this.contractName, this.sendEventOnClickStart);
                     if (!this.runtimeChildButtonList.hasOwnProperty(item.name)) {
                         this.runtimeChildButtonList[item.name] = item;

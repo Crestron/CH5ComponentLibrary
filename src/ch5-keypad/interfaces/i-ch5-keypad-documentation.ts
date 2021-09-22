@@ -5,5 +5,11 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export * from "./i-ch5-keypad-btn-attributes";
-export * from "./i-ch5-keypad-attributes";
+import { ICh5Common } from "../../ch5-common/interfaces";
+import { ICh5KeypadAttributes, ICh5KeypadBtnAttributes } from "./index";
+
+/**
+ * @ignore
+ */
+export interface ICh5KeypadDocumentation extends ICh5Common, ICh5KeypadAttributes, ICh5KeypadBtnAttributes {
+}
