@@ -1,0 +1,68 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_icon_change_mute",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "current_svg",
+          "type": "s",
+          "logic": "set",
+          "value": "./img/volume_mute.svg"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_icon_change_unmute",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "current_svg",
+          "type": "s",
+          "logic": "set",
+          "value": "./img/volume_unmute.svg"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_icon_change_user",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "current_png",
+          "type": "s",
+          "logic": "set",
+          "value": "https://img.icons8.com/material/24/000000/user--v1.png"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_icon_change_connect",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "current_png",
+          "type": "s",
+          "logic": "set",
+          "value": "https://img.icons8.com/material/24/000000/share-2.png"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "current_svg",
+      "type": "s",
+      "value": "./img/volume.svg"
+    },
+    {
+      "state": "current_png",
+      "type": "s",
+      "value": "https://img.icons8.com/material/24/000000/search.png"
+    }
+  ]
+}
