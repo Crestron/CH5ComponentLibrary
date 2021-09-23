@@ -1,0 +1,20 @@
+---
+title: "ch5-keypad common: receiveStateShow, receiveStateShowPulse, receiveStateHidePulse"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/ch5-keypad/show.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+{# example 1 #}
+    {% call exampleSectionFromPartials('ch5-keypad/common-show/','ex1') %}{% endcall %}
+
+{# example 2 #}
+    {% call exampleSectionFromPartials('ch5-keypad/common-show/','ex2') %}{% endcall %}
+
+{% endblock %}

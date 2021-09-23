@@ -1,0 +1,20 @@
+<p>
+    This changes the value of the <b>sig_custom_style</b> signal to "border:2px dashed blue;" ( see Emulator Scenario )
+    <ch5-keypad showExtraButton="true" label="trigger 1" sendEventOnClick="sig_trig_style1"></ch5-keypad>
+</p>
+<p>
+    This changes the value of the <b>sig_custom_style</b> signal to "border:3px dotted green; color:red;" ( see Emulator Scenario )
+    <ch5-keypad showExtraButton="true" label="trigger 2" sendEventOnClick="sig_trig_style2"></ch5-keypad>
+</p>
+<p>
+    This changes the value of the <b>sig_custom_style</b> signal to "border:1px solid red; color:green;" ( see Emulator Scenario )
+    <ch5-keypad showExtraButton="true" label="trigger 3" sendEventOnClick="sig_trig_style3"></ch5-keypad>
+</p>
+
+<hr>
+
+<ch5-keypad showExtraButton="true" type="success" shape="rectangle" stretch="width" 
+    receiveStateCustomStyle="sig_custom_style"></ch5-keypad>
+<br /><br />
+<ch5-keypad showExtraButton="true" type="success" shape="rectangle" stretch="width" 
+    receiveStateCustomStyle="sig_custom_style" customStyle="border:1px solid red;"></ch5-keypad>
