@@ -902,7 +902,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     public updateElementVisibility(visible: boolean) {
         super.updateElementVisibility(visible);
 
-        if (this.elementIsVisible) {
+        if (this.elementIsVisible && this.isVisible()) {
             this._show = true;
             if (this._img.src === '') {
                 this.enableImageLoading();
