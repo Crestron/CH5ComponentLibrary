@@ -13,9 +13,63 @@ import { Subject } from 'rxjs';
 export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
 	cssPressedClass: string;
+	pressDelayTime?: number;
+	pressDelayDistance?: number;
+}
+
+enum Ch5PressableFingerStateMode {
+	Idle,
+	Start,
+	FingerDown
 }
 
 export class Ch5Pressable {
+
+	/**
+	 * This class provides variables to be accessed between 
+	 * touch and mouse events. 
+	 * 
+	 */
+	// tslint:disable-next-line: variable-name max-classes-per-file
+	private static FingerState = class {
+		public mode: Ch5PressableFingerStateMode;
+		public touchHoldTimer: number | null = null;
+		public touchStartLocationX: number;
+		public touchStartLocationY: number;
+		public touchPointId: number = -1;
+
+		public constructor() {
+			this.mode = Ch5PressableFingerStateMode.Idle;
+			this.touchStartLocationX = 0;
+			this.touchStartLocationY = 0;
+			this.touchPointId = -1;
+			this.touchHoldTimer = null;
+		}
+
+		public getTouchFromTouchList(touchEvent: TouchEvent): Touch | null {
+			if (touchEvent.changedTouches !== undefined) {
+				// tslint:disable-next-line: prefer-for-of
+				for (let i = 0; i < touchEvent.changedTouches.length; i++) {
+					if (touchEvent.changedTouches[i].identifier === this.touchPointId) {
+						return touchEvent.changedTouches[i];
+					}
+				}
+			}
+			return null;
+		}
+
+		public reset() {
+			this.mode = Ch5PressableFingerStateMode.Idle;
+			this.touchStartLocationX = 0;
+			this.touchStartLocationY = 0;
+			this.touchPointId = -1;
+			if (this.touchHoldTimer !== null) {
+				window.clearTimeout(this.touchHoldTimer);
+				this.touchHoldTimer = null;
+			}
+		}
+	}
+	private _fingerState = new Ch5Pressable.FingerState();
 
 	private _ch5Component: Ch5Common;
 
@@ -102,8 +156,10 @@ export class Ch5Pressable {
 		this._onMouseUp = this._onMouseUp.bind(this);
 		this._onMouseLeave = this._onMouseLeave.bind(this);
 		this._onTouchStart = this._onTouchStart.bind(this);
+		this._onTouchMove = this._onTouchMove.bind(this);
 		this._onTouchEnd = this._onTouchEnd.bind(this);
 		this._onTouchCancel = this._onTouchCancel.bind(this);
+		this._onTouchHoldTimer = this._onTouchHoldTimer.bind(this);
 		this._onHold = this._onHold.bind(this);
 		this._onRelease = this._onRelease.bind(this);
 		this._onPanEnd = this._onPanEnd.bind(this);
@@ -111,6 +167,22 @@ export class Ch5Pressable {
 
 	public get ch5Component(): Ch5Common {
 		return this._ch5Component;
+	}
+
+	private get pressDelayTime(): number {
+		if (this._options !== null && this._options.pressDelayTime !== undefined) {
+			return this._options.pressDelayTime;
+		} else {
+			return 200;
+		}
+	}
+
+	private get pressDelayMoveDistance(): number {
+		if (this._options !== null && this._options.pressDelayDistance !== undefined) {
+			return this._options.pressDelayDistance;
+		} else {
+			return 10;
+		}
 	}
 
 	/**
@@ -153,6 +225,7 @@ export class Ch5Pressable {
 		this._ch5Component.addEventListener('mouseleave', this._onMouseLeave);
 
 		this._ch5Component.addEventListener('touchstart', this._onTouchStart, { passive: true });
+		this._ch5Component.addEventListener('touchmove', this._onTouchMove);
 		this._ch5Component.addEventListener('touchend', this._onTouchEnd);
 		this._ch5Component.addEventListener('touchcancel', this._onTouchCancel);
 	}
@@ -170,6 +243,7 @@ export class Ch5Pressable {
 		this._ch5Component.removeEventListener('mouseleave', this._onMouseLeave);
 
 		this._ch5Component.removeEventListener('touchstart', this._onTouchStart);
+		this._ch5Component.removeEventListener('touchmove', this._onTouchMove);
 		this._ch5Component.removeEventListener('touchend', this._onTouchEnd);
 		this._ch5Component.removeEventListener('touchcancel', this._onTouchCancel);
 
@@ -269,38 +343,91 @@ export class Ch5Pressable {
 
 	private _onMouseLeave(inEvent: Event): void {
 		this._ch5Component.info('Ch5Pressable._onMouseLeave()');
+
 		if (!this._ch5Component.gestureable) {
 			this._onRelease();
 		}
 	}
 
 	private _onTouchStart(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable._onTouchStart()');
-		if (!this._touchStart) {
+		const touchEvent: TouchEvent = inEvent as TouchEvent;
+		const touch: Touch = touchEvent.changedTouches[0];
+		this._ch5Component.info(`Ch5Pressable._onTouchStart(), ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
+		if (!this._touchStart && this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._touchStart = true;
+			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
+			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.pressDelayTime);
+			this._fingerState.touchStartLocationX = touch.clientX;
+			this._fingerState.touchStartLocationY = touch.clientY;
+			this._fingerState.touchPointId = touch.identifier;
 		}
+	}
 
+	private _onTouchMove(inEvent: Event): void {
+		this._ch5Component.info('Ch5Pressable._onTouchMove()');
+		// On a swipe motion we don't want to send a join or show visual feedback,
+		// check if finger has moved
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
+			const touchEvent: TouchEvent = inEvent as TouchEvent;
+			const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
+			if (touch !== null) {
+				this._ch5Component.info(`Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
+				const xMoveDistance = touch.clientX - this._fingerState.touchStartLocationX;
+				const yMoveDistance = touch.clientY - this._fingerState.touchStartLocationY;
+				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
+				this._ch5Component.info(`DELETE ME Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
+				if (distanceMoved > this.pressDelayMoveDistance) {
+					this._ch5Component.info(`Ch5Pressable._onTouchMove() cancelling press, ${touch.clientX}, ${touch.clientY}, ${touch.identifier}, ${distanceMoved}`);
+					this._touchStart = false;
+					this._fingerState.reset();
+				}
+			}
+		}
+	}
+
+	private _onTouchHoldTimer(event: Event): void {
+		this._ch5Component.info(`Ch5Pressable._onTouchHoldTimer(), ${this._fingerState.touchPointId}`);
+		this._fingerState.touchHoldTimer = null;
+		this._fingerIsDownActions();
+	}
+
+	private _fingerIsDownActions() {
+		this._fingerState.mode = Ch5PressableFingerStateMode.FingerDown;
 		if (!this._ch5Component.gestureable) {
 			this._onHold();
+		}
+		if (this._fingerState.touchHoldTimer !== null) {
+			window.clearTimeout(this._fingerState.touchHoldTimer);
+			this._fingerState.touchHoldTimer = null;
 		}
 	}
 
 	private _onTouchEnd(inEvent: Event): void {
 		this._ch5Component.info('Ch5Pressable._onTouchEnd()');
-		if (!this._touchEnd) {
-			this._touchEnd = true;
-		}
+		const touchEvent: TouchEvent = inEvent as TouchEvent;
+		const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
+		if (touch !== null) {
+			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
+				// quick tap, must do both press and release
+				this._fingerIsDownActions();
+			}
 
-		if (!this._ch5Component.gestureable) {
-			this._onRelease();
+			if (!this._touchEnd) {
+				this._touchEnd = true;
+			}
+
+			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
+				if (!this._ch5Component.gestureable) {
+					this._onRelease();
+				}
+			}
+			this._fingerState.reset();
 		}
 	}
 
 	private _onTouchCancel(inEvent: Event): void {
 		this._ch5Component.info('Ch5Pressable._onCancel()');
-		if (!this._ch5Component.gestureable) {
-			this._onRelease();
-		}
+		this._onTouchEnd(inEvent);
 	}
 
 	/**
@@ -313,6 +440,7 @@ export class Ch5Pressable {
 	 */
 	private _onHold() {
 		this._ch5Component.info(`Ch5Pressable._onHold() alreadyPressed:${this._pressed}`);
+
 		if (!this._pressed) {
 			// add the visual feedback
 			this._addCssPressClass();
@@ -355,7 +483,7 @@ export class Ch5Pressable {
 			// remove the visual feedback
 			setTimeout(() => {
 				this._removeCssPressClass();
-			}, 100);
+			}, this.pressDelayTime);
 
 			// update state of the button and tell the button the state
 			this._pressed = false;
