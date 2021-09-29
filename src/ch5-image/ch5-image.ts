@@ -1008,10 +1008,8 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             window.clearTimeout(this._timerIdForTouch);
         }
 
-        this._timerIdForTouch = window.setTimeout(
-            () => this._onLongTouch(),
-            this._minTouchDuration
-        );
+        this._onLongTouch();
+
     }
 
     protected _onTouchEnd(inEvent: Event): void {
