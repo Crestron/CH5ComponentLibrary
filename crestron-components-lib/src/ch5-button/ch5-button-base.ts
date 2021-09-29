@@ -227,7 +227,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
-	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggerd after 250 ms of press and hold.
+	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggered after 250 ms of press and hold.
 	private readonly DEBOUNCE_PRESS_TIME: number = 200;
 	private readonly PRESS_MOVE_THRESHOLD: number = 10;
 	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
@@ -979,18 +979,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._pressInfo = new Ch5ButtonPressInfo();
 		this._ch5ButtonSignal = new Ch5ButtonSignal();
 
-		this._onBlur = this._onBlur.bind(this);
-		this._onFocus = this._onFocus.bind(this);
-		this._onPress = this._onPress.bind(this);
-		this._onPressUp = this._onPressUp.bind(this);
-		this._onTap = this._onTap.bind(this);
-		this._onTouchEnd = this._onTouchEnd.bind(this);
-		this._onTouchCancel = this._onTouchCancel.bind(this);
-		this._onTouchMove = this._onTouchMove.bind(this);
-		this._onPressClick = this._onPressClick.bind(this);
-		this._onMouseUp = this._onMouseUp.bind(this);
-		this._onMouseMove = this._onMouseMove.bind(this);
-		this._onLeave = this._onLeave.bind(this);
+		// this._onBlur = this._onBlur.bind(this);
+		// this._onFocus = this._onFocus.bind(this);
+		// this._onPress = this._onPress.bind(this);
+		// this._onPressUp = this._onPressUp.bind(this);
+		// this._onTap = this._onTap.bind(this);
+		// this._onTouchEnd = this._onTouchEnd.bind(this);
+		// this._onTouchCancel = this._onTouchCancel.bind(this);
+		// this._onTouchMove = this._onTouchMove.bind(this);
+		// this._onPressClick = this._onPressClick.bind(this);
+		// this._onMouseUp = this._onMouseUp.bind(this);
+		// this._onMouseMove = this._onMouseMove.bind(this);
+		// this._onLeave = this._onLeave.bind(this);
 
 		this.logger.stop();
 	}
@@ -1023,19 +1023,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.updateForChangeInStretch();
 		this.attachEventListeners();
 		this.initCommonMutationObserver(this);
-		// this._mutationObserverForButtonMode = new MutationObserver((mutations: any) => {
-		// 	this.logger.log("MUTATIONS START");
-		// 	this.logger.log(mutations);
-		// 	this.logger.log("MUTATIONS END");
-		// });
-		// this._mutationObserverForButtonMode.observe(this, {
-		// 	childList: true,
-		// 	attributes: false,
-		// 	characterData: false,
-		// 	subtree: false,
-		// 	attributeOldValue: false,
-		// 	characterDataOldValue: false
-		// });
 		if (!this.hasAttribute('customclasspressed')) {
 			this.updateCssClassesForCustomState();
 		}
@@ -1057,6 +1044,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			'halignlabel',
 			'valignlabel',
+
+			'pressdelaytime',
+			'pressdelaydistance',
 
 			'shape',
 			'size',
@@ -1130,6 +1120,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this.hasAttribute('orientation')) {
 			this.orientation = this.getAttribute('orientation') as TCh5ButtonOrientation;
 		}
+		if (this.hasAttribute('pressdelaytime')) {
+			// this.pressDelayTime = Number(this.getAttribute('pressdelaytime'));
+		}
+		if (this.hasAttribute('pressdelaydistance')) {
+			// this.pressDelayDistance = Number(this.getAttribute('pressdelaydistance'));
+		}
 		// TODO - why is customclassselected checked?
 		// if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
 		if (this.hasAttribute('selected')) {
@@ -1186,24 +1182,26 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	protected attachEventListeners() {
 		super.attachEventListeners();
 
-		if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
-			this._hammerManager.on('tap', this._onTap);
-		}
+		// if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
+		// 	this._hammerManager.on('tap', this._onTap);
+		// }
 
-		this._elButton.addEventListener('mousedown', this._onPressClick);
-		this._elButton.addEventListener('mouseup', this._onMouseUp);
-		this._elButton.addEventListener('mousemove', this._onMouseMove);
-		this._elButton.addEventListener('touchstart', this._onPress, { passive: true });
-		this._elButton.addEventListener('mouseleave', this._onLeave);
-		this._elButton.addEventListener('touchend', this._onPressUp);
-		this._elButton.addEventListener('touchmove', this._onTouchMove, { passive: true });
-		this._elButton.addEventListener('touchend', this._onTouchEnd);
-		this._elButton.addEventListener('touchcancel', this._onTouchCancel);
-		this._elButton.addEventListener('focus', this._onFocus);
-		this._elButton.addEventListener('blur', this._onBlur);
+		// this._elButton.addEventListener('mousedown', this._onPressClick);
+		// this._elButton.addEventListener('mouseup', this._onMouseUp);
+		// this._elButton.addEventListener('mousemove', this._onMouseMove);
+		// this._elButton.addEventListener('touchstart', this._onPress, { passive: true });
+		// this._elButton.addEventListener('mouseleave', this._onLeave);
+		// this._elButton.addEventListener('touchend', this._onPressUp);
+		// this._elButton.addEventListener('touchmove', this._onTouchMove, { passive: true });
+		// this._elButton.addEventListener('touchend', this._onTouchEnd);
+		// this._elButton.addEventListener('touchcancel', this._onTouchCancel);
+		// this._elButton.addEventListener('focus', this._onFocus);
+		// this._elButton.addEventListener('blur', this._onBlur);
 
 		// init pressable before initAttributes because pressable subscribe to gestureable attribute
+		this.logger.log("this._pressable", this._pressable);
 		if (!isNil(this._pressable)) {
+			this.logger.log("this._pressable inside if", this._pressable);
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
@@ -1212,18 +1210,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	protected removeEventListeners() {
 		super.removeEventListeners();
 
-		this._elButton.removeEventListener('touchstart', this._onPress);
-		this._elButton.removeEventListener('touchend', this._onPressUp);
-		this._hammerManager.off('tap', this._onTap);
+		// this._elButton.removeEventListener('touchstart', this._onPress);
+		// this._elButton.removeEventListener('touchend', this._onPressUp);
+		// this._hammerManager.off('tap', this._onTap);
 
-		this._elButton.removeEventListener('touchend', this._onTouchEnd);
-		this._elButton.removeEventListener('touchcancel', this._onTouchCancel);
-		this._elButton.removeEventListener('touchmove', this._onTouchMove);
-		this._elButton.removeEventListener('focus', this._onFocus);
-		this._elButton.removeEventListener('blur', this._onBlur);
-		this._elButton.removeEventListener('mousedown', this._onPressClick);
-		this._elButton.removeEventListener('mouseup', this._onMouseUp);
-		this._elButton.removeEventListener('mouseleave', this._onLeave);
+		// this._elButton.removeEventListener('touchend', this._onTouchEnd);
+		// this._elButton.removeEventListener('touchcancel', this._onTouchCancel);
+		// this._elButton.removeEventListener('touchmove', this._onTouchMove);
+		// this._elButton.removeEventListener('focus', this._onFocus);
+		// this._elButton.removeEventListener('blur', this._onBlur);
+		// this._elButton.removeEventListener('mousedown', this._onPressClick);
+		// this._elButton.removeEventListener('mouseup', this._onMouseUp);
+		// this._elButton.removeEventListener('mouseleave', this._onLeave);
 
 		if (!isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
@@ -1294,6 +1292,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			case 'orientation':
 				this.orientation = Ch5ButtonUtils.getAttributeValue<TCh5ButtonOrientation>(this, 'orientation', newValue as TCh5ButtonOrientation, Ch5ButtonBase.ORIENTATIONS[0]);
 				this.updateCssClasses();
+				break;
+
+			case 'pressdelaytime':
+				// this.pressDelayTime = Ch5ButtonUtils.getAttributeValue<number>(this, 'pressdelaytime', Number(newValue), 200);
+				// this.updatePressableValues();
+				break;
+
+			case 'pressdelaydistance':
+				// this.pressDelayDistance = Ch5ButtonUtils.getAttributeValue<number>(this, 'pressdelaydistance', Number(newValue), 200);
+				// this.updatePressableValues();
 				break;
 
 			case 'type':
@@ -1497,7 +1505,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			cssPressedClass: pressedClass
 		});
 	}
-
 
 	protected updateForChangeInCustomCssClass() {
 		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
