@@ -127,12 +127,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * Component internal HTML elements
 	 */
 	private _elSlider: HTMLElement = {} as HTMLElement;
-	private _elSliderParent: HTMLElement = {} as HTMLElement;
 	private _tgtEls: NodeListOf<HTMLElement>[] = [];
 	private _tooltip: NodeListOf<HTMLElement> = {} as NodeListOf<HTMLElement>;
-
-	private containerClass: string = 'ch5-slider-container';
-	private getPercentageValueSubject: Subject<string> = new Subject<string>(); // TODO - this is not the right way
 
 	/**
 	 * CSS classes
@@ -489,7 +485,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	};
 
 	public ready: Promise<void>;
-	private container: HTMLElement = {} as HTMLElement;
 
 	//#endregion
 
@@ -1134,12 +1129,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		});
 	}
 
-	public getPercentageValue(): Subject<string> {
-		// if (!this.getPercentageValueSubject) {
-		// 	this.getPercentageValueSubject = new Subject<string>();
-		// }
-		return this.getPercentageValueSubject;
-	}
 	/**
 	 * Getter receiveStateValueHigh
 	 * @type {string}
@@ -1264,131 +1253,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		});
 	}
 
-	protected createHtmlElements(): void {
-		this.logger.start('createHtmlElements');
-
-		const childItemsContainer = this.children as HTMLCollection;
-		this.logger.log("childItemsContainer", childItemsContainer);
-		if (childItemsContainer.length === 0 || childItemsContainer.length === 1) {
-			// this.createAndAppendAllButtonsUnderDpad();
-		} else {
-			this.resetOrderOfElements(this, true);
-			// const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreinTheRightOrder(childItemsContainer[0].children);
-			// if (!isValidStructureInChildDiv) {
-			// 	// throw new Error("ch5-dpad not constructed correctly, please refer documentation.");
-			// }
-		}
-
-		this.logger.stop();
-	}
-
-	/**
-		* Function to check if the tags are sequenced in the right/expected order
-		* @param childItems 
-		* @returns true if the order is correct [order of appending is --- center, top, left/right, right/left, bottom]
-		*/
-	private checkIfOrderOfTagsAreinTheRightOrder(childItems: HTMLCollection) {
-		let ret = false;
-		if (childItems.length === 5) {
-			ret = ((childItems[0].tagName.toLowerCase() === 'ch5-slider-off-button') &&
-				(childItems[1].tagName.toLowerCase() === 'ch5-slider-off-button') &&
-				(childItems[2].tagName.toLowerCase() === 'ch5-slider-off-button') &&
-				(childItems[3].tagName.toLowerCase() === 'ch5-slider-off-button') &&
-				(childItems[4].tagName.toLowerCase() === 'ch5-dpad-button-bottom'));
-		} else {
-			// removing child tags and emptying DPAD if the tag count is neither 0 or 5
-			if (childItems.length > 0) {
-				for (const item of Array.from(childItems)) {
-					item.remove();
-				}
-			}
-		}
-		return ret;
-	}
-
-	private resetOrderOfElements(elementToCheck: Element = this, isChildDiv: boolean = false) {
-		const childItems: Element[] = Array.from(elementToCheck.children);
-		// DEV NOTE: DONT CHANGE THE SEQUENCE OF ENTRIES IN THIS ARRAY
-		const childElementArray: string[] = [
-			"ch5-slider-title-label",
-			"ch5-slider-percentage-label",
-			"ch5-slider-left-button",
-			"div",
-			"ch5-slider-right-button"
-		];
-
-		const refobj: any = {}; // stores the reference of all child elements
-
-		// // FIRST -A: remove all duplciate entries under DPAD
-		if (childItems.length > 0) {
-			for (const item of childItems) {
-				const tagName = item.tagName.toLowerCase();
-				if (!refobj.hasOwnProperty(tagName) && childElementArray.indexOf(tagName) > -1) {
-					refobj[tagName] = item;
-				} else {
-					item.remove(); // removing, as this is a duplicate node
-				}
-			}
-			// remove all child elements, since it will be created again in the right/expected order
-			for (const item of childItems) {
-				item.remove();
-			}
-		}
-
-		// FIRST -B : Remove the child elements of dpad to keep it clean and append 'dpad-container' div to it
-		if (isChildDiv) {
-			const childDivUnderThis: Element[] = Array.from(this.children);
-			if (childDivUnderThis.length > 0) {
-				// remove all child elements, since it will be created again in the right/expected order
-				for (const child of childDivUnderThis) {
-					child.remove();
-				}
-			}
-		}
-		this.createEmptyContainerDiv();
-
-		// SECOND: create and add all non existing child tags 
-		if (refobj !== null) {
-			for (const tagName of childElementArray) {
-				if (!refobj.hasOwnProperty(tagName)) {
-					const ele = document.createElement(tagName);
-					refobj[tagName] = ele as HTMLElement;
-				}
-			}
-		}
-
-		// THIRD: Finally, add the elements in the right order (adding block just for developer)
-		// for (let i:number = 0; i < childElementArray.length; i++)		{
-		// 	this.container.appendChild(refobj[childElementArray[i]]);
-		// 	// this.container.appendChild(refobj[childElementArray[1]]);
-		// 	// this.container.appendChild(refobj[childElementArray[2]]); 
-		// 	// this.container.appendChild(refobj[childElementArray[3]]); 
-		// 	// this.container.appendChild(refobj[childElementArray[4]]); 
-		// }
-		this.container.appendChild(refobj[childElementArray[0]]);
-		const divForChild: HTMLElement = document.createElement('div');
-		divForChild.classList.add("ch5-slider-range-section");
-		divForChild.appendChild(refobj[childElementArray[1]]);
-		divForChild.appendChild(refobj[childElementArray[2]]);
-		divForChild.appendChild(refobj[childElementArray[3]]);
-		divForChild.appendChild(refobj[childElementArray[4]]);
-		this.container.appendChild(divForChild);
-
-	}
-
-	private createEmptyContainerDiv() {
-		if (_.isNil(this.container) || _.isNil(this.container.classList) || this.container.classList.length === 0) {
-			this.container = document.createElement('div');
-			this.container.classList.add(this.containerClass);
-		}
-		if (this.container.parentElement !== this) {
-			this.appendChild(this.container);
-		}
-		while (this.container.firstChild) {
-			this.container.removeChild(this.container.firstChild);
-		}
-	}
-
 	/**
 	 * 	Called every time the element is inserted into the DOM.
 	 *  Useful for running setup code, such as fetching resources or rendering.
@@ -1417,15 +1281,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				existingSliderElement.remove();
 			}
 
-
-			if (this._elSliderParent.parentElement !== this) {
-				this.appendChild(this._elSliderParent);
+			if (this._elSlider.parentElement !== this) {
+				this.appendChild(this._elSlider);
 			}
-			if (this._elSlider.parentElement !== this._elSliderParent) {
-				this._elSliderParent.appendChild(this._elSlider);
-			}
-
-			this.createHtmlElements();
 
 			this.initAttributes();
 			this.updateCssClasses();
@@ -1445,9 +1303,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 			this.initCommonMutationObserver(this);
 
-			// required post initial setup
-			// this.stretchHandler();
-
 			// init clean values
 			this.setCleanValue(this.value);
 			this._cleanValueHigh = this.valueHigh;
@@ -1456,8 +1311,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	private setCleanValue(value: string | number) {
 		this._cleanValue = value;
-		this.getPercentageValueSubject.next(this._toolTipDisplayTypeFormatter(value));
 	}
+
 	/**
 	 * Called every time the element is removed from the DOM.
 	 * Useful for running clean up code.
@@ -1912,7 +1767,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 	protected createInternalHtml() {
 		// element slider
-		this._elSliderParent = document.createElement('div');
 		this._elSlider = document.createElement('div');
 	}
 
@@ -2031,7 +1885,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @returns {HTMLElement}
 	 */
 	protected getTargetElementForCssClassesAndStyle(): HTMLElement {
-		return this._elSliderParent;
+		return this;
 	}
 
 	/**
