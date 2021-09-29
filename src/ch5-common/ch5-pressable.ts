@@ -241,12 +241,14 @@ export class Ch5Pressable {
 	 */
 
 	private _onClick(inEvent: Event): void {
+		this._ch5Component.info('Ch5Pressable._onClick()');
 		// reset touchstart/touchend flags
 		this._touchStart = false;
 		this._touchEnd = false;
 	}
 
 	private _onMouseDown(inEvent: Event): void {
+		this._ch5Component.info('Ch5Pressable._onMouseDown()');
 		// ignore mousedown if touchstart
 		if (this._touchStart) { return }
 
@@ -256,6 +258,7 @@ export class Ch5Pressable {
 	}
 
 	private _onMouseUp(inEvent: Event): void {
+		this._ch5Component.info('Ch5Pressable._onMouseUp()');
 		// ignore mouseup if touchend
 		if (this._touchEnd) { return }
 
@@ -265,12 +268,14 @@ export class Ch5Pressable {
 	}
 
 	private _onMouseLeave(inEvent: Event): void {
+		this._ch5Component.info('Ch5Pressable._onMouseLeave()');
 		if (!this._ch5Component.gestureable) {
 			this._onRelease();
 		}
 	}
 
 	private _onTouchStart(inEvent: Event): void {
+		this._ch5Component.info('Ch5Pressable._onTouchStart()');
 		if (!this._touchStart) {
 			this._touchStart = true;
 		}
@@ -281,6 +286,7 @@ export class Ch5Pressable {
 	}
 
 	private _onTouchEnd(inEvent: Event): void {
+		this._ch5Component.info('Ch5Pressable._onTouchEnd()');
 		if (!this._touchEnd) {
 			this._touchEnd = true;
 		}
@@ -291,6 +297,7 @@ export class Ch5Pressable {
 	}
 
 	private _onTouchCancel(inEvent: Event): void {
+		this._ch5Component.info('Ch5Pressable._onCancel()');
 		if (!this._ch5Component.gestureable) {
 			this._onRelease();
 		}
@@ -305,6 +312,7 @@ export class Ch5Pressable {
 	 * @memberof Ch5Pressable
 	 */
 	private _onHold() {
+		this._ch5Component.info(`Ch5Pressable._onHold() alreadyPressed:${this._pressed}`);
 		if (!this._pressed) {
 			// add the visual feedback
 			this._addCssPressClass();
@@ -342,9 +350,12 @@ export class Ch5Pressable {
 	 * @memberof Ch5Pressable
 	 */
 	private _onRelease() {
+		this._ch5Component.info(`Ch5Pressable._onRelease() alreadyReleased:${this._released}`);
 		if (!this._released) {
 			// remove the visual feedback
-			this._removeCssPressClass();
+			setTimeout(() => {
+				this._removeCssPressClass();
+			}, 100);
 
 			// update state of the button and tell the button the state
 			this._pressed = false;
@@ -376,6 +387,7 @@ export class Ch5Pressable {
 	 * @memberof Ch5Pressable
 	 */
 	private _onPanEnd() {
+		this._ch5Component.info('Ch5Pressable._onPanEnd()');
 		this._onRelease();
 	}
 
