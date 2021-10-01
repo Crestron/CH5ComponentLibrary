@@ -14,8 +14,8 @@ import _ from 'lodash';
 export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
 	cssPressedClass: string;
-	pressDelayTime?: number;
-	pressDelayDistance?: number;
+	pressDelayTime?: number | null;
+	pressDelayDistance?: number | null;
 }
 
 enum Ch5PressableFingerStateMode {
@@ -170,12 +170,12 @@ export class Ch5Pressable {
 		return this._ch5Component;
 	}
 
-	public get options(): ICh5PressableOptions {
+	public get options(): ICh5PressableOptions | null {
 		return this._options;
 	}
 
 	private get pressDelayTime(): number {
-		if (this._options !== null && this._options.pressDelayTime !== undefined) {
+		if (this._options !== null && !_.isNil(this._options.pressDelayTime)) {
 			return this._options.pressDelayTime;
 		} else {
 			return 200;
@@ -183,7 +183,7 @@ export class Ch5Pressable {
 	}
 
 	private get pressDelayMoveDistance(): number {
-		if (this._options !== null && this._options.pressDelayDistance !== undefined) {
+		if (this._options !== null && !_.isNil(this._options.pressDelayDistance)) {
 			return this._options.pressDelayDistance;
 		} else {
 			return 10;

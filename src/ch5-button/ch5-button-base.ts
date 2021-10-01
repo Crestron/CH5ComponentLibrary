@@ -34,6 +34,7 @@ import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Subscription } from "rxjs";
 import { ICh5ButtonExtendedProperties, Ch5ButtonUtils } from "./ch5-button-utils";
 import { Ch5ButtonSignal } from "./ch5-button-signal";
+import _ from "lodash";
 
 /**
  * Html Attributes
@@ -1318,12 +1319,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				break;
 
 			case 'pressdelaytime':
-				this.pressDelayTime = Ch5ButtonUtils.getAttributeValue<number>(this, 'pressdelaytime', Number(newValue), null);
+				this.pressDelayTime = Ch5ButtonUtils.getAttributeValue<number | null>(this, 'pressdelaytime', Number(newValue), null);
 				this.updatePressDelay();
 				break;
 
 			case 'pressdelaydistance':
-				this.pressDelayDistance = Ch5ButtonUtils.getAttributeValue<number>(this, 'pressdelaydistance', Number(newValue), null);
+				this.pressDelayDistance = Ch5ButtonUtils.getAttributeValue<number | null>(this, 'pressdelaydistance', Number(newValue), null);
 				this.updatePressDistance();
 				break;
 
@@ -1454,14 +1455,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private updatePressDelay() {
 		// console.log("IN");
-		if (this._pressable !== null && this.pressDelayTime !== null && !isNaN(this.pressDelayTime)) {
+		if (this._pressable !== null && !_.isNil(	this._pressable.options) && !_.isNil(this.pressDelayTime) && !isNaN(this.pressDelayTime)) {
 			// console.log("IN 2", this.pressDelayTime);
 			this._pressable.options.pressDelayTime = this.pressDelayTime;
 		}
 	}
 
 	private updatePressDistance() {
-		if (this._pressable !== null && this.pressDelayDistance !== null && !isNaN(this.pressDelayDistance)) {
+		if (this._pressable !== null && !_.isNil(	this._pressable.options) && !_.isNil(this.pressDelayDistance) && !isNaN(this.pressDelayDistance)) {
 			this._pressable.options.pressDelayDistance = this.pressDelayDistance;
 		}
 	}
@@ -1541,9 +1542,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private updatePressedClass(pressedClass: string) {
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
-			cssPressedClass: pressedClass,
-			pressDelayTime: this.pressDelayTime,
-			pressDelayDistance: this.pressDelayDistance
+			cssPressedClass: pressedClass
 		});
 	}
 
