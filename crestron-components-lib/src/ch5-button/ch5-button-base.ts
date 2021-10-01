@@ -1453,9 +1453,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	private updatePressDelay() {
-		console.log("IN");
+		// console.log("IN");
 		if (this._pressable !== null && this.pressDelayTime !== null && !isNaN(this.pressDelayTime)) {
-			console.log("IN 2", this.pressDelayTime);
+			// console.log("IN 2", this.pressDelayTime);
 			this._pressable.options.pressDelayTime = this.pressDelayTime;
 		}
 	}
