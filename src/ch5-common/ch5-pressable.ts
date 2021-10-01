@@ -9,6 +9,7 @@ import { Ch5Common } from '../ch5-common/ch5-common';
 import { Subscription } from 'rxjs';
 import 'hammerjs';
 import { Subject } from 'rxjs';
+import _ from 'lodash';
 
 export interface ICh5PressableOptions {
 	cssTargetElement: HTMLElement;
@@ -167,6 +168,10 @@ export class Ch5Pressable {
 
 	public get ch5Component(): Ch5Common {
 		return this._ch5Component;
+	}
+
+	public get options(): ICh5PressableOptions {
+		return this._options;
 	}
 
 	private get pressDelayTime(): number {
@@ -481,6 +486,7 @@ export class Ch5Pressable {
 		this._ch5Component.info(`Ch5Pressable._onRelease() alreadyReleased:${this._released}`);
 		if (!this._released) {
 			// remove the visual feedback
+			console.log("On release value of delay time", this.pressDelayTime);
 			setTimeout(() => {
 				this._removeCssPressClass();
 			}, this.pressDelayTime);
