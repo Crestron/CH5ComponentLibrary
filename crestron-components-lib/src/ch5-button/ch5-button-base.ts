@@ -1577,7 +1577,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	/**
 	 * Called this method if you have to wrap the element
-				 * @param el html element which you have to wrap
+	 * @param el html element which you have to wrap
 	 * @param wrapper wrapper html element
 	 */
 	private wrap(el: any, wrapper: HTMLElement) {
