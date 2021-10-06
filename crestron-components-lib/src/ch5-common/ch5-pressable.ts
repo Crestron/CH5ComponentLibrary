@@ -177,8 +177,9 @@ export class Ch5Pressable {
 	private get pressDelayTime(): number {
 		if (this._options !== null && !_.isNil(this._options.pressDelayTime)) {
 			return this._options.pressDelayTime;
-		} else {
-			return 200;
+		}
+		else {
+			return 250;
 		}
 	}
 
