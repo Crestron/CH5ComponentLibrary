@@ -355,11 +355,11 @@ export class Ch5Pressable {
 	}
 
 	private _onTouchStart(inEvent: Event): void {
+		this._touchStart = true;
 		const touchEvent: TouchEvent = inEvent as TouchEvent;
 		const touch: Touch = touchEvent.changedTouches[0];
 		this._ch5Component.info(`Ch5Pressable._onTouchStart(), ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
-		if (!this._touchStart && this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
-			this._touchStart = true;
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
 			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.pressDelayTime);
 			this._fingerState.touchStartLocationX = touch.clientX;
