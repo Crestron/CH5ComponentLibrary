@@ -15,11 +15,59 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * @role button
  * @description Ch5 Button offers a wide range of functionality out-of-the-box.
  * @componentVersion 1.0.0
+ * @childElements
+ * [
+ *    {
+ *      "tagName": "ch5-button-label",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "template",
+ *          "optional": false,
+ *          "childElements": []
+ *        }
+ *      ]
+ *    },
+ *    {
+ *      "tagName": "ch5-button-mode",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "ch5-button-label",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "template",
+ *              "optional": false,
+ *              "childElements": []
+ *            }
+ *          ]
+ *        },
+ *        {
+ *          "tagName": "ch5-button-mode-state",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "ch5-button-label",
+ *              "optional": true,
+ *              "childElements": [
+ *                {
+ *                  "tagName": "template",
+ *                  "optional": false,
+ *                  "childElements": []
+ *                }
+ *              ]
+ *            }
+ *          ]
+ *        } 
+ *      ]
+ *   }
+ * ]
  * @documentation
  * [
  *   "`ch5-button` element",
  *   "***",
- *   "A custom component designed to provide options to add icons, label, text, multiselect among other powerful options."
+ *   "A custom component designed to provide options to add icons, label, text, multi-select among other powerful options."
  * ]
  * @snippets
  * [

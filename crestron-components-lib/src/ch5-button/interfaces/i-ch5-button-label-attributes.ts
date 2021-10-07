@@ -12,6 +12,20 @@
  * @role button
  * @description Ch5 Button Label is a child node for <ch5-button>, <ch5-button-mode> and <ch5-button-mode-state>.
  * @componentVersion 1.0.0
+* @childElements
+ * [
+ *    {
+ *      "tagName": "ch5-button-label",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "template",
+ *          "optional": false,
+ *          "childElements": []
+ *        }
+ *      ]
+ *    }
+ * ]
  * @documentation
  * [
  *   "`ch5-button-label` element",

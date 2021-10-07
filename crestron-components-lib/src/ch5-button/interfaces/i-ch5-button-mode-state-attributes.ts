@@ -15,6 +15,26 @@ import { TCh5ButtonModeState } from "./t-ch5-button";
  * @role button
  * @description Ch5 Button Mode State is a child node for <ch5-button-mode>.
  * @componentVersion 1.0.0
+ * @childElements
+ * [
+ *    {
+ *      "tagName": "ch5-button-mode-state",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "ch5-button-label",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "template",
+ *              "optional": false,
+ *              "childElements": []
+ *            }
+ *          ]
+ *        }
+ *      ]
+ *    }
+ * ]
  * @documentation
  * [
  *   "`ch5-button-mode-state` element",

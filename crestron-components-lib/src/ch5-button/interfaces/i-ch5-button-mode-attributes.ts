@@ -14,6 +14,37 @@ import { ICh5ButtonModeCommonAttributes } from "./i-ch5-button-mode-common";
  * @role button
  * @description Ch5 Button Mode is a child node for <ch5-button>.
  * @componentVersion 1.0.0
+ * @childElements
+ * [
+ *    {
+ *      "tagName": "ch5-button-label",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "template",
+ *          "optional": false,
+ *          "childElements": []
+ *        }
+ *      ]
+ *    },
+ *    {
+ *      "tagName": "ch5-button-mode-state",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "ch5-button-label",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "template",
+ *              "optional": false,
+ *              "childElements": []
+ *            }
+ *          ]
+ *        }
+ *      ]
+ *    }
+ * ]
  * @documentation
  * [
  *   "`ch5-button-mode` element",
