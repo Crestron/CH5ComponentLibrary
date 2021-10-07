@@ -63,6 +63,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
     private _elCanvas: HTMLCanvasElement = {} as HTMLCanvasElement;
     private _canvasList: any;
+    private _prevCanvasList: any[] = [];
     private _imgUrls: string[] = [];
     private _elImages: HTMLImageElement[] = [];
     private _elBackupImages: HTMLImageElement[] = [];
@@ -412,7 +413,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             }
         }
 
-
         this._sigNameReceiveUrl = value;
         this.setAttribute('receivestateurl', value);
 
@@ -516,15 +516,17 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         customElements.whenDefined('ch5-background').then(() => {
             Ch5CoreIntersectionObserver.getInstance().observe(this, () => {
                 if (this.elementIsInViewPort) {
-                    if (this._isVisible) {
+                    if (!this._isVisible) {
                         if (this.parentElement) {
                             this.parentElement.classList.add(this.primaryCssClass + this.parentCssClassPrefix);
                         }
                         this.updateCanvasDimensions();
-                        this._isVisible = false;
+                        this._isVisible = true;
                     }
                 } else {
-                    this._isVisible = true;
+                    this._isVisible = false;
+                    // Note: If you need a fading effect between two pages using ch5-background individually
+                    // then, remove the 'ch5bg-fadein' class here: this._canvasList[i].classList.remove('ch5bg-fadein'); 
                 }
                 this.isInitialized = true;
             });
@@ -892,6 +894,16 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         }
     }
 
+    protected updateBackgroundForEachCanvas(canvas: HTMLCanvasElement, idx: number): void {
+        if (this._imgUrls.length) {
+            this.setBgImageByCanvas(canvas, idx);
+        } else if (this._bgColors.length) {
+            this.setBgColorByCanvas(canvas, idx);
+        } else {
+            this.info('Something went wrong. One attribute is mandatory either URL or backgroundColor.');
+        }
+    }
+
     /**
      * This method is converting string to array of string
      * @param values is string of image urls which are saprated with '|'.
@@ -1066,15 +1078,53 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     }
 
     /**
-     * updating canvas dimensions
+     * 
      */
     private updateCanvasDimensions() {
         if (this.isCanvasListValid()) {
-            this._canvasList.forEach((canvas: HTMLCanvasElement) => {
-                this.setCanvasDimensions(canvas);
-            });
+            this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
+                let processCanvasObject = true;
+                if (this._prevCanvasList && this._prevCanvasList.length > 0) {
+                    let newWidth = canvas.width;
+                    let newHeight = canvas.height;
+                    if (this.parentElement) {
+                        newWidth = this.isScrollBar(this.parentElement, 'horizontal') ? this.parentElement.scrollWidth : this.parentElement.clientWidth;
+                        newHeight = this.isScrollBar(this.parentElement, 'vertical') ? this.parentElement.scrollHeight : this.parentElement.clientHeight;
+                    }
+                    this.info("this._prevCanvasList[idx].width", this._prevCanvasList[idx].width);
+                    this.info("this._prevCanvasList[idx].height", this._prevCanvasList[idx].height);
+                    this.info("newWidth", newWidth);
+                    this.info("newHeight", newHeight);
+                    if (this._prevCanvasList[idx].width === newWidth &&
+                        this._prevCanvasList[idx].height === newHeight) {
+                        processCanvasObject = false;
 
-            this.updateBackground();
+                    }
+                    this.info("newWidth", newWidth);
+                    this.info("this._prevCanvasList", this._prevCanvasList);
+                    this.info("newHeight", newHeight);
+                }
+                this.info("processCanvas", processCanvasObject);
+                this.info("this._prevCanvasList", this._prevCanvasList);
+                if (processCanvasObject === true) {
+                    canvas.width = 0;
+                    canvas.height = 0;
+                    if (this.parentElement) {
+                        canvas.width = this.isScrollBar(this.parentElement, 'horizontal') ? this.parentElement.scrollWidth : this.parentElement.clientWidth;
+                        canvas.height = this.isScrollBar(this.parentElement, 'vertical') ? this.parentElement.scrollHeight : this.parentElement.clientHeight;
+                    }
+                }
+
+                this.updateBackgroundForEachCanvas(canvas, idx);
+
+                const prevListObj = this._prevCanvasList.find(getObj => getObj.id === idx);
+                if (prevListObj) {
+                    this._prevCanvasList[idx].width = canvas.width;
+                    this._prevCanvasList[idx].height = canvas.height;
+                } else {
+                    this._prevCanvasList.push({ id: idx, width: canvas.width, height: canvas.height });
+                }
+            });
         }
     }
 
@@ -1116,25 +1166,29 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
         if (this._canvasList && this._canvasList.length) {
             if (this.isCanvasListValid()) {
                 this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
-                    const ctx: any = canvas.getContext('2d');
-                    this._elImages[idx] = new Image();
-                    this._elImages[idx].src = this._imgUrls[idx];
-                    this._elImages[idx].onload = () => {
-                        this.updateBgImage(this._elImages[idx], ctx);
-                        if (this._imgUrls.length === idx + 1) {
-                            this.changeBackground(this._imgUrls.length);
-                        }
-                        this._elImages[idx].onload = null;
-                    };
-
-                    // setting background color behind image
-                    ctx.fillStyle = this._imgBackgroundColor;
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    this.setBgImageByCanvas(canvas, idx);
                 });
                 // Make a backup copy
                 this._elBackupImages = [...this._elImages];
             }
         }
+    }
+
+    private setBgImageByCanvas(canvas: HTMLCanvasElement, idx: number): void {
+        const ctx: any = canvas.getContext('2d');
+        this._elImages[idx] = new Image();
+        this._elImages[idx].src = this._imgUrls[idx];
+        this._elImages[idx].onload = () => {
+            this.updateBgImage(this._elImages[idx], ctx);
+            if (this._imgUrls.length === idx + 1) {
+                this.changeBackground(this._imgUrls.length);
+            }
+            this._elImages[idx].onload = null;
+        };
+
+        // setting background color behind image
+        ctx.fillStyle = this._imgBackgroundColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
     /**
@@ -1143,12 +1197,16 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
     private setBgColor(): void {
         if (this.isCanvasListValid()) {
             this._canvasList.forEach((canvas: HTMLCanvasElement, idx: number) => {
-                const ctx: any = canvas.getContext('2d');
-                this.updateBgColor(this._bgColors[idx], ctx);
-                if (this._bgColors.length === idx + 1) {
-                    this.changeBackground(this._bgColors.length);
-                }
+                this.setBgColorByCanvas(canvas, idx);
             });
+        }
+    }
+
+    private setBgColorByCanvas(canvas: HTMLCanvasElement, idx: number): void {
+        const ctx: any = canvas.getContext('2d');
+        this.updateBgColor(this._bgColors[idx], ctx);
+        if (this._bgColors.length === idx + 1) {
+            this.changeBackground(this._bgColors.length);
         }
     }
 
@@ -1218,7 +1276,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
             this.lastRefillTime = performance.now();
         }
     }
-
 
     /**
      * Cutting background as per video dimension and position
