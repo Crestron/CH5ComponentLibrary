@@ -289,6 +289,11 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     }
 
     public set url(value: string) {
+
+        if (!this._url) {
+            this._img?.removeAttribute('src');
+        }
+
         if (this._url !== value) {
             this.updateImageUrl(value);
 
@@ -336,6 +341,8 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             || undefined === value) {
             return;
         }
+
+        this.url = '';
 
         // clean up old subscription
         if (this._sigNameReceiveUrl !== ''
