@@ -8,6 +8,7 @@
 import { Ch5AttrsLog } from './ch5-attrs-log';
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { CustomAttribute, Ch5AttrShowTypes, ICh5AttrsShow } from './interfaces';
+import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5AttrsHidePulse extends CustomAttribute<Ch5AttrShowTypes> implements ICh5AttrsShow {
 
@@ -170,4 +171,10 @@ export class Ch5AttrsHidePulse extends CustomAttribute<Ch5AttrShowTypes> impleme
         }
     }
 
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addCustomAttributeEntry(Ch5AttrsHidePulse.DATA_CH5_ATTR_NAME, 
+            {direction: "state", booleanJoin: 1, contractName: true});
+    }
 }
+
+Ch5AttrsHidePulse.registerSignalAttributeTypes();

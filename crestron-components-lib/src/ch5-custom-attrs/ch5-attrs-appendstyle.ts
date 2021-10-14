@@ -8,6 +8,7 @@
 import {Ch5AttrsLog} from './ch5-attrs-log';
 import {Ch5Signal, Ch5SignalFactory} from "../ch5-core";
 import { CustomAttribute, ICh5AttrsAppendstyle } from './interfaces';
+import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 
 /**
  * TODO: Ch5AttrsTextContent, Ch5AttrsInnerhtml, Ch5AttrsAppendstyle, Ch5AttrsAppendslass are very similar.
@@ -98,4 +99,11 @@ export class Ch5AttrsAppendstyle extends CustomAttribute<string> implements ICh5
         }
     }
 
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addCustomAttributeEntry(Ch5AttrsAppendstyle.DATA_CH5_ATTR_NAME, 
+            {direction: "state", stringJoin: 1, contractName: true});
+    }
 }
+
+Ch5AttrsAppendstyle.registerSignalAttributeTypes();
