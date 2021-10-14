@@ -46,6 +46,8 @@ export class Ch5SignalAttributeRegistry {
     public static readonly STRING_JOIN = "stringJoin"; 
     public static readonly CONTRACT_NAME = "contractName"; 
 
+    private static readonly CUSTOM_ATTRIBUTE_PSUEDO_ELEMENT_NAME = "*";
+
     //#region Singleton
     private static _instance: Ch5SignalAttributeRegistry;
     public static get instance(): Ch5SignalAttributeRegistry {
@@ -71,6 +73,13 @@ export class Ch5SignalAttributeRegistry {
             this._registry[elementName.toUpperCase()].attributes = entries;
         }
     }
+    public addCustomAttributeEntry(attributeName: string, entry: Ch5SignalElementAttributeRegistryEntry) {
+        if (!this._registry[Ch5SignalAttributeRegistry.CUSTOM_ATTRIBUTE_PSUEDO_ELEMENT_NAME]) {
+            this._registry[Ch5SignalAttributeRegistry.CUSTOM_ATTRIBUTE_PSUEDO_ELEMENT_NAME] = { attributes: {} }; 
+        }
+        this._registry[Ch5SignalAttributeRegistry.CUSTOM_ATTRIBUTE_PSUEDO_ELEMENT_NAME].attributes[attributeName] 
+            = entry;
+    }
 
     public addElementDefaultAttributeEntries(elementName: string, entries: CH5SignalElementDefaultAttributeEntries) {
         if (!this._registry[elementName.toUpperCase()]) {
@@ -82,6 +91,10 @@ export class Ch5SignalAttributeRegistry {
     public getElementAttributeEntry(elementName: string, attributeName: string): Ch5SignalElementAttributeRegistryEntry | undefined {
         if (this._registry[elementName] !== undefined) {
             return this._registry[elementName].attributes[attributeName];
+        }
+        else if (this._registry[Ch5SignalAttributeRegistry.CUSTOM_ATTRIBUTE_PSUEDO_ELEMENT_NAME] !== undefined) {
+            // the custom crestron attributes like data-ch5-show are registered here
+            return this._registry[Ch5SignalAttributeRegistry.CUSTOM_ATTRIBUTE_PSUEDO_ELEMENT_NAME].attributes[attributeName];
         }
         return undefined;
     }

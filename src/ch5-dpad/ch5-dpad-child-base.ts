@@ -507,7 +507,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             const parentContractName: string = CH5DpadUtils.getAttributeAsString(ele, 'contractname', '');
             const parentContractEvent: string = CH5DpadUtils.getAttributeAsString(ele, 'sendeventonclickstart', '');
             if (parentContractName.length > 0) {
-                const joinValue = parentContractName + '.' + CH5DpadContractUtils.contractSuffix[btnType];
+                const joinValue = parentContractName + CH5DpadContractUtils.contractSuffix[btnType];
                 this.sendEventOnClick = joinValue.toString();
             } else if (parentContractEvent.length > 0) {
                 const joinValue = parseInt(parentContractEvent, 10) +
