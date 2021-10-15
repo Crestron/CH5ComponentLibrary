@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+<test-fixture id="ch5-keypad-shapes-fixture">
+    <template>
+        <ch5-keypad></ch5-keypad>
+    </template>
+</test-fixture>
+
+<script>
+  suite('ch5-keypad', () => {
+
+    let ch5Keypad;
+
+    setup(async () => {
+      ch5Keypad = fixture('ch5-keypad-shapes-fixture');
+    });
+
+    const valid_shapes = CrComLib.Ch5Keypad.SHAPES;
+    const invalid_shapes = ['', null, 'Triangle', 'Rectangle'];
+    const default_shape = CrComLib.Ch5Keypad.SHAPES[0];
+
+    test(`Check attribute shape ${default_shape} by not adding the type attribute in HTML or through javascript to the button`, () => {
+      expect(ch5Keypad.shape).to.be.equal(default_shape);
+      expect(ch5Keypad.classList.contains("ch5-keypad--shape-" + default_shape)).to.be.equal(true);
+    });
+
+    valid_shapes.forEach((shapeName, i) => {
+      test(`Check attribute shape: "${shapeName}"`, () => {
+        ch5Keypad.setAttribute('shape', shapeName);
+        expect(ch5Keypad.shape).to.be.equal(shapeName);
+        expect(ch5Keypad.classList.contains("ch5-keypad--shape-" + shapeName)).to.be.equal(true);
+      });
+    });
+
+    invalid_shapes.forEach((shapeName, i) => {
+      test(`Check attribute shape for invalid value: "${shapeName}"`, () => {
+        ch5Keypad.setAttribute('shape', shapeName);
+        expect(ch5Keypad.shape).to.be.equal(default_shape);
+        expect(ch5Keypad.classList.contains("ch5-keypad--shape-" + default_shape)).to.be.equal(true);
+      });
+    });
+  });
+</script>
+</body>
+
+</html>
