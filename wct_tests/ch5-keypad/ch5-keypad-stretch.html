@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+<test-fixture id="ch5-keypad-stretch-fixture">
+    <template>
+        <ch5-keypad></ch5-keypad>
+    </template>
+</test-fixture>
+
+<script>
+  suite('ch5-keypad', () => {
+
+    let ch5Keypad;
+
+    const valid_stretch = CrComLib.Ch5Keypad.STRETCHES;
+    const invalid_stretch = ['', null, 'Vertical', 'Horizontal', 23];
+
+    setup(async () => {
+      ch5Keypad = fixture('ch5-keypad-stretch-fixture');
+    });
+
+    test(`Expect stretch to be undefined default`, () => {
+      expect(ch5Keypad.attributes.stretch).to.exist;
+      expect(ch5Keypad.attributes.stretch.nodeValue).to.equal('');
+    });
+
+    valid_stretch.forEach((stretch) => {
+      test(`Expect stretch ${stretch} to be applied`, () => {
+        ch5Keypad.setAttribute('stretch', stretch);
+        expect(ch5Keypad.stretch).to.be.equal(stretch);
+        expect(ch5Keypad.classList.contains("ch5-keypad--stretch-" + stretch)).to.be.equal(true);
+        }
+      )
+    });
+
+    invalid_stretch.forEach((stretch) => {
+      test(`Expect invalid stretch ${stretch} to not be applied`, () => {
+        ch5Keypad.setAttribute('stretch', stretch);
+          expect(ch5Keypad.stretch).to.be.equal('');
+          expect(Array.from(ch5Keypad.classList).includes('stretch')).to.equal(false);
+        }
+      )
+    })
+
+  });
+</script>
+</body>
+
+</html>

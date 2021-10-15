@@ -15,51 +15,51 @@
 
 <body>
 
-    <test-fixture id="ch5-dpad-shapes-fixture">
-        <template>
-            <ch5-dpad shape="plus"></ch5-dpad>
-        </template>
-    </test-fixture>
+<test-fixture id="ch5-dpad-shapes-fixture">
+    <template>
+        <ch5-dpad shape="plus"></ch5-dpad>
+    </template>
+</test-fixture>
 
-    <script>
-        suite('ch5-dpad', () => {
+<script>
+  suite('ch5-dpad', () => {
 
-            let ch5Dpad;
+    let ch5Dpad;
 
-            setup(async () => {
-                ch5Dpad = fixture('ch5-dpad-shapes-fixture');
-            });
+    setup(async () => {
+      ch5Dpad = fixture('ch5-dpad-shapes-fixture');
+    });
 
-            const valid_shapes = CrComLib.Ch5Dpad.SHAPES;
-            const invalid_shapes = ['', null, 'Square', 'Rectangle'];
-            const default_shape = CrComLib.Ch5Dpad.SHAPES[0];
+    const valid_shapes = CrComLib.Ch5Dpad.SHAPES;
+    const invalid_shapes = ['', null, 'Square', 'Rectangle'];
+    const default_shape = CrComLib.Ch5Dpad.SHAPES[0];
 
-            // valid_shapes.forEach((shapeName, i) => {
-            //     test(`Check attribute shape: "${shapeName}"`, () => {
-            //         ch5Dpad.setAttribute('shape', shapeName);
-            //         expect(ch5Dpad.shape).to.be.equal(shapeName);
-            //         console.log("ch5Dpad.classList", getAttributesList(ch5Dpad));
-            //         expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + shapeName)).to.be.equal(true);
-            //     });
-            // });
+    test(`Check attribute shape ${default_shape} by not adding the type attribute in HTML or through javascript to the button`, () => {
+      expect(ch5Dpad.shape).to.be.equal(default_shape);
+      expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + default_shape)).to.be.equal(true);
+    });
 
-            test(`Check attribute shape ${default_shape} by not adding the type attribute in HTML or through javascript to the button`, () => {
-                expect(ch5Dpad.shape).to.be.equal(default_shape);
-                console.log("ch5Dpad.classList", getAttributesList(ch5Dpad));
-                console.log("ch5Dpad.classList", (ch5Dpad.classList));
-                // expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + default_shape)).to.be.equal(true);
-                expect(ch5Dpad.classList.contains(default_shape)).to.be.equal(true);
-            });
+    test(`Check default dir attribute`, () => {
+      expect(ch5Dpad.dir).to.be.equal('ltr');
+    });
 
-            // invalid_shapes.forEach((shapeName, i) => {
-            //     test(`Check attribute shape for invalid value: "${shapeName}"`, () => {
-            //         ch5Dpad.setAttribute('shape', shapeName);
-            //         expect(ch5Dpad.shape).to.be.equal(default_shape);
-            //         expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + default_shape)).to.be.equal(true);
-            //     });
-            // });
-        });
-    </script>
+    valid_shapes.forEach((shapeName, i) => {
+      test(`Check attribute shape: "${shapeName}"`, () => {
+        ch5Dpad.setAttribute('shape', shapeName);
+        expect(ch5Dpad.shape).to.be.equal(shapeName);
+        expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + shapeName)).to.be.equal(true);
+      });
+    });
+
+    invalid_shapes.forEach((shapeName, i) => {
+      test(`Check attribute shape for invalid value: "${shapeName}"`, () => {
+        ch5Dpad.setAttribute('shape', shapeName);
+        expect(ch5Dpad.shape).to.be.equal(default_shape);
+        expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + default_shape)).to.be.equal(true);
+      });
+    });
+  });
+</script>
 </body>
 
 </html>

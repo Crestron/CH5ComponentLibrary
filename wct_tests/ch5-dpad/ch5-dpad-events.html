@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-dpad-sendEventOnClick-fixture">
+        <template>
+            <ch5-dpad type="default" ID="test1a" shape="plus" sendEventOnClickStart="5">
+                <ch5-dpad-button-center></ch5-dpad-button-center>
+                <ch5-dpad-button-top></ch5-dpad-button-top>
+                <ch5-dpad-button-right></ch5-dpad-button-right>
+                <ch5-dpad-button-left></ch5-dpad-button-left>
+                <ch5-dpad-button-bottom></ch5-dpad-button-bottom>
+            </ch5-dpad>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-dpad-contractName-fixture">
+        <template>
+            <ch5-dpad type="default" ID="test1a" shape="plus" contractname="LivingRoom.AppleTV">
+                <ch5-dpad-button-center></ch5-dpad-button-center>
+                <ch5-dpad-button-top></ch5-dpad-button-top>
+                <ch5-dpad-button-right></ch5-dpad-button-right>
+                <ch5-dpad-button-left></ch5-dpad-button-left>
+                <ch5-dpad-button-bottom></ch5-dpad-button-bottom>
+            </ch5-dpad>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-dpad-sendEventOnClick', () => {
+
+            let ch5DpadEvent;
+
+            setup(async () => {
+              ch5DpadEvent = fixture('ch5-dpad-sendEventOnClick-fixture');
+            });
+
+          test(`Check sendeventonclick - dpad`, () => {
+            expect(ch5DpadEvent.getAttribute('sendeventonclickstart')).to.be.equal("5");
+          });
+
+          test(`Check sendeventonclick - button top`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[1].getAttribute('sendeventonclick')).to.be.equal("5");
+          });
+
+          test(`Check sendeventonclick - button bottom`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[4].getAttribute('sendeventonclick')).to.be.equal("6");
+          });
+
+          test(`Check sendeventonclick - button  left`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[2].getAttribute('sendeventonclick')).to.be.equal("7");
+          });
+
+          test(`Check sendeventonclick - button right`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[3].getAttribute('sendeventonclick')).to.be.equal("8");
+          });
+
+          test(`Check sendeventonclick - button center`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[0].getAttribute('sendeventonclick')).to.be.equal("9");
+          });
+        });
+
+        suite('ch5-dpad-contractName', () => {
+
+          let ch5DpadEvent;
+
+          setup(async () => {
+            ch5DpadEvent = fixture('ch5-dpad-contractName-fixture');
+          });
+
+          test(`Check contractname - dpad`, () => {
+            expect(ch5DpadEvent.getAttribute('contractname')).to.be.equal("LivingRoom.AppleTV");
+          });
+
+          test(`Check sendeventonclick - button top`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[1].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Up");
+          });
+
+          test(`Check sendeventonclick - button bottom`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[4].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Down");
+          });
+
+          test(`Check sendeventonclick - button  left`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[2].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Left");
+          });
+
+          test(`Check sendeventonclick - button right`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[3].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Right");
+          });
+
+          test(`Check sendeventonclick - button center`, () => {
+            expect(ch5DpadEvent.childNodes[6].childNodes[0].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Center");
+          });
+        });
+    </script>
+</body>
+
+</html>

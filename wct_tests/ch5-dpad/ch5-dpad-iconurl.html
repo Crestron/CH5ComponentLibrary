@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>void (0)</script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ch5-dpad-iconurl-fixture">
+        <template>
+            <ch5-dpad type="default" ID="test2a" shape="plus">
+                <ch5-dpad-button-center iconurl="https://img.icons8.com/material/24/000000/search.png"
+                                        iconclass="fas fa-user"></ch5-dpad-button-center>
+                <ch5-dpad-button-top iconurl="https://img.icons8.com/material/24/000001/search.png"
+                                     iconclass="fas fa-user"></ch5-dpad-button-top>
+                <ch5-dpad-button-right iconurl="https://img.icons8.com/material/24/000002/search.png"
+                                       iconclass="fas fa-user"></ch5-dpad-button-right>
+                <ch5-dpad-button-left iconurl="https://img.icons8.com/material/24/000003/search.png"
+                                      iconclass="fas fa-user"></ch5-dpad-button-left>
+                <ch5-dpad-button-bottom iconurl="https://img.icons8.com/material/24/000004/search.png"
+                                        iconclass="fas fa-user"></ch5-dpad-button-bottom>
+            </ch5-dpad>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-dpad-iconurl', () => {
+
+            let ch5DpadIconUrl;
+
+            setup(async () => {
+                ch5DpadIconUrl = fixture('ch5-dpad-iconurl-fixture');
+            });
+
+          test(`Check iconurl attribute button center`, () => {
+            expect(ch5DpadIconUrl.childNodes[6].childNodes[0].childNodes[0].style.backgroundImage.includes('https://img.icons8.com/material/24/000000/search.png')).to.equal(true);
+          });
+
+          test(`Check iconurl attribute button up`, () => {
+            expect(ch5DpadIconUrl.childNodes[6].childNodes[1].childNodes[0].style.backgroundImage.includes('https://img.icons8.com/material/24/000001/search.png')).to.equal(true);
+          });
+
+          test(`Check iconurl attribute button left`, () => {
+            expect(ch5DpadIconUrl.childNodes[6].childNodes[2].childNodes[0].style.backgroundImage.includes('https://img.icons8.com/material/24/000003/search.png')).to.equal(true);
+          });
+
+          test(`Check iconurl attribute button right`, () => {
+            expect(ch5DpadIconUrl.childNodes[6].childNodes[3].childNodes[0].style.backgroundImage.includes('https://img.icons8.com/material/24/000002/search.png')).to.equal(true);
+          });
+
+          test(`Check iconurl attribute button bottom`, () => {
+            expect(ch5DpadIconUrl.childNodes[6].childNodes[4].childNodes[0].style.backgroundImage.includes('https://img.icons8.com/material/24/000004/search.png')).to.equal(true);
+          });
+        });
+    </script>
+</body>
+
+</html>
