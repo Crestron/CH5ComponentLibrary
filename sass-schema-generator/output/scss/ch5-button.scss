@@ -17,23 +17,43 @@
 /// @group ch5-button-variables
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
-// All rights reserved.
-// No part of this software may be reproduced in any form, machine
-// or natural, without the express written consent of Crestron Electronics.
-// Use of this source code is subject to the terms of the Crestron Software License Agreement
-// under which you licensed this source code.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-core-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// Font size unit
 $ch5-font-size-unit: px !default;
+
+/// Font size value
 $ch5-font-size-value: 16 !default;
+
+/// Font size 
 $ch5-font-size: $ch5-font-size-value + $ch5-font-size-unit !default;
+
+/// Font style
 $ch5-font-style: normal !default;
+
+/// Font weight
 $ch5-font-weight: normal !default;
 
-// scrollbar
+/// Scrollbar width
 $ch5-scrollbar-width:          7px !default;
+
+/// Scrollbar border radius
 $ch5-scrollbar-border-radius:  10px !default;
+
+/// Scrollbar track color
 $ch5-scrollbar-track-color:    rgba(0, 0, 0, 0.1) !default;
+
+/// Scrollbar thumb color
 $ch5-scrollbar-thumb-color:    rgba(0, 0, 0, 0.5) !default;
 
 
@@ -159,23 +179,43 @@ $ch5-button-checkbox-padding: 5px !default;
 /// @group ch5-button-variables
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
-// All rights reserved.
-// No part of this software may be reproduced in any form, machine
-// or natural, without the express written consent of Crestron Electronics.
-// Use of this source code is subject to the terms of the Crestron Software License Agreement
-// under which you licensed this source code.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-core-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// Font size unit
 $ch5-font-size-unit: px !default;
+
+/// Font size value
 $ch5-font-size-value: 16 !default;
+
+/// Font size 
 $ch5-font-size: $ch5-font-size-value + $ch5-font-size-unit !default;
+
+/// Font style
 $ch5-font-style: normal !default;
+
+/// Font weight
 $ch5-font-weight: normal !default;
 
-// scrollbar
+/// Scrollbar width
 $ch5-scrollbar-width:          7px !default;
+
+/// Scrollbar border radius
 $ch5-scrollbar-border-radius:  10px !default;
+
+/// Scrollbar track color
 $ch5-scrollbar-track-color:    rgba(0, 0, 0, 0.1) !default;
+
+/// Scrollbar thumb color
 $ch5-scrollbar-thumb-color:    rgba(0, 0, 0, 0.5) !default;
 
 
@@ -280,18 +320,21 @@ $ch5-button-checkbox-padding: 5px !default;
 
 
 @mixin ch5-button-image-width-height($property-font-size) {
-  .ch5-button--img {
-      display: block;
-      height: $property-font-size * 2;
-      width: $property-font-size * 2;
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center;
+  height: $property-font-size * 2;
+  width: $property-font-size * 2; 
+}
 
-      &::before,
-      &::after {
-        content: none;
-      }
+@mixin ch5-button-set-icon-classes($property-font-size) {
+  .ch5-button--img {
+    display: block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    @include ch5-button-image-width-height($property-font-size);
+    &::before,
+    &::after {
+      content: none;
+    }
   }
 }
 
@@ -305,7 +348,6 @@ ch5-button {
   &,
   .ch5-button {
     max-width: 100%;
-    // padding: 0.25rem; /* Newly added - add as variable - test all components why? */
   }
   div {
     pointer-events: all;
@@ -346,7 +388,7 @@ ch5-button {
 ch5-button[hidden] {
   display: none;
 }
-/* Button elements align */
+
 .ch5-button,
 .ch5-button--label,
 .ch5-button--icon,
@@ -412,7 +454,7 @@ ch5-button[hidden] {
     padding-left: $ch5-button-icon-padding;
   }
 }
-/* Button container shapes */
+
 .ch5-button--rectangle {
   @include border-radius(0);
 }
@@ -445,8 +487,8 @@ ch5-button[hidden] {
 .ch5-button--tab {
   @include border-radius($ch5-button-tab-border-radius);
 }
-/* Button stretch */
-/* stretch does not apply for circle and oval shapes */
+
+// stretch does not apply for circle and oval shapes
 // TODO - should i remove stretch= and apply css classname
 ch5-button[stretch="width"] {
   width: 100%;
@@ -491,7 +533,8 @@ ch5-button[stretch="both"] {
     white-space: nowrap;
   }
 }
-/* Button orientation */
+
+// Button orientation
 .ch5-button--vertical {
   .ch5-button--span {
     flex-direction: column;
@@ -512,7 +555,6 @@ ch5-button[stretch="both"] {
       max-width: inherit;
       writing-mode: vertical-lr;
       max-height: max-content;
-      // flex: 1; // commented by Rags // Remove later if not required
       padding-top: 2px;
       padding-bottom: 2px;
     }
@@ -572,7 +614,7 @@ ch5-button[stretch="both"] {
     }
   }
 }
-/* vertical sizes */
+// vertical sizes
 .ch5-button--vertical {
   &:not(.ch5-button--circle) {
     &.ch5-button--size-x-small .cb-btn {
@@ -622,9 +664,9 @@ ch5-button[stretch="both"] {
   pointer-events: none;
   opacity: $ch5-button-disabled-opacity;
 }
-/* Sizes */
 
-@include ch5-button-image-width-height($ch5-button-font-size);
+// Sizes
+@include ch5-button-set-icon-classes($ch5-button-font-size);
 
 .ch5-button--size-x-small {
   .cb-btn {
@@ -638,7 +680,7 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-x-small-font-size;
   }
-  @include ch5-button-image-width-height($ch5-button-x-small-font-size);
+  @include ch5-button-set-icon-classes($ch5-button-x-small-font-size);
 }
 .ch5-button--size-small {
   .cb-btn {
@@ -652,8 +694,7 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-small-font-size;
   }
-  @include ch5-button-image-width-height($ch5-button-small-font-size);
-
+  @include ch5-button-set-icon-classes($ch5-button-small-font-size);
 }
 .ch5-button--size-large {
   .cb-btn {
@@ -667,8 +708,7 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-large-font-size;
   }
-  @include ch5-button-image-width-height($ch5-button-large-font-size);
-
+  @include ch5-button-set-icon-classes($ch5-button-large-font-size);
 }
 .ch5-button--size-x-large {
   .cb-btn {
@@ -682,10 +722,9 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-x-large-font-size;
   }
-  @include ch5-button-image-width-height($ch5-button-x-large-font-size);
-
+  @include ch5-button-set-icon-classes($ch5-button-x-large-font-size);
 }
-/* icon positions */
+// icon positions
 i.cb-icon.cx-button-icon-pos-first,
 i.cb-icon.cx-button-icon-pos-last {
   display: inline-block;
@@ -1027,6 +1066,5 @@ i.cb-icon.cx-button-icon-pos-top {
 //     // }
 //   }
 // }
-
 
 

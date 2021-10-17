@@ -1,0 +1,364 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Variables below
+$defaultContainerWidth: 270px;
+$defaultContainerHeight: 360px;
+$defaultContainerHeightExtra: 450px;
+$cellDimension: 50px;
+$cellMargin: 20px;
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad-mixins
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@mixin ch5-keypad-content($property-default-background-color, $property-default-font-color) {
+    $backgroundColorActive: darken($property-default-background-color, 15%);
+    .keypad-row {
+        color: $property-default-font-color;
+        .keypad-btn {
+            button {
+                background-color: $property-default-background-color;
+                border: 1px solid $property-default-background-color;
+                &:active {
+                    background: $backgroundColorActive;
+                    border-color: $backgroundColorActive;
+                }
+            }
+        }
+    }
+}
+
+@mixin ch5-keypad-content--selected($property-selected-background-color, $property-selected-font-color) {
+    $backgroundColorActive: lighten($property-selected-background-color, 10%);
+}
+
+@mixin ch5-keypad-content--pressed($property-pressed-background-color, $property-pressed-font-color) {
+    $backgroundColorActive: lighten($property-pressed-background-color, 10%);
+}
+
+@mixin ch5-keypad-content--disabled($ch5-keypad-text-disabled-background-color, $ch5-keypad-text-disabled-font-color) {
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Variables below
+$defaultContainerWidth: 270px;
+$defaultContainerHeight: 360px;
+$defaultContainerHeightExtra: 450px;
+$cellDimension: 50px;
+$cellMargin: 20px;
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad-mixins
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@mixin ch5-keypad-content($property-default-background-color, $property-default-font-color) {
+    $backgroundColorActive: darken($property-default-background-color, 15%);
+    .keypad-row {
+        color: $property-default-font-color;
+        .keypad-btn {
+            button {
+                background-color: $property-default-background-color;
+                border: 1px solid $property-default-background-color;
+                &:active {
+                    background: $backgroundColorActive;
+                    border-color: $backgroundColorActive;
+                }
+            }
+        }
+    }
+}
+
+@mixin ch5-keypad-content--selected($property-selected-background-color, $property-selected-font-color) {
+    $backgroundColorActive: lighten($property-selected-background-color, 10%);
+}
+
+@mixin ch5-keypad-content--pressed($property-pressed-background-color, $property-pressed-font-color) {
+    $backgroundColorActive: lighten($property-pressed-background-color, 10%);
+}
+
+@mixin ch5-keypad-content--disabled($ch5-keypad-text-disabled-background-color, $ch5-keypad-text-disabled-font-color) {
+}
+
+
+.ch5-keypad {
+    display: inline-flex;
+    min-width: $defaultContainerWidth;
+    min-height: $defaultContainerHeight;
+    width: $defaultContainerWidth;
+    height: $defaultContainerHeight;
+    vertical-align: top;
+
+    &[disabled] {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: default;
+        button {
+            cursor: default;
+        }
+    }
+
+    &[showextrabutton="true"] {
+        height: $defaultContainerHeightExtra;
+        .keypad-container {
+            height: $defaultContainerHeightExtra;
+            min-width: $defaultContainerWidth;
+            min-height: $defaultContainerHeightExtra;
+            .keypad-row {
+                flex: 0 1 18%;
+
+                .keypad-btn.special-center button {
+                    color: $ch5-keypad--extra-text-font-color;
+                    background-color: $ch5-keypad-extra-text-default-background-color;
+                    border: 1px solid $ch5-keypad-extra-text-default-background-color;
+                    &:active {
+                        background: lighten($color: $ch5-keypad-extra-text-default-background-color, $amount: 10);
+                        border-color: lighten($color: $ch5-keypad-extra-text-default-background-color, $amount: 10);
+                    }
+                }
+
+                .keypad-btn.empty-btn {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &.ch5-keypad--type-default {
+        @include ch5-keypad-content(
+            $ch5-keypad-default-default-background-color,
+            $ch5-keypad-default-default-font-color
+        );
+    }
+    &.ch5-keypad--type-primary {
+        @include ch5-keypad-content(
+            $ch5-keypad-primary-default-background-color,
+            $ch5-keypad-primary-default-font-color
+        );
+    }
+    &.ch5-keypad--type-info {
+        @include ch5-keypad-content($ch5-keypad-info-default-background-color, $ch5-keypad-info-default-font-color);
+    }
+    &.ch5-keypad--type-text {
+        @include ch5-keypad-content($ch5-keypad-text-default-background-color, $ch5-keypad-text-default-font-color);
+    }
+    &.ch5-keypad--type-danger {
+        @include ch5-keypad-content($ch5-keypad-danger-default-background-color, $ch5-keypad-danger-default-font-color);
+    }
+    &.ch5-keypad--type-warning {
+        @include ch5-keypad-content(
+            $ch5-keypad-warning-default-background-color,
+            $ch5-keypad-warning-default-font-color
+        );
+    }
+    &.ch5-keypad--type-success {
+        @include ch5-keypad-content(
+            $ch5-keypad-success-default-background-color,
+            $ch5-keypad-success-default-font-color
+        );
+    }
+    &.ch5-keypad--type-secondary {
+        @include ch5-keypad-content(
+            $ch5-keypad-secondary-default-background-color,
+            $ch5-keypad-secondary-default-font-color
+        );
+    }
+
+    &.ch5-keypad--orientation-top {
+        button {
+            flex-direction: column;
+        }
+    }
+
+    &.ch5-keypad--orientation-right {
+        button {
+            flex-direction: row-reverse;
+            margin-left: 2px;
+        }
+    }
+
+    &.ch5-keypad--orientation-bottom {
+        button {
+            flex-direction: column-reverse;
+        }
+    }
+
+    &.ch5-keypad--orientation-left {
+        button {
+            flex-direction: row;
+            .label-major {
+                margin-right: 2px;
+            }
+        }
+    }
+}
+
+.keypad-container {
+    display: flex;
+    justify-content: space-evenly;
+    width: $defaultContainerWidth;
+    height: $defaultContainerHeight;
+    min-width: $defaultContainerWidth;
+    min-height: $defaultContainerHeight;
+    flex-direction: column;
+}
+
+.keypad-row {
+    display: flex;
+    flex: 0 1 23%;
+    color: #fff;
+    justify-content: space-evenly;
+    .keypad-btn {
+        cursor: pointer;
+        display: flex;
+        width: 30%;
+        overflow: hidden;
+        button {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            outline: none !important;
+            color: inherit;
+            cursor: pointer;
+            -webkit-transition: background 0.4s;
+            transition: background 0.4s;
+            span {
+                white-space: pre;
+                color: inherit;
+            }
+            .label-major {
+                font-size: 2.6rem;
+                font-weight: 300;
+                line-height: 2.6rem;
+            }
+            .label-minor {
+                margin-top: 0;
+                letter-spacing: 0.1rem;
+                font-size: 1rem;
+                line-height: 1rem;
+            }
+        }
+
+        &.misc-btn {
+            &.misc-btn-one {
+                .label-major {
+                    font-size: 4.5rem;
+                    padding-top: 32%;
+                }
+            }
+        }
+        &[key="button0"] {
+            .label-minor {
+                font-size: 1.5rem;
+                margin-top: -2%;
+            }
+        }
+    }
+}
+
+.ch5-keypad.ch5-keypad--shape-square {
+    .keypad-container {
+        .keypad-row {
+            .keypad-btn {
+                border-radius: 0;
+            }
+        }
+    }
+}
+
+.ch5-keypad.ch5-keypad--shape-circle {
+    .keypad-container {
+        .keypad-row {
+            .keypad-btn {
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+.ch5-keypad.ch5-keypad--shape-rounded-rectangle {
+    .keypad-container {
+        .keypad-row {
+            .keypad-btn {
+                border-radius: 10%;
+            }
+        }
+    }
+}
+
+.ch5-keypad.ch5-keypad--stretch-both {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.ch5-keypad.ch5-keypad--stretch-height {
+    height: 100%;
+    align-items: center;
+}
+
+.ch5-keypad.ch5-keypad--stretch-width {
+    width: 100%;
+    justify-content: center;
+}

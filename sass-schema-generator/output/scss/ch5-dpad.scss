@@ -1,0 +1,561 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-dpad
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-dpad-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Set the height and width of the dpad
+$defaultDimension: 150px;
+
+/// Set the border radius for 'plus' shape
+$commmonEdgeRadius: 10px;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-dpad
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-dpad-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Set the height and width of the dpad
+$defaultDimension: 150px;
+
+/// Set the border radius for 'plus' shape
+$commmonEdgeRadius: 10px;
+
+
+@mixin ch5-dpad-content($property-default-background-color, $property-default-font-color) {
+    $backgroundColorActive: lighten($property-default-background-color, 10%);
+    .ch5-dpad-child {
+        background-color: $property-default-background-color;
+        color: $property-default-font-color;
+    }
+    .center:active,
+    &.ch5-dpad--shape-plus .direction-btn:active span,
+    &.ch5-dpad--shape-circle .direction-btn:active {
+        background-color: $backgroundColorActive !important;
+        z-index: 1;
+    }
+}
+
+@mixin ch5-dpad-content--selected($property-selected-background-color, $property-selected-font-color) {
+    $backgroundColorActive: lighten($property-selected-background-color, 10%);
+    .ch5-dpad-child {
+        background-color: $property-default-background-color;
+        color: $property-default-font-color;
+    }
+    .center:active,
+    &.ch5-dpad--shape-plus .direction-btn:active span,
+    &.ch5-dpad--shape-circle .direction-btn:active {
+        background-color: $backgroundColorActive !important;
+        z-index: 1;
+    }
+}
+
+@mixin ch5-dpad-content--pressed($property-pressed-background-color, $property-pressed-font-color) {
+    $backgroundColorActive: lighten($property-pressed-background-color, 10%);
+    .ch5-dpad-child {
+        background-color: $property-default-background-color;
+        color: $property-default-font-color;
+    }
+    center:active,
+    &.ch5-dpad--shape-plus .direction-btn:active span,
+    &.ch5-dpad--shape-circle .direction-btn:active {
+        background-color: $backgroundColorActive !important;
+        z-index: 1;
+    }
+}
+
+@mixin ch5-dpad-content-plus-top($property-commmonEdgeRadius, $property-default-background-color) {
+    margin: 0 33.33%;
+    border-top-left-radius: $property-commmonEdgeRadius;
+    border-top-right-radius: $property-commmonEdgeRadius;
+    &:before {
+        top: calc(100% - 20px);
+        right: 100%;
+        border-radius: 0 0 $property-commmonEdgeRadius 0;
+        -moz-border-radius: 0 0 $property-commmonEdgeRadius 0;
+        -webkit-border-radius: 0 0 $property-commmonEdgeRadius 0;
+        -webkit-box-shadow: $property-commmonEdgeRadius 0 0 0 $property-default-background-color;
+        box-shadow: $property-commmonEdgeRadius 0 0 0 $property-default-background-color;
+    }
+    &:after {
+        top: calc(100% - 20px);
+        left: 100%;
+        border-radius: 0 0 0 $property-commmonEdgeRadius;
+        -moz-border-radius: 0 0 0 $property-commmonEdgeRadius;
+        -webkit-border-radius: 0 0 0 $property-commmonEdgeRadius;
+        -webkit-box-shadow: (-$property-commmonEdgeRadius) 0 0 0 $property-default-background-color;
+        box-shadow: (-$property-commmonEdgeRadius) 0 0 0 $property-default-background-color;
+    }
+    span {
+        border-top-left-radius: $property-commmonEdgeRadius;
+        border-top-right-radius: $property-commmonEdgeRadius;
+    }
+}
+
+@mixin ch5-dpad-content-plus-bottom($property-commmonEdgeRadius, $property-default-background-color) {
+    margin: 0 33.33%;
+    border-bottom-left-radius: $property-commmonEdgeRadius;
+    border-bottom-right-radius: $property-commmonEdgeRadius;
+    &:before {
+        top: 0;
+        left: 100%;
+        border-radius: 0 $property-commmonEdgeRadius 0 0;
+        -moz-border-radius: 0 $property-commmonEdgeRadius 0 0;
+        -webkit-border-radius: 0 $property-commmonEdgeRadius 0 0;
+        -webkit-box-shadow: (-$property-commmonEdgeRadius) 0 0 0 $property-default-background-color;
+        box-shadow: (-$property-commmonEdgeRadius) 0 0 0 $property-default-background-color;
+    }
+    &:after {
+        top: 0;
+        right: 100%;
+        border-radius: 0 $property-commmonEdgeRadius 0 0;
+        -moz-border-radius: 0 $property-commmonEdgeRadius 0 0;
+        -webkit-border-radius: 0 $property-commmonEdgeRadius 0 0;
+        -webkit-box-shadow: $property-commmonEdgeRadius 0 0 0 $property-default-background-color;
+        box-shadow: $property-commmonEdgeRadius 0 0 0 $property-default-background-color;
+    }
+    span {
+        border-bottom-left-radius: $property-commmonEdgeRadius;
+        border-bottom-right-radius: $property-commmonEdgeRadius;
+    }
+}
+
+@mixin ch5-dpad-content-plus-left($property-commmonEdgeRadius, $property-default-background-color) {
+    margin-right: calc(33% / 2);
+    border-bottom-left-radius: $property-commmonEdgeRadius;
+    border-top-left-radius: $property-commmonEdgeRadius;
+    &:before {
+        top: 100%;
+        left: calc(100% - 20px);
+        border-radius: 0 $property-commmonEdgeRadius 0 0;
+        -moz-border-radius: 0 $property-commmonEdgeRadius 0 0;
+        -webkit-border-radius: 0 $property-commmonEdgeRadius 0 0;
+        -webkit-box-shadow: 0 (-$property-commmonEdgeRadius) 0 0 $property-default-background-color;
+        box-shadow: 0 (-$property-commmonEdgeRadius) 0 0 $property-default-background-color;
+    }
+    &:after {
+        bottom: 100%;
+        left: calc(100% - 20px);
+        border-radius: 0 0 $property-commmonEdgeRadius 0;
+        -moz-border-radius: 0 0 $property-commmonEdgeRadius 0;
+        -webkit-border-radius: 0 0 $property-commmonEdgeRadius 0;
+        -webkit-box-shadow: $property-commmonEdgeRadius 0 0 0 $property-default-background-color;
+        box-shadow: $property-commmonEdgeRadius 0 0 0 $property-default-background-color;
+    }
+    span {
+        border-bottom-left-radius: $property-commmonEdgeRadius;
+        border-top-left-radius: $property-commmonEdgeRadius;
+    }
+}
+
+@mixin ch5-dpad-content-plus-right($property-commmonEdgeRadius, $property-default-background-color) {
+    margin-left: calc(33% / 2);
+    border-bottom-right-radius: $property-commmonEdgeRadius;
+    border-top-right-radius: $property-commmonEdgeRadius;
+    &:before {
+        bottom: 100%;
+        left: 0;
+        border-radius: $property-commmonEdgeRadius 0 0 0;
+        -moz-border-radius: $property-commmonEdgeRadius 0 0 0;
+        -webkit-border-radius: $property-commmonEdgeRadius 0 0 0;
+        -webkit-box-shadow: 0 $property-commmonEdgeRadius 0 0 $property-default-background-color;
+        box-shadow: 0 $property-commmonEdgeRadius 0 0 $property-default-background-color;
+    }
+    &:after {
+        top: 100%;
+        left: 0;
+        border-radius: $property-commmonEdgeRadius 0 0 0;
+        -moz-border-radius: $property-commmonEdgeRadius 0 0 0;
+        -webkit-border-radius: $property-commmonEdgeRadius 0 0 0;
+        -webkit-box-shadow: 0 (-$property-commmonEdgeRadius) 0 0 $property-default-background-color;
+        box-shadow: 0 (-$property-commmonEdgeRadius) 0 0 $property-default-background-color;
+    }
+    span {
+        border-bottom-right-radius: $property-commmonEdgeRadius;
+        border-top-right-radius: $property-commmonEdgeRadius;
+    }
+}
+
+.ch5-dpad {
+    position: relative;
+    display: inline-flex;
+    min-width: $defaultDimension;
+    min-height: $defaultDimension;
+    vertical-align: top;
+    .dpad-container {
+        position: relative;
+        display: flex;
+        min-width: $defaultDimension;
+        min-height: $defaultDimension;
+        width: $defaultDimension;
+        height: $defaultDimension;
+        flex-wrap: wrap;
+        vertical-align: top;
+    }
+    &[show="false"] {
+        display: none;
+    }
+    &[disabled] {
+        pointer-events: none;
+        .ch5-dpad-child {
+            opacity: .5;
+            pointer-events: none;
+        }
+    }
+
+    .image-url {
+        display: block;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+        &::before,
+        &::after {
+            content: none;
+        }
+    }
+
+    &.ch5-dpad--type-default {
+        @include ch5-dpad-content($ch5-dpad-default-default-background-color, $ch5-dpad-default-default-font-color);
+    }
+    &.ch5-dpad--type-primary {
+        @include ch5-dpad-content($ch5-dpad-primary-default-background-color, $ch5-dpad-primary-default-font-color);
+    }
+    &.ch5-dpad--type-info {
+        @include ch5-dpad-content($ch5-dpad-info-default-background-color, $ch5-dpad-info-default-font-color);
+    }
+    &.ch5-dpad--type-text {
+        @include ch5-dpad-content($ch5-dpad-text-default-background-color, $ch5-dpad-text-default-font-color);
+    }
+    &.ch5-dpad--type-danger {
+        @include ch5-dpad-content($ch5-dpad-danger-default-background-color, $ch5-dpad-danger-default-font-color);
+    }
+    &.ch5-dpad--type-warning {
+        @include ch5-dpad-content($ch5-dpad-warning-default-background-color, $ch5-dpad-warning-default-font-color);
+    }
+    &.ch5-dpad--type-success {
+        @include ch5-dpad-content($ch5-dpad-success-default-background-color, $ch5-dpad-success-default-font-color);
+    }
+    &.ch5-dpad--type-secondary {
+        @include ch5-dpad-content($ch5-dpad-secondary-default-background-color, $ch5-dpad-secondary-default-font-color);
+    }
+
+    .center {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 34%;
+        width: 34%;
+        font-size: 2rem;
+        overflow: hidden;
+        z-index: 2;
+        cursor: pointer;
+        &.ch5-disabled {
+            pointer-events: none;
+            z-index: 2;
+        }
+        span {
+            font-size: 1em;
+            border-radius: 50%;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 80%;
+        }
+
+        .image-url {
+            border-radius: 50%;
+        }
+    }
+
+    .direction-btn {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        &.ch5-disabled {
+            pointer-events: none;
+            z-index: 2;
+        }
+        span {
+            font-size: 2rem;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 80%;
+        }
+    }
+}
+
+.ch5-dpad.ch5-dpad--shape-plus {
+    .direction-btn {
+        flex: 33.33%;
+        height: 33.33%;
+        &:after,
+        &:before {
+            content: "";
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            background-color: transparent;
+        }
+        &:hover {
+            position: relative;
+            z-index: 1;
+        }
+        span {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            line-height: calc(#{$defaultDimension} / 3);
+            text-align: center;
+        }
+    }
+
+    &.ch5-dpad--type-danger .direction-btn {
+        &.top {
+            @include ch5-dpad-content-plus-top($commmonEdgeRadius, $ch5-dpad-danger-default-background-color);
+        }
+        &.left {
+            @include ch5-dpad-content-plus-left($commmonEdgeRadius, $ch5-dpad-danger-default-background-color);
+        }
+        &.right {
+            @include ch5-dpad-content-plus-right($commmonEdgeRadius, $ch5-dpad-danger-default-background-color);
+        }
+        &.bottom {
+            @include ch5-dpad-content-plus-bottom($commmonEdgeRadius, $ch5-dpad-danger-default-background-color);
+        }
+    }
+
+    &.ch5-dpad--type-primary .direction-btn {
+        &.top {
+            @include ch5-dpad-content-plus-top($commmonEdgeRadius, $ch5-dpad-primary-default-background-color);
+        }
+        &.left {
+            @include ch5-dpad-content-plus-left($commmonEdgeRadius, $ch5-dpad-primary-default-background-color);
+        }
+        &.right {
+            @include ch5-dpad-content-plus-right($commmonEdgeRadius, $ch5-dpad-primary-default-background-color);
+        }
+        &.bottom {
+            @include ch5-dpad-content-plus-bottom($commmonEdgeRadius, $ch5-dpad-primary-default-background-color);
+        }
+    }
+
+    &.ch5-dpad--type-text .direction-btn {
+        &.top {
+            @include ch5-dpad-content-plus-top($commmonEdgeRadius, $ch5-dpad-text-default-background-color);
+        }
+        &.left {
+            @include ch5-dpad-content-plus-left($commmonEdgeRadius, $ch5-dpad-text-default-background-color);
+        }
+        &.right {
+            @include ch5-dpad-content-plus-right($commmonEdgeRadius, $ch5-dpad-text-default-background-color);
+        }
+        &.bottom {
+            @include ch5-dpad-content-plus-bottom($commmonEdgeRadius, $ch5-dpad-text-default-background-color);
+        }
+    }
+
+    &.ch5-dpad--type-info .direction-btn {
+        &.top {
+            @include ch5-dpad-content-plus-top($commmonEdgeRadius, $ch5-dpad-info-default-background-color);
+        }
+        &.left {
+            @include ch5-dpad-content-plus-left($commmonEdgeRadius, $ch5-dpad-info-default-background-color);
+        }
+        &.right {
+            @include ch5-dpad-content-plus-right($commmonEdgeRadius, $ch5-dpad-info-default-background-color);
+        }
+        &.bottom {
+            @include ch5-dpad-content-plus-bottom($commmonEdgeRadius, $ch5-dpad-info-default-background-color);
+        }
+    }
+
+    &.ch5-dpad--type-warning .direction-btn {
+        &.top {
+            @include ch5-dpad-content-plus-top($commmonEdgeRadius, $ch5-dpad-warning-default-background-color);
+        }
+        &.left {
+            @include ch5-dpad-content-plus-left($commmonEdgeRadius, $ch5-dpad-warning-default-background-color);
+        }
+        &.right {
+            @include ch5-dpad-content-plus-right($commmonEdgeRadius, $ch5-dpad-warning-default-background-color);
+        }
+        &.bottom {
+            @include ch5-dpad-content-plus-bottom($commmonEdgeRadius, $ch5-dpad-warning-default-background-color);
+        }
+    }
+
+    &.ch5-dpad--type-success .direction-btn {
+        &.top {
+            @include ch5-dpad-content-plus-top($commmonEdgeRadius, $ch5-dpad-success-default-background-color);
+        }
+        &.left {
+            @include ch5-dpad-content-plus-left($commmonEdgeRadius, $ch5-dpad-success-default-background-color);
+        }
+        &.right {
+            @include ch5-dpad-content-plus-right($commmonEdgeRadius, $ch5-dpad-success-default-background-color);
+        }
+        &.bottom {
+            @include ch5-dpad-content-plus-bottom($commmonEdgeRadius, $ch5-dpad-success-default-background-color);
+        }
+    }
+
+    &.ch5-dpad--type-secondary .direction-btn {
+        &.top {
+            @include ch5-dpad-content-plus-top($commmonEdgeRadius, $ch5-dpad-secondary-default-background-color);
+        }
+        &.left {
+            @include ch5-dpad-content-plus-left($commmonEdgeRadius, $ch5-dpad-secondary-default-background-color);
+        }
+        &.right {
+            @include ch5-dpad-content-plus-right($commmonEdgeRadius, $ch5-dpad-secondary-default-background-color);
+        }
+        &.bottom {
+            @include ch5-dpad-content-plus-bottom($commmonEdgeRadius, $ch5-dpad-secondary-default-background-color);
+        }
+    }
+
+    &.ch5-dpad--type-default .direction-btn {
+        &.top {
+            @include ch5-dpad-content-plus-top($commmonEdgeRadius, $ch5-dpad-default-default-background-color);
+        }
+        &.left {
+            @include ch5-dpad-content-plus-left($commmonEdgeRadius, $ch5-dpad-default-default-background-color);
+        }
+        &.right {
+            @include ch5-dpad-content-plus-right($commmonEdgeRadius, $ch5-dpad-default-default-background-color);
+        }
+        &.bottom {
+            @include ch5-dpad-content-plus-bottom($commmonEdgeRadius, $ch5-dpad-default-default-background-color);
+        }
+    }
+
+    .direction-btn {
+        &.top span.dpad-btn-icon {
+            border-top-left-radius: $commmonEdgeRadius;
+            border-top-right-radius: $commmonEdgeRadius;
+        }
+        &.left span.dpad-btn-icon {
+            border-bottom-left-radius: $commmonEdgeRadius;
+            border-top-left-radius: $commmonEdgeRadius;
+        }
+        &.right span.dpad-btn-icon {
+            border-bottom-right-radius: $commmonEdgeRadius;
+            border-top-right-radius: $commmonEdgeRadius;
+        }
+        &.bottom span.dpad-btn-icon {
+            border-bottom-left-radius: $commmonEdgeRadius;
+            border-bottom-right-radius: $commmonEdgeRadius;
+        }
+    }
+
+}
+
+.ch5-dpad.ch5-dpad--shape-circle {
+    .dpad-container {
+        transform: rotate(45deg);
+    }
+    .center {
+        border-radius: 50%;
+        z-index: 3;
+        .dpad-btn-label {
+            display: block;
+            width: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 1.5rem;
+            transform: rotate(-45deg);
+            padding: 0 15%;
+        }
+        span.dpad-btn-icon {
+            transform: rotate(-45deg);
+        }
+    }
+
+    .direction-btn {
+        flex: 50%;
+        height: 50%;
+        overflow: hidden;
+        span {
+            transform: rotate(-45deg);
+            background-size: 50%;
+        }
+        &.top {
+            border-top-left-radius: 100%;
+        }
+        &.right {
+            border-top-right-radius: 100%;
+        }
+        &.left {
+            border-bottom-left-radius: 100%;
+        }
+        &.bottom {
+            border-bottom-right-radius: 100%;
+        }
+    }
+}
+
+
+.ch5-dpad.ch5-dpad--stretch-both {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.ch5-dpad.ch5-dpad--stretch-height {
+    height: 100%;
+    align-items: center;
+}
+
+.ch5-dpad.ch5-dpad--stretch-width {
+    width: 100%;
+    justify-content: center;
+}
+

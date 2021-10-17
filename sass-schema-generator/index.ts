@@ -156,7 +156,9 @@ async function initialize() {
     'ch5-spinner': 'Ch5Spinner',
     'ch5-textinput': 'Ch5Textinput',
     'ch5-toggle': 'Ch5Toggle',
-    'ch5-video': 'Ch5Video'
+    'ch5-video': 'Ch5Video',
+    'ch5-dpad': 'Ch5Dpad',
+    'ch5-keypad': 'Ch5Keypad'
   };
 
   // For each component flatten its scss

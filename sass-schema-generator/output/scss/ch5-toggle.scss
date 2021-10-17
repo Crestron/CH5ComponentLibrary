@@ -24,6 +24,7 @@ ch5-toggle:focus{
     font-size: $ch5-toggle-font-size;
     font-style: $ch5-toggle-font-style;
     font-weight: $ch5-toggle-font-weight;
+    z-index: $ch5-toggle-z-index;
 
     &[hidden] {
         display: none;

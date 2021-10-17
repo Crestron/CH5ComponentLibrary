@@ -762,8 +762,7 @@
       "className": ".ch5-button--img",
       "description": "",
       "supports": [
-        "height",
-        "width"
+        "@include ch5-button-image-width-height($property-font-size)"
       ],
       "showWhen": {}
     },
@@ -817,8 +816,7 @@
       "className": ".ch5-button--size-x-small .ch5-button--img",
       "description": "",
       "supports": [
-        "height",
-        "width"
+        "@include ch5-button-image-width-height($property-font-size)"
       ],
       "showWhen": {
         "size": [
@@ -876,8 +874,7 @@
       "className": ".ch5-button--size-small .ch5-button--img",
       "description": "",
       "supports": [
-        "height",
-        "width"
+        "@include ch5-button-image-width-height($property-font-size)"
       ],
       "showWhen": {
         "size": [
@@ -935,8 +932,7 @@
       "className": ".ch5-button--size-large .ch5-button--img",
       "description": "",
       "supports": [
-        "height",
-        "width"
+        "@include ch5-button-image-width-height($property-font-size)"
       ],
       "showWhen": {
         "size": [
@@ -994,8 +990,7 @@
       "className": ".ch5-button--size-x-large .ch5-button--img",
       "description": "",
       "supports": [
-        "height",
-        "width"
+        "@include ch5-button-image-width-height($property-font-size)"
       ],
       "showWhen": {
         "size": [
@@ -2051,6 +2046,18 @@
       "showWhen": {}
     },
     {
+      "className": ".ch5-slider.ch5-slider--disabled .noUi-connect",
+      "description": "",
+      "supports": [
+        "background"
+      ],
+      "showWhen": {
+        "state": [
+          "disabled"
+        ]
+      }
+    },
+    {
       "className": ".ch5-slider .noUi-target",
       "description": "",
       "supports": [
@@ -2521,7 +2528,8 @@
       "supports": [
         "font-size",
         "font-style",
-        "font-weight"
+        "font-weight",
+        "z-index"
       ],
       "showWhen": {}
     },
@@ -2848,6 +2856,3334 @@
       "description": "",
       "supports": [
         "background"
+      ],
+      "showWhen": {}
+    }
+  ],
+  "ch5-dpad": [
+    {
+      "className": ".ch5-dpad",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad .dpad-container",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-default",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-default .ch5-dpad-child",
+      "description": "",
+      "supports": [
+        "background-color",
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-default .center:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-default.ch5-dpad--shape-plus .direction-btn:active span",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-default.ch5-dpad--shape-circle .direction-btn:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "circle"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-primary",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-primary .ch5-dpad-child",
+      "description": "",
+      "supports": [
+        "background-color",
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-primary .center:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-primary.ch5-dpad--shape-plus .direction-btn:active span",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-primary.ch5-dpad--shape-circle .direction-btn:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "circle"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-info",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-info .ch5-dpad-child",
+      "description": "",
+      "supports": [
+        "background-color",
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-info .center:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-info.ch5-dpad--shape-plus .direction-btn:active span",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-info.ch5-dpad--shape-circle .direction-btn:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "circle"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-text",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-text .ch5-dpad-child",
+      "description": "",
+      "supports": [
+        "background-color",
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-text .center:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-text.ch5-dpad--shape-plus .direction-btn:active span",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-text.ch5-dpad--shape-circle .direction-btn:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "circle"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-danger",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-danger .ch5-dpad-child",
+      "description": "",
+      "supports": [
+        "background-color",
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-danger .center:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-danger.ch5-dpad--shape-plus .direction-btn:active span",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-danger.ch5-dpad--shape-circle .direction-btn:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "circle"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-warning",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-warning .ch5-dpad-child",
+      "description": "",
+      "supports": [
+        "background-color",
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-warning .center:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-warning.ch5-dpad--shape-plus .direction-btn:active span",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-warning.ch5-dpad--shape-circle .direction-btn:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "circle"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-success",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-success .ch5-dpad-child",
+      "description": "",
+      "supports": [
+        "background-color",
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-success .center:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-success.ch5-dpad--shape-plus .direction-btn:active span",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-success.ch5-dpad--shape-circle .direction-btn:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "circle"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-secondary",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-secondary .ch5-dpad-child",
+      "description": "",
+      "supports": [
+        "background-color",
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-secondary .center:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-secondary.ch5-dpad--shape-plus .direction-btn:active span",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--type-secondary.ch5-dpad--shape-circle .direction-btn:active",
+      "description": "",
+      "supports": [
+        "background-color"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "circle"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus .direction-btn span line-height: calc(#",
+      "description": "",
+      "supports": [
+        "$defaultDimension"
+      ],
+      "showWhen": {
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.top",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.top:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.top:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.top span",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.left",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.left:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.left:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.left span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.right",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.right:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.right:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.right span",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.bottom",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.bottom:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.bottom:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.bottom span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.top",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.top:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.top:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.top span",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.left",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.left:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.left:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.left span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.right",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.right:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.right:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.right span",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.bottom",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.bottom:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.bottom:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.bottom span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.top",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.top:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.top:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.top span",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.left",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.left:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.left:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.left span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.right",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.right:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.right:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.right span",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.bottom",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.bottom:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.bottom:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.bottom span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.top",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.top:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.top:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.top span",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.left",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.left:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.left:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.left span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.right",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.right:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.right:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.right span",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.bottom",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.bottom:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.bottom:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.bottom span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.top",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.top:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.top:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.top span",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.left",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.left:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.left:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.left span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.right",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.right:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.right:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.right span",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.bottom",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.bottom:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.bottom:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.bottom span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.top",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.top:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.top:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.top span",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.left",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.left:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.left:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.left span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.right",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.right:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.right:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.right span",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.bottom",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.bottom:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.bottom:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.bottom span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.top",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.top:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.top:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.top span",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.left",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.left:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.left:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.left span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.right",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.right:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.right:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.right span",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.bottom",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.bottom:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.bottom:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.bottom span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.top",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.top:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.top:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.top span",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.left",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.left:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.left:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.left span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.right",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.right:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.right:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.right span",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.bottom",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.bottom:before",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.bottom:after",
+      "description": "",
+      "supports": [
+        "border-radius",
+        "-moz-border-radius",
+        "-webkit-border-radius",
+        "-webkit-box-shadow",
+        "box-shadow"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.bottom span",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ],
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus .direction-btn.top span.dpad-btn-icon",
+      "description": "",
+      "supports": [
+        "border-top-left-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus .direction-btn.left span.dpad-btn-icon",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-top-left-radius"
+      ],
+      "showWhen": {
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus .direction-btn.right span.dpad-btn-icon",
+      "description": "",
+      "supports": [
+        "border-bottom-right-radius",
+        "border-top-right-radius"
+      ],
+      "showWhen": {
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--shape-plus .direction-btn.bottom span.dpad-btn-icon",
+      "description": "",
+      "supports": [
+        "border-bottom-left-radius",
+        "border-bottom-right-radius"
+      ],
+      "showWhen": {
+        "shape": [
+          "plus"
+        ]
+      }
+    }
+  ],
+  "ch5-keypad": [
+    {
+      "className": ".ch5-keypad",
+      "description": "/////////////////////////////////////////////////////////////////////////////////////////////////",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad[showextrabutton=\"true\"]",
+      "description": "",
+      "supports": [
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad[showextrabutton=\"true\"] .keypad-container",
+      "description": "",
+      "supports": [
+        "height",
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad[showextrabutton=\"true\"] .keypad-container .keypad-row .keypad-btn.special-center button",
+      "description": "",
+      "supports": [
+        "color",
+        "background-color",
+        "border"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad[showextrabutton=\"true\"] .keypad-container .keypad-row .keypad-btn.special-center button:active",
+      "description": "",
+      "supports": [
+        "background",
+        "border-color"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-default",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive",
+        "$ch5-keypad-default-default-background-color, $ch5-keypad-default-default-font-color )"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-default .keypad-row",
+      "description": "",
+      "supports": [
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-default .keypad-row .keypad-btn button",
+      "description": "",
+      "supports": [
+        "background-color",
+        "border"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-default .keypad-row .keypad-btn button:active",
+      "description": "",
+      "supports": [
+        "background",
+        "border-color"
+      ],
+      "showWhen": {
+        "type": [
+          "default"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-primary",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive",
+        "$ch5-keypad-primary-default-background-color, $ch5-keypad-primary-default-font-color )"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-primary .keypad-row",
+      "description": "",
+      "supports": [
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-primary .keypad-row .keypad-btn button",
+      "description": "",
+      "supports": [
+        "background-color",
+        "border"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-primary .keypad-row .keypad-btn button:active",
+      "description": "",
+      "supports": [
+        "background",
+        "border-color"
+      ],
+      "showWhen": {
+        "type": [
+          "primary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-info",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-info .keypad-row",
+      "description": "",
+      "supports": [
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-info .keypad-row .keypad-btn button",
+      "description": "",
+      "supports": [
+        "background-color",
+        "border"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-info .keypad-row .keypad-btn button:active",
+      "description": "",
+      "supports": [
+        "background",
+        "border-color"
+      ],
+      "showWhen": {
+        "type": [
+          "info"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-text",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-text .keypad-row",
+      "description": "",
+      "supports": [
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-text .keypad-row .keypad-btn button",
+      "description": "",
+      "supports": [
+        "background-color",
+        "border"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-text .keypad-row .keypad-btn button:active",
+      "description": "",
+      "supports": [
+        "background",
+        "border-color"
+      ],
+      "showWhen": {
+        "type": [
+          "text"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-danger",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-danger .keypad-row",
+      "description": "",
+      "supports": [
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-danger .keypad-row .keypad-btn button",
+      "description": "",
+      "supports": [
+        "background-color",
+        "border"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-danger .keypad-row .keypad-btn button:active",
+      "description": "",
+      "supports": [
+        "background",
+        "border-color"
+      ],
+      "showWhen": {
+        "type": [
+          "danger"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-warning",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive",
+        "$ch5-keypad-warning-default-background-color, $ch5-keypad-warning-default-font-color )"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-warning .keypad-row",
+      "description": "",
+      "supports": [
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-warning .keypad-row .keypad-btn button",
+      "description": "",
+      "supports": [
+        "background-color",
+        "border"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-warning .keypad-row .keypad-btn button:active",
+      "description": "",
+      "supports": [
+        "background",
+        "border-color"
+      ],
+      "showWhen": {
+        "type": [
+          "warning"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-success",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive",
+        "$ch5-keypad-success-default-background-color, $ch5-keypad-success-default-font-color )"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-success .keypad-row",
+      "description": "",
+      "supports": [
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-success .keypad-row .keypad-btn button",
+      "description": "",
+      "supports": [
+        "background-color",
+        "border"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-success .keypad-row .keypad-btn button:active",
+      "description": "",
+      "supports": [
+        "background",
+        "border-color"
+      ],
+      "showWhen": {
+        "type": [
+          "success"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-secondary",
+      "description": "",
+      "supports": [
+        "$backgroundColorActive",
+        "$ch5-keypad-secondary-default-background-color, $ch5-keypad-secondary-default-font-color )"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-secondary .keypad-row",
+      "description": "",
+      "supports": [
+        "color"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-secondary .keypad-row .keypad-btn button",
+      "description": "",
+      "supports": [
+        "background-color",
+        "border"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--type-secondary .keypad-row .keypad-btn button:active",
+      "description": "",
+      "supports": [
+        "background",
+        "border-color"
+      ],
+      "showWhen": {
+        "type": [
+          "secondary"
+        ]
+      }
+    },
+    {
+      "className": ".keypad-container",
+      "description": "",
+      "supports": [
+        "width",
+        "height",
+        "min-width",
+        "min-height"
       ],
       "showWhen": {}
     }

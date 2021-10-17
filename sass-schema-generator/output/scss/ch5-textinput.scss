@@ -35,23 +35,43 @@
 /// @group ch5-textinput-variables
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
-// All rights reserved.
-// No part of this software may be reproduced in any form, machine
-// or natural, without the express written consent of Crestron Electronics.
-// Use of this source code is subject to the terms of the Crestron Software License Agreement
-// under which you licensed this source code.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-core-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// Font size unit
 $ch5-font-size-unit: px !default;
+
+/// Font size value
 $ch5-font-size-value: 16 !default;
+
+/// Font size 
 $ch5-font-size: $ch5-font-size-value + $ch5-font-size-unit !default;
+
+/// Font style
 $ch5-font-style: normal !default;
+
+/// Font weight
 $ch5-font-weight: normal !default;
 
-// scrollbar
+/// Scrollbar width
 $ch5-scrollbar-width:          7px !default;
+
+/// Scrollbar border radius
 $ch5-scrollbar-border-radius:  10px !default;
+
+/// Scrollbar track color
 $ch5-scrollbar-track-color:    rgba(0, 0, 0, 0.1) !default;
+
+/// Scrollbar thumb color
 $ch5-scrollbar-thumb-color:    rgba(0, 0, 0, 0.5) !default;
 
 
@@ -315,23 +335,43 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
 /// @group ch5-textinput-variables
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
-// All rights reserved.
-// No part of this software may be reproduced in any form, machine
-// or natural, without the express written consent of Crestron Electronics.
-// Use of this source code is subject to the terms of the Crestron Software License Agreement
-// under which you licensed this source code.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-core-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// Font size unit
 $ch5-font-size-unit: px !default;
+
+/// Font size value
 $ch5-font-size-value: 16 !default;
+
+/// Font size 
 $ch5-font-size: $ch5-font-size-value + $ch5-font-size-unit !default;
+
+/// Font style
 $ch5-font-style: normal !default;
+
+/// Font weight
 $ch5-font-weight: normal !default;
 
-// scrollbar
+/// Scrollbar width
 $ch5-scrollbar-width:          7px !default;
+
+/// Scrollbar border radius
 $ch5-scrollbar-border-radius:  10px !default;
+
+/// Scrollbar track color
 $ch5-scrollbar-track-color:    rgba(0, 0, 0, 0.1) !default;
+
+/// Scrollbar thumb color
 $ch5-scrollbar-thumb-color:    rgba(0, 0, 0, 0.5) !default;
 
 
@@ -631,23 +671,43 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
 /// @group ch5-textinput-variables
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
-// All rights reserved.
-// No part of this software may be reproduced in any form, machine
-// or natural, without the express written consent of Crestron Electronics.
-// Use of this source code is subject to the terms of the Crestron Software License Agreement
-// under which you licensed this source code.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-core-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// Font size unit
 $ch5-font-size-unit: px !default;
+
+/// Font size value
 $ch5-font-size-value: 16 !default;
+
+/// Font size 
 $ch5-font-size: $ch5-font-size-value + $ch5-font-size-unit !default;
+
+/// Font style
 $ch5-font-style: normal !default;
+
+/// Font weight
 $ch5-font-weight: normal !default;
 
-// scrollbar
+/// Scrollbar width
 $ch5-scrollbar-width:          7px !default;
+
+/// Scrollbar border radius
 $ch5-scrollbar-border-radius:  10px !default;
+
+/// Scrollbar track color
 $ch5-scrollbar-track-color:    rgba(0, 0, 0, 0.1) !default;
+
+/// Scrollbar thumb color
 $ch5-scrollbar-thumb-color:    rgba(0, 0, 0, 0.5) !default;
 
 

@@ -63,7 +63,11 @@ ch5-slider:focus {
       width: $ch5-slider-target-size;
     }
   }
-
+  &.ch5-slider--disabled {
+    .noUi-connect {
+      background: lighten($ch5-slider-connect-bg, $ch5-slider-background-lighten-percent);
+    }
+  }
   .noUi-handle {
     &:before, &:after {
       content: none;
