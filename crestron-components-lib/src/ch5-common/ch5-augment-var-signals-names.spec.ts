@@ -10,13 +10,20 @@ import { describe } from 'mocha';
 import { Ch5AugmentVarSignalsNames } from './ch5-augment-var-signals-names';
 import { Ch5Button } from '../ch5-button/ch5-button';
 import { Ch5Template } from '../ch5-template/ch5-template';
+import { Ch5AttrsShow } from '../ch5-custom-attrs/ch5-attrs-show';
+import { Ch5AttrsAppendclass } from '../ch5-custom-attrs/ch5-attrs-appendclass';
+import { Ch5AttrsTextContent } from '../ch5-custom-attrs/ch5-attrs-text-content';
 
 describe('Ch5AugmentVarSignalsNames', () => {
     let ch5TemplateParentEl: HTMLTemplateElement; //  = document.createElement('template');
     let ch5ButtonEl: HTMLElement;
+    let stdDivEl: HTMLDivElement;
     let ch5TemplateChildEl: HTMLElement;
 
     before(() => {
+        Ch5AttrsShow.registerSignalAttributeTypes();
+        Ch5AttrsTextContent.registerSignalAttributeTypes();
+        Ch5AttrsAppendclass.registerSignalAttributeTypes();
         Ch5Button.registerSignalAttributeTypes();
         Ch5Template.registerSignalAttributeTypes();
         Ch5Template.registerSignalAttributeDefaults();
@@ -25,9 +32,11 @@ describe('Ch5AugmentVarSignalsNames', () => {
     beforeEach(() => {
         ch5TemplateParentEl = document.createElement('template');
         ch5ButtonEl = document.createElement('ch5-button');
+        stdDivEl = document.createElement('div');
         ch5TemplateChildEl = document.createElement('ch5-template');
         ch5TemplateParentEl.content.appendChild(ch5ButtonEl);
         ch5TemplateParentEl.content.appendChild(ch5TemplateChildEl);
+        ch5TemplateParentEl.content.appendChild(stdDivEl);
     });
 
     it('do not mess up something without {{}}', () => {
@@ -209,6 +218,32 @@ describe('Ch5AugmentVarSignalsNames', () => {
         assert.equal(theClone.children[0].getAttribute(attributeName), expectedValue);        
     });
 
+    it('should increment digital join in div data-ch5-show', () => {
+        const attributeName = 'data-ch5-show';
+        const providedValue = 22;
+        const incrementValue = 100;
+        const expectedValue = `${providedValue + incrementValue}`; 
+
+        stdDivEl.setAttribute(attributeName, `${providedValue}`);
+        const theClone = ch5TemplateParentEl.content.cloneNode(true) as HTMLElement;
+        assert.equal(theClone.children[2].getAttribute(attributeName), stdDivEl.getAttribute(attributeName));
+        Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(theClone, "", incrementValue, 0, 0);
+        assert.equal(theClone.children[2].getAttribute(attributeName), expectedValue);        
+    });
+
+    it('should increment serial join in div data-ch5-textcontent', () => {
+        const attributeName = 'data-ch5-textcontent';
+        const providedValue = 21;
+        const incrementValue = 50;
+        const expectedValue = `${providedValue + incrementValue}`; 
+
+        stdDivEl.setAttribute(attributeName, `${providedValue}`);
+        const theClone = ch5TemplateParentEl.content.cloneNode(true) as HTMLElement;
+        assert.equal(theClone.children[2].getAttribute(attributeName), stdDivEl.getAttribute(attributeName));
+        Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(theClone, "", 0, 0, incrementValue);
+        assert.equal(theClone.children[2].getAttribute(attributeName), expectedValue);        
+    });
+
     it('should increment simple serial join number with white space', () => {
         const attributeName = 'receivestatelabel';
         const providedValue = 16;
@@ -266,6 +301,19 @@ describe('Ch5AugmentVarSignalsNames', () => {
         Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(theClone, contractName, 99, 0, 0);        
         assert.equal(theClone.children[0].getAttribute(attributeName), expectedValue);        
     });
+
+    it('should prefix contract name on serial signal name custom attribute data-ch5-appendclass', () => {
+        const attributeName = Ch5AttrsAppendclass.DATA_CH5_ATTR_NAME;
+        const providedValue = "ClassName";
+        const contractName = "ContractPrefix."; 
+        const expectedValue = `${contractName}${providedValue}`; 
+
+        stdDivEl.setAttribute(attributeName, `${providedValue}`);
+        const theClone = ch5TemplateParentEl.content.cloneNode(true) as HTMLElement;
+        assert.equal(theClone.children[2].getAttribute(attributeName), stdDivEl.getAttribute(attributeName));         
+        Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(theClone, contractName, 99, 0, 11);        
+        assert.equal(theClone.children[2].getAttribute(attributeName), expectedValue);        
+    });    
 
     it('should update ch5-template "contractname" attribute when prefix is provided', () => {
         const attributeName = 'contractname';

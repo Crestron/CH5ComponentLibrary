@@ -19,11 +19,13 @@ import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 
 export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     //#region 1. Variables
 
     //#region 1.1 readonly variables
+	public static readonly ELEMENT_NAME = 'ch5-dpad';
 
     /**
      * The first value is considered the default one
@@ -71,6 +73,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         },
     };
 
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		contractname: {contractName: true},
+		sendeventonclickstart: {direction: "event", booleanJoin: 5}
+	};   
+
     public readonly primaryCssClass = 'ch5-dpad';
     public readonly cssClassPrefix = 'ch5-dpad';
 
@@ -106,6 +114,21 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     //#endregion
 
     //#endregion
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Dpad.ELEMENT_NAME, Ch5Dpad.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5Dpad.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5Dpad.ELEMENT_NAME, Ch5Dpad);
+		}
+	}
+
+
 
     //#region 2. Setters and Getters
 
@@ -213,7 +236,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
         this.setAttribute('useContractforEnable'.toLowerCase(), isUseContractforEnable.toString());
         this._useContractForCustomClass = isUseContractforEnable;
-        const sigVal = contractName + ".Enable";
+        const sigVal = contractName + "Enable";
 
         const params: TCh5CreateReceiveStateSigParams = {
             caller: this,
@@ -248,7 +271,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         }
 
         this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
-        const sigVal = contractName + ".Show";
+        const sigVal = contractName + "Show";
 
         const params: TCh5CreateReceiveStateSigParams = {
             caller: this,
@@ -284,7 +307,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
         this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
         this._useContractForCustomClass = isUseContractForCustomStyle;
-        const sigVal = contractName + ".CustomStyle";
+        const sigVal = contractName + "CustomStyle";
 
         const params: TCh5CreateReceiveStateSigParams = {
             caller: this,
@@ -320,7 +343,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
         this.setAttribute('useContractForCustomClass'.toLowerCase(), isUuseContractForCustomClass.toString());
         this._useContractForCustomClass = isUuseContractForCustomClass;
-        const sigVal = contractName + ".CustomClass";
+        const sigVal = contractName + "CustomClass";
 
         const params: TCh5CreateReceiveStateSigParams = {
             caller: this,
@@ -1124,27 +1147,27 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         if (contractName.length > 0) {
             const centerBtn = this.getElementsByTagName("ch5-dpad-button-center")[0];
             if (!_.isNil(centerBtn)) {
-                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.center;
+                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.center;
                 centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
             const topBtn = this.getElementsByTagName("ch5-dpad-button-top")[0];
             if (!_.isNil(topBtn)) {
-                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.top;
+                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.top;
                 topBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
             const rightBtn = this.getElementsByTagName("ch5-dpad-button-right")[0];
             if (!_.isNil(rightBtn)) {
-                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.right;
+                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.right;
                 rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
             const bottomBtn = this.getElementsByTagName("ch5-dpad-button-bottom")[0];
             if (!_.isNil(bottomBtn)) {
-                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.bottom;
+                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.bottom;
                 bottomBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
             const leftBtn = this.getElementsByTagName("ch5-dpad-button-left")[0];
             if (!_.isNil(leftBtn)) {
-                const contractVal = contractName + '.' + CH5DpadContractUtils.contractSuffix.left;
+                const contractVal = contractName + CH5DpadContractUtils.contractSuffix.left;
                 leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
             }
         }
@@ -1202,9 +1225,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 }
 
-if (typeof window === "object"
-    && typeof window.customElements === "object"
-    && typeof window.customElements.define === "function") {
 
-    window.customElements.define('ch5-dpad', Ch5Dpad);
-}
+Ch5Dpad.registerCustomElement();
+Ch5Dpad.registerSignalAttributeTypes();
