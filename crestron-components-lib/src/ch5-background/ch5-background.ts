@@ -1117,17 +1117,18 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 						canvas.width = this.isScrollBar(this.parentElement, 'horizontal') ? this.parentElement.scrollWidth : this.parentElement.clientWidth;
 						canvas.height = this.isScrollBar(this.parentElement, 'vertical') ? this.parentElement.scrollHeight : this.parentElement.clientHeight;
 					}
+
+					this.updateBackgroundForEachCanvas(canvas, idx);
+
+					const prevListObj = this._prevCanvasList.find(getObj => getObj.id === idx);
+					if (prevListObj) {
+						this._prevCanvasList[idx].width = canvas.width;
+						this._prevCanvasList[idx].height = canvas.height;
+					} else {
+						this._prevCanvasList.push({ id: idx, width: canvas.width, height: canvas.height });
+					}
 				}
 
-				this.updateBackgroundForEachCanvas(canvas, idx);
-
-				const prevListObj = this._prevCanvasList.find(getObj => getObj.id === idx);
-				if (prevListObj) {
-					this._prevCanvasList[idx].width = canvas.width;
-					this._prevCanvasList[idx].height = canvas.height;
-				} else {
-					this._prevCanvasList.push({ id: idx, width: canvas.width, height: canvas.height });
-				}
 			});
 		}
 	}
