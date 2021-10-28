@@ -6,7 +6,6 @@
 // under which you licensed this source code.
 
 export * from "./t-ch5-button";
-export * from "./i-ch5-button";
 export * from "./i-ch5-button-attributes";
 export * from "./i-ch5-button-label-attributes";
 export * from "./i-ch5-button-mode-attributes";

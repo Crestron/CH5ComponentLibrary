@@ -9,20 +9,8 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 import { TCh5SelectOptionIconPosition } from "./types/t-ch5-select-option-icon-position";
 
 /**
- * @name Ch5 Select option
- * @isattribute false
- * @tagName ch5-select-option
- * @role option
- * @description
- * @componentVersion 1.0.0
- * @documentation
- * [
- * "`ch5-select-option` element",
- * "***",
- * "An extension to standard HTML option element."
- * ]
+ * @ignore
  */
-
 export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
 
   /**
