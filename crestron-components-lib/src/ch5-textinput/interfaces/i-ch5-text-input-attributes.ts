@@ -36,13 +36,13 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
   /**
    * @documentation
    * [
-   * "`icon` attribute",
+   * "`iconClass` attribute",
    * "***",
    * "The icon to be shown. Its either prefixed or suffixed based on the iconposition attribute."
    * ]
-   * @name icon
+   * @name iconclass
    */
-  icon: string;
+  iconClass: string;
   
   /**
    * @documentation
