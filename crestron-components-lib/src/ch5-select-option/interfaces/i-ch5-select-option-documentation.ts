@@ -9,7 +9,18 @@ import { ICh5SelectOptionAttributes } from ".";
 import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
- * @ignore
+ * @name Ch5 Select option
+ * @isattribute false
+ * @tagName ch5-select-option
+ * @role option
+ * @description
+ * @componentVersion 1.0.0
+ * @documentation
+ * [
+ * "`ch5-select-option` element",
+ * "***",
+ * "An extension to standard HTML option element."
+ * ]
  */
 export interface ICh5SelectOptionDocumentation extends ICh5Common, ICh5SelectOptionAttributes {
 }

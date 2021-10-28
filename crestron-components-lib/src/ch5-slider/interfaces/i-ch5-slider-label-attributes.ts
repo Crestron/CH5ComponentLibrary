@@ -7,7 +7,6 @@
 
 import { TCh5SliderHorizontalAlignLabel, TCh5SliderOrientation, TCh5SliderSize, TCh5SliderType, TCh5SliderVerticalAlignLabel } from "./t-ch5-slider";
 
-
 /**
  * @ignore
  */
