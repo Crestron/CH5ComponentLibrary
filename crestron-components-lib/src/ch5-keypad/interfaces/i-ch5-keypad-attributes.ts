@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
-import { TCh5KeypadShape, TCh5KeypadStretch, TCh5KeypadType } from "./t-ch5-keypad";
+import { TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadType } from "./t-ch5-keypad";
 
 /**
  * @ignore
@@ -81,6 +81,18 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * @default top
      */
     textOrientation: string;
+
+    /**
+     * @name size
+     * @documentation
+     * [
+     * "`size` attribute",
+     *  "***",
+     *  "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-keypad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
+     * ]
+     * @default regular
+     */
+    size: TCh5KeypadSize;
 
     /**
      * @documentation
