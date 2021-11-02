@@ -13,7 +13,7 @@ import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-ma
 import { Ch5KeypadBtn } from "./ch5-keypad-btn";
 import { CH5KeypadBtnData } from "./ch5-keypad-btn-data";
 import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-attributes";
-import { TCh5KeypadBtnCreateDTO, TCh5KeypadShape, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
+import { TCh5KeypadBtnCreateDTO, TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#region 1. Variables
@@ -39,10 +39,16 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      */
     public static readonly TEXTORIENTATIONS: TCh5KeypadTextOrientation[] = ['top', 'right', 'bottom', 'left'];
 
+    /**
+     * The first value is considered the default one
+     */
+    public static readonly SIZES: TCh5KeypadSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+
     public static readonly btnTypeClassPrefix: string = "ch5-keypad--type-";
     public static readonly btnStretchClassPrefix: string = "ch5-keypad--stretch-";
     public static readonly btnShapeClassPrefix: string = "ch5-keypad--shape-";
     public static readonly btnTextOrientationClassPrefix: string = "ch5-keypad--orientation-";
+    public static readonly btnSizeClassPrefix: string = "ch5-keypad--size-";
 
     /**
      * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
@@ -76,6 +82,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             attribute: 'textorientation',
             classListPrefix: Ch5Keypad.btnTextOrientationClassPrefix
         },
+        SIZES: {
+			default: Ch5Keypad.SIZES[0],
+			values: Ch5Keypad.SIZES,
+			key: 'size',
+			attribute: 'size',
+			classListPrefix: 'ch5-keypad--size-'
+		},
     };
 
     public readonly primaryCssClass = 'ch5-keypad';
@@ -103,6 +116,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private _useContractForCustomStyleSignalValue: string = '';
     private _useContractForCustomClassSignalValue: string = '';
     private _useContractForExtraButtonShowSignalValue: string = '';
+
+    /**
+    * Size of the Dpad
+    */
+	private _size: TCh5KeypadSize = Ch5Keypad.SIZES[0];
 
     // state specific vars
     private isComponentLoaded: boolean = false;
@@ -193,6 +211,22 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     public get stretch(): TCh5KeypadStretch | null {
         return this._stretch;
     }
+
+    /**
+     * size specif getter-setter
+     */
+     public set size(value: TCh5KeypadSize) {
+		this.logger.start('set size ("' + value + '")');
+        ComponentHelper.setAttributeValueOnControl(this, 'size', value, Ch5Keypad.SIZES,
+            () => {
+                this.sizeHandler();
+            }
+        );
+        this.logger.stop();
+	}
+	public get size() {
+		return this._size;
+	}
 
     /**
      * textOrientation specif getter-setter
@@ -753,6 +787,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 'showExtraButton', this._showExtraButton.toString())
         );
 
+        this.size = ComponentHelper.setAttributeToElement(this, 'size', this._size) as TCh5KeypadSize;
+
         // DEV NOTE: if contract name exists, and the individual attribute values don't exist, 
         // then the default value is true for useContractFor*
         // else useContractFor* picks value from attributes
@@ -956,6 +992,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 this.contractName = newValue;
                 this.updateContractNameBasedHandlers(this._contractName);
                 break;
+            case 'size':
+                this.size = newValue as TCh5KeypadSize;
+                break;
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
@@ -982,6 +1021,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             this.classList.remove(Ch5Keypad.btnTextOrientationClassPrefix + typeVal);
         }
         this.classList.add(Ch5Keypad.btnTextOrientationClassPrefix + this.textOrientation);
+
+        for (const typeVal of Ch5Keypad.SIZES) {
+            this.classList.remove(Ch5Keypad.btnSizeClassPrefix + typeVal);
+        }
+        this.classList.add(Ch5Keypad.btnSizeClassPrefix + this.size);
 
         for (const typeVal of Ch5Keypad.STRETCHES) {
             this.classList.remove(Ch5Keypad.btnStretchClassPrefix + typeVal);
@@ -1185,6 +1229,12 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 }
             }
         }
+        this.logger.stop();
+    }
+
+    private sizeHandler() {
+        this.logger.start(this.COMPONENT_NAME + ' > sizeHandler');
+        this.updateCssClasses();
         this.logger.stop();
     }
 
