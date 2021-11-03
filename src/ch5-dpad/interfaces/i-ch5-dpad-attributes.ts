@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces/i-ch5-common-attributes";
-import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./t-ch5-dpad";
+import { TCh5DpadShape, TCh5DpadSize, TCh5DpadStretch, TCh5DpadType } from "./t-ch5-dpad";
 
 /**
  * @ignore
@@ -65,6 +65,18 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * @name stretch
      */
     stretch: TCh5DpadStretch | null;
+
+    /**
+     * @name size
+     * @documentation
+     * [
+     * "`size` attribute",
+     *  "***",
+     *  "Overrides the appearance of the dpad with alternative CSS that is defined in classes defined with ch5-dpad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
+     * ]
+     * @default regular
+     */
+    size: TCh5DpadSize;
 
     /**
      * @documentation
