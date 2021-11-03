@@ -28,3 +28,5 @@ export type TCh5DpadConstructorParam = {
     defaultArrowClass: string,
     btnType: TCh5DpadChildBtnType
 };
+
+export type TCh5DpadSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large';

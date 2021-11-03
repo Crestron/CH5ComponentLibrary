@@ -14,7 +14,7 @@ import { Ch5DpadRight } from "./ch5-dpad-button-right";
 import { Ch5DpadBottom } from "./ch5-dpad-button-bottom";
 import { Ch5DpadLeft } from "./ch5-dpad-button-left";
 import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-attributes";
-import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType } from "./interfaces/t-ch5-dpad";
+import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType, TCh5DpadSize } from "./interfaces/t-ch5-dpad";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
@@ -45,6 +45,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public static readonly btnStretchClassPrefix: string = "ch5-dpad--stretch-";
     public static readonly btnTypeClassPrefix: string = "ch5-dpad--type-";
     public static readonly btnShapeClassPrefix: string = "ch5-dpad--shape-";
+    public static readonly btnSizeClassPrefix: string = "ch5-dpad--size-";
+
+    /**
+     * The first value is considered the default one
+     */
+     public static readonly SIZES: TCh5DpadSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
     /**
      * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
@@ -71,6 +77,13 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             attribute: 'shape',
             classListPrefix: 'ch5-dpad--shape-'
         },
+        SIZES: {
+			default: Ch5Dpad.SIZES[0],
+			values: Ch5Dpad.SIZES,
+			key: 'size',
+			attribute: 'size',
+			classListPrefix: 'ch5-dpad--size-'
+		},
     };
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -101,6 +114,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private _useContractForShowSignalValue: string = '';
     private _useContractForCustomStyleSignalValue: string = '';
     private _useContractForCustomClassSignalValue: string = '';
+
+    /**
+	 * Size of the Dpad
+	 */
+	private _size: TCh5DpadSize = Ch5Dpad.SIZES[0];
 
     // state specific vars
     private isComponentLoaded: boolean = false;
@@ -197,6 +215,23 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     public get stretch(): TCh5DpadStretch | null {
         return this._stretch;
     }
+
+    /**
+     * size specif getter-setter
+     */
+    public set size(value: TCh5DpadSize) {
+		this.logger.start('set size ("' + value + '")');
+        ComponentHelper.setAttributeValueOnControl(this, 'size', value, Ch5Dpad.SIZES,
+            () => {
+                this.checkAndRestructureDomOfDpad();
+                this.updateCssClasses();
+            }
+        );
+        this.logger.stop();
+	}
+	public get size() {
+		return this._size;
+	}
 
     /**
      * sendEventOnClickStart specif getter-setter
@@ -836,6 +871,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                 this.contractName = newValue;
                 this.updateContractNameBasedHandlers(this._contractName);
                 break;
+            case 'size':
+                this.size = newValue as TCh5DpadSize;
+                break;
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
@@ -958,6 +996,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.type = ComponentHelper.setAttributeToElement(this, 'type', this._type) as TCh5DpadType;
         this.shape = ComponentHelper.setAttributeToElement(this, 'shape', this._shape) as TCh5DpadShape;
         this.stretch = ComponentHelper.setAttributeToElement(this, 'stretch', this._stretch as string) as TCh5DpadStretch;
+        this.size = ComponentHelper.setAttributeToElement(this, 'size', this._size) as TCh5DpadSize;
 
         // DEV NOTE: if contract name exists, and the individual attribute values don't exist, 
         // then the default value is true for useContractFor*
@@ -996,6 +1035,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             this.classList.remove(Ch5Dpad.btnShapeClassPrefix + typeVal);
         }
         this.classList.add(Ch5Dpad.btnShapeClassPrefix + this.shape);
+
+        for (const typeVal of Ch5Dpad.SIZES) {
+            this.classList.remove(Ch5Dpad.btnSizeClassPrefix + typeVal);
+        }
+        this.classList.add(Ch5Dpad.btnSizeClassPrefix + this.size);
 
         for (const typeVal of Ch5Dpad.STRETCHES) {
             this.classList.remove(Ch5Dpad.btnStretchClassPrefix + typeVal);
