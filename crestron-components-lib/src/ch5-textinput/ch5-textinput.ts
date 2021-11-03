@@ -210,12 +210,14 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
     /**
      * Icon to be shown
      * Example: fa fa-plane
+     * 
+     * Icon attribute is deprecated and it was replaced by iconClass attribute.
      *
      * @private
      * @memberof Ch5Textinput
      * @type {string}
      */
-    private _icon: string = '' as string;
+    private _iconClass: string = '' as string;
 
     /**
      * Valid values are 'first' and 'last'. Default is 'first'. If direction attribute
@@ -517,7 +519,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         const commonAttributes = Ch5Common.observedAttributes;
 
         const contextAttributes = [
-            'icon',
+            'iconclass',
             'iconposition',
             'label',
             'stretch',
@@ -660,8 +662,8 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
                         'pattern', oldValue, newValue
                     );
                     break;
-                case 'icon':
-                    this.icon = this.attributeChangeHandler(
+                case 'iconclass':
+                    this.iconClass = this.attributeChangeHandler(
                         'icon', oldValue, newValue);
                     this.iconPositioning();
                     this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
@@ -834,11 +836,11 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      *
      * @param {string} icon
      */
-    public set icon(icon: string) {
+    public set iconClass(icon: string) {
 
         this.info("set <ch5-textinput icon='" + icon + "'/>");
 
-        if (this.icon !== icon) {
+        if (this.iconClass !== icon) {
             if (icon === undefined || icon === null) {
                 icon = '';
             }
@@ -846,13 +848,13 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             this.setAttribute('icon', icon);
         }
 
-        this._icon = icon;
+        this._iconClass = icon;
 
         // reset the class attribute
         this._elIcon.className = '';
 
         if (this._elIcon !== undefined) {
-            this.icon.split(' ').forEach(
+            this.iconClass.split(' ').forEach(
                 (className: string) => {
                     this._elIcon.classList.add(className);
                 }
@@ -867,11 +869,11 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
      *
      * @return {string}
      */
-    public get icon(): string {
+    public get iconClass(): string {
 
-        this.info('get <ch5-textinput icon />');
+        this.info('get <ch5-textinput iconClass />');
 
-        return this._icon;
+        return this._iconClass;
     }
 
     /**
@@ -2105,8 +2107,8 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         this.info("<ch5-textinput />.iconPositioning()");
 
         if (
-            this.icon !== undefined &&
-            this.icon !== '' &&
+            this.iconClass !== undefined &&
+            this.iconClass !== '' &&
             (this._elInput !== undefined || this._elInput !== null)
         ) {
             this.iconPositioningHandler();
@@ -2172,9 +2174,9 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
         // TODO: mask and pattern attributes must be implemented
 
-        if (this.hasAttribute('icon')) {
+        if (this.hasAttribute('iconClass')) {
 
-            this.icon = this.getAttribute('icon') as string;
+            this.iconClass = this.getAttribute('iconClass') as string;
             this.iconPosition = this.getAttribute('iconPosition') as TCh5TextInputIconPosition;
             this.setAttribute('iconPosition', this.iconPosition);
             this.iconPositioning();
