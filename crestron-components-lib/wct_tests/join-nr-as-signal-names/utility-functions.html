@@ -151,7 +151,7 @@
           const expectedSubscriptionsStartStr = ['fb23', 'fb24'];
           subscriptions.forEach((s) => {
             const subFound = expectedSubscriptionsStartStr.find((sub) => s.sigSub.indexOf(sub) > -1);
-            expect(typeof subFound !== undefined).to.equal(true);
+            expect(typeof subFound !== "undefined").to.equal(true);
           });
         });
 
