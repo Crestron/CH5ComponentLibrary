@@ -2151,7 +2151,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
             } else {
                 this.userId = '';
             }
-            this.info('Basic UserId is ' + this.url);
+            this.info('Basic UserId is ' + this.userId);
             responseCount++;
             this._matchAttributeResponse(this.receiveStateAttributeCount, responseCount);
         }
