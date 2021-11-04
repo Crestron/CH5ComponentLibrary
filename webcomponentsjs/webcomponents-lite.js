@@ -357,6 +357,7 @@ if (typeof WeakMap === "undefined") {
 
        case "DOMNodeRemoved":
         this.addTransientObserver(e.target);
+        break;
 
        case "DOMNodeInserted":
         var target = e.relatedNode;
