@@ -1001,7 +1001,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         }
 
         this.classList.add(Ch5Keypad.btnTypeClassPrefix +
-            ((this.showExtraButton) ? "extra-row-hide" : "extra-row-hide"));
+            (this.showExtraButton ? "extra-row-show" : "extra-row-hide"));
     }
 
     protected attachEventListeners() {
