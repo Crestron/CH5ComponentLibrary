@@ -633,6 +633,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
                     this.label = this.attributeChangeHandler(
                         'label', oldValue, newValue
                     ) as string;
+                    break;
                 case 'stretch':
                     this.stretch = this.attributeChangeHandler(
                         'stretch', oldValue, newValue) as TCh5TextInputStretch;
@@ -718,6 +719,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
                     this.minimumFontSize = Number(this.attributeChangeHandler(
                         'minimumfontsize', oldValue, newValue
                     ));
+                    break;
                 case 'tabindex':
                     this.tabIndex = Number(this.attributeChangeHandler(
                         'tabindex', oldValue, newValue
