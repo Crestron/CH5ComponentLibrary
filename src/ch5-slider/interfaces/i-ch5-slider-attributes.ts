@@ -46,6 +46,9 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The higher value only applicable if range=true."
    * ]
    * @name valuehigh
+   * @hideWhen [
+   *  {"range": [null, "false"] }
+   * ]    
    */
   valueHigh: number | string;
 
@@ -182,6 +185,10 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name tooltipdisplaytype
    * @default percent
+   * @hideWhen [
+   *  {"tooltipdisplaytype": [null, "off"]},
+   *  {"nohandle": ["true", ""] }
+   * ]      
    */
   toolTipDisplayType: TCh5SliderTooltipDisplay;
 

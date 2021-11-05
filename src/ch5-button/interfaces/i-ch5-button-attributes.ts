@@ -32,6 +32,9 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    *  "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-button--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
    * ]
    * @default regular
+   * @hideWhen [
+   *  { "stretch": ["both", "height", "width"] }
+   * ]
    */
   size: TCh5ButtonSize;
 
