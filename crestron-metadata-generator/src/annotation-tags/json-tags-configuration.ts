@@ -35,5 +35,6 @@ export class JsonTagsConfiguration {
         "examples",
 
         "default",
+        "hideWhen",
     ];
 }

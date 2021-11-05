@@ -167,6 +167,34 @@ function getDefaultFromObject(definition: Object): string {
     return value;
 }
 
+function getHideWhenFromObject(definition: Object): object[] {
+    const documentationTag = "hideWhen";
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return [];
+    }
+
+    // get the documentation property which should be a object array.
+    const value: object[] = definition[documentationTag];
+
+    if (!isNil(value)) {
+        try {
+            const allRules: object[] = [];
+
+            while(value.length > 0) {
+                allRules.push(value[0]);
+                value.shift();
+            }
+            return allRules;
+        } catch (e) {
+            throw new Error(`${e}, from ${value}`)
+        }
+    }
+    return [];
+}
+
 export {
     getDocumentationFromObject,
     getChildElementsFromObject,
@@ -175,5 +203,6 @@ export {
     getTagNameFromObject,
     getDefaultFromObject,
     getTypeForAriaRolesFromObject,
-    getComponentVersionFromObject
+    getComponentVersionFromObject,
+    getHideWhenFromObject
 };
