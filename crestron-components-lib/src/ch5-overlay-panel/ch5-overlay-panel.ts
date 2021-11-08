@@ -942,10 +942,10 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
         // Using EventLoop to attach event listener
         // to document only after all event pipeline was called ( mousedown -> mouseup -> click)
         // Attaching it when mousedown is triggered and that event being attached to document
-        // this will be triggerd as well.
+        // this will be triggered as well.
         setTimeout(() => {
-            document.addEventListener("click", this._dismissElement);
-        });
+            document.addEventListener("click", this._dismissElement);            
+        }, 250);
     }
 
     /**

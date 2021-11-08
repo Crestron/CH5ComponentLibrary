@@ -39,17 +39,15 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      */
     public static ELEMENTS_MO_EXCEPTION = ['swiper-wrapper'];
 
-
-	protected static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
-		receivestateshow: { direction: "state", booleanJoin: 1, contractName: true },
-		receivestateshowpulse: { direction: "state", booleanJoin: 1, contractName: true },
-		receivestatehidepulse: { direction: "state", booleanJoin: 1, contractName: true },
-		receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
-		sendeventonshow: { direction: "event", booleanJoin: 1, contractName: true }
-	};
-
+    protected static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateshow: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestateshowpulse: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestatehidepulse: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
+        sendeventonshow: { direction: "event", booleanJoin: 1, contractName: true }
+    };
 
     /**
      * The first value of the array is considered the default one
@@ -304,7 +302,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * be hidden and then the size of the ch5-modal-dialog cannot be computed.
      *
      * This property is used to check if the component
-     * was instantied in the viewport
+     * was instantiated in the viewport
      *
      * @protected
      * @type {boolean}
