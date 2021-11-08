@@ -38,7 +38,7 @@ export class Ch5Pressable {
 		public touchStartLocationX: number;
 		public touchStartLocationY: number;
 		public touchPointId: number = -1;
-
+	
 		public constructor() {
 			this.mode = Ch5PressableFingerStateMode.Idle;
 			this.touchStartLocationX = 0;
@@ -123,12 +123,14 @@ export class Ch5Pressable {
 	 */
 	private _gestureableSubscription: Subscription | null = null;
 
-
 	/**
 	 * An RxJs observable for the gestureable property.
-	 * Other classes cand subscribe to this and be notified when the gestureable property changes.
+	 * Other classes can subscribe to this and be notified when the gestureable property changes.
 	 */
 	public observablePressed: Subject<boolean>;
+
+	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggered after 250 ms of press and hold.
+	private readonly PRESS_MOVE_THRESHOLD: number = 10;
 
 	/**
 	 * Creates an instance of Ch5Pressable.
@@ -179,7 +181,7 @@ export class Ch5Pressable {
 			return this._options.pressDelayTime;
 		}
 		else {
-			return 250;
+			return this.TOUCH_TIMEOUT;
 		}
 	}
 
@@ -187,7 +189,7 @@ export class Ch5Pressable {
 		if (this._options !== null && !_.isNil(this._options.pressDelayDistance)) {
 			return this._options.pressDelayDistance;
 		} else {
-			return 10;
+			return this.PRESS_MOVE_THRESHOLD;
 		}
 	}
 
@@ -219,7 +221,7 @@ export class Ch5Pressable {
 	}
 
 	/**
-	 * Add events listeners related in order to achive press and release events
+	 * Add events listeners related in order to achieve press and release events
 	 *
 	 * @memberof Ch5Pressable
 	 */
@@ -437,7 +439,7 @@ export class Ch5Pressable {
 	}
 
 	/**
-	 * Dispach press event. Add press css class
+	 * Dispatch press event. Add press css class
 	 *
 	 * @fires press
 	 *
@@ -476,7 +478,7 @@ export class Ch5Pressable {
 	}
 
 	/**
-	 * Dispach release event. Remove press css class
+	 * Dispatch release event. Remove press css class
 	 *
 	 * @fires press
 	 *

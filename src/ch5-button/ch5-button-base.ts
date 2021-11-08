@@ -228,9 +228,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
-	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggered after 250 ms of press and hold.
-	private readonly DEBOUNCE_PRESS_TIME: number = 200;
-	private readonly PRESS_MOVE_THRESHOLD: number = 10;
 	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
 
 	private readonly CSS_CLASS_LIST = {
@@ -274,19 +271,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private isButtonInitiated: boolean = false;
 
 	private _pressableIsPressedSubscription: Subscription | null = null;
-
-	// private _mutationObserverForButtonMode: MutationObserver | null = null;
-
-	/**
-	 * Time after that press will be triggered
-	 */
-	private _pressTimeout: number = 0;
-
-	/**
-	 * Information about start and end position
-	 * Including the threshold of px for valid presses
-	 */
-	private _pressInfo: Ch5ButtonPressInfo = {} as Ch5ButtonPressInfo;
 
 	/**
 	 * State of the button ( pressed or not )
@@ -430,17 +414,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * @type {string | null}
 	 */
 	private _subReceiveSignalMode: string | null = null;
-
-	/**
-	 * The interval id ( from setInterval ) for reenforcing the  onTouch signal
-	 * This id allow canceling the interval.
-	 */
-	private _intervalIdForRepeatDigital: number | null = null;
-
-	/**
-	 * this is last tap time used to determine if should send click pulse in focus event 
-	 */
-	private _lastTapTime: number = 0;
 
 	private _repeatDigitalInterval: number | null = null;
 
@@ -1005,21 +978,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		this._wasInstatiated = true;
 
-		this._pressInfo = new Ch5ButtonPressInfo();
 		this._ch5ButtonSignal = new Ch5ButtonSignal();
-
-		// this._onBlur = this._onBlur.bind(this);
-		// this._onFocus = this._onFocus.bind(this);
-		// this._onPress = this._onPress.bind(this);
-		// this._onPressUp = this._onPressUp.bind(this);
-		// this._onTap = this._onTap.bind(this);
-		// this._onTouchEnd = this._onTouchEnd.bind(this);
-		// this._onTouchCancel = this._onTouchCancel.bind(this);
-		// this._onTouchMove = this._onTouchMove.bind(this);
-		// this._onPressClick = this._onPressClick.bind(this);
-		// this._onMouseUp = this._onMouseUp.bind(this);
-		// this._onMouseMove = this._onMouseMove.bind(this);
-		// this._onLeave = this._onLeave.bind(this);
 
 		this.logger.stop();
 	}
@@ -1211,26 +1170,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	protected attachEventListeners() {
 		super.attachEventListeners();
 
-		// if (this._pressable !== null && this._pressable.ch5Component.gestureable === false) {
-		// 	this._hammerManager.on('tap', this._onTap);
-		// }
-
-		// this._elButton.addEventListener('mousedown', this._onPressClick);
-		// this._elButton.addEventListener('mouseup', this._onMouseUp);
-		// this._elButton.addEventListener('mousemove', this._onMouseMove);
-		// this._elButton.addEventListener('touchstart', this._onPress, { passive: true });
-		// this._elButton.addEventListener('mouseleave', this._onLeave);
-		// this._elButton.addEventListener('touchend', this._onPressUp);
-		// this._elButton.addEventListener('touchmove', this._onTouchMove, { passive: true });
-		// this._elButton.addEventListener('touchend', this._onTouchEnd);
-		// this._elButton.addEventListener('touchcancel', this._onTouchCancel);
-		// this._elButton.addEventListener('focus', this._onFocus);
-		// this._elButton.addEventListener('blur', this._onBlur);
-
 		// init pressable before initAttributes because pressable subscribe to gestureable attribute
 		this.logger.log("this._pressable", this._pressable);
 		if (!isNil(this._pressable)) {
-			this.logger.log("this._pressable inside if", this._pressable);
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
@@ -1238,19 +1180,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	protected removeEventListeners() {
 		super.removeEventListeners();
-
-		// this._elButton.removeEventListener('touchstart', this._onPress);
-		// this._elButton.removeEventListener('touchend', this._onPressUp);
-		// this._hammerManager.off('tap', this._onTap);
-
-		// this._elButton.removeEventListener('touchend', this._onTouchEnd);
-		// this._elButton.removeEventListener('touchcancel', this._onTouchCancel);
-		// this._elButton.removeEventListener('touchmove', this._onTouchMove);
-		// this._elButton.removeEventListener('focus', this._onFocus);
-		// this._elButton.removeEventListener('blur', this._onBlur);
-		// this._elButton.removeEventListener('mousedown', this._onPressClick);
-		// this._elButton.removeEventListener('mouseup', this._onMouseUp);
-		// this._elButton.removeEventListener('mouseleave', this._onLeave);
 
 		if (!isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
@@ -1455,17 +1384,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private updatePressDelay() {
 		// console.log("IN");
-		if (this._pressable !== null && !_.isNil(	this._pressable.options) && !_.isNil(this.pressDelayTime) && !isNaN(this.pressDelayTime)) {
+		if (this._pressable !== null && !_.isNil(this._pressable.options) && !_.isNil(this.pressDelayTime) && !isNaN(this.pressDelayTime)) {
 			// console.log("IN 2", this.pressDelayTime);
 			this._pressable.options.pressDelayTime = this.pressDelayTime;
 		}
 	}
 
 	private updatePressDistance() {
-		if (this._pressable !== null && !_.isNil(	this._pressable.options) && !_.isNil(this.pressDelayDistance) && !isNaN(this.pressDelayDistance)) {
+		if (this._pressable !== null && !_.isNil(this._pressable.options) && !_.isNil(this.pressDelayDistance) && !isNaN(this.pressDelayDistance)) {
 			this._pressable.options.pressDelayDistance = this.pressDelayDistance;
 		}
 	}
+
 	private _subscribeToPressableIsPressed() {
 		const REPEAT_DIGITAL_PERIOD = 200;
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
@@ -1779,32 +1709,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * release - custom
 	 */
 
-	private sendValueForRepeatDigital(value: boolean): void {
-		// if (!this._sigNameSendOnTouch && !this._sigNameSendOnClick) { return; }
-
-		// const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-		//     .getObjectAsBooleanSignal(this._sigNameSendOnTouch);
-
-		// const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
-		//     .getObjectAsBooleanSignal(this._sigNameSendOnClick);
-
-		// if (clickSignal && touchSignal && clickSignal.name === touchSignal.name) {
-		//     // send signal only once if it has the same value
-		//     clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-		//     return;
-		// }
-
-		// if (touchSignal && touchSignal.name) {
-		//     touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-		// }
-
-		// if (clickSignal && clickSignal.name) {
-		//     clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
-		// }
-	}
-
 	private sendValueForRepeatDigitalWorking(value: boolean): void {
-		this.info(`Ch5Button.sendValueForRepeatDigital(${value})`)
+		this.info(`Ch5Button.sendValueForRepeatDigital(${value})`);
 		if (!this._sigNameSendOnTouch && !this._sigNameSendOnClick) { return; }
 
 		const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
@@ -1826,255 +1732,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (clickSignal && clickSignal.name) {
 			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
 		}
-	}
-
-	private _onTap(): void {
-		this.logger.log('_onTap()');
-		// this._onTapAction();
-	}
-
-	private _onTapAction() {
-		if (this._intervalIdForRepeatDigital !== null) {
-			window.clearInterval(this._intervalIdForRepeatDigital);
-			this.sendValueForRepeatDigital(false);
-			this._intervalIdForRepeatDigital = null;
-		} else {
-			this._sendOnClickSignal(false, false);
-		}
-	}
-
-	private _onTouchMove(event: TouchEvent) {
-		// The event must be cancelable
-		if (event.cancelable) {
-			event.preventDefault();
-		}
-		const normalizedEvent = normalizeEvent(event);
-
-		this._pressInfo.saveEnd(
-			normalizedEvent.x,
-			normalizedEvent.y
-		);
-
-		const validPress = this._pressInfo.valid();
-		if (!validPress) {
-			window.clearTimeout(this._pressTimeout);
-			if (this._intervalIdForRepeatDigital !== null) {
-				this.stopRepeatDigital();
-			}
-			return;
-		}
-	}
-
-	private _onLeave() {
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	private async _onPressClick(event: MouseEvent) {
-		if (this.isTouch) {
-			return;
-		}
-
-		clearTimeout(this.allowPressTimeout);
-		await this.pressHandler();
-
-		this._pressHorizontalStartingPoint = event.clientX;
-		this._pressVerticalStartingPoint = event.clientY;
-
-		this._lastTapTime = new Date().valueOf();
-
-		if (!this.allowPress) {
-			return;
-		}
-
-		this.allowPress = false;
-		this.stopRepeatDigital();
-	}
-
-	private _onMouseUp() {
-		if (this.isTouch) {
-			((btnObj) => {
-				setTimeout(() => {
-					if (btnObj._intervalIdForRepeatDigital != null) {
-						clearTimeout(btnObj._intervalIdForRepeatDigital);
-						btnObj._intervalIdForRepeatDigital = null;
-					}
-					btnObj.sendValueForRepeatDigital(false);
-				}, 200);
-			})(this);
-			return;
-		}
-
-		this.cancelPress();
-		this.reactivatePress();
-
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		} else if (this._pressed) {
-			// this._onTapAction();
-		}
-
-		const timeSinceLastPress = new Date().valueOf() - this._lastTapTime;
-		if (this._lastTapTime && timeSinceLastPress < this.DEBOUNCE_PRESS_TIME) {
-			// sometimes a both click and press can happen on iOS/iPadOS, don't publish both
-			this.logger.log('Ch5Button debouncing duplicate press/hold and click ' + timeSinceLastPress);
-		}
-	}
-
-	private _onMouseMove(event: MouseEvent) {
-		if (!this.isTouch
-			&& this._intervalIdForRepeatDigital
-			&& this._pressHorizontalStartingPoint
-			&& this._pressVerticalStartingPoint
-			&& this.isExceedingPressMoveThreshold(
-				this._pressHorizontalStartingPoint,
-				this._pressVerticalStartingPoint,
-				event.clientX,
-				event.clientY)
-		) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	private async _onPress(event: TouchEvent) {
-		const normalizedEvent = normalizeEvent(event);
-		this.isTouch = true;
-		clearTimeout(this.allowPressTimeout);
-		this._pressInfo.saveStart(
-			normalizedEvent.x,
-			normalizedEvent.y
-		);
-		await this.pressHandler();
-		if (!this.allowPress) {
-			return;
-		}
-		this.allowPress = false;
-		this.stopRepeatDigital();
-	}
-
-	private _onPressUp(): void {
-		window.clearTimeout(this._pressTimeout);
-		this.reactivatePress();
-		if (this._pressed) {
-			this.logger.log("Ch5ButtonBase._onPressUp()");
-
-			this._pressed = false;
-
-			if (this._intervalIdForRepeatDigital) {
-				window.clearInterval(this._intervalIdForRepeatDigital);
-				this.sendValueForRepeatDigital(false);
-				this._intervalIdForRepeatDigital = null;
-			}
-		}
-	}
-
-	private _onTouchEnd(inEvent: Event): void {
-		this.logger.log("Ch5ButtonBase._onTouchEnd()");
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	private _onTouchCancel(inEvent: Event): void {
-		this.logger.log("Ch5ButtonBase._onTouchCancel()");
-		if (this._intervalIdForRepeatDigital) {
-			this.stopRepeatDigital();
-		}
-	}
-
-	private _onBlur(inEvent: Event): void {
-		this.logger.log("Ch5ButtonBase._onBlur()");
-		let clonedEvent: Event;
-
-		this.reactivatePress();
-
-		clonedEvent = new Event(inEvent.type, inEvent);
-		this.dispatchEvent(clonedEvent);
-
-		inEvent.preventDefault();
-		inEvent.stopPropagation();
-	}
-
-	private _onFocus(inEvent: Event): void {
-		this.logger.log("Ch5ButtonBase._onFocus()");
-		let clonedEvent: Event;
-		clonedEvent = new Event(inEvent.type, inEvent);
-		this.dispatchEvent(clonedEvent);
-
-		inEvent.preventDefault();
-		inEvent.stopPropagation();
-	}
-
-	/**
-	 * Sends the signal passed via sendEventOnClick or sendEventOnTouch
-	 */
-	private _sendOnClickSignal(preventTrue: boolean = false, preventFalse: boolean = false): void {
-		let sigClick: Ch5Signal<boolean> | null = null;
-		if (this._sigNameSendOnClick || this._sigNameSendOnTouch) {
-			if (this._sigNameSendOnClick) {
-				sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnClick);
-			} else if (this._sigNameSendOnTouch) {
-				sigClick = Ch5SignalFactory.getInstance().getBooleanSignal(this._sigNameSendOnTouch);
-			}
-
-			if (sigClick !== null) {
-				if (!preventTrue) {
-					this.sendValueForRepeatDigital(true);
-				}
-				if (!preventFalse) {
-					this.sendValueForRepeatDigital(false);
-				}
-			}
-		}
-	}
-
-	private cancelPress() {
-		window.clearTimeout(this._pressTimeout);
-		this._pressed = false;
-	}
-
-	/**
-	 * Press Handler
-	 *
-	 * @return {Promise}
-	 */
-	private pressHandler(): Promise<boolean> {
-		const pressHandler = () => {
-			this.logger.log("Ch5ButtonBase._onPress()");
-			this._pressed = true;
-		}
-
-		const pressPromise = new Promise<boolean>((resolve, reject) => {
-			this._pressTimeout = window.setTimeout(() => {
-				pressHandler();
-				resolve(this._pressed);
-			}, this.TOUCH_TIMEOUT);
-		});
-
-		return pressPromise;
-	}
-
-	private isExceedingPressMoveThreshold(x1: number, y1: number, x2: number, y2: number) {
-		const startingPoint: number = x2 - x1;
-		const endingPoint: number = y2 - y1;
-		const distance: number = Math.sqrt(startingPoint ** 2 + endingPoint ** 2);
-		return distance > this.PRESS_MOVE_THRESHOLD;
-	}
-
-	private stopRepeatDigital() {
-		this.logger.log("stopRepeatDigital", this._intervalIdForRepeatDigital);
-		if (this._intervalIdForRepeatDigital) {
-			window.clearInterval(this._intervalIdForRepeatDigital);
-			this.sendValueForRepeatDigital(false);
-			this._intervalIdForRepeatDigital = null;
-			return;
-		}
-		this.sendValueForRepeatDigital(true);
-
-		this._intervalIdForRepeatDigital = window.setInterval(() => {
-			this.sendValueForRepeatDigital(true);
-		}, this.TOUCH_TIMEOUT);
 	}
 
 	private checkboxDisplay() {
@@ -2148,16 +1805,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	private reactivatePress(): void {
-		clearTimeout(this.allowPressTimeout);
-		this.allowPressTimeout = setTimeout(() => {
-			this.allowPress = true;
-		}, this.DEBOUNCE_PRESS_TIME) as never as number;
-	}
-
 	//#endregion
 
 	//#region 6. Button UI changes
+
 	/**
 	 * If type node is updated via html or js or signal, the change set attribue of type;
 	 * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
@@ -2167,7 +1818,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * @param isModeAttributeUpdated 
 	 * @param attibuteName 
 	 */
-	public setButtonDisplay() {
+	public setButtonDisplay(): void {
 		if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {
 			this.setButtonDisplayDetails();
 		} else if (this.isButtonInitiated === false) {
@@ -2177,7 +1828,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
-	private setButtonDisplayDetails() {
+	private setButtonDisplayDetails(): void {
 		this.logger.start("setButtonDisplayDetails");
 		this.isButtonInitiated = true;
 		// Applicable on Mode change and Selected change
@@ -2391,7 +2042,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	private updatePropertiesObject(updatedNodes: ICh5ButtonExtendedProperties) {
+	private updatePropertiesObject(updatedNodes: ICh5ButtonExtendedProperties): void {
 		this.logger.start("updatePropertiesObject");
 
 		// Updating necessary UI
@@ -2539,7 +2190,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	/**
 	 * Reorders ( if needed ) the position of the label and the icon inside the button
 	 */
-	protected updateInternalHtml() {
+	protected updateInternalHtml(): void {
 		this.logger.start("updateInternalHtml()");
 		if (!(typeof this._elButton.insertBefore === "undefined"
 			|| typeof this._elIcon.classList === "undefined")) {
@@ -2722,7 +2373,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	protected updateForChangeInStretch() {
+	protected updateForChangeInStretch(): void {
 		const parentEl = this.parentElement as HTMLElement;
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (!parentEl) {
@@ -2758,7 +2409,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
-	protected updateCssClassesForCustomState() {
+	protected updateCssClassesForCustomState(): void {
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (typeof targetEl.classList === 'undefined') {
 			return;
