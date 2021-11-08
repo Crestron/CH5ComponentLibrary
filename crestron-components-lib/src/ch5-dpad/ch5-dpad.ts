@@ -25,7 +25,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     //#region 1. Variables
 
     //#region 1.1 readonly variables
-	public static readonly ELEMENT_NAME = 'ch5-dpad';
+    public static readonly ELEMENT_NAME = 'ch5-dpad';
 
     /**
      * The first value is considered the default one
@@ -50,7 +50,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     /**
      * The first value is considered the default one
      */
-     public static readonly SIZES: TCh5DpadSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+    public static readonly SIZES: TCh5DpadSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
 
     /**
      * COMPONENT_DATA is required for sass-schema generator file to build sufficient data
@@ -78,19 +78,19 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             classListPrefix: 'ch5-dpad--shape-'
         },
         SIZES: {
-			default: Ch5Dpad.SIZES[0],
-			values: Ch5Dpad.SIZES,
-			key: 'size',
-			attribute: 'size',
-			classListPrefix: 'ch5-dpad--size-'
-		},
+            default: Ch5Dpad.SIZES[0],
+            values: Ch5Dpad.SIZES,
+            key: 'size',
+            attribute: 'size',
+            classListPrefix: 'ch5-dpad--size-'
+        },
     };
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		contractname: {contractName: true},
-		sendeventonclickstart: {direction: "event", booleanJoin: 5}
-	};   
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        contractname: { contractName: true },
+        sendeventonclickstart: { direction: "event", booleanJoin: 5 }
+    };
 
     public readonly primaryCssClass = 'ch5-dpad';
     public readonly cssClassPrefix = 'ch5-dpad';
@@ -116,9 +116,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private _useContractForCustomClassSignalValue: string = '';
 
     /**
-	 * Size of the Dpad
-	 */
-	private _size: TCh5DpadSize = Ch5Dpad.SIZES[0];
+     * Size of the Dpad
+     */
+    private _size: TCh5DpadSize = Ch5Dpad.SIZES[0];
 
     // state specific vars
     private isComponentLoaded: boolean = false;
@@ -133,18 +133,18 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
     //#endregion
 
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Dpad.ELEMENT_NAME, Ch5Dpad.SIGNAL_ATTRIBUTE_TYPES);
-	}
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Dpad.ELEMENT_NAME, Ch5Dpad.SIGNAL_ATTRIBUTE_TYPES);
+    }
 
-	public static registerCustomElement() {
-		if (typeof window === "object"
-			&& typeof window.customElements === "object"
-			&& typeof window.customElements.define === "function"
-			&& window.customElements.get(Ch5Dpad.ELEMENT_NAME) === undefined) {
-			window.customElements.define(Ch5Dpad.ELEMENT_NAME, Ch5Dpad);
-		}
-	}
+    public static registerCustomElement() {
+        if (typeof window === "object"
+            && typeof window.customElements === "object"
+            && typeof window.customElements.define === "function"
+            && window.customElements.get(Ch5Dpad.ELEMENT_NAME) === undefined) {
+            window.customElements.define(Ch5Dpad.ELEMENT_NAME, Ch5Dpad);
+        }
+    }
 
 
 
@@ -220,7 +220,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * size specif getter-setter
      */
     public set size(value: TCh5DpadSize) {
-		this.logger.start('set size ("' + value + '")');
+        this.logger.start('set size ("' + value + '")');
         ComponentHelper.setAttributeValueOnControl(this, 'size', value, Ch5Dpad.SIZES,
             () => {
                 this.checkAndRestructureDomOfDpad();
@@ -228,10 +228,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             }
         );
         this.logger.stop();
-	}
-	public get size() {
-		return this._size;
-	}
+    }
+    public get size() {
+        return this._size;
+    }
 
     /**
      * sendEventOnClickStart specif getter-setter

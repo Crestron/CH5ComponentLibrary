@@ -83,12 +83,12 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             classListPrefix: Ch5Keypad.btnTextOrientationClassPrefix
         },
         SIZES: {
-			default: Ch5Keypad.SIZES[0],
-			values: Ch5Keypad.SIZES,
-			key: 'size',
-			attribute: 'size',
-			classListPrefix: 'ch5-keypad--size-'
-		},
+            default: Ch5Keypad.SIZES[0],
+            values: Ch5Keypad.SIZES,
+            key: 'size',
+            attribute: 'size',
+            classListPrefix: 'ch5-keypad--size-'
+        },
     };
 
     public readonly primaryCssClass = 'ch5-keypad';
@@ -97,7 +97,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#endregion
 
     //#region 1.2 private / protected variables
-    // private setter getter specific vars
     private COMPONENT_NAME: string = "ch5-keypad";
     private _contractName: string = '';
     private _type: TCh5KeypadType = Ch5Keypad.TYPES[0];
@@ -116,11 +115,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private _useContractForCustomStyleSignalValue: string = '';
     private _useContractForCustomClassSignalValue: string = '';
     private _useContractForExtraButtonShowSignalValue: string = '';
-
-    /**
-    * Size of the Dpad
-    */
-	private _size: TCh5KeypadSize = Ch5Keypad.SIZES[0];
+    private _size: TCh5KeypadSize = Ch5Keypad.SIZES[0];
 
     // state specific vars
     private isComponentLoaded: boolean = false;
@@ -140,11 +135,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#endregion
 
     //#region 2. Setters and Getters
-
-
-    /**
-     * contractName specif getter-setter
-     */
     public set contractName(value: string) {
         this.logger.start('set contractName("' + value + '")');
 
@@ -162,9 +152,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         return this._contractName;
     }
 
-    /**
-     * type specif getter-setter
-     */
     public set type(value: TCh5KeypadType) {
         this.logger.start('set type ("' + value + '")');
         ComponentHelper.setAttributeValueOnControl(this, 'type', value, Ch5Keypad.TYPES,
@@ -178,9 +165,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         return this._type;
     }
 
-    /**
-     * shape specif getter-setter
-     */
     public set shape(value: TCh5KeypadShape) {
         this.logger.start('set shape ("' + value + '")');
         ComponentHelper.setAttributeValueOnControl(this, 'shape', value, Ch5Keypad.SHAPES,
@@ -194,9 +178,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         return this._shape;
     }
 
-    /**
-     * stretch specif getter-setter
-     */
     public set stretch(value: TCh5KeypadStretch | null) {
         this.logger.start('set stretch ("' + value + '")');
         if (value !== null) {
@@ -212,25 +193,19 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         return this._stretch;
     }
 
-    /**
-     * size specif getter-setter
-     */
-     public set size(value: TCh5KeypadSize) {
-		this.logger.start('set size ("' + value + '")');
+    public set size(value: TCh5KeypadSize) {
+        this.logger.start('set size ("' + value + '")');
         ComponentHelper.setAttributeValueOnControl(this, 'size', value, Ch5Keypad.SIZES,
             () => {
                 this.sizeHandler();
             }
         );
         this.logger.stop();
-	}
-	public get size() {
-		return this._size;
-	}
+    }
+    public get size() {
+        return this._size;
+    }
 
-    /**
-     * textOrientation specif getter-setter
-     */
     public set textOrientation(value: TCh5KeypadTextOrientation) {
         this.logger.start('set textOrientation ("' + value + '")');
         if (value !== null) {
@@ -246,9 +221,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         return this._textOrientation;
     }
 
-    /**
-     * showExtraButton specif getter-setter
-     */
     public set showExtraButton(value: boolean) {
         this.logger.start('set showExtraButton ("' + value + '")');
         ComponentHelper.setAttributeValueOnControlAsBool(
@@ -264,9 +236,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         return this._showExtraButton;
     }
 
-    /**
-     * sendEventOnClickStart specif getter-setter
-     */
     public set sendEventOnClickStart(value: string) {
         this.logger.start('set sendEventOnClickStart("' + value + '")');
 
@@ -287,9 +256,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         return this._sendEventOnClickStart;
     }
 
-    /**
-     * useContractforEnable specif getter-setter
-     */
     public set useContractforEnable(value: boolean) {
         this.logger.start('Ch5Keypad set useContractforEnable("' + value + '")');
 
@@ -324,7 +290,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * useContractForShow specif getter-setter
+     * useContractForShow specific getter-setter
      */
     public set useContractForShow(value: boolean) {
         this.logger.start('Ch5Keypad set useContractForShow("' + value + '")');
@@ -359,7 +325,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * useContractForCustomStyle specif getter-setter
+     * useContractForCustomStyle specific getter-setter
      */
     public set useContractForCustomStyle(value: boolean) {
         this.logger.start('Ch5Keypad set useContractForCustomStyle("' + value + '")');
@@ -395,7 +361,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * useContractForCustomClass specif getter-setter
+     * useContractForCustomClass specific getter-setter
      */
     public set useContractForCustomClass(value: boolean) {
         this.logger.start(this.COMPONENT_NAME + ' set useContractForCustomClass("' + value + '")');
@@ -431,7 +397,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * useContractForExtraButtonShow specif getter-setter
+     * useContractForExtraButtonShow specific getter-setter
      */
     public set useContractForExtraButtonShow(value: boolean) {
         this.logger.start(this.COMPONENT_NAME + ' set useContractForExtraButtonShow("' + value + '")');
@@ -469,7 +435,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     *  overriding default receiveStateShow specif getter-setter
+     *  overriding default receiveStateShow specific getter-setter
      */
     public set show(value: boolean) {
         const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShow", value);
@@ -484,7 +450,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     *  overriding default receiveStateShow specif getter-setter
+     *  overriding default receiveStateShow specific getter-setter
      */
     public set disabled(value: boolean) {
         const isContractBased = this.checkIfContractAllows("useContractforEnable", "receiveStateEnable", value);
@@ -506,7 +472,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * overriding default receiveStateShow specif getter-setter
+     * overriding default receiveStateShow specific getter-setter
      */
     public set receiveStateShow(value: string) {
         const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShow", value);
@@ -538,7 +504,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * overriding default receiveStateEnable specif getter-setter
+     * overriding default receiveStateEnable specific getter-setter
      */
     public set receiveStateEnable(value: string) {
         const isContractBased = this.checkIfContractAllows("useContractforEnable", "receiveStateEnable", value);
@@ -580,7 +546,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * overriding default receiveStateHidePulse specif getter-setter
+     * overriding default receiveStateHidePulse specific getter-setter
      */
     public set receiveStateHidePulse(value: string) {
         this.info('Ch5Keypad set receiveStateHidePulse("' + value + '")');
@@ -619,7 +585,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * overriding default receiveStateShowPulse specif getter-setter
+     * overriding default receiveStateShowPulse specific getter-setter
      */
     public set receiveStateShowPulse(value: string) {
         this.info('Ch5Keypad set receiveStateShowPulse("' + value + '")');
@@ -663,7 +629,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * overriding default receiveStateCustomStyle specif getter-setter
+     * overriding default receiveStateCustomStyle specific getter-setter
      */
     public set receiveStateCustomStyle(value: string) {
         const isContractBased = this.checkIfContractAllows("useContractForCustomStyle", "receiveStateCustomStyle", value);
@@ -701,7 +667,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     /**
-     * overriding default receiveStateCustomClass specif getter-setter
+     * overriding default receiveStateCustomClass specific getter-setter
      */
     public set receiveStateCustomClass(value: string) {
         const isContractBased = this.checkIfContractAllows("useContractForCustomClass", "receiveStateCustomClass", value);
