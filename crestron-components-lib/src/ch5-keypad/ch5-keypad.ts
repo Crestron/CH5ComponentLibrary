@@ -870,7 +870,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             "showextrabutton",
             "sendeventonclickstart",
             "usecontractforenable",
-            "usecontractforshow"
+            "usecontractforshow",
+            "size"
         ];
 
         // received signals
