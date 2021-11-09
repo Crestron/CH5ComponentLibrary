@@ -51,7 +51,7 @@ describe('Ch5Emulator#scenario 008', () => {
                     const sig = sigs[sigName];
                     const sigType = sigName.substr(sigName.length - 1);
 
-                    if (typeof sigName !== "undefined" && typeof sig !== undefined && null !== sig) {
+                    if (typeof sigName !== "undefined" && typeof sig !== "undefined" && null !== sig) {
                         if ('o' === sigType) {
                             expect(sig.value, sigName).to.deep.equal(expectedValue);
                         } else {

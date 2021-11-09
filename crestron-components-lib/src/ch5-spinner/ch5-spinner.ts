@@ -810,7 +810,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
     try {
       if (this.templateHelper.constructor === Ch5SpinnerTemplate && this.parentNode !== null && this.hasChildNodes()){
-        for (let i = this.childNodes.length; i--; i >= 0) {
+        for (let i = this.childNodes.length; i >= 0; i--) {
           if ((this.childNodes[i] as HTMLElement).tagName === 'TEMPLATE') {
             continue;
           }

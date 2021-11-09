@@ -6,15 +6,15 @@
 // under which you licensed this source code.
 
 import {
-    Ch5Signal,
-    Ch5SignalFactory,
-    Ch5TranslationUtility,
-    Ch5Uid,
-    languageChangedSignalName,
-    subscribeInViewPortChange,
-    Ch5Debug,
-    Ch5Platform,
-    ICh5PlatformInfo
+	Ch5Signal,
+	Ch5SignalFactory,
+	Ch5TranslationUtility,
+	Ch5Uid,
+	languageChangedSignalName,
+	subscribeInViewPortChange,
+	Ch5Debug,
+	Ch5Platform,
+	ICh5PlatformInfo
 } from '../ch5-core';
 
 import { Subject } from 'rxjs';
@@ -29,15 +29,15 @@ import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-sign
 
 export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
-    //#region Variables
+	//#region Variables
 
-    public static DIRECTION: string[] = ['ltr', 'rtl'];
+	public static DIRECTION: string[] = ['ltr', 'rtl'];
 
-    /**
-     * The containing components will not be observed by MutationObserver
-     * @type {string[]}
-     */
-    public static ELEMENTS_MO_EXCEPTION = ['swiper-wrapper'];
+	/**
+	 * The containing components will not be observed by MutationObserver
+	 * @type {string[]}
+	 */
+	public static ELEMENTS_MO_EXCEPTION = ['swiper-wrapper'];
 
     protected static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
@@ -998,12 +998,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
         if (typeof savedValue === 'undefined') {
             savedValue = valueToTranslate;
-
-            if (isTranslatableValue) {
-                _value = this._t(valueToTranslate);
-            } else {
-                _value = valueToTranslate;
-            }
+            _value = this._t(valueToTranslate);
 
         } else {
             const isTranslatableLabel = translationUtility.isTranslationIdentifier(savedValue);

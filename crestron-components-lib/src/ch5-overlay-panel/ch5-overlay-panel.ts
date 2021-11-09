@@ -410,7 +410,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
         }
 
         if ('' !== this._subReceivePositionTo && '' !== this._sigNameReceivePositionTo) {
-            const subSignalPosToName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePositionOffset);
+            const subSignalPosToName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePositionTo);
             const sigPosTo: Ch5Signal<boolean> | null = csf.getBooleanSignal(subSignalPosToName);
             if (null !== sigPosTo) {
                 sigPosTo.unsubscribe(this._subReceivePositionTo);

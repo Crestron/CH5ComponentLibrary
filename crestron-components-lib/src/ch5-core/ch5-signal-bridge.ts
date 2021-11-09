@@ -160,7 +160,6 @@ export class Ch5SignalBridge {
             && typeof (webkit.messageHandlers.bridgeUnsubscribeBooleanSignalFromNative) !== 'undefined'
             && typeof (webkit.messageHandlers.bridgeUnsubscribeIntegerSignalFromNative) !== 'undefined'
             && typeof (webkit.messageHandlers.bridgeUnsubscribeStringSignalFromNative) !== 'undefined'
-            && typeof (webkit.messageHandlers.bridgeUnsubscribeStringSignalFromNative) !== 'undefined'
         ) {
             switch (type) {
                 case 'boolean':
