@@ -76,7 +76,7 @@ describe('Ch5Emulator#scenario 007', () => {
                 it(sigName + ' is ' + expectedValue, (done: MochaDone) => {
                     delayFunction.emulatorAsyncDelay(done, () => {
                         const sig = sigs[sigName];
-                        if (typeof sigName !== "undefined" && typeof sig !== undefined && null !== sig) {
+                        if (typeof sigName !== "undefined" && typeof sig !== "undefined" && null !== sig) {
                             expect(sig.value, sigName).to.be.equal(expectedValue);
                         } else {
                             done(new Error(sigName + " not found"));

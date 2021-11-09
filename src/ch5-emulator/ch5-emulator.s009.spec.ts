@@ -35,7 +35,7 @@ describe('Ch5Emulator#scenario 009', () => {
         const signalCheck = (sigName:string, expectedValue:boolean|number|string|object|null) => {
             return it(sigName + ' is ' + expectedValue,(done:MochaDone) => {
                 const sig = sigs[sigName];
-                if (typeof sigName !== "undefined" && typeof sig !== undefined && null !== sig) {
+                if (typeof sigName !== "undefined" && typeof sig !== "undefined" && null !== sig) {
                     expect(sig.value,sigName).to.be.equal(expectedValue);
                 } else {
                     done(new Error(sigName + " not found"));

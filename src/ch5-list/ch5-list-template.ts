@@ -472,7 +472,9 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
                     }
                 });
 
-                this.scrollbarSize = this._list.isHorizontal ? (relativeScrollSize / 100) * containerSize : (relativeScrollSize / 100) * containerSize;
+                // this.scrollbarSize = this._list.isHorizontal ? (relativeScrollSize / 100) * containerSize : (relativeScrollSize / 100) * containerSize;
+                // please check if scrollbarSize is depending on the isHorizontal
+                this.scrollbarSize = (relativeScrollSize / 100) * containerSize;
 
                 window.addEventListener('resize', (container as HTMLElement).dispatchEvent.bind(container, event));
                 (container as HTMLElement).dispatchEvent(event);

@@ -790,7 +790,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
                 if (this.hasAttribute('sendeventoncancel')) {
                     this.sendEventOnCancel = newValue;
                 } else {
-                    this.sendEventOnOk = '';
+                    this.sendEventOnCancel = '';
                 }
                 break;
             case 'positionto':
