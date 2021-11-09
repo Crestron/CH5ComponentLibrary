@@ -86,6 +86,10 @@ function getTypesInternal(keys: string[], definitions: Map<string, Definition>, 
     return result;
 }
 
+function getHideWhen(definition: Definition): object[] {
+    return parser.getHideWhenFromObject(definition);
+}
+
 export {
     hasKeys,
     getTypes,
@@ -98,5 +102,6 @@ export {
     getDescription,
     getDefault,
     getTypeForAriaRoles,
-    getComponentVersion
+    getComponentVersion,
+    getHideWhen
 };
