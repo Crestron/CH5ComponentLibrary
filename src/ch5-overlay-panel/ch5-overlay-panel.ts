@@ -1047,7 +1047,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
                     }
                 });
             }
-            this.setAttribute('closeicon', value);
+           this.setAttribute('closeicon', value);
         }
     }
 
