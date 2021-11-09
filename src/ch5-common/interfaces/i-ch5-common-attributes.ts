@@ -31,6 +31,9 @@ export interface ICh5CommonAttributes {
      * "Contains a list of classes that are applied on the component"
      * ]
      * @name customclass
+     * @hideWhen [
+     *  {"receiveStateCustomClass": ["true"] }
+     * ]
      */
     customClass: string;
 
