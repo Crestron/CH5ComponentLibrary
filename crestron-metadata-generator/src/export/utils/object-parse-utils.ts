@@ -7,6 +7,7 @@
 
 import { isNil } from "lodash";
 import { Ch5Snippet } from "../../../types/export/ch5-snippet";
+import { Definition } from "../../schema/definition";
 
 function getTagNameFromObject(definition: Object): string {
     const documentationTag = "tagName";
@@ -179,6 +180,9 @@ function getHideWhenFromObject(definition: Object): object[] {
     // get the documentation property which should be a object array.
     const value: object[] = definition[documentationTag];
 
+    // only one of showWhen and hideWhen should be present
+    checkOppositeProperty("showWhen", keys, definition);
+
     if (!isNil(value)) {
         try {
             const allRules: object[] = [];
@@ -195,6 +199,44 @@ function getHideWhenFromObject(definition: Object): object[] {
     return [];
 }
 
+function getShowWhenFromObject(definition: Object): object[] {
+    const documentationTag = "showWhen";
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return [];
+    }
+
+    // get the documentation property which should be a object array.
+    const value: object[] = definition[documentationTag];
+
+    // only one of showWhen and hideWhen should be present
+    checkOppositeProperty("hideWhen", keys, definition)
+
+    if (!isNil(value)) {
+        try {
+            const allRules: object[] = [];
+
+            while(value.length > 0) {
+                allRules.push(value[0]);
+                value.shift();
+            }
+            return allRules;
+        } catch (e) {
+            throw new Error(`${e}, from ${value}`)
+        }
+    }
+    return [];
+}
+
+function checkOppositeProperty(oppositeTag: string, keys: string[], definition: Definition): void {
+    const containsOppositeDocumentation = keys.find(x => x === oppositeTag) !== undefined;
+    if(containsOppositeDocumentation) {
+        throw new Error(`${definition["name"]} attribute should contain only one of the showWhen and hideWhen properties`);
+    }
+}
+
 export {
     getDocumentationFromObject,
     getChildElementsFromObject,
@@ -204,5 +246,6 @@ export {
     getDefaultFromObject,
     getTypeForAriaRolesFromObject,
     getComponentVersionFromObject,
-    getHideWhenFromObject
+    getHideWhenFromObject,
+    getShowWhenFromObject
 };
