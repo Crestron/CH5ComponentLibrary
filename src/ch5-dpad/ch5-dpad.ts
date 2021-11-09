@@ -786,7 +786,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             "stretch",
             "sendeventonclickstart",
             "usecontractforenable",
-            "usecontractforshow"
+            "usecontractforshow",
+            "size"
         ];
 
         // received signals
