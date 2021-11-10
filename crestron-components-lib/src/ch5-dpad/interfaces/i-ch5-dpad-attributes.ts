@@ -81,7 +81,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`useContractforEnable` attribute",
+     * "`useContractForEnable` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -91,10 +91,10 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
      * "The details can be seen in the table above."
      * ]
-     * @name useContractforEnable
+     * @name useContractForEnable
      * @default false
      */
-    useContractforEnable: boolean;
+    useContractForEnable: boolean;
 
     /**
      * @documentation

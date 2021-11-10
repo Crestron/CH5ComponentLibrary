@@ -72,7 +72,7 @@ import {
  *    "prefix": "ch5-dpad:contractbased",
  *     "description": "Crestron Dpad",
  *     "body": [
- *       "<ch5-dpad  id=\"btn_${0:id}\"",
+ *       "<ch5-dpad id=\"btn_${0:id}\"",
  *       "\tcontractname=\"${1:Contract Name}\"",
 *        ">",
  *       "</ch5-dpad>"
@@ -82,7 +82,7 @@ import {
  *    "prefix": "ch5-dpad:eventbased",
  *     "description": "Crestron Dpad",
  *     "body": [
- *       "<ch5-dpad  id=\"btn_${0:id}\"",
+ *       "<ch5-dpad id=\"btn_${0:id}\"",
  *       "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
 *        ">",
  *       "</ch5-dpad>"
@@ -92,12 +92,12 @@ import {
  *    "prefix": "ch5-dpad:all-attributes",
  *     "description": "Crestron Dpad",
  *     "body": [
- *       "<ch5-dpad  id=\"btn_${0:id}\"",
+ *       "<ch5-dpad id=\"btn_${0:id}\"",
  *       "\tcontractname=\"${1:Contract Name}\"",
  *       "\tshape=\"${2:Shape}\"",
  *       "\ttype=\"${3:type}\"",
  *       "\tstretch=\"${4:stretch}\"",
- *       "\tusecontractforenable=\"${5:useContractforEnable}\"",
+ *       "\tusecontractforenable=\"${5:useContractForEnable}\"",
  *       "\tusecontractforshow=\"${6:useContractForShow}\"",
  *       "\tusecontractforcustomclass=\"${7:useContractForCustomClass}\"",
  *       "\tusecontractforcustomstyle=\"${8:useContractForCustomStyle}\"",

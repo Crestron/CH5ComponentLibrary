@@ -43,7 +43,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * [
      * "`type` shape",
      * "***",
-     * "Sets the overall <ch5-Keypad> component shape to plus or circle."
+     * "Sets the overall <ch5-keypad> component shape to plus or circle."
      * ]
      * @name shape
      * @default plus
@@ -56,8 +56,8 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "`type` stretch",
      * "***",
      * "When the stretch property is set, the component inherits the width or/and height of the container. ",
-     * "If stretch by height is used, the <ch5-Keypad> will be responsive based on the width of the container. ",
-     * "If stretch width is applied, the <ch5-Keypad> will be responsive based on the height of the container. ",
+     * "If stretch by height is used, the <ch5-keypad> will be responsive based on the width of the container. ",
+     * "If stretch width is applied, the <ch5-keypad> will be responsive based on the height of the container. ",
      * "This implies that the container height is picked for width and container width is picked for height ",
      * "to ensure that the overall shape of the component is a 'square' in nature (equal in width and height ",
      * "for the shapes of plus and circle)."
@@ -97,20 +97,20 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractforEnable",
+     * "`type` useContractForEnable",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
      * "If this value is set to true then the value received from the contract will be considered to enable ",
-     * "<ch5-Keypad> tag and also to enable the buttons under <ch5-Keypad> component i.e. <ch5-Keypad-button-left>, ",
-     * "<ch5-Keypad-button-right>, <ch5-Keypad-button-top>, <ch5-Keypad-button-bottom>, <ch5-Keypad-button-center>. ",
-     * "The names from the contract will be different for each of the buttons and the overall <ch5-Keypad> component. ",
+     * "<ch5-keypad> tag and also to enable the buttons under <ch5-keypad> component i.e. <ch5-keypad-button-left>, ",
+     * "<ch5-keypad-button-right>, <ch5-keypad-button-top>, <ch5-keypad-button-bottom>, <ch5-keypad-button-center>. ",
+     * "The names from the contract will be different for each of the buttons and the overall <ch5-keypad> component. ",
      * "The details can be seen in the table above."
      * ]
-     * @name useContractforEnable
+     * @name useContractForEnable
      * @default false
      */
-    useContractforEnable: boolean;
+    useContractForEnable: boolean;
 
     /**
      * @documentation
@@ -120,8 +120,8 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
      * "If this value is set to true then the value received from the contract will be considered to show / hide ",
-     * "<ch5-Keypad> tag. The names from the contract will be different for each of the buttons and the overall ",
-     * "<ch5-Keypad> component. The details can be seen in the table above."
+     * "<ch5-keypad> tag. The names from the contract will be different for each of the buttons and the overall ",
+     * "<ch5-keypad> component. The details can be seen in the table above."
      * ]
      * @name useContractForShow
      * @default false
@@ -136,7 +136,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
      * "If this value is set to true then the value received from the contract will be considered for remaining ",
-     * "ch5-Keypad button as a custom class."
+     * "ch5-keypad button as a custom class."
      * ]
      * @name useContractForCustomClass 
      * @default false
