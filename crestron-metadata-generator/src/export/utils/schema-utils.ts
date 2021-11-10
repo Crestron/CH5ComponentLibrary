@@ -90,6 +90,10 @@ function getHideWhen(definition: Definition): object[] {
     return parser.getHideWhenFromObject(definition);
 }
 
+function getShowWhen(definition: Definition): object[] {
+    return parser.getShowWhenFromObject(definition);
+}
+
 export {
     hasKeys,
     getTypes,
@@ -103,5 +107,6 @@ export {
     getDefault,
     getTypeForAriaRoles,
     getComponentVersion,
-    getHideWhen
+    getHideWhen,
+    getShowWhen
 };

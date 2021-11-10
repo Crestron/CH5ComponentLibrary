@@ -138,6 +138,7 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
     // if (!isNil(defaultValue) && defaultValue !== "") {
     result.default = _.getDefault(definition);
     result.hideWhen = _.getHideWhen(definition);
+    result.showWhen = _.getShowWhen(definition);
     // }
 
     return result;

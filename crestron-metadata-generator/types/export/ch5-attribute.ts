@@ -12,6 +12,7 @@ export class Ch5Attribute {
     public documentation?: string[];
     public default?: string;
     public hideWhen?: object[];
+    public showWhen?: object[];
 
     public static New(): Ch5Attribute {
         const result = new Ch5Attribute();
