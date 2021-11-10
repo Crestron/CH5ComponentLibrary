@@ -10,10 +10,10 @@ import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { Ch5KeypadBtn } from "./ch5-keypad-btn";
-import { CH5KeypadBtnData } from "./ch5-keypad-btn-data";
+import { Ch5KeypadButton } from "./ch5-keypad-btn";
+import { CH5KeypadButtonData } from "./ch5-keypad-btn-data";
 import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-attributes";
-import { TCh5KeypadBtnCreateDTO, TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
+import { TCh5KeypadButtonCreateDTO, TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#region 1. Variables
@@ -37,7 +37,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      * No default value for Text Orientation
      * Value controls the way the major and minor render together
      */
-    public static readonly TEXTORIENTATIONS: TCh5KeypadTextOrientation[] = ['top', 'right', 'bottom', 'left'];
+    public static readonly TEXT_ORIENTATIONS: TCh5KeypadTextOrientation[] = ['top', 'right', 'bottom', 'left'];
 
     /**
      * The first value is considered the default one
@@ -75,9 +75,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             attribute: 'shape',
             classListPrefix: Ch5Keypad.btnShapeClassPrefix
         },
-        TEXTORIENTATIONS: {
-            default: Ch5Keypad.TEXTORIENTATIONS[0],
-            values: Ch5Keypad.TEXTORIENTATIONS,
+        TEXT_ORIENTATIONS: {
+            default: Ch5Keypad.TEXT_ORIENTATIONS[0],
+            values: Ch5Keypad.TEXT_ORIENTATIONS,
             key: 'textorientation',
             attribute: 'textorientation',
             classListPrefix: Ch5Keypad.btnTextOrientationClassPrefix
@@ -102,15 +102,15 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private _type: TCh5KeypadType = Ch5Keypad.TYPES[0];
     private _shape: TCh5KeypadShape = Ch5Keypad.SHAPES[0];
     private _stretch: TCh5KeypadStretch | null = null;
-    private _textOrientation: TCh5KeypadTextOrientation = Ch5Keypad.TEXTORIENTATIONS[0];
+    private _textOrientation: TCh5KeypadTextOrientation = Ch5Keypad.TEXT_ORIENTATIONS[0];
     private _sendEventOnClickStart: string = '';
     private _showExtraButton: boolean = false;
-    private _useContractforEnable: boolean = false;
+    private _useContractForEnable: boolean = false;
     private _useContractForShow: boolean = false;
     private _useContractForCustomStyle: boolean = false;
     private _useContractForCustomClass: boolean = false;
     private _useContractForExtraButtonShow: boolean = false;
-    private _useContractforEnableSignalValue: string = '';
+    private _useContractForEnableSignalValue: string = '';
     private _useContractForShowSignalValue: string = '';
     private _useContractForCustomStyleSignalValue: string = '';
     private _useContractForCustomClassSignalValue: string = '';
@@ -127,8 +127,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private containerClass: string = 'keypad-container';
     private keysRowClass: string = 'keypad-row';
     private keysRowClassExtra: string = 'keypad-row-extra';
-    private childButtonList: { [key: string]: Ch5KeypadBtn; } = {};
-    private runtimeChildButtonList: { [key: string]: TCh5KeypadBtnCreateDTO; } = {};
+    private childButtonList: { [key: string]: Ch5KeypadButton; } = {};
+    private runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; } = {};
 
     //#endregion
 
@@ -209,7 +209,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     public set textOrientation(value: TCh5KeypadTextOrientation) {
         this.logger.start('set textOrientation ("' + value + '")');
         if (value !== null) {
-            const orientations = ['', ...Ch5Keypad.TEXTORIENTATIONS];
+            const orientations = ['', ...Ch5Keypad.TEXT_ORIENTATIONS];
             ComponentHelper.setAttributeValueOnControl(
                 this, 'textOrientation', value, orientations,
                 this.textOrientationHandler.bind(this)
@@ -256,8 +256,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         return this._sendEventOnClickStart;
     }
 
-    public set useContractforEnable(value: boolean) {
-        this.logger.start('Ch5Keypad set useContractforEnable("' + value + '")');
+    public set useContractForEnable(value: boolean) {
+        this.logger.start('Ch5Keypad set useContractForEnable("' + value + '")');
 
         const isUseContractforEnable = this.toBoolean(value);
         const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
@@ -266,17 +266,17 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             return;
         }
 
-        this.setAttribute('useContractforEnable'.toLowerCase(), isUseContractforEnable.toString());
+        this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractforEnable.toString());
         this._useContractForCustomClass = isUseContractforEnable;
         const sigVal = contractName + ".Enable";
 
         const params: TCh5CreateReceiveStateSigParams = {
             caller: this,
-            attrKey: 'useContractforEnable',
+            attrKey: 'useContractForEnable',
             value: sigVal,
             callbackOnSignalReceived: (newValue: string | boolean) => {
                 newValue = (!newValue).toString();
-                this.info(' subs callback for useContractforEnable: ', this._useContractforEnableSignalValue,
+                this.info(' subs callback for useContractForEnable: ', this._useContractForEnableSignalValue,
                     ' Signal has value ', newValue);
                 ComponentHelper.setAttributeToElement(this, 'disabled', newValue);
             }
@@ -285,8 +285,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         this.setValueForReceiveStateBoolean(params);
         this.logger.stop();
     }
-    public get useContractforEnable(): boolean {
-        return this._useContractforEnable;
+    public get useContractForEnable(): boolean {
+        return this._useContractForEnable;
     }
 
     /**
@@ -453,7 +453,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      *  overriding default receiveStateShow specific getter-setter
      */
     public set disabled(value: boolean) {
-        const isContractBased = this.checkIfContractAllows("useContractforEnable", "receiveStateEnable", value);
+        const isContractBased = this.checkIfContractAllows("useContractForEnable", "receiveStateEnable", value);
         if (isContractBased) {
             // contract name exists and attribute allows it to be based on contract, then receiveStateEnable becomes void
             return;
@@ -507,7 +507,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      * overriding default receiveStateEnable specific getter-setter
      */
     public set receiveStateEnable(value: string) {
-        const isContractBased = this.checkIfContractAllows("useContractforEnable", "receiveStateEnable", value);
+        const isContractBased = this.checkIfContractAllows("useContractForEnable", "receiveStateEnable", value);
         if (isContractBased) {
             // contract name exists and attribute allows it to be based on contract, then receiveStateEnable becomes void
             return;
@@ -759,9 +759,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         // then the default value is true for useContractFor*
         // else useContractFor* picks value from attributes
         const isContractNameAvailable = Boolean(this.contractName).toString();
-        this.useContractforEnable = ComponentHelper.getBoolFromString(
+        this.useContractForEnable = ComponentHelper.getBoolFromString(
             ComponentHelper.setAttributeToElement(this,
-                'useContractforEnable', isContractNameAvailable));
+                'useContractForEnable', isContractNameAvailable));
         this.useContractForShow = ComponentHelper.getBoolFromString(
             ComponentHelper.setAttributeToElement(this,
                 'useContractForShow', isContractNameAvailable));
@@ -900,7 +900,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'usecontractforenable':
-                this.useContractforEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'usecontractforcustomstyle':
                 this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
@@ -984,7 +984,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         }
         this.classList.add(Ch5Keypad.btnShapeClassPrefix + this.shape);
 
-        for (const typeVal of Ch5Keypad.TEXTORIENTATIONS) {
+        for (const typeVal of Ch5Keypad.TEXT_ORIENTATIONS) {
             this.classList.remove(Ch5Keypad.btnTextOrientationClassPrefix + typeVal);
         }
         this.classList.add(Ch5Keypad.btnTextOrientationClassPrefix + this.textOrientation);
@@ -1019,11 +1019,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      */
     protected createHtmlElements(): void {
         this.logger.start('createHtmlElements', this.COMPONENT_NAME);
-
         this.classList.add(this.primaryCssClass);
-
         this.createAndAppendAllButtonsUnderKeypad();
-
         this.logger.stop();
     }
 
@@ -1037,8 +1034,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             item.remove();
         }
         this.createEmptyContainerDiv();
-        const data: TCh5KeypadBtnCreateDTO[] =
-            CH5KeypadBtnData.getBtnList(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
+        const data: TCh5KeypadButtonCreateDTO[] =
+            CH5KeypadButtonData.getBtnList(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
         let rowEle = this.appendKeysRowToContainer();
         for (let i = 0; i < data.length; i++) {
             if (i % 3 === 0) {
@@ -1046,7 +1043,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 this.container.appendChild(rowEle);
             }
             const btn = data[i];
-            const keyBtn = new Ch5KeypadBtn(btn);
+            const keyBtn = new Ch5KeypadButton(btn);
             this.childButtonList[btn.name] = keyBtn;
             rowEle.appendChild(keyBtn);
         }
@@ -1096,10 +1093,10 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             this.container.appendChild(rowEle);
 
             rowEle.classList.add(this.keysRowClassExtra);
-            const extraBtns: TCh5KeypadBtnCreateDTO[] =
-                CH5KeypadBtnData.getBtnList_Extra(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
+            const extraBtns: TCh5KeypadButtonCreateDTO[] =
+                CH5KeypadButtonData.getBtnList_Extra(this.runtimeChildButtonList, this.contractName, this.sendEventOnClickStart);
             for (const btn of extraBtns) {
-                const keyBtn = new Ch5KeypadBtn(btn);
+                const keyBtn = new Ch5KeypadButton(btn);
                 this.childButtonList[btn.name] = keyBtn;
                 rowEle.appendChild(keyBtn);
             }
@@ -1129,7 +1126,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         if (childElements.length > 0) {
             for (const ele of childElements) {
                 if (ele.tagName.toLowerCase() === 'ch5-keypad-child-button') {
-                    const item = CH5KeypadBtnData.getChildBtnDTOFromElement(ele, this.contractName, this.sendEventOnClickStart);
+                    const item = CH5KeypadButtonData.getChildBtnDTOFromElement(ele, this.contractName, this.sendEventOnClickStart);
                     if (!this.runtimeChildButtonList.hasOwnProperty(item.name)) {
                         this.runtimeChildButtonList[item.name] = item;
                     }

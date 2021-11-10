@@ -5,9 +5,9 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { TCh5KeypadBtnCreateDTO } from "./interfaces/t-ch5-keypad";
+import { TCh5KeypadButtonCreateDTO } from "./interfaces/t-ch5-keypad";
 
-export class CH5KeypadBtnData {
+export class CH5KeypadButtonData {
     private static numberTypeBtnCssClass = 'number-btn';
     private static miscOneBtnCssClass = 'misc-btn misc-btn-one';
     private static miscTwoBtnCssClass = 'misc-btn misc-btn-two';
@@ -17,12 +17,12 @@ export class CH5KeypadBtnData {
      * @returns list of buttons
      */
     public static getBtnList(
-        runtimeChildButtonList: { [key: string]: TCh5KeypadBtnCreateDTO; },
+        runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; },
         parentContractName: string,
         sendEventOnClickStartVal: string
-    ): TCh5KeypadBtnCreateDTO[] {
+    ): TCh5KeypadButtonCreateDTO[] {
         // populate by merging existing controls
-        const retArr: TCh5KeypadBtnCreateDTO[] = [];
+        const retArr: TCh5KeypadButtonCreateDTO[] = [];
         const majors: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
         const minors: string[] = ['&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '+', ''];
         const contractList: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', '0', 'Hash'];
@@ -39,7 +39,7 @@ export class CH5KeypadBtnData {
             const className = classNameList[i].length > 0 ? classNameList[i] : this.numberTypeBtnCssClass;
             const joinCount = (contractName.length === 0 && sendEventOnClickStartVal.length > 0) ?
                 parseInt(sendEventOnClickStartVal, 10) + joinCountList[i] : sendEventOnClickStartVal;
-            const obj: TCh5KeypadBtnCreateDTO = {
+            const obj: TCh5KeypadButtonCreateDTO = {
                 indexRef: i,
                 name,
                 major: majors[i],
@@ -61,16 +61,16 @@ export class CH5KeypadBtnData {
      * @returns list of buttons
      */
     public static getBtnList_Extra(
-        runtimeChildButtonList: { [key: string]: TCh5KeypadBtnCreateDTO; },
+        runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; },
         parentContractName: string,
         sendEventOnClickStartVal: string = ''
-    ): TCh5KeypadBtnCreateDTO[] {
+    ): TCh5KeypadButtonCreateDTO[] {
         // populate by merging existing controls
         // DEV NOTE: below set of commented variables allow two extra buttons as part of the 5th row, if required
         // const nameList: string[] = ['left', 'center', 'right'];
         // const contractList: string[] = ['Star', 'ExtraButton', 'Hash'];
         // const classNameList: string[] = ['extra-btn empty-btn', 'extra-btn special-center', 'extra-btn empty-btn'];
-        const retArr: TCh5KeypadBtnCreateDTO[] = [];
+        const retArr: TCh5KeypadButtonCreateDTO[] = [];
         const nameList: string[] = ['center'];
         const contractList: string[] = ['ExtraButton'];
         const classNameList: string[] = [this.specialBtnCssClass];
@@ -84,7 +84,7 @@ export class CH5KeypadBtnData {
             const contractName = parentContractName.length > 0 ? (parentContractName + '.Press' + contractList[i]) : '';
             const joinCount = (sendEventOnClickStartVal.length > 0) ?
                 parseInt(sendEventOnClickStartVal, 10) + joinIndex : sendEventOnClickStartVal;
-            const obj: TCh5KeypadBtnCreateDTO = {
+            const obj: TCh5KeypadButtonCreateDTO = {
                 indexRef: joinIndex,
                 name,
                 major: '',
@@ -102,8 +102,8 @@ export class CH5KeypadBtnData {
         return retArr;
     }
 
-    public static getChildBtnDTOFromElement(ele: Element, contractName: string, sendEventOnClickStart: string): TCh5KeypadBtnCreateDTO {
-        let obj: TCh5KeypadBtnCreateDTO = {} as TCh5KeypadBtnCreateDTO;
+    public static getChildBtnDTOFromElement(ele: Element, contractName: string, sendEventOnClickStart: string): TCh5KeypadButtonCreateDTO {
+        let obj: TCh5KeypadButtonCreateDTO = {} as TCh5KeypadButtonCreateDTO;
         const key = ele.getAttribute('key');
         const index = (!!key && key.length > 0) ? key.replace('button', '') : null;
         if (index !== null) {

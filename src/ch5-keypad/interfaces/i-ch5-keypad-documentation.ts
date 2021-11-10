@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5Common } from "../../ch5-common/interfaces";
-import { ICh5KeypadAttributes, ICh5KeypadBtnAttributes } from "./index";
+import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
 
 /**
  * @name Ch5 Keypad
@@ -65,7 +65,7 @@ import { ICh5KeypadAttributes, ICh5KeypadBtnAttributes } from "./index";
  *       "\tstretch=\"${4:stretch}\"",
  *       "\ttextorientation=\"${5:textOrientation}\"",
  *       "\tshowextrabutton=\"${6:showExtraButton}\"",
- *       "\tusecontractforenable=\"${7:useContractforEnable}\"",
+ *       "\tusecontractforenable=\"${7:useContractForEnable}\"",
  *       "\tusecontractforshow=\"${8:useContractForShow}\"",
  *       "\tusecontractforcustomclass=\"${9:useContractForCustomClass}\"",
  *       "\tusecontractforcustomstyle=\"${10:useContractForCustomStyle}\"",
@@ -76,5 +76,5 @@ import { ICh5KeypadAttributes, ICh5KeypadBtnAttributes } from "./index";
  *   }
  * ]
  */
-export interface ICh5KeypadDocumentation extends ICh5Common, ICh5KeypadAttributes, ICh5KeypadBtnAttributes {
+export interface ICh5KeypadDocumentation extends ICh5Common, ICh5KeypadAttributes, ICh5KeypadButtonAttributes {
 }

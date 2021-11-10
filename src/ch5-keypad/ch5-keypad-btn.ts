@@ -13,10 +13,10 @@ import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { ICh5KeypadBtnAttributes } from "./interfaces/i-ch5-keypad-btn-attributes";
-import { TCh5KeypadBtnCreateDTO } from "./interfaces/t-ch5-keypad";
+import { ICh5KeypadButtonAttributes } from "./interfaces/i-ch5-keypad-btn-attributes";
+import { TCh5KeypadButtonCreateDTO } from "./interfaces/t-ch5-keypad";
 
-export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
+export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttributes {
     //#region 1. Variables
 
     //#region 1.1 readonly variables
@@ -31,7 +31,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
 
     // private setter getter specific vars
     private COMPONENT_NAME: string = "ch5-keypad";
-    private params: TCh5KeypadBtnCreateDTO = {} as TCh5KeypadBtnCreateDTO;
+    private params: TCh5KeypadButtonCreateDTO = {} as TCh5KeypadButtonCreateDTO;
     protected componentPrefix: string = 'ch5-keypad-button-';
     protected emptyBtnCssClass: string = 'empty-btn';
     protected labelMajorCssClass: string = 'label-major';
@@ -72,7 +72,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
     protected _buttonPressedInPressable: boolean = false;
     protected _pressableIsPressedSubscription: Subscription | null = null;
     // This variable ensures that the first time load on a project happens without debounce and buttons do not appear blank.
-    protected isButtonInitated: boolean = false;
+    protected isButtonInitiated: boolean = false;
 
     protected readonly TOUCH_TIMEOUT: number = 250;
     protected readonly DEBOUNCE_PRESS_TIME: number = 200;
@@ -163,7 +163,7 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
 
     //#region 3. Lifecycle Hooks
 
-    public constructor(params: TCh5KeypadBtnCreateDTO) {
+    public constructor(params: TCh5KeypadButtonCreateDTO) {
         super();
         this.logger.start('constructor()', this.COMPONENT_NAME);
 
@@ -788,5 +788,5 @@ export class Ch5KeypadBtn extends Ch5Common implements ICh5KeypadBtnAttributes {
 if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-keypad-btn', Ch5KeypadBtn);
+    window.customElements.define('ch5-keypad-btn', Ch5KeypadButton);
 }

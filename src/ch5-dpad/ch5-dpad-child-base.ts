@@ -17,7 +17,7 @@ import { Ch5Dpad } from "./ch5-dpad";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
-import { TCh5DpadButtonClassListType, TCh5DpadChildBtnType, TCh5DpadConstructorParam } from "./interfaces/t-ch5-dpad";
+import { TCh5DpadButtonClassListType, TCh5DpadChildButtonType, TCh5DpadConstructorParam } from "./interfaces/t-ch5-dpad";
 
 export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttributes {
 
@@ -57,7 +57,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     protected _icon: HTMLElement = {} as HTMLElement;
 
     // state specific vars
-    protected buttonType: TCh5DpadChildBtnType | null = null;
+    protected buttonType: TCh5DpadChildButtonType | null = null;
     protected isTouch: boolean = false;
     protected allowPress: boolean = true;
     protected allowPressTimeout: number = 0;
@@ -500,7 +500,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         // below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
         this.iconClass = CH5DpadUtils.setAttributeToElement(this, 'iconClass', this._iconClass);
         this.iconUrl = CH5DpadUtils.setAttributeToElement(this, 'iconUrl', this._iconUrl);
-        const btnType = this.buttonType as TCh5DpadChildBtnType;
+        const btnType = this.buttonType as TCh5DpadChildButtonType;
         if (this.parentElement &&
             this.parentElement.parentElement) {
             const ele = this.parentElement.parentElement;

@@ -11,7 +11,7 @@ export type TCh5DpadShape = 'plus' | 'circle';
 
 export type TCh5DpadStretch = 'both' | 'width' | 'height';
 
-export type TCh5DpadChildBtnType = 'top' | 'bottom' | 'left' | 'right' | 'center';
+export type TCh5DpadChildButtonType = 'top' | 'bottom' | 'left' | 'right' | 'center';
 
 export type TCh5DpadButtonClassListType = {
     commonBtnClass: string,
@@ -26,7 +26,7 @@ export type TCh5DpadConstructorParam = {
     primaryTagClass: string,
     defaultIconClass: string,
     defaultArrowClass: string,
-    btnType: TCh5DpadChildBtnType
+    btnType: TCh5DpadChildButtonType
 };
 
 export type TCh5DpadSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large';

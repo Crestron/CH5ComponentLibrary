@@ -106,11 +106,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     private _shape: TCh5DpadShape = Ch5Dpad.SHAPES[0];
     private _stretch: TCh5DpadStretch | null = null;
     private _sendEventOnClickStart: string = '';
-    private _useContractforEnable: boolean = false;
+    private _useContractForEnable: boolean = false;
     private _useContractForShow: boolean = false;
     private _useContractForCustomStyle: boolean = false;
     private _useContractForCustomClass: boolean = false;
-    private _useContractforEnableSignalValue: string = '';
+    private _useContractForEnableSignalValue: string = '';
     private _useContractForShowSignalValue: string = '';
     private _useContractForCustomStyleSignalValue: string = '';
     private _useContractForCustomClassSignalValue: string = '';
@@ -257,10 +257,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
     }
 
     /**
-     * useContractforEnable specif getter-setter
+     * useContractForEnable specif getter-setter
      */
-    public set useContractforEnable(value: boolean) {
-        this.logger.start('Ch5Dpad set useContractforEnable("' + value + '")');
+    public set useContractForEnable(value: boolean) {
+        this.logger.start('Ch5Dpad set useContractForEnable("' + value + '")');
 
         const isUseContractforEnable = this.toBoolean(value);
         const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
@@ -269,17 +269,17 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
             return;
         }
 
-        this.setAttribute('useContractforEnable'.toLowerCase(), isUseContractforEnable.toString());
+        this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractforEnable.toString());
         this._useContractForCustomClass = isUseContractforEnable;
         const sigVal = contractName + "Enable";
 
         const params: TCh5CreateReceiveStateSigParams = {
             caller: this,
-            attrKey: 'useContractforEnable',
+            attrKey: 'useContractForEnable',
             value: sigVal,
             callbackOnSignalReceived: (newValue: string | boolean) => {
                 newValue = (!newValue).toString();
-                this.info(' subs callback for useContractforEnable: ', this._useContractforEnableSignalValue,
+                this.info(' subs callback for useContractForEnable: ', this._useContractForEnableSignalValue,
                     ' Signal has value ', newValue);
                 ComponentHelper.setAttributeToElement(this, 'disabled', newValue);
             }
@@ -288,8 +288,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         this.setValueForReceiveStateBoolean(params);
         this.logger.stop();
     }
-    public get useContractforEnable(): boolean {
-        return this._useContractforEnable;
+    public get useContractForEnable(): boolean {
+        return this._useContractForEnable;
     }
 
     /**
@@ -418,7 +418,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      *  overriding default receiveStateShow specif getter-setter
      */
     public set disabled(value: boolean) {
-        const isContractBased = this.checkIfContractAllows("useContractforEnable", "receiveStateEnable", value);
+        const isContractBased = this.checkIfContractAllows("useContractForEnable", "receiveStateEnable", value);
         if (isContractBased) {
             // contract name exists and attribute allows it to be based on contract, then receiveStateEnable becomes void
             return;
@@ -472,7 +472,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
      * overriding default receiveStateEnable specif getter-setter
      */
     public set receiveStateEnable(value: string) {
-        const isContractBased = this.checkIfContractAllows("useContractforEnable", "receiveStateEnable", value);
+        const isContractBased = this.checkIfContractAllows("useContractForEnable", "receiveStateEnable", value);
         if (isContractBased) {
             // contract name exists and attribute allows it to be based on contract, then receiveStateEnable becomes void
             return;
@@ -816,7 +816,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
                 this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'usecontractforenable':
-                this.useContractforEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'usecontractforcustomstyle':
                 this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
@@ -1003,8 +1003,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
         // then the default value is true for useContractFor*
         // else useContractFor* picks value from attributes
         const isContractNameAvailable = Boolean(this.contractName).toString();
-        this.useContractforEnable = ComponentHelper.getBoolFromString(
-            ComponentHelper.setAttributeToElement(this, 'useContractforEnable'.toLowerCase(), isContractNameAvailable));
+        this.useContractForEnable = ComponentHelper.getBoolFromString(
+            ComponentHelper.setAttributeToElement(this, 'useContractForEnable'.toLowerCase(), isContractNameAvailable));
         this.useContractForShow = ComponentHelper.getBoolFromString(
             ComponentHelper.setAttributeToElement(this, 'useContractForShow'.toLowerCase(), isContractNameAvailable));
         this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
