@@ -92,6 +92,17 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
+     * "`key` attribute",
+     * "***",
+     * "Defines the key value of the button."
+     * ]
+     * @name key
+     */
+     key: string;
+
+    /**
+     * @documentation
+     * [
      * "`sendEventOnClick` attribute",
      * "***",
      * "Sends an event on click or tap (mouse or swipe up and down quickly).",
