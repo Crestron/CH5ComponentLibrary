@@ -49,6 +49,7 @@ export class CH5KeypadButtonData {
                 contractName,
                 contractKey: contractList[i],
                 joinCountToAdd: joinCount.toString(),
+                key: '',
                 ...toMerge
             };
             retArr.push(obj);
@@ -94,6 +95,7 @@ export class CH5KeypadButtonData {
                 contractName,
                 contractKey: contractList[i],
                 joinCountToAdd: joinCount.toString(),
+                key: '',
                 ...toMerge
             };
             retArr.push(obj);
@@ -126,7 +128,8 @@ export class CH5KeypadButtonData {
                 iconClass: !!iconClass ? iconClass.split(' ') : [],
                 contractName,
                 contractKey,
-                joinCountToAdd
+                joinCountToAdd,
+                key: !!key ? key : '',
             }
         }
         return obj;
