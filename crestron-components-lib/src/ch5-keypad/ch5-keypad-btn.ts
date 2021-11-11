@@ -45,6 +45,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     protected _labelMinor: string = '';
     protected _iconClass: string = '';
     protected _sendEventOnClick: string = '';
+    protected _key: string = '';
 
     // signal based vars for each receive state
 
@@ -159,6 +160,22 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
         return this._sendEventOnClick;
     }
 
+    /**
+     * key specif getter-setter
+     */
+     public set key(value: string) {
+        this.logger.start('set key("' + value + '")');
+        if ((value !== '') && (value !== this._key)) {
+            this._key = value;
+        } else {
+            this._key = this.params.major;
+        }
+        this.setAttribute('key'.toLowerCase(), value);
+    }
+    public get key() {
+        return this._key;
+    }
+
     //#endregion
 
     //#region 3. Lifecycle Hooks
@@ -190,10 +207,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 
-        const { major, minor, contractName, joinCountToAdd, iconClass } = this.params;
+        const { major, minor, contractName, joinCountToAdd, iconClass, key } = this.params;
         this._labelMajor = major;
         this._labelMinor = minor;
         this._iconClass = iconClass.join(' ');
+        this._key = key;
 
         const eventHandlerValue = (contractName.length > 0) ? contractName : joinCountToAdd;
         this._sendEventOnClick = eventHandlerValue;
@@ -206,6 +224,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
             'iconClass'.toLowerCase(), this._iconClass);
         this.sendEventOnClick = ComponentHelper.setAttributeToElement(this,
             'sendEventOnClick'.toLowerCase(), this._sendEventOnClick);
+        this.key = ComponentHelper.setAttributeToElement(this, 'key'.toLowerCase(), this._key);
 
         this.logger.stop();
     }
