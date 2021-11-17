@@ -763,7 +763,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     }
 
     this._receiveStateLabelSub = receiveState.subscribe((newValue: string) => {
-        if ((newValue !== null || newValue !== undefined) ) {
+        if (newValue !== null || newValue !== undefined) {
           this.setAttribute('label', newValue);
         }
     });
@@ -810,7 +810,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
     try {
       if (this.templateHelper.constructor === Ch5SpinnerTemplate && this.parentNode !== null && this.hasChildNodes()){
-        for (let i = this.childNodes.length; i >= 0; i--) {
+        for (let i = this.childNodes.length - 1; i >= 0; i--) {
           if ((this.childNodes[i] as HTMLElement).tagName === 'TEMPLATE') {
             continue;
           }
