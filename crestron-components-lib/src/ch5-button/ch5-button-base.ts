@@ -25,10 +25,7 @@ import {
 
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
-import Hammer from 'hammerjs';
-import { isTouchDevice } from "../ch5-core/utility-functions/is-touch-device";
-import { Ch5ButtonPressInfo } from "./ch5-button-pressinfo";
-import { normalizeEvent } from "../ch5-triggerview/utils";
+// import Hammer from 'hammerjs';
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Subscription } from "rxjs";
@@ -229,10 +226,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	};
 
 	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
-
-	private readonly CSS_CLASS_LIST = {
-		BUTTON_PRIMARY_CLASS: 'cb-btn'
-	};
+	private readonly BUTTON_PRIMARY_CLASS: string = 'cb-btn';
 
 	private readonly pressedCssClassPostfix: string = '--pressed';
 	private readonly selectedCssClassPostfix: string = '--selected';
@@ -262,21 +256,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _elCheckboxIcon: HTMLElement = {} as HTMLElement;
 	private _elIosDots: HTMLElement = {} as HTMLElement;
 
-	private _pressHorizontalStartingPoint: number | null = null;
-	private _pressVerticalStartingPoint: number | null = null;
-
 	private isLabelLoaded: boolean = false;
 
 	// This variable ensures that the first time load on a project happens without debounce and buttons do not appear blank.
 	private isButtonInitiated: boolean = false;
 
-	private _pressableIsPressedSubscription: Subscription | null = null;
+	private _isPressedSubscription: Subscription | null = null;
 
 	/**
 	 * State of the button ( pressed or not )
 	 */
-	private _pressed: boolean = false;
-	private _buttonPressed: boolean = false;
 	private _buttonPressedInPressable: boolean = false;
 
 	private _mode: number = 0;
@@ -421,7 +410,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private _pressable: Ch5Pressable | null = null;
 
-	private _hammerManager: HammerManager = {} as HammerManager;
+	// private _hammerManager: HammerManager = {} as HammerManager;
 
 	/**
 	 * image URL. Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP.
@@ -439,10 +428,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _customClassDisabled: string | null = null;
 
-	private allowPress: boolean = true;
-	private allowPressTimeout: number = 0;
+	// private allowPress: boolean = true;
+	// private allowPressTimeout: number = 0;
 
-	private isTouch: boolean = false;
+	// private isTouch: boolean = false;
 
 	private previousExtendedProperties: ICh5ButtonExtendedProperties = {};
 
@@ -464,11 +453,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		const trValue: string = this._getTranslatedValue('label', value);
-		if (trValue === this.label) {
-			return;
+		if (trValue !== this.label) {
+			this.setAttribute('label', trValue);
+			this.setButtonDisplay();
 		}
-		this.setAttribute('label', trValue);
-		this.setButtonDisplay();
 	}
 	public get label() {
 		return this._label;
@@ -621,22 +609,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 	public get checkboxShow(): boolean {
 		return this._checkboxShow;
-	}
-
-	private set buttonPressed(value: boolean) {
-		if (this._buttonPressed !== value) {
-			this._buttonPressed = value;
-			if (value === false) {
-				setTimeout(() => {
-					this.setButtonDisplay();
-				}, this.STATE_CHANGE_TIMEOUTS);
-			} else {
-				this.setButtonDisplay();
-			}
-		}
-	}
-	private get buttonPressed(): boolean {
-		return this._buttonPressed;
 	}
 
 	public set iconPosition(value: TCh5ButtonIconPosition) {
@@ -822,7 +794,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// update internal property
 		this._sigNameReceiveSelected = value;
 		// update attribute
-		// the condition at the start of the method stops an infinite loop ( property change <-> atribute changed callback)
+		// the condition at the start of the method stops an infinite loop ( property change <-> attribute changed callback)
 		this.setAttribute('receiveStateSelected', value);
 
 		// setup new subscription.
@@ -972,14 +944,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public constructor() {
 		super();
 		this.logger.start('constructor()', this.primaryCssClass);
-
 		if (!this._wasInstatiated) {
 			this.createInternalHtml();
 		}
 		this._wasInstatiated = true;
-
 		this._ch5ButtonSignal = new Ch5ButtonSignal();
-
 		this.logger.stop();
 	}
 
@@ -1004,7 +973,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.updatePressedClass(this.customClassState);
 		}
 
-		this._hammerManager = new Hammer(this._elContainer);
+		// this._hammerManager = new Hammer(this._elContainer);
 
 		this.initAttributes();
 		this.updateCssClasses();
@@ -1043,6 +1012,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			'formtype',
 			'mode',
 
+			'pressed',
 			'selected',
 			'customclassselected',
 			'customclasspressed',
@@ -1303,6 +1273,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 				break;
 
+			// case 'pressed':
+			// 	let isPressed = false;
+			// 	if (this.hasAttribute('pressed')) {
+			// 		const attrPressed = (this.getAttribute('pressed') as string).toLowerCase();
+			// 		if ('false' !== attrPressed && '0' !== attrPressed) {
+			// 			isPressed = true;
+			// 		}
+			// 	}
+			// 	this.pressed = isPressed;
+			// 	this.updateCssClasses();
+			// 	break;
+
 			case 'checkboxshow':
 				let isCheckboxShow = false;
 				if (this.hasAttribute('checkboxshow')) {
@@ -1383,9 +1365,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	private updatePressDelay() {
-		// console.log("IN");
 		if (this._pressable !== null && !_.isNil(this._pressable.options) && !_.isNil(this.pressDelayTime) && !isNaN(this.pressDelayTime)) {
-			// console.log("IN 2", this.pressDelayTime);
 			this._pressable.options.pressDelayTime = this.pressDelayTime;
 		}
 	}
@@ -1399,10 +1379,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _subscribeToPressableIsPressed() {
 		const REPEAT_DIGITAL_PERIOD = 200;
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
-		if (this._pressableIsPressedSubscription === null && this._pressable !== null) {
-			this._pressableIsPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
+		if (this._isPressedSubscription === null && this._pressable !== null) {
+			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
 				this.info(`Ch5Button.pressableSubscriptionCb(${value})`);
 				if (value !== this._buttonPressedInPressable) {
+
 					this._buttonPressedInPressable = value;
 					if (value === false) {
 						if (this._repeatDigitalInterval !== null) {
@@ -1437,9 +1418,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this._repeatDigitalInterval !== null) {
 			window.clearInterval(this._repeatDigitalInterval as number);
 		}
-		if (this._pressableIsPressedSubscription !== null) {
-			this._pressableIsPressedSubscription.unsubscribe();
-			this._pressableIsPressedSubscription = null;
+		if (this._isPressedSubscription !== null) {
+			this._isPressedSubscription.unsubscribe();
+			this._isPressedSubscription = null;
 		}
 	}
 
@@ -1610,9 +1591,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.start('createInternalHtml()');
 		this.clearComponentContent();
 		this._elContainer = document.createElement('div');
-		// this._elContainer.classList.add(this.CSS_CLASS_LIST.CONTAINER_CLASS);
 		this._elButton = document.createElement('button');
-		this._elButton.classList.add(this.CSS_CLASS_LIST.BUTTON_PRIMARY_CLASS);
+		this._elButton.classList.add(this.BUTTON_PRIMARY_CLASS);
 		this._elCheckboxIcon = document.createElement('i');
 		this._elCheckboxIcon.classList.add('cb-checkbox-icon');
 		this._elSpanForLabelIconImg = document.createElement('span');
@@ -1625,7 +1605,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._elContainer.classList.add(this.primaryCssClass);
 		this._elButton.setAttribute('data-ch5-id', this.getCrId());
 		this._elIcon.classList.add(this.primaryCssClass + '--icon');
-		// this._elImg.classList.add(this.primaryCssClass + '--img');
 		this._elSpanForLabelOnly.classList.add(this.primaryCssClass + '--label');
 		this._elSpanForLabelIconImg.classList.add(this.primaryCssClass + '--span');
 
@@ -1640,7 +1619,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	// adding ellipsis in iOS device with vertical button
 	protected createIosEllipsis() {
 		if (isSafariMobile()) {
-			const btnNodes: any = this._elButton.childNodes;
+			const btnNodes: NodeListOf<ChildNode> = this._elButton.childNodes;
 			btnNodes.forEach((node: any) => {
 				if (node.className === (this.primaryCssClass + '--ios-label')) {
 					node.remove();
@@ -1650,9 +1629,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (this.isLabelLoaded) {
 				this.createEllipsisTpl();
 			} else {
-				let timer: any;
-				clearTimeout(timer);
-				timer = setTimeout(() => {
+				// let timer: any;
+				// clearTimeout(timer);
+				// timer = 
+				setTimeout(() => {
 					this.createEllipsisTpl();
 					this.isLabelLoaded = true;
 				}, 2000);
@@ -1678,7 +1658,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	/**
 	 * Clear the button content in order to avoid duplication of buttons
-	 * @return {void}
 	 */
 	protected clearComponentContent() {
 		const containers = this.getElementsByTagName("div");
@@ -1781,7 +1760,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		if (hasCheckboxIcon) {
 			if (this.checkboxPosition === 'right') {
-				this.logger.log('insert icon after label');
 				if (this._elCheckboxIcon.parentNode !== (this._elButton as Node)) {
 					// if the icon element was not yet added to the button
 					this._elButton.appendChild(this._elCheckboxIcon);
@@ -1791,7 +1769,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 
 			} else if (this.checkboxPosition === 'left') {
-				this.logger.log('insert checkbox before label');
 				if ((this._elSpanForLabelIconImg as any).isConnected === true) {
 					this._elButton.insertBefore(this._elCheckboxIcon as Node, this._elSpanForLabelIconImg as Node);
 				}
@@ -1814,9 +1791,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
 	 * if receivestate is false, then
 	 * if mode attribute is updated, always call this method, and update all attributes 
-	 * @param fromNode 
-	 * @param isModeAttributeUpdated 
-	 * @param attibuteName 
 	 */
 	public setButtonDisplay(): void {
 		if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {
@@ -1884,7 +1858,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				const buttonModeStatesArray = selectedButtonMode.getElementsByTagName("ch5-button-mode-state");
 				if (buttonModeStatesArray && buttonModeStatesArray.length > 0) {
 					let selectedButtonModeState = null;
-					if (this._pressed === false && this._buttonPressedInPressable === false) {
+					if (this._buttonPressedInPressable === false) {
 						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
 							return ((buttonModeState.getAttribute("state") === "selected" && this.selected === true) ||
 								(buttonModeState.getAttribute("state") === "normal" && this.selected === false));
@@ -1895,7 +1869,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 						});
 					}
 					if (selectedButtonModeState) {
-						if (!(this._pressed === false && this._buttonPressedInPressable === false)) {
+						if (this._buttonPressedInPressable === true) {
 							isButtonModePressedAvailable = true;
 						}
 
@@ -1937,7 +1911,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 
 				// Priority 3: Button Mode Attributes for Selected Mode
-				if (this._pressed === false && this._buttonPressedInPressable === false) {
+				if (this._buttonPressedInPressable === false) {
 					if (isNil(extendedProperties.type) && !isNil(selectedButtonMode.getAttribute("type"))) {
 						extendedProperties.type = selectedButtonMode.getAttribute("type") as TCh5ButtonType;
 					}
@@ -1981,7 +1955,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		// Priority 4: Button Attributes
-		if (this._pressed === false && this._buttonPressedInPressable === false) {
+		if (this._buttonPressedInPressable === false) {
 			if (isNil(extendedProperties.type) && !isNil(this.getAttribute("type"))) {
 				extendedProperties.type = this.getAttribute("type") as TCh5ButtonType;
 			}
@@ -2027,7 +2001,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.logger.log("extendedProperties Button: ", extendedProperties);
 		}
 
-		if (this._pressed === false && this._buttonPressedInPressable === false) {
+		if (this._buttonPressedInPressable === false) {
 			this.updatePropertiesObject(extendedProperties);
 		} else {
 			if (isButtonModePressedAvailable === true) {
@@ -2205,10 +2179,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 			});
 
-			// Handle vertical button with iconPosition top or bottom
-			if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5ButtonBase.ORIENTATIONS[1]) {
-				this._elButton.classList.add(`${this.cssClassPrefix}--vertical--icon-${this.iconPosition}`);
-			}
+			// // Handle vertical button with iconPosition top or bottom
+			// if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5ButtonBase.ORIENTATIONS[1]) {
+			// 	this._elButton.classList.add(`${this.cssClassPrefix}--vertical--icon-${this.iconPosition}`);
+			// }
 
 			let hasIcon = false;
 			let hasLabel = false;
@@ -2264,7 +2238,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 
 				if (['last', 'bottom'].indexOf(this.iconPosition) >= 0) {
-					this.logger.log('insert icon after label');
 					if (this._elIcon.parentNode !== (this._elButton as Node)) {
 						// if the icon element was not yet added to the button
 						this._elSpanForLabelIconImg.appendChild(this._elIcon);
@@ -2324,13 +2297,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// type
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.type);
 
-		// size
 		if (this.stretch === null) {
+			// size
 			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--size-' + this.size);
-		}
-
-		// stretch
-		if (this.stretch !== null) {
+		} else {
+			// stretch
 			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--stretch-' + this.stretch);
 		}
 
@@ -2364,8 +2335,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
 			if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
+				// this._elButton.classList.add(cssClass);
 				this._elSpanForLabelIconImg.classList.add(cssClass);
 			} else {
+				// this._elButton.classList.remove(cssClass);
 				this._elSpanForLabelIconImg.classList.remove(cssClass);
 			}
 		});

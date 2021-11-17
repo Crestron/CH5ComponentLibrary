@@ -442,8 +442,6 @@ ch5-button {
     padding-bottom: 0.25rem; }
   ch5-button.ch5-button--iconposition-top + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn,
   ch5-button.ch5-button--iconposition-bottom + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn {
-    flex-direction: row;
-    flex-direction: row-reverse;
     padding-left: 0.25rem;
     padding-right: 0.25rem; }
     ch5-button.ch5-button--iconposition-top + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn .ch5-button--label,
@@ -479,6 +477,9 @@ ch5-button[hidden] {
   width: auto;
   cursor: pointer;
   user-select: none; }
+
+.ch5-button button {
+  cursor: pointer; }
 
 .ch5-button button,
 .ch5-button .ch5-button--label {
@@ -684,22 +685,37 @@ ch5-button[stretch="both"] {
 .ch5-button--vertical.ch5-button--circle.ch5-button--size-x-small .cb-btn {
   width: 64px;
   height: 64px; }
+  .ch5-button--vertical.ch5-button--circle.ch5-button--size-x-small .cb-btn .ch5-button--span {
+    width: 32px;
+    height: 64px; }
 
 .ch5-button--vertical.ch5-button--circle.ch5-button--size-small .cb-btn {
   width: 72px;
   height: 72px; }
+  .ch5-button--vertical.ch5-button--circle.ch5-button--size-small .cb-btn .ch5-button--span {
+    width: 36px;
+    height: 72px; }
 
 .ch5-button--vertical.ch5-button--circle.ch5-button--size-large .cb-btn {
   width: 104px;
   height: 104px; }
+  .ch5-button--vertical.ch5-button--circle.ch5-button--size-large .cb-btn .ch5-button--span {
+    width: 52px;
+    height: 104px; }
 
 .ch5-button--vertical.ch5-button--circle.ch5-button--size-x-large .cb-btn {
   width: 144px;
   height: 144px; }
+  .ch5-button--vertical.ch5-button--circle.ch5-button--size-x-large .cb-btn .ch5-button--span {
+    width: 72px;
+    height: 144px; }
 
 .ch5-button--vertical.ch5-button--circle .cb-btn {
   width: 84px;
   height: 84px; }
+  .ch5-button--vertical.ch5-button--circle .cb-btn .ch5-button--span {
+    width: 42px;
+    height: 84px; }
 
 .ch5-button--disabled {
   pointer-events: none;
@@ -833,14 +849,6 @@ i.cb-icon.cx-button-icon-pos-bottom {
 .ch5-button--vertical-bottom {
   align-items: flex-end; }
 
-.ch5-button--circle .ch5-button--vertical-top,
-.ch5-button--oval .ch5-button--vertical-top {
-  align-items: center; }
-
-.ch5-button--circle .ch5-button--vertical-bottom,
-.ch5-button--oval .ch5-button--vertical-bottom {
-  align-items: center; }
-
 .ch5-button--iconposition-bottom:not(.ch5-button--vertical) .ch5-button--span,
 .ch5-button--iconposition-top:not(.ch5-button--vertical) .ch5-button--span {
   display: flex;
@@ -873,16 +881,6 @@ i.cb-icon.cx-button-icon-pos-bottom {
 .ch5-button--iconposition-bottom:not(.ch5-button--vertical):not(.ch5-button--circle):not(.ch5-button--oval) .cb-btn,
 .ch5-button--iconposition-top:not(.ch5-button--vertical):not(.ch5-button--circle):not(.ch5-button--oval) .cb-btn {
   display: flex; }
-
-.ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-top, .ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-top,
-.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-top,
-.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-top {
-  justify-content: center; }
-
-.ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-bottom, .ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-bottom,
-.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-bottom,
-.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-bottom {
-  justify-content: center; }
 
 .ch5-button__checkbox {
   -moz-osx-font-smoothing: grayscale;
@@ -3499,9 +3497,9 @@ body.ch5-video-fullscreen {
 .ch5-keypad {
   display: inline-flex;
   min-width: 270px;
-  min-height: 360px;
+  min-height: 352.2px;
   width: 270px;
-  height: 360px;
+  height: 352.2px;
   vertical-align: top; }
   .ch5-keypad[disabled] {
     opacity: 0.5;
@@ -3606,9 +3604,9 @@ body.ch5-video-fullscreen {
   display: flex;
   justify-content: space-evenly;
   width: 270px;
-  height: 360px;
+  height: 352.2px;
   min-width: 270px;
-  min-height: 360px;
+  min-height: 352.2px;
   flex-direction: column; }
 
 .keypad-row {
@@ -3649,7 +3647,8 @@ body.ch5-video-fullscreen {
       padding-top: 32%; }
     .keypad-row .keypad-btn[key="button0"] .label-minor {
       font-size: 1.5rem;
-      margin-top: -2%; }
+      margin-top: -2%;
+      margin-left: 3%; }
 
 .ch5-keypad.ch5-keypad--shape-square .keypad-container .keypad-row .keypad-btn {
   border-radius: 0; }
@@ -3675,83 +3674,96 @@ body.ch5-video-fullscreen {
   justify-content: center; }
 
 .ch5-keypad.ch5-keypad--size-x-small {
-  min-width: 200px;
-  min-height: 290px;
-  width: 200px;
-  height: 290px; }
+  min-width: 207px;
+  min-height: 270px;
+  width: 207px;
+  height: 270px; }
   .ch5-keypad.ch5-keypad--size-x-small .keypad-container {
-    min-width: 200px;
-    min-height: 290px;
-    width: 200px;
-    height: 290px; }
+    min-width: 207px;
+    min-height: 270px;
+    width: 207px;
+    height: 270px; }
   .ch5-keypad.ch5-keypad--size-x-small[showextrabutton="true"] {
-    height: 380px; }
+    height: 345px; }
     .ch5-keypad.ch5-keypad--size-x-small[showextrabutton="true"] .keypad-container {
-      height: 380px;
-      min-width: 200px;
-      min-height: 380px; }
+      height: 345px;
+      min-width: 207px;
+      min-height: 345px; }
   .ch5-keypad.ch5-keypad--size-x-small .keypad-row .keypad-btn button .label-major {
-    font-size: 2rem; }
+    font-size: 1.8rem; }
   .ch5-keypad.ch5-keypad--size-x-small .keypad-row .keypad-btn button .label-minor {
-    font-size: 0.8rem; }
+    font-size: 0.6rem;
+    margin-top: -15%; }
 
 .ch5-keypad.ch5-keypad--size-small {
-  min-width: 235px;
-  min-height: 325px;
-  width: 235px;
-  height: 325px; }
+  min-width: 250px;
+  min-height: 326.1px;
+  width: 250px;
+  height: 326.1px; }
   .ch5-keypad.ch5-keypad--size-small .keypad-container {
-    min-width: 235px;
-    min-height: 325px;
-    width: 235px;
-    height: 325px; }
+    min-width: 250px;
+    min-height: 326.1px;
+    width: 250px;
+    height: 326.1px; }
   .ch5-keypad.ch5-keypad--size-small[showextrabutton="true"] {
-    height: 415px; }
+    height: 416.7px; }
     .ch5-keypad.ch5-keypad--size-small[showextrabutton="true"] .keypad-container {
-      height: 415px;
-      min-width: 235px;
-      min-height: 415px; }
+      height: 416.7px;
+      min-width: 250px;
+      min-height: 416.7px; }
   .ch5-keypad.ch5-keypad--size-small .keypad-row .keypad-btn button .label-major {
     font-size: 2rem; }
   .ch5-keypad.ch5-keypad--size-small .keypad-row .keypad-btn button .label-minor {
-    font-size: 0.9rem; }
+    font-size: 0.7rem; }
 
 .ch5-keypad.ch5-keypad--size-large {
   min-width: 300px;
-  min-height: 390px;
+  min-height: 391.35px;
   width: 300px;
-  height: 390px; }
+  height: 391.35px; }
   .ch5-keypad.ch5-keypad--size-large .keypad-container {
     min-width: 300px;
-    min-height: 390px;
+    min-height: 391.35px;
     width: 300px;
-    height: 390px; }
+    height: 391.35px; }
   .ch5-keypad.ch5-keypad--size-large[showextrabutton="true"] {
-    height: 480px; }
+    height: 500px; }
     .ch5-keypad.ch5-keypad--size-large[showextrabutton="true"] .keypad-container {
-      height: 480px;
+      height: 500px;
       min-width: 300px;
-      min-height: 480px; }
+      min-height: 500px; }
 
 .ch5-keypad.ch5-keypad--size-x-large {
   min-width: 320px;
-  min-height: 420px;
+  min-height: 417.45px;
   width: 320px;
-  height: 420px; }
+  height: 417.45px; }
   .ch5-keypad.ch5-keypad--size-x-large .keypad-container {
     min-width: 320px;
-    min-height: 420px;
+    min-height: 417.45px;
     width: 320px;
-    height: 420px; }
+    height: 417.45px; }
   .ch5-keypad.ch5-keypad--size-x-large[showextrabutton="true"] {
-    height: 510px; }
+    height: 533.4px; }
     .ch5-keypad.ch5-keypad--size-x-large[showextrabutton="true"] .keypad-container {
-      height: 510px;
+      height: 533.4px;
       min-width: 320px;
-      min-height: 510px; }
+      min-height: 533.4px; }
 
 .ch5-keypad.ch5-keypad--size-x-small .keypad-btn[key="button0"] button .label-minor {
-  font-size: 1.5rem; }
+  font-size: 1.1rem;
+  margin-top: -25%;
+  margin-left: 3%; }
 
 .ch5-keypad.ch5-keypad--size-small .keypad-btn[key="button0"] button .label-minor {
-  font-size: 1.5rem; }
+  font-size: 1.2rem;
+  margin-top: -15%;
+  margin-left: 4%; }
+
+.ch5-keypad.ch5-keypad--size-x-small .keypad-row .keypad-btn.misc-btn.misc-btn-one .label-major {
+  font-size: 2.8rem;
+  padding-top: 15%; }
+
+.ch5-keypad.ch5-keypad--size-small .keypad-row .keypad-btn.misc-btn.misc-btn-one .label-major {
+  font-size: 2.8rem;
+  padding-top: 20%; }
