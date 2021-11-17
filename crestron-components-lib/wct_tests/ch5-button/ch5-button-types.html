@@ -62,6 +62,7 @@
             let ch5Button2;
             let ch5Button3;
 
+            /* coverity[implicit_this_used] */
             setup(async () => {
                 const emulatorJson = await fetch('./emulator/types.json').then((response) => response.json());
                 const emulator = CrComLib.Ch5Emulator.getInstance();
