@@ -27,6 +27,7 @@
         let parent;
         let parentCallback;
 
+        /* coverity[implicit_this_used] */
         setup(() => {
             grandparent = fixture('ch5-image-refreshRate-intersection-observer');
             parent = document.querySelector('#parent');
