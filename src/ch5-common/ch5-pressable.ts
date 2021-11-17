@@ -70,6 +70,7 @@ export class Ch5Pressable {
 			}
 		}
 	}
+
 	private _fingerState = new Ch5Pressable.FingerState();
 
 	private _ch5Component: Ch5Common;
@@ -97,14 +98,14 @@ export class Ch5Pressable {
 	private _touchEnd: boolean = false;
 
 	/**
-	 * Reflectes the pressed state of the component
+	 * Reflects the pressed state of the component
 	 *
 	 * @private
 	 */
 	private _pressed: boolean = false;
 
 	/**
-	 * Reflectes the released state of the component
+	 * Reflects the released state of the component
 	 *
 	 * @private
 	 */
