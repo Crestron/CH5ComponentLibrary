@@ -452,6 +452,7 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 
             const relativeScrollSize = Math.ceil((containerSize / listSize) * 100) as number;
 
+            /* coverity[check_after_deref] */
             if (scroll !== undefined) {
                 (container as HTMLElement).addEventListener('scroll', () => {
                     if (scroll.style !== undefined && container) {
