@@ -5,5 +5,10 @@ title: "ch5-spinner: sendEventOnFocus attribute"
 {% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
 
 {% block content %}
+    {% set scenario1 -%}
+    {%- include "./emulator-scenarios/scenario-ch5-slider-send-signal-on-focus.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
     {% call exampleSectionFromPartials('ch5-spinner/send-signal-attributes/send-signal-on-focus/','ex1') %}{% endcall %}
 {% endblock %}
