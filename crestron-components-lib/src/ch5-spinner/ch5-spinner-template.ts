@@ -624,6 +624,17 @@ export class Ch5SpinnerTemplate {
     let animationFrame: number;
     let time: number = 1;
     let label: HTMLElement | null;
+    let count = 0;
+    let itemHeight: number;
+
+    const getBoundingRect = () => {
+      if (count % 8 === 0) {
+        itemHeight = (image && (image.offsetHeight || image.getBoundingClientRect().height) ||
+          (label && (label.offsetHeight || label.getBoundingClientRect().height)) ||
+          (child.offsetHeight || child.getBoundingClientRect().height));
+      }
+      count++;
+    };
 
     const setItemHeight = () => {
       time += this.element.signalValueSyncTimeout / 60;
@@ -640,9 +651,7 @@ export class Ch5SpinnerTemplate {
           }
 
           // use offsetHeight instead of clientHeight as it also includes borders
-          const itemHeight = (image && (image.offsetHeight || image.getBoundingClientRect().height) ||
-            (label && (label.offsetHeight || label.getBoundingClientRect().height)) ||
-            (child.offsetHeight || child.getBoundingClientRect().height));
+          getBoundingRect();
 
           if (itemHeight > 0){
             this.element.itemHeight = itemHeight + '';
