@@ -855,6 +855,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         // reset the class attribute
         this._elIcon.className = '';
 
+        /* coverity[check_after_deref] */
         if (this._elIcon !== undefined) {
             this.iconClass.split(' ').forEach(
                 (className: string) => {

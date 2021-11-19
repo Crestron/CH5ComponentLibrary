@@ -2179,6 +2179,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		// set dirty value based on handle
 		if (this._dirty) {
+			/* coverity[var_deref_model] */
 			this.setDirtyValue(handle, value);
 		}
 

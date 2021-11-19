@@ -935,6 +935,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
                 break;
             case 'dir':
                 if (this.hasAttribute('dir')) {
+                    /* coverity[property_access] */
                     this.direction = newValue.toLowerCase();
                 } else {
                     this.direction = Ch5Common.DIRECTION[0];
