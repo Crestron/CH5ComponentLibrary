@@ -515,6 +515,7 @@ export class Ch5SpinnerScroll {
         if (
           endless === true &&
           this._isBoundary(this.currentYOffset, minimumTopOffset, maximumTopOffset) &&
+          /* coverity[check_after_deref] */
           childrenObject !== null
         ) {
 
