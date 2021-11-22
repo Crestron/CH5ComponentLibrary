@@ -620,15 +620,15 @@ export class Ch5SpinnerTemplate {
 
   public handleDefaultItemHeight(child: HTMLElement) {
 
-    let image: HTMLElement | null;
-    let animationFrame: number;
+    let image: HTMLElement | null = null;
     let time: number = 1;
-    let label: HTMLElement | null;
+    let label: HTMLElement | null = null;
     let count = 0;
-    let itemHeight: number;
+    let itemHeight: number = 0;
 
     const getBoundingRect = () => {
       if (count % 8 === 0) {
+        // use offsetHeight instead of clientHeight as it also includes borders
         itemHeight = (image && (image.offsetHeight || image.getBoundingClientRect().height) ||
           (label && (label.offsetHeight || label.getBoundingClientRect().height)) ||
           (child.offsetHeight || child.getBoundingClientRect().height));
@@ -636,38 +636,22 @@ export class Ch5SpinnerTemplate {
       count++;
     };
 
-    const setItemHeight = () => {
-      time += this.element.signalValueSyncTimeout / 60;
-      if (this.element.signalValueSyncTimeout > time) {
-        this.toggleOverlay(true, true);
-        if (child !== undefined && child !== null) {
+    time += this.element.signalValueSyncTimeout / 60;
+    if (this.element.signalValueSyncTimeout > time) {
+      this.toggleOverlay(true, true);
+      if (child) {
+        image = child.querySelector('ch5-image');
 
-          if (image === null || image === undefined) {
-            image = child.querySelector('ch5-image');
-          }
+        label = child.querySelector('label');
 
-          if (label === null || label === undefined) {
-            label = child.querySelector('label');
-          }
+        getBoundingRect();
 
-          // use offsetHeight instead of clientHeight as it also includes borders
-          getBoundingRect();
-
-          if (itemHeight > 0){
-            this.element.itemHeight = itemHeight + '';
-          }
-
-          animationFrame = window.requestAnimationFrame(setItemHeight);
-
+        if (itemHeight > 0) {
+          this.element.itemHeight = itemHeight + '';
         }
-      } else {
-        window.cancelAnimationFrame(animationFrame);
-        this.toggleOverlay(false);
       }
-    };
-
-    if (this.element.autoSetItemHeight === true) {
-      animationFrame = window.requestAnimationFrame(setItemHeight);
+    } else {
+      this.toggleOverlay(false);
     }
   }
 
