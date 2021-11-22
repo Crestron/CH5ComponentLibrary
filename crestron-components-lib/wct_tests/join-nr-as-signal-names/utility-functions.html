@@ -19,6 +19,7 @@
         'CrComLib.textformat("City: {1}, Number: {2}, Number*3: {3}","{{s.24}}",{{n.23}},{{n.23}}*3)';
       const emulator = CrComLib.Ch5Emulator.getInstance();
 
+      /* coverity[implicit_this_used] */
       setup(() => {
         const scenario = {
           cues: [{

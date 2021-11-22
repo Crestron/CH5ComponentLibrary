@@ -41,6 +41,8 @@
     <script>
         suite('ch5-background repeat', () => {
             let ch5Background;
+
+            /* coverity[implicit_this_used] */
             setup(() => {
                 ch5Background = fixture('ch5-background-repeat-fixture');
                 return Promise.all([customElements.whenDefined('ch5-background')]);
