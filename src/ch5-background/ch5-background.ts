@@ -1073,14 +1073,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		}
 	}
 
-	private updateCanvasDimensions1() {
-		if (this.isCanvasListValid()) {
-			this._canvasList.forEach((canvas: HTMLCanvasElement) => {
-				this.setCanvasDimensions(canvas);
-			});
-			this.updateBackground();
-		}
-	}
 	/**
 	 * 
 	 */
@@ -1095,21 +1087,12 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 						newWidth = this.isScrollBar(this.parentElement, 'horizontal') ? this.parentElement.scrollWidth : this.parentElement.clientWidth;
 						newHeight = this.isScrollBar(this.parentElement, 'vertical') ? this.parentElement.scrollHeight : this.parentElement.clientHeight;
 					}
-					this.info("this._prevCanvasList[idx].width", this._prevCanvasList[idx].width);
-					this.info("this._prevCanvasList[idx].height", this._prevCanvasList[idx].height);
-					this.info("newWidth", newWidth);
-					this.info("newHeight", newHeight);
-					if (this._prevCanvasList[idx].width === newWidth &&
+					if (this._prevCanvasList[idx] && this._prevCanvasList[idx].width === newWidth &&
 						this._prevCanvasList[idx].height === newHeight) {
 						processCanvasObject = false;
-
 					}
-					this.info("newWidth", newWidth);
-					this.info("this._prevCanvasList", this._prevCanvasList);
-					this.info("newHeight", newHeight);
 				}
 				this.info("processCanvas", processCanvasObject);
-				this.info("this._prevCanvasList", this._prevCanvasList);
 				if (processCanvasObject === true) {
 					canvas.width = 0;
 					canvas.height = 0;
