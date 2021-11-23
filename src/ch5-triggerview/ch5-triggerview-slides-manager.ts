@@ -96,7 +96,7 @@ export class Ch5TriggerViewSlidesManager {
   }
 
   /**
-   * Initialilze Swiper
+   * Initialize Swiper
    */
   public initSwiper() {
     const id = this.triggerViewEl.getCrId();
@@ -128,7 +128,7 @@ export class Ch5TriggerViewSlidesManager {
       publishEvent('b', 'triggerview.slidechange', true);
     });
 
-    // publishing slidemove eevnt for ch5-video
+    // publishing slidemove event for ch5-video
     this._swiper.on('slideChangeTransitionStart', () => {
       publishEvent('b', 'triggerview.slidemove', true);
     });
@@ -151,7 +151,7 @@ export class Ch5TriggerViewSlidesManager {
         this._touchMoveListRelatedEventDisabled = false;
       }
 
-      // publishing touchend eevnt for ch5-video
+      // publishing touchend event for ch5-video
       publishEvent('b', 'triggerview.touchend', true);
     });
   }
