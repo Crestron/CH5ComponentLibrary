@@ -3704,7 +3704,7 @@
           },
           {
             "documentation": [
-              "`useContractforEnable` attribute",
+              "`useContractForEnable` attribute",
               "***",
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
@@ -3718,7 +3718,7 @@
               "false",
               "true"
             ],
-            "name": "useContractforEnable",
+            "name": "useContractForEnable",
             "default": "false",
             "hideWhen": [],
             "showWhen": []
@@ -3882,7 +3882,7 @@
             "prefix": "ch5-dpad:contractbased",
             "description": "Crestron Dpad",
             "body": [
-              "<ch5-dpad  id=\"btn_${0:id}\"",
+              "<ch5-dpad id=\"btn_${0:id}\"",
               "\tcontractname=\"${1:Contract Name}\"",
               ">",
               "</ch5-dpad>"
@@ -3892,7 +3892,7 @@
             "prefix": "ch5-dpad:eventbased",
             "description": "Crestron Dpad",
             "body": [
-              "<ch5-dpad  id=\"btn_${0:id}\"",
+              "<ch5-dpad id=\"btn_${0:id}\"",
               "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
               ">",
               "</ch5-dpad>"
@@ -3902,12 +3902,12 @@
             "prefix": "ch5-dpad:all-attributes",
             "description": "Crestron Dpad",
             "body": [
-              "<ch5-dpad  id=\"btn_${0:id}\"",
+              "<ch5-dpad id=\"btn_${0:id}\"",
               "\tcontractname=\"${1:Contract Name}\"",
               "\tshape=\"${2:Shape}\"",
               "\ttype=\"${3:type}\"",
               "\tstretch=\"${4:stretch}\"",
-              "\tusecontractforenable=\"${5:useContractforEnable}\"",
+              "\tusecontractforenable=\"${5:useContractForEnable}\"",
               "\tusecontractforshow=\"${6:useContractForShow}\"",
               "\tusecontractforcustomclass=\"${7:useContractForCustomClass}\"",
               "\tusecontractforcustomstyle=\"${8:useContractForCustomStyle}\"",
@@ -5467,6 +5467,18 @@
           },
           {
             "documentation": [
+              "`key` attribute",
+              "***",
+              "Defines the key value of the button."
+            ],
+            "value": [],
+            "name": "key",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
+          },
+          {
+            "documentation": [
               "`sendEventOnClick` attribute",
               "***",
               "Sends an event on click or tap (mouse or swipe up and down quickly).",
@@ -5756,6 +5768,18 @@
           },
           {
             "documentation": [
+              "`key` attribute",
+              "***",
+              "Defines the key value of the button."
+            ],
+            "value": [],
+            "name": "key",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
+          },
+          {
+            "documentation": [
               "`sendEventOnClick` attribute",
               "***",
               "Sends an event on click or tap (mouse or swipe up and down quickly).",
@@ -5808,7 +5832,7 @@
             "documentation": [
               "`type` shape",
               "***",
-              "Sets the overall <ch5-Keypad> component shape to plus or circle."
+              "Sets the overall <ch5-keypad> component shape to plus or circle."
             ],
             "value": [
               "rounded-rectangle",
@@ -5825,8 +5849,8 @@
               "`type` stretch",
               "***",
               "When the stretch property is set, the component inherits the width or/and height of the container. ",
-              "If stretch by height is used, the <ch5-Keypad> will be responsive based on the width of the container. ",
-              "If stretch width is applied, the <ch5-Keypad> will be responsive based on the height of the container. ",
+              "If stretch by height is used, the <ch5-keypad> will be responsive based on the width of the container. ",
+              "If stretch width is applied, the <ch5-keypad> will be responsive based on the height of the container. ",
               "This implies that the container height is picked for width and container width is picked for height ",
               "to ensure that the overall shape of the component is a 'square' in nature (equal in width and height ",
               "for the shapes of plus and circle)."
@@ -5877,21 +5901,21 @@
           },
           {
             "documentation": [
-              "`type` useContractforEnable",
+              "`type` useContractForEnable",
               "***",
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
               "If this value is set to true then the value received from the contract will be considered to enable ",
-              "<ch5-Keypad> tag and also to enable the buttons under <ch5-Keypad> component i.e. <ch5-Keypad-button-left>, ",
-              "<ch5-Keypad-button-right>, <ch5-Keypad-button-top>, <ch5-Keypad-button-bottom>, <ch5-Keypad-button-center>. ",
-              "The names from the contract will be different for each of the buttons and the overall <ch5-Keypad> component. ",
+              "<ch5-keypad> tag and also to enable the buttons under <ch5-keypad> component i.e. <ch5-keypad-button-left>, ",
+              "<ch5-keypad-button-right>, <ch5-keypad-button-top>, <ch5-keypad-button-bottom>, <ch5-keypad-button-center>. ",
+              "The names from the contract will be different for each of the buttons and the overall <ch5-keypad> component. ",
               "The details can be seen in the table above."
             ],
             "value": [
               "false",
               "true"
             ],
-            "name": "useContractforEnable",
+            "name": "useContractForEnable",
             "default": "false",
             "hideWhen": [],
             "showWhen": []
@@ -5903,8 +5927,8 @@
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
               "If this value is set to true then the value received from the contract will be considered to show / hide ",
-              "<ch5-Keypad> tag. The names from the contract will be different for each of the buttons and the overall ",
-              "<ch5-Keypad> component. The details can be seen in the table above."
+              "<ch5-keypad> tag. The names from the contract will be different for each of the buttons and the overall ",
+              "<ch5-keypad> component. The details can be seen in the table above."
             ],
             "value": [
               "false",
@@ -5922,7 +5946,7 @@
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
               "If this value is set to true then the value received from the contract will be considered for remaining ",
-              "ch5-Keypad button as a custom class."
+              "ch5-keypad button as a custom class."
             ],
             "value": [
               "false",
@@ -6118,7 +6142,7 @@
               "\tstretch=\"${4:stretch}\"",
               "\ttextorientation=\"${5:textOrientation}\"",
               "\tshowextrabutton=\"${6:showExtraButton}\"",
-              "\tusecontractforenable=\"${7:useContractforEnable}\"",
+              "\tusecontractforenable=\"${7:useContractForEnable}\"",
               "\tusecontractforshow=\"${8:useContractForShow}\"",
               "\tusecontractforcustomclass=\"${9:useContractForCustomClass}\"",
               "\tusecontractforcustomstyle=\"${10:useContractForCustomStyle}\"",
@@ -11048,6 +11072,22 @@
             ],
             "value": [],
             "name": "iconclass",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "deprecated": {
+              "version": "1.0.0",
+              "description": "This attribute is deprecated, please use 'icon' attribute."
+            }
+          },
+          {
+            "documentation": [
+              "`icon` attribute",
+              "***",
+              "The icon to be shown. Its either prefixed or suffixed based on the iconposition attribute."
+            ],
+            "value": [],
+            "name": "icon",
             "default": "null",
             "hideWhen": [],
             "showWhen": []
