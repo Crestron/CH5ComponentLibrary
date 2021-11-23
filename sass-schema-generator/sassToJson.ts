@@ -1,11 +1,11 @@
-import {HELPERS_PATH, PROPERTIES_INTERFACE, RULES_INTERFACE} from "./utils";
+import { PROPERTIES_INTERFACE, RULES_INTERFACE } from "./utils";
 
-const Parser = require('css-simple-parser');
+const parser = require('css-simple-parser');
 
 function flattenNestedRules(higherSelector: string[], lowerSelector: string[]): string[][] {
   return higherSelector.map(selector => {
     return lowerSelector.map(innerSelector => {
-      if(selector.trim().startsWith('&')) {
+      if (selector.trim().startsWith('&')) {
         return innerSelector.trim() + selector.replace('&', '').trim();
       }
       return innerSelector + selector;
@@ -91,7 +91,6 @@ function extractVariables(body: string) {
   return supportsVariables;
 }
 
-
 function removeMixins(data: string) {
   const mixinsRegex = new RegExp(/(@mixin)([\s\S]*?)(^})/, 'gm');
   return data.replace(mixinsRegex, '');
@@ -110,15 +109,15 @@ function extractMixins(data: string) {
   for (const mixin of (data.match(mixinsRegex) || [])) {
     const name = mixin.match(mixinNameRegex)[0].substr(7).trim();
     const content = mixin.match(mixinContentRegex)[0].replace(/\s\s+/g, ' ').trim();
-    mixins.push({name, content});
+    mixins.push({ name, content });
   }
   return mixins;
 }
 
-function processInclude(body: string, mixins: {name: string, content: string}[]) {
+function processInclude(body: string, mixins: { name: string, content: string }[]) {
   let processBody = body;
   const includeRegex = new RegExp(/(@include[ a-zA-Z0-9-$,();]+)/, 'g');
-  const includeNameRegex =  new RegExp(/(@include[ a-zA-Z0-9-]+)/, 'g');
+  const includeNameRegex = new RegExp(/(@include[ a-zA-Z0-9-]+)/, 'g');
   if (includeRegex.test(body)) {
     for (const include of (processBody.match(includeRegex) || [])) {
       const includeName = include.match(includeNameRegex)[0].substr(9);
@@ -141,9 +140,9 @@ function applyBusinessRules(selector: string, showWhen: object, businessRules: o
       const containsNot = selector.toLowerCase().includes(`not(${rule.contains})`);
       if (containsNot) {
         const otherRules = Object.values(businessRules).filter(notRule => notRule.key === rule.key && notRule.value !== rule.value);
-        Object.assign(showWhen, {[rule.key]: [otherRules.map(otherRule => otherRule.value)]});
+        Object.assign(showWhen, { [rule.key]: [otherRules.map(otherRule => otherRule.value)] });
       } else if (containsProperty) {
-        Object.assign(showWhen, {[rule.key]: [rule.value]})
+        Object.assign(showWhen, { [rule.key]: [rule.value] })
       }
     }
   }
@@ -165,9 +164,9 @@ function computeShowWhen(selector: string, properties: PROPERTIES_INTERFACE, bus
       if (selector.indexOf(value.classListPrefix + data) !== -1) {
         // If the 'not' operator is present pipe all the other values except the negated one.
         if (selector.indexOf(`:not(.${value.classListPrefix + data})`) !== -1) {
-          Object.assign(showWhen, {[value.key]: value.values.filter(tempValue => tempValue !== data)})
+          Object.assign(showWhen, { [value.key]: value.values.filter(tempValue => tempValue !== data) })
         } else {
-          Object.assign(showWhen, {[value.key]: Array.isArray(data) ? data : [data]});
+          Object.assign(showWhen, { [value.key]: Array.isArray(data) ? data : [data] });
         }
       }
     }
@@ -175,26 +174,22 @@ function computeShowWhen(selector: string, properties: PROPERTIES_INTERFACE, bus
   return showWhen;
 }
 
-async function processSassfile(data: string, name: string, helper: PROPERTIES_INTERFACE, globalMixins: ReturnType<typeof extractMixins>, businessRules: object) {
+async function processSassFile(data: string, name: string, helper: PROPERTIES_INTERFACE, globalMixins: ReturnType<typeof extractMixins>, businessRules: object) {
   let stringifiedData = data;
 
   // STEP 1: Remove all the multiline/ single line comments, except the documentation marked with ///
   stringifiedData = removeComments(stringifiedData);
-
   const mixins = extractMixins(stringifiedData).concat(globalMixins);
 
   stringifiedData = removeMixins(stringifiedData);
-
   stringifiedData = processInclude(stringifiedData, mixins);
 
   const rules: RULES_INTERFACE[] = [];
-
-  const ast = Parser.parse(stringifiedData);
-
+  const ast = parser.parse(stringifiedData);
 
   // STEP 2: Traverse each selector
   // Selector and body are only some of the properties available.
-  Parser.traverse(ast, async (node: {selector: string, body: string}) => {
+  parser.traverse(ast, async (node: { selector: string, body: string }) => {
     let selectors = [];
     let supports: string[] = [];
     let description = '';
@@ -245,7 +240,7 @@ async function processSassfile(data: string, name: string, helper: PROPERTIES_IN
   return rules;
 }
 
-export  {
-  processSassfile,
+export {
+  processSassFile,
   extractMixins
 }

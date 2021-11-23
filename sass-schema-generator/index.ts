@@ -1,6 +1,6 @@
 import { getCrComLibComponentData } from './business-rules/headless-browser';
-import { extractMixins, processSassfile } from './sassToJson';
-import { BASE_OBJECT_INTERFACE, COMPONENT_PATH, HELPERS_PATH, OUTPUT_JSON, OUTPUT_PROPERTIES, OUTPUT_SCSS, PROPERTIES_INTERFACE, THEME_EDITOR_PATH } from "./utils";
+import { extractMixins, processSassFile } from './sassToJson';
+import { BASE_OBJECT_INTERFACE, OUTPUT_JSON, OUTPUT_PROPERTIES, OUTPUT_SCSS, PROPERTIES_INTERFACE, THEME_EDITOR_PATH } from "./utils";
 
 const fs = require('fs');
 const flatten = require('sass-flatten');
@@ -23,16 +23,6 @@ function writeToFile(data: string, path: string) {
       console.log(err, path);
     }
   })
-}
-
-async function getComponent(folderName: string, fileName: string): Promise<void> {
-  try {
-    // const  myData = await import(COMPONENT_PATH  + `/${fileName}.ts`);
-    const myData = await import(COMPONENT_PATH + folderName + `/${fileName}.ts`);
-    console.log({ myData });
-  } catch (err) {
-    throw new Error(`COULD NOT FIND COMPONENT FILE FOR ${fileName}`);
-  }
 }
 
 /**
@@ -68,17 +58,12 @@ async function buildJsonStructure(flattenedComponents: { flattenedScss: string, 
   // For each flattened SCSS component
   for (const component of flattenedComponents) {
     try {
-      // Get the helper
-      // const helper = await getHelperForComponent(component.name);
-      // Get the properties
-      // const x = getComponent(component.name);
-      // main(component.name);
       const properties = await GET_PROPERTIES(componentsPath[component.name]);
       const businessRules = jsonfile.readFileSync("./business-rules/" + component.name + ".rules.json").businessRules;
       // Save the properties to a json for future reference
       generatePropertiesJson(properties, component.name);
       // Process the flattened scss
-      const outputJson = await processSassfile(component.flattenedScss, component.name, properties, globalMixins, businessRules);
+      const outputJson = await processSassFile(component.flattenedScss, component.name, properties, globalMixins, businessRules);
       Object.assign(jsonObject, {
         [component.name]: outputJson
       });
