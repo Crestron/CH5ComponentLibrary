@@ -249,8 +249,6 @@ function getDeprecatedFromObject(definition: Object): Deprecated | undefined {
 
     // get the documentation property which should be an object.
     const value: object = definition[documentationTag]
-    console.log(value);
-    console.log(typeof value)
 
     if (!isNil(value)) {
         return {
