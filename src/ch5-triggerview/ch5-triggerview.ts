@@ -356,7 +356,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 
 			this.slidesManager.prepareSwiperSlides();
 			// activate swiper
-			// this.slidesManager.initSwiper();
+			this.slidesManager.initSwiper();
 		}
 
 		if (!this.closest('ch5-modal-dialog')) {
