@@ -14,45 +14,21 @@
  * @throws {RangeError} min must be strictly less than max.
  */
 export function clamp(x: number, min: number = x, max: number = x): number {
-    let clamped = x;
+	let clamped = x;
 
-    if (min > max) {
-        throw new RangeError(`'min' ${min} should be lower than 'max' ${max}`);
-    }
+	if (min > max) {
+		throw new RangeError(`'min' ${min} should be lower than 'max' ${max}`);
+	}
 
-    if (x < min) {
-        clamped = min;
-    }
+	if (x < min) {
+		clamped = min;
+	}
 
-    if (x > max) {
-        clamped = max;
-    }
+	if (x > max) {
+		clamped = max;
+	}
 
-    return clamped;
-}
-
-/**
- * Clamps a number according to its absolute value, but still retainig its sign.
- * @param {number} x The number to be clamped.
- * @param {number} [min] The min value.
- * @param {number} [max] The max value.
- * @return {number} The clamped number.
- */
-export function clampAbs(x: number, min: number, max: number): number {
-    if (x === 0) {
-        throw new RangeError('x must be different from `0`');
-    }
-
-    return x / Math.abs(x) * clamp(Math.abs(x), min, max);
-}
-
-/**
- * Computes the tan of an angle in degress, and rounds it to 2 decimals.
- * @param {number} deg The angle in degrees.
- * @return {number} The rounded tan.
- */
-export function roundedTan(deg: number) {
-    return Math.round(Math.tan(deg * Math.PI / 180) * 100) / 100
+	return clamped;
 }
 
 /**
@@ -62,7 +38,7 @@ export function roundedTan(deg: number) {
  * @param {boolean} flag
  */
 export function booleanSetter(element: HTMLElement, attributeName: string, flag: boolean) {
-    element.setAttribute(attributeName, flag.toString());
+	element.setAttribute(attributeName, flag.toString());
 }
 
 /**
@@ -72,9 +48,8 @@ export function booleanSetter(element: HTMLElement, attributeName: string, flag:
  * @return {boolean} Whether the element has that specific attribute
  */
 export function booleanGetter(element: HTMLElement, attributeName: string, defaultValue = false): boolean {
-    const value = element.getAttribute(attributeName);
-
-    return value === null ? defaultValue : _toBoolean(value);
+	const value = element.getAttribute(attributeName);
+	return value === null ? defaultValue : _toBoolean(value);
 }
 
 /**
@@ -84,7 +59,7 @@ export function booleanGetter(element: HTMLElement, attributeName: string, defau
  * @param {number} value
  */
 export function intSetter(element: HTMLElement, attributeName: string, value: number) {
-    element.setAttribute(attributeName, value.toString());
+	element.setAttribute(attributeName, value.toString());
 }
 
 /**
@@ -95,8 +70,8 @@ export function intSetter(element: HTMLElement, attributeName: string, value: nu
  * @return {number} Whether the element has that specific attribute
  */
 export function intGetter(element: HTMLElement, attributeName: string, defaultValue = 0): number {
-    const value = element.getAttribute(attributeName);
-    return value === null ? defaultValue : parseInt(value, 10);
+	const value = element.getAttribute(attributeName);
+	return value === null ? defaultValue : parseInt(value, 10);
 }
 
 /**
@@ -115,29 +90,29 @@ export function intGetter(element: HTMLElement, attributeName: string, defaultVa
  * @private
  */
 export function normalizeEvent(ev: any) {
-    // touch
-    if (ev.type === 'touchstart' ||
-        ev.type === 'touchmove' ||
-        ev.type === 'touchend') {
-        const touch = ev.changedTouches[0];
-        return {
-            x: touch.clientX,
-            y: touch.clientY,
-            id: touch.identifier,
-            event: ev,
-            targetElement: touch.target
-        };
+	// touch
+	if (ev.type === 'touchstart' ||
+		ev.type === 'touchmove' ||
+		ev.type === 'touchend') {
+		const touch = ev.changedTouches[0];
+		return {
+			x: touch.clientX,
+			y: touch.clientY,
+			id: touch.identifier,
+			event: ev,
+			targetElement: touch.target
+		};
 
-        // mouse
-    } else {
-        return {
-            x: ev.clientX,
-            y: ev.clientY,
-            id: null,
-            event: ev,
-            targetElement: ev.target
-        };
-    }
+		// mouse
+	} else {
+		return {
+			x: ev.clientX,
+			y: ev.clientY,
+			id: null,
+			event: ev,
+			targetElement: ev.target
+		};
+	}
 }
 
 /**
@@ -147,18 +122,8 @@ export function normalizeEvent(ev: any) {
  * @return {string} The property value.
  */
 export function getCSSCustomProperty(element: HTMLElement, propertyName: string): string {
-    const cssStyles = getComputedStyle(element);
-    return String(cssStyles.getPropertyValue(propertyName)).trim();
-}
-
-/**
- * Sets the value of a CSS Custom property on a HTML Element.
- * @param {HTMLElement} element The element to get the property onto.
- * @param {string} propertyName The property name.
- * @param {string|number} propertyValue The property value.
- */
-export function setCSSCustomProperty(element: HTMLElement, propertyName: string, propertyValue: string) {
-    element.style.setProperty(propertyName, propertyValue);
+	const cssStyles = getComputedStyle(element);
+	return String(cssStyles.getPropertyValue(propertyName)).trim();
 }
 
 /**
@@ -169,10 +134,10 @@ export function setCSSCustomProperty(element: HTMLElement, propertyName: string,
  * @returns {boolean}
  */
 function _toBoolean(val: string | boolean): boolean {
-    const str = String(val);
-    switch (str.toLowerCase().trim()) {
-        case "true": case "yes": case "1": return true;
-        case "false": case "no": case "0": case null: return false;
-        default: return Boolean(false);
-    }
+	const str = String(val);
+	switch (str.toLowerCase().trim()) {
+		case "true": case "yes": case "1": return true;
+		case "false": case "no": case "0": case null: return false;
+		default: return Boolean(false);
+	}
 }
