@@ -5,25 +5,6 @@
   "metadata": {
     "title": "Showcase App",
     "description": "Showcase App for Crestron Components",
-    "siteurl":"/downloads/ShowcaseApp/"
-  },
-  "plugins": {
-    "metalsmith-debug":{},
-    "metalsmith-assets":{
-      "source": "../crestron-components-lib/build_bundles/umd/",
-      "destination": "./cr-com-lib"
-    },
-    "metalsmith-static":{
-      "src": "./static",
-      "dest": "."
-    },
-    "metalsmith-in-place":{
-    },
-    "metalsmith-sass":{
-      "outputDir":"css/",
-      "sourceMap": true,
-      "sourceMapContents": true
-    }
-
+    "siteurl": "/downloads/ShowcaseApp/"
   }
 }

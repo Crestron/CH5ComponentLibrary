@@ -10,8 +10,8 @@
     "build": "metalsmith",
     "build:dev": "metalsmith",
     "build:prod": "echo 'use build:dev' for now",
-    "start": "npm-run-all build:dev && http-server ./dist/ -c-1 -o",
-    "start:ci": "npm-run-all build:dev && http-server ./dist/ -c-1 -p 8082 --silent"
+    "start": "npm-run-all build:dev && node metalsmith-dev && http-server ./dist/ -c-1 -o",
+    "start:ci": "npm-run-all build:dev && node metalsmith-prod && http-server ./dist/ -c-1 -p 8082 --silent"
   },
   "engines": {
     "node": ">=12.18",
@@ -20,9 +20,12 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE.txt",
   "dependencies": {
+    "@crestron/ch5-crcomlib": "https://siproducts.blob.core.windows.net/ch5-test/100421/CH5CrComLib-2.0.5-alpha.5.tgz",
+    "@crestron/ch5-theme": "https://siproducts.blob.core.windows.net/ch5-test/100421/CH5Themes-2.0.4-alpha.4.tgz",
     "ace-builds": "^1.4.12",
     "http-server": "^0.12.3",
     "i18next": "^20.3.5",
+    "metalsmith-browser-sync": "^1.1.1",
     "rimraf": "^3.0.2",
     "semver": "^7.3.5"
   },
@@ -34,7 +37,7 @@
     "cross-env": "^7.0.3",
     "jstransformer-handlebars": "1.1.0",
     "jstransformer-nunjucks": "0.5.0",
-    "metalsmith": "2.3.0",
+    "metalsmith": "^2.3.0",
     "metalsmith-assets": "0.1.0",
     "metalsmith-collections": "0.9.0",
     "metalsmith-debug": "1.2.0",
