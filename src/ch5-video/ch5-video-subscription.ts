@@ -27,13 +27,15 @@ export class Ch5VideoSubscription {
 
   public static subscriptionValue: string | number | undefined;
 
-  public static getNewSignalName(n: Element, attrName: string, attrVal: string,
-    index: number, indexId: string): string | number | undefined {
+  public static getNewSignalName(n: Element, 
+                                attrName: string, 
+                                attrVal: string,
+                                index: number, 
+                                indexId: string): string | number | undefined {
     const placeholder: string = `{{${indexId}}}`;
     if (attrVal.indexOf(placeholder) > -1) {
       // replace indexId
-      const valWithoutIndexIdPlaceholder: string =
-        attrVal.replace(new RegExp(placeholder, 'g'), '').trim();
+      const valWithoutIndexIdPlaceholder: string = attrVal.replace(new RegExp(placeholder, 'g'), '').trim();
       if (Ch5Signal.isIntegerSignalName(valWithoutIndexIdPlaceholder)) {
         // augment signal name according with join numbers signal specs
         // add base 0 index to remaining int value
@@ -43,29 +45,12 @@ export class Ch5VideoSubscription {
       } else {
         // normal case, no join number signal found
         // replace Idx with base 1 index
-        const newAttrValue: string =
-          attrVal.replace(new RegExp(placeholder, 'g'), String(index)).trim();
+        const newAttrValue: string = attrVal.replace(new RegExp(placeholder, 'g'), String(index)).trim();
         // n.setAttribute(attrName, String(newAttrValue));
         this.subscriptionValue = newAttrValue;
       }
     }
     return this.subscriptionValue;
-  }
-
-  public static replaceIndexIdInTmplElemsAttrs(documentContainer: HTMLElement, index: number, indexId: string) {
-    // get all attributes containing indexId placeholder
-    // @ts-ignore
-    Ch5VideoSubscription.replaceAttrIdxPlaceholder(documentContainer, this.name, this.value, index, indexId);
-  }
-
-  public static replaceIndexIdInTmplElemsContent(documentContainer: HTMLElement, index: number, indexId: string) {
-    let html: string = documentContainer.innerHTML;
-    const placeholder: string = `${indexId}`;
-    if (html.indexOf(placeholder) > -1) {
-      // replace all placeholder values with item base 1 index
-      html = html.replace(new RegExp(placeholder, 'g'), String(index));
-      documentContainer.innerHTML = html;
-    }
   }
 
 }

@@ -21,10 +21,12 @@ export type TState = {
 
 export type TSnapShotSignalName = {
     index: number;
+    videoTagId: string;
     snapShotUrl: string;
     snapShotRefreshRate: string;
     snapShotUser: string;
     snapShotPass: string;
+    isMultipleVideo: boolean
 }
 
 export type TReceiveState = {
