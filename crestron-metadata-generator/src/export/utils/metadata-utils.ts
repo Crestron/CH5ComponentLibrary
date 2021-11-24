@@ -139,6 +139,9 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
     result.default = _.getDefault(definition);
     result.hideWhen = _.getHideWhen(definition);
     result.showWhen = _.getShowWhen(definition);
+    if (_.getDeprecated(definition) !== null) {
+        result.deprecated = _.getDeprecated(definition);
+    }
     // }
 
     return result;

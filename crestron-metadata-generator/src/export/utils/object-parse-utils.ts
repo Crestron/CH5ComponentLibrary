@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { isNil } from "lodash";
+import { Deprecated } from "../../../types/export/ch5-attribute";
 import { Ch5Snippet } from "../../../types/export/ch5-snippet";
 import { Definition } from "../../schema/definition";
 
@@ -237,6 +238,28 @@ function checkOppositeProperty(oppositeTag: string, keys: string[], definition: 
     }
 }
 
+function getDeprecatedFromObject(definition: Object): Deprecated | undefined {
+    const documentationTag = "deprecated";
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return undefined;
+    }
+
+    // get the documentation property which should be an object.
+    const value: object = definition[documentationTag]
+
+    if (!isNil(value)) {
+        return {
+            version: value["version"],
+            description: value["description"],
+        }
+    }
+
+    return undefined;
+}
+
 export {
     getDocumentationFromObject,
     getChildElementsFromObject,
@@ -247,5 +270,6 @@ export {
     getTypeForAriaRolesFromObject,
     getComponentVersionFromObject,
     getHideWhenFromObject,
-    getShowWhenFromObject
+    getShowWhenFromObject,
+    getDeprecatedFromObject,
 };

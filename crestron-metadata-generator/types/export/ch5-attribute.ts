@@ -13,6 +13,7 @@ export class Ch5Attribute {
     public default?: string;
     public hideWhen?: object[];
     public showWhen?: object[];
+    public deprecated?: Deprecated;
 
     public static New(): Ch5Attribute {
         const result = new Ch5Attribute();
@@ -20,4 +21,9 @@ export class Ch5Attribute {
         result.value = [];
         return result;
     }
+}
+
+export interface Deprecated {
+    version: string;
+    description: string;
 }
