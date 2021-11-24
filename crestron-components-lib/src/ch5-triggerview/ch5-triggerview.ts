@@ -18,6 +18,7 @@ import { ICh5TriggerviewAttributes } from './interfaces/i-ch5-triggerview-attrib
 export type TactiveViewCallback = () => {};
 
 const speedBetweenPages = 300;
+
 const triggerviewHtml = `
   <slot id="slidesSlot">
     <p class="slidesFallback">No content available</p>
@@ -131,20 +132,14 @@ Slides: width is calculated with a css formula
 *******************************************************************************/
 #aria-live ::slotted(*) {
     position: absolute;
-
     height: 1px;
     width: 1px;
-
     margin: -1px;
     padding: 0;
-
     clip: rect(0 0 0 0);
-
     overflow: hidden;
-
     border: 0;
 }
-
 
 /*******************************************************************************
  * Print styles:
@@ -157,18 +152,14 @@ Slides: width is calculated with a css formula
     #slidesWrapper ::slotted(*) {
         margin-right: 0;
         margin-bottom: .2em;
-
         outline: 1px solid #000;
-
         color: #000;
-
         page-break-inside: avoid;
     }
 
     /* Stack the slides */
     #slidesWrapper {
         display: block;
-
         transform: none !important;
         transition: 0s;
     }
@@ -194,7 +185,6 @@ const swiperCss = `
         box-sizing: content-box;
     }
 `;
-
 
 // TODO: INormalisedPointerEvent should be moved elsewhere
 /**
@@ -278,7 +268,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 */
 	private _sendEventShowChildIndexSigName: string = '';
 
-
 	/**
 	 * COMPONENT RECEIVE SIGNALS
 	 *
@@ -333,7 +322,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 * Fires when the element is inserted into the DOM.
 	 * It's a good place to set the initial `role`, `tabindex`, internal state,
 	 * and install event listeners.
-	 * @private
 	 */
 	public connectedCallback() {
 
@@ -359,7 +347,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 			// (see https://github.com/whatwg/dom/issues/447)
 			this._onSlidesSlotChange();
 
-
 			// TODO: css will be removed to sass files, used here temporary
 			const style = document.createElement('style') as HTMLElement;
 			style.innerHTML = swiperCss;
@@ -369,7 +356,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 
 			this.slidesManager.prepareSwiperSlides();
 			// activate swiper
-			this.slidesManager.initSwiper();
+			// this.slidesManager.initSwiper();
 		}
 
 		if (!this.closest('ch5-modal-dialog')) {
@@ -845,7 +832,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 		return this._nested;
 	}
 
-
 	/**
 	 * Called to initialize all attributes/properties
 	 * @protected
@@ -894,7 +880,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 * @return {void}
 	 */
 	protected _updateSizeStyleProperties(): void {
-
 		this.style.width = `${this.offsetWidth}px`;
 	}
 
@@ -949,7 +934,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 * @param {number} viewToLoad
 	 */
 	public computeTransitionByDistance(viewToLoad: number): number {
-
 		const speed = speedBetweenPages;
 		const pageGap = Math.abs(this._activeView - viewToLoad);
 
@@ -1013,39 +997,9 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 			`Item ${this.activeView} of ${this.slidesManager.getSlidesNumber()} visible`;
 	}
 
-
 	// ===========================================================================
 	// Pointer events + drag
 	// ===========================================================================
-
-
-	/**
-	 * Stops triggering sendSignalOnClick or sendSignalOnTouch when gesture is detected
-	 *
-	 * @private
-	 * @memberof Ch5TriggerView
-	 */
-	private _disablePointerEventsWhenGestureable() {
-		if (this.gestureable) {
-			// this._slides.forEach((slide) => {
-			//     slide.element.style.setProperty('pointer-events', 'none');
-			// });
-		}
-	}
-
-	/**
-	 * Removes pointer-events property
-	 *
-	 * @private
-	 * @memberof Ch5TriggerView
-	 */
-	private _enablePointerEventsWhenGestureable() {
-		if (this.gestureable) {
-			// this._slides.forEach((slide) => {
-			//     slide.element.style.removeProperty('pointer-events');
-			// });
-		}
-	}
 
 	private _updateChildrenDirAttr(): void {
 		customElements.whenDefined('ch5-triggerview-child').then(() => {

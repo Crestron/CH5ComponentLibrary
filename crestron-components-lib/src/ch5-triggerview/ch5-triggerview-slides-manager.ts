@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5TriggerView } from "./ch5-triggerview";
-import Swiper, { SwiperOptions } from "swiper";
+import Swiper from "swiper";
 import { getCSSCustomProperty } from "./utils";
 import { Ch5TriggerViewChild } from "./ch5-triggerview-child";
 import { isNil } from "lodash";
@@ -28,26 +28,11 @@ export class Ch5TriggerViewSlidesManager {
   public triggerViewEl: Ch5TriggerView = {} as Ch5TriggerView;
 
   /**
-   * The width of private _slidesWrapper (in px). Derived from CSS.
-   * @type {number}
-   * @private
-   */
-  private _wrapperWidth = 0;
-
-  /**
    * The width of the gap between each slide (in px). Derived from CSS.
    * @type {number}
    * @private
    */
-  private _slidesGap = 0;
-
-  /**
-   * The width of each individual slide (in px). Computed mathematically
-   * from other properties.
-   * @type {number}
-   * @private
-   */
-  private _slidesWidth = 0;
+  private _slidesGap: number = 0;
 
   /**
    * Swiper lib object used to for slide action
@@ -183,7 +168,6 @@ export class Ch5TriggerViewSlidesManager {
    */
   public set swiperSensitivity(newThreshold: number) {
     this.triggerViewEl.swipeThreshold = newThreshold;
-
     if (this._swiper !== null) {
       this._swiper.params.threshold = newThreshold;
     }
@@ -223,7 +207,6 @@ export class Ch5TriggerViewSlidesManager {
    * Init slides by adding them inside required Swiper wrappers and adding slide class
    */
   public initSlides(slides: HTMLElement[]) {
-
     Ch5CustomAttributes.preventUnsubscribe = true;
 
     const trvHasListRole: boolean = this.triggerViewEl.getAttribute('role') === 'list';
@@ -261,7 +244,6 @@ export class Ch5TriggerViewSlidesManager {
    * @param slideIndex
    */
   public swipeTo(slideBaseOneIndex: number, instantTransition: boolean = false, speed?: number) {
-
     if (this.swiperIsActive()) {
 
       const _speed = speed !== undefined ? speed : this._transitionSpeed;
@@ -360,9 +342,7 @@ export class Ch5TriggerViewSlidesManager {
    * @private
    */
   private _computeSizes() {
-    this._wrapperWidth = this.triggerViewEl.getBoundingClientRect().width;
     this._slidesGap = this._getSlidesGap();
-    this._slidesWidth = this._getSlideWidth();
   }
 
   /**
@@ -386,15 +366,6 @@ export class Ch5TriggerViewSlidesManager {
       return !Number.isFinite(parsedGap) ? 0 : parsedGap;
     }
     return 0;
-  }
-
-  /**
-   * Computes the width of one slide given the layout constraint.
-   * @returns {number} The width (in px) of one slide.
-   * @private
-   */
-  private _getSlideWidth() {
-    return this._wrapperWidth - this._slidesGap;
   }
 
   private _updateActiveSlideAttributes() {
@@ -435,4 +406,5 @@ export class Ch5TriggerViewSlidesManager {
       return this.getTriggerviewChildSlides();
     }
   }
+
 }
