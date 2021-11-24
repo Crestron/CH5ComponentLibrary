@@ -8,11 +8,13 @@
 import { subscribeState, unsubscribeState } from "../ch5-core";
 import { TSnapShotSignalName } from "../_interfaces/ch5-video/types";
 import { TCh5ProcessUriParams } from "../_interfaces/ch5-common/types/t-ch5-process-uri-params";
-import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5ImageUriModel } from "../ch5-image/ch5-image-uri-model";
+import _ from "lodash";
+import { CH5VideoUtils } from "./ch5-video-utils";
 
 export class Ch5VideoSnapshot {
-    public isSnapShotLoading: boolean = false;
-    public snapShotImage: any;
+    private snapShotImage: HTMLImageElement = {} as HTMLImageElement;
+    private isSnapShotLoading: boolean = false;
     private protocol: string = '';
     private videoSnapShotUrl: string = '';
     private videoSnapShotUser: string = '';
@@ -21,14 +23,26 @@ export class Ch5VideoSnapshot {
     private url: string = '';
     private userId: string = '';
     private password: string = '';
-    private refreshRate: number = 5;
+    private refreshRate: number = -1;
     private snapShotTimer: any;
     private snapShotObj: TSnapShotSignalName;
+    private isSnapShotloaded: boolean = false;
+    private videoImage = new Image();
 
     public constructor(snapShotObj: TSnapShotSignalName) {
+        this.videoImage.style.width = "100%";
+        this.videoImage.style.height = "100%";
+        this.videoImage.alt = "Video Snapshot";
         this.snapShotObj = snapShotObj;
-        this.unSubscribeStates();
-        this.setSnapShotData();
+        if (this.snapShotObj.isMultipleVideo) {
+            this.unSubscribeStates(); // Unsubscribe if it is already subscribed
+            this.setSnapShotData();
+        } else {
+            this.url = snapShotObj.snapShotUrl;
+            this.userId = snapShotObj.snapShotUser;
+            this.password = snapShotObj.snapShotPass;
+            this.refreshRate = parseInt(snapShotObj.snapShotRefreshRate, 0);
+        }
     }
 
     /**
@@ -36,20 +50,30 @@ export class Ch5VideoSnapshot {
      */
     public startLoadingSnapShot() {
         this.isSnapShotLoading = true;
+        // return if the snapshot url is empty
+        if (this.url === "" || this.refreshRate === -1) {
+            return;
+        }
+
+        // Check whether all the subscribed login 
+        // credentials received to process further
+        if (this.canProcessUri() && !this.url.startsWith("ch5-img")) {
+            const processUriParams: TCh5ProcessUriParams = {
+                protocol: this.protocol,
+                user: this.userId,
+                password: this.password,
+                url: this.url
+            }
+            this.processUri(processUriParams);
+        }
+
         if (!!this.snapShotTimer) {
             clearInterval(this.snapShotTimer);
         }
-        if (this.refreshRate > 0) {
-            this.snapShotTimer = setInterval(() => {
-                if (this.userId && this.password && !this.url.indexOf("http")) {
-                    this.processUri();
-                }
-                if (this.snapShotObj.snapShotUrl !== "") {
-                    this.setSnapShot();
-                }
-            }, 1000 * this.refreshRate, 0);
-        }
-
+        this.setSnapShot();
+        this.snapShotTimer = window.setInterval(() => {
+            this.setSnapShot();
+        }, 1000 * this.refreshRate, 0);
     }
 
     /**
@@ -57,36 +81,82 @@ export class Ch5VideoSnapshot {
      */
     public stopLoadingSnapShot() {
         this.isSnapShotLoading = false;
-        // this.snapShotImage = '';
+        this.snapShotImage = {} as HTMLImageElement; // clear the image
+        this.isSnapShotloaded = false;
         clearInterval(this.snapShotTimer);
+    }
+
+    /**
+     * Returns an image
+     * @returns {} loaded snapshot image or blank
+     */
+    public getSnapShot(): HTMLImageElement {
+        return this.snapShotImage;
+    }
+
+    /**
+    * Returns cached image src url
+    * @returns {} loaded snapshot image or blank
+    */
+    public getSnapShotUrl(): string {
+        return this.snapShotImage.src;
+    }
+
+    public getSnapShotStatus(): boolean {
+        return this.isSnapShotloaded;
     }
 
     /**
      * Check the snapshot url and append web protocol and credentials to it
      */
-    public processUri(): void {
-        const processUriPrams: TCh5ProcessUriParams = {
-            protocol: this.protocol,
-            user: this.userId,
-            password: this.password,
-            url: this.url
-        };
+    private processUri(processUriParams: TCh5ProcessUriParams): void | string {
+        // Assuming the video only plays on touch devices 
+        const { http, https } = { "http": "ch5-img-auth", "https": "ch5-img-auths" };
 
-        const getImageUrl = Ch5Common.processUri(processUriPrams);
-        if (!!getImageUrl) {
-            this.url = getImageUrl;
+        // sent to the uri model
+        const protocols = { http, https };
+
+        const uri = new Ch5ImageUriModel(
+            protocols,
+            processUriParams.user,
+            processUriParams.password,
+            processUriParams.url,
+        );
+
+        // check if the current uri contains authentication information
+        // and other details necessary for URI
+        if (!uri.isValidAuthenticationUri()) {
+            return;
         }
+
+        // adding a '#' makes the request a new one, while not intrusing with the request
+        // this way, it won't be a "bad request" while making a new img request
+        this.url = uri.toString();
+        return;
+    }
+
+    private canProcessUri(): boolean {
+        if (_.isEmpty(this.password) || _.isEmpty(this.userId) || _.isEmpty(this.url)) {
+            return false;
+        }
+        return true;
     }
 
     /**
      * Load the snapshot once on CH5-video load`
      */
     private setSnapShot() {
-        const videoImage = new Image();
-        videoImage.onload = (ev: Event) => {
-            this.snapShotImage = videoImage;
+        this.videoImage.onerror = () => {
+            this.snapShotImage = {} as HTMLImageElement;
+            this.isSnapShotloaded = false;
+            console.log("Video Tag Id: " + this.snapShotObj.videoTagId + ", snapshot failed to load.");
+        }
+
+        this.videoImage.onload = (ev: Event) => {
+            this.snapShotImage = this.videoImage;
+            this.isSnapShotloaded = true;
         };
-        videoImage.src = this.url + "?" + new Date().getTime().toString();
+        this.videoImage.src = this.url + '#' + CH5VideoUtils.rfc3339TimeStamp();
     }
 
     /**
@@ -124,8 +194,10 @@ export class Ch5VideoSnapshot {
     private setSnapshotUrl(signalName: any) {
         this.videoSnapShotUrl = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
-                this.url = '';
                 this.url = resp;
+                if (this.isSnapShotLoading) {
+                    this.startLoadingSnapShot();
+                }
             }
         });
     }
@@ -137,8 +209,10 @@ export class Ch5VideoSnapshot {
     private setSnapshotUserId(signalName: any) {
         this.videoSnapShotUser = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
-                this.userId = '';
                 this.userId = resp;
+                if (this.isSnapShotLoading) {
+                    this.startLoadingSnapShot();
+                }
             }
         });
     }
@@ -150,8 +224,10 @@ export class Ch5VideoSnapshot {
     private setSnapshotPassword(signalName: any) {
         this.videoSnapShotPass = subscribeState('s', signalName, (resp: any) => {
             if (resp) {
-                this.password = '';
                 this.password = resp;
+                if (this.isSnapShotLoading) {
+                    this.startLoadingSnapShot();
+                }
             }
         });
     }
@@ -163,8 +239,10 @@ export class Ch5VideoSnapshot {
     private setSnapshotRefreshRate(signalName: any) {
         this.videoSnapShotRefreshRate = subscribeState('n', signalName, (resp: any) => {
             if (resp) {
-                this.refreshRate = 0;
                 this.refreshRate = resp;
+                if (this.isSnapShotLoading) {
+                    this.startLoadingSnapShot();
+                }
             }
         });
     }

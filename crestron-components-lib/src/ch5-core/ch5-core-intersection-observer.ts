@@ -17,21 +17,22 @@ export class Ch5CoreIntersectionObserver {
     private _intersectionObserverConfig: object;
     private _intersectionObserver: IntersectionObserver;
 
-    private constructor() {
+    private constructor(customRootMargin?: string) {
         this._intersectionObserverConfig = {
             root: null,
-            rootMargin: Ch5CoreIntersectionObserver.observerRootMargin,
+            rootMargin: (!!customRootMargin && customRootMargin.length > 0) ? customRootMargin : Ch5CoreIntersectionObserver.observerRootMargin,
             threshold: Ch5CoreIntersectionObserver.observerTreshhold
         };
 
         this._intersectionObserver = new IntersectionObserver(this.intersectionObserverCallback, this._intersectionObserverConfig);
     }
 
-    public static getInstance(): Ch5CoreIntersectionObserver {
+    public static getInstance(customRootMargin?: string): Ch5CoreIntersectionObserver {
         if (Ch5CoreIntersectionObserver._instance instanceof Ch5CoreIntersectionObserver) {
             return Ch5CoreIntersectionObserver._instance;
         } else {
-            Ch5CoreIntersectionObserver._instance = new Ch5CoreIntersectionObserver();
+            const margin = (!!customRootMargin && customRootMargin.length > 0) ? customRootMargin : '';
+            Ch5CoreIntersectionObserver._instance = new Ch5CoreIntersectionObserver(margin);
         }
 
         return Ch5CoreIntersectionObserver._instance;

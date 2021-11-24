@@ -607,21 +607,21 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     public _getTranslatedValue(valueToSave: string, valueToTranslate: string) {
 
         const translationUtility = Ch5TranslationUtility.getInstance();
-        
+
         let translationKey = valueToTranslate;;
         let _value = valueToTranslate;
         let savedValue = this.translatableObjects[valueToSave];
-        
+
         if (savedValue === valueToTranslate) {
             translationKey = savedValue;
         }
-        
+
         const isTranslatableValue = translationUtility.isTranslationIdentifier(translationKey);
-        
+
         if (!isTranslatableValue) {
             return valueToTranslate;
         }
-        
+
         if (typeof savedValue === 'undefined') {
             savedValue = valueToTranslate;
 
@@ -690,15 +690,31 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      * The messages are displayed only if _isDebugEnabled is true
      */
     public info(message?: any, ...optionalParams: any[]): void {
-
         let ts = '';
-
         if (Ch5Debug.CONSOLE_OVERRIDDEN === false) {
             ts = (new Date()).toISOString();
         }
-
         if (true === this.isDebug()) {
-            console.info(ts + ':' + this.getCrId() + ':' + message + ':' + optionalParams);
+            try {
+                let callerName: string = String(new Error().stack).trim();
+                // console.warn(callerName);
+                if (callerName !== null) {
+                    if (callerName) { callerName = callerName.replace(/^Error\s+/, ''); }
+                    if (callerName) { callerName = callerName.split("\n")[1]; } // 1st item is this, 2nd item is caller
+                    if (callerName) { callerName = callerName.replace(/^\s+at Object./, ''); }
+                    if (callerName) { callerName = callerName.replace(/^\s+at HTMLElement./, ''); }
+                    if (callerName) { callerName = callerName.replace(/^\s+at /, ''); }
+                    if (callerName) { callerName = callerName.replace(/ \(.+\)$/, ''); }
+                    if (callerName) { callerName = callerName.replace(/\@.+/, ''); }
+                    if (callerName && callerName !== "") {
+                        callerName = "Method is " + callerName + ":";
+                    }
+                }
+                // console.warn(callerName);
+                console.info(ts + ':' + this.getCrId() + ':' + callerName + message + ':' + optionalParams);
+            } catch (e) {
+                console.info(ts + ':' + this.getCrId() + ':' + message + ':' + optionalParams);
+            }
         }
     }
 
@@ -1566,15 +1582,15 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
             if (null !== recSig) {
 
-                const _newVal = (newVal as never as {repeatdigital: boolean}).repeatdigital !== undefined ? (newVal as never as {repeatdigital: boolean}).repeatdigital : newVal;
+                const _newVal = (newVal as never as { repeatdigital: boolean }).repeatdigital !== undefined ? (newVal as never as { repeatdigital: boolean }).repeatdigital : newVal;
 
-                if ((recSig.prevValue as never as {repeatdigital: boolean}).repeatdigital !== undefined) {
-                    if (false === (recSig.prevValue as never as {repeatdigital: boolean}).repeatdigital && true === _newVal) {
+                if ((recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital !== undefined) {
+                    if (false === (recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital && true === _newVal) {
                         this.setAttribute('show', 'true')
                     }
 
                     return;
-                }   
+                }
 
                 if (false === recSig.prevValue && true === _newVal) {
                     this.setAttribute('show', 'true')
