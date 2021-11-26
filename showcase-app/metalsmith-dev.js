@@ -10,15 +10,20 @@ const browserSync = require('metalsmith-browser-sync');
 nunjucks.configure('src', { watch: false, noCache: true });
 
 // Dev Note: To debug metalsmith, remove browsersync
+const args = process.argv;
+let path = args[2];
+if (!(path && path !== "")) {
+  path = "downloads/ShowcaseApp";
+}
 
 metalsmith(__dirname)
   .source("./src")
-  .destination("./dist/downloads/ShowcaseApp")
+  .destination("./dist/" + path)
   .clean(true)
   .metadata({
     "title": "Showcase App",
     "description": "Showcase App for Crestron Components",
-    "siteurl": "/downloads/ShowcaseApp/"
+    "siteurl": "/" + path + "/"
   })
   .use(assets({
     "source": "./node_modules/@crestron/ch5-crcomlib/build_bundles/umd/",
@@ -43,7 +48,7 @@ metalsmith(__dirname)
     server: {
       baseDir: "dist/"
     },
-    startPath: "downloads/ShowcaseApp/",
+    startPath: path + "/",
     port: 8080,
     files: ["src/**/*.njk", "partials/**/*.njk", "layouts/**/*.njk", "emulator-scenarios/**/*.json"]
   }))
