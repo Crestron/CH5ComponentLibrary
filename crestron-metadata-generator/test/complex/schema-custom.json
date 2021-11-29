@@ -1,5 +1,6 @@
 {
   "version": "1.0.0",
+  "componentsVersion": "0.1.5",
   "htmlElements": {
     "common": {
       "attributes": [

@@ -11,10 +11,12 @@ export class Metadata {
     public htmlElements: ElementsData;
     public ch5Elements: ElementsData;
     public version: string;
+    public componentsVersion: string;
 
     public static New(): Metadata {
         const result = new Metadata();
         result.version = "";
+        result.componentsVersion = "";
         result.htmlElements = ElementsData.New();
         result.ch5Elements = ElementsData.New();
         return result;
