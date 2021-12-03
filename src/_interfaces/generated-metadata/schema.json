@@ -11894,6 +11894,22 @@
             "name": "iconclass",
             "default": "null",
             "hideWhen": [],
+            "showWhen": [],
+            "deprecated": {
+              "version": "1.0.0",
+              "description": "This attribute is deprecated, please use 'icon' attribute."
+            }
+          },
+          {
+            "documentation": [
+              "`icon` attribute",
+              "***",
+              "The icon to be shown. Its either prefixed or suffixed based on the iconposition attribute."
+            ],
+            "value": [],
+            "name": "icon",
+            "default": "null",
+            "hideWhen": [],
             "showWhen": []
           },
           {
