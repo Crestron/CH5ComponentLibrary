@@ -141,6 +141,9 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
     result.showWhen = _.getShowWhen(definition);
     result.join = _.getJoin(definition);
     result.limits = _.getLimits(definition);
+    if (_.getDeprecated(definition) !== null) {
+        result.deprecated = _.getDeprecated(definition);
+    }
     // }
 
     return result;

@@ -24,6 +24,10 @@
 
 /// Set the height and width of the dpad
 $defaultDimension: 150px;
+$xsmallDimension: 100px;
+$smallDimension: 130px;
+$largeDimension: 180px;
+$xlargeDimension: 200px;
 
 /// Set the border radius for 'plus' shape
 $commmonEdgeRadius: 10px;
@@ -54,6 +58,10 @@ $commmonEdgeRadius: 10px;
 
 /// Set the height and width of the dpad
 $defaultDimension: 150px;
+$xsmallDimension: 100px;
+$smallDimension: 130px;
+$largeDimension: 180px;
+$xlargeDimension: 200px;
 
 /// Set the border radius for 'plus' shape
 $commmonEdgeRadius: 10px;
@@ -559,3 +567,77 @@ $commmonEdgeRadius: 10px;
     justify-content: center;
 }
 
+// Sizes
+.ch5-dpad {
+    &.ch5-dpad--size-x-small  {
+        min-width: $xsmallDimension;
+        min-height: $xsmallDimension;
+        .dpad-container {
+            min-width: $xsmallDimension;
+            min-height: $xsmallDimension;
+            width: $xsmallDimension;
+            height: $xsmallDimension;
+        }
+        &.ch5-dpad--shape-plus {
+            .direction-btn {
+                span {
+                    line-height: calc(#{$xsmallDimension} / 3);
+                }
+            }
+        }
+    }
+
+    &.ch5-dpad--size-small  {
+        min-width: $smallDimension;
+        min-height: $smallDimension;
+        .dpad-container {
+            min-width: $smallDimension;
+            min-height: $smallDimension;
+            width: $smallDimension;
+            height: $smallDimension;
+        }
+        &.ch5-dpad--shape-plus {
+            .direction-btn {
+                span {
+                    line-height: calc(#{$smallDimension} / 3);
+                }
+            }
+        }
+    }
+
+    &.ch5-dpad--size-large  {
+        min-width: $largeDimension;
+        min-height: $largeDimension;
+        .dpad-container {
+            min-width: $largeDimension;
+            min-height: $largeDimension;
+            width: $largeDimension;
+            height: $largeDimension;
+        }
+        &.ch5-dpad--shape-plus {
+            .direction-btn {
+                span {
+                    line-height: calc(#{$largeDimension} / 3);
+                }
+            }
+        }
+    }
+
+    &.ch5-dpad--size-x-large  {
+        min-width: $xlargeDimension;
+        min-height: $xlargeDimension;
+        .dpad-container {
+            min-width: $xlargeDimension;
+            min-height: $xlargeDimension;
+            width: $xlargeDimension;
+            height: $xlargeDimension;
+        }
+        &.ch5-dpad--shape-plus {
+            .direction-btn {
+                span {
+                    line-height: calc(#{$xlargeDimension} / 3);
+                }
+            }
+        }
+    }
+}

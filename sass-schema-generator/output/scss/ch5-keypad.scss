@@ -24,10 +24,26 @@
 
 /// Variables below
 $defaultContainerWidth: 270px;
-$defaultContainerHeight: 360px;
+$defaultContainerHeight: 352.2px;
 $defaultContainerHeightExtra: 450px;
 $cellDimension: 50px;
 $cellMargin: 20px;
+
+$xsmallContainerWidth: 207px;
+$xsmallContainerHeight: 270px;
+$xsmallContainerHeightExtra: 345px;
+
+$smallContainerWidth: 250px;
+$smallContainerHeight: 326.1px;
+$smallContainerHeightExtra: 416.7px;
+
+$largeContainerWidth: 300px;
+$largeContainerHeight: 391.35px;
+$largeContainerHeightExtra: 500px;
+
+$xlargeContainerWidth: 320px;
+$xlargeContainerHeight: 417.45px;
+$xlargeContainerHeightExtra: 533.4px;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
 /// All rights reserved.
@@ -94,10 +110,26 @@ $cellMargin: 20px;
 
 /// Variables below
 $defaultContainerWidth: 270px;
-$defaultContainerHeight: 360px;
+$defaultContainerHeight: 352.2px;
 $defaultContainerHeightExtra: 450px;
 $cellDimension: 50px;
 $cellMargin: 20px;
+
+$xsmallContainerWidth: 207px;
+$xsmallContainerHeight: 270px;
+$xsmallContainerHeightExtra: 345px;
+
+$smallContainerWidth: 250px;
+$smallContainerHeight: 326.1px;
+$smallContainerHeightExtra: 416.7px;
+
+$largeContainerWidth: 300px;
+$largeContainerHeight: 391.35px;
+$largeContainerHeightExtra: 500px;
+
+$xlargeContainerWidth: 320px;
+$xlargeContainerHeight: 417.45px;
+$xlargeContainerHeightExtra: 533.4px;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
 /// All rights reserved.
@@ -311,6 +343,7 @@ $cellMargin: 20px;
             .label-minor {
                 font-size: 1.5rem;
                 margin-top: -2%;
+                margin-left: 3%;
             }
         }
     }
@@ -361,4 +394,147 @@ $cellMargin: 20px;
 .ch5-keypad.ch5-keypad--stretch-width {
     width: 100%;
     justify-content: center;
+}
+
+// sizes
+.ch5-keypad {
+    &.ch5-keypad--size-x-small {
+        min-width: $xsmallContainerWidth;
+        min-height: $xsmallContainerHeight;
+        width: $xsmallContainerWidth;
+        height: $xsmallContainerHeight;
+        .keypad-container {
+            min-width: $xsmallContainerWidth;
+            min-height: $xsmallContainerHeight;
+            width: $xsmallContainerWidth;
+            height: $xsmallContainerHeight;
+        }
+
+        &[showextrabutton="true"] {
+            height: $xsmallContainerHeightExtra;
+            .keypad-container {
+                height: $xsmallContainerHeightExtra;
+                min-width: $xsmallContainerWidth;
+                min-height: $xsmallContainerHeightExtra;
+            }
+        }
+
+        .keypad-row {
+            .keypad-btn {
+                button {
+                    .label-major {
+                        font-size: 1.8rem;
+                    }
+                    .label-minor {
+                        font-size: 0.6rem;
+                        margin-top: -15%;
+                    }
+                }
+            }
+        }
+    }
+
+    &.ch5-keypad--size-small {
+        min-width: $smallContainerWidth;
+        min-height: $smallContainerHeight;
+        width: $smallContainerWidth;
+        height: $smallContainerHeight;
+
+        .keypad-container {
+            min-width: $smallContainerWidth;
+            min-height: $smallContainerHeight;
+            width: $smallContainerWidth;
+            height: $smallContainerHeight;
+        }
+
+        &[showextrabutton="true"] {
+            height: $smallContainerHeightExtra;
+            .keypad-container {
+                height: $smallContainerHeightExtra;
+                min-width: $smallContainerWidth;
+                min-height: $smallContainerHeightExtra;
+            }
+        }
+
+        .keypad-row {
+            .keypad-btn {
+                button {
+                    .label-major {
+                        font-size: 2rem;
+                    }
+                    .label-minor {
+                        font-size: 0.7rem;
+                    }
+                }
+            }
+        }
+    }
+
+    &.ch5-keypad--size-large {
+        min-width: $largeContainerWidth;
+        min-height: $largeContainerHeight;
+        width: $largeContainerWidth;
+        height: $largeContainerHeight;
+
+        .keypad-container {
+            min-width: $largeContainerWidth;
+            min-height: $largeContainerHeight;
+            width: $largeContainerWidth;
+            height: $largeContainerHeight;
+        }
+
+        &[showextrabutton="true"] {
+            height: $largeContainerHeightExtra;
+            .keypad-container {
+                height: $largeContainerHeightExtra;
+                min-width: $largeContainerWidth;
+                min-height: $largeContainerHeightExtra;
+            }
+        }
+    }
+
+    &.ch5-keypad--size-x-large {
+        min-width: $xlargeContainerWidth;
+        min-height: $xlargeContainerHeight;
+        width: $xlargeContainerWidth;
+        height: $xlargeContainerHeight;
+
+        .keypad-container {
+            min-width: $xlargeContainerWidth;
+            min-height: $xlargeContainerHeight;
+            width: $xlargeContainerWidth;
+            height: $xlargeContainerHeight;
+        }
+
+        &[showextrabutton="true"] {
+            height: $xlargeContainerHeightExtra;
+            .keypad-container {
+                height: $xlargeContainerHeightExtra;
+                min-width: $xlargeContainerWidth;
+                min-height: $xlargeContainerHeightExtra;
+            }
+        }
+    }
+}
+
+.ch5-keypad.ch5-keypad--size-x-small .keypad-btn[key="button0"] button .label-minor {
+    font-size: 1.1rem;
+    margin-top: -25%;
+    margin-left: 3%;
+}
+
+.ch5-keypad.ch5-keypad--size-small .keypad-btn[key="button0"] button .label-minor {
+    font-size: 1.2rem;
+    margin-top: -15%;
+    margin-left: 4%;
+}
+
+.ch5-keypad.ch5-keypad--size-x-small .keypad-row .keypad-btn.misc-btn.misc-btn-one .label-major {
+    font-size: 2.8rem;
+    padding-top: 15%;
+}
+
+.ch5-keypad.ch5-keypad--size-small .keypad-row .keypad-btn.misc-btn.misc-btn-one .label-major {
+    font-size: 2.8rem;
+    padding-top: 20%;
 }

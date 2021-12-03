@@ -220,6 +220,18 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
     private _iconClass: string = '' as string;
 
     /**
+     * Icon to be shown
+     * Example: fa fa-plane
+     * 
+     * Icon attribute is deprecated and it was replaced by iconClass attribute.
+     *
+     * @private
+     * @memberof Ch5Textinput
+     * @type {string}
+     */
+    private _icon: string = '' as string;
+
+    /**
      * Valid values are 'first' and 'last'. Default is 'first'. If direction attribute
      * s 'ltr', as will be typical in locales with left to right language
      * direction, 'first' is equivalent to icon being on the left and text on the
@@ -912,6 +924,55 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
             this._removeModifierClass(Ch5Textinput.ICONPOSITION as [string]);
             this._elIcon.classList.add(this.cssClassPrefix + '__icon--' + position);
         }
+    }
+
+    /**
+     * Setter for icon
+     * 
+     * Deprectared, not used anymore 
+     *
+     * @param {string} icon
+     */
+     public set icon(icon: string) {
+
+        this.info("set <ch5-textinput icon='" + icon + "'/>");
+
+        if (this.icon !== icon) {
+            if (icon === undefined || icon === null) {
+                icon = '';
+            }
+
+            this.setAttribute('icon', icon);
+        }
+
+        this._icon = icon;
+
+        // reset the class attribute
+        this._elIcon.className = '';
+
+        if (this._elIcon !== undefined) {
+            this.icon.split(' ').forEach(
+                (className: string) => {
+                    this._elIcon.classList.add(className);
+                }
+            )
+            this._elIcon.classList.add(this.cssClassPrefix + '__icon');
+        }
+
+    }
+
+    /**
+     * Getter for icon
+     * 
+     * Deprectared, not used anymore
+     *
+     * @return {string}
+     */
+    public get icon(): string {
+
+        this.info('get <ch5-textinput iconClass />');
+
+        return this._icon;
     }
 
     /**

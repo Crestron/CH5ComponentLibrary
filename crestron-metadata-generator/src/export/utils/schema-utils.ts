@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { isNil } from "lodash";
+import { Deprecated } from "../../../types/export/ch5-attribute";
 import { Ch5Snippet } from "../../../types/export/ch5-snippet";
 import { Definition, DefinitionTuple } from "../../schema/definition";
 import { Schema } from "../../schema/schema";
@@ -94,6 +95,10 @@ function getShowWhen(definition: Definition): object[] {
     return parser.getShowWhenFromObject(definition);
 }
 
+function getDeprecated(definition: Definition): Deprecated | undefined {
+    return parser.getDeprecatedFromObject(definition);
+}
+
 function getJoin(definition: Definition): object | undefined {
     return parser.getJoinFromObject(definition);
 }
@@ -119,4 +124,5 @@ export {
     getShowWhen,
     getJoin,
     getLimits,
+    getDeprecated,
 };

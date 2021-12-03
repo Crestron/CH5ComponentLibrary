@@ -23,9 +23,6 @@
     <test-fixture id="ch5-dpad-custom-class-fixture">
         <template>
             <ch5-dpad type="success" stretch="width" shape="plus" customClass="blue-dashed-border"></ch5-dpad>
-            <ch5-dpad type="success" stretch="width" shape="circle" customclassselected="btn-active"></ch5-dpad>
-            <ch5-dpad type="success" stretch="width" shape="plus" customclasspressed="btn-pressed"></ch5-dpad>
-            <ch5-dpad type="success" stretch="width" shape="circle" customclassdisabled="btn-disabled"></ch5-dpad>
         </template>
     </test-fixture>
 
@@ -60,18 +57,6 @@
 
           test(`Check custom-class`, () => {
             expect(ch5Dpad[0].classList.contains('blue-dashed-border')).to.be.equal(true);
-          });
-
-          test(`Check custom-class-selected`, () => {
-            expect(ch5Dpad[1].getAttribute('customclassselected')).to.be.equal("btn-active");
-          });
-
-          test(`Check custom-class-pressed`, () => {
-            expect(ch5Dpad[2].getAttribute('customclasspressed')).to.be.equal("btn-pressed");
-          });
-
-          test(`Check custom-class-disabled`, () => {
-            expect(ch5Dpad[3].getAttribute('customclassdisabled')).to.be.equal("btn-disabled");
           });
         });
 

@@ -15,6 +15,7 @@ export class Ch5Attribute {
     public showWhen?: object[];
     public join?: object;
     public limits?: object;
+    public deprecated?: Deprecated;
 
     public static New(): Ch5Attribute {
         const result = new Ch5Attribute();
@@ -22,4 +23,9 @@ export class Ch5Attribute {
         result.value = [];
         return result;
     }
+}
+
+export interface Deprecated {
+    version: string;
+    description: string;
 }

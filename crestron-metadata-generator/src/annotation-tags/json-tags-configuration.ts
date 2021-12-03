@@ -39,5 +39,7 @@ export class JsonTagsConfiguration {
         "showWhen",
         "join",
         "limits",
+
+        "deprecated",
     ];
 }

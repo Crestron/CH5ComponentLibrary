@@ -19,374 +19,12 @@
   ],
   "ch5-button": [
     {
-      "className": "ch5-button",
+      "className": "ch5-button .ch5-button .cb-btn",
       "description": "",
       "supports": [
-        "font-size",
-        "font-style",
-        "font-weight"
+        "padding"
       ],
       "showWhen": {}
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-top:not(.ch5-button--vertical) .cb-btn",
-      "description": "",
-      "supports": [
-        "padding-top",
-        "padding-bottom"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "iconposition": [
-          "top"
-        ],
-        "orientation": [
-          "horizontal"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-bottom:not(.ch5-button--vertical) .cb-btn",
-      "description": "",
-      "supports": [
-        "padding-top",
-        "padding-bottom"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "iconposition": [
-          "bottom"
-        ],
-        "orientation": [
-          "horizontal"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-top + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn",
-      "description": "",
-      "supports": [
-        "padding-left",
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "top"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-bottom + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn",
-      "description": "",
-      "supports": [
-        "padding-left",
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "bottom"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-top + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn .cx-button-icon-pos-top + .ch5-button--label",
-      "description": "",
-      "supports": [
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "top"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-bottom + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn .cx-button-icon-pos-top + .ch5-button--label",
-      "description": "",
-      "supports": [
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "bottom"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-top + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn .ch5-button--label + .cx-button-icon-pos-bottom",
-      "description": "",
-      "supports": [
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "top"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-bottom + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn .ch5-button--label + .cx-button-icon-pos-bottom",
-      "description": "",
-      "supports": [
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "bottom"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-top + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn .cx-button-icon-pos-top + .ch5-button--ios-label",
-      "description": "",
-      "supports": [
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "platform": [
-          "ios"
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "top"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-bottom + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn .cx-button-icon-pos-top + .ch5-button--ios-label",
-      "description": "",
-      "supports": [
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "platform": [
-          "ios"
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "bottom"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-top + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn .ch5-button--ios-label + .cx-button-icon-pos-bottom",
-      "description": "",
-      "supports": [
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "platform": [
-          "ios"
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "top"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": "ch5-button.ch5-button--iconposition-bottom + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn .ch5-button--ios-label + .cx-button-icon-pos-bottom",
-      "description": "",
-      "supports": [
-        "padding-right"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "platform": [
-          "ios"
-        ],
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "iconposition": [
-          "bottom"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button .cb-btn",
-      "description": "",
-      "supports": [
-        "padding",
-        "width",
-        "height"
-      ],
-      "showWhen": {}
-    },
-    {
-      "className": ".ch5-button:not(.ch5-button--vertical):not(.ch5-button--circle) .cb-btn",
-      "description": "",
-      "supports": [
-        "padding-top",
-        "padding-bottom"
-      ],
-      "showWhen": {
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "orientation": [
-          "horizontal"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button .ch5-button--img",
-      "description": "",
-      "supports": [
-        "height",
-        "width"
-      ],
-      "showWhen": {}
-    },
-    {
-      "className": ".ch5-button:not(.ch5-button--vertical) .cx-button-icon-pos-first + .ch5-button--label",
-      "description": "",
-      "supports": [
-        "padding-left"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "orientation": [
-          "horizontal"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button:not(.ch5-button--vertical) .ch5-button--label + .cx-button-icon-pos-last",
-      "description": "",
-      "supports": [
-        "padding-left"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "orientation": [
-          "horizontal"
-        ]
-      }
     },
     {
       "className": ".ch5-button--rectangle",
@@ -464,6 +102,71 @@
       }
     },
     {
+      "className": ".ch5-button .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height",
+        "font-size",
+        "font-style",
+        "font-weight"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-button .cb-btn.ch5-button--vertical",
+      "description": "",
+      "supports": [
+        "height",
+        "width"
+      ],
+      "showWhen": {
+        "orientation": [
+          "vertical"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button .cb-btn",
+      "description": "",
+      "supports": [
+        "padding-top",
+        "padding-bottom"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-button .ch5-button--label",
+      "description": "",
+      "supports": [
+        "padding-left",
+        "padding-right"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-button.ch5-button--vertical .ch5-button--label",
+      "description": "",
+      "supports": [
+        "padding-top",
+        "padding-bottom"
+      ],
+      "showWhen": {
+        "orientation": [
+          "vertical"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button .ch5-button--img",
+      "description": "",
+      "supports": [
+        "height",
+        "width"
+      ],
+      "showWhen": {}
+    },
+    {
       "className": ".ch5-button--stretch-height .cb-btn",
       "description": "",
       "supports": [
@@ -495,252 +198,6 @@
         "height"
       ],
       "showWhen": {
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical .cx-button-icon-pos-first + .ch5-button--label",
-      "description": "",
-      "supports": [
-        "padding-top"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical .ch5-button--label + .cx-button-icon-pos-last",
-      "description": "",
-      "supports": [
-        "padding-top"
-      ],
-      "showWhen": {
-        "icon": [
-          true
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical .cx-button-icon-pos-first + .ch5-button--ios-label",
-      "description": "",
-      "supports": [
-        "padding-top"
-      ],
-      "showWhen": {
-        "platform": [
-          "ios"
-        ],
-        "icon": [
-          true
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical .ch5-button--ios-label + .cx-button-icon-pos-last",
-      "description": "",
-      "supports": [
-        "padding-top"
-      ],
-      "showWhen": {
-        "platform": [
-          "ios"
-        ],
-        "icon": [
-          true
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-x-small .cb-btn",
-      "description": "",
-      "supports": [
-        "width",
-        "height"
-      ],
-      "showWhen": {
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "size": [
-          "x-small"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-small .cb-btn",
-      "description": "",
-      "supports": [
-        "width",
-        "height"
-      ],
-      "showWhen": {
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "size": [
-          "small"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-large .cb-btn",
-      "description": "",
-      "supports": [
-        "width",
-        "height"
-      ],
-      "showWhen": {
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "size": [
-          "large"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-x-large .cb-btn",
-      "description": "",
-      "supports": [
-        "width",
-        "height"
-      ],
-      "showWhen": {
-        "shape": [
-          "rounded-rectangle",
-          "rectangle",
-          "tab",
-          "oval"
-        ],
-        "size": [
-          "x-large"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical.ch5-button--circle.ch5-button--size-x-small .cb-btn",
-      "description": "",
-      "supports": [
-        "width",
-        "height"
-      ],
-      "showWhen": {
-        "shape": [
-          "circle"
-        ],
-        "size": [
-          "x-small"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical.ch5-button--circle.ch5-button--size-small .cb-btn",
-      "description": "",
-      "supports": [
-        "width",
-        "height"
-      ],
-      "showWhen": {
-        "shape": [
-          "circle"
-        ],
-        "size": [
-          "small"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical.ch5-button--circle.ch5-button--size-large .cb-btn",
-      "description": "",
-      "supports": [
-        "width",
-        "height"
-      ],
-      "showWhen": {
-        "shape": [
-          "circle"
-        ],
-        "size": [
-          "large"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical.ch5-button--circle.ch5-button--size-x-large .cb-btn",
-      "description": "",
-      "supports": [
-        "width",
-        "height"
-      ],
-      "showWhen": {
-        "shape": [
-          "circle"
-        ],
-        "size": [
-          "x-large"
-        ],
-        "orientation": [
-          "vertical"
-        ]
-      }
-    },
-    {
-      "className": ".ch5-button--vertical.ch5-button--circle .cb-btn",
-      "description": "",
-      "supports": [
-        "width",
-        "height"
-      ],
-      "showWhen": {
-        "shape": [
-          "circle"
-        ],
         "orientation": [
           "vertical"
         ]
@@ -995,6 +452,190 @@
       "showWhen": {
         "size": [
           "x-large"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--circle.ch5-button--size-x-small .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "circle"
+        ],
+        "size": [
+          "x-small"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--circle.ch5-button--size-small .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "circle"
+        ],
+        "size": [
+          "small"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--circle.ch5-button--size-large .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "circle"
+        ],
+        "size": [
+          "large"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--circle.ch5-button--size-x-large .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "circle"
+        ],
+        "size": [
+          "x-large"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--circle .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "circle"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--vertical:not(.ch5-button--circle) .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "rounded-rectangle",
+          "rectangle",
+          "tab",
+          "oval"
+        ],
+        "orientation": [
+          "vertical"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-x-small .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "rounded-rectangle",
+          "rectangle",
+          "tab",
+          "oval"
+        ],
+        "size": [
+          "x-small"
+        ],
+        "orientation": [
+          "vertical"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-small .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "rounded-rectangle",
+          "rectangle",
+          "tab",
+          "oval"
+        ],
+        "size": [
+          "small"
+        ],
+        "orientation": [
+          "vertical"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-large .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "rounded-rectangle",
+          "rectangle",
+          "tab",
+          "oval"
+        ],
+        "size": [
+          "large"
+        ],
+        "orientation": [
+          "vertical"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-x-large .cb-btn",
+      "description": "",
+      "supports": [
+        "width",
+        "height"
+      ],
+      "showWhen": {
+        "shape": [
+          "rounded-rectangle",
+          "rectangle",
+          "tab",
+          "oval"
+        ],
+        "size": [
+          "x-large"
+        ],
+        "orientation": [
+          "vertical"
         ]
       }
     },
@@ -5720,6 +5361,134 @@
           "plus"
         ]
       }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-x-small",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-x-small .dpad-container",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-x-small.ch5-dpad--shape-plus .direction-btn span line-height: calc(#",
+      "description": "",
+      "supports": [
+        "$xsmallDimension"
+      ],
+      "showWhen": {
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-small",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-small .dpad-container",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-small.ch5-dpad--shape-plus .direction-btn span line-height: calc(#",
+      "description": "",
+      "supports": [
+        "$smallDimension"
+      ],
+      "showWhen": {
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-large",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-large .dpad-container",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-large.ch5-dpad--shape-plus .direction-btn span line-height: calc(#",
+      "description": "",
+      "supports": [
+        "$largeDimension"
+      ],
+      "showWhen": {
+        "shape": [
+          "plus"
+        ]
+      }
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-x-large",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-x-large .dpad-container",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-dpad.ch5-dpad--size-x-large.ch5-dpad--shape-plus .direction-btn span line-height: calc(#",
+      "description": "",
+      "supports": [
+        "$xlargeDimension"
+      ],
+      "showWhen": {
+        "shape": [
+          "plus"
+        ]
+      }
     }
   ],
   "ch5-keypad": [
@@ -6181,6 +5950,166 @@
       "description": "",
       "supports": [
         "width",
+        "height",
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-x-small",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-x-small .keypad-container",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-x-small[showextrabutton=\"true\"]",
+      "description": "",
+      "supports": [
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-x-small[showextrabutton=\"true\"] .keypad-container",
+      "description": "",
+      "supports": [
+        "height",
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-small",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-small .keypad-container",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-small[showextrabutton=\"true\"]",
+      "description": "",
+      "supports": [
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-small[showextrabutton=\"true\"] .keypad-container",
+      "description": "",
+      "supports": [
+        "height",
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-large",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-large .keypad-container",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-large[showextrabutton=\"true\"]",
+      "description": "",
+      "supports": [
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-large[showextrabutton=\"true\"] .keypad-container",
+      "description": "",
+      "supports": [
+        "height",
+        "min-width",
+        "min-height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-x-large",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-x-large .keypad-container",
+      "description": "",
+      "supports": [
+        "min-width",
+        "min-height",
+        "width",
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-x-large[showextrabutton=\"true\"]",
+      "description": "",
+      "supports": [
+        "height"
+      ],
+      "showWhen": {}
+    },
+    {
+      "className": ".ch5-keypad.ch5-keypad--size-x-large[showextrabutton=\"true\"] .keypad-container",
+      "description": "",
+      "supports": [
         "height",
         "min-width",
         "min-height"
