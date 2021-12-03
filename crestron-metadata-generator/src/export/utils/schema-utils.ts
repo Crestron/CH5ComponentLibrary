@@ -103,7 +103,7 @@ function getJoin(definition: Definition): object | undefined {
     return parser.getJoinFromObject(definition);
 }
 
-function getLimits(definition: Definition): object | undefined {
+function getLimits(definition: Definition): object[] {
     return parser.getLimitsFromObject(definition);
 }
 

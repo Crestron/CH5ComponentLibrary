@@ -214,13 +214,13 @@ function getJoinFromObject(definition: Object): object | undefined {
     return value;
 }
 
-function getLimitsFromObject(definition: Object): object | undefined {
+function getLimitsFromObject(definition: Object): object[] {
     const documentationTag = "limits";
     const keys = Object.keys(definition);
 
     const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
     if (!containsDocumentation) {
-        return undefined;
+        return [];
     }
 
     const value: object[] = definition[documentationTag];
