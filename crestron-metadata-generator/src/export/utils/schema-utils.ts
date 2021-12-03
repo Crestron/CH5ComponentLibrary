@@ -94,6 +94,14 @@ function getShowWhen(definition: Definition): object[] {
     return parser.getShowWhenFromObject(definition);
 }
 
+function getJoin(definition: Definition): object | undefined {
+    return parser.getJoinFromObject(definition);
+}
+
+function getLimits(definition: Definition): object | undefined {
+    return parser.getLimitsFromObject(definition);
+}
+
 export {
     hasKeys,
     getTypes,
@@ -108,5 +116,7 @@ export {
     getTypeForAriaRoles,
     getComponentVersion,
     getHideWhen,
-    getShowWhen
+    getShowWhen,
+    getJoin,
+    getLimits,
 };

@@ -199,6 +199,34 @@ function getHideWhenFromObject(definition: Object): object[] {
     return [];
 }
 
+function getJoinFromObject(definition: Object): object | undefined {
+    const documentationTag = "join";
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return undefined;
+    }
+
+    const value: object[] = definition[documentationTag];
+
+    return value;
+}
+
+function getLimitsFromObject(definition: Object): object | undefined {
+    const documentationTag = "limits";
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return undefined;
+    }
+
+    const value: object[] = definition[documentationTag];
+
+    return value;
+}
+
 function getShowWhenFromObject(definition: Object): object[] {
     const documentationTag = "showWhen";
     const keys = Object.keys(definition);
@@ -247,5 +275,7 @@ export {
     getTypeForAriaRolesFromObject,
     getComponentVersionFromObject,
     getHideWhenFromObject,
-    getShowWhenFromObject
+    getShowWhenFromObject,
+    getJoinFromObject,
+    getLimitsFromObject,
 };

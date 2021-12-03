@@ -96,6 +96,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name mode
    * @default 0
+   * @limits {"min": 0, "max": 99}
    */
    mode: number;
 
@@ -243,6 +244,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "When received, applies a value to the mode attribute from the signal."
    * ]
    * @name receivestatemode
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateMode: string;
 
@@ -254,6 +256,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "When received, applies a true value applied by the selected class (ch5-button--selected)."
    * ]
    * @name receivestateselected
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateSelected: string;
 
@@ -265,6 +268,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "When received, applies the value on the label."
    * ]
    * @name receivestatelabel
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateLabel: string;
 
@@ -277,6 +281,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "button.inner HTML class. Allows for multiline, multistyled labels."
    * ]
    * @name receivestatescriptlabelhtml
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateScriptLabelHtml: string;
 
@@ -291,6 +296,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
    * ]
    * @name sendeventonclick
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnClick: string;
 
@@ -305,6 +311,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
    * ]
    * @name sendeventontouch
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnTouch: string;
 
@@ -316,6 +323,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "The icon class received from the control system."
    * ]
    * @name receivestateiconclass
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateIconClass: string | null;
 
@@ -328,6 +336,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "See description of the type attribute."
    * ]
    * @name receivestatetype
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateType: string | null;
 
@@ -340,6 +349,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "See description of the iconUrl attribute."
    * ]
    * @name receivestateiconurl
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateIconUrl: string | null;
 

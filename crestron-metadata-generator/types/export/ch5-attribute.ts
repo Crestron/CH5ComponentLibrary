@@ -13,6 +13,8 @@ export class Ch5Attribute {
     public default?: string;
     public hideWhen?: object[];
     public showWhen?: object[];
+    public join?: object;
+    public limits?: object;
 
     public static New(): Ch5Attribute {
         const result = new Ch5Attribute();

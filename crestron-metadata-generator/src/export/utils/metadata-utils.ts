@@ -139,6 +139,8 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
     result.default = _.getDefault(definition);
     result.hideWhen = _.getHideWhen(definition);
     result.showWhen = _.getShowWhen(definition);
+    result.join = _.getJoin(definition);
+    result.limits = _.getLimits(definition);
     // }
 
     return result;
