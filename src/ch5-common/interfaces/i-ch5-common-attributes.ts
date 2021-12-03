@@ -22,7 +22,7 @@ export interface ICh5CommonAttributes {
      * @name id
      */
     id: string;
-    
+
     /**
      * @documentation
      * [
@@ -69,6 +69,7 @@ export interface ICh5CommonAttributes {
      * "The change of value will remove the prior value and apply the new value."
      * ]
      * @name receivestatecustomclass
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
      */
     receiveStateCustomClass: string;
 
@@ -81,6 +82,7 @@ export interface ICh5CommonAttributes {
      * "The change of value will remove the prior value and apply the new value."
      * ]
      * @name receivestatecustomstyle
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
      */
     receiveStateCustomStyle: string;
 
@@ -92,6 +94,7 @@ export interface ICh5CommonAttributes {
      * "When true, the boolean value of the signal determines if the component is visible."
      * ]
      * @name receivestateshow
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
      */
     receiveStateShow: string;
 
@@ -103,6 +106,7 @@ export interface ICh5CommonAttributes {
      * "on transition from false to true, this signal directs the component to become visible."
      * ]
      * @name receivestateshowpulse
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
      */
     receiveStateShowPulse: string;
 
@@ -114,6 +118,7 @@ export interface ICh5CommonAttributes {
      * "on transition from false to true, this signal will direct if the component is no longer visible."
      * ]
      * @name receivestatehidepulse
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
      */
     receiveStateHidePulse: string;
 
@@ -127,6 +132,7 @@ export interface ICh5CommonAttributes {
      * "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
      * ]
      * @name receivestateenable
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
      */
     receiveStateEnable: string;
 
@@ -139,6 +145,7 @@ export interface ICh5CommonAttributes {
      * "Note that even if component is completely covered by other visible elements, it is still considered visible."
      * ]
      * @name sendeventonshow
+     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
      */
     sendEventOnShow: string;
 
@@ -180,5 +187,5 @@ export interface ICh5CommonAttributes {
      * @name dir
      */
     dir: string;
-    
+
 }
