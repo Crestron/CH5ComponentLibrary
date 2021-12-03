@@ -96,7 +96,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name mode
    * @default 0
-   * @limits {"min": 0, "max": 99}
+   * @limits [{"min": 0, "max": 99}]
    */
    mode: number;
 
