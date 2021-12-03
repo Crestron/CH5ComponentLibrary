@@ -45,7 +45,9 @@
               "secondary"
             ],
             "name": "type",
-            "default": "null"
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           },
           {
             "documentation": [
@@ -64,13 +66,17 @@
               "secondary"
             ],
             "name": "size",
-            "default": "null"
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           },
           {
             "documentation": [],
             "value": [],
             "name": "id",
-            "default": "null"
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           }
         ],
         "documentation": [
@@ -140,7 +146,9 @@
               "secondary"
             ],
             "name": "type",
-            "default": "null"
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           },
           {
             "documentation": [
@@ -161,13 +169,17 @@
               "secondary"
             ],
             "name": "composite",
-            "default": "null"
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           },
           {
             "documentation": [],
             "value": [],
             "name": "id",
-            "default": "null"
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           }
         ],
         "documentation": [

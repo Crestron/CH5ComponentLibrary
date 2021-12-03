@@ -1,0 +1,12 @@
+{% raw %}
+(function($, CrComLib){
+
+    var code1El = $('#code1');
+    var res1El = $('#res1');
+
+    var res1Val = CrComLib.countNumberOfCh5Components(document.getElementById('my-container'));
+    code1El.text("CrComLib.countNumberOfCh5Components(document.getElementById('my-container'))");
+    res1El.text(JSON.stringify(res1Val, null, 2));
+    
+})(jQuery,CrComLib);
+{% endraw %}
