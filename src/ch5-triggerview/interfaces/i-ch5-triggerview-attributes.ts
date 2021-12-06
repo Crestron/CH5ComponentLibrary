@@ -21,6 +21,7 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * ]
      * @name activeview
      * @default 0
+     * @limits [{"min": 0, "max": 99}]
      */
     activeView: number;
 

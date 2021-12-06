@@ -142,6 +142,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name scrolltotime
    * @default 500ms
+   * @limits [{"min": 0, "max": 1000}]
    */
   scrollToTime: number;
 
@@ -190,7 +191,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "`endless` attribute",
    * "***",
    * "The default value is false. If false, continued swiping when reaching end of list reveals ",
-   * "no items beyond the last. If true, if the attirbute is added without a value, ", 
+   * "no items beyond the last. If true, if the attirbute is added without a value, ",
    * "the first list item will ",
    * "virtually follow the last item when the end of the list is reached. ",
    * "Swiping towards the beginning of the list items will also show the last item ",
