@@ -24,6 +24,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name size
    * @default 1
+   * @limits [{"min": 0, "max": 99}]
    */
   size: number;
 
@@ -69,6 +70,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name selectedvalue
    * @default 0
+   * @limits [{"min": 0, "max": 99}]
    */
   selectedValue: number;
 
@@ -103,6 +105,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name visibleitemscroll
    * @default 3
+   * @limits [{"min": 1, "max": 99}]
    */
   visibleItemScroll: number;
 

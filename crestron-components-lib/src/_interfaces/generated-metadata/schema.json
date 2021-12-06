@@ -5742,7 +5742,12 @@
             "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 10
+              }
+            ]
           },
           {
             "documentation": [
@@ -7407,7 +7412,12 @@
             "default": "500ms",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 1000
+              }
+            ]
           },
           {
             "documentation": [
@@ -9257,7 +9267,12 @@
             "default": "1",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 1,
+                "max": 30
+              }
+            ]
           },
           {
             "documentation": [
@@ -9305,7 +9320,12 @@
             "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 99
+              }
+            ]
           },
           {
             "documentation": [
@@ -11346,7 +11366,12 @@
             "default": "1",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 99
+              }
+            ]
           },
           {
             "documentation": [
@@ -11398,7 +11423,12 @@
             "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 99
+              }
+            ]
           },
           {
             "documentation": [
@@ -11435,7 +11465,12 @@
             "default": "3",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 1,
+                "max": 99
+              }
+            ]
           },
           {
             "documentation": [
@@ -12651,7 +12686,12 @@
             "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 99
+              }
+            ]
           },
           {
             "documentation": [
@@ -12665,7 +12705,12 @@
             "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 99
+              }
+            ]
           },
           {
             "documentation": [
@@ -12680,7 +12725,12 @@
             "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 99
+              }
+            ]
           },
           {
             "documentation": [
@@ -12696,7 +12746,12 @@
             "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 99
+              }
+            ]
           },
           {
             "documentation": [
@@ -14110,7 +14165,12 @@
             "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [
+              {
+                "min": 0,
+                "max": 99
+              }
+            ]
           },
           {
             "documentation": [

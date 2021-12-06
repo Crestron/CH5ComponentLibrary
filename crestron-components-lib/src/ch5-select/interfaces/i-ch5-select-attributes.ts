@@ -24,6 +24,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name size
    * @default 1
+   * @limits [{"min": 1, "max": 30}]
    */
   size: string | number;
 
@@ -66,6 +67,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name panelscrollheight
    * @default 0
+   * @limits [{"min": 0, "max": 99}]
    */
   panelScrollHeight: number;
 
@@ -190,7 +192,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name multiselect
    * @default false
-   * 
+   *
    */
   multiselect: boolean;
 
@@ -205,7 +207,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name resize
    * @default false
-   * 
+   *
    */
   resize: boolean;
 

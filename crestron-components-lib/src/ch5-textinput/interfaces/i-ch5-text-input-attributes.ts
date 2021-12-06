@@ -6,11 +6,11 @@
 // under which you licensed this source code.
 
 import { ICh5CommonInputAttributes } from "../../ch5-common-input/interfaces/i-ch5-common-input-attributes";
-import { TCh5TextInputStretch, 
-          TCh5TextInputSize, 
-          TCh5TextInputType, 
-          TCh5TextInputTextTransform, 
-          TCh5TextInputIconPosition 
+import { TCh5TextInputStretch,
+          TCh5TextInputSize,
+          TCh5TextInputType,
+          TCh5TextInputTextTransform,
+          TCh5TextInputIconPosition
 } from "./index";
 
 /**
@@ -19,11 +19,11 @@ import { TCh5TextInputStretch,
 export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
 
   /**
-   * @documentation 
+   * @documentation
    * [
    *  "`mask` attribute",
    *  "***",
-   * "The background pattern that will be present when the input is focused. ", 
+   * "The background pattern that will be present when the input is focused. ",
    * "The following combination of prebuilt definitions are permitted: ",
    * "a - alpha caracter ",
    * "9 - numeric character ",
@@ -58,7 +58,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name icon
    */
    icon: string;
-  
+
   /**
    * @documentation
    * [
@@ -122,6 +122,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name minlength
    * @default 0
+   * @limits [{"min": 0, "max": 99}]
    */
   minLength: number;
 
@@ -135,6 +136,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name maxlength
    * @default 0
+   * @limits [{"min": 0, "max": 99}]
    */
   maxLength: number;
 
@@ -149,6 +151,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name minvalue
    * @default 0
+   * @limits [{"min": 0, "max": 99}]
    */
   minValue: number;
 
@@ -164,6 +167,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name maxvalue
    * @default 0
+   * @limits [{"min": 0, "max": 99}]
    */
   maxValue: number;
 
@@ -269,7 +273,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name sendeventonfocus
    */
   sendEventOnFocus: string;
-  
+
   /**
    * @documentation
    * [

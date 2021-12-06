@@ -55,6 +55,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * ]
    * @name refreshrate
    * @default 0
+   * @limits [{"min": 0, "max": 10}]
    */
   refreshRate: number;
 
@@ -137,7 +138,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event. ",
    * "Examples include the SIMPL Logic Symbol for Toggle with a description of ",
    * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-   * ]   
+   * ]
    * @name sendeventonclick
    */
   sendEventOnClick: string;
