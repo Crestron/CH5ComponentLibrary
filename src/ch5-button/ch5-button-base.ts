@@ -223,7 +223,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
-	};
+	}; 
 
 	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
 	private readonly BUTTON_PRIMARY_CLASS: string = 'cb-btn';
@@ -1631,7 +1631,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			} else {
 				// let timer: any;
 				// clearTimeout(timer);
-				// timer = 
+				// timer =
 				setTimeout(() => {
 					this.createEllipsisTpl();
 					this.isLabelLoaded = true;
@@ -1790,7 +1790,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * If type node is updated via html or js or signal, the change set attribue of type;
 	 * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
 	 * if receivestate is false, then
-	 * if mode attribute is updated, always call this method, and update all attributes 
+	 * if mode attribute is updated, always call this method, and update all attributes
 	 */
 	public setButtonDisplay(): void {
 		if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {

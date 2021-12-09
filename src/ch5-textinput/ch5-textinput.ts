@@ -15,8 +15,19 @@ import HtmlCallback from "../ch5-common/utils/html-callback";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { TCh5CommonInputFeedbackModes } from "../ch5-common-input/interfaces/t-ch5-common-input";
 import { ICh5TextInputAttributes, TCh5TextInputIconPosition, TCh5TextInputSize, TCh5TextInputStretch, TCh5TextInputTextTransform, TCh5TextInputType } from "./interfaces";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttributes {
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatefocus: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatevalue: { direction: "state", booleanJoin: 1, contractName: true },
+
+        sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventonblur: { direction: "event", booleanJoin: 1, contractName: true }
+    };
 
     /**
      * Contains the values of type attribute
@@ -210,7 +221,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
     /**
      * Icon to be shown
      * Example: fa fa-plane
-     * 
+     *
      * Icon attribute is deprecated and it was replaced by iconClass attribute.
      *
      * @private
@@ -222,7 +233,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
     /**
      * Icon to be shown
      * Example: fa fa-plane
-     * 
+     *
      * Icon attribute is deprecated and it was replaced by iconClass attribute.
      *
      * @private
@@ -928,8 +939,8 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
     /**
      * Setter for icon
-     * 
-     * Deprectared, not used anymore 
+     *
+     * Deprectared, not used anymore
      *
      * @param {string} icon
      */
@@ -963,7 +974,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
     /**
      * Getter for icon
-     * 
+     *
      * Deprectared, not used anymore
      *
      * @return {string}

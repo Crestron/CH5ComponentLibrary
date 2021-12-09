@@ -11,6 +11,7 @@ import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './interfaces';
 import { IBACKGROUND } from './../ch5-video/interfaces/types/t-ch5-video-publish-event-request';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { resizeObserver } from '../ch5-core/resize-observer';
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes {
 	/**
@@ -55,6 +56,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * - receiveStateUrl, receivestateurl
 	 * - receiveStateBackgroundColor, receivestatebackgroundcolor
 	 */
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestaterefreshrate: { direction: "state", stringJoin: 1, contractName: true },
+		receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatebackgroundcolor: { direction: "state", stringJoin: 1, contractName: true }
+	};
 
 	public primaryCssClass = 'ch5-background';
 	public parentCssClassPrefix = '--parent';
@@ -521,7 +529,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				} else {
 					this._isVisible = false;
 					// Note: If you need a fading effect between two pages using ch5-background individually
-					// then, remove the 'ch5bg-fadein' class here: this._canvasList[i].classList.remove('ch5bg-fadein'); 
+					// then, remove the 'ch5bg-fadein' class here: this._canvasList[i].classList.remove('ch5bg-fadein');
 				}
 				this.isInitialized = true;
 			});
@@ -1074,7 +1082,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private updateCanvasDimensions() {
 		if (this.isCanvasListValid()) {

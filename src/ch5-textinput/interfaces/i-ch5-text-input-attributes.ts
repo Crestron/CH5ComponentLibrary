@@ -238,6 +238,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "When focused, send true. When unfocusesd, send false."
    * ]
    * @name receivestatefocus
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateFocus: string;
 
@@ -249,6 +250,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "When recevied, changes the value of the text input field."
    * ]
    * @name receivestatevalue
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateValue: string;
 
@@ -260,6 +262,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Sends an event on value change."
    * ]
    * @name sendeventonchange
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnChange: string;
 
@@ -271,6 +274,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Sends an event on focus."
    * ]
    * @name sendeventonfocus
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnFocus: string;
 
@@ -282,6 +286,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Sends an event on blur."
    * ]
    * @name sendeventonblur
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnBlur: string;
 }

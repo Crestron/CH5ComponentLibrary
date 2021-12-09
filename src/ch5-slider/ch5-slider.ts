@@ -17,6 +17,7 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SliderAttributes, TCh5SliderShape, TCh5SliderOrientation, TCh5SliderSize, TCh5SliderStretch, TCh5SliderDirection, TCh5SliderTooltipType, TCh5SliderTooltipDisplay, TCh5SliderHandle } from "./interfaces";
 import _ from "lodash";
 import { Subject } from "rxjs";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export interface IRcbSignal {
 	rcb: {
@@ -33,6 +34,15 @@ export interface IRcbUpdateValue {
 }
 
 export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+		receivestatevaluehigh: { direction: "state", booleanJoin: 1, contractName: true },
+
+		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonchangehigh: { direction: "event", booleanJoin: 1, contractName: true }
+	};
 
 	//#region "Variables"
 

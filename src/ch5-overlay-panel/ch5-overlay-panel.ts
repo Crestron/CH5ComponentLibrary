@@ -9,6 +9,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5OverlayPanelAttributes, TCh5OverlayPanelOverflow, TCh5OverlayPanelPositionOffset, TCh5OverlayPanelStretch } from "./interfaces";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 /**
  * Html Attributes
@@ -42,6 +43,17 @@ import { ICh5OverlayPanelAttributes, TCh5OverlayPanelOverflow, TCh5OverlayPanelP
  *
  */
 export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttributes {
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatepositionoffset: { direction: "state", booleanJoin: 1, contractName: true },
+
+        sendeventonbeforeshow: { direction: "state", stringJoin: 1, contractName: true },
+        sendeventonaftershow: { direction: "state", stringJoin: 1, contractName: true },
+        sendeventonbeforehide: { direction: "state", stringJoin: 1, contractName: true },
+        sendeventonafterhide: { direction: "state", stringJoin: 1, contractName: true },
+    };
 
     /**
      * The first value is considered the default one
@@ -944,7 +956,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
         // Attaching it when mousedown is triggered and that event being attached to document
         // this will be triggered as well.
         setTimeout(() => {
-            document.addEventListener("click", this._dismissElement);            
+            document.addEventListener("click", this._dismissElement);
         }, 250);
     }
 

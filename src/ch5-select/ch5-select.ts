@@ -26,8 +26,19 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { isNil } from "lodash";
 import { TCh5CommonInputFeedbackModes } from "../ch5-common-input/interfaces/t-ch5-common-input";
 import { ICh5SelectAttributes, TCh5SelectMode, TCh5SelectIconPosition } from "./interfaces";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatesize: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestatetemplatevars: { direction: "state", stringJoin: 1, contractName: true },
+
+        sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true }
+    };
 
     // Options number can no be > 30
     public static MAX_SIZE: number = 30;

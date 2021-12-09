@@ -73,6 +73,7 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * "Based on 0-based numbering."
      * ]
      * @name sendeventshowchildindex
+     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
      */
     sendEventShowChildIndex: string;
 
@@ -85,6 +86,7 @@ export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
      * "the 0-based index of views in the component become visible."
      * ]
      * @name receivestateshowchildindex
+     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
      */
     receiveStateShowChildIndex: string;
 

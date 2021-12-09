@@ -125,7 +125,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * [
    * "`okbuttonstyle` attribute",
    * "***",
-   * "The inline style value for the OK button to override the theme."  
+   * "The inline style value for the OK button to override the theme."
    * ]
    * @name okbuttonstyle
    */
@@ -257,6 +257,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent to Native just before the panel is shown."
    * ]
    * @name sendeventonbeforeshow
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnBeforeShow: string;
 
@@ -268,6 +269,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent to Native after the panel is shown."
    * ]
    * @name sendeventonaftershow
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnAfterShow: string;
 
@@ -279,6 +281,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent to Native before the panel is hidden."
    * ]
    * @name sendeventonbeforehide
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnBeforeHide: string;
 
@@ -290,6 +293,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent to Native after the panel is hidden."
    * ]
    * @name sendeventonafterhide
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnAfterHide: string;
 
@@ -301,6 +305,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent when the OK button is pressed."
    * ]
    * @name sendeventonok
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnOk: string;
 
@@ -312,6 +317,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent when the Cancel button is pressed."
    * ]
    * @name sendeventoncancel
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnCancel: string;
 }
