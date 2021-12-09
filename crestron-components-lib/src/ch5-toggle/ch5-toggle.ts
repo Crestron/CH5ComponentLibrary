@@ -12,8 +12,17 @@ import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 import HtmlCallback from "../ch5-common/utils/html-callback";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5ToggleAttributes, TCh5ToggleShape, TCh5ToggleOrientation, TCh5ToggleFeedbackMode } from "./interfaces";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatescriptlabelhtml: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatevalue: { direction: "state", booleanJoin: 1, contractName: true },
+
+        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true }
+    };
 
     /**
      * The first value is considered the default one

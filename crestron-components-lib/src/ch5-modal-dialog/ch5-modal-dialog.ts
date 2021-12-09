@@ -10,6 +10,8 @@ import { Ch5Signal } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Button } from "../ch5-button/ch5-button";
 import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attributes";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5Common} from '../ch5-common/ch5-common';
 
 /**
  * Html Attributes
@@ -60,6 +62,17 @@ import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attri
  *
  */
 export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAttributes {
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatepositionoffset: { direction: "state", booleanJoin: 1, contractName: true },
+
+        sendeventonbeforeshow: { direction: "state", stringJoin: 1, contractName: true },
+        sendeventonaftershow: { direction: "state", stringJoin: 1, contractName: true },
+        sendeventonbeforehide: { direction: "state", stringJoin: 1, contractName: true },
+        sendeventonafterhide: { direction: "state", stringJoin: 1, contractName: true },
+    };
 
     public static readonly COMPONENT_DATA: any = {
         POSITION_OFFSETS: {

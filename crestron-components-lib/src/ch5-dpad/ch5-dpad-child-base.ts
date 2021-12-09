@@ -18,10 +18,24 @@ import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
 import { TCh5DpadButtonClassListType, TCh5DpadChildButtonType, TCh5DpadConstructorParam } from "./interfaces/t-ch5-dpad";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttributes {
 
     //#region 1. Variables
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestateshow: { direction: "state", numericJoin: 1, contractName: true },
+        receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestateshowpulse: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatehidepulse: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
+
+        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
+    };
 
     //#region 1.1 readonly variables
     public primaryCssClass = '';
@@ -64,7 +78,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     // The interval id ( from setInterval ) for reenforcing the  onTouch signal
     // This id allow canceling the interval.
     protected _intervalIdForRepeatDigital: number | null = null;
-    // this is last tap time used to determine if should send click pulse in focus event 
+    // this is last tap time used to determine if should send click pulse in focus event
     protected _lastTapTime: number = 0;
     protected _pressable: Ch5Pressable | null = null;
     protected _hammerManager: HammerManager = {} as HammerManager;
@@ -690,10 +704,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
      * If type node is updated via html or js or signal, the change set attribue of type;
      * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
      * if receivestate is false, then
-     * if mode attribute is updated, always call this method, and update all attributes 
-     * @param fromNode 
-     * @param isModeAttributeUpdated 
-     * @param attibuteName 
+     * if mode attribute is updated, always call this method, and update all attributes
+     * @param fromNode
+     * @param isModeAttributeUpdated
+     * @param attibuteName
      */
     public setButtonDisplay() {
         this.setButtonDisplayDetails();

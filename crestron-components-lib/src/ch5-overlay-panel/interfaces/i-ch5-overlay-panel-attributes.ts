@@ -128,6 +128,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "When received, positions to this component."
    * ]
    * @name receivestatepositionto
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStatePositionTo: string;
 
@@ -140,6 +141,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "See attribute 'positionOffset' for valid values."
    * ]
    * @name receivestatepositionoffset
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStatePositionOffset: string;
 
@@ -151,6 +153,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "Sends a signal on the overlay panel before show."
    * ]
    * @name sendeventonbeforeshow
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnBeforeShow: string;
 
@@ -161,8 +164,9 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "***",
    * "Sends a signal on the overlay panel after show."
    * ]
-   * 
+   *
    * @name sendeventonaftershow
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnAfterShow: string;
 
@@ -174,6 +178,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "Sends a signal on overlay panel before hide."
    * ]
    * @name sendeventonbeforehide
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnBeforeHide: string;
 
@@ -185,6 +190,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "Sends a signal on overlay panel after hide."
    * ]
    * @name sendeventonafterhide
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnAfterHide: string;
 }

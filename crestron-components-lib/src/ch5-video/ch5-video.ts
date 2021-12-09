@@ -23,6 +23,7 @@ import _ from "lodash";
 import { CH5VideoUtils } from "./ch5-video-utils";
 import { TCh5ProcessUriParams } from "../ch5-common/interfaces/t-ch5-common";
 import { Ch5VideoTouchManager } from "./ch5-video-touch-manager";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 export type TSignalTypeT = string | number | boolean | any;
@@ -83,6 +84,34 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
         SCREEN_PLAY_ICON: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
         SCREEN_STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>'
     }
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatesnapshotpassword: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatevideocount: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestatepassword: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatesnapshotuserid: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateuserid: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatesnapshotrefreshrate: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatesourcetype: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateselect: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateplay: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatesnapshoturl: { direction: "state", stringJoin: 1, contractName: true },
+
+        sendeventstate: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventsnapshotlastupdatetime: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventsnapshotstatus: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventresolution: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventretrycount: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventerrormessage: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventerrorcode: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventsnapshoturl: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventselectionurl: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventselectionsourcetype: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventselectionchange: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
+    };
 
     private readonly INTERSECTION_RATIO_VALUE: number = 0.98;
     private readonly primaryVideoCssClass: string = 'ch5-video';

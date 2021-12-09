@@ -23,6 +23,7 @@ import { ICh5ListAttributes } from "./interfaces";
 import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
 import { subscribeInViewPortChange } from '../ch5-core';
 import { Ch5RoleAttributeMapping } from '../utility-models';
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 /**
  * An object containing information about a item.
@@ -84,6 +85,14 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
      * The first value is considered the default one
      */
     public static ORIENTATION: TCh5ListElementOrientation[] = ['vertical', 'horizontal'];
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestateshow: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatesize: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestatescrollto: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatetemplatevars: { direction: "state", stringJoin: 1, contractName: true }
+    };
 
     public static readonly COMPONENT_DATA: any = {
         SCALE: {

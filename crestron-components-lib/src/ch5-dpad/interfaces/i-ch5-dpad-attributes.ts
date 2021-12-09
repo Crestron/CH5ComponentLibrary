@@ -122,7 +122,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * "If this value is set to true then the value received from the contract will be considered for remaining ",
      * "ch5-dpad button as a custom class."
      * ]
-     * @name useContractForCustomClass 
+     * @name useContractForCustomClass
      * @default false
      */
     useContractForCustomClass: boolean;
@@ -152,6 +152,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * "join+2 applies to left, join+3 applies to right, join+4 to center ."
      * ]
      * @name sendEventOnClickStart
+     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
      */
     sendEventOnClickStart: string;
 }

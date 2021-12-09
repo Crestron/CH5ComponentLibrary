@@ -14,10 +14,25 @@ import { Ch5KeypadButton } from "./ch5-keypad-btn";
 import { CH5KeypadButtonData } from "./ch5-keypad-btn-data";
 import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-attributes";
 import { TCh5KeypadButtonCreateDTO, TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#region 1. Variables
     //#region 1.1 readonly variables
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestateshow: { direction: "state", numericJoin: 1, contractName: true },
+        receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestateshowpulse: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatehidepulse: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
+
+        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
+    };
+
     /**
      * The first value is considered the default one
      */
@@ -755,7 +770,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
         this.size = ComponentHelper.setAttributeToElement(this, 'size', this._size) as TCh5KeypadSize;
 
-        // DEV NOTE: if contract name exists, and the individual attribute values don't exist, 
+        // DEV NOTE: if contract name exists, and the individual attribute values don't exist,
         // then the default value is true for useContractFor*
         // else useContractFor* picks value from attributes
         const isContractNameAvailable = Boolean(this.contractName).toString();

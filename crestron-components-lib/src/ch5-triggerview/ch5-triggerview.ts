@@ -14,6 +14,7 @@ import { Ch5TriggerViewSlidesManager } from "./ch5-triggerview-slides-manager";
 import { isNil } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5TriggerviewAttributes } from './interfaces/i-ch5-triggerview-attributes';
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export type TactiveViewCallback = () => {};
 
@@ -210,6 +211,13 @@ const template = document.createElement('template');
 template.innerHTML = `<style>${triggerviewStyles}</style> ${triggerviewHtml}`;
 
 export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttributes {
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestateshowchildindex: { direction: "state", numericJoin: 1, contractName: true },
+
+		sendeventshowchildindex: { direction: "event", booleanJoin: 1, contractName: true }
+	};
 
 	/**
 	 * CSS classes

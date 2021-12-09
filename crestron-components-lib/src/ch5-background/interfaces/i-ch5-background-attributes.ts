@@ -149,6 +149,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "When defined, this will set the refreshRate attribute."
    * ]
    * @name receivestaterefreshrate
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateRefreshRate: string;
 
@@ -162,6 +163,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * " attributes."
    * ]
    * @name receivestateurl
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateUrl: string;
 
@@ -174,6 +176,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * " is superseded by the receivestateurl attribute."
    * ]
    * @name receivestatebackgroundcolor
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateBackgroundColor: string;
 

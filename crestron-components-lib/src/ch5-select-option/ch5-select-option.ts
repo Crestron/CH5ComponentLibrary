@@ -12,8 +12,19 @@ import { Ch5Select } from "../ch5-select/ch5-select";
 import { Ch5Toggle } from "../ch5-toggle/ch5-toggle";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SelectOptionAttributes } from "./interfaces/i-ch5-select-option-attributes";
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttributes {
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestateselected: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatelabel: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
+
+        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true }
+    };
 
     public static ICON_POSITION_VALUES: string[] = ['first', 'last'];
     public static ITEM_STYLE_CLASS: string = 'ch5-select__panel__item';
@@ -38,7 +49,7 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
      * @private
      */
     private _iconPosition: string = Ch5SelectOption.ICON_POSITION_VALUES[0];
-    
+
     private _useDefaultTmpl: boolean = false
 
     /**
@@ -318,7 +329,7 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
         value = this.checkIfValueIsTruey(value.toString());
         if (this._useDefaultTmpl !== value) {
             this._useDefaultTmpl = value;
-            // TODO: BELOW CODE CHANGE NOT REQUIRED 
+            // TODO: BELOW CODE CHANGE NOT REQUIRED
             // NEEDS TO BE VERIFIED BEFORE SETTING THE ATTRIBUTE WITH THE VALUE IF REQUIRED
             // this.setAttribute('useDefaultTmpl', value.toString());
         }

@@ -48,7 +48,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * @name valuehigh
    * @hideWhen [
    *  {"range": [null, "false"] }
-   * ]    
+   * ]
    */
   valueHigh: number | string;
 
@@ -188,7 +188,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * @hideWhen [
    *  {"tooltipdisplaytype": [null, "off"]},
    *  {"nohandle": ["true", ""] }
-   * ]      
+   * ]
    */
   toolTipDisplayType: TCh5SliderTooltipDisplay;
 
@@ -299,6 +299,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "On receive, changes the value of the slider handle."
    * ]
    * @name receivestatevalue
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateValue: string;
 
@@ -310,6 +311,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "On receive, changes the value of the right slider handle (available when range is true)."
    * ]
    * @name receivestatevaluehigh
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateValueHigh: string;
 
@@ -321,6 +323,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "Sends a signal value on slider change."
    * ]
    * @name sendeventonchange
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnChange: string;
 
@@ -332,6 +335,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "If a range slider is set to true, sends a signal value high on slider change."
    * ]
    * @name sendeventonchangehigh
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnChangeHigh: string;
 

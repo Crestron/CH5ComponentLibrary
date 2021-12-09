@@ -32,7 +32,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "Overrides the appearance of each of the buttons inside <ch5-keypad> with alternative CSS ",
      * "defined in classes defined with ch5-keypad--type where type is the value of the property. ",
      * "If no 'type' is provided, type of 'primary' is used."
-     * ]     
+     * ]
      * @name type
      * @default primary
      */
@@ -138,7 +138,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "If this value is set to true then the value received from the contract will be considered for remaining ",
      * "ch5-keypad button as a custom class."
      * ]
-     * @name useContractForCustomClass 
+     * @name useContractForCustomClass
      * @default false
      */
     useContractForCustomClass: boolean;
@@ -197,6 +197,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "join+2 applies to left, join+3 applies to right, join+4 to center ."
      * ]
      * @name sendEventOnClickStart
+     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
      */
     sendEventOnClickStart: string;
 }

@@ -18,8 +18,22 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SpinnerAttributes } from './interfaces/i-ch5-spinner-attributes';
 import { TCh5CommonInputFeedbackModes } from '../ch5-common-input/interfaces/t-ch5-common-input';
 import { TCh5SpinnerIconPosition } from './interfaces';
+import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
+
+  public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+    ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+    receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+    receivestatesize: { direction: "state", booleanJoin: 1, contractName: true },
+    receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
+    receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
+
+    sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
+    sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
+    sendeventonoverflow: { direction: "event", booleanJoin: 1, contractName: true },
+    sendEventonunderflow: { direction: "event", booleanJoin: 1, contractName: true }
+  };
 
   public static primaryCssClass = 'ch5-spinner';
   public static cssClassPrefix = 'ch5-spinner';
