@@ -123,7 +123,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		},
 	};
 
-	public static readonly OFFSET_TRESHOLD: number = 30;
+	public static readonly OFFSET_THRESHOLD: number = 30;
 
 	/**
 	 * Component internal HTML elements
@@ -2232,10 +2232,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		const noUiHandle = this._elSlider.querySelector('.noUi-handle') as HTMLElement;
 		
 		if (this._orientation === 'vertical') {
-			const maxOffsetLeft = offsetY - Ch5Slider.OFFSET_TRESHOLD;
-			const maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_TRESHOLD;
-			const maxOffestTop = offsetX - Ch5Slider.OFFSET_TRESHOLD;
-			const maxOffestBottom = offsetX + this._elSlider.clientHeight + Ch5Slider.OFFSET_TRESHOLD;
+			const maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffestBottom = offsetX + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 
 			if (inEvent.clientX < maxOffsetLeft ||
 				inEvent.clientX > maxOffsetRight ||
@@ -2252,10 +2252,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				noUiHandle.blur();
 			}
 		} else {
-			const maxOffsetLeft = offsetY - Ch5Slider.OFFSET_TRESHOLD;
-			const maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_TRESHOLD;
-			const maxOffestTop = offsetX - Ch5Slider.OFFSET_TRESHOLD;
-			const maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_TRESHOLD;
+			const maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 
 			if (inEvent.clientX < maxOffsetLeft ||
 				inEvent.clientX > maxOffsetRight ||
