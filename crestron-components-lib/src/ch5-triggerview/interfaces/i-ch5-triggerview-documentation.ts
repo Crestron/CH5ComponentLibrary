@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5TriggerviewAttributes } from ".";
+import { ICh5TriggerViewAttributes } from ".";
 import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
@@ -39,7 +39,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *                "    </ch5-triggerview-child> ",
  *                "</ch5-triggerview>"
  *            ],
- *            "description": "Crestron Triggerview (Blank)"
+ *            "description": "Crestron TriggerView (Blank)"
  *        },
  *        {
  *            "prefix": "ch5-triggerview:default",
@@ -62,7 +62,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *                "    </ch5-triggerview-child>",
  *                "</ch5-triggerview>"
  *            ],
- *            "description": "Crestron Triggerview (Default)"
+ *            "description": "Crestron TriggerView (Default)"
  *        },
  *        {
  *            "prefix": "ch5-triggerview:signals",
@@ -85,10 +85,10 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *               "    </ch5-triggerview-child>",
  *                "</ch5-triggerview>"
  *            ],
- *            "description": "Crestron Triggerview Signals"
+ *            "description": "Crestron TriggerView Signals"
  *        }
  * ]
  *
  */
- export interface ICh5TriggerviewDocumentation extends ICh5Common, ICh5TriggerviewAttributes {
+ export interface ICh5TriggerViewDocumentation extends ICh5Common, ICh5TriggerViewAttributes {
 }

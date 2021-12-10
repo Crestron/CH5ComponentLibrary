@@ -13,12 +13,12 @@ import { TCh5ShowType } from "../ch5-common/interfaces";
 import { ICh5TriggerViewChildAttributes } from "./interfaces/i-ch5-triggerview-child-attributes";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 
-const _parentTriggerviewNodeName = 'CH5-TRIGGERVIEW';
+const _parentTriggerViewNodeName = 'CH5-TRIGGERVIEW';
 
 export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChildAttributes {
 
 	/**
-	 * Triggerview child accepts only 'visibility' for noshowtype
+	 * TriggerView child accepts only 'visibility' for noshowtype
 	 */
 	public static SHOW_TYPES: TCh5ShowType[] = ['visibility'];
 
@@ -33,12 +33,7 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 	 */
 	protected _noshowType = Ch5TriggerViewChild.SHOW_TYPES[0];
 
-	/**
-	 * COMPONENT ATTRIBUTES
-	 *
-	 * - selected
-	 */
-
+	//#region " Attributes "
 	get selected() {
 		this.info('Ch5TriggerViewChild get selected()');
 		return this.hasAttribute('selected');
@@ -193,13 +188,13 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 		return;
 	}
 
+	//#endregion
 
 	////// COMPONENT START ///////
 
 	constructor() {
 		super();
 		this.info('Ch5TriggerViewChild.constructor()');
-
 		this._listOfAllPossibleComponentCssClasses = this._generateListOfAllPossibleComponentCssClasses();
 	}
 
@@ -364,9 +359,8 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 	}
 
 	public getTriggerViewParent(): Ch5TriggerView | null {
-
 		const getTheMatchingParent = (node: Node): Ch5TriggerView => {
-			if (!_.isNil(node) && node.nodeName !== _parentTriggerviewNodeName) {
+			if (!_.isNil(node) && node.nodeName !== _parentTriggerViewNodeName) {
 				return getTheMatchingParent(node.parentNode as Node);
 			}
 			return node as Ch5TriggerView;
