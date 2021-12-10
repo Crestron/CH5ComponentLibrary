@@ -25,7 +25,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestateurl: { direction: "state", numericJoin: 1, contractName: true },
+        receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
 
         sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
         sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },

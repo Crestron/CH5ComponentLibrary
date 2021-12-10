@@ -112,7 +112,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The image URL passed via state."
    * ]
    * @name receivestateurl
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    */
   receiveStateUrl: string;
 
@@ -127,7 +127,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "Digital input <up> 'High/1 (level sensitive) = Ramp up; Low/0 = Stop ramp'."
    * ]
    * @name sendeventontouch
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnTouch: string;
 
@@ -142,7 +142,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
    * ]
    * @name sendeventonclick
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnClick: string;
 
@@ -154,7 +154,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "Sends an event on error."
    * ]
    * @name sendeventonerror
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnError: string;
 }

@@ -46,7 +46,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
      * @name sendeventonclick
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventOnClick: string;
 }

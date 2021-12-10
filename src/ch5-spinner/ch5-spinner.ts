@@ -24,15 +24,15 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
-    receivestatesize: { direction: "state", booleanJoin: 1, contractName: true },
+    receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
+    receivestatesize: { direction: "state", stringJoin: 1, contractName: true },
     receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
     receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
 
-    sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
-    sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
-    sendeventonoverflow: { direction: "event", booleanJoin: 1, contractName: true },
-    sendEventonunderflow: { direction: "event", booleanJoin: 1, contractName: true }
+    sendeventonchange: { direction: "event", stringJoin: 1, contractName: true },
+    sendeventonfocus: { direction: "event", stringJoin: 1, contractName: true },
+    sendeventonoverflow: { direction: "event", stringJoin: 1, contractName: true },
+    sendEventonunderflow: { direction: "event", stringJoin: 1, contractName: true }
   };
 
   public static primaryCssClass = 'ch5-spinner';

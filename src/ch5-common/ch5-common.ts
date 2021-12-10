@@ -42,11 +42,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     protected static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
         receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
-        receivestateshow: { direction: "state", booleanJoin: 1, contractName: true },
-        receivestateshowpulse: { direction: "state", booleanJoin: 1, contractName: true },
-        receivestatehidepulse: { direction: "state", booleanJoin: 1, contractName: true },
-        receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
-        sendeventonshow: { direction: "event", booleanJoin: 1, contractName: true }
+        receivestateshow: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateshowpulse: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatehidepulse: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateenable: { direction: "state", stringJoin: 1, contractName: true },
+        sendeventonshow: { direction: "event", stringJoin: 1, contractName: true }
     };
 
     /**

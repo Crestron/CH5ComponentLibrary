@@ -257,7 +257,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent to Native just before the panel is shown."
    * ]
    * @name sendeventonbeforeshow
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnBeforeShow: string;
 
@@ -269,7 +269,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent to Native after the panel is shown."
    * ]
    * @name sendeventonaftershow
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnAfterShow: string;
 
@@ -281,7 +281,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent to Native before the panel is hidden."
    * ]
    * @name sendeventonbeforehide
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnBeforeHide: string;
 
@@ -293,7 +293,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent to Native after the panel is hidden."
    * ]
    * @name sendeventonafterhide
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnAfterHide: string;
 
@@ -305,7 +305,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent when the OK button is pressed."
    * ]
    * @name sendeventonok
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnOk: string;
 
@@ -317,7 +317,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The name of the boolean signal that will be sent when the Cancel button is pressed."
    * ]
    * @name sendeventoncancel
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnCancel: string;
 }
