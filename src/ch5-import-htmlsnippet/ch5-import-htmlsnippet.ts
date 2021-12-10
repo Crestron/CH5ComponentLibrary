@@ -267,7 +267,7 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
             const response: string = await this.asyncLoadContent(url);
             this._elContainer.innerHTML = response;
             this.dispatchEvent(this.loadEvent);
-            publishEvent('object', `ch5-import-htmlsnippet:${this.id}`, {loaded: true});
+            publishEvent('object', `ch5-import-htmlsnippet:${this.id}`, {loaded: true, url, id: this.id});
 
         } catch (rejectionReason) {
             this.info(`ch5-import-htmlsnippet failed to load the URL: ${url}, ${rejectionReason}`);
@@ -295,7 +295,7 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
               resolve(request.responseText);
             } else {
               // If it fails, reject the promise with a error message
-              reject(`load failed with status ${request.status}, statusText ${request.statusText}, resonseType ${request.responseType}`);
+              reject(`load failed with status ${request.status}, statusText ${request.statusText}, responseType ${request.responseType}`);
             }
           };
           request.onerror = () => {
