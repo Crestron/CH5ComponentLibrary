@@ -152,7 +152,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
      * "join+2 applies to left, join+3 applies to right, join+4 to center ."
      * ]
      * @name sendEventOnClickStart
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventOnClickStart: string;
 }

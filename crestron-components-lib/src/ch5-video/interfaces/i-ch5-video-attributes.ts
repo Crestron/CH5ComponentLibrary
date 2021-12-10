@@ -199,7 +199,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventOnClick: string;
 
@@ -212,7 +212,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Sends a signal on a source selection change when the source selection ",
      *  "is updated using the 'receivestateselect' attribute."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventSelectionChange: string;
 
@@ -224,7 +224,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The current selected source type."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventSelectionSourceType: string;
 
@@ -237,7 +237,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      * "Sends a signal on an url change when the source url ",
      * "is updated using the 'receiveStateUrl' attribute."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventSelectionURL: string;
 
@@ -249,7 +249,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The current selected snapshot URL."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventSnapShotURL: string;
 
@@ -261,7 +261,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The current video error code state."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventErrorCode: string;
 
@@ -273,7 +273,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The current video error message state."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventErrorMessage: string;
 
@@ -285,7 +285,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The current video retry count state."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventRetryCount: string;
 
@@ -297,7 +297,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The current video resolution."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventResolution: string;
 
@@ -309,7 +309,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The current state of the video associated with the current source selection."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventState: string;
 
@@ -321,7 +321,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The current state of the snapshot associated with the current source selection."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventSnapShotStatus: string;
 
@@ -333,7 +333,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The timestamp of the last update time of the still image associated with the current source selection."
      * ]
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
      */
     sendEventSnapShotLastUpdateTime: string;
 
@@ -345,7 +345,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The default value is empty. Defines the video URL as an attribute."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStateUrl: string;
 
@@ -357,7 +357,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the still image URL to use when selection changes to an INDEX value."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStateSnapShotURL: string;
 
@@ -371,7 +371,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "If not defined, the video will play whenever the component is visible. If defined with a value of false, ",
      *  "the background of ch5-video--nosource css class is displayed."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStatePlay: string;
 
@@ -386,7 +386,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "provided the video source type (see receiveStateVideoSourceType) is valid. When not defined, ",
      *  "the first video source defined (equivalent of index 0) in the list will be played."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStateSelect: string;
 
@@ -398,7 +398,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the video source type when the selection changes to an INDEX value."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStateSourceType: string;
 
@@ -410,7 +410,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Defines the refresh rate for a still image url. 0 indicates no refresh."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStateSnapShotRefreshRate: string;
 
@@ -422,7 +422,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the user ID for credentials supplied to a camera for a video URL."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStateUserId: string;
 
@@ -434,7 +434,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the user ID for credentials supplied to a camera for an image URL."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStateSnapShotUserId: string;
 
@@ -446,7 +446,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the password for credentials supplied to a camera for a video URL."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStatePassword: string;
 
@@ -458,7 +458,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the password for credentials supplied to a camera for an image URL."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStateSnapShotPassword: string;
 
@@ -470,7 +470,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the count of the videos."
      * ]
-     * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
      */
     receiveStateVideoCount: string;
 }

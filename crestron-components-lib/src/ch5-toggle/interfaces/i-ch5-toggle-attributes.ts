@@ -171,7 +171,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "The value of the switch."
    * ]
    * @name receivestatescriptlabelhtml
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    */
   receiveStateScriptLabelHtml: string;
 
@@ -183,7 +183,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "The receiving value from the signal."
    * ]
    * @name receivestatevalue
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    */
   receiveStateValue: string;
 
@@ -194,7 +194,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
    * ]
    * @name sendeventonclick
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnClick: string;
 }

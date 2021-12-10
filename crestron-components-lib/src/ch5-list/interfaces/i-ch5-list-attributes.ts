@@ -210,7 +210,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the size of the list received from Native."
    * ]
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    */
   receiveStateSize: string | null | undefined;
 
@@ -224,7 +224,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Example: value 10 of receivestatescrollto will scroll the list ",
    * "to the 10th element."
    * ]
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    */
   receiveStateScrollTo: string | null | undefined;
 
@@ -236,7 +236,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the template variables that are received from Native."
    * ]
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    */
   receiveStateTemplateVars: string | null | undefined;
 }

@@ -32,8 +32,8 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
-        receivestatesize: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatesize: { direction: "state", stringJoin: 1, contractName: true },
         receivestatetemplatevars: { direction: "state", stringJoin: 1, contractName: true },
 
         sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },

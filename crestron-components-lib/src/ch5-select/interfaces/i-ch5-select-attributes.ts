@@ -243,7 +243,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Value 0 indicates all will be unselected."
    * ]
    * @name receivestatevalue
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    */
   receiveStateValue: string | null;
 
@@ -255,7 +255,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Sets the number of items in this component."
    * ]
    * @name receivestatesize
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    */
   receiveStateSize: string | null;
 
@@ -267,7 +267,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "A JSON-encoded array of name/value objects, with one per item created from the template."
    * ]
    * @name receivestatetemplatevars
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    */
   receiveStateTemplateVars: string | null;
 
@@ -279,7 +279,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Send a signal on the focus event. Set to true if in focus and set to false if not in focus."
    * ]
    * @name sendeventonfocus
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    */
   sendEventOnFocus: string | null;
 
@@ -292,7 +292,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "A 1-based index is expected. Value 0 indicates all will be unselected."
    * ]
    * @name sendeventonchange
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
    *
    */
   sendEventOnChange: string | null;

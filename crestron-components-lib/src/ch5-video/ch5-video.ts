@@ -87,8 +87,8 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestatesnapshotpassword: { direction: "state", numericJoin: 1, contractName: true },
-        receivestatevideocount: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestatesnapshotpassword: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatevideocount: { direction: "state", stringJoin: 1, contractName: true },
         receivestatepassword: { direction: "state", stringJoin: 1, contractName: true },
         receivestatesnapshotuserid: { direction: "state", stringJoin: 1, contractName: true },
         receivestateuserid: { direction: "state", stringJoin: 1, contractName: true },
