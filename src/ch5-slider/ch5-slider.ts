@@ -133,6 +133,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		},
 	};
 
+	public static readonly OFFSET_THRESHOLD: number = 30;
+
 	/**
 	 * Component internal HTML elements
 	 */
@@ -1244,6 +1246,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._onSliderStop = this._onSliderStop.bind(this);
 		this._onSliderChange = this._onSliderChange.bind(this);
 		this._stopRcbAnimation = this._stopRcbAnimation.bind(this);
+		this._onMouseLeave = this._onMouseLeave.bind(this);
 
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
@@ -1869,6 +1872,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 			noUiHandle.addEventListener('focus', this._onFocus);
 			noUiHandle.addEventListener('blur', this._onBlur);
+			this._elSlider.addEventListener('mouseleave', this._onMouseLeave);
 		}
 	}
 
@@ -2215,6 +2219,69 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			})
 		);
 
+	}
+
+	private _getAbsoluteOffsetFromBodyForSlider() {
+		let offsetX = 0;
+		let offsetY = 0;
+		let sliderElement = this._elSlider as unknown as any;
+		while (sliderElement && !isNaN(sliderElement.offsetLeft) && !isNaN(sliderElement.offsetTop)) {
+			offsetX += sliderElement.offsetLeft - sliderElement.scrollLeft + sliderElement.clientLeft;
+			offsetY += sliderElement.offsetTop - sliderElement.scrollTop + sliderElement.clientTop;
+			sliderElement = sliderElement.offsetParent;
+		}
+
+		return {
+			offsetX,
+			offsetY
+		}
+	}
+
+	_onMouseLeave(inEvent: any): void {
+		const { offsetX, offsetY } = this._getAbsoluteOffsetFromBodyForSlider();
+		const noUiHandle = this._elSlider.querySelector('.noUi-handle') as HTMLElement;
+		
+		if (this._orientation === 'vertical') {
+			const maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffestBottom = offsetX + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+
+			if (inEvent.clientX < maxOffsetLeft ||
+				inEvent.clientX > maxOffsetRight ||
+				inEvent.clientY < maxOffestTop ||
+				inEvent.clientY > maxOffestBottom
+			) {
+				this.dispatchEvent(
+					this.blurEvent = new CustomEvent('mouseup', {
+						bubbles: true,
+						cancelable: false,
+					})
+				);
+
+				noUiHandle.blur();
+			}
+		} else {
+			const maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+			const maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+
+			if (inEvent.clientX < maxOffsetLeft ||
+				inEvent.clientX > maxOffsetRight ||
+				inEvent.clientY < maxOffestTop ||
+				inEvent.clientY > maxOffestBottom
+			) {
+				this.dispatchEvent(
+					this.blurEvent = new CustomEvent('mouseup', {
+						bubbles: true,
+						cancelable: false,
+					})
+				);
+
+				noUiHandle.blur();
+			}
+		}
 	}
 
 	/**
