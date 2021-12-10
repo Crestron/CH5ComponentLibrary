@@ -12,7 +12,7 @@ export function countNumberOfCh5Components(parentElement: any) {
 	const found: any = { 'parent': parentElement.tagName, 'total': 0 };
 	const allElements = parentElement.getElementsByTagName('*'); // live
 
-	for (let element of allElements) {
+	for (const element of allElements) {
 		const elementTagName = element.tagName;
 		if (elementTagName.startsWith('CH5-')) {
 			found.total++;
@@ -22,7 +22,7 @@ export function countNumberOfCh5Components(parentElement: any) {
 		else { // not starts with 'ch5-'
 			if (element.hasAttributes()) {
 				const attrs = element.attributes;
-				for (var idx = attrs.length - 1; idx >= 0; idx--) {
+				for (let idx = attrs.length - 1; idx >= 0; idx--) {
 					const attrName = attrs[idx].name;
 					if (attrName.startsWith('data-ch5') && attrName !== 'data-ch5-id'
 						&& !attrName.endsWith('subs-key') && !attrName.endsWith('sub-key')) {

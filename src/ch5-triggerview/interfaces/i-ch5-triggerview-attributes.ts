@@ -10,7 +10,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 /**
  * @ignore
  */
-export interface ICh5TriggerviewAttributes extends ICh5CommonAttributes {
+export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
 
     /**
      * @documentation
