@@ -75,18 +75,8 @@ export function intGetter(element: HTMLElement, attributeName: string, defaultVa
 }
 
 /**
- * An object representing either a touch event or a mouse event.
- * @typedef {object} INormalisedPointerEvent
- * @property {number} x The x coordinate.
- * @property {number} y The y coordinate.
- * @property {?number} id The pointer identifier.
- * @property {MouseEvent|TouchEvent} event The original event object.
- */
-
-/**
- * Normalises touch and mouse events into an object with the same properties.
+ * Normalizes touch and mouse events into an object with the same properties.
  * @param {MouseEvent|TouchEvent} ev The mouse or touch event.
- * @returns {INormalisedPointerEvent}
  * @private
  */
 export function normalizeEvent(ev: any) {

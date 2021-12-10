@@ -43,7 +43,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  *           "    </ch5-triggerview-child >",
  *           "</ch5-triggerview>"
  *       ],
- *       "description": "Crestron Triggerview Child Send Signals"
+ *       "description": "Crestron TriggerView Child Send Signals"
  *    },
  *    {
  *        "prefix": "ch5-triggerview:child-receive-signals",
@@ -66,7 +66,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  *            "    </ch5-triggerview-child >",
  *            "</ch5-triggerview>"
  *        ],
- *        "description": "Crestron Triggerview Signals"
+ *        "description": "Crestron TriggerView Signals"
  *    }
  * ]
  */

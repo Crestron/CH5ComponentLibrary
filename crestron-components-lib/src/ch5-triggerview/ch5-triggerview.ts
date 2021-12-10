@@ -13,14 +13,14 @@ import { Ch5TriggerViewChild } from "./ch5-triggerview-child";
 import { Ch5TriggerViewSlidesManager } from "./ch5-triggerview-slides-manager";
 import { isNil } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models";
-import { ICh5TriggerviewAttributes } from './interfaces/i-ch5-triggerview-attributes';
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import { ICh5TriggerViewAttributes } from './interfaces/i-ch5-triggerview-attributes';
+import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
-export type TactiveViewCallback = () => {};
+export type TActiveViewCallback = () => {};
 
-const speedBetweenPages = 300;
+const SPEED_BETWEEN_PAGES = 300;
 
-const triggerviewHtml = `
+const triggerViewHtml = `
   <slot id="slidesSlot">
     <p class="slidesFallback">No content available</p>
   </slot>
@@ -28,7 +28,7 @@ const triggerviewHtml = `
     <slot id="ariaSlot" name="ariaSlot"></slot>
   </div>`;
 
-const triggerviewStyles = `
+const triggerViewStyles = `
 /*******************************************************************************
  Host and CSS properties
 *******************************************************************************/
@@ -167,55 +167,17 @@ Slides: width is calculated with a css formula
 }
 `;
 
-// TODO: will be moved to components sass
-const swiperCss = `
-    .swiper-container {
-        width: 100%;
-        height: 100%;
-    }
-    .swiper-wrapper {
-        position: relative;
-        z-index: 1;
-        display: inline-flex;
-        -webkit-transition-property: -webkit-transform;
-        transition-property: -webkit-transform;
-        -o-transition-property: transform;
-        transition-property: transform;
-        transition-property: transform,-webkit-transform;
-        -webkit-box-sizing: content-box;
-        box-sizing: content-box;
-    }
-`;
-
-// TODO: INormalisedPointerEvent should be moved elsewhere
-/**
- * An object representing either a touch event or a mouse event.
- * @typedef {object} INormalisedPointerEvent
- * @property {number} x The x coordinate.
- * @property {number} y The y coordinate.
- * @property {?number} id The pointer identifier.
- * @property {MouseEvent|TouchEvent} event The original event object.
- */
-export interface INormalisedPointerEvent {
-	x: number;
-	y: number;
-	id: number;
-	event: TouchEvent;
-	targetElement: HTMLElement
-}
-
 /**
  * Markup and styles.
  */
 const template = document.createElement('template');
-template.innerHTML = `<style>${triggerviewStyles}</style> ${triggerviewHtml}`;
+template.innerHTML = `<style>${triggerViewStyles}</style> ${triggerViewHtml}`;
 
-export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttributes {
+export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttributes {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestateshowchildindex: { direction: "state", numericJoin: 1, contractName: true },
-
 		sendeventshowchildindex: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
@@ -233,11 +195,10 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 * - disableAnimation
 	 */
 
-
 	/**
 	 * Invoked on each activeView attribute change
 	 */
-	private _activeViewCallback: TactiveViewCallback = {} as TactiveViewCallback;
+	private _activeViewCallback: TActiveViewCallback = {} as TActiveViewCallback;
 
 	// swipe sensitivity
 	private _swipeThreshold = 30.0;
@@ -332,7 +293,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 * and install event listeners.
 	 */
 	public connectedCallback() {
-
 		const setup = () => {
 			this.info('Ch5TriggerView.connectedCallback()');
 
@@ -351,14 +311,14 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 			this.attachEventListeners();
 
 			// Sometimes the 'slot-changed' event doesn't fire consistently across
-			// browsers, depending on how the Custom Element was parsed and initialised
+			// browsers, depending on how the Custom Element was parsed and initialized
 			// (see https://github.com/whatwg/dom/issues/447)
 			this._onSlidesSlotChange();
 
 			// TODO: css will be removed to sass files, used here temporary
-			const style = document.createElement('style') as HTMLElement;
-			style.innerHTML = swiperCss;
-			this.appendChild(style);
+			// const style = document.createElement('style') as HTMLElement;
+			// style.innerHTML = swiperCss;
+			// this.appendChild(style);
 
 			this.id = this.getCrId();
 
@@ -383,7 +343,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 
 		// this is a quick fix
 		// problem is that when connected callback is called
-		// the triggerview doesn't have childs attached
+		// the triggerview doesn't have children attached
 	}
 
 	/**
@@ -455,12 +415,12 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 *
 	 * @param {number} index
 	 */
-	public setActiveView(i: number) {
-		this.activeView = i;
+	public setActiveView(index: number) {
+		this.activeView = index;
 	}
 
 	// ===========================================================================
-	// Attributes / properties (selected, activeciew,endless,gestureable)
+	// Attributes / properties (selected, activeView, endless, gestureable)
 	// ===========================================================================
 
 	/**
@@ -505,9 +465,10 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 			this._onSlidesSlotChange();
 		}
 
-		switch (name) {
+		switch (name) {			
 			case 'activeview':
 				if (oldValue !== newValue) {
+
 					const parsedNewValue = parseInt(newValue, 10);
 					// Accept only numbers between `0` and slides number
 					if (this.slidesManager.getSlidesNumber() >= 0 &&
@@ -595,7 +556,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 		return this.cssClassPrefix + '--disabled';
 	}
 
-	public set activeViewCallback(callback: TactiveViewCallback) {
+	public set activeViewCallback(callback: TActiveViewCallback) {
 		if (!(callback instanceof Function)) {
 			return;
 		}
@@ -603,7 +564,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 		this._activeViewCallback = callback;
 	}
 
-	public get activeViewCallback(): TactiveViewCallback {
+	public get activeViewCallback(): TActiveViewCallback {
 		return this._activeViewCallback;
 	}
 
@@ -621,6 +582,8 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 		if (this.slidesManager.swiperIsActive()) {
 			const speed = this.computeTransitionByDistance(index);
 			this.slidesManager.swipeTo(this.activeView, this.disableAnimation, speed);
+		} else if (this.slidesManager.ch5SwiperIsActive()) {
+			this.slidesManager.swipeTo(this.activeView, false, 0);
 		}
 
 		this.dispatchEvent(new CustomEvent('select', {
@@ -629,8 +592,13 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 		}));
 
 		// prevent sending signal if select is happening from receive signal
-		if (!this._signalIsReceived) {
+		// We should only prevent signal if the receive and send are same. If different, then we should trigger the signal send.
+		this.info("this._signalIsReceived", this._signalIsReceived);
+		this.info("this._sendEventShowChildIndexSigName", this._sendEventShowChildIndexSigName);
+		this.info("this._receiveStateShowChildIndexSigName", this._receiveStateShowChildIndexSigName);
+		if (this._sendEventShowChildIndexSigName !== this._receiveStateShowChildIndexSigName) {
 			// send signal with selected value 1-based index
+			this.info("SUCCESS");
 			this._sendValueForSelectSignal(this.activeView);
 		}
 		this._updateAriaLiveDom();
@@ -779,8 +747,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 			&& this._receiveStateShowChildIndexSigName !== null) {
 
 			const oldStateName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowChildIndexSigName);
-			const oldState: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-				.getNumberSignal(oldStateName);
+			const oldState: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldStateName);
 
 			if (oldState !== null) {
 				oldState.unsubscribe(this._subReceiveStateShowChildIndexId);
@@ -803,8 +770,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 				this._signalIsReceived = true;
 				this.activeView = newValue;
 			} else {
-				this.info('Ch5TriggerView receiveStateShowChildIndex signal value for ' +
-					this.getAttribute('data-ch5-id') + ' is invalid');
+				this.info('Ch5TriggerView receiveStateShowChildIndex signal value for ' + this.getAttribute('data-ch5-id') + ' is invalid');
 			}
 		});
 	}
@@ -864,7 +830,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 */
 	protected attachEventListeners(): void {
 		super.attachEventListeners();
-
 		// Add event listeners.
 		this._slidesSlot.addEventListener('slotchange', this);
 	}
@@ -875,7 +840,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 */
 	protected removeEvents(): void {
 		super.removeEventListeners();
-
 		this._slidesSlot.removeEventListener('slotchange', this);
 	}
 
@@ -929,10 +893,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 */
 	protected generateListOfAllPossibleComponentCssClasses(): string[] {
 		const cssClasses: string[] = this._listOfAllPossibleComponentCssClasses;
-
-		// primary class
 		cssClasses.push(this.primaryCssClass);
-
 		return cssClasses;
 	}
 
@@ -942,10 +903,8 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 	 * @param {number} viewToLoad
 	 */
 	public computeTransitionByDistance(viewToLoad: number): number {
-		const speed = speedBetweenPages;
 		const pageGap = Math.abs(this._activeView - viewToLoad);
-
-		return speed * pageGap;
+		return SPEED_BETWEEN_PAGES * pageGap;
 	}
 
 	/**
@@ -959,8 +918,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerviewAttribut
 			&& undefined !== this._sendEventShowChildIndexSigName
 			&& null !== this._sendEventShowChildIndexSigName) {
 
-			sigSelect = Ch5SignalFactory.getInstance()
-				.getNumberSignal(this._sendEventShowChildIndexSigName);
+			sigSelect = Ch5SignalFactory.getInstance().getNumberSignal(this._sendEventShowChildIndexSigName);
 
 			if (sigSelect !== null) {
 				sigSelect.publish(value);
