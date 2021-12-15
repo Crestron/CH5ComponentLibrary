@@ -18,21 +18,21 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SpinnerAttributes } from './interfaces/i-ch5-spinner-attributes';
 import { TCh5CommonInputFeedbackModes } from '../ch5-common-input/interfaces/t-ch5-common-input';
 import { TCh5SpinnerIconPosition } from './interfaces';
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
-    receivestatesize: { direction: "state", stringJoin: 1, contractName: true },
+    receivestatesize: { direction: "state", numericJoin: 1, contractName: true },
     receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
     receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
 
-    sendeventonchange: { direction: "event", stringJoin: 1, contractName: true },
-    sendeventonfocus: { direction: "event", stringJoin: 1, contractName: true },
-    sendeventonoverflow: { direction: "event", stringJoin: 1, contractName: true },
-    sendEventonunderflow: { direction: "event", stringJoin: 1, contractName: true }
+    sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
+    sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
+    sendeventonoverflow: { direction: "event", booleanJoin: 1, contractName: true },
+    sendEventonunderflow: { direction: "event", booleanJoin: 1, contractName: true }
   };
 
   public static primaryCssClass = 'ch5-spinner';
@@ -439,10 +439,10 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     this.info("<ch5-spinner />.disconnectedCallback()");
     this._wasInstantiated = false;
     if (typeof this._scrollHelper.destruct !== "undefined") {
-        this._scrollHelper.destruct();
+      this._scrollHelper.destruct();
     }
     if (typeof this.templateHelper.destruct !== "undefined") {
-        this.templateHelper.destruct();
+      this.templateHelper.destruct();
     }
 
     this.unsubscribeFromSignals();
@@ -473,10 +473,10 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     this.info('<ch5-spinner />.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
     super.attributeChangedCallback(attr, oldValue, newValue);
 
-    if (this._wasInstantiated && oldValue !== newValue){
+    if (this._wasInstantiated && oldValue !== newValue) {
       switch (attr) {
         case 'size':
-          if (this.hasAttribute('receiveStateSize') === false){
+          if (this.hasAttribute('receiveStateSize') === false) {
             this.size = parseFloat(newValue);
             this.repaint();
           }
@@ -533,7 +533,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
           this.receiveStateUrl = newValue;
           break;
         case 'show':
-          if (!this.itemHeight && newValue){
+          if (!this.itemHeight && newValue) {
             this.templateHelper.handleDefaultItemHeight((this.templateHelper.childrenObject as [HTMLElement])[0] as HTMLElement);
           }
       }
@@ -614,118 +614,118 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
    * Getter scrollHelper
    * @return {Ch5SpinnerScroll}
    */
-	public get scrollHelper(): Ch5SpinnerScroll  {
-		return this._scrollHelper;
-	}
+  public get scrollHelper(): Ch5SpinnerScroll {
+    return this._scrollHelper;
+  }
 
   /**
    * Setter scrollHelper
    * @param {Ch5SpinnerScroll} value
    */
-	public set scrollHelper(value: Ch5SpinnerScroll ) {
-		this._scrollHelper = value;
-	}
+  public set scrollHelper(value: Ch5SpinnerScroll) {
+    this._scrollHelper = value;
+  }
 
 
   /**
    * Getter eventsHelper
    * @return {Ch5SpinnerEvents}
    */
-	public get eventsHelper(): Ch5SpinnerEvents  {
-		return this._eventsHelper;
-	}
+  public get eventsHelper(): Ch5SpinnerEvents {
+    return this._eventsHelper;
+  }
 
   /**
    * Setter eventsHelper
    * @param {Ch5SpinnerEvents} value
    */
-	public set eventsHelper(value: Ch5SpinnerEvents ) {
-		this._eventsHelper = value;
-	}
+  public set eventsHelper(value: Ch5SpinnerEvents) {
+    this._eventsHelper = value;
+  }
 
 
   /**
    * Getter selectedItem
    * @return {HTMLElement}
    */
-	public get selectedItem(): HTMLElement  {
-		return this._selectedItem;
-	}
+  public get selectedItem(): HTMLElement {
+    return this._selectedItem;
+  }
 
   /**
    * Setter selectedItem
    * @param {HTMLElement} value
    */
-	public set selectedItem(value: HTMLElement ) {
-		this._selectedItem = value;
-	}
+  public set selectedItem(value: HTMLElement) {
+    this._selectedItem = value;
+  }
 
 
   /**
    * Getter cleanItem
    * @return {number}
    */
-	public get cleanItem(): number  {
-		return this._cleanItem;
-	}
+  public get cleanItem(): number {
+    return this._cleanItem;
+  }
 
   /**
    * Setter cleanItem
    * @param {number} value
    */
-	public set cleanItem(value: number ) {
-		this._cleanItem = value;
-	}
+  public set cleanItem(value: number) {
+    this._cleanItem = value;
+  }
 
 
   /**
    * Getter receiveStateValueSub
    * @return {string}
    */
-	public get receiveStateValueSub(): string  {
-		return this._receiveStateValueSub;
-	}
+  public get receiveStateValueSub(): string {
+    return this._receiveStateValueSub;
+  }
 
   /**
    * Setter receiveStateValueSub
    * @param {string} value
    */
-	public set receiveStateValueSub(value: string ) {
-		this._receiveStateValueSub = value;
-	}
+  public set receiveStateValueSub(value: string) {
+    this._receiveStateValueSub = value;
+  }
 
 
   /**
    * Getter receiveStateSizeSub
    * @return {string}
    */
-	public get receiveStateSizeSub(): string  {
-		return this._receiveStateSizeSub;
-	}
+  public get receiveStateSizeSub(): string {
+    return this._receiveStateSizeSub;
+  }
 
   /**
    * Setter receiveStateSizeSub
    * @param {string} value
    */
-	public set receiveStateSizeSub(value: string ) {
-		this._receiveStateSizeSub = value;
-	}
+  public set receiveStateSizeSub(value: string) {
+    this._receiveStateSizeSub = value;
+  }
 
   /**
    * Getter wasInstantiated
    * @return {boolean}
    */
-	public get wasInstantiated(): boolean  {
-		return this._wasInstantiated;
-	}
+  public get wasInstantiated(): boolean {
+    return this._wasInstantiated;
+  }
 
   /**
    * Setter wasInstantiated
    * @param {boolean} value
    */
-	public set wasInstantiated(value: boolean ) {
-		this._wasInstantiated = value;
-	}
+  public set wasInstantiated(value: boolean) {
+    this._wasInstantiated = value;
+  }
 
   /**
    * Subscribe for receiveStateValue
@@ -741,18 +741,18 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     // add new subscription
     const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
     const receiveState: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-        .getNumberSignal(receiveStateName);
+      .getNumberSignal(receiveStateName);
 
     if (receiveState === null) {
-        return
+      return
     }
 
     this._receiveStateValueSub = receiveState.subscribe((newValue: number) => {
-        if ((newValue !== null || newValue !== undefined) && newValue >= 0) {
-          this.selectedValue = newValue;
-          this._cleanItem = newValue;
-          this._scrollHelper.selectTheItem(newValue);
-        }
+      if ((newValue !== null || newValue !== undefined) && newValue >= 0) {
+        this.selectedValue = newValue;
+        this._cleanItem = newValue;
+        this._scrollHelper.selectTheItem(newValue);
+      }
     });
   }
 
@@ -770,16 +770,16 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     // add new subscription
     const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateLabel);
     const receiveState: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-        .getStringSignal(receiveStateName);
+      .getStringSignal(receiveStateName);
 
     if (receiveState === null) {
-        return
+      return
     }
 
     this._receiveStateLabelSub = receiveState.subscribe((newValue: string) => {
-        if (newValue !== null || newValue !== undefined) {
-          this.setAttribute('label', newValue);
-        }
+      if (newValue !== null || newValue !== undefined) {
+        this.setAttribute('label', newValue);
+      }
     });
   }
 
@@ -797,10 +797,10 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     // add new subscription
     const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateSize);
     const receiveState: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-        .getNumberSignal(receiveStateName);
+      .getNumberSignal(receiveStateName);
 
     if (receiveState === null) {
-        return
+      return
     }
 
     this._receiveStateSizeSub = receiveState.subscribe((newValue: number) => {
@@ -823,7 +823,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     this.info("<ch5-spinner />.repaint()");
 
     try {
-      if (this.templateHelper.constructor === Ch5SpinnerTemplate && this.parentNode !== null && this.hasChildNodes()){
+      if (this.templateHelper.constructor === Ch5SpinnerTemplate && this.parentNode !== null && this.hasChildNodes()) {
         for (let i = this.childNodes.length - 1; i >= 0; i--) {
           if ((this.childNodes[i] as HTMLElement).tagName === 'TEMPLATE') {
             continue;
@@ -837,7 +837,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
             this.childNodes[0] !== null &&
             (this.childNodes[0] as HTMLElement).tagName === 'TEMPLATE'
           )
-        ){
+        ) {
 
           const _shortLifeElement = document.createElement('div');
 
@@ -864,15 +864,15 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
       this.dirtyTimeHandler();
 
-      if (this._scrollHelper.getCleanCurrentElementIndex()  !== this._cleanItem) {
+      if (this._scrollHelper.getCleanCurrentElementIndex() !== this._cleanItem) {
         const sendEventOnChange = this.sendEventOnChange;
 
-        if ('' !== sendEventOnChange && null !== sendEventOnChange && undefined !== sendEventOnChange){
+        if ('' !== sendEventOnChange && null !== sendEventOnChange && undefined !== sendEventOnChange) {
           const sigClick = Ch5SignalFactory.getInstance()
-              .getNumberSignal(this.sendEventOnChange);
+            .getNumberSignal(this.sendEventOnChange);
 
           if (sigClick !== null) {
-              sigClick.publish(this._scrollHelper.getCleanCurrentElement());
+            sigClick.publish(this._scrollHelper.getCleanCurrentElement());
           }
         }
       }
@@ -947,8 +947,8 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
    */
   public set size(size: number) {
     const _size: number = (this.size !== size && isNil(size))
-        ? 1
-        : this.adjustMaxSizeValue(size);
+      ? 1
+      : this.adjustMaxSizeValue(size);
 
     if (this.size !== _size) {
       this.setAttribute('size', _size + '');
@@ -1094,7 +1094,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
   public getItemHeightMeasurementUnit(): string {
 
-    if (this.itemHeight.indexOf('px') > -1){
+    if (this.itemHeight.indexOf('px') > -1) {
       return 'px';
     } else if (this.itemHeight.indexOf('vh') > -1) {
       return 'vh';
@@ -1463,7 +1463,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
       value = 'direct';
     }
 
-    if (Ch5Spinner.FEEDBACKMODES.indexOf(value) < 0){
+    if (Ch5Spinner.FEEDBACKMODES.indexOf(value) < 0) {
       value = Ch5Spinner.FEEDBACKMODES[0];
     }
 
@@ -1740,8 +1740,8 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
           clonedChild.innerHTML = this._getTranslatedValue('label', child.innerHTML);
           // replace indexId if needed
           // TODO: find out if replace indexId is still needed... if not remove it!
-          const childWithIndexIdReplaced: DocumentFragment | undefined  =
-              this.templateHelper.resolveId(index, [clonedChild]);
+          const childWithIndexIdReplaced: DocumentFragment | undefined =
+            this.templateHelper.resolveId(index, [clonedChild]);
           if (childWithIndexIdReplaced !== undefined) {
             child.innerHTML = childWithIndexIdReplaced.children[0].innerHTML;
           } else {

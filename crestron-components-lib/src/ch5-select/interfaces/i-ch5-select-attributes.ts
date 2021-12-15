@@ -255,7 +255,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Sets the number of items in this component."
    * ]
    * @name receivestatesize
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    */
   receiveStateSize: string | null;
 
@@ -279,7 +279,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Send a signal on the focus event. Set to true if in focus and set to false if not in focus."
    * ]
    * @name sendeventonfocus
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnFocus: string | null;
 
@@ -288,11 +288,11 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * [
    * "`sendeventonchange` attribute",
    * "***",
-   * "Sends a signal value on the selected change. Shis is only applicable for multiselect=false. ",
+   * "Sends a signal value on the selected change. This is only applicable for multiselect=false. ",
    * "A 1-based index is expected. Value 0 indicates all will be unselected."
    * ]
    * @name sendeventonchange
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    *
    */
   sendEventOnChange: string | null;

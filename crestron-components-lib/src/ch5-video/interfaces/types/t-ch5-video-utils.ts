@@ -1,23 +1,18 @@
-/*
-export type localWindowtypeRef extends any {
-    Ch5VideoListManager: {} | iCh5VideoListMgr;
-}*/
-
-export type iCh5VideoListMgr = {
-    addToMasterCollection: (videoNode: iCh5VideoRef) => void,
-    getAllVideoElements: () => iCh5VideoCollection
+export type ICh5VideoListManager = {
+    addToMasterCollection: (videoNode: ICh5VideoRef) => void,
+    getAllVideoElements: () => ICh5VideoCollection
 }
 
-export type iCh5VideoCollection = {
-    [index: string]: iCh5VideoRef
+export type ICh5VideoCollection = {
+    [index: string]: ICh5VideoRef
 }
 
-export type iCh5VideoRef = {
+export type ICh5VideoRef = {
     id: string,
     position: { posX: number, posY: number }
 }
 
-export type iElementDimensions = {
+export type IVideoElementDimensions = {
     offsetLeft: number,
     offsetTop: number,
     totalHeight: number,

@@ -18,8 +18,8 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestateselected: { direction: "state", numericJoin: 1, contractName: true },
-        receivestatelabel: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestateselected: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
         receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
         receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
 

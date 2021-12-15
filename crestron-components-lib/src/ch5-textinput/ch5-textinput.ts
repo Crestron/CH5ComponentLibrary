@@ -24,9 +24,9 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
         receivestatefocus: { direction: "state", stringJoin: 1, contractName: true },
         receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
 
-        sendeventonchange: { direction: "event", stringJoin: 1, contractName: true },
-        sendeventonfocus: { direction: "event", stringJoin: 1, contractName: true },
-        sendeventonblur: { direction: "event", stringJoin: 1, contractName: true }
+        sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventonblur: { direction: "event", booleanJoin: 1, contractName: true }
     };
 
     /**

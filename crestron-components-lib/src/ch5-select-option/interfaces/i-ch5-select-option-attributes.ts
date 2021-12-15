@@ -49,7 +49,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * "When received, applies a true value to the selected class (ch5-button--selected)."
    * ]
    * @name receivestateselected
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateSelected: string | null;
 
@@ -83,7 +83,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * "`receivestatescriptlabelhtml` attribute",
    * "***",
    * "A signal script evaluation will be applied to the ",
-   * "button.innerHTML. Allows for multiline, multistyled labels."
+   * "button.innerHTML. Allows for multiline, multi-styled labels."
    * ]
    * @name receivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
@@ -101,7 +101,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
    * ]
    * @name sendeventonclick
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnClick: string | null;
 }

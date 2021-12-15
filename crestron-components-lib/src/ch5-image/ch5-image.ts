@@ -29,7 +29,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
         sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
         sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
-        sendeventonerror: { direction: "event", booleanJoin: 1, contractName: true }
+        sendeventonerror: { direction: "event", stringJoin: 1, contractName: true }
     };
 
     public static readonly COMPONENT_DATA: any = {
@@ -180,11 +180,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
      *
      */
     private _timerIdForTouch: number | null = null;
-
-    /**
-     * Min length of time we want the user to touch before we do something
-     */
-    private _minTouchDuration: number = 500;
 
     /**
      * Reflects the long touch state of the component.

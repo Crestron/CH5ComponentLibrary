@@ -88,9 +88,9 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestateshow: { direction: "state", stringJoin: 1, contractName: true },
-        receivestatesize: { direction: "state", stringJoin: 1, contractName: true },
-        receivestatescrollto: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateshow: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestatesize: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatescrollto: { direction: "state", numericJoin: 1, contractName: true },
         receivestatetemplatevars: { direction: "state", stringJoin: 1, contractName: true }
     };
 

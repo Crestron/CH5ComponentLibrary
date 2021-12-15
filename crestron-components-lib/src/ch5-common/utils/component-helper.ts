@@ -4,7 +4,7 @@ export class ComponentHelper {
     static instance: ComponentHelper;
 
     private constructor() {
-        console.log("constructor called!");
+        // console.log("constructor called!");
     }
 
     public static getInstance(): ComponentHelper {
