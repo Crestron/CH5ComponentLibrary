@@ -31,7 +31,7 @@ export class Ch5TranslationListeners {
    * @return {void}
    */
   protected onInitialized(options: i18next.TOptions): void {
-    console.log('The i18next was initialized');
+    // console.log('The i18next was initialized');
     this.translate(options.language);
   }
 
@@ -42,7 +42,7 @@ export class Ch5TranslationListeners {
    * @return {void}
    */
   protected onLanguageChanged(lng: string): void {
-    console.log('The language was changed to ' + lng)
+    // console.log('The language was changed to ' + lng);
     this.translate(lng);
   }
 
@@ -53,7 +53,7 @@ export class Ch5TranslationListeners {
    * @return {void}
    */
   protected onLoaded(loaded: boolean): void {
-    console.log('The resource was loaded');
+    // console.log('The resource was loaded');
     this.translate();
   }
 
@@ -64,7 +64,7 @@ export class Ch5TranslationListeners {
    * @return {void}
    */
   protected onAdded(lng: string, ns: string): void {
-    console.log('New resource was added');
+    // console.log('New resource was added');
     this.translate();
   }
 

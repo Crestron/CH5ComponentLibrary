@@ -221,7 +221,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Provides the current value of the spinner."
    * ]
    * @name receivestatevalue
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    */
   receiveStateValue: string;
 
@@ -233,7 +233,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Provides the size of the spinner."
    * ]
    * @name receivestatesize
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    */
   receiveStateSize: string;
 
@@ -269,7 +269,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Sends an event when the value of the spinner changes."
    * ]
    * @name sendeventonchange
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnChange: string;
 
@@ -281,7 +281,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Sends an event on focus."
    * ]
    * @name sendeventonfocus
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnFocus: string;
 
@@ -293,7 +293,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Sends an event on overflow (endless attribute required)."
    * ]
    * @name sendeventonoverflow
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnOverflow: string;
 
@@ -305,7 +305,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Sends an event on underflow (endless attribute required)."
    * ]
    * @name sendeventonunderflow
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnUnderflow: string;
 }

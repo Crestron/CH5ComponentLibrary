@@ -1,5 +1,5 @@
 import { getAspectRatio } from "../ch5-common/utils/viewport";
-import { TPosDimension, TDimension, iElementDimensions } from "./interfaces/types";
+import { TPosDimension, TDimension, IVideoElementDimensions } from "./interfaces/types";
 
 export class CH5VideoUtils {
 
@@ -37,7 +37,7 @@ export class CH5VideoUtils {
      */
     public static getSizeAndPositionForFixedSize = (elem: Element, displaySizeObj: TDimension): any => {
         let position = { xPos: 0, yPos: 0 };
-        const elementDimensions: iElementDimensions = CH5VideoUtils.getParentElementOffsetAndDimension(elem);
+        const elementDimensions: IVideoElementDimensions = CH5VideoUtils.getParentElementOffsetAndDimension(elem);
 
         if (displaySizeObj.width < elementDimensions.totalWidth) {
             position = CH5VideoUtils.calculatePillarBoxPadding(elementDimensions.totalWidth, displaySizeObj.width);
@@ -56,7 +56,7 @@ export class CH5VideoUtils {
      * and return them in the expected format
      * @param ele is the DOM element whose dimensions are calculated and returned
      */
-    public static getParentElementOffsetAndDimension = (ele: Element): iElementDimensions => {
+    public static getParentElementOffsetAndDimension = (ele: Element): IVideoElementDimensions => {
         let totalWidth = ele.clientWidth;
         let totalHeight = ele.clientHeight;
         console.log(ele.className, totalHeight, totalWidth);

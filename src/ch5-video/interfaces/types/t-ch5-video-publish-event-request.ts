@@ -8,17 +8,17 @@
 /**
  * Encapsulating the publish event request in an object.
  */
-export interface ICREDENTIALS {
+export interface ICh5VideoCredentials {
     userid: string;
     password: string;
 }
 
-export interface ISOURCE {
+export interface ICh5VideoSource {
     type: string;
     url: string;
 }
 
-export interface ILOCATION {
+export interface ICh5VideoLocation {
     top: number;
     left: number;
     width: number;
@@ -26,19 +26,19 @@ export interface ILOCATION {
     z: number;
 }
 
-export interface IPUBLISHEVENT {
+export interface ICh5VideoPublishEvent {
     action: string;
     id: number;
-    credentials?: ICREDENTIALS;
-    source?: ISOURCE;
-    location?: ILOCATION;
+    credentials?: ICh5VideoCredentials;
+    source?: ICh5VideoSource;
+    location?: ICh5VideoLocation;
     alphablend?: boolean;
     starttime?: number;
     endtime?: number;
     timing?: string;
 }
 
-export interface IBACKGROUND {
+export interface ICh5VideoBackground {
     action: string;
     id: string;
     top: number;

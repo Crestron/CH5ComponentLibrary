@@ -8,10 +8,11 @@ import { Ch5Common } from './../ch5-common/ch5-common';
 import { ICh5BackgroundAttributes } from './interfaces/i-ch5-background-attributes';
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from '../ch5-core';
 import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './interfaces';
-import { IBACKGROUND } from './../ch5-video/interfaces/types/t-ch5-video-publish-event-request';
+import { ICh5VideoBackground } from './../ch5-video/interfaces/types/t-ch5-video-publish-event-request';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { resizeObserver } from '../ch5-core/resize-observer';
 import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import _ from 'lodash';
 
 export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes {
 	/**
@@ -57,13 +58,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * - receiveStateBackgroundColor, receivestatebackgroundcolor
 	 */
 
-	 public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestaterefreshrate: { direction: "state", stringJoin: 1, contractName: true },
+		receivestaterefreshrate: { direction: "state", numericJoin: 1, contractName: true },
 		receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
 		receivestatebackgroundcolor: { direction: "state", stringJoin: 1, contractName: true }
 	};
-	
+
 	public primaryCssClass = 'ch5-background';
 	public parentCssClassPrefix = '--parent';
 	public canvasCssClassPrefix = '--canvas';
@@ -78,9 +79,9 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	private _bgColors: string[] = [];
 	private _bgIdx: number = 0;
 	private _interval: any;
-	private _videoRes: IBACKGROUND = {} as IBACKGROUND;
+	private _videoRes: ICh5VideoBackground = {} as ICh5VideoBackground;
 	private _isVisible: boolean = false;
-	private _videoDimensions: IBACKGROUND[] = [];
+	private _videoDimensions: ICh5VideoBackground[] = [];
 	private _isRefilled: boolean = true;
 	private lastRefillTime: number = 100;
 	private videoSnapShot: HTMLImageElement = {} as HTMLImageElement;
@@ -220,9 +221,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 */
 	private _videoSubscriptionId: string = '';
 
-	/**
-	 *
-	 */
 	private _canvasSubscriptionId: string = '';
 
 	/**
@@ -234,7 +232,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	}
 
 	public set url(value: string) {
-		if (this._url !== value) {
+		if (this._url !== value && !_.isNil(value) && value !== "") {
 			this._url = value;
 			this.getBackgroundUrl(this._url);
 			this.setAttribute('url', this._url);
@@ -244,7 +242,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	public get backgroundColor(): string {
 		return this._backgroundColor;
 	}
-
 	public set backgroundColor(value: string) {
 		if (!this.hasAttribute('url') && !this.hasAttribute('receivestateurl')) {
 			this._backgroundColor = (value.trim() !== "") ? this.imgBackgroundColor : 'value';
@@ -257,7 +254,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	public get repeat() {
 		return this._repeat;
 	}
-
 	public set repeat(value: TCh5BackgroundRepeat) {
 		if (this._repeat !== value) {
 			if (Ch5Background.REPEAT.indexOf(value) >= 0) {
@@ -272,7 +268,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	public get scale() {
 		return this._scale;
 	}
-
 	public set scale(value: TCh5BackgroundScale) {
 		if (this._scale !== value) {
 			if (Ch5Background.SCALE.indexOf(value) >= 0) {
@@ -284,18 +279,20 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		}
 	}
 
-	public get refreshRate() {
+	public get refreshRate(): number {
 		return this._refreshRate;
 	}
 
-	public set refreshRate(value: number | string) {
-		value = Number(value);
+	public set refreshRate(value: number) {
+		if (isNaN(value)) {
+			value = Ch5Background.REFRESHRATE;
+		} else {
+			value = Number(value);
+		}
 		if (value < 10) {
 			value = 10;
 		} else if (value > 604800) {
 			value = 604800;
-		} else if (isNaN(value)) {
-			value = Ch5Background.REFRESHRATE;
 		}
 		if (this._refreshRate !== value) {
 			if (Ch5Background.REFRESHRATE) {
@@ -366,7 +363,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				this._receiveStateRefreshRate
 			);
 
-			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveIntervalSigName);
+			const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldReceiveIntervalSigName);
 
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceiveRefreshRate);
@@ -378,15 +375,15 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
 		// setup new subscription.
 		const receiveIntervalSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateRefreshRate);
-		const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(receiveIntervalSigName);
+		const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(receiveIntervalSigName);
 
 		if (receiveSignal === null) {
 			return;
 		}
 
-		this._subReceiveRefreshRate = receiveSignal.subscribe((newValue: string) => {
-			if (newValue !== this.refreshRate) {
-				this.setAttribute('refreshrate', newValue);
+		this._subReceiveRefreshRate = receiveSignal.subscribe((newValue: number) => {
+			if (Number(newValue) !== this.refreshRate) {
+				this.setAttribute('refreshrate', String(newValue));
 			}
 		}
 		);
@@ -512,8 +509,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 *  Useful for running setup code, such as fetching resources or rendering.
 	 */
 	public connectedCallback() {
-		// set data-ch5-id
-
 		this.setAttribute('data-ch5-id', this.getCrId());
 		customElements.whenDefined('ch5-background').then(() => {
 			Ch5CoreIntersectionObserver.getInstance().observe(this, () => {
@@ -557,7 +552,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				rect.left >= 0 &&
 				rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
 				rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-
 			);
 		}
 		return false;
@@ -567,7 +561,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * Callback for the video subscription
 	 * @param request
 	 */
-	public videoBGRequest(request: IBACKGROUND) {
+	public videoBGRequest(request: ICh5VideoBackground) {
 		this.info("In videoBGRequest(): Video Tag Id -> " + request.id + " action: " + request.action);
 
 		// return if not initialized
@@ -576,7 +570,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		}
 
 		if (request && Object.keys(request).length) {
-			const tempObj: IBACKGROUND = Object.assign({}, request);
+			const tempObj: ICh5VideoBackground = Object.assign({}, request);
 			delete tempObj.image;
 
 			this.setAttribute('videocrop', JSON.stringify(tempObj));
@@ -720,7 +714,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				break;
 			case 'refreshrate':
 				if (this.hasAttribute('refreshrate')) {
-					this.refreshRate = newValue;
+					this.refreshRate = Number(newValue);
 				} else {
 					this.refreshRate = Ch5Background.REFRESHRATE;
 				}
@@ -806,7 +800,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		}
 
 		if (this._subReceiveUrl !== '' && this._receiveStateUrl !== '') {
-
 			const receiveUrlSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateUrl);
 			const sigUrl: Ch5Signal<string> | null = csf.getStringSignal(receiveUrlSigName);
 
@@ -817,7 +810,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		}
 
 		if (this._subReceiveBackgroundColor !== '' && this._receiveStateBackgroundColor !== '') {
-
 			const receiveBackgroundColorSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateBackgroundColor);
 			const sigBgColor: Ch5Signal<string> | null = csf.getStringSignal(receiveBackgroundColorSigName);
 
@@ -852,7 +844,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		}
 
 		if (this.hasAttribute('refreshrate')) {
-			this.refreshRate = this.getAttribute('refreshrate') as number | string;
+			this.refreshRate = Number(this.getAttribute('refreshrate')) as number;
 		}
 
 		if (this.hasAttribute('videocrop')) {
@@ -893,7 +885,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		} else if (this._bgColors.length) {
 			this.setBgColor();
 		} else {
-			this.info('Something went wrong. One attribute is mandatory either URL or backgroundColor.');
+			this.info('Something went wrong. One attribute is mandatory - either URL or backgroundColor.');
 		}
 	}
 
@@ -903,13 +895,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		} else if (this._bgColors.length) {
 			this.setBgColorByCanvas(canvas, idx);
 		} else {
-			this.info('Something went wrong. One attribute is mandatory either URL or backgroundColor.');
+			this.info('Something went wrong. One attribute is mandatory - either URL or backgroundColor.');
 		}
 	}
 
 	/**
 	 * This method is converting string to array of string
-	 * @param values is string of image urls which are saprated with '|'.
+	 * @param values is string of image urls which are separated with '|'.
 	 */
 	private getBackgroundUrl(values: string) {
 		this._imgUrls = values.split('|');
@@ -918,7 +910,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
 	/**
 	 * This method is converting string to array of string
-	 * @param values is string of background colors which are saprated with '|'.
+	 * @param values is string of background colors which are separated with '|'.
 	 */
 	private getBackgroundColor(values: string) {
 		this._bgColors = values.split('|');
@@ -960,9 +952,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param ctx is canvas context
 	 */
 	private scaleToStretch(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
-		const x = 0;
-		const y = 0;
-		ctx.drawImage(img, x, y, canvas.width, canvas.height);
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 		publishEvent('b', 'canvas.created', true);
 	}
 
@@ -1021,7 +1011,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 */
 	private canvasTemplate(count: number) {
 		this.innerHTML = '';
-		for (let i = 0; i < count; ++i) {
+		for (let i: number = 0; i < count; ++i) {
 			this._elCanvas = document.createElement('canvas');
 			this._elCanvas.classList.add(this.primaryCssClass + this.canvasCssClassPrefix);
 			this.appendChild(this._elCanvas);
@@ -1036,8 +1026,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	/**
 	 * Manage Video dimensions
 	 */
-	private manageVideoInfo(response: IBACKGROUND) {
-		const index = this._videoDimensions.findIndex((item: IBACKGROUND) => item.id === response.id);
+	private manageVideoInfo(response: ICh5VideoBackground) {
+		const index = this._videoDimensions.findIndex((item: ICh5VideoBackground) => item.id === response.id);
 		if (response.action === this.VIDEO_ACTION.STARTED || response.action === this.VIDEO_ACTION.RESIZE) {
 			if (index > -1) {
 				this._videoDimensions[index] = response;
@@ -1297,7 +1287,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			this.manageVideoInfo(this._videoRes);
 
 			if (this._videoDimensions.length) {
-				this._videoDimensions.map((video: IBACKGROUND) => {
+				this._videoDimensions.map((video: ICh5VideoBackground) => {
 					this.info("\nvideoBGAction() -> Video Tag Id " + video.id + " is in Viewport: " + this.isInViewport(video.id));
 					if (this.isInViewport(video.id)) {
 						if (this.isCanvasListValid()) {

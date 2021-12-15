@@ -149,7 +149,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "When defined, this will set the refreshRate attribute."
    * ]
    * @name receivestaterefreshrate
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    */
   receiveStateRefreshRate: string;
 

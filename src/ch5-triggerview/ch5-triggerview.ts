@@ -178,7 +178,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestateshowchildindex: { direction: "state", numericJoin: 1, contractName: true },
-		sendeventshowchildindex: { direction: "event", booleanJoin: 1, contractName: true }
+		sendeventshowchildindex: { direction: "event", numericJoin: 1, contractName: true }
 	};
 
 	/**

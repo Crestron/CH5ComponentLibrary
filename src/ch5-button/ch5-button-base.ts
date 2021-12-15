@@ -223,7 +223,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
-	}; 
+	};
 
 	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
 	private readonly BUTTON_PRIMARY_CLASS: string = 'cb-btn';
@@ -862,7 +862,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.logger.log('_sigNameReceiveStateMode exists');
 
 			const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveStateMode);
-			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldReceiveStateSigName);
+			const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldReceiveStateSigName);
 
 			this.logger.log('oldReceiveStateSigName', oldReceiveStateSigName);
 			this.logger.log('oldSignal', oldSignal);
@@ -882,7 +882,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		this._subReceiveSignalMode = receiveSignal.subscribe((newValue: number) => {
-			this.mode = (newValue) as number;
+			this.mode = Number(newValue) as number;
 			this.setButtonDisplay();
 		});
 	}
@@ -983,6 +983,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (!this.hasAttribute('customclasspressed')) {
 			this.updateCssClassesForCustomState();
 		}
+		customElements.whenDefined('ch5-button').then(() => {
+			// 
+		});
+
 		this.logger.stop();
 	}
 

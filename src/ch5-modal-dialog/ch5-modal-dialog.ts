@@ -65,8 +65,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestatepositionto: { direction: "state", stringJoin: 1, contractName: true },
-        receivestatepositionoffset: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatepositionoffset: { direction: "state", numericJoin: 1, contractName: true },
 
         sendeventonbeforeshow: { direction: "state", booleanJoin: 1, contractName: true },
         sendeventonaftershow: { direction: "state", booleanJoin: 1, contractName: true },
