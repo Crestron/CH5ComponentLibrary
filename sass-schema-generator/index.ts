@@ -1,12 +1,14 @@
 import { getCrComLibComponentData } from './business-rules/headless-browser';
 import { extractMixins, processSassFile } from './sassToJson';
 import { BASE_OBJECT_INTERFACE, OUTPUT_JSON, OUTPUT_PROPERTIES, OUTPUT_SCSS, PROPERTIES_INTERFACE, THEME_EDITOR_PATH } from "./utils";
+import * as packageJson from "./package.json";
 
 const fs = require('fs');
 const flatten = require('sass-flatten');
 const jsonfile = require('jsonfile');
 
-export const VERSION: string = '1.0.0';
+// TODO: Hardcoded for now, to be later updated (CH5C-2041)
+export const themeVersion = '1.0.0';
 
 /**
  * Write to file and create all the missing directories
@@ -50,7 +52,11 @@ function extractGlobalMixins() {
 
 async function buildJsonStructure(flattenedComponents: { flattenedScss: string, name: string }[], componentsPath: any) {
   // The default base structure
-  const jsonObject: BASE_OBJECT_INTERFACE = {};
+  const jsonObject: BASE_OBJECT_INTERFACE = {
+    version: packageJson.version,
+    themeVersion: themeVersion,
+    ch5ElementThemeDefs: {}
+  };
 
   // Extract the global mixins which are used throughout the whole application
   const globalMixins = extractGlobalMixins();
@@ -59,13 +65,18 @@ async function buildJsonStructure(flattenedComponents: { flattenedScss: string, 
   for (const component of flattenedComponents) {
     try {
       const properties = await GET_PROPERTIES(componentsPath[component.name]);
+      // TODO: Hardcoded for now, to be later updated (CH5C-2039)
+      const componentThemeVersion = '1.0.0';
       const businessRules = jsonfile.readFileSync("./business-rules/" + component.name + ".rules.json").businessRules;
       // Save the properties to a json for future reference
       generatePropertiesJson(properties, component.name);
       // Process the flattened scss
       const outputJson = await processSassFile(component.flattenedScss, component.name, properties, globalMixins, businessRules);
-      Object.assign(jsonObject, {
-        [component.name]: outputJson
+      Object.assign(jsonObject.ch5ElementThemeDefs, {
+        [component.name]: {
+          componentThemeVersion,
+          selectors: outputJson
+        }
       });
     } catch (err) {
       console.log(err, component.name, 'BUILD JSON STRUCTURE');

@@ -104,7 +104,6 @@ $ch5-button-warning-border-style: solid !default;
 $ch5-button-danger-border-style: solid !default;
 $ch5-button-text-border-style: solid !default;
 
-
 // button rounded-rectangle
 $ch5-button-border-radius: 5px !default;
 
@@ -266,7 +265,6 @@ $ch5-button-warning-border-style: solid !default;
 $ch5-button-danger-border-style: solid !default;
 $ch5-button-text-border-style: solid !default;
 
-
 // button rounded-rectangle
 $ch5-button-border-radius: 5px !default;
 
@@ -320,8 +318,8 @@ $ch5-button-checkbox-padding: 5px !default;
 
 
 @mixin ch5-button-image-width-height($property-font-size) {
-  height: $property-font-size * 2;
-  width: $property-font-size * 2; 
+  height: $property-font-size * 1.5;
+  width: $property-font-size * 1.5;
 }
 
 @mixin ch5-button-set-icon-classes($property-font-size) {
@@ -340,51 +338,45 @@ $ch5-button-checkbox-padding: 5px !default;
 
 ch5-button {
   display: inline-block;
-  vertical-align: top;
   pointer-events: none;
-  font-size: $ch5-button-font-size;
-  font-style: $ch5-button-font-style;
-  font-weight: $ch5-button-font-weight;
-  &,
+  vertical-align: top; // this is used to align buttons in same line for vertical oriented buttons
+
   .ch5-button {
     max-width: 100%;
+
+    button,
+    .ch5-button--label {
+      background-color: transparent;
+      border: none;
+      color: inherit;
+      &:focus {
+        outline: none;
+      }
+    }
+    .ch5-button--label {
+      display: block;
+      @include text-truncate;
+    }
+    .cb-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      line-height: 1; //1.2;
+      padding: $ch5-button-padding;
+    }
   }
+
   div {
+    cursor: pointer;
     pointer-events: all;
   }
-  &.ch5-button--iconposition-top:not(.ch5-button--vertical) .cb-btn,
-  &.ch5-button--iconposition-bottom:not(.ch5-button--vertical) .cb-btn {
-    display: block;
-    padding-top: $ch5-button-padding / 2;
-    padding-bottom: $ch5-button-padding / 2;
-  }
-  &.ch5-button--iconposition-top + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn,
-  &.ch5-button--iconposition-bottom + .ch5-button--vertical:not(.ch5-button--circle) .cb-btn {
-    flex-direction: row;
-    flex-direction: row-reverse;
-    padding-left: $ch5-button-padding / 2;
-    padding-right: $ch5-button-padding / 2;
-    .ch5-button--label {
-      min-width: max-content;
-      max-height: 100%;
-      flex: none;
-    }
-    .ch5-button--ios-label {
-      flex: none;
-      height: 100%;
-    }
-    .cx-button-icon-pos-top + .ch5-button--label,
-    .ch5-button--label + .cx-button-icon-pos-bottom,
-    .cx-button-icon-pos-top + .ch5-button--ios-label,
-    .ch5-button--ios-label + .cx-button-icon-pos-bottom {
-      padding-right: $ch5-button-icon-padding / 2;
-    }
-  }
-  &.ch5-button--iconposition-top.ch5-button--circle .cb-btn,
-  &.ch5-button--iconposition-bottom.ch5-button--circle .cb-btn {
-    display: inline-block;
+
+  .ch5-button--ios-label {
+    flex: none;
+    height: 100%;
   }
 }
+
 ch5-button[hidden] {
   display: none;
 }
@@ -398,63 +390,8 @@ ch5-button[hidden] {
   cursor: pointer;
   user-select: none;
 }
-.ch5-button--label,
-.ch5-button--icon,
-.ch5-button--img {
-  // line-height: 100%; // Comment since text is cut.
-  // border: solid 1px black !important;
-}
 
-.ch5-button {
-  button,
-  .ch5-button--label {
-    background-color: transparent;
-    border: none;
-    color: inherit;
-    &:focus {
-      outline: none;
-    }
-  }
-  .ch5-button--label {
-    display: block;
-    @include text-truncate;
-  }
-  .cb-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    line-height: 1.2;
-    padding: $ch5-button-padding;
-    width: $ch5-button-size * 2;
-    height: $ch5-button-size;
-  }
-  &:not(.ch5-button--vertical):not(.ch5-button--circle) {
-    .cb-btn {
-      padding-top: $ch5-button-padding / 2;
-      padding-bottom: $ch5-button-padding / 2;
-    }
-    .ch5-button--label {
-      padding-left: 2px;
-      padding-right: 2px;
-    }
-  }
-  .ch5-button--icon {
-    vertical-align: middle;
-    color: inherit;
-  }
-  .ch5-button--img {
-    vertical-align: middle;
-    color: inherit;
-    fill: inherit;
-    height: $ch5-button-img-height;
-    width: $ch5-button-img-width;
-  }
-  &:not(.ch5-button--vertical) .cx-button-icon-pos-first + .ch5-button--label,
-  &:not(.ch5-button--vertical) .ch5-button--label + .cx-button-icon-pos-last {
-    padding-left: $ch5-button-icon-padding;
-  }
-}
-
+// *** Button 'shape' attribute ***
 .ch5-button--rectangle {
   @include border-radius(0);
 }
@@ -488,8 +425,51 @@ ch5-button[hidden] {
   @include border-radius($ch5-button-tab-border-radius);
 }
 
-// stretch does not apply for circle and oval shapes
-// TODO - should i remove stretch= and apply css classname
+.ch5-button {
+  .cb-btn {
+    width: $ch5-button-size * 2;
+    height: $ch5-button-size;
+    font-size: $ch5-button-font-size;
+    font-style: $ch5-button-font-style;
+    font-weight: $ch5-button-font-weight;
+  }
+  .cb-btn.ch5-button--vertical {
+    height: $ch5-button-size * 2;
+    width: $ch5-button-size;
+  }
+
+  .cb-btn {
+    padding-top: $ch5-button-padding / 2;
+    padding-bottom: $ch5-button-padding / 2;
+  }
+  .ch5-button--label {
+    padding-left: $ch5-button-padding / 2;
+    padding-right: $ch5-button-padding / 2;
+  }
+  &.ch5-button--vertical {
+    .ch5-button--label {
+      padding-top: $ch5-button-padding / 2;
+      padding-bottom: $ch5-button-padding / 2;
+    }
+  }
+
+  .ch5-button--icon {
+    vertical-align: middle;
+    color: inherit;
+  }
+
+  .ch5-button--img {
+    vertical-align: middle;
+    color: inherit;
+    fill: inherit;
+    height: $ch5-button-img-height;
+    width: $ch5-button-img-width;
+  }
+}
+
+// ******
+
+// *** Button 'stretch' attribute ***
 ch5-button[stretch="width"] {
   width: 100%;
 }
@@ -500,6 +480,7 @@ ch5-button[stretch="both"] {
   width: 100%;
   height: 100%;
 }
+
 /// Applied to make the width as much as its parent allows.
 .ch5-button--stretch-width {
   width: 100%;
@@ -533,20 +514,44 @@ ch5-button[stretch="both"] {
     white-space: nowrap;
   }
 }
+// ******
 
 // Button orientation
 .ch5-button--vertical {
-  .ch5-button--span {
+  .cb-btn {
+    display: inline-flex;
     flex-direction: column;
+  }
+  &.ch5-button--iconposition-bottom,
+  &.ch5-button--iconposition-top {
+    .ch5-button--span {
+      display: inline-flex;
+      flex-direction: row-reverse;
+    }
+    .ch5-button--horizontal-left {
+      align-items: flex-start;
+    }
+    .ch5-button--horizontal-center {
+      align-items: center;
+    }
+    .ch5-button--horizontal-right {
+      align-items: flex-end;
+    }
+    .ch5-button--vertical-middle {
+      justify-content: center;
+    }
+    .ch5-button--vertical-top {
+      justify-content: flex-start;
+    }
+    .ch5-button--vertical-bottom {
+      justify-content: flex-end;
+    }
   }
 
   .cb-btn {
     transform: rotate(180deg);
     width: $ch5-button-size;
     height: $ch5-button-size * 2;
-    flex-direction: column;
-    // padding-left: $ch5-button-padding / 2; // Remove later if not required
-    // padding-right: $ch5-button-padding / 2; // Remove later if not required
     .cb-icon,
     .cb-checkbox-icon {
       transform: rotate(90deg);
@@ -555,19 +560,9 @@ ch5-button[stretch="both"] {
       max-width: inherit;
       writing-mode: vertical-lr;
       max-height: max-content;
-      padding-top: 2px;
-      padding-bottom: 2px;
     }
   }
 
-  .ch5-button--vertical-top {
-    align-items: flex-end;
-    height: 100%;
-  }
-  .ch5-button--vertical-bottom {
-    align-items: flex-start;
-    height: 100%;
-  }
   // iOS dots
   .ch5-button--ios-label {
     display: block;
@@ -590,76 +585,8 @@ ch5-button[stretch="both"] {
       display: none !important;
     }
   }
-  .cx-button-icon-pos-first + .ch5-button--label,
-  .ch5-button--label + .cx-button-icon-pos-last,
-  .cx-button-icon-pos-first + .ch5-button--ios-label,
-  .ch5-button--ios-label + .cx-button-icon-pos-last {
-    padding-top: $ch5-button-icon-padding;
-  }
-  .cx-button-icon-pos-first + .ch5-button--label,
-  .ch5-button--label + .cx-button-icon-pos-last {
-    // padding-left: $ch5-button-icon-padding; // Remove later if not required
-  }
 }
 
-.ch5-button--vertical {
-  &.ch5-button--iconposition-top {
-    .ch5-button--span {
-      flex-direction: row-reverse;
-    }
-  }
-  &.ch5-button--iconposition-bottom {
-    .ch5-button--span {
-      flex-direction: row-reverse;
-    }
-  }
-}
-// vertical sizes
-.ch5-button--vertical {
-  &:not(.ch5-button--circle) {
-    &.ch5-button--size-x-small .cb-btn {
-      width: $ch5-button-x-small-size;
-      height: $ch5-button-x-small-size * 2;
-    }
-    &.ch5-button--size-small .cb-btn {
-      width: $ch5-button-small-size;
-      height: $ch5-button-small-size * 2;
-    }
-    &.ch5-button--size-large .cb-btn {
-      width: $ch5-button-large-size;
-      height: $ch5-button-large-size * 2;
-    }
-    &.ch5-button--size-x-large .cb-btn {
-      width: $ch5-button-x-large-size;
-      height: $ch5-button-x-large-size * 2;
-    }
-  }
-}
-
-.ch5-button--vertical {
-  &.ch5-button--circle {
-    &.ch5-button--size-x-small .cb-btn {
-      width: $ch5-button-x-small-size * 2;
-      height: $ch5-button-x-small-size * 2;
-    }
-    &.ch5-button--size-small .cb-btn {
-      width: $ch5-button-small-size * 2;
-      height: $ch5-button-small-size * 2;
-    }
-    &.ch5-button--size-large .cb-btn {
-      width: $ch5-button-large-size * 2;
-      height: $ch5-button-large-size * 2;
-    }
-    &.ch5-button--size-x-large .cb-btn {
-      width: $ch5-button-x-large-size * 2;
-      height: $ch5-button-x-large-size * 2;
-    }
-    .cb-btn {
-      width: $ch5-button-size * 2;
-      height: $ch5-button-size * 2;
-    }
-  }
-}
 .ch5-button--disabled {
   pointer-events: none;
   opacity: $ch5-button-disabled-opacity;
@@ -724,6 +651,69 @@ ch5-button[stretch="both"] {
   }
   @include ch5-button-set-icon-classes($ch5-button-x-large-font-size);
 }
+
+.ch5-button--circle {
+  &.ch5-button--size-x-small {
+    .cb-btn {
+      width: $ch5-button-x-small-size * 2;
+      height: $ch5-button-x-small-size * 2;
+    }
+  }
+  &.ch5-button--size-small {
+    .cb-btn {
+      width: $ch5-button-small-size * 2;
+      height: $ch5-button-small-size * 2;
+    }
+  }
+  &.ch5-button--size-large {
+    .cb-btn {
+      width: $ch5-button-large-size * 2;
+      height: $ch5-button-large-size * 2;
+    }
+  }
+  &.ch5-button--size-x-large {
+    .cb-btn {
+      width: $ch5-button-x-large-size * 2;
+      height: $ch5-button-x-large-size * 2;
+    }
+  }
+  .cb-btn {
+    width: $ch5-button-size * 2;
+    height: $ch5-button-size * 2;
+  }
+}
+
+.ch5-button--vertical:not(.ch5-button--circle) {
+  .cb-btn {
+    width: $ch5-button-size;
+    height: $ch5-button-size * 2;
+  }
+  &.ch5-button--size-x-small {
+    .cb-btn {
+      width: $ch5-button-x-small-size;
+      height: $ch5-button-x-small-size * 2;
+    }
+  }
+  &.ch5-button--size-small {
+    .cb-btn {
+      width: $ch5-button-small-size;
+      height: $ch5-button-small-size * 2;
+    }
+  }
+  &.ch5-button--size-large {
+    .cb-btn {
+      width: $ch5-button-large-size;
+      height: $ch5-button-large-size * 2;
+    }
+  }
+  &.ch5-button--size-x-large {
+    .cb-btn {
+      width: $ch5-button-x-large-size;
+      height: $ch5-button-x-large-size * 2;
+    }
+  }
+}
+
 // icon positions
 i.cb-icon.cx-button-icon-pos-first,
 i.cb-icon.cx-button-icon-pos-last {
@@ -742,6 +732,7 @@ i.cb-icon.cx-button-icon-pos-bottom {
   display: flex;
   overflow: hidden;
 }
+
 .ch5-button--horizontal-left {
   justify-content: flex-start;
 }
@@ -760,16 +751,34 @@ i.cb-icon.cx-button-icon-pos-bottom {
 .ch5-button--vertical-bottom {
   align-items: flex-end;
 }
-.ch5-button--circle,
-.ch5-button--oval {
-  .ch5-button--vertical-top {
+// This one to be added
+.ch5-button--vertical {
+  .ch5-button--span {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ch5-button--horizontal-left {
+    justify-content: flex-start;
+  }
+  .ch5-button--horizontal-center {
+    justify-content: center;
+  }
+  .ch5-button--horizontal-right {
+    justify-content: flex-end;
+  }
+  .ch5-button--vertical-middle {
     align-items: center;
   }
+  .ch5-button--vertical-top {
+    align-items: flex-end;
+  }
   .ch5-button--vertical-bottom {
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
+// This one to be added
 .ch5-button--iconposition-bottom:not(.ch5-button--vertical),
 .ch5-button--iconposition-top:not(.ch5-button--vertical) {
   .ch5-button--span {
@@ -795,24 +804,19 @@ i.cb-icon.cx-button-icon-pos-bottom {
     justify-content: flex-end;
   }
 }
+.ch5-button--circle,
+.ch5-button--oval {
+  .ch5-button--vertical-middle,
+  .ch5-button--vertical-top,
+  .ch5-button--vertical-bottom {
+    align-items: center;
+  }
+}
 
 .ch5-button--iconposition-bottom:not(.ch5-button--vertical):not(.ch5-button--circle):not(.ch5-button--oval),
 .ch5-button--iconposition-top:not(.ch5-button--vertical):not(.ch5-button--circle):not(.ch5-button--oval) {
   .cb-btn {
     display: flex;
-  }
-}
-
-.ch5-button--iconposition-bottom:not(.ch5-button--vertical),
-.ch5-button--iconposition-top:not(.ch5-button--vertical) {
-  &.ch5-button--circle,
-  &.ch5-button--oval {
-    .ch5-button--vertical-top {
-      justify-content: center;
-    }
-    .ch5-button--vertical-bottom {
-      justify-content: center;
-    }
   }
 }
 

@@ -84,7 +84,11 @@ function extractVariables(body: string) {
 
   for (const property of splitProperties) {
     if (property.includes('$')) {
-      supportsVariables.push(property.split(':')[0]);
+      const newProperty = property.split(':')[0];
+      supportsVariables.push({
+        styleName: newProperty,
+        limits: [{}]
+      });
     }
   }
 
@@ -133,16 +137,16 @@ function processInclude(body: string, mixins: { name: string, content: string }[
   return processBody;
 }
 
-function applyBusinessRules(selector: string, showWhen: object, businessRules: object) {
+function applyBusinessRules(selector: string, showWhen: {}[], businessRules: object) {
   for (const rule of Object.values(businessRules)) {
     if (rule.contains) {
       let containsProperty = selector.toLowerCase().includes(rule.contains);
       const containsNot = selector.toLowerCase().includes(`not(${rule.contains})`);
       if (containsNot) {
         const otherRules = Object.values(businessRules).filter(notRule => notRule.key === rule.key && notRule.value !== rule.value);
-        Object.assign(showWhen, { [rule.key]: [otherRules.map(otherRule => otherRule.value)] });
+        showWhen.push({ [rule.key]: [otherRules.map(otherRule => otherRule.value)] });
       } else if (containsProperty) {
-        Object.assign(showWhen, { [rule.key]: [rule.value] })
+        showWhen.push({ [rule.key]: [rule.value] });
       }
     }
   }
@@ -155,7 +159,7 @@ function applyBusinessRules(selector: string, showWhen: object, businessRules: o
  * @param businessRules
  */
 function computeShowWhen(selector: string, properties: PROPERTIES_INTERFACE, businessRules: object) {
-  let showWhen = {};
+  let showWhen: {}[] = [];
 
   applyBusinessRules(selector, showWhen, businessRules);
 
@@ -164,9 +168,9 @@ function computeShowWhen(selector: string, properties: PROPERTIES_INTERFACE, bus
       if (selector.indexOf(value.classListPrefix + data) !== -1) {
         // If the 'not' operator is present pipe all the other values except the negated one.
         if (selector.indexOf(`:not(.${value.classListPrefix + data})`) !== -1) {
-          Object.assign(showWhen, { [value.key]: value.values.filter(tempValue => tempValue !== data) })
+          showWhen.push({ [value.key]: value.values.filter(tempValue => tempValue !== data) });
         } else {
-          Object.assign(showWhen, { [value.key]: Array.isArray(data) ? data : [data] });
+          showWhen.push({ [value.key]: Array.isArray(data) ? data : [data] });
         }
       }
     }
@@ -191,14 +195,14 @@ async function processSassFile(data: string, name: string, helper: PROPERTIES_IN
   // Selector and body are only some of the properties available.
   parser.traverse(ast, async (node: { selector: string, body: string }) => {
     let selectors = [];
-    let supports: string[] = [];
+    let selectorStyles = [];
     let description = '';
 
     // STEP 3: Extract the supported properties - those that have variables - for the current selector
-    supports = extractVariables(node.body);
+    selectorStyles = extractVariables(node.body);
 
     // IF it doesn't support any variable, we are not interested in this node.
-    if (!supports.length) {
+    if (!selectorStyles.length) {
       return;
     }
 
@@ -231,7 +235,7 @@ async function processSassFile(data: string, name: string, helper: PROPERTIES_IN
       rules.push({
         className: selector.trim().replace(/\s\s+/g, ' '),
         description,
-        supports,
+        selectorStyles,
         // STEP 7: Extract the show when based on the flattened and individual selectors.
         showWhen: computeShowWhen(selector, helper, businessRules)
       })

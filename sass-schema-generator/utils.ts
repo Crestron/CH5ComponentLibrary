@@ -17,10 +17,17 @@ export interface PROPERTIES_INTERFACE {
 export interface RULES_INTERFACE {
   className: string,
   description: string,
-  supports: string[],
+  selectorStyles: {styleName: string, limits: {}[]}[],
   showWhen: {}
 }
 
 export interface BASE_OBJECT_INTERFACE {
-  [key: string]: RULES_INTERFACE[]
+  version: string,
+  themeVersion: string,
+  ch5ElementThemeDefs: {
+    [key: string]: {
+      componentThemeVersion: string
+      selectors: RULES_INTERFACE[]
+    }
+  }
 }
