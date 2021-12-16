@@ -22,7 +22,6 @@ import { Ch5ResyncConstants } from "../ch5-resync/models/ch5-resync-constants";
 export class Ch5Signal<T extends TSignal> {
 
     private static _resetEventsInitialized = false;
-    private static _receivedClearEvent: boolean = false;
     private static _initialSubscriptionToResyncEvents: boolean = true;
     private _name: string;
     private _subject: Ch5SignalBehaviorSubject<T>;
@@ -65,32 +64,30 @@ export class Ch5Signal<T extends TSignal> {
 
             // CLEAR ALL
             if (resyncRequest.state === ResetEventNames.startOfUpdate) {
-                Ch5Signal._receivedClearEvent = true;
                 if (resyncRequest.value !== undefined && resyncRequest.value.excludePrefixes !== undefined) {
                     const excludePrefixes: ICh5ExcludePrefixesModel = {
                         excludePrefixes: resyncRequest.value.excludePrefixes
                     };
                     ch5Resync.onReceiveStartOfUpdate(excludePrefixes);
                 } else {
-                    Ch5Signal._receivedClearEvent = false;
                     throw new Error('Invalid resyncRequest object');
                 }
             }
 
             // CLEAR RANGE
-            else if (resyncRequest.state === ResetEventNames.startOfUpdateRange) {
-                Ch5Signal._receivedClearEvent = true;
-                if (resyncRequest.value !== undefined && resyncRequest.value.range !== undefined &&
-                    resyncRequest.value.excludePrefixes !== undefined) {
-                    ch5Resync.onReceiveStartOfUpdateRange(resyncRequest.value.range, resyncRequest.value.excludePrefixes);
+            else if (resyncRequest.state === ResetEventNames.startOfUpdateRange || resyncRequest.state === ResetEventNames.startOfUpdateRangeSO) {
+                if (
+                    resyncRequest.value !== undefined 
+                    && resyncRequest.value.range !== undefined 
+                    && resyncRequest.value.excludePrefixes !== undefined
+                ) {
+                    ch5Resync.onReceiveStartOfUpdateRange(resyncRequest.state, resyncRequest.value.range, resyncRequest.value.excludePrefixes);
                 } else {
-                    Ch5Signal._receivedClearEvent = false;
                     throw new Error('Invalid resyncRequest object');
                 }
             }
             // END OF UPDATE
             else if (resyncRequest.state === ResetEventNames.endOfUpdate) {
-                Ch5Signal._receivedClearEvent = false;
                 ch5Resync.onReceiveEndOfUpdate();
             }
         };
@@ -113,9 +110,7 @@ export class Ch5Signal<T extends TSignal> {
     public subscribeToStates() {
         const subKey = 'stateSubscription';
         this._subscriptions[subKey] = this._subject.subscribe(() => {
-            if (Ch5Signal._receivedClearEvent) {
-                this._ch5Resync.onReceiveUpdatedState(this._name, this.value, this.type);
-            }
+            this._ch5Resync.onReceiveUpdatedState(this._name, this.value, this.type);
         });
     }
 
@@ -169,7 +164,12 @@ export class Ch5Signal<T extends TSignal> {
         // console.log('from sb ',value,' subj',this._subject.observers);
         this._receivedFromSignalBridge = true;
         this._hasChangedSinceInit = true;
-        this._subject.next(value);
+        if (this._subject.getValue() !== value) {
+            this._subject.next(value);
+        }
+        else {  // even though the component does not need to be alerted of change, resync logic needs to know join was received. 
+            this._ch5Resync.onReceiveUpdatedState(this._name, this.value, this.type);
+        }
         // console.log('from sb ',value,' subj',this._subject.getValue());
     }
 
@@ -203,6 +203,4 @@ export class Ch5Signal<T extends TSignal> {
             }
         }
     }
-
 }
-

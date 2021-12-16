@@ -41,8 +41,7 @@ export class Ch5SignalBehaviorSubject<T extends TSignal> extends BehaviorSubject
             }
 
             super.next( newValue );
-        }
-        else {
+        } else {
             super.next( value );
         }
     }
