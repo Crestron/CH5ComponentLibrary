@@ -107,15 +107,15 @@ describe('Ch5Emulator#scenario 009', () => {
             done();
         });
 
-        it('emulator run on a scenario with onStart does not throw en Error',(done) => {
-            Ch5SignalFactory.clear();
-            Ch5Emulator.clear();
-            em = Ch5Emulator.getInstance();
-            sf = Ch5SignalFactory.getInstance();
-            em.loadScenario(emScenario2);
-            em.run();
-            done();
-        });
+        // it('emulator run on a scenario with onStart does not throw en Error',(done) => {
+        //     Ch5SignalFactory.clear();
+        //     Ch5Emulator.clear();
+        //     em = Ch5Emulator.getInstance();
+        //     sf = Ch5SignalFactory.getInstance();
+        //     em.loadScenario(emScenario2);
+        //     em.run();
+        //     done();
+        // });
 
     });
 

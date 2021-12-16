@@ -30,5 +30,6 @@ export * from './ch5-background/index';
 export * from './ch5-video/index';
 export * from './ch5-dpad/index';
 export * from './ch5-keypad/index';
+export * from './ch5-resync/ch5-resync';
 // Shared models used for WCT tests
 export * from './utility-models/index'; // Use CrComLib.Ch5RoleAttributeMapping to access

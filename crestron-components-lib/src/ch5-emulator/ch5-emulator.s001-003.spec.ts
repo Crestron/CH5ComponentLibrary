@@ -22,25 +22,26 @@ describe('Ch5Emulator#scenario 001, 002, 003 ', () => {
         expect(em).to.be.instanceOf(Ch5Emulator);
     });
 
-    //     let em = Ch5Emulator.getInstance();
-    //     let sf = Ch5SignalFactory.getInstance();
-    //
-    //     beforeEach(()=>{
-    //         em = Ch5Emulator.getInstance();
-    //         sf = Ch5SignalFactory.getInstance();
-    //     });
-    //     afterEach(()=>{
-    //         Ch5Emulator.clear();
-    //         Ch5SignalFactory.clear();
-    //     });
+        // let em = Ch5Emulator.getInstance();
+        // let sf = Ch5SignalFactory.getInstance();
+    
+        // beforeEach(()=>{
+        //     em = Ch5Emulator.getInstance();
+        //     sf = Ch5SignalFactory.getInstance();
+        // });
+        // afterEach(()=>{
+        //     Ch5Emulator.clear();
+        //     Ch5SignalFactory.clear();
+        // });
 
         describe('scenario001#cue(type=boolean,trigger=true)->action(type=boolean,logic=set,value=true)', () => {
+            
+            // let em = Ch5Emulator.getInstance();
+            // let sf = Ch5SignalFactory.getInstance();
+            // Ch5Emulator.clear();
+            // Ch5SignalFactory.clear();
             let em = Ch5Emulator.getInstance();
             let sf = Ch5SignalFactory.getInstance();
-            Ch5Emulator.clear();
-            Ch5SignalFactory.clear();
-            em = Ch5Emulator.getInstance();
-            sf = Ch5SignalFactory.getInstance();
             const emScenario = JSON.parse(fs.readFileSync(__dirname + '/../../../src/ch5-emulator/emulator.spec.testdata.scenario001.json','utf8'));
             const sigCue = sf.getBooleanSignal('hall_lights_tap');
             const sigAction = sf.getBooleanSignal('hall_lights_selected');
