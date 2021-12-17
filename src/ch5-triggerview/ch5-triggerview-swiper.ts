@@ -5,8 +5,6 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { isNil } from "lodash";
-
 export class Ch5TriggerViewSwiper {
 
   public slides: HTMLElement[] = [];
@@ -20,6 +18,9 @@ export class Ch5TriggerViewSwiper {
     this._activeView = input;
   }
 
+  constructor(id: string) {
+    //
+  }
   public incrementActiveView(endless: boolean) {
     if (endless === true) {
       if (this._activeView !== this.slides.length - 1) {
@@ -46,10 +47,6 @@ export class Ch5TriggerViewSwiper {
         this._activeView -= 1;
       }
     }
-  }
-
-  constructor(id: string) {
-    //
   }
 
 }
