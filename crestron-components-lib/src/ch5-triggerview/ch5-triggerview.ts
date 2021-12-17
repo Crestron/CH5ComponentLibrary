@@ -184,8 +184,8 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	/**
 	 * CSS classes
 	 */
-	public primaryCssClass = 'ch5-triggerview';
-	public cssClassPrefix = 'ch5-triggerview';
+	public readonly primaryCssClass: string = 'ch5-triggerview';
+	public readonly cssClassPrefix: string = 'ch5-triggerview';
 
 	/**
 	 * COMPONENT PUBLIC ATTRIBUTES
@@ -465,7 +465,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 			this._onSlidesSlotChange();
 		}
 
-		switch (name) {			
+		switch (name) {
 			case 'activeview':
 				if (oldValue !== newValue) {
 
@@ -529,11 +529,8 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	 */
 	public unsubscribeFromSignals(): void {
 		super.unsubscribeFromSignals();
-
 		this.info('Ch5TriggerView.unsubscribeFromSignals()');
-
 		const csf = Ch5SignalFactory.getInstance();
-
 		if ('' !== this._subReceiveStateShowChildIndexId && '' !== this._receiveStateShowChildIndexSigName) {
 			const sigSelected: Ch5Signal<number> | null = csf.getNumberSignal(this._receiveStateShowChildIndexSigName);
 			if (null !== sigSelected) {
@@ -560,10 +557,8 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		if (!(callback instanceof Function)) {
 			return;
 		}
-
 		this._activeViewCallback = callback;
 	}
-
 	public get activeViewCallback(): TActiveViewCallback {
 		return this._activeViewCallback;
 	}
@@ -572,7 +567,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	 * The 1-based index of the selected slide.
 	 * @type {number}
 	 */
-	set activeView(index: number) {
+	public set activeView(index: number) {
 		index = Number(index);
 
 		if (isNaN(index)) {
@@ -593,13 +588,20 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 
 		// prevent sending signal if select is happening from receive signal
 		// We should only prevent signal if the receive and send are same. If different, then we should trigger the signal send.
-		this.info("this._signalIsReceived", this._signalIsReceived);
-		this.info("this._sendEventShowChildIndexSigName", this._sendEventShowChildIndexSigName);
-		this.info("this._receiveStateShowChildIndexSigName", this._receiveStateShowChildIndexSigName);
 		if (this._sendEventShowChildIndexSigName !== this._receiveStateShowChildIndexSigName) {
 			// send signal with selected value 1-based index
-			this.info("SUCCESS");
-			this._sendValueForSelectSignal(this.activeView);
+
+			let sigSelect: Ch5Signal<number> | null = null;
+			if ('' !== this._sendEventShowChildIndexSigName
+				&& undefined !== this._sendEventShowChildIndexSigName
+				&& null !== this._sendEventShowChildIndexSigName) {
+
+				sigSelect = Ch5SignalFactory.getInstance().getNumberSignal(this._sendEventShowChildIndexSigName);
+
+				if (sigSelect !== null) {
+					sigSelect.publish(this.activeView);
+				}
+			}
 		}
 		this._updateAriaLiveDom();
 
@@ -611,7 +613,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		this._activeView = index;
 	}
 
-	get activeView() {
+	public get activeView() {
 		return intGetter(this, 'activeview', 0);
 	}
 
@@ -905,25 +907,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	public computeTransitionByDistance(viewToLoad: number): number {
 		const pageGap = Math.abs(this._activeView - viewToLoad);
 		return SPEED_BETWEEN_PAGES * pageGap;
-	}
-
-	/**
-	 * Send signal value on view change
-	 * @private
-	 */
-	private _sendValueForSelectSignal(value: number): void {
-		let sigSelect: Ch5Signal<number> | null = null;
-
-		if ('' !== this._sendEventShowChildIndexSigName
-			&& undefined !== this._sendEventShowChildIndexSigName
-			&& null !== this._sendEventShowChildIndexSigName) {
-
-			sigSelect = Ch5SignalFactory.getInstance().getNumberSignal(this._sendEventShowChildIndexSigName);
-
-			if (sigSelect !== null) {
-				sigSelect.publish(value);
-			}
-		}
 	}
 
 	// ===========================================================================
