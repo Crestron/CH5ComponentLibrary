@@ -199,7 +199,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
      * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
      */
     sendEventOnClick: string;
 
@@ -212,7 +212,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Sends a signal on a source selection change when the source selection ",
      *  "is updated using the 'receivestateselect' attribute."
      * ]
-     * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
      */
     sendEventSelectionChange: string;
 
@@ -410,7 +410,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Defines the refresh rate for a still image url. 0 indicates no refresh."
      * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
      */
     receiveStateSnapShotRefreshRate: string;
 
@@ -470,7 +470,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the count of the videos."
      * ]
-     * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
      */
     receiveStateVideoCount: string;
 }

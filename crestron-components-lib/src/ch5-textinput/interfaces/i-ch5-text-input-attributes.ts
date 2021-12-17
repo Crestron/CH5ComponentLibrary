@@ -262,7 +262,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Sends an event on value change."
    * ]
    * @name sendeventonchange
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnChange: string;
 
@@ -274,7 +274,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Sends an event on focus."
    * ]
    * @name sendeventonfocus
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnFocus: string;
 
@@ -286,7 +286,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Sends an event on blur."
    * ]
    * @name sendeventonblur
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnBlur: string;
 }

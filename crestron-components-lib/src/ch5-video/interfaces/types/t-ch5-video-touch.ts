@@ -1,4 +1,4 @@
-export type iTouchOrdinates = {
+export type ITouchOrdinates = {
     startX: number;
     startY: number;
     endX: number;

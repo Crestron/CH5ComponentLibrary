@@ -26,10 +26,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestateshow: { direction: "state", numericJoin: 1, contractName: true },
+        receivestateshow: { direction: "state", booleanJoin: 1, contractName: true },
         receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
-        receivestateshowpulse: { direction: "state", stringJoin: 1, contractName: true },
-        receivestatehidepulse: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateshowpulse: { direction: "state", booleanJoin: 1, contractName: true },
+        receivestatehidepulse: { direction: "state", booleanJoin: 1, contractName: true },
         receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
         receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
 

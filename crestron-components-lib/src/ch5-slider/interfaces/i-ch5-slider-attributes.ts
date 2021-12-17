@@ -299,7 +299,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "On receive, changes the value of the slider handle."
    * ]
    * @name receivestatevalue
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    */
   receiveStateValue: string;
 
@@ -311,7 +311,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "On receive, changes the value of the right slider handle (available when range is true)."
    * ]
    * @name receivestatevaluehigh
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    */
   receiveStateValueHigh: string;
 
@@ -323,7 +323,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "Sends a signal value on slider change."
    * ]
    * @name sendeventonchange
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnChange: string;
 
@@ -335,7 +335,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "If a range slider is set to true, sends a signal value high on slider change."
    * ]
    * @name sendeventonchangehigh
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnChangeHigh: string;
 

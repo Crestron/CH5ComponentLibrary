@@ -28,9 +28,8 @@ export class Ch5Button extends Ch5ButtonBase {
 	constructor() {
 		super();
 	}
-	
-}
 
+}
 
 Ch5Button.registerCustomElement();
 Ch5Button.registerSignalAttributeTypes();

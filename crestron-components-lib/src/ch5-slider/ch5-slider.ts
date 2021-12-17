@@ -7,7 +7,7 @@
 
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5CommonInput } from "../ch5-common-input";
-import { Ch5Signal, Ch5SignalFactory, Ch5Uid } from "../ch5-core";
+import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import noUiSlider from "nouislider";
 
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
@@ -16,8 +16,7 @@ import isNil from "lodash/isNil";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SliderAttributes, TCh5SliderShape, TCh5SliderOrientation, TCh5SliderSize, TCh5SliderStretch, TCh5SliderDirection, TCh5SliderTooltipType, TCh5SliderTooltipDisplay, TCh5SliderHandle } from "./interfaces";
 import _ from "lodash";
-import { Subject } from "rxjs";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export interface IRcbSignal {
 	rcb: {
@@ -38,7 +37,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
-		receivestatevaluehigh: { direction: "state", booleanJoin: 1, contractName: true },
+		receivestatevaluehigh: { direction: "state", numericJoin: 1, contractName: true },
 
 		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventonchangehigh: { direction: "event", booleanJoin: 1, contractName: true }
@@ -2240,7 +2239,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	_onMouseLeave(inEvent: any): void {
 		const { offsetX, offsetY } = this._getAbsoluteOffsetFromBodyForSlider();
 		const noUiHandle = this._elSlider.querySelector('.noUi-handle') as HTMLElement;
-		
+
 		if (this._orientation === 'vertical') {
 			const maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
 			const maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;

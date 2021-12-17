@@ -82,7 +82,7 @@ export interface ICh5TriggerViewChildAttributes extends ICh5CommonAttributes {
    * "to take various actions based on which view is active."
    * ]
    * @name sendeventonshow
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    */
   sendEventOnShow: string;
 
@@ -94,7 +94,7 @@ export interface ICh5TriggerViewChildAttributes extends ICh5CommonAttributes {
    * "When true, this will tell the parent component (ch5-triggerview) to hide all the other ChildViews and to only show this one."
    * ]
    * @name receivestateshow
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    */
   receiveStateShow: string;
 

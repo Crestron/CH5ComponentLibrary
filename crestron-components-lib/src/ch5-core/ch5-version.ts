@@ -29,7 +29,6 @@ class Ch5Version {
 
     public static displayVersionMessage() {
         const message = `Crestron Component Library version ${version} build date ${buildDate}`;
-
         console.log(message);
     }
 
