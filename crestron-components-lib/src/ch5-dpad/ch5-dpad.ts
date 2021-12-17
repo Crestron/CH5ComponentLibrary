@@ -653,6 +653,23 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	//#endregion
 
+	//#region Static Methods
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Dpad.ELEMENT_NAME, Ch5Dpad.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5Dpad.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5Dpad.ELEMENT_NAME, Ch5Dpad);
+		}
+	}
+
+	//#endregion
+
 	//#region 3. Lifecycle Hooks
 
 	public constructor() {
@@ -1239,19 +1256,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				this.stretchHandler();
 				this.isResizeInProgress = false; // reset debounce once completed
 			}, this.RESIZE_DEBOUNCE);
-		}
-	}
-
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Dpad.ELEMENT_NAME, Ch5Dpad.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
-	public static registerCustomElement() {
-		if (typeof window === "object"
-			&& typeof window.customElements === "object"
-			&& typeof window.customElements.define === "function"
-			&& window.customElements.get(Ch5Dpad.ELEMENT_NAME) === undefined) {
-			window.customElements.define(Ch5Dpad.ELEMENT_NAME, Ch5Dpad);
 		}
 	}
 

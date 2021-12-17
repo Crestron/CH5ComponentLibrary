@@ -74,7 +74,7 @@ import {
  *     "body": [
  *       "<ch5-dpad id=\"btn_${0:id}\"",
  *       "\tcontractname=\"${1:Contract Name}\"",
-*        ">",
+ *        ">",
  *       "</ch5-dpad>"
  *     ]
  *  },
@@ -84,7 +84,7 @@ import {
  *     "body": [
  *       "<ch5-dpad id=\"btn_${0:id}\"",
  *       "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
-*        ">",
+ *        ">",
  *       "</ch5-dpad>"
  *     ]
  *  },
@@ -102,7 +102,7 @@ import {
  *       "\tusecontractforcustomclass=\"${7:useContractForCustomClass}\"",
  *       "\tusecontractforcustomstyle=\"${8:useContractForCustomStyle}\"",
  *       "\tsendeventonclickstart=\"${9:sendEventOnClickStart}\"",
-*        ">",
+ *        ">",
  *       "</ch5-dpad>"
  *     ]
  *   }

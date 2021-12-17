@@ -40,7 +40,7 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *     "body": [
  *       "<ch5-keypad id=\"btn_${0:id}\"",
  *       "\tcontractname=\"${1:Contract Name}\"",
-*        ">",
+ *        ">",
  *       "</ch5-keypad>"
  *     ]
  *  },
@@ -50,7 +50,7 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *     "body": [
  *       "<ch5-keypad id=\"btn_${0:id}\"",
  *       "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
-*        ">",
+ *        ">",
  *       "</ch5-keypad>"
  *     ]
  *  },
@@ -70,7 +70,7 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *       "\tusecontractforcustomclass=\"${9:useContractForCustomClass}\"",
  *       "\tusecontractforcustomstyle=\"${10:useContractForCustomStyle}\"",
  *       "\tsendeventonclickstart=\"${11:sendEventOnClickStart}\"",
-*        ">",
+ *        ">",
  *       "</ch5-keypad>"
  *     ]
  *   }
