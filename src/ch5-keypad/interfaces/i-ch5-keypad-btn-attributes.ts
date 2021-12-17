@@ -37,7 +37,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  *       "<ch5-keypad-child-button key=\"button${1:Button_Key}\"",
  *       "\tlabelmajor=\"${2:Label_Major}\"",
  *       "\tlabelminor=\"${3:Label_Minor}\"",
-*        ">",
+ *        ">",
  *       "</ch5-keypad-child-button>$0"
  *     ]
  *  },
@@ -47,7 +47,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  *     "body": [
  *       "<ch5-keypad-child-button key=\"button${1:Button_Key}\"",
  *       "\ticonclass=\"${2:Icon_Class}\"",
-*        ">",
+ *        ">",
  *       "</ch5-keypad-child-button>$0"
  *     ]
  *   }
