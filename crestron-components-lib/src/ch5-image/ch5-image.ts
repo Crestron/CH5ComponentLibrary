@@ -114,10 +114,18 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
      */
     private _sigNameReceiveUrl: string = '';
 
+    private _sigNameReceiveUser: string = '';
+
+    private _sigNameReceivePassword: string = '';
+
     /**
      * The subscription id for the receiveStateUrl signal
      */
     private _subReceiveUrl: string = '';
+
+    private _subReceiveUser: string = '';
+    
+    private _subReceivePassword: string = '';
 
     /**
      * COMPONENT SEND SIGNALS
@@ -330,6 +338,108 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     /**
      * SIGNALS GETTERS AND SETTERS
      */
+
+    public set receiveStateUser(value: string) {
+        this.info('set receiveStateUser(\'' + value + '\')');
+
+        if ('' === value
+            || this._sigNameReceiveUser === value
+            || null === value
+            || undefined === value) {
+            return;
+        }
+
+        this.user = '';
+
+        // clean up old subscription
+        if (this._sigNameReceiveUser !== ''
+            && this._sigNameReceiveUser !== undefined
+            && this._sigNameReceiveUser !== null) {
+
+            const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveUser);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+                .getStringSignal(oldSigName);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(this._subReceiveUser);
+            }
+        }
+
+        this._sigNameReceiveUser = value;
+        this.setAttribute('receiveStateUser', value);
+
+        // setup new subscription.
+        const sigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveUser);
+        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+            .getStringSignal(sigName);
+
+        if (receiveSignal === null) {
+            return;
+        }
+
+        this._subReceiveUser = receiveSignal.subscribe((newValue: string) => {
+            if ('' !== newValue && newValue !== this._user) {
+                this.setAttribute('user', newValue);
+                this.user = newValue;
+                this._initRefreshRate();
+            }
+        });
+    }
+
+    public get receiveStateUser(): string {
+        return this._attributeValueAsString('receiveStateUser');
+    }
+
+    public set receiveStatePassword(value: string) {
+        this.info('set receiveStatePassword(\'' + value + '\')');
+
+        if ('' === value
+            || this._sigNameReceivePassword === value
+            || null === value
+            || undefined === value) {
+            return;
+        }
+
+        this.password = '';
+
+        // clean up old subscription
+        if (this._sigNameReceivePassword !== ''
+            && this._sigNameReceivePassword !== undefined
+            && this._sigNameReceivePassword !== null) {
+
+            const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePassword);
+            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+                .getStringSignal(oldSigName);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(this._subReceivePassword);
+            }
+        }
+
+        this._sigNameReceivePassword = value;
+        this.setAttribute('receivestatepassword', value);
+
+        // setup new subscription.
+        const sigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePassword);
+        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+            .getStringSignal(sigName);
+
+        if (receiveSignal === null) {
+            return;
+        }
+
+        this._subReceivePassword = receiveSignal.subscribe((newValue: string) => {
+            if ('' !== newValue && newValue !== this._password) {
+                this.setAttribute('password', newValue);
+                this.password = newValue;
+                this._initRefreshRate();
+            }
+        });
+    }
+
+    public get receiveStatePassword(): string {
+        return this._attributeValueAsString('receiveStatePassword');
+    }
 
     public get receiveStateUrl(): string {
         // The internal property is changed if/when the element is removed from dom
@@ -682,6 +792,16 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
                 }
                 this._initRefreshRate();
                 break;
+            case 'receivestateuser':
+                if (this.hasAttribute('receivestateuser')) {
+                    this.receiveStateUser = newValue;
+                }
+                break;
+            case 'receivestatepassword':
+                if (this.hasAttribute('receivestatepassword')) {
+                    this.receiveStatePassword = newValue;
+                }
+                break;
             case 'receivestateurl':
                 if (this.hasAttribute('receivestateurl')) {
                     this.receiveStateUrl = newValue;
@@ -775,6 +895,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
         if (this.hasAttribute('receiveStateUrl')) {
             this.receiveStateUrl = this.getAttribute('receiveStateUrl') as string;
+        }
+
+        if (this.hasAttribute('receivestateuser')) {
+            this.receiveStateUser = this.getAttribute('receivestateuser') as string;
+        }
+
+        if (this.hasAttribute('receivestatepassword')) {
+            this.receiveStatePassword = this.getAttribute('receivestatepassword') as string;
         }
     }
 
