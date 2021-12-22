@@ -6,13 +6,13 @@
 // under which you licensed this source code.
 
 import { triggerTranslation } from "./utility-functions/trigger-translation";
-import i18next from "i18next";
+import { i18n, TOptions } from "i18next";
 
 export class Ch5TranslationListeners {
 
-  public translator: i18next.i18n = {} as i18next.i18n;
+  public translator: i18n = {} as i18n;
 
-  constructor(translator: i18next.i18n) {
+  constructor(translator: i18n) {
     this.translator = translator;
     this.init();
   }
@@ -30,7 +30,7 @@ export class Ch5TranslationListeners {
    * @memberof Ch5TranslationListeners
    * @return {void}
    */
-  protected onInitialized(options: i18next.TOptions): void {
+  protected onInitialized(options: TOptions): void {
     // console.log('The i18next was initialized');
     this.translate(options.language);
   }
