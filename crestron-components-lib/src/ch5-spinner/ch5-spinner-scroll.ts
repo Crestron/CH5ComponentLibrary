@@ -627,6 +627,9 @@ export class Ch5SpinnerScroll {
   private _onMouseLeave(event: MouseEvent): void {
     if (this.mouseDown === true) {
       this.mouseDown = false;
+
+      this.moveTheList();
+      this.element.eventsHelper.dispatchMouseUp();
     }
 
   }
