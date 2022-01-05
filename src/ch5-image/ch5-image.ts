@@ -14,6 +14,7 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { TCh5ProcessUriParams } from "../ch5-common/interfaces";
 import { ICh5ImageAttributes } from "./interfaces/i-ch5-image-attributes";
 import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import { Subscription } from "rxjs/internal/Subscription";
 
 export interface IShowStyle {
     visibility: string;
@@ -233,6 +234,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
      * @type {string}
      */
     private _protocol: string = '';
+
+    private _isPressedSubscription: Subscription | null = null;;
+
+    private _buttonPressedInPressable = true;
+
+    private _repeatDigitalInterval = 0;
+    
+    private STATE_CHANGE_TIMEOUTS = 500;
 
     /**
      * ATTR GETTERS AND SETTERS
@@ -656,6 +665,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         // init pressable before initAttributes because pressable subscribe to gestureable attribute
         if (null !== this._pressable) {
             this._pressable.init();
+            this._subscribeToPressableIsPressed();
         }
 
         customElements.whenDefined('ch5-image').then(() => {
@@ -926,6 +936,69 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         // apply css classes for attrs inherited from common (e.g. customClass, customStyle )
         super.updateCssClasses();
     }
+
+    private _subscribeToPressableIsPressed() {
+		const REPEAT_DIGITAL_PERIOD = 200;
+		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
+		if (this._isPressedSubscription === null && this._pressable !== null) {
+			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
+				this.info(`Ch5Button.pressableSubscriptionCb(${value})`);
+				if (value !== this._buttonPressedInPressable) {
+
+					this._buttonPressedInPressable = value;
+					if (value === false) {
+						if (this._repeatDigitalInterval !== null) {
+							window.clearInterval(this._repeatDigitalInterval as number);
+						}
+						this.sendValueForRepeatDigitalWorking(false);
+						setTimeout(() => {
+							// this.setButtonDisplay();
+						}, this.STATE_CHANGE_TIMEOUTS);
+					} else {
+						this.sendValueForRepeatDigitalWorking(true);
+						if (this._repeatDigitalInterval !== null) {
+							window.clearInterval(this._repeatDigitalInterval as number);
+						}
+						let numRepeatDigitals = 0;
+						this._repeatDigitalInterval = window.setInterval(() => {
+							this.sendValueForRepeatDigitalWorking(true);
+							if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
+								console.warn("Ch5Button MAXIMUM Repeat digitals sent");
+								window.clearInterval(this._repeatDigitalInterval as number);
+								this.sendValueForRepeatDigitalWorking(false);
+							}
+						}, REPEAT_DIGITAL_PERIOD);
+					}
+				}
+			});
+		}
+	}
+
+
+    private sendValueForRepeatDigitalWorking(value: boolean): void {
+		this.info(`Ch5Button.sendValueForRepeatDigital(${value})`);
+		if (!this._sigNameSendOnTouch && !this._sigNameSendOnClick) { return; }
+
+		const touchSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
+			.getObjectAsBooleanSignal(this._sigNameSendOnTouch);
+
+		const clickSignal: Ch5Signal<object | boolean> | null = Ch5SignalFactory.getInstance()
+			.getObjectAsBooleanSignal(this._sigNameSendOnClick);
+
+		if (clickSignal && touchSignal && clickSignal.name === touchSignal.name) {
+			// send signal only once if it has the same value
+			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+			return;
+		}
+
+		if (touchSignal && touchSignal.name) {
+			touchSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+		}
+
+		if (clickSignal && clickSignal.name) {
+			clickSignal.publish({ [Ch5SignalBridge.REPEAT_DIGITAL_KEY]: value });
+		}
+	}
 
     public enableImageLoading() {
         this.info('enableImageLoading()');
