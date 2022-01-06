@@ -6,3 +6,4 @@
 // under which you licensed this source code.
 
 export * from './ch5-image';
+export * from './ch5-image-mode';

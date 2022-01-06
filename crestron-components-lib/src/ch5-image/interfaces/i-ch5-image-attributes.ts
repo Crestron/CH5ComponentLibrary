@@ -70,6 +70,16 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    */
   url: string;
 
+  /**
+   * @documentation
+   * [
+   * "`mode` attribute",
+   * "***",
+   * "This attribute is used together with <ch5-image-mode> child component."
+   * ]
+   * @name url
+   */
+   mode: number | undefined;
 
   /**
    * @documentation
