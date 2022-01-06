@@ -119,6 +119,8 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
     private _sigNameReceivePassword: string = '';
 
+    private _sigNameReceiveMode: string = '';
+
     /**
      * The subscription id for the receiveStateUrl signal
      */
@@ -127,6 +129,8 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     private _subReceiveUser: string = '';
     
     private _subReceivePassword: string = '';
+
+    private _subReceiveMode: string = '';
 
     /**
      * COMPONENT SEND SIGNALS
@@ -242,6 +246,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     private _repeatDigitalInterval = 0;
     
     private STATE_CHANGE_TIMEOUTS = 500;
+    private _mode?: number;
 
     /**
      * ATTR GETTERS AND SETTERS
@@ -342,6 +347,41 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             this._direction = Ch5Common.DIRECTION[0];
         }
         this.setAttribute('dir', value);
+    }
+
+    public set mode(mode: number | undefined) {
+        this.info('set mode to ' + mode)
+        if (!isNil(mode) && this.mode !== mode) {
+            this._mode = mode;
+            this.setAttribute('mode', mode + '');
+
+            setTimeout(() => {
+                const modeNode = this.getModeNode(mode);
+                if (modeNode.hasAttribute('url') && modeNode.getAttribute('url')) {
+                    this.url = modeNode.getAttribute('url') as string;
+                }
+            });
+        }
+    }
+
+    public get mode(): number | undefined {
+        return this._mode;
+    }
+
+    public getModeNodes() {
+        this.info('getModeNodes got called');
+        return this.querySelectorAll('ch5-image-mode');
+    }
+
+    public getModeNode(index: number): Element {
+        this.info('getting mode with index ' + index);
+        const modeNodes = this.getModeNodes();
+
+        if (!modeNodes[index]) {
+            throw new Error('Mode is not defined');
+        }
+
+        return modeNodes[index];
     }
 
     /**
@@ -498,6 +538,57 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         this._subReceiveUrl = receiveSignal.subscribe((newValue: string) => {
             if ('' !== newValue && newValue !== this._url) {
                 this.setAttribute('url', newValue);
+                this._initRefreshRate();
+            }
+        });
+    }
+
+    public get receiveStateMode(): string {
+        return this._attributeValueAsString('receivestatemode');
+    }
+
+    public set receiveStateMode(value: string) {
+        this.info('set receivestatemode(\'' + value + '\')');
+
+        if ('' === value
+            || this._sigNameReceiveMode === value
+            || null === value
+            || undefined === value) {
+            return;
+        }
+
+        this.mode = 0;
+
+        // clean up old subscription
+        if (this._sigNameReceiveMode !== ''
+            && this._sigNameReceiveMode !== undefined
+            && this._sigNameReceiveMode !== null) {
+
+            const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveMode);
+            const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
+                .getNumberSignal(oldSigName);
+
+            if (oldSignal !== null) {
+                oldSignal.unsubscribe(this._subReceiveMode);
+            }
+        }
+
+
+        this._sigNameReceiveMode = value;
+        this.setAttribute('receivestateurl', value);
+
+        // setup new subscription.
+        const sigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveMode);
+        const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
+            .getNumberSignal(sigName);
+
+        if (receiveSignal === null) {
+            return;
+        }
+
+        this._subReceiveMode = receiveSignal.subscribe((newValue: number) => {
+            if (newValue !== this.mode) {
+                this.setAttribute('mode', newValue + '');
                 this._initRefreshRate();
             }
         });
@@ -739,6 +830,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             'url',
             'refreshrate',
             'dir',
+            'mode',
 
             // receive signals
             'receivestateurl',
@@ -790,6 +882,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
                     this.height = '';
                 }
                 break;
+            case 'mode':
+                if (this.hasAttribute('mode')) {
+                    this.mode = parseFloat(newValue);
+                }
             case 'refreshrate':
                 if (this.hasAttribute('refreshrate')) {
                     this.refreshRate = Number(newValue);
@@ -817,6 +913,13 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
                     this.receiveStateUrl = newValue;
                 } else {
                     this.receiveStateUrl = '';
+                }
+                break;
+            case 'receivestatemode':
+                if (this.hasAttribute('receivestatemode')) {
+                    this.receiveStateMode = newValue;
+                } else {
+                    this.receiveStateMode = '';
                 }
                 break;
             case 'sendeventonclick':
@@ -913,6 +1016,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
         if (this.hasAttribute('receivestatepassword')) {
             this.receiveStatePassword = this.getAttribute('receivestatepassword') as string;
+        }
+
+        if (this.hasAttribute('receivestatemode')) {
+            this.receiveStateMode = this.getAttribute('receivestatemode') as string;
         }
     }
 
