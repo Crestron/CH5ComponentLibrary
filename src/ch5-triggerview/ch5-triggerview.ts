@@ -582,7 +582,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		}
 
 		this.dispatchEvent(new CustomEvent('select', {
-			detail: index, //this.activeView,
+			detail: index, // this.activeView,
 			bubbles: false,
 		}));
 

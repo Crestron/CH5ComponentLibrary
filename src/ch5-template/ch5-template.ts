@@ -11,6 +11,7 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 import { Ch5TemplateStructure } from "./ch5-template-structure";
 import { ICh5TemplateAttributes } from "./interfaces/i-ch5-template-attributes";
 import { publishEvent } from "../ch5-core";
+import { ch5TemplateSubject } from "./refresh-ch5-template";
 
 export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
@@ -167,7 +168,28 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		]).then(() => {
 			this.initializations();
 			this.info('Ch5Template --- Callback loaded');
-		})
+		});
+
+		this.listenForCh5TemplateRefreshRequests();
+	}
+
+	private listenForCh5TemplateRefreshRequests() {
+		this.info('Ch5Template.listenForCh5TemplateRefreshRequests()');
+		
+		ch5TemplateSubject.subscribe((ch5TemplateId: string) => {
+			this.info(`Ch5Template.listenForCh5TemplateRefreshRequests() new request for ${ch5TemplateId}`);
+			
+			if (!this.shouldRefresh(ch5TemplateId)) {
+				return;
+			}
+
+			this.initializations();
+		});
+	}
+
+	private shouldRefresh(id: string) {
+		this.info(`Ch5Template.shouldRefresh() got called for id ${id}`);
+		return this.getAttribute('templateId') === id;
 	}
 
 	/**
@@ -187,6 +209,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	}
 
 	private initializations(): void {
+
 		this.info('Ch5Template.initializations()');
 		this.classList.add(Ch5Template.CH5_TEMPLATE_STYLE_CLASS);
 		this.initAttributes();
