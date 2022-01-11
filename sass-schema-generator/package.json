@@ -17,7 +17,7 @@
   },
   "scripts": {
     "sass-converter": "ts-node index.ts",
-    "gen:sass-json": "ts-node index.ts --writeTo ../crestron-components-lib/src/_interfaces/generated-metadata/sass-output.json --writeTo ../showcase-app/src/_interfaces/generated-metadata/sass-output.json"
+    "gen:sass-json": "ts-node index.ts --writeTo ../crestron-components-lib/src/_interfaces/generated-metadata/sass-output.json"
   },
   "author": "",
   "license": "ISC"

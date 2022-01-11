@@ -163,22 +163,16 @@ async function initialize() {
   // Build the final json structure and compute
   const outputJSON = await buildJsonStructure(flattenedComponents, componentsPath);
 
-  let writeToIndex: number = 0;
-
-  // Allow multiple --writeTo parameters to be passed so that we can output both to crcomlib and showcase-app
-  while (writeToIndex !== -1) {
-    writeToIndex = process.argv.findIndex((element, index) => index > writeToIndex && element === "--writeTo");
-    if (writeToIndex >= 0 && process.argv.length > (writeToIndex + 1)) {
-      const writeTo = process.argv[writeToIndex + 1];
-      if (writeTo && writeTo !== "") {
-        jsonfile.writeFileSync(writeTo, outputJSON, { spaces: 2, EOL: '\r\n' });
-      } else {
-        jsonfile.writeFileSync(OUTPUT_JSON, outputJSON, { spaces: 2, EOL: '\r\n' });
-      }
+  const writeToIndex: number = process.argv.findIndex(element => element === "--writeTo");
+  if (writeToIndex >= 0 && process.argv.length > (writeToIndex + 1)) {
+    const writeTo = process.argv[writeToIndex + 1];
+    if (writeTo && writeTo !== "") {
+      jsonfile.writeFileSync(writeTo, outputJSON, { spaces: 2, EOL: '\r\n' });
     } else {
       jsonfile.writeFileSync(OUTPUT_JSON, outputJSON, { spaces: 2, EOL: '\r\n' });
     }
-
+  } else {
+    jsonfile.writeFileSync(OUTPUT_JSON, outputJSON, { spaces: 2, EOL: '\r\n' });
   }
   console.log("Schema generated OK");
 }
