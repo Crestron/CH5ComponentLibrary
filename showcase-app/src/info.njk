@@ -1,0 +1,75 @@
+---
+title:
+layout: default.njk
+---
+{% extends "./layouts/default.njk" %}
+{% block content %}
+    <section>
+                <div class="content">
+                    <h6>Introduction</h6>
+                    <div class="info-wrapper">
+                        <p>
+                            Navigate through the left menu to see various examples that showcase the behaviour
+                            and functionality of ch5-components.
+                        </p>
+                        <p>
+                            Some example pages start with an emulator section. That section contains a JSON that defines
+                            the emulator scenario/logic. The ins and outs are displayed upon expanding the Emulator Scenario tab.
+                        </p>
+                        <p>
+                            The theme switcher currently affects ch5-buttons and the ch5-list. It does not persist between page loads.
+                            It works by changing a class on the HTML <code>&lt;body&gt;</code> element, thus affecting
+                            all ch5 elements on the page.
+                        </p>
+                    </div>
+                    <h6>Enabling <i>debug mode</i> for CH5 Components</h6>
+                    <div class="info-wrapper">
+                        <p>
+                            You can add a <b>debug</b> attribute to a ch5-component in order to receive additional
+                            info in the
+                            browser console. (e.g. for a ch5 button <code>&lt;ch5-button type="default" label="oval"
+                                debug&gt;</ch5-button></code>).
+                        </p>
+                        <details style="margin-bottom:15px">
+                            <summary>List of all ch5 components that support the <b>debug</b> attribute.</summary>
+                            <ol style="color:#004A80">
+                                <li>ch5-background</li>
+                                <li>ch5-button</li>
+                                <li>ch5-dpad</li>
+                                <li>ch5-list</li>
+                                <li>ch5-image</li>
+                                <li>ch5-import-htmlsnippet</li>
+                                <li>ch5-select</li>
+                                <li>ch5-toggle</li>
+                                <li>ch5-overlay-panel</li>
+                                <li>ch5-modal-dialog</li>
+                                <li>ch5-slider</li>
+                                <li>ch5-triggerview</li>
+                                <li>ch5-triggerviewchild</li>
+                                <li>ch5-template</li>
+                                <li>ch5-form</li>
+                                <li>ch5-spinner</li>
+                                <li>ch5-video</li>
+                            </ol>
+                        </details>
+                    </div>
+                    <h6>Using embedded expressions from CH5 Components in Angular 2+</h6>
+                    <div class="info-wrapper">
+                        <p>The following examples show where and how the <b>ngNonBindable</b> directive should be
+                            used for
+                            ch5-components that support embedded expressions</p>
+                        <ul>
+                            <li><a href="{{ siteurl }}ch5-spinner/ch5-spinner-in-angular.html">ch5-spinner</a></li>
+                            <li><a href="{{ siteurl }}ch5-list/ch5-list-in-angular.html">ch5-list</a></li>
+                        </ul>
+                    </div>
+                    <p>
+                        CH5 version is <span data-ch5-textcontent="Csig.library.ver"></span>
+                        dated <span data-ch5-textcontent="Csig.library.date"></span>
+                    </p>
+                </div>
+    </section>
+{% endblock %}
+
+
+

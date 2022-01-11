@@ -21,15 +21,26 @@
         {% block additional_css_includes %}{% endblock %}
 
         {% include "../partials/header-scripts.njk" %}
+        <script type="text/javascript">
+        {#
+            JS code that resize iframe to the available width and height
+        #}
+        var contentFrame
 
+        function loadContent(srcURL) {
+            contentFrame.src = srcURL;
+        }
+
+        window.addEventListener('DOMContentLoaded', function(e) {
+            var iframes = document.querySelectorAll("iframe");
+            contentFrame = iframes[0];
+        } );
+
+        </script>
         {% block additional_header_js %}{% endblock %}        
     </head>
 
-    <body>
-        <!--[if lte IE 9]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
-    your browser</a> to improve your experience and security.</p>
-<![endif]-->
+    <body id="base">
         <div class="header">
             <div class="logo">
                 <img class="logo-image" onclick="document.location='/index.html'"
@@ -53,14 +64,8 @@
             </ul>
         </div>
         <div id='center' class="main center">
-            {% include "../partials/header.njk" %}
-            <div id='content-block-section'>
-                {% block content %}{% endblock %}
-            </div>
+        {% include "../partials/header.njk" %}
+        <iframe class="frameMain" scrollbar="yes" title="Crestron Components Lib - Showcase App"></iframe>
         </div>
-
-        {% include "../partials/footer-scripts.njk" %}
-        {% block additional_footer_scripts %}{% endblock %}
     </body>
-
 </html>
