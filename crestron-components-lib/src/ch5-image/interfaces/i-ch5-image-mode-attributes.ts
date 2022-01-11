@@ -5,7 +5,22 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import { ICh5CommonAttributes } from "../../ch5-common/interfaces/";
+
 /**
- * Swipe type to use in pagedSwipe.
+ * @ignore
  */
-export type TSwipeType = 'next' | 'prev';
+export interface ICH5ImageModeAttributes extends ICh5CommonAttributes {
+
+  /**
+   * @documentation
+   * [
+   * "`url` attribute",
+   * "***",
+   * "Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP."
+   * ]
+   * @name url
+   */
+  url: string;
+
+}

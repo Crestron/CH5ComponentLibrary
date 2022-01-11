@@ -1065,6 +1065,10 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         this.logger.info(message, optionalParams);
     }
 
+    public error(message: any, ...optionalParams: any[]): void {
+        this.logger.error(message, optionalParams);
+    }
+
     /**
      * Returns true if debugging has been enabled on the component.
      * When this returns true the info method will output messages on the console ( assuming there are 'info' calls in
