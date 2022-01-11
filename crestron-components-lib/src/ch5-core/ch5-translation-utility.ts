@@ -7,7 +7,7 @@
 
 import { Ch5TranslationConfiguration } from './ch5-translation-configuration';
 import { translationFactory } from './ch5-translation-factory';
-import i18next from 'i18next';
+import { i18n } from 'i18next';
 
 export class Ch5TranslationUtility {
     private static _instance: Ch5TranslationUtility;
@@ -28,7 +28,7 @@ export class Ch5TranslationUtility {
         this.translatorEndKey = Ch5TranslationConfiguration.translationTokenEndDelimiter;
     }
 
-    public getTranslator(): i18next.i18n {
+    public getTranslator(): i18n {
 
         return translationFactory.translator;
     }

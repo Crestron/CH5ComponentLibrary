@@ -1633,9 +1633,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (this.isLabelLoaded) {
 				this.createEllipsisTpl();
 			} else {
-				// let timer: any;
-				// clearTimeout(timer);
-				// timer =
 				setTimeout(() => {
 					this.createEllipsisTpl();
 					this.isLabelLoaded = true;

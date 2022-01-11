@@ -14,8 +14,6 @@ import { TCh5SignalHashTable } from '../ch5-core/types/signal.table';
 import { TCh5Signal } from '../ch5-core/types/signal.type';
 
 describe('Ch5Emulator#scenario 009', () => {
-
-
     describe('tests for: loadScenario, onStart, run', () => {
         const action1: IEmulatorAction = {'state':'s009_sig2_b', 'type':'boolean', 'logic':'toggle'};
         const cue1: IEmulatorCue = {'event':'s009_sig1_b', 'type':'boolean', 'trigger':'&change','actions':[action1]};
@@ -24,8 +22,8 @@ describe('Ch5Emulator#scenario 009', () => {
         const emScenario1:IEmulatorScenario = {'cues':[cue1]};
         const emScenario2:IEmulatorScenario = {'cues':[cue1],'onStart':[onStart]};
 
-        let em = Ch5Emulator.getInstance();
-        let sf = Ch5SignalFactory.getInstance();
+        const em = Ch5Emulator.getInstance();
+        const sf = Ch5SignalFactory.getInstance();
         const sigs: TCh5SignalHashTable={};
         const sigNames = [
             's009_sig1_b',     // cue , trigger &change, onStart set to true
