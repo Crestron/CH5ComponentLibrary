@@ -27,8 +27,19 @@
         #}
         var contentFrame
 
-        function loadContent(srcURL) {
+        function loadContent(event, srcURL, setIsActive = false) {
             contentFrame.src = srcURL;
+            if (setIsActive && event) {
+                const listElement = event.target.parentElement.nextElementSibling;
+
+                for (const ulElement of document.querySelectorAll('.menu-list')) {
+                    ulElement.classList.remove('is-active');
+                }
+
+                if (!listElement.classList.contains('is-active')) {
+                    listElement.classList.add('is-active');
+                }
+            }
         }
 
         window.addEventListener('DOMContentLoaded', function(e) {

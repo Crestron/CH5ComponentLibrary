@@ -45,6 +45,7 @@ metalsmith(__dirname)
     "sourceMapContents": true
   }))
   .use(browserSync({
+    notify: false,
     server: {
       baseDir: "dist/"
     },
