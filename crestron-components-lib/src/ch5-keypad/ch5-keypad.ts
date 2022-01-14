@@ -224,7 +224,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     public set textOrientation(value: TCh5KeypadTextOrientation) {
         this.logger.start('set textOrientation ("' + value + '")');
         if (value !== null) {
-            const orientations = ['', ...Ch5Keypad.TEXT_ORIENTATIONS];
+            const orientations = [...Ch5Keypad.TEXT_ORIENTATIONS];
             ComponentHelper.setAttributeValueOnControl(
                 this, 'textOrientation', value, orientations,
                 this.textOrientationHandler.bind(this)
