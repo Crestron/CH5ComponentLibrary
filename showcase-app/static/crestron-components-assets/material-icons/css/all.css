@@ -13495,11 +13495,3 @@
 .md-warehouse:after {
   content: '\ed1c';
 }
-
-.md-save_all:after {
-  content: '\ed1d';
-}
-
-.md-save_all:before {
-  content: '\ed1e';
-}
