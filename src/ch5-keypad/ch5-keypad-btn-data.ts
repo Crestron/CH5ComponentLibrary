@@ -121,7 +121,7 @@ export class CH5KeypadButtonData {
 
             obj = {
                 indexRef,
-                name: 'button' + index,
+                name: 'button' + contractKey,
                 major: !!major ? major : '',
                 minor: !!minor ? minor : '',
                 className,
