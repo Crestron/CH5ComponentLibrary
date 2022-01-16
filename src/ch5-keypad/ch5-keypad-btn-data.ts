@@ -52,6 +52,13 @@ export class CH5KeypadButtonData {
                 key: '',
                 ...toMerge
             };
+
+            // If none major and minor are set, use default values
+            if (!obj.major && !obj.minor) {
+                obj.major = majors[i];
+                obj.minor = minors[i];
+            }
+
             retArr.push(obj);
         }
         return retArr;
