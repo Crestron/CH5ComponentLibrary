@@ -72,11 +72,6 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 	private sigNameSendOnLoad: string = '';
 
 	/**
-	 * Event when the HTML is loaded
-	 */
-	private loadEvent: Event;
-
-	/**
 	 * The name of the digital pulse signal that will be sent to native of current visible item on select
 	 *
 	 * HTML attribute name: sendEventOnShow or sendeventonshow
@@ -97,7 +92,6 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 			cancelable: false
 		});
 		// custom HTML load event
-		this.loadEvent = new Event("afterLoad");
 		this._onError = this._onError.bind(this);
 	}
 
@@ -267,7 +261,6 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 		try {
 			const response: string = await this.asyncLoadContent(url);
 			this._elContainer.innerHTML = response;
-			this.dispatchEvent(this.loadEvent);
 			publishEvent('object', `ch5-import-htmlsnippet:${this.id}`, { loaded: true, url, id: this.id });
 
 		} catch (rejectionReason) {
