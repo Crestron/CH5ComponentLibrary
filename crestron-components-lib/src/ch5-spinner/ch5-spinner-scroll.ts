@@ -253,6 +253,10 @@ export class Ch5SpinnerScroll {
   protected attachEventListeners(): void {
 
     try {
+      if (
+        this.element.templateHelper instanceof Ch5SpinnerTemplate &&
+        this.element.templateHelper.wrapperElement instanceof HTMLElement
+      ) {
       this._mouseDownListener = this._onMouseDown.bind(this) as unknown as EventListener;
       this._mouseUpListener = this._onMouseUp.bind(this) as unknown as EventListener;
       this._mouseMoveListener = this._onMouseMove.bind(this) as unknown as EventListener;
@@ -273,7 +277,7 @@ export class Ch5SpinnerScroll {
       // reset on mouse leave
       this.element.addEventListener('mouseleave', this._mouseLeaveListener);
       this.element.addEventListener('touchend', this._touchendLeaveListener);
-
+      }
     } catch (e) {
       console.log('Adding listeners have problems', e);
     }
