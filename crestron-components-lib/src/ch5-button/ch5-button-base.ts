@@ -1432,7 +1432,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * Called when the ch5-button component is disconnected from the DOM
 	 */
 	public disconnectedCallback() {
-		this.logger.start('disconectedCallback()');
+		this.logger.start('disconnectedCallback()');
 		this.removeEventListeners();
 		this.unsubscribeFromSignals();
 

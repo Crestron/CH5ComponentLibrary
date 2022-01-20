@@ -76,7 +76,7 @@ export const easeMode = 'ease-out';
  */
 export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
-	private static DEBUG: boolean = false;
+	// private static DEBUG: boolean = false;
 
 	// valid values accessible to Apps and "design time"
 	/**
