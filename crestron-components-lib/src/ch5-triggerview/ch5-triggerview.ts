@@ -573,7 +573,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		if (isNaN(index)) {
 			index = 0;
 		}
-
 		if (this.slidesManager.swiperIsActive()) {
 			const speed = this.computeTransitionByDistance(index);
 			this.slidesManager.swipeTo(this.activeView, this.disableAnimation, speed);

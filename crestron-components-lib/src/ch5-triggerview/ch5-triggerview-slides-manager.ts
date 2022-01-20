@@ -172,7 +172,6 @@ export class Ch5TriggerViewSlidesManager {
   }
   public setActiveIndexForLite() {
     if (this._ch5Swiper) {
-
       const activeSlideIndex = this._ch5Swiper.activeView;
       if (activeSlideIndex !== this.triggerViewEl.activeView) {
         this.triggerViewEl.activeView = this._ch5Swiper.activeView;
@@ -421,10 +420,16 @@ export class Ch5TriggerViewSlidesManager {
 
       return slidesElements as HTMLElement[];
     } else if (this.ch5SwiperIsActive()) {
-      const slidesElements = Array.from(this.triggerViewEl.getElementsByTagName(Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR))
-        .filter((e: Element) => e.tagName.toLowerCase() === Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR);
+      if (this.triggerViewEl.children && this.triggerViewEl.children.length > 1 && this.triggerViewEl.children[1].children && this.triggerViewEl.children[1].children.length > 0) {
+        const slidesElements = Array.from(this.triggerViewEl.children[1].children[0].children)
+          .filter((e: Element) => e.tagName.toLowerCase() === Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR);
+        // const slidesElements = Array.from(this.triggerViewEl.getElementsByTagName(Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR))
+        // .filter((e: Element) => e.tagName.toLowerCase() === Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR);
 
-      return slidesElements as HTMLElement[];
+        return slidesElements as HTMLElement[];
+      } else {
+        return [] as HTMLElement[];
+      }
     } else {
       const slidesElements = Array.from(this.triggerViewEl.children)
         .filter((e: Element) => e.tagName.toLowerCase() === Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR);
