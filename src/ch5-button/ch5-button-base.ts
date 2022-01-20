@@ -718,6 +718,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		return this._selected;
 	}
 
+	public set pressed(value: boolean) {
+		this.logger.log('set pressed("' + value + '")');
+		if (this._pressable) {
+			if (this._pressable._pressed !== value) {
+				this._pressable.setPressed(value);
+			}
+		}
+	}
+	public get pressed(): boolean {
+		if (this._pressable) {
+			return this._pressable._pressed;
+		} else {
+			return false;
+		}
+	}
+
 	public set customClassState(value: string) {
 		this.logger.log('set customclassstate("' + value + '")');
 		if (this._customClassState !== value) {
@@ -1108,6 +1124,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this.hasAttribute('valignlabel')) {
 			this.vAlignLabel = this.getAttribute('valignlabel') as TCh5ButtonVerticalAlignLabel;
 		}
+		if (this.hasAttribute('pressed')) {
+			if (this._pressable) {
+				this._pressable.setPressed(this.toBoolean((this.getAttribute('pressed')), false));
+			}
+		}
 
 		// signals
 		if (this.hasAttribute('receivestateselected')) {
@@ -1277,17 +1298,19 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				}
 				break;
 
-			// case 'pressed':
-			// 	let isPressed = false;
-			// 	if (this.hasAttribute('pressed')) {
-			// 		const attrPressed = (this.getAttribute('pressed') as string).toLowerCase();
-			// 		if ('false' !== attrPressed && '0' !== attrPressed) {
-			// 			isPressed = true;
-			// 		}
-			// 	}
-			// 	this.pressed = isPressed;
-			// 	this.updateCssClasses();
-			// 	break;
+			case 'pressed':
+				let isPressed = false;
+				if (this.hasAttribute('pressed')) {
+					const attrPressed = (this.getAttribute('pressed') as string).toLowerCase();
+					if ('false' !== attrPressed && '0' !== attrPressed) {
+						isPressed = true;
+					}
+				}
+				if (this._pressable) {
+					this._pressable.setPressed(isPressed);
+				}
+				this.updateCssClasses();
+				break;
 
 			case 'checkboxshow':
 				let isCheckboxShow = false;
