@@ -38,7 +38,7 @@ export class Ch5Pressable {
 		public touchStartLocationX: number;
 		public touchStartLocationY: number;
 		public touchPointId: number = -1;
-	
+
 		public constructor() {
 			this.mode = Ch5PressableFingerStateMode.Idle;
 			this.touchStartLocationX = 0;
@@ -102,14 +102,14 @@ export class Ch5Pressable {
 	 *
 	 * @private
 	 */
-	private _pressed: boolean = false;
+	public _pressed: boolean = false;
 
 	/**
 	 * Reflects the released state of the component
 	 *
 	 * @private
 	 */
-	private _released: boolean = true;
+	 public _released: boolean = true;
 
 	/**
 	 * HammerManger used for managing gestures like press
@@ -209,6 +209,20 @@ export class Ch5Pressable {
 
 		this._subscribeToGestureableProp();
 		this._attachEvents();
+	}
+
+	public setPressed(value: boolean) {
+		if (this._pressed === true) {
+			if (value === false) {
+				this._onRelease();
+			}
+		} else {
+			if (value === true) {
+				this._onHold();
+			}
+		}
+		// this._pressed = value;
+		// this._released = !value;
 	}
 
 	/**
@@ -454,6 +468,7 @@ export class Ch5Pressable {
 			// add the visual feedback
 			this._addCssPressClass();
 
+			this._ch5Component.setAttribute("pressed", "true");
 			// update state of the button and tell the button the state
 			this._pressed = true;
 			this.observablePressed.next(this._pressed);
@@ -499,6 +514,7 @@ export class Ch5Pressable {
 			this._pressed = false;
 			this.observablePressed.next(this._pressed);
 			this._released = true;
+			this._ch5Component.removeAttribute("pressed");
 
 			// dispatch event for addEventListener consumers
 			this._ch5Component.dispatchEvent(this._releaseEvent);

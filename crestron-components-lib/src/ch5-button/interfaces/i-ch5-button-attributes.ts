@@ -381,7 +381,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "`selected` attribute",
    * "***",
    * "The default value is false.",
-   * "This property reflects the state of the component. If set to true, ",
+   * "This property reflects the selected state of the component. If set to true, ",
    * "'ch5-button--selected' will be applied as the CSS class on the component."
    * ]
    * @name selected
@@ -389,4 +389,17 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    */
   selected: boolean;
 
+  /**
+   * @documentation
+   * [
+   * "`pressed` attribute",
+   * "***",
+   * "The default value is false.",
+   * "This property reflects the pressed state of the component. If set to true, ",
+   * "'ch5-button--pressed' will be applied as the CSS class on the component."
+   * ]
+   * @name pressed
+   * @default false
+   */
+  pressed: boolean;
 }
