@@ -15,7 +15,7 @@ $headerBorderColor: lightgrey;
 }
 
 .header-section {
-  padding: 20px 0px 0px 20px;
+  padding: 20px 0 40px;
 }
 
 .content-components-section {
@@ -399,28 +399,15 @@ $headerBorderColor: lightgrey;
   }
 }
 
-#content-block-section {
-  padding-right: 20px;
-  padding-left: 2px;
-}
-
 html,
-body#base {
-  overflow: hidden;
+body {
+  overflow-x: hidden;
   height: 100%;
 }
-body#base {
+body {
   padding: 0;
   margin: 0;
 }
-
-body#innerframe {
-  overflow-y: auto !important;
-  height: calc(100% - 118px);
-  padding: 0;
-  margin: 0;  
-}
-
 .header {
   display: block;
   margin: 0 auto;
@@ -434,47 +421,18 @@ body#innerframe {
   background-color: $headerBackgroundColor;
   border-bottom: solid 1px $headerBorderColor;
 }
-
-#innerframe::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 8px;
-	background-color: #F5F5F5;
-}
-
-#innerframe::-webkit-scrollbar
-{
-	width: 8px;
-	background-color: #F5F5F5;
-}
-
-#innerframe::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #dddddd;
-}
-
-.frameMain {
-  margin: 0 auto;
-  display: block;
-  height: 100%;
-  padding: 10px 0px 0px 20px;
-  position: fixed;
-  overflow: scroll;
-  width: calc(100% - 250px);
-}
-
 .main {
   margin: 0 auto;
   display: block;
-  height: 60px;
+  height: calc(100% - 60px);
   position: fixed;
-  left:250px;
-  top:60px;  
+  left: 250px;
+  top: 60px;
   z-index: 100;
+  overflow: scroll;
+  padding: 20px;
   padding-bottom: 50px;
-  width: 100%
+  width: calc(100% - 250px);
 }
 
 .sidebarIconToggle {

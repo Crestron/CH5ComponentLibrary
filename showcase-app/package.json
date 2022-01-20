@@ -7,8 +7,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "prebuild": "rimraf dist",
-    "build:dev": "yarn clean && node metalsmith-dev downloads/ShowcaseApp",
-    "build:prod": "yarn clean && node metalsmith-prod downloads/ShowcaseApp",
+    "build:dev": "yarn clean && node metalsmith-dev 'downloads/ShowcaseApp'",
+    "build:prod": "yarn clean && node metalsmith-prod 'downloads/ShowcaseApp'",
     "start": "yarn build:dev && node metalsmith-dev && http-server ./dist/ -c-1 -o",
     "start:ci": "yarn build:dev && node metalsmith-prod && http-server ./dist/ -c-1 -p 8082 --silent"
   },
