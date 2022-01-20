@@ -19,8 +19,8 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE.txt",
   "dependencies": {
-    "@crestron/ch5-crcomlib": "https://siproducts.blob.core.windows.net/ch5-test/100421/CH5CrComLib-2.0.5-alpha.5.tgz",
-    "@crestron/ch5-theme": "https://siproducts.blob.core.windows.net/ch5-test/100421/CH5Themes-2.0.4-alpha.4.tgz",
+    "@crestron/ch5-crcomlib": "https://siproducts.blob.core.windows.net/ch5-test/121721/CH5CrComLib-2.0.10-alpha.10.tgz",
+    "@crestron/ch5-theme": "https://siproducts.blob.core.windows.net/ch5-test/121721/CH5Themes-2.0.8-alpha.8.tgz",
     "ace-builds": "^1.4.12",
     "http-server": "^0.12.3",
     "i18next": "^20.3.5",

@@ -37,9 +37,9 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@crestron/ch5-crcomlib@https://siproducts.blob.core.windows.net/ch5-test/100421/CH5CrComLib-2.0.5-alpha.5.tgz":
-  version "2.0.5-alpha.5"
-  resolved "https://siproducts.blob.core.windows.net/ch5-test/100421/CH5CrComLib-2.0.5-alpha.5.tgz#ab1f717c6b9db511449f35c67477b6709672d3f5"
+"@crestron/ch5-crcomlib@https://siproducts.blob.core.windows.net/ch5-test/121721/CH5CrComLib-2.0.10-alpha.10.tgz":
+  version "2.0.10-alpha.10"
+  resolved "https://siproducts.blob.core.windows.net/ch5-test/121721/CH5CrComLib-2.0.10-alpha.10.tgz#72f37dcf1520b10998aa82eeca13626f3f610c7b"
   dependencies:
     "@types/dom-inputevent" "^1.0.7"
     "@types/hammerjs" "^2.0.40"
@@ -54,19 +54,25 @@
     i18next "18"
     nouislider "12.0.0"
     rxjs "^7.3.0"
-    swiper "^6.8.1"
+    swiper "^7.3.1"
 
-"@crestron/ch5-theme@https://siproducts.blob.core.windows.net/ch5-test/100421/CH5Themes-2.0.4-alpha.4.tgz":
-  version "2.0.4-alpha.4"
-  resolved "https://siproducts.blob.core.windows.net/ch5-test/100421/CH5Themes-2.0.4-alpha.4.tgz#bd176168ceb6d129d49e24a03f5c1a0a97b49580"
+"@crestron/ch5-theme@https://siproducts.blob.core.windows.net/ch5-test/121721/CH5Themes-2.0.8-alpha.8.tgz":
+  version "2.0.8-alpha.8"
+  resolved "https://siproducts.blob.core.windows.net/ch5-test/121721/CH5Themes-2.0.8-alpha.8.tgz#45eae9eadbbfda47c8f89b95fcb7fcb547cf4aae"
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
+    "@material-icons/font" "^1.0.20"
     sassdoc "^2.7.1"
 
 "@fortawesome/fontawesome-free@^5.15.3":
   version "5.15.4"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz#ecda5712b61ac852c760d8b3c79c96adca5554e5"
   integrity sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg==
+
+"@material-icons/font@^1.0.20":
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/@material-icons/font/-/font-1.0.25.tgz#d1880ffea8ee509471a28d745b4140e4c44a630d"
+  integrity sha512-BXIwQ/wlulZCwSAHeTHxv8TAKqutnpllv6KNvhPt69NItxaU06TiS1waVzDY5S+pbRMPcDnYn+0BQZ/tpeTcHg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1264,12 +1270,12 @@ docopt@^0.6.1:
   resolved "https://registry.yarnpkg.com/docopt/-/docopt-0.6.2.tgz#b28e9e2220da5ec49f7ea5bb24a47787405eeb11"
   integrity sha1-so6eIiDaXsSffqW7JKR3h0Be6xE=
 
-dom7@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/dom7/-/dom7-3.0.0.tgz#b861ce5d67a6becd7aaa3ad02942ff14b1240331"
-  integrity sha512-oNlcUdHsC4zb7Msx7JN3K0Nro1dzJ48knvBOnDPKJ2GV9wl1i5vydJZUSyOfrkKFDZEud/jBsTk92S/VGSAe/g==
+dom7@^4.0.2:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/dom7/-/dom7-4.0.4.tgz#8b68c5d8e5e2ed0fddb1cb93e433bc9060c8f3fb"
+  integrity sha512-DSSgBzQ4rJWQp1u6o+3FVwMNnT5bzQbMb+o31TjYYeRi05uAcpF8koxdfzeoe5ElzPmua7W7N28YJhF7iEKqIw==
   dependencies:
-    ssr-window "^3.0.0-alpha.1"
+    ssr-window "^4.0.0"
 
 dot-prop@^5.2.0:
   version "5.3.0"
@@ -4649,10 +4655,10 @@ sshpk@^1.7.0:
     safer-buffer "^2.0.2"
     tweetnacl "~0.14.0"
 
-ssr-window@^3.0.0, ssr-window@^3.0.0-alpha.1:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ssr-window/-/ssr-window-3.0.0.tgz#fd5b82801638943e0cc704c4691801435af7ac37"
-  integrity sha512-q+8UfWDg9Itrg0yWK7oe5p/XRCJpJF9OBtXfOPgSJl+u3Xd5KI328RUEvUqSMVM9CiQUEf1QdBzJMkYGErj9QA==
+ssr-window@^4.0.0, ssr-window@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/ssr-window/-/ssr-window-4.0.2.tgz#dc6b3ee37be86ac0e3ddc60030f7b3bc9b8553be"
+  integrity sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==
 
 stat-mode@^0.2.0:
   version "0.2.2"
@@ -4879,13 +4885,13 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-swiper@^6.8.1:
-  version "6.8.4"
-  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.8.4.tgz#938fed4144f4d7952fbf9c44e5832d133a4de794"
-  integrity sha512-O+buF9Q+sMA0H7luMS8R59hCaJKlpo8PXhQ6ZYu6Rn2v9OsFd4d1jmrv14QvxtQpKAvL/ZiovEeANI/uDGet7g==
+swiper@^7.3.1:
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-7.4.1.tgz#99fc586d1335b45250d2c6b3128dc91f8047d3e7"
+  integrity sha512-dhbL4tpYFvHug1J7GnKElfTi6EYhlZy/vNZRhHkWFyUsWZ1Vovipxj3la5gqllMogygXJMe3zvVv+f6eppvWiA==
   dependencies:
-    dom7 "^3.0.0"
-    ssr-window "^3.0.0"
+    dom7 "^4.0.2"
+    ssr-window "^4.0.2"
 
 symbol-observable@1.0.1:
   version "1.0.1"
