@@ -16,7 +16,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  * @componentVersion 1.0.0
  * @documentation
  * [
- * "`ch5-dpad-button-left` element",
+ * "`ch5-dpad-button key="left"` element",
  * "***",
  * "DPad <ch5-dpad-button-left> component can be added under a <ch5-dpad> tag ",
  * "for customization related to icon as a url or an icon class. ",
@@ -25,39 +25,40 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-dpad-button-left:blank",
+ *    "prefix": "ch5-dpad-button:blank",
  *     "description": "Crestron Dpad Button Left",
  *     "body": [
- *       "<ch5-dpad-button-left>",
- *       "</ch5-dpad-button-left>$0"
+ *       "<ch5-dpad-button key="left">",
+ *       "</ch5-dpad-button>$0"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad-button-left:iconurl",
+ *    "prefix": "ch5-dpad-button:iconurl",
  *     "description": "Crestron Dpad Button Left",
  *     "body": [
- *       "<ch5-dpad-button-left iconurl=\"btn_${1:Icon Url}\">",
- *       "</ch5-dpad-button-left>$0"
+ *       "<ch5-dpad-button key="left" iconurl=\"btn_${1:Icon Url}\">",
+ *       "</ch5-dpad-button>$0"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad-button-left:iconclass",
+ *    "prefix": "ch5-dpad-button key="left":iconclass",
  *     "description": "Crestron Dpad Button Left",
  *     "body": [
- *       "<ch5-dpad-button-left iconclass=\"btn_${1:Icon Class}\">",
- *       "</ch5-dpad-button-left>$0"
+ *       "<ch5-dpad-button key="left" iconclass=\"btn_${1:Icon Class}\">",
+ *       "</ch5-dpad-button>$0"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad-button-left:all-attributes",
+ *    "prefix": "ch5-dpad-button key="left":all-attributes",
  *     "description": "Crestron Dpad Button Left",
  *     "body": [
- *       "<ch5-dpad-button-left",
- *       "\ticonurl=\"btn_${1:Icon Url}\"",
- *       "\\tshow=\"${2:Show}\"",
- *       "\\tenable=\"${3:Enable}\"",
+ *       "<ch5-dpad-button",
+ *       "\key="left""
+ *       "\\ticonurl=\"btn_${1:Icon Url}\"",
+ *       "\\\tshow=\"${2:Show}\"",
+ *       "\\\tenable=\"${3:Enable}\"",
  *       ">",
- *       "</ch5-dpad-button-left>$0"
+ *       "</ch5-dpad-button>$0"
  *     ]
  *  }
  * ]

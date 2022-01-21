@@ -37,6 +37,14 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
     };
 
+    public static readonly DEFAULT_ICONS = {
+        top: 'fa-caret-up',
+        bottom: 'fa-caret-down',
+        left: 'fa-caret-left',
+        right: 'fa-caret-right',
+        center: 'fa-circle'
+    };
+
     //#region 1.1 readonly variables
     public primaryCssClass = '';
     public cssClassPrefix = '';
@@ -62,6 +70,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     protected _iconClass: string = '';
     protected _iconUrl: string = '';
     protected _sendEventOnClick: string = '';
+    protected _key: TCh5DpadChildButtonType = null as unknown as TCh5DpadChildButtonType;
 
     // signal based vars for each receive state
 
@@ -116,6 +125,28 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     //#region 2. Setters and Getters
 
     /**
+     * key specif getter-setter
+     */
+    public set key(value: TCh5DpadChildButtonType) {
+        this.logger.start('set key("' + value + '")');
+
+        if (_.isNil(value)) {
+            return;
+        }
+
+        if (value === this.key) {
+            return;
+        }
+
+        this._key = value;
+        this.setAttribute('key', value);
+        CH5DpadUtils.setAttributeToElement(this, 'key', value);
+    }
+    public get key() {
+        return this._key;
+    }
+
+    /**
      * iconClass specif getter-setter
      */
     public set iconClass(value: string) {
@@ -135,7 +166,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         if (this._iconUrl.length < 1) {
             if (this._iconClass.length > 0) {
                 this._icon.classList.remove(this.CSS_CLASS_LIST.primaryIconClass);
-                this._icon.classList.remove(this.CSS_CLASS_LIST.defaultIconClass);
+                if (this.CSS_CLASS_LIST.defaultIconClass) {
+                    this._icon.classList.remove(this.CSS_CLASS_LIST.defaultIconClass);
+                }
                 this._icon.classList.add(...(this._iconClass.split(' ')));
             } else {
                 this._icon.classList.remove(...(prevValue.split(' ')));
@@ -270,10 +303,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
     //#region 3. Lifecycle Hooks
 
-    public constructor(params: TCh5DpadConstructorParam) {
+    // public constructor(params: TCh5DpadConstructorParam) {
+    public constructor() {
         super();
         this.logger.start('constructor()', this.COMPONENT_NAME);
-        this.initializeParams(params);
 
         CH5DpadUtils.clearComponentContent(this);
 
@@ -492,6 +525,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             case 'sendeventonclick':
                 this.sendEventOnClick = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
+            case 'key':
+                CH5DpadUtils.setAttributeToElement(this, 'key', newValue);
+                this.key = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
             case 'show':
             case 'enable':
             default:
@@ -514,6 +551,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         // below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
         this.iconClass = CH5DpadUtils.setAttributeToElement(this, 'iconClass', this._iconClass);
         this.iconUrl = CH5DpadUtils.setAttributeToElement(this, 'iconUrl', this._iconUrl);
+        this.key = CH5DpadUtils.setAttributeToElement(this, 'key', this._key) as TCh5DpadChildButtonType;
         const btnType = this.buttonType as TCh5DpadChildButtonType;
         if (this.parentElement &&
             this.parentElement.parentElement) {

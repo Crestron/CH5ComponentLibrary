@@ -8,11 +8,6 @@
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models";
-import { Ch5DpadCenter } from "./ch5-dpad-button-center";
-import { Ch5DpadTop } from "./ch5-dpad-button-top";
-import { Ch5DpadRight } from "./ch5-dpad-button-right";
-import { Ch5DpadBottom } from "./ch5-dpad-button-bottom";
-import { Ch5DpadLeft } from "./ch5-dpad-button-left";
 import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-attributes";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType, TCh5DpadSize } from "./interfaces/t-ch5-dpad";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
@@ -20,6 +15,7 @@ import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5DpadButton } from "./ch5-dpad-button";
 
 export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	//#region 1. Variables
@@ -693,11 +689,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
 		Promise.all([
-			customElements.whenDefined('ch5-dpad-button-top'),
-			customElements.whenDefined('ch5-dpad-button-left'),
-			customElements.whenDefined('ch5-dpad-button-bottom'),
-			customElements.whenDefined('ch5-dpad-button-right'),
-			customElements.whenDefined('ch5-dpad-button-center')
+			customElements.whenDefined('ch5-dpad-button'),
 		]).then(() => {
 			// check if all components required to build dpad are ready, instantiated and available for consumption
 			this.onAllSubElementsCreated();
@@ -890,7 +882,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		const childItemsContainer = this.children as HTMLCollection;
 
 		if (childItemsContainer.length === 0 || childItemsContainer[0].children.length === 0) {
-			this.createAndAppendAllButtonsUnderDpad();
+			if (!_.cloneDeep(childItemsContainer[0]?.children)) {
+				this.createAndAppendAllButtonsUnderDpad();
+			} else {
+				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer);
+			}
 		} else {
 			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
 			if (!isValidStructureInChildDiv) {
@@ -921,11 +917,57 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 * Function to add all 5 buttons in the expected order if not added in the DOM
 	 */
 	private createAndAppendAllButtonsUnderDpad() {
-		const centerBtn = new Ch5DpadCenter();
-		const topBtn = new Ch5DpadTop();
-		const rightBtn = new Ch5DpadRight();
-		const bottomBtn = new Ch5DpadBottom();
-		const leftBtn = new Ch5DpadLeft();
+		const centerBtn = new Ch5DpadButton();
+		centerBtn.setAttribute('key', 'center');
+		const topBtn = new Ch5DpadButton();
+		topBtn.setAttribute('key', 'top');
+		const rightBtn = new Ch5DpadButton();
+		rightBtn.setAttribute('key', 'right');
+		const bottomBtn = new Ch5DpadButton();
+		bottomBtn.setAttribute('key', 'bottom');
+		const leftBtn = new Ch5DpadButton();
+		leftBtn.setAttribute('key', 'left');
+
+		this.createEmptyContainerDiv();
+
+		// order of appending is --- center, top, left/right, right/left, bottom
+		this.container.appendChild(centerBtn);
+		this.container.appendChild(topBtn);
+
+		if (this.shape === Ch5Dpad.SHAPES[0]) {
+			// if the selected shape is 'plus'
+			this.container.appendChild(leftBtn);
+			this.container.appendChild(rightBtn);
+		}
+		else if (this.shape === Ch5Dpad.SHAPES[1]) {
+			// if the selected shape is 'circle'
+			this.container.appendChild(rightBtn);
+			this.container.appendChild(leftBtn);
+		} else {
+			// if the selected shape is an invalid value
+			throw new Error("Seems to be an invalid shape. Must be 'plus' or 'circle' as values.");
+		}
+
+		this.container.appendChild(bottomBtn);
+	}
+
+	private createAndAppendAllExistingButtonsUnderDpad(buttonsList: HTMLCollection) {
+		if (!buttonsList.length) {
+			return;
+		}
+
+		const centerBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'center');
+		const topBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'top');
+		
+		const rightBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'right');
+
+		const bottomBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'bottom');
+
+		const leftBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'left');
+
+		if (!centerBtn || !topBtn || !rightBtn || !bottomBtn || !leftBtn) {
+			throw new Error("ch5-dpad not constructed correctly, please refer documentation.");
+		}
 
 		this.createEmptyContainerDiv();
 
@@ -961,11 +1003,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			const firstTag = this.shape === Ch5Dpad.SHAPES[0] ? 'left' : 'right'; // if 'plus'
 			const secondTag = this.shape === Ch5Dpad.SHAPES[0] ? 'right' : 'left'; // if 'circle'
 
-			ret = ((childItems[0].tagName.toLowerCase() === 'ch5-dpad-button-center') &&
-				(childItems[1].tagName.toLowerCase() === 'ch5-dpad-button-top') &&
-				(childItems[2].tagName.toLowerCase() === 'ch5-dpad-button-' + firstTag) &&
-				(childItems[3].tagName.toLowerCase() === 'ch5-dpad-button-' + secondTag) &&
-				(childItems[4].tagName.toLowerCase() === 'ch5-dpad-button-bottom'));
+			ret = ((childItems[0].getAttribute('key') === 'center') &&
+				(childItems[1].getAttribute('key') === 'top') &&
+				(childItems[2].getAttribute('key') === firstTag) &&
+				(childItems[3].getAttribute('key') === secondTag) &&
+				(childItems[4].getAttribute('key') === 'bottom'));
 		} else {
 			// removing child tags and emptying DPAD if the tag count is neither 0 or 5
 			if (childItems.length > 0) {
@@ -1071,8 +1113,32 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 
 	private removeDuplicateChildElements(elementToCheck: Element = this, isChildDiv: boolean = false) {
-		const childItems: Element[] = Array.from(elementToCheck.children);
-		// DEV NOTE: DONT CHANGE THE SEQUENCE OF ENTRIES IN THIS ARRAY
+		let childItems: Element[] = Array.from(elementToCheck.children);
+
+		const refobj: any = {}; // stores the reference of all buttons relevant for dpad
+
+		// // FIRST -A: remove all duplciate entries under DPAD
+		if (childItems.length > 0) {
+			if (childItems.length === 5) {
+				const keysArray = childItems.map((item) => item.getAttribute('key'));
+				const isDuplicate = keysArray.some((item, index) => keysArray.indexOf(item) !== index);
+				if (isDuplicate) {
+					const dupicatElementIndex = keysArray.findIndex((item, index) => keysArray.indexOf(item) !== index);
+					childItems[dupicatElementIndex].remove();
+				}
+			} else {
+				for (const item of childItems) {
+					const tagName = item.tagName.toLowerCase();
+					if (tagName !== 'div') {
+						refobj[tagName + '-' + item.getAttribute('key')] = item;
+					} else {
+						item.remove();
+						childItems = childItems.filter((child) => child !== item)
+					}
+				}
+			}
+		}
+
 		const childElementArray: string[] = [
 			"ch5-dpad-button-center",
 			"ch5-dpad-button-top",
@@ -1081,61 +1147,15 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			"ch5-dpad-button-bottom"
 		];
 
-		const refobj: any = {}; // stores the reference of all buttons relevant for dpad
-
-		// // FIRST -A: remove all duplciate entries under DPAD
-		if (childItems.length > 0) {
-			for (const item of childItems) {
-				const tagName = item.tagName.toLowerCase();
-				if (!refobj.hasOwnProperty(tagName) && childElementArray.indexOf(tagName) > -1) {
-					refobj[tagName] = item;
-				} else {
-					item.remove(); // removing, as this is a duplicate node
-				}
-			}
-			// remove all child elements, since it will be created again in the right/expected order
-			for (const item of childItems) {
-				item.remove();
-			}
-		}
-
-		// FIRST -B : Remove the child elements of dpad to keep it clean and append 'dpad-container' div to it
-		if (isChildDiv) {
-			const childDivUnderThis: Element[] = Array.from(this.children);
-			if (childDivUnderThis.length > 0) {
-				// remove all child elements, since it will be created again in the right/expected order
-				for (const child of childDivUnderThis) {
-					child.remove();
-				}
-			}
-		}
-		this.createEmptyContainerDiv();
-
 		// SECOND: create and add all non existing child tags 
 		if (refobj !== null) {
 			for (const tagName of childElementArray) {
 				if (!refobj.hasOwnProperty(tagName)) {
-					const ele = document.createElement(tagName);
+					const ele = new Ch5DpadButton();
+					ele.setAttribute('key', tagName.split('-')[tagName.split('-').length - 1]);
 					refobj[tagName] = ele as HTMLElement;
 				}
 			}
-		}
-		// THIRD: Finally, add the elements in the right order (adding block just for developer)
-		{
-			this.container.appendChild(refobj[childElementArray[0]]);
-			this.container.appendChild(refobj[childElementArray[1]]);
-			if (this.shape === Ch5Dpad.SHAPES[0] && this !== null) {
-				// if the selected shape is 'plus'
-				// ORDER: center, top, left, right, bottom
-				this.container.appendChild(refobj[childElementArray[2]]); // first, left element
-				this.container.appendChild(refobj[childElementArray[3]]); // then, the right element
-			} else if (this.shape === Ch5Dpad.SHAPES[1] && this !== null) {
-				// if the selected shape is 'circle'
-				// ORDER: center, top, right, left, bottom
-				this.container.appendChild(refobj[childElementArray[3]]); // first, right element
-				this.container.appendChild(refobj[childElementArray[2]]); // then, the left element
-			}
-			this.container.appendChild(refobj[childElementArray[4]]);
 		}
 	}
 
@@ -1156,28 +1176,58 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 */
 	private updateEventClickHandlers(eventKeyStart: number) {
 		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+		const buttonList = this.getElementsByTagName("ch5-dpad-button");
+		let centerBtn;
+		let topBtn;
+		let rightBtn;
+		let bottomBtn;
+		let leftBtn;
+		if (buttonList.length > 0) {
+			// tslint:disable-next-line:prefer-for-of
+			for (let index = 0; index < buttonList.length; index++) {
+				const elementKey = buttonList[index].getAttribute('key');
+				if (elementKey) {
+					switch (elementKey) {
+						case 'center':
+							centerBtn = buttonList[index];
+							break;
+						case 'top':
+							topBtn = buttonList[index];
+							break;
+						case 'left':
+							leftBtn = buttonList[index];
+							break;
+						case 'right':
+							rightBtn = buttonList[index];
+							break;
+						case 'bottom':
+							bottomBtn = buttonList[index];
+							break;	
+						default:
+							centerBtn = buttonList[index];
+							break;
+					}
+				}
+			}
+		}
+
 		if (contractName.length === 0 && !isNaN(eventKeyStart)) {
-			const centerBtn = this.getElementsByTagName("ch5-dpad-button-center")[0];
 			if (!_.isNil(centerBtn)) {
 				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.center;
 				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			const topBtn = this.getElementsByTagName("ch5-dpad-button-top")[0];
 			if (!_.isNil(topBtn)) {
 				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.top;
 				topBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			const rightBtn = this.getElementsByTagName("ch5-dpad-button-right")[0];
 			if (!_.isNil(rightBtn)) {
 				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.right;
 				rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			const bottomBtn = this.getElementsByTagName("ch5-dpad-button-bottom")[0];
 			if (!_.isNil(bottomBtn)) {
 				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.bottom;
 				bottomBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			const leftBtn = this.getElementsByTagName("ch5-dpad-button-left")[0];
 			if (!_.isNil(leftBtn)) {
 				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.left;
 				leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
@@ -1185,28 +1235,61 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 	}
 	private updateContractNameBasedHandlers(contractName: string) {
+		const buttonList = this.getElementsByTagName("ch5-dpad-button");
+		let centerBtn;
+		let topBtn;
+		let rightBtn;
+		let bottomBtn;
+		let leftBtn;
+		if (buttonList.length > 0) {
+			// tslint:disable-next-line:prefer-for-of
+			for (let index = 0; index < buttonList.length; index++) {
+				const elementKey = buttonList[index].getAttribute('key');
+				if (elementKey) {
+					switch (elementKey) {
+						case 'center':
+							centerBtn = buttonList[index];
+							break;
+						case 'top':
+							topBtn = buttonList[index];
+							break;
+						case 'left':
+							leftBtn = buttonList[index];
+							break;
+						case 'right':
+							rightBtn = buttonList[index];
+							break;
+						case 'bottom':
+							bottomBtn = buttonList[index];
+							break;	
+						default:
+							centerBtn = buttonList[index];
+							break;
+					}
+				}
+			}
+		}
 		if (contractName.length > 0) {
-			const centerBtn = this.getElementsByTagName("ch5-dpad-button-center")[0];
 			if (!_.isNil(centerBtn)) {
 				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.center;
 				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			const topBtn = this.getElementsByTagName("ch5-dpad-button-top")[0];
+
 			if (!_.isNil(topBtn)) {
 				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.top;
 				topBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			const rightBtn = this.getElementsByTagName("ch5-dpad-button-right")[0];
+
 			if (!_.isNil(rightBtn)) {
 				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.right;
 				rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			const bottomBtn = this.getElementsByTagName("ch5-dpad-button-bottom")[0];
+
 			if (!_.isNil(bottomBtn)) {
 				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.bottom;
 				bottomBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			const leftBtn = this.getElementsByTagName("ch5-dpad-button-left")[0];
+
 			if (!_.isNil(leftBtn)) {
 				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.left;
 				leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
