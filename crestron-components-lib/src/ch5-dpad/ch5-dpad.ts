@@ -1140,11 +1140,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 
 		const childElementArray: string[] = [
-			"ch5-dpad-button-center",
-			"ch5-dpad-button-top",
-			"ch5-dpad-button-left",
-			"ch5-dpad-button-right",
-			"ch5-dpad-button-bottom"
+			"ch5-dpad-button"
 		];
 
 		// SECOND: create and add all non existing child tags 

@@ -86,8 +86,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "If the contract name exists, by default this becomes true. ",
 	 * "If the contract name does not exist, by default this becomes false. ",
 	 * "If this value is set to true then the value received from the contract will be considered to enable ",
-	 * "<ch5-dpad> tag and also to enable the buttons under <ch5-dpad> component i.e. <ch5-dpad-button-left>, ",
-	 * "<ch5-dpad-button-right>, <ch5-dpad-button-top>, <ch5-dpad-button-bottom>, <ch5-dpad-button-center>. ",
+	 * "<ch5-dpad> tag and also to enable the buttons under <ch5-dpad> component i.e. <ch5-dpad-button>.",
 	 * "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
 	 * "The details can be seen in the table above."
 	 * ]

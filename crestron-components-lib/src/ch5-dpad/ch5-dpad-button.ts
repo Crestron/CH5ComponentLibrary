@@ -9,10 +9,10 @@ import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5DpadChildBase } from "./ch5-dpad-child-base";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
-import { ICh5DpadCenterAttributes } from "./interfaces/i-ch5-dpad-button-center-attributes";
+import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
 import { TCh5DpadChildButtonType } from "./interfaces/t-ch5-dpad";
 
-export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadCenterAttributes {
+export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBaseAttributes {
 
     //#region 1. Variables
 

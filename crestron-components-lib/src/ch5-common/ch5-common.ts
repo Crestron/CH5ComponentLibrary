@@ -1841,7 +1841,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     /**
      * (Generic) Function to set the value of a given attribute and perform the callback if required
      * DEVNOTE:
-     * 1. Refer ch5-dpad-button-center.ts for usage example
+     * 1. Refer ch5-dpad-button.ts for usage example
      * 2. The "attrKeyPvt" and "attrKeyPvt" are actual variables to be existing in the same manner within the caller class
      * @param caller the dpad child component
      * @param attrKey receiveState* for the child component
@@ -1879,7 +1879,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     /**
      * (Generic) Function to set the value of a given attribute and perform the callback if required
      * DEVNOTE:
-     * 1. Refer ch5-dpad-button-center.ts for usage example
+     * 1. Refer ch5-dpad-button.ts for usage example
      * 2. The "attrKeyPvt" and "attrKeyPvt" are actual variables to be existing in the same manner within the caller class
      * @param caller the dpad child component
      * @param attrKey receiveState* for the child component

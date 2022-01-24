@@ -204,7 +204,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -223,7 +223,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -530,7 +530,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -550,7 +550,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -569,7 +569,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -1289,7 +1289,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -1308,7 +1308,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -1758,7 +1758,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -1794,7 +1794,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -1813,7 +1813,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -1873,7 +1873,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -1892,7 +1892,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -1911,7 +1911,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -1946,7 +1946,7 @@
               "`selected` attribute",
               "***",
               "The default value is false.",
-              "This property reflects the state of the component. If set to true, ",
+              "This property reflects the selected state of the component. If set to true, ",
               "'ch5-button--selected' will be applied as the CSS class on the component."
             ],
             "value": [
@@ -1954,6 +1954,24 @@
               "true"
             ],
             "name": "selected",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": []
+          },
+          {
+            "documentation": [
+              "`pressed` attribute",
+              "***",
+              "The default value is false.",
+              "This property reflects the pressed state of the component. If set to true, ",
+              "'ch5-button--pressed' will be applied as the CSS class on the component."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "pressed",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -2258,7 +2276,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -2277,7 +2295,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -2419,1774 +2437,6 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconClass",
-              "***",
-              "The icon class gives the ability for the end developer to create custom arrow icons."
-            ],
-            "value": [],
-            "name": "iconClass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconUrl",
-              "***",
-              "A custom image that the user needs to pass the URL or the local file relative path, ",
-              "the iconUrl takes precedence over iconClass."
-            ],
-            "value": [],
-            "name": "iconUrl",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonclick` attribute",
-              "***",
-              "Sends an event on click or tap (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          }
-        ],
-        "documentation": [
-          "`ch5-dpad-button-top` element",
-          "***",
-          "DPad <ch5-dpad-button-top> component can be added under a <ch5-dpad> tag ",
-          "for customization related to icon as a url or an icon class. ",
-          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-dpad-button-top:blank",
-            "description": "Crestron Dpad Button Top",
-            "body": [
-              "<ch5-dpad-button-top>",
-              "</ch5-dpad-button-top>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-top:iconurl",
-            "description": "Crestron Dpad Button Top",
-            "body": [
-              "<ch5-dpad-button-top iconurl=\"btn_${1:Icon Url}\">",
-              "</ch5-dpad-button-top>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-top:iconclass",
-            "description": "Crestron Dpad Button Top",
-            "body": [
-              "<ch5-dpad-button-top iconclass=\"btn_${1:Icon Class}\">",
-              "</ch5-dpad-button-top>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-top:all-attributes",
-            "description": "Crestron Dpad Button Top",
-            "body": [
-              "<ch5-dpad-button-top",
-              "\ticonurl=\"btn_${1:Icon Url}\"",
-              "\\tshow=\"${2:Show}\"",
-              "\\tenable=\"${3:Enable}\"",
-              ">",
-              "</ch5-dpad-button-top>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Dpad Button Top",
-        "name": "Ch5 Dpad Top",
-        "tagName": "ch5-dpad-button-top",
-        "role": "container",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null",
-            "hideWhen": [
-              {
-                "receiveStateCustomClass": [
-                  "true"
-                ]
-              }
-            ],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconClass",
-              "***",
-              "The icon class gives the ability for the end developer to create custom arrow icons."
-            ],
-            "value": [],
-            "name": "iconClass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconUrl",
-              "***",
-              "A custom image that the user needs to pass the URL or the local file relative path, ",
-              "the iconUrl takes precedence over iconClass."
-            ],
-            "value": [],
-            "name": "iconUrl",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonclick` attribute",
-              "***",
-              "Sends an event on click or tap (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          }
-        ],
-        "documentation": [
-          "`ch5-dpad-button-right` element",
-          "***",
-          "DPad <ch5-dpad-button-right> component can be added under a <ch5-dpad> tag ",
-          "for customization related to icon as a url or an icon class. ",
-          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-dpad-button-right:blank",
-            "description": "Crestron Dpad Button Right",
-            "body": [
-              "<ch5-dpad-button-right>",
-              "</ch5-dpad-button-right>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-right:iconurl",
-            "description": "Crestron Dpad Button Right",
-            "body": [
-              "<ch5-dpad-button-right iconurl=\"btn_${1:Icon Url}\">",
-              "</ch5-dpad-button-right>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-right:iconclass",
-            "description": "Crestron Dpad Button Right",
-            "body": [
-              "<ch5-dpad-button-right iconclass=\"btn_${1:Icon Class}\">",
-              "</ch5-dpad-button-right>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-right:all-attributes",
-            "description": "Crestron Dpad Button Right",
-            "body": [
-              "<ch5-dpad-button-right",
-              "\ticonurl=\"btn_${1:Icon Url}\"",
-              "\\tshow=\"${2:Show}\"",
-              "\\tenable=\"${3:Enable}\"",
-              ">",
-              "</ch5-dpad-button-right>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Dpad Button Right",
-        "name": "Ch5 Dpad Right",
-        "tagName": "ch5-dpad-button-right",
-        "role": "container",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null",
-            "hideWhen": [
-              {
-                "receiveStateCustomClass": [
-                  "true"
-                ]
-              }
-            ],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconClass",
-              "***",
-              "The icon class gives the ability for the end developer to create custom arrow icons."
-            ],
-            "value": [],
-            "name": "iconClass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconUrl",
-              "***",
-              "A custom image that the user needs to pass the URL or the local file relative path, ",
-              "the iconUrl takes precedence over iconClass."
-            ],
-            "value": [],
-            "name": "iconUrl",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonclick` attribute",
-              "***",
-              "Sends an event on click or tap (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          }
-        ],
-        "documentation": [
-          "`ch5-dpad-button-left` element",
-          "***",
-          "DPad <ch5-dpad-button-left> component can be added under a <ch5-dpad> tag ",
-          "for customization related to icon as a url or an icon class. ",
-          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-dpad-button-left:blank",
-            "description": "Crestron Dpad Button Left",
-            "body": [
-              "<ch5-dpad-button-left>",
-              "</ch5-dpad-button-left>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-left:iconurl",
-            "description": "Crestron Dpad Button Left",
-            "body": [
-              "<ch5-dpad-button-left iconurl=\"btn_${1:Icon Url}\">",
-              "</ch5-dpad-button-left>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-left:iconclass",
-            "description": "Crestron Dpad Button Left",
-            "body": [
-              "<ch5-dpad-button-left iconclass=\"btn_${1:Icon Class}\">",
-              "</ch5-dpad-button-left>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-left:all-attributes",
-            "description": "Crestron Dpad Button Left",
-            "body": [
-              "<ch5-dpad-button-left",
-              "\ticonurl=\"btn_${1:Icon Url}\"",
-              "\\tshow=\"${2:Show}\"",
-              "\\tenable=\"${3:Enable}\"",
-              ">",
-              "</ch5-dpad-button-left>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Dpad Button Left",
-        "name": "Ch5 Dpad Left",
-        "tagName": "ch5-dpad-button-left",
-        "role": "container",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null",
-            "hideWhen": [
-              {
-                "receiveStateCustomClass": [
-                  "true"
-                ]
-              }
-            ],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconClass",
-              "***",
-              "The icon class gives the ability for the end developer to create custom arrow icons."
-            ],
-            "value": [],
-            "name": "iconClass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconUrl",
-              "***",
-              "A custom image that the user needs to pass the URL or the local file relative path, ",
-              "the iconUrl takes precedence over iconClass."
-            ],
-            "value": [],
-            "name": "iconUrl",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonclick` attribute",
-              "***",
-              "Sends an event on click or tap (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          }
-        ],
-        "documentation": [
-          "`ch5-dpad-button-bottom` element",
-          "***",
-          "DPad <ch5-dpad-button-bottom> component can be added under a <ch5-dpad> tag ",
-          "for customization related to icon as a url or an icon class. ",
-          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-dpad-button-bottom:blank",
-            "description": "Crestron Dpad Button Bottom",
-            "body": [
-              "<ch5-dpad-button-bottom>",
-              "</ch5-dpad-button-bottom>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-bottom:iconurl",
-            "description": "Crestron Dpad Button Bottom",
-            "body": [
-              "<ch5-dpad-button-bottom iconurl=\"btn_${1:Icon Url}\">",
-              "</ch5-dpad-button-bottom>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-bottom:iconclass",
-            "description": "Crestron Dpad Button Bottom",
-            "body": [
-              "<ch5-dpad-button-bottom iconclass=\"btn_${1:Icon Class}\">",
-              "</ch5-dpad-button-bottom>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-bottom:all-attributes",
-            "description": "Crestron Dpad Button Bottom",
-            "body": [
-              "<ch5-dpad-button-bottom",
-              "\ticonurl=\"btn_${1:Icon Url}\"",
-              "\\tshow=\"${2:Show}\"",
-              "\\tenable=\"${3:Enable}\"",
-              ">",
-              "</ch5-dpad-button-bottom>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Dpad Button Bottom",
-        "name": "Ch5 Dpad Bottom",
-        "tagName": "ch5-dpad-button-bottom",
-        "role": "container",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null",
-            "hideWhen": [
-              {
-                "receiveStateCustomClass": [
-                  "true"
-                ]
-              }
-            ],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconClass",
-              "***",
-              "The icon class gives the ability for the end developer to create custom arrow icons."
-            ],
-            "value": [],
-            "name": "iconClass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconUrl",
-              "***",
-              "A custom image that the user needs to pass the URL or the local file relative path, ",
-              "the iconUrl takes precedence over iconClass."
-            ],
-            "value": [],
-            "name": "iconUrl",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonclick` attribute",
-              "***",
-              "Sends an event on click or tap (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          }
-        ],
-        "documentation": [
-          "`ch5-dpad-button-center` element",
-          "***",
-          "DPad <ch5-dpad-button-center> component can be added under a <ch5-dpad> tag ",
-          "for customization related to icon as a url or an icon class. ",
-          "Note: This tag can never be independently used and always needs the container 'ch5-dpad' to render."
-        ],
-        "snippets": [
-          {
-            "prefix": "ch5-dpad-button-center:blank",
-            "description": "Crestron Dpad Button Center",
-            "body": [
-              "<ch5-dpad-button-center>",
-              "</ch5-dpad-button-center>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-center:iconurl",
-            "description": "Crestron Dpad Button Center",
-            "body": [
-              "<ch5-dpad-button-center iconurl=\"btn_${1:Icon Url}\">",
-              "</ch5-dpad-button-center>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-center:iconclass",
-            "description": "Crestron Dpad Button Center",
-            "body": [
-              "<ch5-dpad-button-center iconclass=\"btn_${1:Icon Class}\">",
-              "</ch5-dpad-button-center>$0"
-            ]
-          },
-          {
-            "prefix": "ch5-dpad-button-center:all-attributes",
-            "description": "Crestron Dpad Button Center",
-            "body": [
-              "<ch5-dpad-button-center",
-              "\ticonurl=\"btn_${1:Icon Url}\"",
-              "\\tshow=\"${2:Show}\"",
-              "\\tenable=\"${3:Enable}\"",
-              ">",
-              "</ch5-dpad-button-center>$0"
-            ]
-          }
-        ],
-        "childElements": [],
-        "description": "Ch5 Dpad Button Center",
-        "name": "Ch5 Dpad Center",
-        "tagName": "ch5-dpad-button-center",
-        "role": "container",
-        "componentVersion": "1.0.0"
-      },
-      {
-        "attributes": [
-          {
-            "documentation": [
-              "`id` attribute",
-              "***",
-              "This is a standard id HTML attribute."
-            ],
-            "value": [],
-            "name": "id",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customclass` attribute",
-              "***",
-              "Contains a list of classes that are applied on the component"
-            ],
-            "value": [],
-            "name": "customclass",
-            "default": "null",
-            "hideWhen": [
-              {
-                "receiveStateCustomClass": [
-                  "true"
-                ]
-              }
-            ],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`customstyle` attribute",
-              "***",
-              "Contains a list of space-delimited style classes applied on the component."
-            ],
-            "value": [],
-            "name": "customstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`noshowtype` attribute",
-              "***",
-              "This property reflects the type of the visibility of the item. See the 'data-ch5-noshow-type' ",
-              "custom HTML attribute for further information."
-            ],
-            "value": [
-              "visibility",
-              "display",
-              "remove"
-            ],
-            "name": "noshowtype",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`appendclasswheninviewport` attribute",
-              "***",
-              "Applies the provided value as class name while the component is visible and removes the class name when not visible."
-            ],
-            "value": [],
-            "name": "appendclasswheninviewport",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`dir` attribute",
-              "***",
-              "An enumerated attribute indicating the directionality of the element's text. It can have the following values:",
-              "ltr, which means left to right and is to be used for languages that are written from the left to the right (like English) ",
-              "rtl, which means right to left and is to be used for languages that are written from the right to the left (like Arabic) ",
-              "auto, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it ",
-              "finds a character with a strong directionality then it applies that directionality to the whole element."
-            ],
-            "value": [],
-            "name": "dir",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconClass",
-              "***",
-              "The icon class gives the ability for the end developer to create custom arrow icons."
-            ],
-            "value": [],
-            "name": "iconClass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`type` iconUrl",
-              "***",
-              "A custom image that the user needs to pass the URL or the local file relative path, ",
-              "the iconUrl takes precedence over iconClass."
-            ],
-            "value": [],
-            "name": "iconUrl",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`sendeventonclick` attribute",
-              "***",
-              "Sends an event on click or tap (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
             "limits": []
           },
           {
@@ -4290,8 +2540,7 @@
               "If the contract name exists, by default this becomes true. ",
               "If the contract name does not exist, by default this becomes false. ",
               "If this value is set to true then the value received from the contract will be considered to enable ",
-              "<ch5-dpad> tag and also to enable the buttons under <ch5-dpad> component i.e. <ch5-dpad-button-left>, ",
-              "<ch5-dpad-button-right>, <ch5-dpad-button-top>, <ch5-dpad-button-bottom>, <ch5-dpad-button-center>. ",
+              "<ch5-dpad> tag and also to enable the buttons under <ch5-dpad> component i.e. <ch5-dpad-button>.",
               "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
               "The details can be seen in the table above."
             ],
@@ -4515,27 +2764,7 @@
         ],
         "childElements": [
           {
-            "tagName": "ch5-dpad-button-center",
-            "optional": true,
-            "childElements": []
-          },
-          {
-            "tagName": "ch5-dpad-button-top",
-            "optional": true,
-            "childElements": []
-          },
-          {
-            "tagName": "ch5-dpad-button-left",
-            "optional": true,
-            "childElements": []
-          },
-          {
-            "tagName": "ch5-dpad-button-right",
-            "optional": true,
-            "childElements": []
-          },
-          {
-            "tagName": "ch5-dpad-button-bottom",
+            "tagName": "ch5-dpad-button",
             "optional": true,
             "childElements": []
           }
@@ -4626,7 +2855,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -4645,7 +2874,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -5205,7 +3434,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -5224,7 +3453,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -5464,9 +3693,6 @@
           "Users can modularize the HTML files into pages or sections using this component, ",
           "and the snippet is inserted into the DOM at the respective location ",
           "during run time. ",
-          "An afterload event occurs when a snippet HTML has been loaded and inserted into the DOM. ",
-          "Afterload is most often used within the ch5-import-htmlsnippet element to execute a script once an HTML ",
-          "snippet has completely loaded all content (including images, script files, CSS files, etc.). ",
           "To import the snippet in Angular, the source directory must be added in angular.json file as follows: ",
           "     \"assets\": [",
           "         \"src/assets/htmlsnippets\" ",
@@ -5577,7 +3803,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -5596,7 +3822,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -5814,6 +4040,19 @@
           },
           {
             "documentation": [
+              "`mode` attribute",
+              "***",
+              "This attribute is used together with <ch5-image-mode> child component."
+            ],
+            "value": [],
+            "name": "url",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": []
+          },
+          {
+            "documentation": [
               "`password` attribute",
               "***",
               "The authentication password required to get the image."
@@ -5852,7 +4091,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -5912,7 +4151,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -6120,7 +4359,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -6139,7 +4378,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -6475,7 +4714,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -6494,7 +4733,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -7175,7 +5414,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -7194,7 +5433,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -7578,7 +5817,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -7598,7 +5837,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -7616,7 +5855,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -7847,7 +6086,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -7866,7 +6105,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -8620,7 +6859,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -8639,7 +6878,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -8939,7 +7178,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -8958,7 +7197,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -9242,7 +7481,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -9261,7 +7500,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -9689,7 +7928,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -9707,7 +7946,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -9725,7 +7964,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -9751,7 +7990,7 @@
             "documentation": [
               "`sendeventonchange` attribute",
               "***",
-              "Sends a signal value on the selected change. Shis is only applicable for multiselect=false. ",
+              "Sends a signal value on the selected change. This is only applicable for multiselect=false. ",
               "A 1-based index is expected. Value 0 indicates all will be unselected."
             ],
             "value": [],
@@ -10127,7 +8366,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -10146,7 +8385,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -10358,7 +8597,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -10376,7 +8615,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -10385,7 +8624,7 @@
               "`receivestatescriptlabelhtml` attribute",
               "***",
               "A signal script evaluation will be applied to the ",
-              "button.innerHTML. Allows for multiline, multistyled labels."
+              "button.innerHTML. Allows for multiline, multi-styled labels."
             ],
             "value": [],
             "name": "receivestatescriptlabelhtml",
@@ -10395,7 +8634,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -10588,7 +8827,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -10607,7 +8846,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -11133,7 +9372,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -11151,7 +9390,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -11411,7 +9650,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -11430,7 +9669,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -11838,7 +10077,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -11856,7 +10095,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -11874,7 +10113,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -11892,7 +10131,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -12192,7 +10431,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -12211,7 +10450,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -12621,7 +10860,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -12640,7 +10879,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -13108,7 +11347,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -13126,7 +11365,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -13402,7 +11641,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -13421,7 +11660,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -13762,7 +12001,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -13780,7 +12019,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -13997,7 +12236,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -14016,7 +12255,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -14188,7 +12427,7 @@
               "    </ch5-triggerview-child >",
               "</ch5-triggerview>"
             ],
-            "description": "Crestron Triggerview Child Send Signals"
+            "description": "Crestron TriggerView Child Send Signals"
           },
           {
             "prefix": "ch5-triggerview:child-receive-signals",
@@ -14211,7 +12450,7 @@
               "    </ch5-triggerview-child >",
               "</ch5-triggerview>"
             ],
-            "description": "Crestron Triggerview Signals"
+            "description": "Crestron TriggerView Signals"
           }
         ],
         "childElements": [],
@@ -14301,7 +12540,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -14320,7 +12559,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -14548,7 +12787,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -14567,7 +12806,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -14677,7 +12916,7 @@
               "    </ch5-triggerview-child> ",
               "</ch5-triggerview>"
             ],
-            "description": "Crestron Triggerview (Blank)"
+            "description": "Crestron TriggerView (Blank)"
           },
           {
             "prefix": "ch5-triggerview:default",
@@ -14700,7 +12939,7 @@
               "    </ch5-triggerview-child>",
               "</ch5-triggerview>"
             ],
-            "description": "Crestron Triggerview (Default)"
+            "description": "Crestron TriggerView (Default)"
           },
           {
             "prefix": "ch5-triggerview:signals",
@@ -14723,7 +12962,7 @@
               "    </ch5-triggerview-child>",
               "</ch5-triggerview>"
             ],
-            "description": "Crestron Triggerview Signals"
+            "description": "Crestron TriggerView Signals"
           }
         ],
         "childElements": [
@@ -14819,7 +13058,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -14838,7 +13077,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15260,7 +13499,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15279,7 +13518,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15297,7 +13536,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15315,7 +13554,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15333,7 +13572,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15351,7 +13590,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15369,7 +13608,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15387,7 +13626,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15405,7 +13644,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15423,7 +13662,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15441,7 +13680,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15459,7 +13698,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15479,7 +13718,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15500,7 +13739,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15518,7 +13757,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15536,7 +13775,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
@@ -15554,7 +13793,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15572,7 +13811,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15590,7 +13829,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15608,7 +13847,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": []
           },
@@ -15626,7 +13865,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": []
           },
