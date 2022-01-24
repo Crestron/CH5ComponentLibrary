@@ -96,18 +96,18 @@ ch5-slider:focus {
   }
 
   /* ===============================================
-    STRECH
+    STRETCH
    ============================================= */
-  &.ch5-slider--strech--width.ch5-slider--orientation--horizontal{
+  &.ch5-slider--stretch--width.ch5-slider--orientation--horizontal{
     width: 100% !important;
   }
 
-  &.ch5-slider--strech--height.ch5-slider--orientation--vertical{
+  &.ch5-slider--stretch--height.ch5-slider--orientation--vertical{
     height: 100% !important;
   }
 
 
-  &.ch5-slider--strech--height.ch5-slider--orientation--horizontal {
+  &.ch5-slider--stretch--height.ch5-slider--orientation--horizontal {
     height: 100% !important;
     .noUi-target {
       top: 50%;
@@ -115,7 +115,7 @@ ch5-slider:focus {
     }
   }
 
-  &.ch5-slider--strech--width.ch5-slider--orientation--vertical {
+  &.ch5-slider--stretch--width.ch5-slider--orientation--vertical {
     width: 100% !important;
     .noUi-target {
       left: 50%;
@@ -123,7 +123,7 @@ ch5-slider:focus {
     }
   }
 
-  &.ch5-slider--strech--both.ch5-slider--orientation--horizontal{
+  &.ch5-slider--stretch--both.ch5-slider--orientation--horizontal{
     width: 100% !important;
     height: 100% !important;
 
@@ -133,7 +133,7 @@ ch5-slider:focus {
     }
   }
 
-  &.ch5-slider--strech--both.ch5-slider--orientation--vertical{
+  &.ch5-slider--stretch--both.ch5-slider--orientation--vertical{
     height: 100% !important;
     width: 100% !important;
 
