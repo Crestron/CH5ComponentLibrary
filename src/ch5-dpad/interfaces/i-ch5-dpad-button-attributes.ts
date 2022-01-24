@@ -16,7 +16,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  * @componentVersion 1.0.0
  * @documentation
  * [
- * "`ch5-dpad-button-bottom` element",
+ * "`ch5-dpad-button` element",
  * "***",
  * "DPad <ch5-dpad-button key="value"> component can be added under a <ch5-dpad> tag ",
  * "for customization related to icon as a url or an icon class. ",
@@ -28,7 +28,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *    "prefix": "ch5-dpad-button key="bottom":blank",
  *     "description": "Crestron Dpad Button",
  *     "body": [
- *       "<ch5-dpad-button key="bottom">",
+ *       "<ch5-dpad-button key="${1|center,top,bottom,left,right|}\">",
  *       "</ch5-dpad-button>$0"
  *     ]
  *  },
@@ -36,7 +36,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *    "prefix": "ch5-dpad-button :iconurl",
  *     "description": "Crestron Dpad Button Bottom",
  *     "body": [
- *       "<ch5-dpad-button key="bottom" iconurl=\"btn_${1:Icon Url}\">",
+ *       "<ch5-dpad-button key="${1|center,top,bottom,left,right|}\" iconurl=\"btn_${2:Icon Url}\">",
  *       "</ch5-dpad-button>$0"
  *     ]
  *  },
@@ -44,7 +44,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *    "prefix": "ch5-dpad-button :iconclass",
  *     "description": "Crestron Dpad Button Bottom",
  *     "body": [
- *       "<ch5-dpad-button key="bottom" iconclass=\"btn_${1:Icon Class}\">",
+ *       "<ch5-dpad-button key="${1|center,top,bottom,left,right|}\" iconclass=\"btn_${2:Icon Class}\">",
  *       "</ch5-dpad-button>$0"
  *     ]
  *  },
@@ -52,10 +52,10 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *    "prefix": "ch5-dpad-button :all-attributes",
  *     "description": "Crestron Dpad Button Bottom",
  *     "body": [
- *       "<ch5-dpad-button key="bottom",
- *       "\ticonurl=\"btn_${1:Icon Url}\"",
- *       "\\tshow=\"${2:Show}\"",
- *       "\\tenable=\"${3:Enable}\"",
+ *       "<ch5-dpad-button key="${1|center,top,bottom,left,right|}\",
+ *       "\ticonurl=\"btn_${2:Icon Url}\"",
+ *       "\\tshow=\"${3:Show}\"",
+ *       "\\tenable=\"${4:Enable}\"",
  *       ">",
  *       "</ch5-dpad-button>$0"
  *     ]
