@@ -6,14 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5Common } from "../../ch5-common/interfaces";
-import {
-    ICh5DpadBottomAttributes,
-    ICh5DpadCenterAttributes,
-    ICh5DpadLeftAttributes,
-    ICh5DpadRightAttributes,
-    ICh5DpadTopAttributes,
-    ICh5DpadAttributes
-} from "./index";
+import { ICh5DpadAttributes } from "./index";
 
 /**
  * @name Ch5 Dpad
@@ -25,27 +18,7 @@ import {
  * @childElements
  * [
  *   {
- *     "tagName": "ch5-dpad-button-center",
- *     "optional": true,
- *     "childElements": []
- *   },
- *   {
- *     "tagName": "ch5-dpad-button-top",
- *     "optional": true,
- *     "childElements": []
- *   },
- *   {
- *     "tagName": "ch5-dpad-button-left",
- *     "optional": true,
- *     "childElements": []
- *   },
- *   {
- *     "tagName": "ch5-dpad-button-right",
- *     "optional": true,
- *     "childElements": []
- *   },
- *   {
- *     "tagName": "ch5-dpad-button-bottom",
+ *     "tagName": "ch5-dpad-button",
  *     "optional": true,
  *     "childElements": []
  *   }
@@ -111,10 +84,5 @@ import {
  */
 export interface ICh5DpadDocumentation extends
     ICh5Common,
-    ICh5DpadAttributes,
-    ICh5DpadCenterAttributes,
-    ICh5DpadTopAttributes,
-    ICh5DpadLeftAttributes,
-    ICh5DpadRightAttributes,
-    ICh5DpadBottomAttributes {
+    ICh5DpadAttributes {
 }
