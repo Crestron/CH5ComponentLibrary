@@ -6,3 +6,5 @@
 // under which you licensed this source code.
 
 export * from "./i-ch5-dpad-attributes";
+export * from './i-ch5-dpad-button-attributes';
+export * from './i-ch5-dpad-child-base-attributes';
