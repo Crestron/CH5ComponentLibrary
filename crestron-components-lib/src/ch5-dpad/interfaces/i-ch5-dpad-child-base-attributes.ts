@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { TCh5DpadChildButtonType } from "./t-ch5-dpad";
 
 /**
  * @ignore
@@ -34,6 +35,17 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * @name iconUrl
      */
     iconUrl: string;
+
+    /**
+     * @documentation
+     * [
+     * "`type` key",
+     * "***",
+     * "The key of the button to determin which button it is."
+     * ]
+     * @name key
+     */
+     key: TCh5DpadChildButtonType;
 
     /**
      * @documentation
