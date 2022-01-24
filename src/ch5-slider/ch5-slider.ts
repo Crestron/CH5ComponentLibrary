@@ -1833,7 +1833,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		// handleSize
 		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--handle-size--' + this.handleSize);
 
-		// strech
+		// stretch
 		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--stretch--' + this.stretch);
 
 		// orientation
