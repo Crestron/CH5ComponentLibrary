@@ -48,6 +48,7 @@ metalsmith(__dirname)
     server: {
       baseDir: "dist/"
     },
+    notify: false,
     startPath: path + "/",
     port: 8080,
     files: ["src/**/*.njk", "partials/**/*.njk", "layouts/**/*.njk", "emulator-scenarios/**/*.json"]
