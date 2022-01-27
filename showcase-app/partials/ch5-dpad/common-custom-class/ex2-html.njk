@@ -1,21 +1,17 @@
 <p>
     This changes the value of the <b>sig_custom_class</b> signal to "blue-dashed-border bg1" ( see Emulator Scenario )
-    <ch5-dpad label="trigger 1" sendEventOnClick="sig_trig_class1"></ch5-dpad>
+    <ch5-button label="trigger 1" sendEventOnClick="sig_trig_class1"></ch5-button>
 </p>
 <p>
     This changes the value of the <b>sig_custom_class</b> signal to "green-dotted-border bg2" ( see Emulator Scenario )
-    <ch5-dpad label="trigger 2" sendEventOnClick="sig_trig_class2"></ch5-dpad>
+    <ch5-button label="trigger 2" sendEventOnClick="sig_trig_class2"></ch5-button>
 </p>
 <p>
     This changes the value of the <b>sig_custom_class</b> signal to "red-solid-border" ( see Emulator Scenario )
-    <ch5-dpad label="trigger 3" sendEventOnClick="sig_trig_class3"></ch5-dpad>
+    <ch5-button label="trigger 3" sendEventOnClick="sig_trig_class3"></ch5-button>
 </p>
 
 <hr>
-
-<ch5-button type="success" stretch="width" shape="rectangle" label="custom class/classes from signal" receiveStateCustomClass="sig_custom_class"></ch5-button>
-<br /><br />
-<ch5-button type="success" stretch="width" shape="rectangle" label="custom class/classes from signal and also from attr" receiveStateCustomClass="sig_custom_class" customClass="blue-dashed-border"></ch5-button>
 
 <ch5-dpad type="success" stretch="width" receiveStateCustomClass="sig_custom_class"></ch5-dpad>
 <br /><br />
