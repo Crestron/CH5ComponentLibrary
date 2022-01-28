@@ -5374,7 +5374,7 @@
               "secondary"
             ],
             "name": "type",
-            "default": "primary",
+            "default": "default",
             "hideWhen": [],
             "showWhen": [],
             "limits": []
@@ -5428,7 +5428,12 @@
               "If value is top: then, major will be on top and minor will be below it. ",
               "join+2 applies to left, join+3 applies to right, join+4 to center ."
             ],
-            "value": [],
+            "value": [
+              "top",
+              "right",
+              "bottom",
+              "left"
+            ],
             "name": "textOrientation",
             "default": "top",
             "hideWhen": [],
