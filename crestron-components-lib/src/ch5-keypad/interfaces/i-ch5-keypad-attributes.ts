@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
-import { TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadType } from "./t-ch5-keypad";
+import { TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./t-ch5-keypad";
 
 /**
  * @ignore
@@ -34,7 +34,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "If no 'type' is provided, type of 'primary' is used."
      * ]
      * @name type
-     * @default primary
+     * @default default
      */
      type: TCh5KeypadType;
 
@@ -80,7 +80,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * @name textOrientation
      * @default top
      */
-    textOrientation: string;
+    textOrientation: TCh5KeypadTextOrientation;
 
     /**
      * @name size
