@@ -108,6 +108,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	private _useContractForShowSignalValue: string = '';
 	private _useContractForCustomStyleSignalValue: string = '';
 	private _useContractForCustomClassSignalValue: string = '';
+	private _useContractForLabel: boolean = false;
+	private _useContractForIcons: boolean = false;
+	private _useContractForLabelSignalValue: string = '';
+	private _useContractForIconsSignalValue: string = '';
 
 	/**
 	 * Size of the Dpad
@@ -302,6 +306,76 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	}
 	public get useContractForShow(): boolean {
 		return this._useContractForShow;
+	}
+
+	/**
+	 * useContractForLabel specific getter-setter
+	 */
+	 public set useContractForLabel(value: boolean) {
+		this.logger.start('Ch5Dpad set useContractForLabel("' + value + '")');
+
+		const isUseContractForLabel = this.toBoolean(value);
+		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+
+		if (contractName.length === 0 || this._useContractForLabel === isUseContractForLabel) {
+			return;
+		}
+
+		this.setAttribute('useContractForLabel'.toLowerCase(), isUseContractForLabel.toString());
+		const sigVal = contractName + "Label";
+
+		const params: TCh5CreateReceiveStateSigParams = {
+			caller: this,
+			attrKey: 'useContractForLabel',
+			value: sigVal,
+			callbackOnSignalReceived: (newValue: string | boolean) => {
+				newValue = newValue.toString();
+				this.info(' subs callback for signalReceiveLabel: ', this._useContractForLabelSignalValue,
+					' Signal has value ', newValue);
+				ComponentHelper.setAttributeToElement(this, 'Label', newValue);
+			}
+		};
+
+		this.setValueForReceiveStateBoolean(params);
+		this.logger.stop();
+	}
+	public get useContractForLabel(): boolean {
+		return this._useContractForLabel;
+	}
+
+	/**
+	 * useContractForIcons specific getter-setter
+	 */
+	 public set useContractForIcons(value: boolean) {
+		this.logger.start('Ch5Dpad set useContractForIcons("' + value + '")');
+
+		const isUseContractForIcons = this.toBoolean(value);
+		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+
+		if (contractName.length === 0 || this._useContractForIcons === isUseContractForIcons) {
+			return;
+		}
+
+		this.setAttribute('useContractForIcons'.toLowerCase(), isUseContractForIcons.toString());
+		const sigVal = contractName + "Icons";
+
+		const params: TCh5CreateReceiveStateSigParams = {
+			caller: this,
+			attrKey: 'useContractForIcons',
+			value: sigVal,
+			callbackOnSignalReceived: (newValue: string | boolean) => {
+				newValue = newValue.toString();
+				this.info(' subs callback for signalReceiveIcons: ', this._useContractForIconsSignalValue,
+					' Signal has value ', newValue);
+				ComponentHelper.setAttributeToElement(this, 'Icons', newValue);
+			}
+		};
+
+		this.setValueForReceiveStateBoolean(params);
+		this.logger.stop();
+	}
+	public get useContractForIcons(): boolean {
+		return this._useContractForIcons;
 	}
 
 	/**
@@ -775,7 +849,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			"stretch",
 			"size",
 			"usecontractforenable",
-			"usecontractforshow"
+			"usecontractforshow",
+			"usecontractforlabel",
+			"usecontractforicons"
 		];
 
 		// received signals
@@ -862,6 +938,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				break;
 			case 'size':
 				this.size = newValue as TCh5DpadSize;
+				break;
+			case 'usecontractforlabel':
+				this.useContractForLabel = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				break;
+			case 'usecontractforicons':
+				this.useContractForIcons = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
 				break;
 			default:
 				super.attributeChangedCallback(attr, oldValue, newValue);
@@ -1049,6 +1131,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			ComponentHelper.setAttributeToElement(this, 'useContractForCustomStyle'.toLowerCase(), isContractNameAvailable));
 		this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
 			ComponentHelper.setAttributeToElement(this, 'useContractForCustomClass'.toLowerCase(), isContractNameAvailable));
+		this.useContractForLabel = ComponentHelper.getBoolFromString(
+			ComponentHelper.setAttributeToElement(this, 'useContractForLabel'.toLowerCase(), isContractNameAvailable));
+		this.useContractForIcons = ComponentHelper.getBoolFromString(
+			ComponentHelper.setAttributeToElement(this, 'useContractForIcons'.toLowerCase(), isContractNameAvailable));
 
 		this.logger.stop();
 	}
