@@ -52,9 +52,9 @@
                 {% include "../partials/nav.njk" %}
             </ul>
         </div>
-        <div id='center' class="main center">
-            {% include "../partials/header.njk" %}
-            <div id='content-block-section'>
+        <div id='main-center-div' class="main center">
+            <div id='content-block-section' class="vis-hide">
+                {% include "../partials/header.njk" %}
                 {% block content %}{% endblock %}
             </div>
         </div>

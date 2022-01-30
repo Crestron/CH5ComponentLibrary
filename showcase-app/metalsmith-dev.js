@@ -6,6 +6,9 @@ const inplace = require('metalsmith-in-place');
 const static = require('metalsmith-static');
 const sass = require('metalsmith-sass');
 const browserSync = require('metalsmith-browser-sync');
+const fs = require('fs');
+
+const menu = JSON.parse(fs.readFileSync('./src/menu.json'));
 
 nunjucks.configure('src', { watch: false, noCache: true });
 
@@ -23,7 +26,8 @@ metalsmith(__dirname)
   .metadata({
     "title": "Showcase App",
     "description": "Showcase App for Crestron Components",
-    "siteurl": "/" + path + "/"
+    "siteurl": "/" + path + "/",
+    "menuItems": menu.menuItems
   })
   .use(assets({
     "source": "./node_modules/@crestron/ch5-crcomlib/build_bundles/umd/",
@@ -48,10 +52,9 @@ metalsmith(__dirname)
     server: {
       baseDir: "dist/"
     },
-    notify: false,
     startPath: path + "/",
     port: 8080,
-    files: ["src/**/*.njk", "partials/**/*.njk", "layouts/**/*.njk", "emulator-scenarios/**/*.json"]
+    files: ["src/**/*", "partials/**/*.njk", "layouts/**/*.njk", "emulator-scenarios/**/*.json"]
   }))
   .build(function (err, files) {
     if (err) { throw err; }

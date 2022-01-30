@@ -5,86 +5,101 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-(function($, crLib) {
+(function ($, crLib) {
     var LOCAL_STORAGE_THEME_KEY = 'showcase-app-theme';
 
-    enableEditableCode();
-    updateActiveMenuEntry();
-    enableLoadConfigBtn();
-    enableScenarioBtns();
-    enableCodePreviewBtn();
-    enableChangeTheme();
-    enableCodeTabs();
-    enableOpenCloseEmulatorScenario();
-    enableOpenCloseComponentConfig();
-    enableMenuFiltering();
+    function pageInit() {
+        enableEditableCode();
+        updateActiveMenuEntry();
+        enableLoadConfigBtn();
+        enableScenarioBtns();
+        enableCodePreviewBtn();
+        enableChangeTheme();
+        enableCodeTabs();
+        enableOpenCloseEmulatorScenario();
+        enableOpenCloseComponentConfig();
+        enableMenuFiltering();
 
-    if (crLib) {
-        window.bridgeReceiveIntegerFromNative = crLib.bridgeReceiveIntegerFromNative;
-        window.bridgeReceiveBooleanFromNative = crLib.bridgeReceiveBooleanFromNative;
-        window.bridgeReceiveStringFromNative = crLib.bridgeReceiveStringFromNative;
-        window.bridgeReceiveObjectFromNative = crLib.bridgeReceiveObjectFromNative;
+        if (crLib) {
+            window.bridgeReceiveIntegerFromNative = crLib.bridgeReceiveIntegerFromNative;
+            window.bridgeReceiveBooleanFromNative = crLib.bridgeReceiveBooleanFromNative;
+            window.bridgeReceiveStringFromNative = crLib.bridgeReceiveStringFromNative;
+            window.bridgeReceiveObjectFromNative = crLib.bridgeReceiveObjectFromNative;
+        }
+
+        preloadConfig();
+        preloadScenarioAndPreviews(); // preloads scenario, runs it ( if it has an onStart key) and preloads the previews
     }
 
-    preloadConfig();
-    preloadScenarioAndPreviews(); // preloads scenario, runs it ( if it has an onStart key) and preloads the previews
+    function runPageLoadCode() {
+        enableEditableCode();
+        // updateActiveMenuEntry();
+        enableLoadConfigBtn();
+        enableScenarioBtns();
+        enableCodePreviewBtn();
+        // enableChangeTheme();
+        enableCodeTabs();
+        enableOpenCloseEmulatorScenario();
+        enableOpenCloseComponentConfig();
+        enableMenuFiltering();
 
-/* ********** Function definitions ***************** */
-    function enableEditableCode(){
-        $('.editable-code').each(function (i,el) {
+        if (crLib) {
+            window.bridgeReceiveIntegerFromNative = crLib.bridgeReceiveIntegerFromNative;
+            window.bridgeReceiveBooleanFromNative = crLib.bridgeReceiveBooleanFromNative;
+            window.bridgeReceiveStringFromNative = crLib.bridgeReceiveStringFromNative;
+            window.bridgeReceiveObjectFromNative = crLib.bridgeReceiveObjectFromNative;
+        }
+
+        preloadConfig();
+        preloadScenarioAndPreviews(); // preloads scenario, runs it ( if it has an onStart key) and preloads the previews
+    }
+
+
+    /* ********** Function definitions ***************** */
+    function enableEditableCode() {
+        $('.editable-code').each(function (i, el) {
             var mode = $(el).data('language');
             var editor = ace.edit(el);
-            editor.getSession().setMode('ace/mode/'+mode);
-            // editor.setTheme('ace/theme/twilight');
+            editor.getSession().setMode('ace/mode/' + mode);
             editor.setTheme('ace/theme/monokai');
             editor.setAutoScrollEditorIntoView(true);
             editor.setOption("minLines", 5);
             editor.setOption("maxLines", 100);
             editor.setFontSize("14px");
-            $(el).data('editor',editor);
+            $(el).data('editor', editor);
         });
     }
     function updateActiveMenuEntry() {
-        $('.menu').on('click','a',function(){
+        setMenuSelect();
+        $('.menu').on('click', 'a', function () {
             var clickedEl = $(this);
             var menuEl = $(clickedEl).parents('.menu');
 
             if (menuEl && menuEl.length) {
-                menuEl.find('is-active').removeClass('is-active');
+                menuEl.find('.is-active').removeClass('is-active');
             }
             clickedEl.addClass('is-active');
-
+            setMenuSelect();
         });
-        var path=document.location.pathname;
-        if (path.length<=1){
-            path = '/index.html';
-        }
-        // This will need to be adjusted if we have cases with the same pathname in the menu
-        var link = $('.menu-list a[href$="' + path + '"]');
-        link.not('.menu-label').addClass('is-active');
-        link.parents('.menu-list').addClass('is-active');
-        // link.parents('ul').siblings('.menu-label').addClass('is-active');
     }
 
-    function enableOpenCloseEmulatorScenario(){
-        $(".emulator-scenario").on("click",".message-header",function(){
-            var el=$(this);
-            var sc=el.parents('.emulator-scenario');
+    function enableOpenCloseEmulatorScenario() {
+        $(".emulator-scenario").on("click", ".message-header", function () {
+            var el = $(this);
+            var sc = el.parents('.emulator-scenario');
             sc.toggleClass('closed')
         });
     }
 
-    function enableOpenCloseComponentConfig(){
-        $(".component-configuration").on("click",".message-header",function(){
-            var el=$(this);
-            var sc=el.parents('.component-configuration');
+    function enableOpenCloseComponentConfig() {
+        $(".component-configuration").on("click", ".message-header", function () {
+            var el = $(this);
+            var sc = el.parents('.component-configuration');
             sc.toggleClass('closed')
         });
     }
 
     function setTheme(themeToEnable) {
-        console.log('setTheme("'+themeToEnable+'")');
-
         toggleLoading('loading');
 
         window.activeTheme = themeToEnable;
@@ -92,7 +107,7 @@
 
         var existingThemeStyle = document.querySelectorAll('.theme-style');
 
-        $.get(window.availableThemes[themeToEnable].href, function(data) {
+        $.get(window.availableThemes[themeToEnable].href, function (data) {
             var style = document.createElement('style');
             style.id = themeToEnable;
             style.classList.add('theme-style')
@@ -103,58 +118,54 @@
             })
             document.querySelector('head').append(style);
             toggleLoading('loaded');
-        }).fail(function() {
+        }).fail(function () {
             toggleLoading('error');
         })
     }
 
     function toggleLoading(state) {
-
         var loadingSpinner = $('.theme-changer-loading');
         var loaded = $('.theme-changer-loaded');
         var errorFlag = $('.theme-changer-error');
 
-        if(state === 'loaded') {
+        if (state === 'loaded') {
             hideLoading(loadingSpinner, errorFlag, loaded);
-        } else if(state === 'loading') {
+        } else if (state === 'loading') {
             showLoading(loadingSpinner, errorFlag, loaded);
-        } else if(state === 'error') {
-            hideLoading(loadingSpinner,errorFlag, loaded);
+        } else if (state === 'error') {
+            hideLoading(loadingSpinner, errorFlag, loaded);
             showErrorFlag(errorFlag, loaded);
         }
     }
 
     function showLoading(loadingSpinner, errorFlag, loaded) {
-        errorFlag.css({'display': 'none'});
-        loaded.css({'display': 'none'})
-        loadingSpinner.css({'display': 'inline-block'});
+        errorFlag.css({ 'display': 'none' });
+        loaded.css({ 'display': 'none' })
+        loadingSpinner.css({ 'display': 'inline-block' });
     }
 
     function hideLoading(loadingSpinner, errorFlag, loaded) {
-        errorFlag.css({'display': 'none'});
-        loaded.css({'display': 'inline-block'});
-        loadingSpinner.css({'display': 'none'});
+        errorFlag.css({ 'display': 'none' });
+        loaded.css({ 'display': 'inline-block' });
+        loadingSpinner.css({ 'display': 'none' });
     }
 
     function showErrorFlag(errorFlag, loaded) {
-        loaded.css({'display': 'none'});
-        errorFlag.css({'display': 'inline-block'});
+        loaded.css({ 'display': 'none' });
+        errorFlag.css({ 'display': 'inline-block' });
     }
 
     function enableChangeTheme() {
-
         var themeChanger = $('.theme-changer');
         var initialTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY);
-        console.log('initial theme - ' + initialTheme);
         if (initialTheme === null
-            || Object.keys(window.availableThemes).indexOf(initialTheme)<0){
+            || Object.keys(window.availableThemes).indexOf(initialTheme) < 0) {
             initialTheme = 'highContrast';
         }
         setTheme(initialTheme);
         themeChanger.val(initialTheme);
         themeChanger.show();
         themeChanger.on('change', function () {
-            console.log('changed theme');
             var ch5ThemeName = $(this).val();
             setTheme(ch5ThemeName);
         });
@@ -208,22 +219,21 @@
                 previewHtml.empty().append(t.content);
                 previewJs.empty().append(tJs);
             }
-
         });
     }
 
     function enableScenarioBtns() {
         var emulator = {};
-        $(".btn-load-scenario").on('click',function(){
-            var currentEl=$(this);
+        $(".btn-load-scenario").on('click', function () {
+            var currentEl = $(this);
             var scenario = currentEl.parents('.emulator-scenario').find('.editable-code.json');
             var j = JSON.parse(scenario.data('editor').getValue());
-    
+
             crLib.Ch5Emulator.clear();
             shouldClearSignals();
             emulator = crLib.Ch5Emulator.getInstance();
             emulator.loadScenario(j);
-    
+
             console.log('Emulator scenario logic configuration has been loaded');
             // reload all examples on page
             $('.btn-preview').each(function (index, element) {
@@ -231,12 +241,12 @@
             });
         });
 
-        $(".btn-run-scenario").on('click',function(){
+        $(".btn-run-scenario").on('click', function () {
             console.log('Executing keys/states defined on onStart ...');
             emulator.run();
         });
     }
-    
+
     // Workaround needed for data-ch5-i18n, the problem is solely with the showcase app
     function shouldClearSignals() {
         if (window.location.pathname !== '/multi-language/language-change.html') {
@@ -245,38 +255,58 @@
     }
 
     function enableLoadConfigBtn() {
-        $(".btn-load-config").on('click',function(){
-            var currentEl=$(this);
+        $(".btn-load-config").on('click', function () {
+            var currentEl = $(this);
             var configJsonData = currentEl.parents('.component-configuration').find('.editable-code.json');
             var j = JSON.parse(configJsonData.data('editor').getValue());
             emulator = crLib.Ch5Emulator.getInstance();
             crLib.Ch5Config.loadConfig(j);
             console.log('Component configuration has been loaded');
         });
-
     }
 
-    function preloadScenarioAndPreviews(){
+    function preloadScenarioAndPreviews() {
         $('.btn-load-scenario').click();
         $('.btn-run-scenario').click();
         $('.btn-preview').click();
     }
 
-    function preloadConfig(){
+    function preloadConfig() {
         $('.btn-load-config').click();
+    }
+
+    function setMenuSelect() {
+        let path = document.location.pathname;
+        if (path.trim().length === 0) {
+            path = '/index.html';
+        } else {
+            if (!path.trim().toLowerCase().endsWith(".html")) {
+                path += 'index.html';
+            }
+        }
+        // This will need to be adjusted if we have cases with the same pathname in the menu
+        let link = $(".menu-list a[onclick='loadPage(\"" + path + "\")']");
+        link.not('.menu-label').addClass('is-active');
+        link.parents('.menu-list').addClass('is-active');
+        // link.not('.menu-label')[0].scrollIntoView();
+        if (link.parents('.menu-list') && link.parents('.menu-list').length > 0 && link.parents('.menu-list')[0] && link.parents('.menu-list')[0].previousElementSibling) {
+            link.parents('.menu-list')[0].previousElementSibling.scrollIntoView();
+        }
+        
+        document.getElementById('content-block-section').scrollIntoView();
+        // document.getElementById('main-center-div').scrollIntoView();
     }
 
     function enableMenuFiltering() {
         var filterElement = $('#search-term');
-
-        filterElement.on('keyup',function(){
-            var filterTerm='';
+        filterElement.on('keyup', function () {
+            var filterTerm = '';
             if (filterElement) {
                 filterTerm = $(this).val().toLowerCase();
             }
 
-            if (filterTerm!==''){
-                $(".side-menu .menu-list").attr('style','display:block');
+            if (filterTerm !== '') {
+                $(".side-menu .menu-list").attr('style', 'display:block');
                 $("p.menu-label, .menu-list li").filter(function () {
                     var isShown = false;
                     if ($(this).text().toLowerCase().indexOf(filterTerm) > -1) {
@@ -293,26 +323,121 @@
                     $(this).toggle(isShown);
                 });
             } else {
-                $(".side-menu .menu-list").attr('style','');
-                $(".menu-list li").filter(function(){
+                $(".side-menu .menu-list").attr('style', '');
+                $(".menu-list li").filter(function () {
                     $(this).toggle(true);
                 });
-                $('p.menu-label').filter(function(){
+                $('p.menu-label').filter(function () {
                     $(this).toggle(true);
                 });
             }
         });
     }
 
-})(jQuery,CrComLib);
+    /**
+     * Getting the local file
+     * @param url 
+     * @return Promise with content from URL  
+     */
+    function asyncLoadContent(url) {
+        return new Promise((resolve, reject) => {
+            // Standard XHR to load an image
+            const request = new XMLHttpRequest();
+            request.open("GET", url);
+            // When the request loads, check whether it was successful
+            request.onload = () => {
+                if (request.status < 300 && request.response !== null
+                    && (request.responseType === "" || request.responseType === "text")) {
+                    // If successful, resolve the promise by passing back the request response
+                    resolve(request.responseText);
+                } else {
+                    // If it fails, reject the promise with a error message
+                    reject(`load failed with status ${request.status}, statusText ${request.statusText}, responseType ${request.responseType}`);
+                }
+            };
+            request.onerror = () => {
+                // Also deal with the case when the entire request fails to begin with
+                // This is probably a network error, so reject the promise with an appropriate message
+                reject("There was a network error.");
+            };
+            // Send the request
+            request.send();
+        });
+    }
 
-(function($){
-    $.fn.disableSelection = function() {
+    function loadPage(url) {
+        try {
+            if (document.getElementById('openSidebarMenu')) {
+                document.getElementById('openSidebarMenu').checked = false;
+            }
+            history.pushState(null, null, url);
+            router(url);
+        } catch (e) {
+            console.warn(e);
+        }
+    }
+
+    function stringToHTML(str) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(str, 'text/html');
+        return doc;
+    }
+
+    async function router(url) {
+        if (url) {
+            const responseHTML = stringToHTML(await asyncLoadContent(url));
+            if (responseHTML.getElementsByTagName("title") &&
+                responseHTML.getElementsByTagName("title").length > 0 &&
+                isValidInput(responseHTML.getElementsByTagName("title")[0].innerText)) {
+                document.title = responseHTML.getElementsByTagName("title")[0].innerText;
+            } else {
+                document.title = "Showcase Application";
+            }
+            document.getElementById("content-block-section").innerHTML = responseHTML.getElementById("content-block-section").innerHTML;
+        } else {
+            document.title = "Showcase Application";
+        }
+        runPageLoadCode();
+    }
+
+    function isValidInput(input) {
+        input = input.trim();
+        if (input === "" || input === null || input === undefined) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    async function pageInitialLoad() {
+        router(location.pathname);
+        var menuEl = $('.menu');
+
+        if (menuEl && menuEl.length) {
+            menuEl.find('.is-active').removeClass('is-active');
+        }
+        setMenuSelect();
+    }
+
+    window.addEventListener("popstate", pageInitialLoad);
+    document.addEventListener("DOMContentLoaded", () => {
+        pageInit();
+        pageInitialLoad();
+        setTimeout(() => {
+            document.getElementById("content-block-section").classList.remove("vis-hide");
+        }, 300);
+    });
+
+    window.loadPage = loadPage;
+
+})(jQuery, CrComLib);
+
+(function ($) {
+    $.fn.disableSelection = function () {
         return this.attr('unselectable', 'on')
             .css('user-select', 'none')
             .on('selectstart', false);
     };
-    $.fn.enableSelection = function() {
+    $.fn.enableSelection = function () {
         return this.attr('unselectable', 'off')
             .css('user-select', 'auto')
             .on('selectstart', () => { return true; });
@@ -321,3 +446,4 @@
 
 $("div.content.preview").disableSelection();
 $("ch5-textinput").enableSelection();
+
