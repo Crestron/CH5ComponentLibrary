@@ -1,7 +1,10 @@
 {% raw %}
-(function($, CrComLib){
-    $('#update-scroll-h').on('click', () => {
-        $('#scroll-h-ex')[0].setAttribute('panelScrollHeight', '300px');
+(function () {
+    const updateButton = document.getElementById('update-scroll-h');
+    const ch5select = document.getElementById('scroll-h-ex');
+
+    updateButton.addEventListener('click', () => {
+        ch5select.setAttribute('panelScrollHeight', '300px');
     });
-})(jQuery,CrComLib);
+})()
 {% endraw %}

@@ -1,7 +1,6 @@
 {% raw %}
-(function($, CrComLib){
-
-    const select1 = $('#volume1')[0];
+(function () {
+    const select1 = document.getElementById('volume1');
     const ex1LogPrefix = '[Example ' + select1.id + '] ';
     select1.addEventListener('change', (e) => {
         console.log(ex1LogPrefix + 'change event received', e.detail);
@@ -23,7 +22,7 @@
         console.log(ex1LogPrefix + 'blur event received');
     });
 
-    const select2 = $('#multiselect_ex')[0];
+    const select2 = document.getElementById('multiselect_ex');
     const ex2LogPrefix = '[Example ' + select2.id + '] ';
     select2.addEventListener('dirty', (e) => {
         console.log(ex2LogPrefix + 'dirty event received');
@@ -40,15 +39,14 @@
         console.log(ex2LogPrefix + 'blur event received');
     });
 
-    let submitBtn = $('#submit-btn')[0];
+    let submitBtn = document.getElementById('submit-btn');
     submitBtn.addEventListener('click', (e) => {
         select2.submit();
     });
 
-    let resetBtn = $('#reset-btn')[0];
+    let resetBtn = document.getElementById('reset-btn');
     resetBtn.addEventListener('click', (e) => {
         select2.reset();
     });
-
-})(jQuery,CrComLib);
+})()
 {% endraw %}

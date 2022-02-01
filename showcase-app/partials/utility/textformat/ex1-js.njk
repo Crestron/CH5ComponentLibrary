@@ -1,14 +1,12 @@
 {% raw %}
-(function($, CrComLib){
-
-    var code1El = $('#code1');
-    var res1El = $('#res1');
-
-    var city="New York";
-
-    var res1Val = CrComLib.textformat('City: {1}',city);
-    code1El.text("var city='New York';CrComLib.textformat('City: {1}',city);");
-    res1El.text(res1Val);
+(function () {
+    const code1El = document.getElementById('code1');
+    const res1El = document.getElementById('res1');
     
-})(jQuery,CrComLib);
+    const city = 'New York';
+    
+    const res1Val = CrComLib.textformat('City: {1}',city);
+    code1El.innerText = "var city='New York';CrComLib.textformat('City: {1}',city);";
+    res1El.innerText = res1Val;
+})()
 {% endraw %}
