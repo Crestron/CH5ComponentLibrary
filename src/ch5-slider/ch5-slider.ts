@@ -1246,6 +1246,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		this._onSliderChange = this._onSliderChange.bind(this);
 		this._stopRcbAnimation = this._stopRcbAnimation.bind(this);
 		this._onMouseLeave = this._onMouseLeave.bind(this);
+		this._onTouchMoveEnd = this._onTouchMoveEnd.bind(this);
+		this._onTouchStart = this._onTouchStart.bind(this);
+
 
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
@@ -1872,6 +1875,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			noUiHandle.addEventListener('focus', this._onFocus);
 			noUiHandle.addEventListener('blur', this._onBlur);
 			this._elSlider.addEventListener('mouseleave', this._onMouseLeave);
+			this._elSlider.addEventListener('touchmove', this._onMouseLeave);;
 		}
 	}
 
@@ -2077,6 +2081,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 */
 	private _onSliderStart(value: (number | string)[], handle: number): void {
 		this.info('Ch5Slider._onSliderStart()');
+		this._elSlider.removeEventListener('touchmove', this._onTouchMoveEnd);
+		this._elSlider.addEventListener('touchmove', this._onMouseLeave);
 
 		/**
 		 * Fired when the component's handle start to slide.
@@ -2236,48 +2242,80 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 	}
 
+	private _onTouchMoveEnd(inEvent: any): void {
+		inEvent.preventDefault();
+		inEvent.stopPropagation();
+	}
+
+	private _onTouchStart() {
+		this._elSlider.removeEventListener('touchmove', this._onTouchMoveEnd);
+	}
+
 	_onMouseLeave(inEvent: any): void {
 		const { offsetX, offsetY } = this._getAbsoluteOffsetFromBodyForSlider();
 		const noUiHandle = this._elSlider.querySelector('.noUi-handle') as HTMLElement;
 
-		if (this._orientation === 'vertical') {
-			const maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
-			const maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-			const maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
-			const maxOffestBottom = offsetX + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+		let eventOffsetX = null;
+		let eventOffsetY = null;
+		let maxOffsetLeft = 0;
+		let maxOffsetRight = 0;
+		let maxOffestTop = 0;
+		let maxOffestBottom = 0;
 
-			if (inEvent.clientX < maxOffsetLeft ||
-				inEvent.clientX > maxOffsetRight ||
-				inEvent.clientY < maxOffestTop ||
-				inEvent.clientY > maxOffestBottom
-			) {
-				this.dispatchEvent(
-					this.blurEvent = new CustomEvent('mouseup', {
-						bubbles: true,
-						cancelable: false,
-					})
-				);
 
-				noUiHandle.blur();
+		if (inEvent.type === 'touchmove') {
+			const touch = inEvent.touches[0] || inEvent.changedTouches[0];
+			eventOffsetX = touch.clientX;
+			eventOffsetY = touch.clientY;
+
+			if (this._orientation === 'vertical') {
+				maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+			} else {
+				maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestBottom = offsetX + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 			}
-		} else {
-			const maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
-			const maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-			const maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
-			const maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 
-			if (inEvent.clientX < maxOffsetLeft ||
-				inEvent.clientX > maxOffsetRight ||
-				inEvent.clientY < maxOffestTop ||
-				inEvent.clientY > maxOffestBottom
-			) {
+		} else {
+			eventOffsetX = inEvent.clientX;
+			eventOffsetY = inEvent.clientY;
+			if (this._orientation === 'vertical') {
+				maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestBottom = offsetX + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+			} else {
+				maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+			}
+		}
+
+		if (eventOffsetX < maxOffsetLeft ||
+			eventOffsetX > maxOffsetRight ||
+			eventOffsetY < maxOffestTop ||
+			eventOffsetY > maxOffestBottom
+		) {
+			if (inEvent.type === 'touchmove') {
+				this._elSlider.addEventListener('touchmove', this._onTouchMoveEnd);
+				this.dispatchEvent(
+					this.blurEvent = new CustomEvent('touchend', {
+						bubbles: false,
+						cancelable: false,
+					})
+				);
+			} else {
 				this.dispatchEvent(
 					this.blurEvent = new CustomEvent('mouseup', {
 						bubbles: true,
 						cancelable: false,
 					})
 				);
-
 				noUiHandle.blur();
 			}
 		}
