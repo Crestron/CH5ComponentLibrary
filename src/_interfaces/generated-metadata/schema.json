@@ -2976,41 +2976,6 @@
           },
           {
             "documentation": [
-              "`useContractForLabel` attribute",
-              "***",
-              "If this value is set to true then the value received from the contract will be considered for the label of the center button.",
-              "If the contract name does not exist, by default this becomes false. ",
-              "If this value is set to true then the value received from the contract will be considered "
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "useContractForLabel",
-            "default": "false",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
-              "`useContractForIcons` attribute",
-              "***",
-              "If the contract name does not exist, by default this becomes false. ",
-              "If this value is set to true then the value received from the contract will be considered for remaining ch5-dpad button iconClass and iconUrl attributes."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "useContractForIcons",
-            "default": "false",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": []
-          },
-          {
-            "documentation": [
               "`sendEventOnClickStart` attribute",
               "***",
               "Only applies if contractName is not provided, if this parameter is supplied,",
