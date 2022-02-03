@@ -301,7 +301,7 @@
       "label": "CH5 DPad"
     },
     {
-      "url": "ch5-keypad/ch5-keypad-showextrabutton.html",
+      "url": "ch5-keypad/ch5-keypad-types.html",
       "children": [
         {
           "url": "ch5-keypad/ch5-keypad-styling-sass-vars.html",
