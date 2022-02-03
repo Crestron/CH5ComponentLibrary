@@ -269,14 +269,6 @@
               "label": "UseContractForEnable"
             },
             {
-              "url": "ch5-dpad/ch5-dpad-usecontractforicons.html",
-              "label": "UseContractForIcons"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-usecontractforlabel.html",
-              "label": "UseContractForLabel"
-            },
-            {
               "url": "ch5-dpad/ch5-dpad-usecontractforshow.html",
               "label": "UseContractForShow"
             }
