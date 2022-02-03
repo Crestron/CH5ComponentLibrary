@@ -144,33 +144,6 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	/**
 	 * @documentation
 	 * [
-	 * "`useContractForLabel` attribute",
-	 * "***",
-	 * "If this value is set to true then the value received from the contract will be considered for the label of the center button.",
-	 * "If the contract name does not exist, by default this becomes false. ",
-	 * "If this value is set to true then the value received from the contract will be considered "
-	 * ]
-	 * @name useContractForLabel
-	 * @default false
-	 */
-	 useContractForLabel: boolean;
-
-	/**
-	 * @documentation
-	 * [
-	 * "`useContractForIcons` attribute",
-	 * "***",
-	 * "If the contract name does not exist, by default this becomes false. ",
-	 * "If this value is set to true then the value received from the contract will be considered for remaining ch5-dpad button iconClass and iconUrl attributes."
-	 * ]
-	 * @name useContractForIcons
-	 * @default false
-	 */
-	useContractForIcons: boolean;
-
-	/**
-	 * @documentation
-	 * [
 	 * "`sendEventOnClickStart` attribute",
 	 * "***",
 	 * "Only applies if contractName is not provided, if this parameter is supplied,",
