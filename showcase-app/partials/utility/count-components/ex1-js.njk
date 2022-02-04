@@ -1,9 +1,9 @@
 {% raw %}
 (function () {
-    var code1El = document.getElementById('code1');
-    var res1El = document.getElementById('res1');
+    const code1El = document.getElementById('code1');
+    const res1El = document.getElementById('res1');
 
-    var res1Val = CrComLib.countNumberOfCh5Components(document.getElementById('my-container'));
+    const res1Val = CrComLib.countNumberOfCh5Components(document.getElementById('my-container'));
     code1El.innerText = "CrComLib.countNumberOfCh5Components(document.getElementById('my-container'))";
     res1El.innerText = JSON.stringify(res1Val, null, 2);
 })();
