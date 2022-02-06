@@ -23,6 +23,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    *  "The number of items in a list. The max value is 1000."
    * ]
    * @default 1
+   * @attributeType "integer"
    */
   size: number | null;
 
@@ -38,6 +39,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name orientation
    * @default vertical
+   * @attributeType "string"
    */
   orientation: TCh5ListElementOrientation | null;
 
@@ -52,6 +54,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name bufferamount
    * @default 0
+   * @attributeType "integer"
    */
   bufferAmount: number | null;
 
@@ -66,6 +69,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Each list item must have the same height."
    * ]
    * @name itemheight
+   * @attributeType "string"
    */
   itemHeight: string | null;
 
@@ -81,6 +85,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Each list item must have the same width."
    * ]
    * @name itemwidth
+   * @attributeType "string"
    */
   itemWidth: string | null;
 
@@ -93,6 +98,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The min width of the list container."
    * ]
    * @name minwidth
+   * @attributeType "string"
    */
   minWidth: string | null;
 
@@ -105,6 +111,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The max width of the list container."
    * ]
    * @name maxwidth
+   * @attributeType "string"
    */
   maxWidth: string | null;
 
@@ -117,6 +124,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The min height of the list container."
    * ]
    * @name minheight
+   * @attributeType "string"
    */
   minHeight: string | null;
 
@@ -129,6 +137,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The max height of the list container."
    * ]
    * @name maxheight
+   * @attributeType "string"
    */
   maxHeight: string | null;
 
@@ -143,6 +152,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * @name scrolltotime
    * @default 500ms
    * @limits [{"min": 0, "max": 1000}]
+   * @attributeType "integer"
    */
   scrollToTime: number;
 
@@ -155,6 +165,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The pattern that will be replaced with the id from the list items iteration. ",
    * "Example: {{ idx }}"
    * ]
+   * @attributeType "string"
    */
   indexId: string | null;
 
@@ -167,6 +178,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name scrollbar
    * @default false
+   * @attributeType "boolean"
    */
   scrollbar: boolean;
 
@@ -182,6 +194,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name pagedswipe
    * @default false
+   * @attributeType "boolean"
    */
   pagedSwipe: boolean;
 
@@ -199,6 +212,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name endless
    * @default false
+   * @attributeType "boolean"
    */
   endless: boolean;
 
@@ -211,6 +225,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Represents the size of the list received from Native."
    * ]
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "join"
    */
   receiveStateSize: string | null | undefined;
 
@@ -225,6 +240,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "to the 10th element."
    * ]
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "join"
    */
   receiveStateScrollTo: string | null | undefined;
 
@@ -237,6 +253,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Represents the template variables that are received from Native."
    * ]
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   receiveStateTemplateVars: string | null | undefined;
 }

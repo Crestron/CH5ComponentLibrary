@@ -30,6 +30,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "* - alphanumeric character"
    * ]
    * @name mask
+   * @attributeType "string"
    */
   mask: string;
 
@@ -45,6 +46,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "version": "1.0.0",
    * "description": "This attribute is deprecated, please use 'icon' attribute."
    * }
+   * @attributeType "iconClass"
    */
   iconClass: string;
 
@@ -56,6 +58,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "The icon to be shown. Its either prefixed or suffixed based on the iconposition attribute."
    * ]
    * @name icon
+   * @attributeType "string"
    */
    icon: string;
 
@@ -67,6 +70,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Provides the label for the input on left top corner of the control."
    * ]
    * @name label
+   * @attributeType "string"
    */
   label: string;
 
@@ -78,6 +82,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Provides the placeholder for the input. This shares the default behavior of the input HMTL element."
    * ]
    * @name placeholder
+   * @attributeType "string"
    */
   placeholder: string;
 
@@ -96,6 +101,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name iconposition
    * @default first
+   * @attributeType "string"
    */
   iconPosition: TCh5TextInputIconPosition;
 
@@ -109,6 +115,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name type
    * @default text
+   * @attributeType "string"
    */
   inputType: TCh5TextInputType;
 
@@ -123,6 +130,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name minlength
    * @default 0
    * @limits [{"min": 0, "max": 99}]
+   * @attributeType "integer"
    */
   minLength: number;
 
@@ -137,6 +145,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name maxlength
    * @default 0
    * @limits [{"min": 0, "max": 99}]
+   * @attributeType "integer"
    */
   maxLength: number;
 
@@ -152,6 +161,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name minvalue
    * @default 0
    * @limits [{"min": 0, "max": 99}]
+   * @attributeType "integer"
    */
   minValue: number;
 
@@ -168,6 +178,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name maxvalue
    * @default 0
    * @limits [{"min": 0, "max": 99}]
+   * @attributeType "integer"
    */
   maxValue: number;
 
@@ -181,6 +192,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name size
    * @default regular
+   * @attributeType "string"
    */
   size: TCh5TextInputSize;
 
@@ -197,6 +209,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name stretch
    * @default fixed
+   * @attributeType "string"
    */
   stretch: TCh5TextInputStretch;
 
@@ -214,6 +227,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name text-transform
    * @default none
+   * @attributeType "string"
    */
   textTransform: TCh5TextInputTextTransform;
 
@@ -227,6 +241,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name scaling
    * @default false
+   * @attributeType "boolean"
    */
   scaling: boolean;
 
@@ -239,6 +254,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name receivestatefocus
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   receiveStateFocus: string;
 
@@ -251,6 +267,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   receiveStateValue: string;
 
@@ -263,6 +280,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnChange: string;
 
@@ -275,6 +293,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name sendeventonfocus
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnFocus: string;
 
@@ -287,6 +306,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name sendeventonblur
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnBlur: string;
 }

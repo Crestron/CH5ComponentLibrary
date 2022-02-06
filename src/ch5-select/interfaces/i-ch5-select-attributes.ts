@@ -25,6 +25,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * @name size
    * @default 1
    * @limits [{"min": 1, "max": 30}]
+   * @attributeType "string"
    */
   size: string | number;
 
@@ -41,6 +42,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
+   * @attributeType "string"
    */
   iconPosition: TCh5SelectIconPosition;
 
@@ -54,6 +56,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name selectedvalue
    * @default -1
+   * @attributeType "string"
    */
   selectedValue: string | number;
 
@@ -68,6 +71,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * @name panelscrollheight
    * @default 0
    * @limits [{"min": 0, "max": 99}]
+   * @attributeType "integer"
    */
   panelScrollHeight: number;
 
@@ -79,6 +83,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "The min width of the selection container."
    * ]
    * @name minwidth
+   * @attributeType "integer"
    */
   minWidth: string | null;
 
@@ -90,6 +95,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "The max width of the selection container."
    * ]
    * @name maxwidth
+   * @attributeType "string"
    */
   maxWidth: string | null;
 
@@ -101,6 +107,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "The min height of the selection container."
    * ]
    * @name minheight
+   * @attributeType "string"
    */
   minHeight: string | null;
 
@@ -112,6 +119,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "The max height of the selection container."
    * ]
    * @name maxheight
+   * @attributeType "string"
    */
   maxHeight: string | null;
 
@@ -126,6 +134,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name mode
    * @default plain
+   * @attributeType "string"
    */
   mode: TCh5SelectMode;
 
@@ -139,6 +148,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
+   * @attributeType "string"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -154,6 +164,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name signalvaluesynctimeout
    * @default 1500
+   * @attributeType "integer"
    */
   signalValueSyncTimeout: string | number;
 
@@ -167,6 +178,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "surrounded by {{ }} delimiters."
    * ]
    * @name indexid
+   * @attributeType "string"
    *
    */
   indexId: string | null;
@@ -179,6 +191,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Showed when no items are selected."
    * ]
    * @name noneselectedprompt
+   * @attributeType "string"
    */
   noneSelectedPrompt: string | null;
 
@@ -192,6 +205,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name multiselect
    * @default false
+   * @attributeType "boolean"
    *
    */
   multiselect: boolean;
@@ -207,6 +221,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name resize
    * @default false
+   * @attributeType "boolean"
    *
    */
   resize: boolean;
@@ -219,6 +234,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Runs when a clean event is initiated."
    * ]
    * @name onclean
+   * @attributeType "string"
    */
   onclean: {};
 
@@ -230,6 +246,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
+   * @attributeType "string"
    */
   ondirty: {};
 
@@ -244,6 +261,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   receiveStateValue: string | null;
 
@@ -256,6 +274,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatesize
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "join"
    */
   receiveStateSize: string | null;
 
@@ -268,6 +287,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatetemplatevars
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   receiveStateTemplateVars: string | null;
 
@@ -280,6 +300,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonfocus
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnFocus: string | null;
 
@@ -293,7 +314,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   *
+   * @attributeType "join"
    */
   sendEventOnChange: string | null;
 }

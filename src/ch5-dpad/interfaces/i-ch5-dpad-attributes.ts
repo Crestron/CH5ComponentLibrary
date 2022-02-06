@@ -21,6 +21,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "Defines the primary contract name to derive the component's contract details."
 	 * ]
 	 * @name contractName
+	 * @attributeType "string"
 	 */
 	contractName: string;
 
@@ -35,6 +36,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name type
 	 * @default default
+	 * @attributeType "string"
 	 */
 	type: TCh5DpadType;
 
@@ -47,6 +49,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name shape
 	 * @default plus
+	 * @attributeType "string"
 	 */
 	shape: TCh5DpadShape;
 
@@ -63,6 +66,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "for the shapes of plus and circle)."
 	 * ]
 	 * @name stretch
+	 * @attributeType "string"
 	 */
 	stretch: TCh5DpadStretch | null;
 
@@ -75,6 +79,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 *  "Overrides the appearance of the dpad with alternative CSS that is defined in classes defined with ch5-dpad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
 	 * ]
 	 * @default regular
+	 * @attributeType "string"
 	 */
 	size: TCh5DpadSize;
 
@@ -92,6 +97,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name useContractForEnable
 	 * @default false
+	 * @attributeType "boolean"
 	 */
 	useContractForEnable: boolean;
 
@@ -108,6 +114,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name useContractForShow
 	 * @default false
+	 * @attributeType "boolean"
 	 */
 	useContractForShow: boolean;
 
@@ -123,6 +130,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name useContractForCustomClass
 	 * @default false
+	 * @attributeType "boolean"
 	 */
 	useContractForCustomClass: boolean;
 
@@ -138,6 +146,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name useContractForCustomStyle
 	 * @default false
+	 * @attributeType "boolean"
 	 */
 	useContractForCustomStyle: boolean;
 
@@ -152,6 +161,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name sendEventOnClickStart
 	 * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "join"
 	 */
 	sendEventOnClickStart: string;
 }

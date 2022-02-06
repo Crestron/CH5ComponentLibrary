@@ -25,6 +25,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
+   * @attributeType "string"
    */
   iconPosition: TCh5SelectOptionIconPosition | string;
 
@@ -38,6 +39,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name usedefaulttmpl
    * @default false
+   * @attributeType "boolean"
    */
   useDefaultTmpl: boolean;
 
@@ -50,6 +52,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   receiveStateSelected: string | null;
 
@@ -62,6 +65,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   receiveStateLabel: string | null;
 
@@ -74,6 +78,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   receiveStateUrl: string | null;
 
@@ -87,6 +92,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   receiveStateScriptLabelHTML: string | null;
 
@@ -102,6 +108,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnClick: string | null;
 }

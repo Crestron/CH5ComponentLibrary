@@ -20,6 +20,7 @@ export interface ICh5CommonAttributes {
 	 * "This is a standard id HTML attribute."
 	 * ]
 	 * @name id
+	 * @attributeType "string"
 	 */
 	id: string;
 
@@ -34,6 +35,7 @@ export interface ICh5CommonAttributes {
 	 * @hideWhen [
 	 *  {"receiveStateCustomClass": ["true"] }
 	 * ]
+	 * @attributeType "string"
 	 */
 	customClass: string;
 
@@ -45,6 +47,7 @@ export interface ICh5CommonAttributes {
 	 * "Contains a list of space-delimited style classes applied on the component."
 	 * ]
 	 * @name customstyle
+	 * @attributeType "string"
 	 */
 	customStyle: string;
 
@@ -57,6 +60,7 @@ export interface ICh5CommonAttributes {
 	 * "custom HTML attribute for further information."
 	 * ]
 	 * @name noshowtype
+	 * @attributeType "string"
 	 */
 	noshowType: TCh5ShowType;
 
@@ -70,6 +74,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestatecustomclass
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "join"
 	 */
 	receiveStateCustomClass: string;
 
@@ -83,6 +88,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestatecustomstyle
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+	 * @attributeType "join"
 	 */
 	receiveStateCustomStyle: string;
 
@@ -95,6 +101,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestateshow
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "join"
 	 */
 	receiveStateShow: string;
 
@@ -107,6 +114,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestateshowpulse
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "join"
 	 */
 	receiveStateShowPulse: string;
 
@@ -119,6 +127,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestatehidepulse
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "join"
 	 */
 	receiveStateHidePulse: string;
 
@@ -133,6 +142,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestateenable
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "join"
 	 */
 	receiveStateEnable: string;
 
@@ -146,6 +156,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name sendeventonshow
 	 * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+	 * @attributeType "join"
 	 */
 	sendEventOnShow: string;
 
@@ -157,6 +168,7 @@ export interface ICh5CommonAttributes {
 	 * "Applies the provided value as class name while the component is visible and removes the class name when not visible."
 	 * ]
 	 * @name appendclasswheninviewport
+	 * @attributeType "string"
 	 */
 	appendClassWhenInViewPort: string;
 
@@ -170,6 +182,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name show
 	 * @default true
+	 * @attributeType "boolean"
 	 */
 	show: boolean;
 
@@ -185,6 +198,7 @@ export interface ICh5CommonAttributes {
 	 * "finds a character with a strong directionality then it applies that directionality to the whole element."
 	 * ]
 	 * @name dir
+	 * @attributeType "string"
 	 */
 	dir: string;
 

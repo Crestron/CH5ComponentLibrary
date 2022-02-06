@@ -20,6 +20,7 @@ export interface ICh5SliderLabelAttributes {
    * "The label of the button element."
    * ]
    * @name label
+   * @attributeType "string"
    */
   label: string;
 
@@ -35,6 +36,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name orientation
    * @default horizontal
+   * @attributeType "join"
    */
   orientation: TCh5SliderOrientation;
 
@@ -51,6 +53,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name type
    * @default default
+   * @attributeType "join"
    */
   type: TCh5SliderType;
 
@@ -67,6 +70,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name halignlabel
    * @default center
+   * @attributeType "join"
    */
   hAlignLabel: TCh5SliderHorizontalAlignLabel;
 
@@ -83,6 +87,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name valignlabel
    * @default middle
+   * @attributeType "join"
    */
   vAlignLabel: TCh5SliderVerticalAlignLabel;
 
@@ -94,6 +99,7 @@ export interface ICh5SliderLabelAttributes {
    * "When received, applies the value on the label."
    * ]
    * @name receivestatelabel
+   * @attributeType "join"
    */
   receiveStateLabel: string;
 

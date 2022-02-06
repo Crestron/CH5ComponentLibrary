@@ -19,6 +19,7 @@ export interface ICh5ImportHtmlSnippetAttributes extends ICh5CommonAttributes {
      * "The HTML file path."
      * ]
      * @name url
+     * @attributeType "string"
      */
     url: string;
 
@@ -30,6 +31,7 @@ export interface ICh5ImportHtmlSnippetAttributes extends ICh5CommonAttributes {
      * "On transition from false to true, this signal will direct the component to be visible."
      * ]
      * @name receivestateshowpulse
+     * @attributeType "join"
      */
     receiveStateShowPulse: string;
 
@@ -41,6 +43,7 @@ export interface ICh5ImportHtmlSnippetAttributes extends ICh5CommonAttributes {
      * "On transition from false to true, the signal will direct if the component to no longer be visible."
      * ]
      * @name receivestatehidepulse
+     * @attributeType "join"
      */
     receiveStateHidePulse: string;
 
@@ -52,6 +55,7 @@ export interface ICh5ImportHtmlSnippetAttributes extends ICh5CommonAttributes {
      * "While true, the boolean value of the signal determines if the component is visible."
      * ]
      * @name receivestateshow
+     * @attributeType "join"
      */
     receiveStateShow: string;
 }

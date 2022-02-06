@@ -23,6 +23,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "separated by | (vertical bar) to have images cycle over time."
    * ]
    * @name url
+   * @attributeType "imageURL"
    */
   url: string;
 
@@ -38,6 +39,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "This attribute is superseded by the url attribute."
    * ]
    * @name backgroundcolor
+   * @attributeType "string"
    */
   backgroundColor: string;
 
@@ -55,6 +57,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name repeat
    * @default no-repeat
+   * @attributeType "string"
    */
   repeat: TCh5BackgroundRepeat;
 
@@ -76,6 +79,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name scale
    * @default stretch
+   * @attributeType "string"
    */
   scale: TCh5BackgroundScale;
 
@@ -92,6 +96,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name refreshrate
    * @default 600
+   * @attributeType "integer"
    */
   refreshRate: number | string;
 
@@ -108,6 +113,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name imgbackgroundcolor
    * @default black
+   * @attributeType "string"
    */
   imgBackgroundColor: string;
 
@@ -123,6 +129,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name transitioneffect
    * @default ease
+   * @attributeType "string"
    */
   transitionEffect: string;
 
@@ -138,6 +145,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name transitionduration
    * @default 1s
+   * @attributeType "string"
    */
   transitionDuration: string;
 
@@ -150,6 +158,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestaterefreshrate
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "string"
    */
   receiveStateRefreshRate: string;
 
@@ -164,6 +173,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "string"
    */
   receiveStateUrl: string;
 
@@ -177,6 +187,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatebackgroundcolor
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "string"
    */
   receiveStateBackgroundColor: string;
 

@@ -20,6 +20,7 @@ export interface ICh5Image extends ICh5Common, ICh5ImageAttributes {
    * "Runs when a press event is initiated."
    * ]
    * @name onpress
+   * @attributeType "string"
    */
   onpress: string;
 
@@ -31,6 +32,7 @@ export interface ICh5Image extends ICh5Common, ICh5ImageAttributes {
    * "Runs when a release event is initiated."
    * ]
    * @name onrelease
+   * @attributeType "string"
    */
   onrelease: string;
 }

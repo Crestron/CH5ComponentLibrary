@@ -21,6 +21,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "A class name of the close icon. It may be a font awesome class."
    * ]
    * @name closeicon
+   * @attributeType "string"
    */
   closeIcon: string
 
@@ -35,6 +36,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name stretch
    * @default null
+   * @attributeType "string"
    */
   stretch: TCh5OverlayPanelStretch | null
 
@@ -52,6 +54,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name overflow
    * @default scroll
+   * @attributeType "string"
    */
   overflow: TCh5OverlayPanelOverflow
 
@@ -64,6 +67,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "Positions the component related to either a window or an element by id."
    * ]
    * @name positionto
+   * @attributeType "string"
    */
   positionTo: string
 
@@ -79,6 +83,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name positionoffset
    * @default top-left
+   * @attributeType "string"
    */
   positionOffset: TCh5OverlayPanelPositionOffset
 
@@ -91,6 +96,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name dismissable
    * @default true
+   * @attributeType "boolean"
    */
   dismissable: boolean;
 
@@ -104,6 +110,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name closable
    * @default false
+   * @attributeType "boolean"
    */
   closable: boolean;
 
@@ -117,6 +124,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name mask
    * @default false
+   * @attributeType "boolean"
    */
   mask: boolean;
 
@@ -129,6 +137,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatepositionto
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "join"
    */
   receiveStatePositionTo: string;
 
@@ -142,6 +151,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatepositionoffset
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "join"
    */
   receiveStatePositionOffset: string;
 
@@ -154,6 +164,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonbeforeshow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnBeforeShow: string;
 
@@ -167,6 +178,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    *
    * @name sendeventonaftershow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnAfterShow: string;
 
@@ -179,6 +191,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonbeforehide
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnBeforeHide: string;
 
@@ -191,6 +204,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonafterhide
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnAfterHide: string;
 }
