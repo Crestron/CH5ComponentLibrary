@@ -21,6 +21,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the label of the Submit button."
    * ]
+   * @attributeType "string"
    */
   submitButtonLabel: string;
 
@@ -32,6 +33,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the icon of the Submit button."
    * ]
+   * @attributeType "string"
    */
   submitButtonIcon: string;
 
@@ -43,6 +45,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the style of the Submit button."
    * ]
+   * @attributeType "join"
    */
   submitButtonStyle: string;
 
@@ -56,6 +59,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "Represents the type of the auto-generated Submit button."
    * ]
    * @default default
+   * @attributeType "string"
    */
   submitButtonType: TCh5ButtonType;
 
@@ -67,6 +71,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the label of the Cancel button."
    * ]
+   * @attributeType "string"
    */
   cancelButtonLabel: string;
 
@@ -78,6 +83,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the icon of the Cancel button."
    * ]
+   * @attributeType "string"
    */
   cancelButtonIcon: string;
 
@@ -89,6 +95,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the style of the Cancel button."
    * ]
+   * @attributeType "string"
    */
   cancelButtonStyle: string;
 
@@ -102,6 +109,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "Represents the type of the auto-generated Cancel button."
    * ]
    * @default default
+   * @attributeType "string"
    */
   cancelButtonType: TCh5ButtonType;
 
@@ -113,6 +121,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the ID of the Submit button."
    * ]
+   * @attributeType "string"
    */
   submitId: string;
 
@@ -124,6 +133,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the ID of the Cancel button."
    * ]
+   * @attributeType "string"
    */
   cancelId: string;
 }

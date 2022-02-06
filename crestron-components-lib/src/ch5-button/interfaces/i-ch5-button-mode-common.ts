@@ -24,6 +24,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "'default' is used."
    * ]
    * @name type
+   * @attributeType "string"
    */
   type: TCh5ButtonType | null;
 
@@ -35,6 +36,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The icon class."
    * ]
    * @name iconclass
+   * @attributeType "IconClass"
    */
   iconClass: string;
 
@@ -49,6 +51,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * ]
    * @name iconposition
    * @default first
+   * @attributeType "string"
    */
   iconPosition: TCh5ButtonIconPosition | null;
 
@@ -60,6 +63,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The attribute used for add a SVG image."
    * ]
    * @name iconurl
+   * @attributeType "imageURL"
    */
   iconUrl: string;
 
@@ -71,6 +75,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The attribute used for add a SVG image."
    * ]
    * @name customclass
+   * @attributeType "string"
    */
   customClass: string;
 
@@ -82,6 +87,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The attribute used for add a SVG image."
    * ]
    * @name customstyle
+   * @attributeType "string"
    */
   customStyle: string;
 
@@ -95,6 +101,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * " and the value right would set the checkbox to the right of the button."
    * ]
    * @name checkboxposition
+   * @attributeType "string"
    */
   checkboxPosition: TCh5ButtonCheckboxPosition | null;
 
@@ -110,6 +117,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The right property sets the horizontal alignment of the label to the right of the button. "
    * ]
    * @name halignlabel
+   * @attributeType "string"
    */
   hAlignLabel: TCh5ButtonHorizontalAlignLabel | null;
 
@@ -125,6 +133,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
    * ]
    * @name valignlabel
+   * @attributeType "string"
    */
   vAlignLabel: TCh5ButtonVerticalAlignLabel | null;
 }

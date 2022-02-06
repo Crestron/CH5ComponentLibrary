@@ -21,6 +21,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "A class name of the close icon. It may be a font awesome class."
    * ]
    * @name closeicon
+   * @attributeType "string"
    */
   closeIcon: string
 
@@ -35,6 +36,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name stretch
    * @default null
+   * @attributeType "string"
    */
   stretch: TCh5OverlayPanelStretch | null
 
@@ -52,6 +54,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name overflow
    * @default scroll
+   * @attributeType "string"
    */
   overflow: TCh5OverlayPanelOverflow
 
@@ -63,6 +66,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The width of the modal dialog, in pixels. Must be a string of the form Npx."
    * ]
    * @name width
+   * @attributeType "string"
    */
   width: string;
 
@@ -74,6 +78,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The height of the modal dialog, in pixels. Must be a string of the form Npx."
    * ]
    * @name height
+   * @attributeType "string"
    */
   height: string;
 
@@ -85,6 +90,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The title of the modal dialog. Must be a string."
    * ]
    * @name title
+   * @attributeType "string"
    */
   title: string;
 
@@ -96,6 +102,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The Header title text. If absent or empty, the title bar will be hidden."
    * ]
    * @name maskstyle
+   * @attributeType "string"
    */
   maskStyle: string;
 
@@ -106,6 +113,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The OK button text. If absent or empty, the default translated 'OK' text is shown."
    * ]
    * @name okbuttonlabel
+   * @attributeType "string"
    */
   okButtonLabel: string;
 
@@ -117,6 +125,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The OK button icon. If absent or empty, the icon is hidden."
    * ]
    * @name okbuttonicon
+   * @attributeType "string"
    */
   okButtonIcon: string;
 
@@ -128,6 +137,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The inline style value for the OK button to override the theme."
    * ]
    * @name okbuttonstyle
+   * @attributeType "string"
    */
   okButtonStyle: string;
 
@@ -140,6 +150,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "is shown."
    * ]
    * @name cancelbuttonlabel
+   * @attributeType "string"
    */
   cancelButtonLabel: string;
 
@@ -151,6 +162,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The Cancel button icon. If absent or empty, the icon is hidden."
    * ]
    * @name cancelbuttonicon
+   * @attributeType "string"
    */
   cancelButtonIcon: string;
 
@@ -162,6 +174,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The inline style value for the Cancel button to override the theme."
    * ]
    * @name cancelbuttonstyle
+   * @attributeType "string"
    */
   cancelButtonStyle: string;
 
@@ -173,6 +186,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The optional text for a message."
    * ]
    * @name prompt
+   * @attributeType "string"
    */
   prompt: string;
 
@@ -184,6 +198,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The icon that appears next to prompt text"
    * ]
    * @name prompticon
+   * @attributeType "string"
    */
   promptIcon: string;
 
@@ -196,6 +211,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name dismissable
    * @default true
+   * @attributeType "boolean"
    */
   dismissable: boolean
 
@@ -209,6 +225,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name closable
    * @default false
+   * @attributeType "boolean"
    */
   closable: boolean
 
@@ -222,6 +239,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name mask
    * @default false
+   * @attributeType "boolean"
    */
   mask: boolean;
 
@@ -234,6 +252,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name hideokbutton
    * @default false
+   * @attributeType "boolean"
    */
   hideOkButton: boolean;
 
@@ -246,6 +265,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name hidecancelbutton
    * @default false
+   * @attributeType "boolean"
    */
   hideCancelButton: boolean;
 
@@ -258,6 +278,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonbeforeshow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnBeforeShow: string;
 
@@ -270,6 +291,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonaftershow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnAfterShow: string;
 
@@ -282,6 +304,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonbeforehide
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnBeforeHide: string;
 
@@ -294,6 +317,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonafterhide
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnAfterHide: string;
 
@@ -306,6 +330,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonok
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnOk: string;
 
@@ -318,6 +343,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventoncancel
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnCancel: string;
 }

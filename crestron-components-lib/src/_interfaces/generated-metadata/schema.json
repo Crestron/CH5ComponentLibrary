@@ -137,7 +137,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -156,7 +157,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -169,7 +171,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -187,7 +190,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -206,7 +210,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -225,7 +230,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -243,7 +249,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -261,7 +268,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -279,7 +287,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -299,7 +308,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -318,7 +328,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -331,7 +342,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -348,7 +360,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -365,7 +378,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -381,7 +395,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "imageURL"
           },
           {
             "documentation": [
@@ -398,7 +413,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -422,7 +438,8 @@
             "default": "no-repeat",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -448,7 +465,8 @@
             "default": "stretch",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -465,7 +483,8 @@
             "default": "600",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -482,7 +501,8 @@
             "default": "black",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -498,7 +518,8 @@
             "default": "ease",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -514,7 +535,8 @@
             "default": "1s",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -532,7 +554,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -552,7 +575,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -571,7 +595,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -584,7 +609,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -597,7 +623,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -612,7 +639,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -628,7 +656,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -645,7 +674,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -765,7 +795,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -778,7 +809,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -798,7 +830,8 @@
             "default": "first",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -811,7 +844,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "imageURL"
           },
           {
             "documentation": [
@@ -824,7 +858,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -837,7 +872,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -855,7 +891,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -876,7 +913,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -897,7 +935,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           }
         ],
         "documentation": [
@@ -994,7 +1033,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1007,7 +1047,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -1027,7 +1068,8 @@
             "default": "first",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1040,7 +1082,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "imageURL"
           },
           {
             "documentation": [
@@ -1053,7 +1096,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1066,7 +1110,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1084,7 +1129,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1105,7 +1151,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1126,7 +1173,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1148,7 +1196,8 @@
             "default": "normal",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           }
         ],
         "documentation": [
@@ -1222,7 +1271,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1241,7 +1291,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1254,7 +1305,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1272,7 +1324,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1291,7 +1344,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1310,7 +1364,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1328,7 +1383,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1346,7 +1402,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1364,7 +1421,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1384,7 +1442,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1403,7 +1462,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1416,7 +1476,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1433,7 +1494,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -1450,7 +1512,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1477,7 +1540,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1490,7 +1554,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1503,7 +1568,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "iconClass"
           },
           {
             "documentation": [
@@ -1523,7 +1589,8 @@
             "default": "first",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1536,7 +1603,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "imageURL"
           },
           {
             "documentation": [
@@ -1556,7 +1624,8 @@
                 "min": 0,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -1574,7 +1643,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -1592,7 +1662,8 @@
             "default": "left",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1611,7 +1682,8 @@
             "default": "horizontal",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1631,7 +1703,8 @@
             "default": "rounded-rectangle",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1656,7 +1729,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1682,7 +1756,8 @@
             "default": "default",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1703,7 +1778,8 @@
             "default": "center",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1724,7 +1800,8 @@
             "default": "middle",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1742,7 +1819,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1760,7 +1838,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1778,7 +1857,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1796,7 +1876,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1815,7 +1896,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1836,7 +1918,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1857,7 +1940,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1875,7 +1959,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1894,7 +1979,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1913,7 +1999,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -1926,7 +2013,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1939,7 +2027,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -1957,7 +2046,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -1975,7 +2065,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -1988,7 +2079,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2001,7 +2093,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2016,7 +2109,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2032,7 +2126,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -2049,7 +2144,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -2062,7 +2158,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2075,7 +2172,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2088,7 +2186,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           }
         ],
         "documentation": [
@@ -2209,7 +2308,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2228,7 +2328,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2241,7 +2342,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2259,7 +2361,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2278,7 +2381,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2297,7 +2401,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2315,7 +2420,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2333,7 +2439,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2351,7 +2458,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2371,7 +2479,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2390,7 +2499,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2403,7 +2513,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2420,7 +2531,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -2437,7 +2549,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2450,7 +2563,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "iconClass"
           },
           {
             "documentation": [
@@ -2464,7 +2578,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "iconURL"
           },
           {
             "documentation": [
@@ -2483,7 +2598,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2504,7 +2620,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           }
         ],
         "documentation": [
@@ -2571,7 +2688,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2590,7 +2708,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2603,7 +2722,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2621,7 +2741,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2640,7 +2761,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2659,7 +2781,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2677,7 +2800,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2695,7 +2819,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2713,7 +2838,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2733,7 +2859,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2752,7 +2879,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -2765,7 +2893,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2782,7 +2911,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -2799,7 +2929,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2812,7 +2943,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2836,7 +2968,8 @@
             "default": "default",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2852,7 +2985,8 @@
             "default": "plus",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2874,7 +3008,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2893,7 +3028,8 @@
             "default": "regular",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -2914,7 +3050,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -2934,7 +3071,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -2953,7 +3091,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -2972,7 +3111,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -2992,7 +3132,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3005,7 +3146,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3018,7 +3160,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3033,7 +3176,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3049,7 +3193,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -3066,7 +3211,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -3150,7 +3296,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3169,7 +3316,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3182,7 +3330,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3200,7 +3349,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3219,7 +3369,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3238,7 +3389,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3256,7 +3408,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3274,7 +3427,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3292,7 +3446,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3312,7 +3467,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3331,7 +3487,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3344,7 +3501,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3361,7 +3519,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -3378,7 +3537,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3391,7 +3551,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3404,7 +3565,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3417,7 +3579,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3440,7 +3603,8 @@
             "default": "default",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3453,7 +3617,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3466,7 +3631,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3479,7 +3645,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3502,7 +3669,8 @@
             "default": "default",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3515,7 +3683,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3528,7 +3697,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3541,7 +3711,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3554,7 +3725,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3569,7 +3741,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3585,7 +3758,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -3602,7 +3776,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -3729,7 +3904,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3748,7 +3924,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3761,7 +3938,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3779,7 +3957,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3798,7 +3977,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3817,7 +3997,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3835,7 +4016,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3853,7 +4035,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3871,7 +4054,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3891,7 +4075,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3910,7 +4095,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -3923,7 +4109,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3940,7 +4127,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -3957,7 +4145,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3970,7 +4159,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3983,7 +4173,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -3996,7 +4187,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4011,7 +4203,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4027,7 +4220,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -4044,7 +4238,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -4098,7 +4293,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4117,7 +4313,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4130,7 +4327,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4148,7 +4346,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4167,7 +4366,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4186,7 +4386,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4204,7 +4405,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4222,7 +4424,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4240,7 +4443,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4260,7 +4464,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4279,7 +4484,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4292,7 +4498,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4309,7 +4516,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -4326,7 +4534,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4339,7 +4548,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4352,7 +4562,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4365,7 +4576,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4385,7 +4597,8 @@
                 "min": 0,
                 "max": 600
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -4398,7 +4611,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4407,11 +4621,12 @@
               "This attribute is used together with <ch5-image-mode> child component."
             ],
             "value": [],
-            "name": "url",
+            "name": "mode",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -4424,7 +4639,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4437,7 +4653,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4455,7 +4672,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4476,7 +4694,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4497,7 +4716,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4515,7 +4735,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4528,7 +4749,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4541,7 +4763,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4556,7 +4779,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4572,7 +4796,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -4589,7 +4814,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -4654,7 +4880,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4673,7 +4900,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4686,7 +4914,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4704,7 +4933,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4723,7 +4953,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4742,7 +4973,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4760,7 +4992,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4778,7 +5011,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4796,7 +5030,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4816,7 +5051,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4835,7 +5071,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -4848,7 +5085,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4865,7 +5103,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -4882,7 +5121,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4895,7 +5135,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4908,7 +5149,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4921,7 +5163,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "iconClass"
           },
           {
             "documentation": [
@@ -4934,7 +5177,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -4950,7 +5194,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           }
         ],
         "documentation": [
@@ -5009,7 +5254,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5028,7 +5274,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5041,7 +5288,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5059,7 +5307,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5078,7 +5327,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5097,7 +5347,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5115,7 +5366,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5133,7 +5385,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5151,7 +5404,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5171,7 +5425,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5190,7 +5445,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5203,7 +5459,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5220,7 +5477,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -5237,7 +5495,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5250,7 +5509,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5263,7 +5523,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5276,7 +5537,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "iconClass"
           },
           {
             "documentation": [
@@ -5289,7 +5551,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5305,7 +5568,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5318,7 +5582,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5342,7 +5607,8 @@
             "default": "default",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5359,7 +5625,8 @@
             "default": "plus",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5381,7 +5648,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5403,7 +5671,8 @@
             "default": "top",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5422,7 +5691,8 @@
             "default": "regular",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5444,7 +5714,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -5464,7 +5735,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -5483,7 +5755,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -5502,7 +5775,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -5521,7 +5795,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -5539,7 +5814,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -5559,7 +5835,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5572,7 +5849,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5585,7 +5863,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5600,7 +5879,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5616,7 +5896,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -5633,7 +5914,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -5714,7 +5996,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5733,7 +6016,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5746,7 +6030,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5764,7 +6049,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5783,7 +6069,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5802,7 +6089,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5820,7 +6108,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5838,7 +6127,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5856,7 +6146,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5876,7 +6167,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5895,7 +6187,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -5908,7 +6201,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5925,7 +6219,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -5942,7 +6237,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5956,7 +6252,8 @@
             "default": "1",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -5975,7 +6272,8 @@
             "default": "vertical",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -5990,7 +6288,8 @@
             "default": "0",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -6006,7 +6305,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6023,7 +6323,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6037,7 +6338,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6051,7 +6353,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6065,7 +6368,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6079,7 +6383,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6098,7 +6403,8 @@
                 "min": 0,
                 "max": 1000
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -6112,7 +6418,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6128,7 +6435,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6147,7 +6455,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6168,7 +6477,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6186,7 +6496,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6206,7 +6517,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6224,7 +6536,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6237,7 +6550,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6250,7 +6564,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6265,7 +6580,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6281,7 +6597,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6298,7 +6615,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -6386,7 +6704,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6405,7 +6724,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6418,7 +6738,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6436,7 +6757,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6455,7 +6777,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6474,7 +6797,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6492,7 +6816,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6510,7 +6835,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6528,7 +6854,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6548,7 +6875,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6567,7 +6895,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6580,7 +6909,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6597,7 +6927,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6614,7 +6945,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6627,7 +6959,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6646,7 +6979,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6667,7 +7001,8 @@
             "default": "scroll",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6680,7 +7015,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6693,7 +7029,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6706,7 +7043,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6719,7 +7057,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6731,7 +7070,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6744,7 +7084,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6757,7 +7098,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6771,7 +7113,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6784,7 +7127,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6797,7 +7141,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6810,7 +7155,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6823,7 +7169,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -6839,7 +7186,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6856,7 +7204,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6873,7 +7222,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6889,7 +7239,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6905,7 +7256,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -6923,7 +7275,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6941,7 +7294,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6959,7 +7313,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6977,7 +7332,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -6995,7 +7351,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7013,7 +7370,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7026,7 +7384,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7039,7 +7398,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7054,7 +7414,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7070,7 +7431,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -7087,7 +7449,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -7159,7 +7522,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7178,7 +7542,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7191,7 +7556,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7209,7 +7575,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7228,7 +7595,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7247,7 +7615,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7265,7 +7634,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7283,7 +7653,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7301,7 +7672,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7321,7 +7693,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7340,7 +7713,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7353,7 +7727,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7370,7 +7745,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -7387,7 +7763,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7400,7 +7777,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7419,7 +7797,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7440,7 +7819,8 @@
             "default": "scroll",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7454,7 +7834,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7479,7 +7860,8 @@
             "default": "top-left",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7495,7 +7877,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -7512,7 +7895,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -7529,7 +7913,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -7547,7 +7932,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7566,7 +7952,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7584,7 +7971,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7602,7 +7990,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7620,7 +8009,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7638,7 +8028,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7651,7 +8042,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7664,7 +8056,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7679,7 +8072,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7695,7 +8089,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -7712,7 +8107,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -7781,7 +8177,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7800,7 +8197,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7813,7 +8211,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7831,7 +8230,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7850,7 +8250,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7869,7 +8270,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7887,7 +8289,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7905,7 +8308,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7923,7 +8327,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7943,7 +8348,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7962,7 +8368,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -7975,7 +8382,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -7992,7 +8400,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -8009,7 +8418,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8028,7 +8438,8 @@
                 "min": 1,
                 "max": 30
               }
-            ]
+            ],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8048,7 +8459,8 @@
             "default": "first",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8062,7 +8474,8 @@
             "default": "-1",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8081,7 +8494,8 @@
                 "min": 0,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -8094,7 +8508,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -8107,7 +8522,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8120,7 +8536,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8133,7 +8550,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8151,7 +8569,8 @@
             "default": "plain",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8168,7 +8587,8 @@
             "default": "direct",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8184,7 +8604,8 @@
             "default": "1500",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -8199,7 +8620,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8212,7 +8634,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8229,7 +8652,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -8247,7 +8671,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -8262,7 +8687,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8277,7 +8703,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8297,7 +8724,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8315,7 +8743,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8333,7 +8762,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8351,7 +8781,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8370,7 +8801,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8383,7 +8815,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8396,7 +8829,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8411,7 +8845,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8427,7 +8862,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -8444,7 +8880,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -8666,7 +9103,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8685,7 +9123,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8698,7 +9137,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8716,7 +9156,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8735,7 +9176,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8754,7 +9196,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8772,7 +9215,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8790,7 +9234,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8808,7 +9253,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8828,7 +9274,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8847,7 +9294,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8860,7 +9308,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8877,7 +9326,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -8894,7 +9344,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8913,7 +9364,8 @@
             "default": "first",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -8930,7 +9382,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -8948,7 +9401,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8966,7 +9420,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -8984,7 +9439,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9003,7 +9459,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9024,7 +9481,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9037,7 +9495,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9050,7 +9509,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9065,7 +9525,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9081,7 +9542,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -9098,7 +9560,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -9127,7 +9590,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9146,7 +9610,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9159,7 +9624,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9177,7 +9643,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9196,7 +9663,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9215,7 +9683,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9233,7 +9702,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9251,7 +9721,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9269,7 +9740,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9289,7 +9761,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9308,7 +9781,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9321,7 +9795,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9338,7 +9813,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -9355,7 +9831,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9374,7 +9851,8 @@
             "default": "rounded-rectangle",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9387,7 +9865,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -9407,7 +9886,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -9420,7 +9900,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -9433,7 +9914,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -9450,7 +9932,8 @@
             "default": "horizontal",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9470,7 +9953,8 @@
             "default": "regular",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9490,7 +9974,8 @@
             "default": "regular",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9505,7 +9990,8 @@
             "default": "100",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9524,7 +10010,8 @@
             "default": "both",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9544,7 +10031,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9564,7 +10052,8 @@
             "default": "off",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9595,7 +10084,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9610,7 +10100,8 @@
             "default": "1500",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -9628,7 +10119,8 @@
             "default": "direct",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9643,7 +10135,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9658,7 +10151,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9674,7 +10168,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -9691,7 +10186,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -9707,7 +10203,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -9723,7 +10220,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -9741,7 +10239,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9759,7 +10258,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9777,7 +10277,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9795,7 +10296,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -9808,7 +10310,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9821,7 +10324,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9836,7 +10340,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9852,7 +10357,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -9869,7 +10375,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -9950,7 +10457,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9969,7 +10477,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -9982,7 +10491,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10000,7 +10510,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10019,7 +10530,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10038,7 +10550,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10056,7 +10569,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10074,7 +10588,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10092,7 +10607,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10112,7 +10628,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10131,7 +10648,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10144,7 +10662,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10161,7 +10680,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -10178,7 +10698,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10197,7 +10718,8 @@
                 "min": 0,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -10210,7 +10732,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10234,7 +10757,8 @@
             "default": "first",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10254,7 +10778,8 @@
                 "min": 0,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -10270,7 +10795,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10296,7 +10822,8 @@
                 "min": 1,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -10313,7 +10840,8 @@
             "default": "direct",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10330,7 +10858,8 @@
             "default": "1500",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -10345,7 +10874,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10360,7 +10890,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10375,7 +10906,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10394,7 +10926,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -10411,7 +10944,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -10428,7 +10962,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -10446,7 +10981,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10464,7 +11000,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10482,7 +11019,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10500,7 +11038,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10518,7 +11057,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10536,7 +11076,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10554,7 +11095,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10572,7 +11114,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10585,7 +11128,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10598,7 +11142,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10613,7 +11158,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10629,7 +11175,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -10646,7 +11193,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -10731,7 +11279,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10750,7 +11299,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10763,7 +11313,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10781,7 +11332,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10800,7 +11352,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10819,7 +11372,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10837,7 +11391,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10855,7 +11410,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10873,7 +11429,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10893,7 +11450,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10912,7 +11470,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -10925,7 +11484,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10942,7 +11502,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -10959,7 +11520,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10972,7 +11534,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -10986,7 +11549,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11000,7 +11564,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11014,7 +11579,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11028,7 +11594,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11042,7 +11609,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11055,7 +11623,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11068,7 +11637,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11083,7 +11653,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11099,7 +11670,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -11116,7 +11688,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -11160,7 +11733,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11179,7 +11753,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11192,7 +11767,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11210,7 +11786,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11229,7 +11806,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11248,7 +11826,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11266,7 +11845,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11284,7 +11864,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11302,7 +11883,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11322,7 +11904,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11341,7 +11924,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11354,7 +11938,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11371,7 +11956,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -11388,7 +11974,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11409,7 +11996,8 @@
             "default": "direct",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11425,7 +12013,8 @@
             "default": "1500ms",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -11442,7 +12031,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11456,6 +12046,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
+            "attributeType": "iconClass",
             "deprecated": {
               "version": "1.0.0",
               "description": "This attribute is deprecated, please use 'icon' attribute."
@@ -11472,7 +12063,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11485,7 +12077,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11498,7 +12091,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11520,7 +12114,8 @@
             "default": "first",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11538,7 +12133,8 @@
             "default": "text",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11557,7 +12153,8 @@
                 "min": 0,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -11576,7 +12173,8 @@
                 "min": 0,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -11596,7 +12194,8 @@
                 "min": 0,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -11617,7 +12216,8 @@
                 "min": 0,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -11637,7 +12237,8 @@
             "default": "regular",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11658,7 +12259,8 @@
             "default": "fixed",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11681,7 +12283,8 @@
             "default": "none",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11698,7 +12301,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -11716,7 +12320,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11734,7 +12339,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11752,7 +12358,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11770,7 +12377,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11788,7 +12396,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -11801,7 +12410,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11814,7 +12424,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11829,7 +12440,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11845,7 +12457,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -11862,7 +12475,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -11941,7 +12555,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11960,7 +12575,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11973,7 +12589,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -11991,7 +12608,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12010,7 +12628,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12029,7 +12648,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12047,7 +12667,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12065,7 +12686,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12083,7 +12705,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12103,7 +12726,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12122,7 +12746,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12135,7 +12760,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12152,7 +12778,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -12169,7 +12796,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12186,7 +12814,8 @@
             "default": "direct",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12202,7 +12831,8 @@
             "default": "1500",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -12215,7 +12845,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12228,7 +12859,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12241,7 +12873,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12254,7 +12887,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12267,7 +12901,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12284,7 +12919,8 @@
             "default": "circle",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12303,7 +12939,8 @@
             "default": "horizontal",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12318,7 +12955,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12333,7 +12971,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12352,7 +12991,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -12370,7 +13010,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12388,7 +13029,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12405,7 +13047,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12418,7 +13061,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12431,7 +13075,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12446,7 +13091,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12462,7 +13108,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -12479,7 +13126,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -12536,7 +13184,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12555,7 +13204,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12568,7 +13218,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12586,7 +13237,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12605,7 +13257,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12624,7 +13277,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12642,7 +13296,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12660,7 +13315,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12678,7 +13334,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12698,7 +13355,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12717,7 +13375,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12730,7 +13389,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12747,7 +13407,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -12764,7 +13425,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           }
         ],
         "documentation": [
@@ -12840,7 +13502,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12859,7 +13522,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12872,7 +13536,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12890,7 +13555,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -12909,7 +13575,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12928,7 +13595,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12946,7 +13614,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12964,7 +13633,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -12982,7 +13652,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13002,7 +13673,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13021,7 +13693,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13034,7 +13707,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13051,7 +13725,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -13068,7 +13743,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13086,7 +13762,8 @@
                 "min": 0,
                 "max": 99
               }
-            ]
+            ],
+            "attributeType": "integer"
           },
           {
             "documentation": [
@@ -13102,7 +13779,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -13120,7 +13798,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -13137,7 +13816,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -13156,7 +13836,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13175,7 +13856,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13192,7 +13874,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -13205,7 +13888,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13218,7 +13902,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13233,7 +13918,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13249,7 +13935,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -13266,7 +13953,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -13358,7 +14046,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13377,7 +14066,8 @@
               }
             ],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13390,7 +14080,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13408,7 +14099,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13427,7 +14119,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13446,7 +14139,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13464,7 +14158,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13482,7 +14177,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13500,7 +14196,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13520,7 +14217,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13539,7 +14237,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13552,7 +14251,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13569,7 +14269,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -13586,7 +14287,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13599,7 +14301,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13612,7 +14315,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13625,7 +14329,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13638,7 +14343,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13651,7 +14357,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13664,7 +14371,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13683,7 +14391,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13703,7 +14412,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13716,7 +14426,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13733,7 +14444,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13746,7 +14458,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13770,7 +14483,8 @@
             "default": "large",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13783,7 +14497,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13798,7 +14513,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13813,7 +14529,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -13831,7 +14548,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13850,7 +14568,8 @@
               "isContractName": true,
               "booleanJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13868,7 +14587,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13887,7 +14607,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13905,7 +14626,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13923,7 +14645,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13941,7 +14664,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13959,7 +14683,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13977,7 +14702,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -13995,7 +14721,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14013,7 +14740,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14031,7 +14759,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14049,7 +14778,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14067,7 +14797,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14087,7 +14818,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14108,7 +14840,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14126,7 +14859,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14144,7 +14878,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14162,7 +14897,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14180,7 +14916,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14198,7 +14935,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14216,7 +14954,8 @@
               "isContractName": true,
               "stringJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14234,7 +14973,8 @@
               "isContractName": true,
               "numericJoin": 1
             },
-            "limits": []
+            "limits": [],
+            "attributeType": "join"
           },
           {
             "documentation": [
@@ -14247,7 +14987,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -14260,7 +15001,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -14275,7 +15017,8 @@
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "string"
           },
           {
             "documentation": [
@@ -14291,7 +15034,8 @@
             "default": "true",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
@@ -14308,7 +15052,8 @@
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
-            "limits": []
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [

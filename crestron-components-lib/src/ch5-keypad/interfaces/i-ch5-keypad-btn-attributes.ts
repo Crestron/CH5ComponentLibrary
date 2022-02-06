@@ -64,6 +64,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Defines the primary/major text value of the button."
      * ]
      * @name labelMajor
+     * @attributeType "string"
      */
     labelMajor: string;
 
@@ -75,6 +76,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Defines the secondary/minor text value of the button."
      * ]
      * @name labelMinor
+     * @attributeType "string"
      */
     labelMinor: string;
 
@@ -86,6 +88,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Defines the secondary/minor text value of the button."
      * ]
      * @name iconClass
+     * @attributeType "iconClass"
      */
     iconClass: string;
 
@@ -97,6 +100,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Defines the key value of the button."
      * ]
      * @name key
+     * @attributeType "string"
      */
      key: string;
 
@@ -111,6 +115,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
      * @name sendEventOnClick
+     * @attributeType "join"
      */
     sendEventOnClick: string;
 }

@@ -153,6 +153,25 @@ function getNameFromObject(definition: Object): string {
     return "";
 }
 
+function getAttributeTypeFromObject(definition: Object): string {
+    const documentationTag = "attributeType";
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return "";
+    }
+
+    // get the documentation property which should be a string.
+    const value: string = definition[documentationTag];
+
+    if (!isNil(value)) {
+        return value;
+    }
+
+    return "";
+}
+
 function getDefaultFromObject(definition: Object): string {
     const documentationTag = "default";
     const keys = Object.keys(definition);
@@ -301,5 +320,6 @@ export {
     getShowWhenFromObject,
     getDeprecatedFromObject,
     getJoinFromObject,
+    getAttributeTypeFromObject,
     getLimitsFromObject,
 };

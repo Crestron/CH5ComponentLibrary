@@ -15,6 +15,7 @@ export class Ch5Attribute {
     public showWhen?: object[];
     public join?: object;
     public limits?: object[];
+    public attributeType?: string;
     public deprecated?: Deprecated;
 
     public static New(): Ch5Attribute {

@@ -19,6 +19,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "Defines an alternative text description for the image."
    * ]
    * @name alt
+   * @attributeType "string"
    */
   alt: string;
 
@@ -30,6 +31,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The intrinsic height of the image, in pixels. Must be a string of the form Npx or N%."
    * ]
    * @name height
+   * @attributeType "string"
    */
   height: string;
 
@@ -41,6 +43,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The intrinsic width of the image, in pixels. Must be a string of the form Npx or N%."
    * ]
    * @name width
+   * @attributeType "string"
    */
   width: string;
 
@@ -56,6 +59,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * @name refreshrate
    * @default 0
    * @limits [{"min": 0, "max": 600}]
+   * @attributeType "integer"
    */
   refreshRate: number;
 
@@ -67,6 +71,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP."
    * ]
    * @name url
+   * @attributeType "string"
    */
   url: string;
 
@@ -77,7 +82,8 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "***",
    * "This attribute is used together with <ch5-image-mode> child component."
    * ]
-   * @name url
+   * @name mode
+   * @attributeType "integer"
    */
    mode: number | undefined;
 
@@ -89,6 +95,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The authentication password required to get the image."
    * ]
    * @name password
+   * @attributeType "string"
    */
   password: string;
 
@@ -100,6 +107,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The image direction."
    * ]
    * @name dir
+   * @attributeType "string"
    */
   dir: string;
 
@@ -111,6 +119,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The authentication username required to get the image."
    * ]
    * @name user
+   * @attributeType "string"
    */
   user: string;
 
@@ -123,6 +132,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   receiveStateUrl: string;
 
@@ -138,6 +148,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventontouch
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnTouch: string;
 
@@ -153,6 +164,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnClick: string;
 
@@ -165,6 +177,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonerror
    * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnError: string;
 }

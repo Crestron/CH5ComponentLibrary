@@ -24,6 +24,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name handleshape
    * @default rounded-rectangle
+   * @attributeType "string"
    */
   handleShape: TCh5SliderShape;
 
@@ -35,6 +36,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The initial values of single value or lower value if range=true."
    * ]
    * @name value
+   * @attributeType "integer"
    */
   value: number | string;
 
@@ -49,6 +51,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * @hideWhen [
    *  {"range": [null, "false"] }
    * ]
+   * @attributeType "integer"
    */
   valueHigh: number | string;
 
@@ -60,6 +63,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The maximum value."
    * ]
    * @name max
+   * @attributeType "integer"
    */
   max: number | string;
 
@@ -71,6 +75,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The minimum value."
    * ]
    * @name min
+   * @attributeType "integer"
    */
   min: number | string;
 
@@ -84,6 +89,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name orientation
    * @default horizontal
+   * @attributeType "string"
    */
   orientation: TCh5SliderOrientation;
 
@@ -97,6 +103,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name size
    * @default regular
+   * @attributeType "string"
    */
   size: TCh5SliderSize;
 
@@ -110,6 +117,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name handlesize
    * @default regular
+   * @attributeType "string"
    */
   handleSize: TCh5SliderSize;
 
@@ -124,6 +132,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name step
    * @default 100
+   * @attributeType "string"
    */
   step: number | string;
 
@@ -138,6 +147,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name stretch
    * @default both
+   * @attributeType "string"
    */
   stretch: TCh5SliderStretch | null;
 
@@ -156,6 +166,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "An example would be [[0.0,'-60'], [0.25,'-40'], [0.50,'-20'],[0.75,'-10'], [1.0,'0']]"
    * ]
    * @name ticks
+   * @attributeType "string"
    */
   ticks: string;
 
@@ -171,6 +182,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name tooltipshowtype
    * @default off
+   * @attributeType "string"
    */
   toolTipShowType: TCh5SliderTooltipType
 
@@ -189,6 +201,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    *  {"tooltipdisplaytype": [null, "off"]},
    *  {"nohandle": ["true", ""] }
    * ]
+   * @attributeType "string"
    */
   toolTipDisplayType: TCh5SliderTooltipDisplay;
 
@@ -203,6 +216,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name signalvaluesynctimeout
    * @default 1500
+   * @attributeType "integer"
    */
   signalValueSyncTimeout: string | number;
 
@@ -217,6 +231,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
+   * @attributeType "string"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -228,6 +243,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "Runs when a clean event is initiated."
    * ]
    * @name onclean
+   * @attributeType "string"
    */
   onclean: {};
 
@@ -239,6 +255,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
+   * @attributeType "string"
    */
   ondirty: {};
 
@@ -251,6 +268,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name range
    * @default false
+   * @attributeType "boolean"
    */
   range: boolean;
 
@@ -264,6 +282,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name showtickvalues
    * @default false
+   * @attributeType "boolean"
    */
   showTickValues: boolean;
 
@@ -276,6 +295,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name nohandle
    * @default false
+   * @attributeType "boolean"
    */
   noHandle: boolean
 
@@ -288,6 +308,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name tapsettable
    * @default false
+   * @attributeType "boolean"
    */
   tapSettable: boolean
 
@@ -300,6 +321,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "join"
    */
   receiveStateValue: string;
 
@@ -312,6 +334,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevaluehigh
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "join"
    */
   receiveStateValueHigh: string;
 
@@ -324,6 +347,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnChange: string;
 
@@ -336,6 +360,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonchangehigh
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnChangeHigh: string;
 

@@ -107,6 +107,10 @@ function getLimits(definition: Definition): object[] {
     return parser.getLimitsFromObject(definition);
 }
 
+function getAttributeType(definition: Definition): string {
+    return parser.getAttributeTypeFromObject(definition);
+}
+
 export {
     hasKeys,
     getTypes,
@@ -122,6 +126,7 @@ export {
     getComponentVersion,
     getHideWhen,
     getShowWhen,
+    getAttributeType,
     getJoin,
     getLimits,
     getDeprecated,

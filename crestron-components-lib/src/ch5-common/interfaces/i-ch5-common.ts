@@ -21,6 +21,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * "This is a standard class HTML attribute."
      * ]
      * @name class
+     * @attributeType "string"
      */
     class: string;
     
@@ -32,6 +33,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * "This is a standard style HTML attribute."
      * ]
      * @name style
+     * @attributeType "string"
      */
     style: string;
     
@@ -45,6 +47,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * "The default value for this ch5-component can be overridden via this attribute."
      * ]
      * @name role
+     * @attributeType "string"
      */
     role: string;
 
@@ -57,6 +60,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * ]
      * @name debug
      * @default true
+     * @attributeType "boolean"
      */
     debug: TBoolAttribute;
 
@@ -70,6 +74,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * ]
      * @name disabled
      * @default false
+     * @attributeType "boolean"
      */
     disabled: TBoolAttribute;
 }

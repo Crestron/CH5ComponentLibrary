@@ -21,6 +21,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "The icon class gives the ability for the end developer to create custom arrow icons."
      * ]
      * @name iconClass
+     * @attributeType "iconClass"
      */
     iconClass: string;
 
@@ -33,6 +34,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "the iconUrl takes precedence over iconClass."
      * ]
      * @name iconUrl
+     * @attributeType "iconURL"
      */
     iconUrl: string;
 
@@ -44,6 +46,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "The key of the button to determin which button it is."
      * ]
      * @name key
+     * @attributeType "string"
      */
      key: TCh5DpadChildButtonType;
 
@@ -59,6 +62,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * ]
      * @name sendeventonclick
      * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @attributeType "join"
      */
     sendEventOnClick: string;
 }

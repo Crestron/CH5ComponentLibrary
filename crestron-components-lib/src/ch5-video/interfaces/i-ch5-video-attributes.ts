@@ -21,6 +21,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the name of the offset identifier to be substituted with a 0-based index of the list items within the signal names provided in other attributes surrounded by {{ }} delimiters."
      * ]
+     * @attributeType "string"
      */
     indexId: string;
 
@@ -32,6 +33,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The user ID to access the video along with a password."
      * ]
+     * @attributeType "string"
      */
     userId: string;
 
@@ -43,6 +45,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The user ID to access the snapshot along with a password."
      * ]
+     * @attributeType "string"
      */
     snapShotUserId: string;
 
@@ -54,6 +57,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The password to access the video along with a user ID."
      * ]
+     * @attributeType "string"
      */
     password: string;
 
@@ -65,6 +69,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The password to access the snapshot along with user ID."
      * ]
+     * @attributeType "string"
      */
     snapShotPassword: string;
 
@@ -76,6 +81,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The refresh rate of the snapshot."
      * ]
+     * @attributeType "string"
      */
     snapShotRefreshRate: string;
 
@@ -90,6 +96,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Values are 16:9 (default), 4:3, and custom.  When the size of the container does not match the aspect ratio, ",
      *  "the full height or width should be used and the dimension that is empty should be centered."
      * ]
+     * @attributeType "string"
      */
     aspectRatio: TCH5VideoAspectRatio | string;
 
@@ -105,6 +112,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "parent container. The parent container should not contain any tags other than ch5-background ",
      *  "and CH5-Video."
      * ]
+     * @attributeType "string"
      */
     stretch: TCH5VideoStretch | string;
 
@@ -116,6 +124,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The source path of the video."
      * ]
+     * @attributeType "string"
      */
     url: string;
 
@@ -127,6 +136,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The video Source type, which can be 'Network', 'HDMI' or 'DM'."
      * ]
+     * @attributeType "string"
      */
     sourceType: TCH5VideoSourceType | string;
 
@@ -138,6 +148,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "A snapshot of the video, if any."
      * ]
+     * @attributeType "string"
      */
     snapShotUrl: string;
 
@@ -155,6 +166,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The user needs to select the appropriate size to fit the container."
      * ]
      * @default large
+     * @attributeType "string"
      */
     size: TCH5VideoSize | string;
 
@@ -166,6 +178,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The video display moves back and forth with regards to the z-axis."
      * ]
+     * @attributeType "string"
      */
     zIndex: string;
 
@@ -177,6 +190,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      * "Runs when a press event is initiated."
      * ]
      * @name onpress
+     * @attributeType "string"
      */
     onpress: {};
 
@@ -188,6 +202,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      * "Runs when a release event is initiated."
      * ]
      * @name onrelease
+     * @attributeType "string"
      */
     onrelease: {};
 
@@ -200,6 +215,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Sends a signal on a click or tap event (mouse or swipe up and down quickly)."
      * ]
      * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @attributeType "join"
      */
     sendEventOnClick: string;
 
@@ -213,6 +229,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "is updated using the 'receivestateselect' attribute."
      * ]
      * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @attributeType "join"
      */
     sendEventSelectionChange: string;
 
@@ -225,6 +242,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The current selected source type."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventSelectionSourceType: string;
 
@@ -238,6 +256,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      * "is updated using the 'receiveStateUrl' attribute."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventSelectionURL: string;
 
@@ -250,6 +269,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The current selected snapshot URL."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventSnapShotURL: string;
 
@@ -262,6 +282,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The current video error code state."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventErrorCode: string;
 
@@ -274,6 +295,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The current video error message state."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventErrorMessage: string;
 
@@ -286,6 +308,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The current video retry count state."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventRetryCount: string;
 
@@ -298,6 +321,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The current video resolution."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventResolution: string;
 
@@ -310,6 +334,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The current state of the video associated with the current source selection."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventState: string;
 
@@ -322,6 +347,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The current state of the snapshot associated with the current source selection."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventSnapShotStatus: string;
 
@@ -334,6 +360,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The timestamp of the last update time of the still image associated with the current source selection."
      * ]
      * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     sendEventSnapShotLastUpdateTime: string;
 
@@ -346,6 +373,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The default value is empty. Defines the video URL as an attribute."
      * ]
      * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     receiveStateUrl: string;
 
@@ -358,6 +386,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Provides the still image URL to use when selection changes to an INDEX value."
      * ]
      * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     receiveStateSnapShotURL: string;
 
@@ -372,6 +401,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "the background of ch5-video--nosource css class is displayed."
      * ]
      * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     receiveStatePlay: string;
 
@@ -387,6 +417,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "the first video source defined (equivalent of index 0) in the list will be played."
      * ]
      * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     receiveStateSelect: string;
 
@@ -399,6 +430,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Provides the video source type when the selection changes to an INDEX value."
      * ]
      * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     receiveStateSourceType: string;
 
@@ -411,6 +443,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Defines the refresh rate for a still image url. 0 indicates no refresh."
      * ]
      * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+     * @attributeType "join"
      */
     receiveStateSnapShotRefreshRate: string;
 
@@ -423,6 +456,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Provides the user ID for credentials supplied to a camera for a video URL."
      * ]
      * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     receiveStateUserId: string;
 
@@ -435,6 +469,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Provides the user ID for credentials supplied to a camera for an image URL."
      * ]
      * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     receiveStateSnapShotUserId: string;
 
@@ -447,6 +482,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Provides the password for credentials supplied to a camera for a video URL."
      * ]
      * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     receiveStatePassword: string;
 
@@ -459,6 +495,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Provides the password for credentials supplied to a camera for an image URL."
      * ]
      * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+     * @attributeType "join"
      */
     receiveStateSnapShotPassword: string;
 
@@ -471,6 +508,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Provides the count of the videos."
      * ]
      * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+     * @attributeType "join"
      */
     receiveStateVideoCount: string;
 }

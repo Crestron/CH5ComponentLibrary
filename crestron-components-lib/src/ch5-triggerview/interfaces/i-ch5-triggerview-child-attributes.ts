@@ -83,6 +83,7 @@ export interface ICh5TriggerViewChildAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonshow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   sendEventOnShow: string;
 
@@ -95,6 +96,7 @@ export interface ICh5TriggerViewChildAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateshow
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "join"
    */
   receiveStateShow: string;
 
