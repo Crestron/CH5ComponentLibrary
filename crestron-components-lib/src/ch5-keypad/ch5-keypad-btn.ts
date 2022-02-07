@@ -595,7 +595,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
     public setContractBasedEventHandler(parentContractName: string) {
         this.logger.start("setContractBasedEventHandler");
-        this.sendEventOnClick = parentContractName + '.Press' + this.params.contractKey;
+        this.sendEventOnClick = parentContractName + 'Press' + this.params.contractKey;
         this.logger.stop();
     }
 
