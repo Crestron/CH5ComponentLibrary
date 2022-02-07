@@ -35,3 +35,5 @@ export * from "./../ch5-toggle/interfaces/i-ch5-toggle-documentation";
 export * from "./../ch5-triggerview/interfaces/i-ch5-triggerview-documentation";
 export * from "./../ch5-triggerview/interfaces/i-ch5-triggerview-child-documentation";
 export * from './../ch5-video/interfaces/i-ch5-video-documentation';
+export * from './../ch5-jointext-boolean/interfaces/i-ch5-jointext-boolean-documentation';
+export * from './../ch5-jointext-string/interfaces/i-ch5-jointext-string-documentation';
