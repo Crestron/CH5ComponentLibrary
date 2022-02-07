@@ -3702,6 +3702,40 @@
           },
           {
             "documentation": [
+              "`hideCancelButton` attribute",
+              "***",
+              "Boolean for showing or hiding the Cancel button."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "hidecancelbutton",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "boolean"
+          },
+          {
+            "documentation": [
+              "`hideSubmitButton` attribute",
+              "***",
+              "Boolean for showing or hiding the Submit button."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "hidesubmitbutton",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "boolean"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
