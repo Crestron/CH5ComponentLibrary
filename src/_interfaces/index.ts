@@ -37,3 +37,4 @@ export * from "./../ch5-triggerview/interfaces/i-ch5-triggerview-child-documenta
 export * from './../ch5-video/interfaces/i-ch5-video-documentation';
 export * from './../ch5-jointext-boolean/interfaces/i-ch5-jointext-boolean-documentation';
 export * from './../ch5-jointext-string/interfaces/i-ch5-jointext-string-documentation';
+export * from './../ch5-jointext-numeric/interfaces/i-ch5-jointext-numeric-documentation';

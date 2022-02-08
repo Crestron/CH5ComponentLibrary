@@ -33,5 +33,6 @@ export * from './ch5-keypad/index';
 export * from './ch5-resync/ch5-resync';
 export * from './ch5-jointext-boolean';
 export * from './ch5-jointext-string';
+export * from './ch5-jointext-numeric';
 // Shared models used for WCT tests
 export * from './utility-models/index'; // Use CrComLib.Ch5RoleAttributeMapping to access
