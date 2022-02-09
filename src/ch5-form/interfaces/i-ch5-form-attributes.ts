@@ -136,4 +136,28 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * @attributeType "string"
    */
   cancelId: string;
+
+  /**
+   * @name hidecancelbutton
+   * @documentation
+   * [
+   * "`hideCancelButton` attribute",
+   * "***",
+   * "Boolean for showing or hiding the Cancel button."
+   * ]
+   * @attributeType "boolean"
+   */
+  hideCancelButton: boolean;
+
+  /**
+   * @name hidesubmitbutton
+   * @documentation
+   * [
+   * "`hideSubmitButton` attribute",
+   * "***",
+   * "Boolean for showing or hiding the Submit button."
+   * ]
+   * @attributeType "boolean"
+   */
+  hideSubmitButton: boolean;
 }
