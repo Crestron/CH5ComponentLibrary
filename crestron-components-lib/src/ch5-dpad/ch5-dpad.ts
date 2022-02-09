@@ -891,7 +891,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		} else {
 			const isValidStructureInChildDiv = this.checkIfOrderOfTagsAreInTheRightOrder(childItemsContainer[0].children);
 			if (!isValidStructureInChildDiv) {
-				throw new Error("ch5-dpad not constructed correctly, please refer documentation.");
+				this.createAndAppendAllExistingButtonsUnderDpad(childItemsContainer);
 			}
 		}
 
@@ -957,17 +957,35 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		const centerBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'center');
-		const topBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'top');
+		let centerBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'center');
+		let topBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'top');
 		
-		const rightBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'right');
+		let rightBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'right');
 
-		const bottomBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'bottom');
+		let bottomBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'bottom');
 
-		const leftBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'left');
+		let leftBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'left');
 
-		if (!centerBtn || !topBtn || !rightBtn || !bottomBtn || !leftBtn) {
-			throw new Error("ch5-dpad not constructed correctly, please refer documentation.");
+		// if user forget one or more buttons the default ones will be added
+		if (!centerBtn) {
+			centerBtn = new Ch5DpadButton();
+			centerBtn.setAttribute('key', 'center');
+		}
+		if (!topBtn) {
+			topBtn = new Ch5DpadButton();
+			topBtn.setAttribute('key', 'top');
+		}
+		if (!rightBtn) {
+			rightBtn = new Ch5DpadButton();
+			rightBtn.setAttribute('key', 'right');
+		}
+		if (!bottomBtn) {
+			bottomBtn = new Ch5DpadButton();
+			bottomBtn.setAttribute('key', 'bottom');
+		}
+		if (!leftBtn) {
+			leftBtn = new Ch5DpadButton();
+			leftBtn.setAttribute('key', 'left');
 		}
 
 		this.createEmptyContainerDiv();
