@@ -310,6 +310,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
         CH5DpadUtils.clearComponentContent(this);
 
+        this._pressInfo = new Ch5ButtonPressInfo();
+
         // events binding
         this.bindEventListenersToThis();
         this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
