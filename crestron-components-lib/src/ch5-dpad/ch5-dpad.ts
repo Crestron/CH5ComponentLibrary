@@ -920,20 +920,20 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	private createAndAppendAllButtonsUnderDpad() {
 		const centerBtn = new Ch5DpadButton();
 		centerBtn.setAttribute('key', 'center');
-		const topBtn = new Ch5DpadButton();
-		topBtn.setAttribute('key', 'top');
+		const upBtn = new Ch5DpadButton();
+		upBtn.setAttribute('key', 'up');
 		const rightBtn = new Ch5DpadButton();
 		rightBtn.setAttribute('key', 'right');
-		const bottomBtn = new Ch5DpadButton();
-		bottomBtn.setAttribute('key', 'bottom');
+		const downBtn = new Ch5DpadButton();
+		downBtn.setAttribute('key', 'down');
 		const leftBtn = new Ch5DpadButton();
 		leftBtn.setAttribute('key', 'left');
 
 		this.createEmptyContainerDiv();
 
-		// order of appending is --- center, top, left/right, right/left, bottom
+		// order of appending is --- center, up, left/right, right/left, down
 		this.container.appendChild(centerBtn);
-		this.container.appendChild(topBtn);
+		this.container.appendChild(upBtn);
 
 		if (this.shape === Ch5Dpad.SHAPES[0]) {
 			// if the selected shape is 'plus'
@@ -949,7 +949,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			throw new Error("Seems to be an invalid shape. Must be 'plus' or 'circle' as values.");
 		}
 
-		this.container.appendChild(bottomBtn);
+		this.container.appendChild(downBtn);
 	}
 
 	private createAndAppendAllExistingButtonsUnderDpad(buttonsList: HTMLCollection) {
@@ -958,11 +958,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 
 		let centerBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'center');
-		let topBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'top');
+		let upBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'up');
 		
 		let rightBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'right');
 
-		let bottomBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'bottom');
+		let downBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'down');
 
 		let leftBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'left');
 
@@ -971,17 +971,17 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			centerBtn = new Ch5DpadButton();
 			centerBtn.setAttribute('key', 'center');
 		}
-		if (!topBtn) {
-			topBtn = new Ch5DpadButton();
-			topBtn.setAttribute('key', 'top');
+		if (!upBtn) {
+			upBtn = new Ch5DpadButton();
+			upBtn.setAttribute('key', 'up');
 		}
 		if (!rightBtn) {
 			rightBtn = new Ch5DpadButton();
 			rightBtn.setAttribute('key', 'right');
 		}
-		if (!bottomBtn) {
-			bottomBtn = new Ch5DpadButton();
-			bottomBtn.setAttribute('key', 'bottom');
+		if (!downBtn) {
+			downBtn = new Ch5DpadButton();
+			downBtn.setAttribute('key', 'down');
 		}
 		if (!leftBtn) {
 			leftBtn = new Ch5DpadButton();
@@ -990,9 +990,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		this.createEmptyContainerDiv();
 
-		// order of appending is --- center, top, left/right, right/left, bottom
+		// order of appending is --- center, up, left/right, right/left, down
 		this.container.appendChild(centerBtn);
-		this.container.appendChild(topBtn);
+		this.container.appendChild(upBtn);
 
 		if (this.shape === Ch5Dpad.SHAPES[0]) {
 			// if the selected shape is 'plus'
@@ -1008,13 +1008,13 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			throw new Error("Seems to be an invalid shape. Must be 'plus' or 'circle' as values.");
 		}
 
-		this.container.appendChild(bottomBtn);
+		this.container.appendChild(downBtn);
 	}
 
 	/**
 	 * Function to check if the tags are sequenced in the right/expected order
 	 * @param childItems 
-	 * @returns true if the order is correct [order of appending is --- center, top, left/right, right/left, bottom]
+	 * @returns true if the order is correct [order of appending is --- center, up, left/right, right/left, down]
 	 */
 	private checkIfOrderOfTagsAreInTheRightOrder(childItems: HTMLCollection) {
 		let ret = false;
@@ -1023,10 +1023,10 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			const secondTag = this.shape === Ch5Dpad.SHAPES[0] ? 'right' : 'left'; // if 'circle'
 
 			ret = ((childItems[0].getAttribute('key') === 'center') &&
-				(childItems[1].getAttribute('key') === 'top') &&
+				(childItems[1].getAttribute('key') === 'up') &&
 				(childItems[2].getAttribute('key') === firstTag) &&
 				(childItems[3].getAttribute('key') === secondTag) &&
-				(childItems[4].getAttribute('key') === 'bottom'));
+				(childItems[4].getAttribute('key') === 'down'));
 		} else {
 			// removing child tags and emptying DPAD if the tag count is neither 0 or 5
 			if (childItems.length > 0) {
@@ -1193,9 +1193,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 		const buttonList = this.getElementsByTagName("ch5-dpad-button");
 		let centerBtn;
-		let topBtn;
+		let upBtn;
 		let rightBtn;
-		let bottomBtn;
+		let downBtn;
 		let leftBtn;
 		if (buttonList.length > 0) {
 			// tslint:disable-next-line:prefer-for-of
@@ -1206,8 +1206,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 						case 'center':
 							centerBtn = buttonList[index];
 							break;
-						case 'top':
-							topBtn = buttonList[index];
+						case 'up':
+							upBtn = buttonList[index];
 							break;
 						case 'left':
 							leftBtn = buttonList[index];
@@ -1215,8 +1215,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 						case 'right':
 							rightBtn = buttonList[index];
 							break;
-						case 'bottom':
-							bottomBtn = buttonList[index];
+						case 'down':
+							downBtn = buttonList[index];
 							break;	
 						default:
 							centerBtn = buttonList[index];
@@ -1231,17 +1231,17 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.center;
 				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			if (!_.isNil(topBtn)) {
-				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.top;
-				topBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+			if (!_.isNil(upBtn)) {
+				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.up;
+				upBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 			if (!_.isNil(rightBtn)) {
 				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.right;
 				rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
-			if (!_.isNil(bottomBtn)) {
-				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.bottom;
-				bottomBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+			if (!_.isNil(downBtn)) {
+				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.down;
+				downBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 			if (!_.isNil(leftBtn)) {
 				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.left;
@@ -1252,9 +1252,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	private updateContractNameBasedHandlers(contractName: string) {
 		const buttonList = this.getElementsByTagName("ch5-dpad-button");
 		let centerBtn;
-		let topBtn;
+		let upBtn;
 		let rightBtn;
-		let bottomBtn;
+		let downBtn;
 		let leftBtn;
 		if (buttonList.length > 0) {
 			// tslint:disable-next-line:prefer-for-of
@@ -1265,8 +1265,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 						case 'center':
 							centerBtn = buttonList[index];
 							break;
-						case 'top':
-							topBtn = buttonList[index];
+						case 'up':
+							upBtn = buttonList[index];
 							break;
 						case 'left':
 							leftBtn = buttonList[index];
@@ -1274,8 +1274,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 						case 'right':
 							rightBtn = buttonList[index];
 							break;
-						case 'bottom':
-							bottomBtn = buttonList[index];
+						case 'down':
+							downBtn = buttonList[index];
 							break;	
 						default:
 							centerBtn = buttonList[index];
@@ -1290,9 +1290,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 
-			if (!_.isNil(topBtn)) {
-				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.top;
-				topBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+			if (!_.isNil(upBtn)) {
+				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.up;
+				upBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 
 			if (!_.isNil(rightBtn)) {
@@ -1300,9 +1300,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 
-			if (!_.isNil(bottomBtn)) {
-				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.bottom;
-				bottomBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
+			if (!_.isNil(downBtn)) {
+				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.down;
+				downBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 
 			if (!_.isNil(leftBtn)) {
