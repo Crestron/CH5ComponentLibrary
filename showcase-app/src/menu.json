@@ -249,16 +249,8 @@
               "label": "Sizes"
             },
             {
-              "url": "ch5-dpad/ch5-dpad-iconclass.html",
-              "label": "Icon"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-iconurl.html",
-              "label": "Iconurl"
-            },
-            {
               "url": "ch5-dpad/ch5-dpad-sendeventonclickstart.html",
-              "label": "SendEventurlStart"
+              "label": "SendEventOnClickStart"
             },
             {
               "url": "ch5-dpad/ch5-dpad-contract.html",
@@ -301,6 +293,44 @@
       "label": "CH5 DPad"
     },
     {
+      "label": "CH5 DPadButton",
+      "url": "ch5-dpad-button/ch5-dpad-button-key.html",
+      "children": [
+        {
+          "label": "Attributes",
+          "url": "ch5-dpad-button/ch5-dpad-button-key.html",
+          "children": [
+            {
+              "label": "Key",
+              "url": "ch5-dpad-button/ch5-dpad-button-key.html"
+            },
+            {
+              "label": "IconClass",
+              "url": "ch5-dpad-button/ch5-dpad-button-iconclass.html"
+            },
+            {
+              "label": "Iconurl",
+              "url": "ch5-dpad-button/ch5-dpad-button-iconurl.html"
+            },
+            {
+              "label": "Label",
+              "url": "ch5-dpad-button/ch5-dpad-button-label.html"
+            }
+          ]
+        },
+        {
+          "label": "Common",
+          "url": "ch5-dpad-button/ch5-dpad-button-disable-enable.html",
+          "children": [
+            {
+              "label": "disabled / enabled",
+              "url": "ch5-dpad-button/ch5-dpad-button-disable-enable.html"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "url": "ch5-keypad/ch5-keypad-types.html",
       "children": [
         {
@@ -337,12 +367,8 @@
               "label": "Stretch"
             },
             {
-              "url": "ch5-keypad/ch5-keypad-iconclass.html",
-              "label": "Icon, Labels"
-            },
-            {
-              "url": "ch5-keypad/ch5-keypad-sendeventurlstart.html",
-              "label": "SendEventurlStart"
+              "url": "ch5-keypad/ch5-keypad-sendeventonclickstart.html",
+              "label": "SendEventOnClickStart"
             },
             {
               "url": "ch5-keypad/ch5-keypad-contract.html",
@@ -389,12 +415,58 @@
             {
               "url": "ch5-keypad/ch5-keypad-common-show.html",
               "label": "show / hide"
+            },
+            {
+              "url": "ch5-keypad/ch5-keypad-i18n.html",
+              "label": "internalization"
             }
           ],
           "label": "Common"
         }
       ],
       "label": "CH5 Keypad"
+    },
+    {
+      "label": "CH5 KeypadButton",
+      "url": "ch5-keypad-button/ch5-keypad-button-key.html",
+      "children": [
+        {
+          "label": "Attributes",
+          "url": "ch5-keypad-button/ch5-keypad-button-key.html",
+          "children": [
+            {
+              "label": "Key",
+              "url": "ch5-keypad-button/ch5-keypad-button-key.html"
+            },
+            {
+              "label": "IconClass",
+              "url": "ch5-keypad-button/ch5-keypad-button-iconclass.html"
+            },
+            {
+              "label": "LabelMajor",
+              "url": "ch5-keypad-button/ch5-keypad-button-labelmajor.html"
+            },
+            {
+              "label": "LabelMinor",
+              "url": "ch5-keypad-button/ch5-keypad-button-labelminor.html"
+            }
+          ]
+        },
+        {
+          "label": "Common",
+          "url": "ch5-keypad-button/ch5-keypad-button-disable-enable.html",
+          "children": [
+            {
+              "label": "id",
+              "url": "ch5-keypad-button/ch5-keypad-button-id.html"
+            },
+            {
+              "label": "disabled / enabled",
+              "url": "ch5-keypad-button/ch5-keypad-button-disable-enable.html"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "component-configuration/attributes.html",

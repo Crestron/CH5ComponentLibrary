@@ -1875,7 +1875,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			noUiHandle.addEventListener('focus', this._onFocus);
 			noUiHandle.addEventListener('blur', this._onBlur);
 			this._elSlider.addEventListener('mouseleave', this._onMouseLeave);
-			this._elSlider.addEventListener('touchmove', this._onMouseLeave);;
+			this._elSlider.addEventListener('touchmove', this._onMouseLeave);
+			noUiHandle.addEventListener('pointermove', (event) => { event.stopPropagation() });
 		}
 	}
 
@@ -2277,7 +2278,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
 				maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
 				maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestBottom = offsetX + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 			}
 
 		} else {
