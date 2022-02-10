@@ -388,7 +388,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
             return;
         }
 
-        this.info('ch5-keypad-btn' + this.params.name +
+        this.info('ch5-keypad-child-button' + this.params.name +
             ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
         switch (attr) {
             case 'receivestateshow':
@@ -807,5 +807,5 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-keypad-btn', Ch5KeypadButton);
+    window.customElements.define('ch5-keypad-child-button', Ch5KeypadButton);
 }
