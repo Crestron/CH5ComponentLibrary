@@ -1,5 +1,6 @@
 {% raw %}
-let onDocumentReady = function() {
+
+$(document).ready(() => {
     const updateDirty = (container, selectEl) => {
         container.innerHTML = selectEl.getDirty();
     };
@@ -55,9 +56,11 @@ let onDocumentReady = function() {
     };
 
     initActions('volume1', 'dirty-select-1', 'selected-1', 'submit-btn-1', 'reset-btn-1', 'set-btn-1', 3);
+})
 
-};
 
-$(document).ready = onDocumentReady();
+
+
+
 
 {% endraw %}

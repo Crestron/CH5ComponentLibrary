@@ -317,16 +317,6 @@
               "url": "ch5-dpad-button/ch5-dpad-button-label.html"
             }
           ]
-        },
-        {
-          "label": "Common",
-          "url": "ch5-dpad-button/ch5-dpad-button-disable-enable.html",
-          "children": [
-            {
-              "label": "disabled / enabled",
-              "url": "ch5-dpad-button/ch5-dpad-button-disable-enable.html"
-            }
-          ]
         }
       ]
     },
@@ -449,20 +439,6 @@
             {
               "label": "LabelMinor",
               "url": "ch5-keypad-button/ch5-keypad-button-labelminor.html"
-            }
-          ]
-        },
-        {
-          "label": "Common",
-          "url": "ch5-keypad-button/ch5-keypad-button-disable-enable.html",
-          "children": [
-            {
-              "label": "id",
-              "url": "ch5-keypad-button/ch5-keypad-button-id.html"
-            },
-            {
-              "label": "disabled / enabled",
-              "url": "ch5-keypad-button/ch5-keypad-button-disable-enable.html"
             }
           ]
         }

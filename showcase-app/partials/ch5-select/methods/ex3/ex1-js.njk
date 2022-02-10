@@ -1,5 +1,5 @@
 {% raw %}
-let onDocumentReady = function() {
+$(document).ready(() => {
     const updateDirty = (container, selectEl) => {
         container.innerHTML = selectEl.getDirty();
     };
@@ -55,8 +55,6 @@ let onDocumentReady = function() {
     };
     initActions('selectWithReceiveSignalSelected', 'dirty-select-3', 'selected-3', 'submit-btn-3',
                 'reset-btn-3', 'set-btn-3', 3);
-};
-
-$(document).ready = onDocumentReady();
+})
 
 {% endraw %}
