@@ -18,8 +18,8 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 
     //#region 1.1 readonly variables
     public static readonly DEFAULT_ICONS = {
-        top: 'fa-caret-up',
-        bottom: 'fa-caret-down',
+        up: 'fa-caret-up',
+        down: 'fa-caret-down',
         left: 'fa-caret-left',
         right: 'fa-caret-right',
         center: 'fa-circle'
@@ -29,7 +29,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 
     //#region 1.2 private / protected variables
     private labelClass: string = 'dpad-btn-label';
-    private buttonTypeKey: TCh5DpadChildButtonType = null as unknown as TCh5DpadChildButtonType;
 
     // private setter getter specific vars
     private _label: string = '';

@@ -11,7 +11,7 @@ export type TCh5DpadShape = 'plus' | 'circle';
 
 export type TCh5DpadStretch = 'both' | 'width' | 'height';
 
-export type TCh5DpadChildButtonType = 'top' | 'bottom' | 'left' | 'right' | 'center';
+export type TCh5DpadChildButtonType = 'up' | 'down' | 'left' | 'right' | 'center';
 
 export type TCh5DpadButtonClassListType = {
     commonBtnClass: string,

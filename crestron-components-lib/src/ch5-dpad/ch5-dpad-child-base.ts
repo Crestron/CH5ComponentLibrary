@@ -37,14 +37,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
     };
 
-    public static readonly DEFAULT_ICONS = {
-        top: 'fa-caret-up',
-        bottom: 'fa-caret-down',
-        left: 'fa-caret-left',
-        right: 'fa-caret-right',
-        center: 'fa-circle'
-    };
-
     //#region 1.1 readonly variables
     public primaryCssClass = '';
     public cssClassPrefix = '';
