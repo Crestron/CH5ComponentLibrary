@@ -25,8 +25,8 @@ export class CH5KeypadButtonData {
         const retArr: TCh5KeypadButtonCreateDTO[] = [];
         const majors: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
         const minors: string[] = ['&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '+', ''];
-        const contractList: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', '0', 'Hash'];
-        const joinCountList: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 9, 11]; // STAR is 10, ZERO is 9, when it comes to serial joins
+        const contractList: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', '0','Hash'];
+        const joinCountList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 11]; // STAR is 10, ZERO is 9, when it comes to serial joins
         const classNameList: string[] = ['', '', '', '', '', '', '', '', '', this.miscOneBtnCssClass, '', this.miscTwoBtnCssClass];
 
         for (let i = 0; i < majors.length; i++) {
@@ -116,7 +116,7 @@ export class CH5KeypadButtonData {
         const key = ele.getAttribute('key');
         const index = (!!key && key.length > 0) ? key.replace('button', '') : null;
         if (index !== null) {
-            const contractList: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', '0', 'Hash', 'ExtraButton'];
+            const contractList: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', 'Hash', 'ExtraButton'];
             const indexRef = this.getIndexRefForChildBtn(index);
             const major = ele.getAttribute('labelmajor');
             const minor = ele.getAttribute('labelminor');
@@ -124,7 +124,7 @@ export class CH5KeypadButtonData {
             const iconClass = ele.getAttribute('iconclass');
             const contractKey = contractList[indexRef];
             const joinCountToAdd = (contractName.length === 0 && sendEventOnClickStart.length > 0) ?
-                (parseInt(sendEventOnClickStart, 10) + index + '') : '';
+                parseInt(sendEventOnClickStart, 10) + indexRef : '';
 
             obj = {
                 indexRef,
@@ -135,7 +135,7 @@ export class CH5KeypadButtonData {
                 iconClass: !!iconClass ? iconClass.split(' ') : [],
                 contractName,
                 contractKey,
-                joinCountToAdd,
+                joinCountToAdd: joinCountToAdd.toString(),
                 key: !!key ? key : '',
             }
         }
@@ -146,9 +146,6 @@ export class CH5KeypadButtonData {
         let ret: number = -1;
         switch (str.toLowerCase()) {
             case 'star':
-                ret = 9;
-                break;
-            case '0': // this is special because its after 'Star' character
                 ret = 10;
                 break;
             case 'hash':
@@ -158,7 +155,7 @@ export class CH5KeypadButtonData {
                 ret = 12;
                 break;
             default:
-                ret = parseInt(str, 10) - 1;
+                ret = parseInt(str, 10);
                 break;
         }
         return ret;
