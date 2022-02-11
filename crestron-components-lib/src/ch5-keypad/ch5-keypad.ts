@@ -1014,6 +1014,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         }
         if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
             this.classList.add(Ch5Keypad.btnStretchClassPrefix + this.stretch);
+            if (!!this.size && this.size.length > 0) {
+				this.classList.remove(Ch5Keypad.btnSizeClassPrefix + this.size);
+			}
         }
 
         this.classList.add(Ch5Keypad.btnTypeClassPrefix +

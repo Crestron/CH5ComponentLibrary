@@ -186,6 +186,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		if (value !== null) {
 			const stretches = ['', ...Ch5Dpad.STRETCHES];
 			ComponentHelper.setAttributeValueOnControl(this, 'stretch', value, stretches, this.stretchHandler.bind(this));
+			this.stretchHandler();
 		}
 		this.logger.stop();
 	}
@@ -1104,6 +1105,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 		if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
 			this.classList.add(Ch5Dpad.btnStretchClassPrefix + this.stretch);
+			if (!!this.size && this.size.length > 0) {
+				this.classList.remove(Ch5Dpad.btnSizeClassPrefix + this.size);
+			}
 		}
 	}
 
