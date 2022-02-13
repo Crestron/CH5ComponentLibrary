@@ -859,6 +859,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				this.stretch = newValue as TCh5DpadStretch;
 				break;
 			case 'contractname':
+				// Match and replace all the ending dots in the contract name and remove them, adding only 1 dot at the end.
+				if (newValue !== newValue.replace(/[\.]+$/, '') + '.') {
+					this.setAttribute('contractname', newValue.replace(/[\.]+$/, '') + '.');
+					break;
+				}
 				this.contractName = newValue;
 				this.updateContractNameBasedHandlers(this._contractName);
 				break;

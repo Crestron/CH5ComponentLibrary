@@ -35,7 +35,7 @@ export class CH5KeypadButtonData {
             if (runtimeChildButtonList.hasOwnProperty(name)) {
                 toMerge = runtimeChildButtonList[name];
             }
-            const contractName = parentContractName.length > 0 ? (parentContractName + '.Press' + contractList[i]) : '';
+            const contractName = parentContractName.length > 0 ? (parentContractName + 'Press' + contractList[i]) : '';
             const className = classNameList[i].length > 0 ? classNameList[i] : this.numberTypeBtnCssClass;
             const joinCount = (contractName.length === 0 && sendEventOnClickStartVal.length > 0) ?
                 parseInt(sendEventOnClickStartVal, 10) + joinCountList[i] : sendEventOnClickStartVal;
@@ -89,7 +89,7 @@ export class CH5KeypadButtonData {
             if (runtimeChildButtonList.hasOwnProperty(name)) {
                 toMerge = runtimeChildButtonList[name];
             }
-            const contractName = parentContractName.length > 0 ? (parentContractName + '.Press' + contractList[i]) : '';
+            const contractName = parentContractName.length > 0 ? (parentContractName + 'Press' + contractList[i]) : '';
             const joinCount = (sendEventOnClickStartVal.length > 0) ?
                 parseInt(sendEventOnClickStartVal, 10) + joinIndex : sendEventOnClickStartVal;
             const obj: TCh5KeypadButtonCreateDTO = {
