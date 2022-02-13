@@ -65,11 +65,12 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *       "\tstretch=\"${4:stretch}\"",
  *       "\ttextorientation=\"${5:textOrientation}\"",
  *       "\tshowextrabutton=\"${6:showExtraButton}\"",
- *       "\tusecontractforenable=\"${7:useContractForEnable}\"",
- *       "\tusecontractforshow=\"${8:useContractForShow}\"",
- *       "\tusecontractforcustomclass=\"${9:useContractForCustomClass}\"",
- *       "\tusecontractforcustomstyle=\"${10:useContractForCustomStyle}\"",
- *       "\tsendeventonclickstart=\"${11:sendEventOnClickStart}\"",
+ *       "\treceivestateextrabuttonshow=\"${7:receiveStateExtraButtonShow}\"",
+ *       "\tusecontractforenable=\"${8:useContractForEnable}\"",
+ *       "\tusecontractforshow=\"${9:useContractForShow}\"",
+ *       "\tusecontractforcustomclass=\"${10:useContractForCustomClass}\"",
+ *       "\tusecontractforcustomstyle=\"${11:useContractForCustomStyle}\"",
+ *       "\tsendeventonclickstart=\"${12:sendEventOnClickStart}\"",
  *        ">",
  *       "</ch5-keypad>"
  *     ]
