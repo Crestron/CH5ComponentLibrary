@@ -8,47 +8,47 @@
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
 /**
- * @name Ch5 Keypad Child Button
+ * @name Ch5 Keypad Button
  * @isattribute false
- * @tagName ch5-keypad-child-button
+ * @tagName ch5-keypad-button
  * @role container
- * @description Ch5 Keypad Child Button offers an approach to customize the child buttons within a keypad.
+ * @description Ch5 Keypad Button offers an approach to customize the child buttons within a keypad.
  * @componentVersion 1.0.0
  * @documentation
  * [
- * "`ch5-keypad-child-button` element",
+ * "`ch5-keypad-button` element",
  * "***",
  * "The Keypad Child Button component is used to customize the button labels or icon."
  * ]
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-keypad-child-button:basic",
+ *    "prefix": "ch5-keypad-button:basic",
  *     "description": "Crestron Keypad Child Button",
  *     "body": [
- *       "<ch5-keypad-child-button key=\"button${1:Button_Key}\">",
- *       "</ch5-keypad-child-button>$0"
+ *       "<ch5-keypad-button key=\"button${1:Button_Key}\">",
+ *       "</ch5-keypad-button>$0"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-keypad-child-button:labels",
+ *    "prefix": "ch5-keypad-button:labels",
  *     "description": "Crestron Keypad Child Button",
  *     "body": [
- *       "<ch5-keypad-child-button key=\"button${1:Button_Key}\"",
+ *       "<ch5-keypad-button key=\"button${1:Button_Key}\"",
  *       "\tlabelmajor=\"${2:Label_Major}\"",
  *       "\tlabelminor=\"${3:Label_Minor}\"",
  *        ">",
- *       "</ch5-keypad-child-button>$0"
+ *       "</ch5-keypad-button>$0"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-keypad-child-button:iconclass",
+ *    "prefix": "ch5-keypad-button:iconclass",
  *     "description": "Crestron Keypad Child Button",
  *     "body": [
- *       "<ch5-keypad-child-button key=\"button${1:Button_Key}\"",
+ *       "<ch5-keypad-button key=\"button${1:Button_Key}\"",
  *       "\ticonclass=\"${2:Icon_Class}\"",
  *        ">",
- *       "</ch5-keypad-child-button>$0"
+ *       "</ch5-keypad-button>$0"
  *     ]
  *   }
  * ]

@@ -798,7 +798,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
         Promise.all([
-            customElements.whenDefined('ch5-keypad-child-button')
+            customElements.whenDefined('ch5-keypad-button')
         ]).then(() => {
             // check if all components required to build Keypad are ready, instantiated and available for consumption
             this.onAllSubElementsCreated();
@@ -1143,7 +1143,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         const childElements: Element[] = Array.from(this.children);
         if (childElements.length > 0) {
             for (const ele of childElements) {
-                if (ele.tagName.toLowerCase() === 'ch5-keypad-child-button') {
+                if (ele.tagName.toLowerCase() === 'ch5-keypad-button') {
                     const item = CH5KeypadButtonData.getChildBtnDTOFromElement(ele, this.contractName, this.sendEventOnClickStart);
                     if (!this.runtimeChildButtonList.hasOwnProperty(item.name)) {
                         this.runtimeChildButtonList[item.name] = item;
