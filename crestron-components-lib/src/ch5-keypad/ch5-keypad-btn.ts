@@ -213,8 +213,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
         this._iconClass = iconClass.join(' ');
         this._key = key;
 
-        console.log(key, joinCountToAdd, 'final');
-
         const eventHandlerValue = (contractName.length > 0) ? contractName : joinCountToAdd;
         this._sendEventOnClick = eventHandlerValue;
 
@@ -399,6 +397,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
             case 'receivestatehidepulse':
             case 'receivestatecustomstyle':
             case 'receivestatecustomclass':
+            case 'receivestateextrabuttonshow':
             case 'dir':
                 // Do nothing for any of the receiveState*
                 break;

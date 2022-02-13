@@ -388,6 +388,16 @@
           "label": "Attributes"
         },
         {
+          "url": "ch5-keypad/ch5-keypad-receivestateextrabuttonshow.html",
+          "label": "Events",
+          "children": [
+            {
+              "url": "ch5-keypad/ch5-keypad-receivestateextrabuttonshow.html",
+              "label": "receiveStateExtraButtonShow"
+            }
+          ]
+        },
+        {
           "url": "ch5-keypad/ch5-keypad-common-disable-enable.html",
           "children": [
             {

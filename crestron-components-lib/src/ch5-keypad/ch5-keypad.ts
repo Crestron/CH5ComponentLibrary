@@ -28,6 +28,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         receivestatehidepulse: { direction: "state", booleanJoin: 1, contractName: true },
         receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
         receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
+        receivestateextrabuttonshow: { direction: "state", stringJoin: 1, contractName: true },
 
         sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
         sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
@@ -120,6 +121,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private _textOrientation: TCh5KeypadTextOrientation = Ch5Keypad.TEXT_ORIENTATIONS[0];
     private _sendEventOnClickStart: string = '';
     private _showExtraButton: boolean = false;
+    private _receiveStateExtraButtonShow : string = '';
+    private _subKeySigReceiveExtraButtonShow: string = '';
     private _useContractForEnable: boolean = false;
     private _useContractForShow: boolean = false;
     private _useContractForCustomStyle: boolean = false;
@@ -237,6 +240,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     }
 
     public set showExtraButton(value: boolean) {
+        const isContractBased = this.checkIfContractAllows("useContractForExtraButtonShow", "receiveStateExtraButtonShow ", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateExtraButtonShow becomes void
+            return;
+        }
         this.logger.start('set showExtraButton ("' + value + '")');
         ComponentHelper.setAttributeValueOnControlAsBool(
             this, 'showExtraButton', value, false,
@@ -517,6 +525,50 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             this.show = newVal;
         });
     }
+ 
+    public set receiveStateExtraButtonShow(value: string) {
+        const isContractBased = this.checkIfContractAllows("useContractForExtraButtonShow", "receiveStateExtraButtonShow", value);
+        if (isContractBased) {
+            // contract name exists and attribute allows it to be based on contract, then receiveStateExtraButtonShow becomes void
+            return;
+        }
+        value = this._checkAndSetStringValue(value);
+        if ('' === value || value === this._receiveStateExtraButtonShow) {
+            return;
+        }
+
+        this.clearBooleanSignalSubscription(this._receiveStateExtraButtonShow, this._subKeySigReceiveExtraButtonShow);
+
+        this._receiveStateExtraButtonShow = value;
+        this.setAttribute('receivestateextrabuttonshow', value);
+
+        const recSigExtraButtonShowName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateExtraButtonShow);
+        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigExtraButtonShowName);
+
+        if (null === recSig) {
+            return;
+        }
+
+        this._subKeySigReceiveExtraButtonShow = recSig.subscribe((newVal: boolean) => {
+            this.info(' subs callback for signalReceiveExtraButtonShow: ', this._subKeySigReceiveExtraButtonShow, ' Signal has value ', newVal);
+            this.showExtraButton = newVal;
+            if (newVal) {
+                if (this.classList.contains(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide')) {
+                    this.classList.remove(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
+                }
+                if (!this.classList.contains(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show')) {
+                    this.classList.add(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
+                }
+            } else {
+                if (this.classList.contains(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show')) {
+                    this.classList.remove(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
+                }
+                if (!this.classList.contains(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide')) {
+                    this.classList.add(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
+                }
+            }
+        });
+    }
 
     /**
      * overriding default receiveStateEnable specific getter-setter
@@ -786,6 +838,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
             ComponentHelper.setAttributeToElement(this,
                 'useContractForCustomClass', isContractNameAvailable));
+        this.useContractForExtraButtonShow = ComponentHelper.getBoolFromString(
+            ComponentHelper.setAttributeToElement(this,
+                'useContractForExtraButtonShow', isContractNameAvailable));
 
         this.logger.stop();
     }
@@ -886,7 +941,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             "sendeventonclickstart",
             "usecontractforenable",
             "usecontractforshow",
-            "size"
+            "size",
+            'receivestateextrabuttonshow',
+            'usecontractforextrabuttonshow'
         ];
 
         // received signals
@@ -931,6 +988,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             case 'receivestateenable':
                 if (!isValidContract) {
                     this.receiveStateEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                }
+                break;
+            case 'receivestateextrabuttonshow':
+                if (!isValidContract) {
+                    this.receiveStateExtraButtonShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 }
                 break;
             case 'receivestateshowpulse':

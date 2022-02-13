@@ -199,6 +199,19 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      */
     showExtraButton: boolean;
 
+        /**
+     * @documentation
+     * [
+     * "`type` receiveStateExtraButtonShow",
+     * "***",
+     * "The boolean value of the signal determines if the dial button is seen by the user. ",
+     * "Only applicable if contractName is not provided as a parameter."
+     * ]
+     * @name receiveStateExtraButtonShow
+     * @attributeType "boolean"
+     */
+    receiveStateExtraButtonShow: string;
+
     /**
      * @documentation
      * [
