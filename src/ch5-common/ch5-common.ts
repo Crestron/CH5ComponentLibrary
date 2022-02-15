@@ -46,7 +46,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         receivestateshowpulse: { direction: "state", booleanJoin: 1, contractName: true },
         receivestatehidepulse: { direction: "state", booleanJoin: 1, contractName: true },
         receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
-        
+
         sendeventonshow: { direction: "event", booleanJoin: 1, contractName: true }
     };
 
@@ -640,11 +640,12 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowName);
 
         if (null === recSig) {
+            this.info('recSig for signalReceiveShow is null');
             return;
         }
 
         this._subKeySigReceiveShow = recSig.subscribe((newVal: boolean) => {
-            this.info(' subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newVal);
+            this.info('subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newVal);
             this.show = newVal;
         });
     }
@@ -1755,10 +1756,10 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 if (isEmptyValueEqualToTrue === true) {
                     return true;
                 } else {
-                    return Boolean(false);
+                    return false;
                 }
             default:
-                return Boolean(false);
+                return false;
         }
     }
 

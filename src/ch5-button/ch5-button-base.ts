@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core/index";
+import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory, publishEvent } from "../ch5-core/index";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import isNil from 'lodash/isNil';
 
@@ -1000,9 +1000,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.updateCssClassesForCustomState();
 		}
 		customElements.whenDefined('ch5-button').then(() => {
-			// 
+			this.setButtonDisplay(); // This is to handle specific case where the setButtonDisplay isn't called as all button attributes are set to "default" values.
+			// console.log('Custom Elements defined in ch5-button');
+			// publishEvent('object', `component`, { tagName: 'ch5-button', loaded: true, id: this.id });
+			// publishEvent('object', `ch5-button:${this.id}`, { loaded: true, id: this.id });
 		});
-
 		this.logger.stop();
 	}
 

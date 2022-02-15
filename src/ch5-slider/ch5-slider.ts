@@ -1621,7 +1621,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 *
 	 * - submit
 	 * - reset
-	 * - getDirty - inerhit
+	 * - getDirty - inherit
 	 */
 
 	/**
