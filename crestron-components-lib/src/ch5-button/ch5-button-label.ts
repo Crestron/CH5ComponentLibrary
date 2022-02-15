@@ -15,6 +15,7 @@ import { ICh5ButtonLabelAttributes } from "./interfaces/i-ch5-button-label-attri
 
 export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes {
 
+	// private observer: MutationObserver | null = null;
 	constructor() {
 		super();
 	}
@@ -34,16 +35,17 @@ export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes 
 		this.setAttribute('data-ch5-id', this.getCrId());
 		this.initAttributes();
 
-		// const callbackFn = (mutations: any) => console.log("mutations", mutations);
+		// const callbackFn = (mutations: any) => {
+		// 	(this.parentElement as Ch5Button).setButtonDisplay();
+		// }
 		// const configForMut = {
-		//     attributes: true,
-		//     subtree: true,
-		//     characterData: true
+		// 	childList: true,
+		// 	attributes: true,
+		// 	subtree: true,
+		// 	characterData: true
 		// };
-		// const observer = new MutationObserver(callbackFn);
-		// observer.observe(this, configForMut);
-		// observer.disconnect();
-		//     Array.from(this.children).forEach((newChild) => {
+		// this.observer = new MutationObserver(callbackFn);
+		// this.observer.observe(this, configForMut);
 		this.logger.stop();
 	}
 
@@ -53,6 +55,10 @@ export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes 
 	 */
 	public disconnectedCallback() {
 		this.logger.log('Ch5ButtonLabel.disconnectedCallback()');
+		// if (this.observer) {
+		// 	this.observer.disconnect();
+		// 	this.observer = null;
+		// }
 	}
 
 }
