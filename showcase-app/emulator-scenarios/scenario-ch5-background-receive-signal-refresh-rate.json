@@ -7,9 +7,9 @@
         "actions": [
           {
             "state": "receive_refresh_rate",
-            "type": "string",
+            "type": "number",
             "logic": "set",
-            "value": "15"
+            "value": 30
           }
         ]
       },
@@ -20,16 +20,16 @@
         "actions": [
           {
             "state": "receive_refresh_rate",
-            "type": "string",
+            "type": "number",
             "logic": "set",
-            "value": "12"
+            "value": 15
           }
         ]
       }
     ],
     "onStart":[{
       "state": "receive_refresh_rate",
-      "type": "string",
-      "value": "10"
+      "type": "number",
+      "value": 10
     }]
 }
