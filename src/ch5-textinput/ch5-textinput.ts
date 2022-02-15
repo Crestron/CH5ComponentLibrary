@@ -680,7 +680,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 					);
 
 					break;
-				// case 'mask': tbd
 				case 'pattern':
 					this.pattern = this.attributeChangeHandler(
 						'pattern', oldValue, newValue
@@ -700,6 +699,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 					break;
 				case 'mask':
 					this.mask = this.getAttribute('mask') as string;
+// RAGS					this.iconPositioning();
 					break;
 				case 'type':
 					this.inputType = this.attributeChangeHandler(
@@ -993,9 +993,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		}
 	}
 	public get iconPosition(): TCh5TextInputIconPosition {
-
 		this.info('get <ch5-textinput iconposition />')
-
 		return this._iconPosition;
 	}
 
@@ -1250,9 +1248,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @return {TCh5TextInputTextTransform}
 	 */
 	public get textTransform(): TCh5TextInputTextTransform {
-
 		this.info('get <ch5-textinput text-transform />');
-
 		return this._textTransform;
 	}
 
@@ -1262,7 +1258,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @param {string} text
 	 */
 	public set label(text: string) {
-
 		let _label = text;
 		this.info('set <ch5-textinput label="' + text + '"');
 
@@ -1291,9 +1286,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @return {string}
 	 */
 	public get label(): string {
-
 		this.info('get <ch5-textinput label />');
-
 		return this._label;
 	}
 
@@ -1329,7 +1322,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @return {string}
 	 */
 	public get pattern(): string {
-
 		this.info('get <ch5-textinput pattern />');
 		return this._pattern;
 	}
@@ -2179,9 +2171,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @return {void}
 	 */
 	protected iconPositioning(): void {
-
 		this.info("<ch5-textinput />.iconPositioning()");
-
 		if (
 			this.iconClass !== undefined &&
 			this.iconClass !== '' &&
@@ -2200,14 +2190,17 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 */
 	protected iconPositioningHandler(): void {
 		this.info("<ch5-textinput />.iconPositioningHandler()");
-
 		if (this._elIcon.constructor === HTMLElement) {
+			this.info("** 1. IN");
 			this._elIcon.remove();
 		}
 
+		this.info("** 2. this.iconPosition: " + this.iconPosition);
 		if (this.iconPosition === Ch5Textinput.ICONPOSITION[1]) {
-			this._assetsWrapper.appendChild(this._elIcon);
+			this.info("** 3. IN");
+				this._assetsWrapper.appendChild(this._elIcon);
 		} else {
+			this.info("** 4. IN");
 			(this._elInput.parentNode as HTMLElement).insertBefore(
 				this._elIcon, this._elInput);
 		}
@@ -2231,6 +2224,14 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		this.info("<ch5-textinput />.initAttributes()");
 
+		if (this.hasAttribute('pattern')) {
+			this.pattern = this.getAttribute('pattern') as string;
+		}
+		
+		if (this.hasAttribute('mask') && !this.hasAttribute('pattern')) {
+			this.mask = this.getAttribute('mask') as string;
+		}
+
 		if (!this.hasAttribute('type')) {
 			this.setAttribute('type', this.inputType);
 		}
@@ -2251,7 +2252,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		// TODO: mask and pattern attributes must be implemented
 
 		if (this.hasAttribute('iconClass')) {
-
 			this.iconClass = this.getAttribute('iconClass') as string;
 			this.iconPosition = this.getAttribute('iconPosition') as TCh5TextInputIconPosition;
 			this.setAttribute('iconPosition', this.iconPosition);
@@ -2261,10 +2261,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		if (this.hasAttribute('label')) {
 			this.label = this.getAttribute('label') as string;
-		}
-
-		if (this.hasAttribute('pattern')) {
-			this.pattern = this.getAttribute('pattern') as string;
 		}
 
 		if (this.feedbackMode === 'submit' && this.hasAttribute('minlength')) {
@@ -2292,11 +2288,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		if (this.hasAttribute('minimumfontsize')) {
 			this.minimumFontSize = Number(this.getAttribute('minimumfontsize'));
-		}
-
-		if (this.hasAttribute('mask') && !this.hasAttribute('pattern')) {
-			this.mask = this.getAttribute('mask') as string;
-
 		}
 
 		// =================================================================

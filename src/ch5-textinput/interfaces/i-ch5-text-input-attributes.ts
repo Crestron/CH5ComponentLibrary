@@ -25,7 +25,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    *  "***",
    * "The background pattern that will be present when the input is focused. ",
    * "The following combination of prebuilt definitions are permitted: ",
-   * "a - alpha caracter ",
+   * "a - alpha character ",
    * "9 - numeric character ",
    * "* - alphanumeric character"
    * ]

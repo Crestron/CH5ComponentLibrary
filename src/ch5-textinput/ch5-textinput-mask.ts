@@ -20,7 +20,7 @@ export class Ch5tTextInputMask {
   public prefix: string = '_ch5-textinput-mask' as string;
 
   /**
-   * Modifer separator used to add classes for special cases (active|inactive)
+   * Modifier separator used to add classes for special cases (active|inactive)
    *
    * @type {string}
    */
@@ -111,7 +111,7 @@ export class Ch5tTextInputMask {
   /**
    * Determines when the mask will be shown
    * Default value will show the mask only on input focus,
-   * otherwise will be shown everytime
+   * otherwise will be shown every time
    *
    * @private
    * @memberof Ch5tTextInputMask
@@ -260,7 +260,7 @@ export class Ch5tTextInputMask {
    * @see {@link _createInputMaskCompleteEvent}
    * @return {void}
    */
-  public dispatchMaskCompleteEvent(): void{
+  public dispatchMaskCompleteEvent(): void {
 
     const maskCompleteEvent = this._createInputMaskCompleteEvent();
     this.maskElement.dispatchEvent(maskCompleteEvent);
@@ -434,7 +434,7 @@ export class Ch5tTextInputMask {
     if (
       this.lastValueLength !== length &&
       (length === undefined || length === null)) {
-        length = 0;
+      length = 0;
     }
 
     this._lastValueLength = length;
@@ -544,7 +544,7 @@ export class Ch5tTextInputMask {
     if (
       this.placeholder !== placeholder &&
       (placeholder === undefined || placeholder === null)) {
-        placeholder = '';
+      placeholder = '';
     }
 
     this._placeholder = placeholder;
@@ -581,7 +581,10 @@ export class Ch5tTextInputMask {
     this.maskElement.style.pointerEvents = 'none';
     this.maskElement.style.lineHeight = inputStyles.lineHeight;
 
-    this.input.style.minWidth = this.maskElement.getBoundingClientRect().width + 'px';
+    const minWidth: string = this.input.style.minWidth;
+    if (parseInt(minWidth) < this.maskElement.getBoundingClientRect().width) {
+      this.input.style.minWidth = this.maskElement.getBoundingClientRect().width + 'px';
+    }
   }
 
   /**
@@ -613,7 +616,7 @@ export class Ch5tTextInputMask {
   /**
    * Update the characters in the mask element
    * That's because the mask element should look like an placeholder
-   * and some letters doesn't have the same dimenssions
+   * and some letters doesn't have the same dimensions
    *
    * @return {void}
    */
@@ -742,6 +745,7 @@ export class Ch5tTextInputMask {
     const wrapper = document.createElement('span');
     wrapper.id = '_ch5-textinput' + this.blockSeparator + this.wrapperId;
     wrapper.style.position = 'relative';
+    wrapper.style.display = 'flex';
 
     return wrapper;
   }
@@ -793,7 +797,7 @@ export class Ch5tTextInputMask {
 
     const letters = this.maskValue.split('');
 
-    letters.forEach((value,i) => {
+    letters.forEach((value, i) => {
       letters[i] = '<span class="' + this.prefix + this.blockSeparator + 'letter">' + value + '</span>';
     });
 
@@ -943,7 +947,7 @@ export class Ch5tTextInputMask {
    */
   private _isKeyAllowed(key: string): boolean {
 
-    if (this.maskValue.substr(this.input.value.length - 1,1) !== '') {
+    if (this.maskValue.substr(this.input.value.length - 1, 1) !== '') {
       const letter = this.maskValue.substr(this.input.value.length - 1, 1);
 
       let _key: (string | number) = key as string;
@@ -960,7 +964,7 @@ export class Ch5tTextInputMask {
         String(_key).match(/[^a-zA-Z0-9]/g) !== null ||
         typeof _key !== this._getDataType(letter)
       ) {
-        if (this.input.value.length > 0){
+        if (this.input.value.length > 0) {
           this.dispatchMaskErrorEvent();
         }
         return false;
@@ -978,7 +982,7 @@ export class Ch5tTextInputMask {
   private _isValueLengthValid(): boolean {
 
     if (this.lastValueLength < this.maskValue.length) {
-      if (this.lastValueLength > 0){
+      if (this.lastValueLength > 0) {
         this.dispatchMaskErrorEvent('invalidLength');
       } else {
         this.input.setCustomValidity('');
@@ -1028,7 +1032,7 @@ export class Ch5tTextInputMask {
     if (character !== null && character !== '*') {
       if (character === character.toUpperCase()) {
         return 'uppercase';
-      } else if (character === character.toLowerCase()){
+      } else if (character === character.toLowerCase()) {
         return 'lowercase';
       }
     }
@@ -1047,7 +1051,7 @@ export class Ch5tTextInputMask {
       letterIndex = this.maskValue.length - 1;
     }
 
-    const letter = this.maskValue.substr(letterIndex,1) !== '' ?
+    const letter = this.maskValue.substr(letterIndex, 1) !== '' ?
       this.maskValue.substr(letterIndex, 1) : null;
     const character = this.input.value.split('')[letterIndex];
     const letterElement = this.maskElement.childNodes[letterIndex];
@@ -1083,7 +1087,7 @@ export class Ch5tTextInputMask {
 
     this.inputType = inEvent.key;
 
-    if (this._isUserTyping()){
+    if (this._isUserTyping()) {
       this.addStaticCharactersToInputValue(this.input.value.length);
     }
 
@@ -1110,7 +1114,7 @@ export class Ch5tTextInputMask {
     }
 
     if (
-      this._isUserTyping()  &&
+      this._isUserTyping() &&
       (!this._isKeyAllowed(key) || !this._isValueLengthValid())
     ) {
       this.input.value = this.input.value.substr(0, this.lastValueLength);
