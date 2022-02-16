@@ -686,6 +686,92 @@
       "label": "CH5 Import HtmlSnippet"
     },
     {
+      "url": "ch5-jointotext-string/ch5-jointotext-string-value.html",
+      "children": [
+        {
+          "url": "ch5-jointotext-string/ch5-jointotext-string-value.html",
+          "children": [
+            {
+              "url": "ch5-jointotext-string/ch5-jointotext-string-value.html",
+              "label": "value"
+            },
+            {
+              "url": "ch5-jointotext-string/ch5-jointotext-string-text-when-empty.html",
+              "label": "textWhenEmpty"
+            }
+          ],
+          "label": "Attributes"
+        },
+        {
+          "url": "ch5-jointotext-string/ch5-jointotext-string-receive-state-value.html",
+          "children": [
+            {
+              "url": "ch5-jointotext-string/ch5-jointotext-string-receive-state-value.html",
+              "label": "receiveStateValue"
+            }
+          ],
+          "label": "Receive State Attributes"
+        }
+      ],
+      "label": "CH5 JoinToText String"
+    },
+    {
+      "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-value.html",
+      "children": [
+        {
+          "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-value.html",
+          "children": [
+            {
+              "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html",
+              "label": "textWhenTrue"
+            },
+            {
+              "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-false.html",
+              "label": "textWhenFalse"
+            }
+          ],
+          "label": "Attributes"
+        },
+        {
+          "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-receive-state-value.html",
+          "children": [
+            {
+              "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-receive-state-value.html",
+              "label": "receiveStateValue"
+            }
+          ],
+          "label": "Receive State Attributes"
+        }
+      ],
+      "label": "CH5 JoinToText Boolean"
+    },
+    {
+      "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-type.html",
+      "children": [
+        {
+          "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-type.html",
+          "children": [
+            {
+              "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-type.html",
+              "label": "type"
+            }
+          ],
+          "label": "Attributes"
+        },
+        {
+          "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-receive-state-value.html",
+          "children": [
+            {
+              "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-receive-state-value.html",
+              "label": "receiveStateValue"
+            }
+          ],
+          "label": "Receive State Attributes"
+        }
+      ],
+      "label": "CH5 JoinToText Numeric"
+    },
+    {
       "url": "ch5-list/ch5-list-orientation.html",
       "children": [
         {

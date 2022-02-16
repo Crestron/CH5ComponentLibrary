@@ -1,0 +1,15 @@
+{% raw %}
+Media Player:
+<br />
+<ch5-button type="primary" label="Loading..." 
+        sendEventOnClick="trigger_change_value">
+    <ch5-button-label>
+        <template>
+            <ch5-jointotext-boolean
+                receiveStateValue="media_player_is_playing" textWhenTrue="Pause" textWhenFalse="Play">
+            </ch5-jointotext-boolean>
+        </template>
+    </ch5-button-label>        
+</ch5-button> 
+<br />
+{% endraw %}

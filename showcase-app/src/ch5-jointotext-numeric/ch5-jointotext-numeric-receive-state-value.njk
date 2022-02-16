@@ -1,0 +1,16 @@
+---
+title: "ch5-jointotext-numeric: receiveStateValue"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+{% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-ch5-jointotext-numeric.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {# example 1 #}
+        {% call exampleSectionFromPartials('ch5-jointotext-numeric/receive-state-value/','ex1') %}{% endcall %}
+
+{% endblock %}

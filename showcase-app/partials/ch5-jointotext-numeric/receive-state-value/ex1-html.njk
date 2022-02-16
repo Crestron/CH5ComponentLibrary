@@ -1,0 +1,11 @@
+{% raw %}
+<ch5-button type="primary" label="Increase temperature" 
+        sendEventOnClick="trigger_change_value">
+        <ch5-button-label>
+            <template>
+                <ch5-jointotext-numeric receiveStateValue="temperature" decimalLength="1" length="3" type="float"></ch5-jointotext-numeric>°C
+            </template>
+
+        </ch5-button-label>
+</ch5-button>
+{% endraw %}
