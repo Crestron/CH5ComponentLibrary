@@ -40,7 +40,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     //#region 1.1 readonly variables
     public primaryCssClass = '';
     public cssClassPrefix = '';
-    public readonly pressedCssClassPostfix = '-pressed';
+    public readonly pressedCssClassPostfix = '--pressed';
 
     //#endregion
 
@@ -87,11 +87,13 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     protected _pressTimeout: number = 0;
     // State of the button ( pressed or not )
     protected _pressed: boolean = false;
-    protected _buttonPressed: boolean = false;
+    // protected _buttonPressed: boolean = false;
     protected _buttonPressedInPressable: boolean = false;
-    protected _pressableIsPressedSubscription: Subscription | null = null;
+    // protected _pressableIsPressedSubscription: Subscription | null = null;
     // This variable ensures that the first time load on a project happens without debounce and buttons do not appear blank.
     protected isButtonInitated: boolean = false;
+    private _isPressedSubscription: Subscription | null = null;
+    private _repeatDigitalInterval: number | null = null;
 
     protected readonly TOUCH_TIMEOUT: number = 250;
     protected readonly DEBOUNCE_PRESS_TIME: number = 200;
@@ -291,6 +293,26 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         return "";
     }
 
+    public set pressed(value: boolean) {
+		this.logger.log('set pressed("' + value + '")');
+		if (this._pressable) {
+			if (this._pressable._pressed !== value) {
+				this._pressable.setPressed(value);
+			}
+		}
+        this._pressed = value;
+        this.setAttribute('pressed', value.toString());
+        this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+        this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
+	}
+	public get pressed(): boolean {
+		if (this._pressable) {
+			return this._pressable._pressed;
+		} else {
+			return false;
+		}
+	}
+
     //#endregion
 
     //#region 3. Lifecycle Hooks
@@ -319,6 +341,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         this.CSS_CLASS_LIST.defaultArrowClass = params.defaultArrowClass;
         this.primaryCssClass = this.componentPrefix + params.btnType;
         this.cssClassPrefix = this.componentPrefix + params.btnType;
+        this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
     }
 
     /**
@@ -447,6 +470,10 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         this.removeEventListener('touchcancel', this._onTouchCancel);
         this.removeEventListener('focus', this._onFocus);
         this.removeEventListener('blur', this._onBlur);
+
+        if (!_.isNil(this._pressable)) {
+			this._unsubscribeFromPressableIsPressed();
+		}
     }
 
     /**
@@ -474,7 +501,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         const attributes: string[] = [
             "iconclass",
             "iconurl",
-            "sendeventonclick"
+            "sendeventonclick",
+            "pressed"
         ];
 
         // received signals
@@ -523,6 +551,21 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
                 CH5DpadUtils.setAttributeToElement(this, 'key', newValue);
                 this.key = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
+            case 'pressed':
+                let isPressed = false;
+				if (this.hasAttribute('pressed')) {
+                    CH5DpadUtils.setAttributeToElement(this, 'pressed', newValue);
+                    this.pressed = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+					const attrPressed = (this.getAttribute('pressed') as string).toLowerCase();
+					if ('false' !== attrPressed && '0' !== attrPressed) {
+						isPressed = true;
+					}
+				}
+				if (this._pressable) {
+					this._pressable.setPressed(isPressed);
+				}
+				this.updateCssClasses();
+                break;
             case 'show':
             case 'enable':
             default:
@@ -564,6 +607,12 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             }
         }
 
+        if (this.hasAttribute('pressed')) {
+			if (this._pressable) {
+				this._pressable.setPressed(this.toBoolean((this.getAttribute('pressed')), false));
+			}
+		}
+
         this.logger.stop();
     }
 
@@ -588,6 +637,11 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         this.addEventListener('touchcancel', this._onTouchCancel);
         this.addEventListener('focus', this._onFocus);
         this.addEventListener('blur', this._onBlur);
+
+        if (!_.isNil(this._pressable)) {
+			this._pressable?.init();
+			this._subscribeToPressableIsPressed();
+		}
     }
 
     protected updateCssClasses(): void {
@@ -708,29 +762,48 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         return distance > this.PRESS_MOVE_THRESHOLD;
     }
 
-    protected _subscribeToPressableIsPressed() {
-        if (this._pressableIsPressedSubscription === null && this._pressable !== null) {
-            this._pressableIsPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-                if (value !== this._buttonPressedInPressable) {
-                    this._buttonPressedInPressable = value;
-                    if (value === false) {
-                        setTimeout(() => {
-                            this.setButtonDisplay();
-                        }, this.STATE_CHANGE_TIMEOUTS);
-                    } else {
-                        this.setButtonDisplay();
-                    }
-                }
-            });
-        }
-    }
+    private _subscribeToPressableIsPressed() {
+		const REPEAT_DIGITAL_PERIOD = 200;
+		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
+		if (this._isPressedSubscription === null && this._pressable !== null) {
+			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
+				this.info(`Ch5DpadButton.pressableSubscriptionCb(${value})`);
+				if (value !== this._buttonPressedInPressable) {
 
-    protected _unsubscribeFromPressableIsPressed() {
-        if (this._pressableIsPressedSubscription !== null) {
-            this._pressableIsPressedSubscription.unsubscribe();
-            this._pressableIsPressedSubscription = null;
-        }
-    }
+					this._buttonPressedInPressable = value;
+					if (value === false) {
+						if (this._repeatDigitalInterval !== null) {
+							window.clearInterval(this._repeatDigitalInterval as number);
+						}
+						setTimeout(() => {
+							this.setButtonDisplay();
+						}, this.STATE_CHANGE_TIMEOUTS);
+					} else {
+						if (this._repeatDigitalInterval !== null) {
+							window.clearInterval(this._repeatDigitalInterval as number);
+						}
+						let numRepeatDigitals = 0;
+						this._repeatDigitalInterval = window.setInterval(() => {
+							if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
+								window.clearInterval(this._repeatDigitalInterval as number);
+							}
+						}, REPEAT_DIGITAL_PERIOD);
+						this.setButtonDisplay();
+					}
+				}
+			});
+		}
+	}
+
+	private _unsubscribeFromPressableIsPressed() {
+		if (this._repeatDigitalInterval !== null) {
+			window.clearInterval(this._repeatDigitalInterval as number);
+		}
+		if (this._isPressedSubscription !== null) {
+			this._isPressedSubscription.unsubscribe();
+			this._isPressedSubscription = null;
+		}
+	}
 
     /**
      * If type node is updated via html or js or signal, the change set attribue of type;
