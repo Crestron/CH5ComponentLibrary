@@ -1,0 +1,16 @@
+---
+title: "ch5-button: setLabel"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/ch5-button/label.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+{# example 1 #}
+    {% call exampleSectionFromPartials('ch5-button/set-label/','ex1') %}{% endcall %}
+
+{% endblock %}

@@ -184,6 +184,20 @@
           "label": "Multi-mode"
         },
         {
+          "url": "ch5-button/ch5-button-set-label.html",
+          "children": [
+            {
+              "url": "ch5-button/ch5-button-set-label.html",
+              "label": "Set Label"
+            },
+            {
+              "url": "ch5-button/ch5-button-set-mode.html",
+              "label": "Set Mode"
+            }
+          ],
+          "label": "Methods"
+        },
+        {
           "url": "ch5-button/ch5-button-common-disable-enable.html",
           "children": [
             {

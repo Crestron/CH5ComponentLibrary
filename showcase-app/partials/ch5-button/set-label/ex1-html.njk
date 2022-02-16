@@ -1,0 +1,30 @@
+<div>
+    <p>
+        Clicking this button will change the value of the signals <b>btn_receive_label</b> and <b>btn_receive_html_script_label</b> ( See Emulator section above )
+        <br/>
+        <ch5-button debug type="info" stretch="width" sendEventOnClick="trig1" label="Btn1 - emulator"></ch5-button>
+    </p>
+    <p>
+        Clicking this button will change the value of the signals <b>btn_receive_label</b> and <b>btn_receive_html_script_label</b> ( See Emulator section above )
+        <br/>
+        <ch5-button type="info" stretch="width" sendEventOnClick="trig2" label="Btn2 - emulator"></ch5-button>
+    </p>
+    <p>
+        Clicking this button will change the value of the buttons <b>btn_receive_label</b> and <b>btn_receive_html_script_label</b> with value set from Javascript
+        <br/>
+        <ch5-button type="info" stretch="width" shape="rectangle" label="Set Label using Javascript" onRelease="setLabelUsingJavascript()"></ch5-button>
+    </p>
+</div>
+<hr />
+<div>
+    Button with receiveStateLabel attribute set to <b>btn_receive_label</b>
+    <br/>
+    <ch5-button type="success" id="btn_receive_label" stretch="width" shape="rectangle" label="ReceiveLabelFromSignal" receiveStateLabel="btn_receive_label"></ch5-button>
+</div>
+<br/><br/>
+
+<div>
+    Button with receiveStateLabel attribute set to <b>btn_receive_html_script_label</b>
+    <br/>
+    <ch5-button type="success" id="btn_receive_html_script_label" stretch="width" shape="rectangle" label="ReceiveHtmlScriptLabelFromSignal" receiveStateScriptLabelHtml="btn_receive_html_script_label"></ch5-button>
+</div>

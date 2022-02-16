@@ -582,7 +582,7 @@ export class Ch5tTextInputMask {
     this.maskElement.style.lineHeight = inputStyles.lineHeight;
 
     const minWidth: string = this.input.style.minWidth;
-    if (parseInt(minWidth) < this.maskElement.getBoundingClientRect().width) {
+    if (Number(minWidth) < this.maskElement.getBoundingClientRect().width) {
       this.input.style.minWidth = this.maskElement.getBoundingClientRect().width + 'px';
     }
   }
