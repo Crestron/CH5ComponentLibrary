@@ -22,7 +22,6 @@ import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
 import { subscribeInViewPortChange } from '../ch5-core';
 import { Ch5RoleAttributeMapping } from '../utility-models';
 import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
-import { publishEvent } from "../ch5-core";
 
 /**
  * An object containing information about a item.
@@ -520,8 +519,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			customElements.whenDefined('ch5-list'),
 		]).then(() => {
 			listInitialization();
-			publishEvent('object', `ch5-list`, { loaded: true, id: this.id });
-			// publishEvent('object', `ch5-list:${this.id}`, { loaded: true, id: this.id });
+			this.componentLoadedEvent('ch5-list', this.id);
 		});
 	}
 

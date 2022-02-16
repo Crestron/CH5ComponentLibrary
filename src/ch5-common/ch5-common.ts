@@ -14,7 +14,8 @@ import {
     subscribeInViewPortChange,
     Ch5Debug,
     Ch5Platform,
-    ICh5PlatformInfo
+    ICh5PlatformInfo,
+    publishEvent
 } from '../ch5-core';
 
 import { Subject } from 'rxjs';
@@ -1775,6 +1776,10 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         // if custom actions has to be done on translation
     }
 
+    protected componentLoadedEvent(elementName: string, idValue: string) {
+        publishEvent('object', elementName, { loaded: true, id: idValue });
+        // publishEvent('object', `ch5-list:${this.id}`, { loaded: true, id: this.id });
+    }
     protected updateInViewPortClass() {
         const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
         this.info("from common - updateInViewPortClass()");

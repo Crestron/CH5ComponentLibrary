@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory, publishEvent } from "../ch5-core/index";
+import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import isNil from 'lodash/isNil';
 
@@ -25,7 +25,6 @@ import {
 
 import { ICh5ButtonAttributes } from "./interfaces/i-ch5-button-attributes";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
-// import Hammer from 'hammerjs';
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { isSafariMobile } from "../ch5-core/utility-functions/is-safari-mobile";
 import { Subscription } from "rxjs";
@@ -245,6 +244,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	//#region 1.2 private / protected variables
 
+	public readonly ELEMENT_NAME: string = 'ch5-button';
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 	public cssClassPrefix: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 
@@ -269,10 +269,13 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _buttonPressedInPressable: boolean = false;
 
 	private _mode: number = 0;
+	private isModeSetUsingJavascript: boolean = false;
 	private _pressDelayTime: number | null = null;
 	private _pressDelayDistance: number | null = null;
 
 	private _label: string = '';
+	private isLabelSetUsingJavascript: boolean = false;
+	private labelSetByJavascriptValue: string = "";
 
 	/**
 	 * The icon's CSS class name as defined in the iconClass HTML attribute
@@ -333,8 +336,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * If stretch by height is used, the button will be responsive based on the label length, until reaches the
 	 * max-width of the container.
 	 * If stretch width is applied, there is no responsiveness after reaching the max- width, the text will overflow.
-	 * Same if stretch both is used. Note that, if button element shape is "circle" or "oval", stretch property will be
-	 * ignored.
+	 * Same if stretch both is used. 
 	 */
 	private _stretch: TCh5ButtonStretch | null = null;
 
@@ -898,8 +900,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		this._subReceiveSignalMode = receiveSignal.subscribe((newValue: number) => {
-			this.mode = Number(newValue) as number;
-			this.setButtonDisplay();
+			if (this.isModeSetUsingJavascript === false) {
+				this.mode = Number(newValue) as number;
+				this.setButtonDisplay();
+			}
 		});
 	}
 	public get receiveStateMode(): string {
@@ -1001,7 +1005,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		customElements.whenDefined('ch5-button').then(() => {
 			this.setButtonDisplay(); // This is to handle specific case where the setButtonDisplay isn't called as all button attributes are set to "default" values.
-			// console.log('Custom Elements defined in ch5-button');
+			this.componentLoadedEvent(this.ELEMENT_NAME, this.id);
 			// publishEvent('object', `component`, { tagName: 'ch5-button', loaded: true, id: this.id });
 			// publishEvent('object', `ch5-button:${this.id}`, { loaded: true, id: this.id });
 		});
@@ -1609,11 +1613,15 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	public setLabel(labelHtml: string) {
-		this.label = labelHtml;
+		this.labelSetByJavascriptValue = labelHtml;
+		this.isLabelSetUsingJavascript = true;
+		this.setButtonDisplay();
 	}
 
 	public setMode(modeId: number) {
 		this.mode = modeId;
+		this.isModeSetUsingJavascript = true;
+		this.setButtonDisplay();
 	}
 
 	protected createInternalHtml() {
@@ -1866,7 +1874,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			extendedProperties.customStyle = this._ch5ButtonSignal.getVariable<string>("receiveStateCustomStyle");
 		}
 
-		if (this.receiveStateScriptLabelHtml && this.receiveStateScriptLabelHtml !== '') {
+		if (this.isLabelSetUsingJavascript === true) {
+			extendedProperties.labelHtml = this.labelSetByJavascriptValue;
+		} else if (this.receiveStateScriptLabelHtml && this.receiveStateScriptLabelHtml !== '') {
 			extendedProperties.labelHtml = this._ch5ButtonSignal.getVariable<string>("receiveStateScriptLabelHtml");
 		} else if (this.receiveStateLabel && this.receiveStateLabel !== '') {
 			extendedProperties.label = this._ch5ButtonSignal.getVariable<string>("receiveStateLabel");
