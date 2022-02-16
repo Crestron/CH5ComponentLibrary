@@ -1,7 +1,7 @@
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 import { NumericFormats } from "../format/numeric-formats";
 
-export interface ICh5JointextNumericAttributes extends ICh5CommonAttributes {
+export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    
   /**
    * @documentation

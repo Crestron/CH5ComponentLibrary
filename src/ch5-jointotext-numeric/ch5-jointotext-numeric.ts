@@ -5,13 +5,25 @@ import { NumericFormats } from "./format/numeric-formats";
 import { NumericFormat } from "./format/numeric-format";
 import { Ch5Signal, Ch5SignalFactory } from "..";
 
-export class Ch5JointextNumeric extends Ch5Common {
+export class Ch5JoinToTextNumeric extends Ch5Common {
+
+    public static PERCENTAGE_MAX = 65535;
 
     private _receiveStateValue: string = '';
     private _subReceiveStateValue: string = '';
     private _value: string = '';
-    private _formattedValue: number | null = null;
-    private _type: NumericFormats = NumericFormats.decimal;
+
+    // decimal related attributes
+    private _decimalLength: number = 0;
+    private _length: number = 0;
+
+    // percetage related attributes
+    private _min: number = 0;
+    private _max: number = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
+
+    private _formattedValue: string | number | null = null;
+    private _type: NumericFormats = NumericFormats.float;
+
 
     private _numericFormatFactory = NumericFormatFactory.getInstance();
     private _currentNumericFormat: NumericFormat;
@@ -27,6 +39,10 @@ export class Ch5JointextNumeric extends Ch5Common {
             'receiveStateValue',
             'value',
             'type',
+            'length',
+            'decimallength',
+            'min',
+            'max',
         ]
     }
 
@@ -44,6 +60,18 @@ export class Ch5JointextNumeric extends Ch5Common {
                 break;
             case 'type':
                 this.type = newValue as NumericFormats;
+                break;
+            case 'decimallength':
+                this.decimalLength = parseFloat(newValue);
+                break;
+            case 'length':
+                this.length = parseFloat(newValue);
+                break;
+            case 'min':
+                this.min = parseFloat(newValue);
+                break;
+            case 'max':
+                this.max = parseFloat(newValue);
                 break;
         }
     }
@@ -117,6 +145,7 @@ export class Ch5JointextNumeric extends Ch5Common {
     public set value(value: string) {
         this._value = value;
         this.setAttribute('value', value); 
+        this.formatValue();
     }
 
     public get value(): string {
@@ -129,30 +158,100 @@ export class Ch5JointextNumeric extends Ch5Common {
 
         this._currentNumericFormat = this._numericFormatFactory.getFormat(value);
 
-        this.formattedValue = this._currentNumericFormat.format(parseFloat(this.value));
+        this.formatValue();
     }
 
     public get type(): NumericFormats {
         return this._type;
     }
 
+    public set decimalLength(value: number) {
+        this._decimalLength = value;
+        this.setAttribute('decimalLength', value + '');
+
+        this.formatValue();
+    }
+
+    public get decimalLength(): number {
+        return this._decimalLength;
+    }
+
+    public set length(value: number) {
+        this._length = value;
+        this.setAttribute('length', value + '');
+        this.formatValue();
+    }
+
+    public get length(): number { 
+        return this._length;
+    }
+
+    public set min(value: number) {
+        if (isNil(value)) {
+            this._min = 0;
+            
+            if (this.type === NumericFormats.percentage) {
+                this.setAttribute('min', value + '');
+                this.formatValue();
+            }
+            return;
+        }
+        
+        this._min = value;
+        this.setAttribute('min', value + '');
+        this.formatValue();
+    }
+
+    public get min(): number {
+        return this._min;
+    }
+
+    public set max(value: number) {
+        if (isNil(value)) {
+            this._max = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
+
+            if (this.type === NumericFormats.percentage) {
+                this.setAttribute('max', value);
+                this.formatValue();
+            }
+            return;
+        }
+
+        this._max = value;
+        this.setAttribute('max', value + '');
+        this.formatValue();
+    }
+
+    public get max(): number {
+        return this._max;
+    }
+
     public replceTextContent(value: string) {
         this.textContent = value;
     }
 
-    public set formattedValue(value: number | null) {
+    public set formattedValue(value: string | number | null) {
         this._formattedValue = value;
         this.replceTextContent(value + '');
 
     }
 
-    public get formattedValue(): number | null {
+    public get formattedValue(): string | number | null {
         return this._formattedValue;
+    }
+
+    private formatValue() {
+        this.formattedValue = this._currentNumericFormat.format(parseFloat(this.value), {
+            decimalLength: this.decimalLength,
+            length: this.length,
+            min: this.min,
+            max: this.max,
+        });
     }
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-jointext-numeric', Ch5JointextNumeric);
+    window.customElements.define('ch5-jointotext-numeric', Ch5JoinToTextNumeric);
 
 }

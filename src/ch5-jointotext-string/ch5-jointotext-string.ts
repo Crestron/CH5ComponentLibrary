@@ -2,7 +2,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { isNil } from 'lodash';
 import { Ch5Signal, Ch5SignalFactory } from "..";
 
-export class Ch5JoinTextString extends Ch5Common {
+export class Ch5JoinToTextString extends Ch5Common {
 
     private _receiveStateValue: string = '';
     private _textWhenEmpty: string = '';
@@ -26,6 +26,8 @@ export class Ch5JoinTextString extends Ch5Common {
         
         if (this.hasAttribute('value')) {
             this.value = this.getAttribute('value') + '';
+        } else {
+            this.value = '';
         }
 
         if (this.hasAttribute('receivestatevalue')) {
@@ -138,6 +140,6 @@ export class Ch5JoinTextString extends Ch5Common {
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-jointext-string', Ch5JoinTextString);
+    window.customElements.define('ch5-jointotext-string', Ch5JoinToTextString);
 
 }

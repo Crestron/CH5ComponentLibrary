@@ -1,11 +1,11 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { isNil } from 'lodash';
 import { Ch5Signal, Ch5SignalFactory } from "..";
-import { ICh5JointextBooleanAttributes } from "./interfaces";
+import { ICh5JoinToTextBooleanAttributes } from "./interfaces";
 
-export class Ch5JoinTextBoolean extends Ch5Common implements ICh5JointextBooleanAttributes {
+export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBooleanAttributes {
 
-    private _value: string = ''; 
+    private _value: string = 'false'; 
     private _textWhenTrue: string = '';
     private _textWhenFalse: string = '';
     private _receiveStateValue: string = '';
@@ -37,6 +37,8 @@ export class Ch5JoinTextBoolean extends Ch5Common implements ICh5JointextBoolean
 
         if (this.hasAttribute('value')) {
             this.value = this.getAttribute('value') + '';
+        } else {
+            this.value = 'false';
         }
     }
 
@@ -170,6 +172,6 @@ export class Ch5JoinTextBoolean extends Ch5Common implements ICh5JointextBoolean
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-jointext-boolean', Ch5JoinTextBoolean);
+    window.customElements.define('ch5-jointotext-boolean', Ch5JoinToTextBoolean);
 
 }

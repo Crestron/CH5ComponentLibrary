@@ -45,6 +45,6 @@ import { ICh5Common } from "../../_interfaces";
  * ]
  * 
  */
-export interface ICh5JointextNumericDocumentation extends ICh5Common {
+export interface ICh5JoinToTextNumericDocumentation extends ICh5Common {
 
 }

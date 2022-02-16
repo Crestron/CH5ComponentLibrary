@@ -3,7 +3,7 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 /**
  * @ignore
  */
-export interface ICh5JointextBooleanAttributes extends ICh5CommonAttributes {
+export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
 
   /**
    * @documentation

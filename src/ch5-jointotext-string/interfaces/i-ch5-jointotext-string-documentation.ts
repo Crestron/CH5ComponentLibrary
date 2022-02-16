@@ -1,4 +1,4 @@
-import { ICh5Common, ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
  * @name Ch5 JointextString
@@ -44,6 +44,6 @@ import { ICh5Common, ICh5CommonAttributes } from "../../ch5-common/interfaces";
  * ]
  * 
  */
-export interface ICh5JointextStringDocumentation extends ICh5Common {
+export interface ICh5JoinToTextStringDocumentation extends ICh5Common {
 
 }
