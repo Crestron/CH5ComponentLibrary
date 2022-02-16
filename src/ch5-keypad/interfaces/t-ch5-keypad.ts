@@ -24,6 +24,7 @@ export type TCh5KeypadButtonCreateDTO = {
     contractKey: string,
     joinCountToAdd: string,
     key: string,
+    pressed: boolean,
 }
 
 export type TCh5KeypadSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large';

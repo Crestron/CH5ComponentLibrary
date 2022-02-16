@@ -5,6 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+import * as _ from 'lodash';
 import { Subscription } from "rxjs";
 import { Ch5ButtonPressInfo } from "../ch5-button/ch5-button-pressinfo";
 import { Ch5Common } from "../ch5-common/ch5-common";
@@ -176,6 +177,32 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
         return this._key;
     }
 
+    public set pressed(value: boolean) {
+		this.logger.log('set pressed("' + value + '")');
+        if (value !== this._pressed) {
+            this._pressed = value;
+        } else {
+            this._pressed = this.params.pressed;
+        }
+		if (this._pressable) {
+			if (this._pressable._pressed !== value) {
+				this._pressable.setPressed(value);
+			}
+		}
+        this.setAttribute('pressed', value.toString());
+        if (value === true) {
+            this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+            this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
+        }
+	}
+	public get pressed(): boolean {
+		if (this._pressable) {
+			return this._pressable._pressed;
+		} else {
+			return false;
+		}
+	}
+
     //#endregion
 
     //#region 3. Lifecycle Hooks
@@ -207,11 +234,12 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 
-        const { major, minor, contractName, joinCountToAdd, iconClass, key } = this.params;
+        const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed } = this.params;
         this._labelMajor = major;
         this._labelMinor = minor;
         this._iconClass = iconClass.join(' ');
         this._key = key;
+        this._pressed = pressed;
 
         const eventHandlerValue = (contractName.length > 0) ? contractName : joinCountToAdd;
         this._sendEventOnClick = eventHandlerValue;
@@ -225,6 +253,13 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
         this.sendEventOnClick = ComponentHelper.setAttributeToElement(this,
             'sendEventOnClick'.toLowerCase(), this._sendEventOnClick);
         this.key = ComponentHelper.setAttributeToElement(this, 'key'.toLowerCase(), this._key);
+        this.pressed = ComponentHelper.setAttributeToElement(this, 'pressed'.toLowerCase(), this._pressed.toString()) === 'true';
+
+        if (this.hasAttribute('pressed')) {
+			if (this._pressable) {
+				this._pressable.setPressed(this.toBoolean((this.getAttribute('pressed')), false));
+			}
+		}
 
         this.logger.stop();
     }
@@ -245,6 +280,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
         // init pressable before initAttributes because pressable subscribe to gestureable attribute
         if (!ComponentHelper.isNullOrUndefined(this._pressable) && !!this._pressable) {
+            this._pressable.init();
+            this._subscribeToPressableIsPressed();
+        }
+
+        if (!_.isNil(this._pressable)) {
             this._pressable.init();
             this._subscribeToPressableIsPressed();
         }
@@ -290,10 +330,19 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
         } else {
             this.classList.add(this.emptyBtnCssClass);
         }
+
+        if (this.params.pressed) {
+            this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
+        }
+
         this.logger.stop();
     }
 
     protected attachEventListeners() {
+        if (!_.isNil(this._pressable)) {
+			this._pressable?.init();
+			this._subscribeToPressableIsPressed();
+		}
         // events binding
         this.bindEventListenersToThis();
     }
@@ -320,6 +369,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
         // disconnect common mutation observer
         this.disconnectCommonMutationObserver();
+
+        if (!_.isNil(this._pressable)) {
+			this._unsubscribeFromPressableIsPressed();
+		}
+
         this.logger.stop();
     }
 
@@ -366,7 +420,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
             "labelmajor",
             "labelminor",
             "iconclass",
-            "sendeventonclick"
+            "sendeventonclick",
+            "pressed"
         ];
 
         // received signals
@@ -412,6 +467,21 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
                 break;
             case 'sendeventonclick':
                 this.sendEventOnClick = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                break;
+            case 'pressed':
+                let isPressed = false;
+                if (this.hasAttribute('pressed')) {
+                    ComponentHelper.setAttributeToElement(this, 'pressed', newValue);
+                    this.pressed = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    const attrPressed = (this.getAttribute('pressed') as string).toLowerCase();
+                    if ('false' !== attrPressed && '0' !== attrPressed) {
+                        isPressed = true;
+                    }
+                }
+                if (this._pressable) {
+                    this._pressable.setPressed(isPressed);
+                }
+                this.updateCssClasses();
                 break;
             case 'show':
             case 'enable':
