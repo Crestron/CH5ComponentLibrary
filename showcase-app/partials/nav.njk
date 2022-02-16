@@ -21,9 +21,22 @@
 							<a class="menu-label" onclick='loadPage("{{ siteurl }}{{ itemChild.url }}")'>{{ itemChild.label }}</a>
 							<ul>
 								{% for itemSubChild in itemChild.children %}
-									<li>
-										<a onclick='loadPage("{{ siteurl }}{{ itemSubChild.url }}")'>{{ itemSubChild.label }}</a>
-									</li>
+									{% if itemSubChild.children and itemSubChild.children.length > 0 %}
+										<li>
+											<a onclick='loadPage("{{ siteurl }}{{ itemSubChild.url }}")'>{{ itemSubChild.label }}</a>
+											<ul>
+												{% for child in itemSubChild.children %}
+													<li>
+														<a onclick='loadPage("{{ siteurl }}{{ child.url }}")'>{{ child.label }}</a>
+													</li>
+												{% endfor %}
+											</ul>
+										</li>
+									{% else %}
+										<li>
+											<a onclick='loadPage("{{ siteurl }}{{ itemSubChild.url }}")'>{{ itemSubChild.label }}</a>
+										</li>
+									{% endif %}
 								{% endfor %}
 							</ul>
 						{% else %}

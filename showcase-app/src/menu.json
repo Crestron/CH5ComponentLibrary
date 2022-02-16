@@ -302,41 +302,41 @@
             }
           ],
           "label": "Common"
-        }
-      ],
-      "label": "CH5 DPad"
-    },
-    {
-      "label": "CH5 DPadButton",
-      "url": "ch5-dpad-button/ch5-dpad-button-key.html",
-      "children": [
+        },
         {
-          "label": "Attributes",
+          "label": "CH5 DPadButton",
           "url": "ch5-dpad-button/ch5-dpad-button-key.html",
           "children": [
             {
-              "label": "Key",
-              "url": "ch5-dpad-button/ch5-dpad-button-key.html"
-            },
-            {
-              "label": "IconClass",
-              "url": "ch5-dpad-button/ch5-dpad-button-iconclass.html"
-            },
-            {
-              "label": "Iconurl",
-              "url": "ch5-dpad-button/ch5-dpad-button-iconurl.html"
-            },
-            {
-              "label": "Label",
-              "url": "ch5-dpad-button/ch5-dpad-button-label.html"
-            },
-            {
-              "label": "Pressed",
-              "url": "ch5-dpad-button/ch5-dpad-button-pressed.html"
+              "label": "Attributes",
+              "url": "ch5-dpad-button/ch5-dpad-button-key.html",
+              "children": [
+                {
+                  "label": "Key",
+                  "url": "ch5-dpad-button/ch5-dpad-button-key.html"
+                },
+                {
+                  "label": "IconClass",
+                  "url": "ch5-dpad-button/ch5-dpad-button-iconclass.html"
+                },
+                {
+                  "label": "Iconurl",
+                  "url": "ch5-dpad-button/ch5-dpad-button-iconurl.html"
+                },
+                {
+                  "label": "Label",
+                  "url": "ch5-dpad-button/ch5-dpad-button-label.html"
+                },
+                {
+                  "label": "Pressed",
+                  "url": "ch5-dpad-button/ch5-dpad-button-pressed.html"
+                }
+              ]
             }
           ]
         }
-      ]
+      ],
+      "label": "CH5 DPad"
     },
     {
       "url": "ch5-keypad/ch5-keypad-types.html",
@@ -440,41 +440,41 @@
             }
           ],
           "label": "Common"
-        }
-      ],
-      "label": "CH5 Keypad"
-    },
-    {
-      "label": "CH5 KeypadButton",
-      "url": "ch5-keypad-button/ch5-keypad-button-key.html",
-      "children": [
+        },
         {
-          "label": "Attributes",
+          "label": "CH5 KeypadButton",
           "url": "ch5-keypad-button/ch5-keypad-button-key.html",
           "children": [
             {
-              "label": "Key",
-              "url": "ch5-keypad-button/ch5-keypad-button-key.html"
-            },
-            {
-              "label": "IconClass",
-              "url": "ch5-keypad-button/ch5-keypad-button-iconclass.html"
-            },
-            {
-              "label": "LabelMajor",
-              "url": "ch5-keypad-button/ch5-keypad-button-labelmajor.html"
-            },
-            {
-              "label": "LabelMinor",
-              "url": "ch5-keypad-button/ch5-keypad-button-labelminor.html"
-            },
-            {
-              "label": "Pressed",
-              "url": "ch5-dpad-button/ch5-keypad-button-pressed.html"
+              "label": "Attributes",
+              "url": "ch5-keypad-button/ch5-keypad-button-key.html",
+              "children": [
+                {
+                  "label": "Key",
+                  "url": "ch5-keypad-button/ch5-keypad-button-key.html"
+                },
+                {
+                  "label": "IconClass",
+                  "url": "ch5-keypad-button/ch5-keypad-button-iconclass.html"
+                },
+                {
+                  "label": "LabelMajor",
+                  "url": "ch5-keypad-button/ch5-keypad-button-labelmajor.html"
+                },
+                {
+                  "label": "LabelMinor",
+                  "url": "ch5-keypad-button/ch5-keypad-button-labelminor.html"
+                },
+                {
+                  "label": "Pressed",
+                  "url": "ch5-dpad-button/ch5-keypad-button-pressed.html"
+                }
+              ]
             }
           ]
         }
-      ]
+      ],
+      "label": "CH5 Keypad"
     },
     {
       "url": "component-configuration/attributes.html",
@@ -1946,35 +1946,35 @@
             }
           ],
           "label": "Methods"
-        }
-      ],
-      "label": "CH5 TriggerView"
-    },
-    {
-      "url": "ch5-triggerview-child/send-value.html",
-      "children": [
+        },
         {
           "url": "ch5-triggerview-child/send-value.html",
           "children": [
             {
               "url": "ch5-triggerview-child/send-value.html",
-              "label": "sendEventOnShow"
-            }
-          ],
-          "label": "Send Event Attributes"
-        },
-        {
-          "url": "ch5-triggerview/receive-value.html",
-          "children": [
+              "children": [
+                {
+                  "url": "ch5-triggerview-child/send-value.html",
+                  "label": "sendEventOnShow"
+                }
+              ],
+              "label": "Send Event Attributes"
+            },
             {
-              "url": "ch5-triggerview-child/receive-value.html",
-              "label": "receiveStateShow"
+              "url": "ch5-triggerview/receive-value.html",
+              "children": [
+                {
+                  "url": "ch5-triggerview-child/receive-value.html",
+                  "label": "receiveStateShow"
+                }
+              ],
+              "label": "Receive State Attributes"
             }
           ],
-          "label": "Receive State Attributes"
+          "label": "CH5 TriggerViewChild"
         }
       ],
-      "label": "CH5 TriggerViewChild"
+      "label": "CH5 TriggerView"
     },
     {
       "url": "utility-functions/utility-textformat.html",
