@@ -77,11 +77,11 @@ export class CH5KeypadButtonData {
         // populate by merging existing controls
         // DEV NOTE: below set of commented variables allow two extra buttons as part of the 5th row, if required
         // const nameList: string[] = ['left', 'center', 'right'];
-        // const contractList: string[] = ['Star', 'ExtraButton', 'Hash'];
+        // const contractList: string[] = ['Star', 'ButtonExtra', 'Hash'];
         // const classNameList: string[] = ['extra-btn empty-btn', 'extra-btn special-center', 'extra-btn empty-btn'];
         const retArr: TCh5KeypadButtonCreateDTO[] = [];
-        const nameList: string[] = ['center'];
-        const contractList: string[] = ['ExtraButton'];
+        const nameList: string[] = ['Extra'];
+        const contractList: string[] = ['ButtonExtra'];
         const classNameList: string[] = [this.specialBtnCssClass];
         const joinIndex: number = 12;
         for (let i = 0; i < nameList.length; i++) {
@@ -118,7 +118,7 @@ export class CH5KeypadButtonData {
         const key = ele.getAttribute('key');
         const index = (!!key && key.length > 0) ? key.replace('button', '') : null;
         if (index !== null) {
-            const contractList: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', 'Hash', 'ExtraButton'];
+            const contractList: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Star', 'Hash', 'Extra'];
             const indexRef = this.getIndexRefForChildBtn(index);
             const major = ele.getAttribute('labelmajor');
             const minor = ele.getAttribute('labelminor');
@@ -155,7 +155,7 @@ export class CH5KeypadButtonData {
             case 'hash':
                 ret = 11;
                 break;
-            case 'center':
+            case 'extra':
                 ret = 12;
                 break;
             default:
