@@ -315,6 +315,10 @@
             {
               "label": "Label",
               "url": "ch5-dpad-button/ch5-dpad-button-label.html"
+            },
+            {
+              "label": "Pressed",
+              "url": "ch5-dpad-button/ch5-dpad-button-pressed.html"
             }
           ]
         }
@@ -449,6 +453,10 @@
             {
               "label": "LabelMinor",
               "url": "ch5-keypad-button/ch5-keypad-button-labelminor.html"
+            },
+            {
+              "label": "Pressed",
+              "url": "ch5-dpad-button/ch5-keypad-button-pressed.html"
             }
           ]
         }
