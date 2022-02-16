@@ -177,9 +177,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "the button will be responsive based on the label length until it ",
    * "reaches the max-width of the container. If stretch=width is ",
    * "applied, there is no responsiveness after reaching the max-width, and ",
-   * "the text will overflow. The same applies if stretch=both is used. Note ",
-   * "that if the button element shape is 'circle' or 'oval', the stretch ",
-   * "property will be ignored."
+   * "the text will overflow. The same applies if stretch=both is used."
    * ]
    * @name stretch
    * @attributeType "string"
