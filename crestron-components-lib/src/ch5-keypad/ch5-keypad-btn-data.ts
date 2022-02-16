@@ -50,6 +50,7 @@ export class CH5KeypadButtonData {
                 contractKey: contractList[i],
                 joinCountToAdd: joinCount.toString(),
                 key: '',
+                pressed: false,
                 ...toMerge
             };
 
@@ -103,6 +104,7 @@ export class CH5KeypadButtonData {
                 contractKey: contractList[i],
                 joinCountToAdd: joinCount.toString(),
                 key: '',
+                pressed: false,
                 ...toMerge
             };
             retArr.push(obj);
@@ -123,6 +125,7 @@ export class CH5KeypadButtonData {
             const className = this.getClassNameForChildBtn(ele.getAttribute('classlist'), indexRef);
             const iconClass = ele.getAttribute('iconclass');
             const contractKey = contractList[indexRef];
+            const pressed =  ele.getAttribute('pressed');
             const joinCountToAdd = (contractName.length === 0 && sendEventOnClickStart.length > 0) ?
                 parseInt(sendEventOnClickStart, 10) + indexRef : '';
 
@@ -137,6 +140,7 @@ export class CH5KeypadButtonData {
                 contractKey,
                 joinCountToAdd: joinCountToAdd.toString(),
                 key: !!key ? key : '',
+                pressed: pressed === 'true',
             }
         }
         return obj;

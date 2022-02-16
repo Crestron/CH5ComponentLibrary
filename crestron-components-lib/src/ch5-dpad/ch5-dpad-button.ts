@@ -127,7 +127,8 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
             "label",
             "iconclass",
             "iconurl",
-            'key'
+            'key',
+            'pressed'
         ];
 
         // received signals
@@ -167,6 +168,10 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
                         btnType: newValue as TCh5DpadChildButtonType
                     });
                 }
+                break;
+            case 'pressed':
+                CH5DpadUtils.setAttributeToElement(this, 'pressed', newValue);
+                this.pressed = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             default:
                 super.attributeChangedCallback(attr, oldValue, newValue);
