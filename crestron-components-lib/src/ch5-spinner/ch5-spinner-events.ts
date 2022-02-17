@@ -185,4 +185,12 @@ export class Ch5SpinnerEvents {
    public dispatchMouseUp(): void {
       this.dispatch('mouseup');
   }
+
+  /**
+   * Dispatch the mouseup event
+   * @return {void}
+   */
+  public dispatchTouchEnd(): void {
+    this.dispatch('touchend');
+  }
 }
