@@ -2,6 +2,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { isNil } from 'lodash';
 import { Ch5Signal, Ch5SignalFactory } from "..";
 import { ICh5JoinToTextBooleanAttributes } from "./interfaces";
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 
 export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBooleanAttributes {
 
@@ -11,6 +12,11 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
     private _receiveStateValue: string = '';
 
     private _subReceiveStateValue: string = '';
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+	};
 
     public static get observedAttributes(): string[] {
         return [
