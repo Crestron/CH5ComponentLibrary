@@ -108,10 +108,20 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 
 		divTemplate.appendChild((documentContainer as HTMLTemplateElement).content);
 
+		// update templateContent attributes to increment join numbers and prefix contract name
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(divTemplate, this._list.getAttribute("contractname") || '', 
+			parseInt(this._list.getAttribute("booleanjoinoffset") || '0', 10) || 0, 
+			parseInt(this._list.getAttribute("numericJoinOffset") || '0', 10) || 0, 
+			parseInt(this._list.getAttribute("stringJoinOffset") || '0', 10) || 0);    
+
 		// replace template vars
 		if (templateVars !== null && templateVars !== "") {
 			const inputData = JSON.parse(templateVars);
 			divTemplate.innerHTML = this.processTemplateForVars(divTemplate.innerHTML, inputData[index]);
+		}
+
+		if (this._list.isDebug()) {
+			this._list.info(`after update ${divTemplate.innerHTML}`);
 		}
 
 		return divTemplate as HTMLElement;
