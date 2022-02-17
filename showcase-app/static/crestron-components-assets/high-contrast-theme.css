@@ -986,13 +986,52 @@ i.cb-icon.cx-button-icon-pos-bottom {
   justify-content: flex-end;
 }
 
-.ch5-button--circle .ch5-button--vertical-middle,
-.ch5-button--circle .ch5-button--vertical-top,
-.ch5-button--circle .ch5-button--vertical-bottom,
-.ch5-button--oval .ch5-button--vertical-middle,
-.ch5-button--oval .ch5-button--vertical-top,
-.ch5-button--oval .ch5-button--vertical-bottom {
+.ch5-button--circle.ch5-button--vertical:not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-middle,
+.ch5-button--circle.ch5-button--vertical:not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-top,
+.ch5-button--circle.ch5-button--vertical:not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-bottom,
+.ch5-button--oval.ch5-button--vertical:not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-middle,
+.ch5-button--oval.ch5-button--vertical:not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-top,
+.ch5-button--oval.ch5-button--vertical:not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-bottom {
   align-items: center;
+}
+
+.ch5-button--iconposition-top.ch5-button--vertical.ch5-button--circle .ch5-button--vertical-middle,
+.ch5-button--iconposition-top.ch5-button--vertical.ch5-button--circle .ch5-button--vertical-top,
+.ch5-button--iconposition-top.ch5-button--vertical.ch5-button--circle .ch5-button--vertical-bottom,
+.ch5-button--iconposition-bottom.ch5-button--vertical.ch5-button--circle .ch5-button--vertical-middle,
+.ch5-button--iconposition-bottom.ch5-button--vertical.ch5-button--circle .ch5-button--vertical-top,
+.ch5-button--iconposition-bottom.ch5-button--vertical.ch5-button--circle .ch5-button--vertical-bottom,
+.ch5-button--iconposition-top.ch5-button--vertical.ch5-button--oval .ch5-button--vertical-middle,
+.ch5-button--iconposition-top.ch5-button--vertical.ch5-button--oval .ch5-button--vertical-top,
+.ch5-button--iconposition-top.ch5-button--vertical.ch5-button--oval .ch5-button--vertical-bottom,
+.ch5-button--iconposition-bottom.ch5-button--vertical.ch5-button--oval .ch5-button--vertical-middle,
+.ch5-button--iconposition-bottom.ch5-button--vertical.ch5-button--oval .ch5-button--vertical-top,
+.ch5-button--iconposition-bottom.ch5-button--vertical.ch5-button--oval .ch5-button--vertical-bottom {
+  justify-content: center;
+}
+
+.ch5-button--circle:not(.ch5-button--vertical):not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-middle,
+.ch5-button--circle:not(.ch5-button--vertical):not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-top,
+.ch5-button--circle:not(.ch5-button--vertical):not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-bottom,
+.ch5-button--oval:not(.ch5-button--vertical):not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-middle,
+.ch5-button--oval:not(.ch5-button--vertical):not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-top,
+.ch5-button--oval:not(.ch5-button--vertical):not(.ch5-button--iconposition-top):not(.ch5-button--iconposition-bottom) .ch5-button--vertical-bottom {
+  align-items: center;
+}
+
+.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-middle,
+.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-top,
+.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-bottom,
+.ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-middle,
+.ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-top,
+.ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--circle .ch5-button--vertical-bottom,
+.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-middle,
+.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-top,
+.ch5-button--iconposition-top:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-bottom,
+.ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-middle,
+.ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-top,
+.ch5-button--iconposition-bottom:not(.ch5-button--vertical).ch5-button--oval .ch5-button--vertical-bottom {
+  justify-content: center;
 }
 
 .ch5-button--iconposition-bottom:not(.ch5-button--vertical):not(.ch5-button--circle):not(.ch5-button--oval) .cb-btn,
@@ -1056,7 +1095,8 @@ i.cb-icon.cx-button-icon-pos-top {
 }
 
 .ch5-button--iconposition-last.ch5-button--vertical:not(.ch5-button--circle):not(.ch5-button--oval) .ch5-button--vertical-top i.cb-icon.cx-button-icon-pos-first,
-.ch5-button--iconposition-last.ch5-button--vertical:not(.ch5-button--circle):not(.ch5-button--oval) .ch5-button--vertical-top i.cb-icon.cx-button-icon-pos-last, .ch5-button--iconposition-last.ch5-button--vertical:not(.ch5-button--circle):not(.ch5-button--oval) .ch5-button--vertical-bottom i.cb-icon.cx-button-icon-pos-first,
+.ch5-button--iconposition-last.ch5-button--vertical:not(.ch5-button--circle):not(.ch5-button--oval) .ch5-button--vertical-top i.cb-icon.cx-button-icon-pos-last,
+.ch5-button--iconposition-last.ch5-button--vertical:not(.ch5-button--circle):not(.ch5-button--oval) .ch5-button--vertical-bottom i.cb-icon.cx-button-icon-pos-first,
 .ch5-button--iconposition-last.ch5-button--vertical:not(.ch5-button--circle):not(.ch5-button--oval) .ch5-button--vertical-bottom i.cb-icon.cx-button-icon-pos-last,
 .ch5-button--iconposition-first.ch5-button--vertical:not(.ch5-button--circle):not(.ch5-button--oval) .ch5-button--vertical-top i.cb-icon.cx-button-icon-pos-first,
 .ch5-button--iconposition-first.ch5-button--vertical:not(.ch5-button--circle):not(.ch5-button--oval) .ch5-button--vertical-top i.cb-icon.cx-button-icon-pos-last,
@@ -3203,6 +3243,46 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  background-color: #ff3333 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff3333 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  background-color: #ff3333 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff3333 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  background-color: #ff3333 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff3333 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  background-color: #ff3333 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff3333 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  background-color: #ff3333 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff3333 !important;
+  z-index: 1;
+}
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.up {
   margin: 0 33.33%;
   border-top-left-radius: 10px;
@@ -3274,6 +3354,46 @@ body.ch5-video-fullscreen .control-panel {
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.down span {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  background-color: #1a1a1a !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #1a1a1a !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  background-color: #1a1a1a !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #1a1a1a !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  background-color: #1a1a1a !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #1a1a1a !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  background-color: #1a1a1a !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #1a1a1a !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  background-color: #1a1a1a !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #1a1a1a !important;
+  z-index: 1;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.up {
   margin: 0 33.33%;
@@ -3347,6 +3467,46 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  background-color: #7023b8 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #7023b8 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  background-color: #7023b8 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #7023b8 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  background-color: #7023b8 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #7023b8 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  background-color: #7023b8 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #7023b8 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  background-color: #7023b8 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #7023b8 !important;
+  z-index: 1;
+}
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.up {
   margin: 0 33.33%;
   border-top-left-radius: 10px;
@@ -3418,6 +3578,46 @@ body.ch5-video-fullscreen .control-panel {
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.down span {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  background-color: #33ffff !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ffff !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  background-color: #33ffff !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ffff !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  background-color: #33ffff !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ffff !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  background-color: #33ffff !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ffff !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  background-color: #33ffff !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ffff !important;
+  z-index: 1;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.up {
   margin: 0 33.33%;
@@ -3491,6 +3691,46 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  background-color: #ff6a33 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff6a33 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  background-color: #ff6a33 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff6a33 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  background-color: #ff6a33 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff6a33 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  background-color: #ff6a33 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff6a33 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  background-color: #ff6a33 !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #ff6a33 !important;
+  z-index: 1;
+}
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.up {
   margin: 0 33.33%;
   border-top-left-radius: 10px;
@@ -3562,6 +3802,46 @@ body.ch5-video-fullscreen .control-panel {
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.down span {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  background-color: #33ff33 !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ff33 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  background-color: #33ff33 !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ff33 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  background-color: #33ff33 !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ff33 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  background-color: #33ff33 !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ff33 !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  background-color: #33ff33 !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #33ff33 !important;
+  z-index: 1;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.up {
   margin: 0 33.33%;
@@ -3635,6 +3915,46 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  background-color: white !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: white !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  background-color: white !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: white !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  background-color: white !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: white !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  background-color: white !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: white !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  background-color: white !important;
+  color: #000000;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: white !important;
+  z-index: 1;
+}
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.up {
   margin: 0 33.33%;
   border-top-left-radius: 10px;
@@ -3706,6 +4026,46 @@ body.ch5-video-fullscreen .control-panel {
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.down span {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  background-color: #3333ff !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #3333ff !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  background-color: #3333ff !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #3333ff !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  background-color: #3333ff !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #3333ff !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  background-color: #3333ff !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #3333ff !important;
+  z-index: 1;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  background-color: #3333ff !important;
+  color: #ffffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
+  background-color: #3333ff !important;
+  z-index: 1;
 }
 .ch5-dpad.ch5-dpad--shape-plus .direction-btn.up span.dpad-btn-icon {
   border-top-left-radius: 10px;
@@ -3886,6 +4246,14 @@ body.ch5-video-fullscreen .control-panel {
   background: #0000b3;
   border-color: #0000b3;
 }
+.ch5-keypad.ch5-keypad--type-default .keypad-btn-pressed.keypad-btn button {
+  background-color: #0000b3;
+  border: 1px solid #0000b3;
+}
+.ch5-keypad.ch5-keypad--type-default .keypad-btn-pressed.keypad-btn button:active {
+  background: #0000b3;
+  border-color: #0000b3;
+}
 .ch5-keypad.ch5-keypad--type-primary .keypad-row {
   color: #ffffff;
 }
@@ -3894,6 +4262,14 @@ body.ch5-video-fullscreen .control-panel {
   border: 1px solid #000000;
 }
 .ch5-keypad.ch5-keypad--type-primary .keypad-row .keypad-btn button:active {
+  background: black;
+  border-color: black;
+}
+.ch5-keypad.ch5-keypad--type-primary .keypad-btn-pressed.keypad-btn button {
+  background-color: black;
+  border: 1px solid black;
+}
+.ch5-keypad.ch5-keypad--type-primary .keypad-btn-pressed.keypad-btn button:active {
   background: black;
   border-color: black;
 }
@@ -3908,6 +4284,14 @@ body.ch5-video-fullscreen .control-panel {
   background: #00b3b3;
   border-color: #00b3b3;
 }
+.ch5-keypad.ch5-keypad--type-info .keypad-btn-pressed.keypad-btn button {
+  background-color: #00b3b3;
+  border: 1px solid #00b3b3;
+}
+.ch5-keypad.ch5-keypad--type-info .keypad-btn-pressed.keypad-btn button:active {
+  background: #00b3b3;
+  border-color: #00b3b3;
+}
 .ch5-keypad.ch5-keypad--type-text .keypad-row {
   color: #ffffff;
 }
@@ -3916,6 +4300,14 @@ body.ch5-video-fullscreen .control-panel {
   border: 1px solid #561b8d;
 }
 .ch5-keypad.ch5-keypad--type-text .keypad-row .keypad-btn button:active {
+  background: #2f0f4d;
+  border-color: #2f0f4d;
+}
+.ch5-keypad.ch5-keypad--type-text .keypad-btn-pressed.keypad-btn button {
+  background-color: #2f0f4d;
+  border: 1px solid #2f0f4d;
+}
+.ch5-keypad.ch5-keypad--type-text .keypad-btn-pressed.keypad-btn button:active {
   background: #2f0f4d;
   border-color: #2f0f4d;
 }
@@ -3930,6 +4322,14 @@ body.ch5-video-fullscreen .control-panel {
   background: #b30000;
   border-color: #b30000;
 }
+.ch5-keypad.ch5-keypad--type-danger .keypad-btn-pressed.keypad-btn button {
+  background-color: #b30000;
+  border: 1px solid #b30000;
+}
+.ch5-keypad.ch5-keypad--type-danger .keypad-btn-pressed.keypad-btn button:active {
+  background: #b30000;
+  border-color: #b30000;
+}
 .ch5-keypad.ch5-keypad--type-warning .keypad-row {
   color: #ffffff;
 }
@@ -3938,6 +4338,14 @@ body.ch5-video-fullscreen .control-panel {
   border: 1px solid #ff4500;
 }
 .ch5-keypad.ch5-keypad--type-warning .keypad-row .keypad-btn button:active {
+  background: #b33000;
+  border-color: #b33000;
+}
+.ch5-keypad.ch5-keypad--type-warning .keypad-btn-pressed.keypad-btn button {
+  background-color: #b33000;
+  border: 1px solid #b33000;
+}
+.ch5-keypad.ch5-keypad--type-warning .keypad-btn-pressed.keypad-btn button:active {
   background: #b33000;
   border-color: #b33000;
 }
@@ -3952,6 +4360,14 @@ body.ch5-video-fullscreen .control-panel {
   background: #00b300;
   border-color: #00b300;
 }
+.ch5-keypad.ch5-keypad--type-success .keypad-btn-pressed.keypad-btn button {
+  background-color: #00b300;
+  border: 1px solid #00b300;
+}
+.ch5-keypad.ch5-keypad--type-success .keypad-btn-pressed.keypad-btn button:active {
+  background: #00b300;
+  border-color: #00b300;
+}
 .ch5-keypad.ch5-keypad--type-secondary .keypad-row {
   color: #000000;
 }
@@ -3960,6 +4376,14 @@ body.ch5-video-fullscreen .control-panel {
   border: 1px solid #ffffff;
 }
 .ch5-keypad.ch5-keypad--type-secondary .keypad-row .keypad-btn button:active {
+  background: #d9d9d9;
+  border-color: #d9d9d9;
+}
+.ch5-keypad.ch5-keypad--type-secondary .keypad-btn-pressed.keypad-btn button {
+  background-color: #d9d9d9;
+  border: 1px solid #d9d9d9;
+}
+.ch5-keypad.ch5-keypad--type-secondary .keypad-btn-pressed.keypad-btn button:active {
   background: #d9d9d9;
   border-color: #d9d9d9;
 }
