@@ -1,6 +1,7 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { isNil } from 'lodash';
 import { Ch5Signal, Ch5SignalFactory } from "..";
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 
 export class Ch5JoinToTextString extends Ch5Common {
 
@@ -9,6 +10,11 @@ export class Ch5JoinToTextString extends Ch5Common {
     private _value: string = '';
 
     private _subReceiveStateValue: string = '';
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+	};
 
     public static get observedAttributes(): string[] {
         return [

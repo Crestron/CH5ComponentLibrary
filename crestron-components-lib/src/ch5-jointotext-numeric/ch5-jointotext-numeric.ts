@@ -4,6 +4,7 @@ import { NumericFormatFactory } from "./format/numeric-format-factory";
 import { NumericFormats } from "./format/numeric-formats";
 import { NumericFormat } from "./format/numeric-format";
 import { Ch5Signal, Ch5SignalFactory } from "..";
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 
 export class Ch5JoinToTextNumeric extends Ch5Common {
 
@@ -22,8 +23,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common {
     private _max: number = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
 
     private _formattedValue: string | number | null = null;
-    private _type: NumericFormats = NumericFormats.float;
-
+    private _type: NumericFormats = NumericFormats.signed;
 
     private _numericFormatFactory = NumericFormatFactory.getInstance();
     private _currentNumericFormat: NumericFormat;
@@ -33,6 +33,11 @@ export class Ch5JoinToTextNumeric extends Ch5Common {
 
         this._currentNumericFormat = this._numericFormatFactory.getFormat(this.type);
     }
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+	};
 
     public static get observedAttributes(): string[] {
         return [
@@ -226,13 +231,13 @@ export class Ch5JoinToTextNumeric extends Ch5Common {
         return this._max;
     }
 
-    public replceTextContent(value: string) {
+    public replaceTextContent(value: string) {
         this.textContent = value;
     }
 
     public set formattedValue(value: string | number | null) {
         this._formattedValue = value;
-        this.replceTextContent(value + '');
+        this.replaceTextContent(value + '');
 
     }
 

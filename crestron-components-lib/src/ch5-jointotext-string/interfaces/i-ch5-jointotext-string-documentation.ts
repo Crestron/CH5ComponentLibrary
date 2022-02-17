@@ -1,44 +1,44 @@
 import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
- * @name Ch5 JointextString
+ * @name Ch5 JoinToTextString
  * @isattribute false
- * @tagName ch5-jointext-string
+ * @tagName ch5-jointotext-string
  * @role presentation
- * @description Ch5 Jointext
+ * @description Ch5 JoinToText
  * @componentVersion 1.0.0
  * @documentation
  * [
- * "`ch5-jointext-string` element",
+ * "`ch5-jointotext-string` element",
  * "***",
  * ""
  * ]
  * @snippets
  * [
  *    {
- *      "prefix": "ch5-jointext-string:blank",
- *      "description": "Crestron Jointext String (Blank)",
+ *      "prefix": "ch5-jointotext-string:blank",
+ *      "description": "Crestron JoinToText String (Blank)",
  *      "body": [
- *        "<ch5-jointext-string>",
- *         "</ch5-jointext-string>$0"
+ *        "<ch5-jointotext-string>",
+ *         "</ch5-jointotext-string>$0"
  *        ]
  *    },
  *    {
- *      "prefix": "ch5-jointext-string:default",
- *      "description": "Crestron Jointext String (Default)",
+ *      "prefix": "ch5-jointotext-string:default",
+ *      "description": "Crestron JoinToText String (Default)",
  *      "body": [
- *        "<ch5-jointext-string value=\"${1:true}\"",
+ *        "<ch5-jointotext-string value=\"${1:true}\"",
  *        "\ttextWhenEmpty=\"${2:The value is empty}\">",
- *         "</ch5-jointext-string>$0"
+ *         "</ch5-jointotext-string>$0"
  *        ]
  *    },
  *    {
- *      "prefix": "ch5-jointext-string:receive-signal",
- *      "description": "Crestron Jointext String (Receive Signal)",
+ *      "prefix": "ch5-jointotext-string:receive-signal",
+ *      "description": "Crestron JoinToText String (Receive Signal)",
  *      "body": [
- *        "<ch5-jointext-string receiveStateValue=\"${1:19}\"",
+ *        "<ch5-jointotext-string receiveStateValue=\"${1:19}\"",
  *        "\ttextWhenEmpty=\"${2:The value is empty}\">",
- *         "</ch5-jointext-string>$0"
+ *         "</ch5-jointotext-string>$0"
  *        ] 
  *    }
  * ]
