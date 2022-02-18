@@ -24,7 +24,7 @@
                 <div data-ch5-show="Show" data-ch5-noshow-type="visibility"></div>
             </div>
         </template>
-        <ch5-template templateId="template-with-custom-attributes-widget" contractname="My.Contact.Prefix." 
+        <ch5-template templateId="template-with-custom-attributes-widget" contractname="My.Contract.Prefix." 
             stringjoinoffset="100" booleanjoinoffset="200">
         </ch5-template>
     </template>
@@ -63,7 +63,7 @@
             const elementName = 'span';
             const attributeName = 'data-ch5-textcontent';
             const expectedNumericValue = '101';
-            const expectedContractValue = 'My.Contact.Prefix.TextContent';
+            const expectedContractValue = 'My.Contract.Prefix.TextContent';
 
             console.log(`aaa ${elementName}[${attributeName}]`, usingNumeric);
             const elementWithAttributeUsingNumeric = usingNumeric.querySelector(`${elementName}[${attributeName}]`);
@@ -76,7 +76,7 @@
             const elementName = 'div';
             const attributeName = 'data-ch5-show';
             const expectedNumericValue = '202';
-            const expectedContractValue = 'My.Contact.Prefix.Show';
+            const expectedContractValue = 'My.Contract.Prefix.Show';
 
             console.log(`bbb ${elementName}[${attributeName}]`, usingNumeric);
             const elementWithAttributeUsingNumeric = usingNumeric.querySelector(`${elementName}[${attributeName}]`);
@@ -99,7 +99,7 @@
                 <ch5-button class="uses-contract" receivestatelabel="ButtonLabel"></ch5-button>
             </div>
         </template>
-        <ch5-template templateId="template-with-button-widget" contractname="My.Contact.Prefix." stringjoinoffset="100">
+        <ch5-template templateId="template-with-button-widget" contractname="My.Contract.Prefix." stringjoinoffset="100">
         </ch5-template>
     </template>
 </test-fixture>
@@ -134,7 +134,7 @@
         
         test('Increment receivestatelabel', function () {
             assert.strictEqual(ch5ButtonUsingNumeric.getAttribute("receivestatelabel"), '101');
-            assert.strictEqual(ch5ButtonUsingContract.getAttribute("receivestatelabel"), 'My.Contact.Prefix.ButtonLabel');
+            assert.strictEqual(ch5ButtonUsingContract.getAttribute("receivestatelabel"), 'My.Contract.Prefix.ButtonLabel');
         });
         
     });
@@ -156,7 +156,7 @@
                 </ch5-button>
             </div>
         </template>
-        <ch5-template templateId="template-with-button-label-widget" contractname="My.Contact.Prefix." stringjoinoffset="100">
+        <ch5-template templateId="template-with-button-label-widget" contractname="My.Contract.Prefix." stringjoinoffset="100">
         </ch5-template>
     </template>
 </test-fixture>
@@ -193,7 +193,7 @@
             const labelUsingNumeric = ch5ButtonUsingNumeric.querySelector(selector);
             const labelUsingContract = ch5ButtonUsingContract.querySelector(selector);
             assert.strictEqual(labelUsingNumeric.getAttribute("data-ch5-textcontent"), '101');
-            assert.strictEqual(labelUsingNumeric.getAttribute("data-ch5-textcontent"), 'My.Contact.Prefix.ButtonLabel');
+            assert.strictEqual(labelUsingNumeric.getAttribute("data-ch5-textcontent"), 'My.Contract.Prefix.ButtonLabel');
         });
         
     });
@@ -212,7 +212,7 @@
                 </div>
             </div>
         </template>
-        <ch5-template templateId="template-with-background-widget" contractname="My.Contact.Prefix." stringjoinoffset="100">
+        <ch5-template templateId="template-with-background-widget" contractname="My.Contract.Prefix." stringjoinoffset="100">
         </ch5-template>
     </template>
 </test-fixture>
@@ -247,7 +247,7 @@
         
         test('Increment receivestatebackgroundcolor', function () {
             assert.strictEqual(ch5BackgroundUsingNumeric.getAttribute("receivestatebackgroundcolor"), '101');
-            assert.strictEqual(ch5BackgroundUsingContract.getAttribute("receivestatebackgroundcolor"), 'My.Contact.Prefix.BackgroundColor');
+            assert.strictEqual(ch5BackgroundUsingContract.getAttribute("receivestatebackgroundcolor"), 'My.Contract.Prefix.BackgroundColor');
         });
         
     });
@@ -265,7 +265,7 @@
                 </div>
             </div>
         </template>
-        <ch5-template templateId="template-with-dpad-widget" contractname="My.Contact.Prefix." booleanjoinoffset="100">
+        <ch5-template templateId="template-with-dpad-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
         </ch5-template>
     </template>
 </test-fixture>
@@ -300,7 +300,7 @@
         
         test('Increment clickstart, contractname', function () {
             assert.strictEqual(ch5DpadUsingNumeric.getAttribute("receivestateclickstart"), '101', "clickstart mismatch");
-            assert.strictEqual(ch5DpadUsingContract.getAttribute("contractname"), 'My.Contact.Prefix.WidgetDPad', "contract mismatch");
+            assert.strictEqual(ch5DpadUsingContract.getAttribute("contractname"), 'My.Contract.Prefix.WidgetDPad', "contract mismatch");
         });
         
     });
@@ -318,7 +318,7 @@
                 </div>
             </div>
         </template>
-        <ch5-template templateId="template-with-image-widget" contractname="My.Contact.Prefix." 
+        <ch5-template templateId="template-with-image-widget" contractname="My.Contract.Prefix." 
             booleanjoinoffset="100" stringjoinoffset="200">
         </ch5-template>
     </template>
@@ -354,9 +354,9 @@
         
         test('Increment receivestateurl, sendeventclick', function () {
             assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonclick"), '102', "numeric sendeventclick mismatch");
-            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonclick"), 'My.Contact.Prefix.ImageClick', "contract sendeventclick mismatch");
+            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonclick"), 'My.Contract.Prefix.ImageClick', "contract sendeventclick mismatch");
             assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("receivestateurl"), '201', "numeric receivestateurl mismatch");
-            assert.strictEqual(ch5ComponentUsingContract.getAttribute("receivestateurl"), 'My.Contact.Prefix.ImageUrl', "contract receivestateurl mismatch");
+            assert.strictEqual(ch5ComponentUsingContract.getAttribute("receivestateurl"), 'My.Contract.Prefix.ImageUrl', "contract receivestateurl mismatch");
         });
         
     });
@@ -371,7 +371,7 @@
                 <ch5-import-htmlsnippet class="uses-contract" receivestateshow="Show"></ch5-import-htmlsnippet>
             </div>
         </template>
-        <ch5-template templateId="template-with-import-snippet-widget" contractname="My.Contact.Prefix." 
+        <ch5-template templateId="template-with-import-snippet-widget" contractname="My.Contract.Prefix." 
             booleanjoinoffset="100" >
         </ch5-template>
     </template>
@@ -408,7 +408,7 @@
         
         test('Increment receivestateshow', function () {
             assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("receivestateshow"), '101', "numeric receivestateshow mismatch");
-            assert.strictEqual(ch5ComponentUsingContract.getAttribute("receivestateshow"), 'My.Contact.Prefix.Show', "contract receivestateshow mismatch");
+            assert.strictEqual(ch5ComponentUsingContract.getAttribute("receivestateshow"), 'My.Contract.Prefix.Show', "contract receivestateshow mismatch");
         });
         
     });
@@ -426,7 +426,7 @@
                 </div>
             </div>
         </template>
-        <ch5-template templateId="template-with-keypad-widget" contractname="My.Contact.Prefix." booleanjoinoffset="100">
+        <ch5-template templateId="template-with-keypad-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
         </ch5-template>
     </template>
 </test-fixture>
@@ -461,7 +461,7 @@
         
         test('Increment clickstart, contractname', function () {
             assert.strictEqual(ch5KeypadUsingNumeric.getAttribute("receivestateclickstart"), '101', "clickstart mismatch");
-            assert.strictEqual(ch5KeypadUsingContract.getAttribute("contractname"), 'My.Contact.Prefix.WidgetKeypad', "contract mismatch");
+            assert.strictEqual(ch5KeypadUsingContract.getAttribute("contractname"), 'My.Contract.Prefix.WidgetKeypad', "contract mismatch");
         });
         
     });
@@ -484,7 +484,7 @@
                 </ch5-list>
             </div>
         </template>
-        <ch5-template templateId="template-with-list-widget" contractname="My.Contact.Prefix." 
+        <ch5-template templateId="template-with-list-widget" contractname="My.Contract.Prefix." 
             booleanjoinoffset="300" numericjoinoffset="200" stringjoinoffset="100" >
         </ch5-template>
     </template>
@@ -546,7 +546,7 @@
                 <ch5-modal-dialog class="uses-contract" sendeventonok="OK"></ch5-modal-dialog>
             </div>
         </template>
-        <ch5-template templateId="template-with-modal-dialog-widget" contractname="My.Contact.Prefix." 
+        <ch5-template templateId="template-with-modal-dialog-widget" contractname="My.Contract.Prefix." 
             booleanjoinoffset="100" >
         </ch5-template>
     </template>
@@ -583,7 +583,7 @@
         
         test('Increment sendeventonok', function () {
             assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonok"), '101', "numeric sendeventonok mismatch");
-            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonok"), 'My.Contact.Prefix.OK', "contract sendeventonok mismatch");
+            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonok"), 'My.Contract.Prefix.OK', "contract sendeventonok mismatch");
         });
         
     });
@@ -598,7 +598,7 @@
                 <ch5-select class="uses-contract" sendeventonaftershow="AfterShow"></ch5-select>
             </div>
         </template>
-        <ch5-template templateId="template-with-select-widget" contractname="My.Contact.Prefix." 
+        <ch5-template templateId="template-with-select-widget" contractname="My.Contract.Prefix." 
             booleanjoinoffset="100" >
         </ch5-template>
     </template>
@@ -635,7 +635,7 @@
         
         test('Increment sendeventonaftershow', function () {
             assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonaftershow"), '101', "numeric sendeventonaftershow mismatch");
-            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonaftershow"), 'My.Contact.Prefix.OK', "contract sendeventonaftershow mismatch");
+            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonaftershow"), 'My.Contract.Prefix.OK', "contract sendeventonaftershow mismatch");
         });
         
     });
@@ -661,7 +661,7 @@
                 </ch5-select>
             </div>
         </template>
-        <ch5-template templateId="template-with-select-widget" contractname="My.Contact.Prefix." 
+        <ch5-template templateId="template-with-select-widget" contractname="My.Contract.Prefix." 
             numericjoinoffset="100" stringjoinoffset="200">
         </ch5-template>
     </template>
@@ -698,7 +698,7 @@
         
         test('Increment sendeventonchange', function () {
             assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '101', "numeric sendeventonchange mismatch");
-            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contact.Prefix.SelectValue', "contract sendeventonchange mismatch");
+            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SelectValue', "contract sendeventonchange mismatch");
         });
 
         test('Increment <ch5-select-option><span data-ch5-textcontent=>', function () {
@@ -724,7 +724,7 @@
                 <ch5-slider class="uses-contract" sendeventonchange="SliderValue"></ch5-slider>
             </div>
         </template>
-        <ch5-template templateId="template-with-slider-widget" contractname="My.Contact.Prefix." 
+        <ch5-template templateId="template-with-slider-widget" contractname="My.Contract.Prefix." 
             numericjoinoffset="100" >
         </ch5-template>
     </template>
@@ -761,7 +761,7 @@
         
         test('Increment sendeventonchange', function () {
             assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '101', "numeric sendeventonchange mismatch");
-            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contact.Prefix.SliderValue', "contract sendeventonchange mismatch");
+            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SliderValue', "contract sendeventonchange mismatch");
         });
 
         
@@ -784,7 +784,7 @@
                 </ch5-spinner>
             </div>
         </template>
-        <ch5-template templateId="template-with-spinner-widget" contractname="My.Contact.Prefix." 
+        <ch5-template templateId="template-with-spinner-widget" contractname="My.Contract.Prefix." 
             numericjoinoffset="100" stringjoinoffset="200">
         </ch5-template>
     </template>
@@ -821,7 +821,7 @@
         
         test('Increment sendeventonchange', function () {
             assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '101', "numeric sendeventonchange mismatch");
-            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contact.Prefix.SpinnerValue', "contract sendeventonchange mismatch");
+            assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SpinnerValue', "contract sendeventonchange mismatch");
         });
 
         test('Increment <ch5-spinner><label data-ch5-textcontent=>', function () {
