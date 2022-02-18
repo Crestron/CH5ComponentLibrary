@@ -9,6 +9,10 @@ import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-sign
 export class Ch5JoinToTextNumeric extends Ch5Common {
 
     public static PERCENTAGE_MAX = 65535;
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+    };
 
     private _receiveStateValue: string = '';
     private _subReceiveStateValue: string = '';
@@ -34,10 +38,6 @@ export class Ch5JoinToTextNumeric extends Ch5Common {
         this._currentNumericFormat = this._numericFormatFactory.getFormat(this.type);
     }
 
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
-	};
 
     public static get observedAttributes(): string[] {
         return [
