@@ -535,15 +535,17 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @param {number|string } value
 	 */
 	public set value(value: number | string) {
+		console.log('set value', value)
 		value = Number(value);
 
 		// prevent infinite loop
-		if (value !== this.value) {
+		if (value !== this.value || this.value !== this.min) {
 			if (isNaN(value) || value > this._max || value < this._min) {
 				value = this._min;
 			}
 
 			if (this._range && value >= this._valueHigh && this._valueHigh !== Ch5Slider.MAX_VALUE) {
+				console.log('here', this.range, value, this._valueHigh);
 				value = this._valueHigh - 1;
 			}
 
