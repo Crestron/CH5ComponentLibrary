@@ -6,6 +6,11 @@ import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-sign
 
 export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBooleanAttributes {
 
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+	};
+    
     private _value: string = 'false'; 
     private _textWhenTrue: string = '';
     private _textWhenFalse: string = '';
@@ -13,10 +18,6 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 
     private _subReceiveStateValue: string = '';
 
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
-	};
 
     public static get observedAttributes(): string[] {
         return [
