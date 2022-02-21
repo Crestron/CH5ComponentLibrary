@@ -9,7 +9,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5OverlayPanelAttributes, TCh5OverlayPanelOverflow, TCh5OverlayPanelPositionOffset, TCh5OverlayPanelStretch } from "./interfaces";
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 /**
  * Html Attributes
@@ -43,6 +43,8 @@ import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-sign
  *
  */
 export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttributes {
+
+	public static readonly ELEMENT_NAME = 'ch5-overlay-panel';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -281,6 +283,10 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	protected _beforeHideEvent: Event;
 
 	protected _afterHideEvent: Event;
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5OverlayPanel.ELEMENT_NAME, Ch5OverlayPanel.SIGNAL_ATTRIBUTE_TYPES);
+	}
 
 	public constructor() {
 		super();
@@ -1339,6 +1345,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 if (typeof window === "object"
 	&& typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-
 	window.customElements.define('ch5-overlay-panel', Ch5OverlayPanel);
+	Ch5OverlayPanel.registerSignalAttributeTypes();
 }

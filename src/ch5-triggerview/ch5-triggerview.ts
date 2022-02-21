@@ -14,7 +14,7 @@ import { Ch5TriggerViewSlidesManager } from "./ch5-triggerview-slides-manager";
 import { isNil } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5TriggerViewAttributes } from './interfaces/i-ch5-triggerview-attributes';
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export type TActiveViewCallback = () => {};
 
@@ -174,6 +174,8 @@ const template = document.createElement('template');
 template.innerHTML = `<style>${triggerViewStyles}</style> ${triggerViewHtml}`;
 
 export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttributes {
+
+	public static readonly ELEMENT_NAME = 'ch5-triggerview';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -969,9 +971,13 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		}
 	}
 
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TriggerView.ELEMENT_NAME, Ch5TriggerView.SIGNAL_ATTRIBUTE_TYPES);
+	}	
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-triggerview', Ch5TriggerView);
+	Ch5TriggerView.registerSignalAttributeTypes();
 }

@@ -15,9 +15,11 @@ import HtmlCallback from "../ch5-common/utils/html-callback";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { TCh5CommonInputFeedbackModes } from "../ch5-common-input/interfaces/t-ch5-common-input";
 import { ICh5TextInputAttributes, TCh5TextInputIconPosition, TCh5TextInputSize, TCh5TextInputStretch, TCh5TextInputTextTransform, TCh5TextInputType } from "./interfaces";
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttributes {
+
+	public static readonly ELEMENT_NAME = 'ch5-textinput';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -2484,9 +2486,14 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			this._elIcon.setAttribute('role', 'icon');
 		}
 	}
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Textinput.ELEMENT_NAME, Ch5Textinput.SIGNAL_ATTRIBUTE_TYPES);
+	}
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-textinput', Ch5Textinput);
+	Ch5Textinput.registerSignalAttributeTypes();
 }

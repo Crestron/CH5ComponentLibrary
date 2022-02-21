@@ -272,7 +272,7 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		}
 		this._templateHelper = {} as Ch5TemplateStructure;
 	}
-
+	
 }
 
 Ch5Template.registerCustomElement();

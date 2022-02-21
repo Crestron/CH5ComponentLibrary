@@ -10,6 +10,7 @@ import { Subscription } from "rxjs";
 import { Ch5ButtonPressInfo } from "../ch5-button/ch5-button-pressinfo";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
+import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { normalizeEvent } from "../ch5-triggerview/utils";
@@ -19,6 +20,8 @@ import { TCh5KeypadButtonCreateDTO } from "./interfaces/t-ch5-keypad";
 
 export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttributes {
     //#region 1. Variables
+
+    public static readonly ELEMENT_NAME = 'ch5-keypad-button';
 
     //#region 1.1 readonly variables
 
@@ -94,6 +97,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     protected _pressInfo: Ch5ButtonPressInfo = {} as Ch5ButtonPressInfo;
 
     //#endregion
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5KeypadButton.ELEMENT_NAME, Ch5KeypadButton.SIGNAL_ATTRIBUTE_TYPES);
+    }
+    
 
     //#endregion
 
@@ -873,4 +881,5 @@ if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-keypad-button', Ch5KeypadButton);
+    Ch5KeypadButton.registerSignalAttributeTypes();
 }

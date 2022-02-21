@@ -18,9 +18,11 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SpinnerAttributes } from './interfaces/i-ch5-spinner-attributes';
 import { TCh5CommonInputFeedbackModes } from '../ch5-common-input/interfaces/t-ch5-common-input';
 import { TCh5SpinnerIconPosition } from './interfaces';
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
+
+  public static readonly ELEMENT_NAME = 'ch5-spinner';
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -1751,6 +1753,10 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
       }
     }
   }
+
+  public static registerSignalAttributeTypes() {
+    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Spinner.ELEMENT_NAME, Ch5Spinner.SIGNAL_ATTRIBUTE_TYPES);
+  }
 }
 
 if (
@@ -1759,4 +1765,5 @@ if (
   typeof window.customElements.define === "function"
 ) {
   window.customElements.define('ch5-spinner', Ch5Spinner);
+  Ch5Spinner.registerSignalAttributeTypes();
 }

@@ -12,9 +12,11 @@ import { Ch5Select } from "../ch5-select/ch5-select";
 import { Ch5Toggle } from "../ch5-toggle/ch5-toggle";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SelectOptionAttributes } from "./interfaces/i-ch5-select-option-attributes";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttributes {
+
+    public static readonly ELEMENT_NAME = 'ch5-select-option';
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -140,6 +142,10 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
         }
 
         this.initializeAttributes();
+    }
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5SelectOption.ELEMENT_NAME, Ch5SelectOption.SIGNAL_ATTRIBUTE_TYPES);
     }
 
     public static get observedAttributes() {
@@ -632,4 +638,5 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-select-option', Ch5SelectOption);
+    Ch5SelectOption.registerSignalAttributeTypes();
 }
