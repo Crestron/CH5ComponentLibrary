@@ -16,7 +16,7 @@ import isNil from "lodash/isNil";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SliderAttributes, TCh5SliderShape, TCh5SliderOrientation, TCh5SliderSize, TCh5SliderStretch, TCh5SliderDirection, TCh5SliderTooltipType, TCh5SliderTooltipDisplay, TCh5SliderHandle } from "./interfaces";
 import _ from "lodash";
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export interface IRcbSignal {
 	rcb: {
@@ -33,6 +33,8 @@ export interface IRcbUpdateValue {
 }
 
 export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
+
+	public static readonly ELEMENT_NAME = 'ch5-slider';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -3160,10 +3162,14 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	//#endregion
 
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Slider.ELEMENT_NAME, Ch5Slider.SIGNAL_ATTRIBUTE_TYPES);
+	}	
 }
 
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-slider', Ch5Slider);
+	Ch5Slider.registerSignalAttributeTypes();
 }

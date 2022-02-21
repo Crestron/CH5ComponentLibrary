@@ -12,9 +12,11 @@ import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 import HtmlCallback from "../ch5-common/utils/html-callback";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5ToggleAttributes, TCh5ToggleShape, TCh5ToggleOrientation, TCh5ToggleFeedbackMode } from "./interfaces";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
+
+    public static readonly ELEMENT_NAME = 'ch5-toggle';
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -1420,9 +1422,14 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
             }
         }
     }
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Toggle.ELEMENT_NAME, Ch5Toggle.SIGNAL_ATTRIBUTE_TYPES);
+    }
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-toggle', Ch5Toggle);
+    Ch5Toggle.registerSignalAttributeTypes();
 }

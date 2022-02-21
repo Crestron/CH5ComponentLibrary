@@ -13,7 +13,7 @@ import { isNil, isEmpty } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { TCh5ProcessUriParams } from "../ch5-common/interfaces";
 import { ICh5ImageAttributes } from "./interfaces/i-ch5-image-attributes";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 import { Subscription } from "rxjs/internal/Subscription";
 
 export interface IShowStyle {
@@ -23,6 +23,7 @@ export interface IShowStyle {
 }
 
 export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
+    public static readonly ELEMENT_NAME = 'ch5-image';
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -1529,10 +1530,14 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             this._show = false;
         }
     }
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Image.ELEMENT_NAME, Ch5Image.SIGNAL_ATTRIBUTE_TYPES);
+    }
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-image', Ch5Image);
-
+    Ch5Image.registerSignalAttributeTypes();
 }

@@ -12,8 +12,11 @@ import { TCh5ButtonType } from "../ch5-button/interfaces/t-ch5-button";
 import { isEmpty, isNil } from 'lodash';
 import { ICh5FormAttributes } from "./interfaces/i-ch5-form-attributes";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 
 export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
+
+    public static readonly ELEMENT_NAME = 'ch5-form';
 
     /**
      * COMPONENT DEFAULT VALUES
@@ -622,6 +625,10 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         this.info(`Ch5Form submit button with ${this.submitId} found, events added`);
     }
 
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Form.ELEMENT_NAME, Ch5Form.SIGNAL_ATTRIBUTE_TYPES);
+    }
+
     constructor() {
         super(); // always call super() first in the constructor.
 
@@ -1090,4 +1097,5 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-form', Ch5Form);
+    Ch5Form.registerSignalAttributeTypes();
 }

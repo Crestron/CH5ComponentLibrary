@@ -12,10 +12,13 @@ import _ from "lodash";
 import { TCh5ShowType } from "../ch5-common/interfaces";
 import { ICh5TriggerViewChildAttributes } from "./interfaces/i-ch5-triggerview-child-attributes";
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 
 const _parentTriggerViewNodeName = 'CH5-TRIGGERVIEW';
 
 export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChildAttributes {
+
+	public static readonly ELEMENT_NAME = 'ch5-triggerview-child';
 
 	/**
 	 * TriggerView child accepts only 'visibility' for noshowtype
@@ -478,9 +481,14 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 			(this as any)[prop] = val;
 		}
 	}
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TriggerViewChild.ELEMENT_NAME, Ch5TriggerViewChild.SIGNAL_ATTRIBUTE_TYPES);
+	}
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-triggerview-child', Ch5TriggerViewChild);
+	Ch5TriggerViewChild.registerSignalAttributeTypes();
 }

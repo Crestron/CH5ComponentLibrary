@@ -23,7 +23,7 @@ import _ from "lodash";
 import { CH5VideoUtils } from "./ch5-video-utils";
 import { TCh5ProcessUriParams } from "../ch5-common/interfaces/t-ch5-common";
 import { Ch5VideoTouchManager } from "./ch5-video-touch-manager";
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 export type TSignalTypeT = string | number | boolean | any;
@@ -68,6 +68,8 @@ export type TSignalTypeT = string | number | boolean | any;
  */
 
 export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
+
+	public static readonly ELEMENT_NAME = 'ch5-video';
 
 	public static readonly COMPONENT_DATA: any = {};
 	
@@ -3558,6 +3560,10 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 			this.snapShotRefreshRate = this.getAttribute('snapshotrefreshrate') as string;
 		}
 	}
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Video.ELEMENT_NAME, Ch5Video.SIGNAL_ATTRIBUTE_TYPES);
+	}	
 }
 
 /**
@@ -3565,4 +3571,5 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
  */
 if (typeof window === 'object' && typeof window.customElements === 'object' && typeof window.customElements.define === 'function') {
 	window.customElements.define('ch5-video', Ch5Video);
+	Ch5Video.registerSignalAttributeTypes();
 }
