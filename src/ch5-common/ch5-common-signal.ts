@@ -37,8 +37,6 @@ export class Ch5CommonSignal {
 			return null;
 		}
 
-		// TODO - Test below
-		// TODO - also test unsubsciptions
 		// clean up old subscription
 		if (thisSignal.signalValue) {
 			const oldReceiveStateSigName: string = Ch5Signal.getSubscriptionSignalName(thisSignal.signalValue);
