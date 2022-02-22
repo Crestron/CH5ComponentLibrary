@@ -22,7 +22,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	/**
 	 * The first value is considered the default one
 	 */
-	public static REPEAT: TCh5BackgroundRepeat[] = ['', 'no-repeat', 'repeat', 'repeat-x', 'repeat-y'];
+	public static REPEAT: TCh5BackgroundRepeat[] = ['no-repeat', 'repeat', 'repeat-x', 'repeat-y'];
 
 	public static REFRESHRATE: number = 600;
 	public static IMGBGCOLOR: string = 'black';
