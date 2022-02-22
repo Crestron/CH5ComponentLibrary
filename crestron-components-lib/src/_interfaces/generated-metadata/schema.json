@@ -2689,6 +2689,25 @@
             },
             "limits": [],
             "attributeType": "join"
+          },
+          {
+            "documentation": [
+              "`pressed` attribute",
+              "***",
+              "The default value is false.",
+              "This property reflects the pressed state of the component. If set to true, ",
+              "'keypad-btn-pressed' will be applied as the CSS class on the component."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "pressed",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -5297,6 +5316,25 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "join"
+          },
+          {
+            "documentation": [
+              "`pressed` attribute",
+              "***",
+              "The default value is false.",
+              "This property reflects the pressed state of the component. If set to true, ",
+              "'keypad-btn-pressed' will be applied as the CSS class on the component."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "pressed",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "boolean"
           }
         ],
         "documentation": [
@@ -5671,6 +5709,25 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "join"
+          },
+          {
+            "documentation": [
+              "`pressed` attribute",
+              "***",
+              "The default value is false.",
+              "This property reflects the pressed state of the component. If set to true, ",
+              "'keypad-btn-pressed' will be applied as the CSS class on the component."
+            ],
+            "value": [
+              "false",
+              "true"
+            ],
+            "name": "pressed",
+            "default": "false",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "boolean"
           },
           {
             "documentation": [
