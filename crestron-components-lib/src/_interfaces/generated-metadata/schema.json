@@ -428,7 +428,6 @@
               "repeats both vertically and horizontally. The last image will be clipped if it does not fit."
             ],
             "value": [
-              "",
               "no-repeat",
               "repeat",
               "repeat-x",
@@ -454,7 +453,8 @@
               "fill the component completely, and 'fit' will preserve the image aspect ratio by ",
               "centering the image and leaving either a letter box on the top and bottom or ",
               "a pillar box on the left and right. For fit attribute, see the related ",
-              "imgBackgroundColor attribute."
+              "imgBackgroundColor attribute.",
+              "This attribute will be superseded by the repeat attribute if both are provided."
             ],
             "value": [
               "stretch",
@@ -464,7 +464,11 @@
             "name": "scale",
             "default": "stretch",
             "hideWhen": [],
-            "showWhen": [],
+            "showWhen": [
+              {
+                "repeat": null
+              }
+            ],
             "limits": [],
             "attributeType": "string"
           },
@@ -476,7 +480,8 @@
               "When more than one image is provided in the url attribute, ",
               "this attribute provides the duration in seconds that each ",
               "image will be displayed. Values outside of the min and max ",
-              "will be capped at the closest valid value."
+              "will be capped at the closest valid value.",
+              "This attribute supersedes the scale attribute if both are provided."
             ],
             "value": [],
             "name": "refreshrate",
@@ -1780,9 +1785,7 @@
               "the button will be responsive based on the label length until it ",
               "reaches the max-width of the container. If stretch=width is ",
               "applied, there is no responsiveness after reaching the max-width, and ",
-              "the text will overflow. The same applies if stretch=both is used. Note ",
-              "that if the button element shape is 'circle' or 'oval', the stretch ",
-              "property will be ignored."
+              "the text will overflow. The same applies if stretch=both is used."
             ],
             "value": [
               "both",
@@ -5333,8 +5336,8 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 Keypad Child Button offers an approach to customize the child buttons within a keypad.",
-        "name": "Ch5 Keypad Child Button",
+        "description": "Ch5 Keypad Button offers an approach to customize the child buttons within a keypad.",
+        "name": "Ch5 Keypad Button",
         "tagName": "ch5-keypad-button",
         "role": "container",
         "componentVersion": "1.0.0"
@@ -5917,6 +5920,21 @@
           },
           {
             "documentation": [
+              "`type` receiveStateExtraButtonShow",
+              "***",
+              "The boolean value of the signal determines if the dial button is seen by the user. ",
+              "Only applicable if contractName is not provided as a parameter."
+            ],
+            "value": [],
+            "name": "receiveStateExtraButtonShow",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "boolean"
+          },
+          {
+            "documentation": [
               "`type` sendEventOnClickStart",
               "***",
               "Only applies if contractName is not provided, if this parameter is supplied,",
@@ -6064,11 +6082,12 @@
               "\tstretch=\"${4:stretch}\"",
               "\ttextorientation=\"${5:textOrientation}\"",
               "\tshowextrabutton=\"${6:showExtraButton}\"",
-              "\tusecontractforenable=\"${7:useContractForEnable}\"",
-              "\tusecontractforshow=\"${8:useContractForShow}\"",
-              "\tusecontractforcustomclass=\"${9:useContractForCustomClass}\"",
-              "\tusecontractforcustomstyle=\"${10:useContractForCustomStyle}\"",
-              "\tsendeventonclickstart=\"${11:sendEventOnClickStart}\"",
+              "\treceivestateextrabuttonshow=\"${7:receiveStateExtraButtonShow}\"",
+              "\tusecontractforenable=\"${8:useContractForEnable}\"",
+              "\tusecontractforshow=\"${9:useContractForShow}\"",
+              "\tusecontractforcustomclass=\"${10:useContractForCustomClass}\"",
+              "\tusecontractforcustomstyle=\"${11:useContractForCustomStyle}\"",
+              "\tsendeventonclickstart=\"${12:sendEventOnClickStart}\"",
               ">",
               "</ch5-keypad>"
             ]
@@ -12120,7 +12139,7 @@
               "***",
               "The background pattern that will be present when the input is focused. ",
               "The following combination of prebuilt definitions are permitted: ",
-              "a - alpha caracter ",
+              "a - alpha character ",
               "9 - numeric character ",
               "* - alphanumeric character"
             ],
