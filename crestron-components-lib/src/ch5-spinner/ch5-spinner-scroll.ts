@@ -487,9 +487,48 @@ export class Ch5SpinnerScroll {
    * @param {MouseEvent} event
    * @return {void}
    */
-  private _onMouseMove(event: MouseEvent): void {
+  private _onMouseMove(event: any): void {
 
     const mouseYPos = this.getMousePosition(event).y;
+    let offsetX = 0;
+		let offsetY = 0;
+		let sliderElement = this.element as unknown as any;
+		while (sliderElement && !isNaN(sliderElement.offsetLeft) && !isNaN(sliderElement.offsetTop)) {
+			offsetX += sliderElement.offsetLeft - sliderElement.scrollLeft + sliderElement.clientLeft;
+			offsetY += sliderElement.offsetTop - sliderElement.scrollTop + sliderElement.clientTop;
+			sliderElement = sliderElement.offsetParent;
+		}
+
+    let eventOffsetX = null;
+		let eventOffsetY = null;
+
+    const maxOffsetLeft = offsetX;
+    const maxOffsetRight = offsetX + this.element.clientWidth;
+    const maxOffestTop = offsetY;
+    const maxOffestBottom = offsetY + this.element.clientHeight;
+
+    if (event.type === 'touchmove') {
+			const touch = event.touches[0] || event.changedTouches[0];
+			eventOffsetX = touch.clientX;
+			eventOffsetY = touch.clientY;
+		} else {
+			eventOffsetX = event.clientX;
+			eventOffsetY = event.clientY;
+		}
+
+    if (eventOffsetX < maxOffsetLeft ||
+			eventOffsetX > maxOffsetRight ||
+			eventOffsetY < maxOffestTop ||
+			eventOffsetY > maxOffestBottom
+		) {
+      if (this.mouseDown === true && event.type === 'touchmove') {
+        this.mouseDown = false;
+        this.moveTheList();
+        this.element.eventsHelper.dispatchTouchEnd();
+      }
+      return;
+    }
+
 
     if (this.mouseDown === true) {
       if ((Math.abs(this.initialMousePos - mouseYPos)) >= this.element.selectedItem.getBoundingClientRect().height * 0.3) {
