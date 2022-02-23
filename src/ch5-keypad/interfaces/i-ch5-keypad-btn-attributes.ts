@@ -118,4 +118,19 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * @attributeType "join"
      */
     sendEventOnClick: string;
+    
+    /**
+     * @documentation
+     * [
+     * "`pressed` attribute",
+     * "***",
+     * "The default value is false.",
+     * "This property reflects the pressed state of the component. If set to true, ",
+     * "'keypad-btn-pressed' will be applied as the CSS class on the component."
+     * ]
+     * @name pressed
+     * @default false
+     * @attributeType "boolean"
+     */
+    pressed: boolean;
 }

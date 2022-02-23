@@ -199,7 +199,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      */
     showExtraButton: boolean;
 
-        /**
+    /**
      * @documentation
      * [
      * "`type` receiveStateExtraButtonShow",
