@@ -75,11 +75,13 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "fill the component completely, and 'fit' will preserve the image aspect ratio by ",
    * "centering the image and leaving either a letter box on the top and bottom or ",
    * "a pillar box on the left and right. For fit attribute, see the related ",
-   * "imgBackgroundColor attribute."
+   * "imgBackgroundColor attribute.",
+   * "This attribute will be superseded by the repeat attribute if both are provided."
    * ]
    * @name scale
    * @default stretch
    * @attributeType "string"
+   * @showWhen [{"repeat": null }]
    */
   scale: TCh5BackgroundScale;
 
@@ -92,7 +94,8 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "When more than one image is provided in the url attribute, ",
    * "this attribute provides the duration in seconds that each ",
    * "image will be displayed. Values outside of the min and max ",
-   * "will be capped at the closest valid value."
+   * "will be capped at the closest valid value.",
+   * "This attribute supersedes the scale attribute if both are provided."
    * ]
    * @name refreshrate
    * @default 600
