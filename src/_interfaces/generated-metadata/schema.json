@@ -757,31 +757,19 @@
         ],
         "childElements": [
           {
-            "tagName": "ch5-button-label",
+            "tagName": "ch5-jointotext-boolean",
             "optional": true,
-            "childElements": [
-              {
-                "tagName": "template",
-                "optional": false,
-                "childElements": [
-                  {
-                    "tagName": "ch5-jointotext-boolean",
-                    "optional": true,
-                    "childElements": []
-                  },
-                  {
-                    "tagName": "ch5-jointotext-numeric",
-                    "optional": true,
-                    "childElements": []
-                  },
-                  {
-                    "tagName": "ch5-jointotext-string",
-                    "optional": true,
-                    "childElements": []
-                  }
-                ]
-              }
-            ]
+            "childElements": []
+          },
+          {
+            "tagName": "ch5-jointotext-numeric",
+            "optional": true,
+            "childElements": []
+          },
+          {
+            "tagName": "ch5-jointotext-string",
+            "optional": true,
+            "childElements": []
           }
         ],
         "description": "Ch5 Button Label is a child node for <ch5-button>, <ch5-button-mode> and <ch5-button-mode-state>.",
@@ -821,7 +809,7 @@
           },
           {
             "documentation": [
-              "`icon` attribute",
+              "`iconclass` attribute",
               "***",
               "The icon class."
             ],
@@ -1091,7 +1079,7 @@
           },
           {
             "documentation": [
-              "`icon` attribute",
+              "`iconclass` attribute",
               "***",
               "The icon class."
             ],
@@ -1628,7 +1616,7 @@
           },
           {
             "documentation": [
-              "`icon` attribute",
+              "`iconClass` attribute",
               "***",
               "The icon class."
             ],
@@ -2623,10 +2611,10 @@
             "documentation": [
               "`type` iconClass",
               "***",
-              "The icon class gives the ability for the end developer to create custom arrow icons."
+              "The icon class gives the ability for the end developer to create custom icons."
             ],
             "value": [],
-            "name": "iconClass",
+            "name": "iconclass",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -2641,18 +2629,18 @@
               "the iconUrl takes precedence over iconClass."
             ],
             "value": [],
-            "name": "iconUrl",
+            "name": "iconurl",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "iconURL"
+            "attributeType": "imageURL"
           },
           {
             "documentation": [
               "`type` key",
               "***",
-              "The key of the button to determin which button it is."
+              "The key of the button to determine which button it is."
             ],
             "value": [
               "up",
@@ -2727,7 +2715,7 @@
             ]
           },
           {
-            "prefix": "ch5-dpad-button :iconurl",
+            "prefix": "ch5-dpad-button:iconurl",
             "description": "Crestron Dpad Button Bottom",
             "body": [
               "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\" iconurl=\"btn_${2:Icon Url}\">",
@@ -2735,7 +2723,7 @@
             ]
           },
           {
-            "prefix": "ch5-dpad-button :iconclass",
+            "prefix": "ch5-dpad-button:iconclass",
             "description": "Crestron Dpad Button Bottom",
             "body": [
               "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\" iconclass=\"btn_${2:Icon Class}\">",
@@ -2743,7 +2731,7 @@
             ]
           },
           {
-            "prefix": "ch5-dpad-button :all-attributes",
+            "prefix": "ch5-dpad-button:all-attributes",
             "description": "Crestron Dpad Button Bottom",
             "body": [
               "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\">",
@@ -3025,7 +3013,7 @@
               "Defines the primary contract name to derive the component's contract details."
             ],
             "value": [],
-            "name": "contractName",
+            "name": "contractname",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -3132,7 +3120,7 @@
               "false",
               "true"
             ],
-            "name": "useContractForEnable",
+            "name": "usecontractforenable",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -3153,7 +3141,7 @@
               "false",
               "true"
             ],
-            "name": "useContractForShow",
+            "name": "usecontractforshow",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -3173,7 +3161,7 @@
               "false",
               "true"
             ],
-            "name": "useContractForCustomClass",
+            "name": "usecontractforcustomclass",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -3193,7 +3181,7 @@
               "false",
               "true"
             ],
-            "name": "useContractForCustomStyle",
+            "name": "usecontractforcustomstyle",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -3209,7 +3197,7 @@
               "join+2 applies to left, join+3 applies to right, join+4 to center ."
             ],
             "value": [],
-            "name": "sendEventOnClickStart",
+            "name": "sendeventonclickstart",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5251,7 +5239,7 @@
               "Defines the primary/major text value of the button."
             ],
             "value": [],
-            "name": "labelMajor",
+            "name": "labelmajor",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5265,7 +5253,7 @@
               "Defines the secondary/minor text value of the button."
             ],
             "value": [],
-            "name": "labelMinor",
+            "name": "labelminor",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5279,7 +5267,7 @@
               "Defines the secondary/minor text value of the button."
             ],
             "value": [],
-            "name": "iconClass",
+            "name": "iconclass",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5310,7 +5298,7 @@
               "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
             ],
             "value": [],
-            "name": "sendEventOnClick",
+            "name": "sendeventonclick",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5644,7 +5632,7 @@
               "Defines the primary/major text value of the button."
             ],
             "value": [],
-            "name": "labelMajor",
+            "name": "labelmajor",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5658,7 +5646,7 @@
               "Defines the secondary/minor text value of the button."
             ],
             "value": [],
-            "name": "labelMinor",
+            "name": "labelminor",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5672,7 +5660,7 @@
               "Defines the secondary/minor text value of the button."
             ],
             "value": [],
-            "name": "iconClass",
+            "name": "iconclass",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5703,7 +5691,7 @@
               "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
             ],
             "value": [],
-            "name": "sendEventOnClick",
+            "name": "sendeventonclick",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5736,7 +5724,7 @@
               "Defines the primary contract name to derive the component's contract details."
             ],
             "value": [],
-            "name": "contractName",
+            "name": "contractname",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5825,7 +5813,7 @@
               "bottom",
               "left"
             ],
-            "name": "textOrientation",
+            "name": "textorientation",
             "default": "top",
             "hideWhen": [],
             "showWhen": [],
@@ -5868,7 +5856,7 @@
               "false",
               "true"
             ],
-            "name": "useContractForEnable",
+            "name": "usecontractforenable",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -5889,7 +5877,7 @@
               "false",
               "true"
             ],
-            "name": "useContractForShow",
+            "name": "usecontractforshow",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -5909,7 +5897,7 @@
               "false",
               "true"
             ],
-            "name": "useContractForCustomClass",
+            "name": "usecontractforcustomclass",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -5929,7 +5917,7 @@
               "false",
               "true"
             ],
-            "name": "useContractForCustomStyle",
+            "name": "usecontractforcustomstyle",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -5949,7 +5937,7 @@
               "false",
               "true"
             ],
-            "name": "useContractForExtraButtonShow",
+            "name": "usecontractforextrabuttonshow",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -5968,7 +5956,7 @@
               "false",
               "true"
             ],
-            "name": "showExtraButton",
+            "name": "showextrabutton",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -5983,7 +5971,7 @@
               "Only applicable if contractName is not provided as a parameter."
             ],
             "value": [],
-            "name": "receiveStateExtraButtonShow",
+            "name": "receivestateextrabuttonshow",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -5999,7 +5987,7 @@
               "join+2 applies to left, join+3 applies to right, join+4 to center ."
             ],
             "value": [],
-            "name": "sendEventOnClickStart",
+            "name": "sendeventonclickstart",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -11734,7 +11722,7 @@
               ""
             ],
             "value": [],
-            "name": "contractName",
+            "name": "contractname",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -11749,7 +11737,7 @@
               ""
             ],
             "value": [],
-            "name": "booleanJoinOffset",
+            "name": "booleanjoinoffset",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -11764,7 +11752,7 @@
               ""
             ],
             "value": [],
-            "name": "numericJoinOffset",
+            "name": "numericjoinoffset",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -11779,7 +11767,7 @@
               ""
             ],
             "value": [],
-            "name": "stringJoinOffset",
+            "name": "stringjoinoffset",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
@@ -15533,6 +15521,62 @@
           },
           {
             "documentation": [
+              "`value` attribute",
+              "***",
+              "Defines an value for the jointotext."
+            ],
+            "value": [],
+            "name": "value",
+            "default": "\"\"",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`textWhenTrue` attribute",
+              "***",
+              "Defines an text that will be displayed on value=true for the jointotext."
+            ],
+            "value": [],
+            "name": "textwhentrue",
+            "default": "\"\"",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`textWhenFalse` attribute",
+              "***",
+              "Defines an text that will be displayed on value=false for the jointotext."
+            ],
+            "value": [],
+            "name": "textwhenfalse",
+            "default": "\"\"",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`receiveStateValue` attribute",
+              "***",
+              "Defines the receivestatevalue state name."
+            ],
+            "value": [],
+            "name": "receivestatevalue",
+            "default": "\"\"",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -15905,6 +15949,48 @@
             "value": [],
             "name": "dir",
             "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`value` attribute",
+              "***",
+              "Defines an value for the jointotext."
+            ],
+            "value": [],
+            "name": "value",
+            "default": "\"\"",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`textWhenEmpty` attribute",
+              "***",
+              "Defines an text that will be displayed on value is empty for the jointotext."
+            ],
+            "value": [],
+            "name": "textwhenempty",
+            "default": "\"\"",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`receiveStateValue` attribute",
+              "***",
+              "Defines the receivestatevalue state name."
+            ],
+            "value": [],
+            "name": "receivestatevalue",
+            "default": "\"\"",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -16289,6 +16375,112 @@
           },
           {
             "documentation": [
+              "`value` attribute",
+              "***",
+              "Defines an value for the jointotext."
+            ],
+            "value": [],
+            "name": "value",
+            "default": "\"\"",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`type` attribute",
+              "***",
+              "Defines the numeric type."
+            ],
+            "value": [
+              "float",
+              "percentage",
+              "hex",
+              "raw",
+              "unsigned",
+              "signed",
+              "time"
+            ],
+            "name": "type",
+            "default": "signed",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`receiveStateValue` attribute",
+              "***",
+              "Defines the receivestatevalue state name."
+            ],
+            "value": [],
+            "name": "receivestatevalue",
+            "default": "\"\"",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`decimalLength` attribute",
+              "***",
+              "Defines the floating point position."
+            ],
+            "value": [],
+            "name": "decimallength",
+            "default": "2",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`length` attribute",
+              "***",
+              "Defines the whole number min length."
+            ],
+            "value": [],
+            "name": "length",
+            "default": "0",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`min` attribute",
+              "***",
+              "Defines the min range used only for percentage type."
+            ],
+            "value": [],
+            "name": "min",
+            "default": "0",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
+              "`max` attribute",
+              "***",
+              "Defines the max range used only for percentage type."
+            ],
+            "value": [],
+            "name": "max",
+            "default": "65535",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
               "`class` attribute",
               "***",
               "This is a standard class HTML attribute."
@@ -16375,7 +16567,7 @@
         "snippets": [
           {
             "prefix": "ch5-jointotext-numeric:blank",
-            "description": "Crestron JoinToText Boolean (Blank)",
+            "description": "Crestron JoinToText Numeric (Blank)",
             "body": [
               "<ch5-jointotext-numeric>",
               "</ch5-jointotext-numeric>$0"
@@ -16383,7 +16575,7 @@
           },
           {
             "prefix": "ch5-jointotext-numeric:default",
-            "description": "Crestron JoinToText Boolean (Default)",
+            "description": "Crestron JoinToText Numeric (Default)",
             "body": [
               "<ch5-jointotext-numeric value=\"${1:true}\"",
               "\ttype=\"${2:decimal}\">",
@@ -16392,7 +16584,7 @@
           },
           {
             "prefix": "ch5-jointotext-numeric:receive-signal",
-            "description": "Crestron JoinToText Boolean (Receive Signal)",
+            "description": "Crestron JoinToText Numeric (Receive Signal)",
             "body": [
               "<ch5-jointotext-numeric receiveStateValue=\"${1:19}\"",
               "\ttype=\"${2:decimal}\">",
@@ -16401,7 +16593,7 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 JoinToText",
+        "description": "Ch5 JoinToText Numeric",
         "name": "Ch5 JoinToTextNumeric",
         "tagName": "ch5-jointotext-numeric",
         "role": "presentation",
