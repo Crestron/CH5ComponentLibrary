@@ -18,7 +18,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * [
      * "`type` iconClass",
      * "***",
-     * "The icon class gives the ability for the end developer to create custom arrow icons."
+     * "The icon class gives the ability for the end developer to create custom icons."
      * ]
      * @name iconClass
      * @attributeType "iconClass"
@@ -34,7 +34,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "the iconUrl takes precedence over iconClass."
      * ]
      * @name iconUrl
-     * @attributeType "iconURL"
+     * @attributeType "imageURL"
      */
     iconUrl: string;
 
@@ -43,7 +43,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * [
      * "`type` key",
      * "***",
-     * "The key of the button to determin which button it is."
+     * "The key of the button to determine which button it is."
      * ]
      * @name key
      * @attributeType "string"

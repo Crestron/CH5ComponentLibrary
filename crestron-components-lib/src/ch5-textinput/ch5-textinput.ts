@@ -653,84 +653,54 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		if (this._wasInstatiated && newValue !== '') {
 			switch (attr) {
 				case 'label':
-					this.label = this.attributeChangeHandler(
-						'label', oldValue, newValue
-					) as string;
+					this.label = this.attributeChangeHandler('label', oldValue, newValue) as string;
 					break;
 				case 'stretch':
-					this.stretch = this.attributeChangeHandler(
-						'stretch', oldValue, newValue) as TCh5TextInputStretch;
-
+					this.stretch = this.attributeChangeHandler('stretch', oldValue, newValue) as TCh5TextInputStretch;
 					break;
 				case 'text-transform':
 					if (this.inputType === 'text') {
-						this.textTransform = this.attributeChangeHandler(
-							'text-transform', oldValue, newValue) as TCh5TextInputTextTransform;
+						this.textTransform = this.attributeChangeHandler('text-transform', oldValue, newValue) as TCh5TextInputTextTransform;
 					}
 					break;
 				case 'value':
-					this.value = this.attributeChangeHandler(
-						'value', oldValue, newValue
-					);
+					this.value = this.attributeChangeHandler('value', oldValue, newValue);
 					break;
 				case 'placeholder':
-
-					this.placeholder = this.attributeChangeHandler(
-						'placeholder', oldValue, newValue
-					);
-
+					this.placeholder = this.attributeChangeHandler('placeholder', oldValue, newValue);
 					break;
 				case 'pattern':
-					this.pattern = this.attributeChangeHandler(
-						'pattern', oldValue, newValue
-					);
+					this.pattern = this.attributeChangeHandler('pattern', oldValue, newValue);
 					break;
 				case 'iconclass':
-					this.iconClass = this.attributeChangeHandler(
-						'icon', oldValue, newValue);
+					this.iconClass = this.attributeChangeHandler('icon', oldValue, newValue);
 					this.iconPositioning();
 					this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
 					break;
 				case 'iconposition':
-					this.iconPosition = this.attributeChangeHandler(
-						'iconposition', oldValue, newValue
-					) as TCh5TextInputIconPosition;
+					this.iconPosition = this.attributeChangeHandler('iconposition', oldValue, newValue) as TCh5TextInputIconPosition;
 					this.iconPositioning();
 					break;
 				case 'mask':
 					this.mask = this.getAttribute('mask') as string;
-// RAGS					this.iconPositioning();
 					break;
 				case 'type':
-					this.inputType = this.attributeChangeHandler(
-						'type', oldValue, newValue
-					) as TCh5TextInputType;
+					this.inputType = this.attributeChangeHandler('type', oldValue, newValue) as TCh5TextInputType;
 					break;
 				case 'minlength':
-					this.minLength = Number(this.attributeChangeHandler(
-						'minlength', oldValue, newValue
-					));
+					this.minLength = Number(this.attributeChangeHandler('minlength', oldValue, newValue));
 					break;
 				case 'maxlength':
-					this.maxLength = Number(this.attributeChangeHandler(
-						'maxlength', oldValue, newValue
-					));
+					this.maxLength = Number(this.attributeChangeHandler('maxlength', oldValue, newValue));
 					break;
 				case 'minvalue':
-					this.minValue = Number(this.attributeChangeHandler(
-						'minvalue', oldValue, newValue
-					));
+					this.minValue = Number(this.attributeChangeHandler('minvalue', oldValue, newValue));
 					break;
 				case 'maxvalue':
-					this.maxValue = Number(this.attributeChangeHandler(
-						'maxvalue', oldValue, newValue
-					));
+					this.maxValue = Number(this.attributeChangeHandler('maxvalue', oldValue, newValue));
 					break;
 				case 'size':
-					this.size = this.attributeChangeHandler(
-						'size', oldValue, newValue
-					) as TCh5TextInputSize;
-
+					this.size = this.attributeChangeHandler('size', oldValue, newValue) as TCh5TextInputSize;
 					if (this._maskingUtility.constructor === Ch5tTextInputMask) {
 						this._maskingUtility._makeMaskElementLookAsInputPlaceholder();
 					}
@@ -739,45 +709,29 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 					this.scaling = newValue === 'false' ? false : true;
 					break;
 				case 'minimumfontsize':
-					this.minimumFontSize = Number(this.attributeChangeHandler(
-						'minimumfontsize', oldValue, newValue
-					));
+					this.minimumFontSize = Number(this.attributeChangeHandler('minimumfontsize', oldValue, newValue));
 					break;
 				case 'tabindex':
-					this.tabIndex = Number(this.attributeChangeHandler(
-						'tabindex', oldValue, newValue
-					));
+					this.tabIndex = Number(this.attributeChangeHandler('tabindex', oldValue, newValue));
 					break;
 				case 'feedbackmode':
-					this.feedbackMode = this.attributeChangeHandler(
-						'feedbackmode', oldValue, newValue
-					) as TCh5CommonInputFeedbackModes;
+					this.feedbackMode = this.attributeChangeHandler('feedbackmode', oldValue, newValue) as TCh5CommonInputFeedbackModes;
 					break;
 				// case 'signalValueSyncTimeout':
 				case 'receivestatefocus':
-					this.receiveStateFocus = this.attributeChangeHandler(
-						'receivestatefocus', oldValue, newValue
-					);
+					this.receiveStateFocus = this.attributeChangeHandler('receivestatefocus', oldValue, newValue);
 					break;
 				case 'receivestatevalue':
-					this.receiveStateValue = this.attributeChangeHandler(
-						'receivestatevalue', oldValue, newValue
-					);
+					this.receiveStateValue = this.attributeChangeHandler('receivestatevalue', oldValue, newValue);
 					break;
 				case 'sendeventonchange':
-					this.sendEventOnChange = this.attributeChangeHandler(
-						'sendeventonchange', oldValue, newValue
-					);
+					this.sendEventOnChange = this.attributeChangeHandler('sendeventonchange', oldValue, newValue);
 					break;
 				case 'sendeventonfocus':
-					this.sendEventOnFocus = this.attributeChangeHandler(
-						'sendeventonfocus', oldValue, newValue
-					);
+					this.sendEventOnFocus = this.attributeChangeHandler('sendeventonfocus', oldValue, newValue);
 					break;
 				case 'sendeventonblur':
-					this.sendEventOnBlur = this.attributeChangeHandler(
-						'sendeventonblur', oldValue, newValue
-					);
+					this.sendEventOnBlur = this.attributeChangeHandler('sendeventonblur', oldValue, newValue);
 					break;
 				default:
 					break;
@@ -906,7 +860,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	/**
 	 * Setter for icon
 	 *
-	 * Deprectared, not used anymore
+	 * Deprecated, not used anymore
 	 *
 	 * @param {string} icon
 	 */
@@ -941,7 +895,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	/**
 	 * Getter for icon
 	 *
-	 * Deprectared, not used anymore
+	 * Deprecated, not used anymore
 	 *
 	 * @return {string}
 	 */
@@ -2198,7 +2152,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.info("** 2. this.iconPosition: " + this.iconPosition);
 		if (this.iconPosition === Ch5Textinput.ICONPOSITION[1]) {
 			this.info("** 3. IN");
-				this._assetsWrapper.appendChild(this._elIcon);
+			this._assetsWrapper.appendChild(this._elIcon);
 		} else {
 			this.info("** 4. IN");
 			(this._elInput.parentNode as HTMLElement).insertBefore(
@@ -2227,7 +2181,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		if (this.hasAttribute('pattern')) {
 			this.pattern = this.getAttribute('pattern') as string;
 		}
-		
+
 		if (this.hasAttribute('mask') && !this.hasAttribute('pattern')) {
 			this.mask = this.getAttribute('mask') as string;
 		}

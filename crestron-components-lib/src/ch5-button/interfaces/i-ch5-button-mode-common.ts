@@ -31,7 +31,7 @@ export interface ICh5ButtonModeCommonAttributes {
   /**
    * @documentation
    * [
-   * "`icon` attribute",
+   * "`iconclass` attribute",
    * "***",
    * "The icon class."
    * ]

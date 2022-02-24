@@ -33,7 +33,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad-button :iconurl",
+ *    "prefix": "ch5-dpad-button:iconurl",
  *     "description": "Crestron Dpad Button Bottom",
  *     "body": [
  *       "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\" iconurl=\"btn_${2:Icon Url}\">",
@@ -41,7 +41,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad-button :iconclass",
+ *    "prefix": "ch5-dpad-button:iconclass",
  *     "description": "Crestron Dpad Button Bottom",
  *     "body": [
  *       "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\" iconclass=\"btn_${2:Icon Class}\">",
@@ -49,7 +49,7 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     ]
  *  },
  *  {
- *    "prefix": "ch5-dpad-button :all-attributes",
+ *    "prefix": "ch5-dpad-button:all-attributes",
  *     "description": "Crestron Dpad Button Bottom",
  *     "body": [
  *       "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\">",
