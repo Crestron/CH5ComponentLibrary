@@ -13,7 +13,6 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
     /**
      * @isattribute true
-     * @name templateId
      * @documentation
      * [
      * "`templateid` attribute",
@@ -28,7 +27,6 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
 
     /**
      * @isattribute true
-     * @name context
      * @documentation
      * [
      * "`context` attribute",
@@ -43,7 +41,6 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
 
     /**
      * @isattribute true
-     * @name contractName
      * @documentation
      * [
      * "`contractName` attribute",
@@ -51,7 +48,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      *  "A name to be prefixed to all signal names in the template.  ",
      *  ""
      * ]
-     * @name contractName
+     * @name contractname
      * @attributeType "string"
      */
     contractName: string;
@@ -59,7 +56,6 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
 
     /**
      * @isattribute true
-     * @name booleanJoinOffset
      * @documentation
      * [
      * "`booleanJoinOffset` attribute",
@@ -67,14 +63,13 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      *  "A value to be added to all digital/boolean join numbers provided in the template.  ",
      *  ""
      * ]
-     * @name booleanJoinOffset
+     * @name booleanjoinoffset
      * @attributeType "string"
      */
     booleanJoinOffset: string;
 
     /**
      * @isattribute true
-     * @name numericJoinOffset
      * @documentation
      * [
      * "`numericJoinOffset` attribute",
@@ -82,14 +77,13 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      *  "A value to be added to all analog/numeric join numbers provided in the template.  ",
      *  ""
      * ]
-     * @name numericJoinOffset
+     * @name numericjoinoffset
      * @attributeType "string"
      */
     numericJoinOffset: string;
 
     /**
      * @isattribute true
-     * @name stringJoinOffset
      * @documentation
      * [
      * "`stringJoinOffset` attribute",
@@ -97,7 +91,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      *  "A value to be added to all serial/string join numbers provided in the template.  ",
      *  ""
      * ]
-     * @name stringJoinOffset
+     * @name stringjoinoffset
      * @attributeType "string"
      */
     stringJoinOffset: string;

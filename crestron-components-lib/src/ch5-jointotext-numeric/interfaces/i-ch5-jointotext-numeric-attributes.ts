@@ -39,7 +39,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * "***",
    * "Defines the receivestatevalue state name."
    * ]
-   * @name receiveStateValue
+   * @name receivestatevalue
    * @default ""
    * @attributeType "string"
    */
@@ -52,7 +52,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * "***",
    * "Defines the floating point position."
    * ]
-   * @name decimalLength
+   * @name decimallength
    * @default 2
    * @attributeType "string"
    */
