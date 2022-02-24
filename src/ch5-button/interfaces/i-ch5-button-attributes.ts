@@ -54,7 +54,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
-   * "`icon` attribute",
+   * "`iconClass` attribute",
    * "***",
    * "The icon class."
    * ]

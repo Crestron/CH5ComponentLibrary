@@ -82,7 +82,5 @@ import { ICh5DpadAttributes } from "./index";
  * ]
  * 
  */
-export interface ICh5DpadDocumentation extends
-    ICh5Common,
-    ICh5DpadAttributes {
+export interface ICh5DpadDocumentation extends ICh5Common, ICh5DpadAttributes {
 }
