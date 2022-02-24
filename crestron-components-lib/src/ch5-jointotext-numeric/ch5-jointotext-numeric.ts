@@ -5,10 +5,11 @@ import { NumericFormats } from "./format/numeric-formats";
 import { NumericFormat } from "./format/numeric-format";
 import { Ch5Signal, Ch5SignalFactory } from "..";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { ICh5JoinToTextNumericAttributes } from "./interfaces/i-ch5-jointotext-numeric-attributes";
 
-export class Ch5JoinToTextNumeric extends Ch5Common {
+export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNumericAttributes {
 
-    public static PERCENTAGE_MAX = 65535;
+    public static readonly PERCENTAGE_MAX = 65535;
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
         receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
@@ -22,7 +23,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common {
     private _decimalLength: number = 0;
     private _length: number = 0;
 
-    // percetage related attributes
+    // percentage related attributes
     private _min: number = 0;
     private _max: number = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
 
@@ -37,7 +38,6 @@ export class Ch5JoinToTextNumeric extends Ch5Common {
 
         this._currentNumericFormat = this._numericFormatFactory.getFormat(this.type);
     }
-
 
     public static get observedAttributes(): string[] {
         return [
@@ -258,5 +258,4 @@ export class Ch5JoinToTextNumeric extends Ch5Common {
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-jointotext-numeric', Ch5JoinToTextNumeric);
-
 }
