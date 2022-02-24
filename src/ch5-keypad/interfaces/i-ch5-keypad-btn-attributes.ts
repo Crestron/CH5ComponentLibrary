@@ -63,7 +63,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "***",
      * "Defines the primary/major text value of the button."
      * ]
-     * @name labelMajor
+     * @name labelmajor
      * @attributeType "string"
      */
     labelMajor: string;
@@ -75,7 +75,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "***",
      * "Defines the secondary/minor text value of the button."
      * ]
-     * @name labelMinor
+     * @name labelminor
      * @attributeType "string"
      */
     labelMinor: string;
@@ -87,7 +87,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "***",
      * "Defines the secondary/minor text value of the button."
      * ]
-     * @name iconClass
+     * @name iconclass
      * @attributeType "iconClass"
      */
     iconClass: string;
@@ -114,7 +114,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
      * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
-     * @name sendEventOnClick
+     * @name sendeventonclick
      * @attributeType "join"
      */
     sendEventOnClick: string;
