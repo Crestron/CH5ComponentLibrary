@@ -1,5 +1,8 @@
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
+/**
+ * @ignore
+ */
 export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
 
   /**
