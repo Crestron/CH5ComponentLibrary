@@ -538,7 +538,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		value = Number(value);
 
 		// prevent infinite loop
-		if (value !== this.value) {
+		if (value !== this.value || this.value !== this.min) {
 			if (isNaN(value) || value > this._max || value < this._min) {
 				value = this._min;
 			}
