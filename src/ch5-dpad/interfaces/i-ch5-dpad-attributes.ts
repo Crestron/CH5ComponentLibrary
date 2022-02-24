@@ -20,7 +20,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "***",
 	 * "Defines the primary contract name to derive the component's contract details."
 	 * ]
-	 * @name contractName
+	 * @name contractname
 	 * @attributeType "string"
 	 */
 	contractName: string;
@@ -95,7 +95,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
 	 * "The details can be seen in the table above."
 	 * ]
-	 * @name useContractForEnable
+	 * @name usecontractforenable
 	 * @default false
 	 * @attributeType "boolean"
 	 */
@@ -112,7 +112,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "<ch5-dpad> tag. The names from the contract will be different for each of the buttons and the overall ",
 	 * "<ch5-dpad> component. The details can be seen in the table above."
 	 * ]
-	 * @name useContractForShow
+	 * @name usecontractforshow
 	 * @default false
 	 * @attributeType "boolean"
 	 */
@@ -128,7 +128,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "If this value is set to true then the value received from the contract will be considered for remaining ",
 	 * "ch5-dpad button as a custom class."
 	 * ]
-	 * @name useContractForCustomClass
+	 * @name usecontractforcustomclass
 	 * @default false
 	 * @attributeType "boolean"
 	 */
@@ -144,7 +144,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "If this value is set to true then the value received from the contract will be considered ",
 	 * "for the custom style."
 	 * ]
-	 * @name useContractForCustomStyle
+	 * @name usecontractforcustomstyle
 	 * @default false
 	 * @attributeType "boolean"
 	 */
@@ -159,7 +159,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * " the join number is applied to the top button, join+1 applies to bottom, ",
 	 * "join+2 applies to left, join+3 applies to right, join+4 to center ."
 	 * ]
-	 * @name sendEventOnClickStart
+	 * @name sendeventonclickstart
 	 * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
 	 * @attributeType "join"
 	 */

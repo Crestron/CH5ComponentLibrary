@@ -20,7 +20,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "***",
      * "The icon class gives the ability for the end developer to create custom icons."
      * ]
-     * @name iconClass
+     * @name iconclass
      * @attributeType "iconClass"
      */
     iconClass: string;
@@ -33,7 +33,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "A custom image that the user needs to pass the URL or the local file relative path, ",
      * "the iconUrl takes precedence over iconClass."
      * ]
-     * @name iconUrl
+     * @name iconurl
      * @attributeType "imageURL"
      */
     iconUrl: string;
