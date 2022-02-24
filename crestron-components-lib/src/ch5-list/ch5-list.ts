@@ -21,7 +21,7 @@ import { ICh5ListAttributes } from "./interfaces";
 import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
 import { subscribeInViewPortChange } from '../ch5-core';
 import { Ch5RoleAttributeMapping } from '../utility-models';
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 
 /**
  * An object containing information about a item.
@@ -77,6 +77,7 @@ export const easeMode = 'ease-out';
 export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 	// private static DEBUG: boolean = false;
+	public static readonly ELEMENT_NAME = 'ch5-list';
 
 	// valid values accessible to Apps and "design time"
 	/**
@@ -86,10 +87,13 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestateshow: { direction: "state", booleanJoin: 1, contractName: true },
 		receivestatesize: { direction: "state", numericJoin: 1, contractName: true },
 		receivestatescrollto: { direction: "state", numericJoin: 1, contractName: true },
-		receivestatetemplatevars: { direction: "state", stringJoin: 1, contractName: true }
+		receivestatetemplatevars: { direction: "state", stringJoin: 1, contractName: true },
+		contractname: {contractName: true},
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 }
 	};
 
 	public static readonly COMPONENT_DATA: any = {
@@ -430,6 +434,29 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	private _previousEffectiveLayoutIndex = 0;
 
 	private _isListVisible: boolean = true;
+
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5List.ELEMENT_NAME, Ch5List.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5List.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
+	}
+
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5List.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5List.ELEMENT_NAME, Ch5List);
+		}
+	}
 
 	public constructor() {
 		super();
@@ -2394,7 +2421,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	}
 }
 
-if (typeof window === "object" && typeof window.customElements === "object"
-	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-list', Ch5List);
-}
+Ch5List.registerCustomElement();
+Ch5List.registerSignalAttributeTypes();
+Ch5List.registerSignalAttributeDefaults();
