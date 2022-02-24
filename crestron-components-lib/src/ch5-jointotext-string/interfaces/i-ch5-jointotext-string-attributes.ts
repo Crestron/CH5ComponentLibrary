@@ -25,7 +25,7 @@ export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
    * "***",
    * "Defines an text that will be displayed on value is empty for the jointotext."
    * ]
-   * @name textWhenEmpty
+   * @name textwhenempty
    * @default ""
    * @attributeType "string"
    */
@@ -38,7 +38,7 @@ export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
    * "***",
    * "Defines the receivestatevalue state name."
    * ]
-   * @name receiveStateValue
+   * @name receivestatevalue
    * @default ""
    * @attributeType "string"
    */

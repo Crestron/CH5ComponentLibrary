@@ -25,7 +25,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * "***",
    * "Defines an text that will be displayed on value=true for the jointotext."
    * ]
-   * @name textWhenTrue
+   * @name textwhentrue
    * @default ""
    * @attributeType "string"
    */
@@ -38,7 +38,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * "***",
    * "Defines an text that will be displayed on value=false for the jointotext."
    * ]
-   * @name textWhenFalse
+   * @name textwhenfalse
    * @default ""
    * @attributeType "string"
    */
@@ -51,7 +51,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * "***",
    * "Defines the receivestatevalue state name."
    * ]
-   * @name receiveStateValue
+   * @name receivestatevalue
    * @default ""
    * @attributeType "string"
    */
