@@ -2,8 +2,9 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { isNil } from 'lodash';
 import { Ch5Signal, Ch5SignalFactory } from "..";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { ICh5JoinToTextStringAttributes } from "./interfaces/i-ch5-jointotext-string-attributes";
 
-export class Ch5JoinToTextString extends Ch5Common {
+export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStringAttributes {
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
