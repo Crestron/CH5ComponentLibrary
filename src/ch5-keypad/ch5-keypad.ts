@@ -799,7 +799,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         super.initAttributes();
         // set data-ch5-id
         this.setAttribute('data-ch5-id', this.getCrId());
-        this.setAttribute('id', this.getCrId());
+        // this.setAttribute('id', this.getCrId());
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Keypad); // WAI-ARIA Attributes
         this.contractName = ComponentHelper.setAttributeToElement(this,
