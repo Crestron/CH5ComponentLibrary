@@ -31,7 +31,7 @@ export class Ch5AugmentVarSignalsNames {
 
   /**
    * This utility function is responsible to update an attribute value with a {{idx}} value in it.
-   * If the attribute is only an intetger number, then index value is added to that result 
+   * If the attribute is only an integer number, then index value is added to that result 
    * becomes the value of the attribute
    * @param value 
    * @param placeholder - the "{{idx}}" literal string
