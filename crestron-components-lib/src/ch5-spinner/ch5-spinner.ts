@@ -1611,6 +1611,9 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
     if (this.hasAttribute('itemHeight') === false || this.itemHeight === null) {
       this.autoSetItemHeight = true;
+      if (isNil(this.templateHelper.element)) {
+        this.itemHeight = '33';
+      }
       this.setAttribute('autosetitemheight', '');
     }
 
