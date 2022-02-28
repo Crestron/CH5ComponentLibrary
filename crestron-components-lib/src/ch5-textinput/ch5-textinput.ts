@@ -19,517 +19,6 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 
 export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttributes {
 
-	public static readonly ELEMENT_NAME = 'ch5-textinput';
-
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatefocus: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
-
-		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonblur: { direction: "event", booleanJoin: 1, contractName: true }
-	};
-
-	/**
-	 * Contains the values of type attribute
-	 *
-	 * @public
-	 * @static
-	 * @type {Array<TCh5TextInputType>}
-	 */
-	public static TYPES: TCh5TextInputType[] = ['text', 'number', 'text', 'email'];
-
-	/**
-	 * Contains the allowed size values
-	 *
-	 * @public
-	 * @static
-	 * @type {Array<TCh5TextInputSize>}
-	 */
-	public static SIZES: TCh5TextInputSize[] = ['regular', 'x-small', 'small', 'large', 'x-large']
-
-	/**
-	 * Contains the allowed stretch types
-	 *
-	 * @public
-	 * @static
-	 * @type {Array<TCh5TextInputStretch>}
-	 */
-	public static STRETCH: TCh5TextInputStretch[] = ['fixed', 'width', 'content'];
-
-	/**
-	 * Contains the allowed text-trasform types
-	 *
-	 * @public
-	 * @static
-	 * @type {Array<TCh5TextInputTextTransform>}
-	 */
-	public static TEXTTRANSFORM: TCh5TextInputTextTransform[] = ['none', 'capitalize', 'uppercase', 'lowercase'];
-
-	/**
-	 * Contains the allowed positions of the icon element
-	 *
-	 * @public
-	 * @static
-	 * @type {Array<TCh5TextInputIconPosition>}
-	 */
-	public static ICONPOSITION: TCh5TextInputIconPosition[] = ['first', 'last'];
-
-	public static readonly COMPONENT_DATA: any = {
-		TYPES: {
-			default: Ch5Textinput.TYPES[0],
-			values: Ch5Textinput.TYPES,
-			key: 'type',
-			classListPrefix: 'ch5-textinput--'
-		},
-		SIZES: {
-			default: Ch5Textinput.SIZES[0],
-			values: Ch5Textinput.SIZES,
-			key: 'size',
-			classListPrefix: 'ch5-textinput--'
-		},
-		STRETCH: {
-			default: Ch5Textinput.STRETCH[0],
-			values: Ch5Textinput.STRETCH,
-			key: 'stretch',
-			classListPrefix: 'ch5-textinput--'
-		},
-		TEXT_TRANSFORM: {
-			default: Ch5Textinput.TEXTTRANSFORM[0],
-			values: Ch5Textinput.TEXTTRANSFORM,
-			key: 'text_transform',
-			classListPrefix: 'ch5-textinput--'
-		},
-		ICON_POSITION: {
-			default: Ch5Textinput.ICONPOSITION[0],
-			values: Ch5Textinput.ICONPOSITION,
-			key: 'icon_position',
-			classListPrefix: 'ch5-textinput--'
-		}
-	};
-
-	/**
-	 * Css class postfix
-	 *
-	 * @public
-	 * @static
-	 * @type {string}
-	 */
-	public static COMPONENT_CONTENT_POSTFIX: string = '__assets';
-
-	/**
-	 * Primary css class
-	 *
-	 * @public
-	 * @type {string}
-	 */
-	public primaryCssClass: string = 'ch5-textinput' as string;
-
-	/**
-	 * Class prefix
-	 *
-	 * @public
-	 * @type {string}
-	 */
-	public cssClassPrefix: string = 'ch5-textinput' as string;
-
-	/**
-	 * The input element
-	 *
-	 * @protected
-	 * @memberof Ch5Textinput
-	 * @type {HTMLInputElement}
-	 */
-	protected _elInput: HTMLInputElement = {} as HTMLInputElement;
-
-	/**
-	 * The icon element
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {HTMLElement}
-	 */
-	private _elIcon: HTMLElement = {} as HTMLElement;
-
-	/**
-	 * The label element
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {HTMLLabelElement}
-	 */
-	private _labelElement: HTMLLabelElement = {} as HTMLLabelElement;
-
-	/**
-	 * Input placeholder
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _placeholder: string = '' as string;
-
-	/**
-	 * Background pattern that will be present when the input is focus.
-	 * We will allow the following combination of prebuild definitions:
-	 * a - alpha caracter
-	 * 9- numeric character
-	 * *- alpha numeric character
-	 * See https://github.com/estelle/input-masking as example
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _mask: string = '' as string;
-
-	/**
-	 * Type of the input. Default 'text'
-	 * Choice of input limited to 'password', 'number', 'text', 'email'
-	 * This will affect the validation, length of the component.
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {TCh5TextInputType}
-	 */
-	private _inputType: TCh5TextInputType = 'text' as TCh5TextInputType;
-
-	/**
-	 * The pattern attribute specifies a regular expression that the
-	 * element's value is checked against. The regular expression syntax
-	 * must be consistent with MDN.
-	 * https://developer.mozilla.org/enUS/docs/Web/JavaScript/Guide/Regular_Expressions
-	 * If we use this property the mask property will be not taken in
-	 * consideration.
-	 * See https://developer.mozilla.org/enUS/docs/Web/HTML/Element/input
-	 * attribute of same name
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _pattern: string = '' as string;
-
-	/**
-	 * TabIndex - default behavior
-	 *
-	 * @type {number}
-	 * @protected
-	 * @memberof Ch5CommonInput
-	 */
-	protected _tabIndex: number = 0 as number;
-
-	/**
-	 * Icon to be shown
-	 * Example: fa fa-plane
-	 *
-	 * Icon attribute is deprecated and it was replaced by iconClass attribute.
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _iconClass: string = '' as string;
-
-	/**
-	 * Icon to be shown
-	 * Example: fa fa-plane
-	 *
-	 * Icon attribute is deprecated and it was replaced by iconClass attribute.
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _icon: string = '' as string;
-
-	/**
-	 * Valid values are 'first' and 'last'. Default is 'first'. If direction attribute
-	 * s 'ltr', as will be typical in locales with left to right language
-	 * direction, 'first' is equivalent to icon being on the left and text on the
-	 * right. Conversely, if the direction attribute is 'rtl', the 'first' would
-	 * have the icon on the right and the label to its left. Value of 'last' is
-	 * the opposite of 'first'.
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {TCh5TextInputIconPosition}
-	 */
-	private _iconPosition: TCh5TextInputIconPosition = 'first';
-
-	/**
-	 * Applicable only in feedbackmode='submit'.
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {number}
-	 */
-	private _minLength: number = 0 as number;
-
-	/**
-	 * Applicable only in feedbackmode='submit'.
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {number}
-	 */
-	private _maxLength: number = 0 as number;
-
-	/**
-	 * Applicable only for type=numeric and feedbackmode='submit', field
-	 * will be in error if the value supplied by user is less than value of the
-	 * attribute.
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {number}
-	 */
-	private _minValue: number = 0 as number;
-
-	/**
-	 * Applicable only for type=numeric and feedbackmode='submit', field
-	 * will be in error if the value supplied by user is greater than value of
-	 * the attribute.
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {number}
-	 */
-	private _maxValue: number = 0 as number;
-
-	/**
-	 * Default value 'regular'. Valid values 'x-small', 'small', 'regular',
-	 * 'large', and 'x-large'. Sets the relative size of this Component.
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {TCh5TextInputSize}
-	 */
-	private _size: TCh5TextInputSize = 'regular' as TCh5TextInputSize;
-
-	/**
-	 * Default 'fixed'. Valid values 'fixed', 'width', and 'content'.
-	 * Sets the width of the input
-	 * Fixed - fixed position ( from CSS classes )
-	 * Width - Width of the parent content
-	 * Content - Width will be equal to the content width
-	 * TODO: ONHOLD We need a library or an custom function that will read do Text
-	 * Metrics ( depending on font name, font size, bold and so on )
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {TCh5TextInputStretch}
-	 */
-	private _stretch: TCh5TextInputStretch = 'fixed' as TCh5TextInputStretch;
-
-	/**
-	 * Activate the scaling for the input
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {boolean}
-	 */
-	private _scaling: boolean = false;
-
-	/**
-	 * The minimum font size
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {number}
-	 */
-	private _minimumFontSize: number = 12;
-
-	/**
-	 * The utility object which contains functionality for scaling
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {Ch5TextInputScaling}
-	 */
-	private _scalingUtility: Ch5TextInputScaling = {} as Ch5TextInputScaling;
-
-	/**
-	 * The utility object which contains functionality for masking
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {Ch5tTextInputMask}
-	 */
-	private _maskingUtility: Ch5tTextInputMask = {} as Ch5tTextInputMask;
-
-	/**
-	 * Only for type=text, default value 'none'. Valid values
-	 * 'capitalize' – make all first characters of each word uppercase
-	 * 'uppercase' – make all characters uppercase
-	 * 'lowercase' – make all characters lowercase
-	 * 'none' – don't change input
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {TCh5TextInputTextTransform}
-	 */
-	private _textTransform: TCh5TextInputTextTransform = 'none';
-
-	/**
-	 * Text for the label element
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _label: string = '' as string;
-
-	/**
-	 * send signal on value change
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _sendEventOnChange: string = '' as string;
-
-	/**
-	 * send signal on focus event
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _sendEventOnFocus: string = '' as string;
-
-	/**
-	 * send signal on blur event
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _sendEventOnBlur: string = '' as string;
-
-	/**
-	 * When focused, true, when unfocuses, send
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _receiveStateFocus: string = '' as string;
-
-	/**
-	 * Receive signal with focus state
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _receiveStateFocusSub: string = '' as string;
-
-	/**
-	 * When receive change the value of the text input field
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _receiveStateValue: string = '' as string;
-
-	/**
-	 * Receive the value from signal
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {string}
-	 */
-	private _receiveStateValueSub: string = '' as string;
-
-	/**
-	 * ValidityChange event
-	 * When the input is going invalid from/to invalid
-	 * to/from valid (only applicable on
-	 * feedbackmode='submit')
-	 *
-	 * Bind to the validity change
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {CustomEvent}
-	 */
-	private _validityChangeEvent: CustomEvent = {} as CustomEvent;
-
-	/**
-	 * Fires on change if feedbackMode attribute has 'submit' value
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {CustomEvent}
-	 */
-	private _dirtyCustomEvent: CustomEvent = {} as CustomEvent;
-
-	/**
-	 * Fires when the input is getting clean
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {CustomEvent}
-	 */
-	private _cleanCustomEvent: CustomEvent = {} as CustomEvent;
-
-	/**
-	 * Stores the validation state of the input
-	 * Usually used with validityChange event because we have
-	 * to dispatch that event only if this valid value is different than the
-	 * current input valid value
-	 *
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {boolean}
-	 */
-	private _lastValidState: boolean = false as boolean;
-
-	/**
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {EventListenerOrEventListenerObject}
-	 */
-	private _onFocusListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
-
-	/**
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {EventListenerOrEventListenerObject}
-	 */
-	private _onBlurListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
-
-	/**
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {EventListenerOrEventListenerObject}
-	 */
-	private _onChangeListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
-
-	/**
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {EventListenerOrEventListenerObject}
-	 */
-	private _onKeyPressListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
-
-	/**
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {HTMLElement}
-	 */
-	private _assetsWrapper: HTMLElement = {} as HTMLElement;
-
-	/**
-	 * @private
-	 * @memberof Ch5Textinput
-	 * @type {HTMLElement}
-	 */
-	private _onvaliditychange: HtmlCallback | ((this: any, arg: any) => void) = {} as HtmlCallback;
-
 	constructor() {
 		super();
 	}
@@ -573,174 +62,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		return contextAttributes.concat(superAttributes, commonAttributes);
 
-	}
-
-	public connectedCallback(): void {
-
-		this.info('<ch5-textinput/>.connectedCallback()');
-
-		Promise.all([
-			customElements.whenDefined('ch5-textinput'),
-		]).then(() => {
-			// WAI-ARIA Attributes
-			if (!this.hasAttribute('role')) {
-				this.setAttribute('role', Ch5RoleAttributeMapping.ch5TextInput);
-			}
-
-			/**
-			 * The tabindex global attribute indicates if its element can be focused.
-			 * Makes available focus and blur events on element
-			 *
-			 * tabindex="0" will take an element and make it focusable. It doesn’t set the element’s position in the tab order,
-			 * it just allows a user to focus the element in the order determined by its location with the DOM.
-			 *
-			 * tabindex="-1" allows you to set an element’s focus with script, but does not put it in the tab order of the page.
-			 * This is handy when you need to move focus to something you have updated via script or outside of user action.
-			 */
-			if (!this.hasAttribute('tabindex')) {
-				this.setAttribute('tabindex', '0');
-			}
-
-			if (!this._wasInstatiated) {
-				this.createInternalHTML();
-			}
-			this._wasInstatiated = true;
-
-			this.initAttributes();
-			this.attachEventListeners();
-			this._addAriaAttributes();
-
-			this.initCommonMutationObserver(this);
-
-			this.lastValidState = this.getValid();
-			this.info('Ch5TextInput --- Callback loaded');
-		});
-	}
-
-	public disconnectedCallback(): void {
-		this.info('<ch5-textinput/>.disconnectedCallback()');
-
-		this.removeEvents();
-		this.unsubscribeFromSignals();
-
-		// disconnect common mutation observer
-		this.disconnectCommonMutationObserver();
-	}
-
-	public unsubscribeFromSignals() {
-		this.info('ch5-textinput unsubscribeFromSignals()')
-		super.unsubscribeFromSignals();
-
-		this.clearBooleanSignalSubscription(this._receiveStateFocus, this._receiveStateFocusSub);
-		this._receiveStateFocus = '';
-		this.clearStringSignalSubscription(this._receiveStateValue, this._receiveStateValueSub);
-		this._receiveStateValue = '';
-	}
-	/**
-	 *
-	 * @param {string} attr
-	 * @param {string} oldValue
-	 * @param {string} newValue
-	 * @return {void}
-	 */
-	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-		if (oldValue === newValue) {
-			return;
-		}
-
-		super.attributeChangedCallback(attr, oldValue, newValue);
-
-		this.info('<ch5-textinput/>.attributeChangedCallback(' + attr + ',' + oldValue + ',' + newValue + ')');
-
-		if (this._wasInstatiated && newValue !== '') {
-			switch (attr) {
-				case 'label':
-					this.label = this.attributeChangeHandler('label', oldValue, newValue) as string;
-					break;
-				case 'stretch':
-					this.stretch = this.attributeChangeHandler('stretch', oldValue, newValue) as TCh5TextInputStretch;
-					break;
-				case 'text-transform':
-					if (this.inputType === 'text') {
-						this.textTransform = this.attributeChangeHandler('text-transform', oldValue, newValue) as TCh5TextInputTextTransform;
-					}
-					break;
-				case 'value':
-					this.value = this.attributeChangeHandler('value', oldValue, newValue);
-					break;
-				case 'placeholder':
-					this.placeholder = this.attributeChangeHandler('placeholder', oldValue, newValue);
-					break;
-				case 'pattern':
-					this.pattern = this.attributeChangeHandler('pattern', oldValue, newValue);
-					break;
-				case 'iconclass':
-					this.iconClass = this.attributeChangeHandler('icon', oldValue, newValue);
-					this.iconPositioning();
-					this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
-					break;
-				case 'iconposition':
-					this.iconPosition = this.attributeChangeHandler('iconposition', oldValue, newValue) as TCh5TextInputIconPosition;
-					this.iconPositioning();
-					break;
-				case 'mask':
-					this.mask = this.getAttribute('mask') as string;
-					break;
-				case 'type':
-					this.inputType = this.attributeChangeHandler('type', oldValue, newValue) as TCh5TextInputType;
-					break;
-				case 'minlength':
-					this.minLength = Number(this.attributeChangeHandler('minlength', oldValue, newValue));
-					break;
-				case 'maxlength':
-					this.maxLength = Number(this.attributeChangeHandler('maxlength', oldValue, newValue));
-					break;
-				case 'minvalue':
-					this.minValue = Number(this.attributeChangeHandler('minvalue', oldValue, newValue));
-					break;
-				case 'maxvalue':
-					this.maxValue = Number(this.attributeChangeHandler('maxvalue', oldValue, newValue));
-					break;
-				case 'size':
-					this.size = this.attributeChangeHandler('size', oldValue, newValue) as TCh5TextInputSize;
-					if (this._maskingUtility.constructor === Ch5tTextInputMask) {
-						this._maskingUtility._makeMaskElementLookAsInputPlaceholder();
-					}
-					break;
-				case 'scaling':
-					this.scaling = newValue === 'false' ? false : true;
-					break;
-				case 'minimumfontsize':
-					this.minimumFontSize = Number(this.attributeChangeHandler('minimumfontsize', oldValue, newValue));
-					break;
-				case 'tabindex':
-					this.tabIndex = Number(this.attributeChangeHandler('tabindex', oldValue, newValue));
-					break;
-				case 'feedbackmode':
-					this.feedbackMode = this.attributeChangeHandler('feedbackmode', oldValue, newValue) as TCh5CommonInputFeedbackModes;
-					break;
-				// case 'signalValueSyncTimeout':
-				case 'receivestatefocus':
-					this.receiveStateFocus = this.attributeChangeHandler('receivestatefocus', oldValue, newValue);
-					break;
-				case 'receivestatevalue':
-					this.receiveStateValue = this.attributeChangeHandler('receivestatevalue', oldValue, newValue);
-					break;
-				case 'sendeventonchange':
-					this.sendEventOnChange = this.attributeChangeHandler('sendeventonchange', oldValue, newValue);
-					break;
-				case 'sendeventonfocus':
-					this.sendEventOnFocus = this.attributeChangeHandler('sendeventonfocus', oldValue, newValue);
-					break;
-				case 'sendeventonblur':
-					this.sendEventOnBlur = this.attributeChangeHandler('sendeventonblur', oldValue, newValue);
-					break;
-				default:
-					break;
-			}
-
-			this._addAriaAttributes();
-		}
 	}
 
 	// ========================================================
@@ -1594,16 +915,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	}
 
 	/**
-	 * Set value to the input
-	 *
-	 * @param {string} value
-	 */
-	public setValue(value: string) {
-		this.value = value;
-		this._elInput.value = value;
-	}
-
-	/**
 	 * Setter for mask
 	 *
 	 * @param {string} mask
@@ -1782,6 +1093,699 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 	public get onvaliditychange(): HtmlCallback | ((this: any, arg: any) => void) {
 		return this._onvaliditychange;
+	}
+
+	public static readonly ELEMENT_NAME = 'ch5-textinput';
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatefocus: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
+
+		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonblur: { direction: "event", booleanJoin: 1, contractName: true }
+	};
+
+	/**
+	 * Contains the values of type attribute
+	 *
+	 * @public
+	 * @static
+	 * @type {Array<TCh5TextInputType>}
+	 */
+	public static TYPES: TCh5TextInputType[] = ['text', 'number', 'text', 'email'];
+
+	/**
+	 * Contains the allowed size values
+	 *
+	 * @public
+	 * @static
+	 * @type {Array<TCh5TextInputSize>}
+	 */
+	public static SIZES: TCh5TextInputSize[] = ['regular', 'x-small', 'small', 'large', 'x-large']
+
+	/**
+	 * Contains the allowed stretch types
+	 *
+	 * @public
+	 * @static
+	 * @type {Array<TCh5TextInputStretch>}
+	 */
+	public static STRETCH: TCh5TextInputStretch[] = ['fixed', 'width', 'content'];
+
+	/**
+	 * Contains the allowed text-trasform types
+	 *
+	 * @public
+	 * @static
+	 * @type {Array<TCh5TextInputTextTransform>}
+	 */
+	public static TEXTTRANSFORM: TCh5TextInputTextTransform[] = ['none', 'capitalize', 'uppercase', 'lowercase'];
+
+	/**
+	 * Contains the allowed positions of the icon element
+	 *
+	 * @public
+	 * @static
+	 * @type {Array<TCh5TextInputIconPosition>}
+	 */
+	public static ICONPOSITION: TCh5TextInputIconPosition[] = ['first', 'last'];
+
+	public static readonly COMPONENT_DATA: any = {
+		TYPES: {
+			default: Ch5Textinput.TYPES[0],
+			values: Ch5Textinput.TYPES,
+			key: 'type',
+			classListPrefix: 'ch5-textinput--'
+		},
+		SIZES: {
+			default: Ch5Textinput.SIZES[0],
+			values: Ch5Textinput.SIZES,
+			key: 'size',
+			classListPrefix: 'ch5-textinput--'
+		},
+		STRETCH: {
+			default: Ch5Textinput.STRETCH[0],
+			values: Ch5Textinput.STRETCH,
+			key: 'stretch',
+			classListPrefix: 'ch5-textinput--'
+		},
+		TEXT_TRANSFORM: {
+			default: Ch5Textinput.TEXTTRANSFORM[0],
+			values: Ch5Textinput.TEXTTRANSFORM,
+			key: 'text_transform',
+			classListPrefix: 'ch5-textinput--'
+		},
+		ICON_POSITION: {
+			default: Ch5Textinput.ICONPOSITION[0],
+			values: Ch5Textinput.ICONPOSITION,
+			key: 'icon_position',
+			classListPrefix: 'ch5-textinput--'
+		}
+	};
+
+	/**
+	 * Css class postfix
+	 *
+	 * @public
+	 * @static
+	 * @type {string}
+	 */
+	public static COMPONENT_CONTENT_POSTFIX: string = '__assets';
+
+	/**
+	 * Primary css class
+	 *
+	 * @public
+	 * @type {string}
+	 */
+	public primaryCssClass: string = 'ch5-textinput' as string;
+
+	/**
+	 * Class prefix
+	 *
+	 * @public
+	 * @type {string}
+	 */
+	public cssClassPrefix: string = 'ch5-textinput' as string;
+
+	/**
+	 * The input element
+	 *
+	 * @protected
+	 * @memberof Ch5Textinput
+	 * @type {HTMLInputElement}
+	 */
+	protected _elInput: HTMLInputElement = {} as HTMLInputElement;
+
+	/**
+	 * The icon element
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {HTMLElement}
+	 */
+	private _elIcon: HTMLElement = {} as HTMLElement;
+
+	/**
+	 * The label element
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {HTMLLabelElement}
+	 */
+	private _labelElement: HTMLLabelElement = {} as HTMLLabelElement;
+
+	/**
+	 * Input placeholder
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _placeholder: string = '' as string;
+
+	/**
+	 * Background pattern that will be present when the input is focus.
+	 * We will allow the following combination of prebuild definitions:
+	 * a - alpha caracter
+	 * 9- numeric character
+	 * *- alpha numeric character
+	 * See https://github.com/estelle/input-masking as example
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _mask: string = '' as string;
+
+	/**
+	 * Type of the input. Default 'text'
+	 * Choice of input limited to 'password', 'number', 'text', 'email'
+	 * This will affect the validation, length of the component.
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {TCh5TextInputType}
+	 */
+	private _inputType: TCh5TextInputType = 'text' as TCh5TextInputType;
+
+	/**
+	 * The pattern attribute specifies a regular expression that the
+	 * element's value is checked against. The regular expression syntax
+	 * must be consistent with MDN.
+	 * https://developer.mozilla.org/enUS/docs/Web/JavaScript/Guide/Regular_Expressions
+	 * If we use this property the mask property will be not taken in
+	 * consideration.
+	 * See https://developer.mozilla.org/enUS/docs/Web/HTML/Element/input
+	 * attribute of same name
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _pattern: string = '' as string;
+
+	/**
+	 * TabIndex - default behavior
+	 *
+	 * @type {number}
+	 * @protected
+	 * @memberof Ch5CommonInput
+	 */
+	protected _tabIndex: number = 0 as number;
+
+	/**
+	 * Icon to be shown
+	 * Example: fa fa-plane
+	 *
+	 * Icon attribute is deprecated and it was replaced by iconClass attribute.
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _iconClass: string = '' as string;
+
+	/**
+	 * Icon to be shown
+	 * Example: fa fa-plane
+	 *
+	 * Icon attribute is deprecated and it was replaced by iconClass attribute.
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _icon: string = '' as string;
+
+	/**
+	 * Valid values are 'first' and 'last'. Default is 'first'. If direction attribute
+	 * s 'ltr', as will be typical in locales with left to right language
+	 * direction, 'first' is equivalent to icon being on the left and text on the
+	 * right. Conversely, if the direction attribute is 'rtl', the 'first' would
+	 * have the icon on the right and the label to its left. Value of 'last' is
+	 * the opposite of 'first'.
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {TCh5TextInputIconPosition}
+	 */
+	private _iconPosition: TCh5TextInputIconPosition = 'first';
+
+	/**
+	 * Applicable only in feedbackmode='submit'.
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {number}
+	 */
+	private _minLength: number = 0 as number;
+
+	/**
+	 * Applicable only in feedbackmode='submit'.
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {number}
+	 */
+	private _maxLength: number = 0 as number;
+
+	/**
+	 * Applicable only for type=numeric and feedbackmode='submit', field
+	 * will be in error if the value supplied by user is less than value of the
+	 * attribute.
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {number}
+	 */
+	private _minValue: number = 0 as number;
+
+	/**
+	 * Applicable only for type=numeric and feedbackmode='submit', field
+	 * will be in error if the value supplied by user is greater than value of
+	 * the attribute.
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {number}
+	 */
+	private _maxValue: number = 0 as number;
+
+	/**
+	 * Default value 'regular'. Valid values 'x-small', 'small', 'regular',
+	 * 'large', and 'x-large'. Sets the relative size of this Component.
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {TCh5TextInputSize}
+	 */
+	private _size: TCh5TextInputSize = 'regular' as TCh5TextInputSize;
+
+	/**
+	 * Default 'fixed'. Valid values 'fixed', 'width', and 'content'.
+	 * Sets the width of the input
+	 * Fixed - fixed position ( from CSS classes )
+	 * Width - Width of the parent content
+	 * Content - Width will be equal to the content width
+	 * TODO: ONHOLD We need a library or an custom function that will read do Text
+	 * Metrics ( depending on font name, font size, bold and so on )
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {TCh5TextInputStretch}
+	 */
+	private _stretch: TCh5TextInputStretch = 'fixed' as TCh5TextInputStretch;
+
+	/**
+	 * Activate the scaling for the input
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {boolean}
+	 */
+	private _scaling: boolean = false;
+
+	/**
+	 * The minimum font size
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {number}
+	 */
+	private _minimumFontSize: number = 12;
+
+	/**
+	 * The utility object which contains functionality for scaling
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {Ch5TextInputScaling}
+	 */
+	private _scalingUtility: Ch5TextInputScaling = {} as Ch5TextInputScaling;
+
+	/**
+	 * The utility object which contains functionality for masking
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {Ch5tTextInputMask}
+	 */
+	private _maskingUtility: Ch5tTextInputMask = {} as Ch5tTextInputMask;
+
+	/**
+	 * Only for type=text, default value 'none'. Valid values
+	 * 'capitalize' – make all first characters of each word uppercase
+	 * 'uppercase' – make all characters uppercase
+	 * 'lowercase' – make all characters lowercase
+	 * 'none' – don't change input
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {TCh5TextInputTextTransform}
+	 */
+	private _textTransform: TCh5TextInputTextTransform = 'none';
+
+	/**
+	 * Text for the label element
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _label: string = '' as string;
+
+	/**
+	 * send signal on value change
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _sendEventOnChange: string = '' as string;
+
+	/**
+	 * send signal on focus event
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _sendEventOnFocus: string = '' as string;
+
+	/**
+	 * send signal on blur event
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _sendEventOnBlur: string = '' as string;
+
+	/**
+	 * When focused, true, when unfocuses, send
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _receiveStateFocus: string = '' as string;
+
+	/**
+	 * Receive signal with focus state
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _receiveStateFocusSub: string = '' as string;
+
+	/**
+	 * When receive change the value of the text input field
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _receiveStateValue: string = '' as string;
+
+	/**
+	 * Receive the value from signal
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {string}
+	 */
+	private _receiveStateValueSub: string = '' as string;
+
+	/**
+	 * ValidityChange event
+	 * When the input is going invalid from/to invalid
+	 * to/from valid (only applicable on
+	 * feedbackmode='submit')
+	 *
+	 * Bind to the validity change
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {CustomEvent}
+	 */
+	private _validityChangeEvent: CustomEvent = {} as CustomEvent;
+
+	/**
+	 * Fires on change if feedbackMode attribute has 'submit' value
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {CustomEvent}
+	 */
+	private _dirtyCustomEvent: CustomEvent = {} as CustomEvent;
+
+	/**
+	 * Fires when the input is getting clean
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {CustomEvent}
+	 */
+	private _cleanCustomEvent: CustomEvent = {} as CustomEvent;
+
+	/**
+	 * Stores the validation state of the input
+	 * Usually used with validityChange event because we have
+	 * to dispatch that event only if this valid value is different than the
+	 * current input valid value
+	 *
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {boolean}
+	 */
+	private _lastValidState: boolean = false as boolean;
+
+	/**
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {EventListenerOrEventListenerObject}
+	 */
+	private _onFocusListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
+
+	/**
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {EventListenerOrEventListenerObject}
+	 */
+	private _onBlurListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
+
+	/**
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {EventListenerOrEventListenerObject}
+	 */
+	private _onChangeListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
+
+	/**
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {EventListenerOrEventListenerObject}
+	 */
+	private _onKeyPressListener: EventListenerOrEventListenerObject = {} as EventListenerOrEventListenerObject;
+
+	/**
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {HTMLElement}
+	 */
+	private _assetsWrapper: HTMLElement = {} as HTMLElement;
+
+	/**
+	 * @private
+	 * @memberof Ch5Textinput
+	 * @type {HTMLElement}
+	 */
+	private _onvaliditychange: HtmlCallback | ((this: any, arg: any) => void) = {} as HtmlCallback;
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Textinput.ELEMENT_NAME, Ch5Textinput.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	public connectedCallback(): void {
+
+		this.info('<ch5-textinput/>.connectedCallback()');
+
+		Promise.all([
+			customElements.whenDefined('ch5-textinput'),
+		]).then(() => {
+			// WAI-ARIA Attributes
+			if (!this.hasAttribute('role')) {
+				this.setAttribute('role', Ch5RoleAttributeMapping.ch5TextInput);
+			}
+
+			/**
+			 * The tabindex global attribute indicates if its element can be focused.
+			 * Makes available focus and blur events on element
+			 *
+			 * tabindex="0" will take an element and make it focusable. It doesn’t set the element’s position in the tab order,
+			 * it just allows a user to focus the element in the order determined by its location with the DOM.
+			 *
+			 * tabindex="-1" allows you to set an element’s focus with script, but does not put it in the tab order of the page.
+			 * This is handy when you need to move focus to something you have updated via script or outside of user action.
+			 */
+			if (!this.hasAttribute('tabindex')) {
+				this.setAttribute('tabindex', '0');
+			}
+
+			if (!this._wasInstatiated) {
+				this.createInternalHTML();
+			}
+			this._wasInstatiated = true;
+
+			this.initAttributes();
+			this.attachEventListeners();
+			this._addAriaAttributes();
+
+			this.initCommonMutationObserver(this);
+
+			this.lastValidState = this.getValid();
+			this.info('Ch5TextInput --- Callback loaded');
+		});
+	}
+
+	public disconnectedCallback(): void {
+		this.info('<ch5-textinput/>.disconnectedCallback()');
+
+		this.removeEvents();
+		this.unsubscribeFromSignals();
+
+		// disconnect common mutation observer
+		this.disconnectCommonMutationObserver();
+	}
+
+	public unsubscribeFromSignals() {
+		this.info('ch5-textinput unsubscribeFromSignals()')
+		super.unsubscribeFromSignals();
+
+		this.clearBooleanSignalSubscription(this._receiveStateFocus, this._receiveStateFocusSub);
+		this._receiveStateFocus = '';
+		this.clearStringSignalSubscription(this._receiveStateValue, this._receiveStateValueSub);
+		this._receiveStateValue = '';
+	}
+	/**
+	 *
+	 * @param {string} attr
+	 * @param {string} oldValue
+	 * @param {string} newValue
+	 * @return {void}
+	 */
+	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
+		if (oldValue === newValue) {
+			return;
+		}
+
+		super.attributeChangedCallback(attr, oldValue, newValue);
+
+		this.info('<ch5-textinput/>.attributeChangedCallback(' + attr + ',' + oldValue + ',' + newValue + ')');
+
+		if (this._wasInstatiated && newValue !== '') {
+			switch (attr) {
+				case 'label':
+					this.label = this.attributeChangeHandler('label', oldValue, newValue) as string;
+					break;
+				case 'stretch':
+					this.stretch = this.attributeChangeHandler('stretch', oldValue, newValue) as TCh5TextInputStretch;
+					break;
+				case 'text-transform':
+					if (this.inputType === 'text') {
+						this.textTransform = this.attributeChangeHandler('text-transform', oldValue, newValue) as TCh5TextInputTextTransform;
+					}
+					break;
+				case 'value':
+					this.value = this.attributeChangeHandler('value', oldValue, newValue);
+					break;
+				case 'placeholder':
+					this.placeholder = this.attributeChangeHandler('placeholder', oldValue, newValue);
+					break;
+				case 'pattern':
+					this.pattern = this.attributeChangeHandler('pattern', oldValue, newValue);
+					break;
+				case 'iconclass':
+					this.iconClass = this.attributeChangeHandler('icon', oldValue, newValue);
+					this.iconPositioning();
+					this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
+					break;
+				case 'iconposition':
+					this.iconPosition = this.attributeChangeHandler('iconposition', oldValue, newValue) as TCh5TextInputIconPosition;
+					this.iconPositioning();
+					break;
+				case 'mask':
+					this.mask = this.getAttribute('mask') as string;
+					break;
+				case 'type':
+					this.inputType = this.attributeChangeHandler('type', oldValue, newValue) as TCh5TextInputType;
+					break;
+				case 'minlength':
+					this.minLength = Number(this.attributeChangeHandler('minlength', oldValue, newValue));
+					break;
+				case 'maxlength':
+					this.maxLength = Number(this.attributeChangeHandler('maxlength', oldValue, newValue));
+					break;
+				case 'minvalue':
+					this.minValue = Number(this.attributeChangeHandler('minvalue', oldValue, newValue));
+					break;
+				case 'maxvalue':
+					this.maxValue = Number(this.attributeChangeHandler('maxvalue', oldValue, newValue));
+					break;
+				case 'size':
+					this.size = this.attributeChangeHandler('size', oldValue, newValue) as TCh5TextInputSize;
+					if (this._maskingUtility.constructor === Ch5tTextInputMask) {
+						this._maskingUtility._makeMaskElementLookAsInputPlaceholder();
+					}
+					break;
+				case 'scaling':
+					this.scaling = newValue === 'false' ? false : true;
+					break;
+				case 'minimumfontsize':
+					this.minimumFontSize = Number(this.attributeChangeHandler('minimumfontsize', oldValue, newValue));
+					break;
+				case 'tabindex':
+					this.tabIndex = Number(this.attributeChangeHandler('tabindex', oldValue, newValue));
+					break;
+				case 'feedbackmode':
+					this.feedbackMode = this.attributeChangeHandler('feedbackmode', oldValue, newValue) as TCh5CommonInputFeedbackModes;
+					break;
+				// case 'signalValueSyncTimeout':
+				case 'receivestatefocus':
+					this.receiveStateFocus = this.attributeChangeHandler('receivestatefocus', oldValue, newValue);
+					break;
+				case 'receivestatevalue':
+					this.receiveStateValue = this.attributeChangeHandler('receivestatevalue', oldValue, newValue);
+					break;
+				case 'sendeventonchange':
+					this.sendEventOnChange = this.attributeChangeHandler('sendeventonchange', oldValue, newValue);
+					break;
+				case 'sendeventonfocus':
+					this.sendEventOnFocus = this.attributeChangeHandler('sendeventonfocus', oldValue, newValue);
+					break;
+				case 'sendeventonblur':
+					this.sendEventOnBlur = this.attributeChangeHandler('sendeventonblur', oldValue, newValue);
+					break;
+				default:
+					break;
+			}
+
+			this._addAriaAttributes();
+		}
+	}
+
+	/**
+	 * Set value to the input
+	 *
+	 * @param {string} value
+	 */
+	public setValue(value: string) {
+		this.value = value;
+		this._elInput.value = value;
 	}
 
 	// =============================================================
@@ -2485,10 +2489,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		if (this._elIcon.constructor === HTMLElement) {
 			this._elIcon.setAttribute('role', 'icon');
 		}
-	}
-
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Textinput.ELEMENT_NAME, Ch5Textinput.SIGNAL_ATTRIBUTE_TYPES);
 	}
 }
 
