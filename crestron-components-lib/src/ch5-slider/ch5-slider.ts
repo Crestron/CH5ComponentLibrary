@@ -2277,18 +2277,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			const touch = inEvent.touches[0] || inEvent.changedTouches[0];
 			eventOffsetX = touch.clientX;
 			eventOffsetY = touch.clientY;
-
-			if (this._orientation === 'vertical') {
-				maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
-				maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
-			} else {
-				maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
-				maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
-			}
+			maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+			maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+			maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+			maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 
 		} else {
 			eventOffsetX = inEvent.clientX;
@@ -2299,9 +2291,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
 				maxOffestBottom = offsetX + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 			} else {
-				maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
 				maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
 				maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 			}
 		}
