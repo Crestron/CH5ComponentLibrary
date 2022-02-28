@@ -2638,6 +2638,35 @@
           },
           {
             "documentation": [
+              "`type` label",
+              "***",
+              "The label attributes gives the ability for the end developer to specify a label for the CENTER button only"
+            ],
+            "value": [],
+            "name": "label",
+            "default": "null",
+            "hideWhen": [
+              {
+                "key": [
+                  "up",
+                  "down",
+                  "left",
+                  "right"
+                ]
+              }
+            ],
+            "showWhen": [
+              {
+                "key": [
+                  "center"
+                ]
+              }
+            ],
+            "limits": [],
+            "attributeType": "string"
+          },
+          {
+            "documentation": [
               "`type` key",
               "***",
               "The key of the button to determine which button it is."
@@ -6100,7 +6129,7 @@
             "prefix": "ch5-keypad:contractbased",
             "description": "Crestron Keypad",
             "body": [
-              "<ch5-keypad id=\"btn_${0:id}\"",
+              "<ch5-keypad id=\"keypad_${0:id}\"",
               "\tcontractname=\"${1:Contract Name}\"",
               ">",
               "</ch5-keypad>"
@@ -6110,7 +6139,7 @@
             "prefix": "ch5-keypad:eventbased",
             "description": "Crestron Keypad",
             "body": [
-              "<ch5-keypad id=\"btn_${0:id}\"",
+              "<ch5-keypad id=\"keypad_${0:id}\"",
               "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
               ">",
               "</ch5-keypad>"
@@ -6120,7 +6149,7 @@
             "prefix": "ch5-keypad:all-attributes",
             "description": "Crestron Keypad",
             "body": [
-              "<ch5-keypad id=\"btn_${0:id}\"",
+              "<ch5-keypad id=\"keypad_${0:id}\"",
               "\tcontractname=\"${1:Contract Name}\"",
               "\tshape=\"${2:Shape}\"",
               "\ttype=\"${3:type}\"",
@@ -15523,7 +15552,7 @@
             "documentation": [
               "`value` attribute",
               "***",
-              "Defines an value for the jointotext."
+              "Defines an value for the jointotext-boolean."
             ],
             "value": [],
             "name": "value",
@@ -15537,7 +15566,7 @@
             "documentation": [
               "`textWhenTrue` attribute",
               "***",
-              "Defines an text that will be displayed on value=true for the jointotext."
+              "Defines an text that will be displayed on value=true for the jointotext-boolean."
             ],
             "value": [],
             "name": "textwhentrue",
@@ -15551,7 +15580,7 @@
             "documentation": [
               "`textWhenFalse` attribute",
               "***",
-              "Defines an text that will be displayed on value=false for the jointotext."
+              "Defines an text that will be displayed on value=false for the jointotext-boolean."
             ],
             "value": [],
             "name": "textwhenfalse",
@@ -15691,7 +15720,7 @@
           }
         ],
         "childElements": [],
-        "description": "Ch5 JoinToText",
+        "description": "Ch5 JoinToText Boolean",
         "name": "Ch5 JoinToTextBoolean",
         "tagName": "ch5-jointotext-boolean",
         "role": "presentation",

@@ -31,9 +31,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
     //#region 1.2 private / protected variables
     private labelClass: string = 'dpad-btn-label';
 
-    // private setter getter specific vars
-    private _label: string = '';
-
     // signal based vars for each receive state
 
     // parent specific contract based signals for each receive state
@@ -43,28 +40,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
     //#endregion
 
     //#region 2. Setters and Getters
-
-    /**
-     * label specif getter-setter
-     */
-    public set label(value: string) {
-        this.logger.start('set label("' + value + '")');
-
-        if (_.isNil(value)) {
-            value = '';
-        }
-
-        if (value === this.label) {
-            return;
-        }
-
-        this._label = value;
-        this.setAttribute('label', value);
-    }
-    public get label() {
-        return this._label;
-    }
-
 
     //#endregion
 
