@@ -22,322 +22,6 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 
 export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
-  public static readonly ELEMENT_NAME = 'ch5-spinner';
-
-  public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-    ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
-    receivestatesize: { direction: "state", numericJoin: 1, contractName: true },
-    receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
-    receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
-
-    sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
-    sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
-    sendeventonoverflow: { direction: "event", booleanJoin: 1, contractName: true },
-    sendEventonunderflow: { direction: "event", booleanJoin: 1, contractName: true }
-  };
-
-  public static primaryCssClass = 'ch5-spinner';
-  public static cssClassPrefix = 'ch5-spinner';
-
-  public static VISIBLEITEMSCROLL = 3;
-
-  public static SYNCTIMEOUT = 1500;
-
-  /**
-   * Icon positions
-   * @type {TCh5SpinnerIconPosition}
-   */
-  public static ICONPOSITIONS: TCh5SpinnerIconPosition[] = ['first', 'last'] as TCh5SpinnerIconPosition[];
-
-  /**
-   * Feedback mode
-   * @type {TCh5CommonInputFeedbackModes}
-   */
-  public static FEEDBACKMODES: TCh5CommonInputFeedbackModes[] = ['direct', 'submit'] as TCh5CommonInputFeedbackModes[];
-
-  public static readonly COMPONENT_DATA: any = {
-    ICON_POSITIONS: {
-      default: Ch5Spinner.ICONPOSITIONS[0],
-      values: Ch5Spinner.ICONPOSITIONS,
-      key: 'icon_position',
-      classListPrefix: 'ch5-spinner--'
-    },
-    FEEDBACK_MODES: {
-      default: Ch5Spinner.FEEDBACKMODES[0],
-      values: Ch5Spinner.FEEDBACKMODES,
-      key: 'feedback_modes',
-      classListPrefix: 'ch5-spinner--'
-    },
-  };
-
-  /**
-   * Spinner can have max 30 items
-   * @type {number}
-   */
-  private static MAX_SIZE: number = 30;
-
-  /**
-   * Initial number of entries in selection. Default to 1, Range 1-30
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {number}
-   */
-  private _size: number = 1;
-
-  /**
-   * Valid values are 'first' and 'last'. Default is 'first'.
-   * This attribute only applies when a template is not provided
-   * and the implied template is in use. If template is provided,
-   * this property is ignored.
-   * If direction attribute is 'ltr', as will be typical in locales with left
-   * to right language direction, 'first' is equivalent to icon being
-   * Crestron Electronics, Inc. – Copyright ©2018 Page 56
-   * Name Type Comments
-   * on the left and text on the right. Conversely, if the direction
-   * attribute is 'rtl', the 'first' would have the icon on the right and
-   * the label to its left. Value of 'last' is the opposite of 'first'.
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _iconPosition: TCh5SpinnerIconPosition = '' as TCh5SpinnerIconPosition;
-
-  /**
-   * The 1 based index of the selected item. Valid values >=1 and <= size
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {number}
-   */
-  private _selectedValue: number = 0;
-
-  /**
-   * Height of an item. The value of the height can be in px and
-   * vh. We need the item height. If this will not be provided we
-   * will calculate base on the first item height.
-   * Each item on the list needs to have the same height.
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {number}
-   */
-  private _itemHeight: string = '';
-
-  /**
-   * The number of items to be visible in the
-   * upper/lower container around the selected item container.
-   * This information is needed so we can know how many items
-   * to add to the top of the list and to the bottom. If we do not
-   * have this value set, that means we have to calculate how
-   * many items can fit in the scrollHeight and the probability that
-   * one item will not be fully visible is high. If there is a template
-   * including this visibleItems will need to adjust on the height of
-   * the template given.
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {number}
-   */
-  private _visibleItemScroll: number = 0;
-
-  /**
-   * If true, then resize the options panel to fit content width.
-   * apply only this css rule “width=fit-content” and/or “width =
-   * auto” ( depending on the browser agent )
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {boolean}
-   */
-  private _resize: boolean = false;
-
-  /**
-   * endless spinner. This will trigger that the next
-   * element after the last to be the first element in the list.
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {boolean}
-   */
-  private _endless: boolean = false;
-
-  /**
-   * Default direct. allow the form submission functionality.
-   * direct, submit
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {TCh5CommonInputFeedbackModes}
-   */
-  private _feedbackMode: TCh5CommonInputFeedbackModes = '' as TCh5CommonInputFeedbackModes;
-
-  /**
-   * Defines the time between the user release the
-   * handle of the toggle and the time the toggle will check if the
-   * value is equal with the value from the signal. If not it will
-   * automatically apply the value from the signal. Apply only for
-   * feedbackMode direct
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {number}
-   */
-  private _signalValueSyncTimeout: number = 0;
-
-  /**
-   * Provides the name of the offset identifier to substituted with
-   * 1 based index of the item in list within the template item
-   * surrounded by {{ }} delimiters. See examples.
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _indexId: string = '';
-
-  /**
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _label: string = '';
-
-  /**
-   * when receive change the selected value of
-   * this selector. 1 based index is expected.
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _receiveStateValue: string = '';
-
-  /**
-   * Sets the number of items in this component
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _receiveStateSize: string = '';
-
-  /**
-   * Sets the item icon
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _receiveStateUrl: string = '';
-
-  /**
-   * Send signal on focus event
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _sendEventOnFocus: string = '';
-
-  /**
-   * Send signal on change event
-   *
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _sendEventOnChange: string = '';
-
-  /**
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _sendEventOnOverflow: string = '';
-
-  /**
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _sendEventOnUnderflow: string = '';
-
-  /**
-   * @private
-   * @memberof Ch5SpinnerAttributes
-   * @type {string}
-   */
-  private _autoSetItemHeight: boolean = false;
-
-  /**
-   * @type {Ch5SpinnerTemplate}
-   */
-  private _templateHelper: Ch5SpinnerTemplate = {} as Ch5SpinnerTemplate;
-
-  /**
-   * @type {Ch5SpinnerScroll}
-   */
-  private _scrollHelper: Ch5SpinnerScroll = {} as Ch5SpinnerScroll;
-
-  /**
-   * @type {Ch5SpinnerEvents}
-   */
-  private _eventsHelper: Ch5SpinnerEvents = {} as Ch5SpinnerEvents;
-
-  /**
-   * @type {HTMLElement}
-   */
-  private _selectedItem: HTMLElement = {} as HTMLElement;
-
-  /**
-   * @type {number}
-   */
-  private _cleanItem: number = 0;
-
-  /**
-   * @type {string}
-   */
-  private _receiveStateValueSub: string = '';
-
-  /**
-   * @type {string}
-   */
-  public _receiveStateLabelSub: string = '';
-
-  /**
-   * @type {string}
-   */
-  private _receiveStateSizeSub: string = '';
-
-  /**
-   * @type {string}
-   */
-  private _receiveStateLabel: string = '';
-
-  /**
-   * @type {HtmlCallback | {}}
-   */
-  private _onclean: HtmlCallback | {} = {} as HtmlCallback;
-
-  /**
-   * @type {HtmlCallback | {}}
-   */
-  private _ondirty: HtmlCallback | {} = {} as HtmlCallback;
-
-
-  /**
-   * @type {boolean}
-   */
-  private _wasInstantiated: boolean = false;
-
-  /**
-   * @type {boolean}
-   */
-  public dirtyFlag: boolean = false;
-
 
   public static get observedAttributes() {
 
@@ -369,194 +53,10 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     return contextObservedAttributes.concat(commonObservedAttributes);
   }
 
-  private _mutationObserver: Ch5SpinnerMutationObserver = {} as Ch5SpinnerMutationObserver;
-
   constructor() {
     super();
 
     this._mutationObserver = new Ch5SpinnerMutationObserver(this);
-  }
-
-  /**
-   * Triggered when the component is attached to the DOM
-   *
-   * @return {void}
-   */
-  public connectedCallback(): void {
-    this.info("<ch5-spinner />.connectedCallback()")
-
-    // WAI-ARIA Attributes
-    if (!this.hasAttribute('role')) {
-      this.setAttribute('role', Ch5RoleAttributeMapping.ch5Spinner);
-    }
-
-    this.contentCleanUp();
-
-    Promise.all([
-      customElements.whenDefined('ch5-spinner')
-    ]).then(() => {
-      if (!this._wasInstantiated) {
-        this.cacheComponentChildrens();
-        this._wasInstantiated = true;
-        this.initUtilities();
-
-        this.initCommonMutationObserver(this);
-      }
-    });
-  }
-
-  public initSignals() {
-    this.info("<ch5-spinner />.initSignals()");
-    if (this.hasAttribute('receiveStateValue')) {
-      this.registerReceiveSignalValue();
-    }
-
-    if (this.hasAttribute('receiveStateSize')) {
-      this.registerReceiveSignalSize();
-    }
-
-    if (this.hasAttribute('receiveStateLabel')) {
-      this.registerReceiveSignalLabel();
-    }
-  }
-
-  /**
-   * @protected
-   * @memberof Ch5SpinnerAttributes
-   * @return {void}
-   */
-  public dirtyTimeHandler() {
-    this.info("<ch5-spinner />.dirtyTimeHandler()");
-    window.setTimeout(
-      this.dirtyHandler.bind(this), this.signalValueSyncTimeout
-    );
-  }
-
-  /**
-   * Triggered when the component is detached to the DOM
-   *
-   * @return {void}
-   */
-  public disconnectedCallback(): void {
-    this.info("<ch5-spinner />.disconnectedCallback()");
-    this._wasInstantiated = false;
-    if (typeof this._scrollHelper.destruct !== "undefined") {
-      this._scrollHelper.destruct();
-    }
-    if (typeof this.templateHelper.destruct !== "undefined") {
-      this.templateHelper.destruct();
-    }
-
-    this.unsubscribeFromSignals();
-
-    // disconnect common mutation observer
-    this.disconnectCommonMutationObserver();
-  }
-
-  public unsubscribeFromSignals() {
-    this.info("<ch5-spinner />.unsubscribeFromSignals()");
-    super.unsubscribeFromSignals();
-
-    if (false === this._keepListeningOnSignalsAfterRemoval) {
-      this.clearNumberSignalSubscription(this._receiveStateSize, this._receiveStateSizeSub);
-      this._receiveStateUrl = '';
-      this.clearNumberSignalSubscription(this._receiveStateValue, this._receiveStateValueSub);
-      this._receiveStateValue = '';
-      this.clearStringSignalSubscription(this._receiveStateLabel, this._receiveStateLabelSub);
-      this._receiveStateLabel = '';
-    }
-  }
-
-  public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-    if (oldValue === newValue) {
-      return;
-    }
-
-    this.info('<ch5-spinner />.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-    super.attributeChangedCallback(attr, oldValue, newValue);
-
-    if (this._wasInstantiated && oldValue !== newValue) {
-      switch (attr) {
-        case 'size':
-          if (this.hasAttribute('receiveStateSize') === false) {
-            this.size = parseFloat(newValue);
-            this.repaint();
-          }
-          break;
-        case 'iconposition':
-          this.iconPosition = newValue as TCh5SpinnerIconPosition;
-          break;
-        case 'selectedvalue':
-          this.selectedValue = parseFloat(newValue) as number;
-          this._cleanItem = parseFloat(newValue) as number;
-          if (this._scrollHelper.constructor === Ch5SpinnerScroll) {
-            this._scrollHelper.selectTheItem(parseFloat(newValue));
-          }
-          break;
-        case 'itemheight':
-          this.itemHeight = newValue as string;
-          this.repaint();
-          break;
-        case 'visibleitemscroll':
-          this.visibleItemScroll = parseFloat(newValue) as number;
-          this.repaint();
-          break;
-        case 'indexid':
-          this.indexId = newValue;
-          break;
-        case 'feedbackmode':
-          this.feedbackMode = newValue as TCh5CommonInputFeedbackModes;
-          break;
-        case 'signalvaluesynctimeout':
-          this.signalValueSyncTimeout = parseFloat(newValue) as number;
-          break;
-        case 'sendeventonchange':
-          this.sendEventOnChange = newValue;
-          break;
-        case 'sendeventonfocus':
-          this.sendEventOnFocus = newValue;
-          break;
-        case 'sendeventonoverflow':
-          this.sendEventOnOverflow = newValue;
-          break;
-        case 'sendEventOnUnderflow':
-          this.sendEventOnUnderflow = newValue;
-          break;
-        case 'receivestatevalue':
-          this.receiveStateValue = newValue;
-          break;
-        case 'receivestatesize':
-          this.receiveStateSize = newValue;
-          break;
-        case 'receivestatelabel':
-          this.receiveStateLabel = newValue;
-          break;
-        case 'receivestateurl':
-          this.receiveStateUrl = newValue;
-          break;
-        case 'show':
-          if (!this.itemHeight && newValue) {
-            this.templateHelper.handleDefaultItemHeight((this.templateHelper.childrenObject as [HTMLElement])[0] as HTMLElement);
-          }
-      }
-
-      this.addAriaAttributes();
-    }
-  }
-
-  /**
-   * Adding aria attributes
-   *
-   * @return {void}
-   */
-  public addAriaAttributes() {
-
-    if (
-      this.templateHelper.constructor === Ch5SpinnerTemplate &&
-      this.templateHelper.wrapperElement.constructor === HTMLDivElement
-    ) {
-      (this.templateHelper.wrapperElement as HTMLDivElement).setAttribute('role', 'listbox');
-    }
   }
 
   public set ondirty(callback: HtmlCallback | {}) {
@@ -730,219 +230,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   }
 
   /**
-   * Subscribe for receiveStateValue
-   *
-   * @return {void}
-   */
-  public registerReceiveSignalValue(): void {
-    this.info("<ch5-spinner />.registerReceiveSignalValue()");
-
-    // remove old subcription, if exist
-    this.clearStringSignalSubscription(this.receiveStateValue, this._receiveStateValueSub);
-
-    // add new subscription
-    const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-    const receiveState: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-      .getNumberSignal(receiveStateName);
-
-    if (receiveState === null) {
-      return
-    }
-
-    this._receiveStateValueSub = receiveState.subscribe((newValue: number) => {
-      if ((newValue !== null || newValue !== undefined) && newValue >= 0) {
-        this.selectedValue = newValue;
-        this._cleanItem = newValue;
-        this._scrollHelper.selectTheItem(newValue);
-      }
-    });
-  }
-
-  /**
-   * Subscribe for receiveStateLabel
-   *
-   * @return {void}
-   */
-  public registerReceiveSignalLabel(): void {
-    this.info("<ch5-spinner />.registerReceiveSignalLabel()");
-
-    // remove old subcription, if exist
-    this.clearStringSignalSubscription(this.receiveStateLabel, this._receiveStateLabelSub);
-
-    // add new subscription
-    const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateLabel);
-    const receiveState: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-      .getStringSignal(receiveStateName);
-
-    if (receiveState === null) {
-      return
-    }
-
-    this._receiveStateLabelSub = receiveState.subscribe((newValue: string) => {
-      if (newValue !== null || newValue !== undefined) {
-        this.setAttribute('label', newValue);
-      }
-    });
-  }
-
-  /**
-   * Subscribe for receiveStateSize
-   *
-   * @return {void}
-   */
-  public registerReceiveSignalSize(): void {
-    this.info("<ch5-spinner />.registerReceiveSignalSize()");
-
-    // remove old subcription, if exist
-    this.clearStringSignalSubscription(this.receiveStateSize, this._receiveStateSizeSub);
-
-    // add new subscription
-    const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateSize);
-    const receiveState: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-      .getNumberSignal(receiveStateName);
-
-    if (receiveState === null) {
-      return
-    }
-
-    this._receiveStateSizeSub = receiveState.subscribe((newValue: number) => {
-      newValue = this.adjustMaxSizeValue(newValue);
-      if (isNil(newValue) || newValue === 0 || this.size === newValue) {
-        return;
-      }
-
-      this.size = newValue;
-      this.repaint();
-    });
-  }
-
-  /**
-   * Repaint the spinner
-   *
-   * @return {void}
-   */
-  public repaint(): void {
-    this.info("<ch5-spinner />.repaint()");
-
-    try {
-      if (this.templateHelper.constructor === Ch5SpinnerTemplate && this.parentNode !== null && this.hasChildNodes()) {
-        for (let i = this.childNodes.length - 1; i >= 0; i--) {
-          if ((this.childNodes[i] as HTMLElement).tagName === 'TEMPLATE') {
-            continue;
-          }
-          this.removeChild(this.childNodes[i]);
-        }
-
-        if (
-          !this.hasChildNodes() ||
-          (
-            this.childNodes[0] !== null &&
-            (this.childNodes[0] as HTMLElement).tagName === 'TEMPLATE'
-          )
-        ) {
-
-          const _shortLifeElement = document.createElement('div');
-
-          (this.parentNode as HTMLElement).insertBefore(_shortLifeElement, this.nextSibling);
-          this.remove();
-          (_shortLifeElement.parentNode as HTMLElement).insertBefore(this, _shortLifeElement.nextSibling);
-          _shortLifeElement.remove();
-        }
-      }
-    } catch (e) {
-      console.error('Something wrong with component regeneration', e);
-    }
-  }
-
-  /**
-   * Submit the spinner
-   *
-   * @return {void}
-   */
-  public submit() {
-    this.info("<ch5-spinner />.submit()");
-
-    if (this.feedbackMode === 'submit') {
-
-      this.dirtyTimeHandler();
-
-      if (this._scrollHelper.getCleanCurrentElementIndex() !== this._cleanItem) {
-        const sendEventOnChange = this.sendEventOnChange;
-
-        if ('' !== sendEventOnChange && null !== sendEventOnChange && undefined !== sendEventOnChange) {
-          const sigClick = Ch5SignalFactory.getInstance()
-            .getNumberSignal(this.sendEventOnChange);
-
-          if (sigClick !== null) {
-            sigClick.publish(this._scrollHelper.getCleanCurrentElement());
-          }
-        }
-      }
-    }
-  }
-
-  /**
-   * Reset the selectedItem to the first one
-   * or to the value defined in selectedValue attribute
-   *
-   * @return {void}
-   */
-  public reset() {
-    this.info("<ch5-spinner />.reset()");
-
-    this._scrollHelper.selectTheItem(this.selectedValue);
-    this._cleanItem = this._scrollHelper.getCleanCurrentElementIndex();
-    this.dirtyFlag = false;
-
-    this._eventsHelper.dispatchClean();
-  }
-
-  /**
-   * Get the current selected item
-   *
-   * @return {number}
-   */
-  public getValue() {
-    this.info("<ch5-spinner />.getValue()");
-
-    return this._scrollHelper.getCleanCurrentElement();
-  }
-
-  /**
-   * Set the selected item
-   *
-   * @param {number} value
-   */
-  public setValue(value: number) {
-    this.info("<ch5-spinner />.setValue()");
-
-    this._scrollHelper.selectTheItem(value);
-  }
-
-  /**
-   * Check if the spinner has changed the value
-   *
-   * @return {boolean}
-   */
-  public getDirty(): boolean {
-    this.info("<ch5-spinner />.getDirty()");
-
-    if (this._cleanItem !== this._scrollHelper.getCleanCurrentElementIndex()) {
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Adjust spinner items max number
-   * @param size
-   * @private
-   */
-  private adjustMaxSizeValue(size: number): number {
-    return size > Ch5Spinner.MAX_SIZE ? Ch5Spinner.MAX_SIZE : size;
-  }
-
-  /**
    * Setter for size property
    *
    * @param {number} size
@@ -1081,28 +368,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   public get itemHeight(): string {
 
     return this._itemHeight;
-  }
-
-  public getItemHeightValue(): number {
-
-    const value = parseFloat(this.itemHeight);
-
-    if (isNaN(value) !== true) {
-      return value;
-    } else {
-      return 0;
-    }
-  }
-
-  public getItemHeightMeasurementUnit(): string {
-
-    if (this.itemHeight.indexOf('px') > -1) {
-      return 'px';
-    } else if (this.itemHeight.indexOf('vh') > -1) {
-      return 'vh';
-    } else {
-      return 'px';
-    }
   }
 
   /**
@@ -1567,6 +832,745 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     return this._autoSetItemHeight;
   }
 
+  public static readonly ELEMENT_NAME = 'ch5-spinner';
+
+  public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+    ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+    receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
+    receivestatesize: { direction: "state", numericJoin: 1, contractName: true },
+    receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
+    receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
+
+    sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
+    sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
+    sendeventonoverflow: { direction: "event", booleanJoin: 1, contractName: true },
+    sendEventonunderflow: { direction: "event", booleanJoin: 1, contractName: true }
+  };
+
+  public static primaryCssClass = 'ch5-spinner';
+  public static cssClassPrefix = 'ch5-spinner';
+
+  public static VISIBLEITEMSCROLL = 3;
+
+  public static SYNCTIMEOUT = 1500;
+
+  /**
+   * Icon positions
+   * @type {TCh5SpinnerIconPosition}
+   */
+  public static ICONPOSITIONS: TCh5SpinnerIconPosition[] = ['first', 'last'] as TCh5SpinnerIconPosition[];
+
+  /**
+   * Feedback mode
+   * @type {TCh5CommonInputFeedbackModes}
+   */
+  public static FEEDBACKMODES: TCh5CommonInputFeedbackModes[] = ['direct', 'submit'] as TCh5CommonInputFeedbackModes[];
+
+  public static readonly COMPONENT_DATA: any = {
+    ICON_POSITIONS: {
+      default: Ch5Spinner.ICONPOSITIONS[0],
+      values: Ch5Spinner.ICONPOSITIONS,
+      key: 'icon_position',
+      classListPrefix: 'ch5-spinner--'
+    },
+    FEEDBACK_MODES: {
+      default: Ch5Spinner.FEEDBACKMODES[0],
+      values: Ch5Spinner.FEEDBACKMODES,
+      key: 'feedback_modes',
+      classListPrefix: 'ch5-spinner--'
+    },
+  };
+
+  /**
+   * Spinner can have max 30 items
+   * @type {number}
+   */
+  private static MAX_SIZE: number = 30;
+
+  /**
+   * Initial number of entries in selection. Default to 1, Range 1-30
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {number}
+   */
+  private _size: number = 1;
+
+  /**
+   * Valid values are 'first' and 'last'. Default is 'first'.
+   * This attribute only applies when a template is not provided
+   * and the implied template is in use. If template is provided,
+   * this property is ignored.
+   * If direction attribute is 'ltr', as will be typical in locales with left
+   * to right language direction, 'first' is equivalent to icon being
+   * Crestron Electronics, Inc. – Copyright ©2018 Page 56
+   * Name Type Comments
+   * on the left and text on the right. Conversely, if the direction
+   * attribute is 'rtl', the 'first' would have the icon on the right and
+   * the label to its left. Value of 'last' is the opposite of 'first'.
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _iconPosition: TCh5SpinnerIconPosition = '' as TCh5SpinnerIconPosition;
+
+  /**
+   * The 1 based index of the selected item. Valid values >=1 and <= size
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {number}
+   */
+  private _selectedValue: number = 0;
+
+  /**
+   * Height of an item. The value of the height can be in px and
+   * vh. We need the item height. If this will not be provided we
+   * will calculate base on the first item height.
+   * Each item on the list needs to have the same height.
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {number}
+   */
+  private _itemHeight: string = '';
+
+  /**
+   * The number of items to be visible in the
+   * upper/lower container around the selected item container.
+   * This information is needed so we can know how many items
+   * to add to the top of the list and to the bottom. If we do not
+   * have this value set, that means we have to calculate how
+   * many items can fit in the scrollHeight and the probability that
+   * one item will not be fully visible is high. If there is a template
+   * including this visibleItems will need to adjust on the height of
+   * the template given.
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {number}
+   */
+  private _visibleItemScroll: number = 0;
+
+  /**
+   * If true, then resize the options panel to fit content width.
+   * apply only this css rule “width=fit-content” and/or “width =
+   * auto” ( depending on the browser agent )
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {boolean}
+   */
+  private _resize: boolean = false;
+
+  /**
+   * endless spinner. This will trigger that the next
+   * element after the last to be the first element in the list.
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {boolean}
+   */
+  private _endless: boolean = false;
+
+  /**
+   * Default direct. allow the form submission functionality.
+   * direct, submit
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {TCh5CommonInputFeedbackModes}
+   */
+  private _feedbackMode: TCh5CommonInputFeedbackModes = '' as TCh5CommonInputFeedbackModes;
+
+  /**
+   * Defines the time between the user release the
+   * handle of the toggle and the time the toggle will check if the
+   * value is equal with the value from the signal. If not it will
+   * automatically apply the value from the signal. Apply only for
+   * feedbackMode direct
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {number}
+   */
+  private _signalValueSyncTimeout: number = 0;
+
+  /**
+   * Provides the name of the offset identifier to substituted with
+   * 1 based index of the item in list within the template item
+   * surrounded by {{ }} delimiters. See examples.
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _indexId: string = '';
+
+  /**
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _label: string = '';
+
+  /**
+   * when receive change the selected value of
+   * this selector. 1 based index is expected.
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _receiveStateValue: string = '';
+
+  /**
+   * Sets the number of items in this component
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _receiveStateSize: string = '';
+
+  /**
+   * Sets the item icon
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _receiveStateUrl: string = '';
+
+  /**
+   * Send signal on focus event
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _sendEventOnFocus: string = '';
+
+  /**
+   * Send signal on change event
+   *
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _sendEventOnChange: string = '';
+
+  /**
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _sendEventOnOverflow: string = '';
+
+  /**
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _sendEventOnUnderflow: string = '';
+
+  /**
+   * @private
+   * @memberof Ch5SpinnerAttributes
+   * @type {string}
+   */
+  private _autoSetItemHeight: boolean = false;
+
+  /**
+   * @type {Ch5SpinnerTemplate}
+   */
+  private _templateHelper: Ch5SpinnerTemplate = {} as Ch5SpinnerTemplate;
+
+  /**
+   * @type {Ch5SpinnerScroll}
+   */
+  private _scrollHelper: Ch5SpinnerScroll = {} as Ch5SpinnerScroll;
+
+  /**
+   * @type {Ch5SpinnerEvents}
+   */
+  private _eventsHelper: Ch5SpinnerEvents = {} as Ch5SpinnerEvents;
+
+  /**
+   * @type {HTMLElement}
+   */
+  private _selectedItem: HTMLElement = {} as HTMLElement;
+
+  /**
+   * @type {number}
+   */
+  private _cleanItem: number = 0;
+
+  /**
+   * @type {string}
+   */
+  private _receiveStateValueSub: string = '';
+
+  /**
+   * @type {string}
+   */
+  public _receiveStateLabelSub: string = '';
+
+  /**
+   * @type {string}
+   */
+  private _receiveStateSizeSub: string = '';
+
+  /**
+   * @type {string}
+   */
+  private _receiveStateLabel: string = '';
+
+  /**
+   * @type {HtmlCallback | {}}
+   */
+  private _onclean: HtmlCallback | {} = {} as HtmlCallback;
+
+  /**
+   * @type {HtmlCallback | {}}
+   */
+  private _ondirty: HtmlCallback | {} = {} as HtmlCallback;
+
+
+  /**
+   * @type {boolean}
+   */
+  private _wasInstantiated: boolean = false;
+
+  /**
+   * @type {boolean}
+   */
+  public dirtyFlag: boolean = false;
+
+  private _mutationObserver: Ch5SpinnerMutationObserver = {} as Ch5SpinnerMutationObserver;
+
+  public static registerSignalAttributeTypes() {
+    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Spinner.ELEMENT_NAME, Ch5Spinner.SIGNAL_ATTRIBUTE_TYPES);
+  }
+
+  /**
+   * Triggered when the component is attached to the DOM
+   *
+   * @return {void}
+   */
+  public connectedCallback(): void {
+    this.info("<ch5-spinner />.connectedCallback()")
+
+    // WAI-ARIA Attributes
+    if (!this.hasAttribute('role')) {
+      this.setAttribute('role', Ch5RoleAttributeMapping.ch5Spinner);
+    }
+
+    this.contentCleanUp();
+
+    Promise.all([
+      customElements.whenDefined('ch5-spinner')
+    ]).then(() => {
+      if (!this._wasInstantiated) {
+        this.cacheComponentChildrens();
+        this._wasInstantiated = true;
+        this.initUtilities();
+
+        this.initCommonMutationObserver(this);
+      }
+    });
+  }
+
+  public initSignals() {
+    this.info("<ch5-spinner />.initSignals()");
+    if (this.hasAttribute('receiveStateValue')) {
+      this.registerReceiveSignalValue();
+    }
+
+    if (this.hasAttribute('receiveStateSize')) {
+      this.registerReceiveSignalSize();
+    }
+
+    if (this.hasAttribute('receiveStateLabel')) {
+      this.registerReceiveSignalLabel();
+    }
+  }
+
+  /**
+   * @protected
+   * @memberof Ch5SpinnerAttributes
+   * @return {void}
+   */
+  public dirtyTimeHandler() {
+    this.info("<ch5-spinner />.dirtyTimeHandler()");
+    window.setTimeout(
+      this.dirtyHandler.bind(this), this.signalValueSyncTimeout
+    );
+  }
+
+  /**
+   * Triggered when the component is detached to the DOM
+   *
+   * @return {void}
+   */
+  public disconnectedCallback(): void {
+    this.info("<ch5-spinner />.disconnectedCallback()");
+    this._wasInstantiated = false;
+    if (typeof this._scrollHelper.destruct !== "undefined") {
+      this._scrollHelper.destruct();
+    }
+    if (typeof this.templateHelper.destruct !== "undefined") {
+      this.templateHelper.destruct();
+    }
+
+    this.unsubscribeFromSignals();
+
+    // disconnect common mutation observer
+    this.disconnectCommonMutationObserver();
+  }
+
+  public unsubscribeFromSignals() {
+    this.info("<ch5-spinner />.unsubscribeFromSignals()");
+    super.unsubscribeFromSignals();
+
+    if (false === this._keepListeningOnSignalsAfterRemoval) {
+      this.clearNumberSignalSubscription(this._receiveStateSize, this._receiveStateSizeSub);
+      this._receiveStateUrl = '';
+      this.clearNumberSignalSubscription(this._receiveStateValue, this._receiveStateValueSub);
+      this._receiveStateValue = '';
+      this.clearStringSignalSubscription(this._receiveStateLabel, this._receiveStateLabelSub);
+      this._receiveStateLabel = '';
+    }
+  }
+
+  public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
+    if (oldValue === newValue) {
+      return;
+    }
+
+    this.info('<ch5-spinner />.attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+    super.attributeChangedCallback(attr, oldValue, newValue);
+
+    if (this._wasInstantiated && oldValue !== newValue) {
+      switch (attr) {
+        case 'size':
+          if (this.hasAttribute('receiveStateSize') === false) {
+            this.size = parseFloat(newValue);
+            this.repaint();
+          }
+          break;
+        case 'iconposition':
+          this.iconPosition = newValue as TCh5SpinnerIconPosition;
+          break;
+        case 'selectedvalue':
+          this.selectedValue = parseFloat(newValue) as number;
+          this._cleanItem = parseFloat(newValue) as number;
+          if (this._scrollHelper.constructor === Ch5SpinnerScroll) {
+            this._scrollHelper.selectTheItem(parseFloat(newValue));
+          }
+          break;
+        case 'itemheight':
+          this.itemHeight = newValue as string;
+          this.repaint();
+          break;
+        case 'visibleitemscroll':
+          this.visibleItemScroll = parseFloat(newValue) as number;
+          this.repaint();
+          break;
+        case 'indexid':
+          this.indexId = newValue;
+          break;
+        case 'feedbackmode':
+          this.feedbackMode = newValue as TCh5CommonInputFeedbackModes;
+          break;
+        case 'signalvaluesynctimeout':
+          this.signalValueSyncTimeout = parseFloat(newValue) as number;
+          break;
+        case 'sendeventonchange':
+          this.sendEventOnChange = newValue;
+          break;
+        case 'sendeventonfocus':
+          this.sendEventOnFocus = newValue;
+          break;
+        case 'sendeventonoverflow':
+          this.sendEventOnOverflow = newValue;
+          break;
+        case 'sendEventOnUnderflow':
+          this.sendEventOnUnderflow = newValue;
+          break;
+        case 'receivestatevalue':
+          this.receiveStateValue = newValue;
+          break;
+        case 'receivestatesize':
+          this.receiveStateSize = newValue;
+          break;
+        case 'receivestatelabel':
+          this.receiveStateLabel = newValue;
+          break;
+        case 'receivestateurl':
+          this.receiveStateUrl = newValue;
+          break;
+        case 'show':
+          if (!this.itemHeight && newValue) {
+            this.templateHelper.handleDefaultItemHeight((this.templateHelper.childrenObject as [HTMLElement])[0] as HTMLElement);
+          }
+      }
+
+      this.addAriaAttributes();
+    }
+  }
+
+  /**
+   * Adding aria attributes
+   *
+   * @return {void}
+   */
+  public addAriaAttributes() {
+
+    if (
+      this.templateHelper.constructor === Ch5SpinnerTemplate &&
+      this.templateHelper.wrapperElement.constructor === HTMLDivElement
+    ) {
+      (this.templateHelper.wrapperElement as HTMLDivElement).setAttribute('role', 'listbox');
+    }
+  }
+
+  /**
+   * Subscribe for receiveStateValue
+   *
+   * @return {void}
+   */
+  public registerReceiveSignalValue(): void {
+    this.info("<ch5-spinner />.registerReceiveSignalValue()");
+
+    // remove old subcription, if exist
+    this.clearStringSignalSubscription(this.receiveStateValue, this._receiveStateValueSub);
+
+    // add new subscription
+    const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+    const receiveState: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
+      .getNumberSignal(receiveStateName);
+
+    if (receiveState === null) {
+      return
+    }
+
+    this._receiveStateValueSub = receiveState.subscribe((newValue: number) => {
+      if ((newValue !== null || newValue !== undefined) && newValue >= 0) {
+        this.selectedValue = newValue;
+        this._cleanItem = newValue;
+        this._scrollHelper.selectTheItem(newValue);
+      }
+    });
+  }
+
+  /**
+   * Subscribe for receiveStateLabel
+   *
+   * @return {void}
+   */
+  public registerReceiveSignalLabel(): void {
+    this.info("<ch5-spinner />.registerReceiveSignalLabel()");
+
+    // remove old subcription, if exist
+    this.clearStringSignalSubscription(this.receiveStateLabel, this._receiveStateLabelSub);
+
+    // add new subscription
+    const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateLabel);
+    const receiveState: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+      .getStringSignal(receiveStateName);
+
+    if (receiveState === null) {
+      return
+    }
+
+    this._receiveStateLabelSub = receiveState.subscribe((newValue: string) => {
+      if (newValue !== null || newValue !== undefined) {
+        this.setAttribute('label', newValue);
+      }
+    });
+  }
+
+  /**
+   * Subscribe for receiveStateSize
+   *
+   * @return {void}
+   */
+  public registerReceiveSignalSize(): void {
+    this.info("<ch5-spinner />.registerReceiveSignalSize()");
+
+    // remove old subcription, if exist
+    this.clearStringSignalSubscription(this.receiveStateSize, this._receiveStateSizeSub);
+
+    // add new subscription
+    const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateSize);
+    const receiveState: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
+      .getNumberSignal(receiveStateName);
+
+    if (receiveState === null) {
+      return
+    }
+
+    this._receiveStateSizeSub = receiveState.subscribe((newValue: number) => {
+      newValue = this.adjustMaxSizeValue(newValue);
+      if (isNil(newValue) || newValue === 0 || this.size === newValue) {
+        return;
+      }
+
+      this.size = newValue;
+      this.repaint();
+    });
+  }
+
+  /**
+   * Repaint the spinner
+   *
+   * @return {void}
+   */
+  public repaint(): void {
+    this.info("<ch5-spinner />.repaint()");
+
+    try {
+      if (this.templateHelper.constructor === Ch5SpinnerTemplate && this.parentNode !== null && this.hasChildNodes()) {
+        for (let i = this.childNodes.length - 1; i >= 0; i--) {
+          if ((this.childNodes[i] as HTMLElement).tagName === 'TEMPLATE') {
+            continue;
+          }
+          this.removeChild(this.childNodes[i]);
+        }
+
+        if (
+          !this.hasChildNodes() ||
+          (
+            this.childNodes[0] !== null &&
+            (this.childNodes[0] as HTMLElement).tagName === 'TEMPLATE'
+          )
+        ) {
+
+          const _shortLifeElement = document.createElement('div');
+
+          (this.parentNode as HTMLElement).insertBefore(_shortLifeElement, this.nextSibling);
+          this.remove();
+          (_shortLifeElement.parentNode as HTMLElement).insertBefore(this, _shortLifeElement.nextSibling);
+          _shortLifeElement.remove();
+        }
+      }
+    } catch (e) {
+      console.error('Something wrong with component regeneration', e);
+    }
+  }
+
+  /**
+   * Submit the spinner
+   *
+   * @return {void}
+   */
+  public submit() {
+    this.info("<ch5-spinner />.submit()");
+
+    if (this.feedbackMode === 'submit') {
+
+      this.dirtyTimeHandler();
+
+      if (this._scrollHelper.getCleanCurrentElementIndex() !== this._cleanItem) {
+        const sendEventOnChange = this.sendEventOnChange;
+
+        if ('' !== sendEventOnChange && null !== sendEventOnChange && undefined !== sendEventOnChange) {
+          const sigClick = Ch5SignalFactory.getInstance()
+            .getNumberSignal(this.sendEventOnChange);
+
+          if (sigClick !== null) {
+            sigClick.publish(this._scrollHelper.getCleanCurrentElement());
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Reset the selectedItem to the first one
+   * or to the value defined in selectedValue attribute
+   *
+   * @return {void}
+   */
+  public reset() {
+    this.info("<ch5-spinner />.reset()");
+
+    this._scrollHelper.selectTheItem(this.selectedValue);
+    this._cleanItem = this._scrollHelper.getCleanCurrentElementIndex();
+    this.dirtyFlag = false;
+
+    this._eventsHelper.dispatchClean();
+  }
+
+  /**
+   * Get the current selected item
+   *
+   * @return {number}
+   */
+  public getValue() {
+    this.info("<ch5-spinner />.getValue()");
+
+    return this._scrollHelper.getCleanCurrentElement();
+  }
+
+  /**
+   * Set the selected item
+   *
+   * @param {number} value
+   */
+  public setValue(value: number) {
+    this.info("<ch5-spinner />.setValue()");
+
+    this._scrollHelper.selectTheItem(value);
+  }
+
+  /**
+   * Check if the spinner has changed the value
+   *
+   * @return {boolean}
+   */
+  public getDirty(): boolean {
+    this.info("<ch5-spinner />.getDirty()");
+
+    if (this._cleanItem !== this._scrollHelper.getCleanCurrentElementIndex()) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Adjust spinner items max number
+   * @param size
+   * @private
+   */
+  private adjustMaxSizeValue(size: number): number {
+    return size > Ch5Spinner.MAX_SIZE ? Ch5Spinner.MAX_SIZE : size;
+  }
+
+  public getItemHeightValue(): number {
+
+    const value = parseFloat(this.itemHeight);
+
+    if (isNaN(value) !== true) {
+      return value;
+    } else {
+      return 0;
+    }
+  }
+
+  public getItemHeightMeasurementUnit(): string {
+
+    if (this.itemHeight.indexOf('px') > -1) {
+      return 'px';
+    } else if (this.itemHeight.indexOf('vh') > -1) {
+      return 'vh';
+    } else {
+      return 'px';
+    }
+  }
+
   /**
    * Get the highlight offset
    * This will be everytime in the middle of the panel
@@ -1752,10 +1756,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
         });
       }
     }
-  }
-
-  public static registerSignalAttributeTypes() {
-    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Spinner.ELEMENT_NAME, Ch5Spinner.SIGNAL_ATTRIBUTE_TYPES);
   }
 }
 

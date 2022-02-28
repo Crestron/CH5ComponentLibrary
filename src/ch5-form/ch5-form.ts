@@ -16,205 +16,6 @@ import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-r
 
 export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
-    public static readonly ELEMENT_NAME = 'ch5-form';
-
-    /**
-     * COMPONENT DEFAULT VALUES
-     */
-
-    public static SUBMIT_LABEL: string = 'Submit';
-    public static CANCEL_LABEL: string = 'Cancel';
-    public static SUBMIT_TYPE: string = 'default';
-    public static CANCEL_TYPE: string = 'warning';
-
-    /**
-     * CSS classes
-     */
-    public primaryCssClass = 'ch5-form';
-    public cssClassPrefix = 'ch5-form';
-
-    /**
-     * COMPONENT ATTRIBUTES
-     *
-     * - hideSubmitButton
-     * - submitButtonLabel
-     * - submitButtonIcon
-     * - submitButtonStyle
-     * - submitButtonType
-     * - hideCancelButton
-     * - cancelButtonLabel
-     * - cancelButtonIcon
-     * - cancelButtonStyle
-     * - cancelButtonType
-     * - submitId
-     * - cancelId
-     */
-
-
-    /**
-     * Default false. If true hide the button.
-     *
-     * @private
-     * @type {boolean}
-     * @memberof Ch5Form
-     */
-    private _hideSubmitButton: boolean = false;
-
-    /**
-     * Submit button text. If absent or empty the default translated "Submit" text will show.
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _submitButtonLabel: string = '';
-
-    /**
-     * Submit button icon. If absent or empty, hide the icon
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _submitButtonIcon: string = '';
-
-    /**
-     * Inline style value for the submit button to override theme.
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _submitButtonStyle: string = '';
-
-    /**
-     * See Button Component Type attribute.
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _submitButtonType: TCh5ButtonType = 'default';
-
-    /**
-     * Default false. If true hide the button.
-     *
-     * @private
-     * @type {boolean}
-     * @memberof Ch5Form
-     */
-    private _hideCancelButton: boolean = false;
-
-    /**
-     * Cancel button text. If absent or empty the default translated "Cancel" text will show.
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _cancelButtonLabel: string = '';
-
-    /**
-     * Cancel button icon. If absent or empty, hide the icon
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _cancelButtonIcon: string = '';
-
-    /**
-     * Inline style value for the cancel button to override theme.
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _cancelButtonStyle: string = '';
-
-    /**
-     * See Button Component Type attribute.
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _cancelButtonType: TCh5ButtonType = 'default';
-
-    /**
-     * When hideSubmitButton='true', this field is the id of an element in which a 'click' event can be used to trigger the submit functionality.
-     * This element should also honor the standard 'disabled' attribute to allow the form to disable the element if any of the inputs are in error
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _submitId: string = '';
-
-    /**
-     * When hideCancelButton='true', this field is the id of an element in which a 'click' event can be used to trigger the revert functionality
-     *
-     * @private
-     * @type {string}
-     * @memberof Ch5Form
-     */
-    private _cancelId: string = '';
-
-
-    /**
-     * COMPONENT INTERNAL ELEMENTS
-     *
-     * - inputElements
-     * - submitButton
-     * - cancelButton
-     */
-
-    /**
-     * Used to store all ch5 elements with feedbackMode=submit
-     *
-     * @private
-     * @type {Ch5CommonInput[]}
-     */
-    private _inputElements: Ch5CommonInput[] = [];
-
-    /**
-     * Used to store submit button
-     *
-     * @private
-     * @type {Ch5Button}
-     */
-    private _submitButton: Ch5Button = {} as Ch5Button;
-
-    /**
-     * Used to store reset button
-     *
-     * @private
-     * @type {Ch5Button}
-     */
-    private _cancelButton: Ch5Button = {} as Ch5Button;
-
-    /**
-     *  Reflect the state of submit button and submit method
-     */
-    private _submitShouldBeDisable: boolean = true;
-
-    /**
-     *  Reflect the state of cancel button and submit method
-     */
-    private _cancelShouldBeDisabled: boolean = true;
-
-    /**
-     * Custom cancel button ref, if cancelId attr was supplied, used to add and remove events
-     */
-    private _customCancelButtonRef: HTMLButtonElement | null = null;
-
-    /**
-     * Custom submit button ref, if cancelId attr was supplied, used to add and remove events
-     */
-    private _customSubmitButtonRef: HTMLButtonElement | null = null;
-
-    public ready: Promise<void>;
-
     /**
      * Getter inputElements
      * @return {Ch5CommonInput[] }
@@ -587,6 +388,261 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         }
     }
 
+    constructor() {
+        super(); // always call super() first in the constructor.
+
+        this._onClickSubmitButton = this._onClickSubmitButton.bind(this);
+        this._onClickCancelButton = this._onClickCancelButton.bind(this);
+        this._checkIfCancelOrSubmitShouldBeDisabled = this._checkIfCancelOrSubmitShouldBeDisabled.bind(this);
+
+        // used to create form buttons
+        this._initFormButtons();
+
+        // set ready property as promise
+        this.ready = Promise.all([
+            customElements.whenDefined('ch5-button'),
+            customElements.whenDefined('ch5-toggle'),
+            customElements.whenDefined('ch5-slider'),
+            customElements.whenDefined('ch5-select'),
+            customElements.whenDefined('ch5-list'),
+            customElements.whenDefined('ch5-textinput'),
+            customElements.whenDefined('ch5-spinner')
+        ])
+            .then(_ => {
+                this._linkInputElements();
+                this._linkFormButtons();
+
+                this._wasInstatiated = true;
+            });
+    }
+
+    /**
+     * Respond to attribute changes.
+     * @readonly
+     */
+    static get observedAttributes() {
+        const commonAttributes = Ch5Common.observedAttributes;
+        const ch5FormAttributes: string[] = [
+            'hidesubmitbutton',
+            'submitbuttonlabel',
+            'submitbuttonicon',
+            'submitbuttonstyle',
+            'submitbuttontype',
+            'hidecancelbutton',
+            'cancelbuttonlabel',
+            'cancelbuttonicon',
+            'cancelbuttonstyle',
+            'cancelbuttontype',
+            'submitid',
+            'cancelid'
+        ];
+
+        return commonAttributes.concat(ch5FormAttributes);
+    }
+
+    public static readonly ELEMENT_NAME = 'ch5-form';
+
+    /**
+     * COMPONENT DEFAULT VALUES
+     */
+
+    public static SUBMIT_LABEL: string = 'Submit';
+    public static CANCEL_LABEL: string = 'Cancel';
+    public static SUBMIT_TYPE: string = 'default';
+    public static CANCEL_TYPE: string = 'warning';
+
+    /**
+     * CSS classes
+     */
+    public primaryCssClass = 'ch5-form';
+    public cssClassPrefix = 'ch5-form';
+
+    /**
+     * COMPONENT ATTRIBUTES
+     *
+     * - hideSubmitButton
+     * - submitButtonLabel
+     * - submitButtonIcon
+     * - submitButtonStyle
+     * - submitButtonType
+     * - hideCancelButton
+     * - cancelButtonLabel
+     * - cancelButtonIcon
+     * - cancelButtonStyle
+     * - cancelButtonType
+     * - submitId
+     * - cancelId
+     */
+
+
+    /**
+     * Default false. If true hide the button.
+     *
+     * @private
+     * @type {boolean}
+     * @memberof Ch5Form
+     */
+    private _hideSubmitButton: boolean = false;
+
+    /**
+     * Submit button text. If absent or empty the default translated "Submit" text will show.
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _submitButtonLabel: string = '';
+
+    /**
+     * Submit button icon. If absent or empty, hide the icon
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _submitButtonIcon: string = '';
+
+    /**
+     * Inline style value for the submit button to override theme.
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _submitButtonStyle: string = '';
+
+    /**
+     * See Button Component Type attribute.
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _submitButtonType: TCh5ButtonType = 'default';
+
+    /**
+     * Default false. If true hide the button.
+     *
+     * @private
+     * @type {boolean}
+     * @memberof Ch5Form
+     */
+    private _hideCancelButton: boolean = false;
+
+    /**
+     * Cancel button text. If absent or empty the default translated "Cancel" text will show.
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _cancelButtonLabel: string = '';
+
+    /**
+     * Cancel button icon. If absent or empty, hide the icon
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _cancelButtonIcon: string = '';
+
+    /**
+     * Inline style value for the cancel button to override theme.
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _cancelButtonStyle: string = '';
+
+    /**
+     * See Button Component Type attribute.
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _cancelButtonType: TCh5ButtonType = 'default';
+
+    /**
+     * When hideSubmitButton='true', this field is the id of an element in which a 'click' event can be used to trigger the submit functionality.
+     * This element should also honor the standard 'disabled' attribute to allow the form to disable the element if any of the inputs are in error
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _submitId: string = '';
+
+    /**
+     * When hideCancelButton='true', this field is the id of an element in which a 'click' event can be used to trigger the revert functionality
+     *
+     * @private
+     * @type {string}
+     * @memberof Ch5Form
+     */
+    private _cancelId: string = '';
+
+
+    /**
+     * COMPONENT INTERNAL ELEMENTS
+     *
+     * - inputElements
+     * - submitButton
+     * - cancelButton
+     */
+
+    /**
+     * Used to store all ch5 elements with feedbackMode=submit
+     *
+     * @private
+     * @type {Ch5CommonInput[]}
+     */
+    private _inputElements: Ch5CommonInput[] = [];
+
+    /**
+     * Used to store submit button
+     *
+     * @private
+     * @type {Ch5Button}
+     */
+    private _submitButton: Ch5Button = {} as Ch5Button;
+
+    /**
+     * Used to store reset button
+     *
+     * @private
+     * @type {Ch5Button}
+     */
+    private _cancelButton: Ch5Button = {} as Ch5Button;
+
+    /**
+     *  Reflect the state of submit button and submit method
+     */
+    private _submitShouldBeDisable: boolean = true;
+
+    /**
+     *  Reflect the state of cancel button and submit method
+     */
+    private _cancelShouldBeDisabled: boolean = true;
+
+    /**
+     * Custom cancel button ref, if cancelId attr was supplied, used to add and remove events
+     */
+    private _customCancelButtonRef: HTMLButtonElement | null = null;
+
+    /**
+     * Custom submit button ref, if cancelId attr was supplied, used to add and remove events
+     */
+    private _customSubmitButtonRef: HTMLButtonElement | null = null;
+
+    public ready: Promise<void>;
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Form.ELEMENT_NAME, Ch5Form.SIGNAL_ATTRIBUTE_TYPES);
+    }
+
     /**
      * Find and set custom cancel btn, keep as reference to handle events
      */
@@ -625,38 +681,6 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         this.info(`Ch5Form submit button with ${this.submitId} found, events added`);
     }
 
-    public static registerSignalAttributeTypes() {
-        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Form.ELEMENT_NAME, Ch5Form.SIGNAL_ATTRIBUTE_TYPES);
-    }
-
-    constructor() {
-        super(); // always call super() first in the constructor.
-
-        this._onClickSubmitButton = this._onClickSubmitButton.bind(this);
-        this._onClickCancelButton = this._onClickCancelButton.bind(this);
-        this._checkIfCancelOrSubmitShouldBeDisabled = this._checkIfCancelOrSubmitShouldBeDisabled.bind(this);
-
-        // used to create form buttons
-        this._initFormButtons();
-
-        // set ready property as promise
-        this.ready = Promise.all([
-            customElements.whenDefined('ch5-button'),
-            customElements.whenDefined('ch5-toggle'),
-            customElements.whenDefined('ch5-slider'),
-            customElements.whenDefined('ch5-select'),
-            customElements.whenDefined('ch5-list'),
-            customElements.whenDefined('ch5-textinput'),
-            customElements.whenDefined('ch5-spinner')
-        ])
-            .then(_ => {
-                this._linkInputElements();
-                this._linkFormButtons();
-
-                this._wasInstatiated = true;
-            });
-    }
-
     /**
      *  Called every time the element is inserted into the DOM.
      *  Useful for running setup code, such as fetching resources or rendering.
@@ -692,30 +716,6 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
         // disconnect common mutation observer
         this.disconnectCommonMutationObserver();
-    }
-
-    /**
-     * Respond to attribute changes.
-     * @readonly
-     */
-    static get observedAttributes() {
-        const commonAttributes = Ch5Common.observedAttributes;
-        const ch5FormAttributes: string[] = [
-            'hidesubmitbutton',
-            'submitbuttonlabel',
-            'submitbuttonicon',
-            'submitbuttonstyle',
-            'submitbuttontype',
-            'hidecancelbutton',
-            'cancelbuttonlabel',
-            'cancelbuttonicon',
-            'cancelbuttonstyle',
-            'cancelbuttontype',
-            'submitid',
-            'cancelid'
-        ];
-
-        return commonAttributes.concat(ch5FormAttributes);
     }
 
     /**

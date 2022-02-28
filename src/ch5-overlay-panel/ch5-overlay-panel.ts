@@ -44,7 +44,7 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
  */
 export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttributes {
 
-	public static readonly ELEMENT_NAME = 'ch5-overlay-panel';
+	public static readonly ELEMENT_NAME: string = 'ch5-overlay-panel';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,

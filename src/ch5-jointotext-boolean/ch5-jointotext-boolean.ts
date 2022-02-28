@@ -7,33 +7,6 @@ import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 
 export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBooleanAttributes {
 
-    // TODO - pls check if the join has to be boolean in this case instead of numeric
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestatevalue: { direction: "state", numericJoin: 1, contractName: true }
-    };
-
-    public static readonly ELEMENT_NAME = 'ch5-jointotext-boolean';
-
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
-	public static registerCustomElement() {
-		if (typeof window === "object"
-			&& typeof window.customElements === "object"
-			&& typeof window.customElements.define === "function"
-			&& window.customElements.get(Ch5JoinToTextBoolean.ELEMENT_NAME) === undefined) {
-			window.customElements.define(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean);
-		}
-	}
-    
-    private _value: string = 'false'; // TODO - Please convert into boolean instead of string
-    private _textWhenTrue: string = '';
-    private _textWhenFalse: string = '';
-    private _receiveStateValue: string = '';
-    private _subReceiveStateValue: string = '';
-
     //#region " Setters and Getters "
 
     public set value(value: string) {
@@ -125,6 +98,33 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
             'receivestatevalue',
         ]
     }
+
+    // TODO - pls check if the join has to be boolean in this case instead of numeric
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatevalue: { direction: "state", numericJoin: 1, contractName: true }
+    };
+
+    public static readonly ELEMENT_NAME = 'ch5-jointotext-boolean';
+    
+    private _value: string = 'false'; // TODO - Please convert into boolean instead of string
+    private _textWhenTrue: string = '';
+    private _textWhenFalse: string = '';
+    private _receiveStateValue: string = '';
+    private _subReceiveStateValue: string = '';
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5JoinToTextBoolean.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean);
+		}
+	}
 
     public connectedCallback() {
 

@@ -101,10 +101,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		ERROR: 'error'
 	};
 
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Background.ELEMENT_NAME, Ch5Background.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
 	private MARK_COLORS: Map<string, string> = new Map();
 
 	/**
@@ -228,6 +224,10 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	private _videoSubscriptionId: string = '';
 
 	private _canvasSubscriptionId: string = '';
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Background.ELEMENT_NAME, Ch5Background.SIGNAL_ATTRIBUTE_TYPES);
+	}
 
 	/**
 	 * ATTR GETTERS AND SETTERS
