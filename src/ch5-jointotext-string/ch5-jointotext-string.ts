@@ -8,7 +8,7 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+		receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
 	};
     
     private _receiveStateValue: string = '';
@@ -29,17 +29,17 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
     public connectedCallback() {
         
         if (this.hasAttribute('textwhenempty')) {
-            this.textWhenEmpty = this.getAttribute('textwhenempty') + '';
+            this.textWhenEmpty = this.getAttribute('textwhenempty') as string;
         }
         
         if (this.hasAttribute('value')) {
-            this.value = this.getAttribute('value') + '';
+            this.value = this.getAttribute('value') as string;
         } else {
             this.value = '';
         }
 
         if (this.hasAttribute('receivestatevalue')) {
-            this.receiveStateValue = this.getAttribute('receivestatevalue') + '';
+            this.receiveStateValue = this.getAttribute('receivestatevalue') as string;
         }
     }
 

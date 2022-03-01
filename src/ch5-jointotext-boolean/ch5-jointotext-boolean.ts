@@ -6,20 +6,62 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 import { Ch5CommonLog } from "../ch5-common/ch5-common-log";
 
 export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBooleanAttributes {
+   
+    public static get observedAttributes(): string[] {
+        return [
+            'value',
+            'textwhentrue',
+            'textwhenfalse',
+            'receivestatevalue',
+        ]
+    }
+
+    // TODO - pls check if the join has to be boolean in this case instead of numeric
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatevalue: { direction: "state", booleanJoin: 1, contractName: true }
+    };
+
+    public static readonly ELEMENT_NAME = 'ch5-jointotext-boolean';
+    
+    private _value: boolean = false;
+    private _textWhenTrue: string = '';
+    private _textWhenFalse: string = '';
+    private _receiveStateValue: string = '';
+    private _subReceiveStateValue: string = '';
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5JoinToTextBoolean.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean);
+		}
+	}
+
+    public constructor() {
+        super();
+        this._crId = Ch5Uid.getUid();
+        this.logger = new Ch5CommonLog(false, false, this._crId);
+    }
 
     //#region " Setters and Getters "
 
-    public set value(value: string) {
+    public set value(value: boolean) {
         if (isNil(value)) {
             return;
         }
 
         this._value = value;
-        this.setAttribute('value', value);
-        this.toggleText(this.convertValueToBoolean());
+        this.setAttribute('value', value + '');
+        this.toggleText(value);
     }
 
-    public get value(): string {
+    public get value(): boolean {
         return this._value;
     }
 
@@ -72,7 +114,7 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
         }
 
         this._subReceiveStateValue = receiveSignal.subscribe((newValue: boolean) => {
-            if (newValue !== this.convertValueToBoolean()) {
+            if (newValue !== this.value) {
                 this.setAttribute('value', newValue + '');
             }
         });
@@ -84,66 +126,24 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 
     //#endregion
 
-    public constructor() {
-        super();
-        this._crId = Ch5Uid.getUid();
-        this.logger = new Ch5CommonLog(false, false, this._crId);
-    }
-
-    public static get observedAttributes(): string[] {
-        return [
-            'value',
-            'textwhentrue',
-            'textwhenfalse',
-            'receivestatevalue',
-        ]
-    }
-
-    // TODO - pls check if the join has to be boolean in this case instead of numeric
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestatevalue: { direction: "state", numericJoin: 1, contractName: true }
-    };
-
-    public static readonly ELEMENT_NAME = 'ch5-jointotext-boolean';
-    
-    private _value: string = 'false'; // TODO - Please convert into boolean instead of string
-    private _textWhenTrue: string = '';
-    private _textWhenFalse: string = '';
-    private _receiveStateValue: string = '';
-    private _subReceiveStateValue: string = '';
-
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
-	public static registerCustomElement() {
-		if (typeof window === "object"
-			&& typeof window.customElements === "object"
-			&& typeof window.customElements.define === "function"
-			&& window.customElements.get(Ch5JoinToTextBoolean.ELEMENT_NAME) === undefined) {
-			window.customElements.define(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean);
-		}
-	}
-
     public connectedCallback() {
 
         if (this.hasAttribute('textwhentrue')) {
-            this.textWhenTrue = this.getAttribute('textwhentrue') + ''; // TODO - can we use 'as string' 
+            this.textWhenTrue = this.getAttribute('textwhentrue') as string; // TODO - can we use 'as string' 
         }
 
         if (this.hasAttribute('textwhenfalse')) {
-            this.textWhenFalse = this.getAttribute('textwhenfalse') + '';
+            this.textWhenFalse = this.getAttribute('textwhenfalse') as string;
         }
 
         if (this.hasAttribute('receivestatevalue')) {
-            this.receiveStateValue = this.getAttribute('receivestatevalue') + '';
+            this.receiveStateValue = this.getAttribute('receivestatevalue') as string;
         }
 
         if (this.hasAttribute('value')) {
-            this.value = this.getAttribute('value') + '';
+            this.value = this.convertValueToBoolean(this.getAttribute('value') as string);
         } else {
-            this.value = 'false';
+            this.value = false;
         }
     }
 
@@ -163,7 +163,7 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 
         switch (attr) {
             case 'value':
-                this.value = newValue;
+                this.value = this.convertValueToBoolean(newValue);
                 break;
             case 'textwhentrue':
                 this.textWhenTrue = newValue;
@@ -193,8 +193,8 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
         this.textContent = text;
     }
 
-    public convertValueToBoolean() {
-        return this.value === "true";
+    public convertValueToBoolean(value: string) {
+        return value === "true";
     }
 
 }

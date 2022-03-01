@@ -13,10 +13,10 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * "Defines an value for the jointotext-boolean."
    * ]
    * @name value
-   * @default ""
+   * @default false
    * @attributeType "string"
    */
-    value: string;
+    value: boolean;
 
   /**
    * @documentation
