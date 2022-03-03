@@ -14,7 +14,7 @@ import { Ch5TriggerViewSlidesManager } from "./ch5-triggerview-slides-manager";
 import { isNil } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5TriggerViewAttributes } from './interfaces/i-ch5-triggerview-attributes';
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export type TActiveViewCallback = () => {};
 
@@ -175,92 +175,6 @@ template.innerHTML = `<style>${triggerViewStyles}</style> ${triggerViewHtml}`;
 
 export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttributes {
 
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestateshowchildindex: { direction: "state", numericJoin: 1, contractName: true },
-		sendeventshowchildindex: { direction: "event", numericJoin: 1, contractName: true }
-	};
-
-	/**
-	 * CSS classes
-	 */
-	public readonly primaryCssClass: string = 'ch5-triggerview';
-	public readonly cssClassPrefix: string = 'ch5-triggerview';
-
-	/**
-	 * COMPONENT PUBLIC ATTRIBUTES
-	 * - activeView - 1-based index of current view
-	 * - endless
-	 * - gestureable
-	 * - disableAnimation
-	 */
-
-	/**
-	 * Invoked on each activeView attribute change
-	 */
-	private _activeViewCallback: TActiveViewCallback = {} as TActiveViewCallback;
-
-	// swipe sensitivity
-	private _swipeThreshold = 30.0;
-
-	private _activeView: number = 0;
-
-	/**
-	 * The slot where the slides are injected into.
-	 * @type {HTMLSlotElement|null}
-	 * @private
-	 */
-	private _slidesSlot: HTMLSlotElement;
-
-	/**
-	 * The slot where the aria-live element is injected into.
-	 * @type {HTMLSlotElement}
-	 * @private
-	 */
-	private _ariaSlot: HTMLSlotElement;
-
-	private _ariaLiveRegion: HTMLElement = {} as HTMLElement;
-
-	/**
-	 * COMPONENT SEND SIGNALS
-	 *
-	 * - sendEventShowChildIndex
-	 */
-
-	/**
-	 *
-	 * The name of the number signal that will be sent to native of current visible item on select
-	 *
-	 * HTML attribute name: sendEventShowChildIndex or sendeventshowchildindex
-	 * @private
-	 * @type {string}
-	 */
-	private _sendEventShowChildIndexSigName: string = '';
-
-	/**
-	 * COMPONENT RECEIVE SIGNALS
-	 *
-	 * - receiveStateShowChildIndex
-	 */
-
-	/**
-	 * The name of a number signal that will be applied to the activeView
-	 *
-	 * HTML attribute name: receiveStateShowChildIndex or receivestateshowchildIndex
-	 */
-	private _receiveStateShowChildIndexSigName: string = '';
-
-	/**
-	 * The subscription id for the receiveStateValue signal
-	 */
-	private _subReceiveStateShowChildIndexId: string = '';
-
-	private _signalIsReceived: boolean = false;
-
-	private slidesManager: Ch5TriggerViewSlidesManager = {} as Ch5TriggerViewSlidesManager;
-
-	private _nested: boolean = false;
-
 	/**
 	 * Creates a new instance of Ch5TriggerView.
 	 * @constructor
@@ -285,138 +199,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		this._ariaSlot = (this.shadowRoot as ShadowRoot).querySelector('#ariaSlot') as HTMLSlotElement;
 
 		this.slidesManager = new Ch5TriggerViewSlidesManager(this);
-	}
-
-	/**
-	 * Fires when the element is inserted into the DOM.
-	 * It's a good place to set the initial `role`, `tabindex`, internal state,
-	 * and install event listeners.
-	 */
-	public connectedCallback() {
-		const setup = () => {
-			this.info('Ch5TriggerView.connectedCallback()');
-
-			// WAI-ARIA Attributes
-			if (!this.hasAttribute('role')) {
-				this.setAttribute('role', Ch5RoleAttributeMapping.ch5TriggerView);
-			}
-
-			this.cacheComponentChildrens();
-
-			// Setup the component.
-			this.initAttributes();
-			this.updateCssClasses();
-
-			// attach event listeners
-			this.attachEventListeners();
-
-			// Sometimes the 'slot-changed' event doesn't fire consistently across
-			// browsers, depending on how the Custom Element was parsed and initialized
-			// (see https://github.com/whatwg/dom/issues/447)
-			this._onSlidesSlotChange();
-
-			// TODO: css will be removed to sass files, used here temporary
-			// const style = document.createElement('style') as HTMLElement;
-			// style.innerHTML = swiperCss;
-			// this.appendChild(style);
-
-			this.id = this.getCrId();
-
-			this.slidesManager.prepareSwiperSlides();
-			// activate swiper
-			this.slidesManager.initSwiper();
-		}
-
-		if (!this.closest('ch5-modal-dialog')) {
-			setTimeout(setup);
-			return;
-		}
-
-		subscribeInViewPortChange(this, () => {
-			this.info('ch5-triggerview.subscribeInViewPortChange()');
-			if (this.elementIsInViewPort && !this.wasInstantiatedInViewport) {
-				this._updateSizeStyleProperties();
-				setup();
-				this.wasInstantiatedInViewport = true;
-			}
-		});
-
-		// this is a quick fix
-		// problem is that when connected callback is called
-		// the triggerview doesn't have children attached
-	}
-
-	/**
-	 * Fires when the element is removed from the DOM.
-	 * It's a good place to do clean up work like releasing references and
-	 * removing event listeners.
-	 * @private
-	 */
-	public disconnectedCallback() {
-		this.info('Ch5TriggerView.disconnectedCallback()');
-
-		this.removeEvents();
-		this.unsubscribeFromSignals();
-		this.slidesManager.destroySwiper();
-	}
-
-	/**
-	 * Defining handleEvent allows to pass `this` as the callback to every
-	 * `addEventListener` and `removeEventListener`. This avoids the need of
-	 * binding every function. See
-	 * https://medium.com/@WebReflection/dom-handleevent-a-cross-platform-standard-since-year-2000-5bf17287fd38
-	 *
-	 * @param {Event} e Any event.
-	 * @private
-	 */
-	public handleEvent(e: Event) {
-		// Slot change
-		if (e.type === 'slotchange' && e.target === this._slidesSlot) {
-			this._onSlidesSlotChange();
-		}
-	}
-
-	// ===========================================================================
-	// Public methods (previousViewChild, nextViewChild, setActiveViewChild, setActiveView)
-	// ===========================================================================
-
-	/**
-	 * Selects the slide preceding the currently selected one.
-	 * If the currently selected slide is the first slide and the loop
-	 * functionality is disabled, nothing happens.
-	 */
-	public previousViewChild() {
-		this.slidesManager.slidePrevious();
-	}
-
-	/**
-	 * Selects the slide following the currently selected one.
-	 * If the currently selected slide is the last slide and the loop
-	 * functionality is disabled, nothing happens.
-	 */
-	public nextViewChild() {
-		this.slidesManager.slideNext();
-	}
-
-	/**
-	 * Show the child based on an childview component. This will be called by the child view.
-	 *
-	 * @param {Ch5TriggerViewChild} childView
-	 */
-	public setActiveViewChild(childView: Ch5TriggerViewChild): void {
-		const slideIndex = this.slidesManager.getChildElSwipeIndex(childView);
-		if (slideIndex !== null) {
-			this.activeView = slideIndex;
-		}
-	}
-
-	/**
-	 * Show the child based upon 1 based index
-	 *
-	 * @param {number} index
-	 */
-	public setActiveView(index: number) {
-		this.activeView = index;
 	}
 
 	// ===========================================================================
@@ -445,112 +227,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		];
 
 		return commonAttributes.concat(ch5TriggerViewAttributes);
-	}
-
-	/**
-	 * Called whenever an observedAttribute's value changes.
-	 * @param {string} name The attribute's local name.
-	 * @param {string} oldValue The attribute's previous value.
-	 * @param {string} newValue The attribute's new value.
-	 * @fires selected
-	 * @private
-	 */
-	public attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-		if (oldValue === newValue) {
-			return;
-		}
-		this.info('Ch5TriggerView attributeChangedCallback("' + name + '","' + oldValue + '","' + newValue + ')"');
-
-		if (this.slidesManager.getSlidesNumber() === 0) {
-			this._onSlidesSlotChange();
-		}
-
-		switch (name) {
-			case 'activeview':
-				if (oldValue !== newValue) {
-
-					const parsedNewValue = parseInt(newValue, 10);
-					// Accept only numbers between `0` and slides number
-					if (this.slidesManager.getSlidesNumber() >= 0 &&
-						(parsedNewValue > this.slidesManager.getSlidesNumber() || parsedNewValue < 0)) {
-						this.activeView = 0;
-						return;
-					}
-					this.activeView = parsedNewValue;
-				}
-				break;
-
-			case 'endless':
-				this.endless = booleanGetter(this, 'endless');
-				break;
-
-			case 'gestureable':
-				this.gestureable = booleanGetter(this, 'gestureable');
-				break;
-
-			case 'disableanimation':
-				this.disableAnimation = booleanGetter(this, 'disableanimation');
-				break;
-
-			case 'sendeventshowchildindex':
-				if (this.hasAttribute('sendeventshowchildindex')) {
-					this.sendEventShowChildIndex = newValue;
-				} else {
-					this.sendEventShowChildIndex = '';
-				}
-				break;
-
-			case 'receivestateshowchildindex':
-				if (this.hasAttribute('receivestateshowchildindex')) {
-					this.receiveStateShowChildIndex = newValue;
-				} else {
-					this.receiveStateShowChildIndex = '';
-				}
-				break;
-
-			case 'nested':
-				this.nested = this.hasAttribute('nested');
-				break;
-
-			default:
-				super.attributeChangedCallback(name, oldValue, newValue);
-				break;
-		}
-
-		if (name === 'dir') {
-			// ignore rtl direction and apply only for children since this breaks animation
-			this.style.setProperty('direction', 'ltr');
-			this._updateChildrenDirAttr();
-		}
-	}
-
-	/**
-	 * Unsubscribe signals
-	 */
-	public unsubscribeFromSignals(): void {
-		super.unsubscribeFromSignals();
-		this.info('Ch5TriggerView.unsubscribeFromSignals()');
-		const csf = Ch5SignalFactory.getInstance();
-		if ('' !== this._subReceiveStateShowChildIndexId && '' !== this._receiveStateShowChildIndexSigName) {
-			const sigSelected: Ch5Signal<number> | null = csf.getNumberSignal(this._receiveStateShowChildIndexSigName);
-			if (null !== sigSelected) {
-				sigSelected.unsubscribe(this._subReceiveStateShowChildIndexId);
-				this._receiveStateShowChildIndexSigName = '';
-			}
-		}
-	}
-
-	public getSlidesAsArray(): HTMLElement[] {
-		return Array.prototype.slice.call(this.slidesManager.getSlidesArray(), 0);
-	}
-
-	/**
-	 * Returns css class when disabled
-	 *
-	 * @return { string }
-	 */
-	public getCssClassDisabled(): string {
-		return this.cssClassPrefix + '--disabled';
 	}
 
 	public set activeViewCallback(callback: TActiveViewCallback) {
@@ -616,23 +292,11 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		return intGetter(this, 'activeview', 0);
 	}
 
-	public getPlainActiveView() {
-		return this._activeView;
-	}
-
 	/**
 	 * Getter for the swiper sensitivity
 	 */
 	public get getSwiperSensitivity(): number {
 		return this.swipeThreshold;
-	}
-
-	/**
-	 * Setter for the swiper sensitivity
-	 * @param sensitivity
-	 */
-	public setSwiperSensitivity(sensitivity: number) {
-		this.slidesManager.swiperSensitivity = sensitivity;
 	}
 
 	/**
@@ -807,6 +471,348 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		return this._nested;
 	}
 
+	public static readonly ELEMENT_NAME = 'ch5-triggerview';
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestateshowchildindex: { direction: "state", numericJoin: 1, contractName: true },
+		sendeventshowchildindex: { direction: "event", numericJoin: 1, contractName: true }
+	};
+
+	/**
+	 * CSS classes
+	 */
+	public readonly primaryCssClass: string = 'ch5-triggerview';
+	public readonly cssClassPrefix: string = 'ch5-triggerview';
+
+	/**
+	 * COMPONENT PUBLIC ATTRIBUTES
+	 * - activeView - 1-based index of current view
+	 * - endless
+	 * - gestureable
+	 * - disableAnimation
+	 */
+
+	/**
+	 * Invoked on each activeView attribute change
+	 */
+	private _activeViewCallback: TActiveViewCallback = {} as TActiveViewCallback;
+
+	// swipe sensitivity
+	private _swipeThreshold = 30.0;
+
+	private _activeView: number = 0;
+
+	/**
+	 * The slot where the slides are injected into.
+	 * @type {HTMLSlotElement|null}
+	 * @private
+	 */
+	private _slidesSlot: HTMLSlotElement;
+
+	/**
+	 * The slot where the aria-live element is injected into.
+	 * @type {HTMLSlotElement}
+	 * @private
+	 */
+	private _ariaSlot: HTMLSlotElement;
+
+	private _ariaLiveRegion: HTMLElement = {} as HTMLElement;
+
+	/**
+	 * COMPONENT SEND SIGNALS
+	 *
+	 * - sendEventShowChildIndex
+	 */
+
+	/**
+	 *
+	 * The name of the number signal that will be sent to native of current visible item on select
+	 *
+	 * HTML attribute name: sendEventShowChildIndex or sendeventshowchildindex
+	 * @private
+	 * @type {string}
+	 */
+	private _sendEventShowChildIndexSigName: string = '';
+
+	/**
+	 * COMPONENT RECEIVE SIGNALS
+	 *
+	 * - receiveStateShowChildIndex
+	 */
+
+	/**
+	 * The name of a number signal that will be applied to the activeView
+	 *
+	 * HTML attribute name: receiveStateShowChildIndex or receivestateshowchildIndex
+	 */
+	private _receiveStateShowChildIndexSigName: string = '';
+
+	/**
+	 * The subscription id for the receiveStateValue signal
+	 */
+	private _subReceiveStateShowChildIndexId: string = '';
+
+	private _signalIsReceived: boolean = false;
+
+	private slidesManager: Ch5TriggerViewSlidesManager = {} as Ch5TriggerViewSlidesManager;
+
+	private _nested: boolean = false;
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TriggerView.ELEMENT_NAME, Ch5TriggerView.SIGNAL_ATTRIBUTE_TYPES);
+	}	
+
+	/**
+	 * Fires when the element is inserted into the DOM.
+	 * It's a good place to set the initial `role`, `tabindex`, internal state,
+	 * and install event listeners.
+	 */
+	public connectedCallback() {
+		const setup = () => {
+			this.info('Ch5TriggerView.connectedCallback()');
+
+			// WAI-ARIA Attributes
+			if (!this.hasAttribute('role')) {
+				this.setAttribute('role', Ch5RoleAttributeMapping.ch5TriggerView);
+			}
+
+			this.cacheComponentChildrens();
+
+			// Setup the component.
+			this.initAttributes();
+			this.updateCssClasses();
+
+			// attach event listeners
+			this.attachEventListeners();
+
+			// Sometimes the 'slot-changed' event doesn't fire consistently across
+			// browsers, depending on how the Custom Element was parsed and initialized
+			// (see https://github.com/whatwg/dom/issues/447)
+			this._onSlidesSlotChange();
+
+			// TODO: css will be removed to sass files, used here temporary
+			// const style = document.createElement('style') as HTMLElement;
+			// style.innerHTML = swiperCss;
+			// this.appendChild(style);
+
+			this.id = this.getCrId();
+
+			this.slidesManager.prepareSwiperSlides();
+			// activate swiper
+			this.slidesManager.initSwiper();
+		}
+
+		if (!this.closest('ch5-modal-dialog')) {
+			setTimeout(setup);
+			return;
+		}
+
+		subscribeInViewPortChange(this, () => {
+			this.info('ch5-triggerview.subscribeInViewPortChange()');
+			if (this.elementIsInViewPort && !this.wasInstantiatedInViewport) {
+				this._updateSizeStyleProperties();
+				setup();
+				this.wasInstantiatedInViewport = true;
+			}
+		});
+
+		// this is a quick fix
+		// problem is that when connected callback is called
+		// the triggerview doesn't have children attached
+	}
+
+	/**
+	 * Fires when the element is removed from the DOM.
+	 * It's a good place to do clean up work like releasing references and
+	 * removing event listeners.
+	 * @private
+	 */
+	public disconnectedCallback() {
+		this.info('Ch5TriggerView.disconnectedCallback()');
+
+		this.removeEvents();
+		this.unsubscribeFromSignals();
+		this.slidesManager.destroySwiper();
+	}
+
+	/**
+	 * Defining handleEvent allows to pass `this` as the callback to every
+	 * `addEventListener` and `removeEventListener`. This avoids the need of
+	 * binding every function. See
+	 * https://medium.com/@WebReflection/dom-handleevent-a-cross-platform-standard-since-year-2000-5bf17287fd38
+	 *
+	 * @param {Event} e Any event.
+	 * @private
+	 */
+	public handleEvent(e: Event) {
+		// Slot change
+		if (e.type === 'slotchange' && e.target === this._slidesSlot) {
+			this._onSlidesSlotChange();
+		}
+	}
+
+	// ===========================================================================
+	// Public methods (previousViewChild, nextViewChild, setActiveViewChild, setActiveView)
+	// ===========================================================================
+
+	/**
+	 * Selects the slide preceding the currently selected one.
+	 * If the currently selected slide is the first slide and the loop
+	 * functionality is disabled, nothing happens.
+	 */
+	public previousViewChild() {
+		this.slidesManager.slidePrevious();
+	}
+
+	/**
+	 * Selects the slide following the currently selected one.
+	 * If the currently selected slide is the last slide and the loop
+	 * functionality is disabled, nothing happens.
+	 */
+	public nextViewChild() {
+		this.slidesManager.slideNext();
+	}
+
+	/**
+	 * Show the child based on an childview component. This will be called by the child view.
+	 *
+	 * @param {Ch5TriggerViewChild} childView
+	 */
+	public setActiveViewChild(childView: Ch5TriggerViewChild): void {
+		const slideIndex = this.slidesManager.getChildElSwipeIndex(childView);
+		if (slideIndex !== null) {
+			this.activeView = slideIndex;
+		}
+	}
+
+	/**
+	 * Show the child based upon 1 based index
+	 *
+	 * @param {number} index
+	 */
+	public setActiveView(index: number) {
+		this.activeView = index;
+	}
+
+	/**
+	 * Called whenever an observedAttribute's value changes.
+	 * @param {string} name The attribute's local name.
+	 * @param {string} oldValue The attribute's previous value.
+	 * @param {string} newValue The attribute's new value.
+	 * @fires selected
+	 * @private
+	 */
+	public attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+		if (oldValue === newValue) {
+			return;
+		}
+		this.info('Ch5TriggerView attributeChangedCallback("' + name + '","' + oldValue + '","' + newValue + ')"');
+
+		if (this.slidesManager.getSlidesNumber() === 0) {
+			this._onSlidesSlotChange();
+		}
+
+		switch (name) {
+			case 'activeview':
+				if (oldValue !== newValue) {
+
+					const parsedNewValue = parseInt(newValue, 10);
+					// Accept only numbers between `0` and slides number
+					if (this.slidesManager.getSlidesNumber() >= 0 &&
+						(parsedNewValue > this.slidesManager.getSlidesNumber() || parsedNewValue < 0)) {
+						this.activeView = 0;
+						return;
+					}
+					this.activeView = parsedNewValue;
+				}
+				break;
+
+			case 'endless':
+				this.endless = booleanGetter(this, 'endless');
+				break;
+
+			case 'gestureable':
+				this.gestureable = booleanGetter(this, 'gestureable');
+				break;
+
+			case 'disableanimation':
+				this.disableAnimation = booleanGetter(this, 'disableanimation');
+				break;
+
+			case 'sendeventshowchildindex':
+				if (this.hasAttribute('sendeventshowchildindex')) {
+					this.sendEventShowChildIndex = newValue;
+				} else {
+					this.sendEventShowChildIndex = '';
+				}
+				break;
+
+			case 'receivestateshowchildindex':
+				if (this.hasAttribute('receivestateshowchildindex')) {
+					this.receiveStateShowChildIndex = newValue;
+				} else {
+					this.receiveStateShowChildIndex = '';
+				}
+				break;
+
+			case 'nested':
+				this.nested = this.hasAttribute('nested');
+				break;
+
+			default:
+				super.attributeChangedCallback(name, oldValue, newValue);
+				break;
+		}
+
+		if (name === 'dir') {
+			// ignore rtl direction and apply only for children since this breaks animation
+			this.style.setProperty('direction', 'ltr');
+			this._updateChildrenDirAttr();
+		}
+	}
+
+	/**
+	 * Unsubscribe signals
+	 */
+	public unsubscribeFromSignals(): void {
+		super.unsubscribeFromSignals();
+		this.info('Ch5TriggerView.unsubscribeFromSignals()');
+		const csf = Ch5SignalFactory.getInstance();
+		if ('' !== this._subReceiveStateShowChildIndexId && '' !== this._receiveStateShowChildIndexSigName) {
+			const sigSelected: Ch5Signal<number> | null = csf.getNumberSignal(this._receiveStateShowChildIndexSigName);
+			if (null !== sigSelected) {
+				sigSelected.unsubscribe(this._subReceiveStateShowChildIndexId);
+				this._receiveStateShowChildIndexSigName = '';
+			}
+		}
+	}
+
+	public getSlidesAsArray(): HTMLElement[] {
+		return Array.prototype.slice.call(this.slidesManager.getSlidesArray(), 0);
+	}
+
+	/**
+	 * Returns css class when disabled
+	 *
+	 * @return { string }
+	 */
+	public getCssClassDisabled(): string {
+		return this.cssClassPrefix + '--disabled';
+	}
+
+	public getPlainActiveView() {
+		return this._activeView;
+	}
+
+	/**
+	 * Setter for the swiper sensitivity
+	 * @param sensitivity
+	 */
+	public setSwiperSensitivity(sensitivity: number) {
+		this.slidesManager.swiperSensitivity = sensitivity;
+	}
+
 	/**
 	 * Called to initialize all attributes/properties
 	 * @protected
@@ -968,10 +974,10 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 			(this as any)[prop] = val;
 		}
 	}
-
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-triggerview', Ch5TriggerView);
+	Ch5TriggerView.registerSignalAttributeTypes();
 }

@@ -14,11 +14,13 @@ import { Ch5KeypadButton } from "./ch5-keypad-btn";
 import { CH5KeypadButtonData } from "./ch5-keypad-btn-data";
 import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-attributes";
 import { TCh5KeypadButtonCreateDTO, TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#region 1. Variables
     //#region 1.1 readonly variables
+
+    public static readonly ELEMENT_NAME = 'ch5-keypad';
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -151,6 +153,10 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#endregion
 
     //#endregion
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Keypad.ELEMENT_NAME, Ch5Keypad.SIGNAL_ATTRIBUTE_TYPES);
+    }
 
     //#region 2. Setters and Getters
     public set contractName(value: string) {
@@ -799,7 +805,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         super.initAttributes();
         // set data-ch5-id
         this.setAttribute('data-ch5-id', this.getCrId());
-        this.setAttribute('id', this.getCrId());
+        // this.setAttribute('id', this.getCrId());
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Keypad); // WAI-ARIA Attributes
         this.contractName = ComponentHelper.setAttributeToElement(this,
@@ -1312,4 +1318,5 @@ if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-keypad', Ch5Keypad);
+    Ch5Keypad.registerSignalAttributeTypes();
 }

@@ -38,7 +38,7 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *    "prefix": "ch5-keypad:contractbased",
  *     "description": "Crestron Keypad",
  *     "body": [
- *       "<ch5-keypad id=\"btn_${0:id}\"",
+ *       "<ch5-keypad id=\"keypad_${0:id}\"",
  *       "\tcontractname=\"${1:Contract Name}\"",
  *        ">",
  *       "</ch5-keypad>"
@@ -48,7 +48,7 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *    "prefix": "ch5-keypad:eventbased",
  *     "description": "Crestron Keypad",
  *     "body": [
- *       "<ch5-keypad id=\"btn_${0:id}\"",
+ *       "<ch5-keypad id=\"keypad_${0:id}\"",
  *       "\tsendeventonclickstart=\"${1:Event_Click_Index}\"",
  *        ">",
  *       "</ch5-keypad>"
@@ -58,7 +58,7 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *    "prefix": "ch5-keypad:all-attributes",
  *     "description": "Crestron Keypad",
  *     "body": [
- *       "<ch5-keypad id=\"btn_${0:id}\"",
+ *       "<ch5-keypad id=\"keypad_${0:id}\"",
  *       "\tcontractname=\"${1:Contract Name}\"",
  *       "\tshape=\"${2:Shape}\"",
  *       "\ttype=\"${3:type}\"",

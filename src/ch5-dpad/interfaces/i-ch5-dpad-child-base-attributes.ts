@@ -41,6 +41,24 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
+     * "`type` label",
+     * "***",
+     * "The label attributes gives the ability for the end developer to specify a label for the CENTER button only"
+     * ]
+     * @name label
+     * @attributeType "string"
+     * @hideWhen [
+     *  { "key": ["up", "down", "left", "right"] }
+     * ]
+     * @showWhen [
+     *  { "key": ["center"] }
+     * ]
+     */
+    label: string;
+
+    /**
+     * @documentation
+     * [
      * "`type` key",
      * "***",
      * "The key of the button to determine which button it is."

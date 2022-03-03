@@ -26,9 +26,11 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { isNil } from "lodash";
 import { TCh5CommonInputFeedbackModes } from "../ch5-common-input/interfaces/t-ch5-common-input";
 import { ICh5SelectAttributes, TCh5SelectMode, TCh5SelectIconPosition } from "./interfaces";
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
+
+	public static readonly ELEMENT_NAME = 'ch5-select';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -2118,9 +2120,14 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 			(opts[i] as HTMLElement).dir = this.dir;
 		}
 	}
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Select.ELEMENT_NAME, Ch5Select.SIGNAL_ATTRIBUTE_TYPES);
+	}
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-select', Ch5Select);
+	Ch5Select.registerSignalAttributeTypes();
 }

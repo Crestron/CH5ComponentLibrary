@@ -12,9 +12,163 @@ import { Ch5Select } from "../ch5-select/ch5-select";
 import { Ch5Toggle } from "../ch5-toggle/ch5-toggle";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5SelectOptionAttributes } from "./interfaces/i-ch5-select-option-attributes";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttributes {
+
+    constructor() {
+        super();
+
+        this._onClick = this._onClick.bind(this);
+        this._onPress = this._onPress.bind(this);
+        this._onPressUp = this._onPressUp.bind(this);
+    }
+
+    public static get observedAttributes() {
+        const commonAttributes = Ch5Common.observedAttributes;
+        const ch5SelectOptionAttributes: string[] = ['iconposition', 'receivestateselected', 'receivestatelabel',
+            'receivestateurl', 'receivestatescriptlabelhtml', 'sendeventonclick', 'data-ch5-opt-idx'];
+
+        return commonAttributes.concat(ch5SelectOptionAttributes);
+    }
+
+    public get iconPosition() {
+        return this._iconPosition;
+    }
+
+    public set iconPosition(value: string) {
+        value = this._checkAndSetStringValue(value);
+        if (this._iconPosition !== value) {
+            this._iconPosition = value;
+            this.setAttribute('iconposition', value);
+        }
+    }
+
+    /**
+     * TODO: This proprety was not existing earlier, but is consumed/referred within the code
+     * This property is created for the same and needs to be tested
+     */
+    public get useDefaultTmpl() {
+        return this._useDefaultTmpl;
+    }
+
+    public set useDefaultTmpl(value: boolean) {
+        value = this.checkIfValueIsTruey(value.toString());
+        if (this._useDefaultTmpl !== value) {
+            this._useDefaultTmpl = value;
+            // TODO: BELOW CODE CHANGE NOT REQUIRED
+            // NEEDS TO BE VERIFIED BEFORE SETTING THE ATTRIBUTE WITH THE VALUE IF REQUIRED
+            // this.setAttribute('useDefaultTmpl', value.toString());
+        }
+    }
+
+    // receive signal attributes
+    public get receiveStateSelected() {
+        // The internal property is changed if/when the element is removed from DOM
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receivestateselected');
+    }
+
+    public set receiveStateSelected(value: string | null) {
+        value = this._checkAndSetStringValue(value);
+        if (this._receiveStateSelected !== value) {
+            this._receiveStateSelected = value;
+            this.setAttribute('receivestateselected', value);
+            // subscribe to signal
+            this._handleReceiveSignalSelected();
+
+            if (this._ch5Toggle !== null && this.defaultTmplIsUsed()) {
+                this._ch5Toggle.setAttribute('receiveStateSelected', value as string);
+            }
+        }
+    }
+
+    public get receiveStateLabel() {
+        // The internal property is changed if/when the element is removed from DOM
+        // Returning the attribute instead of the internal property preserves functionality
+        return this._attributeValueAsString('receivestatelabel');
+    }
+
+    public set receiveStateLabel(value: string | null) {
+        value = this._checkAndSetStringValue(value);
+        if (this._receiveStateLabel !== value) {
+            this._receiveStateLabel = value;
+            this.setAttribute('receivestatelabel', value);
+            this._handleReceiveSignalLabel();
+        }
+    }
+
+    public get receiveStateUrl() {
+        return this._receiveStateUrl;
+    }
+
+    public set receiveStateUrl(value: string | null) {
+        value = this._checkAndSetStringValue(value);
+        if (this._receiveStateUrl !== value) {
+            this._receiveStateUrl = value;
+            this.setAttribute('receivestateurl', value);
+        }
+    }
+
+    public get receiveStateScriptLabelHTML() {
+        return this._receiveStateScriptLabelHTML;
+    }
+
+    public set receiveStateScriptLabelHTML(value: string | null) {
+        value = this._checkAndSetStringValue(value);
+        if (this._receiveStateScriptLabelHTML !== value) {
+            this._receiveStateScriptLabelHTML = value;
+            this.setAttribute('receivestatescriptlabelhtml', value);
+            if (this._ch5Toggle !== null && this.defaultTmplIsUsed()) {
+                this._ch5Toggle.setAttribute('receiveStateScriptLabelHTML', value as string);
+            }
+        }
+    }
+
+    public get sendEventOnClick() {
+        return this._sendEventOnClick;
+    }
+
+    public set sendEventOnClick(value: string | null) {
+        value = this._checkAndSetStringValue(value);
+        if (this._sendEventOnClick !== value) {
+            this._sendEventOnClick = value;
+            this.setAttribute('sendeventonclick', value);
+            if (this._ch5Toggle !== null && this.defaultTmplIsUsed()) {
+                this._ch5Toggle.setAttribute('sendEventOnClick', value as string);
+            }
+        }
+    }
+
+    public get idx() {
+        return this._idx;
+    }
+
+    public set idx(value: number) {
+        if (this._idx !== value) {
+            this._idx = value;
+        }
+    }
+
+    public get optLabel() {
+        return this._optLabel;
+    }
+
+    public set optLabel(value: string) {
+        if (this._optLabel !== value) {
+            this._optLabel = value;
+            if (this.hasAttribute('useDefaultTmpl')) {
+                // update label in default template mode any time optLabel is set
+                const defaultTmplLabelEl: HTMLElement | null =
+                    this.querySelector('#' + this._getDefaultTmplLabelId());
+                if (defaultTmplLabelEl instanceof HTMLElement) {
+                    defaultTmplLabelEl.textContent = value;
+                }
+            }
+        }
+    }
+
+    public static readonly ELEMENT_NAME = 'ch5-select-option';
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -90,12 +244,8 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
 
     private _ch5Toggle: Ch5Toggle | null = null;
 
-    constructor() {
-        super();
-
-        this._onClick = this._onClick.bind(this);
-        this._onPress = this._onPress.bind(this);
-        this._onPressUp = this._onPressUp.bind(this);
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5SelectOption.ELEMENT_NAME, Ch5SelectOption.SIGNAL_ATTRIBUTE_TYPES);
     }
 
     public connectedCallback() {
@@ -140,14 +290,6 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
         }
 
         this.initializeAttributes();
-    }
-
-    public static get observedAttributes() {
-        const commonAttributes = Ch5Common.observedAttributes;
-        const ch5SelectOptionAttributes: string[] = ['iconposition', 'receivestateselected', 'receivestatelabel',
-            'receivestateurl', 'receivestatescriptlabelhtml', 'sendeventonclick', 'data-ch5-opt-idx'];
-
-        return commonAttributes.concat(ch5SelectOptionAttributes);
     }
 
     /**
@@ -303,142 +445,6 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
         }
         tmplHtml += '';
         return tmplHtml;
-    }
-
-    public get iconPosition() {
-        return this._iconPosition;
-    }
-
-    public set iconPosition(value: string) {
-        value = this._checkAndSetStringValue(value);
-        if (this._iconPosition !== value) {
-            this._iconPosition = value;
-            this.setAttribute('iconposition', value);
-        }
-    }
-
-    /**
-     * TODO: This proprety was not existing earlier, but is consumed/referred within the code
-     * This property is created for the same and needs to be tested
-     */
-    public get useDefaultTmpl() {
-        return this._useDefaultTmpl;
-    }
-
-    public set useDefaultTmpl(value: boolean) {
-        value = this.checkIfValueIsTruey(value.toString());
-        if (this._useDefaultTmpl !== value) {
-            this._useDefaultTmpl = value;
-            // TODO: BELOW CODE CHANGE NOT REQUIRED
-            // NEEDS TO BE VERIFIED BEFORE SETTING THE ATTRIBUTE WITH THE VALUE IF REQUIRED
-            // this.setAttribute('useDefaultTmpl', value.toString());
-        }
-    }
-
-    // receive signal attributes
-    public get receiveStateSelected() {
-        // The internal property is changed if/when the element is removed from DOM
-        // Returning the attribute instead of the internal property preserves functionality
-        return this._attributeValueAsString('receivestateselected');
-    }
-
-    public set receiveStateSelected(value: string | null) {
-        value = this._checkAndSetStringValue(value);
-        if (this._receiveStateSelected !== value) {
-            this._receiveStateSelected = value;
-            this.setAttribute('receivestateselected', value);
-            // subscribe to signal
-            this._handleReceiveSignalSelected();
-
-            if (this._ch5Toggle !== null && this.defaultTmplIsUsed()) {
-                this._ch5Toggle.setAttribute('receiveStateSelected', value as string);
-            }
-        }
-    }
-
-    public get receiveStateLabel() {
-        // The internal property is changed if/when the element is removed from DOM
-        // Returning the attribute instead of the internal property preserves functionality
-        return this._attributeValueAsString('receivestatelabel');
-    }
-
-    public set receiveStateLabel(value: string | null) {
-        value = this._checkAndSetStringValue(value);
-        if (this._receiveStateLabel !== value) {
-            this._receiveStateLabel = value;
-            this.setAttribute('receivestatelabel', value);
-            this._handleReceiveSignalLabel();
-        }
-    }
-
-    public get receiveStateUrl() {
-        return this._receiveStateUrl;
-    }
-
-    public set receiveStateUrl(value: string | null) {
-        value = this._checkAndSetStringValue(value);
-        if (this._receiveStateUrl !== value) {
-            this._receiveStateUrl = value;
-            this.setAttribute('receivestateurl', value);
-        }
-    }
-
-    public get receiveStateScriptLabelHTML() {
-        return this._receiveStateScriptLabelHTML;
-    }
-
-    public set receiveStateScriptLabelHTML(value: string | null) {
-        value = this._checkAndSetStringValue(value);
-        if (this._receiveStateScriptLabelHTML !== value) {
-            this._receiveStateScriptLabelHTML = value;
-            this.setAttribute('receivestatescriptlabelhtml', value);
-            if (this._ch5Toggle !== null && this.defaultTmplIsUsed()) {
-                this._ch5Toggle.setAttribute('receiveStateScriptLabelHTML', value as string);
-            }
-        }
-    }
-
-    public get sendEventOnClick() {
-        return this._sendEventOnClick;
-    }
-
-    public set sendEventOnClick(value: string | null) {
-        value = this._checkAndSetStringValue(value);
-        if (this._sendEventOnClick !== value) {
-            this._sendEventOnClick = value;
-            this.setAttribute('sendeventonclick', value);
-            if (this._ch5Toggle !== null && this.defaultTmplIsUsed()) {
-                this._ch5Toggle.setAttribute('sendEventOnClick', value as string);
-            }
-        }
-    }
-
-    public get idx() {
-        return this._idx;
-    }
-
-    public set idx(value: number) {
-        if (this._idx !== value) {
-            this._idx = value;
-        }
-    }
-
-    public get optLabel() {
-        return this._optLabel;
-    }
-
-    public set optLabel(value: string) {
-        if (this._optLabel !== value) {
-            this._optLabel = value;
-            if (this.hasAttribute('useDefaultTmpl')) {
-                // update label in default template mode any time optLabel is set
-                const defaultTmplLabelEl: HTMLElement | null =
-                    this.querySelector('#' + this._getDefaultTmplLabelId());
-                if (defaultTmplLabelEl instanceof HTMLElement) {
-                    defaultTmplLabelEl.textContent = value;
-                }
-            }
-        }
     }
 
     public defaultTmplIsUsed(): boolean {
@@ -632,4 +638,5 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-select-option', Ch5SelectOption);
+    Ch5SelectOption.registerSignalAttributeTypes();
 }

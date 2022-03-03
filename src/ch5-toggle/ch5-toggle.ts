@@ -12,291 +12,9 @@ import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 import HtmlCallback from "../ch5-common/utils/html-callback";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5ToggleAttributes, TCh5ToggleShape, TCh5ToggleOrientation, TCh5ToggleFeedbackMode } from "./interfaces";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
-
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
-        receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
-
-        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true }
-    };
-
-    /**
-     * The first value is considered the default one
-     */
-    public static SHAPES: TCh5ToggleShape[] = ['circle', 'rectangle'];
-    /**
-     * The first value is considered the default one
-     */
-    public static ORIENTATIONS: TCh5ToggleOrientation[] = ['horizontal', 'vertical'];
-    /**
-     * The first value is considered the default one
-     */
-    public static MODES: TCh5ToggleFeedbackMode[] = ['direct', 'submit'];
-
-    public static readonly COMPONENT_DATA: any = {
-        SHAPES: {
-            default: Ch5Toggle.SHAPES[0],
-            values: Ch5Toggle.SHAPES,
-            key: 'shape',
-            classListPrefix: 'ch5-toggle--'
-        },
-        ORIENTATIONS: {
-            default: Ch5Toggle.ORIENTATIONS[0],
-            values: Ch5Toggle.ORIENTATIONS,
-            key: 'orientation',
-            classListPrefix: 'ch5-toggle--'
-        },
-        MODES: {
-            default: Ch5Toggle.MODES[0],
-            values: Ch5Toggle.MODES,
-            key: 'mode',
-            classListPrefix: 'ch5-toggle--'
-        },
-        DIRECTION: {
-            default: Ch5Common.DIRECTION[0],
-            values: Ch5Common.DIRECTION,
-            key: 'mode',
-            classListPrefix: 'ch5-toggle--dir--'
-        },
-    };
-
-    /**
-     * Component internal HTML elements
-     */
-    private _elBody: HTMLElement = {} as HTMLElement;
-    private _elContainer: HTMLElement = {} as HTMLElement;
-    private _elLabel: HTMLElement = {} as HTMLElement;
-    private _elHandle: HTMLElement = {} as HTMLElement;
-    private _elOnContainer: HTMLElement = {} as HTMLElement;
-    private _elLabelOn: HTMLElement = {} as HTMLElement;
-    private _elIconOn: HTMLElement = {} as HTMLElement;
-    private _elOffContainer: HTMLElement = {} as HTMLElement;
-    private _elLabelOff: HTMLElement = {} as HTMLElement;
-    private _elIconOff: HTMLElement = {} as HTMLElement;
-    private _elKnob: HTMLElement = {} as HTMLElement;
-
-
-    /**
-     * CSS classes
-     */
-    public primaryCssClass = 'ch5-toggle';
-    public cssClassPrefix = 'ch5-toggle';
-
-
-    /**
-     * COMPONENT ATTRIBUTES
-     *
-     * - label
-     * - labelOn
-     * - labelOff
-     * - iconOn
-     * - iconOff
-     * - handleShape
-     * - value
-     * - signalValueSyncTimeout
-     * - feedbackMode
-     */
-
-    /**
-     * Label value
-     *
-     * @type {string}
-     * @private
-     * @memberof Ch5Toggle
-     */
-    private _label: string = '';
-
-    /**
-     * On label, if different than label
-     *
-     * @type {string}
-     * @private
-     * @memberof Ch5Toggle
-     */
-    private _labelOn: string = '';
-
-    /**
-     * Off label, if different than label
-     *
-     * @type {string}
-     * @private
-     * @memberof Ch5Toggle
-     */
-    private _labelOff: string = '';
-
-    /**
-     * On Icon class
-     *
-     * @type {string}
-     * @private
-     * @memberof Ch5Toggle
-     */
-    private _iconOn: string = '';
-
-    /**
-     * Off Icon class
-     *
-     * @type {string}
-     * @private
-     * @memberof Ch5Toggle
-     */
-    private _iconOff: string = '';
-
-    /**
-     * Default circle. Handle Shape. That will also determine the shape of the component ( rectangle or circle )
-     *
-     * @type {TCh5ToggleShape}
-     * @private
-     * @memberof Ch5Toggle
-     */
-    private _handleShape: TCh5ToggleShape = 'circle';
-
-    /**
-     * Default Horizontal. Orientation
-     *
-     * @private
-     * @type {TCh5ToggleOrientation}
-     * @memberof Ch5Toggle
-     */
-    private _orientation: TCh5ToggleOrientation = 'horizontal';
-
-    /**
-     * toggle direction support
-     */
-     private _direction: string = Ch5Common.DIRECTION[0];
-
-    /**
-     * Default false, Initial value of the component.
-     * When feedbackMode= submit, this property will change to the last value submit.
-     * When reset, the value property will be change to the initial value or last value on submit
-     *
-     * @private
-     * @type {boolean}
-     * @memberof Ch5Toggle
-     */
-    protected _value: boolean = false;
-
-    /**
-     * COMPONENT RECEIVE SIGNALS
-     *
-     * - receiveStateValue
-     * - receiveStateScriptLabelHtml
-     */
-
-    /**
-     * The name of a string signal that will be applied to the value
-     *
-     * HTML attribute name: receiveStateValue or receivestatevalue
-     */
-    private _sigNameReceiveValue: string = '';
-
-    /**
-     * The subscription id for the receiveStateValue signal
-     */
-    private _subReceiveValueId: string = '';
-
-    /**
-     * The name of the string signal for which the value will be applied to the component's label innerHtml
-     *
-     * HTML attribute name: receiveStateScriptLabelHtml or receivestatescriptlabelhtml
-     */
-    private _sigNameReceiveScriptLabelHtml: string = '';
-
-    /**
-     * The subscription id for the receiveStateScriptLabelHtml signal
-     */
-    private _subReceiveScriptLabelHtmlId: string = '';
-
-
-    /**
-     * COMPONENT SEND SIGNALS
-     *
-     * - sendEventOnClick
-     */
-
-    /**
-     * The name of the boolean signal that will be sent to native on click or tap event (mouse or finger up and down in
-     * a small period of time)
-     *
-     * HTML attribute name: sendEventOnClick or sendeventonclick
-     */
-    private _sigNameSendOnClick: string = '';
-
-
-    /**
-     * COMPONENT EVENTS
-     *
-     * change - custom event.
-     * click - inerhit
-     * focus - custom
-     * blur - custom
-     * dirty - custom
-     */
-
-    /**
-     * Event change: Fires when the component's `checked` value changes due to user interaction.
-     */
-    public changeEvent: Event = {} as Event;
-
-
-    /**
-     * Event dirty: Fires when the component is on feedbackMode='submit' and displayed value is different than the actual value
-     */
-    public dirtyEvent: Event = {} as Event;
-
-    /**
-     * Event clean: Fires when the component is on feedbackMode='submit' and displayed value is the actual value
-     */
-    public cleanEvent: Event = {} as Event;
-
-    /**
-     * The dirty value flag must be initially set to false when the element is created,
-     * and must be set to true whenever the user interacts with the control in a way that changes the value.
-     * @private
-     * @type {boolean}
-     */
-    protected _dirty: boolean = false;
-
-    /**
-     * The clean value flag must be initially set to true when the element is created,
-     * and must be set to false whenever the user interacts with the control in a way that changes the value.
-     * @private
-     * @type {boolean}
-     */
-    protected _clean: boolean = true;
-
-    /**
-     * The submitted flag must be set to false when the element is created
-     * and must be set to true whenerer the user submit the control
-     * @private
-     * @type {boolean}
-     */
-    protected _submitted: boolean = false;
-
-    /**
-     * Last value set by user
-     * @private
-     * @type {(boolean|string)}
-     */
-    protected _dirtyValue: boolean | string = '';
-
-    /**
-     * Initial value or last value received from signal
-     * @private
-     * @type {(boolean|string)}
-     */
-    protected _cleanValue: boolean | string = '';
-
-    /**
-     * Defines the timeout between the user click the toggle and the time the toggle will check if the value is equal with the value from the signal
-     * @private
-     * @type {(number|null)}
-     */
-    protected _dirtyTimerHandle: number | null = null;
 
 
     /**
@@ -741,6 +459,329 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
     }
 
     /**
+     * Respond to attribute changes.
+     *
+     * @readonly
+     * @static
+     */
+    static get observedAttributes() {
+        const commonAttributes = Ch5Common.observedAttributes;
+        const commonInputAttributes = Ch5CommonInput.observedAttributes;
+        const ch5ToggleAttributes: string[] = [
+            // attributes
+            'checked',
+            'label',
+            'labelon',
+            'labeloff',
+            'iconon',
+            'iconoff',
+            'handleshape',
+            'orientation',
+            'value',
+            'signalvaluesynctimeout',
+            'dir',
+
+            // receive signals
+            'receivestatevalue',
+            'receivestatescriptlabelhtml',
+
+            // send signals
+            'sendeventonclick'
+
+        ];
+
+        return commonAttributes.concat(ch5ToggleAttributes, commonInputAttributes);
+    }
+
+    public static readonly ELEMENT_NAME = 'ch5-toggle';
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
+        receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
+
+        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true }
+    };
+
+    /**
+     * The first value is considered the default one
+     */
+    public static SHAPES: TCh5ToggleShape[] = ['circle', 'rectangle'];
+    /**
+     * The first value is considered the default one
+     */
+    public static ORIENTATIONS: TCh5ToggleOrientation[] = ['horizontal', 'vertical'];
+    /**
+     * The first value is considered the default one
+     */
+    public static MODES: TCh5ToggleFeedbackMode[] = ['direct', 'submit'];
+
+    public static readonly COMPONENT_DATA: any = {
+        SHAPES: {
+            default: Ch5Toggle.SHAPES[0],
+            values: Ch5Toggle.SHAPES,
+            key: 'shape',
+            classListPrefix: 'ch5-toggle--'
+        },
+        ORIENTATIONS: {
+            default: Ch5Toggle.ORIENTATIONS[0],
+            values: Ch5Toggle.ORIENTATIONS,
+            key: 'orientation',
+            classListPrefix: 'ch5-toggle--'
+        },
+        MODES: {
+            default: Ch5Toggle.MODES[0],
+            values: Ch5Toggle.MODES,
+            key: 'mode',
+            classListPrefix: 'ch5-toggle--'
+        },
+        DIRECTION: {
+            default: Ch5Common.DIRECTION[0],
+            values: Ch5Common.DIRECTION,
+            key: 'mode',
+            classListPrefix: 'ch5-toggle--dir--'
+        },
+    };
+
+    /**
+     * Component internal HTML elements
+     */
+    private _elBody: HTMLElement = {} as HTMLElement;
+    private _elContainer: HTMLElement = {} as HTMLElement;
+    private _elLabel: HTMLElement = {} as HTMLElement;
+    private _elHandle: HTMLElement = {} as HTMLElement;
+    private _elOnContainer: HTMLElement = {} as HTMLElement;
+    private _elLabelOn: HTMLElement = {} as HTMLElement;
+    private _elIconOn: HTMLElement = {} as HTMLElement;
+    private _elOffContainer: HTMLElement = {} as HTMLElement;
+    private _elLabelOff: HTMLElement = {} as HTMLElement;
+    private _elIconOff: HTMLElement = {} as HTMLElement;
+    private _elKnob: HTMLElement = {} as HTMLElement;
+
+
+    /**
+     * CSS classes
+     */
+    public primaryCssClass = 'ch5-toggle';
+    public cssClassPrefix = 'ch5-toggle';
+
+
+    /**
+     * COMPONENT ATTRIBUTES
+     *
+     * - label
+     * - labelOn
+     * - labelOff
+     * - iconOn
+     * - iconOff
+     * - handleShape
+     * - value
+     * - signalValueSyncTimeout
+     * - feedbackMode
+     */
+
+    /**
+     * Label value
+     *
+     * @type {string}
+     * @private
+     * @memberof Ch5Toggle
+     */
+    private _label: string = '';
+
+    /**
+     * On label, if different than label
+     *
+     * @type {string}
+     * @private
+     * @memberof Ch5Toggle
+     */
+    private _labelOn: string = '';
+
+    /**
+     * Off label, if different than label
+     *
+     * @type {string}
+     * @private
+     * @memberof Ch5Toggle
+     */
+    private _labelOff: string = '';
+
+    /**
+     * On Icon class
+     *
+     * @type {string}
+     * @private
+     * @memberof Ch5Toggle
+     */
+    private _iconOn: string = '';
+
+    /**
+     * Off Icon class
+     *
+     * @type {string}
+     * @private
+     * @memberof Ch5Toggle
+     */
+    private _iconOff: string = '';
+
+    /**
+     * Default circle. Handle Shape. That will also determine the shape of the component ( rectangle or circle )
+     *
+     * @type {TCh5ToggleShape}
+     * @private
+     * @memberof Ch5Toggle
+     */
+    private _handleShape: TCh5ToggleShape = 'circle';
+
+    /**
+     * Default Horizontal. Orientation
+     *
+     * @private
+     * @type {TCh5ToggleOrientation}
+     * @memberof Ch5Toggle
+     */
+    private _orientation: TCh5ToggleOrientation = 'horizontal';
+
+    /**
+     * toggle direction support
+     */
+     private _direction: string = Ch5Common.DIRECTION[0];
+
+    /**
+     * Default false, Initial value of the component.
+     * When feedbackMode= submit, this property will change to the last value submit.
+     * When reset, the value property will be change to the initial value or last value on submit
+     *
+     * @private
+     * @type {boolean}
+     * @memberof Ch5Toggle
+     */
+    protected _value: boolean = false;
+
+    /**
+     * COMPONENT RECEIVE SIGNALS
+     *
+     * - receiveStateValue
+     * - receiveStateScriptLabelHtml
+     */
+
+    /**
+     * The name of a string signal that will be applied to the value
+     *
+     * HTML attribute name: receiveStateValue or receivestatevalue
+     */
+    private _sigNameReceiveValue: string = '';
+
+    /**
+     * The subscription id for the receiveStateValue signal
+     */
+    private _subReceiveValueId: string = '';
+
+    /**
+     * The name of the string signal for which the value will be applied to the component's label innerHtml
+     *
+     * HTML attribute name: receiveStateScriptLabelHtml or receivestatescriptlabelhtml
+     */
+    private _sigNameReceiveScriptLabelHtml: string = '';
+
+    /**
+     * The subscription id for the receiveStateScriptLabelHtml signal
+     */
+    private _subReceiveScriptLabelHtmlId: string = '';
+
+
+    /**
+     * COMPONENT SEND SIGNALS
+     *
+     * - sendEventOnClick
+     */
+
+    /**
+     * The name of the boolean signal that will be sent to native on click or tap event (mouse or finger up and down in
+     * a small period of time)
+     *
+     * HTML attribute name: sendEventOnClick or sendeventonclick
+     */
+    private _sigNameSendOnClick: string = '';
+
+
+    /**
+     * COMPONENT EVENTS
+     *
+     * change - custom event.
+     * click - inerhit
+     * focus - custom
+     * blur - custom
+     * dirty - custom
+     */
+
+    /**
+     * Event change: Fires when the component's `checked` value changes due to user interaction.
+     */
+    public changeEvent: Event = {} as Event;
+
+
+    /**
+     * Event dirty: Fires when the component is on feedbackMode='submit' and displayed value is different than the actual value
+     */
+    public dirtyEvent: Event = {} as Event;
+
+    /**
+     * Event clean: Fires when the component is on feedbackMode='submit' and displayed value is the actual value
+     */
+    public cleanEvent: Event = {} as Event;
+
+    /**
+     * The dirty value flag must be initially set to false when the element is created,
+     * and must be set to true whenever the user interacts with the control in a way that changes the value.
+     * @private
+     * @type {boolean}
+     */
+    protected _dirty: boolean = false;
+
+    /**
+     * The clean value flag must be initially set to true when the element is created,
+     * and must be set to false whenever the user interacts with the control in a way that changes the value.
+     * @private
+     * @type {boolean}
+     */
+    protected _clean: boolean = true;
+
+    /**
+     * The submitted flag must be set to false when the element is created
+     * and must be set to true whenerer the user submit the control
+     * @private
+     * @type {boolean}
+     */
+    protected _submitted: boolean = false;
+
+    /**
+     * Last value set by user
+     * @private
+     * @type {(boolean|string)}
+     */
+    protected _dirtyValue: boolean | string = '';
+
+    /**
+     * Initial value or last value received from signal
+     * @private
+     * @type {(boolean|string)}
+     */
+    protected _cleanValue: boolean | string = '';
+
+    /**
+     * Defines the timeout between the user click the toggle and the time the toggle will check if the value is equal with the value from the signal
+     * @private
+     * @type {(number|null)}
+     */
+    protected _dirtyTimerHandle: number | null = null;
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Toggle.ELEMENT_NAME, Ch5Toggle.SIGNAL_ATTRIBUTE_TYPES);
+    }
+
+    /**
      * Called every time the element is inserted into the DOM.
      * Useful for running setup code, such as fetching resources or rendering.
      */
@@ -795,41 +836,6 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
         // disconnect common mutation observer
         this.disconnectCommonMutationObserver();
-    }
-
-    /**
-     * Respond to attribute changes.
-     *
-     * @readonly
-     * @static
-     */
-    static get observedAttributes() {
-        const commonAttributes = Ch5Common.observedAttributes;
-        const commonInputAttributes = Ch5CommonInput.observedAttributes;
-        const ch5ToggleAttributes: string[] = [
-            // attributes
-            'checked',
-            'label',
-            'labelon',
-            'labeloff',
-            'iconon',
-            'iconoff',
-            'handleshape',
-            'orientation',
-            'value',
-            'signalvaluesynctimeout',
-            'dir',
-
-            // receive signals
-            'receivestatevalue',
-            'receivestatescriptlabelhtml',
-
-            // send signals
-            'sendeventonclick'
-
-        ];
-
-        return commonAttributes.concat(ch5ToggleAttributes, commonInputAttributes);
     }
 
     /**
@@ -1425,4 +1431,5 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-toggle', Ch5Toggle);
+    Ch5Toggle.registerSignalAttributeTypes();
 }
