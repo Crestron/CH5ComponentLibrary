@@ -215,7 +215,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		receivestatemode: { direction: "state", numericJoin: 1, contractName: true },
 		receivestateselected: { direction: "state", booleanJoin: 1, contractName: true },
 		receivestatelabel: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatelabelhtml: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
 		receivestateiconclass: { direction: "state", stringJoin: 1, contractName: true },
 		receivestateiconurl: { direction: "state", stringJoin: 1, contractName: true },
 		receivestatetype: { direction: "state", stringJoin: 1, contractName: true },
