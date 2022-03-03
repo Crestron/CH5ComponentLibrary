@@ -190,7 +190,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "`type` showExtraButton",
      * "***",
      * "The default value is false. This allows the keypad to have a ",
-     * "special row of buttons with a single button visiblethat shows a Phone icon. ",
+     * "special row of buttons with a single button visible that shows a Phone icon. ",
      * "The row when displayed, will add on to the existing height."
      * ]
      * @name showextrabutton

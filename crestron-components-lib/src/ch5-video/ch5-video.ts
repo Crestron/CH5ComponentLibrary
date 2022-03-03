@@ -23,7 +23,7 @@ import _ from "lodash";
 import { CH5VideoUtils } from "./ch5-video-utils";
 import { TCh5ProcessUriParams } from "../ch5-common/interfaces/t-ch5-common";
 import { Ch5VideoTouchManager } from "./ch5-video-touch-manager";
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export type TSignalType = Ch5Signal<string> | Ch5Signal<number> | Ch5Signal<boolean> | null;
 export type TSignalTypeT = string | number | boolean | any;
@@ -68,461 +68,6 @@ export type TSignalTypeT = string | number | boolean | any;
  */
 
 export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
-
-	public static readonly COMPONENT_DATA: any = {};
-	
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatesnapshotpassword: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatevideocount: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatepassword: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatesnapshotuserid: { direction: "state", stringJoin: 1, contractName: true },
-		receivestateuserid: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatesnapshotrefreshrate: { direction: "state", numericJoin: 1, contractName: true },
-		receivestatesourcetype: { direction: "state", stringJoin: 1, contractName: true },
-		receivestateselect: { direction: "state", stringJoin: 1, contractName: true },
-		receivestateplay: { direction: "state", stringJoin: 1, contractName: true },
-		receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatesnapshoturl: { direction: "state", stringJoin: 1, contractName: true },
-
-		sendeventstate: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventsnapshotlastupdatetime: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventsnapshotstatus: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventresolution: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventretrycount: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventerrormessage: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventerrorcode: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventsnapshoturl: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventselectionurl: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventselectionsourcetype: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventselectionchange: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-	};
-
-	//#region Variables
-
-	/**
-	 * SVG Icons for the controls
-	 */
-	private readonly ESVG_ICONS = {
-		PLAY_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
-		STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>',
-		EXIT_FULLSCREEN_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>',
-		FULLSCREEN_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>',
-		SCREEN_PLAY_ICON: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
-		SCREEN_STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>'
-	}
-
-	private readonly INTERSECTION_RATIO_VALUE: number = 0.98;
-	private readonly primaryVideoCssClass: string = 'ch5-video';
-	private readonly fullScreenStyleClass: string = 'fullScreenStyle'
-	private readonly showControl: string = 'show-control';
-	private readonly fullScreenBodyClass: string = 'ch5-video-fullscreen';
-	private _videoErrorMessages = new Map<number, string>();
-	private snapShotMap = new Map();
-	private _performanceMap = new Map();
-	private _wasAppBackGrounded: boolean = false;
-	private _appCurrentStatus: boolean = false;
-	private _scrollableElm: HTMLElement = {} as HTMLElement;
-	private readonly VIDEO_ACTION = {
-		START: 'start',
-		STARTED: 'started',
-		STOP: 'stop',
-		STOPPED: 'stopped',
-		RESIZE: 'resize',
-		RESIZED: 'resized',
-		REFILL: 'refill',
-		SNAPSHOT: 'snapshot',
-		MARK: 'mark',
-		NOURL: 'nourl',
-		FULLSCREEN: 'fullscreen',
-		ERROR: 'error',
-		EMPTY: ''
-	}
-
-
-
-	/**
-	 * EVENTS
-	 *
-	 * error - inherited
-	 */
-
-	/**
-	 * Event error: error on loading the video
-	 */
-	public errorEvent: Event;
-
-	/**
-	 * CH5 Unique ID
-	 */
-	public ch5UId: number = 0;
-
-	/**
-	 * Define HTML Elements
-	 */
-	private vid: HTMLCanvasElement = {} as HTMLCanvasElement;
-	private videoElement: HTMLDivElement = {} as HTMLDivElement;
-	private vidControlPanel: HTMLElement = {} as HTMLElement;
-	private controlFullScreen: HTMLElement = {} as HTMLElement;
-	private fullScreenOverlay: HTMLElement = {} as HTMLElement;
-	private exitSnapsShotTimer: any;
-	private exitTimer: number = 0;
-	private videoSubscriptionTimer: any;
-	private fullScreenObj: TPosDimension = {} as TPosDimension;
-	private isMultipleVideo: boolean = false; // Check whether receiveState is present
-	private ch5BackgroundElements: HTMLCollectionOf<Ch5Background> = document.getElementsByTagName('ch5-background') as HTMLCollectionOf<Ch5Background>;
-	private subscriptionEventList: Subscription[] = [];
-	private sizeObj: TDimension = { width: 0, height: 0 };
-	private position: { xPos: number, yPos: number } = { xPos: 0, yPos: 0 };
-	private retryCount: number = 0;
-	private errorCount: number = 0;
-	private selectObject: TReceiveState = {
-		"subscriptionIds": {
-			"url": "",
-			"type": "",
-			"user": "",
-			"videoPass": "",
-			"snapShotUrl": "",
-			"snapShotRefreshRate": "",
-			"snapShotUser": "",
-			"snapShotPass": ""
-		},
-		"values": {
-			"url": "",
-			"type": "",
-			"user": "",
-			"videoPass": "",
-			"snapShotUrl": "",
-			"snapShotRefreshRate": "",
-			"snapShotUser": "",
-			"snapShotPass": ""
-		}
-	};
-
-	/**
-	 * Number of seconds between each call to the image URL in order to get new data. If 0, no refresh will be done.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _snapShotRefreshRate: string = "5";
-
-	/**
-	 * Provides the name of the offset identifier to substituted with 0 based index of the item in list
-	 * within the signal names provided in other attributes surrounded by {{ }} delimiters.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _indexId: string = '0';
-
-	/**
-	 * Userid to access the video along with password
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _userId: string = '';
-
-	/**
-	 * Userid to access the snapshot image along with password
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _snapShotUserId: string = '';
-
-	/**
-	 * Password to access the video along with Userid
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _password: string = '';
-
-	/**
-	 * Password to access the snapshot image along with Userid
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _snapShotPassword: string = '';
-
-	/**
-	 * Sets the ratio of width to height of the video.
-	 * Width and height of the component to be controlled by css style classes.
-	 * Values are 16:9 (default), 4:3, and custom.  When size of container is not match the aspect ratio,
-	 * the full height or the full width should be used and the dimension that is not full should be centered.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _aspectRatio: string = '16:9';
-
-	/**
-	 * Default false.  When true, video will be displayed in the whole component.
-	 * When false, video will be displayed as letter or pillar box based upon the aspect ratio of the video
-	 * feed and the size of the component.  Note: this attribute is independent of aspectRatio.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _stretch: string = "false";
-
-	/**
-	 * A Snapshot of the video, if any.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _snapShotUrl: string = '';
-
-	/**
-	 * The source path of the video.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _url: string = '';
-
-	/**
-	 * Video Source type can be Network, HDMI or DM.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _sourceType: string = 'Network';
-
-	/**
-	 * The display size for the video. The default size will be small if not mentioned.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _size: string = 'large';
-
-	/**
-	 * The defines zIndex of the video. It works only with picture-in-picture(pip) mode.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _zIndex: string = '0';
-
-	/**
-	 * Controls that can manage the video
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	private _controls: string = 'false';
-
-	/**
-	 * The timestamp of the last update time of the snapshot associated with the current source selection.
-	 */
-	private _sendEventSnapShotLastUpdateTime: string = '';
-
-	/**
-	 * Defines the maximum number of videos avaialble.
-	 */
-	private _receiveStateVideoCount: string = '';
-
-	/**
-	 * When defined, will play video only when the value is true, will stop video when value is false.
-	 * If not defined, the video will play whenever the component is visible.
-	 * If defined and value of false, display background of ch5-video--nosource css class.
-	 */
-	private _receiveStatePlay: string = '';
-
-	/**
-	 * When defined, will play 0-based index of the video source list.
-	 * Value of < 0 or > 31 will select no video to play Value of 0 to 31 will play the selected video source
-	 * provided the video source type (see receiveStateSourceType) is valid.
-	 * When not defined, the first video source defined (equivalent of index 0) in the list will be played.
-	 */
-	private _receiveStateSelect: string = '';
-
-	/**
-	 * Provides the snapshot URL to use when selection changes to INDEX value.
-	 */
-	private _receiveStateSnapShotURL: string = '';
-
-	/**
-	 * Default empty. Defines the video URL as an attribute.
-	 */
-	private _receiveStateUrl: string = '';
-
-	/**
-	 * Provides the video source type when the selection changes to INDEX value.
-	 */
-	private _receiveStateSourceType: string = '';
-
-	/**
-	 * Defines the refresh rate for a snapshot url.  0 indicates no refresh.
-	 */
-	private _receiveStateSnapShotRefreshRate: string = '';
-
-	/**
-	 * Provides the password of the camera
-	 */
-	private _receiveStateUserId: string = '';
-
-	/**
-	 * Provides the password of the camera
-	 */
-	private _receiveStateSnapShotUserId: string = '';
-
-	/**
-	 * Provides the password of the camera
-	 */
-	private _receiveStatePassword: string = '';
-
-	/**
-	 * Provides the password of the camera
-	 */
-	private _receiveStateSnapShotPassword: string = '';
-
-	/**
-	 * Subcribe the receiveStatePlay Signal
-	 */
-	private subReceiveStatePlay: string = '';
-
-	/**
-	 * Subcribe the receiveStateUrl Signal
-	 */
-	private subReceiveStateUrl: string = '';
-
-	/**
-	 * Subcribe the receiveStateSelect Signal
-	 */
-	private subReceiveStateSelect: string = '';
-
-	/**
-	 * Subcribe the receiveStateSourceType Signal
-	 */
-	private subReceiveStateSourceType: string = '';
-
-	/**
-	 * Subcribe the receiveStateSnapShotUrl Signal
-	 */
-	private subReceiveStateSnapShotUrl: string = '';
-
-	/**
-	 * Subcribe the receiveStateSnapShotRefreshRate Signal
-	 */
-	private subReceiveStateSnapShotRefreshRate: string = '';
-
-	/**
-	 * Subcribe the receiveStateUserId Signal
-	 */
-	private subReceiveStateUserId: string = '';
-
-	/**
-	 * Subcribe the receiveStateSnapShotUserId Signal
-	 */
-	private subReceiveStateSnapShotUserId: string = '';
-
-	/**
-	 * Subcribe the receiveStatePassword Signal
-	 */
-	private subReceiveStatePassword: string = '';
-
-	/**
-	 * Subcribe the receiveStateSnapShotPassword Signal
-	 */
-	private subReceiveStateSnapShotPassword: string = '';
-
-	/**
-	 * Subcribe the receiveStateVideoCount Signal
-	 */
-	private subReceiveStateVideoCount: string = '';
-
-	/**
-	 * X-Axis Position of the CH5-Video
-	 */
-	private videoTop: number = -1;
-
-	/**
-	 * The name of the boolean signal that will be sent to native on click or tap event (mouse or finger up and down in
-	 * a small period of time)
-	 *
-	 * HTML attribute name: sendEventOnClick or sendeventonclick
-	 */
-	private _sigNameSendOnClick: string = '';
-
-	/**
-	 * Y-Axis Position of the CH5-Video
-	 */
-	private videoLeft: number = -1;
-	private responseObj: TVideoResponse = {} as TVideoResponse;
-	private firstTime: boolean = true;
-	private lastRequestStatus: string = '';
-	private lastBackGroundRequest: string = '';
-	private autoHideControlPeriod: number = 10;
-	private originalVideoProperties: any = [];
-	private oldReceiveStateSelect: number = -1;
-	private receiveStateAttributeCount: number = 0;
-	private requestID: number = 0;
-	private lastResponseStatus: string = '';
-	private isSwipeDebounce: any;
-	private isVideoPublished = false;
-	private isOrientationChanged: boolean = false;
-	private isFullScreen: boolean = false;
-	private isVideoReady: boolean = false;
-	private isInitialized: boolean = false;
-	private playValue: boolean = true;
-	private fromReceiveStatePlay: boolean = false;
-	private _sigNameSelectionChange: string = '';
-	private _sigNameSelectionSourceType: string = '';
-	private _sigNameSnapShotUrl: string = '';
-	private _sigNameSelectionUrl: string = '';
-	private _sigNameEventState: string = '';
-	private _sigNameErrorCode: string = '';
-	private _sigNameErrorMessage: string = '';
-	private _sigNameRetryCount: string = '';
-	private _sigNameResolution: string = '';
-	private _sigNameSnapShotStatus: string = '';
-	private _sigNameSnapShotLastUpdateTime: string = '';
-	private isIntersectionObserve: boolean = false;
-	private isAlphaBlend: boolean = true;
-	private controlTimer: any;
-	private scrollTimer: any;
-	private isExitFullscreen: boolean = false;
-	private isPositionChanged: boolean = false;
-	private oldResponseStatus: string = '';
-	private oldResponseId: number = 0;
-	private subsCsigAppCurrentSate: string = '';
-	private subsCsigAppBackgrounded: string = '';
-	private receivedStateSelect: number = 0;
-	private isSnapShotArrayLoaded: boolean = false; // used when receivestatevideocount is present
-	private maxVideoCount: number = 0;
-	private lastRequestUrl: string = '';
-	private fromExitFullScreen: boolean = false;
-	private videoTagId: string = '';
-	private orientationCount: number = 0;
-	private previousXPos: number = 0;
-	private previousYPos: number = 0;
-
-	// touch specific [params]
-	private videoTouchHandler: Ch5VideoTouchManager = {} as Ch5VideoTouchManager;
-	private isTouchPollingStarted: boolean = false;
-	private isTouchInProgress: boolean = false;
-	private touchInProgressInterval: any = null;
-	private readonly swipeDeltaCheckNum: number = 20;
-	private touchCoordinates: ITouchOrdinates = {
-		startX: 0,
-		startY: 0,
-		endX: 0,
-		endY: 0
-	}; // instantiating empty object to proceed
-
-	/**
-	 * Protocol for authentication in order to get the image
-	 *
-	 * @type {string}
-	 */
-	private _protocol: string = '';
 
 	//#endregion
 
@@ -1302,6 +847,518 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 		subscribeState('o', 'Csig.video.response', this._videoResponse.bind(this), this._errorResponse.bind(this));
 	}
 
+	// Respond to attribute changes.
+	static get observedAttributes() {
+		const commonAttributes = Ch5Common.observedAttributes;
+		const ch5VideoAttributes = [
+			// attributes
+			'indexid',
+			'userid',
+			'snapshotuserid',
+			'password',
+			'snapshotpassword',
+			'aspectratio',
+			'stretch',
+			'snapshotrefreshrate',
+			'url',
+			'sourcetype',
+			'snapshoturl',
+			'size',
+			'zindex',
+			'controls',
+
+			// send signals
+			'sendEventsnapshotUrl',
+			'sendeventonclick',
+			'sendeventselectionchange',
+			'sendeventselectionsourcetype',
+			'sendeventselectionurl',
+			'sendeventsnapshoturl',
+			'sendeventerrorcode',
+			'sendeventerrormessage',
+			'sendeventretrycount',
+			'sendeventresolution',
+			'sendeventsnapshotstatus',
+			'sendeventsnapshotlastupdatetime',
+			'sendeventstate',
+
+			// receive signals
+			'receivestatesnapshoturl',
+			'receivestateurl',
+			'receivestateplay',
+			'receivestateselect',
+			'receivestatesourcetype',
+			'receivestatesnapshotrefreshrate',
+			'receivestateuserid',
+			'receivestatesnapshotuserid',
+			'receivestatepassword',
+			'receivestatevideocount',
+			'receivestatesnapshotpassword'
+		];
+		return commonAttributes.concat(ch5VideoAttributes);
+	}
+
+	public static readonly ELEMENT_NAME = 'ch5-video';
+
+	public static readonly COMPONENT_DATA: any = {};
+	
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatesnapshotpassword: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatevideocount: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatepassword: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatesnapshotuserid: { direction: "state", stringJoin: 1, contractName: true },
+		receivestateuserid: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatesnapshotrefreshrate: { direction: "state", numericJoin: 1, contractName: true },
+		receivestatesourcetype: { direction: "state", stringJoin: 1, contractName: true },
+		receivestateselect: { direction: "state", stringJoin: 1, contractName: true },
+		receivestateplay: { direction: "state", stringJoin: 1, contractName: true },
+		receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatesnapshoturl: { direction: "state", stringJoin: 1, contractName: true },
+
+		sendeventstate: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventsnapshotlastupdatetime: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventsnapshotstatus: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventresolution: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventretrycount: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventerrormessage: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventerrorcode: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventsnapshoturl: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventselectionurl: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventselectionsourcetype: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventselectionchange: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
+	};
+
+	//#region Variables
+
+	/**
+	 * SVG Icons for the controls
+	 */
+	private readonly ESVG_ICONS = {
+		PLAY_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
+		STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>',
+		EXIT_FULLSCREEN_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>',
+		FULLSCREEN_ICON: '<svg xmlns="http://www.w3.org/2000/svg" class="svgIconStyle" class="svgIconStyle" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>',
+		SCREEN_PLAY_ICON: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
+		SCREEN_STOP_ICON: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 6h12v12H6z"/></svg>'
+	}
+
+	private readonly INTERSECTION_RATIO_VALUE: number = 0.98;
+	private readonly primaryVideoCssClass: string = 'ch5-video';
+	private readonly fullScreenStyleClass: string = 'fullScreenStyle'
+	private readonly showControl: string = 'show-control';
+	private readonly fullScreenBodyClass: string = 'ch5-video-fullscreen';
+	private _videoErrorMessages = new Map<number, string>();
+	private snapShotMap = new Map();
+	private _performanceMap = new Map();
+	private _wasAppBackGrounded: boolean = false;
+	private _appCurrentStatus: boolean = false;
+	private _scrollableElm: HTMLElement = {} as HTMLElement;
+	private readonly VIDEO_ACTION = {
+		START: 'start',
+		STARTED: 'started',
+		STOP: 'stop',
+		STOPPED: 'stopped',
+		RESIZE: 'resize',
+		RESIZED: 'resized',
+		REFILL: 'refill',
+		SNAPSHOT: 'snapshot',
+		MARK: 'mark',
+		NOURL: 'nourl',
+		FULLSCREEN: 'fullscreen',
+		ERROR: 'error',
+		EMPTY: ''
+	}
+
+
+
+	/**
+	 * EVENTS
+	 *
+	 * error - inherited
+	 */
+
+	/**
+	 * Event error: error on loading the video
+	 */
+	public errorEvent: Event;
+
+	/**
+	 * CH5 Unique ID
+	 */
+	public ch5UId: number = 0;
+
+	/**
+	 * Define HTML Elements
+	 */
+	private vid: HTMLCanvasElement = {} as HTMLCanvasElement;
+	private videoElement: HTMLDivElement = {} as HTMLDivElement;
+	private vidControlPanel: HTMLElement = {} as HTMLElement;
+	private controlFullScreen: HTMLElement = {} as HTMLElement;
+	private fullScreenOverlay: HTMLElement = {} as HTMLElement;
+	private exitSnapsShotTimer: any;
+	private exitTimer: number = 0;
+	private videoSubscriptionTimer: any;
+	private fullScreenObj: TPosDimension = {} as TPosDimension;
+	private isMultipleVideo: boolean = false; // Check whether receiveState is present
+	private ch5BackgroundElements: HTMLCollectionOf<Ch5Background> = document.getElementsByTagName('ch5-background') as HTMLCollectionOf<Ch5Background>;
+	private subscriptionEventList: Subscription[] = [];
+	private sizeObj: TDimension = { width: 0, height: 0 };
+	private position: { xPos: number, yPos: number } = { xPos: 0, yPos: 0 };
+	private retryCount: number = 0;
+	private errorCount: number = 0;
+	private selectObject: TReceiveState = {
+		"subscriptionIds": {
+			"url": "",
+			"type": "",
+			"user": "",
+			"videoPass": "",
+			"snapShotUrl": "",
+			"snapShotRefreshRate": "",
+			"snapShotUser": "",
+			"snapShotPass": ""
+		},
+		"values": {
+			"url": "",
+			"type": "",
+			"user": "",
+			"videoPass": "",
+			"snapShotUrl": "",
+			"snapShotRefreshRate": "",
+			"snapShotUser": "",
+			"snapShotPass": ""
+		}
+	};
+
+	/**
+	 * Number of seconds between each call to the image URL in order to get new data. If 0, no refresh will be done.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _snapShotRefreshRate: string = "5";
+
+	/**
+	 * Provides the name of the offset identifier to substituted with 0 based index of the item in list
+	 * within the signal names provided in other attributes surrounded by {{ }} delimiters.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _indexId: string = '0';
+
+	/**
+	 * Userid to access the video along with password
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _userId: string = '';
+
+	/**
+	 * Userid to access the snapshot image along with password
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _snapShotUserId: string = '';
+
+	/**
+	 * Password to access the video along with Userid
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _password: string = '';
+
+	/**
+	 * Password to access the snapshot image along with Userid
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _snapShotPassword: string = '';
+
+	/**
+	 * Sets the ratio of width to height of the video.
+	 * Width and height of the component to be controlled by css style classes.
+	 * Values are 16:9 (default), 4:3, and custom.  When size of container is not match the aspect ratio,
+	 * the full height or the full width should be used and the dimension that is not full should be centered.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _aspectRatio: string = '16:9';
+
+	/**
+	 * Default false.  When true, video will be displayed in the whole component.
+	 * When false, video will be displayed as letter or pillar box based upon the aspect ratio of the video
+	 * feed and the size of the component.  Note: this attribute is independent of aspectRatio.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _stretch: string = "false";
+
+	/**
+	 * A Snapshot of the video, if any.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _snapShotUrl: string = '';
+
+	/**
+	 * The source path of the video.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _url: string = '';
+
+	/**
+	 * Video Source type can be Network, HDMI or DM.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _sourceType: string = 'Network';
+
+	/**
+	 * The display size for the video. The default size will be small if not mentioned.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _size: string = 'large';
+
+	/**
+	 * The defines zIndex of the video. It works only with picture-in-picture(pip) mode.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _zIndex: string = '0';
+
+	/**
+	 * Controls that can manage the video
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	private _controls: string = 'false';
+
+	/**
+	 * The timestamp of the last update time of the snapshot associated with the current source selection.
+	 */
+	private _sendEventSnapShotLastUpdateTime: string = '';
+
+	/**
+	 * Defines the maximum number of videos avaialble.
+	 */
+	private _receiveStateVideoCount: string = '';
+
+	/**
+	 * When defined, will play video only when the value is true, will stop video when value is false.
+	 * If not defined, the video will play whenever the component is visible.
+	 * If defined and value of false, display background of ch5-video--nosource css class.
+	 */
+	private _receiveStatePlay: string = '';
+
+	/**
+	 * When defined, will play 0-based index of the video source list.
+	 * Value of < 0 or > 31 will select no video to play Value of 0 to 31 will play the selected video source
+	 * provided the video source type (see receiveStateSourceType) is valid.
+	 * When not defined, the first video source defined (equivalent of index 0) in the list will be played.
+	 */
+	private _receiveStateSelect: string = '';
+
+	/**
+	 * Provides the snapshot URL to use when selection changes to INDEX value.
+	 */
+	private _receiveStateSnapShotURL: string = '';
+
+	/**
+	 * Default empty. Defines the video URL as an attribute.
+	 */
+	private _receiveStateUrl: string = '';
+
+	/**
+	 * Provides the video source type when the selection changes to INDEX value.
+	 */
+	private _receiveStateSourceType: string = '';
+
+	/**
+	 * Defines the refresh rate for a snapshot url.  0 indicates no refresh.
+	 */
+	private _receiveStateSnapShotRefreshRate: string = '';
+
+	/**
+	 * Provides the password of the camera
+	 */
+	private _receiveStateUserId: string = '';
+
+	/**
+	 * Provides the password of the camera
+	 */
+	private _receiveStateSnapShotUserId: string = '';
+
+	/**
+	 * Provides the password of the camera
+	 */
+	private _receiveStatePassword: string = '';
+
+	/**
+	 * Provides the password of the camera
+	 */
+	private _receiveStateSnapShotPassword: string = '';
+
+	/**
+	 * Subcribe the receiveStatePlay Signal
+	 */
+	private subReceiveStatePlay: string = '';
+
+	/**
+	 * Subcribe the receiveStateUrl Signal
+	 */
+	private subReceiveStateUrl: string = '';
+
+	/**
+	 * Subcribe the receiveStateSelect Signal
+	 */
+	private subReceiveStateSelect: string = '';
+
+	/**
+	 * Subcribe the receiveStateSourceType Signal
+	 */
+	private subReceiveStateSourceType: string = '';
+
+	/**
+	 * Subcribe the receiveStateSnapShotUrl Signal
+	 */
+	private subReceiveStateSnapShotUrl: string = '';
+
+	/**
+	 * Subcribe the receiveStateSnapShotRefreshRate Signal
+	 */
+	private subReceiveStateSnapShotRefreshRate: string = '';
+
+	/**
+	 * Subcribe the receiveStateUserId Signal
+	 */
+	private subReceiveStateUserId: string = '';
+
+	/**
+	 * Subcribe the receiveStateSnapShotUserId Signal
+	 */
+	private subReceiveStateSnapShotUserId: string = '';
+
+	/**
+	 * Subcribe the receiveStatePassword Signal
+	 */
+	private subReceiveStatePassword: string = '';
+
+	/**
+	 * Subcribe the receiveStateSnapShotPassword Signal
+	 */
+	private subReceiveStateSnapShotPassword: string = '';
+
+	/**
+	 * Subcribe the receiveStateVideoCount Signal
+	 */
+	private subReceiveStateVideoCount: string = '';
+
+	/**
+	 * X-Axis Position of the CH5-Video
+	 */
+	private videoTop: number = -1;
+
+	/**
+	 * The name of the boolean signal that will be sent to native on click or tap event (mouse or finger up and down in
+	 * a small period of time)
+	 *
+	 * HTML attribute name: sendEventOnClick or sendeventonclick
+	 */
+	private _sigNameSendOnClick: string = '';
+
+	/**
+	 * Y-Axis Position of the CH5-Video
+	 */
+	private videoLeft: number = -1;
+	private responseObj: TVideoResponse = {} as TVideoResponse;
+	private firstTime: boolean = true;
+	private lastRequestStatus: string = '';
+	private lastBackGroundRequest: string = '';
+	private autoHideControlPeriod: number = 10;
+	private originalVideoProperties: any = [];
+	private oldReceiveStateSelect: number = -1;
+	private receiveStateAttributeCount: number = 0;
+	private requestID: number = 0;
+	private lastResponseStatus: string = '';
+	private isSwipeDebounce: any;
+	private isVideoPublished = false;
+	private isOrientationChanged: boolean = false;
+	private isFullScreen: boolean = false;
+	private isVideoReady: boolean = false;
+	private isInitialized: boolean = false;
+	private playValue: boolean = true;
+	private fromReceiveStatePlay: boolean = false;
+	private _sigNameSelectionChange: string = '';
+	private _sigNameSelectionSourceType: string = '';
+	private _sigNameSnapShotUrl: string = '';
+	private _sigNameSelectionUrl: string = '';
+	private _sigNameEventState: string = '';
+	private _sigNameErrorCode: string = '';
+	private _sigNameErrorMessage: string = '';
+	private _sigNameRetryCount: string = '';
+	private _sigNameResolution: string = '';
+	private _sigNameSnapShotStatus: string = '';
+	private _sigNameSnapShotLastUpdateTime: string = '';
+	private isIntersectionObserve: boolean = false;
+	private isAlphaBlend: boolean = true;
+	private controlTimer: any;
+	private scrollTimer: any;
+	private isExitFullscreen: boolean = false;
+	private isPositionChanged: boolean = false;
+	private oldResponseStatus: string = '';
+	private oldResponseId: number = 0;
+	private subsCsigAppCurrentSate: string = '';
+	private subsCsigAppBackgrounded: string = '';
+	private receivedStateSelect: number = 0;
+	private isSnapShotArrayLoaded: boolean = false; // used when receivestatevideocount is present
+	private maxVideoCount: number = 0;
+	private lastRequestUrl: string = '';
+	private fromExitFullScreen: boolean = false;
+	private videoTagId: string = '';
+	private orientationCount: number = 0;
+	private previousXPos: number = 0;
+	private previousYPos: number = 0;
+
+	// touch specific [params]
+	private videoTouchHandler: Ch5VideoTouchManager = {} as Ch5VideoTouchManager;
+	private isTouchPollingStarted: boolean = false;
+	private isTouchInProgress: boolean = false;
+	private touchInProgressInterval: any = null;
+	private readonly swipeDeltaCheckNum: number = 20;
+	private touchCoordinates: ITouchOrdinates = {
+		startX: 0,
+		startY: 0,
+		endX: 0,
+		endY: 0
+	}; // instantiating empty object to proceed
+
+	/**
+	 * Protocol for authentication in order to get the image
+	 *
+	 * @type {string}
+	 */
+	private _protocol: string = '';
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Video.ELEMENT_NAME, Ch5Video.SIGNAL_ATTRIBUTE_TYPES);
+	}	
+
 	public connectedCallback() {
 		this.info('Ch5Video.connectedCallback()');
 		if (this.isInitialized) {
@@ -1461,57 +1518,6 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
 		}
 
 		return retObj;
-	}
-
-	// Respond to attribute changes.
-	static get observedAttributes() {
-		const commonAttributes = Ch5Common.observedAttributes;
-		const ch5VideoAttributes = [
-			// attributes
-			'indexid',
-			'userid',
-			'snapshotuserid',
-			'password',
-			'snapshotpassword',
-			'aspectratio',
-			'stretch',
-			'snapshotrefreshrate',
-			'url',
-			'sourcetype',
-			'snapshoturl',
-			'size',
-			'zindex',
-			'controls',
-
-			// send signals
-			'sendEventsnapshotUrl',
-			'sendeventonclick',
-			'sendeventselectionchange',
-			'sendeventselectionsourcetype',
-			'sendeventselectionurl',
-			'sendeventsnapshoturl',
-			'sendeventerrorcode',
-			'sendeventerrormessage',
-			'sendeventretrycount',
-			'sendeventresolution',
-			'sendeventsnapshotstatus',
-			'sendeventsnapshotlastupdatetime',
-			'sendeventstate',
-
-			// receive signals
-			'receivestatesnapshoturl',
-			'receivestateurl',
-			'receivestateplay',
-			'receivestateselect',
-			'receivestatesourcetype',
-			'receivestatesnapshotrefreshrate',
-			'receivestateuserid',
-			'receivestatesnapshotuserid',
-			'receivestatepassword',
-			'receivestatevideocount',
-			'receivestatesnapshotpassword'
-		];
-		return commonAttributes.concat(ch5VideoAttributes);
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: any) {
@@ -3565,4 +3571,5 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
  */
 if (typeof window === 'object' && typeof window.customElements === 'object' && typeof window.customElements.define === 'function') {
 	window.customElements.define('ch5-video', Ch5Video);
+	Ch5Video.registerSignalAttributeTypes();
 }

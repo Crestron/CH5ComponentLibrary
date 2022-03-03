@@ -58,7 +58,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
     // protected setter getter specific vars
     // protected _disabled: boolean = true; // not required as its in common.ts
-    // protected _show: boolean = true; // not required as its in common.ts
+    // protected _show: boolean = true; // not required as its in common.t
+    protected _label: string = '';
     protected _iconClass: string = '';
     protected _iconUrl: string = '';
     protected _sendEventOnClick: string = '';
@@ -117,6 +118,27 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     //#endregion
 
     //#region 2. Setters and Getters
+
+    /**
+     * label specif getter-setter
+     */
+    public set label(value: string) {
+        this.logger.start('set label("' + value + '")');
+    
+        if (_.isNil(value)) {
+            value = '';
+        }
+    
+        if (value === this.label) {
+            return;
+        }
+
+        this._label = value;
+        this.setAttribute('label', value);
+    }
+    public get label() {
+        return this._label;
+    }
 
     /**
      * key specif getter-setter

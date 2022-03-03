@@ -10,20 +10,20 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * [
    * "`value` attribute",
    * "***",
-   * "Defines an value for the jointotext."
+   * "Defines an value for the jointotext-boolean."
    * ]
    * @name value
-   * @default ""
+   * @default false
    * @attributeType "string"
    */
-    value: string;
+    value: boolean;
 
   /**
    * @documentation
    * [
    * "`textWhenTrue` attribute",
    * "***",
-   * "Defines an text that will be displayed on value=true for the jointotext."
+   * "Defines an text that will be displayed on value=true for the jointotext-boolean."
    * ]
    * @name textwhentrue
    * @default ""
@@ -36,7 +36,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * [
    * "`textWhenFalse` attribute",
    * "***",
-   * "Defines an text that will be displayed on value=false for the jointotext."
+   * "Defines an text that will be displayed on value=false for the jointotext-boolean."
    * ]
    * @name textwhenfalse
    * @default ""
