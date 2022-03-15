@@ -43,7 +43,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` shape",
+     * "`shape` attribute",
      * "***",
      * "Sets the overall <ch5-keypad> component shape to plus or circle."
      * ]
@@ -56,7 +56,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` stretch",
+     * "`stretch` attribute",
      * "***",
      * "When the stretch property is set, the component inherits the width or/and height of the container. ",
      * "If stretch by height is used, the <ch5-keypad> will be responsive based on the width of the container. ",
@@ -73,7 +73,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` textOrientation",
+     * "`textOrientation` attribute",
      * "***",
      * "Default value is 'top'. ",
      * "Allows to customize the orientation of the keypad buttons' major-minor. ",
@@ -103,7 +103,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractForEnable",
+     * "`useContractForEnable` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -122,7 +122,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractForShow",
+     * "`useContractForShow` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -139,7 +139,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractForCustomClass",
+     * "`useContractForCustomClass` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -155,7 +155,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractForCustomStyle",
+     * "`useContractForCustomStyle` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -171,7 +171,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` useContractForExtraButtonShow",
+     * "`useContractForExtraButtonShow` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -187,7 +187,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` showExtraButton",
+     * "`showExtraButton` attribute",
      * "***",
      * "The default value is false. This allows the keypad to have a ",
      * "special row of buttons with a single button visible that shows a Phone icon. ",
@@ -202,7 +202,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` receiveStateExtraButtonShow",
+     * "`receiveStateExtraButtonShow` attribute",
      * "***",
      * "The boolean value of the signal determines if the dial button is seen by the user. ",
      * "Only applicable if contractName is not provided as a parameter."
@@ -215,7 +215,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` sendEventOnClickStart",
+     * "`sendEventOnClickStart` attribute",
      * "***",
      * "Only applies if contractName is not provided, if this parameter is supplied,",
      * " the join number is applied to the top button, join+1 applies to bottom, ",

@@ -841,7 +841,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		return commonAttributes.concat(ch5SliderAttributes);
 	}
-;
+	;
 
 	public static readonly ELEMENT_NAME = 'ch5-slider';
 
@@ -1312,7 +1312,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Slider.ELEMENT_NAME, Ch5Slider.SIGNAL_ATTRIBUTE_TYPES);
-	}	
+	}
 
 	/**
 	 * 	Called every time the element is inserted into the DOM.

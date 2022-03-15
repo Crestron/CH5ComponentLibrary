@@ -16,7 +16,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` iconClass",
+     * "`iconClass` attribute",
      * "***",
      * "The icon class gives the ability for the end developer to create custom icons."
      * ]
@@ -28,7 +28,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` iconUrl",
+     * "`iconUrl` attribute",
      * "***",
      * "A custom image that the user needs to pass the URL or the local file relative path, ",
      * "the iconUrl takes precedence over iconClass."
@@ -41,7 +41,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` label",
+     * "`label` attribute",
      * "***",
      * "The label attributes gives the ability for the end developer to specify a label for the CENTER button only"
      * ]
@@ -59,7 +59,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` key",
+     * "`key` attribute",
      * "***",
      * "The key of the button to determine which button it is."
      * ]
