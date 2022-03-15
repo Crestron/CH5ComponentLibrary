@@ -39,9 +39,9 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	public static readonly STRETCHES: TCh5DpadStretch[] = ['both', 'width', 'height'];
 
 	public static readonly btnStretchClassPrefix: string = "ch5-dpad--stretch-";
-	public static readonly btnTypeClassPrefix: string = "ch5-dpad--type-";
-	public static readonly btnShapeClassPrefix: string = "ch5-dpad--shape-";
-	public static readonly btnSizeClassPrefix: string = "ch5-dpad--size-";
+	public static readonly btnTypeClassPrefix: string = "ch5-dpad--";
+	public static readonly btnShapeClassPrefix: string = "ch5-dpad--";
+	public static readonly btnSizeClassPrefix: string = "ch5-dpad--";
 
 	/**
 	 * The first value is considered the default one
@@ -57,7 +57,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			values: Ch5Dpad.TYPES,
 			key: 'type',
 			attribute: 'type',
-			classListPrefix: 'ch5-dpad--type-'
+			classListPrefix: 'ch5-dpad--'
 		},
 		STRETCHES: {
 			default: null,
@@ -71,14 +71,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			values: Ch5Dpad.SHAPES,
 			key: 'shape',
 			attribute: 'shape',
-			classListPrefix: 'ch5-dpad--shape-'
+			classListPrefix: 'ch5-dpad--'
 		},
 		SIZES: {
 			default: Ch5Dpad.SIZES[0],
 			values: Ch5Dpad.SIZES,
 			key: 'size',
 			attribute: 'size',
-			classListPrefix: 'ch5-dpad--size-'
+			classListPrefix: 'ch5-dpad--'
 		},
 	};
 
