@@ -1,7 +1,7 @@
 <h1>ContractName attribute</h1>
-<br />
-<p>
-    <b>contractname</b> attribute allows a developer to bind event clicks based on a contract.
+<br>
+	<p>
+		<b>contractname</b> attribute allows a developer to bind event clicks based on a contract.
     The value is referred to, and each child button is assigned with an incremental digit based on 
     the initial value passed as attribute value.
 </p>
@@ -10,35 +10,39 @@
 	The keypad buttons will inherit their contract reference value derived from their intended value (1,2,3,...0,Star, Hash, ExtraButton).
 </p>
 
-<br />
+<br/>
+<p style="color:red">
+	<strong style="color:inherit">NOTE: The Showcase app is not capable of testing with this attribute. Please check this attribute with Contract enabled control system.</strong>
+</p>
+<br/>
 <p>
     If the  initial value of <b>contractname</b> is assigned as "LivingRoom.AppleTV" (digitals), 
     the events are bound on each child button as below:
 </p>
 <p>
 	<b>ch5-keypad-button</b>  key="button1" sendeventonclick="LivingRoom.AppleTV.Press1"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="button2" sendeventonclick="LivingRoom.AppleTV.Press2"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="button3" sendeventonclick="LivingRoom.AppleTV.Press3"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="button4" sendeventonclick="LivingRoom.AppleTV.Press4"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="button5" sendeventonclick="LivingRoom.AppleTV.Press5"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="button6" sendeventonclick="LivingRoom.AppleTV.Press6"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="button7" sendeventonclick="LivingRoom.AppleTV.Press7"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="button8" sendeventonclick="LivingRoom.AppleTV.Press8"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="button9" sendeventonclick="LivingRoom.AppleTV.Press9"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="button0" sendeventonclick="LivingRoom.AppleTV.Press0"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="buttonstar" sendeventonclick="LivingRoom.AppleTV.PressStar"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="buttonhash" sendeventonclick="LivingRoom.AppleTV.PressHash"
-	<br />
+	<br/>
 	<b>ch5-keypad-button</b>  key="buttonextra" sendeventonclick="LivingRoom.AppleTV.PressExtraButton"
 </p>
