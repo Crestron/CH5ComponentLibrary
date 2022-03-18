@@ -60,6 +60,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name labelinnerhtml
    * @attributeType "string"
+   * @hidden true
    */
   labelInnerHTML: string;
 

@@ -111,6 +111,10 @@ function getAttributeType(definition: Definition): string {
     return parser.getAttributeTypeFromObject(definition);
 }
 
+function getHidden(definition: Definition): boolean | undefined {
+    return parser.getHiddenFromObject(definition);
+}
+
 export {
     hasKeys,
     getTypes,
@@ -130,4 +134,5 @@ export {
     getJoin,
     getLimits,
     getDeprecated,
+    getHidden,
 };
