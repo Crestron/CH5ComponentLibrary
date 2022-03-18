@@ -21,6 +21,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * ]
    * @name labelinnerhtml
    * @attributeType "string"
+   * @hidden true
    */
   labelInnerHTML: string;
 
