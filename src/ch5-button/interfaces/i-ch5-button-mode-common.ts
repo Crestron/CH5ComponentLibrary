@@ -15,6 +15,18 @@ export interface ICh5ButtonModeCommonAttributes {
   /**
    * @documentation
    * [
+   * "`labelinnerhtml` attribute",
+   * "***",
+   * "The labelInnerHTML of the button element."
+   * ]
+   * @name labelinnerhtml
+   * @attributeType "string"
+   */
+  labelInnerHTML: string;
+
+  /**
+   * @documentation
+   * [
    * "`type` attribute",
    * "***",
    * "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
