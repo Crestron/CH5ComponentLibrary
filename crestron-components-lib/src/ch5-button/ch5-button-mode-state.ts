@@ -24,6 +24,22 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
 
   //#region 2. Setters and Getters
 
+  public set labelInnerHTML(value: string) {
+    const attributeName: string = "labelInnerHTML";
+    this.logger.start('set ' + attributeName + '("' + value + '")');
+    if (value !== null) {
+      this.setAttribute(attributeName.toLowerCase(), value);
+    } else {
+      this.removeAttribute(attributeName);
+    }
+    this._parentCh5Button.createButtonLabel(this);
+    this._parentCh5Button.setButtonDisplay();
+  this.logger.stop();
+  }
+  public get labelInnerHTML(): string {
+    return this.getAttribute("labelinnerhtml") as string;
+  }
+
   public set state(value: TCh5ButtonModeState) {
     this.logger.log('set state("' + value + '")');
     if (this._state !== value) {
@@ -160,7 +176,8 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
       'iconurl',
       'state',
       'customclass',
-      'customstyle'
+      'customstyle',
+      'labelinnerhtml'
     ];
 
     return commonAttributes.concat(ch5ButtonModeChildAttributes);
@@ -181,6 +198,12 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
             this.type = newValue as TCh5ButtonType;
           } else {
             this.type = null;
+          }
+          break;
+
+        case 'labelinnerhtml':
+          if (this.hasAttribute('labelinnerhtml')) {
+            this.labelInnerHTML = newValue as string;
           }
           break;
 
@@ -286,11 +309,10 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
     this.logger.start('set ' + attributeName + '("' + value + '")');
     if (value !== null) {
       this.setAttribute(attributeName.toLowerCase(), value);
-      this._parentCh5Button.setButtonDisplay();
     } else {
       this.removeAttribute(attributeName);
-      this._parentCh5Button.setButtonDisplay();
     }
+    this._parentCh5Button.setButtonDisplay();
     this.logger.stop();
   }
 

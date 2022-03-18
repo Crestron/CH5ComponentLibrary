@@ -54,6 +54,18 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
+   * "`labelinnerhtml` attribute",
+   * "***",
+   * "The labelInnerHTML of the button element."
+   * ]
+   * @name labelinnerhtml
+   * @attributeType "string"
+   */
+  labelInnerHTML: string;
+
+  /**
+   * @documentation
+   * [
    * "`iconClass` attribute",
    * "***",
    * "The icon class."
