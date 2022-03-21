@@ -65,7 +65,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Not applicable to the extra button."
      * ]
      * @name labelmajor
-     * @attributeType "string"
+     * @attributeType "String"
      * @hideWhen [
      *  { "showExtraButton": true }
      * ]
@@ -84,7 +84,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * @hideWhen [
      *  { "showExtraButton": true }
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     labelMinor: string;
 
@@ -96,7 +96,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Defines the secondary/minor text value of the button."
      * ]
      * @name iconclass
-     * @attributeType "iconClass"
+     * @attributeType "IconClass"
      */
     iconClass: string;
 
@@ -108,7 +108,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Defines the key value of the button."
      * ]
      * @name key
-     * @attributeType "string"
+     * @attributeType "String"
      */
      key: string;
 

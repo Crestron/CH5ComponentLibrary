@@ -21,7 +21,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "A class name of the close icon. It may be a font awesome class."
    * ]
    * @name closeicon
-   * @attributeType "string"
+   * @attributeType "String"
    */
   closeIcon: string
 
@@ -36,7 +36,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name stretch
    * @default null
-   * @attributeType "string"
+   * @attributeType "String"
    */
   stretch: TCh5OverlayPanelStretch | null
 
@@ -54,7 +54,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name overflow
    * @default scroll
-   * @attributeType "string"
+   * @attributeType "String"
    */
   overflow: TCh5OverlayPanelOverflow
 
@@ -66,7 +66,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The width of the modal dialog, in pixels. Must be a string of the form Npx."
    * ]
    * @name width
-   * @attributeType "string"
+   * @attributeType "String"
    */
   width: string;
 
@@ -78,7 +78,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The height of the modal dialog, in pixels. Must be a string of the form Npx."
    * ]
    * @name height
-   * @attributeType "string"
+   * @attributeType "String"
    */
   height: string;
 
@@ -90,7 +90,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The title of the modal dialog. Must be a string."
    * ]
    * @name title
-   * @attributeType "string"
+   * @attributeType "String"
    */
   title: string;
 
@@ -102,7 +102,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The Header title text. If absent or empty, the title bar will be hidden."
    * ]
    * @name maskstyle
-   * @attributeType "string"
+   * @attributeType "String"
    */
   maskStyle: string;
 
@@ -113,7 +113,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The OK button text. If absent or empty, the default translated 'OK' text is shown."
    * ]
    * @name okbuttonlabel
-   * @attributeType "string"
+   * @attributeType "String"
    */
   okButtonLabel: string;
 
@@ -125,7 +125,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The OK button icon. If absent or empty, the icon is hidden."
    * ]
    * @name okbuttonicon
-   * @attributeType "string"
+   * @attributeType "String"
    */
   okButtonIcon: string;
 
@@ -137,7 +137,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The inline style value for the OK button to override the theme."
    * ]
    * @name okbuttonstyle
-   * @attributeType "string"
+   * @attributeType "String"
    */
   okButtonStyle: string;
 
@@ -150,7 +150,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "is shown."
    * ]
    * @name cancelbuttonlabel
-   * @attributeType "string"
+   * @attributeType "String"
    */
   cancelButtonLabel: string;
 
@@ -162,7 +162,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The Cancel button icon. If absent or empty, the icon is hidden."
    * ]
    * @name cancelbuttonicon
-   * @attributeType "string"
+   * @attributeType "String"
    */
   cancelButtonIcon: string;
 
@@ -174,7 +174,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The inline style value for the Cancel button to override the theme."
    * ]
    * @name cancelbuttonstyle
-   * @attributeType "string"
+   * @attributeType "String"
    */
   cancelButtonStyle: string;
 
@@ -186,7 +186,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The optional text for a message."
    * ]
    * @name prompt
-   * @attributeType "string"
+   * @attributeType "String"
    */
   prompt: string;
 
@@ -198,7 +198,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "The icon that appears next to prompt text"
    * ]
    * @name prompticon
-   * @attributeType "string"
+   * @attributeType "String"
    */
   promptIcon: string;
 

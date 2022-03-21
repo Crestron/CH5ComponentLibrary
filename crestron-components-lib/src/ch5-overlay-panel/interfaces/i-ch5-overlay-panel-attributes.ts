@@ -21,7 +21,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "A class name of the close icon. It may be a font awesome class."
    * ]
    * @name closeicon
-   * @attributeType "string"
+   * @attributeType "String"
    */
   closeIcon: string
 
@@ -36,7 +36,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name stretch
    * @default null
-   * @attributeType "string"
+   * @attributeType "String"
    */
   stretch: TCh5OverlayPanelStretch | null
 
@@ -54,7 +54,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name overflow
    * @default scroll
-   * @attributeType "string"
+   * @attributeType "String"
    */
   overflow: TCh5OverlayPanelOverflow
 
@@ -67,7 +67,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * "Positions the component related to either a window or an element by id."
    * ]
    * @name positionto
-   * @attributeType "string"
+   * @attributeType "String"
    */
   positionTo: string
 
@@ -83,7 +83,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name positionoffset
    * @default top-left
-   * @attributeType "string"
+   * @attributeType "String"
    */
   positionOffset: TCh5OverlayPanelPositionOffset
 

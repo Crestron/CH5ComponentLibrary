@@ -27,7 +27,7 @@ export interface ICh5CommonInputAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "string"
+   * @attributeType "String"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 

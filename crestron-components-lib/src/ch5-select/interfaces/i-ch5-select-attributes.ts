@@ -25,7 +25,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * @name size
    * @default 1
    * @limits [{"min": 1, "max": 30}]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   size: string | number;
 
@@ -42,7 +42,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "string"
+   * @attributeType "String"
    */
   iconPosition: TCh5SelectIconPosition;
 
@@ -56,7 +56,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name selectedvalue
    * @default -1
-   * @attributeType "string"
+   * @attributeType "String"
    */
   selectedValue: string | number;
 
@@ -95,7 +95,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "The max width of the selection container."
    * ]
    * @name maxwidth
-   * @attributeType "string"
+   * @attributeType "String"
    */
   maxWidth: string | null;
 
@@ -107,7 +107,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "The min height of the selection container."
    * ]
    * @name minheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   minHeight: string | null;
 
@@ -119,7 +119,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "The max height of the selection container."
    * ]
    * @name maxheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   maxHeight: string | null;
 
@@ -134,7 +134,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name mode
    * @default plain
-   * @attributeType "string"
+   * @attributeType "String"
    */
   mode: TCh5SelectMode;
 
@@ -148,7 +148,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "string"
+   * @attributeType "String"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -178,7 +178,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "surrounded by {{ }} delimiters."
    * ]
    * @name indexid
-   * @attributeType "string"
+   * @attributeType "String"
    *
    */
   indexId: string | null;
@@ -191,7 +191,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Showed when no items are selected."
    * ]
    * @name noneselectedprompt
-   * @attributeType "string"
+   * @attributeType "String"
    */
   noneSelectedPrompt: string | null;
 
@@ -234,7 +234,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Runs when a clean event is initiated."
    * ]
    * @name onclean
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onclean: {};
 
@@ -246,7 +246,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
-   * @attributeType "string"
+   * @attributeType "String"
    */
   ondirty: {};
 

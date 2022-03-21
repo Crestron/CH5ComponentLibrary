@@ -30,7 +30,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "* - alphanumeric character"
    * ]
    * @name mask
-   * @attributeType "string"
+   * @attributeType "String"
    */
   mask: string;
 
@@ -46,7 +46,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "version": "1.0.0",
    * "description": "This attribute is deprecated, please use 'icon' attribute."
    * }
-   * @attributeType "iconClass"
+   * @attributeType "IconClass"
    */
   iconClass: string;
 
@@ -58,7 +58,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "The icon to be shown. Its either prefixed or suffixed based on the iconposition attribute."
    * ]
    * @name icon
-   * @attributeType "string"
+   * @attributeType "String"
    */
    icon: string;
 
@@ -70,7 +70,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Provides the label for the input on left top corner of the control."
    * ]
    * @name label
-   * @attributeType "string"
+   * @attributeType "String"
    */
   label: string;
 
@@ -82,7 +82,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Provides the placeholder for the input. This shares the default behavior of the input HMTL element."
    * ]
    * @name placeholder
-   * @attributeType "string"
+   * @attributeType "String"
    */
   placeholder: string;
 
@@ -101,7 +101,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "string"
+   * @attributeType "String"
    */
   iconPosition: TCh5TextInputIconPosition;
 
@@ -115,7 +115,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name type
    * @default text
-   * @attributeType "string"
+   * @attributeType "String"
    */
   inputType: TCh5TextInputType;
 
@@ -192,7 +192,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name size
    * @default regular
-   * @attributeType "string"
+   * @attributeType "String"
    */
   size: TCh5TextInputSize;
 
@@ -209,7 +209,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name stretch
    * @default fixed
-   * @attributeType "string"
+   * @attributeType "String"
    */
   stretch: TCh5TextInputStretch;
 
@@ -227,7 +227,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name text-transform
    * @default none
-   * @attributeType "string"
+   * @attributeType "String"
    */
   textTransform: TCh5TextInputTextTransform;
 

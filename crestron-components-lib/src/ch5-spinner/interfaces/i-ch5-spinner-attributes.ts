@@ -37,7 +37,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "The label of the spinner element."
    * ]
    * @name label
-   * @attributeType "string"
+   * @attributeType "String"
    */
   label: string;
 
@@ -58,7 +58,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "string"
+   * @attributeType "String"
    */
   iconPosition: TCh5SpinnerIconPosition;
 
@@ -89,7 +89,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Each item on the list must have the same height."
    * ]
    * @name itemheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   itemHeight: string;
 
@@ -125,7 +125,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "string"
+   * @attributeType "String"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -156,7 +156,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "surrounded by {{ }} delimiters."
    * ]
    * @name indexid
-   * @attributeType "string"
+   * @attributeType "String"
    */
   indexId: string;
   /**
@@ -167,7 +167,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Runs when a clean event is initiated."
    * ]
    * @name onclean
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onclean: {};
 
@@ -179,7 +179,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
-   * @attributeType "string"
+   * @attributeType "String"
    */
   ondirty: {};
 

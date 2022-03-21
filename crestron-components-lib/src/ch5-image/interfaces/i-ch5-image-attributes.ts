@@ -19,7 +19,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "Defines an alternative text description for the image."
    * ]
    * @name alt
-   * @attributeType "string"
+   * @attributeType "String"
    */
   alt: string;
 
@@ -31,7 +31,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The intrinsic height of the image, in pixels. Must be a string of the form Npx or N%."
    * ]
    * @name height
-   * @attributeType "string"
+   * @attributeType "String"
    */
   height: string;
 
@@ -43,7 +43,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The intrinsic width of the image, in pixels. Must be a string of the form Npx or N%."
    * ]
    * @name width
-   * @attributeType "string"
+   * @attributeType "String"
    */
   width: string;
 
@@ -71,7 +71,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP."
    * ]
    * @name url
-   * @attributeType "string"
+   * @attributeType "String"
    */
   url: string;
 
@@ -95,7 +95,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The authentication password required to get the image."
    * ]
    * @name password
-   * @attributeType "string"
+   * @attributeType "String"
    */
   password: string;
 
@@ -107,7 +107,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The image direction."
    * ]
    * @name dir
-   * @attributeType "string"
+   * @attributeType "String"
    */
   dir: string;
 
@@ -119,7 +119,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "The authentication username required to get the image."
    * ]
    * @name user
-   * @attributeType "string"
+   * @attributeType "String"
    */
   user: string;
 

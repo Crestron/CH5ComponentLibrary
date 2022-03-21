@@ -39,7 +39,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name orientation
    * @default vertical
-   * @attributeType "string"
+   * @attributeType "String"
    */
   orientation: TCh5ListElementOrientation | null;
 
@@ -69,7 +69,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Each list item must have the same height."
    * ]
    * @name itemheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   itemHeight: string | null;
 
@@ -85,7 +85,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Each list item must have the same width."
    * ]
    * @name itemwidth
-   * @attributeType "string"
+   * @attributeType "String"
    */
   itemWidth: string | null;
 
@@ -98,7 +98,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The min width of the list container."
    * ]
    * @name minwidth
-   * @attributeType "string"
+   * @attributeType "String"
    */
   minWidth: string | null;
 
@@ -111,7 +111,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The max width of the list container."
    * ]
    * @name maxwidth
-   * @attributeType "string"
+   * @attributeType "String"
    */
   maxWidth: string | null;
 
@@ -124,7 +124,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The min height of the list container."
    * ]
    * @name minheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   minHeight: string | null;
 
@@ -137,7 +137,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The max height of the list container."
    * ]
    * @name maxheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   maxHeight: string | null;
 
@@ -165,7 +165,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The pattern that will be replaced with the id from the list items iteration. ",
    * "Example: {{ idx }}"
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   indexId: string | null;
 
