@@ -17,6 +17,7 @@ export class Ch5Attribute {
     public limits?: object[];
     public attributeType?: string;
     public deprecated?: Deprecated;
+    public hidden?: boolean;
 
     public static New(): Ch5Attribute {
         const result = new Ch5Attribute();

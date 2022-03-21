@@ -294,6 +294,25 @@ function getDeprecatedFromObject(definition: Object): Deprecated | undefined {
     return undefined;
 }
 
+function getHiddenFromObject(definition: Object): boolean | undefined {
+    const documentationTag = "hidden";
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return undefined;
+    }
+
+    // get the documentation property which should be an boolen.
+    const value: boolean = definition[documentationTag];
+
+    if (!isNil(value)) {
+        return value;
+    }
+
+    return undefined;
+}
+
 export {
     getDocumentationFromObject,
     getChildElementsFromObject,
@@ -309,4 +328,5 @@ export {
     getJoinFromObject,
     getAttributeTypeFromObject,
     getLimitsFromObject,
+    getHiddenFromObject,
 };

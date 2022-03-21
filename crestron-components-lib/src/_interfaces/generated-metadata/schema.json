@@ -792,7 +792,8 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "EncodedHTML"
+            "attributeType": "EncodedHTML",
+            "hidden": true
           },
           {
             "documentation": [
@@ -1076,7 +1077,8 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "EncodedHTML"
+            "attributeType": "EncodedHTML",
+            "hidden": true
           },
           {
             "documentation": [
@@ -1654,7 +1656,8 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "EncodedHTML"
+            "attributeType": "EncodedHTML",
+            "hidden": true
           },
           {
             "documentation": [
