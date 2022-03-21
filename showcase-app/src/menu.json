@@ -673,7 +673,7 @@
           "children": [
             {
               "url": "ch5-image/ch5-image-send-signal-click.html",
-              "label": "sendEventurl"
+              "label": "sendEventOnClick"
             },
             {
               "url": "ch5-image/ch5-image-send-signal-error.html",
@@ -1231,15 +1231,15 @@
             },
             {
               "url": "ch5-select/methods/ex2.html",
-              "label": "sendEventurl, receiveStateValue"
+              "label": "sendEventOnClick, receiveStateValue"
             },
             {
               "url": "ch5-select/methods/ex3.html",
-              "label": "sendEventurl, receiveStateSelected"
+              "label": "sendEventOnClick, receiveStateSelected"
             },
             {
               "url": "ch5-select/methods/ex4.html",
-              "label": "multiselect sendEventurl, receiveStateSelected"
+              "label": "multiselect sendEventOnClick, receiveStateSelected"
             }
           ],
           "label": "Methods"
@@ -1808,7 +1808,7 @@
           "children": [
             {
               "url": "ch5-toggle/send-signal-click.html",
-              "label": "sendEventurl"
+              "label": "sendEventOnClick"
             }
           ],
           "label": "Send Event Attributes"
