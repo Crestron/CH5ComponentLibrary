@@ -36,7 +36,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   orientation: TCh5SliderOrientation;
 
@@ -53,7 +53,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name type
    * @default default
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   type: TCh5SliderType;
 
@@ -70,7 +70,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name halignlabel
    * @default center
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   hAlignLabel: TCh5SliderHorizontalAlignLabel;
 
@@ -87,7 +87,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name valignlabel
    * @default middle
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   vAlignLabel: TCh5SliderVerticalAlignLabel;
 
@@ -99,7 +99,7 @@ export interface ICh5SliderLabelAttributes {
    * "When received, applies the value on the label."
    * ]
    * @name receivestatelabel
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateLabel: string;
 

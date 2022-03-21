@@ -45,7 +45,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the style of the Submit button."
    * ]
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   submitButtonStyle: string;
 

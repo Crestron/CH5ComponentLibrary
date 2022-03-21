@@ -71,7 +71,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * @name panelscrollheight
    * @default 0
    * @limits [{"min": 0, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   panelScrollHeight: number;
 
@@ -83,7 +83,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * "The min width of the selection container."
    * ]
    * @name minwidth
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   minWidth: string | null;
 
@@ -164,7 +164,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name signalvaluesynctimeout
    * @default 1500
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   signalValueSyncTimeout: string | number;
 
@@ -261,7 +261,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateValue: string | null;
 
@@ -274,7 +274,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatesize
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateSize: string | null;
 
@@ -287,7 +287,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatetemplatevars
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateTemplateVars: string | null;
 
@@ -300,7 +300,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonfocus
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnFocus: string | null;
 
@@ -314,7 +314,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnChange: string | null;
 }

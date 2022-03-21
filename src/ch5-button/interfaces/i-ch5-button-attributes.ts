@@ -115,7 +115,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @name mode
    * @default 0
    * @limits [{"min": 0, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
    mode: number;
 
@@ -271,7 +271,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatemode
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateMode: string;
 
@@ -284,7 +284,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateSelected: string;
 
@@ -297,7 +297,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateLabel: string;
 
@@ -311,7 +311,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateScriptLabelHtml: string;
 
@@ -327,7 +327,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnClick: string;
 
@@ -343,7 +343,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventontouch
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnTouch: string;
 
@@ -356,7 +356,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateiconclass
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateIconClass: string | null;
 
@@ -370,7 +370,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatetype
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateType: string | null;
 
@@ -384,7 +384,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateiconurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateIconUrl: string | null;
 

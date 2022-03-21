@@ -36,7 +36,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The initial values of single value or lower value if range=true."
    * ]
    * @name value
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   value: number | string;
 
@@ -51,7 +51,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * @hideWhen [
    *  {"range": [null, "false"] }
    * ]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   valueHigh: number | string;
 
@@ -63,7 +63,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The maximum value."
    * ]
    * @name max
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   max: number | string;
 
@@ -75,7 +75,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "The minimum value."
    * ]
    * @name min
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   min: number | string;
 
@@ -216,7 +216,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name signalvaluesynctimeout
    * @default 1500
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   signalValueSyncTimeout: string | number;
 
@@ -321,7 +321,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateValue: string;
 
@@ -334,7 +334,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevaluehigh
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateValueHigh: string;
 
@@ -347,7 +347,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnChange: string;
 
@@ -360,7 +360,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonchangehigh
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnChangeHigh: string;
 

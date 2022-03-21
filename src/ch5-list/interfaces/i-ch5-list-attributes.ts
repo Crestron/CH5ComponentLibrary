@@ -23,7 +23,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    *  "The number of items in a list. The max value is 1000."
    * ]
    * @default 1
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   size: number | null;
 
@@ -54,7 +54,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name bufferamount
    * @default 0
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   bufferAmount: number | null;
 
@@ -152,7 +152,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * @name scrolltotime
    * @default 500ms
    * @limits [{"min": 0, "max": 1000}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   scrollToTime: number;
 
@@ -225,7 +225,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Represents the size of the list received from Native."
    * ]
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateSize: string | null | undefined;
 
@@ -240,7 +240,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "to the 10th element."
    * ]
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateScrollTo: string | null | undefined;
 
@@ -253,7 +253,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Represents the template variables that are received from Native."
    * ]
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateTemplateVars: string | null | undefined;
 }

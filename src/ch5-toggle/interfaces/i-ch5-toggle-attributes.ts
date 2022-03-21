@@ -157,7 +157,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name signalvaluesynctimeout
    * @default 1500
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   signalValueSyncTimeout: string | number;
 
@@ -184,7 +184,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name receivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateScriptLabelHtml: string;
 
@@ -197,7 +197,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateValue: string;
 
@@ -209,7 +209,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name sendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnClick: string;
 }

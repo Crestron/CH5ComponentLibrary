@@ -278,7 +278,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonbeforeshow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnBeforeShow: string;
 
@@ -291,7 +291,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonaftershow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnAfterShow: string;
 
@@ -304,7 +304,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonbeforehide
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnBeforeHide: string;
 
@@ -317,7 +317,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonafterhide
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnAfterHide: string;
 
@@ -330,7 +330,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonok
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnOk: string;
 
@@ -343,7 +343,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventoncancel
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnCancel: string;
 }

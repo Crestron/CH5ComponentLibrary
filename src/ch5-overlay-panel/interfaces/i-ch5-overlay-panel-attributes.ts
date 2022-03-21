@@ -137,7 +137,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatepositionto
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStatePositionTo: string;
 
@@ -151,7 +151,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatepositionoffset
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStatePositionOffset: string;
 
@@ -164,7 +164,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonbeforeshow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnBeforeShow: string;
 
@@ -178,7 +178,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    *
    * @name sendeventonaftershow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnAfterShow: string;
 
@@ -191,7 +191,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonbeforehide
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnBeforeHide: string;
 
@@ -204,7 +204,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonafterhide
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnAfterHide: string;
 }
