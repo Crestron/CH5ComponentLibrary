@@ -5975,8 +5975,11 @@
               "`sendEventOnClickStart` attribute",
               "***",
               "Only applies if contractName is not provided, if this parameter is supplied,",
-              " the join number is applied to the top button, join+1 applies to bottom, ",
-              "join+2 applies to left, join+3 applies to right, join+4 to center ."
+              " the join + 1 number is applied to the #1 button, join+2 applies to #2 button, ",
+              "join+3 applies #3 button, join+4 applies #4 button, join+5 applies #5 button, ",
+              "join+6 applies #6 button, join+7 applies #7 button, join+8 applies #8 button, ",
+              "join+9 applies #9 button, join applies #0 button, join+10 applies star button,",
+              "join+11 applies hash button and join+12 applies to extra button."
             ],
             "value": [],
             "name": "sendeventonclickstart",
