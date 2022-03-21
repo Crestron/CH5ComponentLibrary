@@ -1769,7 +1769,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * press - custom
 	 * release - custom
 	 */
-
 	private sendValueForRepeatDigitalWorking(value: boolean): void {
 		this.info(`Ch5Button.sendValueForRepeatDigital(${value})`);
 		if (!this._sigNameSendOnTouch && !this._sigNameSendOnClick) { return; }
