@@ -77,5 +77,5 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *   }
  * ]
  */
-export interface ICh5KeypadDocumentation extends ICh5Common, ICh5KeypadAttributes, ICh5KeypadButtonAttributes {
+export interface ICh5KeypadDocumentation extends ICh5Common, ICh5KeypadAttributes {
 }
