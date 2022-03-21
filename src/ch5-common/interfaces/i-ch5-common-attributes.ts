@@ -20,7 +20,7 @@ export interface ICh5CommonAttributes {
 	 * "This is a standard id HTML attribute."
 	 * ]
 	 * @name id
-	 * @attributeType "string"
+	 * @attributeType "String"
 	 */
 	id: string;
 
@@ -35,7 +35,7 @@ export interface ICh5CommonAttributes {
 	 * @hideWhen [
 	 *  {"receiveStateCustomClass": ["true"] }
 	 * ]
-	 * @attributeType "string"
+	 * @attributeType "String"
 	 */
 	customClass: string;
 
@@ -47,7 +47,7 @@ export interface ICh5CommonAttributes {
 	 * "Contains a list of space-delimited style classes applied on the component."
 	 * ]
 	 * @name customstyle
-	 * @attributeType "string"
+	 * @attributeType "String"
 	 */
 	customStyle: string;
 
@@ -60,7 +60,7 @@ export interface ICh5CommonAttributes {
 	 * "custom HTML attribute for further information."
 	 * ]
 	 * @name noshowtype
-	 * @attributeType "string"
+	 * @attributeType "String"
 	 */
 	noshowType: TCh5ShowType;
 
@@ -168,7 +168,7 @@ export interface ICh5CommonAttributes {
 	 * "Applies the provided value as class name while the component is visible and removes the class name when not visible."
 	 * ]
 	 * @name appendclasswheninviewport
-	 * @attributeType "string"
+	 * @attributeType "String"
 	 */
 	appendClassWhenInViewPort: string;
 
@@ -198,7 +198,7 @@ export interface ICh5CommonAttributes {
 	 * "finds a character with a strong directionality then it applies that directionality to the whole element."
 	 * ]
 	 * @name dir
-	 * @attributeType "string"
+	 * @attributeType "String"
 	 */
 	dir: string;
 

@@ -23,7 +23,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "The label of the toggle element."
    * ]
    * @name label
-   * @attributeType "string"
+   * @attributeType "String"
    */
   label: string;
 
@@ -35,7 +35,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Custom text to display on the toggle when the toggle is ON."
    * ]
    * @name labelon
-   * @attributeType "string"
+   * @attributeType "String"
    */
   labelOn: string;
 
@@ -47,7 +47,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Custom text to display on the toggle when the toggle is OFF."
    * ]
    * @name labeloff
-   * @attributeType "string"
+   * @attributeType "String"
    */
   labelOff: string;
 
@@ -59,7 +59,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Specifies a custom icon class when the toggle is ON."
    * ]
    * @name iconon
-   * @attributeType "string"
+   * @attributeType "String"
    */
   iconOn: string;
 
@@ -71,7 +71,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Specifies a custom icon class when the toggle is OFF."
    * ]
    * @name iconoff
-   * @attributeType "string"
+   * @attributeType "String"
    */
   iconOff: string;
 
@@ -85,7 +85,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name handleshape
    * @default circle
-   * @attributeType "string"
+   * @attributeType "String"
    */
   handleShape: TCh5ToggleShape;
 
@@ -101,7 +101,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "string"
+   * @attributeType "String"
    */
   orientation: TCh5ToggleOrientation;
   /**
@@ -112,7 +112,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Runs when a clean event is initiated."
    * ]
    * @name onclean
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onclean: {};
 
@@ -124,7 +124,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
-   * @attributeType "string"
+   * @attributeType "String"
    */
   ondirty: {};
 
@@ -171,7 +171,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "string"
+   * @attributeType "String"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 

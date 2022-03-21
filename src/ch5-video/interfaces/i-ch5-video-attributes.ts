@@ -21,7 +21,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "Provides the name of the offset identifier to be substituted with a 0-based index of the list items within the signal names provided in other attributes surrounded by {{ }} delimiters."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     indexId: string;
 
@@ -33,7 +33,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The user ID to access the video along with a password."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     userId: string;
 
@@ -45,7 +45,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The user ID to access the snapshot along with a password."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     snapShotUserId: string;
 
@@ -57,7 +57,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The password to access the video along with a user ID."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     password: string;
 
@@ -69,7 +69,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The password to access the snapshot along with user ID."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     snapShotPassword: string;
 
@@ -81,7 +81,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The refresh rate of the snapshot."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     snapShotRefreshRate: string;
 
@@ -96,7 +96,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Values are 16:9 (default), 4:3, and custom.  When the size of the container does not match the aspect ratio, ",
      *  "the full height or width should be used and the dimension that is empty should be centered."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     aspectRatio: TCH5VideoAspectRatio | string;
 
@@ -112,7 +112,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "parent container. The parent container should not contain any tags other than ch5-background ",
      *  "and CH5-Video."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     stretch: TCH5VideoStretch | string;
 
@@ -124,7 +124,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The source path of the video."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     url: string;
 
@@ -136,7 +136,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The video Source type, which can be 'Network', 'HDMI' or 'DM'."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     sourceType: TCH5VideoSourceType | string;
 
@@ -148,7 +148,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "A snapshot of the video, if any."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     snapShotUrl: string;
 
@@ -166,7 +166,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The user needs to select the appropriate size to fit the container."
      * ]
      * @default large
-     * @attributeType "string"
+     * @attributeType "String"
      */
     size: TCH5VideoSize | string;
 
@@ -178,7 +178,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The video display moves back and forth with regards to the z-axis."
      * ]
-     * @attributeType "string"
+     * @attributeType "String"
      */
     zIndex: string;
 
@@ -190,7 +190,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      * "Runs when a press event is initiated."
      * ]
      * @name onpress
-     * @attributeType "string"
+     * @attributeType "String"
      */
     onpress: {};
 
@@ -202,7 +202,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      * "Runs when a release event is initiated."
      * ]
      * @name onrelease
-     * @attributeType "string"
+     * @attributeType "String"
      */
     onrelease: {};
 

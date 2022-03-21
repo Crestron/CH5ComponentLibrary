@@ -21,7 +21,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the label of the Submit button."
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   submitButtonLabel: string;
 
@@ -33,7 +33,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the icon of the Submit button."
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   submitButtonIcon: string;
 
@@ -59,7 +59,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "Represents the type of the auto-generated Submit button."
    * ]
    * @default default
-   * @attributeType "string"
+   * @attributeType "String"
    */
   submitButtonType: TCh5ButtonType;
 
@@ -71,7 +71,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the label of the Cancel button."
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   cancelButtonLabel: string;
 
@@ -83,7 +83,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the icon of the Cancel button."
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   cancelButtonIcon: string;
 
@@ -95,7 +95,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the style of the Cancel button."
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   cancelButtonStyle: string;
 
@@ -109,7 +109,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "Represents the type of the auto-generated Cancel button."
    * ]
    * @default default
-   * @attributeType "string"
+   * @attributeType "String"
    */
   cancelButtonType: TCh5ButtonType;
 
@@ -121,7 +121,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the ID of the Submit button."
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   submitId: string;
 
@@ -133,7 +133,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Represents the ID of the Cancel button."
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   cancelId: string;
 

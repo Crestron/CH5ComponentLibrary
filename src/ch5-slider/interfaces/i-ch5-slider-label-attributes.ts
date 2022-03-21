@@ -20,7 +20,7 @@ export interface ICh5SliderLabelAttributes {
    * "The label of the button element."
    * ]
    * @name label
-   * @attributeType "string"
+   * @attributeType "String"
    */
   label: string;
 

@@ -14,7 +14,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * ]
    * @name value
    * @default false
-   * @attributeType "string"
+   * @attributeType "String"
    */
     value: boolean;
 
@@ -27,7 +27,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * ]
    * @name textwhentrue
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
     textWhenTrue: string;
 
@@ -40,7 +40,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * ]
    * @name textwhenfalse
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
     textWhenFalse: string;
 
@@ -53,7 +53,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
    receiveStateValue: string;
 

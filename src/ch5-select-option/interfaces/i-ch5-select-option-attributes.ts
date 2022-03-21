@@ -25,7 +25,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "string"
+   * @attributeType "String"
    */
   iconPosition: TCh5SelectOptionIconPosition | string;
 

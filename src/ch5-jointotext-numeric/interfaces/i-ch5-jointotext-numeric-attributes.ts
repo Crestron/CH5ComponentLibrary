@@ -15,7 +15,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name value
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
   value: string;
 
@@ -28,7 +28,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name type
    * @default signed
-   * @attributeType "string"
+   * @attributeType "String"
    */
   type: NumericFormats;
 
@@ -41,7 +41,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
   receiveStateValue: string;
 
@@ -54,7 +54,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name decimallength
    * @default 2
-   * @attributeType "string"
+   * @attributeType "String"
    */
   decimalLength: number;
 
@@ -67,7 +67,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name length
    * @default 0
-   * @attributeType "string"
+   * @attributeType "String"
    */
   length: number;
 
@@ -80,7 +80,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name min
    * @default 0
-   * @attributeType "string"
+   * @attributeType "String"
    */
   min: number;
 
@@ -93,7 +93,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name max
    * @default 65535
-   * @attributeType "string"
+   * @attributeType "String"
    */
   max: number;
 }

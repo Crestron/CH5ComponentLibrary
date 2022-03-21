@@ -24,7 +24,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name handleshape
    * @default rounded-rectangle
-   * @attributeType "string"
+   * @attributeType "String"
    */
   handleShape: TCh5SliderShape;
 
@@ -89,7 +89,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "string"
+   * @attributeType "String"
    */
   orientation: TCh5SliderOrientation;
 
@@ -103,7 +103,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name size
    * @default regular
-   * @attributeType "string"
+   * @attributeType "String"
    */
   size: TCh5SliderSize;
 
@@ -117,7 +117,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name handlesize
    * @default regular
-   * @attributeType "string"
+   * @attributeType "String"
    */
   handleSize: TCh5SliderSize;
 
@@ -132,7 +132,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name step
    * @default 100
-   * @attributeType "string"
+   * @attributeType "String"
    */
   step: number | string;
 
@@ -147,7 +147,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name stretch
    * @default both
-   * @attributeType "string"
+   * @attributeType "String"
    */
   stretch: TCh5SliderStretch | null;
 
@@ -166,7 +166,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "An example would be [[0.0,'-60'], [0.25,'-40'], [0.50,'-20'],[0.75,'-10'], [1.0,'0']]"
    * ]
    * @name ticks
-   * @attributeType "string"
+   * @attributeType "String"
    */
   ticks: string;
 
@@ -182,7 +182,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name tooltipshowtype
    * @default off
-   * @attributeType "string"
+   * @attributeType "String"
    */
   toolTipShowType: TCh5SliderTooltipType
 
@@ -201,7 +201,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    *  {"tooltipdisplaytype": [null, "off"]},
    *  {"nohandle": ["true", ""] }
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   toolTipDisplayType: TCh5SliderTooltipDisplay;
 
@@ -231,7 +231,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "string"
+   * @attributeType "String"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -243,7 +243,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "Runs when a clean event is initiated."
    * ]
    * @name onclean
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onclean: {};
 
@@ -255,7 +255,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
-   * @attributeType "string"
+   * @attributeType "String"
    */
   ondirty: {};
 
