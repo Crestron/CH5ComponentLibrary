@@ -31,7 +31,7 @@ export interface ICh5ImportHtmlSnippetAttributes extends ICh5CommonAttributes {
      * "On transition from false to true, this signal will direct the component to be visible."
      * ]
      * @name receivestateshowpulse
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     receiveStateShowPulse: string;
 
@@ -43,7 +43,7 @@ export interface ICh5ImportHtmlSnippetAttributes extends ICh5CommonAttributes {
      * "On transition from false to true, the signal will direct if the component to no longer be visible."
      * ]
      * @name receivestatehidepulse
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     receiveStateHidePulse: string;
 
@@ -55,7 +55,7 @@ export interface ICh5ImportHtmlSnippetAttributes extends ICh5CommonAttributes {
      * "While true, the boolean value of the signal determines if the component is visible."
      * ]
      * @name receivestateshow
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     receiveStateShow: string;
 }

@@ -80,7 +80,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * ]
      * @name sendeventonclick
      * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     sendEventOnClick: string;
 

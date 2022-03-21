@@ -57,7 +57,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name repeat
    * @default no-repeat
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   repeat: TCh5BackgroundRepeat;
 
@@ -80,7 +80,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name scale
    * @default stretch
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    * @showWhen [{"repeat": null }]
    */
   scale: TCh5BackgroundScale;
@@ -99,7 +99,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name refreshrate
    * @default 600
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   refreshRate: number | string;
 
@@ -161,7 +161,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestaterefreshrate
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "String"
+   * @attributeType "Join"
    */
   receiveStateRefreshRate: string;
 
@@ -176,7 +176,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "String"
+   * @attributeType "Join"
    */
   receiveStateUrl: string;
 
@@ -190,7 +190,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatebackgroundcolor
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "String"
+   * @attributeType "Join"
    */
   receiveStateBackgroundColor: string;
 

@@ -49,7 +49,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * ]
    * @name minimumfontsize
    * @default 12
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   minimumfontsize: number;
 
@@ -65,7 +65,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * ]
    * @name tabindex
    * @default 0
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   tabIndex: number;
 }

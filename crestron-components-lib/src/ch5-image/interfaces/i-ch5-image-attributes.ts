@@ -59,7 +59,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * @name refreshrate
    * @default 0
    * @limits [{"min": 0, "max": 600}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   refreshRate: number;
 
@@ -83,7 +83,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "This attribute is used together with <ch5-image-mode> child component."
    * ]
    * @name mode
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
    mode: number | undefined;
 
@@ -132,7 +132,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateUrl: string;
 
@@ -148,7 +148,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventontouch
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnTouch: string;
 
@@ -164,7 +164,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnClick: string;
 
@@ -177,7 +177,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonerror
    * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnError: string;
 }

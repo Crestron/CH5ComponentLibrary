@@ -74,7 +74,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestatecustomclass
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-	 * @attributeType "join"
+	 * @attributeType "Join"
 	 */
 	receiveStateCustomClass: string;
 
@@ -88,7 +88,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestatecustomstyle
 	 * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-	 * @attributeType "join"
+	 * @attributeType "Join"
 	 */
 	receiveStateCustomStyle: string;
 
@@ -101,7 +101,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestateshow
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-	 * @attributeType "join"
+	 * @attributeType "Join"
 	 */
 	receiveStateShow: string;
 
@@ -114,7 +114,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestateshowpulse
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-	 * @attributeType "join"
+	 * @attributeType "Join"
 	 */
 	receiveStateShowPulse: string;
 
@@ -127,7 +127,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestatehidepulse
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-	 * @attributeType "join"
+	 * @attributeType "Join"
 	 */
 	receiveStateHidePulse: string;
 
@@ -142,7 +142,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name receivestateenable
 	 * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-	 * @attributeType "join"
+	 * @attributeType "Join"
 	 */
 	receiveStateEnable: string;
 
@@ -156,7 +156,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name sendeventonshow
 	 * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-	 * @attributeType "join"
+	 * @attributeType "Join"
 	 */
 	sendEventOnShow: string;
 

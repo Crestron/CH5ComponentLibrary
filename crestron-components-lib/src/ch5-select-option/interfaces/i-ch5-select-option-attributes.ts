@@ -52,7 +52,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateSelected: string | null;
 
@@ -65,7 +65,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateLabel: string | null;
 
@@ -78,7 +78,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateUrl: string | null;
 
@@ -92,7 +92,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateScriptLabelHTML: string | null;
 
@@ -108,7 +108,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnClick: string | null;
 }

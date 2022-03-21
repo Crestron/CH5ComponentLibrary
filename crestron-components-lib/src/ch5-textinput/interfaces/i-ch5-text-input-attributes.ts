@@ -130,7 +130,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name minlength
    * @default 0
    * @limits [{"min": 0, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   minLength: number;
 
@@ -145,7 +145,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name maxlength
    * @default 0
    * @limits [{"min": 0, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   maxLength: number;
 
@@ -161,7 +161,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name minvalue
    * @default 0
    * @limits [{"min": 0, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   minValue: number;
 
@@ -178,7 +178,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @name maxvalue
    * @default 0
    * @limits [{"min": 0, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   maxValue: number;
 
@@ -254,7 +254,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name receivestatefocus
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateFocus: string;
 
@@ -267,7 +267,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateValue: string;
 
@@ -280,7 +280,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnChange: string;
 
@@ -293,7 +293,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name sendeventonfocus
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnFocus: string;
 
@@ -306,7 +306,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name sendeventonblur
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnBlur: string;
 }

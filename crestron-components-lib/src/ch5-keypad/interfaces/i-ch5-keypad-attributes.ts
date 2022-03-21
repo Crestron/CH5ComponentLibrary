@@ -223,7 +223,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name sendeventonclickstart
      * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     sendEventOnClickStart: string;
 }
