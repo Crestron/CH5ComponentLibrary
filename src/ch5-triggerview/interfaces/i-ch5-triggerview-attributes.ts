@@ -22,7 +22,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * @name activeview
      * @default 0
      * @limits [{"min": 0, "max": 99}]
-     * @attributeType "integer"
+     * @attributeType "Integer"
      */
     activeView: number;
 
@@ -78,7 +78,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name sendeventshowchildindex
      * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     sendEventShowChildIndex: string;
 
@@ -92,7 +92,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name receivestateshowchildindex
      * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     receiveStateShowChildIndex: string;
 

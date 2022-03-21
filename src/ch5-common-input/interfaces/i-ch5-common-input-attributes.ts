@@ -27,7 +27,7 @@ export interface ICh5CommonInputAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "string"
+   * @attributeType "String"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -43,7 +43,7 @@ export interface ICh5CommonInputAttributes extends ICh5CommonAttributes {
    * ]
    * @name signalvaluesynctimeout
    * @default 1500ms
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   signalValueSyncTimeout: number | string;
 

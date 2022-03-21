@@ -21,7 +21,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * "This is a standard class HTML attribute."
      * ]
      * @name class
-     * @attributeType "string"
+     * @attributeType "String"
      */
     class: string;
     
@@ -33,7 +33,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * "This is a standard style HTML attribute."
      * ]
      * @name style
-     * @attributeType "string"
+     * @attributeType "String"
      */
     style: string;
     
@@ -47,7 +47,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * "The default value for this ch5-component can be overridden via this attribute."
      * ]
      * @name role
-     * @attributeType "string"
+     * @attributeType "String"
      */
     role: string;
 

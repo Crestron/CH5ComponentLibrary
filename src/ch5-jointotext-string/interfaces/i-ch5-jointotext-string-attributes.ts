@@ -14,7 +14,7 @@ export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
    * ]
    * @name value
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
     value: string;
 
@@ -27,7 +27,7 @@ export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
    * ]
    * @name textwhenempty
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
     textWhenEmpty: string;
     
@@ -40,7 +40,7 @@ export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
    receiveStateValue: string;
 }
