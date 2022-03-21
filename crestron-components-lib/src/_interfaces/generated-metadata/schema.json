@@ -792,7 +792,8 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "EncodedHTML"
+            "attributeType": "EncodedHTML",
+            "hidden": true
           },
           {
             "documentation": [
@@ -1076,7 +1077,8 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "EncodedHTML"
+            "attributeType": "EncodedHTML",
+            "hidden": true
           },
           {
             "documentation": [
@@ -1654,7 +1656,8 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "EncodedHTML"
+            "attributeType": "EncodedHTML",
+            "hidden": true
           },
           {
             "documentation": [
@@ -5705,108 +5708,6 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "string"
-          },
-          {
-            "documentation": [
-              "`labelMajor` attribute",
-              "***",
-              "Defines the primary/major text value of the button.",
-              "Not applicable to the extra button."
-            ],
-            "value": [],
-            "name": "labelmajor",
-            "default": "null",
-            "hideWhen": [
-              {
-                "showExtraButton": true
-              }
-            ],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "string"
-          },
-          {
-            "documentation": [
-              "`labelMinor` attribute",
-              "***",
-              "Defines the secondary/minor text value of the button.",
-              "Not applicable to the extra button."
-            ],
-            "value": [],
-            "name": "labelminor",
-            "default": "null",
-            "hideWhen": [
-              {
-                "showExtraButton": true
-              }
-            ],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "string"
-          },
-          {
-            "documentation": [
-              "`iconClass` attribute",
-              "***",
-              "Defines the secondary/minor text value of the button."
-            ],
-            "value": [],
-            "name": "iconclass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "iconClass"
-          },
-          {
-            "documentation": [
-              "`key` attribute",
-              "***",
-              "Defines the key value of the button."
-            ],
-            "value": [],
-            "name": "key",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "string"
-          },
-          {
-            "documentation": [
-              "`sendEventOnClick` attribute",
-              "***",
-              "Sends an event on click or tap (mouse or swipe up and down quickly).",
-              "Use this when the control system takes an action on the rising edge from false to true of a boolean digital event.",
-              "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
-              "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
-            ],
-            "value": [],
-            "name": "sendeventonclick",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "join"
-          },
-          {
-            "documentation": [
-              "`pressed` attribute",
-              "***",
-              "The default value is false.",
-              "This property reflects the pressed state of the component. If set to true, ",
-              "'keypad-btn-pressed' will be applied as the CSS class on the component."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "pressed",
-            "default": "false",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "boolean"
           },
           {
             "documentation": [
