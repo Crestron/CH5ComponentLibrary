@@ -21,7 +21,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "The icon class gives the ability for the end developer to create custom icons."
      * ]
      * @name iconclass
-     * @attributeType "iconClass"
+     * @attributeType "IconClass"
      */
     iconClass: string;
 
@@ -34,7 +34,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "the iconUrl takes precedence over iconClass."
      * ]
      * @name iconurl
-     * @attributeType "imageURL"
+     * @attributeType "ImageUrl"
      */
     iconUrl: string;
 
@@ -46,7 +46,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "The label attributes gives the ability for the end developer to specify a label for the CENTER button only"
      * ]
      * @name label
-     * @attributeType "string"
+     * @attributeType "String"
      * @hideWhen [
      *  { "key": ["up", "down", "left", "right"] }
      * ]
@@ -64,7 +64,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "The key of the button to determine which button it is."
      * ]
      * @name key
-     * @attributeType "string"
+     * @attributeType "String"
      */
      key: TCh5DpadChildButtonType;
 
@@ -80,7 +80,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * ]
      * @name sendeventonclick
      * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     sendEventOnClick: string;
 

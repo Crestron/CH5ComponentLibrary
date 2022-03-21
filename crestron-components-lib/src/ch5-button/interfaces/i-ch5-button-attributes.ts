@@ -35,7 +35,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @hideWhen [
    *  { "stretch": ["both", "height", "width"] }
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   size: TCh5ButtonSize;
 
@@ -47,7 +47,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "The label of the button element."
    * ]
    * @name label
-   * @attributeType "string"
+   * @attributeType "String"
    */
   label: string;
 
@@ -59,7 +59,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "The labelInnerHTML of the button element."
    * ]
    * @name labelinnerhtml
-   * @attributeType "string"
+   * @attributeType "EncodedHTML"
    * @hidden true
    */
   labelInnerHTML: string;
@@ -72,7 +72,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "The icon class."
    * ]
    * @name iconclass
-   * @attributeType "iconClass"
+   * @attributeType "IconClass"
    */
   iconClass: string;
 
@@ -87,7 +87,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "string"
+   * @attributeType "String"
    */
   iconPosition: TCh5ButtonIconPosition;
 
@@ -99,7 +99,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "The attribute used for add a SVG image."
    * ]
    * @name iconurl
-   * @attributeType "imageURL"
+   * @attributeType "ImageUrl"
    */
   iconUrl: string;
 
@@ -115,7 +115,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @name mode
    * @default 0
    * @limits [{"min": 0, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
    mode: number;
 
@@ -145,7 +145,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name checkboxposition
    * @default left
-   * @attributeType "string"
+   * @attributeType "String"
    */
   checkboxPosition: TCh5ButtonCheckboxPosition;
 
@@ -161,7 +161,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "string"
+   * @attributeType "String"
    */
   orientation: TCh5ButtonOrientation;
 
@@ -175,7 +175,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name shape
    * @default rounded-rectangle
-   * @attributeType "string"
+   * @attributeType "String"
    */
   shape: TCh5ButtonShape;
 
@@ -193,7 +193,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "the text will overflow. The same applies if stretch=both is used."
    * ]
    * @name stretch
-   * @attributeType "string"
+   * @attributeType "String"
    */
   stretch: TCh5ButtonStretch | null;
 
@@ -210,7 +210,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name type
    * @default default
-   * @attributeType "string"
+   * @attributeType "String"
    */
   type: TCh5ButtonType;
 
@@ -227,7 +227,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name halignlabel
    * @default center
-   * @attributeType "string"
+   * @attributeType "String"
    */
   hAlignLabel: TCh5ButtonHorizontalAlignLabel;
 
@@ -244,7 +244,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name valignlabel
    * @default middle
-   * @attributeType "string"
+   * @attributeType "String"
    */
   vAlignLabel: TCh5ButtonVerticalAlignLabel;
 
@@ -258,7 +258,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "cancel: The value cancel, reset all the controls of form to their initial values."
    * ]
    * @name formtype
-   * @attributeType "string"
+   * @attributeType "String"
    */
   formType: TCh5ButtonActionType | null;
 
@@ -271,7 +271,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatemode
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateMode: string;
 
@@ -284,7 +284,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateselected
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateSelected: string;
 
@@ -297,7 +297,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateLabel: string;
 
@@ -311,7 +311,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateScriptLabelHtml: string;
 
@@ -327,7 +327,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnClick: string;
 
@@ -343,7 +343,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventontouch
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnTouch: string;
 
@@ -356,7 +356,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateiconclass
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateIconClass: string | null;
 
@@ -370,7 +370,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatetype
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateType: string | null;
 
@@ -384,7 +384,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateiconurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateIconUrl: string | null;
 
@@ -396,7 +396,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "The name of the CSS class applied while the button is pressed by a user."
    * ]
    * @name customclasspressed
-   * @attributeType "string"
+   * @attributeType "String"
    */
   customClassPressed: string | null;
 
@@ -408,7 +408,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "The name of the CSS class applied while the button is disabled."
    * ]
    * @name customclassdisabled
-   * @attributeType "string"
+   * @attributeType "String"
    */
   customClassDisabled: string | null;
 

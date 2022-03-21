@@ -21,7 +21,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "Defines the primary contract name to derive the component's contract details."
      * ]
      * @name contractname
-     * @attributeType "string"
+     * @attributeType "String"
      */
     contractName: string;
 
@@ -36,7 +36,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name type
      * @default default
-     * @attributeType "string"
+     * @attributeType "String"
      */
      type: TCh5KeypadType;
 
@@ -49,7 +49,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name shape
      * @default plus
-     * @attributeType "string"
+     * @attributeType "String"
      */
     shape: TCh5KeypadShape;
 
@@ -66,7 +66,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "for the shapes of plus and circle)."
      * ]
      * @name stretch
-     * @attributeType "string"
+     * @attributeType "String"
      */
     stretch: TCh5KeypadStretch | null;
 
@@ -83,7 +83,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name textorientation
      * @default top
-     * @attributeType "string"
+     * @attributeType "String"
      */
     textOrientation: TCh5KeypadTextOrientation;
 
@@ -96,7 +96,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      *  "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-keypad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
      * ]
      * @default regular
-     * @attributeType "string"
+     * @attributeType "String"
      */
     size: TCh5KeypadSize;
 
@@ -223,7 +223,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name sendeventonclickstart
      * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     sendEventOnClickStart: string;
 }
