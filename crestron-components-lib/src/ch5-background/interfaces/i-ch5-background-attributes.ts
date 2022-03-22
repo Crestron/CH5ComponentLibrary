@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from '../../ch5-common/interfaces';
-import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './index';
+import { TCh5BackgroundScale, TCh5BackgroundRepeat, TCh5BackgroundTransitionEffect } from './index';
 
 /**
  * @ignore
@@ -132,9 +132,9 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name transitioneffect
    * @default ease
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
-  transitionEffect: string;
+  transitionEffect: TCh5BackgroundTransitionEffect;
 
   /**
    * @documentation

@@ -138,7 +138,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -158,7 +158,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -172,7 +172,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -191,7 +191,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -211,7 +211,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -231,7 +231,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -250,7 +250,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -269,7 +269,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -288,7 +288,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -309,7 +309,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -329,7 +329,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -343,7 +343,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -379,7 +379,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -396,7 +396,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "imageURL"
+            "attributeType": "ImageUrl"
           },
           {
             "documentation": [
@@ -414,7 +414,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -438,7 +438,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -470,7 +470,7 @@
               }
             ],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -489,7 +489,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -507,7 +507,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -518,13 +518,20 @@
               "this attribute provide the type of transition using the CSS transition-timing-syntax ",
               "property syntax. See the related attribute transition-duration."
             ],
-            "value": [],
+            "value": [
+              "",
+              "ease",
+              "linear",
+              "ease-in",
+              "ease-out",
+              "ease-in-out"
+            ],
             "name": "transitioneffect",
             "default": "ease",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -541,7 +548,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -560,7 +567,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -581,7 +588,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -601,7 +608,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -615,7 +622,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -629,7 +636,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -645,7 +652,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -820,7 +827,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -855,7 +862,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -869,7 +876,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "imageURL"
+            "attributeType": "ImageUrl"
           },
           {
             "documentation": [
@@ -883,7 +890,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -897,7 +904,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -916,7 +923,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -938,7 +945,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -960,7 +967,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           }
         ],
         "documentation": [
@@ -1105,7 +1112,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1140,7 +1147,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1154,7 +1161,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "imageURL"
+            "attributeType": "ImageUrl"
           },
           {
             "documentation": [
@@ -1168,7 +1175,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1182,7 +1189,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1201,7 +1208,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1223,7 +1230,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1245,7 +1252,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1268,7 +1275,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           }
         ],
         "documentation": [
@@ -1359,7 +1366,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1379,7 +1386,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1393,7 +1400,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1412,7 +1419,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1432,7 +1439,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1452,7 +1459,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1471,7 +1478,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1490,7 +1497,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1509,7 +1516,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1530,7 +1537,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1550,7 +1557,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1564,7 +1571,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1600,7 +1607,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1628,7 +1635,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1642,7 +1649,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1671,7 +1678,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "iconClass"
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -1692,7 +1699,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1706,7 +1713,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "imageURL"
+            "attributeType": "ImageUrl"
           },
           {
             "documentation": [
@@ -1727,7 +1734,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -1765,7 +1772,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1785,7 +1792,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1806,7 +1813,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1830,7 +1837,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1857,7 +1864,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1879,7 +1886,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1901,7 +1908,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1920,7 +1927,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -1939,7 +1946,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1958,7 +1965,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1977,7 +1984,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -1997,7 +2004,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2019,7 +2026,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2041,7 +2048,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2060,7 +2067,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2080,7 +2087,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2100,7 +2107,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2114,7 +2121,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2128,7 +2135,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2180,7 +2187,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2194,7 +2201,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2210,7 +2217,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2259,7 +2266,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2273,7 +2280,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2287,7 +2294,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           }
         ],
         "documentation": [
@@ -2409,7 +2416,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2429,7 +2436,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2443,7 +2450,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2462,7 +2469,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2482,7 +2489,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2502,7 +2509,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2521,7 +2528,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2540,7 +2547,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2559,7 +2566,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2580,7 +2587,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2600,7 +2607,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2614,7 +2621,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2650,7 +2657,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2664,7 +2671,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "iconClass"
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -2679,7 +2686,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "imageURL"
+            "attributeType": "ImageUrl"
           },
           {
             "documentation": [
@@ -2708,7 +2715,7 @@
               }
             ],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2728,7 +2735,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2750,7 +2757,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2837,7 +2844,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2857,7 +2864,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2871,7 +2878,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2890,7 +2897,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -2910,7 +2917,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2930,7 +2937,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2949,7 +2956,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2968,7 +2975,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -2987,7 +2994,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3008,7 +3015,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3028,7 +3035,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3042,7 +3049,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3078,7 +3085,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3092,7 +3099,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3117,7 +3124,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3134,7 +3141,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3157,7 +3164,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3177,7 +3184,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3281,7 +3288,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3295,7 +3302,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3309,7 +3316,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3325,7 +3332,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3445,7 +3452,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3465,7 +3472,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3479,7 +3486,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3498,7 +3505,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3518,7 +3525,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3538,7 +3545,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3557,7 +3564,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3576,7 +3583,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3595,7 +3602,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3616,7 +3623,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3636,7 +3643,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3650,7 +3657,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3686,7 +3693,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3700,7 +3707,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3714,7 +3721,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3728,7 +3735,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -3752,7 +3759,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3766,7 +3773,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3780,7 +3787,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3794,7 +3801,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3818,7 +3825,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3832,7 +3839,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3846,7 +3853,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3894,7 +3901,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3908,7 +3915,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -3924,7 +3931,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4087,7 +4094,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4107,7 +4114,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4121,7 +4128,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4140,7 +4147,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4160,7 +4167,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4180,7 +4187,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4199,7 +4206,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4218,7 +4225,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4237,7 +4244,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4258,7 +4265,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4278,7 +4285,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4292,7 +4299,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4328,7 +4335,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4342,7 +4349,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4356,7 +4363,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4370,7 +4377,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4386,7 +4393,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4476,7 +4483,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4496,7 +4503,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4510,7 +4517,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4529,7 +4536,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4549,7 +4556,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4569,7 +4576,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4588,7 +4595,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4607,7 +4614,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4626,7 +4633,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4647,7 +4654,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4667,7 +4674,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4681,7 +4688,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4717,7 +4724,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4731,7 +4738,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4745,7 +4752,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4759,7 +4766,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4780,7 +4787,7 @@
                 "max": 600
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -4794,7 +4801,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4808,7 +4815,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -4822,7 +4829,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4836,7 +4843,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4855,7 +4862,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4877,7 +4884,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4899,7 +4906,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4918,7 +4925,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -4932,7 +4939,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4946,7 +4953,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -4962,7 +4969,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5063,7 +5070,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5083,7 +5090,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5097,7 +5104,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5116,7 +5123,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5136,7 +5143,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5156,7 +5163,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5175,7 +5182,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5194,7 +5201,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5213,7 +5220,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5234,7 +5241,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5254,7 +5261,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5268,7 +5275,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5304,7 +5311,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5323,7 +5330,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5342,7 +5349,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5356,7 +5363,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "iconClass"
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -5370,7 +5377,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5387,7 +5394,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5466,7 +5473,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5486,7 +5493,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5500,7 +5507,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5519,7 +5526,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5539,7 +5546,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5559,7 +5566,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5578,7 +5585,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5597,7 +5604,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5616,7 +5623,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5637,7 +5644,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5657,7 +5664,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -5671,7 +5678,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5707,7 +5714,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5721,7 +5728,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5746,7 +5753,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5764,7 +5771,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5787,7 +5794,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5810,7 +5817,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5830,7 +5837,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -5992,7 +5999,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6006,7 +6013,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6020,7 +6027,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6036,7 +6043,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6154,7 +6161,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6174,7 +6181,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6188,7 +6195,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6207,7 +6214,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6227,7 +6234,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6247,7 +6254,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6266,7 +6273,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6285,7 +6292,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6304,7 +6311,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6325,7 +6332,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6345,7 +6352,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6359,7 +6366,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6395,7 +6402,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6410,7 +6417,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -6430,7 +6437,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6446,7 +6453,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -6463,7 +6470,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6481,7 +6488,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6496,7 +6503,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6511,7 +6518,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6526,7 +6533,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6541,7 +6548,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6561,7 +6568,7 @@
                 "max": 1000
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -6576,7 +6583,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6654,7 +6661,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6675,7 +6682,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6694,7 +6701,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6708,7 +6715,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6722,7 +6729,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6738,7 +6745,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6862,7 +6869,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6882,7 +6889,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6896,7 +6903,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6915,7 +6922,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -6935,7 +6942,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6955,7 +6962,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6974,7 +6981,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6993,7 +7000,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7012,7 +7019,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7033,7 +7040,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7053,7 +7060,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7067,7 +7074,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7103,7 +7110,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7117,7 +7124,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7137,7 +7144,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7159,7 +7166,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7173,7 +7180,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7187,7 +7194,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7201,7 +7208,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7215,7 +7222,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7228,7 +7235,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7242,7 +7249,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7256,7 +7263,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7271,7 +7278,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7285,7 +7292,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7299,7 +7306,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7313,7 +7320,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7327,7 +7334,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7433,7 +7440,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7452,7 +7459,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7471,7 +7478,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7490,7 +7497,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7509,7 +7516,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7528,7 +7535,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7542,7 +7549,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7556,7 +7563,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7572,7 +7579,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7680,7 +7687,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7700,7 +7707,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7714,7 +7721,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7733,7 +7740,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7753,7 +7760,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7773,7 +7780,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7792,7 +7799,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7811,7 +7818,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7830,7 +7837,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7851,7 +7858,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7871,7 +7878,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -7885,7 +7892,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7921,7 +7928,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7935,7 +7942,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7955,7 +7962,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7977,7 +7984,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -7992,7 +7999,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8018,7 +8025,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8090,7 +8097,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8110,7 +8117,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8129,7 +8136,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8148,7 +8155,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8167,7 +8174,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8186,7 +8193,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8200,7 +8207,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8214,7 +8221,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8230,7 +8237,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8335,7 +8342,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8355,7 +8362,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8369,7 +8376,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8388,7 +8395,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8408,7 +8415,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8428,7 +8435,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8447,7 +8454,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8466,7 +8473,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8485,7 +8492,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8506,7 +8513,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8526,7 +8533,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8540,7 +8547,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8576,7 +8583,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8596,7 +8603,7 @@
                 "max": 30
               }
             ],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8617,7 +8624,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8632,7 +8639,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8652,7 +8659,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -8666,7 +8673,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -8680,7 +8687,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8694,7 +8701,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8708,7 +8715,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8727,7 +8734,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8745,7 +8752,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8762,7 +8769,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -8778,7 +8785,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8792,7 +8799,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8845,7 +8852,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8861,7 +8868,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8882,7 +8889,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8901,7 +8908,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8920,7 +8927,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8939,7 +8946,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8959,7 +8966,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -8973,7 +8980,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -8987,7 +8994,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9003,7 +9010,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9261,7 +9268,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9281,7 +9288,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9295,7 +9302,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9314,7 +9321,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9334,7 +9341,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9354,7 +9361,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9373,7 +9380,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9392,7 +9399,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9411,7 +9418,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9432,7 +9439,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9452,7 +9459,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9466,7 +9473,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9502,7 +9509,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9522,7 +9529,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9559,7 +9566,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9578,7 +9585,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9597,7 +9604,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9617,7 +9624,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9639,7 +9646,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9653,7 +9660,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9667,7 +9674,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9683,7 +9690,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9748,7 +9755,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9768,7 +9775,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9782,7 +9789,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9801,7 +9808,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9821,7 +9828,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9841,7 +9848,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9860,7 +9867,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9879,7 +9886,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9898,7 +9905,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9919,7 +9926,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9939,7 +9946,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -9953,7 +9960,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -9989,7 +9996,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10009,7 +10016,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10023,7 +10030,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -10044,7 +10051,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -10058,7 +10065,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -10072,7 +10079,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -10090,7 +10097,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10111,7 +10118,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10132,7 +10139,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10148,7 +10155,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10168,7 +10175,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10189,7 +10196,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10210,7 +10217,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10242,7 +10249,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10258,7 +10265,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -10277,7 +10284,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10293,7 +10300,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10309,7 +10316,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10397,7 +10404,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10416,7 +10423,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10435,7 +10442,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10454,7 +10461,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10468,7 +10475,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10482,7 +10489,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10498,7 +10505,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10615,7 +10622,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10635,7 +10642,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10649,7 +10656,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10668,7 +10675,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10688,7 +10695,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10708,7 +10715,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10727,7 +10734,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10746,7 +10753,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10765,7 +10772,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10786,7 +10793,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10806,7 +10813,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -10820,7 +10827,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10856,7 +10863,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10876,7 +10883,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -10890,7 +10897,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10915,7 +10922,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10936,7 +10943,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -10953,7 +10960,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -10980,7 +10987,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -10998,7 +11005,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11016,7 +11023,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -11032,7 +11039,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11048,7 +11055,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11064,7 +11071,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11139,7 +11146,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11158,7 +11165,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11177,7 +11184,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11196,7 +11203,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11215,7 +11222,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11234,7 +11241,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11253,7 +11260,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11272,7 +11279,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11286,7 +11293,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11300,7 +11307,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11316,7 +11323,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11437,7 +11444,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11457,7 +11464,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11471,7 +11478,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11490,7 +11497,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11510,7 +11517,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11530,7 +11537,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11549,7 +11556,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11568,7 +11575,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11587,7 +11594,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11608,7 +11615,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11628,7 +11635,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11642,7 +11649,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11678,7 +11685,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11692,7 +11699,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11707,7 +11714,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11722,7 +11729,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11737,7 +11744,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11752,7 +11759,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11767,7 +11774,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11781,7 +11788,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11795,7 +11802,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11811,7 +11818,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11891,7 +11898,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11911,7 +11918,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11925,7 +11932,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11944,7 +11951,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -11964,7 +11971,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -11984,7 +11991,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12003,7 +12010,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12022,7 +12029,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12041,7 +12048,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12062,7 +12069,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12082,7 +12089,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12096,7 +12103,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12132,7 +12139,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12154,7 +12161,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12171,7 +12178,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -12189,7 +12196,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12203,7 +12210,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "iconClass",
+            "attributeType": "IconClass",
             "deprecated": {
               "version": "1.0.0",
               "description": "This attribute is deprecated, please use 'icon' attribute."
@@ -12221,7 +12228,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12235,7 +12242,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12249,7 +12256,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12272,7 +12279,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12291,7 +12298,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12311,7 +12318,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -12331,7 +12338,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -12352,7 +12359,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -12374,7 +12381,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -12395,7 +12402,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12417,7 +12424,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12441,7 +12448,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12478,7 +12485,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12497,7 +12504,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12516,7 +12523,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12535,7 +12542,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12554,7 +12561,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12568,7 +12575,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12582,7 +12589,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12598,7 +12605,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12713,7 +12720,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12733,7 +12740,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12747,7 +12754,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12766,7 +12773,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12786,7 +12793,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12806,7 +12813,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12825,7 +12832,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12844,7 +12851,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12863,7 +12870,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12884,7 +12891,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12904,7 +12911,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -12918,7 +12925,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12954,7 +12961,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12972,7 +12979,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -12989,7 +12996,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -13003,7 +13010,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13017,7 +13024,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13031,7 +13038,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13045,7 +13052,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13059,7 +13066,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13077,7 +13084,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13097,7 +13104,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13113,7 +13120,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13129,7 +13136,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13168,7 +13175,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13187,7 +13194,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13205,7 +13212,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13219,7 +13226,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13233,7 +13240,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13249,7 +13256,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13342,7 +13349,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13362,7 +13369,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13376,7 +13383,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13395,7 +13402,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13415,7 +13422,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13435,7 +13442,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13454,7 +13461,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13473,7 +13480,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13492,7 +13499,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13513,7 +13520,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13533,7 +13540,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13547,7 +13554,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13583,7 +13590,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           }
         ],
         "documentation": [
@@ -13660,7 +13667,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13680,7 +13687,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13694,7 +13701,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13713,7 +13720,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13733,7 +13740,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13753,7 +13760,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13772,7 +13779,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13791,7 +13798,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13810,7 +13817,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13831,7 +13838,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13851,7 +13858,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -13865,7 +13872,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13901,7 +13908,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -13920,7 +13927,7 @@
                 "max": 99
               }
             ],
-            "attributeType": "integer"
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -13994,7 +14001,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14014,7 +14021,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14046,7 +14053,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14060,7 +14067,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14076,7 +14083,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14204,7 +14211,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14224,7 +14231,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14238,7 +14245,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14257,7 +14264,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14277,7 +14284,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14297,7 +14304,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14316,7 +14323,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14335,7 +14342,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14354,7 +14361,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14375,7 +14382,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14395,7 +14402,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14409,7 +14416,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14445,7 +14452,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14459,7 +14466,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14473,7 +14480,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14487,7 +14494,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14501,7 +14508,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14515,7 +14522,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14529,7 +14536,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14549,7 +14556,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14570,7 +14577,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14584,7 +14591,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14602,7 +14609,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14616,7 +14623,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14641,7 +14648,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14655,7 +14662,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14671,7 +14678,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14687,7 +14694,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -14706,7 +14713,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14726,7 +14733,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14745,7 +14752,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14765,7 +14772,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14784,7 +14791,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14803,7 +14810,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14822,7 +14829,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14841,7 +14848,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14860,7 +14867,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14879,7 +14886,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14898,7 +14905,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14917,7 +14924,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14936,7 +14943,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14955,7 +14962,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14976,7 +14983,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -14998,7 +15005,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15017,7 +15024,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15036,7 +15043,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15055,7 +15062,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15074,7 +15081,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15093,7 +15100,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15112,7 +15119,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15131,7 +15138,7 @@
               "numericJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15145,7 +15152,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15159,7 +15166,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15175,7 +15182,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15271,7 +15278,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15291,7 +15298,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15305,7 +15312,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15324,7 +15331,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15344,7 +15351,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15364,7 +15371,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15383,7 +15390,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15402,7 +15409,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15421,7 +15428,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15442,7 +15449,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15462,7 +15469,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15476,7 +15483,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15512,7 +15519,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15529,7 +15536,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15543,7 +15550,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15557,7 +15564,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15571,7 +15578,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15585,7 +15592,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15599,7 +15606,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15615,7 +15622,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15709,7 +15716,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15729,7 +15736,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15743,7 +15750,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15762,7 +15769,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15782,7 +15789,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15802,7 +15809,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15821,7 +15828,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15840,7 +15847,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15859,7 +15866,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15880,7 +15887,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15900,7 +15907,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15914,7 +15921,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15950,7 +15957,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15964,7 +15971,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15978,7 +15985,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -15992,7 +15999,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16006,7 +16013,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16020,7 +16027,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16036,7 +16043,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16128,7 +16135,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16148,7 +16155,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16162,7 +16169,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16181,7 +16188,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16201,7 +16208,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -16221,7 +16228,7 @@
               "stringJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -16240,7 +16247,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -16259,7 +16266,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -16278,7 +16285,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -16299,7 +16306,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -16319,7 +16326,7 @@
               "booleanJoin": 1
             },
             "limits": [],
-            "attributeType": "join"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -16333,7 +16340,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16369,7 +16376,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16383,7 +16390,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16405,7 +16412,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16419,7 +16426,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16433,7 +16440,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16447,7 +16454,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16461,7 +16468,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16475,7 +16482,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16489,7 +16496,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16503,7 +16510,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
@@ -16519,7 +16526,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "string"
+            "attributeType": "String"
           },
           {
             "documentation": [
