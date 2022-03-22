@@ -9,4 +9,4 @@ export type TCh5BackgroundRepeat = 'no-repeat' | 'repeat' | 'repeat-x' | 'repeat
 
 export type TCh5BackgroundScale = 'stretch' | 'fill' | 'fit';
 
-export type TCh5BackgroundTransitionEffect = '' | 'ease' | 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
+export type TCh5BackgroundTransitionEffect = 'ease' | 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
