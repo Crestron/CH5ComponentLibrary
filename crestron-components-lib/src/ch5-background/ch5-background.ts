@@ -7,7 +7,7 @@
 import { Ch5Common } from './../ch5-common/ch5-common';
 import { ICh5BackgroundAttributes } from './interfaces/i-ch5-background-attributes';
 import { Ch5Signal, Ch5SignalFactory, subscribeState, unsubscribeState, publishEvent } from '../ch5-core';
-import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './interfaces';
+import { TCh5BackgroundScale, TCh5BackgroundRepeat, TCh5BackgroundTransitionEffect } from './interfaces';
 import { ICh5VideoBackground } from './../ch5-video/interfaces/types/t-ch5-video-publish-event-request';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { resizeObserver } from '../ch5-core/resize-observer';
@@ -165,7 +165,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @type {string}
 	 * @private
 	 */
-	private _transitionEffect: string = '';
+	private _transitionEffect: TCh5BackgroundTransitionEffect = '';
 
 	/**
 	 * background change transition duration.
@@ -336,11 +336,11 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		}
 	}
 
-	public get transitionEffect(): string {
+	public get transitionEffect(): TCh5BackgroundTransitionEffect {
 		return this._transitionEffect;
 	}
 
-	public set transitionEffect(value: string) {
+	public set transitionEffect(value: TCh5BackgroundTransitionEffect) {
 		if (this._transitionEffect !== value) {
 			this._transitionEffect = value;
 			this.setAttribute('transitioneffect', this._transitionEffect);
@@ -743,7 +743,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				break;
 			case 'transitioneffect':
 				if (this.hasAttribute('transitioneffect')) {
-					this.transitionEffect = newValue;
+					this.transitionEffect = newValue as TCh5BackgroundTransitionEffect;
 				} else {
 					this.transitionEffect = '';
 				}
@@ -862,7 +862,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		}
 
 		if (this.hasAttribute('transitioneffect')) {
-			this.transitionEffect = this.getAttribute('transitioneffect') as string;
+			this.transitionEffect = this.getAttribute('transitioneffect') as TCh5BackgroundTransitionEffect;
 		}
 
 		if (this.hasAttribute('transitionduration')) {
