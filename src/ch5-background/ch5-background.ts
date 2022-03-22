@@ -165,7 +165,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @type {string}
 	 * @private
 	 */
-	private _transitionEffect: TCh5BackgroundTransitionEffect = '';
+	private _transitionEffect: TCh5BackgroundTransitionEffect = 'ease';
 
 	/**
 	 * background change transition duration.
@@ -745,7 +745,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				if (this.hasAttribute('transitioneffect')) {
 					this.transitionEffect = newValue as TCh5BackgroundTransitionEffect;
 				} else {
-					this.transitionEffect = '';
+					this.transitionEffect = 'ease';
 				}
 				this.setBgTransition();
 				break;
