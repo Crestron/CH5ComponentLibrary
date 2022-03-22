@@ -277,6 +277,14 @@
             {
               "url": "ch5-dpad/ch5-dpad-usecontractforshow.html",
               "label": "useContractForShow"
+            },
+            {
+              "url": "ch5-dpad/ch5-dpad-usecontractforcustomclass.html",
+              "label": "useContractForCustomClass"
+            },
+            {
+              "url": "ch5-dpad/ch5-dpad-usecontractforcustomstyle.html",
+              "label": "useContractForCustomStyle"
             }
           ],
           "label": "Attributes"
@@ -401,6 +409,14 @@
             {
               "url": "ch5-keypad/ch5-keypad-usecontractforextrabuttonshow.html",
               "label": "useContractForExtraButtonShow"
+            },
+            {
+              "url": "ch5-keypad/ch5-keypad-usecontractforcustomclass.html",
+              "label": "useContractForCustomClass"
+            },
+            {
+              "url": "ch5-keypad/ch5-keypad-usecontractforcustomstyle.html",
+              "label": "useContractForCustomStyle"
             }
           ],
           "label": "Attributes"

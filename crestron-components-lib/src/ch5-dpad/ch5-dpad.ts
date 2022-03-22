@@ -248,7 +248,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 
 		this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractForEnable.toString());
-		this._useContractForCustomClass = isUseContractForEnable;
+		this._useContractForEnable = isUseContractForEnable;
 		const sigVal = contractName + "Enable";
 
 		const params: TCh5CreateReceiveStateSigParams = {
@@ -320,7 +320,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 
 		this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
-		this._useContractForCustomClass = isUseContractForCustomStyle;
+		this._useContractForCustomStyle = isUseContractForCustomStyle;
 		const sigVal = contractName + "CustomStyle";
 
 		const params: TCh5CreateReceiveStateSigParams = {
@@ -350,6 +350,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		const isUseContractForCustomClass = this.toBoolean(value);
 		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
+		console.log('useContractForCustomClass ', value)
 
 		if (contractName.length === 0 || this._useContractForCustomClass === isUseContractForCustomClass) {
 			return;
@@ -1073,7 +1074,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			ComponentHelper.setAttributeToElement(this, 'useContractForShow'.toLowerCase(), isContractNameAvailable));
 		this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
 			ComponentHelper.setAttributeToElement(this, 'useContractForCustomStyle'.toLowerCase(), isContractNameAvailable));
-		this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
+		this.useContractForCustomClass = ComponentHelper.getBoolFromString(
 			ComponentHelper.setAttributeToElement(this, 'useContractForCustomClass'.toLowerCase(), isContractNameAvailable));
 
 		// signals

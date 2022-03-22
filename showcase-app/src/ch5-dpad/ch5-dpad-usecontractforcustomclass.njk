@@ -1,0 +1,12 @@
+---
+title: "ch5-dpad: UseContractForCustomClass"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-dpad/usecontractforcustomclass/','ex1') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-dpad/usecontractforcustomclass/','ex2') %}{% endcall %}
+
+{% endblock %}
