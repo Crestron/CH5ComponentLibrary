@@ -36,7 +36,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name type
 	 * @default default
-	 * @attributeType "String"
+	 * @attributeType "EnumeratedValue"
 	 */
 	type: TCh5DpadType;
 
@@ -49,7 +49,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name shape
 	 * @default plus
-	 * @attributeType "String"
+	 * @attributeType "EnumeratedValue"
 	 */
 	shape: TCh5DpadShape;
 
@@ -66,7 +66,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "for the shapes of plus and circle)."
 	 * ]
 	 * @name stretch
-	 * @attributeType "String"
+	 * @attributeType "EnumeratedValue"
 	 */
 	stretch: TCh5DpadStretch | null;
 
@@ -79,7 +79,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 *  "Overrides the appearance of the dpad with alternative CSS that is defined in classes defined with ch5-dpad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
 	 * ]
 	 * @default regular
-	 * @attributeType "String"
+	 * @attributeType "EnumeratedValue"
 	 */
 	size: TCh5DpadSize;
 
@@ -97,7 +97,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name usecontractforenable
 	 * @default false
-	 * @attributeType "boolean"
+	 * @attributeType "Boolean"
 	 */
 	useContractForEnable: boolean;
 
@@ -114,7 +114,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name usecontractforshow
 	 * @default false
-	 * @attributeType "boolean"
+	 * @attributeType "Boolean"
 	 */
 	useContractForShow: boolean;
 
@@ -130,7 +130,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name usecontractforcustomclass
 	 * @default false
-	 * @attributeType "boolean"
+	 * @attributeType "Boolean"
 	 */
 	useContractForCustomClass: boolean;
 
@@ -146,7 +146,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name usecontractforcustomstyle
 	 * @default false
-	 * @attributeType "boolean"
+	 * @attributeType "Boolean"
 	 */
 	useContractForCustomStyle: boolean;
 

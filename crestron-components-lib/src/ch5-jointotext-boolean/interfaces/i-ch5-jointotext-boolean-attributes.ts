@@ -53,7 +53,7 @@ export interface ICh5JoinToTextBooleanAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @default ""
-   * @attributeType "String"
+   * @attributeType "Join"
    */
    receiveStateValue: string;
 
