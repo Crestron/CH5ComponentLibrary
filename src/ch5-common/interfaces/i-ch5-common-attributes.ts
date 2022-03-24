@@ -182,7 +182,7 @@ export interface ICh5CommonAttributes {
 	 * ]
 	 * @name show
 	 * @default true
-	 * @attributeType "boolean"
+	 * @attributeType "Boolean"
 	 */
 	show: boolean;
 

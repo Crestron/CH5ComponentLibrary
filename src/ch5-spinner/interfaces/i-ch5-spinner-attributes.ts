@@ -58,7 +58,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   iconPosition: TCh5SpinnerIconPosition;
 
@@ -125,7 +125,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -195,7 +195,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name resize
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   resize: boolean;
 
@@ -209,7 +209,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name endless
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   endless: boolean;
 
@@ -223,7 +223,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name autoSetItemHeight
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   autoSetItemHeight: boolean;
 

@@ -39,7 +39,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name orientation
    * @default vertical
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   orientation: TCh5ListElementOrientation | null;
 
@@ -178,7 +178,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name scrollbar
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   scrollbar: boolean;
 
@@ -194,7 +194,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name pagedswipe
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   pagedSwipe: boolean;
 
@@ -212,7 +212,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name endless
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   endless: boolean;
 

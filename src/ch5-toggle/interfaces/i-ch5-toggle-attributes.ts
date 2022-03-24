@@ -59,7 +59,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Specifies a custom icon class when the toggle is ON."
    * ]
    * @name iconon
-   * @attributeType "String"
+   * @attributeType "IconClass"
    */
   iconOn: string;
 
@@ -71,7 +71,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Specifies a custom icon class when the toggle is OFF."
    * ]
    * @name iconoff
-   * @attributeType "String"
+   * @attributeType "IconClass"
    */
   iconOff: string;
 
@@ -85,7 +85,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name handleshape
    * @default circle
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   handleShape: TCh5ToggleShape;
 
@@ -101,7 +101,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   orientation: TCh5ToggleOrientation;
   /**
@@ -140,7 +140,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name value
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   value: boolean;
 
@@ -171,7 +171,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 

@@ -96,7 +96,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "Values are 16:9 (default), 4:3, and custom.  When the size of the container does not match the aspect ratio, ",
      *  "the full height or width should be used and the dimension that is empty should be centered."
      * ]
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
     aspectRatio: TCH5VideoAspectRatio | string;
 
@@ -112,7 +112,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "parent container. The parent container should not contain any tags other than ch5-background ",
      *  "and CH5-Video."
      * ]
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
     stretch: TCH5VideoStretch | string;
 
@@ -136,7 +136,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "The video Source type, which can be 'Network', 'HDMI' or 'DM'."
      * ]
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
     sourceType: TCH5VideoSourceType | string;
 
@@ -148,7 +148,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "***",
      *  "A snapshot of the video, if any."
      * ]
-     * @attributeType "String"
+     * @attributeType "ImageURL"
      */
     snapShotUrl: string;
 
@@ -166,7 +166,7 @@ import { TCH5VideoStretch, TCH5VideoAspectRatio, TCH5VideoSize, TCH5VideoSourceT
      *  "The user needs to select the appropriate size to fit the container."
      * ]
      * @default large
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
     size: TCH5VideoSize | string;
 

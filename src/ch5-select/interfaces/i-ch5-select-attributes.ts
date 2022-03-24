@@ -42,7 +42,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   iconPosition: TCh5SelectIconPosition;
 
@@ -134,7 +134,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name mode
    * @default plain
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   mode: TCh5SelectMode;
 
@@ -148,7 +148,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -205,7 +205,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name multiselect
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    *
    */
   multiselect: boolean;
@@ -221,7 +221,7 @@ export interface ICh5SelectAttributes extends ICh5CommonAttributes {
    * ]
    * @name resize
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    *
    */
   resize: boolean;

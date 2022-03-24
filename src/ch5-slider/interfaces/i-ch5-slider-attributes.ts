@@ -24,7 +24,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name handleshape
    * @default rounded-rectangle
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   handleShape: TCh5SliderShape;
 
@@ -89,7 +89,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   orientation: TCh5SliderOrientation;
 
@@ -103,7 +103,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name size
    * @default regular
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   size: TCh5SliderSize;
 
@@ -117,7 +117,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name handlesize
    * @default regular
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   handleSize: TCh5SliderSize;
 
@@ -147,7 +147,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name stretch
    * @default both
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   stretch: TCh5SliderStretch | null;
 
@@ -182,7 +182,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name tooltipshowtype
    * @default off
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   toolTipShowType: TCh5SliderTooltipType
 
@@ -201,7 +201,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    *  {"tooltipdisplaytype": [null, "off"]},
    *  {"nohandle": ["true", ""] }
    * ]
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   toolTipDisplayType: TCh5SliderTooltipDisplay;
 
@@ -231,7 +231,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -268,7 +268,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name range
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   range: boolean;
 
@@ -282,7 +282,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name showtickvalues
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   showTickValues: boolean;
 
@@ -295,7 +295,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name nohandle
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   noHandle: boolean
 
@@ -308,7 +308,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * ]
    * @name tapsettable
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   tapSettable: boolean
 

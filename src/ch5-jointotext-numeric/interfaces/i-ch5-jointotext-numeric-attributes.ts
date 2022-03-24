@@ -28,7 +28,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name type
    * @default signed
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   type: NumericFormats;
 
@@ -41,7 +41,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @default ""
-   * @attributeType "String"
+   * @attributeType "Join"
    */
   receiveStateValue: string;
 

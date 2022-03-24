@@ -60,7 +60,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * ]
      * @name debug
      * @default true
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     debug: TBoolAttribute;
 
@@ -74,7 +74,7 @@ export interface ICh5Common extends ICh5CommonAttributes {
      * ]
      * @name disabled
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     disabled: TBoolAttribute;
 }

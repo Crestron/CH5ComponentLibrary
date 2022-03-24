@@ -104,7 +104,7 @@ export interface ICh5ButtonModeStateAttributes extends ICh5ButtonModeCommonAttri
    * ]
    * @name state
    * @default normal
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   state: TCh5ButtonModeState;
 

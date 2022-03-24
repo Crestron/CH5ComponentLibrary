@@ -25,7 +25,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   iconPosition: TCh5SelectOptionIconPosition | string;
 
@@ -39,7 +39,7 @@ export interface ICh5SelectOptionAttributes extends ICh5CommonAttributes {
    * ]
    * @name usedefaulttmpl
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   useDefaultTmpl: boolean;
 
