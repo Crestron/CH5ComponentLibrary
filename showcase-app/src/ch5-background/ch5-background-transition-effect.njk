@@ -2,14 +2,12 @@
 title: "ch5-background: transitionEffect"
 ---
 {% extends "./layouts/base.njk" %}
-{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials,
+emulatorScenarioSection %}
 
 {% block content %}
 
     {# example 1 #}
-        {% call exampleSectionFromPartials('ch5-background/transition-effect/','ex1') %}{% endcall %}
-    
-    {# example 2 #}
-        {% call exampleSectionFromPartials('ch5-background/transition-effect/','ex2') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-background/transition-effect/','ex1') %}{% endcall %}
 
 {% endblock %}
