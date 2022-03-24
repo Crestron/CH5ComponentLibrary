@@ -1,153 +1,167 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { isNil } from 'lodash';
 import { Ch5Signal, Ch5SignalFactory } from "..";
-import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { ICh5JoinToTextStringAttributes } from "./interfaces/i-ch5-jointotext-string-attributes";
 
 export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStringAttributes {
 
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
 	};
-    
-    private _receiveStateValue: string = '';
-    private _textWhenEmpty: string = '';
-    private _value: string = '';
+	public static readonly ELEMENT_NAME = 'ch5-jointotext-string';
 
-    private _subReceiveStateValue: string = '';
+	private _receiveStateValue: string = '';
+	private _textWhenEmpty: string = '';
+	private _value: string = '';
+	private _subReceiveStateValue: string = '';
 
+	//#region " Getters and Setters "
 
-    public static get observedAttributes(): string[] {
-        return [
-            'value',
-            'textwhenempty',
-            'receivestatevalue',
-        ]
-    }
+	public set textWhenEmpty(value: string) {
+		if (isNil(value)) {
+			return;
+		}
 
-    public connectedCallback() {
-        
-        if (this.hasAttribute('textwhenempty')) {
-            this.textWhenEmpty = this.getAttribute('textwhenempty') as string;
-        }
-        
-        if (this.hasAttribute('value')) {
-            this.value = this.getAttribute('value') as string;
-        } else {
-            this.value = '';
-        }
+		this._textWhenEmpty = value;
+		this.setAttribute('textWhenEmpty', value);
+	}
 
-        if (this.hasAttribute('receivestatevalue')) {
-            this.receiveStateValue = this.getAttribute('receivestatevalue') as string;
-        }
-    }
+	public get textWhenEmpty(): string {
+		return this._textWhenEmpty;
+	}
 
-    public disconnectedCallback() {
-        const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-        const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-        .getStringSignal(oldSigName);
-        
-        if (oldSignal !== null) {
-            oldSignal.unsubscribe(this._subReceiveStateValue);
-        }
-    }
+	public set receiveStateValue(value: string) {
+		if (isNil(value)) {
+			return;
+		}
 
-    public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-        if (oldValue === newValue) {
-            return;
-        }
+		if (this.receiveStateValue !== ''
+			&& this.receiveStateValue !== undefined
+			&& this.receiveStateValue !== null
+		) {
+			const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+				.getStringSignal(oldSigName);
 
-        switch (attr) {
-            case 'value':
-                this.value = newValue;
-                break;
-            case 'textwhenempty':
-                this.textWhenEmpty = newValue;
-                break;
-            case 'receviestatevalue':
-                this.receiveStateValue = newValue;
-                break;
-        }
-    }
+			if (oldSignal !== null) {
+				oldSignal.unsubscribe(this._subReceiveStateValue);
+			}
+		}
 
-    public set textWhenEmpty(value: string) {
-        if (isNil(value)) {
-            return;
-        }
+		this._receiveStateValue = value;
+		this.setAttribute('receivestatevalue', value);
 
-        this._textWhenEmpty = value;
-        this.setAttribute('textWhenEmpty', value);
-    }
+		// setup new subscription.
+		const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+		const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+			.getStringSignal(sigName);
 
-    public get textWhenEmpty(): string {
-        return this._textWhenEmpty;
-    }
+		if (receiveSignal === null) {
+			return;
+		}
 
-    public set receiveStateValue(value: string) {
-        if (isNil(value)) {
-            return;
-        }
+		this._subReceiveStateValue = receiveSignal.subscribe((newValue: string) => {
+			if (newValue !== this.value) {
+				this.setAttribute('value', newValue + '');
+			}
+		});
+	}
 
-        if (this.receiveStateValue !== ''
-            && this.receiveStateValue !== undefined
-            && this.receiveStateValue !== null
-        ) {    
-            const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(oldSigName);
-            
-            if (oldSignal !== null) {
-                oldSignal.unsubscribe(this._subReceiveStateValue);
-            }
-        }
-        
-        this._receiveStateValue = value;
-        this.setAttribute('receivestatevalue', value);
+	public get receiveStateValue(): string {
+		return this._receiveStateValue;
+	}
 
-        // setup new subscription.
-        const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigName);
+	public set value(value: string) {
+		this._value = value;
+		if (!this.value) {
+			this.textContent = this.textWhenEmpty;
+			return;
+		}
+		this.textContent = value;
+	}
 
-        if (receiveSignal === null) {
-            return;
-        }
+	public get value(): string {
+		return this._value;
+	}
 
-        this._subReceiveStateValue = receiveSignal.subscribe((newValue: string) => {
-            if (newValue !== this.value) {
-                this.setAttribute('value', newValue + '');
-            }
-        });
-    }
+	//#endregion
 
-    public get receiveStateValue(): string {
-        return this._receiveStateValue;
-    }
+	//#region " Static Methods "
 
-    public set value(value: string) {
-  
-        this._value = value;
-        this.replaceText(value);
-    }
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextString.ELEMENT_NAME, Ch5JoinToTextString.SIGNAL_ATTRIBUTE_TYPES);
+	}
 
-    public get value(): string {
-        return this._value;
-    }
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5JoinToTextString.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5JoinToTextString.ELEMENT_NAME, Ch5JoinToTextString);
+		}
+	}
 
-    public replaceText(value: string) {
-        if (!this.value) {
-            this.textContent = this.textWhenEmpty;
-            return;
-        }
+	//#endregion
 
-        this.textContent = value;
-    }
+	public static get observedAttributes(): string[] {
+		const inheritedObsAttrs = Ch5Common.observedAttributes;
+		const newObsAttrs = [
+			'value',
+			'textwhenempty',
+			'receivestatevalue'
+		];
+		return inheritedObsAttrs.concat(newObsAttrs);
+	}
+
+	public connectedCallback() {
+		if (this.hasAttribute('textwhenempty')) {
+			this.textWhenEmpty = this.getAttribute('textwhenempty') as string;
+		}
+
+		if (this.hasAttribute('value')) {
+			this.value = this.getAttribute('value') as string;
+		} else {
+			this.value = '';
+		}
+
+		if (this.hasAttribute('receivestatevalue')) {
+			this.receiveStateValue = this.getAttribute('receivestatevalue') as string;
+		}
+	}
+
+	public disconnectedCallback() {
+		const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+		const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
+
+		if (oldSignal !== null) {
+			oldSignal.unsubscribe(this._subReceiveStateValue);
+		}
+	}
+
+	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
+		if (oldValue === newValue) {
+			return;
+		}
+
+		switch (attr) {
+			case 'value':
+				this.value = newValue;
+				break;
+			case 'textwhenempty':
+				this.textWhenEmpty = newValue;
+				break;
+			case 'receviestatevalue':
+				this.receiveStateValue = newValue;
+				break;
+			default:
+				super.attributeChangedCallback(attr, oldValue, newValue);
+				break;
+		}
+	}
 
 }
 
-if (typeof window === "object" && typeof window.customElements === "object"
-    && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-jointotext-string', Ch5JoinToTextString);
-
-}
+Ch5JoinToTextString.registerCustomElement();
+Ch5JoinToTextString.registerSignalAttributeTypes();
