@@ -242,7 +242,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 
-        const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed } = this.params;
+        const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remaningParams } = this.params;
         this._labelMajor = major;
         this._labelMinor = minor;
         this._iconClass = iconClass.join(' ');
@@ -268,6 +268,16 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 				this._pressable.setPressed(this.toBoolean((this.getAttribute('pressed')), false));
 			}
 		}
+
+        const remaningParamsKeys = Object.keys(remaningParams);
+        const remaningParamsValues = Object.values(remaningParams);
+        if (remaningParamsKeys.length) {
+            for (let index = 0; index < remaningParamsKeys.length; index++) {
+                if (!_.isNil(remaningParamsValues[index])) {
+                    ComponentHelper.setAttributeToElement(this, remaningParamsKeys[index].toLowerCase(), remaningParamsValues[index]);
+                }
+            }
+        }
 
         this.logger.stop();
     }

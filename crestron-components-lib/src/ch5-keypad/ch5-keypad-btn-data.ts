@@ -128,8 +128,19 @@ export class CH5KeypadButtonData {
             const pressed =  ele.getAttribute('pressed');
             const joinCountToAdd = (contractName.length === 0 && sendEventOnClickStart.length > 0) ?
                 parseInt(sendEventOnClickStart, 10) + indexRef : '';
+            
+            let extraAttributes = {};
+            // tslint:disable-next-line:prefer-for-of
+            for (let attrIndex = 0; attrIndex < ele.attributes.length; attrIndex++) {
+                const attribute = ele.attributes[attrIndex];
+                extraAttributes = {
+                    ...extraAttributes,
+                    [attribute.nodeName]: attribute.nodeValue
+                }
+            }
 
             obj = {
+                ...extraAttributes,
                 indexRef,
                 name: 'button' + contractKey,
                 major: !!major ? major : '',
