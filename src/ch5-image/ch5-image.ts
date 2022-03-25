@@ -13,7 +13,7 @@ import { isNil, isEmpty } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { TCh5ProcessUriParams } from "../ch5-common/interfaces";
 import { ICh5ImageAttributes } from "./interfaces/i-ch5-image-attributes";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 import { Subscription } from "rxjs/internal/Subscription";
 
 export interface IShowStyle {
@@ -23,6 +23,8 @@ export interface IShowStyle {
 }
 
 export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
+
+    public static ELEMENT_NAME: string = 'ch5-image';
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -247,6 +249,19 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     
     private STATE_CHANGE_TIMEOUTS = 500;
     private _mode?: number;
+
+    public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Image.ELEMENT_NAME, Ch5Image.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+    public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Image.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
+	}
 
     /**
      * ATTR GETTERS AND SETTERS
@@ -1536,3 +1551,6 @@ if (typeof window === "object" && typeof window.customElements === "object"
     window.customElements.define('ch5-image', Ch5Image);
 
 }
+
+Ch5Image.registerSignalAttributeTypes();
+Ch5Image.registerSignalAttributeDefaults();

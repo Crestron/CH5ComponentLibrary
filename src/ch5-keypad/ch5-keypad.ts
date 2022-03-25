@@ -14,11 +14,13 @@ import { Ch5KeypadButton } from "./ch5-keypad-btn";
 import { CH5KeypadButtonData } from "./ch5-keypad-btn-data";
 import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-attributes";
 import { TCh5KeypadButtonCreateDTO, TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#region 1. Variables
     //#region 1.1 readonly variables
+
+    public static ELEMENT_NAME: string = 'ch5-keypad';
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -149,6 +151,19 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; } = {};
 
     //#endregion
+    public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Keypad.ELEMENT_NAME, Ch5Keypad.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+    public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Keypad.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
+	}
+
 
     //#endregion
 
@@ -1313,3 +1328,6 @@ if (typeof window === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-keypad', Ch5Keypad);
 }
+
+Ch5Keypad.registerSignalAttributeTypes();
+Ch5Keypad.registerSignalAttributeDefaults();
