@@ -197,10 +197,13 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 				this._pressable.setPressed(value);
 			}
 		}
-        this.setAttribute('pressed', value.toString());
+
         if (value === true) {
+            this.setAttribute('pressed', '');
             this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
             this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
+        } else {
+            this.setAttribute('pressed', value.toString());
         }
 	}
 	public get pressed(): boolean {
@@ -265,7 +268,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
         if (this.hasAttribute('pressed')) {
 			if (this._pressable) {
-				this._pressable.setPressed(this.toBoolean((this.getAttribute('pressed')), false));
+				this._pressable.setPressed(this.toBoolean((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false"), false));
 			}
 		}
 
@@ -491,7 +494,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
                 if (this.hasAttribute('pressed')) {
                     ComponentHelper.setAttributeToElement(this, 'pressed', newValue);
                     this.pressed = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-                    const attrPressed = (this.getAttribute('pressed') as string).toLowerCase();
+                    const attrPressed = ((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false")).toString().toLowerCase();
                     if ('false' !== attrPressed && '0' !== attrPressed) {
                         isPressed = true;
                     }

@@ -616,14 +616,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		if (this.hasAttribute("checkboxshow")) {
 			const attributeValue: string = (this.getAttribute("checkboxshow") as string).toLowerCase();
-			if (attributeValue !== 'false' && attributeValue !== 'true') {
+			if (attributeValue !== 'false' && attributeValue !== 'true' && attributeValue !== '') {
 				this.removeAttribute('checkboxshow');
 			}
 		}
 		if (this._checkboxShow !== value) {
 			this._checkboxShow = value;
 			if (this._checkboxShow === true) {
-				this.setAttribute('checkboxShow', 'true');
+				this.setAttribute('checkboxShow', '');
 			} else {
 				this.setAttribute('checkboxShow', 'false');
 			}
@@ -1089,7 +1089,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.checkboxPosition = this.getAttribute('checkboxposition') as TCh5ButtonCheckboxPosition;
 		}
 		if (this.hasAttribute('checkboxshow')) {
-			this.checkboxShow = this.toBoolean((this.getAttribute('checkboxshow')));
+			this.checkboxShow = this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false"));
 		}
 		if (this.hasAttribute('customclassselected')) {
 			this.customClassState = this.getAttribute('customclassselected') as string;
@@ -1154,7 +1154,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		if (this.hasAttribute('pressed')) {
 			if (this._pressable) {
-				this._pressable.setPressed(this.toBoolean((this.getAttribute('pressed')), false));
+				this._pressable.setPressed(this.toBoolean((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false"), false));
 			}
 		}
 		if (this.hasAttribute('labelInnerHTML')) {
@@ -1335,7 +1335,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			case 'pressed':
 				let isPressed = false;
 				if (this.hasAttribute('pressed')) {
-					const attrPressed = (this.getAttribute('pressed') as string).toLowerCase();
+					const attrPressed = ((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")).toString().toLowerCase();
 					if ('false' !== attrPressed && '0' !== attrPressed) {
 						isPressed = true;
 					}
@@ -1349,7 +1349,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			case 'checkboxshow':
 				let isCheckboxShow = false;
 				if (this.hasAttribute('checkboxshow')) {
-					isCheckboxShow = this.toBoolean(this.getAttribute('checkboxshow'));
+					isCheckboxShow =  this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false"));
 				}
 				this.checkboxShow = isCheckboxShow;
 				this.checkboxDisplay();
@@ -1830,7 +1830,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		let hasCheckboxIcon = false;
 
-		if (this.hasAttribute("checkboxShow") && this.toBoolean(this.getAttribute("checkboxShow")) === true) {
+		if (this.hasAttribute("checkboxShow") &&  this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
 			hasCheckboxIcon = true;
 		}
 		this.logger.log("hasCheckboxIcon", hasCheckboxIcon);

@@ -247,7 +247,12 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractForEnable.toString());
+
+		if (isUseContractForEnable) {
+			this.setAttribute('useContractForEnable'.toLowerCase(), '');
+		} else {
+			this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractForEnable.toString());
+		}
 		this._useContractForCustomClass = isUseContractForEnable;
 		const sigVal = contractName + "Enable";
 
@@ -283,7 +288,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
+		if (isUseContractForShow) {
+			this.setAttribute('useContractForShow'.toLowerCase(), '');
+		} else {
+			this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
+		}
 		const sigVal = contractName + "Show";
 
 		const params: TCh5CreateReceiveStateSigParams = {
@@ -319,7 +328,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
+		if (isUseContractForCustomStyle) {
+			this.setAttribute('usecontractforcustomstyle', '');
+		} else {
+			this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
+		}
 		this._useContractForCustomClass = isUseContractForCustomStyle;
 		const sigVal = contractName + "CustomStyle";
 
@@ -355,7 +368,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		this.setAttribute('useContractForCustomClass'.toLowerCase(), isUseContractForCustomClass.toString());
+		if (isUseContractForCustomClass) {
+			this.setAttribute('useContractForCustomClass', '');
+		} else {
+			this.setAttribute('useContractForCustomClass', isUseContractForCustomClass.toString());
+		}
 		this._useContractForCustomClass = isUseContractForCustomClass;
 		const sigVal = contractName + "CustomClass";
 
@@ -804,16 +821,16 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		switch (attr) {
 			case 'usecontractforshow':
-				this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforshow') && this.getAttribute('usecontractforshow') !== "false"), '');
 				break;
 			case 'usecontractforenable':
-				this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforenable') && this.getAttribute('usecontractforenable') !== "false"), '');
 				break;
 			case 'usecontractforcustomstyle':
-				this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomstyle') && this.getAttribute('usecontractforcustomstyle') !== "false"), '');
 				break;
 			case 'usecontractforcustomclass':
-				this.useContractForCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.useContractForCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomclass') && this.getAttribute('usecontractforcustomclass') !== "false"), '');
 				break;
 			case 'receivestateshow':
 				if (!isValidContract) {
