@@ -84,7 +84,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
 	public readonly primaryCssClass = 'ch5-dpad';
@@ -124,6 +123,15 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	private containerClass: string = 'dpad-container';
 
 	//#endregion
+
+	public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Dpad.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
+	}
 
 	//#endregion
 
@@ -1373,3 +1381,4 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 Ch5Dpad.registerCustomElement();
 Ch5Dpad.registerSignalAttributeTypes();
+Ch5Dpad.registerSignalAttributeDefaults();

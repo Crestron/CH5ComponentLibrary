@@ -11,10 +11,13 @@ import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './interfaces';
 import { ICh5VideoBackground } from './../ch5-video/interfaces/types/t-ch5-video-publish-event-request';
 import { Ch5CoreIntersectionObserver } from "../ch5-core/ch5-core-intersection-observer";
 import { resizeObserver } from '../ch5-core/resize-observer';
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 import _ from 'lodash';
 
 export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes {
+
+	public static ELEMENT_NAME = 'ch5-background';
+
 	/**
 	 * The first value is considered the default one
 	 */
@@ -222,6 +225,20 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	private _videoSubscriptionId: string = '';
 
 	private _canvasSubscriptionId: string = '';
+
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Background.ELEMENT_NAME, Ch5Background.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Background.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
+	}
 
 	/**
 	 * ATTR GETTERS AND SETTERS
@@ -1340,3 +1357,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 if (typeof window === 'object' && typeof window.customElements === 'object' && typeof window.customElements.define === 'function') {
 	window.customElements.define('ch5-background', Ch5Background);
 }
+
+Ch5Background.registerSignalAttributeTypes();
+Ch5Background.registerSignalAttributeDefaults();

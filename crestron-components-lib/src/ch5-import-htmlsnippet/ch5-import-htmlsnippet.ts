@@ -8,6 +8,7 @@
 import _ from 'lodash';
 import isNil from 'lodash/isNil';
 import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 import { Ch5Signal, Ch5SignalFactory, publishEvent } from "../ch5-core";
 import { ICh5ImportHtmlSnippetAttributes } from './interfaces/i-ch5-import-htmlsnippet-attributes';
 
@@ -23,6 +24,8 @@ import { ICh5ImportHtmlSnippetAttributes } from './interfaces/i-ch5-import-htmls
  */
 
 export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSnippetAttributes {
+
+	public static ELEMENT_NAME = 'ch5-import-htmlsnippet';
 
 	private _elContainer: HTMLElement = {} as HTMLElement;
 
@@ -93,6 +96,19 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 		});
 		// custom HTML load event
 		this._onError = this._onError.bind(this);
+	}
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ImportHtmlSnippet.ELEMENT_NAME, Ch5ImportHtmlSnippet.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+    public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5ImportHtmlSnippet.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
 	}
 
 	/**
@@ -369,3 +385,6 @@ if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-import-htmlsnippet', Ch5ImportHtmlSnippet);
 }
+
+Ch5ImportHtmlSnippet.registerSignalAttributeTypes();
+Ch5ImportHtmlSnippet.registerSignalAttributeDefaults();

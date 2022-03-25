@@ -10,7 +10,7 @@ import { Ch5Signal } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Button } from "../ch5-button/ch5-button";
 import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attributes";
-import {Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
+import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 import {Ch5Common} from '../ch5-common/ch5-common';
 
 /**
@@ -94,6 +94,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
             classListPrefix: 'ch5-modal-dialog--overflow-'
         },
     };
+
+    public static ELEMENT_NAME = 'ch5-modal-dialog';
 
     public primaryCssClass = 'ch5-modal-dialog';
     public cssClassPrefix = 'ch5-modal-dialog';
@@ -304,6 +306,11 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         this._okButtonLabel = this._btnOkDefaultLabelText;
 
     }
+
+    public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
 
     protected attachEventListeners() {
         super.attachEventListeners();
@@ -1274,3 +1281,5 @@ if (typeof window === "object"
 
     window.customElements.define('ch5-modal-dialog', Ch5ModalDialog);
 }
+
+Ch5ModalDialog.registerSignalAttributeTypes();

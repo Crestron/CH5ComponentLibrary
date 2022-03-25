@@ -26,9 +26,11 @@ import { Ch5RoleAttributeMapping } from "../utility-models";
 import { isNil } from "lodash";
 import { TCh5CommonInputFeedbackModes } from "../ch5-common-input/interfaces/t-ch5-common-input";
 import { ICh5SelectAttributes, TCh5SelectMode, TCh5SelectIconPosition } from "./interfaces";
-import { Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
+
+	public static ELEMENT_NAME: string = 'ch5-select';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -37,7 +39,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		receivestatetemplatevars: { direction: "state", stringJoin: 1, contractName: true },
 
 		sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true }
+		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
 	};
 
 	// Options number can no be > 30
@@ -267,6 +269,19 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		this.closeSelectPanel = this.closeSelectPanel.bind(this);
 		this._wasInstatiated = false;
 
+	}
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Select.ELEMENT_NAME, Ch5Select.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Select.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
 	}
 
 	public set ondirtyCallback(callback: HtmlCallback | {}) {
@@ -2124,3 +2139,6 @@ if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-select', Ch5Select);
 }
+
+Ch5Select.registerSignalAttributeTypes();
+Ch5Select.registerSignalAttributeDefaults();
