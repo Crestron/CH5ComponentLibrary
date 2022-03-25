@@ -24,244 +24,6 @@ export interface IShowStyle {
 
 export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
-    public static ELEMENT_NAME: string = 'ch5-image';
-
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
-
-        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-        sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
-        sendeventonerror: { direction: "event", stringJoin: 1, contractName: true }
-    };
-
-    public static readonly COMPONENT_DATA: any = {
-        DIRECTIONS: {
-            default: Ch5Common.DIRECTION[0],
-            values: Ch5Common.DIRECTION,
-            key: 'direction',
-            classListPrefix: 'ch5-image--dir--'
-        },
-    };
-
-    public primaryCssClass = 'ch5-image';
-    public cssClassPrefix = 'ch5-image';
-
-    private _img: HTMLImageElement = {} as HTMLImageElement;
-
-    /**
-     * COMPONENT ATTRIBUTES
-     *
-     * - alt
-     * - height
-     * - width
-     * - refreshRate
-     * - url
-     */
-
-    /**
-     * Alternative text to be shown for image
-     *
-     * @type {string}
-     * @private
-     */
-    private _alt: string = '';
-
-    /**
-     * Height for image
-     *
-     * @type {string}
-     * @private
-     */
-    private _height: string = '';
-
-    /**
-     * Width for image.
-     *
-     * @type {string}
-     * @private
-     */
-    private _width: string = '';
-
-    /**
-     * Number of seconds between each call to the image URL in order to get new data. If 0, no refresh will be done.
-     *
-     * @type {number}
-     * @private
-     */
-    private _refreshRate: number = 0;
-
-    /**
-     * image URL. Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP.
-     *
-     * @type {string}
-     * @private
-     */
-    private _url: string = '';
-
-    /**
-     * image direction
-     */
-    private _direction: string = Ch5Common.DIRECTION[0];
-
-    /**
-     * COMPONENT RECEIVED SIGNALS
-     *
-     * - receiveStateUrl
-     */
-
-    /**
-     * The name of a string signal. The value of this string signal will be added to the url attribute
-     *
-     * HTML attribute name: receiveStateUrl or receivestateurl
-     */
-    private _sigNameReceiveUrl: string = '';
-
-    private _sigNameReceiveUser: string = '';
-
-    private _sigNameReceivePassword: string = '';
-
-    private _sigNameReceiveMode: string = '';
-
-    /**
-     * The subscription id for the receiveStateUrl signal
-     */
-    private _subReceiveUrl: string = '';
-
-    private _subReceiveUser: string = '';
-    
-    private _subReceivePassword: string = '';
-
-    private _subReceiveMode: string = '';
-
-    /**
-     * COMPONENT SEND SIGNALS
-     *
-     * - sendEventOnTouch
-     * - sendEventOnClick
-     * - sendEventOnError
-     */
-
-    /**
-     * The name of the boolean signal that will be sent to native on click or tap event (mouse or finger up and down in
-     * a small period of time)
-     *
-     * HTML attribute name: sendEventOnClick or sendeventonclick
-     */
-    private _sigNameSendOnClick: string = '';
-
-    /**
-     * HTML attribute name: sendEventOnError or sendeventonerror
-     */
-    private _sigNameSendOnError: string = '';
-
-
-    /**
-     * The name of the boolean signal that will be sent to native on touch.
-     * boolean true while finger is on the glass, digital false when finger is released or “roll out”.
-     * The signal will be sent with value true and reasserted true every 500ms while the finger is on the
-     * component. The reassertion is needed to avoid unending ramp should there be a communications error, a failure of
-     * the image itself or any intermediate proxy of the signal.
-     * This signal should not be generated as part of a gesture swipe.
-     *
-     * HTML attribute name: sendEventOnTouch or sendeventontouch
-     */
-    private _sigNameSendOnTouch: string = '';
-
-    /**
-     * EVENTS
-     *
-     * click - inherited
-     * press - custom/inherited
-     * release - custom/inherited
-     * error - inherited
-     */
-
-    /**
-     * Ch5Pressable manager
-     *
-     * @private
-     * @type {(Ch5Pressable | null)}
-     * @memberof Ch5Image
-     */
-    private _pressable: Ch5Pressable | null = null;
-
-    /**
-     * Event error: error on loading the image
-     */
-    public errorEvent: Event;
-
-    /**
-     *
-     */
-    private _timerIdForTouch: number | null = null;
-
-    /**
-     * Reflects the long touch state of the component.
-     */
-    private _longTouch: boolean = false;
-
-    /**
-     * The interval id ( from setInterval ) for reenforcing the  onTouch signal
-     * This id allow canceling the interval.
-     */
-    private _intervalIdForOnTouch: number | null = null;
-
-    /**
-     * Value in ms for reenforcing the  onTouch signal
-     */
-    private _intervalTimeoutForOnTouch: number = 500;
-
-    /**
-     * The interval id ( from setInterval ) for refresh rate interval
-     * This id allow canceling the interval.
-     */
-    private _intervalIdForRefresh: number | null = null;
-
-    private _imageWasLoaded: boolean = false;
-
-    /**
-     * User for authentication in order to get the image
-     *
-     * @type {string}
-     */
-    private _user: string = '';
-
-    /**
-     * Password for authentication in order to get the image
-     *
-     * @type {string}
-     */
-    private _password: string = '';
-
-    /**
-     * Protocol for authentication in order to get the image
-     *
-     * @type {string}
-     */
-    private _protocol: string = '';
-
-    private _isPressedSubscription: Subscription | null = null;;
-
-    private _buttonPressedInPressable = true;
-
-    private _repeatDigitalInterval = 0;
-    
-    private STATE_CHANGE_TIMEOUTS = 500;
-    private _mode?: number;
-
-    public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Image.ELEMENT_NAME, Ch5Image.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
-    public static registerSignalAttributeDefaults() {
-		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Image.ELEMENT_NAME, {
-			contractName: { attributes: ["contractname"], defaultValue: "" },
-			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-		});
-	}
 
     /**
      * ATTR GETTERS AND SETTERS
@@ -381,22 +143,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
     public get mode(): number | undefined {
         return this._mode;
-    }
-
-    public getModeNodes() {
-        this.info('getModeNodes got called');
-        return this.querySelectorAll('ch5-image-mode');
-    }
-
-    public getModeNode(index: number): Element {
-        this.info('getting mode with index ' + index);
-        const modeNodes = this.getModeNodes();
-
-        if (!modeNodes[index]) {
-            throw new Error('Mode is not defined');
-        }
-
-        return modeNodes[index];
     }
 
     /**
@@ -753,6 +499,288 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         }
     }
 
+    // Respond to attribute changes.
+    static get observedAttributes() {
+        const commonAttributes = Ch5Common.observedAttributes;
+
+        const ch5ImageAttributes = [
+            // attributes
+            'alt',
+            'width',
+            'height',
+            'user',
+            'password',
+            'url',
+            'refreshrate',
+            'dir',
+            'mode',
+
+            // receive signals
+            'receivestateurl',
+
+            // send signals
+            'sendeventonclick',
+            'sendeventonerror',
+            'sendeventontouch'
+        ];
+
+        return commonAttributes.concat(ch5ImageAttributes);
+    }
+;
+    public static readonly ELEMENT_NAME = 'ch5-image';
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
+
+        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
+        sendeventonerror: { direction: "event", stringJoin: 1, contractName: true }
+    };
+
+    public static readonly COMPONENT_DATA: any = {
+        DIRECTIONS: {
+            default: Ch5Common.DIRECTION[0],
+            values: Ch5Common.DIRECTION,
+            key: 'direction',
+            classListPrefix: 'ch5-image--dir--'
+        },
+    };
+
+    public primaryCssClass = 'ch5-image';
+    public cssClassPrefix = 'ch5-image';
+
+    private _img: HTMLImageElement = {} as HTMLImageElement;
+
+    /**
+     * COMPONENT ATTRIBUTES
+     *
+     * - alt
+     * - height
+     * - width
+     * - refreshRate
+     * - url
+     */
+
+    /**
+     * Alternative text to be shown for image
+     *
+     * @type {string}
+     * @private
+     */
+    private _alt: string = '';
+
+    /**
+     * Height for image
+     *
+     * @type {string}
+     * @private
+     */
+    private _height: string = '';
+
+    /**
+     * Width for image.
+     *
+     * @type {string}
+     * @private
+     */
+    private _width: string = '';
+
+    /**
+     * Number of seconds between each call to the image URL in order to get new data. If 0, no refresh will be done.
+     *
+     * @type {number}
+     * @private
+     */
+    private _refreshRate: number = 0;
+
+    /**
+     * image URL. Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP.
+     *
+     * @type {string}
+     * @private
+     */
+    private _url: string = '';
+
+    /**
+     * image direction
+     */
+    private _direction: string = Ch5Common.DIRECTION[0];
+
+    /**
+     * COMPONENT RECEIVED SIGNALS
+     *
+     * - receiveStateUrl
+     */
+
+    /**
+     * The name of a string signal. The value of this string signal will be added to the url attribute
+     *
+     * HTML attribute name: receiveStateUrl or receivestateurl
+     */
+    private _sigNameReceiveUrl: string = '';
+
+    private _sigNameReceiveUser: string = '';
+
+    private _sigNameReceivePassword: string = '';
+
+    private _sigNameReceiveMode: string = '';
+
+    /**
+     * The subscription id for the receiveStateUrl signal
+     */
+    private _subReceiveUrl: string = '';
+
+    private _subReceiveUser: string = '';
+    
+    private _subReceivePassword: string = '';
+
+    private _subReceiveMode: string = '';
+
+    /**
+     * COMPONENT SEND SIGNALS
+     *
+     * - sendEventOnTouch
+     * - sendEventOnClick
+     * - sendEventOnError
+     */
+
+    /**
+     * The name of the boolean signal that will be sent to native on click or tap event (mouse or finger up and down in
+     * a small period of time)
+     *
+     * HTML attribute name: sendEventOnClick or sendeventonclick
+     */
+    private _sigNameSendOnClick: string = '';
+
+    /**
+     * HTML attribute name: sendEventOnError or sendeventonerror
+     */
+    private _sigNameSendOnError: string = '';
+
+
+    /**
+     * The name of the boolean signal that will be sent to native on touch.
+     * boolean true while finger is on the glass, digital false when finger is released or “roll out”.
+     * The signal will be sent with value true and reasserted true every 500ms while the finger is on the
+     * component. The reassertion is needed to avoid unending ramp should there be a communications error, a failure of
+     * the image itself or any intermediate proxy of the signal.
+     * This signal should not be generated as part of a gesture swipe.
+     *
+     * HTML attribute name: sendEventOnTouch or sendeventontouch
+     */
+    private _sigNameSendOnTouch: string = '';
+
+    /**
+     * EVENTS
+     *
+     * click - inherited
+     * press - custom/inherited
+     * release - custom/inherited
+     * error - inherited
+     */
+
+    /**
+     * Ch5Pressable manager
+     *
+     * @private
+     * @type {(Ch5Pressable | null)}
+     * @memberof Ch5Image
+     */
+    private _pressable: Ch5Pressable | null = null;
+
+    /**
+     * Event error: error on loading the image
+     */
+    public errorEvent: Event;
+
+    /**
+     *
+     */
+    private _timerIdForTouch: number | null = null;
+
+    /**
+     * Reflects the long touch state of the component.
+     */
+    private _longTouch: boolean = false;
+
+    /**
+     * The interval id ( from setInterval ) for reenforcing the  onTouch signal
+     * This id allow canceling the interval.
+     */
+    private _intervalIdForOnTouch: number | null = null;
+
+    /**
+     * Value in ms for reenforcing the  onTouch signal
+     */
+    private _intervalTimeoutForOnTouch: number = 500;
+
+    /**
+     * The interval id ( from setInterval ) for refresh rate interval
+     * This id allow canceling the interval.
+     */
+    private _intervalIdForRefresh: number | null = null;
+
+    private _imageWasLoaded: boolean = false;
+
+    /**
+     * User for authentication in order to get the image
+     *
+     * @type {string}
+     */
+    private _user: string = '';
+
+    /**
+     * Password for authentication in order to get the image
+     *
+     * @type {string}
+     */
+    private _password: string = '';
+
+    /**
+     * Protocol for authentication in order to get the image
+     *
+     * @type {string}
+     */
+    private _protocol: string = '';
+
+    private _isPressedSubscription: Subscription | null = null;
+    private _buttonPressedInPressable = true;
+
+    private _repeatDigitalInterval = 0;
+    
+    private STATE_CHANGE_TIMEOUTS = 500;
+    private _mode?: number;
+
+    public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Image.ELEMENT_NAME, Ch5Image.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+    public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Image.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
+	}
+    
+    public getModeNodes() {
+        this.info('getModeNodes got called');
+        return this.querySelectorAll('ch5-image-mode');
+    }
+
+    public getModeNode(index: number): Element {
+        this.info('getting mode with index ' + index);
+        const modeNodes = this.getModeNodes();
+
+        if (!modeNodes[index]) {
+            throw new Error('Mode is not defined');
+        }
+
+        return modeNodes[index];
+    }
+
     /**
      * 	Called every time the element is inserted into the DOM.
      *  Useful for running setup code, such as fetching resources or rendering.
@@ -829,34 +857,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
             window.clearInterval(this._intervalIdForOnTouch);
             this._intervalIdForOnTouch = null;
         }
-    }
-
-    // Respond to attribute changes.
-    static get observedAttributes() {
-        const commonAttributes = Ch5Common.observedAttributes;
-
-        const ch5ImageAttributes = [
-            // attributes
-            'alt',
-            'width',
-            'height',
-            'user',
-            'password',
-            'url',
-            'refreshrate',
-            'dir',
-            'mode',
-
-            // receive signals
-            'receivestateurl',
-
-            // send signals
-            'sendeventonclick',
-            'sendeventonerror',
-            'sendeventontouch'
-        ];
-
-        return commonAttributes.concat(ch5ImageAttributes);
     }
 
     public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
@@ -1232,8 +1232,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
         }
 
         return _isVisible(this);
-    };
-
+    }
     public updateElementVisibility(visible: boolean) {
         super.updateElementVisibility(visible);
 
@@ -1549,7 +1548,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-image', Ch5Image);
-
+    Ch5Image.registerSignalAttributeTypes();
 }
 
 Ch5Image.registerSignalAttributeTypes();

@@ -195,6 +195,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      */
     protected _receiveStateHidePulse: string = '';
 
+    protected _nextSiblingIndexInParentChildNodes: number = 0;
+
     /**
      * The subscription key for the receiveStateHidePulse signal
      */
@@ -1380,6 +1382,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                     this._cachedParentEl = this.parentElement;
                     this.info(' removes element from DOM due to change in show signal, cached parent element')
                     if (null !== this.nextElementSibling && undefined !== this.nextElementSibling) {
+                        this._nextSiblingIndexInParentChildNodes = (Array.from(this.parentElement.childNodes)).findIndex(item => item === this.nextElementSibling)
                         this._cachedNextSibling = this.nextElementSibling;
                         this.info(' cached sibling element')
                     }
@@ -1412,7 +1415,12 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 this._keepListeningOnSignalsAfterRemoval = false;
 
             } else {
-                cp.appendChild(this);
+                if (this._nextSiblingIndexInParentChildNodes) {
+                    const cs = cp.childNodes[this._nextSiblingIndexInParentChildNodes];
+                    cp.insertBefore(this, cs);
+                } else {
+                    cp.appendChild(this);
+                }
                 this.info(' appended element to parent due to change in show signal')
                 this._keepListeningOnSignalsAfterRemoval = false;
             }

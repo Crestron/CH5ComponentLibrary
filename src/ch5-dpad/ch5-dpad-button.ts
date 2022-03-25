@@ -7,13 +7,14 @@
 
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5DpadChildBase } from "./ch5-dpad-child-base";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
 import { TCh5DpadChildButtonType } from "./interfaces/t-ch5-dpad";
 
 export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBaseAttributes {
-
+    public static readonly ELEMENT_NAME = 'ch5-dpad-button';
     //#region 1. Variables
 
     //#region 1.1 readonly variables
@@ -30,9 +31,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
     //#region 1.2 private / protected variables
     private labelClass: string = 'dpad-btn-label';
 
-    // private setter getter specific vars
-    private _label: string = '';
-
     // signal based vars for each receive state
 
     // parent specific contract based signals for each receive state
@@ -43,28 +41,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 
     //#region 2. Setters and Getters
 
-    /**
-     * label specif getter-setter
-     */
-    public set label(value: string) {
-        this.logger.start('set label("' + value + '")');
-
-        if (_.isNil(value)) {
-            value = '';
-        }
-
-        if (value === this.label) {
-            return;
-        }
-
-        this._label = value;
-        this.setAttribute('label', value);
-    }
-    public get label() {
-        return this._label;
-    }
-
-
     //#endregion
 
     //#region 3. Lifecycle Hooks
@@ -73,6 +49,9 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
         super();
     }
 
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5DpadButton.ELEMENT_NAME, Ch5DpadButton.SIGNAL_ATTRIBUTE_TYPES);
+    }
 
     /**
      * Function to create all inner html elements required to complete dpad center button
@@ -208,4 +187,5 @@ if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-dpad-button', Ch5DpadButton);
+    Ch5DpadButton.registerSignalAttributeTypes();
 }

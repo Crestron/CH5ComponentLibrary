@@ -21,7 +21,7 @@ export interface ICh5Gestureable {
    * "Adding this will change the behavior inside of the component."
    * ]
    * @name gestureable
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   gestureable: TBoolAttribute;
 

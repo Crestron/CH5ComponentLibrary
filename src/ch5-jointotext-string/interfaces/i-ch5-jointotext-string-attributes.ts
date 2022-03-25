@@ -1,5 +1,8 @@
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
 
+/**
+ * @ignore
+ */
 export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
 
   /**
@@ -11,7 +14,7 @@ export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
    * ]
    * @name value
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
     value: string;
 
@@ -22,9 +25,9 @@ export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
    * "***",
    * "Defines an text that will be displayed on value is empty for the jointotext."
    * ]
-   * @name textWhenEmpty
+   * @name textwhenempty
    * @default ""
-   * @attributeType "string"
+   * @attributeType "String"
    */
     textWhenEmpty: string;
     
@@ -35,9 +38,9 @@ export interface ICh5JoinToTextStringAttributes extends ICh5CommonAttributes {
    * "***",
    * "Defines the receivestatevalue state name."
    * ]
-   * @name receiveStateValue
+   * @name receivestatevalue
    * @default ""
-   * @attributeType "string"
+   * @attributeType "Join"
    */
    receiveStateValue: string;
 }

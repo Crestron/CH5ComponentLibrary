@@ -61,10 +61,14 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`labelMajor` attribute",
      * "***",
-     * "Defines the primary/major text value of the button."
+     * "Defines the primary/major text value of the button.",
+     * "Not applicable to the extra button."
      * ]
-     * @name labelMajor
-     * @attributeType "string"
+     * @name labelmajor
+     * @attributeType "String"
+     * @hideWhen [
+     *  { "showExtraButton": true }
+     * ]
      */
     labelMajor: string;
 
@@ -73,10 +77,14 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`labelMinor` attribute",
      * "***",
-     * "Defines the secondary/minor text value of the button."
+     * "Defines the secondary/minor text value of the button.",
+     * "Not applicable to the extra button."
      * ]
-     * @name labelMinor
-     * @attributeType "string"
+     * @name labelminor
+     * @hideWhen [
+     *  { "showExtraButton": true }
+     * ]
+     * @attributeType "String"
      */
     labelMinor: string;
 
@@ -87,8 +95,8 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "***",
      * "Defines the secondary/minor text value of the button."
      * ]
-     * @name iconClass
-     * @attributeType "iconClass"
+     * @name iconclass
+     * @attributeType "IconClass"
      */
     iconClass: string;
 
@@ -100,7 +108,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Defines the key value of the button."
      * ]
      * @name key
-     * @attributeType "string"
+     * @attributeType "String"
      */
      key: string;
 
@@ -114,8 +122,23 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Examples include the SIMPL Logic Symbol for Toggle a with description of ",
      * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
-     * @name sendEventOnClick
-     * @attributeType "join"
+     * @name sendeventonclick
+     * @attributeType "Join"
      */
     sendEventOnClick: string;
+    
+    /**
+     * @documentation
+     * [
+     * "`pressed` attribute",
+     * "***",
+     * "The default value is false.",
+     * "This property reflects the pressed state of the component. If set to true, ",
+     * "'keypad-btn-pressed' will be applied as the CSS class on the component."
+     * ]
+     * @name pressed
+     * @default false
+     * @attributeType "Boolean"
+     */
+    pressed: boolean;
 }

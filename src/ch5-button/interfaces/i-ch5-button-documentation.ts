@@ -128,7 +128,7 @@ export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttribute
    * "Runs when a press event is initiated."
    * ]
    * @name onpress
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onpress: string;
 
@@ -140,7 +140,7 @@ export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttribute
    * "Runs when a release event is initiated."
    * ]
    * @name onrelease
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onrelease: string;
 
@@ -152,7 +152,7 @@ export interface ICh5ButtonDocumentation extends ICh5Common, ICh5ButtonAttribute
    * "Specifies a custom class for the selected state of the button."
    * ]
    * @name customclassselected
-   * @attributeType "string"
+   * @attributeType "String"
    */
   customClassSelected: string | null;
 

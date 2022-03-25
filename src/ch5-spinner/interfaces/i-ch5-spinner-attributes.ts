@@ -25,7 +25,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * @name size
    * @default 1
    * @limits [{"min": 0, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   size: number;
 
@@ -37,7 +37,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "The label of the spinner element."
    * ]
    * @name label
-   * @attributeType "string"
+   * @attributeType "String"
    */
   label: string;
 
@@ -58,7 +58,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   iconPosition: TCh5SpinnerIconPosition;
 
@@ -74,7 +74,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * @name selectedvalue
    * @default 0
    * @limits [{"min": 0, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   selectedValue: number;
 
@@ -89,7 +89,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Each item on the list must have the same height."
    * ]
    * @name itemheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   itemHeight: string;
 
@@ -111,7 +111,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * @name visibleitemscroll
    * @default 3
    * @limits [{"min": 1, "max": 99}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   visibleItemScroll: number;
 
@@ -125,7 +125,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -142,7 +142,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name signalvaluesynctimeout
    * @default 1500
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   signalValueSyncTimeout: number;
 
@@ -156,7 +156,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "surrounded by {{ }} delimiters."
    * ]
    * @name indexid
-   * @attributeType "string"
+   * @attributeType "String"
    */
   indexId: string;
   /**
@@ -167,7 +167,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Runs when a clean event is initiated."
    * ]
    * @name onclean
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onclean: {};
 
@@ -179,7 +179,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
-   * @attributeType "string"
+   * @attributeType "String"
    */
   ondirty: {};
 
@@ -195,7 +195,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name resize
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   resize: boolean;
 
@@ -209,7 +209,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name endless
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   endless: boolean;
 
@@ -223,7 +223,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name autoSetItemHeight
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   autoSetItemHeight: boolean;
 
@@ -236,7 +236,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateValue: string;
 
@@ -249,7 +249,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatesize
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateSize: string;
 
@@ -262,7 +262,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatelabel
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateLabel: string;
 
@@ -275,7 +275,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateUrl: string;
 
@@ -288,7 +288,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonchange
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnChange: string;
 
@@ -301,7 +301,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonfocus
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnFocus: string;
 
@@ -314,7 +314,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonoverflow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnOverflow: string;
 
@@ -327,7 +327,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendeventonunderflow
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnUnderflow: string;
 }

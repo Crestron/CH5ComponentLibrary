@@ -77,11 +77,11 @@ export class CH5KeypadButtonData {
         // populate by merging existing controls
         // DEV NOTE: below set of commented variables allow two extra buttons as part of the 5th row, if required
         // const nameList: string[] = ['left', 'center', 'right'];
-        // const contractList: string[] = ['Star', 'ButtonExtra', 'Hash'];
+        // const contractList: string[] = ['Star', 'ExtraButton', 'Hash'];
         // const classNameList: string[] = ['extra-btn empty-btn', 'extra-btn special-center', 'extra-btn empty-btn'];
         const retArr: TCh5KeypadButtonCreateDTO[] = [];
         const nameList: string[] = ['Extra'];
-        const contractList: string[] = ['ButtonExtra'];
+        const contractList: string[] = ['ExtraButton'];
         const classNameList: string[] = [this.specialBtnCssClass];
         const joinIndex: number = 12;
         for (let i = 0; i < nameList.length; i++) {
@@ -128,8 +128,19 @@ export class CH5KeypadButtonData {
             const pressed =  ele.getAttribute('pressed');
             const joinCountToAdd = (contractName.length === 0 && sendEventOnClickStart.length > 0) ?
                 parseInt(sendEventOnClickStart, 10) + indexRef : '';
+            
+            let extraAttributes = {};
+            // tslint:disable-next-line:prefer-for-of
+            for (let attrIndex = 0; attrIndex < ele.attributes.length; attrIndex++) {
+                const attribute = ele.attributes[attrIndex];
+                extraAttributes = {
+                    ...extraAttributes,
+                    [attribute.nodeName]: attribute.nodeValue
+                }
+            }
 
             obj = {
+                ...extraAttributes,
                 indexRef,
                 name: 'button' + contractKey,
                 major: !!major ? major : '',
