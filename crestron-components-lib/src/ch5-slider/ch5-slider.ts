@@ -47,473 +47,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 	//#region "Variables"
 
-	public static readonly MIN_VALUE: number = 0;
-	public static readonly MAX_VALUE: number = 65535;
-	public static readonly DEFAULT_STEP: number = 1;
-
-	/**
-	 * The first value is considered the default one
-	 */
-	public static readonly SHAPES: TCh5SliderShape[] = ['rounded-rectangle', 'rectangle', 'circle', 'oval'];
-
-	/**
-	 * The first value is considered the default one
-	 */
-	public static readonly ORIENTATIONS: TCh5SliderOrientation[] = ['horizontal', 'vertical'];
-
-	/**
-	 * The first value is considered the default one
-	 */
-	public static readonly SIZES: TCh5SliderSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
-
-	/**
-	 * The first value is considered the default one
-	 */
-	public static readonly STRETCHES: TCh5SliderStretch[] = ['both', 'width', 'height'];
-
-	/**
-	 * The first value is considered the default one
-	 */
-	public static readonly DIRECTION: TCh5SliderDirection[] = ['ltr', 'rtl'];
-
-	/**
-	 * The first value is considered the default one
-	 */
-	public static readonly TOOLTIPS: TCh5SliderTooltipType[] = ['off', 'on', 'auto'];
-
-	public static readonly TDISPLAY: TCh5SliderTooltipDisplay[] = ['%', 'value'];
-
-	public static readonly COMPONENT_DATA: any = {
-		SHAPES: {
-			default: Ch5Slider.SHAPES[0],
-			values: Ch5Slider.SHAPES,
-			key: 'shape',
-			classListPrefix: 'ch5-slider--shape--'
-		},
-		ORIENTATIONS: {
-			default: Ch5Slider.ORIENTATIONS[0],
-			values: Ch5Slider.ORIENTATIONS,
-			key: 'orientation',
-			classListPrefix: 'ch5-slider--orientation'
-		},
-		SIZES: {
-			default: Ch5Slider.SIZES[0],
-			values: Ch5Slider.SIZES,
-			key: 'size',
-			classListPrefix: 'ch5-slider--size'
-		},
-		HANDLE_SIZE: {
-			default: Ch5Slider.SIZES[0],
-			values: Ch5Slider.SIZES,
-			key: 'handle_size',
-			classListPrefix: 'ch5-slider--handle-size--'
-		},
-		STRETCH: {
-			default: Ch5Slider.STRETCHES[0],
-			values: Ch5Slider.STRETCHES,
-			key: 'stretch',
-			classListPrefix: 'ch5-slider--stretch'
-		},
-		DIRECTION: {
-			default: Ch5Slider.DIRECTION[0],
-			values: Ch5Slider.DIRECTION,
-			key: 'direction',
-			classListPrefix: 'ch5-slider--direction'
-		},
-		TOOLTIPS: {
-			default: Ch5Slider.TOOLTIPS[0],
-			values: Ch5Slider.TOOLTIPS,
-			key: 'tooltip',
-			classListPrefix: 'ch5-slider--tooltip'
-		},
-		TDISPLAY: {
-			default: Ch5Slider.TDISPLAY[0],
-			values: Ch5Slider.TDISPLAY,
-			key: 'tdisplay',
-			classListPrefix: 'ch5-slider--'
-		},
-	};
-
-	public static readonly OFFSET_THRESHOLD: number = 30;
-
-	/**
-	 * Component internal HTML elements
-	 */
-	private _elSlider: HTMLElement = {} as HTMLElement;
-	private _tgtEls: NodeListOf<HTMLElement>[] = [];
-	private _tooltip: NodeListOf<HTMLElement> = {} as NodeListOf<HTMLElement>;
-
-	/**
-	 * CSS classes
-	 */
-	public primaryCssClass = 'ch5-slider';
-	public cssClassPrefix = 'ch5-slider';
-
-	/**
-	 * Reflects render state
-	 * Used to avoid calling _render() multiple times in setter methods
-	 */
-	private _wasRendered: boolean = false;
-
-	/**
-	 * COMPONENT ATTRIBUTES
-	 *
-	 * - handleShape
-	 * - value
-	 * - valueHigh
-	 * - max
-	 * - min
-	 * - orientation
-	 * - size
-	 * - handleSize
-	 * - step
-	 * - stretch
-	 * - ticks
-	 * - showTickValues
-	 * - toolTipShowType
-	 * - toolTipDisplayType
-	 * - signalValueSyncTimeout
-	 * - feedbackMode
-	 * - tapSettable
-	 * - noHandle
-	 */
-
-	/**
-	 * Default: rounded-rectangle. Valid Values: rectangle, circle, oval, rounded-rectangle. Defines the handle shape.
-	 *
-	 * @type {TCh5SliderShape}
-	 * @private
-	 */
-	private _handleShape: TCh5SliderShape = 'rounded-rectangle';
-
-	/**
-	 * Initial values of single value or lower value if range=true
-	 *
-	 * @private
-	 * @type {number}
-	 */
-	protected _value: number = Ch5Slider.MIN_VALUE;
-
-	/**
-	 * Initial values of single value or lower value if range=true
-	 *
-	 * @private
-	 * @type {boolean}
-	 */
-	private _range: boolean = false;
-
-	/**
-	 * Higher value only applicable if range=true
-	 *
-	 * @private
-	 * @type {number}
-	 */
-	private _valueHigh: number = Ch5Slider.MAX_VALUE;
-
-	/**
-	 * Maximum value.
-	 *
-	 * @private
-	 * @type {number}
-	 */
-	private _max: number = Ch5Slider.MAX_VALUE;
-
-	/**
-	 * Minimum value.
-	 *
-	 * @private
-	 * @type {number}
-	 */
-	private _min: number = Ch5Slider.MIN_VALUE;
-
-	/**
-	 * Default horizontal. Valid values: horizontal, vertical
-	 *
-	 * @private
-	 * @type {TCh5SliderOrientation}
-	 */
-	private _orientation: TCh5SliderOrientation = 'horizontal';
-
-	/**
-	 * Size of the slider
-	 * Default regular. Valid values: x-small, small, regular, large, x-large
-	 */
-	private _size: TCh5SliderSize = 'regular';
-
-	/**
-	 * Size of the handle
-	 * Default regular. Valid values: x-small, small, regular, large, x-large
-	 */
-	private _handleSize: TCh5SliderSize = 'regular';
-
-	/**
-	 * Default 100. Maximum 100.
-	 * Defines the number of steps values in the slider. If you want quarters 0, 25, 50, 75, 100 then 5 is the numbers of steps.
-	 *
-	 * @private
-	 * @type {number}
-	 */
-	private _step: number = Ch5Slider.DEFAULT_STEP;
-
-	/**
-	 * Default both.
-	 * Valid Values: width, height, both When stretch property is set, the slider inherits the width or/and height of the container.
-	 * @private
-	 * @type {TCh5SliderStretch}
-	 */
-	private _stretch: TCh5SliderStretch | null = null;
-
-	/**
-	 * Defines the ticks on the slider.
-	 * It will be an advanced tick scales: non-linear or logarithmic.
-	 * You can create sliders with ever-increasing increments by specifying the value for the slider at certain intervals.
-	 *  - The first value define the % position along the length of the slider scale to place a tick mark.
-	 *  - The second value will be the label value to place next to the tick at that position.
-	 * An example would be ticks='{"0":"-60", "25":"-40", "50":"-20", "75":"-10", "100": "0" }'
-	 *
-	 * @private
-	 * @type {string}
-	 */
-	private _ticks: string = '';
-
-	/**
-	 * Default false.
-	 * Option to display value labels next to tick marks at each tick increment.
-	 * @private
-	 * @type {boolean}
-	 */
-	private _showTickValues: boolean = false;
-
-	/**
-	 * Default "off".  Option to display a tooltip above (horizontal), right(vertical) of the handle.  Valid values are 
-	 * "off" not displayed
-	 * "on" always displayed
-	 * "auto" displayed while user interact with the slider
-	 *
-	 * @private
-	 * @type {TCh5SliderTooltipType}
-	 */
-	private _toolTipShowType: TCh5SliderTooltipType = "off"
-
-	/**
-	 * Default: percent.  Option of what is displayed in the tooltip.  Valid values are:
-	 * "%" - displayed as percent.  Math.round((100*(v-min))/(max - min))
-	 * "value" - actual value provided
-	 *
-	 * @private
-	 * @type {TCh5SliderTooltipDisplay}
-	 */
-	private _toolTipDisplayType: TCh5SliderTooltipDisplay = "%";
-
-	/**
-	 * Default: false. If true Mmake the closest handle when the slider gets tapped.
-	 */
-	private _tapSettable: boolean = false;
-
-	/**
-	 * slider direction
-	 */
-	private _direction: TCh5SliderDirection = Ch5Slider.DIRECTION[0];
-
-	/**
-	 * COMPONENT SEND SIGNALS
-	 *
-	 * - sendEventOnChange
-	 * - sendEventOnChangeHigh
-	 */
-
-	/**
-	 * The name of the number signal that will be sent to native on change event
-	 *
-	 * HTML attribute name: sendEventOnChange or sendEventOnChange
-	 */
-	private _sendEventOnChangeSigName: string = '';
-
-	/**
-	 * The name of the number signal that will be sent to native on change event if range slider is set to true
-	 *
-	 * HTML attribute name: sendEventOnChangeHigh or sendEventOnChangeHigh
-	 */
-	private _sendEventOnChangeHighSigName: string = ''
-
-	/**
-	 * COMPONENT RECEIVE SIGNALS
-	 *
-	 * - receiveStateValue
-	 * - receiveStateValueHigh
-	 */
-
-	/**
-	 * The name of a string signal that will be applied to the value
-	 *
-	 * HTML attribute name: receiveStateValue or receivestatevalue
-	 */
-	private _receiveStateValueSignal: string = '';
-
-	/**
-	 * The subscription id for the receiveStateValue signal
-	 */
-	private _subReceiveValueId: string = '';
-	private _subReceiveAnalogValueId: string = '';
-
-	/**
-	 * The name of a string signal that will be applied to the value
-	 *
-	 * HTML attribute name: receiveStateValueHigh or receiveStateValueHigh
-	 */
-	private _receiveStateValueSignalHigh: string = '';
-
-	/**
-	 * The subscription id for the receiveStateValueHigh signal
-	 */
-	private _subReceiveValueHighId: string = '';
-	private _subReceiveAnalogValueHighId: string = '';
-
-	/**
-	 * Option to hide the slider toggle
-	 *
-	 * @private
-	 * @type {boolean}
-	 */
-	private _noHandle: boolean = false;
-
-	/**
-	 * COMPONENT EVENTS
-	 *
-	 * slider - custom event.
-	 * slidestart - custom event
-	 * slideend - custom event
-	 * focus - custom
-	 * blur - custom
-	 * change - custom
-	 * dirty - custom
-	 * press - custom
-	 * release - custom
-	 */
-
-	/**
-	 * Ch5Pressable manager
-	 *
-	 * @private
-	 * @type {(Ch5Pressable | null)}
-	 * @memberof Ch5Image
-	 */
-	private _pressable: Ch5Pressable | null = null;
-
-	/**
-	 * This event is useful when you specifically want to listen to a handle being dragged, but want to ignore other updates to the slider value.
-	 * This event also fires on a change by a 'tap'. In most cases, the 'update' is the better choice.
-	 *
-	 * @type {Event}
-	 */
-	public sliderEvent: Event = {} as Event;
-
-	/**
-	 * This event fires when a handle is clicked (mousedown, or the equivalent touch events).
-	 *
-	 * @type {Event}
-	 */
-	public slidestartEvent: Event = {} as Event;
-
-	/**
-	 * This event is the opposite of the 'start' event.
-	 * If fires when a handle is released (mouseup etc), or when a slide is canceled due to other reasons (such as mouse cursor leaving the browser window).
-	 *
-	 * @type {Event}
-	 */
-	public slideendEvent: Event = {} as Event;
-
-	/**
-	 * If fires when a handle is focus
-	 *
-	 * @type {Event}
-	 */
-	public focusEvent: Event = {} as Event;
-
-	/**
-	 * If fires when a handle loses focus
-	 *
-	 * @type {Event}
-	 */
-	public blurEvent: Event = {} as Event;
-
-	/**
-	 * Event change: Fires when the component's value changes due to user interaction.
-	 *
-	 * @type {Event}
-	 */
-	public changeEvent: Event = {} as Event;
-
-	/**
-	 * Event dirty: Fires when the component is on feedbackMode='submit' and displayed value is different than the actual value
-	 * @type {Event}
-	 */
-	public dirtyEvent: Event = {} as Event;
-
-	/**
-	 * Event dirty: Fires when the component is on feedbackMode='submit' and displayed value is the actual value
-	 * @type {Event}
-	 */
-	public cleanEvent: Event = {} as Event;
-
-	/**
-	 * This property stores the valueHigh which comes from signal or initial valueHigh
-	 *
-	 * @type {string | number}
-	 * @protected
-	 */
-	protected _cleanValueHigh: (string | number) = '' as (string | number);
-
-	/**
-	 * Contains the changed valueHigh
-	 *
-	 * @type {string | number}
-	 * @protected
-	 */
-	protected _dirtyValueHigh: (string | number) = '' as (string | number);
-
-	/**
-	 * Defines the timeout between the user change the high handle(second handle) and the time the slider will check if the value is equal with the value from the signal
-	 * @protected
-	 * @type {(number|null)}
-	 */
-	protected _dirtyTimerHandleHigh: number | null = null;
-
-	protected _cleanLow: boolean = true;
-	protected _dirtyLow: boolean = false;
-	protected _cleanHigh: boolean = true;
-	protected _dirtyHigh: boolean = false;
-
-	/**
-	 * rcb properties
-	 */
-	private _animationTimer: number | undefined = undefined;
-	private _tooltipValueFromSignal: number | undefined = undefined;
-	private _tooltipHighValueFromSignal: number | undefined = undefined;
-	private _rcbSignalValue: IRcbSignal | undefined = undefined;
-	private _rcbSignalValueHigh: IRcbSignal | undefined = undefined;
-	private _animatingHandle = {
-		0: false,
-		1: false
-	};
-
-	public ready: Promise<void>;
-
-	//#endregion
-
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Slider.ELEMENT_NAME, Ch5Slider.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
-    public static registerSignalAttributeDefaults() {
-		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Slider.ELEMENT_NAME, {
-			contractName: { attributes: ["contractname"], defaultValue: "" },
-			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-		});
-	}
-
 	//#region "Attribute Getters and Setters"
 
 	/**
@@ -553,7 +86,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		value = Number(value);
 
 		// prevent infinite loop
-		if (value !== this.value) {
+		if (value !== this.value || this.value !== this.min) {
 			if (isNaN(value) || value > this._max || value < this._min) {
 				value = this._min;
 			}
@@ -1284,6 +817,503 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	/**
+	 * Respond to attribute changes.
+	 * @readonly
+	 */
+	static get observedAttributes() {
+		const commonAttributes = Ch5Common.observedAttributes;
+		const ch5SliderAttributes: string[] = [
+			'handleshape',
+			'range',
+			'value',
+			'valuehigh',
+			'max',
+			'min',
+			'orientation',
+			'size',
+			'handlesize',
+			'step',
+			'stretch',
+			'ticks',
+			'showtickvalues',
+			'tooltipshowtype',
+			'tooltipdisplaytype',
+			'tapsettable',
+			'feedbackmode',
+			'signalvaluesynctimeout',
+			'dir',
+
+			'sendeventonchange',
+			'sendeventonchangehigh',
+
+			'receivestatevalue',
+			'receivestatevaluehigh'
+		];
+
+		return commonAttributes.concat(ch5SliderAttributes);
+	}
+
+	//#region "Variables"
+
+	public static readonly MIN_VALUE: number = 0;
+	public static readonly MAX_VALUE: number = 65535;
+	public static readonly DEFAULT_STEP: number = 1;
+
+	/**
+	 * The first value is considered the default one
+	 */
+	public static readonly SHAPES: TCh5SliderShape[] = ['rounded-rectangle', 'rectangle', 'circle', 'oval'];
+
+	/**
+	 * The first value is considered the default one
+	 */
+	public static readonly ORIENTATIONS: TCh5SliderOrientation[] = ['horizontal', 'vertical'];
+
+	/**
+	 * The first value is considered the default one
+	 */
+	public static readonly SIZES: TCh5SliderSize[] = ['regular', 'x-small', 'small', 'large', 'x-large'];
+
+	/**
+	 * The first value is considered the default one
+	 */
+	public static readonly STRETCHES: TCh5SliderStretch[] = ['both', 'width', 'height'];
+
+	/**
+	 * The first value is considered the default one
+	 */
+	public static readonly DIRECTION: TCh5SliderDirection[] = ['ltr', 'rtl'];
+
+	/**
+	 * The first value is considered the default one
+	 */
+	public static readonly TOOLTIPS: TCh5SliderTooltipType[] = ['off', 'on', 'auto'];
+
+	public static readonly TDISPLAY: TCh5SliderTooltipDisplay[] = ['%', 'value'];
+
+	public static readonly COMPONENT_DATA: any = {
+		SHAPES: {
+			default: Ch5Slider.SHAPES[0],
+			values: Ch5Slider.SHAPES,
+			key: 'shape',
+			classListPrefix: 'ch5-slider--shape--'
+		},
+		ORIENTATIONS: {
+			default: Ch5Slider.ORIENTATIONS[0],
+			values: Ch5Slider.ORIENTATIONS,
+			key: 'orientation',
+			classListPrefix: 'ch5-slider--orientation'
+		},
+		SIZES: {
+			default: Ch5Slider.SIZES[0],
+			values: Ch5Slider.SIZES,
+			key: 'size',
+			classListPrefix: 'ch5-slider--size'
+		},
+		HANDLE_SIZE: {
+			default: Ch5Slider.SIZES[0],
+			values: Ch5Slider.SIZES,
+			key: 'handle_size',
+			classListPrefix: 'ch5-slider--handle-size--'
+		},
+		STRETCH: {
+			default: Ch5Slider.STRETCHES[0],
+			values: Ch5Slider.STRETCHES,
+			key: 'stretch',
+			classListPrefix: 'ch5-slider--stretch'
+		},
+		DIRECTION: {
+			default: Ch5Slider.DIRECTION[0],
+			values: Ch5Slider.DIRECTION,
+			key: 'direction',
+			classListPrefix: 'ch5-slider--direction'
+		},
+		TOOLTIPS: {
+			default: Ch5Slider.TOOLTIPS[0],
+			values: Ch5Slider.TOOLTIPS,
+			key: 'tooltip',
+			classListPrefix: 'ch5-slider--tooltip'
+		},
+		TDISPLAY: {
+			default: Ch5Slider.TDISPLAY[0],
+			values: Ch5Slider.TDISPLAY,
+			key: 'tdisplay',
+			classListPrefix: 'ch5-slider--'
+		},
+	};
+
+	public static readonly OFFSET_THRESHOLD: number = 30;
+
+	/**
+	 * Component internal HTML elements
+	 */
+	private _elSlider: HTMLElement = {} as HTMLElement;
+	private _tgtEls: NodeListOf<HTMLElement>[] = [];
+	private _tooltip: NodeListOf<HTMLElement> = {} as NodeListOf<HTMLElement>;
+
+	/**
+	 * CSS classes
+	 */
+	public primaryCssClass = 'ch5-slider';
+	public cssClassPrefix = 'ch5-slider';
+
+	/**
+	 * Reflects render state
+	 * Used to avoid calling _render() multiple times in setter methods
+	 */
+	private _wasRendered: boolean = false;
+
+	/**
+	 * COMPONENT ATTRIBUTES
+	 *
+	 * - handleShape
+	 * - value
+	 * - valueHigh
+	 * - max
+	 * - min
+	 * - orientation
+	 * - size
+	 * - handleSize
+	 * - step
+	 * - stretch
+	 * - ticks
+	 * - showTickValues
+	 * - toolTipShowType
+	 * - toolTipDisplayType
+	 * - signalValueSyncTimeout
+	 * - feedbackMode
+	 * - tapSettable
+	 * - noHandle
+	 */
+
+	/**
+	 * Default: rounded-rectangle. Valid Values: rectangle, circle, oval, rounded-rectangle. Defines the handle shape.
+	 *
+	 * @type {TCh5SliderShape}
+	 * @private
+	 */
+	private _handleShape: TCh5SliderShape = 'rounded-rectangle';
+
+	/**
+	 * Initial values of single value or lower value if range=true
+	 *
+	 * @private
+	 * @type {number}
+	 */
+	protected _value: number = Ch5Slider.MIN_VALUE;
+
+	/**
+	 * Initial values of single value or lower value if range=true
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	private _range: boolean = false;
+
+	/**
+	 * Higher value only applicable if range=true
+	 *
+	 * @private
+	 * @type {number}
+	 */
+	private _valueHigh: number = Ch5Slider.MAX_VALUE;
+
+	/**
+	 * Maximum value.
+	 *
+	 * @private
+	 * @type {number}
+	 */
+	private _max: number = Ch5Slider.MAX_VALUE;
+
+	/**
+	 * Minimum value.
+	 *
+	 * @private
+	 * @type {number}
+	 */
+	private _min: number = Ch5Slider.MIN_VALUE;
+
+	/**
+	 * Default horizontal. Valid values: horizontal, vertical
+	 *
+	 * @private
+	 * @type {TCh5SliderOrientation}
+	 */
+	private _orientation: TCh5SliderOrientation = 'horizontal';
+
+	/**
+	 * Size of the slider
+	 * Default regular. Valid values: x-small, small, regular, large, x-large
+	 */
+	private _size: TCh5SliderSize = 'regular';
+
+	/**
+	 * Size of the handle
+	 * Default regular. Valid values: x-small, small, regular, large, x-large
+	 */
+	private _handleSize: TCh5SliderSize = 'regular';
+
+	/**
+	 * Default 100. Maximum 100.
+	 * Defines the number of steps values in the slider. If you want quarters 0, 25, 50, 75, 100 then 5 is the numbers of steps.
+	 *
+	 * @private
+	 * @type {number}
+	 */
+	private _step: number = Ch5Slider.DEFAULT_STEP;
+
+	/**
+	 * Default both.
+	 * Valid Values: width, height, both When stretch property is set, the slider inherits the width or/and height of the container.
+	 * @private
+	 * @type {TCh5SliderStretch}
+	 */
+	private _stretch: TCh5SliderStretch | null = null;
+
+	/**
+	 * Defines the ticks on the slider.
+	 * It will be an advanced tick scales: non-linear or logarithmic.
+	 * You can create sliders with ever-increasing increments by specifying the value for the slider at certain intervals.
+	 *  - The first value define the % position along the length of the slider scale to place a tick mark.
+	 *  - The second value will be the label value to place next to the tick at that position.
+	 * An example would be ticks='{"0":"-60", "25":"-40", "50":"-20", "75":"-10", "100": "0" }'
+	 *
+	 * @private
+	 * @type {string}
+	 */
+	private _ticks: string = '';
+
+	/**
+	 * Default false.
+	 * Option to display value labels next to tick marks at each tick increment.
+	 * @private
+	 * @type {boolean}
+	 */
+	private _showTickValues: boolean = false;
+
+	/**
+	 * Default "off".  Option to display a tooltip above (horizontal), right(vertical) of the handle.  Valid values are 
+	 * "off" not displayed
+	 * "on" always displayed
+	 * "auto" displayed while user interact with the slider
+	 *
+	 * @private
+	 * @type {TCh5SliderTooltipType}
+	 */
+	private _toolTipShowType: TCh5SliderTooltipType = "off"
+
+	/**
+	 * Default: percent.  Option of what is displayed in the tooltip.  Valid values are:
+	 * "%" - displayed as percent.  Math.round((100*(v-min))/(max - min))
+	 * "value" - actual value provided
+	 *
+	 * @private
+	 * @type {TCh5SliderTooltipDisplay}
+	 */
+	private _toolTipDisplayType: TCh5SliderTooltipDisplay = "%";
+
+	/**
+	 * Default: false. If true Mmake the closest handle when the slider gets tapped.
+	 */
+	private _tapSettable: boolean = false;
+
+	/**
+	 * slider direction
+	 */
+	private _direction: TCh5SliderDirection = Ch5Slider.DIRECTION[0];
+
+	/**
+	 * COMPONENT SEND SIGNALS
+	 *
+	 * - sendEventOnChange
+	 * - sendEventOnChangeHigh
+	 */
+
+	/**
+	 * The name of the number signal that will be sent to native on change event
+	 *
+	 * HTML attribute name: sendEventOnChange or sendEventOnChange
+	 */
+	private _sendEventOnChangeSigName: string = '';
+
+	/**
+	 * The name of the number signal that will be sent to native on change event if range slider is set to true
+	 *
+	 * HTML attribute name: sendEventOnChangeHigh or sendEventOnChangeHigh
+	 */
+	private _sendEventOnChangeHighSigName: string = ''
+
+	/**
+	 * COMPONENT RECEIVE SIGNALS
+	 *
+	 * - receiveStateValue
+	 * - receiveStateValueHigh
+	 */
+
+	/**
+	 * The name of a string signal that will be applied to the value
+	 *
+	 * HTML attribute name: receiveStateValue or receivestatevalue
+	 */
+	private _receiveStateValueSignal: string = '';
+
+	/**
+	 * The subscription id for the receiveStateValue signal
+	 */
+	private _subReceiveValueId: string = '';
+	private _subReceiveAnalogValueId: string = '';
+
+	/**
+	 * The name of a string signal that will be applied to the value
+	 *
+	 * HTML attribute name: receiveStateValueHigh or receiveStateValueHigh
+	 */
+	private _receiveStateValueSignalHigh: string = '';
+
+	/**
+	 * The subscription id for the receiveStateValueHigh signal
+	 */
+	private _subReceiveValueHighId: string = '';
+	private _subReceiveAnalogValueHighId: string = '';
+
+	/**
+	 * Option to hide the slider toggle
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	private _noHandle: boolean = false;
+
+	/**
+	 * COMPONENT EVENTS
+	 *
+	 * slider - custom event.
+	 * slidestart - custom event
+	 * slideend - custom event
+	 * focus - custom
+	 * blur - custom
+	 * change - custom
+	 * dirty - custom
+	 * press - custom
+	 * release - custom
+	 */
+
+	/**
+	 * Ch5Pressable manager
+	 *
+	 * @private
+	 * @type {(Ch5Pressable | null)}
+	 * @memberof Ch5Image
+	 */
+	private _pressable: Ch5Pressable | null = null;
+
+	/**
+	 * This event is useful when you specifically want to listen to a handle being dragged, but want to ignore other updates to the slider value.
+	 * This event also fires on a change by a 'tap'. In most cases, the 'update' is the better choice.
+	 *
+	 * @type {Event}
+	 */
+	public sliderEvent: Event = {} as Event;
+
+	/**
+	 * This event fires when a handle is clicked (mousedown, or the equivalent touch events).
+	 *
+	 * @type {Event}
+	 */
+	public slidestartEvent: Event = {} as Event;
+
+	/**
+	 * This event is the opposite of the 'start' event.
+	 * If fires when a handle is released (mouseup etc), or when a slide is canceled due to other reasons (such as mouse cursor leaving the browser window).
+	 *
+	 * @type {Event}
+	 */
+	public slideendEvent: Event = {} as Event;
+
+	/**
+	 * If fires when a handle is focus
+	 *
+	 * @type {Event}
+	 */
+	public focusEvent: Event = {} as Event;
+
+	/**
+	 * If fires when a handle loses focus
+	 *
+	 * @type {Event}
+	 */
+	public blurEvent: Event = {} as Event;
+
+	/**
+	 * Event change: Fires when the component's value changes due to user interaction.
+	 *
+	 * @type {Event}
+	 */
+	public changeEvent: Event = {} as Event;
+
+	/**
+	 * Event dirty: Fires when the component is on feedbackMode='submit' and displayed value is different than the actual value
+	 * @type {Event}
+	 */
+	public dirtyEvent: Event = {} as Event;
+
+	/**
+	 * Event dirty: Fires when the component is on feedbackMode='submit' and displayed value is the actual value
+	 * @type {Event}
+	 */
+	public cleanEvent: Event = {} as Event;
+
+	/**
+	 * This property stores the valueHigh which comes from signal or initial valueHigh
+	 *
+	 * @type {string | number}
+	 * @protected
+	 */
+	protected _cleanValueHigh: (string | number) = '' as (string | number);
+
+	/**
+	 * Contains the changed valueHigh
+	 *
+	 * @type {string | number}
+	 * @protected
+	 */
+	protected _dirtyValueHigh: (string | number) = '' as (string | number);
+
+	/**
+	 * Defines the timeout between the user change the high handle(second handle) and the time the slider will check if the value is equal with the value from the signal
+	 * @protected
+	 * @type {(number|null)}
+	 */
+	protected _dirtyTimerHandleHigh: number | null = null;
+
+	protected _cleanLow: boolean = true;
+	protected _dirtyLow: boolean = false;
+	protected _cleanHigh: boolean = true;
+	protected _dirtyHigh: boolean = false;
+
+	/**
+	 * rcb properties
+	 */
+	private _animationTimer: number | undefined = undefined;
+	private _tooltipValueFromSignal: number | undefined = undefined;
+	private _tooltipHighValueFromSignal: number | undefined = undefined;
+	private _rcbSignalValue: IRcbSignal | undefined = undefined;
+	private _rcbSignalValueHigh: IRcbSignal | undefined = undefined;
+	private _animatingHandle = {
+		0: false,
+		1: false
+	};
+
+	public ready: Promise<void>;
+
+	//#endregion
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Slider.ELEMENT_NAME, Ch5Slider.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	/**
 	 * 	Called every time the element is inserted into the DOM.
 	 *  Useful for running setup code, such as fetching resources or rendering.
 	 */
@@ -1364,43 +1394,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		// disconnect common mutation observer
 		this.disconnectCommonMutationObserver();
-	}
-
-	/**
-	 * Respond to attribute changes.
-	 * @readonly
-	 */
-	static get observedAttributes() {
-		const commonAttributes = Ch5Common.observedAttributes;
-		const ch5SliderAttributes: string[] = [
-			'handleshape',
-			'range',
-			'value',
-			'valuehigh',
-			'max',
-			'min',
-			'orientation',
-			'size',
-			'handlesize',
-			'step',
-			'stretch',
-			'ticks',
-			'showtickvalues',
-			'tooltipshowtype',
-			'tooltipdisplaytype',
-			'tapsettable',
-			'feedbackmode',
-			'signalvaluesynctimeout',
-			'dir',
-
-			'sendeventonchange',
-			'sendeventonchangehigh',
-
-			'receivestatevalue',
-			'receivestatevaluehigh'
-		];
-
-		return commonAttributes.concat(ch5SliderAttributes);
 	}
 
 	/**
@@ -2283,18 +2276,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			const touch = inEvent.touches[0] || inEvent.changedTouches[0];
 			eventOffsetX = touch.clientX;
 			eventOffsetY = touch.clientY;
-
-			if (this._orientation === 'vertical') {
-				maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
-				maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
-			} else {
-				maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
-				maxOffsetRight = offsetY + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
-			}
+			maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+			maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+			maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+			maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 
 		} else {
 			eventOffsetX = inEvent.clientX;
@@ -2305,9 +2290,9 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
 				maxOffestBottom = offsetX + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 			} else {
-				maxOffsetLeft = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
 				maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-				maxOffestTop = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+				maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
 				maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 			}
 		}
@@ -2400,8 +2385,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			default:
 				break;
 		}
-	};
-
+	}
 	/**
 	 * Send signal value on slider change
 	 * @private
@@ -3172,16 +3156,13 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			(this as any)[prop] = val;
 		}
 	}
-
-	//#endregion
-
 }
 
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-slider', Ch5Slider);
+	Ch5Slider.registerSignalAttributeTypes();
 }
 
 Ch5Slider.registerSignalAttributeTypes();
-Ch5Slider.registerSignalAttributeDefaults();

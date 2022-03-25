@@ -200,9 +200,6 @@ function getHideWhenFromObject(definition: Object): object[] {
     // get the documentation property which should be a object array.
     const value: object[] = definition[documentationTag];
 
-    // only one of showWhen and hideWhen should be present
-    checkOppositeProperty("showWhen", keys, definition);
-
     if (!isNil(value)) {
         try {
             const allRules: object[] = [];
@@ -259,9 +256,6 @@ function getShowWhenFromObject(definition: Object): object[] {
     // get the documentation property which should be a object array.
     const value: object[] = definition[documentationTag];
 
-    // only one of showWhen and hideWhen should be present
-    checkOppositeProperty("hideWhen", keys, definition)
-
     if (!isNil(value)) {
         try {
             const allRules: object[] = [];
@@ -276,13 +270,6 @@ function getShowWhenFromObject(definition: Object): object[] {
         }
     }
     return [];
-}
-
-function checkOppositeProperty(oppositeTag: string, keys: string[], definition: Definition): void {
-    const containsOppositeDocumentation = keys.find(x => x === oppositeTag) !== undefined;
-    if(containsOppositeDocumentation) {
-        throw new Error(`${definition["name"]} attribute should contain only one of the showWhen and hideWhen properties`);
-    }
 }
 
 function getDeprecatedFromObject(definition: Object): Deprecated | undefined {
@@ -307,6 +294,25 @@ function getDeprecatedFromObject(definition: Object): Deprecated | undefined {
     return undefined;
 }
 
+function getHiddenFromObject(definition: Object): boolean | undefined {
+    const documentationTag = "hidden";
+    const keys = Object.keys(definition);
+
+    const containsDocumentation = keys.find(x => x === documentationTag) !== undefined;
+    if (!containsDocumentation) {
+        return undefined;
+    }
+
+    // get the documentation property which should be an boolen.
+    const value: boolean = definition[documentationTag];
+
+    if (!isNil(value)) {
+        return value;
+    }
+
+    return undefined;
+}
+
 export {
     getDocumentationFromObject,
     getChildElementsFromObject,
@@ -322,4 +328,5 @@ export {
     getJoinFromObject,
     getAttributeTypeFromObject,
     getLimitsFromObject,
+    getHiddenFromObject,
 };

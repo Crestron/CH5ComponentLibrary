@@ -12,26 +12,11 @@ import _ from "lodash";
 import { TCh5ShowType } from "../ch5-common/interfaces";
 import { ICh5TriggerViewChildAttributes } from "./interfaces/i-ch5-triggerview-child-attributes";
 import { Ch5RoleAttributeMapping } from "../utility-models";
+import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 
 const _parentTriggerViewNodeName = 'CH5-TRIGGERVIEW';
 
 export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChildAttributes {
-
-	/**
-	 * TriggerView child accepts only 'visibility' for noshowtype
-	 */
-	public static SHOW_TYPES: TCh5ShowType[] = ['visibility'];
-
-	/**
-	 * CSS classes
-	 */
-	public primaryCssClass = 'ch5-viewchild';
-	public cssClassPrefix = 'ch5-viewchild';
-
-	/**
-	 * Set this._noshowType with only value accepted
-	 */
-	protected _noshowType = Ch5TriggerViewChild.SHOW_TYPES[0];
 
 	//#region " Attributes "
 	get selected() {
@@ -52,42 +37,6 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 			this.setAttribute('aria-selected', 'false');
 		}
 	}
-
-	/**
-	 * COMPONENT SEND SIGNALS
-	 *
-	 * - sendEventOnShow
-	 */
-
-	/**
-	 * The name of the digital pulse signal that will be sent to native of current visible item on select
-	 *
-	 * HTML attribute name: sendEventOnShow or sendeventonshow
-	 * @private
-	 * @type {string}
-	 */
-	private _sendEventOnShowSigName: string = '';
-
-
-	/**
-	 * COMPONENT RECEIVE SIGNALS
-	 *
-	 * - receiveStateShow
-	 */
-
-	/**
-	 * The name of a boolean signal
-	 * In case the value of this is true, it will tell the parent component ( trigger view)
-	 * to hide all the other childview and show this one.
-	 * 
-	 * HTML attribute name: receiveStateShow or receivestateshow
-	 */
-	private _receiveStateShowSigName: string = '';
-
-	/**
-	 * The subscription id for the receiveStateShow signal
-	 */
-	private _subReceiveSignalShowId: string = '';
 
 
 	/**
@@ -199,6 +148,84 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 	}
 
 	/**
+	 * Respond to attribute changes.
+	 * @readonly
+	 */
+	static get observedAttributes() {
+		const commonAttributes = Ch5Common.observedAttributes;
+
+		const ch5TriggerViewChildAttributes: string[] = [
+			'selected',
+
+			// SEND SIGNALS
+			'sendeventonshow',
+
+			// RECEIVE SIGNALS
+			'receivestateshow'
+		];
+
+		return commonAttributes.concat(ch5TriggerViewChildAttributes);
+	}
+
+	public static readonly ELEMENT_NAME = 'ch5-triggerview-child';
+
+	/**
+	 * TriggerView child accepts only 'visibility' for noshowtype
+	 */
+	public static SHOW_TYPES: TCh5ShowType[] = ['visibility'];
+
+	/**
+	 * CSS classes
+	 */
+	public primaryCssClass = 'ch5-viewchild';
+	public cssClassPrefix = 'ch5-viewchild';
+
+	/**
+	 * Set this._noshowType with only value accepted
+	 */
+	protected _noshowType = Ch5TriggerViewChild.SHOW_TYPES[0];
+
+	/**
+	 * COMPONENT SEND SIGNALS
+	 *
+	 * - sendEventOnShow
+	 */
+
+	/**
+	 * The name of the digital pulse signal that will be sent to native of current visible item on select
+	 *
+	 * HTML attribute name: sendEventOnShow or sendeventonshow
+	 * @private
+	 * @type {string}
+	 */
+	private _sendEventOnShowSigName: string = '';
+
+
+	/**
+	 * COMPONENT RECEIVE SIGNALS
+	 *
+	 * - receiveStateShow
+	 */
+
+	/**
+	 * The name of a boolean signal
+	 * In case the value of this is true, it will tell the parent component ( trigger view)
+	 * to hide all the other childview and show this one.
+	 * 
+	 * HTML attribute name: receiveStateShow or receivestateshow
+	 */
+	private _receiveStateShowSigName: string = '';
+
+	/**
+	 * The subscription id for the receiveStateShow signal
+	 */
+	private _subReceiveSignalShowId: string = '';
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TriggerViewChild.ELEMENT_NAME, Ch5TriggerViewChild.SIGNAL_ATTRIBUTE_TYPES);
+	}
+
+	/**
 	 * 	Called every time the element is inserted into the DOM.
 	 *  Useful for running setup code, such as fetching resources or rendering.
 	 */
@@ -249,26 +276,6 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 
 		// disconnect common mutation observer
 		this.disconnectCommonMutationObserver();
-	}
-
-	/**
-	 * Respond to attribute changes.
-	 * @readonly
-	 */
-	static get observedAttributes() {
-		const commonAttributes = Ch5Common.observedAttributes;
-
-		const ch5TriggerViewChildAttributes: string[] = [
-			'selected',
-
-			// SEND SIGNALS
-			'sendeventonshow',
-
-			// RECEIVE SIGNALS
-			'receivestateshow'
-		];
-
-		return commonAttributes.concat(ch5TriggerViewChildAttributes);
 	}
 
 	/**
@@ -483,4 +490,5 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-triggerview-child', Ch5TriggerViewChild);
+	Ch5TriggerViewChild.registerSignalAttributeTypes();
 }

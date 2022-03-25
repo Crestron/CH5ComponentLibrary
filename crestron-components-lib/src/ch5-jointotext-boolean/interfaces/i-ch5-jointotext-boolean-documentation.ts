@@ -1,4 +1,5 @@
-import { ICh5Common, ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5Common } from "../../ch5-common/interfaces";
+import { ICh5JoinToTextBooleanAttributes } from "./i-ch5-jointotext-boolean-attributes";
 
 
 /**
@@ -6,7 +7,7 @@ import { ICh5Common, ICh5CommonAttributes } from "../../ch5-common/interfaces";
  * @isattribute false
  * @tagName ch5-jointotext-boolean
  * @role presentation
- * @description Ch5 JoinToText
+ * @description Ch5 JoinToText Boolean
  * @componentVersion 1.0.0
  * @documentation
  * [
@@ -47,6 +48,6 @@ import { ICh5Common, ICh5CommonAttributes } from "../../ch5-common/interfaces";
  * ]
  * 
  */
-export interface ICh5JoinToTextBooleanDocumentation extends ICh5Common, ICh5CommonAttributes {
+export interface ICh5JoinToTextBooleanDocumentation extends ICh5Common, ICh5JoinToTextBooleanAttributes {
 
 }

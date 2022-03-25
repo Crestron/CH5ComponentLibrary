@@ -20,8 +20,8 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "***",
 	 * "Defines the primary contract name to derive the component's contract details."
 	 * ]
-	 * @name contractName
-	 * @attributeType "string"
+	 * @name contractname
+	 * @attributeType "String"
 	 */
 	contractName: string;
 
@@ -36,7 +36,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name type
 	 * @default default
-	 * @attributeType "string"
+	 * @attributeType "EnumeratedValue"
 	 */
 	type: TCh5DpadType;
 
@@ -49,7 +49,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * ]
 	 * @name shape
 	 * @default plus
-	 * @attributeType "string"
+	 * @attributeType "EnumeratedValue"
 	 */
 	shape: TCh5DpadShape;
 
@@ -66,7 +66,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "for the shapes of plus and circle)."
 	 * ]
 	 * @name stretch
-	 * @attributeType "string"
+	 * @attributeType "EnumeratedValue"
 	 */
 	stretch: TCh5DpadStretch | null;
 
@@ -79,7 +79,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 *  "Overrides the appearance of the dpad with alternative CSS that is defined in classes defined with ch5-dpad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
 	 * ]
 	 * @default regular
-	 * @attributeType "string"
+	 * @attributeType "EnumeratedValue"
 	 */
 	size: TCh5DpadSize;
 
@@ -95,9 +95,9 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "The names from the contract will be different for each of the buttons and the overall <ch5-dpad> component. ",
 	 * "The details can be seen in the table above."
 	 * ]
-	 * @name useContractForEnable
+	 * @name usecontractforenable
 	 * @default false
-	 * @attributeType "boolean"
+	 * @attributeType "Boolean"
 	 */
 	useContractForEnable: boolean;
 
@@ -112,9 +112,9 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "<ch5-dpad> tag. The names from the contract will be different for each of the buttons and the overall ",
 	 * "<ch5-dpad> component. The details can be seen in the table above."
 	 * ]
-	 * @name useContractForShow
+	 * @name usecontractforshow
 	 * @default false
-	 * @attributeType "boolean"
+	 * @attributeType "Boolean"
 	 */
 	useContractForShow: boolean;
 
@@ -128,9 +128,9 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "If this value is set to true then the value received from the contract will be considered for remaining ",
 	 * "ch5-dpad button as a custom class."
 	 * ]
-	 * @name useContractForCustomClass
+	 * @name usecontractforcustomclass
 	 * @default false
-	 * @attributeType "boolean"
+	 * @attributeType "Boolean"
 	 */
 	useContractForCustomClass: boolean;
 
@@ -144,9 +144,9 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "If this value is set to true then the value received from the contract will be considered ",
 	 * "for the custom style."
 	 * ]
-	 * @name useContractForCustomStyle
+	 * @name usecontractforcustomstyle
 	 * @default false
-	 * @attributeType "boolean"
+	 * @attributeType "Boolean"
 	 */
 	useContractForCustomStyle: boolean;
 
@@ -159,9 +159,9 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * " the join number is applied to the top button, join+1 applies to bottom, ",
 	 * "join+2 applies to left, join+3 applies to right, join+4 to center ."
 	 * ]
-	 * @name sendEventOnClickStart
+	 * @name sendeventonclickstart
 	 * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-	 * @attributeType "join"
+	 * @attributeType "Join"
 	 */
 	sendEventOnClickStart: string;
 }

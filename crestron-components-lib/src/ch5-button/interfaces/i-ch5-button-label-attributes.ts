@@ -14,33 +14,21 @@
  * @componentVersion 1.0.0
  * @childElements
  * [
- *    {
- *      "tagName": "ch5-button-label",
- *      "optional": true,
- *      "childElements": [
- *        {
- *          "tagName": "template",
- *          "optional": false,
- *          "childElements": [
- *               {
- *                  "tagName": "ch5-jointotext-boolean",
- *                  "optional": true,
- *                  "childElements": []
- *               },
- *               {
- *                  "tagName": "ch5-jointotext-numeric",
- *                  "optional": true,
- *                  "childElements": []
- *               },
- *               {
- *                  "tagName": "ch5-jointotext-string",
- *                  "optional": true,
- *                  "childElements": []
- *               }
- *          ]
- *        }
- *      ]
- *    }
+ *     {
+ *        "tagName": "ch5-jointotext-boolean",
+ *        "optional": true,
+ *        "childElements": []
+ *     },
+ *     {
+ *        "tagName": "ch5-jointotext-numeric",
+ *        "optional": true,
+ *        "childElements": []
+ *     },
+ *     {
+ *        "tagName": "ch5-jointotext-string",
+ *        "optional": true,
+ *        "childElements": []
+ *     }
  * ]
  * @documentation
  * [

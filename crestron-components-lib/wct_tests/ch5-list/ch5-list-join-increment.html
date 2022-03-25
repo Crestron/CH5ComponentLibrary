@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-join-increment-fixture">
+    <template>
+        <ch5-list   size="2" 
+                    contractname="ContractPrefix."
+                    booleanjoinoffset="300" 
+                    numericjoinoffset="200"
+                    stringjoinoffset="100" 
+                    indexId="idx">
+            <template>
+                <ch5-button receivestateselected="10{{idx}}"
+                            sendeventonclick="sendeventonclick[{{idx}}]"
+                            receivestatelabel="20{{idx}}"
+                            receivestatemode="30{{idx}}">
+                </ch5-button>
+            </template>
+        </ch5-list>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-list join increment', function() {
+
+        let ch5List;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5List = fixture('ch5-join-increment-fixture');
+        });
+
+        test('Expect attribute size to be "2"', function() {
+            expect(ch5List.getAttribute('size')).to.be.equal('2');
+        });
+
+        test('Inspect list content', function(done) {
+            flush(function() {
+                const buttons = ch5List.querySelectorAll('ch5-button');
+                expect(buttons).to.be.lengthOf(2);
+                if (buttons.length == 2) {
+                    const button0 = buttons[0];
+                    const button1 = buttons[1];
+
+                    assert.strictEqual(button0.getAttribute("sendeventonclick"), 'ContractPrefix.sendeventonclick[0]', 'contract prefix incorrect');
+                    assert.strictEqual(button1.getAttribute("sendeventonclick"), 'ContractPrefix.sendeventonclick[1]', 'contract prefix incorrect');
+        
+                    assert.strictEqual(button0.getAttribute("receivestateselected"), '310', 'boolean offset incorrect');
+                    assert.strictEqual(button1.getAttribute("receivestateselected"), '311', 'boolean offset incorrect');
+
+                    assert.strictEqual(button0.getAttribute("receivestatemode"), '230', 'numeric offset incorrect');
+                    assert.strictEqual(button1.getAttribute("receivestatemode"), '231', 'numeric offset incorrect');
+
+                    assert.strictEqual(button0.getAttribute("receivestatelabel"), '120', 'string offset incorrect');
+                    assert.strictEqual(button1.getAttribute("receivestatelabel"), '121', "string offset not correct");
+                }
+                done();
+            });
+        });
+
+
+    });
+</script>
+</body>
+</html>

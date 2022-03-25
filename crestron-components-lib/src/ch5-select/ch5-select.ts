@@ -30,7 +30,7 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 
 export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
-	public static ELEMENT_NAME: string = 'ch5-select';
+	public static readonly ELEMENT_NAME = 'ch5-select';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -269,10 +269,6 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		this.closeSelectPanel = this.closeSelectPanel.bind(this);
 		this._wasInstatiated = false;
 
-	}
-
-	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Select.ELEMENT_NAME, Ch5Select.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
 	public static registerSignalAttributeDefaults() {
@@ -2133,11 +2129,16 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 			(opts[i] as HTMLElement).dir = this.dir;
 		}
 	}
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Select.ELEMENT_NAME, Ch5Select.SIGNAL_ATTRIBUTE_TYPES);
+	}
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
 	window.customElements.define('ch5-select', Ch5Select);
+	Ch5Select.registerSignalAttributeTypes();
 }
 
 Ch5Select.registerSignalAttributeTypes();

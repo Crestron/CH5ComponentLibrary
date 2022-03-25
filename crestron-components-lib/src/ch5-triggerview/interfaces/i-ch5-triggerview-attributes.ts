@@ -22,7 +22,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * @name activeview
      * @default 0
      * @limits [{"min": 0, "max": 99}]
-     * @attributeType "integer"
+     * @attributeType "Integer"
      */
     activeView: number;
 
@@ -35,7 +35,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name endless
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     endless: boolean;
 
@@ -50,7 +50,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name gestureable
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     gestureable: boolean;
 
@@ -64,7 +64,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name nested
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     nested: boolean;
 
@@ -78,7 +78,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name sendeventshowchildindex
      * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     sendEventShowChildIndex: string;
 
@@ -92,7 +92,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name receivestateshowchildindex
      * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     receiveStateShowChildIndex: string;
 
@@ -106,7 +106,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name disableanimation
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     disableAnimation: boolean;
 }

@@ -13,6 +13,7 @@ import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attri
 import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
 import {Ch5Common} from '../ch5-common/ch5-common';
 
+// @ts-ignore
 /**
  * Html Attributes
  *
@@ -63,6 +64,8 @@ import {Ch5Common} from '../ch5-common/ch5-common';
  */
 export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAttributes {
 
+    public static readonly ELEMENT_NAME: string = 'ch5-modal-dialog';
+
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
         receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
@@ -94,8 +97,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
             classListPrefix: 'ch5-modal-dialog--overflow-'
         },
     };
-
-    public static ELEMENT_NAME = 'ch5-modal-dialog';
 
     public primaryCssClass = 'ch5-modal-dialog';
     public cssClassPrefix = 'ch5-modal-dialog';
@@ -1278,8 +1279,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-
     window.customElements.define('ch5-modal-dialog', Ch5ModalDialog);
+    Ch5ModalDialog.registerSignalAttributeTypes();
 }
 
 Ch5ModalDialog.registerSignalAttributeTypes();

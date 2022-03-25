@@ -10,6 +10,7 @@ import { Subscription } from "rxjs";
 import { Ch5ButtonPressInfo } from "../ch5-button/ch5-button-pressinfo";
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5Pressable } from "../ch5-common/ch5-pressable";
+import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { normalizeEvent } from "../ch5-triggerview/utils";
@@ -19,6 +20,8 @@ import { TCh5KeypadButtonCreateDTO } from "./interfaces/t-ch5-keypad";
 
 export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttributes {
     //#region 1. Variables
+
+    public static readonly ELEMENT_NAME = 'ch5-keypad-button';
 
     //#region 1.1 readonly variables
 
@@ -94,6 +97,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     protected _pressInfo: Ch5ButtonPressInfo = {} as Ch5ButtonPressInfo;
 
     //#endregion
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5KeypadButton.ELEMENT_NAME, Ch5KeypadButton.SIGNAL_ATTRIBUTE_TYPES);
+    }
+    
 
     //#endregion
 
@@ -234,7 +242,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 
-        const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed } = this.params;
+        const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remaningParams } = this.params;
         this._labelMajor = major;
         this._labelMinor = minor;
         this._iconClass = iconClass.join(' ');
@@ -260,6 +268,16 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 				this._pressable.setPressed(this.toBoolean((this.getAttribute('pressed')), false));
 			}
 		}
+
+        const remaningParamsKeys = Object.keys(remaningParams);
+        const remaningParamsValues = Object.values(remaningParams);
+        if (remaningParamsKeys.length) {
+            for (let index = 0; index < remaningParamsKeys.length; index++) {
+                if (!_.isNil(remaningParamsValues[index])) {
+                    ComponentHelper.setAttributeToElement(this, remaningParamsKeys[index].toLowerCase(), remaningParamsValues[index]);
+                }
+            }
+        }
 
         this.logger.stop();
     }
@@ -873,4 +891,5 @@ if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-keypad-button', Ch5KeypadButton);
+    Ch5KeypadButton.registerSignalAttributeTypes();
 }

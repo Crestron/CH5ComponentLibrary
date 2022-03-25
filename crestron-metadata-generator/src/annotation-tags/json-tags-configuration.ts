@@ -42,5 +42,7 @@ export class JsonTagsConfiguration {
         "attributeType",
 
         "deprecated",
+
+        "hidden",
     ];
 }

@@ -16,6 +16,7 @@ export interface ICh5PressableOptions {
 	cssPressedClass: string;
 	pressDelayTime?: number | null;
 	pressDelayDistance?: number | null;
+	clickDelayDistance?: number | null;
 }
 
 enum Ch5PressableFingerStateMode {
@@ -132,6 +133,10 @@ export class Ch5Pressable {
 
 	private readonly TOUCH_TIMEOUT: number = 250; // Repeat Digital is triggered after 250 ms of press and hold.
 	private readonly PRESS_MOVE_THRESHOLD: number = 10;
+	private readonly CLICK_MOVE_THRESHOLD: number = 1;
+
+	private isTouch: boolean = false;
+	private isMouse: boolean = false;
 
 	/**
 	 * Creates an instance of Ch5Pressable.
@@ -167,6 +172,7 @@ export class Ch5Pressable {
 		this._onHold = this._onHold.bind(this);
 		this._onRelease = this._onRelease.bind(this);
 		this._onPanEnd = this._onPanEnd.bind(this);
+		this._onMouseMove = this._onMouseMove.bind(this);
 	}
 
 	public get ch5Component(): Ch5Common {
@@ -191,6 +197,14 @@ export class Ch5Pressable {
 			return this._options.pressDelayDistance;
 		} else {
 			return this.PRESS_MOVE_THRESHOLD;
+		}
+	}
+
+	private get clickDelayMoveDistance(): number {
+		if (this.options !== null && !_.isNil(this.options.clickDelayDistance)) {
+			return this.options.clickDelayDistance;
+		} else {
+			return this.CLICK_MOVE_THRESHOLD;
 		}
 	}
 
@@ -245,7 +259,9 @@ export class Ch5Pressable {
 
 		this._ch5Component.addEventListener('mousedown', this._onMouseDown, { passive: true });
 		this._ch5Component.addEventListener('mouseup', this._onMouseUp);
+		this._ch5Component.addEventListener('mousemove', this._onMouseMove);
 		this._ch5Component.addEventListener('mouseleave', this._onMouseLeave);
+		this._ch5Component.addEventListener('mouseout', this._onMouseLeave);
 
 		this._ch5Component.addEventListener('touchstart', this._onTouchStart, { passive: true });
 		this._ch5Component.addEventListener('touchmove', this._onTouchMove);
@@ -348,31 +364,109 @@ export class Ch5Pressable {
 		this._ch5Component.info('Ch5Pressable._onMouseDown()');
 		// ignore mousedown if touchstart
 		if (this._touchStart) { return }
+		if (this.isTouch) { return }
 
-		if (!this._ch5Component.gestureable) {
-			this._onHold();
+		this.isMouse = true;
+		this.isTouch = false;
+		const mouseEvent: MouseEvent = inEvent as MouseEvent;
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
+			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
+			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.pressDelayTime);
+			this._fingerState.touchStartLocationX = mouseEvent.clientX;
+			this._fingerState.touchStartLocationY = mouseEvent.clientY;
+		}
+	}
+
+	private _onMouseMove(inEvent: Event): void {
+		this._ch5Component.info('Ch5Pressable.onMouseMove()');
+
+		if (this.isTouch) {
+			return;
+		}
+
+		// On a swipe motion we don't want to send a join or show visual feedback,
+		// check if finger has moved
+		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
+			const mouseEvent: MouseEvent = inEvent as MouseEvent;
+			if (mouseEvent !== null) {
+				const xMoveDistance = mouseEvent.clientX - this._fingerState.touchStartLocationX;
+				const yMoveDistance = mouseEvent.clientY - this._fingerState.touchStartLocationY;
+				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
+				this._ch5Component.info(`DELETE ME Ch5Pressable.onMouseMove() , ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
+				if (distanceMoved > this.clickDelayMoveDistance) {
+					this._ch5Component.info(`Ch5Pressable.onMouseMove() cancelling press, ${mouseEvent.clientX}, ${mouseEvent.clientY}, ${distanceMoved}`);
+					this._touchStart = false;
+					this._fingerState.reset();
+				}
+			}
 		}
 	}
 
 	private _onMouseUp(inEvent: Event): void {
 		this._ch5Component.info('Ch5Pressable._onMouseUp()');
-		// ignore mouseup if touchend
-		if (this._touchEnd) { return }
 
-		if (!this._ch5Component.gestureable) {
-			this._onRelease();
+		if (this.isTouch) {
+			return;
 		}
+
+		const mouseEvent: MouseEvent = inEvent as MouseEvent;
+		if (mouseEvent !== null) {
+			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
+				// quick tap, must do both press and release
+				this._fingerIsDownActions();
+			}
+
+			if (!this._touchEnd) {
+				this._touchEnd = true;
+			}
+
+			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
+				if (!this._ch5Component.gestureable) {
+					this._onRelease();
+				}
+			}
+			this._fingerState.reset();
+		}
+
 	}
 
 	private _onMouseLeave(inEvent: Event): void {
 		this._ch5Component.info('Ch5Pressable._onMouseLeave()');
 
-		if (!this._ch5Component.gestureable) {
-			this._onRelease();
+		if (this.isTouch) {
+			return;
 		}
+	
+		const mouseEvent: MouseEvent = inEvent as MouseEvent;
+		if (mouseEvent !== null) {
+			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
+				// quick tap, must do both press and release
+				this._fingerIsDownActions();
+			}
+
+			if (!this._touchEnd) {
+				this._touchEnd = true;
+			}
+
+			if (this._fingerState.mode === Ch5PressableFingerStateMode.FingerDown) {
+				if (!this._ch5Component.gestureable) {
+					this._onRelease();
+				}
+			}
+			this._fingerState.reset();
+		}
+
 	}
 
 	private _onTouchStart(inEvent: Event): void {
+
+		if (this.isMouse) {
+			return;
+		}
+
+		this.isTouch = true;
+		this.isMouse = false;
+
 		this._touchStart = true;
 		const touchEvent: TouchEvent = inEvent as TouchEvent;
 		const touch: Touch = touchEvent.changedTouches[0];
@@ -388,6 +482,11 @@ export class Ch5Pressable {
 
 	private _onTouchMove(inEvent: Event): void {
 		this._ch5Component.info('Ch5Pressable._onTouchMove()');
+
+		if (this.isMouse) {
+			return;
+		}
+
 		// On a swipe motion we don't want to send a join or show visual feedback,
 		// check if finger has moved
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {
@@ -427,6 +526,11 @@ export class Ch5Pressable {
 
 	private _onTouchEnd(inEvent: Event): void {
 		this._ch5Component.info('Ch5Pressable._onTouchEnd()');
+
+		if (this.isMouse) {
+			return;
+		}
+
 		const touchEvent: TouchEvent = inEvent as TouchEvent;
 		const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
 		if (touch !== null) {

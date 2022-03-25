@@ -4,259 +4,273 @@ import { NumericFormatFactory } from "./format/numeric-format-factory";
 import { NumericFormats } from "./format/numeric-formats";
 import { NumericFormat } from "./format/numeric-format";
 import { Ch5Signal, Ch5SignalFactory } from "..";
-import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { ICh5JoinToTextNumericAttributes } from "./interfaces/i-ch5-jointotext-numeric-attributes";
 
-export class Ch5JoinToTextNumeric extends Ch5Common {
+export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNumericAttributes {
 
-    public static PERCENTAGE_MAX = 65535;
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
-    };
+	public static readonly PERCENTAGE_MAX = 65535;
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+	};
 
-    private _receiveStateValue: string = '';
-    private _subReceiveStateValue: string = '';
-    private _value: string = '';
+	public static readonly ELEMENT_NAME = 'ch5-jointotext-numeric';
 
-    // decimal related attributes
-    private _decimalLength: number = 0;
-    private _length: number = 0;
+	private _receiveStateValue: string = '';
+	private _subReceiveStateValue: string = '';
+	private _value: string = '';
 
-    // percetage related attributes
-    private _min: number = 0;
-    private _max: number = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
+	// decimal related attributes
+	private _decimalLength: number = 0;
+	private _length: number = 0;
 
-    private _formattedValue: string | number | null = null;
-    private _type: NumericFormats = NumericFormats.signed;
+	// percentage related attributes
+	private _min: number = 0;
+	private _max: number = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
 
-    private _numericFormatFactory = NumericFormatFactory.getInstance();
-    private _currentNumericFormat: NumericFormat;
+	private _formattedValue: string | number | null = null;
+	private _type: NumericFormats = NumericFormats.signed;
 
-    public constructor() {
-        super();
+	private _numericFormatFactory = NumericFormatFactory.getInstance();
+	private _currentNumericFormat: NumericFormat;
+	
+	//#region " Getters and Setters "
 
-        this._currentNumericFormat = this._numericFormatFactory.getFormat(this.type);
-    }
+	public set receiveStateValue(value: string) {
+		if (isNil(value)) {
+			return;
+		}
+
+		if (this.receiveStateValue !== ''
+			&& this.receiveStateValue !== undefined
+			&& this.receiveStateValue !== null
+		) {
+			const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+			const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldSigName);
+
+			if (oldSignal !== null) {
+				oldSignal.unsubscribe(this._subReceiveStateValue);
+			}
+		}
 
 
-    public static get observedAttributes(): string[] {
-        return [
-            'receiveStateValue',
-            'value',
-            'type',
-            'length',
-            'decimallength',
-            'min',
-            'max',
-        ]
-    }
+		this._receiveStateValue = value;
+		this.setAttribute('receivestatevalue', value);
 
-    public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-        if (oldValue === newValue) {
-            return;
-        }
+		// setup new subscription.
+		const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+		const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(sigName);
 
-        switch (attr) {
-            case 'value':
-                this.value = newValue;
-                break;
-            case 'receivestatevalue':
-                this.receiveStateValue = newValue;
-                break;
-            case 'type':
-                this.type = newValue as NumericFormats;
-                break;
-            case 'decimallength':
-                this.decimalLength = parseFloat(newValue);
-                break;
-            case 'length':
-                this.length = parseFloat(newValue);
-                break;
-            case 'min':
-                this.min = parseFloat(newValue);
-                break;
-            case 'max':
-                this.max = parseFloat(newValue);
-                break;
-        }
-    }
+		if (receiveSignal === null) {
+			return;
+		}
 
-    public connectedCallback() {
-        if (this.hasAttribute('value')) {
-            this.value = this.getAttribute('value') + '';
-        }
+		this._subReceiveStateValue = receiveSignal.subscribe((newValue: number) => {
+			if (newValue !== parseFloat(this.value)) {
+				this.setAttribute('value', newValue + '');
+			}
+		});
+	}
 
-        if (this.hasAttribute('receivestatevalue')) {
-            this.receiveStateValue = this.getAttribute('receivestatevalue') + '';
-        }
+	public get receiveStateValue(): string {
+		return this._receiveStateValue;
+	}
 
-        if (this.hasAttribute('type')) {
-            this.type = this.getAttribute('type') as NumericFormats;
-        }
-    }
+	public set value(value: string) {
+		this._value = value;
+		this.setAttribute('value', value);
+		this.formatValue();
+	}
 
-    public disconnectedCallback() {
-        const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-        const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-            .getNumberSignal(oldSigName);
-        
-        if (oldSignal !== null) {
-            oldSignal.unsubscribe(this._subReceiveStateValue);
-        }
-    }
-    
-    public set receiveStateValue(value: string) {
-        if (isNil(value)) {
-            return;
-        }
+	public get value(): string {
+		return this._value;
+	}
 
-        if (this.receiveStateValue !== ''
-            && this.receiveStateValue !== undefined
-            && this.receiveStateValue !== null
-        ) {    
-            const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-            const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-            .getNumberSignal(oldSigName);
-            
-            if (oldSignal !== null) {
-                oldSignal.unsubscribe(this._subReceiveStateValue);
-            }
-        }
-        
-        
-        this._receiveStateValue = value;
-        this.setAttribute('receivestatevalue', value);
+	public set type(value: NumericFormats) {
+		this._type = value;
+		this.setAttribute('type', value);
+		this._currentNumericFormat = this._numericFormatFactory.getFormat(value);
+		this.formatValue();
+	}
 
-        // setup new subscription.
-        const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-        const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-            .getNumberSignal(sigName);
+	public get type(): NumericFormats {
+		return this._type;
+	}
 
-        if (receiveSignal === null) {
-            return;
-        }
+	public set decimalLength(value: number) {
+		this._decimalLength = value;
+		this.setAttribute('decimalLength', value + '');
+		this.formatValue();
+	}
 
-        this._subReceiveStateValue = receiveSignal.subscribe((newValue: number) => {
-            if (newValue !== parseFloat(this.value)) {
-                this.setAttribute('value', newValue + '');
-            }
-        });
-    }
+	public get decimalLength(): number {
+		return this._decimalLength;
+	}
 
-    public get receiveStateValue(): string {
-        return this._receiveStateValue;
-    }
+	public set length(value: number) {
+		this._length = value;
+		this.setAttribute('length', value + '');
+		this.formatValue();
+	}
 
-    public set value(value: string) {
-        this._value = value;
-        this.setAttribute('value', value); 
-        this.formatValue();
-    }
+	public get length(): number {
+		return this._length;
+	}
 
-    public get value(): string {
-        return this._value;
-    }
+	public set min(value: number) {
+		if (isNil(value)) {
+			this._min = 0;
 
-    public set type(value: NumericFormats) {
-        this._type = value;
-        this.setAttribute('type', value);
+			if (this.type === NumericFormats.percentage) {
+				this.setAttribute('min', value + '');
+				this.formatValue();
+			}
+			return;
+		}
 
-        this._currentNumericFormat = this._numericFormatFactory.getFormat(value);
+		this._min = value;
+		this.setAttribute('min', value + '');
+		this.formatValue();
+	}
 
-        this.formatValue();
-    }
+	public get min(): number {
+		return this._min;
+	}
 
-    public get type(): NumericFormats {
-        return this._type;
-    }
+	public set max(value: number) {
+		if (isNil(value)) {
+			this._max = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
 
-    public set decimalLength(value: number) {
-        this._decimalLength = value;
-        this.setAttribute('decimalLength', value + '');
+			if (this.type === NumericFormats.percentage) {
+				this.setAttribute('max', value);
+				this.formatValue();
+			}
+			return;
+		}
 
-        this.formatValue();
-    }
+		this._max = value;
+		this.setAttribute('max', value + '');
+		this.formatValue();
+	}
 
-    public get decimalLength(): number {
-        return this._decimalLength;
-    }
+	public get max(): number {
+		return this._max;
+	}
 
-    public set length(value: number) {
-        this._length = value;
-        this.setAttribute('length', value + '');
-        this.formatValue();
-    }
+	public set formattedValue(value: string | number | null) {
+		this._formattedValue = value;
+		this.textContent = value + '';
+	}
 
-    public get length(): number { 
-        return this._length;
-    }
+	public get formattedValue(): string | number | null {
+		return this._formattedValue;
+	}
 
-    public set min(value: number) {
-        if (isNil(value)) {
-            this._min = 0;
-            
-            if (this.type === NumericFormats.percentage) {
-                this.setAttribute('min', value + '');
-                this.formatValue();
-            }
-            return;
-        }
-        
-        this._min = value;
-        this.setAttribute('min', value + '');
-        this.formatValue();
-    }
+	//#endregion
 
-    public get min(): number {
-        return this._min;
-    }
+	//#region " Static Methods "
 
-    public set max(value: number) {
-        if (isNil(value)) {
-            this._max = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextNumeric.ELEMENT_NAME, Ch5JoinToTextNumeric.SIGNAL_ATTRIBUTE_TYPES);
+	}
 
-            if (this.type === NumericFormats.percentage) {
-                this.setAttribute('max', value);
-                this.formatValue();
-            }
-            return;
-        }
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5JoinToTextNumeric.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5JoinToTextNumeric.ELEMENT_NAME, Ch5JoinToTextNumeric);
+		}
+	}
 
-        this._max = value;
-        this.setAttribute('max', value + '');
-        this.formatValue();
-    }
+	//#endregion
 
-    public get max(): number {
-        return this._max;
-    }
+	public constructor() {
+		super();
+		this._currentNumericFormat = this._numericFormatFactory.getFormat(this.type);
+	}
 
-    public replaceTextContent(value: string) {
-        this.textContent = value;
-    }
+	public static get observedAttributes(): string[] {
+		const inheritedObsAttrs = Ch5Common.observedAttributes;
+		const newObsAttrs = [
+			'receiveStateValue',
+			'value',
+			'type',
+			'length',
+			'decimallength',
+			'min',
+			'max',
+		];
+		return inheritedObsAttrs.concat(newObsAttrs);
+	}
 
-    public set formattedValue(value: string | number | null) {
-        this._formattedValue = value;
-        this.replaceTextContent(value + '');
+	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
+		if (oldValue === newValue) {
+			return;
+		}
 
-    }
+		switch (attr) {
+			case 'value':
+				this.value = newValue;
+				break;
+			case 'receivestatevalue':
+				this.receiveStateValue = newValue;
+				break;
+			case 'type':
+				this.type = newValue as NumericFormats;
+				break;
+			case 'decimallength':
+				this.decimalLength = parseFloat(newValue);
+				break;
+			case 'length':
+				this.length = parseFloat(newValue);
+				break;
+			case 'min':
+				this.min = parseFloat(newValue);
+				break;
+			case 'max':
+				this.max = parseFloat(newValue);
+				break;
+			default:
+				super.attributeChangedCallback(attr, oldValue, newValue);
+				break;
+		}
+	}
 
-    public get formattedValue(): string | number | null {
-        return this._formattedValue;
-    }
+	public connectedCallback() {
+		if (this.hasAttribute('value')) {
+			this.value = this.getAttribute('value') + '';
+		}
 
-    private formatValue() {
-        this.formattedValue = this._currentNumericFormat.format(parseFloat(this.value), {
-            decimalLength: this.decimalLength,
-            length: this.length,
-            min: this.min,
-            max: this.max,
-        });
-    }
+		if (this.hasAttribute('receivestatevalue')) {
+			this.receiveStateValue = this.getAttribute('receivestatevalue') + '';
+		}
+
+		if (this.hasAttribute('type')) {
+			this.type = this.getAttribute('type') as NumericFormats;
+		}
+	}
+
+	public disconnectedCallback() {
+		const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+		const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldSigName);
+
+		if (oldSignal !== null) {
+			oldSignal.unsubscribe(this._subReceiveStateValue);
+		}
+	}
+
+	private formatValue() {
+		this.formattedValue = this._currentNumericFormat.format(parseFloat(this.value), {
+			decimalLength: this.decimalLength,
+			length: this.length,
+			min: this.min,
+			max: this.max,
+		});
+	}
+
 }
 
-if (typeof window === "object" && typeof window.customElements === "object"
-    && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-jointotext-numeric', Ch5JoinToTextNumeric);
-
-}
+Ch5JoinToTextNumeric.registerCustomElement();
+Ch5JoinToTextNumeric.registerSignalAttributeTypes();

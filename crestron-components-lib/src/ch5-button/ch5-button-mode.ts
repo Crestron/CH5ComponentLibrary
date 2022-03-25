@@ -19,6 +19,22 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
 
   //#region 1. Setters and Getters
 
+  public set labelInnerHTML(value: string) {
+    const attributeName: string = "labelInnerHTML";
+    this.logger.start('set ' + attributeName + '("' + value + '")');
+    if (value !== null) {
+      this.setAttribute(attributeName.toLowerCase(), value);
+    } else {
+      this.removeAttribute(attributeName);
+    }
+    this._parentCh5Button.createButtonLabel(this);
+    this._parentCh5Button.setButtonDisplay();
+    this.logger.stop();
+  }
+  public get labelInnerHTML(): string {
+    return this.getAttribute("labelinnerhtml") as string;
+  }
+
   public set iconClass(value: string) {
     this.validateAndSetAttributeWithStringType("iconClass", value);
   }
@@ -135,7 +151,8 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
       'iconposition',
       'iconurl',
       'customclass',
-      'customstyle'
+      'customstyle',
+      'labelinnerhtml'
     ];
 
     return commonAttributes.concat(ch5ButtonModeChildAttributes);
@@ -155,7 +172,13 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
           if (this.hasAttribute('type')) {
             this.type = newValue as TCh5ButtonType;
           } else {
-            this.type = null; // TODO - Why?
+            this.type = null;
+          }
+          break;
+
+        case 'labelinnerhtml':
+          if (this.hasAttribute('labelinnerhtml')) {
+            this.labelInnerHTML = newValue as string;
           }
           break;
 
@@ -241,11 +264,10 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
   private validateAndSetAttributeWithStringType(attributeName: string, value: any) {
     if (value !== null) {
       this.setAttribute(attributeName.toLowerCase(), value);
-      this._parentCh5Button.setButtonDisplay();
     } else {
       this.removeAttribute(attributeName);
-      this._parentCh5Button.setButtonDisplay();
     }
+    this._parentCh5Button.setButtonDisplay();
   }
 
   public getParentButton(): Ch5Button {

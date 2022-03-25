@@ -703,6 +703,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		]).then(() => {
 			// check if all components required to build dpad are ready, instantiated and available for consumption
 			this.onAllSubElementsCreated();
+			this.initAttributes();
 		});
 		if (this.isComponentLoaded) {
 			this.info('connectedCallback() - rendered', this.COMPONENT_NAME);
@@ -1082,6 +1083,14 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			ComponentHelper.setAttributeToElement(this, 'useContractForCustomStyle'.toLowerCase(), isContractNameAvailable));
 		this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
 			ComponentHelper.setAttributeToElement(this, 'useContractForCustomClass'.toLowerCase(), isContractNameAvailable));
+
+		// signals
+		this.receiveStateEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestateenable'), this._receiveStateEnable, '');
+		this.receiveStateCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestatecustomclass'), this._receiveStateCustomClass, '');
+		this.receiveStateHidePulse = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestatehidepulse'), this._receiveStateHidePulse, '');
+		this.receiveStateCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestatecustomstyle'), this._receiveStateCustomStyle, '');
+		this.receiveStateShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestateshow'), this._receiveStateShow, '');
+		this.receiveStateShowPulse = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestateshowpulse'), this._receiveStateShowPulse, '');
 
 		this.logger.stop();
 	}

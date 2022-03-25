@@ -20,8 +20,8 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "***",
      * "Defines the primary contract name to derive the component's contract details."
      * ]
-     * @name contractName
-     * @attributeType "string"
+     * @name contractname
+     * @attributeType "String"
      */
     contractName: string;
 
@@ -36,27 +36,27 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name type
      * @default default
-     * @attributeType "string"
+     * @attributeType "EnumeratedValue"
      */
      type: TCh5KeypadType;
 
     /**
      * @documentation
      * [
-     * "`type` shape",
+     * "`shape` attribute",
      * "***",
      * "Sets the overall <ch5-keypad> component shape to plus or circle."
      * ]
      * @name shape
      * @default plus
-     * @attributeType "string"
+     * @attributeType "EnumeratedValue"
      */
     shape: TCh5KeypadShape;
 
     /**
      * @documentation
      * [
-     * "`type` stretch",
+     * "`stretch` attribute",
      * "***",
      * "When the stretch property is set, the component inherits the width or/and height of the container. ",
      * "If stretch by height is used, the <ch5-keypad> will be responsive based on the width of the container. ",
@@ -66,14 +66,14 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "for the shapes of plus and circle)."
      * ]
      * @name stretch
-     * @attributeType "string"
+     * @attributeType "EnumeratedValue"
      */
     stretch: TCh5KeypadStretch | null;
 
     /**
      * @documentation
      * [
-     * "`type` textOrientation",
+     * "`textOrientation` attribute",
      * "***",
      * "Default value is 'top'. ",
      * "Allows to customize the orientation of the keypad buttons' major-minor. ",
@@ -81,9 +81,9 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "If value is top: then, major will be on top and minor will be below it. ",
      * "join+2 applies to left, join+3 applies to right, join+4 to center ."
      * ]
-     * @name textOrientation
+     * @name textorientation
      * @default top
-     * @attributeType "string"
+     * @attributeType "EnumeratedValue"
      */
     textOrientation: TCh5KeypadTextOrientation;
 
@@ -96,14 +96,14 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      *  "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-keypad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
      * ]
      * @default regular
-     * @attributeType "string"
+     * @attributeType "EnumeratedValue"
      */
     size: TCh5KeypadSize;
 
     /**
      * @documentation
      * [
-     * "`type` useContractForEnable",
+     * "`useContractForEnable` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -113,16 +113,16 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "The names from the contract will be different for each of the buttons and the overall <ch5-keypad> component. ",
      * "The details can be seen in the table above."
      * ]
-     * @name useContractForEnable
+     * @name usecontractforenable
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForEnable: boolean;
 
     /**
      * @documentation
      * [
-     * "`type` useContractForShow",
+     * "`useContractForShow` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
@@ -130,100 +130,103 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "<ch5-keypad> tag. The names from the contract will be different for each of the buttons and the overall ",
      * "<ch5-keypad> component. The details can be seen in the table above."
      * ]
-     * @name useContractForShow
+     * @name usecontractforshow
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForShow: boolean;
 
     /**
      * @documentation
      * [
-     * "`type` useContractForCustomClass",
+     * "`useContractForCustomClass` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
      * "If this value is set to true then the value received from the contract will be considered for remaining ",
      * "ch5-keypad button as a custom class."
      * ]
-     * @name useContractForCustomClass
+     * @name usecontractforcustomclass
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForCustomClass: boolean;
 
     /**
      * @documentation
      * [
-     * "`type` useContractForCustomStyle",
+     * "`useContractForCustomStyle` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
      * "If this value is set to true then the value received from the contract will be considered ",
      * "for the custom style."
      * ]
-     * @name useContractForCustomStyle
+     * @name usecontractforcustomstyle
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForCustomStyle: boolean;
 
     /**
      * @documentation
      * [
-     * "`type` useContractForExtraButtonShow",
+     * "`useContractForExtraButtonShow` attribute",
      * "***",
      * "If the contract name exists, by default this becomes true. ",
      * "If the contract name does not exist, by default this becomes false. ",
      * "If this value is set to true then the value received from the contract will be considered ",
      * "for the custom style."
      * ]
-     * @name useContractForExtraButtonShow
+     * @name usecontractforextrabuttonshow
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForExtraButtonShow: boolean;
 
     /**
      * @documentation
      * [
-     * "`type` showExtraButton",
+     * "`showExtraButton` attribute",
      * "***",
      * "The default value is false. This allows the keypad to have a ",
-     * "special row of buttons with a single button visiblethat shows a Phone icon. ",
+     * "special row of buttons with a single button visible that shows a Phone icon. ",
      * "The row when displayed, will add on to the existing height."
      * ]
-     * @name showExtraButton
+     * @name showextrabutton
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     showExtraButton: boolean;
 
-        /**
+    /**
      * @documentation
      * [
-     * "`type` receiveStateExtraButtonShow",
+     * "`receiveStateExtraButtonShow` attribute",
      * "***",
      * "The boolean value of the signal determines if the dial button is seen by the user. ",
      * "Only applicable if contractName is not provided as a parameter."
      * ]
-     * @name receiveStateExtraButtonShow
-     * @attributeType "boolean"
+     * @name receivestateextrabuttonshow
+     * @attributeType "Join"
      */
     receiveStateExtraButtonShow: string;
 
     /**
      * @documentation
      * [
-     * "`type` sendEventOnClickStart",
+     * "`sendEventOnClickStart` attribute",
      * "***",
      * "Only applies if contractName is not provided, if this parameter is supplied,",
-     * " the join number is applied to the top button, join+1 applies to bottom, ",
-     * "join+2 applies to left, join+3 applies to right, join+4 to center ."
+     * " the join + 1 number is applied to the #1 button, join+2 applies to #2 button, ",
+     * "join+3 applies #3 button, join+4 applies #4 button, join+5 applies #5 button, ",
+     * "join+6 applies #6 button, join+7 applies #7 button, join+8 applies #8 button, ",
+     * "join+9 applies #9 button, join applies #0 button, join+10 applies star button,",
+     * "join+11 applies hash button and join+12 applies to extra button."
      * ]
-     * @name sendEventOnClickStart
+     * @name sendeventonclickstart
      * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     sendEventOnClickStart: string;
 }

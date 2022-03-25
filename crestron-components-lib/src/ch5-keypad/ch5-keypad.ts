@@ -20,7 +20,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     //#region 1. Variables
     //#region 1.1 readonly variables
 
-    public static ELEMENT_NAME: string = 'ch5-keypad';
+    public static readonly ELEMENT_NAME = 'ch5-keypad';
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
@@ -119,7 +119,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private _contractName: string = '';
     private _type: TCh5KeypadType = Ch5Keypad.TYPES[0];
     private _shape: TCh5KeypadShape = Ch5Keypad.SHAPES[0];
-    private _stretch: TCh5KeypadStretch | null = null;
+    private _stretch: TCh5KeypadStretch = Ch5Keypad.STRETCHES[0];
     private _textOrientation: TCh5KeypadTextOrientation = Ch5Keypad.TEXT_ORIENTATIONS[0];
     private _sendEventOnClickStart: string = '';
     private _showExtraButton: boolean = false;
@@ -150,11 +150,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private childButtonList: { [key: string]: Ch5KeypadButton; } = {};
     private runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; } = {};
 
-    //#endregion
-    public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Keypad.ELEMENT_NAME, Ch5Keypad.SIGNAL_ATTRIBUTE_TYPES);
-	}
-
     public static registerSignalAttributeDefaults() {
 		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Keypad.ELEMENT_NAME, {
 			contractName: { attributes: ["contractname"], defaultValue: "" },
@@ -166,6 +161,10 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 
     //#endregion
+
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Keypad.ELEMENT_NAME, Ch5Keypad.SIGNAL_ATTRIBUTE_TYPES);
+    }
 
     //#region 2. Setters and Getters
     public set contractName(value: string) {
@@ -814,7 +813,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         super.initAttributes();
         // set data-ch5-id
         this.setAttribute('data-ch5-id', this.getCrId());
-        this.setAttribute('id', this.getCrId());
+        // this.setAttribute('id', this.getCrId());
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5Keypad); // WAI-ARIA Attributes
         this.contractName = ComponentHelper.setAttributeToElement(this,
@@ -857,6 +856,14 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             ComponentHelper.setAttributeToElement(this,
                 'useContractForExtraButtonShow', isContractNameAvailable));
 
+        // signals
+		this.receiveStateEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestateenable'), this._receiveStateEnable, '');
+		this.receiveStateCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestatecustomclass'), this._receiveStateCustomClass, '');
+		this.receiveStateHidePulse = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestatehidepulse'), this._receiveStateHidePulse, '');
+		this.receiveStateCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestatecustomstyle'), this._receiveStateCustomStyle, '');
+		this.receiveStateShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestateshow'), this._receiveStateShow, '');
+		this.receiveStateShowPulse = ComponentHelper.setAttributesBasedValue(this.hasAttribute('receivestateshowpulse'), this._receiveStateShowPulse, '');
+
         this.logger.stop();
     }
 
@@ -872,6 +879,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         ]).then(() => {
             // check if all components required to build Keypad are ready, instantiated and available for consumption
             this.onAllSubElementsCreated();
+            this.initAttributes();
             if (this.isComponentLoaded) {
                 this.info('connectedCallback() - rendered', this.COMPONENT_NAME);
             }
@@ -1327,6 +1335,7 @@ if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
     window.customElements.define('ch5-keypad', Ch5Keypad);
+    Ch5Keypad.registerSignalAttributeTypes();
 }
 
 Ch5Keypad.registerSignalAttributeTypes();

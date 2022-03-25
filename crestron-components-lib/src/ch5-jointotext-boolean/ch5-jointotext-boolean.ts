@@ -2,183 +2,203 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { isNil } from 'lodash';
 import { Ch5Signal, Ch5SignalFactory } from "..";
 import { ICh5JoinToTextBooleanAttributes } from "./interfaces";
-import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 
 export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBooleanAttributes {
 
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+	//#region " Variables "
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+		receivestatevalue: { direction: "state", booleanJoin: 1, contractName: true }
 	};
-    
-    private _value: string = 'false'; 
-    private _textWhenTrue: string = '';
-    private _textWhenFalse: string = '';
-    private _receiveStateValue: string = '';
 
-    private _subReceiveStateValue: string = '';
+	public static readonly ELEMENT_NAME = 'ch5-jointotext-boolean';
 
+	private _value: boolean = false;
+	private _textWhenTrue: string = '';
+	private _textWhenFalse: string = '';
+	private _receiveStateValue: string = '';
+	private _subReceiveStateValue: string = '';
 
-    public static get observedAttributes(): string[] {
-        return [
-            'value',
-            'textwhentrue',
-            'textwhenfalse',
-            'receivestatevalue',
-        ]
-    }
+	//#endregion
 
-    public connectedCallback() {
+	//#region " Setters and Getters "
 
-        if (this.hasAttribute('textwhentrue')) {
-            this.textWhenTrue = this.getAttribute('textwhentrue') + '';
-        }
+	public set value(value: boolean) {
+		if (isNil(value)) {
+			return;
+		}
 
-        if (this.hasAttribute('textwhenfalse')) {
-            this.textWhenFalse = this.getAttribute('textwhenfalse') + '';
-        }
+		this._value = value;
+		this.setAttribute('value', value + '');
+		this.toggleText(value);
+	}
 
-        if (this.hasAttribute('receivestatevalue')) {
-            this.receiveStateValue = this.getAttribute('receivestatevalue') + '';
-        }
+	public get value(): boolean {
+		return this._value;
+	}
 
-        if (this.hasAttribute('value')) {
-            this.value = this.getAttribute('value') + '';
-        } else {
-            this.value = 'false';
-        }
-    }
+	public set textWhenTrue(value: string) {
+		this._textWhenTrue = value;
+		this.setAttribute('textWhenTrue', value);
+	}
 
-    public disconnectedCallback() {
-        const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-        const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-        .getBooleanSignal(oldSigName);
-        
-        if (oldSignal !== null) {
-            oldSignal.unsubscribe(this._subReceiveStateValue);
-        }
-    }
+	public get textWhenTrue(): string {
+		return this._textWhenTrue;
+	}
 
-    public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-        
-        if (oldValue === newValue) {
-            return;
-        }
-        
-        switch (attr) {
-            case 'value':
-                this.value = newValue;
-                break;
-            case 'textwhentrue':
-                this.textWhenTrue = newValue;
-                break;
-            case 'textwhenfalse':
-                this.textWhenFalse = newValue;
-                break;
-            case 'receivestatevalue':
-                this.receiveStateValue = newValue;
-                break;
-        }
-    }
+	public set textWhenFalse(value: string) {
+		this._textWhenFalse = value;
+		this.setAttribute('textWhenFalse', value);
+	}
 
-    public toggleText(value: boolean) {
-        if (value === true) {
-            this.replaceTextContent(this.textWhenTrue);
-            return;
-        } else if (value === false) {
-            this.replaceTextContent(this.textWhenFalse);
-            return;
-        }
+	public get textWhenFalse(): string {
+		return this._textWhenFalse;
+	}
 
-        this.replaceTextContent('');
-    }
+	public set receiveStateValue(value: string) {
+		if (isNil(value)) {
+			return;
+		}
 
-    public replaceTextContent(text: string) {
-        this.textContent = text;
-    }
+		if (this.receiveStateValue !== ''
+			&& this.receiveStateValue !== undefined
+			&& this.receiveStateValue !== null
+		) {
+			const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+			const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
+				.getBooleanSignal(oldSigName);
 
-    public set value(value: string) {
-        if (isNil(value)) {
-            return;
-        }
+			if (oldSignal !== null) {
+				oldSignal.unsubscribe(this._subReceiveStateValue);
+			}
+		}
 
-        this._value = value;
-        this.setAttribute('value', value);
-        this.toggleText(this.convertValueToBoolean());
-    }
+		this._receiveStateValue = value;
+		this.setAttribute('receivestatevalue', value);
 
-    public get value(): string {
-        return this._value;
-    }
+		// setup new subscription.
+		const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+		const receiveSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(sigName);
 
-    public set textWhenTrue(value: string) {
-        this._textWhenTrue = value;
-        this.setAttribute('textWhenTrue', value);
-    }
+		if (receiveSignal === null) {
+			return;
+		}
 
-    public get textWhenTrue(): string {
-        return this._textWhenTrue;
-    }
+		this._subReceiveStateValue = receiveSignal.subscribe((newValue: boolean) => {
+			if (newValue !== this.value) {
+				this.setAttribute('value', newValue + '');
+			}
+		});
+	}
 
-    public set textWhenFalse(value: string) {
-        this._textWhenFalse = value;
-        this.setAttribute('textWhenFalse', value);
-    }
+	public get receiveStateValue(): string {
+		return this._receiveStateValue;
+	}
 
-    public get textWhenFalse(): string {
-        return this._textWhenFalse;
-    }
+	//#endregion
 
-    public set receiveStateValue(value: string) {
-        if (isNil(value)) {
-            return;
-        }
-        
-        if (this.receiveStateValue !== ''
-            && this.receiveStateValue !== undefined
-            && this.receiveStateValue !== null
-        ) {    
-            const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-            const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-            .getBooleanSignal(oldSigName);
-            
-            if (oldSignal !== null) {
-                oldSignal.unsubscribe(this._subReceiveStateValue);
-            }
-        }
-        
-        
-        this._receiveStateValue = value;
-        this.setAttribute('receivestatevalue', value);
+	//#region " Static Methods "
 
-        // setup new subscription.
-        const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-        const receiveSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-            .getBooleanSignal(sigName);
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean.SIGNAL_ATTRIBUTE_TYPES);
+	}
 
-        if (receiveSignal === null) {
-            return;
-        }
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5JoinToTextBoolean.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean);
+		}
+	}
 
-        this._subReceiveStateValue = receiveSignal.subscribe((newValue: boolean) => {
-            if (newValue !== this.convertValueToBoolean()) {
-                this.setAttribute('value', newValue + '');
-            }
-        });
-    }
+	//#endregion
 
-    public get receiveStateValue(): string {
-        return this._receiveStateValue;
-    }
+	public constructor() {
+		super();
+	}
 
-    public convertValueToBoolean() {
-        return this.value === "true";
-    }
+	public static get observedAttributes(): string[] {
+		const inheritedObsAttrs = Ch5Common.observedAttributes;
+		const newObsAttrs = [
+			'value',
+			'textwhentrue',
+			'textwhenfalse',
+			'receivestatevalue',
+		];
+		return inheritedObsAttrs.concat(newObsAttrs);
+	}
+
+	public connectedCallback() {
+		if (this.hasAttribute('textwhentrue')) {
+			this.textWhenTrue = this.getAttribute('textwhentrue') as string;
+		}
+
+		if (this.hasAttribute('textwhenfalse')) {
+			this.textWhenFalse = this.getAttribute('textwhenfalse') as string;
+		}
+
+		if (this.hasAttribute('receivestatevalue')) {
+			this.receiveStateValue = this.getAttribute('receivestatevalue') as string;
+		}
+
+		if (this.hasAttribute('value')) {
+			this.value = this.convertValueToBoolean(this.getAttribute('value') as string);
+		} else {
+			this.value = false;
+		}
+	}
+
+	public disconnectedCallback() {
+		const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+		const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldSigName);
+
+		if (oldSignal !== null) {
+			oldSignal.unsubscribe(this._subReceiveStateValue);
+		}
+	}
+
+	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
+		if (oldValue === newValue) {
+			return;
+		}
+
+		switch (attr) {
+			case 'value':
+				this.value = this.convertValueToBoolean(newValue);
+				break;
+			case 'textwhentrue':
+				this.textWhenTrue = newValue;
+				break;
+			case 'textwhenfalse':
+				this.textWhenFalse = newValue;
+				break;
+			case 'receivestatevalue':
+				this.receiveStateValue = newValue;
+				break;
+			default:
+				super.attributeChangedCallback(attr, oldValue, newValue);
+				break;
+		}
+	}
+
+	private toggleText(value: boolean) {
+		if (value === true) {
+			this.textContent = this.textWhenTrue;
+			return;
+		} else if (value === false) {
+			this.textContent = this.textWhenFalse;
+			return;
+		}
+		this.textContent = '';
+	}
+
+	private convertValueToBoolean(value: string) {
+		return value === "true";
+	}
 
 }
 
-if (typeof window === "object" && typeof window.customElements === "object"
-    && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-jointotext-boolean', Ch5JoinToTextBoolean);
-
-}
+Ch5JoinToTextBoolean.registerCustomElement();
+Ch5JoinToTextBoolean.registerSignalAttributeTypes();

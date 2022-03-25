@@ -5,23 +5,12 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces/";
+import { Ch5SignalFactory } from "../ch5-signal-factory";
 
 /**
- * @ignore
+ * Utility function that returns the number of active subscriptions of CH5 Components
  */
-export interface ICH5ImageModeAttributes extends ICh5CommonAttributes {
-
-  /**
-   * @documentation
-   * [
-   * "`url` attribute",
-   * "***",
-   * "Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP."
-   * ]
-   * @name url
-   * @attributeType "ImageURL"
-   */
-  url: string;
-
+export function getSubscriptionsCount() {
+    const signals = Ch5SignalFactory.getInstance().getStates();
+    return signals;
 }

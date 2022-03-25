@@ -5,6 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export type TCh5BackgroundRepeat = '' | 'no-repeat' | 'repeat' | 'repeat-x' | 'repeat-y';
+export type TCh5BackgroundRepeat = 'no-repeat' | 'repeat' | 'repeat-x' | 'repeat-y';
 
 export type TCh5BackgroundScale = 'stretch' | 'fill' | 'fit';
+
+export type TCh5BackgroundTransitionEffect = 'ease' | 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';

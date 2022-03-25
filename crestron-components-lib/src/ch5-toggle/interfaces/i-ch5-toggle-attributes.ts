@@ -23,7 +23,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "The label of the toggle element."
    * ]
    * @name label
-   * @attributeType "string"
+   * @attributeType "String"
    */
   label: string;
 
@@ -35,7 +35,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Custom text to display on the toggle when the toggle is ON."
    * ]
    * @name labelon
-   * @attributeType "string"
+   * @attributeType "String"
    */
   labelOn: string;
 
@@ -47,7 +47,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Custom text to display on the toggle when the toggle is OFF."
    * ]
    * @name labeloff
-   * @attributeType "string"
+   * @attributeType "String"
    */
   labelOff: string;
 
@@ -59,7 +59,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Specifies a custom icon class when the toggle is ON."
    * ]
    * @name iconon
-   * @attributeType "string"
+   * @attributeType "IconClass"
    */
   iconOn: string;
 
@@ -71,7 +71,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Specifies a custom icon class when the toggle is OFF."
    * ]
    * @name iconoff
-   * @attributeType "string"
+   * @attributeType "IconClass"
    */
   iconOff: string;
 
@@ -85,7 +85,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name handleshape
    * @default circle
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   handleShape: TCh5ToggleShape;
 
@@ -101,7 +101,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   orientation: TCh5ToggleOrientation;
   /**
@@ -112,7 +112,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Runs when a clean event is initiated."
    * ]
    * @name onclean
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onclean: {};
 
@@ -124,7 +124,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
-   * @attributeType "string"
+   * @attributeType "String"
    */
   ondirty: {};
 
@@ -140,7 +140,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name value
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   value: boolean;
 
@@ -157,7 +157,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name signalvaluesynctimeout
    * @default 1500
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   signalValueSyncTimeout: string | number;
 
@@ -171,7 +171,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name feedbackmode
    * @default direct
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   feedbackMode: TCh5CommonInputFeedbackModes;
 
@@ -184,7 +184,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name receivestatescriptlabelhtml
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateScriptLabelHtml: string;
 
@@ -197,7 +197,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name receivestatevalue
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateValue: string;
 
@@ -209,7 +209,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name sendeventonclick
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   sendEventOnClick: string;
 }

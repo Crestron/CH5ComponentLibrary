@@ -517,7 +517,7 @@ ch5-button .ch5-button .cb-btn {
   align-items: center;
   justify-content: space-between;
   line-height: 1.2;
-  padding: 0.5rem;
+  padding: 0.25rem;
 }
 ch5-button div {
   cursor: pointer;
@@ -606,16 +606,16 @@ ch5-button[hidden] {
   width: 42px;
 }
 .ch5-button .cb-btn {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
 }
 .ch5-button .ch5-button--label {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
+  padding-left: 0.125rem;
+  padding-right: 0.125rem;
 }
 .ch5-button.ch5-button--vertical .ch5-button--label {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
 }
 .ch5-button .ch5-button--icon {
   vertical-align: middle;
@@ -904,7 +904,6 @@ i.cb-icon.cx-button-icon-pos-bottom {
 
 .ch5-button--span {
   width: 100%;
-  height: 100%;
   display: flex;
   overflow: hidden;
 }
@@ -934,6 +933,7 @@ i.cb-icon.cx-button-icon-pos-bottom {
 }
 
 .ch5-button--vertical .ch5-button--span {
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -1085,6 +1085,10 @@ i.cb-icon.cx-button-icon-pos-bottom {
 
 .cx-button-checkbox-pos-right {
   padding-left: 5px;
+}
+
+i.cb-icon.material-icons {
+  font-size: inherit;
 }
 
 i.cb-icon.cx-button-icon-pos-bottom,
@@ -3039,7 +3043,7 @@ body.ch5-video-fullscreen .control-panel {
   color: #ffffff;
 }
 .ch5-dpad.ch5-dpad--type-default .center:active, .ch5-dpad.ch5-dpad--type-default.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--type-default.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #3333ff !important;
+  background-color: #3333ff;
   z-index: 1;
 }
 .ch5-dpad.ch5-dpad--type-primary .ch5-dpad-child {
@@ -3047,7 +3051,7 @@ body.ch5-video-fullscreen .control-panel {
   color: #ffffff;
 }
 .ch5-dpad.ch5-dpad--type-primary .center:active, .ch5-dpad.ch5-dpad--type-primary.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--type-primary.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #1a1a1a !important;
+  background-color: #1a1a1a;
   z-index: 1;
 }
 .ch5-dpad.ch5-dpad--type-info .ch5-dpad-child {
@@ -3055,7 +3059,7 @@ body.ch5-video-fullscreen .control-panel {
   color: #000000;
 }
 .ch5-dpad.ch5-dpad--type-info .center:active, .ch5-dpad.ch5-dpad--type-info.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--type-info.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ffff !important;
+  background-color: #33ffff;
   z-index: 1;
 }
 .ch5-dpad.ch5-dpad--type-text .ch5-dpad-child {
@@ -3063,7 +3067,7 @@ body.ch5-video-fullscreen .control-panel {
   color: #ffffff;
 }
 .ch5-dpad.ch5-dpad--type-text .center:active, .ch5-dpad.ch5-dpad--type-text.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--type-text.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #7023b8 !important;
+  background-color: #7023b8;
   z-index: 1;
 }
 .ch5-dpad.ch5-dpad--type-danger .ch5-dpad-child {
@@ -3071,7 +3075,7 @@ body.ch5-video-fullscreen .control-panel {
   color: #ffffff;
 }
 .ch5-dpad.ch5-dpad--type-danger .center:active, .ch5-dpad.ch5-dpad--type-danger.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--type-danger.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff3333 !important;
+  background-color: #ff3333;
   z-index: 1;
 }
 .ch5-dpad.ch5-dpad--type-warning .ch5-dpad-child {
@@ -3079,7 +3083,7 @@ body.ch5-video-fullscreen .control-panel {
   color: #ffffff;
 }
 .ch5-dpad.ch5-dpad--type-warning .center:active, .ch5-dpad.ch5-dpad--type-warning.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--type-warning.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff6a33 !important;
+  background-color: #ff6a33;
   z-index: 1;
 }
 .ch5-dpad.ch5-dpad--type-success .ch5-dpad-child {
@@ -3087,7 +3091,7 @@ body.ch5-video-fullscreen .control-panel {
   color: #000000;
 }
 .ch5-dpad.ch5-dpad--type-success .center:active, .ch5-dpad.ch5-dpad--type-success.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--type-success.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ff33 !important;
+  background-color: #33ff33;
   z-index: 1;
 }
 .ch5-dpad.ch5-dpad--type-secondary .ch5-dpad-child {
@@ -3095,7 +3099,7 @@ body.ch5-video-fullscreen .control-panel {
   color: #000000;
 }
 .ch5-dpad.ch5-dpad--type-secondary .center:active, .ch5-dpad.ch5-dpad--type-secondary.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--type-secondary.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: white !important;
+  background-color: white;
   z-index: 1;
 }
 .ch5-dpad .center {
@@ -3118,7 +3122,7 @@ body.ch5-video-fullscreen .control-panel {
   z-index: 2;
 }
 .ch5-dpad .center span {
-  font-size: 1em;
+  font-size: 1.5rem;
   border-radius: 50%;
   text-align: center;
   background-repeat: no-repeat;
@@ -3244,44 +3248,69 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-right-radius: 10px;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
-  background-color: #ff3333 !important;
   color: #ffffff;
+  background-color: #ff3333;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff3333 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
-  background-color: #ff3333 !important;
   color: #ffffff;
+  background-color: #ff3333;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff3333 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
-  background-color: #ff3333 !important;
   color: #ffffff;
+  background-color: #ff3333;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff3333 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
-  background-color: #ff3333 !important;
   color: #ffffff;
+  background-color: #ff3333;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff3333 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #ff3333;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
-  background-color: #ff3333 !important;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
   color: #ffffff;
+  background-color: #ff3333;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff3333 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.up {
   margin: 0 33.33%;
@@ -3356,44 +3385,69 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-right-radius: 10px;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
-  background-color: #1a1a1a !important;
   color: #ffffff;
+  background-color: #1a1a1a;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #1a1a1a !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
-  background-color: #1a1a1a !important;
   color: #ffffff;
+  background-color: #1a1a1a;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #1a1a1a !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
-  background-color: #1a1a1a !important;
   color: #ffffff;
+  background-color: #1a1a1a;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #1a1a1a !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
-  background-color: #1a1a1a !important;
   color: #ffffff;
+  background-color: #1a1a1a;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #1a1a1a !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #1a1a1a;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
-  background-color: #1a1a1a !important;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
   color: #ffffff;
+  background-color: #1a1a1a;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #1a1a1a !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.up {
   margin: 0 33.33%;
@@ -3468,44 +3522,69 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-right-radius: 10px;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
-  background-color: #7023b8 !important;
   color: #ffffff;
+  background-color: #7023b8;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #7023b8 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
-  background-color: #7023b8 !important;
   color: #ffffff;
+  background-color: #7023b8;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #7023b8 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
-  background-color: #7023b8 !important;
   color: #ffffff;
+  background-color: #7023b8;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #7023b8 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
-  background-color: #7023b8 !important;
   color: #ffffff;
+  background-color: #7023b8;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #7023b8 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #7023b8;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
-  background-color: #7023b8 !important;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
   color: #ffffff;
+  background-color: #7023b8;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #7023b8 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.up {
   margin: 0 33.33%;
@@ -3580,44 +3659,69 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-right-radius: 10px;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
-  background-color: #33ffff !important;
   color: #000000;
+  background-color: #33ffff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ffff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
-  background-color: #33ffff !important;
   color: #000000;
+  background-color: #33ffff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ffff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
-  background-color: #33ffff !important;
   color: #000000;
+  background-color: #33ffff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ffff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
-  background-color: #33ffff !important;
   color: #000000;
+  background-color: #33ffff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ffff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #33ffff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
-  background-color: #33ffff !important;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
   color: #000000;
+  background-color: #33ffff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ffff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.up {
   margin: 0 33.33%;
@@ -3692,44 +3796,69 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-right-radius: 10px;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
-  background-color: #ff6a33 !important;
   color: #ffffff;
+  background-color: #ff6a33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff6a33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
-  background-color: #ff6a33 !important;
   color: #ffffff;
+  background-color: #ff6a33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff6a33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
-  background-color: #ff6a33 !important;
   color: #ffffff;
+  background-color: #ff6a33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff6a33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
-  background-color: #ff6a33 !important;
   color: #ffffff;
+  background-color: #ff6a33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff6a33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #ff6a33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
-  background-color: #ff6a33 !important;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
   color: #ffffff;
+  background-color: #ff6a33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #ff6a33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.up {
   margin: 0 33.33%;
@@ -3804,44 +3933,69 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-right-radius: 10px;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
-  background-color: #33ff33 !important;
   color: #000000;
+  background-color: #33ff33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ff33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
-  background-color: #33ff33 !important;
   color: #000000;
+  background-color: #33ff33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ff33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
-  background-color: #33ff33 !important;
   color: #000000;
+  background-color: #33ff33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ff33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
-  background-color: #33ff33 !important;
   color: #000000;
+  background-color: #33ff33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ff33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #33ff33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
-  background-color: #33ff33 !important;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
   color: #000000;
+  background-color: #33ff33;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #33ff33 !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.up {
   margin: 0 33.33%;
@@ -3916,44 +4070,69 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-right-radius: 10px;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
-  background-color: white !important;
   color: #000000;
+  background-color: white;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: white !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
-  background-color: white !important;
   color: #000000;
+  background-color: white;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: white !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
-  background-color: white !important;
   color: #000000;
+  background-color: white;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: white !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
-  background-color: white !important;
   color: #000000;
+  background-color: white;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: white !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: white;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
-  background-color: white !important;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
   color: #000000;
+  background-color: white;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: white !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.up {
   margin: 0 33.33%;
@@ -4028,44 +4207,69 @@ body.ch5-video-fullscreen .control-panel {
   border-bottom-right-radius: 10px;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
-  background-color: #3333ff !important;
   color: #ffffff;
+  background-color: #3333ff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #3333ff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
-  background-color: #3333ff !important;
   color: #ffffff;
+  background-color: #3333ff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #3333ff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
-  background-color: #3333ff !important;
   color: #ffffff;
+  background-color: #3333ff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #3333ff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
 }
 .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
-  background-color: #3333ff !important;
   color: #ffffff;
+  background-color: #3333ff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #3333ff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #3333ff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad-child {
-  background-color: #3333ff !important;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
   color: #ffffff;
+  background-color: #3333ff;
 }
-.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-center--pressed.center:active, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-plus .direction-btn:active span, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .direction-btn.ch5-dpad-button-center--pressed.ch5-dpad--shape-circle .direction-btn:active {
-  background-color: #3333ff !important;
-  z-index: 1;
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-plus.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
 }
 .ch5-dpad.ch5-dpad--shape-plus .direction-btn.up span.dpad-btn-icon {
   border-top-left-radius: 10px;
@@ -4124,6 +4328,526 @@ body.ch5-video-fullscreen .control-panel {
 }
 .ch5-dpad.ch5-dpad--shape-circle .direction-btn.down {
   border-bottom-right-radius: 100%;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-danger .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff3333;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-primary .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #1a1a1a;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-text .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #7023b8;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-info .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ffff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-warning .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #ff6a33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-success .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #33ff33;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  color: #000000;
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-secondary .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 white;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed .center:active {
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-up--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed .center:active {
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-left--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed .center:active {
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-right--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed .center:active {
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .direction-btn.ch5-dpad-button-down--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.ch5-dpad-child {
+  color: #ffffff;
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed .center:active {
+  background-color: #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.direction-btn.up:after, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.direction-btn.down:before {
+  box-shadow: -10px 0 0 0 #3333ff;
+}
+.ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.direction-btn.up:before, .ch5-dpad.ch5-dpad--shape-circle.ch5-dpad--type-default .center.ch5-dpad-button-center--pressed.direction-btn.down:after {
+  box-shadow: 10px 0 0 0 #3333ff;
 }
 
 .ch5-dpad.ch5-dpad--stretch-both {
@@ -4212,27 +4936,27 @@ body.ch5-video-fullscreen .control-panel {
 .ch5-keypad[disabled] button {
   cursor: default;
 }
-.ch5-keypad[showextrabutton=true] {
+.ch5-keypad[showextrabutton=true], .ch5-keypad[usecontractforextrabuttonshow=true] {
   height: 450px;
 }
-.ch5-keypad[showextrabutton=true] .keypad-container {
+.ch5-keypad[showextrabutton=true] .keypad-container, .ch5-keypad[usecontractforextrabuttonshow=true] .keypad-container {
   height: 450px;
   min-width: 270px;
   min-height: 450px;
 }
-.ch5-keypad[showextrabutton=true] .keypad-container .keypad-row {
+.ch5-keypad[showextrabutton=true] .keypad-container .keypad-row, .ch5-keypad[usecontractforextrabuttonshow=true] .keypad-container .keypad-row {
   flex: 0 1 18%;
 }
-.ch5-keypad[showextrabutton=true] .keypad-container .keypad-row .keypad-btn.special-center button {
+.ch5-keypad[showextrabutton=true] .keypad-container .keypad-row .keypad-btn.special-center button, .ch5-keypad[usecontractforextrabuttonshow=true] .keypad-container .keypad-row .keypad-btn.special-center button {
   color: #ffffff;
   background-color: #1da81d;
   border: 1px solid #1da81d;
 }
-.ch5-keypad[showextrabutton=true] .keypad-container .keypad-row .keypad-btn.special-center button:active {
+.ch5-keypad[showextrabutton=true] .keypad-container .keypad-row .keypad-btn.special-center button:active, .ch5-keypad[usecontractforextrabuttonshow=true] .keypad-container .keypad-row .keypad-btn.special-center button:active {
   background: #25d325;
   border-color: #25d325;
 }
-.ch5-keypad[showextrabutton=true] .keypad-container .keypad-row .keypad-btn.empty-btn {
+.ch5-keypad[showextrabutton=true] .keypad-container .keypad-row .keypad-btn.empty-btn, .ch5-keypad[usecontractforextrabuttonshow=true] .keypad-container .keypad-row .keypad-btn.empty-btn {
   display: none;
 }
 .ch5-keypad.ch5-keypad--type-default .keypad-row {
@@ -4454,8 +5178,6 @@ body.ch5-video-fullscreen .control-panel {
   line-height: 1rem;
 }
 .keypad-row .keypad-btn[key=button0] .label-minor {
-  font-size: 1.5rem;
-  margin-top: -2%;
   margin-left: 3%;
 }
 
@@ -4500,10 +5222,10 @@ body.ch5-video-fullscreen .control-panel {
   width: 207px;
   height: 270px;
 }
-.ch5-keypad.ch5-keypad--size-x-small[showextrabutton=true] {
+.ch5-keypad.ch5-keypad--size-x-small[showextrabutton=true], .ch5-keypad.ch5-keypad--size-x-small[usecontractforextrabuttonshow=true] {
   height: 345px;
 }
-.ch5-keypad.ch5-keypad--size-x-small[showextrabutton=true] .keypad-container {
+.ch5-keypad.ch5-keypad--size-x-small[showextrabutton=true] .keypad-container, .ch5-keypad.ch5-keypad--size-x-small[usecontractforextrabuttonshow=true] .keypad-container {
   height: 345px;
   min-width: 207px;
   min-height: 345px;
@@ -4527,10 +5249,10 @@ body.ch5-video-fullscreen .control-panel {
   width: 250px;
   height: 326.1px;
 }
-.ch5-keypad.ch5-keypad--size-small[showextrabutton=true] {
+.ch5-keypad.ch5-keypad--size-small[showextrabutton=true], .ch5-keypad.ch5-keypad--size-small[usecontractforextrabuttonshow=true] {
   height: 416.7px;
 }
-.ch5-keypad.ch5-keypad--size-small[showextrabutton=true] .keypad-container {
+.ch5-keypad.ch5-keypad--size-small[showextrabutton=true] .keypad-container, .ch5-keypad.ch5-keypad--size-small[usecontractforextrabuttonshow=true] .keypad-container {
   height: 416.7px;
   min-width: 250px;
   min-height: 416.7px;
@@ -4553,10 +5275,10 @@ body.ch5-video-fullscreen .control-panel {
   width: 300px;
   height: 391.35px;
 }
-.ch5-keypad.ch5-keypad--size-large[showextrabutton=true] {
+.ch5-keypad.ch5-keypad--size-large[showextrabutton=true], .ch5-keypad.ch5-keypad--size-large[usecontractforextrabuttonshow=true] {
   height: 500px;
 }
-.ch5-keypad.ch5-keypad--size-large[showextrabutton=true] .keypad-container {
+.ch5-keypad.ch5-keypad--size-large[showextrabutton=true] .keypad-container, .ch5-keypad.ch5-keypad--size-large[usecontractforextrabuttonshow=true] .keypad-container {
   height: 500px;
   min-width: 300px;
   min-height: 500px;
@@ -4573,23 +5295,21 @@ body.ch5-video-fullscreen .control-panel {
   width: 320px;
   height: 417.45px;
 }
-.ch5-keypad.ch5-keypad--size-x-large[showextrabutton=true] {
+.ch5-keypad.ch5-keypad--size-x-large[showextrabutton=true], .ch5-keypad.ch5-keypad--size-x-large[usecontractforextrabuttonshow=true] {
   height: 533.4px;
 }
-.ch5-keypad.ch5-keypad--size-x-large[showextrabutton=true] .keypad-container {
+.ch5-keypad.ch5-keypad--size-x-large[showextrabutton=true] .keypad-container, .ch5-keypad.ch5-keypad--size-x-large[usecontractforextrabuttonshow=true] .keypad-container {
   height: 533.4px;
   min-width: 320px;
   min-height: 533.4px;
 }
 
 .ch5-keypad.ch5-keypad--size-x-small .keypad-btn[key=button0] button .label-minor {
-  font-size: 1.1rem;
   margin-top: -15%;
   margin-left: 3%;
 }
 
 .ch5-keypad.ch5-keypad--size-small .keypad-btn[key=button0] button .label-minor {
-  font-size: 1.2rem;
   margin-top: -6%;
   margin-left: 4%;
 }
