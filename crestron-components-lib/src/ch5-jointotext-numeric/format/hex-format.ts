@@ -1,13 +1,14 @@
 import { NumericFormat } from "./numeric-format";
 
 export type HexFormatOptions = {
-
+    length: number;
 }
 
 export class HexFormat extends NumericFormat {
 
     public format(value: number, options: HexFormatOptions) {
         // hex - e.g. "%2x"
+        const { length } = options;
         let formattedText = "";
         const hexValue = value.toString(16);
         const textLength = hexValue.length;
