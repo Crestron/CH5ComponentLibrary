@@ -623,7 +623,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this._checkboxShow !== value) {
 			this._checkboxShow = value;
 			if (this._checkboxShow === true) {
-				this.setAttribute('checkboxShow', '');
+				this.setAttribute('checkboxShow', 'true');
 			} else {
 				this.setAttribute('checkboxShow', 'false');
 			}
@@ -729,9 +729,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this._selected !== value) {
 			this._selected = value;
 			if (value === true) {
-				this.setAttribute('selected', '');
+				this.setAttribute('selected', 'true');
 			} else {
-				this.removeAttribute('selected');
+				this.setAttribute('selected', 'false');
 			}
 			this.setButtonDisplay();
 			this.checkboxDisplay();
@@ -1135,7 +1135,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// TODO - why is customclassselected checked?
 		// if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
 		if (this.hasAttribute('selected')) {
-			this.selected = this.toBoolean((this.getAttribute('selected')), true);
+			this.selected = this.toBoolean((this.hasAttribute('selected') && this.getAttribute('selected') !== "false"));
 		}
 		if (this.hasAttribute('shape')) {
 			this.shape = this.getAttribute('shape') as TCh5ButtonShape;
@@ -1322,7 +1322,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				if (!this.hasAttribute('customclassselected')) {
 					let isSelected = false;
 					if (this.hasAttribute('selected')) {
-						const attrSelected = (this.getAttribute('selected') as string).toLowerCase();
+						const attrSelected = this.toBoolean((this.hasAttribute('selected') && this.getAttribute('selected') !== "false")).toString().toLowerCase();
 						if ('false' !== attrSelected && '0' !== attrSelected) {
 							isSelected = true;
 						}

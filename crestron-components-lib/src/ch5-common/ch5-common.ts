@@ -409,9 +409,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         if (value !== this._disabled) {
             this._disabled = this._toBoolean(value);
             if (this._disabled) {
-                this.setAttribute('disabled', '');
+                this.setAttribute('disabled', 'true');
             } else {
-                this.removeAttribute('disabled');
+                this.setAttribute('disabled', 'false');
             }
         }
     }
@@ -536,9 +536,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             }
             if (hasSignalChanged) {
                 if (true === newVal) {
-                    this.removeAttribute('disabled');
+                    this.setAttribute('disabled', 'false');
                 } else {
-                    this.setAttribute('disabled', '');
+                    this.setAttribute('disabled', 'true');
                 }
             }
         });
@@ -1113,7 +1113,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 break;
             case 'show':
                 if (this.hasAttribute('show')) {
-                    const tmpShow = (this.getAttribute('show') as string).toString().toLowerCase();
+                    const tmpShow = ((this.hasAttribute('show') && this.getAttribute('show') !== "false")).toString().toLowerCase();
                     if ('false' === tmpShow || '0' === tmpShow) {
                         this.show = false;
                     } else {
@@ -1197,13 +1197,14 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             case 'disabled':
                 if (!this.hasAttribute('customclassdisabled')) {
                     if (this.hasAttribute('disabled')) {
-                        if (this.getAttribute("disabled") === '' || this._toBoolean(this.getAttribute("disabled")) === true) {
-                            this._disabled = true;
+                        const tmpDisabled = ((this.hasAttribute('disabled') && this.getAttribute('disabled') !== "false")).toString().toLowerCase();
+                        if ('false' === tmpDisabled || '0' === tmpDisabled) {
+                            this.disabled = false;
                         } else {
-                            this._disabled = false;
+                            this.disabled = true;
                         }
                     } else {
-                        this._disabled = false;
+                        this.disabled = false;
                     }
                     this.updateForChangeInDisabledStatus();
                 }
@@ -1469,8 +1470,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
         this.info("from common - updateForChangeInDisabledStatus()");
         if (true === this._disabled) {
+            console.log('updateForChangeInDisabledStatus add class')
             targetElement.classList.add(this.getCssClassDisabled());
         } else {
+            console.log('updateForChangeInDisabledStatus remove class')
+
             targetElement.classList.remove(this.getCssClassDisabled());
         }
     }
@@ -1486,14 +1490,14 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         this.applyPreconfiguredAttributes();
 
         if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled')) {
-            this.disabled = true;
+            this.disabled = ((this.hasAttribute('disabled') && this.getAttribute('disabled') !== "false"));
         }
         if (this.hasAttribute('debug')) {
             this._isDebugEnabled = true;
         }
         let tmpShow = true;
         if (this.hasAttribute('show')) {
-            const attrShow = this.getAttribute('show') as string;
+            const attrShow = ((this.hasAttribute('show') && this.getAttribute('show') !== "false")).toString().toLowerCase();;
             if ('false' === attrShow || '0' === attrShow) {
                 tmpShow = false;
             }
