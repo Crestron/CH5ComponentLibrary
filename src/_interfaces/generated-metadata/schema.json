@@ -361,7 +361,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -519,7 +519,6 @@
               "property syntax. See the related attribute transition-duration."
             ],
             "value": [
-              "",
               "ease",
               "linear",
               "ease-in",
@@ -669,7 +668,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -687,7 +686,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -827,7 +826,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -862,7 +861,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -876,7 +875,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "ImageUrl"
+            "attributeType": "ImageURL"
           },
           {
             "documentation": [
@@ -923,7 +922,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -945,7 +944,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -967,7 +966,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           }
         ],
         "documentation": [
@@ -1112,7 +1111,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1147,7 +1146,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1161,7 +1160,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "ImageUrl"
+            "attributeType": "ImageURL"
           },
           {
             "documentation": [
@@ -1208,7 +1207,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1230,7 +1229,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1252,7 +1251,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1275,7 +1274,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           }
         ],
         "documentation": [
@@ -1589,7 +1588,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -1635,7 +1634,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1699,7 +1698,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1713,7 +1712,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "ImageUrl"
+            "attributeType": "ImageURL"
           },
           {
             "documentation": [
@@ -1753,7 +1752,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -1772,7 +1771,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1792,7 +1791,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1813,7 +1812,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1837,7 +1836,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1864,7 +1863,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1886,7 +1885,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1908,7 +1907,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -1927,7 +1926,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -2154,7 +2153,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -2173,7 +2172,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -2234,7 +2233,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -2252,7 +2251,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -2639,7 +2638,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -2686,7 +2685,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "ImageUrl"
+            "attributeType": "ImageURL"
           },
           {
             "documentation": [
@@ -2735,7 +2734,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -2776,7 +2775,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -3067,7 +3066,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3124,7 +3123,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -3141,7 +3140,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -3164,7 +3163,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -3184,7 +3183,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -3206,7 +3205,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3227,7 +3226,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3247,7 +3246,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3267,7 +3266,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3349,7 +3348,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3367,7 +3366,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -3675,7 +3674,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3870,7 +3869,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3887,7 +3886,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3948,7 +3947,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -3966,7 +3965,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -4317,7 +4316,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -4349,7 +4348,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "ImageURL"
           },
           {
             "documentation": [
@@ -4410,7 +4409,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -4428,7 +4427,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -4706,7 +4705,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -4801,7 +4800,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "ImageURL"
           },
           {
             "documentation": [
@@ -4986,7 +4985,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -5004,7 +5003,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -5293,7 +5292,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -5413,7 +5412,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -5696,7 +5695,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -5753,7 +5752,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -5771,7 +5770,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -5794,7 +5793,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -5817,7 +5816,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -5837,7 +5836,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -5860,7 +5859,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -5881,7 +5880,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -5901,7 +5900,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -5921,7 +5920,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -5941,7 +5940,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -5960,7 +5959,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -5975,7 +5974,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -6060,7 +6059,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -6078,7 +6077,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -6384,7 +6383,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -6437,7 +6436,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -6600,7 +6599,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -6620,7 +6619,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -6642,7 +6641,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -6762,7 +6761,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -6780,7 +6779,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -7092,7 +7091,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -7124,7 +7123,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -7144,7 +7143,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -7166,7 +7165,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -7351,7 +7350,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -7369,7 +7368,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -7387,7 +7386,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -7404,7 +7403,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -7421,7 +7420,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -7596,7 +7595,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -7614,7 +7613,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -7910,7 +7909,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -7942,7 +7941,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -7962,7 +7961,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -7984,7 +7983,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -8025,7 +8024,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -8042,7 +8041,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -8060,7 +8059,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -8078,7 +8077,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -8254,7 +8253,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -8272,7 +8271,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -8565,7 +8564,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -8624,7 +8623,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -8734,7 +8733,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -8752,7 +8751,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -8817,7 +8816,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -8836,7 +8835,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -9027,7 +9026,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -9045,7 +9044,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -9491,7 +9490,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -9529,7 +9528,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -9547,7 +9546,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -9707,7 +9706,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -9725,7 +9724,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -9978,7 +9977,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -10016,7 +10015,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -10097,7 +10096,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -10118,7 +10117,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -10139,7 +10138,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -10175,7 +10174,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -10217,7 +10216,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -10249,7 +10248,7 @@
             ],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -10284,7 +10283,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -10333,7 +10332,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -10351,7 +10350,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -10368,7 +10367,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -10385,7 +10384,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -10522,7 +10521,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -10540,7 +10539,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -10845,7 +10844,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -10922,7 +10921,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -11005,7 +11004,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -11091,7 +11090,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -11109,7 +11108,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -11127,7 +11126,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -11340,7 +11339,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -11358,7 +11357,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -11667,7 +11666,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -11835,7 +11834,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -11853,7 +11852,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -12121,7 +12120,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -12161,7 +12160,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -12228,7 +12227,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -12279,7 +12278,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -12298,7 +12297,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -12402,7 +12401,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -12424,7 +12423,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -12448,7 +12447,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -12466,7 +12465,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -12622,7 +12621,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -12640,7 +12639,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -12943,7 +12942,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -12979,7 +12978,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -13052,7 +13051,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -13066,7 +13065,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -13084,7 +13083,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -13104,7 +13103,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -13156,7 +13155,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -13273,7 +13272,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -13291,7 +13290,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -13572,7 +13571,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -13890,7 +13889,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -13944,7 +13943,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -13963,7 +13962,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -13981,7 +13980,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -14039,7 +14038,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -14100,7 +14099,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -14118,7 +14117,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -14434,7 +14433,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -14556,7 +14555,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -14577,7 +14576,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -14609,7 +14608,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -14623,7 +14622,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "ImageURL"
           },
           {
             "documentation": [
@@ -14648,7 +14647,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -15199,7 +15198,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -15217,7 +15216,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -15501,7 +15500,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -15525,7 +15524,7 @@
             "documentation": [
               "`value` attribute",
               "***",
-              "Defines an value for the jointotext-boolean."
+              "Defines an value for the ch5-jointotext-boolean."
             ],
             "value": [
               "false",
@@ -15542,7 +15541,7 @@
             "documentation": [
               "`textWhenTrue` attribute",
               "***",
-              "Defines an text that will be displayed on value=true for the jointotext-boolean."
+              "Defines an text that will be displayed on value=true for the ch5-jointotext-boolean."
             ],
             "value": [],
             "name": "textwhentrue",
@@ -15556,7 +15555,7 @@
             "documentation": [
               "`textWhenFalse` attribute",
               "***",
-              "Defines an text that will be displayed on value=false for the jointotext-boolean."
+              "Defines an text that will be displayed on value=false for the ch5-jointotext-boolean."
             ],
             "value": [],
             "name": "textwhenfalse",
@@ -15578,7 +15577,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -15639,7 +15638,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -15657,7 +15656,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -15939,7 +15938,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -15999,7 +15998,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -16060,7 +16059,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -16078,7 +16077,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -16358,7 +16357,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -16412,7 +16411,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "EnumeratedValue"
           },
           {
             "documentation": [
@@ -16426,7 +16425,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "String"
+            "attributeType": "Join"
           },
           {
             "documentation": [
@@ -16543,7 +16542,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -16561,7 +16560,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "boolean"
+            "attributeType": "Boolean"
           }
         ],
         "documentation": [
@@ -16583,7 +16582,7 @@
             "description": "Crestron JoinToText Numeric (Default)",
             "body": [
               "<ch5-jointotext-numeric value=\"${1:true}\"",
-              "\ttype=\"${2:decimal}\">",
+              "\ttype=\"${2:percentage}\">",
               "</ch5-jointotext-numeric>$0"
             ]
           },
@@ -16592,7 +16591,7 @@
             "description": "Crestron JoinToText Numeric (Receive Signal)",
             "body": [
               "<ch5-jointotext-numeric receiveStateValue=\"${1:19}\"",
-              "\ttype=\"${2:decimal}\">",
+              "\ttype=\"${2:percentage}\">",
               "</ch5-jointotext-numeric>$0"
             ]
           }
