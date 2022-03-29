@@ -1,5 +1,5 @@
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
-import { NumericFormats } from "../format/numeric-formats";
+import { NumericFormats } from "../format/numeric-format";
 
 /**
  * @ignore
