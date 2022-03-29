@@ -1,7 +1,6 @@
 import { FloatFormat } from "./float-format";
 import { HexFormat } from "./hex-format";
-import { NumericFormat } from "./numeric-format";
-import { NumericFormats } from "./numeric-formats";
+import { NumericFormat, NumericFormats } from "./numeric-format";
 import { PercentageFormat } from "./percentage-format";
 import { RawFormat } from "./raw-format";
 import { SignedFormat } from "./signed-format";
@@ -18,12 +17,10 @@ export class NumericFormatFactory {
         if (!(this.INSTANCE instanceof NumericFormatFactory)) {
             this.INSTANCE = new NumericFormatFactory();
         }
-
         return this.INSTANCE;
     }
 
     public getFormat(type: NumericFormats): NumericFormat {
-
         switch (type) {
             case NumericFormats.float:
                 return new FloatFormat();
