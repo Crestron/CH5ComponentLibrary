@@ -6,7 +6,8 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 
 export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBooleanAttributes {
 
-	//#region " Variables "
+	//#region Variables
+
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestatevalue: { direction: "state", booleanJoin: 1, contractName: true }
@@ -22,7 +23,7 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 
 	//#endregion
 
-	//#region " Setters and Getters "
+	//#region Setters and Getters
 
 	public set value(value: boolean) {
 		if (isNil(value)) {
@@ -98,7 +99,7 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 
 	//#endregion
 
-	//#region " Static Methods "
+	//#region Static Methods
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextBoolean.ELEMENT_NAME, Ch5JoinToTextBoolean.SIGNAL_ATTRIBUTE_TYPES);

@@ -20,12 +20,14 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 	//#region " Getters and Setters "
 
 	public set textWhenEmpty(value: string) {
-		if (isNil(value)) {
-			return;
-		}
+		if (this._textWhenEmpty !== value) {
+			if (isNil(value)) {
+				return;
+			}
 
-		this._textWhenEmpty = value;
-		this.setAttribute('textWhenEmpty', value);
+			this._textWhenEmpty = value;
+			this.setAttribute('textWhenEmpty', value);
+		}
 	}
 
 	public get textWhenEmpty(): string {
@@ -33,40 +35,41 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 	}
 
 	public set receiveStateValue(value: string) {
-		if (isNil(value)) {
-			return;
-		}
-
-		if (this.receiveStateValue !== ''
-			&& this.receiveStateValue !== undefined
-			&& this.receiveStateValue !== null
-		) {
-			const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-				.getStringSignal(oldSigName);
-
-			if (oldSignal !== null) {
-				oldSignal.unsubscribe(this._subReceiveStateValue);
+		if (this._receiveStateValue !== value) {
+			if (isNil(value)) {
+				return;
 			}
-		}
 
-		this._receiveStateValue = value;
-		this.setAttribute('receivestatevalue', value);
+			if (this.receiveStateValue !== ''
+				&& this.receiveStateValue !== undefined
+				&& this.receiveStateValue !== null
+			) {
+				const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+				const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
+					.getStringSignal(oldSigName);
 
-		// setup new subscription.
-		const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-		const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-			.getStringSignal(sigName);
-
-		if (receiveSignal === null) {
-			return;
-		}
-
-		this._subReceiveStateValue = receiveSignal.subscribe((newValue: string) => {
-			if (newValue !== this.value) {
-				this.setAttribute('value', newValue + '');
+				if (oldSignal !== null) {
+					oldSignal.unsubscribe(this._subReceiveStateValue);
+				}
 			}
-		});
+
+			this._receiveStateValue = value;
+			this.setAttribute('receivestatevalue', value);
+
+			// setup new subscription.
+			const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+			const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigName);
+
+			if (receiveSignal === null) {
+				return;
+			}
+
+			this._subReceiveStateValue = receiveSignal.subscribe((newValue: string) => {
+				if (newValue !== this.value) {
+					this.setAttribute('value', newValue + '');
+				}
+			});
+		}
 	}
 
 	public get receiveStateValue(): string {
@@ -74,12 +77,14 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 	}
 
 	public set value(value: string) {
-		this._value = value;
-		if (!this.value) {
-			this.textContent = this.textWhenEmpty;
-			return;
+		if (this._value !== value) {
+			this._value = value;
+			if (!this.value) {
+				this.textContent = this.textWhenEmpty;
+				return;
+			}
+			this.textContent = value;
 		}
-		this.textContent = value;
 	}
 
 	public get value(): string {
