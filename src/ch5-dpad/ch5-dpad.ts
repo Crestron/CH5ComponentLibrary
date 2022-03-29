@@ -247,12 +247,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-
-		if (isUseContractForEnable) {
-			this.setAttribute('useContractForEnable'.toLowerCase(), '');
-		} else {
-			this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractForEnable.toString());
-		}
+		this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractForEnable.toString());
 		this._useContractForCustomClass = isUseContractForEnable;
 		const sigVal = contractName + "Enable";
 
@@ -288,11 +283,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		if (isUseContractForShow) {
-			this.setAttribute('useContractForShow'.toLowerCase(), '');
-		} else {
-			this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
-		}
+		this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
 		const sigVal = contractName + "Show";
 
 		const params: TCh5CreateReceiveStateSigParams = {
@@ -328,11 +319,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		if (isUseContractForCustomStyle) {
-			this.setAttribute('usecontractforcustomstyle', '');
-		} else {
-			this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
-		}
+		this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
 		this._useContractForCustomClass = isUseContractForCustomStyle;
 		const sigVal = contractName + "CustomStyle";
 
@@ -368,11 +355,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		if (isUseContractForCustomClass) {
-			this.setAttribute('useContractForCustomClass', '');
-		} else {
-			this.setAttribute('useContractForCustomClass', isUseContractForCustomClass.toString());
-		}
+		this.setAttribute('useContractForCustomClass', isUseContractForCustomClass.toString());
 		this._useContractForCustomClass = isUseContractForCustomClass;
 		const sigVal = contractName + "CustomClass";
 

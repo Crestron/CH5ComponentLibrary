@@ -197,13 +197,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 				this._pressable.setPressed(value);
 			}
 		}
+        this.setAttribute('pressed', value.toString());
 
         if (value === true) {
-            this.setAttribute('pressed', '');
             this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
             this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
-        } else {
-            this.setAttribute('pressed', value.toString());
         }
 	}
 	public get pressed(): boolean {

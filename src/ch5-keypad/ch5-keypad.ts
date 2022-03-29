@@ -295,11 +295,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             return;
         }
 
-        if (isUseContractforEnable) {
-			this.setAttribute('useContractForEnable'.toLowerCase(), '');
-		} else {
-			this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractforEnable.toString());
-		}
+        this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractforEnable.toString());
         this._useContractForCustomClass = isUseContractforEnable;
         const sigVal = contractName + "Enable";
 
@@ -335,11 +331,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             return;
         }
 
-        if (isUseContractForShow) {
-			this.setAttribute('useContractForShow'.toLowerCase(), '');
-		} else {
-			this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
-		}
+        this.setAttribute('useContractForShow'.toLowerCase(), isUseContractForShow.toString());
         const sigVal = contractName + "Show";
 
         const params: TCh5CreateReceiveStateSigParams = {
@@ -374,11 +366,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             return;
         }
 
-        if (isUseContractForCustomStyle) {
-			this.setAttribute('usecontractforcustomstyle', '');
-		} else {
-			this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
-		}
+        this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
         this._useContractForCustomClass = isUseContractForCustomStyle;
         const sigVal = contractName + "CustomStyle";
 
@@ -414,11 +402,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             return;
         }
 
-        if (isUuseContractForCustomClass) {
-			this.setAttribute('useContractForCustomClass'.toLowerCase(), '');
-		} else {
-			this.setAttribute('useContractForCustomClass', isUuseContractForCustomClass.toString());
-		}
+        this.setAttribute('useContractForCustomClass', isUuseContractForCustomClass.toString());
         this._useContractForCustomClass = isUuseContractForCustomClass;
         const sigVal = contractName + "CustomClass";
 
@@ -454,11 +438,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             return;
         }
 
-        if (isUuseContractForExtraButtonShow) {
-			this.setAttribute('useContractForExtraButtonShow'.toLowerCase(), '');
-		} else {
-			this.setAttribute('useContractForExtraButtonShow'.toLowerCase(), isUuseContractForExtraButtonShow.toString());
-		}
+        this.setAttribute('useContractForExtraButtonShow'.toLowerCase(), isUuseContractForExtraButtonShow.toString());
         this._useContractForExtraButtonShow = isUuseContractForExtraButtonShow;
         const sigVal = contractName + "CustomClass";
 
