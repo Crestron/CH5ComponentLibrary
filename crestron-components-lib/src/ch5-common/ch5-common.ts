@@ -1470,10 +1470,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
         this.info("from common - updateForChangeInDisabledStatus()");
         if (true === this._disabled) {
-            console.log('updateForChangeInDisabledStatus add class')
             targetElement.classList.add(this.getCssClassDisabled());
         } else {
-            console.log('updateForChangeInDisabledStatus remove class')
 
             targetElement.classList.remove(this.getCssClassDisabled());
         }
