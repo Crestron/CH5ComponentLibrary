@@ -84,6 +84,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		contractname: { contractName: true },
+        sendeventonclickstart: { direction: "event", booleanJoin: 5 }
 	};
 
 	public readonly primaryCssClass = 'ch5-dpad';

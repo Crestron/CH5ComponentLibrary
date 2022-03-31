@@ -262,7 +262,7 @@
                     <ch5-dpad class="uses-numeric" receiveStateShow="1"></ch5-dpad>
                 </div>
                 <div style="width:100px; height: 100px;">
-                    <ch5-dpad class="uses-contract" receiveStateShow="WidgetDPad"></ch5-dpad>
+                    <ch5-dpad class="uses-contract" receiveStateShow="WidgetDPad."></ch5-dpad>
                 </div>
             </div>
         </template>
@@ -301,7 +301,7 @@
         
         test('Increment clickstart, contractname', function () {
             assert.strictEqual(ch5DpadUsingNumeric.getAttribute("receiveStateShow"), '101', "clickstart mismatch");
-            assert.strictEqual(ch5DpadUsingContract.getAttribute("receiveStateShow"), 'My.Contract.Prefix.WidgetDPad', "contract mismatch");
+            assert.strictEqual(ch5DpadUsingContract.getAttribute("receiveStateShow"), 'My.Contract.Prefix.WidgetDPad.', "contract mismatch");
         });
         
     });
@@ -420,10 +420,10 @@
         <template id="template-with-keypad-widget">
             <div>
                 <div style="width:100px; height: 100px;">
-                    <ch5-keypad class="uses-numeric" sendeventonclick="1"></ch5-keypad>
+                    <ch5-keypad class="uses-numeric" sendeventonclickstart="1"></ch5-keypad>
                 </div>
                 <div style="width:100px; height: 100px;">
-                    <ch5-keypad class="uses-contract" sendeventonclick="WidgetKeypad"></ch5-keypad>
+                    <ch5-keypad class="uses-contract" contractname="WidgetKeypad."></ch5-keypad>
                 </div>
             </div>
         </template>
@@ -462,8 +462,8 @@
         });
         
         test('Increment clickstart, contractname', function () {
-            assert.strictEqual(ch5KeypadUsingNumeric.getAttribute("sendeventonclick"), '101', "clickstart mismatch");
-            assert.strictEqual(ch5KeypadUsingContract.getAttribute("sendeventonclick"), 'My.Contract.Prefix.WidgetKeypad', "contract mismatch");
+            assert.strictEqual(ch5KeypadUsingNumeric.getAttribute("sendeventonclickstart"), '101', "clickstart mismatch");
+            assert.strictEqual(ch5KeypadUsingContract.getAttribute("contractname"), 'My.Contract.Prefix.WidgetKeypad.', "contract mismatch");
         });
         
     });
