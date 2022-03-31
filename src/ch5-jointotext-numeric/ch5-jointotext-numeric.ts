@@ -9,10 +9,12 @@ import _ from "lodash";
 
 export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNumericAttributes {
 
+	//#region Variables
+
 	public static readonly PERCENTAGE_MAX = 65535;
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true }
 	};
 
 	public static readonly ELEMENT_NAME = 'ch5-jointotext-numeric';
@@ -38,6 +40,8 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	private formatValue = this.debounce(() => {
 		this.formatValueDebounce();
 	}, 30);
+
+	//#endregion
 
 	//#region Getters and Setters 
 
@@ -81,7 +85,10 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	}
 
 	public set value(value: string) {
-		if (this._value !== value && !_.isNil(value)) {
+		if (this._value !== value) {
+			if (_.isNil(value)) {
+				value = '';
+			}
 			this._value = value;
 			this.setAttribute('value', value);
 			this.formatValue();
@@ -93,7 +100,10 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	}
 
 	public set type(value: NumericFormats) {
-		if (this._type !== value && !_.isNil(value)) {
+		if (this._type !== value) {
+			if (_.isNil(value)) {
+				value = NumericFormats.signed;
+			}
 			this._type = value;
 			this.setAttribute('type', value);
 			this._currentNumericFormat = this._numericFormatFactory.getFormat(value);
@@ -106,9 +116,18 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	}
 
 	public set decimalLength(value: number) {
-		if (this._decimalLength !== value && !_.isNil(value)) {
-			this._decimalLength = value;
-			this.setAttribute('decimalLength', value + '');
+		if (this._decimalLength !== value) {
+			const parseFloatValue: number = Number(value);
+			if (isNaN(parseFloatValue) || _.isNil(parseFloatValue)) {
+				this._decimalLength = 0;
+			} else {
+				if (parseFloatValue > 5) {
+					this._decimalLength = 5;
+				} else {
+					this._decimalLength = parseFloatValue;
+				}
+			}
+			this.setAttribute('decimalLength', this._decimalLength + '');
 			this.formatValue();
 		}
 	}
@@ -119,8 +138,17 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 
 	public set length(value: number) {
 		if (this._length !== value) {
-			this._length = value;
-			this.setAttribute('length', value + '');
+			const parseFloatValue: number = Number(value);
+			if (isNaN(parseFloatValue) || _.isNil(parseFloatValue)) {
+				this._length = 0;
+			} else {
+				if (parseFloatValue > 5) {
+					this._length = 5;
+				} else {
+					this._length = parseFloatValue;
+				}
+			}
+			this.setAttribute('length', this._length + '');
 			this.formatValue();
 		}
 	}
@@ -203,6 +231,8 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 
 	//#endregion
 
+	//#region Component LifeCycle
+
 	public constructor() {
 		super();
 		this._currentNumericFormat = this._numericFormatFactory.getFormat(this.type);
@@ -241,16 +271,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 				this.decimalLength = parseFloat(newValue);
 				break;
 			case 'length':
-				const parseFloatValue = parseFloat(newValue);
-				if (isNaN(parseFloatValue) || _.isNil(parseFloatValue)) {
-					this.length = 0;
-				} else {
-					if (parseFloatValue > 5) {
-						this.length = 5;
-					} else {
-						this.length = parseFloatValue;
-					}
-				}
+				this.length = parseFloat(newValue);
 				break;
 			case 'min':
 				this.min = parseFloat(newValue);
@@ -277,8 +298,8 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 			this.type = this.getAttribute('type') as NumericFormats;
 		}
 
-		customElements.whenDefined('ch5-jointotext-numeric').then(() => {
-			this.formatValue(); // This is to handle specific case where the formatValue isn't called as all button attributes are set to "default" values.
+		customElements.whenDefined(Ch5JoinToTextNumeric.ELEMENT_NAME).then(() => {
+			this.formatValue(); // This is to handle specific case where the formatValue isn't called as all component attributes are set to "default" values.
 		});
 	}
 
@@ -291,6 +312,10 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 		}
 	}
 
+	//#endregion
+
+	//#region Private Methods
+
 	private formatValueDebounce() {
 		this.formattedValue = this._currentNumericFormat.format(parseFloat(this.value), {
 			decimalLength: this.decimalLength,
@@ -299,6 +324,8 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 			max: this.max,
 		});
 	}
+
+	//#endregion
 
 }
 

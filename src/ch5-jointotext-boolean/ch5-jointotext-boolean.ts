@@ -26,13 +26,14 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 	//#region Setters and Getters
 
 	public set value(value: boolean) {
-		if (isNil(value)) {
-			return;
+		if (value !== this.value) {
+			if (isNil(value)) {
+				value = false;
+			}
+			this._value = value;
+			this.setAttribute('value', value + '');
+			this.toggleText();
 		}
-
-		this._value = value;
-		this.setAttribute('value', value + '');
-		this.toggleText(value);
 	}
 
 	public get value(): boolean {
@@ -40,8 +41,14 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 	}
 
 	public set textWhenTrue(value: string) {
-		this._textWhenTrue = value;
-		this.setAttribute('textWhenTrue', value);
+		if (value !== this._textWhenTrue) {
+			if (isNil(value)) {
+				value = '';
+			}
+			this._textWhenTrue = value;
+			this.setAttribute('textWhenTrue', value);
+			this.toggleText();
+		}
 	}
 
 	public get textWhenTrue(): string {
@@ -49,8 +56,14 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 	}
 
 	public set textWhenFalse(value: string) {
-		this._textWhenFalse = value;
-		this.setAttribute('textWhenFalse', value);
+		if (value !== this._textWhenFalse) {
+			if (isNil(value)) {
+				value = '';
+			}
+			this._textWhenFalse = value;
+			this.setAttribute('textWhenFalse', value);
+			this.toggleText();
+		}
 	}
 
 	public get textWhenFalse(): string {
@@ -67,8 +80,7 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 			&& this.receiveStateValue !== null
 		) {
 			const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-			const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
-				.getBooleanSignal(oldSigName);
+			const oldSignal: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(oldSigName);
 
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceiveStateValue);
@@ -116,6 +128,8 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 
 	//#endregion
 
+	//#region Component LifeCycle
+
 	public constructor() {
 		super();
 	}
@@ -149,6 +163,10 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 		} else {
 			this.value = false;
 		}
+
+		customElements.whenDefined(Ch5JoinToTextBoolean.ELEMENT_NAME).then(() => {
+			this.toggleText(); // This is to handle specific case where the formatValue isn't called as component attributes are set to "default" values.
+		});
 	}
 
 	public disconnectedCallback() {
@@ -184,12 +202,16 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 		}
 	}
 
-	private toggleText(value: boolean) {
-		if (value === true) {
-			this.textContent = this.textWhenTrue;
+	//#endregion
+
+	//#region Private Methods
+
+	private toggleText() {
+		if (this.value === true) {
+			this.textContent = this._getTranslatedValue('textwhentrue', this.textWhenTrue);
 			return;
-		} else if (value === false) {
-			this.textContent = this.textWhenFalse;
+		} else if (this.value === false) {
+			this.textContent = this._getTranslatedValue('textwhenfalse', this.textWhenFalse);
 			return;
 		}
 		this.textContent = '';
@@ -199,6 +221,7 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 		return value === "true";
 	}
 
+	//#endregion
 }
 
 Ch5JoinToTextBoolean.registerCustomElement();
