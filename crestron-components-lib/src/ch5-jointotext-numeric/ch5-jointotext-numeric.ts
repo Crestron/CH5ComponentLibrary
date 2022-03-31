@@ -1,11 +1,12 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { isNil } from 'lodash';
 import { NumericFormatFactory } from "./format/numeric-format-factory"
-import { NumericFormat, NumericFormats } from "./format/numeric-format";
+import { NumericFormat } from "./format/numeric-format";
 import { Ch5Signal, Ch5SignalFactory } from "..";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { ICh5JoinToTextNumericAttributes } from "./interfaces/i-ch5-jointotext-numeric-attributes";
 import _ from "lodash";
+import { TCh5JoinInfoNumericFormats } from "./interfaces/t-ch5-jointotext-numeric";
 
 export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNumericAttributes {
 
@@ -18,6 +19,8 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	};
 
 	public static readonly ELEMENT_NAME = 'ch5-jointotext-numeric';
+
+	public static readonly NUMERIC_FORMAT_TYPES: TCh5JoinInfoNumericFormats[] = ['signed', 'float', 'percentage', 'hex', 'raw', 'unsigned', 'time'];
 
 	private _receiveStateValue: string = '';
 	private _subReceiveStateValue: string = '';
@@ -32,7 +35,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	private _max: number = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
 
 	private _formattedValue: string | number | null = null;
-	private _type: NumericFormats = NumericFormats.signed;
+	private _type: TCh5JoinInfoNumericFormats = 'signed';
 
 	private _numericFormatFactory = NumericFormatFactory.getInstance();
 	private _currentNumericFormat: NumericFormat;
@@ -99,11 +102,16 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 		return this._value;
 	}
 
-	public set type(value: NumericFormats) {
+	public set type(value: TCh5JoinInfoNumericFormats) {
 		if (this._type !== value) {
 			if (_.isNil(value)) {
-				value = NumericFormats.signed;
+				value = Ch5JoinToTextNumeric.NUMERIC_FORMAT_TYPES[0];
+			} else {
+				if (Ch5JoinToTextNumeric.NUMERIC_FORMAT_TYPES.indexOf(value) < 0) {
+					value = Ch5JoinToTextNumeric.NUMERIC_FORMAT_TYPES[0];
+				}
 			}
+
 			this._type = value;
 			this.setAttribute('type', value);
 			this._currentNumericFormat = this._numericFormatFactory.getFormat(value);
@@ -111,7 +119,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 		}
 	}
 
-	public get type(): NumericFormats {
+	public get type(): TCh5JoinInfoNumericFormats {
 		return this._type;
 	}
 
@@ -162,7 +170,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 			if (isNil(value)) {
 				this._min = 0;
 
-				if (this.type === NumericFormats.percentage) {
+				if (this.type === "percentage") {
 					this.setAttribute('min', value + '');
 					this.formatValue();
 				}
@@ -184,7 +192,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 			if (isNil(value)) {
 				this._max = Ch5JoinToTextNumeric.PERCENTAGE_MAX;
 
-				if (this.type === NumericFormats.percentage) {
+				if (this.type === "percentage") {
 					this.setAttribute('max', value);
 					this.formatValue();
 				}
@@ -265,7 +273,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 				this.receiveStateValue = newValue;
 				break;
 			case 'type':
-				this.type = newValue as NumericFormats;
+				this.type = newValue as TCh5JoinInfoNumericFormats;
 				break;
 			case 'decimallength':
 				this.decimalLength = parseFloat(newValue);
@@ -295,7 +303,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 		}
 
 		if (this.hasAttribute('type')) {
-			this.type = this.getAttribute('type') as NumericFormats;
+			this.type = this.getAttribute('type') as TCh5JoinInfoNumericFormats;
 		}
 
 		customElements.whenDefined(Ch5JoinToTextNumeric.ELEMENT_NAME).then(() => {
