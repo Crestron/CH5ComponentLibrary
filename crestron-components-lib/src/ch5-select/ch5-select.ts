@@ -1268,6 +1268,12 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 			o.dir = this.dir;
 			this.selectPanel.appendChild(o);
 		}
+
+		// update templateContent attributes to increment join numbers and prefix contract name
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '', 
+			parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0, 
+			parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0, 
+			parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);
 	}
 
 	public removeLastOptsFromList(startingIndex: number, oldOptsNr: number): void {
@@ -2137,8 +2143,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-select', Ch5Select);
-	Ch5Select.registerSignalAttributeTypes();
+	window.customElements.define(Ch5Select.ELEMENT_NAME, Ch5Select);
 }
 
 Ch5Select.registerSignalAttributeTypes();

@@ -33,6 +33,7 @@ import { Ch5ButtonSignal } from "./ch5-button-signal";
 import _ from "lodash";
 import { Ch5ButtonMode } from "./ch5-button-mode";
 import { Ch5ButtonModeState } from "./ch5-button-mode-state";
+import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 
 /**
  * Html Attributes
@@ -1443,6 +1444,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		templateEl.innerHTML = this.decodeInnerHTMLForAttribute(selectedObject.labelInnerHTML);
 		// templateEl.content.appendChild(document.createTextNode(this.decodeInnerHTMLForAttribute(selectedObject.labelInnerHTML)));
 		childButtonLabel.appendChild(templateEl);
+
 	}
 
 	private updatePressDelay() {

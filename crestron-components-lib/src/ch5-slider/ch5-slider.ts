@@ -3161,8 +3161,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-slider', Ch5Slider);
-	Ch5Slider.registerSignalAttributeTypes();
+	window.customElements.define(Ch5Slider.ELEMENT_NAME, Ch5Slider);
 }
 
 Ch5Slider.registerSignalAttributeTypes();

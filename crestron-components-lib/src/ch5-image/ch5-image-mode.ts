@@ -3,6 +3,8 @@ import { ICH5ImageModeAttributes } from "./interfaces/i-ch5-image-mode-attribute
 
 export class Ch5ImageMode extends Ch5Common implements ICH5ImageModeAttributes {
 
+    public static readonly ELEMENT_NAME: string = 'ch5-image-mode';
+
     public static get observedAttributes() {
         return [
             'url'
@@ -39,6 +41,6 @@ export class Ch5ImageMode extends Ch5Common implements ICH5ImageModeAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-image-mode', Ch5ImageMode);
+    window.customElements.define(Ch5ImageMode.ELEMENT_NAME, Ch5ImageMode);
 
 }

@@ -1096,6 +1096,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-form', Ch5Form);
-    Ch5Form.registerSignalAttributeTypes();
+    window.customElements.define(Ch5Form.ELEMENT_NAME, Ch5Form);
 }
+
+Ch5Form.registerSignalAttributeTypes();

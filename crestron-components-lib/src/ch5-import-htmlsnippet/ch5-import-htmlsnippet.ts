@@ -383,7 +383,7 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
  */
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-import-htmlsnippet', Ch5ImportHtmlSnippet);
+	window.customElements.define(Ch5ImportHtmlSnippet.ELEMENT_NAME, Ch5ImportHtmlSnippet);
 }
 
 Ch5ImportHtmlSnippet.registerSignalAttributeTypes();

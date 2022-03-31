@@ -1355,6 +1355,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 if (typeof window === "object"
 	&& typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-overlay-panel', Ch5OverlayPanel);
-	Ch5OverlayPanel.registerSignalAttributeTypes();
+	window.customElements.define(Ch5OverlayPanel.ELEMENT_NAME, Ch5OverlayPanel);
 }
+
+Ch5OverlayPanel.registerSignalAttributeTypes();
