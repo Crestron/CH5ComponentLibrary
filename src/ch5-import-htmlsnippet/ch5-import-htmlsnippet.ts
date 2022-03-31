@@ -8,7 +8,7 @@
 import _ from 'lodash';
 import isNil from 'lodash/isNil';
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5SignalElementAttributeRegistryEntries, Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 import { Ch5Signal, Ch5SignalFactory, publishEvent } from "../ch5-core";
 import { ICh5ImportHtmlSnippetAttributes } from './interfaces/i-ch5-import-htmlsnippet-attributes';
 
@@ -26,6 +26,11 @@ import { ICh5ImportHtmlSnippetAttributes } from './interfaces/i-ch5-import-htmls
 export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSnippetAttributes {
 
 	public static ELEMENT_NAME = 'ch5-import-htmlsnippet';
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		sendeventonerror: { direction: "event", booleanJoin: 1, contractName: true }
+	};
 
 	private _elContainer: HTMLElement = {} as HTMLElement;
 
@@ -102,15 +107,6 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ImportHtmlSnippet.ELEMENT_NAME, Ch5ImportHtmlSnippet.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
-    public static registerSignalAttributeDefaults() {
-		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5ImportHtmlSnippet.ELEMENT_NAME, {
-			contractName: { attributes: ["contractname"], defaultValue: "" },
-			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-		});
-	}
-
 	/**
 	 * Getter and Setter functions for each attribute.
 	 */
@@ -155,13 +151,7 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 			// attributes
 			'url',
 
-			// receive signals
-			'receiveStateShowPulse',
-			'receiveStateHidePulse',
-			'receiveStateShow',
-
 			// send signals
-			'sendEventOnShow',
 			'sendeventonerror'
 		];
 
@@ -387,4 +377,3 @@ if (typeof window === "object" && typeof window.customElements === "object"
 }
 
 Ch5ImportHtmlSnippet.registerSignalAttributeTypes();
-Ch5ImportHtmlSnippet.registerSignalAttributeDefaults();

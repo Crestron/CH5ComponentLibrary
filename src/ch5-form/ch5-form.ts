@@ -12,7 +12,7 @@ import { TCh5ButtonType } from "../ch5-button/interfaces/t-ch5-button";
 import { isEmpty, isNil } from 'lodash';
 import { ICh5FormAttributes } from "./interfaces/i-ch5-form-attributes";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalElementAttributeRegistryEntries, Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 
 export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
@@ -441,6 +441,10 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
     }
 
     public static readonly ELEMENT_NAME = 'ch5-form';
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES
+	};
 
     /**
      * COMPONENT DEFAULT VALUES
