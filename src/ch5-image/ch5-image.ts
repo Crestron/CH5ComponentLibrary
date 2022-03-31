@@ -756,14 +756,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Image.ELEMENT_NAME, Ch5Image.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
-    public static registerSignalAttributeDefaults() {
-		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Image.ELEMENT_NAME, {
-			contractName: { attributes: ["contractname"], defaultValue: "" },
-			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-		});
-	}
     
     public getModeNodes() {
         this.info('getModeNodes got called');
@@ -1547,9 +1539,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-image', Ch5Image);
-    Ch5Image.registerSignalAttributeTypes();
+    window.customElements.define(Ch5Image.ELEMENT_NAME, Ch5Image);
 }
 
 Ch5Image.registerSignalAttributeTypes();
-Ch5Image.registerSignalAttributeDefaults();

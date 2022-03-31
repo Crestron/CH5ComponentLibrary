@@ -1279,8 +1279,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-modal-dialog', Ch5ModalDialog);
-    Ch5ModalDialog.registerSignalAttributeTypes();
+    window.customElements.define(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog);
 }
 
 Ch5ModalDialog.registerSignalAttributeTypes();

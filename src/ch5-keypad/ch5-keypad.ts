@@ -150,15 +150,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private childButtonList: { [key: string]: Ch5KeypadButton; } = {};
     private runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; } = {};
 
-    public static registerSignalAttributeDefaults() {
-		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Keypad.ELEMENT_NAME, {
-			contractName: { attributes: ["contractname"], defaultValue: "" },
-			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-		});
-	}
-
 
     //#endregion
 
@@ -1334,9 +1325,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-keypad', Ch5Keypad);
-    Ch5Keypad.registerSignalAttributeTypes();
+    window.customElements.define(Ch5Keypad.ELEMENT_NAME, Ch5Keypad);
 }
 
 Ch5Keypad.registerSignalAttributeTypes();
-Ch5Keypad.registerSignalAttributeDefaults();

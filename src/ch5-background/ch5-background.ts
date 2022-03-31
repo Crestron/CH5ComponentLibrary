@@ -229,15 +229,6 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Background.ELEMENT_NAME, Ch5Background.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
-	public static registerSignalAttributeDefaults() {
-		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Background.ELEMENT_NAME, {
-			contractName: { attributes: ["contractname"], defaultValue: "" },
-			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-		});
-	}
-
 	/**
 	 * ATTR GETTERS AND SETTERS
 	 */
@@ -1353,8 +1344,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 }
 
 if (typeof window === 'object' && typeof window.customElements === 'object' && typeof window.customElements.define === 'function') {
-	window.customElements.define('ch5-background', Ch5Background);
+	window.customElements.define(Ch5Background.ELEMENT_NAME, Ch5Background);
 }
 
 Ch5Background.registerSignalAttributeTypes();
-Ch5Background.registerSignalAttributeDefaults();
