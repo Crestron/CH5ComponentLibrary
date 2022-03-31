@@ -6,6 +6,8 @@ import { ICh5JoinToTextStringAttributes } from "./interfaces/i-ch5-jointotext-st
 
 export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStringAttributes {
 
+	//#region Variables
+
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
@@ -17,16 +19,19 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 	private _value: string = '';
 	private _subReceiveStateValue: string = '';
 
-	//#region " Getters and Setters "
+	//#endregion
+
+	//#region Getters and Setters
 
 	public set textWhenEmpty(value: string) {
 		if (this._textWhenEmpty !== value) {
 			if (isNil(value)) {
-				return;
+				value = "";
 			}
 
 			this._textWhenEmpty = value;
 			this.setAttribute('textWhenEmpty', value);
+			this.setTextContent();
 		}
 	}
 
@@ -45,8 +50,7 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 				&& this.receiveStateValue !== null
 			) {
 				const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-				const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-					.getStringSignal(oldSigName);
+				const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
 
 				if (oldSignal !== null) {
 					oldSignal.unsubscribe(this._subReceiveStateValue);
@@ -78,12 +82,12 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 
 	public set value(value: string) {
 		if (this._value !== value) {
-			this._value = value;
-			if (!this.value) {
-				this.textContent = this.textWhenEmpty;
-				return;
+			if (isNil(value)) {
+				value = "";
 			}
-			this.textContent = value;
+			this._value = value;
+			this.setAttribute('value', value + '');
+			this.setTextContent();
 		}
 	}
 
@@ -93,7 +97,7 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 
 	//#endregion
 
-	//#region " Static Methods "
+	//#region Static Methods
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextString.ELEMENT_NAME, Ch5JoinToTextString.SIGNAL_ATTRIBUTE_TYPES);
@@ -109,6 +113,8 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 	}
 
 	//#endregion
+
+	//#region Component LifeCycle
 
 	public static get observedAttributes(): string[] {
 		const inheritedObsAttrs = Ch5Common.observedAttributes;
@@ -134,6 +140,10 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 		if (this.hasAttribute('receivestatevalue')) {
 			this.receiveStateValue = this.getAttribute('receivestatevalue') as string;
 		}
+
+		customElements.whenDefined(Ch5JoinToTextString.ELEMENT_NAME).then(() => {
+			this.setTextContent(); // This is to handle specific case where the formatValue isn't called as component attributes are set to "default" values.
+		});
 	}
 
 	public disconnectedCallback() {
@@ -165,6 +175,20 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 				break;
 		}
 	}
+
+	//#endregion
+
+	//#region Private Methods
+
+	private setTextContent() {
+		if (!this.value) {
+			this.textContent = this._getTranslatedValue('textwhenempty', this.textWhenEmpty);
+			return;
+		}
+		this.textContent = this._getTranslatedValue('value', this.value);
+	}
+
+	//#endregion
 
 }
 
