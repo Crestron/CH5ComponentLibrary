@@ -37,6 +37,7 @@
         enableLoadConfigBtn();
         enableScenarioBtns();
         enableCodePreviewBtn();
+        setThemeForTestingColors();
         // enableChangeTheme();
         enableCodeTabs();
         enableOpenCloseEmulatorScenario();
@@ -115,12 +116,26 @@
 
             existingThemeStyle.forEach(element => {
                 element.remove();
-            })
+            });
             document.querySelector('head').append(style);
             toggleLoading('loaded');
         }).fail(function () {
             toggleLoading('error');
         })
+    }
+
+    function setThemeForTestingColors(themeToEnable) {
+        if (!themeToEnable) {
+            themeToEnable = localStorage.getItem(LOCAL_STORAGE_THEME_KEY);
+        }
+        // console.log("themeToEnable", themeToEnable);
+        var testArray = document.getElementsByClassName("theme-content-val");
+        for (var i = 0; i < testArray.length; i++) {
+            testArray[i].classList.remove("light-theme-val");
+            testArray[i].classList.remove("dark-theme-val");
+            testArray[i].classList.remove("highContrast-theme-val");
+            testArray[i].classList.add(themeToEnable + "-theme-val");
+        }
     }
 
     function toggleLoading(state) {
@@ -163,11 +178,13 @@
             initialTheme = 'highContrast';
         }
         setTheme(initialTheme);
+        setThemeForTestingColors(initialTheme);
         themeChanger.val(initialTheme);
         themeChanger.show();
         themeChanger.on('change', function () {
             var ch5ThemeName = $(this).val();
             setTheme(ch5ThemeName);
+            setThemeForTestingColors(ch5ThemeName);
         });
     }
 

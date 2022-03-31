@@ -599,3 +599,29 @@ input[type="checkbox"]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
 .vis-hide {
   visibility: hidden;
 }
+
+.highContrast-theme-val {
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  margin: 5px;
+}
+
+.light-theme-val {
+  background-color: #f8f8f8;
+  border: 1px solid #9e9e9e;
+  margin: 5px;
+}
+
+.dark-theme-val {
+  background-color: #1a1a1a;
+  border: 1px solid #9e9e9e;
+  color: #fff;
+  margin: 5px;
+  h1, h2, h3, h4, h5, h6 {
+    color: white;
+  }
+  .tabs li.is-active a {
+    border-bottom-color: #d8d8d8;
+    color: #d8d8d8;
+  }
+}
