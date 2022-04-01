@@ -578,7 +578,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 				if (this.hasAttribute('pressed')) {
                     CH5DpadUtils.setAttributeToElement(this, 'pressed', newValue);
                     this.pressed = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-					const attrPressed = (this.getAttribute('pressed') as string).toLowerCase();
+					const attrPressed = ((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false")).toString().toLowerCase();
 					if ('false' !== attrPressed && '0' !== attrPressed) {
 						isPressed = true;
 					}
@@ -631,7 +631,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
         if (this.hasAttribute('pressed')) {
 			if (this._pressable) {
-				this._pressable.setPressed(this.toBoolean((this.getAttribute('pressed')), false));
+				this._pressable.setPressed(this.toBoolean((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false"), false));
 			}
 		}
 

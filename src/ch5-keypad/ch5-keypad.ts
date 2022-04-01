@@ -395,7 +395,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             return;
         }
 
-        this.setAttribute('useContractForCustomClass'.toLowerCase(), isUuseContractForCustomClass.toString());
+        this.setAttribute('useContractForCustomClass', isUuseContractForCustomClass.toString());
         this._useContractForCustomClass = isUuseContractForCustomClass;
         const sigVal = contractName + "CustomClass";
 
@@ -977,16 +977,16 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
         switch (attr) {
             case 'usecontractforshow':
-                this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforshow') && this.getAttribute('usecontractforshow') !== "false"), '');
                 break;
             case 'usecontractforenable':
-                this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforenable') && this.getAttribute('usecontractforenable') !== "false"), '');
                 break;
             case 'usecontractforcustomstyle':
-                this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomstyle') && this.getAttribute('usecontractforcustomstyle') !== "false"), '');
                 break;
             case 'usecontractforcustomclass':
-                this.useContractForCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                this.useContractForCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomclass') && this.getAttribute('usecontractforcustomclass') !== "false"), '');
                 break;
             case 'receivestateshow':
                 if (!isValidContract) {
