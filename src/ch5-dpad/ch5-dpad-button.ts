@@ -186,6 +186,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-dpad-button', Ch5DpadButton);
-    Ch5DpadButton.registerSignalAttributeTypes();
+    window.customElements.define(Ch5DpadButton.ELEMENT_NAME, Ch5DpadButton);
 }
+
+Ch5DpadButton.registerSignalAttributeTypes();

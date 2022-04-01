@@ -3570,6 +3570,7 @@ export class Ch5Video extends Ch5Common implements ICh5VideoAttributes {
  * Create a custom element
  */
 if (typeof window === 'object' && typeof window.customElements === 'object' && typeof window.customElements.define === 'function') {
-	window.customElements.define('ch5-video', Ch5Video);
-	Ch5Video.registerSignalAttributeTypes();
+	window.customElements.define(Ch5Video.ELEMENT_NAME, Ch5Video);
 }
+
+Ch5Video.registerSignalAttributeTypes();

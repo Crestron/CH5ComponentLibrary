@@ -16,6 +16,15 @@ export class Ch5Button extends Ch5ButtonBase {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Button.ELEMENT_NAME, Ch5Button.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
+	public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Button.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
+	}
+
 	public static registerCustomElement() {
 		if (typeof window === "object"
 			&& typeof window.customElements === "object"
@@ -33,3 +42,4 @@ export class Ch5Button extends Ch5ButtonBase {
 
 Ch5Button.registerCustomElement();
 Ch5Button.registerSignalAttributeTypes();
+Ch5Button.registerSignalAttributeDefaults();
