@@ -12209,11 +12209,7 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "IconClass",
-            "deprecated": {
-              "version": "1.0.0",
-              "description": "This attribute is deprecated, please use 'icon' attribute."
-            }
+            "attributeType": "IconClass"
           },
           {
             "documentation": [
@@ -12227,7 +12223,11 @@
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
-            "attributeType": "IconClass"
+            "attributeType": "IconClass",
+            "deprecated": {
+              "version": "1.0.0",
+              "description": "This attribute is deprecated, please use 'iconClass' attribute."
+            }
           },
           {
             "documentation": [
@@ -12672,7 +12672,7 @@
             "body": [
               "<ch5-textinput",
               "    label=\"${1:Phone number:}\"",
-              "    icon=\"${2:fa fa-phone}\"",
+              "    iconClass=\"${2:fa fa-phone}\"",
               "    size=\"${3:x-large}\"",
               "    placeholder=\"${4:Phone Number}\"",
               "    mask=\"${5:(+99) 999 999 999}\"",
@@ -12686,7 +12686,7 @@
             "body": [
               "<ch5-textinput",
               "    label=\"${1:Phone number:}\"",
-              "    icon=\"${2:fa fa-phone}\"",
+              "    iconClass=\"${2:fa fa-phone}\"",
               "    size=\"${3:x-large}\"",
               "    placeholder=\"${4:Phone Number}\"",
               "    mask=\"${5:(+99) 999 999 999}\"",
@@ -16398,12 +16398,12 @@
               "Defines the numeric type."
             ],
             "value": [
+              "signed",
               "float",
               "percentage",
               "hex",
               "raw",
               "unsigned",
-              "signed",
               "time"
             ],
             "name": "type",
