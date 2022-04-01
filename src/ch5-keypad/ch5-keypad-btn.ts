@@ -198,6 +198,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			}
 		}
         this.setAttribute('pressed', value.toString());
+
         if (value === true) {
             this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
             this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
@@ -242,7 +243,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
         ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 
-        const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed } = this.params;
+        const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remaningParams } = this.params;
         this._labelMajor = major;
         this._labelMinor = minor;
         this._iconClass = iconClass.join(' ');
@@ -265,9 +266,19 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
         if (this.hasAttribute('pressed')) {
 			if (this._pressable) {
-				this._pressable.setPressed(this.toBoolean((this.getAttribute('pressed')), false));
+				this._pressable.setPressed(this.toBoolean((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false"), false));
 			}
 		}
+
+        const remaningParamsKeys = Object.keys(remaningParams);
+        const remaningParamsValues = Object.values(remaningParams);
+        if (remaningParamsKeys.length) {
+            for (let index = 0; index < remaningParamsKeys.length; index++) {
+                if (!_.isNil(remaningParamsValues[index])) {
+                    ComponentHelper.setAttributeToElement(this, remaningParamsKeys[index].toLowerCase(), remaningParamsValues[index]);
+                }
+            }
+        }
 
         this.logger.stop();
     }
@@ -481,7 +492,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
                 if (this.hasAttribute('pressed')) {
                     ComponentHelper.setAttributeToElement(this, 'pressed', newValue);
                     this.pressed = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-                    const attrPressed = (this.getAttribute('pressed') as string).toLowerCase();
+                    const attrPressed = ((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false")).toString().toLowerCase();
                     if ('false' !== attrPressed && '0' !== attrPressed) {
                         isPressed = true;
                     }
@@ -880,6 +891,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-keypad-button', Ch5KeypadButton);
-    Ch5KeypadButton.registerSignalAttributeTypes();
+    window.customElements.define(Ch5KeypadButton.ELEMENT_NAME, Ch5KeypadButton);
 }
+
+Ch5KeypadButton.registerSignalAttributeTypes();

@@ -39,7 +39,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		receivestatetemplatevars: { direction: "state", stringJoin: 1, contractName: true },
 
 		sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true }
+		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
 	};
 
 	// Options number can no be > 30
@@ -269,6 +269,15 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		this.closeSelectPanel = this.closeSelectPanel.bind(this);
 		this._wasInstatiated = false;
 
+	}
+
+	public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Select.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
 	}
 
 	public set ondirtyCallback(callback: HtmlCallback | {}) {
@@ -1259,6 +1268,12 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 			o.dir = this.dir;
 			this.selectPanel.appendChild(o);
 		}
+
+		// update templateContent attributes to increment join numbers and prefix contract name
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '', 
+			parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0, 
+			parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0, 
+			parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);
 	}
 
 	public removeLastOptsFromList(startingIndex: number, oldOptsNr: number): void {
@@ -2128,6 +2143,8 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-select', Ch5Select);
-	Ch5Select.registerSignalAttributeTypes();
+	window.customElements.define(Ch5Select.ELEMENT_NAME, Ch5Select);
 }
+
+Ch5Select.registerSignalAttributeTypes();
+Ch5Select.registerSignalAttributeDefaults();

@@ -16,37 +16,37 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` iconClass",
+     * "`iconClass` attribute",
      * "***",
      * "The icon class gives the ability for the end developer to create custom icons."
      * ]
      * @name iconclass
-     * @attributeType "iconClass"
+     * @attributeType "IconClass"
      */
     iconClass: string;
 
     /**
      * @documentation
      * [
-     * "`type` iconUrl",
+     * "`iconUrl` attribute",
      * "***",
      * "A custom image that the user needs to pass the URL or the local file relative path, ",
      * "the iconUrl takes precedence over iconClass."
      * ]
      * @name iconurl
-     * @attributeType "imageURL"
+     * @attributeType "ImageURL"
      */
     iconUrl: string;
 
     /**
      * @documentation
      * [
-     * "`type` label",
+     * "`label` attribute",
      * "***",
      * "The label attributes gives the ability for the end developer to specify a label for the CENTER button only"
      * ]
      * @name label
-     * @attributeType "string"
+     * @attributeType "String"
      * @hideWhen [
      *  { "key": ["up", "down", "left", "right"] }
      * ]
@@ -59,12 +59,12 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
     /**
      * @documentation
      * [
-     * "`type` key",
+     * "`key` attribute",
      * "***",
      * "The key of the button to determine which button it is."
      * ]
      * @name key
-     * @attributeType "string"
+     * @attributeType "EnumeratedValue"
      */
      key: TCh5DpadChildButtonType;
 
@@ -80,7 +80,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * ]
      * @name sendeventonclick
      * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     sendEventOnClick: string;
 
@@ -95,7 +95,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * ]
      * @name pressed
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     pressed: boolean;
 }

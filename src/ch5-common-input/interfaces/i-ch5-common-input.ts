@@ -19,7 +19,7 @@ export interface ICh5CommonInput extends ICh5CommonInputAttributes {
    * "Runs when a clean event is initiated."
    * ]
    * @name onclean
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onclean: string;
 
@@ -31,7 +31,7 @@ export interface ICh5CommonInput extends ICh5CommonInputAttributes {
    * "Runs when a dirty event is initiated."
    * ]
    * @name ondirty
-   * @attributeType "string"
+   * @attributeType "String"
    */
   ondirty: string;
 

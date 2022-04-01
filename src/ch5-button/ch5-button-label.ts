@@ -12,12 +12,19 @@ import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { ICh5ButtonLabelAttributes } from "./interfaces/i-ch5-button-label-attributes";
+import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes {
 
-	// private observer: MutationObserver | null = null;
+	public static readonly ELEMENT_NAME: string = 'ch5-button-label';
+
 	constructor() {
 		super();
+	}
+
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ButtonLabel.ELEMENT_NAME, {});
 	}
 
 	/**
@@ -34,18 +41,6 @@ export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes 
 		this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonLabel);
 		this.setAttribute('data-ch5-id', this.getCrId());
 		this.initAttributes();
-
-		// const callbackFn = (mutations: any) => {
-		// 	(this.parentElement as Ch5Button).setButtonDisplay();
-		// }
-		// const configForMut = {
-		// 	childList: true,
-		// 	attributes: true,
-		// 	subtree: true,
-		// 	characterData: true
-		// };
-		// this.observer = new MutationObserver(callbackFn);
-		// this.observer.observe(this, configForMut);
 		this.logger.stop();
 	}
 
@@ -55,15 +50,13 @@ export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes 
 	 */
 	public disconnectedCallback() {
 		this.logger.log('Ch5ButtonLabel.disconnectedCallback()');
-		// if (this.observer) {
-		// 	this.observer.disconnect();
-		// 	this.observer = null;
-		// }
 	}
 
 }
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-button-label', Ch5ButtonLabel);
+	window.customElements.define(Ch5ButtonLabel.ELEMENT_NAME, Ch5ButtonLabel);
 }
+
+Ch5ButtonLabel.registerSignalAttributeTypes();

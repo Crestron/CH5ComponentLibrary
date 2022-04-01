@@ -23,7 +23,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    *  "The number of items in a list. The max value is 1000."
    * ]
    * @default 1
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   size: number | null;
 
@@ -39,7 +39,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name orientation
    * @default vertical
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   orientation: TCh5ListElementOrientation | null;
 
@@ -54,7 +54,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name bufferamount
    * @default 0
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   bufferAmount: number | null;
 
@@ -69,7 +69,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Each list item must have the same height."
    * ]
    * @name itemheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   itemHeight: string | null;
 
@@ -85,7 +85,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Each list item must have the same width."
    * ]
    * @name itemwidth
-   * @attributeType "string"
+   * @attributeType "String"
    */
   itemWidth: string | null;
 
@@ -98,7 +98,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The min width of the list container."
    * ]
    * @name minwidth
-   * @attributeType "string"
+   * @attributeType "String"
    */
   minWidth: string | null;
 
@@ -111,7 +111,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The max width of the list container."
    * ]
    * @name maxwidth
-   * @attributeType "string"
+   * @attributeType "String"
    */
   maxWidth: string | null;
 
@@ -124,7 +124,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The min height of the list container."
    * ]
    * @name minheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   minHeight: string | null;
 
@@ -137,7 +137,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The max height of the list container."
    * ]
    * @name maxheight
-   * @attributeType "string"
+   * @attributeType "String"
    */
   maxHeight: string | null;
 
@@ -152,7 +152,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * @name scrolltotime
    * @default 500ms
    * @limits [{"min": 0, "max": 1000}]
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   scrollToTime: number;
 
@@ -165,7 +165,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "The pattern that will be replaced with the id from the list items iteration. ",
    * "Example: {{ idx }}"
    * ]
-   * @attributeType "string"
+   * @attributeType "String"
    */
   indexId: string | null;
 
@@ -178,7 +178,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name scrollbar
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   scrollbar: boolean;
 
@@ -194,7 +194,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name pagedswipe
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   pagedSwipe: boolean;
 
@@ -212,7 +212,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * ]
    * @name endless
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   endless: boolean;
 
@@ -225,7 +225,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Represents the size of the list received from Native."
    * ]
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateSize: string | null | undefined;
 
@@ -240,7 +240,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "to the 10th element."
    * ]
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateScrollTo: string | null | undefined;
 
@@ -253,7 +253,7 @@ export interface ICh5ListAttributes extends ICh5CommonAttributes {
    * "Represents the template variables that are received from Native."
    * ]
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "join"
+   * @attributeType "Join"
    */
   receiveStateTemplateVars: string | null | undefined;
 }

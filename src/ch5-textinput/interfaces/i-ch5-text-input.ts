@@ -22,7 +22,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * "Runs when the validity state of a input has been changed."
    * ]
    * @name onvaliditychange
-   * @attributeType "string"
+   * @attributeType "String"
    */
   onvaliditychange: string;
 
@@ -34,7 +34,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * "The value attribute specifies the value of an input element."
    * ]
    * @name value
-   * @attributeType "string"
+   * @attributeType "String"
    */
   value: string;
 
@@ -49,7 +49,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * ]
    * @name minimumfontsize
    * @default 12
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   minimumfontsize: number;
 
@@ -65,7 +65,7 @@ export interface ICh5TextInput extends ICh5TextInputAttributes, ICh5CommonInput,
    * ]
    * @name tabindex
    * @default 0
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   tabIndex: number;
 }

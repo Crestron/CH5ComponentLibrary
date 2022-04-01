@@ -23,7 +23,7 @@ export interface IShowStyle {
 }
 
 export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
-;
+
 
     /**
      * ATTR GETTERS AND SETTERS
@@ -753,9 +753,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
     private _mode?: number;
 
     public static registerSignalAttributeTypes() {
-        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Image.ELEMENT_NAME, Ch5Image.SIGNAL_ATTRIBUTE_TYPES);
-    }
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Image.ELEMENT_NAME, Ch5Image.SIGNAL_ATTRIBUTE_TYPES);
+	}
 
+    
     public getModeNodes() {
         this.info('getModeNodes got called');
         return this.querySelectorAll('ch5-image-mode');
@@ -1538,6 +1539,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-image', Ch5Image);
-    Ch5Image.registerSignalAttributeTypes();
+    window.customElements.define(Ch5Image.ELEMENT_NAME, Ch5Image);
 }
+
+Ch5Image.registerSignalAttributeTypes();

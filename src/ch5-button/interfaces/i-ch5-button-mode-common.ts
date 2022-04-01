@@ -15,6 +15,19 @@ export interface ICh5ButtonModeCommonAttributes {
   /**
    * @documentation
    * [
+   * "`labelinnerhtml` attribute",
+   * "***",
+   * "The labelInnerHTML of the button element."
+   * ]
+   * @name labelinnerhtml
+   * @attributeType "EncodedHTML"
+   * @hidden true
+   */
+  labelInnerHTML: string;
+
+  /**
+   * @documentation
+   * [
    * "`type` attribute",
    * "***",
    * "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
@@ -24,7 +37,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "'default' is used."
    * ]
    * @name type
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   type: TCh5ButtonType | null;
 
@@ -51,7 +64,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   iconPosition: TCh5ButtonIconPosition | null;
 
@@ -63,7 +76,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The attribute used for add a SVG image."
    * ]
    * @name iconurl
-   * @attributeType "imageURL"
+   * @attributeType "ImageURL"
    */
   iconUrl: string;
 
@@ -75,7 +88,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The attribute used for add a SVG image."
    * ]
    * @name customclass
-   * @attributeType "string"
+   * @attributeType "String"
    */
   customClass: string;
 
@@ -87,7 +100,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The attribute used for add a SVG image."
    * ]
    * @name customstyle
-   * @attributeType "string"
+   * @attributeType "String"
    */
   customStyle: string;
 
@@ -101,7 +114,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * " and the value right would set the checkbox to the right of the button."
    * ]
    * @name checkboxposition
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   checkboxPosition: TCh5ButtonCheckboxPosition | null;
 
@@ -117,7 +130,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The right property sets the horizontal alignment of the label to the right of the button. "
    * ]
    * @name halignlabel
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   hAlignLabel: TCh5ButtonHorizontalAlignLabel | null;
 
@@ -133,7 +146,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
    * ]
    * @name valignlabel
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   vAlignLabel: TCh5ButtonVerticalAlignLabel | null;
 }

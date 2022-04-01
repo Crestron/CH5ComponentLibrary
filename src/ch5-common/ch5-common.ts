@@ -195,6 +195,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
      */
     protected _receiveStateHidePulse: string = '';
 
+    protected _nextSiblingIndexInParentChildNodes: number = 0;
+
     /**
      * The subscription key for the receiveStateHidePulse signal
      */
@@ -407,9 +409,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         if (value !== this._disabled) {
             this._disabled = this._toBoolean(value);
             if (this._disabled) {
-                this.setAttribute('disabled', '');
+                this.setAttribute('disabled', 'true');
             } else {
-                this.removeAttribute('disabled');
+                this.setAttribute('disabled', 'false');
             }
         }
     }
@@ -534,9 +536,9 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             }
             if (hasSignalChanged) {
                 if (true === newVal) {
-                    this.removeAttribute('disabled');
+                    this.setAttribute('disabled', 'false');
                 } else {
-                    this.setAttribute('disabled', '');
+                    this.setAttribute('disabled', 'true');
                 }
             }
         });
@@ -1111,7 +1113,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 break;
             case 'show':
                 if (this.hasAttribute('show')) {
-                    const tmpShow = (this.getAttribute('show') as string).toString().toLowerCase();
+                    const tmpShow = ((this.hasAttribute('show') && this.getAttribute('show') !== "false")).toString().toLowerCase();
                     if ('false' === tmpShow || '0' === tmpShow) {
                         this.show = false;
                     } else {
@@ -1195,13 +1197,14 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
             case 'disabled':
                 if (!this.hasAttribute('customclassdisabled')) {
                     if (this.hasAttribute('disabled')) {
-                        if (this.getAttribute("disabled") === '' || this._toBoolean(this.getAttribute("disabled")) === true) {
-                            this._disabled = true;
+                        const tmpDisabled = ((this.hasAttribute('disabled') && this.getAttribute('disabled') !== "false")).toString().toLowerCase();
+                        if ('false' === tmpDisabled || '0' === tmpDisabled) {
+                            this.disabled = false;
                         } else {
-                            this._disabled = false;
+                            this.disabled = true;
                         }
                     } else {
-                        this._disabled = false;
+                        this.disabled = false;
                     }
                     this.updateForChangeInDisabledStatus();
                 }
@@ -1380,6 +1383,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                     this._cachedParentEl = this.parentElement;
                     this.info(' removes element from DOM due to change in show signal, cached parent element')
                     if (null !== this.nextElementSibling && undefined !== this.nextElementSibling) {
+                        this._nextSiblingIndexInParentChildNodes = (Array.from(this.parentElement.childNodes)).findIndex(item => item === this.nextElementSibling)
                         this._cachedNextSibling = this.nextElementSibling;
                         this.info(' cached sibling element')
                     }
@@ -1412,7 +1416,12 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 this._keepListeningOnSignalsAfterRemoval = false;
 
             } else {
-                cp.appendChild(this);
+                if (this._nextSiblingIndexInParentChildNodes) {
+                    const cs = cp.childNodes[this._nextSiblingIndexInParentChildNodes];
+                    cp.insertBefore(this, cs);
+                } else {
+                    cp.appendChild(this);
+                }
                 this.info(' appended element to parent due to change in show signal')
                 this._keepListeningOnSignalsAfterRemoval = false;
             }
@@ -1463,6 +1472,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         if (true === this._disabled) {
             targetElement.classList.add(this.getCssClassDisabled());
         } else {
+
             targetElement.classList.remove(this.getCssClassDisabled());
         }
     }
@@ -1478,14 +1488,14 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         this.applyPreconfiguredAttributes();
 
         if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled')) {
-            this.disabled = true;
+            this.disabled = ((this.hasAttribute('disabled') && this.getAttribute('disabled') !== "false"));
         }
         if (this.hasAttribute('debug')) {
             this._isDebugEnabled = true;
         }
         let tmpShow = true;
         if (this.hasAttribute('show')) {
-            const attrShow = this.getAttribute('show') as string;
+            const attrShow = ((this.hasAttribute('show') && this.getAttribute('show') !== "false")).toString().toLowerCase();;
             if ('false' === attrShow || '0' === attrShow) {
                 tmpShow = false;
             }

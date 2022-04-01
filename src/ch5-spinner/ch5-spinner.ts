@@ -22,7 +22,6 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 
 export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
-
   public static get observedAttributes() {
 
     const commonObservedAttributes = Ch5Common.observedAttributes;
@@ -1154,6 +1153,15 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Spinner.ELEMENT_NAME, Ch5Spinner.SIGNAL_ATTRIBUTE_TYPES);
   }
 
+  public static registerSignalAttributeDefaults() {
+		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Spinner.ELEMENT_NAME, {
+			contractName: { attributes: ["contractname"], defaultValue: "" },
+			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+		});
+	}
+
   /**
    * Triggered when the component is attached to the DOM
    *
@@ -1767,6 +1775,8 @@ if (
   typeof window.customElements === "object" &&
   typeof window.customElements.define === "function"
 ) {
-  window.customElements.define('ch5-spinner', Ch5Spinner);
-  Ch5Spinner.registerSignalAttributeTypes();
+  window.customElements.define(Ch5Spinner.ELEMENT_NAME, Ch5Spinner);
 }
+
+Ch5Spinner.registerSignalAttributeTypes();
+Ch5Spinner.registerSignalAttributeDefaults();

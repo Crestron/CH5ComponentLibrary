@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-jointotext-string-value-fixture">
+    <template>
+      <ch5-jointotext-string value="test"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-text-when-empty-fixture">
+    <template>
+      <ch5-jointotext-string textWhenEmpty="text when empty" value="test"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-receivestatevalue-fixture">
+    <template>
+      <ch5-jointotext-string textWhenTrue="Pause" textWhenFalse="Play"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-show-fixture">
+    <template>
+      <ch5-jointotext-string show="false"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-disabled-fixture">
+    <template>
+      <ch5-jointotext-string disabled="true"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-custom-class-fixture">
+    <template>
+      <ch5-jointotext-string customClass="test-class"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-custom-style-fixture">
+    <template>
+      <ch5-jointotext-string customStyle="color: red;"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-no-show-type-fixture">
+    <template>
+      <ch5-jointotext-string noShowType="remove"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-jointotext-string-value', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-fixture');
+      });
+
+      test(`Check value`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal("test");
+        ch5JointextString.removeAttribute('value');
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+      });
+
+      test(`Set value`, () => {
+        ch5JointextString.setAttribute('value', "test123");
+        expect(ch5JointextString.getAttribute('value')).to.be.equal("test123");
+        ch5JointextString.removeAttribute('value');
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-text-when-empty', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-text-when-empty-fixture');
+      });
+
+      test(`Check text when empty`, () => {
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal("text when empty");
+        ch5JointextString.removeAttribute('textWhenEmpty');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-receivestatevalue', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5JointextString = fixture('ch5-jointotext-string-receivestatevalue-fixture');
+      });
+
+      [true, false].forEach((value, i) => {
+        test(`receiveStateValue: "${value}"`, (done) => {
+          ch5JointextString.setAttribute('receiveStateValue', 'garage_door_status');
+          CrComLib.publishEvent('s', 'trigger_change_value', value);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextString.getAttribute('receiveStateValue')).to.be.equal('garage_door_status');
+              // console.log(ch5JointextString.children)
+              // expect(ch5JointextString.).to.be.equal(value);
+              done();
+            }, 100);
+          });
+        });
+      });
+    });
+
+    suite('ch5-jointotext-string-show', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-show-fixture');
+      });
+
+      test(`Check show when false`, () => {
+        expect(ch5JointextString.getAttribute('show')).to.be.equal("false");
+      });
+    });
+
+    suite('ch5-jointotext-string-disabled', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-disabled-fixture');
+      });
+
+      test(`Check disabled when true`, () => {
+        expect(ch5JointextString.getAttribute('disabled')).to.be.equal("true");
+        ch5JointextString.removeAttribute('disabled');
+        expect(ch5JointextString.getAttribute('disabled')).to.be.equal(null);
+      });
+    });
+
+    suite('ch5-jointotext-string-custom-class', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-custom-class-fixture');
+      });
+
+      test(`Check customClass when is test-class`, () => {
+        expect(ch5JointextString.getAttribute('customClass')).to.be.equal("test-class");
+        ch5JointextString.removeAttribute('customClass');
+        expect(ch5JointextString.getAttribute('customClass')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-custom-style', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-custom-style-fixture');
+      });
+
+      test(`Check customStyle when is 'color: red;'`, () => {
+        expect(ch5JointextString.getAttribute('customStyle')).to.be.equal("color: red;");
+        ch5JointextString.removeAttribute('customStyle');
+        expect(ch5JointextString.getAttribute('customStyle')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-no-show-type', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-no-show-type-fixture');
+      });
+
+      test(`Check noShowType when is 'remove'`, () => {
+        expect(ch5JointextString.getAttribute('noShowType')).to.be.equal("remove");
+      });
+    });
+  </script>
+</body>
+
+</html>
