@@ -853,6 +853,8 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
   public static SYNCTIMEOUT = 1500;
 
+  public static ITEM_HEIGHT_WHEN_EMPTY = '33'
+
   /**
    * Icon positions
    * @type {TCh5SpinnerIconPosition}
@@ -1619,6 +1621,9 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
     if (this.hasAttribute('itemHeight') === false || this.itemHeight === null) {
       this.autoSetItemHeight = true;
+      if (isNil(this.templateHelper.element)) {
+        this.itemHeight = Ch5Spinner.ITEM_HEIGHT_WHEN_EMPTY;
+      }
       this.setAttribute('autosetitemheight', '');
     }
 
