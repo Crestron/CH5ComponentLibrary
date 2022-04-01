@@ -33,6 +33,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		const commonAttributes = Ch5Common.observedAttributes;
 
 		const contextAttributes = [
+			'icon',
 			'iconclass',
 			'iconposition',
 			'label',
@@ -1714,6 +1715,11 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 					this.iconPositioning();
 					this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
 					break;
+				case 'icon':
+					this.icon = this.attributeChangeHandler('icon', oldValue, newValue);
+					this.iconPositioning();
+					this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
+					break;
 				case 'iconposition':
 					this.iconPosition = this.attributeChangeHandler('iconposition', oldValue, newValue) as TCh5TextInputIconPosition;
 					this.iconPositioning();
@@ -2133,9 +2139,12 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	protected iconPositioning(): void {
 		this.info("<ch5-textinput />.iconPositioning()");
 		if (
-			this.iconClass !== undefined &&
+			(this.iconClass !== undefined &&
 			this.iconClass !== '' &&
-			(this._elInput !== undefined || this._elInput !== null)
+			(this._elInput !== undefined || this._elInput !== null)) ||
+			(this.icon !== undefined &&
+			this.icon !== '' &&
+			(this._elInput !== undefined || this._elInput !== null))
 		) {
 			this.iconPositioningHandler();
 		}
@@ -2213,6 +2222,15 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		if (this.hasAttribute('iconClass')) {
 			this.iconClass = this.getAttribute('iconClass') as string;
+			this.iconPosition = this.getAttribute('iconPosition') as TCh5TextInputIconPosition;
+			this.setAttribute('iconPosition', this.iconPosition);
+			this.iconPositioning();
+			this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
+		}
+
+		// icon attribute is deprecated
+		if (this.hasAttribute('icon')) {
+			this.icon = this.getAttribute('icon') as string;
 			this.iconPosition = this.getAttribute('iconPosition') as TCh5TextInputIconPosition;
 			this.setAttribute('iconPosition', this.iconPosition);
 			this.iconPositioning();
