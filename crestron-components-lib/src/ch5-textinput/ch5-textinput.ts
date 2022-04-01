@@ -2494,6 +2494,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-textinput', Ch5Textinput);
-	Ch5Textinput.registerSignalAttributeTypes();
+	window.customElements.define(Ch5Textinput.ELEMENT_NAME, Ch5Textinput);
 }
+
+Ch5Textinput.registerSignalAttributeTypes();

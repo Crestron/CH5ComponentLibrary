@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-jointotext-numeric-value-fixture">
+    <template>
+      <ch5-jointotext-numeric value="123"></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-numeric-fixture">
+    <template>
+      <ch5-jointotext-numeric></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-numeric-receivestatevalue-fixture">
+    <template>
+      <ch5-jointotext-numeric receiveStateValue="temperature" ></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-numeric-show-fixture">
+    <template>
+      <ch5-jointotext-numeric show="false"></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-numeric-disabled-fixture">
+    <template>
+      <ch5-jointotext-numeric disabled="true"></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-numeric-custom-class-fixture">
+    <template>
+      <ch5-jointotext-numeric customClass="test-class"></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-numeric-custom-style-fixture">
+    <template>
+      <ch5-jointotext-numeric customStyle="color: red;"></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-numeric-no-show-type-fixture">
+    <template>
+      <ch5-jointotext-numeric noShowType="remove"></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-jointotext-numeric-disabled', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-value-fixture');
+      });
+
+      test(`Check value`, () => {
+        expect(ch5JointextNumeric.getAttribute('value')).to.be.equal("123");
+        ch5JointextNumeric.removeAttribute('value');
+        expect(ch5JointextNumeric.getAttribute('value')).to.be.equal('');
+      });
+
+      test(`Set value`, () => {
+        ch5JointextNumeric.setAttribute('value', "676");
+        expect(ch5JointextNumeric.getAttribute('value')).to.be.equal("676");
+        ch5JointextNumeric.removeAttribute('value');
+        expect(ch5JointextNumeric.getAttribute('value')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-numeric-type', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-fixture');
+      });
+
+      const valid_types = ['float', 'percentage', 'hex', 'raw', 'unsigned', 'signed', 'time'];
+      const default_type = 'signed'
+      const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', ''];
+
+      valid_types.forEach((typeName, i) => {
+        test(`Check attribute type: "${typeName}"`, (done) => {
+          ch5JointextNumeric.setAttribute('type', typeName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.getAttribute('type')).to.be.equal(typeName);
+              done();
+            }, 100);
+          });
+        });
+      });
+
+      invalid_types.forEach((typeName, i) => {
+        test(`Check invalid attribute type: "${typeName}"`, (done) => {
+          ch5JointextNumeric.setAttribute('type', typeName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.getAttribute('type')).to.be.equal(default_type);
+              done();
+            }, 100);
+          });
+        });
+      });
+    });
+
+    suite('ch5-jointotext-numeric-decimal-length', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-fixture');
+      });
+
+      test(`Set decimal lenght`, () => {
+        ch5JointextNumeric.setAttribute('decimalLenght', "7");
+        expect(ch5JointextNumeric.getAttribute('decimalLenght')).to.be.equal("7");
+        ch5JointextNumeric.removeAttribute('decimalLenght');
+        expect(ch5JointextNumeric.getAttribute('decimalLenght')).to.be.equal(null);
+      });
+    });
+
+    suite('ch5-jointotext-numeric-length', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-fixture');
+      });
+
+      test(`Set lenght`, () => {
+        ch5JointextNumeric.setAttribute('lenght', "7");
+        expect(ch5JointextNumeric.getAttribute('lenght')).to.be.equal("7");
+        ch5JointextNumeric.removeAttribute('lenght');
+        expect(ch5JointextNumeric.getAttribute('lenght')).to.be.equal(null);
+      });
+    });
+
+    suite('ch5-jointotext-numeric-min', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-fixture');
+      });
+
+      test(`Set min`, () => {
+        ch5JointextNumeric.setAttribute('min', "7");
+        expect(ch5JointextNumeric.getAttribute('min')).to.be.equal("7");
+      });
+    });
+
+    suite('ch5-jointotext-numeric-max', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-fixture');
+      });
+
+      test(`Set max`, () => {
+        ch5JointextNumeric.setAttribute('max', "100");
+        expect(ch5JointextNumeric.getAttribute('max')).to.be.equal("100");
+      });
+    });
+
+    suite('ch5-jointotext-numeric-receivestatevalue', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-receivestatevalue-fixture');
+      });
+
+      [true, false].forEach((value, i) => {
+        test(`receiveStateValue: "${value}"`, (done) => {
+          ch5JointextNumeric.setAttribute('receiveStateValue', 'temperature');
+          CrComLib.publishEvent('b', 'trigger_change_value', value);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.getAttribute('receiveStateValue')).to.be.equal('temperature');
+              // expect(ch5JointextNumeric.getAttribute('value')).to.be.equal(String(value).toLowerCase());
+              console.log(ch5JointextNumeric.children)
+              done();
+            }, 100);
+          });
+        });
+      });
+    });
+
+    suite('ch5-jointotext-numeric-show', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-show-fixture');
+      });
+
+      test(`Check show when false`, () => {
+        expect(ch5JointextNumeric.getAttribute('show')).to.be.equal("false");
+      });
+    });
+
+    suite('ch5-jointotext-numeric-disabled', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-disabled-fixture');
+      });
+
+      test(`Check disabled when true`, () => {
+        expect(ch5JointextNumeric.getAttribute('disabled')).to.be.equal("true");
+        ch5JointextNumeric.removeAttribute('disabled');
+        expect(ch5JointextNumeric.getAttribute('disabled')).to.be.equal(null);
+      });
+    });
+
+    suite('ch5-jointotext-numeric-custom-class', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-custom-class-fixture');
+      });
+
+      test(`Check customClass when is test-class`, () => {
+        expect(ch5JointextNumeric.getAttribute('customClass')).to.be.equal("test-class");
+        ch5JointextNumeric.removeAttribute('customClass');
+        expect(ch5JointextNumeric.getAttribute('customClass')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-numeric-custom-style', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-custom-style-fixture');
+      });
+
+      test(`Check customStyle when is 'color: red;'`, () => {
+        expect(ch5JointextNumeric.getAttribute('customStyle')).to.be.equal("color: red;");
+        ch5JointextNumeric.removeAttribute('customStyle');
+        expect(ch5JointextNumeric.getAttribute('customStyle')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-numeric-no-show-type', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-no-show-type-fixture');
+      });
+
+      test(`Check noShowType when is 'remove'`, () => {
+        expect(ch5JointextNumeric.getAttribute('noShowType')).to.be.equal("remove");
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -84,7 +84,8 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		sendeventonclickstart: { direction: "event", booleanJoin: 1, contractName: true }
+		contractname: { contractName: true },
+        sendeventonclickstart: { direction: "event", booleanJoin: 5 }
 	};
 
 	public readonly primaryCssClass = 'ch5-dpad';
@@ -356,7 +357,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			return;
 		}
 
-		this.setAttribute('useContractForCustomClass'.toLowerCase(), isUseContractForCustomClass.toString());
+		this.setAttribute('useContractForCustomClass', isUseContractForCustomClass.toString());
 		this._useContractForCustomClass = isUseContractForCustomClass;
 		const sigVal = contractName + "CustomClass";
 
@@ -805,16 +806,16 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		switch (attr) {
 			case 'usecontractforshow':
-				this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforshow') && this.getAttribute('usecontractforshow') !== "false"), '');
 				break;
 			case 'usecontractforenable':
-				this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforenable') && this.getAttribute('usecontractforenable') !== "false"), '');
 				break;
 			case 'usecontractforcustomstyle':
-				this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomstyle') && this.getAttribute('usecontractforcustomstyle') !== "false"), '');
 				break;
 			case 'usecontractforcustomclass':
-				this.useContractForCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				this.useContractForCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomclass') && this.getAttribute('usecontractforcustomclass') !== "false"), '');
 				break;
 			case 'receivestateshow':
 				if (!isValidContract) {
@@ -1379,7 +1380,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	//#endregion
 
 }
-
 
 Ch5Dpad.registerCustomElement();
 Ch5Dpad.registerSignalAttributeTypes();

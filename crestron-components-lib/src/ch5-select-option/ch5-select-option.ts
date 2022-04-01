@@ -637,6 +637,7 @@ export class Ch5SelectOption extends Ch5Common implements ICh5SelectOptionAttrib
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-select-option', Ch5SelectOption);
-    Ch5SelectOption.registerSignalAttributeTypes();
+    window.customElements.define(Ch5SelectOption.ELEMENT_NAME, Ch5SelectOption);
 }
+
+Ch5SelectOption.registerSignalAttributeTypes();

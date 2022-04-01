@@ -138,7 +138,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * ]
      * @name pressed
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     pressed: boolean;
 }

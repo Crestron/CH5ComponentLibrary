@@ -34,7 +34,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "the iconUrl takes precedence over iconClass."
      * ]
      * @name iconurl
-     * @attributeType "ImageUrl"
+     * @attributeType "ImageURL"
      */
     iconUrl: string;
 
@@ -64,7 +64,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * "The key of the button to determine which button it is."
      * ]
      * @name key
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
      key: TCh5DpadChildButtonType;
 
@@ -95,7 +95,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributes {
      * ]
      * @name pressed
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     pressed: boolean;
 }

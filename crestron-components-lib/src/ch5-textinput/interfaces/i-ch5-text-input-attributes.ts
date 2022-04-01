@@ -58,7 +58,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "The icon to be shown. Its either prefixed or suffixed based on the iconposition attribute."
    * ]
    * @name icon
-   * @attributeType "String"
+   * @attributeType "IconClass"
    */
    icon: string;
 
@@ -101,7 +101,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   iconPosition: TCh5TextInputIconPosition;
 
@@ -115,7 +115,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name type
    * @default text
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   inputType: TCh5TextInputType;
 
@@ -192,7 +192,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name size
    * @default regular
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   size: TCh5TextInputSize;
 
@@ -209,7 +209,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name stretch
    * @default fixed
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   stretch: TCh5TextInputStretch;
 
@@ -227,7 +227,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name text-transform
    * @default none
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   textTransform: TCh5TextInputTextTransform;
 
@@ -241,7 +241,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name scaling
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   scaling: boolean;
 

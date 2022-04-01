@@ -15,6 +15,8 @@ const COMPONENT_NAME: string = "ch5-button-mode";
 
 export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
 
+  public static readonly ELEMENT_NAME: string = 'ch5-button-mode';
+
   private _parentCh5Button: Ch5Button;
 
   //#region 1. Setters and Getters
@@ -287,5 +289,5 @@ export class Ch5ButtonMode extends Ch5Log implements ICh5ButtonModeAttributes {
 if (typeof window === "object" &&
   typeof window.customElements === "object" &&
   typeof window.customElements.define === "function") {
-  window.customElements.define('ch5-button-mode', Ch5ButtonMode);
+  window.customElements.define(Ch5ButtonMode.ELEMENT_NAME, Ch5ButtonMode);
 }
