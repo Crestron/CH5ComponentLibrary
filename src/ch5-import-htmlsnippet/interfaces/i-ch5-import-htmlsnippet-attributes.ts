@@ -19,7 +19,7 @@ export interface ICh5ImportHtmlSnippetAttributes extends ICh5CommonAttributes {
      * "The HTML file path."
      * ]
      * @name url
-     * @attributeType "String"
+     * @attributeType "ImageURL"
      */
     url: string;
 

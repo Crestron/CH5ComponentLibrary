@@ -37,7 +37,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "'default' is used."
    * ]
    * @name type
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   type: TCh5ButtonType | null;
 
@@ -64,7 +64,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   iconPosition: TCh5ButtonIconPosition | null;
 
@@ -76,7 +76,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The attribute used for add a SVG image."
    * ]
    * @name iconurl
-   * @attributeType "ImageUrl"
+   * @attributeType "ImageURL"
    */
   iconUrl: string;
 
@@ -114,7 +114,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * " and the value right would set the checkbox to the right of the button."
    * ]
    * @name checkboxposition
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   checkboxPosition: TCh5ButtonCheckboxPosition | null;
 
@@ -130,7 +130,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The right property sets the horizontal alignment of the label to the right of the button. "
    * ]
    * @name halignlabel
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   hAlignLabel: TCh5ButtonHorizontalAlignLabel | null;
 
@@ -146,7 +146,7 @@ export interface ICh5ButtonModeCommonAttributes {
    * "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
    * ]
    * @name valignlabel
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   vAlignLabel: TCh5ButtonVerticalAlignLabel | null;
 }

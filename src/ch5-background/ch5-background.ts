@@ -1344,6 +1344,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 }
 
 if (typeof window === 'object' && typeof window.customElements === 'object' && typeof window.customElements.define === 'function') {
-	window.customElements.define('ch5-background', Ch5Background);
-	Ch5Background.registerSignalAttributeTypes();
+	window.customElements.define(Ch5Background.ELEMENT_NAME, Ch5Background);
 }
+
+Ch5Background.registerSignalAttributeTypes();

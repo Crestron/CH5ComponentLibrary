@@ -145,7 +145,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Boolean for showing or hiding the Cancel button."
    * ]
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   hideCancelButton: boolean;
 
@@ -157,7 +157,7 @@ export interface ICh5FormAttributes extends ICh5CommonAttributes {
    * "***",
    * "Boolean for showing or hiding the Submit button."
    * ]
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   hideSubmitButton: boolean;
 }

@@ -25,6 +25,7 @@ export type TCh5KeypadButtonCreateDTO = {
     joinCountToAdd: string,
     key: string,
     pressed: boolean,
+    [key: string]: any,
 }
 
 export type TCh5KeypadSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large';

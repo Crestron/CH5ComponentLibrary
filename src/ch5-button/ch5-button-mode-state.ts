@@ -14,6 +14,8 @@ import _ from "lodash";
 
 export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAttributes {
 
+  public static readonly ELEMENT_NAME: string = 'ch5-button-mode-state';
+
   //#region 1. Variables
 
   private static readonly STATES: TCh5ButtonModeState[] = ["normal", "pressed", "selected"];
@@ -333,5 +335,5 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
 if (typeof window === "object" &&
   typeof window.customElements === "object" &&
   typeof window.customElements.define === "function") {
-  window.customElements.define('ch5-button-mode-state', Ch5ButtonModeState);
+  window.customElements.define(Ch5ButtonModeState.ELEMENT_NAME, Ch5ButtonModeState);
 }

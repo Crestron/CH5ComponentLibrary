@@ -1,5 +1,5 @@
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
-import { NumericFormats } from "../format/numeric-formats";
+import { TCh5JoinInfoNumericFormats } from "./t-ch5-jointotext-numeric";
 
 /**
  * @ignore
@@ -28,9 +28,9 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name type
    * @default signed
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
-  type: NumericFormats;
+  type: TCh5JoinInfoNumericFormats;
 
   /**
    * @documentation
@@ -41,7 +41,7 @@ export interface ICh5JoinToTextNumericAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatevalue
    * @default ""
-   * @attributeType "String"
+   * @attributeType "Join"
    */
   receiveStateValue: string;
 

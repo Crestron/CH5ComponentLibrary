@@ -547,6 +547,7 @@ export class Ch5SpinnerTemplate {
       // This is a temporary solution and
       // needs further improvements
       this.handleDefaultItemHeight((this.childrenObject as [HTMLElement])[0] as HTMLElement);
+
     }
   }
 
@@ -748,11 +749,18 @@ export class Ch5SpinnerTemplate {
   protected invokeChildElement(index: number): void {
 
     const template = this.element.querySelector('template') as HTMLTemplateElement;
-    let childrenObject: DocumentFragment = document.importNode(template.content, true);
+    // replace indexId in attributes
+    // Ch5AugmentVarSignalsNames
+    // .replaceIndexIdInTmplElemsAttrs(template, (index), this.element.indexId as string);
+    // // replace remaining Idx from content using innerHTML and replace
+    // Ch5AugmentVarSignalsNames
+    //   .replaceIndexIdInTmplElemsContent(template, (index), this.element.indexId as string);
 
+    let childrenObject: DocumentFragment = document.importNode(template.content, true);
+    
     if (childrenObject.children.length > 0) {
       // replace the placeholder for id'sd
-      const childrenObjectUpdated: DocumentFragment | undefined =
+        const childrenObjectUpdated: DocumentFragment | undefined =
           this.resolveId(index, childrenObject.childNodes as NodeListOf<HTMLElement>);
 
       if (childrenObjectUpdated !== undefined) {
@@ -762,6 +770,14 @@ export class Ch5SpinnerTemplate {
       const children = childrenObject.children[0];
       children.setAttribute('data-initial-index', String(index));
       children.setAttribute('role', 'option');
+
+      Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(
+        children as HTMLElement,
+        this.element.getAttribute("contractname") || '',
+        parseInt(this.element.getAttribute("booleanjoinoffset") || '0', 10) || 0,
+        parseInt(this.element.getAttribute("numericJoinOffset") || '0', 10) || 0,
+        parseInt(this.element.getAttribute("stringJoinOffset") || '0', 10) || 0
+      );
 
       this.addChild(childrenObject.children[0] as HTMLElement);
     }

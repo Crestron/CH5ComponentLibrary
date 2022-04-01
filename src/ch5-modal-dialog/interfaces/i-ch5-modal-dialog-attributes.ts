@@ -21,7 +21,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * "A class name of the close icon. It may be a font awesome class."
    * ]
    * @name closeicon
-   * @attributeType "String"
+   * @attributeType "IconClass"
    */
   closeIcon: string
 
@@ -36,7 +36,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name stretch
    * @default null
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   stretch: TCh5OverlayPanelStretch | null
 
@@ -54,7 +54,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name overflow
    * @default scroll
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   overflow: TCh5OverlayPanelOverflow
 
@@ -211,7 +211,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name dismissable
    * @default true
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   dismissable: boolean
 
@@ -225,7 +225,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name closable
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   closable: boolean
 
@@ -239,7 +239,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name mask
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   mask: boolean;
 
@@ -252,7 +252,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name hideokbutton
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   hideOkButton: boolean;
 
@@ -265,7 +265,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * ]
    * @name hidecancelbutton
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   hideCancelButton: boolean;
 

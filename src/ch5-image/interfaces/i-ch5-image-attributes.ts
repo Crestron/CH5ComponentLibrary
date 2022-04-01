@@ -71,7 +71,7 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * "Must be a supported image format, including JPEG, GIF, PNG, SVG, and BMP."
    * ]
    * @name url
-   * @attributeType "String"
+   * @attributeType "ImageURL"
    */
   url: string;
 

@@ -35,7 +35,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name endless
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     endless: boolean;
 
@@ -50,7 +50,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name gestureable
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     gestureable: boolean;
 
@@ -64,7 +64,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name nested
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     nested: boolean;
 
@@ -106,7 +106,7 @@ export interface ICh5TriggerViewAttributes extends ICh5CommonAttributes {
      * ]
      * @name disableanimation
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     disableAnimation: boolean;
 }

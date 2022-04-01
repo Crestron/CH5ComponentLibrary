@@ -35,7 +35,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * @hideWhen [
    *  { "stretch": ["both", "height", "width"] }
    * ]
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   size: TCh5ButtonSize;
 
@@ -87,7 +87,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name iconposition
    * @default first
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   iconPosition: TCh5ButtonIconPosition;
 
@@ -99,7 +99,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "The attribute used for add a SVG image."
    * ]
    * @name iconurl
-   * @attributeType "ImageUrl"
+   * @attributeType "ImageURL"
    */
   iconUrl: string;
 
@@ -130,7 +130,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name checkboxshow
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   checkboxShow: boolean;
 
@@ -145,7 +145,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name checkboxposition
    * @default left
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   checkboxPosition: TCh5ButtonCheckboxPosition;
 
@@ -161,7 +161,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   orientation: TCh5ButtonOrientation;
 
@@ -175,7 +175,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name shape
    * @default rounded-rectangle
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   shape: TCh5ButtonShape;
 
@@ -193,7 +193,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "the text will overflow. The same applies if stretch=both is used."
    * ]
    * @name stretch
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   stretch: TCh5ButtonStretch | null;
 
@@ -210,7 +210,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name type
    * @default default
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   type: TCh5ButtonType;
 
@@ -227,7 +227,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name halignlabel
    * @default center
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   hAlignLabel: TCh5ButtonHorizontalAlignLabel;
 
@@ -244,7 +244,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name valignlabel
    * @default middle
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   vAlignLabel: TCh5ButtonVerticalAlignLabel;
 
@@ -258,7 +258,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "cancel: The value cancel, reset all the controls of form to their initial values."
    * ]
    * @name formtype
-   * @attributeType "String"
+   * @attributeType "EnumeratedValue"
    */
   formType: TCh5ButtonActionType | null;
 
@@ -423,7 +423,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name selected
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   selected: boolean;
 
@@ -438,7 +438,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * ]
    * @name pressed
    * @default false
-   * @attributeType "boolean"
+   * @attributeType "Boolean"
    */
   pressed: boolean;
 }

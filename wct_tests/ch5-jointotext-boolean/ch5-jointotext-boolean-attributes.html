@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-jointotext-boolean-value-fixture">
+    <template>
+      <ch5-jointotext-boolean value="false"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-text-when-true-fixture">
+    <template>
+      <ch5-jointotext-boolean textWhenTrue="text when true" value="true"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-text-when-false-fixture">
+    <template>
+      <ch5-jointotext-boolean textWhenFalse="text when false" value="false"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-receivestatevalue-fixture">
+    <template>
+      <ch5-jointotext-boolean textWhenTrue="Pause" textWhenFalse="Play"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-show-fixture">
+    <template>
+      <ch5-jointotext-boolean show="false"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-disabled-fixture">
+    <template>
+      <ch5-jointotext-boolean disabled="true"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-custom-class-fixture">
+    <template>
+      <ch5-jointotext-boolean customClass="test-class"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-custom-style-fixture">
+    <template>
+      <ch5-jointotext-boolean customStyle="color: red;"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-no-show-type-fixture">
+    <template>
+      <ch5-jointotext-boolean noShowType="remove"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-jointotext-boolean-value', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-value-fixture');
+      });
+
+      test(`Check value false`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal("false");
+        ch5JointextBoolean.removeAttribute('value');
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal(null);
+      });
+    });
+
+    suite('ch5-jointotext-boolean-text-when-true', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-text-when-true-fixture');
+      });
+
+      test(`Check text when true`, () => {
+        console.log(ch5JointextBoolean)
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal("true");
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal("text when true");
+        ch5JointextBoolean.removeAttribute('textWhenTrue');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-text-when-false', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-text-when-false-fixture');
+      });
+
+      test(`Check text when false`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal("false");
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal("text when false");
+        ch5JointextBoolean.removeAttribute('textWhenFalse');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-receivestatevalue', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-receivestatevalue-fixture');
+      });
+
+      [true, false].forEach((value, i) => {
+        test(`receiveStateValue: "${value}"`, (done) => {
+          ch5JointextBoolean.setAttribute('receiveStateValue', 'media_player_is_playing');
+          CrComLib.publishEvent('b', 'trigger_change_value', value);
+          console.log(CrComLib)
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextBoolean.getAttribute('receiveStateValue')).to.be.equal('media_player_is_playing');
+              expect(ch5JointextBoolean.getAttribute('value')).to.be.equal(String(value).toLowerCase());
+              done();
+            }, 100);
+          });
+        });
+      });
+    });
+
+    suite('ch5-jointotext-boolean-show', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-show-fixture');
+      });
+
+      test(`Check show when false`, () => {
+        expect(ch5JointextBoolean.getAttribute('show')).to.be.equal("false");
+      });
+    });
+
+    suite('ch5-jointotext-boolean-disabled', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-disabled-fixture');
+      });
+
+      test(`Check disabled when true`, () => {
+        expect(ch5JointextBoolean.getAttribute('disabled')).to.be.equal("true");
+      });
+    });
+
+    suite('ch5-jointotext-boolean-custom-class', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-custom-class-fixture');
+      });
+
+      test(`Check customClass when is test-class`, () => {
+        expect(ch5JointextBoolean.getAttribute('customClass')).to.be.equal("test-class");
+        ch5JointextBoolean.removeAttribute('customClass');
+        expect(ch5JointextBoolean.getAttribute('customClass')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-custom-style', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-custom-style-fixture');
+      });
+
+      test(`Check customStyle when is 'color: red;'`, () => {
+        expect(ch5JointextBoolean.getAttribute('customStyle')).to.be.equal("color: red;");
+        ch5JointextBoolean.removeAttribute('customStyle');
+        expect(ch5JointextBoolean.getAttribute('customStyle')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-no-show-type', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-no-show-type-fixture');
+      });
+
+      test(`Check noShowType when is 'remove'`, () => {
+        expect(ch5JointextBoolean.getAttribute('noShowType')).to.be.equal("remove");
+      });
+    });
+  </script>
+</body>
+
+</html>

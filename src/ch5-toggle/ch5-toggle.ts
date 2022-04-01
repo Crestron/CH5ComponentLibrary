@@ -1497,6 +1497,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-toggle', Ch5Toggle);
-	Ch5Toggle.registerSignalAttributeTypes();
+	window.customElements.define(Ch5Toggle.ELEMENT_NAME, Ch5Toggle);
 }
+
+Ch5Toggle.registerSignalAttributeTypes();

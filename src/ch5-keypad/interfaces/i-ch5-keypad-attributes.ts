@@ -36,7 +36,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name type
      * @default default
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
      type: TCh5KeypadType;
 
@@ -49,7 +49,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name shape
      * @default plus
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
     shape: TCh5KeypadShape;
 
@@ -66,7 +66,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "for the shapes of plus and circle)."
      * ]
      * @name stretch
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
     stretch: TCh5KeypadStretch | null;
 
@@ -83,7 +83,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name textorientation
      * @default top
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
     textOrientation: TCh5KeypadTextOrientation;
 
@@ -96,7 +96,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      *  "Overrides the appearance of the button with alternative CSS that is defined in classes defined with ch5-keypad--size, where size is the value of the property. If no `size` is provided, type of `default` is used."
      * ]
      * @default regular
-     * @attributeType "String"
+     * @attributeType "EnumeratedValue"
      */
     size: TCh5KeypadSize;
 
@@ -115,7 +115,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name usecontractforenable
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForEnable: boolean;
 
@@ -132,7 +132,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name usecontractforshow
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForShow: boolean;
 
@@ -148,7 +148,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name usecontractforcustomclass
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForCustomClass: boolean;
 
@@ -164,7 +164,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name usecontractforcustomstyle
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForCustomStyle: boolean;
 
@@ -180,7 +180,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name usecontractforextrabuttonshow
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     useContractForExtraButtonShow: boolean;
 
@@ -195,7 +195,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * ]
      * @name showextrabutton
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     showExtraButton: boolean;
 
@@ -208,7 +208,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "Only applicable if contractName is not provided as a parameter."
      * ]
      * @name receivestateextrabuttonshow
-     * @attributeType "boolean"
+     * @attributeType "Join"
      */
     receiveStateExtraButtonShow: string;
 

@@ -36,7 +36,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name orientation
    * @default horizontal
-   * @attributeType "Join"
+   * @attributeType "EnumeratedValue"
    */
   orientation: TCh5SliderOrientation;
 
@@ -53,7 +53,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name type
    * @default default
-   * @attributeType "Join"
+   * @attributeType "EnumeratedValue"
    */
   type: TCh5SliderType;
 
@@ -70,7 +70,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name halignlabel
    * @default center
-   * @attributeType "Join"
+   * @attributeType "EnumeratedValue"
    */
   hAlignLabel: TCh5SliderHorizontalAlignLabel;
 
@@ -87,7 +87,7 @@ export interface ICh5SliderLabelAttributes {
    * ]
    * @name valignlabel
    * @default middle
-   * @attributeType "Join"
+   * @attributeType "EnumeratedValue"
    */
   vAlignLabel: TCh5SliderVerticalAlignLabel;
 

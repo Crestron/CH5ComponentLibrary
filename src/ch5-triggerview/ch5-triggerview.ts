@@ -978,6 +978,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-triggerview', Ch5TriggerView);
-	Ch5TriggerView.registerSignalAttributeTypes();
+	window.customElements.define(Ch5TriggerView.ELEMENT_NAME, Ch5TriggerView);
 }
+
+Ch5TriggerView.registerSignalAttributeTypes();
