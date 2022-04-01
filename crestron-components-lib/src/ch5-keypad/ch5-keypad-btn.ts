@@ -890,6 +890,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-keypad-button', Ch5KeypadButton);
-    Ch5KeypadButton.registerSignalAttributeTypes();
+    window.customElements.define(Ch5KeypadButton.ELEMENT_NAME, Ch5KeypadButton);
 }
+
+Ch5KeypadButton.registerSignalAttributeTypes();

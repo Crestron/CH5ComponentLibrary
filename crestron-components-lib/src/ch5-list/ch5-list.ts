@@ -77,14 +77,13 @@ export const easeMode = 'ease-out';
 export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 	// private static DEBUG: boolean = false;
+	public static readonly ELEMENT_NAME = 'ch5-list';
 
 	// valid values accessible to Apps and "design time"
 	/**
 	 * The first value is considered the default one
 	 */
 	public static ORIENTATION: TCh5ListElementOrientation[] = ['vertical', 'horizontal'];
-
-	public static readonly ELEMENT_NAME = 'ch5-list';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,

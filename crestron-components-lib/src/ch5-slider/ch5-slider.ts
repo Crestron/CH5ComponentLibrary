@@ -34,7 +34,18 @@ export interface IRcbUpdateValue {
 
 export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
-	//#endregion
+	public static ELEMENT_NAME: string = 'ch5-slider';
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+		receivestatevaluehigh: { direction: "state", numericJoin: 1, contractName: true },
+
+		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonchangehigh: { direction: "event", booleanJoin: 1, contractName: true }
+	};
+
+	//#region "Variables"
 
 	//#region "Attribute Getters and Setters"
 
@@ -841,18 +852,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		return commonAttributes.concat(ch5SliderAttributes);
 	}
-	;
-
-	public static readonly ELEMENT_NAME = 'ch5-slider';
-
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
-		receivestatevaluehigh: { direction: "state", numericJoin: 1, contractName: true },
-
-		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonchangehigh: { direction: "event", booleanJoin: 1, contractName: true }
-	};
 
 	//#region "Variables"
 
@@ -3162,6 +3161,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-slider', Ch5Slider);
-	Ch5Slider.registerSignalAttributeTypes();
+	window.customElements.define(Ch5Slider.ELEMENT_NAME, Ch5Slider);
 }
+
+Ch5Slider.registerSignalAttributeTypes();

@@ -24,16 +24,10 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
     public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
         ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-        receivestateshow: { direction: "state", booleanJoin: 1, contractName: true },
-        receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
-        receivestateshowpulse: { direction: "state", booleanJoin: 1, contractName: true },
-        receivestatehidepulse: { direction: "state", booleanJoin: 1, contractName: true },
-        receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
-        receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
         receivestateextrabuttonshow: { direction: "state", stringJoin: 1, contractName: true },
 
-        sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-        sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
+        sendeventonclickstart: { direction: "event", booleanJoin: 13},
+        contractname: { contractName: true }
     };
 
     /**
@@ -150,7 +144,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private childButtonList: { [key: string]: Ch5KeypadButton; } = {};
     private runtimeChildButtonList: { [key: string]: TCh5KeypadButtonCreateDTO; } = {};
 
-    //#endregion
 
     //#endregion
 
@@ -1326,6 +1319,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 if (typeof window === "object"
     && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-keypad', Ch5Keypad);
-    Ch5Keypad.registerSignalAttributeTypes();
+    window.customElements.define(Ch5Keypad.ELEMENT_NAME, Ch5Keypad);
 }
+
+Ch5Keypad.registerSignalAttributeTypes();
