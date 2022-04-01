@@ -14,6 +14,8 @@ import _ from "lodash";
 
 export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAttributes {
 
+  public static readonly ELEMENT_NAME: string = 'ch5-button-mode-state';
+
   //#region 1. Variables
 
   private static readonly STATES: TCh5ButtonModeState[] = ["normal", "pressed", "selected"];
@@ -23,6 +25,22 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
   //#endregion
 
   //#region 2. Setters and Getters
+
+  public set labelInnerHTML(value: string) {
+    const attributeName: string = "labelInnerHTML";
+    this.logger.start('set ' + attributeName + '("' + value + '")');
+    if (value !== null) {
+      this.setAttribute(attributeName.toLowerCase(), value);
+    } else {
+      this.removeAttribute(attributeName);
+    }
+    this._parentCh5Button.createButtonLabel(this);
+    this._parentCh5Button.setButtonDisplay();
+  this.logger.stop();
+  }
+  public get labelInnerHTML(): string {
+    return this.getAttribute("labelinnerhtml") as string;
+  }
 
   public set state(value: TCh5ButtonModeState) {
     this.logger.log('set state("' + value + '")');
@@ -160,7 +178,8 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
       'iconurl',
       'state',
       'customclass',
-      'customstyle'
+      'customstyle',
+      'labelinnerhtml'
     ];
 
     return commonAttributes.concat(ch5ButtonModeChildAttributes);
@@ -181,6 +200,12 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
             this.type = newValue as TCh5ButtonType;
           } else {
             this.type = null;
+          }
+          break;
+
+        case 'labelinnerhtml':
+          if (this.hasAttribute('labelinnerhtml')) {
+            this.labelInnerHTML = newValue as string;
           }
           break;
 
@@ -286,11 +311,10 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
     this.logger.start('set ' + attributeName + '("' + value + '")');
     if (value !== null) {
       this.setAttribute(attributeName.toLowerCase(), value);
-      this._parentCh5Button.setButtonDisplay();
     } else {
       this.removeAttribute(attributeName);
-      this._parentCh5Button.setButtonDisplay();
     }
+    this._parentCh5Button.setButtonDisplay();
     this.logger.stop();
   }
 
@@ -311,5 +335,5 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
 if (typeof window === "object" &&
   typeof window.customElements === "object" &&
   typeof window.customElements.define === "function") {
-  window.customElements.define('ch5-button-mode-state', Ch5ButtonModeState);
+  window.customElements.define(Ch5ButtonModeState.ELEMENT_NAME, Ch5ButtonModeState);
 }

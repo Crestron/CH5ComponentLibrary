@@ -86,12 +86,8 @@
       "url": "ch5-button/ch5-button-types.html",
       "children": [
         {
-          "url": "ch5-button/ch5-button-styling-sass-vars.html",
+          "url": "ch5-button/ch5-button-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-button/ch5-button-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-button/ch5-button-styling-css-classes.html",
               "label": "CSS classes"
@@ -230,12 +226,8 @@
       "url": "ch5-dpad/ch5-dpad-types.html",
       "children": [
         {
-          "url": "ch5-dpad/ch5-dpad-styling-sass-vars.html",
+          "url": "ch5-dpad/ch5-dpad-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-dpad/ch5-dpad-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-dpad/ch5-dpad-styling-css-classes.html",
               "label": "CSS classes"
@@ -342,12 +334,8 @@
       "url": "ch5-keypad/ch5-keypad-types.html",
       "children": [
         {
-          "url": "ch5-keypad/ch5-keypad-styling-sass-vars.html",
+          "url": "ch5-keypad/ch5-keypad-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-keypad/ch5-keypad-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-keypad/ch5-keypad-styling-css-classes.html",
               "label": "CSS classes"
@@ -436,7 +424,7 @@
             },
             {
               "url": "ch5-keypad/ch5-keypad-i18n.html",
-              "label": "internalization"
+              "label": "internationalization"
             }
           ],
           "label": "Common"
@@ -530,15 +518,6 @@
         {
           "children": [
             {
-              "url": "ch5-form/ch5-form-styling-sass-vars.html",
-              "label": "Sass variables"
-            }
-          ],
-          "label": "Styling"
-        },
-        {
-          "children": [
-            {
               "url": "ch5-form/hide-submit.html",
               "label": "hideSubmitButton"
             },
@@ -603,10 +582,6 @@
         {
           "url": "ch5-image/ch5-image-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-image/ch5-image-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-image/ch5-image-styling-css-classes.html",
               "label": "CSS classes"
@@ -673,7 +648,7 @@
           "children": [
             {
               "url": "ch5-image/ch5-image-send-signal-click.html",
-              "label": "sendEventurl"
+              "label": "sendEventOnClick"
             },
             {
               "url": "ch5-image/ch5-image-send-signal-error.html",
@@ -796,10 +771,10 @@
       "label": "CH5 JoinToText String"
     },
     {
-      "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-value.html",
+      "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html",
       "children": [
         {
-          "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-value.html",
+          "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html",
           "children": [
             {
               "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html",
@@ -855,12 +830,8 @@
       "url": "ch5-list/ch5-list-orientation.html",
       "children": [
         {
-          "url": "ch5-list/ch5-list-styling-sass-vars.html",
+          "url": "ch5-list/ch5-list-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-list/ch5-list-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-list/ch5-list-styling-css-classes.html",
               "label": "CSS classes"
@@ -937,12 +908,8 @@
       "url": "ch5-modal-dialog/ch5-modal-dialog-closable.html",
       "children": [
         {
-          "url": "ch5-modal-dialog/ch5-modal-dialog-styling-sass-vars.html",
+          "url": "ch5-modal-dialog/ch5-modal-dialog-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-modal-dialog/ch5-modal-dialog-styling-css-classes.html",
               "label": "CSS classes"
@@ -1057,12 +1024,8 @@
       "url": "ch5-overlay-panel/ch5-overlay-panel-closable.html",
       "children": [
         {
-          "url": "ch5-overlay-panel/ch5-overlay-panel-styling-sass-vars.html",
+          "url": "ch5-overlay-panel/ch5-overlay-panel-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-overlay-panel/ch5-overlay-panel-styling-css-classes.html",
               "label": "CSS classes"
@@ -1175,12 +1138,8 @@
       "url": "ch5-select/dimensions.html",
       "children": [
         {
-          "url": "ch5-select/ch5-select-styling-sass-vars.html",
+          "url": "ch5-select/ch5-select-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-select/ch5-select-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-select/ch5-select-styling-css-classes.html",
               "label": "CSS classes"
@@ -1231,15 +1190,15 @@
             },
             {
               "url": "ch5-select/methods/ex2.html",
-              "label": "sendEventurl, receiveStateValue"
+              "label": "sendEventOnClick, receiveStateValue"
             },
             {
               "url": "ch5-select/methods/ex3.html",
-              "label": "sendEventurl, receiveStateSelected"
+              "label": "sendEventOnClick, receiveStateSelected"
             },
             {
               "url": "ch5-select/methods/ex4.html",
-              "label": "multiselect sendEventurl, receiveStateSelected"
+              "label": "multiselect sendEventOnClick, receiveStateSelected"
             }
           ],
           "label": "Methods"
@@ -1265,12 +1224,8 @@
       "url": "ch5-slider/handle-shape.html",
       "children": [
         {
-          "url": "ch5-slider/ch5-slider-styling-sass-vars.html",
+          "url": "ch5-slider/ch5-slider-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-slider/ch5-slider-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-slider/ch5-slider-styling-css-classes.html",
               "label": "CSS classes"
@@ -1447,12 +1402,8 @@
       "url": "ch5-spinner/attribute-size.html",
       "children": [
         {
-          "url": "ch5-spinner/ch5-spinner-styling-sass-vars.html",
+          "url": "ch5-spinner/ch5-spinner-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-spinner/ch5-spinner-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-spinner/ch5-spinner-styling-css-classes.html",
               "label": "CSS classes"
@@ -1611,12 +1562,8 @@
       "url": "ch5-textinput/attribute-placeholder.html",
       "children": [
         {
-          "url": "ch5-textinput/ch5-textinput-styling-sass-vars.html",
+          "url": "ch5-textinput/ch5-textinput-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-textinput/ch5-textinput-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-textinput/ch5-textinput-styling-css-classes.html",
               "label": "CSS classes"
@@ -1745,12 +1692,8 @@
       "url": "ch5-toggle/label.html",
       "children": [
         {
-          "url": "ch5-toggle/ch5-toggle-styling-sass-vars.html",
+          "url": "ch5-toggle/ch5-toggle-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-toggle/ch5-toggle-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-toggle/ch5-toggle-styling-css-classes.html",
               "label": "CSS classes"
@@ -1808,7 +1751,7 @@
           "children": [
             {
               "url": "ch5-toggle/send-signal-click.html",
-              "label": "sendEventurl"
+              "label": "sendEventOnClick"
             }
           ],
           "label": "Send Event Attributes"
@@ -1860,12 +1803,8 @@
       "url": "ch5-triggerview/endless.html",
       "children": [
         {
-          "url": "ch5-triggerview/ch5-triggerview-styling-sass-vars.html",
+          "url": "ch5-triggerview/ch5-triggerview-styling-css-classes.html",
           "children": [
-            {
-              "url": "ch5-triggerview/ch5-triggerview-styling-sass-vars.html",
-              "label": "Sass variables"
-            },
             {
               "url": "ch5-triggerview/ch5-triggerview-styling-css-classes.html",
               "label": "CSS classes"

@@ -606,6 +606,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 
 		if (this._elCloseIconBtn) {
 			this._elCloseIconBtn.addEventListener('click', this._clickedOnClose);
+			window.addEventListener('keydown', this._handleKeyPress);
 		}
 		this.addEventListener('click', this._clickAndTouchEvent);
 		this.addEventListener('touch', this._clickAndTouchEvent);
@@ -623,6 +624,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		super.removeEventListeners();
 
 		this._elCloseIconBtn.removeEventListener('click', this._clickedOnClose);
+		window.removeEventListener('keydown', this._handleKeyPress);
 
 		this.removeEventListener('show', this._onShow);
 		this.removeEventListener('hide', this._onHide);
@@ -641,12 +643,20 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		this._onBeforeHide = this._onBeforeHide.bind(this);
 		this._onAfterHide = this._onAfterHide.bind(this);
 		this._clickedOnClose = this._clickedOnClose.bind(this);
+		this._handleKeyPress = this._handleKeyPress.bind(this);
 		this._dismissElement = this._dismissElement.bind(this);
 		this._clickAndTouchEvent = this._clickAndTouchEvent.bind(this);
 	}
 
 	protected getTargetElementForCssClassesAndStyle(): HTMLElement {
 		return this._elContainer;
+	}
+
+	protected _handleKeyPress(event: KeyboardEvent) {
+		if (this.getAttribute('show') !== 'false' && event.key === 'Escape') {
+			this.info('_handleKeyPress()');
+			this.setAttribute('show', 'false');
+		}
 	}
 
 	protected _clickedOnClose(inEvent: Event) {
@@ -1345,6 +1355,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 if (typeof window === "object"
 	&& typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define('ch5-overlay-panel', Ch5OverlayPanel);
-	Ch5OverlayPanel.registerSignalAttributeTypes();
+	window.customElements.define(Ch5OverlayPanel.ELEMENT_NAME, Ch5OverlayPanel);
 }
+
+Ch5OverlayPanel.registerSignalAttributeTypes();

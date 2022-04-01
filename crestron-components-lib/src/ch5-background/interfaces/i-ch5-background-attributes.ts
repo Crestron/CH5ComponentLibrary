@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5CommonAttributes } from '../../ch5-common/interfaces';
-import { TCh5BackgroundScale, TCh5BackgroundRepeat } from './index';
+import { TCh5BackgroundScale, TCh5BackgroundRepeat, TCh5BackgroundTransitionEffect } from './index';
 
 /**
  * @ignore
@@ -23,7 +23,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "separated by | (vertical bar) to have images cycle over time."
    * ]
    * @name url
-   * @attributeType "imageURL"
+   * @attributeType "ImageUrl"
    */
   url: string;
 
@@ -39,7 +39,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * "This attribute is superseded by the url attribute."
    * ]
    * @name backgroundcolor
-   * @attributeType "string"
+   * @attributeType "String"
    */
   backgroundColor: string;
 
@@ -57,7 +57,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name repeat
    * @default no-repeat
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
   repeat: TCh5BackgroundRepeat;
 
@@ -80,7 +80,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name scale
    * @default stretch
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    * @showWhen [{"repeat": null }]
    */
   scale: TCh5BackgroundScale;
@@ -99,7 +99,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name refreshrate
    * @default 600
-   * @attributeType "integer"
+   * @attributeType "Integer"
    */
   refreshRate: number | string;
 
@@ -116,7 +116,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name imgbackgroundcolor
    * @default black
-   * @attributeType "string"
+   * @attributeType "String"
    */
   imgBackgroundColor: string;
 
@@ -132,9 +132,9 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name transitioneffect
    * @default ease
-   * @attributeType "string"
+   * @attributeType "EnumeratedValue"
    */
-  transitionEffect: string;
+  transitionEffect: TCh5BackgroundTransitionEffect;
 
   /**
    * @documentation
@@ -148,7 +148,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name transitionduration
    * @default 1s
-   * @attributeType "string"
+   * @attributeType "String"
    */
   transitionDuration: string;
 
@@ -161,7 +161,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestaterefreshrate
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
-   * @attributeType "string"
+   * @attributeType "Join"
    */
   receiveStateRefreshRate: string;
 
@@ -176,7 +176,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestateurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "string"
+   * @attributeType "Join"
    */
   receiveStateUrl: string;
 
@@ -190,7 +190,7 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * ]
    * @name receivestatebackgroundcolor
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
-   * @attributeType "string"
+   * @attributeType "Join"
    */
   receiveStateBackgroundColor: string;
 

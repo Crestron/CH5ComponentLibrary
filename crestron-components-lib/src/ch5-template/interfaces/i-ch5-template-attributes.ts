@@ -20,7 +20,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      * "The ID of the template to be instantiated."
      * ]
      * @name templateid
-     * @attributeType "string"
+     * @attributeType "String"
      *
      */
     templateId: string;
@@ -35,7 +35,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      *  "is the replacement value."
      * ]
      * @name context
-     * @attributeType "string"
+     * @attributeType "String"
      */
     context: string;
 
@@ -49,7 +49,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      *  ""
      * ]
      * @name contractname
-     * @attributeType "string"
+     * @attributeType "String"
      */
     contractName: string;
 
@@ -64,7 +64,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      *  ""
      * ]
      * @name booleanjoinoffset
-     * @attributeType "string"
+     * @attributeType "String"
      */
     booleanJoinOffset: string;
 
@@ -78,7 +78,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      *  ""
      * ]
      * @name numericjoinoffset
-     * @attributeType "string"
+     * @attributeType "String"
      */
     numericJoinOffset: string;
 
@@ -92,7 +92,7 @@ export interface ICh5TemplateAttributes extends ICh5CommonAttributes {
      *  ""
      * ]
      * @name stringjoinoffset
-     * @attributeType "string"
+     * @attributeType "String"
      */
     stringJoinOffset: string;
 

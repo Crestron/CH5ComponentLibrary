@@ -61,10 +61,14 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`labelMajor` attribute",
      * "***",
-     * "Defines the primary/major text value of the button."
+     * "Defines the primary/major text value of the button.",
+     * "Not applicable to the extra button."
      * ]
      * @name labelmajor
-     * @attributeType "string"
+     * @attributeType "String"
+     * @hideWhen [
+     *  { "showExtraButton": true }
+     * ]
      */
     labelMajor: string;
 
@@ -73,10 +77,14 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * [
      * "`labelMinor` attribute",
      * "***",
-     * "Defines the secondary/minor text value of the button."
+     * "Defines the secondary/minor text value of the button.",
+     * "Not applicable to the extra button."
      * ]
      * @name labelminor
-     * @attributeType "string"
+     * @hideWhen [
+     *  { "showExtraButton": true }
+     * ]
+     * @attributeType "String"
      */
     labelMinor: string;
 
@@ -88,7 +96,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Defines the secondary/minor text value of the button."
      * ]
      * @name iconclass
-     * @attributeType "iconClass"
+     * @attributeType "IconClass"
      */
     iconClass: string;
 
@@ -100,7 +108,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Defines the key value of the button."
      * ]
      * @name key
-     * @attributeType "string"
+     * @attributeType "String"
      */
      key: string;
 
@@ -115,7 +123,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * "Digital input <clock> 'High/1 (rising edge) = Toggle; Low/0 = No effect'."
      * ]
      * @name sendeventonclick
-     * @attributeType "join"
+     * @attributeType "Join"
      */
     sendEventOnClick: string;
     
@@ -130,7 +138,7 @@ export interface ICh5KeypadButtonAttributes extends ICh5CommonAttributes {
      * ]
      * @name pressed
      * @default false
-     * @attributeType "boolean"
+     * @attributeType "Boolean"
      */
     pressed: boolean;
 }

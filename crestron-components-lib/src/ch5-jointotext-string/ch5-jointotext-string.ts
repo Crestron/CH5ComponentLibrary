@@ -1,153 +1,196 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { isNil } from 'lodash';
 import { Ch5Signal, Ch5SignalFactory } from "..";
-import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { ICh5JoinToTextStringAttributes } from "./interfaces/i-ch5-jointotext-string-attributes";
 
 export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStringAttributes {
 
-    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+	//#region Variables
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+		receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
 	};
-    
-    private _receiveStateValue: string = '';
-    private _textWhenEmpty: string = '';
-    private _value: string = '';
+	public static readonly ELEMENT_NAME = 'ch5-jointotext-string';
 
-    private _subReceiveStateValue: string = '';
+	private _receiveStateValue: string = '';
+	private _textWhenEmpty: string = '';
+	private _value: string = '';
+	private _subReceiveStateValue: string = '';
 
+	//#endregion
 
-    public static get observedAttributes(): string[] {
-        return [
-            'value',
-            'textwhenempty',
-            'receivestatevalue',
-        ]
-    }
+	//#region Getters and Setters
 
-    public connectedCallback() {
-        
-        if (this.hasAttribute('textwhenempty')) {
-            this.textWhenEmpty = this.getAttribute('textwhenempty') + '';
-        }
-        
-        if (this.hasAttribute('value')) {
-            this.value = this.getAttribute('value') + '';
-        } else {
-            this.value = '';
-        }
+	public set textWhenEmpty(value: string) {
+		if (this._textWhenEmpty !== value) {
+			if (isNil(value)) {
+				value = "";
+			}
 
-        if (this.hasAttribute('receivestatevalue')) {
-            this.receiveStateValue = this.getAttribute('receivestatevalue') + '';
-        }
-    }
+			this._textWhenEmpty = value;
+			this.setAttribute('textWhenEmpty', value);
+			this.setTextContent();
+		}
+	}
 
-    public disconnectedCallback() {
-        const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-        const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-        .getStringSignal(oldSigName);
-        
-        if (oldSignal !== null) {
-            oldSignal.unsubscribe(this._subReceiveStateValue);
-        }
-    }
+	public get textWhenEmpty(): string {
+		return this._textWhenEmpty;
+	}
 
-    public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-        if (oldValue === newValue) {
-            return;
-        }
+	public set receiveStateValue(value: string) {
+		if (this._receiveStateValue !== value) {
+			if (isNil(value)) {
+				return;
+			}
 
-        switch (attr) {
-            case 'value':
-                this.value = newValue;
-                break;
-            case 'textwhenempty':
-                this.textWhenEmpty = newValue;
-                break;
-            case 'receviestatevalue':
-                this.receiveStateValue = newValue;
-                break;
-        }
-    }
+			if (this.receiveStateValue !== ''
+				&& this.receiveStateValue !== undefined
+				&& this.receiveStateValue !== null
+			) {
+				const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+				const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
 
-    public set textWhenEmpty(value: string) {
-        if (isNil(value)) {
-            return;
-        }
+				if (oldSignal !== null) {
+					oldSignal.unsubscribe(this._subReceiveStateValue);
+				}
+			}
 
-        this._textWhenEmpty = value;
-        this.setAttribute('textWhenEmpty', value);
-    }
+			this._receiveStateValue = value;
+			this.setAttribute('receivestatevalue', value);
 
-    public get textWhenEmpty(): string {
-        return this._textWhenEmpty;
-    }
+			// setup new subscription.
+			const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+			const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigName);
 
-    public set receiveStateValue(value: string) {
-        if (isNil(value)) {
-            return;
-        }
+			if (receiveSignal === null) {
+				return;
+			}
 
-        if (this.receiveStateValue !== ''
-            && this.receiveStateValue !== undefined
-            && this.receiveStateValue !== null
-        ) {    
-            const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-            const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(oldSigName);
-            
-            if (oldSignal !== null) {
-                oldSignal.unsubscribe(this._subReceiveStateValue);
-            }
-        }
-        
-        this._receiveStateValue = value;
-        this.setAttribute('receivestatevalue', value);
+			this._subReceiveStateValue = receiveSignal.subscribe((newValue: string) => {
+				if (newValue !== this.value) {
+					this.setAttribute('value', newValue + '');
+				}
+			});
+		}
+	}
 
-        // setup new subscription.
-        const sigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
-        const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-            .getStringSignal(sigName);
+	public get receiveStateValue(): string {
+		return this._receiveStateValue;
+	}
 
-        if (receiveSignal === null) {
-            return;
-        }
+	public set value(value: string) {
+		if (this._value !== value) {
+			if (isNil(value)) {
+				value = "";
+			}
+			this._value = value;
+			this.setAttribute('value', value + '');
+			this.setTextContent();
+		}
+	}
 
-        this._subReceiveStateValue = receiveSignal.subscribe((newValue: string) => {
-            if (newValue !== this.value) {
-                this.setAttribute('value', newValue + '');
-            }
-        });
-    }
+	public get value(): string {
+		return this._value;
+	}
 
-    public get receiveStateValue(): string {
-        return this._receiveStateValue;
-    }
+	//#endregion
 
-    public set value(value: string) {
-  
-        this._value = value;
-        this.replaceText(value);
-    }
+	//#region Static Methods
 
-    public get value(): string {
-        return this._value;
-    }
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5JoinToTextString.ELEMENT_NAME, Ch5JoinToTextString.SIGNAL_ATTRIBUTE_TYPES);
+	}
 
-    public replaceText(value: string) {
-        if (!this.value) {
-            this.textContent = this.textWhenEmpty;
-            return;
-        }
+	public static registerCustomElement() {
+		if (typeof window === "object"
+			&& typeof window.customElements === "object"
+			&& typeof window.customElements.define === "function"
+			&& window.customElements.get(Ch5JoinToTextString.ELEMENT_NAME) === undefined) {
+			window.customElements.define(Ch5JoinToTextString.ELEMENT_NAME, Ch5JoinToTextString);
+		}
+	}
 
-        this.textContent = value;
-    }
+	//#endregion
+
+	//#region Component LifeCycle
+
+	public static get observedAttributes(): string[] {
+		const inheritedObsAttrs = Ch5Common.observedAttributes;
+		const newObsAttrs = [
+			'value',
+			'textwhenempty',
+			'receivestatevalue'
+		];
+		return inheritedObsAttrs.concat(newObsAttrs);
+	}
+
+	public connectedCallback() {
+		if (this.hasAttribute('textwhenempty')) {
+			this.textWhenEmpty = this.getAttribute('textwhenempty') as string;
+		}
+
+		if (this.hasAttribute('value')) {
+			this.value = this.getAttribute('value') as string;
+		} else {
+			this.value = '';
+		}
+
+		if (this.hasAttribute('receivestatevalue')) {
+			this.receiveStateValue = this.getAttribute('receivestatevalue') as string;
+		}
+
+		customElements.whenDefined(Ch5JoinToTextString.ELEMENT_NAME).then(() => {
+			this.setTextContent(); // This is to handle specific case where the formatValue isn't called as component attributes are set to "default" values.
+		});
+	}
+
+	public disconnectedCallback() {
+		const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this.receiveStateValue);
+		const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
+
+		if (oldSignal !== null) {
+			oldSignal.unsubscribe(this._subReceiveStateValue);
+		}
+	}
+
+	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
+		if (oldValue === newValue) {
+			return;
+		}
+
+		switch (attr) {
+			case 'value':
+				this.value = newValue;
+				break;
+			case 'textwhenempty':
+				this.textWhenEmpty = newValue;
+				break;
+			case 'receviestatevalue':
+				this.receiveStateValue = newValue;
+				break;
+			default:
+				super.attributeChangedCallback(attr, oldValue, newValue);
+				break;
+		}
+	}
+
+	//#endregion
+
+	//#region Private Methods
+
+	private setTextContent() {
+		if (!this.value) {
+			this.textContent = this._getTranslatedValue('textwhenempty', this.textWhenEmpty);
+			return;
+		}
+		this.textContent = this._getTranslatedValue('value', this.value);
+	}
+
+	//#endregion
 
 }
 
-if (typeof window === "object" && typeof window.customElements === "object"
-    && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-jointotext-string', Ch5JoinToTextString);
-
-}
+Ch5JoinToTextString.registerCustomElement();
+Ch5JoinToTextString.registerSignalAttributeTypes();
