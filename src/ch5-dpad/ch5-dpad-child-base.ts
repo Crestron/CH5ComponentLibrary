@@ -829,8 +829,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
     /**
      * If type node is updated via html or js or signal, the change set attribue of type;
-     * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
-     * if receivestate is false, then
+     * if receivestate* is true, then even if type attribute chagnes, just use receivestate*
+     * if receivestate* is false, then
      * if mode attribute is updated, always call this method, and update all attributes
      * @param fromNode
      * @param isModeAttributeUpdated
