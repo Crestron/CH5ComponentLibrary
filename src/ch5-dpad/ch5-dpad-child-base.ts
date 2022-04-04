@@ -576,12 +576,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             case 'pressed':
                 let isPressed = false;
 				if (this.hasAttribute('pressed')) {
-                    CH5DpadUtils.setAttributeToElement(this, 'pressed', newValue);
-                    this.pressed = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-					const attrPressed = ((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false")).toString().toLowerCase();
-					if ('false' !== attrPressed && '0' !== attrPressed) {
-						isPressed = true;
-					}
+					isPressed = this.toBoolean(newValue, true);
 				}
 				if (this._pressable) {
 					this._pressable.setPressed(isPressed);
