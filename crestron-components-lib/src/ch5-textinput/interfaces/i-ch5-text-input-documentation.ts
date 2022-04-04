@@ -47,7 +47,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *        "body": [
  *            "<ch5-textinput",
  *            "    label=\"${1:Phone number:}\"",
- *            "    icon=\"${2:fa fa-phone}\"",
+ *            "    iconClass=\"${2:fa fa-phone}\"",
  *            "    size=\"${3:x-large}\"",
  *            "    placeholder=\"${4:Phone Number}\"",
  *            "    mask=\"${5:(+99) 999 999 999}\"",
@@ -61,7 +61,7 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *        "body": [
  *            "<ch5-textinput",
  *            "    label=\"${1:Phone number:}\"",
- *            "    icon=\"${2:fa fa-phone}\"",
+ *            "    iconClass=\"${2:fa fa-phone}\"",
  *            "    size=\"${3:x-large}\"",
  *            "    placeholder=\"${4:Phone Number}\"",
  *            "    mask=\"${5:(+99) 999 999 999}\"",

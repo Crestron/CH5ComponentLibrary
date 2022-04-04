@@ -42,10 +42,6 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "The icon to be shown. Its either prefixed or suffixed based on the iconposition attribute."
    * ]
    * @name iconclass
-   * @deprecated {
-   * "version": "1.0.0",
-   * "description": "This attribute is deprecated, please use 'icon' attribute."
-   * }
    * @attributeType "IconClass"
    */
   iconClass: string;
@@ -59,6 +55,10 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * ]
    * @name icon
    * @attributeType "IconClass"
+   * @deprecated {
+   * "version": "1.0.0",
+   * "description": "This attribute is deprecated, please use 'iconClass' attribute."
+   * }
    */
    icon: string;
 
