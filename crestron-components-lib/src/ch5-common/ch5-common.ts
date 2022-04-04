@@ -403,16 +403,21 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
     }
 
     public set disabled(value: boolean) {
-        if (null === value || undefined === value) {
+        if (isNil(value)) {
+            value = this.hasAttribute('disabled');
+        } else if ([true, false].indexOf(value) < 0) {
             value = false;
         }
-        if (value !== this._disabled) {
-            this._disabled = this._toBoolean(value);
-            if (this._disabled) {
-                this.setAttribute('disabled', 'true');
-            } else {
+        if (this.hasAttribute('disabled')) {
+            if (value === false) {
                 this.setAttribute('disabled', 'false');
+            } else {
+                this.setAttribute('disabled', 'true');
             }
+        }
+        if (value !== this._disabled) {
+            this._disabled = value;
+            this.updateForChangeInDisabledStatus();
         }
     }
 
@@ -535,11 +540,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 hasSignalChanged = true;
             }
             if (hasSignalChanged) {
-                if (true === newVal) {
-                    this.setAttribute('disabled', 'false');
-                } else {
-                    this.setAttribute('disabled', 'true');
-                }
+                this.disabled = newVal;
             }
         });
     }
@@ -1196,17 +1197,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 break;
             case 'disabled':
                 if (!this.hasAttribute('customclassdisabled')) {
-                    if (this.hasAttribute('disabled')) {
-                        const tmpDisabled = ((this.hasAttribute('disabled') && this.getAttribute('disabled') !== "false")).toString().toLowerCase();
-                        if ('false' === tmpDisabled || '0' === tmpDisabled) {
-                            this.disabled = false;
-                        } else {
-                            this.disabled = true;
-                        }
-                    } else {
-                        this.disabled = false;
-                    }
-                    this.updateForChangeInDisabledStatus();
+                    this.disabled = this.toBoolean(newValue, true);
                 }
                 break;
             case 'gestureable':
@@ -1465,14 +1456,12 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         return;
     }
 
-
     protected updateForChangeInDisabledStatus() {
         const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
         this.info("from common - updateForChangeInDisabledStatus()");
-        if (true === this._disabled) {
+        if (this._disabled === true) {
             targetElement.classList.add(this.getCssClassDisabled());
         } else {
-
             targetElement.classList.remove(this.getCssClassDisabled());
         }
     }
@@ -1488,7 +1477,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         this.applyPreconfiguredAttributes();
 
         if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled')) {
-            this.disabled = ((this.hasAttribute('disabled') && this.getAttribute('disabled') !== "false"));
+            this.disabled = this.toBoolean(this.getAttribute('disabled'), true);
         }
         if (this.hasAttribute('debug')) {
             this._isDebugEnabled = true;
@@ -1545,7 +1534,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 this.updateInViewPortClass();
             });
         }
-
         this.updateForChangeInDisabledStatus();
     }
 
@@ -1762,8 +1750,8 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         const str = String(val);
         switch (str.toLowerCase().trim()) {
             case "true": case "1": return true;
-            case "false": case "0": case null: return false;
-            case "":
+            case "false": case "0": return false;
+            case "": case null: case undefined:
                 if (isEmptyValueEqualToTrue === true) {
                     return true;
                 } else {
