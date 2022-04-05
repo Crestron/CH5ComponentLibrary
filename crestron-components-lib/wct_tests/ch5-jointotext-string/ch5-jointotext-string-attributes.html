@@ -69,15 +69,19 @@
 
       test(`Check value`, () => {
         expect(ch5JointextString.getAttribute('value')).to.be.equal("test");
+        expect(ch5JointextString.textContent).to.be.equal("test");
         ch5JointextString.removeAttribute('value');
         expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal("");
       });
 
       test(`Set value`, () => {
         ch5JointextString.setAttribute('value', "test123");
         expect(ch5JointextString.getAttribute('value')).to.be.equal("test123");
+        expect(ch5JointextString.textContent).to.be.equal("test123");
         ch5JointextString.removeAttribute('value');
         expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal("");
       });
     });
 
@@ -88,11 +92,31 @@
         ch5JointextString = fixture('ch5-jointotext-string-text-when-empty-fixture');
       });
 
-      test(`Check text when empty`, () => {
+      test(`Check text when not empty`, () => {
         expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal("text when empty");
+        expect(ch5JointextString.textContent).to.be.equal("test");
+      });
+
+      test(`Check text when empty`, () => {
+        ch5JointextString.setAttribute('textWhenEmpty', 'new text');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal("new text");
+        expect(ch5JointextString.textContent).to.be.equal("test");
+
+        ch5JointextString.setAttribute('value', ' ');
+        expect(ch5JointextString.textContent).to.be.equal(" ");
+
+        ch5JointextString.setAttribute('value', '         ');
+        expect(ch5JointextString.textContent).to.be.equal("         ");
+
+        ch5JointextString.setAttribute('value', '');
+        expect(ch5JointextString.textContent).to.be.equal("new text");
+
+        ch5JointextString.setAttribute('value', 'test');
         ch5JointextString.removeAttribute('textWhenEmpty');
         expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal("test");
       });
+
     });
 
     suite('ch5-jointotext-string-receivestatevalue', () => {
@@ -112,13 +136,12 @@
           flush(() => {
             setTimeout(() => {
               expect(ch5JointextString.getAttribute('receiveStateValue')).to.be.equal('garage_door_status');
-              // console.log(ch5JointextString.children)
-              // expect(ch5JointextString.).to.be.equal(value);
               done();
             }, 100);
           });
         });
       });
+    
     });
 
     suite('ch5-jointotext-string-show', () => {
