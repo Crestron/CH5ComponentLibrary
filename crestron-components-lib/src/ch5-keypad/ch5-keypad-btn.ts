@@ -489,18 +489,13 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
                 break;
             case 'pressed':
                 let isPressed = false;
-                if (this.hasAttribute('pressed')) {
-                    ComponentHelper.setAttributeToElement(this, 'pressed', newValue);
-                    this.pressed = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-                    const attrPressed = ((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false")).toString().toLowerCase();
-                    if ('false' !== attrPressed && '0' !== attrPressed) {
-                        isPressed = true;
-                    }
-                }
-                if (this._pressable) {
-                    this._pressable.setPressed(isPressed);
-                }
-                this.updateCssClasses();
+				if (this.hasAttribute('pressed')) {
+					isPressed = this.toBoolean(newValue, true);
+				}
+				if (this._pressable) {
+					this._pressable.setPressed(isPressed);
+				}
+				this.updateCssClasses();
                 break;
             case 'show':
             case 'enable':
