@@ -1026,6 +1026,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.updateCssClassesForCustomState();
 		}
 		customElements.whenDefined('ch5-button').then(() => {
+			this.isButtonInitiated = true;
 			this.setButtonDisplay(); // This is to handle specific case where the setButtonDisplay isn't called as all button attributes are set to "default" values.
 			this.componentLoadedEvent(this.ELEMENT_NAME, this.id);
 			// publishEvent('object', `component`, { tagName: 'ch5-button', loaded: true, id: this.id });
@@ -1903,7 +1904,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	private setButtonDisplayDetails(): void {
 		this.logger.start("setButtonDisplayDetails");
-		this.isButtonInitiated = true;
 		// Applicable on Mode change and Selected change
 		// We need not worry about this. ch5-button-label is immediate child, and no change in attribute
 		// affects the data from immediate child.
