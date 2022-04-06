@@ -60,7 +60,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "***",
      * "When the stretch property is set, the component inherits the width or/and height of the container. ",
      * "If stretch by height is used, the <ch5-keypad> will be responsive based on the width of the container. ",
-     * "If stretch width is applied, the <ch5-keypad> will be responsive based on the height of the container. ",
+     * "If stretch width is applied, the <ch5-keypad> will be responsive based on the height of the container. "
      * ]
      * @name stretch
      * @attributeType "EnumeratedValue"
