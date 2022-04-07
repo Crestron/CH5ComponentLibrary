@@ -619,7 +619,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (isNil(value)) {
             value = this.hasAttribute('checkboxShow');
         } else if ([true, false].indexOf(value) < 0) {
-            value = false;
+            value = true;
         }
         if (this.hasAttribute('checkboxShow')) {
             if (value === false) {
@@ -732,7 +732,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (isNil(value)) {
             value = this.hasAttribute('selected');
         } else if ([true, false].indexOf(value) < 0) {
-            value = false;
+            value = true;
         }
         if (this.hasAttribute('selected')) {
             if (value === false) {

@@ -378,7 +378,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         if (isNil(value)) {
             value = this.hasAttribute('show');
         } else if ([true, false].indexOf(value) < 0) {
-            value = false;
+            value = true;
         }
         if (this.hasAttribute('show')) {
             if (value === false) {
@@ -389,6 +389,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
         }
         if (value !== this._show) {
             this._show = value;
+            this.setAttribute('show', value.toString());
         }
     }
 
@@ -1125,6 +1126,14 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 break;
             case 'show':
                 if (this.hasAttribute('show')) {
+                    //     const tmpShow = ((this.hasAttribute('show') && this.getAttribute('show') !== "false")).toString().toLowerCase();
+                    //     if ('false' === tmpShow || '0' === tmpShow) {
+                    //         this.show = false;
+                    //     } else {
+                    //         this.show = true;
+                    //     }
+                    // } else {
+                    //     this.show = true;
                     this.show = this.toBoolean(newValue, true);
                 }
                 // the noshowtype also needs to be checked and updated before processing a show/hide
