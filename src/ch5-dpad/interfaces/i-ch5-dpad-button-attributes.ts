@@ -54,8 +54,11 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  *     "body": [
  *       "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\">",
  *       "\ticonurl=\"btn_${2:IconUrl}\"",
- *       "\\tshow=\"${3:Show}\"",
- *       "\\tenable=\"${4:Enable}\">",
+ *       "\tshow=\"${3:Show}\"",
+ *       "\tenable=\"${4:Enable}\"",
+ *       "\tpressed=\"${5:Pressed}\"",
+ *       "\tsendeventonclick=\"${6:sendEventOnClick}\"",
+ *       "\ticonclass=\"${7:iconClass}\">",
  *       "</ch5-dpad-button>$0"
  *     ]
  *  }

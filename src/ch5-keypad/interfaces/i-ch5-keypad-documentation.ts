@@ -70,7 +70,8 @@ import { ICh5KeypadAttributes, ICh5KeypadButtonAttributes } from "./index";
  *       "\tusecontractforshow=\"${9:useContractForShow}\"",
  *       "\tusecontractforcustomclass=\"${10:useContractForCustomClass}\"",
  *       "\tusecontractforcustomstyle=\"${11:useContractForCustomStyle}\"",
- *       "\tsendeventonclickstart=\"${12:sendEventOnClickStart}\"",
+ *       "\tusecontractforshow=\"${12:useContractForShow}\"",
+ *       "\tsendeventonclickstart=\"${13:sendEventOnClickStart}\"",
  *        ">",
  *       "</ch5-keypad>"
  *     ]

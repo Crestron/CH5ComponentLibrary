@@ -112,7 +112,20 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  *       "\tsendeventontouch=\"${17:btn_${1}_touched}\"",
  *       "\treceivestateselected=\"${18}\"",
  *       "\treceivestatelabel=\"${19}\"",
- *       "\treceivestatescriptlabelhtml=\"${20}\">",
+ *       "\treceivestatescriptlabelhtml=\"${20}\"",
+ *       "\tlabelinnerhtml=\"${21}\"",
+ *       "\ticonurl=\"${22}\"",
+ *       "\tmode=\"${23}\"",
+ *       "\tformtype=\"${24}\"",
+ *       "\treceivestatemode=\"${25}\"",
+ *       "\treceivestateiconclass=\"${26}\"",
+ *       "\treceivestatetype=\"${27}\"",
+ *       "\treceivestateiconurl=\"${28}\"",
+ *       "\treceivestateiconurl=\"${29}\"",
+ *       "\tcustomclasspressed=\"${30}\"",
+ *       "\tcustomclassdisabled=\"${31}\"",
+ *       "\tselected=\"${32}\"",
+ *       "\tpressed=\"${33}\">",
  *       "</ch5-button>$0"
  *       ]
  *    }
