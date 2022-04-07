@@ -351,7 +351,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		const isUseContractForCustomClass = this.toBoolean(value);
 		const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
-		console.log('useContractForCustomClass ', value)
 
 		if (contractName.length === 0 || this._useContractForCustomClass === isUseContractForCustomClass) {
 			return;
