@@ -167,7 +167,7 @@ export class Ch5JoinToTextString extends Ch5Common implements ICh5JoinToTextStri
 			case 'textwhenempty':
 				this.textWhenEmpty = newValue;
 				break;
-			case 'receviestatevalue':
+			case 'receivestatevalue':
 				this.receiveStateValue = newValue;
 				break;
 			default:
