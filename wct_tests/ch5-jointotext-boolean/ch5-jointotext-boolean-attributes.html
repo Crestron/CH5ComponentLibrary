@@ -74,9 +74,11 @@
       });
 
       test(`Check value false`, () => {
-        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal("false");
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('false');
+        expect(ch5JointextBoolean.value).to.be.equal(false);
         ch5JointextBoolean.removeAttribute('value');
         expect(ch5JointextBoolean.getAttribute('value')).to.be.equal(null);
+        expect(ch5JointextBoolean.value).to.be.equal(false);
       });
     });
 
@@ -89,10 +91,13 @@
 
       test(`Check text when true`, () => {
         console.log(ch5JointextBoolean)
-        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal("true");
-        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal("text when true");
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('true');
+        expect(ch5JointextBoolean.value).to.be.equal(true);
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('text when true');
+        expect(ch5JointextBoolean.textWhenTrue).to.be.equal('text when true');
         ch5JointextBoolean.removeAttribute('textWhenTrue');
         expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('');
+        expect(ch5JointextBoolean.textWhenTrue).to.be.equal('');
       });
     });
 
@@ -104,10 +109,13 @@
       });
 
       test(`Check text when false`, () => {
-        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal("false");
-        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal("text when false");
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('false');
+        expect(ch5JointextBoolean.value).to.be.equal(false);
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('text when false');
+        expect(ch5JointextBoolean.textWhenFalse).to.be.equal('text when false');
         ch5JointextBoolean.removeAttribute('textWhenFalse');
         expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('');
+        expect(ch5JointextBoolean.textWhenFalse).to.be.equal('');
       });
     });
 
@@ -125,11 +133,17 @@
         test(`receiveStateValue: "${value}"`, (done) => {
           ch5JointextBoolean.setAttribute('receiveStateValue', 'media_player_is_playing');
           CrComLib.publishEvent('b', 'trigger_change_value', value);
-          console.log(CrComLib)
           flush(() => {
             setTimeout(() => {
               expect(ch5JointextBoolean.getAttribute('receiveStateValue')).to.be.equal('media_player_is_playing');
+              expect(ch5JointextBoolean.receiveStateValue).to.be.equal('media_player_is_playing');
               expect(ch5JointextBoolean.getAttribute('value')).to.be.equal(String(value).toLowerCase());
+              expect(ch5JointextBoolean.value).to.be.equal(value);
+              if (value) {
+                expect(ch5JointextBoolean.textContent).to.be.equal("Pause");
+              } else {
+                expect(ch5JointextBoolean.textContent).to.be.equal("Play");
+              }
               done();
             }, 100);
           });
@@ -145,7 +159,11 @@
       });
 
       test(`Check show when false`, () => {
-        expect(ch5JointextBoolean.getAttribute('show')).to.be.equal("false");
+        expect(ch5JointextBoolean.getAttribute('show')).to.be.equal('false');
+        expect(ch5JointextBoolean.show).to.be.equal(false);
+        ch5JointextBoolean.removeAttribute('show');
+        expect(ch5JointextBoolean.getAttribute('show')).to.be.equal('true');
+        expect(ch5JointextBoolean.show).to.be.equal(true);
       });
     });
 
@@ -157,7 +175,11 @@
       });
 
       test(`Check disabled when true`, () => {
-        expect(ch5JointextBoolean.getAttribute('disabled')).to.be.equal("true");
+        expect(ch5JointextBoolean.getAttribute('disabled')).to.be.equal('true');
+        expect(ch5JointextBoolean.disabled).to.be.equal(true);
+        ch5JointextBoolean.removeAttribute('disabled');
+        expect(ch5JointextBoolean.getAttribute('disabled')).to.be.equal(null);
+        expect(ch5JointextBoolean.disabled).to.be.equal(false);
       });
     });
 
@@ -169,9 +191,11 @@
       });
 
       test(`Check customClass when is test-class`, () => {
-        expect(ch5JointextBoolean.getAttribute('customClass')).to.be.equal("test-class");
+        expect(ch5JointextBoolean.getAttribute('customClass')).to.be.equal('test-class');
+        expect(ch5JointextBoolean.customClass).to.be.equal('test-class');
         ch5JointextBoolean.removeAttribute('customClass');
         expect(ch5JointextBoolean.getAttribute('customClass')).to.be.equal('');
+        expect(ch5JointextBoolean.customClass).to.be.equal('');
       });
     });
 
@@ -183,9 +207,11 @@
       });
 
       test(`Check customStyle when is 'color: red;'`, () => {
-        expect(ch5JointextBoolean.getAttribute('customStyle')).to.be.equal("color: red;");
+        expect(ch5JointextBoolean.getAttribute('customStyle')).to.be.equal('color: red;');
+        expect(ch5JointextBoolean.customStyle).to.be.equal('color: red;');
         ch5JointextBoolean.removeAttribute('customStyle');
         expect(ch5JointextBoolean.getAttribute('customStyle')).to.be.equal('');
+        expect(ch5JointextBoolean.customStyle).to.be.equal('');
       });
     });
 
@@ -197,7 +223,9 @@
       });
 
       test(`Check noShowType when is 'remove'`, () => {
-        expect(ch5JointextBoolean.getAttribute('noShowType')).to.be.equal("remove");
+        expect(ch5JointextBoolean.getAttribute('noShowType')).to.be.equal('remove');
+        ch5JointextBoolean.removeAttribute('noShowType');
+        expect(ch5JointextBoolean.getAttribute('noShowType')).to.be.equal('display');
       });
     });
   </script>
