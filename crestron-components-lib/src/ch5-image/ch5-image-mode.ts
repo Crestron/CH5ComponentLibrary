@@ -38,8 +38,6 @@ export class Ch5ImageMode extends Ch5Log implements ICH5ImageModeAttributes {
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-		console.log("oldValue", oldValue);
-		console.log("newValue", newValue);
 		if (newValue === oldValue) {
 			return;
 		}
