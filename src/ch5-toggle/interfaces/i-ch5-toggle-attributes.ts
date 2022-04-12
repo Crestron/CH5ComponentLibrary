@@ -213,12 +213,11 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    */
   sendEventOnClick: string;
 
-
   /**
    * @documentation
    * [
    * "`sendeventontouch` attribute",
-   * "Sends a signal on a touch event (mouse or swipe up and down quickly)."
+   * "Sends a signal on a touch event."
    * ]
    * @name sendeventontouch
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}

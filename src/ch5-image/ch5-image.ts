@@ -26,6 +26,24 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 	public static readonly ELEMENT_NAME = 'ch5-image';
 
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
+
+		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonerror: { direction: "event", stringJoin: 1, contractName: true }
+	};
+
+	public static readonly COMPONENT_DATA: any = {
+		DIRECTIONS: {
+			default: Ch5Common.DIRECTION[0],
+			values: Ch5Common.DIRECTION,
+			key: 'direction',
+			classListPrefix: 'ch5-image--dir--'
+		},
+	};
+	
 	private readonly MODES: {
 		MIN_LENGTH: number,
 		MAX_LENGTH: number
@@ -547,23 +565,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		return commonAttributes.concat(ch5ImageAttributes);
 	};
 
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
-
-		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonerror: { direction: "event", stringJoin: 1, contractName: true }
-	};
-
-	public static readonly COMPONENT_DATA: any = {
-		DIRECTIONS: {
-			default: Ch5Common.DIRECTION[0],
-			values: Ch5Common.DIRECTION,
-			key: 'direction',
-			classListPrefix: 'ch5-image--dir--'
-		},
-	};
 
 	public primaryCssClass = 'ch5-image';
 	public cssClassPrefix = 'ch5-image';
@@ -1011,7 +1012,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 	public setImageDisplay() {
-		this._maybeLoadImage();
+		const imagesModesArray = this.getElementsByTagName("ch5-image-mode");
+		const selectedImageMode = imagesModesArray[this.mode];
+		if (selectedImageMode) {
+			this._url = selectedImageMode.getAttribute("url") as string;
+			this._maybeLoadImage();
+		}
 	}
 
 	public processUri(): void {
@@ -1308,6 +1314,13 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		 * ( it does not include the case of css property visibility:hidden - this is considered as visible since the
 		 * browser reserved space for the component)
 		 */
+		console.log("this.elementIsVisible", this.elementIsVisible);
+		console.log("this._url", this._url);
+		console.log("this.url", this.url);
+		console.log("this.show", this.show);
+		console.log("null !== this._url: ", null !== this._url);
+		console.log("'' !== this.url", '' !== this.url);
+		console.log("true === this.show", true === this.show);
 		if (this.elementIsVisible) {
 			if (null !== this._url && '' !== this.url && true === this.show) {
 				candidateUrl = refreshParam ? this._insertParamToUrl('__cr_avoid_cache', new Date().getTime().toString()) : this._url;
