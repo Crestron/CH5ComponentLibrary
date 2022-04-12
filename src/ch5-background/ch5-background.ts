@@ -265,11 +265,13 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			if (this._repeat !== value) {
 				if (Ch5Background.REPEAT.indexOf(value) >= 0) {
 					this._repeat = value;
+					this.setAttribute('repeat', this._repeat);
 				} else {
-					this._repeat = Ch5Background.REPEAT[0];
+					this.removeAttribute('repeat');
 				}
-				this.setAttribute('repeat', this._repeat);
 			}
+		} else {
+			this.removeAttribute('repeat');
 		}
 	}
 
