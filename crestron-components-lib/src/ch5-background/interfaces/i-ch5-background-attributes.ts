@@ -48,18 +48,17 @@ export interface ICh5BackgroundAttributes extends ICh5CommonAttributes {
    * [
    * "`repeat` attribute",
    * "***",
-   * "The default value is 'no-repeat'. ",
-   * "The repeat property sets how a background image will be repeated. In the absence of ",
-   * "the repeat attribute. Valid values: 'no-repeat', ",
+   * "The default value is null. ",
+   * "The repeat property sets how a background image will be repeated. Valid values: 'no-repeat', ",
    * "'repeat-x', 'repeat-y', and 'repeat'.",
    * "The value 'repeat-x' repeats image horizontally, 'repeat-y' repeats the image vertically, and 'repeat' ",
    * "repeats both vertically and horizontally. The last image will be clipped if it does not fit."
    * ]
    * @name repeat
-   * @default no-repeat
+   * @default null
    * @attributeType "EnumeratedValue"
    */
-  repeat: TCh5BackgroundRepeat;
+  repeat: TCh5BackgroundRepeat | null;
 
   /**
    * @documentation

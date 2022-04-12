@@ -15,7 +15,7 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 import _ from 'lodash';
 
 export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes {
-	
+
 	public static readonly ELEMENT_NAME = 'ch5-background';
 	/**
 	 * The first value is considered the default one
@@ -37,7 +37,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			classListPrefix: 'ch5-background--'
 		},
 		REPEAT: {
-			default: Ch5Background.REPEAT[0],
+			default: null,
 			values: Ch5Background.REPEAT,
 			key: 'repeat',
 			classListPrefix: 'ch5-background--'
@@ -125,7 +125,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @type {string}
 	 * @private
 	 */
-	private _repeat: TCh5BackgroundRepeat = Ch5Background.REPEAT[0];
+	private _repeat: TCh5BackgroundRepeat | null = null;
 
 	/**
 	 * scale the background.
@@ -260,14 +260,16 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	public get repeat() {
 		return this._repeat;
 	}
-	public set repeat(value: TCh5BackgroundRepeat) {
-		if (this._repeat !== value) {
-			if (Ch5Background.REPEAT.indexOf(value) >= 0) {
-				this._repeat = value;
-			} else {
-				this._repeat = Ch5Background.REPEAT[0];
+	public set repeat(value: TCh5BackgroundRepeat | null) {
+		if (!_.isNil(value)) {
+			if (this._repeat !== value) {
+				if (Ch5Background.REPEAT.indexOf(value) >= 0) {
+					this._repeat = value;
+				} else {
+					this._repeat = Ch5Background.REPEAT[0];
+				}
+				this.setAttribute('repeat', this._repeat);
 			}
-			this.setAttribute('repeat', this._repeat);
 		}
 	}
 
@@ -992,24 +994,18 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param ctx is canvas context
 	 */
 	private updateBgImageRepeat(img: HTMLImageElement, canvas: HTMLCanvasElement, ctx: any) {
-		let pattern: any;
 		switch (this._repeat) {
 			case 'repeat':
-				pattern = ctx.createPattern(img, 'repeat');
-				break;
 			case 'repeat-x':
-				pattern = ctx.createPattern(img, 'repeat-x');
-				break;
 			case 'repeat-y':
-				pattern = ctx.createPattern(img, 'repeat-y');
+			case 'no-repeat':
+				ctx.fillStyle = ctx.createPattern(img, this._repeat);
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				publishEvent('b', 'canvas.created', true);
 				break;
 			default:
-				pattern = ctx.createPattern(img, 'no-repeat');
 				break;
 		}
-		ctx.fillStyle = pattern;
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
-		publishEvent('b', 'canvas.created', true);
 	}
 
 	/**
@@ -1241,7 +1237,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * @param ctx is canvas context
 	 */
 	private updateBgImage(img: HTMLImageElement, ctx: any) {
-		if (this._repeat) {
+		if (!_.isNil(this._repeat)) {
 			this.updateBgImageRepeat(img, this._elCanvas, ctx);
 		} else {
 			this.updateBgImageScale(img, this._elCanvas, ctx);
