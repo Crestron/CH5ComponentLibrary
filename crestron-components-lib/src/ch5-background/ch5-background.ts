@@ -267,12 +267,15 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 					this._repeat = value;
 					this.setAttribute('repeat', this._repeat);
 				} else {
+					this._repeat = null;
 					this.removeAttribute('repeat');
 				}
 			}
 		} else {
+			this._repeat = null;
 			this.removeAttribute('repeat');
 		}
+		this.updateBackground();
 	}
 
 	public get scale() {
@@ -707,12 +710,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 				// }
 				break;
 			case 'repeat':
-				if (this.hasAttribute('repeat')) {
-					this.repeat = newValue as TCh5BackgroundRepeat;
-				} else {
-					this.repeat = Ch5Background.REPEAT[0];
-				}
-				this.updateBackground();
+				this.repeat = this.getAttribute('repeat') as TCh5BackgroundRepeat;
 				break;
 			case 'scale':
 				if (this.hasAttribute('scale')) {
@@ -845,10 +843,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			this.backgroundColor = this.getAttribute('backgroundcolor') as string;
 		}
 
-		if (this.hasAttribute('repeat')) {
 			this.repeat = this.getAttribute('repeat') as TCh5BackgroundRepeat;
-		}
-
+	
 		if (this.hasAttribute('scale')) {
 			this.scale = this.getAttribute('scale') as TCh5BackgroundScale;
 		}
