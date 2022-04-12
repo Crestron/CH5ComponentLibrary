@@ -43,7 +43,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			classListPrefix: 'ch5-image--dir--'
 		},
 	};
-	
+
 	private readonly MODES: {
 		MIN_LENGTH: number,
 		MAX_LENGTH: number
@@ -364,8 +364,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			&& this._sigNameReceiveMode !== null) {
 
 			const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveMode);
-			const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-				.getNumberSignal(oldSigName);
+			const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldSigName);
 
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceiveMode);
@@ -374,12 +373,11 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 
 		this._sigNameReceiveMode = value;
-		this.setAttribute('receivestateurl', value);
+		this.setAttribute('receivestatemode', value);
 
 		// setup new subscription.
 		const sigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveMode);
-		const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance()
-			.getNumberSignal(sigName);
+		const receiveSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(sigName);
 
 		if (receiveSignal === null) {
 			return;
@@ -387,7 +385,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		this._subReceiveMode = receiveSignal.subscribe((newValue: number) => {
 			if (newValue !== this.mode) {
-				this.setAttribute('mode', newValue + '');
+				this.mode = Number(newValue) as number;
 				this._initRefreshRate();
 			}
 		});
