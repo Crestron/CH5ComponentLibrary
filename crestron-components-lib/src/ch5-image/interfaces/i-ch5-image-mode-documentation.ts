@@ -5,15 +5,14 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5ImageAttributes } from ".";
 import { ICh5Common } from "../../ch5-common/interfaces";
 
 /**
- * @name Ch5 Image
+ * @name Ch5 Image Mode
  * @isattribute false
- * @tagName ch5-image
+ * @tagName ch5-image-mode
  * @role img
- * @description Ch5 Image offers a wide range of functionality out-of-the-box.
+ * @description Enhances ch5-image to support multiple modes.
  * @componentVersion 1.0.0
  * @documentation
  * [
@@ -43,5 +42,5 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * ]
  * 
  */
-export interface ICh5ImageModeDocumentation extends ICh5Common, ICh5ImageAttributes {
+export interface ICh5ImageModeDocumentation extends ICh5Common {
 }
