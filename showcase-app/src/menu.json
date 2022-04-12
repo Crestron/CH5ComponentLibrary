@@ -627,6 +627,10 @@
             {
               "url": "ch5-image/ch5-image-refresh.html",
               "label": "refreshRate"
+            },
+            {
+              "url": "ch5-image/ch5-image-mode.html",
+              "label": "mode"
             }
           ],
           "label": "Attributes"
