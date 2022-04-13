@@ -31,7 +31,7 @@ metalsmith(__dirname)
     "destination": "./cr-com-lib"
   }))
   .use(assets({
-    "source": "./node_modules/@crestron/ch5-theme/output/",
+    "source": "./node_modules/@crestron/ch5-theme/output/themes/",
     "destination": "./crestron-components-assets"
   }))
   .use(markdown())
