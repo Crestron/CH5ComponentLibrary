@@ -532,6 +532,8 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 			// add primary class
 			this._img.classList.add(this.primaryCssClass);
+
+            this._img.classList.add(this.primaryCssClass + '__img');
 		}
 	}
 
