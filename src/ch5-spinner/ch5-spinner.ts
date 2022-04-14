@@ -843,7 +843,11 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
     sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
     sendeventonoverflow: { direction: "event", booleanJoin: 1, contractName: true },
-    sendEventonunderflow: { direction: "event", booleanJoin: 1, contractName: true }
+    sendEventonunderflow: { direction: "event", booleanJoin: 1, contractName: true },
+    contractname: {contractName: true},
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 }
   };
 
   public static primaryCssClass = 'ch5-spinner';

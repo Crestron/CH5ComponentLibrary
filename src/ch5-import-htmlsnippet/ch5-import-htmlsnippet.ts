@@ -28,8 +28,7 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 	public static ELEMENT_NAME = 'ch5-import-htmlsnippet';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		sendeventonerror: { direction: "event", booleanJoin: 1, contractName: true }
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES
 	};
 
 	private _elContainer: HTMLElement = {} as HTMLElement;
@@ -149,10 +148,7 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 
 		const ch5ImportHtmlSnippetAttributes = [
 			// attributes
-			'url',
-
-			// send signals
-			'sendeventonerror'
+			'url'
 		];
 
 		return commonAttributes.concat(ch5ImportHtmlSnippetAttributes);

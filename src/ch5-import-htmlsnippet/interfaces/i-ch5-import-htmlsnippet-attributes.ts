@@ -23,39 +23,4 @@ export interface ICh5ImportHtmlSnippetAttributes extends ICh5CommonAttributes {
      */
     url: string;
 
-    /**
-     * @documentation
-     * [
-     * "`receiveStateShowPulse` attribute",
-     * "***",
-     * "On transition from false to true, this signal will direct the component to be visible."
-     * ]
-     * @name receivestateshowpulse
-     * @attributeType "Join"
-     */
-    receiveStateShowPulse: string;
-
-    /**
-     * @documentation
-     * [
-     * "`receiveStateHidePulse` attribute",
-     * "***",
-     * "On transition from false to true, the signal will direct if the component to no longer be visible."
-     * ]
-     * @name receivestatehidepulse
-     * @attributeType "Join"
-     */
-    receiveStateHidePulse: string;
-
-    /**
-     * @documentation
-     * [
-     * "`receiveStateShow` attribute",
-     * "***",
-     * "While true, the boolean value of the signal determines if the component is visible."
-     * ]
-     * @name receivestateshow
-     * @attributeType "Join"
-     */
-    receiveStateShow: string;
 }

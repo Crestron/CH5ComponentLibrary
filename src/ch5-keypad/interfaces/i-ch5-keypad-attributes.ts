@@ -21,6 +21,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "Defines the primary contract name to derive the component's contract details."
      * ]
      * @name contractname
+     * @join { isContractName: true }
      * @attributeType "String"
      */
     contractName: string;
@@ -205,6 +206,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "Only applicable if contractName is not provided as a parameter."
      * ]
      * @name receivestateextrabuttonshow
+     * @join { direction: "state", booleanJoin: 1, isContractName: true }
      * @attributeType "Join"
      */
     receiveStateExtraButtonShow: string;
@@ -222,7 +224,7 @@ export interface ICh5KeypadAttributes extends ICh5CommonAttributes {
      * "join+11 applies hash button and join+12 applies to extra button."
      * ]
      * @name sendeventonclickstart
-     * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+     * @join {"direction": "event", "booleanJoin": 13}
      * @attributeType "Join"
      */
     sendEventOnClickStart: string;

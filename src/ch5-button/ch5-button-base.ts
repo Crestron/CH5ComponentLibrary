@@ -223,7 +223,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		receivestatetype: { direction: "state", stringJoin: 1, contractName: true },
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
+		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
+		contractname: {contractName: true},
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 }
 	};
 
 	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
@@ -2090,7 +2094,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (templateData && templateData.length > 0) {
 				const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(templateData).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === "ch5-button");
 				if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
-					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) {
+					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) { 
 						extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
 					} else if (!isNil(this.getAttribute("label"))) {
 						extendedProperties.label = this.getAttribute("label") as string
@@ -2116,6 +2120,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		this.logger.log("extendedProperties Final: ", JSON.parse(JSON.stringify(extendedProperties)));
+
+		// update templateContent attributes to increment join numbers and prefix contract name
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '', 
+		parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0, 
+		parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0, 
+		parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);   
 
 		this.logger.stop();
 	}
