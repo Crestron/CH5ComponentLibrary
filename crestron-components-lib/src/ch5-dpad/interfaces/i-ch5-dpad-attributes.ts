@@ -21,6 +21,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "Defines the primary contract name to derive the component's contract details."
 	 * ]
 	 * @name contractname
+	 * @join { isContractName: true }
 	 * @attributeType "String"
 	 */
 	contractName: string;
@@ -160,7 +161,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "join+2 applies to left, join+3 applies to right, join+4 to center ."
 	 * ]
 	 * @name sendeventonclickstart
-	 * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+	 * @join {"direction": "event", "booleanJoin": 5}
 	 * @attributeType "Join"
 	 */
 	sendEventOnClickStart: string;

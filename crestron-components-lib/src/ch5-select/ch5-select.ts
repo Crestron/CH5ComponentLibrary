@@ -40,6 +40,10 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 
 		sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
+		contractname: {contractName: true},
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 }
 	};
 
 	// Options number can no be > 30

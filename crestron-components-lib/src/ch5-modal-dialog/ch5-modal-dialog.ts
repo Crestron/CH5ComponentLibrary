@@ -75,6 +75,11 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         sendeventonaftershow: { direction: "state", booleanJoin: 1, contractName: true },
         sendeventonbeforehide: { direction: "state", booleanJoin: 1, contractName: true },
         sendeventonafterhide: { direction: "state", booleanJoin: 1, contractName: true },
+        sendeventonok: {direction: "state", booleanJoin: 1, contractName: true},
+        contractname: {contractName: true},
+		booleanjoinoffset: { booleanJoin: 1 },
+		numericjoinoffset: { numericJoin: 1 },
+		stringjoinoffset: { stringJoin: 1 }
     };
 
     public static readonly COMPONENT_DATA: any = {
