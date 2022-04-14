@@ -482,6 +482,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
             this._hammerManager.off('tap', this._onTap);
         }
         this.removeEventListener('mousedown', this._onPressClick);
+        this.removeEventListener('click', this._onTap);
         this.removeEventListener('mouseup', this._onMouseUp);
         this.removeEventListener('mousemove', this._onMouseMove);
         this.removeEventListener('touchstart', this._onPress);
@@ -644,6 +645,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
         }
 
         this.addEventListener('mousedown', this._onPressClick);
+        this.addEventListener('click', this._onTap);
         this.addEventListener('mouseup', this._onMouseUp);
         this.addEventListener('mousemove', this._onMouseMove);
         this.addEventListener('touchstart', this._onPress, { passive: true });
