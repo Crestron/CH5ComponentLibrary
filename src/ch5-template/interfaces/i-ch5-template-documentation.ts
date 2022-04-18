@@ -6,7 +6,7 @@
 // under which you licensed this source code.
 
 import { ICh5TemplateAttributes } from ".";
-import { ICh5Common } from "../../ch5-common/interfaces";
+import { ICh5CommonWoDisable } from "../../ch5-common/interfaces/i-ch5-common-wo-disable";
 
 /**
  * @name Ch5 Template
@@ -40,5 +40,5 @@ import { ICh5Common } from "../../ch5-common/interfaces";
  * ]
  *
  */
- export interface ICh5TemplateDocumentation extends ICh5Common, ICh5TemplateAttributes {
+ export interface ICh5TemplateDocumentation extends ICh5CommonWoDisable, ICh5TemplateAttributes {
 }
