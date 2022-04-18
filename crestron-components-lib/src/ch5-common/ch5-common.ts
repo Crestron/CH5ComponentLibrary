@@ -552,7 +552,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
                 hasSignalChanged = true;
             }
             if (hasSignalChanged) {
-                this.disabled = newVal;
+                this.disabled = !newVal;
             }
         });
     }
