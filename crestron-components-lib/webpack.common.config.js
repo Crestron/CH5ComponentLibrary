@@ -106,6 +106,10 @@ module.exports = function () {
                 { 
                     from: path.resolve(basePath, "src/_interfaces/generated-metadata/sass-output.json"), 
                     to: path.resolve(pathForSchemaJson, "generate-metadata") 
+                },
+                { 
+                    from: path.resolve(basePath, "src/_interfaces/generated-metadata/sass-schema.json"), 
+                    to: path.resolve(pathForSchemaJson, "generate-metadata") 
                 }
             ],
             ),
