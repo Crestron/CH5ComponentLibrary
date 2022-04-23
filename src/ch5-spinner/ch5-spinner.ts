@@ -815,12 +815,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
    * Setter for manualSetItemHeight
    */
   public set autoSetItemHeight(value: boolean) {
-
-    if (this.autoSetItemHeight !== value && isNil(value)) {
-      value = false;
-    }
-
-    this._autoSetItemHeight = value;
+    this._autoSetItemHeight = this.toBoolean(value, true);
   }
 
   /**

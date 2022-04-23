@@ -307,7 +307,9 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		booleanSetter(this, 'endless', flag);
 
 		const swiperLoop = this.slidesManager.getSwiperParam('loop');
-		const newEndlessVal = booleanGetter(this, 'endless');
+
+		const value = this.getAttribute('endless');
+		const newEndlessVal = this.toBoolean(value, true);
 		if (typeof swiperLoop === 'boolean' && swiperLoop !== newEndlessVal) {
 			this.slidesManager.reinitializeSwiper();
 		}
@@ -325,7 +327,8 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		if (this.disableAnimation) {
 			this.slidesManager.reinitializeSwiper();
 		} else {
-			this.slidesManager.setAllowTouchMove(booleanGetter(this, 'gestureable'));
+			const value = this.getAttribute('gestureable');
+			this.slidesManager.setAllowTouchMove(this.toBoolean(value, true));
 			this.slidesManager.refreshSlideSpeed();
 		}
 		booleanSetter(this, 'gestureable', flag);
@@ -729,15 +732,18 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 				break;
 
 			case 'endless':
-				this.endless = booleanGetter(this, 'endless');
+				const endlessValue = this.getAttribute('endless');
+				this.endless = this.toBoolean(endlessValue, true);
 				break;
 
 			case 'gestureable':
-				this.gestureable = booleanGetter(this, 'gestureable');
+				const gestureableValue = this.getAttribute('gestureable');
+				this.gestureable = this.toBoolean(gestureableValue, true);
 				break;
 
 			case 'disableanimation':
-				this.disableAnimation = booleanGetter(this, 'disableanimation');
+				const disableAnimationValue = this.getAttribute('disableanimation')
+				this.disableAnimation = this.toBoolean(disableAnimationValue, true);
 				break;
 
 			case 'sendeventshowchildindex':
@@ -757,7 +763,8 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 				break;
 
 			case 'nested':
-				this.nested = this.hasAttribute('nested');
+				const nestedValue = this.getAttribute('nested');
+				this.nested = this.toBoolean(nestedValue, true);
 				break;
 
 			default:
