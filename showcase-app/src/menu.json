@@ -1352,20 +1352,6 @@
           "label": "Receive State Attributes"
         },
         {
-          "url": "ch5-slider/receive-value.html",
-          "children": [
-            {
-              "url": "ch5-slider/receive-value.html",
-              "label": "receiveStateValue"
-            },
-            {
-              "url": "ch5-slider/receive-value-high.html",
-              "label": "receiveStateValueHigh"
-            }
-          ],
-          "label": "Advanced Slider"
-        },
-        {
           "url": "ch5-slider/slider-events.html",
           "children": [
             {

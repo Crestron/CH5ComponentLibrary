@@ -16,13 +16,13 @@
             <ch5-toggle 
                 label="Do not disturb"
                 feedbackMode="submit" 
-                receiveSignalValue="room_donotdisturb_selected" 
+                receiveStateValue="room_donotdisturb_selected" 
                 sendSignalOnClick="room_donotdisturb_clicked">
             </ch5-toggle> 
             
-            <ch5-slider feedbackMode="submit" receiveSignalValue="room_thermostat_set_fb" sendSignalOnChange="room_thermostat_set" step="10" min="0" max="100"> </ch5-slider>
+            <ch5-slider feedbackMode="submit" receiveStateValue="room_thermostat_set_fb" sendSignalOnChange="room_thermostat_set" step="10" min="0" max="100"> </ch5-slider>
 
-            <ch5-textinput feedbackMode="submit" required="false" receiveSignalValue="room_special_request_fb" sendSignalOnChange="room_special_request"></ch5-textinput>
+            <ch5-textinput feedbackMode="submit" required="false" receiveStateValue="room_special_request_fb" sendSignalOnChange="room_special_request"></ch5-textinput>
             
 
             <ch5-button type="reset" id="room_cancel_id" label="Revert Changes"></ch5-button> 
