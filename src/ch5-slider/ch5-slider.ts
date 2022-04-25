@@ -41,8 +41,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
 		receivestatevaluehigh: { direction: "state", numericJoin: 1, contractName: true },
 
-		sendeventonchange: { direction: "event", booleanJoin: 1, contractName: true },
-		sendeventonchangehigh: { direction: "event", booleanJoin: 1, contractName: true }
+		sendeventonchange: { direction: "event", numericJoin: 1, contractName: true },
+		sendeventonchangehigh: { direction: "event", numericJoin: 1, contractName: true }
 	};
 
 	//#region "Variables"
