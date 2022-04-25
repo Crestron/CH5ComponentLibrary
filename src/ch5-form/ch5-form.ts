@@ -78,7 +78,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
     public set hideSubmitButton(value: boolean) {
         this.info('Ch5Form set hideSubmitButton("' + value + '")');
 
-        const isHidden = this._toBoolean(value);
+        const isHidden = this.toBoolean(value, true);
 
         if (this._hideSubmitButton !== isHidden) {
             this._hideSubmitButton = isHidden;
@@ -225,7 +225,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
     public set hideCancelButton(value: boolean) {
         this.info('Ch5Form set hideCancelButton("' + value + '")');
 
-        const isHidden = this._toBoolean(value);
+        const isHidden = this.toBoolean(value, true);
 
         if (this._hideCancelButton !== isHidden) {
             this._hideCancelButton = isHidden;
@@ -735,7 +735,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         switch (attr) {
             case 'hidesubmitbutton':
                 if (this.hasAttribute('hideSubmitButton')) {
-                    this.hideSubmitButton = this._toBoolean(newValue);
+                    this.hideSubmitButton = this.toBoolean(newValue, true);
                 } else {
                     this.hideSubmitButton = false;
                 }
@@ -770,7 +770,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
                 break;
             case 'hidecancelbutton':
                 if (this.hasAttribute('hidecancelbutton')) {
-                    this.hideCancelButton = this._toBoolean(newValue);
+                    this.hideCancelButton = this.toBoolean(newValue, true);
                 } else {
                     this.hideCancelButton = false;
                 }
