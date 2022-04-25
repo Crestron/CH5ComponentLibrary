@@ -347,7 +347,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 
 		// setup new subscription.
 		this._sigNameReceiveValue = value;
-		this.setAttribute('receivesignalvalue', value);
+		this.setAttribute('receivestatevalue', value);
 
 		const receiveStateName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveValue);
 		const receiveState: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance()
@@ -515,7 +515,7 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestatescriptlabelhtml: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatevalue: { direction: "state", booleanJoin: 1, contractName: true },
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }

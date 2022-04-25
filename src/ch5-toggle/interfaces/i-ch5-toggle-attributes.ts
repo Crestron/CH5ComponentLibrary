@@ -196,7 +196,7 @@ export interface ICh5ToggleAttributes extends ICh5CommonInputAttributes {
    * "The receiving value from the signal."
    * ]
    * @name receivestatevalue
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
    */
   receiveStateValue: string;
