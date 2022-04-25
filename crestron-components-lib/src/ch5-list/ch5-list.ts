@@ -2377,7 +2377,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			this.endless = false;
 		}
 		if (this.hasAttribute('scrollbar')) {
-			this.scrollbar = this._toBoolean(this.getAttribute('scrollbar'));
+			this.scrollbar = this.toBoolean(this.getAttribute('scrollbar'), true);
 		} else {
 			this.scrollbar = false;
 		}

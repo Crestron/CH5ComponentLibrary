@@ -121,7 +121,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * Setter range
 	 */
 	public set range(value: boolean) {
-		const booleanValue = this._toBoolean(value);
+		const booleanValue = this.toBoolean(value, true);
 
 		if (this._range !== booleanValue) {
 			this._range = booleanValue;
@@ -433,7 +433,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @param {boolean} value
 	 */
 	public set showTickValues(value: boolean) {
-		const booleanValue = this._toBoolean(value);
+		const booleanValue = this.toBoolean(value, true);
 
 		if (this._showTickValues !== booleanValue) {
 			this._showTickValues = booleanValue;
@@ -514,7 +514,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * Setter tapsettable
 	 */
 	public set tapSettable(value: boolean) {
-		const booleanValue = this._toBoolean(value);
+		const booleanValue = this.toBoolean(value, true);
 
 		if (this._tapSettable !== booleanValue) {
 			this._tapSettable = booleanValue;
@@ -1418,7 +1418,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 			case 'range':
 				if (this.hasAttribute('range')) {
-					this.range = this.checkIfValueIsTruey(newValue);
+					this.range = this.toBoolean(newValue, true);
 				} else {
 					this.range = false;
 				}
@@ -1519,7 +1519,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 			case 'showtickvalues':
 				if (this.hasAttribute('showtickvalues')) {
-					this.showTickValues = this.checkIfValueIsTruey(newValue);
+					this.showTickValues = this.toBoolean(newValue, true);
 				} else {
 					this.showTickValues = false;
 				}
@@ -1527,7 +1527,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 			case 'tapsettable':
 				if (this.hasAttribute('tapsettable')) {
-					this.tapSettable = this.checkIfValueIsTruey(newValue);
+					this.tapSettable = this.toBoolean(newValue, true);
 				} else {
 					this.tapSettable = false;
 				}
