@@ -124,7 +124,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private _contractName: string = '';
     private _type: TCh5KeypadType = Ch5Keypad.TYPES[0];
     private _shape: TCh5KeypadShape = Ch5Keypad.SHAPES[0];
-	private _stretch: TCh5KeypadStretch | null = null; // Ch5Keypad.STRETCHES[0];
+    private _stretch: TCh5KeypadStretch | null = null; // Ch5Keypad.STRETCHES[0];
     private _textOrientation: TCh5KeypadTextOrientation = Ch5Keypad.TEXT_ORIENTATIONS[0];
     private _sendEventOnClickStart: string = '';
     private _showExtraButton: boolean = false;
@@ -209,15 +209,15 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     public set stretch(value: TCh5KeypadStretch | null) {
         this.logger.start('set stretch ("' + value + '")');
         if (value !== null) {
-			if (this._stretch !== value) {
-				if (Ch5Keypad.STRETCHES.indexOf(value) >= 0) {
-            ComponentHelper.setAttributeValueOnControl(
-						this, 'stretch', value, Ch5Keypad.STRETCHES,
-                this.stretchHandler.bind(this)
-            );
+            if (this._stretch !== value) {
+                if (Ch5Keypad.STRETCHES.indexOf(value) >= 0) {
+                    ComponentHelper.setAttributeValueOnControl(
+                        this, 'stretch', value, Ch5Keypad.STRETCHES,
+                        this.stretchHandler.bind(this)
+                    );
+                }
+            }
         }
-			}
-		}
         this.logger.stop();
     }
     public get stretch(): TCh5KeypadStretch | null {
@@ -295,15 +295,15 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     public set useContractForEnable(value: boolean) {
         this.logger.start('Ch5Keypad set useContractForEnable("' + value + '")');
 
-		const isUseContractForEnable = this.toBoolean(value);
+        const isUseContractForEnable = this.toBoolean(value);
         const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
-		if (contractName.length === 0 || this._useContractForEnable === isUseContractForEnable) {
+        if (contractName.length === 0 || this._useContractForEnable === isUseContractForEnable) {
             return;
         }
 
         this.setAttribute('useContractForEnable'.toLowerCase(), isUseContractForEnable.toString());
-		this._useContractForEnable = isUseContractForEnable;
+        this._useContractForEnable = isUseContractForEnable;
         const sigVal = contractName + "Enable";
 
         const params: TCh5CreateReceiveStateSigParams = {
@@ -374,7 +374,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         }
 
         this.setAttribute('usecontractforcustomstyle', isUseContractForCustomStyle.toString());
-		this._useContractForCustomStyle = isUseContractForCustomStyle;
+        this._useContractForCustomStyle = isUseContractForCustomStyle;
         const sigVal = contractName + "CustomStyle";
 
         const params: TCh5CreateReceiveStateSigParams = {
@@ -409,7 +409,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             return;
         }
 
-		this.setAttribute('useContractForCustomClass', isUuseContractForCustomClass.toString());
+        this.setAttribute('useContractForCustomClass', isUuseContractForCustomClass.toString());
         this._useContractForCustomClass = isUuseContractForCustomClass;
         const sigVal = contractName + "CustomClass";
 
@@ -438,15 +438,15 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     public set useContractForExtraButtonShow(value: boolean) {
         this.logger.start(this.COMPONENT_NAME + ' set useContractForExtraButtonShow("' + value + '")');
 
-		const isUseContractForExtraButtonShow = this.toBoolean(value);
+        const isUseContractForExtraButtonShow = this.toBoolean(value);
         const contractName = ComponentHelper.getAttributeAsString(this, 'contractname', '');
 
-		if (contractName.length === 0 || this._useContractForExtraButtonShow === isUseContractForExtraButtonShow) {
+        if (contractName.length === 0 || this._useContractForExtraButtonShow === isUseContractForExtraButtonShow) {
             return;
         }
 
-		this.setAttribute('useContractForExtraButtonShow'.toLowerCase(), isUseContractForExtraButtonShow.toString());
-		this._useContractForExtraButtonShow = isUseContractForExtraButtonShow;
+        this.setAttribute('useContractForExtraButtonShow'.toLowerCase(), isUseContractForExtraButtonShow.toString());
+        this._useContractForExtraButtonShow = isUseContractForExtraButtonShow;
         const sigVal = contractName + "CustomClass";
 
         const params: TCh5CreateReceiveStateSigParams = {
@@ -848,7 +848,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         this.useContractForCustomStyle = ComponentHelper.getBoolFromString(
             ComponentHelper.setAttributeToElement(this,
                 'useContractForCustomStyle', isContractNameAvailable));
-		this.useContractForCustomClass = ComponentHelper.getBoolFromString(
+        this.useContractForCustomClass = ComponentHelper.getBoolFromString(
             ComponentHelper.setAttributeToElement(this,
                 'useContractForCustomClass', isContractNameAvailable));
         this.useContractForExtraButtonShow = ComponentHelper.getBoolFromString(
@@ -991,16 +991,16 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
         switch (attr) {
             case 'usecontractforshow':
-				this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforshow') && this.getAttribute('usecontractforshow') !== "false"), '');
+                this.useContractForShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforshow') && this.getAttribute('usecontractforshow') !== "false"), '');
                 break;
             case 'usecontractforenable':
-				this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforenable') && this.getAttribute('usecontractforenable') !== "false"), '');
+                this.useContractForEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforenable') && this.getAttribute('usecontractforenable') !== "false"), '');
                 break;
             case 'usecontractforcustomstyle':
-				this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomstyle') && this.getAttribute('usecontractforcustomstyle') !== "false"), '');
+                this.useContractForCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomstyle') && this.getAttribute('usecontractforcustomstyle') !== "false"), '');
                 break;
             case 'usecontractforcustomclass':
-				this.useContractForCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomclass') && this.getAttribute('usecontractforcustomclass') !== "false"), '');
+                this.useContractForCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomclass') && this.getAttribute('usecontractforcustomclass') !== "false"), '');
                 break;
             case 'receivestateshow':
                 if (!isValidContract) {
@@ -1266,50 +1266,41 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 const requiredCellHeight: number = this.offsetHeight / rowCount;
                 const requiredCellWidth: number = this.offsetWidth / colCount;
 
-				if (this.stretch === 'both') {
-					const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
-					this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-					this.container.style.width = (cellDimensionToRender * colCount) + 'px';
-				} else if (this.stretch === 'width') {
-                const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
-					const parentElement = this.parentElement;
-					if (parentElement) {
-						if (Math.floor(requiredCellWidth * rowCount) <= parentElement.offsetHeight) {
-							this.container.style.height = (requiredCellWidth * rowCount) + 'px';
-							this.container.style.width = (requiredCellWidth * colCount) + 'px';
-						} else {
-							this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-							this.container.style.width = (cellDimensionToRender * colCount) + 'px';
-						}
-					} else {
-						this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-						this.container.style.width = (cellDimensionToRender * colCount) + 'px';
-					}
-				} else if (this.stretch === 'height') {
-					const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
-					const parentElement = this.parentElement;
-
-
-					console.log("this.offsetHeight", this.offsetHeight);
-					console.log("this.offsetWidth", this.offsetWidth);
-					console.log("cellDimensionToRender", cellDimensionToRender);
-					console.log("requiredCellHeight", requiredCellHeight);
-					console.log("requiredCellWidth", requiredCellWidth);
-					if (parentElement) {
-						console.log("parentElement.offsetWidth", parentElement.offsetWidth);
-						console.log("cellDimensionToRender * colCount", cellDimensionToRender * colCount);
-						if (Math.floor(requiredCellHeight * colCount) <= parentElement.offsetWidth) {
-							this.container.style.height = (requiredCellHeight * rowCount) + 'px'; // + 'px';	 // (requiredCellHeight * rowCount) + 'px';
-							this.container.style.width = (requiredCellHeight * colCount) + 'px';	// + 'px'; //  (requiredCellHeight * colCount) + 'px';	
-						} else {
-                this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-                this.container.style.width = (cellDimensionToRender * colCount) + 'px';
-						}
-					} else {
-						this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-						this.container.style.width = (cellDimensionToRender * colCount) + 'px';
-					}
-				}
+                if (this.stretch === 'both') {
+                    const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
+                    this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
+                    this.container.style.width = (cellDimensionToRender * colCount) + 'px';
+                } else if (this.stretch === 'width') {
+                    const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
+                    const parentElement = this.parentElement;
+                    if (parentElement) {
+                        if (Math.floor(requiredCellWidth * rowCount) <= parentElement.offsetHeight) {
+                            this.container.style.height = (requiredCellWidth * rowCount) + 'px';
+                            this.container.style.width = (requiredCellWidth * colCount) + 'px';
+                        } else {
+                            this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
+                            this.container.style.width = (cellDimensionToRender * colCount) + 'px';
+                        }
+                    } else {
+                        this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
+                        this.container.style.width = (cellDimensionToRender * colCount) + 'px';
+                    }
+                } else if (this.stretch === 'height') {
+                    const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
+                    const parentElement = this.parentElement;
+                    if (parentElement) {
+                        if (Math.floor(requiredCellHeight * colCount) <= parentElement.offsetWidth) {
+                            this.container.style.height = (requiredCellHeight * rowCount) + 'px';
+                            this.container.style.width = (requiredCellHeight * colCount) + 'px';	
+                        } else {
+                            this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
+                            this.container.style.width = (cellDimensionToRender * colCount) + 'px';
+                        }
+                    } else {
+                        this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
+                        this.container.style.width = (cellDimensionToRender * colCount) + 'px';
+                    }
+                }
             } else {
                 this.container.style.removeProperty('height');
                 this.container.style.removeProperty('width');

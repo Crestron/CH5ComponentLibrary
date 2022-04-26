@@ -7,7 +7,7 @@
 
 export class CH5DpadContractUtils {
 
-    // the join number is applied to the top button, join+1 applies to bottom,
+    // the join number is applied to the up button, join+1 applies to down,
     // join+2 applies to left, join+3 applies to right, join+4 to center
     public static readonly sendEventOnClickSigCountToAdd = {
         up: 0,

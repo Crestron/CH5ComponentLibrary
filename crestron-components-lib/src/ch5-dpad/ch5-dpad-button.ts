@@ -31,19 +31,11 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
     //#region 1.2 private / protected variables
     private labelClass: string = 'dpad-btn-label';
 
-    // signal based vars for each receive state
-
-    // parent specific contract based signals for each receive state
-
     //#endregion
 
     //#endregion
 
-    //#region 2. Setters and Getters
-
-    //#endregion
-
-    //#region 3. Lifecycle Hooks
+    //#region 2. Lifecycle Hooks
 
     public constructor() {
         super();
@@ -173,14 +165,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 
     //#endregion
 
-    //#region 4. Other Methods
-
-    //#endregion
-
-
-    //#region 5. Events - event binding
-
-    //#endregion
 }
 
 if (typeof window === "object"
