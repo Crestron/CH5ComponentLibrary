@@ -76,8 +76,193 @@
       <ch5-jointotext-numeric noShowType="remove"></ch5-jointotext-numeric>
     </template>
   </test-fixture>
-
+  <test-fixture id="ch5-jointotext-numeric-signed-fixture">
+    <template>
+      <ch5-jointotext-numeric length="5" type="signed" value="123" decimalLength="3" ></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-jointotext-numeric-percentage-fixture">
+    <template>
+      <ch5-jointotext-numeric length="5" type="percentage" value="123" decimalLength="3" ></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-jointotext-numeric-time-fixture">
+    <template>
+      <ch5-jointotext-numeric type="time" value="123" ></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-jointotext-numeric-unsigned-fixture">
+    <template>
+      <ch5-jointotext-numeric type="unsigned" value="123" length="5" ></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-jointotext-numeric-raw-fixture">
+    <template>
+      <ch5-jointotext-numeric type="raw" value="123" ></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-jointotext-numeric-hex-fixture">
+    <template>
+      <ch5-jointotext-numeric type="hex" value="123" length="4"></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-jointotext-numeric-float-fixture">
+    <template>
+      <ch5-jointotext-numeric length = "5" decimalLength = "2" type="float" value="123"></ch5-jointotext-numeric>
+    </template>
+  </test-fixture>
   <script>
+    suite('ch5-jointotext-numeric-float-raw', () => {
+      let ch5JointextNumeric;
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-float-fixture');
+      });
+      let testCases = ['-65536','-65535','-65534','-32769','-32768','-32767','-1','0','1','32766','32767','32768','65534','65535','65536', 'a', ' ', '', 'number'];
+      let expectedResult = [ '000.01', '000.01', '000.02', '327.67', '-327.68', '-327.67', '-000.01', '000.00', '000.01', '327.66','327.67','-327.68','-000.02','-000.01','-000.01','000.00','000.00','000.00','000.00' ];
+      testCases.forEach((ele, i) => {
+        test(`Check Float: "${ele}"`, (done) => {
+          ch5JointextNumeric.setAttribute('value', ele);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.textContent).to.be.equal(expectedResult[i]);
+              done();
+            }, 50);
+          });
+        });
+      });
+    });
+      suite('ch5-jointotext-numeric-type-hex', () => {
+      let ch5JointextNumeric;
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-hex-fixture');
+      });
+      let testCases = [ "-65535",'-65534',"-32768","-00001","0000", "1", "32767", '32768', "65535", 'a', ' ', '', 'number'];
+        let expectedResult = [ '0001','0002','8000','FFFF','0000','0001', '7FFF', '8000','FFFF','0000', '0000', '0000', '0000'];
+      testCases.forEach((ele, i) => {
+        test(`Check Hex: "${ele}"`, (done) => {
+          ch5JointextNumeric.setAttribute('value', ele);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.textContent).to.be.equal(expectedResult[i]);
+              done();
+            }, 50);
+          });
+        });
+      });
+    });
+    suite('ch5-jointotext-numeric-type-raw', () => {
+      let ch5JointextNumeric;
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-raw-fixture');
+      });
+      let testCases = [ "-65535", "-4500", "-1", "0", "1", "4500", "32767", "33400","65535", "85000", 'a', ' ', '', 'number', ];
+        let expectedResult = [ '65535', '4500', '1', '0', '1', '4500', '32767', '33400', '65535','65535', '0', '0', '0', '0', ];
+      testCases.forEach((ele, i) => {
+        test(`Check Raw: "${ele}"`, (done) => {
+          ch5JointextNumeric.setAttribute('value', ele);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.textContent).to.be.equal(expectedResult[i]);
+              done();
+            }, 50);
+          });
+        });
+      });
+    });
+     suite('ch5-jointotext-numeric-type-unsigned', () => {
+      let ch5JointextNumeric;
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-unsigned-fixture');
+      });
+      let testCases = [ "-65535", "-4500", "-1", "0", "1", "4500", "32767", "33400","65535", "85000", 'a', ' ', '', 'number', ];
+        let expectedResult = [ '65535', '04500', '00001', '00000', '00001', '04500', '32767', '33400', '65535','65535', '00000', '00000', '00000', '00000', ];
+      testCases.forEach((ele, i) => {
+        test(`Check Unsigned: "${ele}"`, (done) => {
+          ch5JointextNumeric.setAttribute('value', ele);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.textContent).to.be.equal(expectedResult[i]);
+              done();
+            }, 50);
+          });
+        });
+      });
+    });
+    suite('ch5-jointotext-numeric-type-time', () => {
+      let ch5JointextNumeric;
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-time-fixture');
+      });
+      let testCases = [-1, 0, 1, 59, 60, 61, 3599, 3600, 3601,86399,86400,86401,172799,172800,172801, 'a', ' ', '', 'number' ];
+        let expectedResult = [ '00:00','00:00', '00:01', '00:59', '01:00', '01:01', '59:59', '01:00:00', '01:00:01','23:59:59','00:00','00:01','23:59:59', '00:00', '00:01', '00:00', '00:00', '00:00' , '00:00'  ];
+      testCases.forEach((ele, i) => {
+        test(`Check Time: "${ele}"`, (done) => {
+          ch5JointextNumeric.setAttribute('value', ele);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.textContent).to.be.equal(expectedResult[i]);
+              done();
+            }, 50);
+          });
+        });
+      });
+    });
+     suite('ch5-jointotext-numeric-type-percentage', () => {
+      let ch5JointextNumeric;
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-percentage-fixture');
+      });
+      let expectedResult = ['00000','00000.0','00000.02','00000.015','00000.0153','00000.01526','00050','00050.0','00050.00','00049.999','00049.9992','00049.99924','00050','00050.00076','00066.7','00100.0','00100.00','00000.00000','00000.0000','00000.000'];
+      let testCases = ['10','10','10','10','10','10','32767','32767','32767','32767','32767','32767','32768','32768','43711','65535','65535',"a","", " "];
+       let decimalLength = [0,1,2,3,4,5,0,1,2,3,4,5,0,5,1,1,2,5,4,3];
+      testCases.forEach((ele, i) => {
+        test(`Check percentage: "${ele}"`, (done) => {
+          ch5JointextNumeric.setAttribute('value', ele);
+          ch5JointextNumeric.setAttribute('decimalLength', decimalLength[i]);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.textContent).to.be.equal(expectedResult[i]);
+              done();
+            }, 50);
+          });
+        });
+      });
+      test(`Check percentage: "min and max"`, (done) => {
+          ch5JointextNumeric.setAttribute('value',5680);
+          ch5JointextNumeric.setAttribute('decimalLength', 2);
+          ch5JointextNumeric.setAttribute('min', 5680);
+          ch5JointextNumeric.setAttribute('max', 5680);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextNumeric.textContent).to.be.equal('00100.00');
+              done();
+            }, 50);
+          });
+        });
+    });
+    suite('ch5-jointotext-numeric-type-signed', () => {
+      let ch5JointextNumeric;
+
+      setup(async () => {
+        ch5JointextNumeric = fixture('ch5-jointotext-numeric-signed-fixture');
+      });
+      let expectedResult = ["00001","00001","00002","00003","32767","-32768","-32767","-32766","-00001","00000","00001","32766","32767","-32768","-00002","-00001","-00001","00000","00000","00000"]
+      let testCases = [-65536,-65535,-65534,-65533,-32769,-32768,-32767,-32766,-1,0,1,32766,32767,32768,65534,65535,65536,"a","", " "];
+      testCases.forEach((ele, i) => {
+        test(`Check signed: "${ele}"`, (done) => {
+          ch5JointextNumeric.setAttribute('value', ele);
+          flush(() => {
+            setTimeout(() => {
+              
+              expect(ch5JointextNumeric.textContent).to.be.equal(String(expectedResult[i]));
+              done();
+            }, 100);
+          });
+        });
+      });
+
+     
+    });
     suite('ch5-jointotext-numeric-value', () => {
       let ch5JointextNumeric;
 
@@ -283,7 +468,7 @@
         expect(ch5JointextNumeric.getAttribute('show')).to.be.equal('false');
         expect(ch5JointextNumeric.show).to.be.equal(false);
         ch5JointextNumeric.removeAttribute('show');
-        expect(ch5JointextNumeric.getAttribute('show')).to.be.equal('true');
+        expect(ch5JointextNumeric.getAttribute('show')).to.be.equal(null);
         expect(ch5JointextNumeric.show).to.be.equal(true);
       });
     });

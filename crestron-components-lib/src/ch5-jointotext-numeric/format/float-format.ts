@@ -1,5 +1,5 @@
 import { NumericFormat } from "./numeric-format";
-
+import _ from "lodash";
 export type FloatFormatOptions = {
     decimalLength: number;
     length: number;
@@ -9,54 +9,27 @@ export class FloatFormat extends NumericFormat {
 
     public static MAX_ANALOG: number = 65535;
     public static HALF_MAX_ANALOG: number = 32767;
+    public static MIN_ANALOG: number = -65535;
+    public static HALF_MIN_ANALOG: number = -32768;
 
-    public format(textValue: number, {decimalLength, length}: FloatFormatOptions): string {
-
+    public format(value: number, {decimalLength, length}: FloatFormatOptions): string {
+        if (isNaN(value)){
+            return "0".padStart(length - decimalLength,"0") + "." + "0".padEnd(decimalLength,"0")
+        }
         // holds the negative sign if the number is negative.
-        let prependage = ""; 
-        let formattedText = "";
-    
-        if (textValue > FloatFormat.HALF_MAX_ANALOG) {
-            prependage = "-";
-            textValue -= FloatFormat.MAX_ANALOG + 1;
-            textValue = Math.abs(textValue);
+        let sign = (!_.isNil(value) && String(value) !== "" && !isNaN(value)) ? ((value < 0) ? "-" : "") : "";
+        if (value > FloatFormat.HALF_MAX_ANALOG) {
+            sign = "-";	
+            value = value > FloatFormat.MAX_ANALOG ? FloatFormat.MAX_ANALOG : value;
+            value -= FloatFormat.MAX_ANALOG + 1;
+        } else if (value < FloatFormat.HALF_MIN_ANALOG){	
+            sign = "";	
+            value = value > FloatFormat.MIN_ANALOG ? value : FloatFormat.MIN_ANALOG;	
+            value += FloatFormat.MAX_ANALOG + 1;	
         }
-
-        const valueAsText = textValue + "";
-        const textLength = valueAsText.length;
-
-        if (textLength - decimalLength > 0) {
-            formattedText = valueAsText.slice(textLength - decimalLength);
-        } else {
-            formattedText = valueAsText;
-        }
-
-        // add trailing zeros if necessary
-        const trailingZeros = decimalLength - formattedText.length;
-        for (let i = 0; i < trailingZeros; i++) {
-            formattedText += "0";
-        }
-
-        let leadingText = "";
-        if (textLength - decimalLength > 0) {
-            leadingText = valueAsText.slice(0, textLength - decimalLength);
-        }
-
-        let leadingZeros = length - decimalLength;
-        
-        if (leadingText.length) {
-            leadingZeros -= leadingText.length;
-        }
-        
-        formattedText = leadingText + "." + formattedText;
-
-        for (let i = 0; i < leadingZeros; i++) {
-            formattedText = "0" + formattedText;
-        }
-
-        formattedText = prependage + formattedText;
-
-        return formattedText;
+        value = Math.abs(value);
+        const formattedText = (value / Math.pow(10,decimalLength)).toFixed(decimalLength);
+        return sign + formattedText.padStart(length + 1 ,"0");
     }
 
 }

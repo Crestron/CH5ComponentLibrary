@@ -9,7 +9,7 @@
           "state": "garage_door_status",
           "type": "s",
           "logic": "set",
-          "value": "The door is open"
+          "value": ""
         } 
       ]
     }

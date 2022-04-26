@@ -5,6 +5,9 @@ export type TimeFormatOptions = {}
 export class TimeFormat extends NumericFormat {
     
     public format(value: number, options: TimeFormatOptions) {
+        if (isNaN(value) || value < 0){
+            return "00:00";
+       }
         let formattedText = "";
         const hours = Math.floor(Math.floor(value / 60) / 60) % 24;
         const minutes = Math.floor(value / 60) % 60;

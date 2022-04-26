@@ -10,31 +10,29 @@ export class SignedFormat extends NumericFormat {
     public format(value: number, options: SignedFormatOptions) {
 
         const { length } = options;
-
-        const sign = (!_.isNil(value) && String(value) !== "" && !isNaN(value)) ? ((value < 0) ? "-" : "") : "";
+        if (isNaN(value)){
+            return "".padStart(length,"0");
+        }
+        let sign = (!_.isNil(value) && String(value) !== "" && !isNaN(value)) ? ((value < 0) ? "-" : "") : "";
         const MAX_ANALOG = 65535;
         const HALF_MAX_ANALOG = 32767;
-
+        const MIN_ANALOG = -65535;	
+        const HALF_MIN_ANALOG = -32768;
         let formattedText = "";
-        let textLength = (value + "").length - 1;;
 
         if (value > HALF_MAX_ANALOG) {
-            formattedText = "-";
+            sign = "-";	
+            value = value > MAX_ANALOG ? MAX_ANALOG : value;
             value -= MAX_ANALOG + 1;
-            textLength = (value + "").length - 1;
+        } else if (value < HALF_MIN_ANALOG){	
+            sign = "";	
+            value = value > MIN_ANALOG ? value : MIN_ANALOG;	
+            value += MAX_ANALOG + 1;	
         }
 
         // signed integer - e.g. "%10d" -- adds leading zeros
-        const leadingZeros = length - textLength;
-        if (leadingZeros > 0 && textLength > 0) {
-            for (let i = 0; i < leadingZeros; i++) {
-                formattedText += "0";
-            }
-        }
-
-        formattedText += Math.abs(value);
-
-        return sign + formattedText;
+        formattedText = sign + Math.abs(value).toString().padStart(length,"0");
+        return formattedText;
     }
 
 }

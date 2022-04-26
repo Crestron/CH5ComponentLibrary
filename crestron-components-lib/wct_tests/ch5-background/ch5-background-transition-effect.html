@@ -19,6 +19,48 @@
         </template>
     </test-fixture>
 
+    <test-fixture id="ch5-background-transitioneffect-fixture-ease">
+        <template>
+            <ch5-background transitioneffect="ease" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="10">
+            </ch5-background>   
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-transitioneffect-fixutre-ease-in-out">
+        <template>
+            <ch5-background transitioneffect="ease-in-out" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="10">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-transitioneffect-fixutre-ease-in">
+        <template>
+            <ch5-background transitioneffect="ease-in" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="10">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-transitioneffect-fixutre-ease-out">
+        <template>
+            <ch5-background transitioneffect="ease-out" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="10">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-transitioneffect-fixture-invalid">
+        <template>
+            <ch5-background transitioneffect="snfk" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="10">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-transitioneffect-fixture-remove">
+        <template>
+            <ch5-background transitioneffect="ease-out" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="10">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
     <script>
         suite('ch5-background transitioneffect', () => {
             let ch5Background;
@@ -37,6 +79,122 @@
                 });
             });
         });
+
+         suite('ch5-background transitioneffect ease', () => {
+            let ch5Background;
+
+            setup(() => {
+                ch5Background = fixture('ch5-background-transitioneffect-fixture-ease');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('transition effect ease', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                        expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease');
+                        done();
+                    },100);  
+                });
+            });
+        });
+
+        suite('ch5-background transitioneffect ease-in-out', () => {
+            let ch5Background;
+
+            setup(() => {
+                ch5Background = fixture('ch5-background-transitioneffect-fixutre-ease-in-out');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('transition effect ease-in-out', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                            const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                        expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease-in-out');
+                        done();
+                    }, 100);   
+                });
+            });
+        });
+
+        suite('ch5-background transitioneffect ease-in', () => {
+            let ch5Background;
+
+            setup(() => {
+                ch5Background = fixture('ch5-background-transitioneffect-fixutre-ease-in');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('transition effect ease-in', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                        expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease-in');
+                        done();
+                     }, 100);
+                });
+            });
+        });
+
+        suite('ch5-background transitioneffect ease-out', () => {
+            let ch5Background;
+
+            setup(() => {
+                ch5Background = fixture('ch5-background-transitioneffect-fixutre-ease-out');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('transition effect ease-out', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                        expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease-out');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-background transitioneffect invalid', () => {
+            let ch5Background;
+            
+            setup( () => {
+                ch5Background = fixture('ch5-background-transitioneffect-fixture-invalid');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('transition effect invalid', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                        expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-background transitioneffect remove', () => {
+            let ch5Background;
+
+            setup(() => {
+                ch5Background = fixture('ch5-background-transitioneffect-fixture-remove');
+            });
+
+            test(`transition effect remove`, (done) => {
+                setTimeout(() => {
+                    const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                    expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease-out');
+                    ch5Background.removeAttribute('transitioneffect');
+                    expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease');
+                    done();
+                }, 100);
+            });
+        });
+
+        
+
     </script>
 </body>
 

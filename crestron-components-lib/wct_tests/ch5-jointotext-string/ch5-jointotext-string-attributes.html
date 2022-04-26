@@ -59,6 +59,83 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="ch5-jointotext-string-value-specialcharacter">
+    <template>
+      <ch5-jointotext-string value="-198sfnm&">
+      </ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-value-empty-textWhenEmpty-avilable">
+    <template>
+      <ch5-jointotext-string value="" textWhenEmpty="-198sfnm&">
+      </ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-textWhenEmpty-avilable">
+    <template>
+      <ch5-jointotext-string textWhenEmpty="playing78dm"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-value-textWhenEmpty-avilable">
+  <template>
+    <ch5-jointotext-string textWhenEmpty="378-90 90" value="Hello!">
+    </ch5-jointotext-string>
+  </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-textWhenEmpty-empty">
+   <template>
+      <ch5-jointotext-string textWhenEmpty="">
+      </ch5-jointotext-string>
+   </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-value-is-empty">
+  <template>
+    <ch5-jointotext-string value=''>
+    </ch5-jointotext-string>
+  </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-value-is-empty-textWhenEmpty-empty">
+   <template>
+     <ch5-jointotext-string textWhenEmpty="" value="">
+     </ch5-jointotext-string>
+   </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-textWhenEmpty-special-character">
+   <template>
+     <ch5-jointotext-string textWhenEmpty="@#-fnmd-*(">
+     </ch5-jointotext-string>
+   </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-typeOf">
+   <template>
+     <ch5-jointotext-string value="45">
+     </ch5-jointotext-string>
+   </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-custom-style">
+  <template>
+    <ch5-jointotext-string value="Hello world" customStyle="color:red;">
+    </ch5-jointotext-string>
+  </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-receiveStatevalue-empty">
+  <template>
+    <ch5-jointotext-sting textWhenEmpty="No feedback">
+    </ch5-jointotext-sting>
+  </template>
+ </test-fixture>
+ 
+
   <script>
     suite('ch5-jointotext-string-value', () => {
       let ch5JointextString;
@@ -137,8 +214,9 @@
             setTimeout(() => {
               expect(ch5JointextString.getAttribute('receiveStateValue')).to.be.equal('garage_door_status');
               expect(ch5JointextString.receiveStateValue).to.be.equal('garage_door_status');
+              expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('No feedback from garage door');
               done();
-            }, 100);
+            }, 1000);
           });
         });
       });
@@ -156,7 +234,9 @@
         expect(ch5JointextString.getAttribute('show')).to.be.equal('false');
         expect(ch5JointextString.show).to.be.equal(false);
         ch5JointextString.removeAttribute('show');
+        ch5JointextString.setAttribute('show', 'true');
         expect(ch5JointextString.getAttribute('show')).to.be.equal('true');
+        expect(ch5JointextString.getAttribute('show')).to.be.equal(null);
         expect(ch5JointextString.show).to.be.equal(true);
       });
     });
@@ -222,6 +302,170 @@
         expect(ch5JointextString.getAttribute('noShowType')).to.be.equal('display');
       });
     });
+
+    suite('ch5-jointotext-string-specialcharacter', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-specialcharacter');
+      });
+
+      test(`Check special character`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('-198sfnm&');
+        expect(ch5JointextString.textContent).to.be.equal('-198sfnm&');
+        ch5JointextString.removeAttribute('value');
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-value-empty-textWhenEmpty avilable', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-empty-textWhenEmpty-avilable');
+      });
+
+      test(`Check value is empty textWhenEmpty avilable`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('-198sfnm&');
+        expect(ch5JointextString.textContent).to.be.equal('-198sfnm&');
+      });
+    });
+
+    suite('ch5-jointotext-string-textWhenEmpty-avilable', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        ch5JointextString = fixture('ch5-jointotext-string-textWhenEmpty-avilable');
+      });
+
+      test(`Check textWhenEmpty`, () => {
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('playing78dm');
+        expect(ch5JointextString.textContent).to.be.equal('playing78dm');
+      });
+    });
+
+    suite('ch5-jointotext-string-value-textWhenEmpty-avilable', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-textWhenEmpty-avilable');
+      });
+
+      test(`Check value and textWhenEmpty avilable`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('Hello!');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('378-90 90');
+        expect(ch5JointextString.textContent).to.be.equal('Hello!');
+
+      });
+    });
+
+    suite('ch5-jointotext-string-value-textWhenEmpty-empty', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        ch5JointextString = fixture('ch5-jointotext-string-textWhenEmpty-empty');
+      });
+
+      test(`Check when textWhenEmpty is empty`, () => {
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal("");
+        expect(ch5JointextString.textContent).to.be.equal("");
+      });
+    });
+
+    suite('ch5-jointotext-string-value-is-empty', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-is-empty');
+      });
+
+      test(`Check value is empty`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-value-is-empty-textWhenEmpty-empty', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-is-empty-textWhenEmpty-empty');
+      });
+
+      test(`Check value is empty and textWhenEmpty is empty`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-textWhenEmpty-special-character', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-textWhenEmpty-special-character');
+      });
+
+      test(`Check textWhenEmpty Special Character`, () => {
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('@#-fnmd-*(');
+        expect(ch5JointextString.textContent).to.be.equal('@#-fnmd-*(');
+      });
+    });
+
+    suite('ch5-jointotext-string-typeOf', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-typeOf');
+      });
+
+      test(`Check the type of value`, () => {       
+        expect(ch5JointextString.getAttribute('value')).to.be.equal("45");
+        expect(typeof ch5JointextString.getAttribute('value')).to.be.equal('string');
+      });
+    });
+
+    suite('ch5-jointotext-string-custom-style', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-custom-style');
+      });
+
+      test(`Check custom style color "color:red"`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('Hello world');
+        expect(ch5JointextString.getAttribute('customStyle')).to.be.equal('color:red;');
+        expect(ch5JointextString.style.color).to.be.equal('red');
+      }); 
+    });
+
+    suite('ch5-jointotext-string-receiveState-empty', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5JointextString = fixture('ch5-jointotext-string-receiveStatevalue-empty');
+      });
+
+      test(`Check receivestate value empty`, (done) => {
+        ch5JointextString.setAttribute('receiveStateValue', 'garage_door_status');
+        CrComLib.publishEvent('s', 'trigger_change_value', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5JointextString.getAttribute('receiveStateValue')).to.be.equal('garage_door_status');
+            expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('No feedback');
+            expect(ch5JointextString.textContent).to.be.equal('No feedback');
+            done();
+          }, 100);
+        });
+      });
+    });
+    
+
   </script>
 </body>
 
