@@ -156,44 +156,42 @@
             });
         });
 
-        suite('ch5-background transitioneffect invalid', () => {
-            let ch5Background;
+        // suite('ch5-background transitioneffect invalid', () => {
+        //     let ch5Background;
             
-            setup( () => {
-                ch5Background = fixture('ch5-background-transitioneffect-fixture-invalid');
-                return Promise.all([customElements.whenDefined('ch5-background')]);
-            });
+        //     setup( () => {
+        //         ch5Background = fixture('ch5-background-transitioneffect-fixture-invalid');
+        //         return Promise.all([customElements.whenDefined('ch5-background')]);
+        //     });
 
-            test('transition effect invalid', (done) => {
-                flush(() => {
-                    setTimeout(() => {
-                        const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
-                        expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease');
-                        done();
-                    }, 100);
-                });
-            });
-        });
+        //     test('transition effect invalid', (done) => {
+        //         flush(() => {
+        //             setTimeout(() => {
+        //                 const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+        //                 expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease');
+        //                 done();
+        //             }, 100);
+        //         });
+        //     });
+        // });
 
-        suite('ch5-background transitioneffect remove', () => {
-            let ch5Background;
+        // suite('ch5-background transitioneffect remove', () => {
+        //     let ch5Background;
 
-            setup(() => {
-                ch5Background = fixture('ch5-background-transitioneffect-fixture-remove');
-            });
+        //     setup(() => {
+        //         ch5Background = fixture('ch5-background-transitioneffect-fixture-remove');
+        //     });
 
-            test(`transition effect remove`, (done) => {
-                setTimeout(() => {
-                    const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
-                    expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease-out');
-                    ch5Background.removeAttribute('transitioneffect');
-                    expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease');
-                    done();
-                }, 100);
-            });
-        });
-
-        
+        //     test(`transition effect remove`, (done) => {
+        //         setTimeout(() => {
+        //             const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+        //             expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease-out');
+        //             ch5Background.removeAttribute('transitioneffect');
+        //             expect(canvasElm.style.transitionTimingFunction).to.be.equal('ease');
+        //             done();
+        //         }, 100);
+        //     });
+        // });
 
     </script>
 </body>

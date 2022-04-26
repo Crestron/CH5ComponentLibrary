@@ -364,20 +364,20 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			this.setAttribute('transitionduration', this._transitionDuration);
 		}
 		let countCharacter = 0;
-		for (let i = 0; i < this._transitionDuration.length; i++) {
-			if (this._transitionDuration[i].toUpperCase() !== this._transitionDuration[i].toLowerCase()) {
+		Array.from(this._transitionDuration).forEach((attribute: any) => {
+			if (attribute.toUpperCase() !== attribute.toLowerCase()) {
 				countCharacter++;
 			}
-		}
+		});
 		if (countCharacter > 1) {
 			this.setAttribute('transitionduration', '1s');
-		}		
+		}
 		const specialChars = new RegExp(/[`!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/);
 		if (specialChars.test(this._transitionDuration) === true) {
 			this._transitionDuration = '1s';
 			this.setAttribute('transitionduration', this._transitionDuration);
 		}
-		
+
 		if (this._transitionDuration === '') {
 			this.setAttribute('transitionduration', '1s');
 		}
@@ -861,8 +861,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			this.backgroundColor = this.getAttribute('backgroundcolor') as string;
 		}
 
-			this.repeat = this.getAttribute('repeat') as TCh5BackgroundRepeat;
-	
+		this.repeat = this.getAttribute('repeat') as TCh5BackgroundRepeat;
+
 		if (this.hasAttribute('scale')) {
 			this.scale = this.getAttribute('scale') as TCh5BackgroundScale;
 		}

@@ -111,21 +111,21 @@
                 return Promise.all([customElements.whenDefined('ch5-background')]);
             });
             let testCases = {
-                "no-repeat":"no-repeat",
-                "repeat-x":"repeat-x",
-                "repeat-y":"repeat-y",
-                "repeat":"repeat",
-                "repe":"no-repeat",
-                "none":"no-repeat",
-                "":"no-repeat"
+                "no-repeat": "no-repeat",
+                "repeat-x": "repeat-x",
+                "repeat-y": "repeat-y",
+                "repeat": "repeat",
+                "repe": null,
+                "none": null,
+                "": null
             }
-            Object.keys(testCases).forEach(ele=>{
-                    test(`repeat ${ele}`, () => {
-                        ch5Background.repeat=ele
+            Object.keys(testCases).forEach(ele => {
+                test(`repeat ${ele}`, () => {
+                    ch5Background.repeat = ele;
                     expect(ch5Background.repeat).to.be.equal(testCases[`${ele}`]);
                 });
             })
-            
+
         });
     </script>
 </body>
