@@ -632,7 +632,6 @@
 
           flush(() => {
             setTimeout(()=>{
-              console.log(ch5Triggerview1.activeView);
               expect(ch5Triggerview1.activeView).to.equal(3); // third child selected
               // TODO: ch5-triggerview-child receiveStateShow cannot update parent activeView inside WCT test-fixture
               // expect(ch5Triggerview2.activeView).to.equal(2); // second child selected

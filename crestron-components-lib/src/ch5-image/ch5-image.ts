@@ -1323,13 +1323,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		 * ( it does not include the case of css property visibility:hidden - this is considered as visible since the
 		 * browser reserved space for the component)
 		 */
-		console.log("this.elementIsVisible", this.elementIsVisible);
-		console.log("this._url", this._url);
-		console.log("this.url", this.url);
-		console.log("this.show", this.show);
-		console.log("null !== this._url: ", null !== this._url);
-		console.log("'' !== this.url", '' !== this.url);
-		console.log("true === this.show", true === this.show);
 		if (this.elementIsVisible) {
 			if (null !== this._url && '' !== this.url && true === this.show) {
 				candidateUrl = refreshParam ? this._insertParamToUrl('__cr_avoid_cache', new Date().getTime().toString()) : this._url;
