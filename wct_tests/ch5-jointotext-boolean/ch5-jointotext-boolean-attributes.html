@@ -65,6 +65,122 @@
     </template>
   </test-fixture>
 
+<test-fixture id="ch5-jointotext-boolean-when-value-true-textWhenTrue">
+    <template>
+      <ch5-jointotext-boolean value="true" textWhenTrue="Playing"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-value-false">
+    <template>
+      <ch5-jointotext-boolean value="false" textWhenTrue="Playing"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-value-true-textWhenTrue-not-exists">
+    <template>
+      <ch5-jointotext-boolean value="true" textWhenFalse="Paused"></ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-value-true-textWhenTrue-false-exists">
+    <template>
+      <ch5-jointotext-boolean value="true" textWhenTrue="Playing" textWhenFalse="Paused">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-when-value-false-textWhenFalse-exists">
+    <template>
+      <ch5-jointotext-boolean value="false" textWhenFalse="Paused" textWhenTrue="Playing">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-when-value-empty-textWhenTrue-exists">
+    <template>
+      <ch5-jointotext-boolean value="" textWhenTrue="Playing">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-when-value-not-exists-textWhenFalse">
+    <template>
+      <ch5-jointotext-boolean textWhenFalse="Paused">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-when-value-not-exists-textWhenTrue">
+    <template>
+      <ch5-jointotext-boolean textWhenTrue="Playing">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-when-value-incorrect-textWhenFalse">
+    <template>
+      <ch5-jointotext-boolean value="flse" textWhenTrue="Playing" textWhenFalse="Paused">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-when-value-misspelled">
+    <template>
+      <ch5-jointotext-boolean value="988" textWhenTrue="Playing">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-value-empty-textWhenTrue-false-exists">
+    <template>
+      <ch5-jointotext-boolean value="" textWhenTrue="Playing" textWhenFalse="Paused">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-value-false-textWhenFalse-misspelled">
+    <template>
+      <ch5-jointotext-boolean value="false" textWhenFlse="Paused">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-value-not-exists-textWhenTrue-textWhenFalse">
+    <template>
+      <ch5-jointotext-boolean textWhenTrue="Playing" textWhenFalse="Paused">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-value-custom-class-fixture">
+    <template>
+      <ch5-jointotext-boolean value="true" textWhenTrue="Playing" customClass="boolean-component"></ch5-jointotext-boolean>
+      </ch5-jointtotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-appendClass-view-port">
+    <template>
+      <ch5-jointotext-boolean value="true" textWhenTrue="Play" appendClassWhenInViewport="appended-class">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-receiveStateValue-value-empty">
+    <template>
+      <ch5-jointotext-boolean textWhenFalse="Play" >
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-boolean-receiveStateValue-false-empty">
+    <template>
+      <ch5-jointotext-boolean textWhenTrue="Pause">
+      </ch5-jointotext-boolean>
+    </template>
+  </test-fixture>
+  
   <script>
     suite('ch5-jointotext-boolean-value', () => {
       let ch5JointextBoolean;
@@ -228,6 +344,282 @@
         expect(ch5JointextBoolean.getAttribute('noShowType')).to.be.equal('display');
       });
     });
+
+    suite('ch5-jointotext-boolean-when-value-true-textWhenTrue', ()=> {
+      let ch5JointotextBoolean;
+      
+      setup(async () => {
+        ch5JointotextBoolean = fixture('ch5-jointotext-boolean-when-value-true-textWhenTrue');
+      });
+      
+      test(`Check when value true textWhenTrue Playing`, () => {
+        expect(ch5JointotextBoolean.getAttribute('value')).to.be.equal('true');
+        expect(ch5JointotextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointotextBoolean.textContent).to.be.equal('Playing');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-value-false', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-value-false');
+      });
+
+      test(`Check when value is false`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('false');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-value-true-textWhenTrue-not-exists', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-value-true-textWhenTrue-not-exists');
+      });
+
+      test(`Check when value is true textWhenFalse exists`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('true');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
+        expect(ch5JointextBoolean.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-value-true-textWhenTrue-false-exists', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-value-true-textWhenTrue-false-exists');
+      });
+
+      test(`Check when value is true and textWhenTrue, textWhenFalse exists`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('true');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
+        expect(ch5JointextBoolean.textContent).to.be.equal('Playing');
+      }); 
+    });
+
+    suite('ch5-jointotext-boolean-when-value-false-textWhenFalse-exists', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-when-value-false-textWhenFalse-exists');
+      });
+
+      test(`Check when value is false and textWhenFalse`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('false');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.textContent).to.be.equal('Paused');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-when-value-empty-textWhenTrue-exists', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-when-value-empty-textWhenTrue-exists');
+      });
+
+      test(`Check when value is empty, textWhenTrue exists`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-when-value-not-exists-textWhenFalse', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-when-value-not-exists-textWhenFalse');
+      });
+
+      test(`Check when value is not exists textWhenFalse exists`, () => {
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
+        expect(ch5JointextBoolean.textContent).to.be.equal('Paused');
+        ch5JointextBoolean.removeAttribute('textWhenFalse');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-when-value-not-exists-textWhenTrue',() => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-when-value-not-exists-textWhenTrue');
+      });
+
+      test(`Check when value not exist and textWhenTrue exists`, () => {
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.textContent).to.be.equal('');
+        ch5JointextBoolean.removeAttribute('textWhenTrue');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-when-value-incorrect-textWhenFalse', () =>{
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-when-value-incorrect-textWhenFalse');
+      });
+
+      test('Check when value is misspelled and textWhenFalse exists', () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('flse');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.textContent).to.be.equal('Paused');
+        ch5JointextBoolean.removeAttribute('value');
+        ch5JointextBoolean.removeAttribute('textWhenFalse');
+        ch5JointextBoolean.removeAttribute('textWhenTrue');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-when-value-misspelled',  () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-when-value-misspelled');
+      });
+
+      test(`Check when value is misspelled`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('988');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-value-empty-textWhenTrue-false-exists', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-value-empty-textWhenTrue-false-exists');
+      });
+
+      test(`Check when value is empty textWhenTrue and textWhenFalse exists`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
+        expect(ch5JointextBoolean.textContent).to.be.equal('Paused');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-value-false-textWhenFalse-misspelled', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-value-false-textWhenFalse-misspelled');
+      });
+
+      test(`Check when value is false and textWhenFalse misspelled`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('false');
+        expect(ch5JointextBoolean.getAttribute('textWhenFlse')).to.be.equal('Paused');
+        expect(ch5JointextBoolean.textContent).to.be.equal('');
+      });
+    });
+
+    suite('Check when value not exists and textWhenTrue, False exists', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-value-not-exists-textWhenTrue-textWhenFalse');
+      });
+
+      test(`Check value not exists textWhenTrue, False exists`, () => {
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('Paused');
+        expect(ch5JointextBoolean.textContent).to.be.equal("Paused");
+        expect(ch5JointextBoolean.removeAttribute('textWhenFalse'));
+        expect(ch5JointextBoolean.getAttribute('textWhenFalse')).to.be.equal('');
+        expect(ch5JointextBoolean.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-value-custom-class-fixture', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-value-custom-class-fixture');
+      });
+
+      test(`Check custom class for string boolean`, () => {
+        expect(ch5JointextBoolean.getAttribute('value')).to.be.equal('true');
+        expect(ch5JointextBoolean.getAttribute('textWhenTrue')).to.be.equal('Playing');
+        expect(ch5JointextBoolean.getAttribute('customClass')).to.be.equal('boolean-component');
+        expect(ch5JointextBoolean.customClass).to.be.equal('boolean-component');
+        ch5JointextBoolean.removeAttribute('customClass');
+        expect(ch5JointextBoolean.getAttribute('customClass')).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-boolean-appendClass-view-port', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-appendClass-view-port');
+      });
+
+      test(`Check appendClassViewport added`, () => {
+        expect(ch5JointextBoolean.getAttribute('appendClassWhenInViewport')).to.be.equal('appended-class');
+        ch5JointextBoolean.removeAttribute('appendClassWhenInViewport');
+        expect(ch5JointextBoolean.getAttribute('appendClassWhenInViewport')).to.be.equal(null);
+      });
+    });
+
+    suite('ch5-jointotext-boolean-value-empty', () => {
+      let ch5JointextBoolean;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson); 
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-receiveStateValue-value-empty');
+      });
+
+      test(`Check textWhenTrue not exists`, (done) => {
+        ch5JointextBoolean.setAttribute('receiveStateValue', 'media_player_is_playing1');
+        CrComLib.publishEvent('b', 'trigger_change_value1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5JointextBoolean.getAttribute('receiveStateValue')).to.be.equal('media_player_is_playing1');
+            expect(ch5JointextBoolean.receiveStateValue).to.be.equal('media_player_is_playing1');
+            expect(ch5JointextBoolean.textContent).to.be.equal('Play')
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-jointotext-boolean-receiveStateValue-textWhenFalse-empty', () => {
+      let ch5JointextBoolean;
+
+      setup(async() => {
+        const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5JointextBoolean = fixture('ch5-jointotext-boolean-receiveStateValue-false-empty');
+      });
+
+      test(`Check textWhenFalse not exists`, (done) => {
+        ch5JointextBoolean.setAttribute('receiveStateValue', 'media_player_is_playing2');
+        CrComLib.publishEvent('b', 'trigger_change_value2', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5JointextBoolean.getAttribute('receiveStateValue')).to.be.equal('media_player_is_playing2');
+            expect(ch5JointextBoolean.receiveStateValue).to.be.equal('media_player_is_playing2');
+            expect(ch5JointextBoolean.textContent).to.be.equal('');
+            done();
+          }, 100);
+        });
+      }); 
+    });  
+
   </script>
 </body>
 

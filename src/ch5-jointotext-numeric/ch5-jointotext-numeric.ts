@@ -325,7 +325,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	//#region Private Methods
 
 	private formatValueDebounce() {
-		this.formattedValue = this._currentNumericFormat.format(parseFloat(this.value), {
+		this.formattedValue = this._currentNumericFormat.format(Number(this.value), {
 			decimalLength: this.decimalLength,
 			length: this.length,
 			min: this.min,

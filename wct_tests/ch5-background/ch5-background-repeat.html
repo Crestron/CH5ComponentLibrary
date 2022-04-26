@@ -37,7 +37,11 @@
             <ch5-background repeat="randomRepeat" url="https://picsum.photos/id/1/300/300"></ch5-background>
         </template>
     </test-fixture>
-
+    <test-fixture id="ch5-background-repeat-valid-invalid-fixture">
+        <template>
+            <ch5-background repeat="" url="https://picsum.photos/id/1/20/20"></ch5-background>
+        </template>
+    </test-fixture>
     <script>
         suite('ch5-background repeat', () => {
             let ch5Background;
@@ -99,6 +103,29 @@
             test('Invalid repeat should switch to scale "stretch"', () => {
                 expect(ch5Background.scale).to.be.equal('stretch');
             });
+        });
+        suite('ch5-background repeat valid and invalid', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-repeat-valid-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+            let testCases = {
+                "no-repeat":"no-repeat",
+                "repeat-x":"repeat-x",
+                "repeat-y":"repeat-y",
+                "repeat":"repeat",
+                "repe":"no-repeat",
+                "none":"no-repeat",
+                "":"no-repeat"
+            }
+            Object.keys(testCases).forEach(ele=>{
+                    test(`repeat ${ele}`, () => {
+                        ch5Background.repeat=ele
+                    expect(ch5Background.repeat).to.be.equal(testCases[`${ele}`]);
+                });
+            })
+            
         });
     </script>
 </body>
