@@ -112,15 +112,16 @@ export class Ch5TemplateStructure {
         return this._instanceId;
     }
 
-    /**
-     * Add default style to ch5-template
-     */
-    private setDefaultElementStyle(): void {
-        // set display style only if it was not set by another element (like the ch5-spinner)
-        if (isEmpty(this.element.style.display)) {
-            this.element.style.display = "inline";
-        }
-    }
+    // DELETE after 2.0.27
+    // /**
+    //  * Add default style to ch5-template
+    //  */
+    // private setDefaultElementStyle(): void {
+    //     // set display style only if it was not set by another element (like the ch5-spinner)
+    //     if (isEmpty(this.element.style.display)) {
+    //         this.element.style.display = "inline";
+    //     }
+    // }
 
     private initializeWrapperDiv(): void {
         this._wrapperDiv = document.createElement("DIV") as HTMLDivElement;
@@ -252,7 +253,7 @@ export class Ch5TemplateStructure {
         } catch (e) {
             throw new Error(`[ch5-template] Error: Failed to generate content: ${e}`);
         } finally {
-            this.setDefaultElementStyle();
+            // this.setDefaultElementStyle();
             if (newElement !== null && newElement.children) {
                 // create unique id for each instance of this template
                 const thisInstanceNum = Ch5TemplateStructure.nextInstanceNum(templateId);
