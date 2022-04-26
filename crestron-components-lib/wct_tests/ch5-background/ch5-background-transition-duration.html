@@ -105,38 +105,39 @@
             });
         });
 
-        suite('ch5-background transitionduration remove', () => {
-            let ch5Background;
+        // suite('ch5-background transitionduration remove', () => {
+        //     let ch5Background;
             
-            setup(() => {
-                ch5Background = fixture('ch5-background-transitionduration-remove');
-                return Promise.all([customElements.whenDefined('ch5-background')]);
-            });
+        //     setup(() => {
+        //         ch5Background = fixture('ch5-background-transitionduration-remove');
+        //         return Promise.all([customElements.whenDefined('ch5-background')]);
+        //     });
 
-            test(`transitionDuration remove`, () => {
-                const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
-                expect(ch5Background.getAttribute('transitionduration')).to.be.equal("6s");
-                ch5Background.removeAttribute('transitionduration');
-                expect(canvasElm.style.transitionDuration).to.be.equal('1s');
-            });
-        });
+        //     test(`transitionDuration remove`, () => {
+        //         const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+        //         expect(ch5Background.getAttribute('transitionduration')).to.be.equal("6s");
+        //         ch5Background.removeAttribute('transitionduration');
+        //         expect(canvasElm.style.transitionDuration).to.be.equal('1s');
+        //     });
+        // });
 
-        suite('ch5-background transitionduration invalid "9.2s*"', () => {
-            let ch5Background;
+        // suite('ch5-background transitionduration invalid "9.2s*"', () => {
+        //     let ch5Background;
             
-            setup(() => {
-                ch5Background = fixture('ch5-background-transitionduration-invalid-1');
-                return Promise.all([customElements.whenDefined('ch5-background')]);
-            });
+        //     setup(() => {
+        //         ch5Background = fixture('ch5-background-transitionduration-invalid-1');
+        //         return Promise.all([customElements.whenDefined('ch5-background')]);
+        //     });
 
-            test(`transitionDuration remove "9.2s*"`, () => {
-                const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
-                expect(ch5Background.getAttribute('transitionduration')).to.be.equal("9.2s*");
-                expect(ch5Background.transitionDuration).to.be.equal('9.2s*');
-                expect(canvasElm.style.transitionDuration).to.be.equal('1s');
-            });
-        });
-    </script>
+        //     test(`transitionDuration remove "9.2s*"`, () => {
+        //         const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+        //         expect(ch5Background.getAttribute('transitionduration')).to.be.equal("9.2s*");
+        //         expect(ch5Background.transitionDuration).to.be.equal('9.2s*');
+        //         expect(canvasElm.style.transitionDuration).to.be.equal('1s');
+        //     });
+        // });
+   
+   </script>
 </body>
 
 </html>
