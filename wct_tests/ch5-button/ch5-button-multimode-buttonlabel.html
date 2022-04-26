@@ -90,7 +90,6 @@
             setup(async () => {
                 const emulatorJson = await fetch('./emulator/multimode-buttonlabel.json').then((response) => response.json());
                 const emulator = CrComLib.Ch5Emulator.getInstance();
-                console.log("CrComLib.Ch5Button.TYPES", CrComLib.Ch5Button.TYPES);
                 emulator.loadScenario(emulatorJson);
                 ch5Button_ex1 = fixture('ch5-button-fixture-multimode-buttonlabel-ex1');
                 ch5Button_ex2 = fixture('ch5-button-fixture-multimode-buttonlabel-ex2');
@@ -116,7 +115,6 @@
                 // TODO - why is receivestatelabel not working in fixture
                 flush(() => {
                     setTimeout(() => {
-                        // console.log(ch5Button_ex4);
                         expect(ch5Button_ex4.activeLabel.trim()).to.be.equal("Label received from event - emulator");
                         // expect(ch5Button_ex4.activeLabel.trim()).to.be.equal("Hello from receiveStateLabel");
                         done();

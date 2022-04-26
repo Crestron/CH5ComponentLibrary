@@ -41,12 +41,9 @@
         /* coverity[implicit_this_used] */
         setup(function()  {
             suiteElement = fixture('ch5-template-with-custom-attributes-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
-            console.log('xxx', suiteElement, ch5Template);
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(function() {
-                    console.log('yyy', ch5Template);
                     usingNumeric = ch5Template.querySelector('div.uses-numeric');
                     usingContract = ch5Template.querySelector('div.uses-contract');
                     resolve(); 
@@ -65,7 +62,6 @@
             const expectedNumericValue = '101';
             const expectedContractValue = 'My.Contract.Prefix.TextContent';
 
-            console.log(`aaa ${elementName}[${attributeName}]`, usingNumeric);
             const elementWithAttributeUsingNumeric = usingNumeric.querySelector(`${elementName}[${attributeName}]`);
             const elementWithAttributeUsingContract = usingContract.querySelector(`${elementName}[${attributeName}]`);
             assert.strictEqual(elementWithAttributeUsingNumeric.getAttribute(`${attributeName}`), expectedNumericValue);
@@ -78,7 +74,6 @@
             const expectedNumericValue = '202';
             const expectedContractValue = 'My.Contract.Prefix.Show';
 
-            console.log(`bbb ${elementName}[${attributeName}]`, usingNumeric);
             const elementWithAttributeUsingNumeric = usingNumeric.querySelector(`${elementName}[${attributeName}]`);
             const elementWithAttributeUsingContract = usingContract.querySelector(`${elementName}[${attributeName}]`);
             assert.strictEqual(elementWithAttributeUsingNumeric.getAttribute(`${attributeName}`), expectedNumericValue);
@@ -116,7 +111,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-button-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -172,7 +166,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-button-label-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -229,7 +222,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-background-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -282,7 +274,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-dpad-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -336,7 +327,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-image-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -390,7 +380,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-import-snippet-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -443,7 +432,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-keypad-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -503,7 +491,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-list-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -566,7 +553,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-modal-dialog-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -618,7 +604,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-select-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -682,7 +667,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-select-send-events-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -746,7 +730,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-slider-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
@@ -807,7 +790,6 @@
         /* coverity[implicit_this_used] */
         setup(function() {
             suiteElement = fixture('ch5-template-with-spinner-fixture');
-            console.log(suiteElement);
             ch5Template = suiteElement[1];
             const waitForTimeout = new Promise((resolve) => {
                 setTimeout(() => {
