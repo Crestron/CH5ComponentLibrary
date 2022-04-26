@@ -157,7 +157,7 @@ export interface ICh5DpadAttributes extends ICh5CommonAttributes {
 	 * "`sendEventOnClickStart` attribute",
 	 * "***",
 	 * "Only applies if contractName is not provided, if this parameter is supplied,",
-	 * " the join number is applied to the top button, join+1 applies to bottom, ",
+	 * " the join number is applied to the up button, join+1 applies to down, ",
 	 * "join+2 applies to left, join+3 applies to right, join+4 to center ."
 	 * ]
 	 * @name sendeventonclickstart

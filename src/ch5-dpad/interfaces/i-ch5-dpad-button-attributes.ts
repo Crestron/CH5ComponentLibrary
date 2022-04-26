@@ -25,34 +25,34 @@ import { ICh5DpadChildBaseAttributes } from "./i-ch5-dpad-child-base-attributes"
  * @snippets
  * [
  *  {
- *    "prefix": "ch5-dpad-button key=\"bottom\":blank",
- *     "description": "Crestron Dpad Button",
+ *    "prefix": "ch5-dpad-button key=\"down\":blank",
+ *     "description": "Crestron Dpad Button Blank",
  *     "body": [
- *       "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\">",
+ *       "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\">",
  *       "</ch5-dpad-button>$0"
  *     ]
  *  },
  *  {
  *    "prefix": "ch5-dpad-button:iconurl",
- *     "description": "Crestron Dpad Button Bottom",
+ *     "description": "Crestron Dpad Icon Url",
  *     "body": [
- *       "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\" iconurl=\"btn_${2:Icon Url}\">",
+ *       "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\" iconurl=\"btn_${2:Icon Url}\">",
  *       "</ch5-dpad-button>$0"
  *     ]
  *  },
  *  {
  *    "prefix": "ch5-dpad-button:iconclass",
- *     "description": "Crestron Dpad Button Bottom",
+ *     "description": "Crestron Dpad Icon Class",
  *     "body": [
- *       "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\" iconclass=\"btn_${2:Icon Class}\">",
+ *       "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\" iconclass=\"btn_${2:Icon Class}\">",
  *       "</ch5-dpad-button>$0"
  *     ]
  *  },
  *  {
  *    "prefix": "ch5-dpad-button:all-attributes",
- *     "description": "Crestron Dpad Button Bottom",
+ *     "description": "Crestron Dpad All Attributes",
  *     "body": [
- *       "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\">",
+ *       "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\">",
  *       "\ticonurl=\"btn_${2:IconUrl}\"",
  *       "\tshow=\"${3:Show}\"",
  *       "\tenable=\"${4:Enable}\"",
