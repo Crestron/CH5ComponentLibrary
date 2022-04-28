@@ -29,7 +29,7 @@ import { ICh5JoinToTextNumericAttributes } from "./i-ch5-jointotext-numeric-attr
  *      "description": "Crestron JoinToText Numeric (Default)",
  *      "body": [
  *        "<ch5-jointotext-numeric value=\"${1:true}\"",
- *        "\ttype=\"${2:percentage}\">",
+ *        "\ttype=\"${2:signed}\">",
  *         "</ch5-jointotext-numeric>$0"
  *        ]
  *    },
@@ -38,7 +38,7 @@ import { ICh5JoinToTextNumericAttributes } from "./i-ch5-jointotext-numeric-attr
  *      "description": "Crestron JoinToText Numeric (Receive Signal)",
  *      "body": [
  *        "<ch5-jointotext-numeric receiveStateValue=\"${1:19}\"",
- *        "\ttype=\"${2:percentage}\">",
+ *        "\ttype=\"${2:signed}\">",
  *         "</ch5-jointotext-numeric>$0"
  *        ] 
  *    }
