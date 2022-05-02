@@ -121,7 +121,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 	public set url(value: string) {
-
 		if (!this._url) {
 			this._img?.removeAttribute('src');
 		}
@@ -206,8 +205,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			&& this._sigNameReceiveUser !== null) {
 
 			const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveUser);
-			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-				.getStringSignal(oldSigName);
+			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
 
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceiveUser);
@@ -219,8 +217,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		// setup new subscription.
 		const sigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceiveUser);
-		const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-			.getStringSignal(sigName);
+		const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigName);
 
 		if (receiveSignal === null) {
 			return;
@@ -334,8 +331,11 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		this._subReceiveUrl = receiveSignal.subscribe((newValue: string) => {
 			if ('' !== newValue && newValue !== this._url && !_.isNil(newValue)) {
-				this.setAttribute('url', newValue);
+				this.setUrlByInput(newValue);
 				this._initRefreshRate();
+				if (this.canProcessUri()) {
+					this.processUri();
+				}
 			}
 		});
 	}
@@ -1010,23 +1010,26 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 	public setImageDisplay() {
-		const imagesModesArray = this.getElementsByTagName("ch5-image-mode");
-		if (imagesModesArray && imagesModesArray.length > 0) {
-			const selectedImageMode = imagesModesArray[this.mode];
-			if (selectedImageMode) {
-				this._url = selectedImageMode.getAttribute("url") as string;
-				this.setAttribute('url', this._url);
-				this._maybeLoadImage();
+		if (!this.hasAttribute('receivestateurl')) {
+			const imagesModesArray = this.getElementsByTagName("ch5-image-mode");
+			if (imagesModesArray && imagesModesArray.length > 0) {
+				const selectedImageMode = imagesModesArray[this.mode];
+				if (selectedImageMode) {
+					this.setUrlByInput(selectedImageMode.getAttribute("url") as string);
+				}
+			} else {
+				this.setUrlByInput(this.getAttribute("url") as string);
 			}
-		} else {
-			this._url = this.getAttribute("url") as string;
-			this.setAttribute('url', this._url);
-			this._maybeLoadImage();
+			if (this.canProcessUri()) {
+				this.processUri();
+			}
 		}
+	}
 
-		if (this.canProcessUri()) {
-			this.processUri();
-		}
+	private setUrlByInput(url: string) {
+		this._url = url;
+		this.setAttribute('url', this._url);
+		this._maybeLoadImage();
 	}
 
 	public processUri(): void {
@@ -1038,7 +1041,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 		const imageUri = Ch5Common.processUri(processUriPrams);
 		if (!!imageUri) {
-			this.updateImageUrl(imageUri);
+			// this.updateImageUrl(imageUri);
+			this._url = imageUri;
+			this.setAttribute('url', this._url);
+			this._maybeLoadImage();
 		}
 	}
 
@@ -1547,16 +1553,16 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		return vars;
 	}
 
-	/**
-	 * Update the image url
-	 *
-	 * @param {string} url
-	 */
-	private updateImageUrl(url: string): void {
-		this._url = url;
-		this.setAttribute('url', this._url);
-		this._maybeLoadImage();
-	}
+	// /**
+	//  * Update the image url
+	//  *
+	//  * @param {string} url
+	//  */
+	// private updateImageUrl(url: string): void {
+	// 	this._url = url;
+	// 	this.setAttribute('url', this._url);
+	// 	this._maybeLoadImage();
+	// }
 
 	public updateElementInViewportChange(visibility: boolean) {
 		// TODO: visibility here is an HTMLElement, not a boolean
