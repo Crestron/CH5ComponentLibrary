@@ -420,9 +420,8 @@
             "documentation": [
               "`repeat` attribute",
               "***",
-              "The default value is 'no-repeat'. ",
-              "The repeat property sets how a background image will be repeated. In the absence of ",
-              "the repeat attribute. Valid values: 'no-repeat', ",
+              "The default value is null. ",
+              "The repeat property sets how a background image will be repeated. Valid values: 'no-repeat', ",
               "'repeat-x', 'repeat-y', and 'repeat'.",
               "The value 'repeat-x' repeats image horizontally, 'repeat-y' repeats the image vertically, and 'repeat' ",
               "repeats both vertically and horizontally. The last image will be clipped if it does not fit."
@@ -434,7 +433,7 @@
               "repeat-y"
             ],
             "name": "repeat",
-            "default": "no-repeat",
+            "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -2343,7 +2342,20 @@
               "\tsendeventontouch=\"${17:btn_${1}_touched}\"",
               "\treceivestateselected=\"${18}\"",
               "\treceivestatelabel=\"${19}\"",
-              "\treceivestatescriptlabelhtml=\"${20}\">",
+              "\treceivestatescriptlabelhtml=\"${20}\"",
+              "\tlabelinnerhtml=\"${21}\"",
+              "\ticonurl=\"${22}\"",
+              "\tmode=\"${23}\"",
+              "\tformtype=\"${24}\"",
+              "\treceivestatemode=\"${25}\"",
+              "\treceivestateiconclass=\"${26}\"",
+              "\treceivestatetype=\"${27}\"",
+              "\treceivestateiconurl=\"${28}\"",
+              "\treceivestateiconurl=\"${29}\"",
+              "\tcustomclasspressed=\"${30}\"",
+              "\tcustomclassdisabled=\"${31}\"",
+              "\tselected=\"${32}\"",
+              "\tpressed=\"${33}\">",
               "</ch5-button>$0"
             ]
           }
@@ -2816,8 +2828,11 @@
             "body": [
               "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\">",
               "\ticonurl=\"btn_${2:IconUrl}\"",
-              "\\tshow=\"${3:Show}\"",
-              "\\tenable=\"${4:Enable}\">",
+              "\tshow=\"${3:Show}\"",
+              "\tenable=\"${4:Enable}\"",
+              "\tpressed=\"${5:Pressed}\"",
+              "\tsendeventonclick=\"${6:sendEventOnClick}\"",
+              "\ticonclass=\"${7:iconClass}\">",
               "</ch5-dpad-button>$0"
             ]
           }
@@ -5778,10 +5793,7 @@
               "***",
               "When the stretch property is set, the component inherits the width or/and height of the container. ",
               "If stretch by height is used, the <ch5-keypad> will be responsive based on the width of the container. ",
-              "If stretch width is applied, the <ch5-keypad> will be responsive based on the height of the container. ",
-              "This implies that the container height is picked for width and container width is picked for height ",
-              "to ensure that the overall shape of the component is a 'square' in nature (equal in width and height ",
-              "for the shapes of plus and circle)."
+              "If stretch width is applied, the <ch5-keypad> will be responsive based on the height of the container. "
             ],
             "value": [
               "both",
@@ -6133,7 +6145,8 @@
               "\tusecontractforshow=\"${9:useContractForShow}\"",
               "\tusecontractforcustomclass=\"${10:useContractForCustomClass}\"",
               "\tusecontractforcustomstyle=\"${11:useContractForCustomStyle}\"",
-              "\tsendeventonclickstart=\"${12:sendEventOnClickStart}\"",
+              "\tusecontractforshow=\"${12:useContractForShow}\"",
+              "\tsendeventonclickstart=\"${13:sendEventOnClickStart}\"",
               ">",
               "</ch5-keypad>"
             ]
@@ -11597,27 +11610,6 @@
           },
           {
             "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`sendeventonshow` attribute",
               "***",
               "Has a boolean value of true when the component is visible and false when not visible.",
@@ -11831,24 +11823,6 @@
             ],
             "name": "debug",
             "default": "true",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "Boolean"
-          },
-          {
-            "documentation": [
-              "`disabled` attribute",
-              "***",
-              "The default value is false. This property will direct the component to change CSS and event listeners ",
-              "to reflect a disabled state when true."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "disabled",
-            "default": "false",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -13202,6 +13176,24 @@
             ],
             "value": [],
             "name": "sendeventonclick",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "event",
+              "isContractName": true,
+              "booleanJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`sendeventontouch` attribute",
+              "Sends a signal on a touch event."
+            ],
+            "value": [],
+            "name": "sendeventontouch",
             "default": "null",
             "hideWhen": [],
             "showWhen": [],
