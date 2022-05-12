@@ -22,7 +22,7 @@ export type TCh5ButtonHorizontalAlignLabel = 'left' | 'right' | 'center';
 
 export type TCh5ButtonIconPosition = 'first' | 'last' | 'top' | 'bottom';
 
-// TODO - try after upgrading typsecript version
+// TODO in future - try after upgrading typescript version
 // export const TCh5ButtonListOfOrientations = ['horizontal', 'vertical'] as const;
 // export type TCh5ButtonOrientationNew =  typeof TCh5ButtonListOfOrientations[number];  // 'horizontal' | 'vertical';
 
