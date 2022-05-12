@@ -1509,11 +1509,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			case 'ticks':
 				if (this.hasAttribute('ticks')) {
 					this.ticks = newValue;
-					// this can't be set from CSS files since there is no way in CSS to detect if ticks are set
-					this.style.setProperty('padding-bottom', '2.5em');
 				} else {
 					this.ticks = '';
-					this.style.setProperty('padding-bottom', '0');
 				}
 				break;
 
@@ -1568,13 +1565,8 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			case 'tooltipshowtype':
 				if (this.hasAttribute('tooltipshowtype')) {
 					this.toolTipShowType = newValue as TCh5SliderTooltipType;
-					// this can't be set from CSS files since there is no way in CSS to detect if tooltips are set
-					if (this.toolTipShowType !== 'off') {
-						this.style.setProperty('padding-top', '2.5em');
-					}
 				} else {
 					this.toolTipShowType = Ch5Slider.TOOLTIPS[0];
-					this.style.setProperty('padding-top', '0em');
 				}
 				this.updateCssClasses();
 				break;

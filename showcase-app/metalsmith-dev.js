@@ -54,7 +54,7 @@ metalsmith(__dirname)
     },
     startPath: path + "/",
     port: 8080,
-    files: ["src/**/*", "partials/**/*.njk", "layouts/**/*.njk", "emulator-scenarios/**/*.json"]
+    files: ["src/**/*", "partials/**/*.njk", "layouts/**/*.njk", "emulator-scenarios/**/*.json", "node_modules/@crestron/**/*"]
   }))
   .build(function (err, files) {
     if (err) { throw err; }
