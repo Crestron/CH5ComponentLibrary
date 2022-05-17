@@ -10,7 +10,7 @@
 /// @group ch5-background
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@import 'scss/_variables';
+@import "scss/_variables";
 
 /// Added automatically on the ch5-background element
 .ch5-background {
@@ -19,12 +19,15 @@
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: $ch5-background-z-index;
+    z-index: $ch5-background-z-index; // Commenting this line - CH5C-2424 and CH5C-2425
+    // DEVNOTE: The z-index might be required in ch5-video. During fix of ch5-video, this can be retested
     /// @require .ch5-background
     /// Added automatically on the first parent of the ch5-background element
     &--parent {
         position: relative;
-        z-index: $ch5-background-parent-z-index;
+        // DEVNOTE: The issue with the below is usage of position relative and z-index failing in mac safari or ios webkit
+        // The z-index might be required in ch5-video. During fix of ch5-video, this can be retested
+        z-index: $ch5-background-parent-z-index; // Commenting this line - CH5C-2424 and CH5C-2425
     }
     /// @require .ch5-background
     /// Added automatically on the all canvas child of ch5-background element
