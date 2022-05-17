@@ -54,6 +54,11 @@
       "contains": ".ch5-button--pressed",
       "key": "state",
       "value": "pressed"
+    },
+    {
+      "contains": ".ch5-button--selected",
+      "key": "state",
+      "value": "selected"
     }
   ]
 }
