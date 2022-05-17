@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-// CrComLib works only in a browser environmnet, thus we simulate a browser environment using puppeteer in order to extract COMPONENT_DATA for each component from CrComLib.
+// CrComLib works only in a browser environment, thus we simulate a browser environment using puppeteer in order to extract COMPONENT_DATA for each component from CrComLib.
 export async function getCrComLibComponentData(name: string) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();

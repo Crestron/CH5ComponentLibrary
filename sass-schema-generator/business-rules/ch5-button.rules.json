@@ -6,6 +6,16 @@
       "value": true
     },
     {
+      "contains": "--icon",
+      "key": "icon",
+      "value": true
+    },
+    {
+      "contains": "--img",
+      "key": "icon",
+      "value": true
+    },
+    {
       "contains": "ios",
       "key": "platform",
       "value": "ios"
