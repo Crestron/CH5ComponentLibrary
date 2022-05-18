@@ -83,7 +83,7 @@ $ch5-textinput-input-border-radius: 5px !default;
 $ch5-textinput-input-box-shadow-color: #eee !default;
 
 /// set the textinput border's width
-$ch5-textinput-input-border-width: 1px !default;
+$ch5-textinput-input-border-width: 2px !default;
 
 /// set the default font size unit for the textinput
 $ch5-textinput-font-size-unit: $ch5-font-size-unit !default;
@@ -99,9 +99,6 @@ $ch5-textinput-font-style: $ch5-font-style !default;
 
 /// set the default font weight for the textinput
 $ch5-textinput-font-weight: $ch5-font-weight !default;
-
-/// set the textinput border's width
-$ch5-textinput-input-border-width: 1px;
 
 /// set top and bottom padding for regular size of the textinput
 $ch5-textinput-input-regular-tb-padding: 15px !default;
@@ -383,7 +380,7 @@ $ch5-textinput-input-border-radius: 5px !default;
 $ch5-textinput-input-box-shadow-color: #eee !default;
 
 /// set the textinput border's width
-$ch5-textinput-input-border-width: 1px !default;
+$ch5-textinput-input-border-width: 2px !default;
 
 /// set the default font size unit for the textinput
 $ch5-textinput-font-size-unit: $ch5-font-size-unit !default;
@@ -399,9 +396,6 @@ $ch5-textinput-font-style: $ch5-font-style !default;
 
 /// set the default font weight for the textinput
 $ch5-textinput-font-weight: $ch5-font-weight !default;
-
-/// set the textinput border's width
-$ch5-textinput-input-border-width: 1px;
 
 /// set top and bottom padding for regular size of the textinput
 $ch5-textinput-input-regular-tb-padding: 15px !default;
@@ -719,7 +713,7 @@ $ch5-textinput-input-border-radius: 5px !default;
 $ch5-textinput-input-box-shadow-color: #eee !default;
 
 /// set the textinput border's width
-$ch5-textinput-input-border-width: 1px !default;
+$ch5-textinput-input-border-width: 2px !default;
 
 /// set the default font size unit for the textinput
 $ch5-textinput-font-size-unit: $ch5-font-size-unit !default;
@@ -735,9 +729,6 @@ $ch5-textinput-font-style: $ch5-font-style !default;
 
 /// set the default font weight for the textinput
 $ch5-textinput-font-weight: $ch5-font-weight !default;
-
-/// set the textinput border's width
-$ch5-textinput-input-border-width: 1px;
 
 /// set top and bottom padding for regular size of the textinput
 $ch5-textinput-input-regular-tb-padding: 15px !default;
@@ -959,15 +950,12 @@ ch5-textinput {
   color: $ch5-textinput-text-color;
 
   &__assets {
-
     display: flex;
     align-items: center;
     border: $ch5-textinput-input-border-width solid $ch5-textinput-input-border-color;
     border-radius: $ch5-textinput-input-border-radius;
-    box-shadow: 3px 3px 5px $ch5-textinput-input-box-shadow-color;
     height: 100%;
     width: 100%;
-
   }
 
   // text-transform
