@@ -250,10 +250,10 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`receivestatefocus` attribute",
    * "***",
-   * "When focused, send true. When unfocusesd, send false."
+   * "When focused, send true. When focus is lost, send false."
    * ]
    * @name receivestatefocus
-   * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "boolean": 1}
    * @attributeType "Join"
    */
   receiveStateFocus: string;
@@ -292,7 +292,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Sends an event on focus."
    * ]
    * @name sendeventonfocus
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
    */
   sendEventOnFocus: string;
@@ -305,7 +305,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "Sends an event on blur."
    * ]
    * @name sendeventonblur
-   * @join {"direction": "event", "isContractName": true, "stringJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
    */
   sendEventOnBlur: string;

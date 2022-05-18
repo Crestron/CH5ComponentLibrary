@@ -1100,12 +1100,12 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestatefocus: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatefocus: { direction: "state", booleanJoin: 1, contractName: true },
 		receivestatevalue: { direction: "state", stringJoin: 1, contractName: true },
 
 		sendeventonchange: { direction: "event", stringJoin: 1, contractName: true },
-		sendeventonfocus: { direction: "event", stringJoin: 1, contractName: true },
-		sendeventonblur: { direction: "event", stringJoin: 1, contractName: true }
+		sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
+		sendeventonblur: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
 	/**
