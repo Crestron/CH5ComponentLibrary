@@ -2295,7 +2295,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			eventOffsetY > maxOffestBottom
 		) {
 			if (inEvent.type === 'touchmove') {
-				this._elSlider.addEventListener('touchmove', this._onTouchMoveEnd);
 				this.dispatchEvent(
 					this.blurEvent = new CustomEvent('touchend', {
 						bubbles: false,
