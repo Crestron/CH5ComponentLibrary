@@ -34,6 +34,8 @@ export interface IRcbUpdateValue {
 
 export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
+	//#region "Variables"
+
 	public static ELEMENT_NAME: string = 'ch5-slider';
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -44,8 +46,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		sendeventonchange: { direction: "event", numericJoin: 1, contractName: true },
 		sendeventonchangehigh: { direction: "event", numericJoin: 1, contractName: true }
 	};
-
-	//#region "Variables"
 
 	public static readonly MIN_VALUE: number = 0;
 	public static readonly MAX_VALUE: number = 65535;
@@ -2262,7 +2262,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				};
 			}
 		}
-		
+
 		const { offsetX, offsetY } = this._getAbsoluteOffsetFromBodyForSlider();
 		const noUiHandle = this._elSlider.querySelector('.noUi-handle') as HTMLElement;
 
@@ -2277,10 +2277,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			const touch = inEvent.touches[0] || inEvent.changedTouches[0];
 			eventOffsetX = touch.clientX;
 			eventOffsetY = touch.clientY;
-			maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
-			maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-			maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
-			maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+			// maxOffsetLeft = offsetX - Ch5Slider.OFFSET_THRESHOLD;
+			// maxOffsetRight = offsetX + this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+			// maxOffestTop = offsetY - Ch5Slider.OFFSET_THRESHOLD;
+			// maxOffestBottom = offsetY + this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
 
 		} else {
 			eventOffsetX = inEvent.clientX;
@@ -2299,7 +2299,16 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		}
 
 		if (inEvent.type === 'touchmove') {
-			if ((this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD) < Math.abs(this.sliderTouch.clientX - eventOffsetX)) {
+			let touchPositionValue = 0;
+			let calculationValue = 0;
+			if (this._orientation === 'vertical') {
+				touchPositionValue = Math.abs(this.sliderTouch.clientX - eventOffsetX);
+				calculationValue = this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+			} else {
+				touchPositionValue = Math.abs(this.sliderTouch.clientY - eventOffsetY);
+				calculationValue = this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+			}
+			if (calculationValue < touchPositionValue) {
 				this._elSlider.addEventListener('touchmove', this._onTouchMoveEnd);
 				this.dispatchEvent(
 					this.blurEvent = new CustomEvent('touchend', {
@@ -2309,11 +2318,21 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 				);
 			}
 		} else if (inEvent.type === 'mouseleave') {
-			if (eventOffsetX < maxOffsetLeft ||
-				eventOffsetX > maxOffsetRight ||
-				eventOffsetY < maxOffestTop ||
-				eventOffsetY > maxOffestBottom
-			) {
+			// if (eventOffsetX < maxOffsetLeft ||
+			// 	eventOffsetX > maxOffsetRight ||
+			// 	eventOffsetY < maxOffestTop ||
+			// 	eventOffsetY > maxOffestBottom
+			// ) {
+				let touchPositionValue = 0;
+			let calculationValue = 0;
+			if (this._orientation === 'vertical') {
+				touchPositionValue = Math.abs(this._elSlider.clientLeft - eventOffsetX);
+				calculationValue = this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+			} else {
+				touchPositionValue = Math.abs(this._elSlider.clientTop - eventOffsetY);
+				calculationValue = this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+			}
+			if (calculationValue < touchPositionValue) {
 				this.dispatchEvent(
 					this.blurEvent = new CustomEvent('mouseup', {
 						bubbles: true,
@@ -3159,8 +3178,10 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			(this as any)[prop] = val;
 		}
 	}
-}
 
+	//#endregion
+
+}
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
