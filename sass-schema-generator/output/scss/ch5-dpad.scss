@@ -741,8 +741,6 @@ $ch5-dpad-text-disabled-font-color: $text-disabled-background-color !default;
     .direction-btn {
         position: relative;
         display: flex;
-        justify-content: center;
-        align-items: center;
         cursor: pointer;
         justify-content: center;
         align-items: center;
@@ -797,12 +795,6 @@ $ch5-dpad-text-disabled-font-color: $text-disabled-background-color !default;
 
         &.ch5-dpad-button-up--pressed {
             @include ch5-dpad-content--pressed($ch5-dpad-danger-pressed-background-color, $ch5-dpad-danger-pressed-font-color);
-            // &::before {
-            //     box-shadow: $ch5-dpad-common-edge-radius 0 0 0 lighten($ch5-dpad-danger-default-background-color, 10%);
-            // }
-            // &::after {
-            //     box-shadow: -$ch5-dpad-common-edge-radius 0 0 0 lighten($ch5-dpad-danger-default-background-color, 10%);
-            // }
         }
         &.ch5-dpad-button-left--pressed {
             @include ch5-dpad-content--pressed($ch5-dpad-danger-pressed-background-color, $ch5-dpad-danger-pressed-font-color);

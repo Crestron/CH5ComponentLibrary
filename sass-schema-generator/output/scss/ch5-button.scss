@@ -1538,20 +1538,8 @@ i.cb-icon.cx-button-icon-pos-bottom {
   font-weight: $ch5-button-checkbox-unchecked-font-weight;
   font-size: $ch5-button-font-size;
 }
-.ch5-button__checkbox--left {
-  margin-right: $ch5-button-checkbox-margin;
-}
-.ch5-button__checkbox--right {
-  margin-left: $ch5-button-checkbox-margin;
-}
-.cx-button-checkbox-pos-left .ch5-button--span {
-  margin-left: $ch5-button-checkbox-margin;
-}
 .cx-button-checkbox-pos-left {
   padding-right: $ch5-button-checkbox-padding;
-}
-.cx-button-checkbox-pos-right .ch5-button--span {
-  margin-right: $ch5-button-checkbox-margin;
 }
 .cx-button-checkbox-pos-right {
   padding-left: $ch5-button-checkbox-padding;
