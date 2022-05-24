@@ -59,3 +59,4 @@ from ch5 components, and custom attributes will not be affected)
 * disablesAll() - Disables all keys
 * setConfigKeyValue(key:string, value:boolean) - Changes the value of a key
 
+Mau: Branched CH5-Components-Release1
