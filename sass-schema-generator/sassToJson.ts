@@ -118,6 +118,20 @@ function extractMixins(data: string) {
   return mixins;
 }
 
+function processMixinsSelfInclude(mixins: { name: string, content: string }[]) {
+  // Unlike the regex below whichi uses 'g' we don't use 'g' because we want only the first occurance to identify and replace.
+  const includeRegex = new RegExp(/(@include[ a-zA-Z0-9-$,();]+)/, '');
+  const includeNameRegex = new RegExp(/(@include[ a-zA-Z0-9-]+)/, '');
+  for (const mixin of mixins) {
+    while (mixin.content.includes('@include')) {
+      const mixinName = mixin.content.match(includeNameRegex)[0].substr(9);
+      const mixinToBeIncluded = mixins.find(mixin => mixin.name === mixinName)
+      mixin.content = mixin.content.replace(includeRegex, mixinToBeIncluded.content + ' ');
+    }
+  }
+  return mixins;
+}
+
 function processInclude(body: string, mixins: { name: string, content: string }[]) {
   let processBody = body;
   const includeRegex = new RegExp(/(@include[ a-zA-Z0-9-$,();]+)/, 'g');
@@ -182,8 +196,12 @@ async function processSassFile(data: string, name: string, helper: PROPERTIES_IN
   let stringifiedData = data;
 
   // STEP 1: Remove all the multiline/ single line comments, except the documentation marked with ///
+
   stringifiedData = removeComments(stringifiedData);
-  const mixins = extractMixins(stringifiedData).concat(globalMixins);
+  let mixins = extractMixins(stringifiedData).concat(globalMixins);
+
+  // Mixins might have their one include, thus must check those as well
+  mixins = processMixinsSelfInclude(mixins)
 
   stringifiedData = removeMixins(stringifiedData);
   stringifiedData = processInclude(stringifiedData, mixins);

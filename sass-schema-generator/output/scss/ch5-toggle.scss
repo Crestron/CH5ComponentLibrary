@@ -10,13 +10,13 @@
 /// @group ch5-toggle
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@import './scss/_variables';
+@import "./scss/_variables";
 
-ch5-toggle:focus{
+ch5-toggle:focus {
     outline: none;
 }
 /// the class added on the div that is the only direct child of the ch5-toggle element and wraps all its contents
-.ch5-toggle{
+.ch5-toggle {
     position: relative;
     display: inline-block;
     box-sizing: border-box;
@@ -30,10 +30,16 @@ ch5-toggle:focus{
         display: none;
     }
 
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     /* ch5-toggle - label */
     /// class apply on label
     .ch5-toggle__label {
-        display: inline-block;
+        display: inline-flex;
         vertical-align: middle;
         font-style: $ch5-toggle-label-font-style;
         font-size: $ch5-toggle-label-font-size;
@@ -46,7 +52,8 @@ ch5-toggle:focus{
         }
     }
 
-    .ch5-toggle__on-label, .ch5-toggle__off-label {
+    .ch5-toggle__on-label,
+    .ch5-toggle__off-label {
         word-wrap: normal;
         color: $ch5-toggle-text-font-color;
         font-style: $ch5-toggle-text-font-style;
@@ -73,24 +80,27 @@ ch5-toggle:focus{
     .ch5-toggle__handle {
         position: relative;
         overflow: hidden;
-        display: inline-block;
-        vertical-align: middle;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         min-width: 100px;
-        height: 2em;
+        height: 100%;
         min-height: 2em;
         padding: 0;
-        transition: all .4s ease-out;
+        transition: all 0.4s ease-out;
 
         /* ch5-toggle - on/off container */
         div {
             position: relative;
             z-index: $ch5-toggle-container-z-index;
-            display: inline-block;
-            // float: left;
             line-height: 2em;
             text-align: center;
             user-select: none;
             opacity: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             &:first-of-type {
                 opacity: 1;
@@ -115,11 +125,11 @@ ch5-toggle:focus{
     &.ch5-toggle--circle {
         .ch5-toggle__handle {
             border-radius: 1.75em;
-            background-color:  $ch5-toggle-handle-circle-background;
+            background-color: $ch5-toggle-handle-circle-background;
             margin: $ch5-toggle-handle-circle-margin;
             div {
                 width: 100%;
-                transition: all .2s ease-out;
+                transition: all 0.2s ease-out;
 
                 &:first-of-type {
                     color: $ch5-toggle-circle-label-off-color;
@@ -142,7 +152,7 @@ ch5-toggle:focus{
                 height: 2em;
                 border-radius: 100%;
                 background-color: $ch5-toggle-circle-knob-color;
-                border: 0.25em solid  $ch5-toggle-handle-circle-background;
+                border: 0.25em solid $ch5-toggle-handle-circle-background;
             }
         }
     }
@@ -155,7 +165,7 @@ ch5-toggle:focus{
             box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;
             margin: $ch5-toggle-handle-rectangle-margin;
             div {
-                display: inline-block;
+                display: inline-flex;
                 padding: 0 15px;
                 transition: all 0.1s;
 
@@ -201,28 +211,28 @@ ch5-toggle:focus{
                     display: none;
                 }
                 div:last-of-type {
-                    display: block;
+                    display: flex;
                 }
 
                 a {
                     left: 100%;
                     margin-left: -2em;
                     background-color: $ch5-toggle-circle-knob-color;
-                    border-color: $ch5-toggle-handle-checked-color
+                    border-color: $ch5-toggle-handle-checked-color;
                 }
             }
         }
 
         /* ch5-toggle - rectangle shape checked/on */
         /// Class to apply when shape='rectangle'
-        &.ch5-toggle--rectangle{
+        &.ch5-toggle--rectangle {
             .ch5-toggle__handle {
                 div {
                     right: 0;
                 }
 
                 a {
-                    background-color: $ch5-toggle-handle-checked-color
+                    background-color: $ch5-toggle-handle-checked-color;
                 }
             }
         }
@@ -231,14 +241,12 @@ ch5-toggle:focus{
     /* ch5-toggle - vertical orientation */
     /// Class to apply when orientation='vertical'
     &.ch5-toggle--vertical {
-
         > div {
             padding: 50% 0;
             height: 0;
             -webkit-transform: rotate(90deg);
             transform: rotate(90deg);
         }
-
     }
 
     // 'rtl' support
@@ -255,7 +263,7 @@ ch5-toggle:focus{
             padding-right: 0;
             padding-left: 1.75em;
         }
-        &.ch5-toggle--circle .ch5-toggle__handle a{
+        &.ch5-toggle--circle .ch5-toggle__handle a {
             right: auto;
             left: 100%;
             margin-left: -2em;

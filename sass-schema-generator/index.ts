@@ -106,8 +106,8 @@ async function flattenScssComponents(paths: string[]) {
         flattenedScss: output,
         name: componentPath
       })
-    } catch (err) {
-      console.log(err, componentPath, 'FLATTEN SCSS');
+    } catch (err:any) {
+      console.warn("ERROR:" + err.message); //, componentPath, 'FLATTEN SCSS');
     }
   }
 

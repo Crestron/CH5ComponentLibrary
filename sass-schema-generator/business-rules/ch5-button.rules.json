@@ -6,6 +6,16 @@
       "value": true
     },
     {
+      "contains": "--icon",
+      "key": "icon",
+      "value": true
+    },
+    {
+      "contains": "--img",
+      "key": "icon",
+      "value": true
+    },
+    {
       "contains": "ios",
       "key": "platform",
       "value": "ios"
@@ -44,6 +54,11 @@
       "contains": ".ch5-button--pressed",
       "key": "state",
       "value": "pressed"
+    },
+    {
+      "contains": ".ch5-button--selected",
+      "key": "state",
+      "value": "selected"
     }
   ]
 }

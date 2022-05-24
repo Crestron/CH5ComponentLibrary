@@ -527,12 +527,11 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		if (typeof this._img.classList === 'undefined') {
 			// Create an <img> element that will load the image
 			this._img = document.createElement('img');
-
-			// add primary class
-			this._img.classList.add(this.primaryCssClass);
-
-			this._img.classList.add(this.primaryCssClass + '__img');
 		}
+
+		// add primary class
+		this._img.classList.add(this.primaryCssClass);
+		this._img.classList.add(this.primaryCssClass + '__img');
 	}
 
 	// Respond to attribute changes.
