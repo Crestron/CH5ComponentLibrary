@@ -130,8 +130,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     private _showExtraButton: boolean = false;
     private _receiveStateExtraButtonShow: string = '';
     private _subKeySigReceiveExtraButtonShow: string = '';
-    private _useContractForEnable: boolean = false;
-    private _useContractForShow: boolean = false;
+    private _useContractForEnable: boolean = true;
+    private _useContractForShow: boolean = true;
     private _useContractForCustomStyle: boolean = false;
     private _useContractForCustomClass: boolean = false;
     private _useContractForExtraButtonShow: boolean = false;

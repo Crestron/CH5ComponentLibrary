@@ -120,7 +120,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     //#region 2. Setters and Getters
 
     /**
-     * label specif getter-setter
+     * label
      */
     public set label(value: string) {
         this.logger.start('set label("' + value + '")');
@@ -141,7 +141,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * key specif getter-setter
+     * key
      */
     public set key(value: TCh5DpadChildButtonType) {
         this.logger.start('set key("' + value + '")');
@@ -163,7 +163,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * iconClass specif getter-setter
+     * iconClass
      */
     public set iconClass(value: string) {
         this.logger.start('set iconClass("' + value + '")');
@@ -198,7 +198,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * iconUrl specif getter-setter
+     * iconUrl
      */
     public set iconUrl(value: string) {
         this.logger.start('set iconUrl("' + value + '")');
@@ -225,7 +225,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * sendEventOnClick specif getter-setter
+     * sendEventOnClick
      */
     public set sendEventOnClick(value: string) {
         this.logger.start('set sendEventOnClick("' + value + '")');
@@ -239,7 +239,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * overriding default receiveStateShow specif getter-setter
+     * overriding default receiveStateShow
      */
     public set receiveStateShow(value: string) {
         this.removeAttribute("receiveStateShow".toLowerCase());
@@ -250,7 +250,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * overriding default receiveStateEnable specif getter-setter
+     * overriding default receiveStateEnable
      */
     public set receiveStateEnable(value: string) {
         this.removeAttribute("receiveStateEnable".toLowerCase());
@@ -261,7 +261,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * overriding default receiveStateShowPulse specif getter-setter
+     * overriding default receiveStateShowPulse
      */
     public set receiveStateShowPulse(value: string) {
         this.removeAttribute("receiveStateShowPulse".toLowerCase());
@@ -272,7 +272,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * overriding default receivestateshow specif getter-setter
+     * overriding default receiveStateHidePulse
      */
     public set receiveStateHidePulse(value: string) {
         this.removeAttribute("receiveStateHidePulse".toLowerCase());
@@ -283,7 +283,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * overriding default receiveStateCustomStyle specif getter-setter
+     * overriding default receiveStateCustomStyle
      */
     public set receiveStateCustomStyle(value: string) {
         this.removeAttribute("receiveStateCustomStyle".toLowerCase());
@@ -294,7 +294,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * overriding default receiveStateCustomClass specif getter-setter
+     * overriding default receiveStateCustomClass
      */
     public set receiveStateCustomClass(value: string) {
         this.removeAttribute("receiveStateCustomClass".toLowerCase());
@@ -305,7 +305,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
     }
 
     /**
-     * overriding default dir specif getter-setter
+     * overriding default dir
      */
     public set dir(value: string) {
         this.removeAttribute("dir".toLowerCase());
