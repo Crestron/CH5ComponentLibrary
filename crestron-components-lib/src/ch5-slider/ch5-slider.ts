@@ -2069,73 +2069,73 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	}
 
 	private _onMouseLeave(inEvent: any): void {
-		setTimeout(() => {
-			if (this.isSliderStarted === true) {
-				const noUiHandle = this._elSlider.querySelector('.noUi-handle') as HTMLElement;
-	
-				let eventOffsetX = null;
-				let eventOffsetY = null;
-	
-				if (inEvent.type === 'touchmove') {
-					if (_.isNil(this.sliderTouch)) {
-						const touchToCheck = inEvent.touches[0] || inEvent.changedTouches[0];
-						this.sliderTouch = {
-							clientX: touchToCheck.clientX,
-							clientY: touchToCheck.clientY
-						};
-					}
-	
-					const touch = inEvent.touches[0] || inEvent.changedTouches[0];
-					eventOffsetX = touch.clientX;
-					eventOffsetY = touch.clientY;
-					let touchPositionValue = 0;
-					let calculationValue = 0;
-					if (this._orientation === 'vertical') {
-						touchPositionValue = Math.abs(this.sliderTouch.clientX - eventOffsetX);
-						calculationValue = this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-					} else {
-						touchPositionValue = Math.abs(this.sliderTouch.clientY - eventOffsetY);
-						calculationValue = this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
-					}
-					if (calculationValue < touchPositionValue) {
-						this.isSliderStarted = false;
-						this._elSlider.addEventListener('touchmove', this._onTouchMoveEnd);
-						this.dispatchEvent(
-							this.blurEvent = new CustomEvent('touchend', {
-								bubbles: false,
-								cancelable: false,
-							})
-						);
-					}
-	
+		// setTimeout(() => {
+		if (this.isSliderStarted === true) {
+			const noUiHandle = this._elSlider.querySelector('.noUi-handle') as HTMLElement;
+
+			let eventOffsetX = null;
+			let eventOffsetY = null;
+
+			if (inEvent.type === 'touchmove') {
+				if (_.isNil(this.sliderTouch)) {
+					const touchToCheck = inEvent.touches[0] || inEvent.changedTouches[0];
+					this.sliderTouch = {
+						clientX: touchToCheck.clientX,
+						clientY: touchToCheck.clientY
+					};
+				}
+
+				const touch = inEvent.touches[0] || inEvent.changedTouches[0];
+				eventOffsetX = touch.clientX;
+				eventOffsetY = touch.clientY;
+				let touchPositionValue = 0;
+				let calculationValue = 0;
+				if (this._orientation === 'vertical') {
+					touchPositionValue = Math.abs(this.sliderTouch.clientX - eventOffsetX);
+					calculationValue = this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
 				} else {
-	
-					eventOffsetX = inEvent.clientX;
-					eventOffsetY = inEvent.clientY;
-	
-					let touchPositionValue = 0;
-					let calculationValue = 0;
-					if (this._orientation === 'vertical') {
-						touchPositionValue = Math.abs(this._elSlider.clientLeft - eventOffsetX);
-						calculationValue = this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
-					} else {
-						touchPositionValue = Math.abs(this._elSlider.clientTop - eventOffsetY);
-						calculationValue = this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
-					}
-					if (calculationValue < touchPositionValue) {
-						this.isSliderStarted = false;
-						this.dispatchEvent(
-							this.blurEvent = new CustomEvent('mouseup', {
-								bubbles: true,
-								cancelable: false
-							})
-						);
-						noUiHandle.blur();
-					}
+					touchPositionValue = Math.abs(this.sliderTouch.clientY - eventOffsetY);
+					calculationValue = this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+				}
+				if (calculationValue < touchPositionValue) {
+					this.isSliderStarted = false;
+					this._elSlider.addEventListener('touchmove', this._onTouchMoveEnd);
+					this.dispatchEvent(
+						this.blurEvent = new CustomEvent('touchend', {
+							bubbles: false,
+							cancelable: false,
+						})
+					);
+				}
+
+			} else {
+
+				eventOffsetX = inEvent.clientX;
+				eventOffsetY = inEvent.clientY;
+
+				let touchPositionValue = 0;
+				let calculationValue = 0;
+				if (this._orientation === 'vertical') {
+					touchPositionValue = Math.abs(this._elSlider.clientLeft - eventOffsetX);
+					calculationValue = this._elSlider.clientWidth + Ch5Slider.OFFSET_THRESHOLD;
+				} else {
+					touchPositionValue = Math.abs(this._elSlider.clientTop - eventOffsetY);
+					calculationValue = this._elSlider.clientHeight + Ch5Slider.OFFSET_THRESHOLD;
+				}
+				if (calculationValue < touchPositionValue) {
+					this.isSliderStarted = false;
+					this.dispatchEvent(
+						this.blurEvent = new CustomEvent('mouseup', {
+							bubbles: true,
+							cancelable: false
+						})
+					);
+					noUiHandle.blur();
 				}
 			}
-	
-		}, 200);
+		}
+
+		// }, 200);
 	}
 
 	/**
