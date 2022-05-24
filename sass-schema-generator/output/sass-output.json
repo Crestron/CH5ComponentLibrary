@@ -515,7 +515,13 @@
           "description": "",
           "selectorStyles": [
             {
-              "styleName": "@include ch5-button-image-width-height($property-font-size)",
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
               "limits": [
                 {}
               ]
@@ -625,7 +631,13 @@
           "description": "",
           "selectorStyles": [
             {
-              "styleName": "@include ch5-button-image-width-height($property-font-size)",
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
               "limits": [
                 {}
               ]
@@ -740,7 +752,13 @@
           "description": "",
           "selectorStyles": [
             {
-              "styleName": "@include ch5-button-image-width-height($property-font-size)",
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
               "limits": [
                 {}
               ]
@@ -855,7 +873,13 @@
           "description": "",
           "selectorStyles": [
             {
-              "styleName": "@include ch5-button-image-width-height($property-font-size)",
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
               "limits": [
                 {}
               ]
@@ -970,7 +994,13 @@
           "description": "",
           "selectorStyles": [
             {
-              "styleName": "@include ch5-button-image-width-height($property-font-size)",
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
               "limits": [
                 {}
               ]
@@ -1394,63 +1424,6 @@
           ]
         },
         {
-          "className": ".ch5-button__checkbox--left",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "margin-right",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "checkboxPosition": [
-                "left"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-button__checkbox--right",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "margin-left",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "checkboxPosition": [
-                "right"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".cx-button-checkbox-pos-left .ch5-button--span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "margin-left",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "checkboxposition": [
-                "left"
-              ]
-            }
-          ]
-        },
-        {
           "className": ".cx-button-checkbox-pos-left",
           "description": "",
           "selectorStyles": [
@@ -1465,25 +1438,6 @@
             {
               "checkboxposition": [
                 "left"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".cx-button-checkbox-pos-right .ch5-button--span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "margin-right",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "checkboxposition": [
-                "right"
               ]
             }
           ]
