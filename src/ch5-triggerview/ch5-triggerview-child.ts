@@ -312,7 +312,7 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 				}
 				break;
 			case 'noshowtype':
-				//  assure that noshowtype attribute value is allways 'visibility'
+				//  assure that noshowtype attribute value is always 'visibility'
 				this.noshowType = Ch5TriggerViewChild.SHOW_TYPES[0];
 				break;
 			case 'show':
@@ -327,7 +327,7 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 					this.show = true;
 				}
 
-				// assure that noshowtype attribute value is allways 'visibility'
+				// assure that noshowtype attribute value is always 'visibility'
 				this.noshowType = Ch5TriggerViewChild.SHOW_TYPES[0];
 
 				this.updateForChangeInShowStatus();

@@ -1478,12 +1478,12 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		const callback: SignalSubscriptionCallback = (newValue: string | number | boolean) => {
 			const _newValue = newValue as number;
 			if (_newValue !== null || _newValue !== undefined) {
-
-				const bufferAmount = this.bufferAmount || 0;
-				const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
-				this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
-
-				this.animationHelper.signalScrollTo(_newValue as number);
+				setTimeout(() => {
+					const bufferAmount = this.bufferAmount || 0;
+					const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
+					this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
+					this.animationHelper.signalScrollTo(_newValue as number);
+				}, 200);
 			}
 		};
 
