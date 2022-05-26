@@ -225,7 +225,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
-		contractname: {contractName: true},
+		contractname: { contractName: true },
 		booleanjoinoffset: { booleanJoin: 1 },
 		numericjoinoffset: { numericJoin: 1 },
 		stringjoinoffset: { stringJoin: 1 }
@@ -254,7 +254,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 	public cssClassPrefix: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 
-	private  DEBOUNCE_BUTTON_DISPLAY: number = 25;
+	private DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
 	private _elContainer: HTMLElement = {} as HTMLElement;
 	private _elButton: HTMLElement = {} as HTMLElement;
@@ -621,21 +621,21 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			return;
 		}
 		if (isNil(value)) {
-            value = this.hasAttribute('checkboxShow');
-        } else if ([true, false].indexOf(value) < 0) {
-            value = true;
-        }
-        if (this.hasAttribute('checkboxShow')) {
-            if (value === false) {
-                this.setAttribute('checkboxShow', 'false');
-            } else {
-                this.setAttribute('checkboxShow', 'true');
-            }
-        }
-        if (value !== this._checkboxShow) {
-            this._checkboxShow = value;
+			value = this.hasAttribute('checkboxShow');
+		} else if ([true, false].indexOf(value) < 0) {
+			value = true;
+		}
+		if (this.hasAttribute('checkboxShow')) {
+			if (value === false) {
+				this.setAttribute('checkboxShow', 'false');
+			} else {
+				this.setAttribute('checkboxShow', 'true');
+			}
+		}
+		if (value !== this._checkboxShow) {
+			this._checkboxShow = value;
 			this.checkboxDisplay();
-        }
+		}
 	}
 	public get checkboxShow(): boolean {
 		return this._checkboxShow;
@@ -734,22 +734,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public set selected(value: boolean) {
 		this.logger.log('set selected("' + value + '")');
 		if (isNil(value)) {
-            value = this.hasAttribute('selected');
-        } else if ([true, false].indexOf(value) < 0) {
-            value = true;
-        }
-        if (this.hasAttribute('selected')) {
-            if (value === false) {
-                this.setAttribute('selected', 'false');
-            } else {
-                this.setAttribute('selected', 'true');
-            }
-        }
-        if (value !== this._selected) {
-            this._selected = value;
+			value = this.hasAttribute('selected');
+		} else if ([true, false].indexOf(value) < 0) {
+			value = true;
+		}
+		if (this.hasAttribute('selected')) {
+			if (value === false) {
+				this.setAttribute('selected', 'false');
+			} else {
+				this.setAttribute('selected', 'true');
+			}
+		}
+		if (value !== this._selected) {
+			this._selected = value;
 			this.setButtonDisplay();
 			this.checkboxDisplay();
-        }
+		}
 	}
 	public get selected(): boolean {
 		return this._selected;
@@ -972,7 +972,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		const signalResponse = thisButton._ch5ButtonSignal.setSignal(attributeName, attributeValue);
 		if (!isNil(signalResponse)) {
-			signalResponse.subscribe((newValue: string) => {
+			thisButton._ch5ButtonSignal.getSignal(attributeName).signalState = signalResponse.subscribe((newValue: string) => {
 				thisButton._ch5ButtonSignal.getSignal(attributeName).currentValue = newValue;
 				thisButton._ch5ButtonSignal.setVariable<T>(attributeName, newValue);
 				thisButton.setButtonDisplay();
@@ -1356,7 +1356,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			case 'checkboxshow':
 				let isCheckboxShow = false;
 				if (this.hasAttribute('checkboxshow')) {
-					isCheckboxShow =  this.toBoolean(newValue, true);
+					isCheckboxShow = this.toBoolean(newValue, true);
 				}
 				this.checkboxShow = isCheckboxShow;
 				this.checkboxDisplay();
@@ -1838,7 +1838,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		let hasCheckboxIcon = false;
 
-		if (this.hasAttribute("checkboxShow") &&  this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
 			hasCheckboxIcon = true;
 		}
 		this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
@@ -1884,8 +1884,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public setButtonDisplay(): void {
 		if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {
 			this.setButtonDisplayDetails();
-		// } else if (this.isButtonInitiated === false) {
-		// 	this.setButtonDisplayDetails();
+			// } else if (this.isButtonInitiated === false) {
+			// 	this.setButtonDisplayDetails();
 		} else {
 			this.debounceSetButtonDisplay();
 		}
@@ -2095,7 +2095,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (templateData && templateData.length > 0) {
 				const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(templateData).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === "ch5-button");
 				if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
-					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) { 
+					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) {
 						extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
 					} else if (!isNil(this.getAttribute("label"))) {
 						extendedProperties.label = this.getAttribute("label") as string
@@ -2123,10 +2123,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.log("extendedProperties Final: ", JSON.parse(JSON.stringify(extendedProperties)));
 
 		// update templateContent attributes to increment join numbers and prefix contract name
-		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '', 
-		parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0, 
-		parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0, 
-		parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);   
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
+			parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0,
+			parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0,
+			parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);
 
 		this.logger.stop();
 	}

@@ -56,7 +56,6 @@ export class Ch5ButtonSignal {
 		if (receiveSignal === null) {
 			return null;
 		}
-		thisSignal.signalState = receiveSignal;
 		return receiveSignal;
 	}
 
@@ -78,9 +77,9 @@ export class Ch5ButtonSignal {
 		for (const eachSignal of this.signals) {
 			if (eachSignal.signalState !== '' && eachSignal.signalValue !== '') {
 				const receiveValueSigName: string = Ch5Signal.getSubscriptionSignalName(eachSignal.signalValue);
-				const sigLabel: Ch5Signal<string> | null = csf.getStringSignal(receiveValueSigName);
-				if (null !== sigLabel) {
-					sigLabel.unsubscribe(eachSignal.signalState);
+				const receiveSignal: Ch5Signal<string> | null = csf.getStringSignal(receiveValueSigName);
+				if (null !== receiveSignal) {
+					receiveSignal.unsubscribe(eachSignal.signalState);
 					eachSignal.signalValue = "";
 					eachSignal.signalState = "";
 				}
