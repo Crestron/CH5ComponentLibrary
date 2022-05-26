@@ -331,7 +331,7 @@ export class Ch5Pressable {
 		if (this._hammerManager !== null) {
 			this._hammerManager.on('press', this._onHold);
 			this._hammerManager.on('pressup', this._onRelease);
-			this._hammerManager.on('panend', this._onPanEnd);
+			this._hammerManager.on('panend', this._onPanEnd);			
 		}
 	}
 
@@ -346,6 +346,8 @@ export class Ch5Pressable {
 			this._hammerManager.off('press', this._onHold);
 			this._hammerManager.off('pressup', this._onRelease);
 			this._hammerManager.off('panend', this._onPanEnd);
+			this._hammerManager.destroy();
+			this._hammerManager = null;
 		}
 	}
 
