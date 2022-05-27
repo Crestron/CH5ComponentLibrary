@@ -24,14 +24,14 @@ export class Ch5tTextInputMask {
    *
    * @type {string}
    */
-  public modifierSeparator: string = '--' as string;
+  public readonly MODIFIER_SEPARATOR: string = '--';
 
   /**
    * Prefix added before the block class
    *
    * @type {string}
    */
-  public blockSeparator: string = '__' as string;
+  public readonly BLOCK_SEPARATOR: string = '__';
 
   /**
    * Determines if the mask element was added to the DOM
@@ -576,15 +576,16 @@ export class Ch5tTextInputMask {
     this.maskElement.style.left = '0px';
     this.maskElement.style.paddingLeft = inputStyles.paddingLeft;
     this.maskElement.style.paddingRight = inputStyles.paddingRight;
-    this.maskElement.style.fontSize = inputStyles.fontSize;
-    this.maskElement.style.fontWeight = inputStyles.fontWeight;
+    this.maskElement.style.fontSize = inputStyles.fontSize; // This code is not required during cleanup of ch5-textinput
+    this.maskElement.style.fontWeight = inputStyles.fontWeight; // This code is not required during cleanup of ch5-textinput
     this.maskElement.style.pointerEvents = 'none';
     this.maskElement.style.lineHeight = inputStyles.lineHeight;
 
-    const minWidth: string = this.input.style.minWidth;
-    if (Number(minWidth) < this.maskElement.getBoundingClientRect().width) {
-      this.input.style.minWidth = this.maskElement.getBoundingClientRect().width + 'px';
-    }
+    // The below code is not required and can be removed after CH5C-2822 is tested
+    // const minWidth: string = this.input.style.minWidth;
+    // if (Number(minWidth) < this.maskElement.getBoundingClientRect().width) {
+    //   this.input.style.minWidth = this.maskElement.getBoundingClientRect().width + 'px';
+    // }
   }
 
   /**
@@ -743,9 +744,9 @@ export class Ch5tTextInputMask {
   private _createTheWrapper(): HTMLElement {
 
     const wrapper = document.createElement('span');
-    wrapper.id = '_ch5-textinput' + this.blockSeparator + this.wrapperId;
-    wrapper.style.position = 'relative';
-    wrapper.style.display = 'flex';
+    wrapper.id = '_ch5-textinput' + this.BLOCK_SEPARATOR + this.wrapperId;
+    // wrapper.style.position = 'relative';
+    // wrapper.style.display = 'flex';
 
     return wrapper;
   }
@@ -798,7 +799,7 @@ export class Ch5tTextInputMask {
     const letters = this.maskValue.split('');
 
     letters.forEach((value, i) => {
-      letters[i] = '<span class="' + this.prefix + this.blockSeparator + 'letter">' + value + '</span>';
+      letters[i] = '<span class="' + this.prefix + this.BLOCK_SEPARATOR + 'letter">' + value + '</span>';
     });
 
     return letters.join('');
