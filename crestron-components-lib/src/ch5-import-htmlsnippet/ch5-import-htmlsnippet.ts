@@ -207,7 +207,9 @@ export class Ch5ImportHtmlSnippet extends Ch5Common implements ICh5ImportHtmlSni
 		this.initAttributes();
 		customElements.whenDefined('ch5-import-htmlsnippet').then(() => {
 			this.cacheComponentChildrens();
-			this.appendChild(this._elContainer);
+			if (this.firstChild !== this._elContainer) {
+				this.appendChild(this._elContainer);
+			}
 			this._sendSignalValueOnShow();
 			this.info(`ch5-import-htmlsnippet connectedCallback() - end`);
 		});
