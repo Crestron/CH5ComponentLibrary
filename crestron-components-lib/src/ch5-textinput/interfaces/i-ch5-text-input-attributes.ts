@@ -201,17 +201,17 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * [
    * "`stretch` attribute",
    * "***",
-   * "The default value is 'fixed'. Valid values: 'fixed', 'width', and 'content'.",
+   * "The default value is 'null'. Valid values: 'fixed', 'width', and 'content'.",
    * "Sets the width of the input.",
    * "Fixed - fixed position (from CSS classes) ",
    * "Width - Width of the parent content ",
    * "Content - Width will be equal to the content width"
    * ]
    * @name stretch
-   * @default fixed
+   * @default null
    * @attributeType "EnumeratedValue"
    */
-  stretch: TCh5TextInputStretch;
+  stretch: TCh5TextInputStretch | null;
 
   /**
    * @documentation
