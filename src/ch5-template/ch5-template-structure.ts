@@ -7,7 +7,6 @@
 
 import { isEmpty, isNil } from 'lodash';
 import { Ch5Template } from "./ch5-template";
-import { publishEvent } from "../ch5-core";
 import { Ch5AugmentVarSignalsNames } from '../ch5-common/ch5-augment-var-signals-names';
 
 export class Ch5TemplateStructure {
@@ -50,6 +49,8 @@ export class Ch5TemplateStructure {
      * The id if created an instance of the template
      */
     private _instanceId: string | null = null;
+
+    private _elementIds: string[] | null = null;
 
     /**
      * @private
@@ -110,6 +111,10 @@ export class Ch5TemplateStructure {
 
     public get instanceId(): string | null {
         return this._instanceId;
+    }
+
+    public get elementIds(): string[] | null {
+        return this._elementIds;
     }
 
     // DELETE after 2.0.27
@@ -260,17 +265,17 @@ export class Ch5TemplateStructure {
                 this._instanceId = `${templateId}:${thisInstanceNum}`;
                 newElement.id = this._instanceId;
                 // provide unique id for each first level element of the template unless it already has id
-                const elementIds: string[] = [];
+                this._elementIds = [];
                 for (let childcnt = 0; childcnt < newElement.children.length; childcnt++) {
                     if (!newElement.children[childcnt].id) {
                         newElement.children[childcnt].id = `${this._instanceId}:${childcnt}`;
                     }
-                    elementIds.push(newElement.children[childcnt].id);
+                    this._elementIds.push(newElement.children[childcnt].id);
                 }
 
                 this.element.info(`Ch5TemplateStructure --- [FINAL] Adding content to ChTemplate: ${this._instanceId}`, newElement);
                 this.element = newElement as Ch5Template;
-                publishEvent('object', `ch5-template:${templateId}`, { loaded: true, id: this._instanceId, elementIds });
+
             }
         }
     }
