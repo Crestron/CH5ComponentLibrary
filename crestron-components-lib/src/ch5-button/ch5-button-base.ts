@@ -2504,22 +2504,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			}
 		});
 
-		if (stretchCssClassNameToAdd !== '') {
-			Ch5ButtonBase.SIZES.forEach((size: TCh5ButtonSize) => {
-				const cssClass = this.primaryCssClass + '--size-' + size;
-				if (cssClass !== stretchCssClassNameToAdd) {
-					targetEl.classList.remove(cssClass);
-				}
-			});
-			targetEl.classList.add(stretchCssClassNameToAdd);
-		} else {
-			Ch5ButtonBase.SIZES.forEach((size: TCh5ButtonSize) => {
-				const cssClass = this.primaryCssClass + '--size-' + size;
-				if (size === this.size) {
-					targetEl.classList.add(cssClass);
-				}
-			});
-		}
+		// if (stretchCssClassNameToAdd !== '') {
+		// 	Ch5ButtonBase.SIZES.forEach((size: TCh5ButtonSize) => {
+		// 		const cssClass = this.primaryCssClass + '--size-' + size;
+		// 		if (cssClass !== stretchCssClassNameToAdd) {
+		// 			targetEl.classList.remove(cssClass);
+		// 		}
+		// 	});
+		// 	targetEl.classList.add(stretchCssClassNameToAdd);
+		// } else {
+		// 	Ch5ButtonBase.SIZES.forEach((size: TCh5ButtonSize) => {
+		// 		const cssClass = this.primaryCssClass + '--size-' + size;
+		// 		if (size === this.size) {
+		// 			targetEl.classList.add(cssClass);
+		// 		}
+		// 	});
+		// }
 	}
 
 	protected updateCssClassesForCustomState(): void {
