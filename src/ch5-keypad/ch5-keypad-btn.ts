@@ -108,7 +108,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     //#region 2. Setters and Getters
 
     /**
-     * labelMajor specif getter-setter
+     * labelMajor
      */
     public set labelMajor(value: string) {
         this.logger.start('set labelMajor("' + value + '")');
@@ -124,7 +124,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     }
 
     /**
-     * labelMinor specif getter-setter
+     * labelMinor
      */
     public set labelMinor(value: string) {
         this.logger.start('set labelMinor("' + value + '")');
@@ -140,7 +140,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     }
 
     /**
-     * iconClass specif getter-setter
+     * iconClass
      */
     public set iconClass(value: string) {
         this.logger.start('set iconClass("' + value + '")');
@@ -156,7 +156,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     }
 
     /**
-     * sendEventOnClick specif getter-setter
+     * sendEventOnClick
      */
     public set sendEventOnClick(value: string) {
         this.logger.start('set sendEventOnClick("' + value + '")');
@@ -170,7 +170,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     }
 
     /**
-     * key specif getter-setter
+     * key
      */
      public set key(value: string) {
         this.logger.start('set key("' + value + '")');
