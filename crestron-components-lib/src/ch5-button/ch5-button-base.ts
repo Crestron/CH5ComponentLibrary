@@ -505,48 +505,70 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	public set customClass(value: string) {
-		this.setButtonAttribute('customClass', value, []);
+		this.setButtonAttribute('customClass', value);
 	}
 	public get customClass(): string {
 		return this._customClass;
 	}
 
 	public set customStyle(value: string) {
-		this.setButtonAttribute('customStyle', value, []);
+		this.setButtonAttribute('customStyle', value);
 	}
 	public get customStyle(): string {
 		return this._customStyle;
 	}
 
 	public set iconClass(value: string) {
-		this.setButtonAttribute('iconClass', value, []);
+		this.setButtonAttribute('iconClass', value);
 	}
 	public get iconClass(): string {
 		return this._iconClass;
 	}
 
 	public set hAlignLabel(value: TCh5ButtonHorizontalAlignLabel) {
-		this.setButtonAttribute('hAlignLabel', value, Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS);
+		this.setButtonAttribute('hAlignLabel', value, Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS, Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0]);
 	}
 	public get hAlignLabel(): TCh5ButtonHorizontalAlignLabel {
 		return this._hAlignLabel;
 	}
 
-	private setButtonAttribute<T>(attribute: keyof Ch5ButtonBase, value: T, masterData: T[]) {
-		this.logger.log('set ' + attribute + '("' + value + '")');
-		if (!isNil(value) && this[attribute] !== value) {
-			if (masterData.length === 0) {
-				this.setAttribute(attribute, String(value));
-				this.setButtonDisplay();
+	/**
+	 * @param attribute 
+	 * @param value 
+	 * @param enumeratedMasterData 
+	 */
+	private setButtonAttribute<T>(attribute: keyof Ch5ButtonBase, value: T, enumeratedMasterData: T[] = [], defaultValue?: T) {
+		this.logger.log('setButtonAttribute: ' + attribute + ' - "' + value + '"');
+		if (this[attribute] !== value) {
+			if (enumeratedMasterData.length === 0) {
+				// Implies that the content can be any string
+				if (_.isNil(value) || String(value).trim() === "") {
+					this.removeAttribute(attribute);
+					this.setButtonDisplay();
+				} else {
+					this.setAttribute(attribute, String(value));
+					this.setButtonDisplay();
+				}
 			} else {
-				this.setAttribute(attribute, String(Ch5ButtonUtils.getValidInputValue<T>(masterData, value)));
-				this.setButtonDisplay();
+				// Implies that the content has to be an enumerated value ONLY
+				if (enumeratedMasterData.indexOf(value) >= 0) {
+					this.setAttribute(attribute, String(value).trim());
+					this.setButtonDisplay();
+				} else {
+					if (!_.isNil(defaultValue)) {
+						this.setAttribute(attribute, String(defaultValue).trim());
+						this.setButtonDisplay();
+					} else {
+						this.removeAttribute(attribute);
+						this.setButtonDisplay();
+					}
+				}
 			}
 		}
 	}
 
 	public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel) {
-		this.setButtonAttribute('vAlignLabel', value, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS);
+		this.setButtonAttribute('vAlignLabel', value, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0]);
 	}
 	public get vAlignLabel(): TCh5ButtonVerticalAlignLabel {
 		return this._vAlignLabel;
@@ -608,7 +630,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	public set checkboxPosition(value: TCh5ButtonCheckboxPosition) {
-		this.setButtonAttribute('checkboxPosition', value, Ch5ButtonBase.CHECKBOX_POSITIONS);
+		this.setButtonAttribute('checkboxPosition', value, Ch5ButtonBase.CHECKBOX_POSITIONS, Ch5ButtonBase.CHECKBOX_POSITIONS[0]);
 	}
 	public get checkboxPosition(): TCh5ButtonCheckboxPosition {
 		return this._checkboxPosition;
@@ -642,14 +664,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	public set iconPosition(value: TCh5ButtonIconPosition) {
-		this.setButtonAttribute('iconPosition', value, Ch5ButtonBase.ICON_POSITIONS);
+		this.setButtonAttribute('iconPosition', value, Ch5ButtonBase.ICON_POSITIONS, Ch5ButtonBase.ICON_POSITIONS[0]);
 	}
 	public get iconPosition(): TCh5ButtonIconPosition {
 		return this._iconPosition;
 	}
 
 	public set iconUrl(value: string) {
-		this.setButtonAttribute('iconUrl', value, []);
+		this.setButtonAttribute('iconUrl', value);
 	}
 	public get iconUrl(): string {
 		return this._iconUrl;
@@ -1236,7 +1258,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			return;
 		}
 
-		this.logger.log('ch5-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
+		this.logger.log('ch5-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 
 		switch (attr) {
 			case 'customclass':
@@ -1643,7 +1665,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.start("updateIconDisplay");
 		if (!isNil(this._previousIconUrl) && this._previousIconUrl !== '') {
 			this._elIcon.style.backgroundImage = '';
-			// this._elIcon.classList.remove(this.primaryCssClass + '--img');
 		}
 		if (!isNil(this._previousIconClass) && this._previousIconClass !== '') {
 			this._previousIconClass.split(' ').forEach((className: string) => {
@@ -1652,7 +1673,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					this._elIcon.classList.remove(className);
 				}
 			});
-			// this._elIcon.classList.remove(this.primaryCssClass + '--icon');
 		}
 
 		if (!isNil(this.iconUrl) && this.iconUrl !== '') {
@@ -2160,16 +2180,20 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// iconUrl, iconClass
 		this._previousIconUrl = this._iconUrl;
 		this._previousIconClass = this._iconClass;
-		if (!isNil(updatedNodes.iconUrl)) {
-			this._iconUrl = updatedNodes.iconUrl;
+		if (isNil(updatedNodes.iconUrl)) {
+			updatedNodes.iconUrl = "";
 		}
-		if (!isNil(updatedNodes.iconClass)) {
-			this._iconClass = updatedNodes.iconClass;
+		this._iconUrl = updatedNodes.iconUrl;
+
+		if (isNil(updatedNodes.iconClass)) {
+			updatedNodes.iconClass = "";
 		}
-		if (this.previousExtendedProperties.iconUrl !== this.iconUrl && !isNil(this.iconUrl) && this.iconUrl !== "") {
+		this._iconClass = updatedNodes.iconClass;
+
+		if (this.previousExtendedProperties.iconUrl !== this.iconUrl) {
 			updateUIMethods.updateIconDisplay = true;
 			updateUIMethods.updateInternalHtml = true; // Applicable when iconUrl changes and iconclass and url combines
-		} else if (this.previousExtendedProperties.iconClass !== this.iconClass && !isNil(this.iconClass) && this.iconClass !== "") {
+		} else if (this.previousExtendedProperties.iconClass !== this.iconClass) {
 			updateUIMethods.updateIconDisplay = true;
 			updateUIMethods.updateInternalHtml = true; // Applicable when iconUrl changes and iconclass and url combines
 		}
@@ -2194,17 +2218,19 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		// customClass
-		if (!isNil(updatedNodes.customClass)) {
-			this._customClass = updatedNodes.customClass;
+		if (isNil(updatedNodes.customClass)) {
+			updatedNodes.customClass = "";
 		}
+		this._customClass = updatedNodes.customClass;
 		if (this.previousExtendedProperties.customClass !== this.customClass) {
 			updateUIMethods.updateForChangeInCustomCssClass = true;
 		}
 
 		// customStyle
-		if (!isNil(updatedNodes.customStyle)) {
-			this._customStyle = updatedNodes.customStyle;
+		if (isNil(updatedNodes.customStyle)) {
+			updatedNodes.customStyle = "";
 		}
+		this._customStyle = updatedNodes.customStyle;
 		if (this.previousExtendedProperties.customStyle !== this.customStyle) {
 			updateUIMethods.updateForChangeInStyleCss = true;
 		}
@@ -2412,11 +2438,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// type
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.type);
 
-		if (this.stretch === null) {
-			// size
-			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--size-' + this.size);
-		} else {
-			// stretch
+		// size
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--size-' + this.size);
+		if (!_.isNil(this.stretch)) {
+			// stretch overrides size
 			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--stretch-' + this.stretch);
 		}
 
