@@ -64,6 +64,8 @@ $ch5-button-font-style: $ch5-font-style !default;
 $ch5-button-font-weight: $ch5-font-weight !default;
 
 /// The padding for icon of the button.
+$ch5-button-icon-color: inherit !default;
+$ch5-button-icon-font-size: inherit !default;
 $ch5-button-icon-padding: 5px !default;
 $ch5-button-padding: 0.25rem !default;
 
@@ -551,6 +553,8 @@ $ch5-button-font-style: $ch5-font-style !default;
 $ch5-button-font-weight: $ch5-font-weight !default;
 
 /// The padding for icon of the button.
+$ch5-button-icon-color: inherit !default;
+$ch5-button-icon-font-size: inherit !default;
 $ch5-button-icon-padding: 5px !default;
 $ch5-button-padding: 0.25rem !default;
 
@@ -969,22 +973,26 @@ $ch5-button-text-disabled-font-color: $text-disabled-font-color !default;
 // ------------------------------------------------------
 
 
-@mixin ch5-button-image-width-height($property-font-size) {
-  height: $property-font-size * 1.5;
-  width: $property-font-size * 1.5;
-}
-
-@mixin ch5-button-set-icon-classes($property-font-size) {
+@mixin ch5-button-set-icon-classes($property-image-height, $property-icon-color, $property-icon-font-size) {
   .ch5-button--img {
     display: block;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
-    @include ch5-button-image-width-height($property-font-size);
+    color: inherit;
+    height: $property-image-height * 1.5;
+    width: $property-image-height * 1.5;
+
     &::before,
     &::after {
       content: none;
     }
+  }
+
+  .ch5-button--icon {
+    vertical-align: middle;
+    color: $property-icon-color;
+    font-size: $property-icon-font-size;
   }
 }
 
@@ -1036,7 +1044,7 @@ ch5-button[hidden] {
   display: none;
 }
 
-.ch5-button { 
+.ch5-button {
   .cb-btn {
     line-height: $ch5-button-content-line-height;
     padding: $ch5-button-padding;
@@ -1092,13 +1100,6 @@ ch5-button[hidden] {
 }
 
 .ch5-button {
-  .cb-btn {
-    width: $ch5-button-size * 2;
-    height: $ch5-button-size;
-    font-size: $ch5-button-font-size;
-    font-style: $ch5-button-font-style;
-    font-weight: $ch5-button-font-weight;
-  }
   .cb-btn.ch5-button--vertical {
     height: $ch5-button-size * 2;
     width: $ch5-button-size;
@@ -1118,21 +1119,7 @@ ch5-button[hidden] {
       padding-bottom: calc($ch5-button-padding / 2);
     }
   }
-
-  .ch5-button--icon {
-    vertical-align: middle;
-    color: inherit;
-  }
-
-  .ch5-button--img {
-    vertical-align: middle;
-    color: inherit;
-    height: $ch5-button-img-height;
-    width: $ch5-button-img-width;
-  }
 }
-
-// ******
 
 // *** Button 'stretch' attribute ***
 ch5-button[stretch="width"] {
@@ -1260,7 +1247,20 @@ ch5-button[stretch="both"] {
 }
 
 // Sizes
-@include ch5-button-set-icon-classes($ch5-button-font-size);
+.ch5-button--size-regular {
+  .cb-btn {
+    width: $ch5-button-size * 2;
+    height: $ch5-button-size;
+    font-size: $ch5-button-font-size;
+    font-style: $ch5-button-font-style;
+    font-weight: $ch5-button-font-weight;
+  }
+  .ch5-button__checkbox--checked:before,
+  .ch5-button__checkbox--unchecked:before {
+    font-size: $ch5-button-size;
+  }
+  @include ch5-button-set-icon-classes($ch5-button-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+}
 
 .ch5-button--size-x-small {
   .cb-btn {
@@ -1274,7 +1274,7 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-x-small-font-size;
   }
-  @include ch5-button-set-icon-classes($ch5-button-x-small-font-size);
+  @include ch5-button-set-icon-classes($ch5-button-x-small-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
 }
 .ch5-button--size-small {
   .cb-btn {
@@ -1288,7 +1288,7 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-small-font-size;
   }
-  @include ch5-button-set-icon-classes($ch5-button-small-font-size);
+  @include ch5-button-set-icon-classes($ch5-button-small-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
 }
 .ch5-button--size-large {
   .cb-btn {
@@ -1302,7 +1302,7 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-large-font-size;
   }
-  @include ch5-button-set-icon-classes($ch5-button-large-font-size);
+  @include ch5-button-set-icon-classes($ch5-button-large-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
 }
 .ch5-button--size-x-large {
   .cb-btn {
@@ -1316,7 +1316,7 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-x-large-font-size;
   }
-  @include ch5-button-set-icon-classes($ch5-button-x-large-font-size);
+  @include ch5-button-set-icon-classes($ch5-button-x-large-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
 }
 
 .ch5-button--circle {
@@ -1344,16 +1344,20 @@ ch5-button[stretch="both"] {
       height: $ch5-button-x-large-size * 2;
     }
   }
-  .cb-btn {
-    width: $ch5-button-size * 2;
-    height: $ch5-button-size * 2;
+  &.ch5-button--size-regular {
+    .cb-btn {
+      width: $ch5-button-size * 2;
+      height: $ch5-button-size * 2;
+    }
   }
 }
 
 .ch5-button--vertical:not(.ch5-button--circle) {
-  .cb-btn {
-    width: $ch5-button-size;
-    height: $ch5-button-size * 2;
+  &.ch5-button--size-regular {
+    .cb-btn {
+      width: $ch5-button-size;
+      height: $ch5-button-size * 2;
+    }
   }
   &.ch5-button--size-x-small {
     .cb-btn {
@@ -1530,13 +1534,11 @@ i.cb-icon.cx-button-icon-pos-bottom {
   font-family: $ch5-button-faicon-font-family;
   content: $ch5-button-checkbox-checked-faicon;
   font-weight: $ch5-button-checkbox-checked-font-weight;
-  font-size: $ch5-button-font-size;
 }
 .ch5-button__checkbox--unchecked:before {
   font-family: $ch5-button-faicon-font-family;
   content: $ch5-button-checkbox-unchecked-faicon;
   font-weight: $ch5-button-checkbox-unchecked-font-weight;
-  font-size: $ch5-button-font-size;
 }
 .cx-button-checkbox-pos-left {
   padding-right: $ch5-button-checkbox-padding;
@@ -1583,14 +1585,6 @@ i.cb-icon.cx-button-icon-pos-top {
 /// @group ch5-button
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@mixin ch5-button-content($property-border-width, $property-border-style, $property-default-border-color, $property-default-background-color, $property-default-font-color) {
-  border-style: $property-border-style;
-  border-width: $property-border-width;
-  border-color: $property-default-border-color;
-  background-color: $property-default-background-color;
-  color: $property-default-font-color;
-}
-
 @mixin ch5-button-content--selected($property-selected-border-color, $property-selected-background-color, $property-selected-font-color) {
   border-color: $property-selected-border-color;
   background-color: $property-selected-background-color;
@@ -1601,6 +1595,14 @@ i.cb-icon.cx-button-icon-pos-top {
   border-color: $property-pressed-border-color;
   background-color: $property-pressed-background-color;
   color: $property-pressed-font-color;
+}
+
+@mixin ch5-button-content($property-border-width, $property-border-style, $property-default-border-color, $property-default-background-color, $property-default-font-color) {
+  border-style: $property-border-style;
+  border-width: $property-border-width;
+  border-color: $property-default-border-color;
+  background-color: $property-default-background-color;
+  color: $property-default-font-color;
 }
 
 /// Applied when type='text'

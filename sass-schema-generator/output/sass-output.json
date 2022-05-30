@@ -68,8 +68,8 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             }
           ]
@@ -87,8 +87,8 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             }
           ]
@@ -279,43 +279,6 @@
           ]
         },
         {
-          "className": ".ch5-button .cb-btn",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "width",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "height",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": []
-        },
-        {
           "className": ".ch5-button .cb-btn.ch5-button--vertical",
           "description": "",
           "selectorStyles": [
@@ -404,31 +367,6 @@
           ]
         },
         {
-          "className": ".ch5-button .ch5-button--img",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "height",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "width",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "icon": [
-                true
-              ]
-            }
-          ]
-        },
-        {
           "className": ".ch5-button--stretch-height .cb-btn",
           "description": "",
           "selectorStyles": [
@@ -504,14 +442,105 @@
           ],
           "showWhen": [
             {
-              "state": [
-                "disabled"
+              "disabled": [
+                true
               ]
             }
           ]
         },
         {
-          "className": ".ch5-button--img",
+          "className": ".ch5-button--size-regular .cb-btn",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-weight",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular .ch5-button__checkbox--checked:before",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "checkboxShow": [
+                true
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular .ch5-button__checkbox--unchecked:before",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "checkboxShow": [
+                false
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular .ch5-button--img",
           "description": "",
           "selectorStyles": [
             {
@@ -529,8 +558,43 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
               ]
             }
           ]
@@ -591,7 +655,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             },
@@ -615,7 +679,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             },
@@ -645,8 +709,38 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             },
             {
@@ -712,7 +806,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             },
@@ -736,7 +830,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             },
@@ -766,8 +860,38 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             },
             {
@@ -833,7 +957,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             },
@@ -857,7 +981,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             },
@@ -887,8 +1011,38 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             },
             {
@@ -954,7 +1108,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             },
@@ -978,7 +1132,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             },
@@ -1008,8 +1162,38 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             },
             {
@@ -1140,7 +1324,7 @@
           ]
         },
         {
-          "className": ".ch5-button--circle .cb-btn",
+          "className": ".ch5-button--circle.ch5-button--size-regular .cb-btn",
           "description": "",
           "selectorStyles": [
             {
@@ -1161,11 +1345,16 @@
               "shape": [
                 "circle"
               ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--vertical:not(.ch5-button--circle) .cb-btn",
+          "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-regular .cb-btn",
           "description": "",
           "selectorStyles": [
             {
@@ -1188,6 +1377,11 @@
                 "rectangle",
                 "tab",
                 "oval"
+              ]
+            },
+            {
+              "size": [
+                "regular"
               ]
             },
             {
@@ -1370,17 +1564,11 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             }
@@ -1407,17 +1595,11 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             }
@@ -2387,7 +2569,7 @@
       "componentThemeVersion": "1.0.0",
       "selectors": [
         {
-          "className": "ch5-image>img",
+          "className": ".ch5-image.ch5-image__img",
           "description": "",
           "selectorStyles": [
             {
@@ -3382,8 +3564,8 @@
           ],
           "showWhen": [
             {
-              "state": [
-                "disabled"
+              "disabled": [
+                true
               ]
             }
           ]
@@ -3910,12 +4092,6 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "min-width",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
@@ -3950,12 +4126,6 @@
             },
             {
               "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "min-width",
               "limits": [
                 {}
               ]
@@ -3996,12 +4166,6 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "min-width",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
@@ -4039,12 +4203,6 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "min-width",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
@@ -4079,12 +4237,6 @@
             },
             {
               "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "min-width",
               "limits": [
                 {}
               ]
@@ -4238,162 +4390,6 @@
             {
               "icon": [
                 true
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-textinput",
-          "description": "Main class",
-          "selectorStyles": [
-            {
-              "styleName": "color",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": []
-        },
-        {
-          "className": ".ch5-textinput__assets",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "border",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "border-radius",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": []
-        },
-        {
-          "className": ".ch5-textinput--x-small span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "size": [
-                "x-small"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-textinput--small span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "size": [
-                "small"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-textinput--large span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "size": [
-                "large"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-textinput--x-large span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "size": [
-                "x-large"
               ]
             }
           ]

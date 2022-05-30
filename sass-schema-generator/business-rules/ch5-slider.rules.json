@@ -17,8 +17,8 @@
     },
     {
       "contains": ".ch5-slider--disabled",
-      "key": "state",
-      "value": "disabled"
+      "key": "disabled",
+      "value": true
     }
   ]
 }

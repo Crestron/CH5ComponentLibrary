@@ -10,20 +10,21 @@
 /// @group ch5-image
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@import 'scss/_variables';
+@import "scss/_variables";
+
 ch5-image {
-    display:inline-block;
-    &>img {
+    display: inline-block;
+}
+
+/// Added automatically on the first child of the ch5-image element.
+.ch5-image {
+    &.ch5-image__img {
         height: $ch5-image-height;
         width: $ch5-image-width;
         max-height: 100%;
         max-width: 100%;
         object-fit: $ch5-image-object-fit;
     }
-}
-
-/// Added automatically on the first child of the ch5-image element.
-.ch5-image {
     // flip image
     &.ch5-image--dir--rtl {
         -moz-transform: scaleX(-1);
@@ -37,6 +38,6 @@ ch5-image {
 
 /// Added automatically based on the disabled attribute or by receiveStateEnable.
 .ch5-image--disabled {
-  pointer-events: none;
-  opacity: 0.5;
+    pointer-events: none;
+    opacity: 0.5;
 }

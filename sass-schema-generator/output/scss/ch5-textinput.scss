@@ -11,6 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @import './scss/_variables';
+@import './scss/_base';
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
 /// All rights reserved.
@@ -109,6 +110,9 @@ $ch5-textinput-input-regular-lr-padding: 20px !default;
 /// set the min width for regular size of the textinput
 $ch5-textinput-input-regular-min-width: 400px !default;
 
+/// set the width for regular size of the textinput
+$ch5-textinput-size-regular-width: 400px !default;
+
 /// set the font size unit for regular size of the textinput
 $ch5-textinput-regular-font-size-unit: px !default;
 
@@ -117,6 +121,9 @@ $ch5-textinput-regular-font-size-value: 16 !default;
 
 /// set the font size for regular size of the textinput
 $ch5-textinput-regular-font-size: $ch5-textinput-regular-font-size-value + $ch5-textinput-regular-font-size-unit !default;
+
+/// set the font size for regular size of the textinput
+$ch5-textinput-regular-mask-font-size: calc($ch5-textinput-regular-font-size - 2px);
 
 /// set the font style for regular size of the textinput
 $ch5-textinput-regular-font-style: $ch5-textinput-font-style !default;
@@ -142,6 +149,9 @@ $ch5-textinput-x-small-font-size-value: 12 !default;
 /// set the font size for x-small size of the textinput
 $ch5-textinput-x-small-font-size: $ch5-textinput-x-small-font-size-value + $ch5-textinput-x-small-font-size-unit !default;
 
+/// set the font size for x-small size of the textinput
+$ch5-textinput-x-small-mask-font-size: calc($ch5-textinput-x-small-font-size - 1px);
+
 /// set the font style for x-small size of the textinput
 $ch5-textinput-x-small-font-style: $ch5-textinput-font-style !default;
 
@@ -157,6 +167,9 @@ $ch5-textinput-input-x-small-lr-padding: 10px !default;
 /// set the min width for x-small size of the textinput
 $ch5-textinput-input-x-small-min-width: 200px !default;
 
+/// set the width for x-small size of the textinput
+$ch5-textinput-size-x-small-width: 200px !default;
+
 /// set the font size of icon for x-small size of the textinput
 $ch5-textinput-icon-x-small-font-size: $ch5-textinput-input-x-small-tb-padding !default;
 
@@ -170,7 +183,7 @@ $ch5-textinput-icon-x-small-lr-margin: $ch5-textinput-x-small-font-size !default
 $ch5-textinput-input-small-tb-padding: 15px !default;
 
 /// set left and right padding for small size of the textinput
-$ch5-textinput-input-small-lr-padding: 20px !default;
+$ch5-textinput-input-small-lr-padding: 15px !default;
 
 /// set the font size unit for small size of the textinput
 $ch5-textinput-small-font-size-unit: $ch5-textinput-font-size-unit !default;
@@ -181,6 +194,9 @@ $ch5-textinput-small-font-size-value: 14 !default;
 /// set the font size for small size of the textinput
 $ch5-textinput-small-font-size: $ch5-textinput-small-font-size-value + $ch5-textinput-small-font-size-unit !default;
 
+/// set the font size for small size of the textinput
+$ch5-textinput-small-mask-font-size: calc($ch5-textinput-small-font-size - 1px);
+
 /// set the font style for small size of the textinput
 $ch5-textinput-small-font-style: $ch5-textinput-font-style !default;
 
@@ -189,6 +205,9 @@ $ch5-textinput-small-font-weight: $ch5-textinput-font-weight !default;
 
 /// set the min width for small size of the textinput
 $ch5-textinput-input-small-min-width: 250px !default;
+
+/// set the width for small size of the textinput
+$ch5-textinput-size-small-width: 250px !default;
 
 /// set the font size of icon for small size of the textinput
 $ch5-textinput-icon-small-font-size: $ch5-textinput-small-font-size !default;
@@ -200,10 +219,10 @@ $ch5-textinput-icon-small-tb-margin: $ch5-textinput-small-font-size !default;
 $ch5-textinput-icon-small-lr-margin: $ch5-textinput-small-font-size !default;
 
 /// set top and bottom padding for large size of the textinput
-$ch5-textinput-input-large-tb-padding: 20px !default;
+$ch5-textinput-input-large-tb-padding: 15px !default;
 
 /// set left and right padding for large size of the textinput
-$ch5-textinput-input-large-lr-padding: 15px !default;
+$ch5-textinput-input-large-lr-padding: 20px !default;
 
 /// set the font size value for large size of the textinput
 $ch5-textinput-large-font-size-unit: $ch5-textinput-font-size-unit !default;
@@ -214,6 +233,9 @@ $ch5-textinput-large-font-size-value: 18 !default;
 /// set the font size for large size of the textinput
 $ch5-textinput-large-font-size: $ch5-textinput-large-font-size-value + $ch5-textinput-large-font-size-unit !default;
 
+/// set the font size for large size of the textinput
+$ch5-textinput-large-mask-font-size: calc($ch5-textinput-large-font-size - 4px);
+
 /// set the font style for large size of the textinput
 $ch5-textinput-large-font-style: $ch5-textinput-font-style !default;
 
@@ -222,6 +244,9 @@ $ch5-textinput-large-font-weight: $ch5-textinput-font-weight !default;
 
 /// set the min width for large size of the textinput
 $ch5-textinput-input-large-min-width: 500px !default;
+
+/// set the width for large size of the textinput
+$ch5-textinput-size-large-width: 500px !default;
 
 /// set the font size of icon for large size of the textinput
 $ch5-textinput-icon-large-font-size: $ch5-textinput-large-font-size !default;
@@ -247,6 +272,9 @@ $ch5-textinput-x-large-font-size-value: 22 !default;
 /// set the font size for x-large size of the textinput
 $ch5-textinput-x-large-font-size: $ch5-textinput-x-large-font-size-value + $ch5-textinput-x-large-font-size-unit !default;
 
+/// set the font size for x-large size of the textinput
+$ch5-textinput-x-large-mask-font-size: calc($ch5-textinput-x-large-font-size - 4px);
+
 /// set the font style for x-large size of the textinput
 $ch5-textinput-x-large-font-style: $ch5-textinput-font-style !default;
 
@@ -255,6 +283,9 @@ $ch5-textinput-x-large-font-weight: $ch5-textinput-font-weight !default;
 
 /// set the min width for x-large size of the textinput
 $ch5-textinput-input-x-large-min-width: $ch5-textinput-input-large-min-width !default;
+
+/// set the width for x-large size of the textinput
+$ch5-textinput-size-x-large-width: $ch5-textinput-size-large-width !default;
 
 /// set the font size of icon for x-large size of the textinput
 $ch5-textinput-icon-x-large-font-size:  $ch5-textinput-x-large-font-size !default;
@@ -267,6 +298,7 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
 
 
 .ch5-textinput {
+
   /// @require .ch5-textinput
   /// Class apply on the label
   &__label {
@@ -319,7 +351,6 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
 /// @group ch5-textinput
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
 /// All rights reserved.
@@ -406,6 +437,9 @@ $ch5-textinput-input-regular-lr-padding: 20px !default;
 /// set the min width for regular size of the textinput
 $ch5-textinput-input-regular-min-width: 400px !default;
 
+/// set the width for regular size of the textinput
+$ch5-textinput-size-regular-width: 400px !default;
+
 /// set the font size unit for regular size of the textinput
 $ch5-textinput-regular-font-size-unit: px !default;
 
@@ -414,6 +448,9 @@ $ch5-textinput-regular-font-size-value: 16 !default;
 
 /// set the font size for regular size of the textinput
 $ch5-textinput-regular-font-size: $ch5-textinput-regular-font-size-value + $ch5-textinput-regular-font-size-unit !default;
+
+/// set the font size for regular size of the textinput
+$ch5-textinput-regular-mask-font-size: calc($ch5-textinput-regular-font-size - 2px);
 
 /// set the font style for regular size of the textinput
 $ch5-textinput-regular-font-style: $ch5-textinput-font-style !default;
@@ -439,6 +476,9 @@ $ch5-textinput-x-small-font-size-value: 12 !default;
 /// set the font size for x-small size of the textinput
 $ch5-textinput-x-small-font-size: $ch5-textinput-x-small-font-size-value + $ch5-textinput-x-small-font-size-unit !default;
 
+/// set the font size for x-small size of the textinput
+$ch5-textinput-x-small-mask-font-size: calc($ch5-textinput-x-small-font-size - 1px);
+
 /// set the font style for x-small size of the textinput
 $ch5-textinput-x-small-font-style: $ch5-textinput-font-style !default;
 
@@ -454,6 +494,9 @@ $ch5-textinput-input-x-small-lr-padding: 10px !default;
 /// set the min width for x-small size of the textinput
 $ch5-textinput-input-x-small-min-width: 200px !default;
 
+/// set the width for x-small size of the textinput
+$ch5-textinput-size-x-small-width: 200px !default;
+
 /// set the font size of icon for x-small size of the textinput
 $ch5-textinput-icon-x-small-font-size: $ch5-textinput-input-x-small-tb-padding !default;
 
@@ -467,7 +510,7 @@ $ch5-textinput-icon-x-small-lr-margin: $ch5-textinput-x-small-font-size !default
 $ch5-textinput-input-small-tb-padding: 15px !default;
 
 /// set left and right padding for small size of the textinput
-$ch5-textinput-input-small-lr-padding: 20px !default;
+$ch5-textinput-input-small-lr-padding: 15px !default;
 
 /// set the font size unit for small size of the textinput
 $ch5-textinput-small-font-size-unit: $ch5-textinput-font-size-unit !default;
@@ -478,6 +521,9 @@ $ch5-textinput-small-font-size-value: 14 !default;
 /// set the font size for small size of the textinput
 $ch5-textinput-small-font-size: $ch5-textinput-small-font-size-value + $ch5-textinput-small-font-size-unit !default;
 
+/// set the font size for small size of the textinput
+$ch5-textinput-small-mask-font-size: calc($ch5-textinput-small-font-size - 1px);
+
 /// set the font style for small size of the textinput
 $ch5-textinput-small-font-style: $ch5-textinput-font-style !default;
 
@@ -486,6 +532,9 @@ $ch5-textinput-small-font-weight: $ch5-textinput-font-weight !default;
 
 /// set the min width for small size of the textinput
 $ch5-textinput-input-small-min-width: 250px !default;
+
+/// set the width for small size of the textinput
+$ch5-textinput-size-small-width: 250px !default;
 
 /// set the font size of icon for small size of the textinput
 $ch5-textinput-icon-small-font-size: $ch5-textinput-small-font-size !default;
@@ -497,10 +546,10 @@ $ch5-textinput-icon-small-tb-margin: $ch5-textinput-small-font-size !default;
 $ch5-textinput-icon-small-lr-margin: $ch5-textinput-small-font-size !default;
 
 /// set top and bottom padding for large size of the textinput
-$ch5-textinput-input-large-tb-padding: 20px !default;
+$ch5-textinput-input-large-tb-padding: 15px !default;
 
 /// set left and right padding for large size of the textinput
-$ch5-textinput-input-large-lr-padding: 15px !default;
+$ch5-textinput-input-large-lr-padding: 20px !default;
 
 /// set the font size value for large size of the textinput
 $ch5-textinput-large-font-size-unit: $ch5-textinput-font-size-unit !default;
@@ -511,6 +560,9 @@ $ch5-textinput-large-font-size-value: 18 !default;
 /// set the font size for large size of the textinput
 $ch5-textinput-large-font-size: $ch5-textinput-large-font-size-value + $ch5-textinput-large-font-size-unit !default;
 
+/// set the font size for large size of the textinput
+$ch5-textinput-large-mask-font-size: calc($ch5-textinput-large-font-size - 4px);
+
 /// set the font style for large size of the textinput
 $ch5-textinput-large-font-style: $ch5-textinput-font-style !default;
 
@@ -519,6 +571,9 @@ $ch5-textinput-large-font-weight: $ch5-textinput-font-weight !default;
 
 /// set the min width for large size of the textinput
 $ch5-textinput-input-large-min-width: 500px !default;
+
+/// set the width for large size of the textinput
+$ch5-textinput-size-large-width: 500px !default;
 
 /// set the font size of icon for large size of the textinput
 $ch5-textinput-icon-large-font-size: $ch5-textinput-large-font-size !default;
@@ -544,6 +599,9 @@ $ch5-textinput-x-large-font-size-value: 22 !default;
 /// set the font size for x-large size of the textinput
 $ch5-textinput-x-large-font-size: $ch5-textinput-x-large-font-size-value + $ch5-textinput-x-large-font-size-unit !default;
 
+/// set the font size for x-large size of the textinput
+$ch5-textinput-x-large-mask-font-size: calc($ch5-textinput-x-large-font-size - 4px);
+
 /// set the font style for x-large size of the textinput
 $ch5-textinput-x-large-font-style: $ch5-textinput-font-style !default;
 
@@ -552,6 +610,9 @@ $ch5-textinput-x-large-font-weight: $ch5-textinput-font-weight !default;
 
 /// set the min width for x-large size of the textinput
 $ch5-textinput-input-x-large-min-width: $ch5-textinput-input-large-min-width !default;
+
+/// set the width for x-large size of the textinput
+$ch5-textinput-size-x-large-width: $ch5-textinput-size-large-width !default;
 
 /// set the font size of icon for x-large size of the textinput
 $ch5-textinput-icon-x-large-font-size:  $ch5-textinput-x-large-font-size !default;
@@ -570,7 +631,7 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
         background: transparent;
         border: 0;
         color: $ch5-textinput-input-text-color;
-        max-width: 100%;
+        // max-width: 100%;
         outline: 0;
         /// @require .ch5-textinput__input
         /// Class apply on the input when text-transform="uppercase"
@@ -600,7 +661,9 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
             font-style: $ch5-textinput-x-small-font-style;
             font-size: $ch5-textinput-x-small-font-size;
             font-weight: $ch5-textinput-x-small-font-weight;
-            min-width: $ch5-textinput-input-x-small-min-width;
+            width: 100%;
+            height: 100%;
+            // min-width: $ch5-textinput-input-x-small-min-width;
         }
         /// @require .ch5-textinput__input
         /// Class apply on the input when size="small"
@@ -609,7 +672,9 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
             font-style: $ch5-textinput-small-font-style;
             font-size: $ch5-textinput-small-font-size;
             font-weight: $ch5-textinput-small-font-weight;
-            min-width: $ch5-textinput-input-small-min-width;
+            width: 100%;
+            height: 100%;
+            // min-width: $ch5-textinput-input-small-min-width;
         }
         /// @require .ch5-textinput__input
         /// Class apply on the input when size="regular"
@@ -618,7 +683,9 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
             font-style: $ch5-textinput-regular-font-style;
             font-size: $ch5-textinput-regular-font-size;
             font-weight: $ch5-textinput-regular-font-weight;
-            min-width: $ch5-textinput-input-regular-min-width;
+            width: 100%;
+            height: 100%;
+            // min-width: $ch5-textinput-input-regular-min-width;
         }
          /// @require .ch5-textinput__input
         /// Class apply on the input when size="large"
@@ -627,7 +694,9 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
             font-style: $ch5-textinput-large-font-style;
             font-size: $ch5-textinput-large-font-size;
             font-weight: $ch5-textinput-large-font-weight;
-            min-width: $ch5-textinput-input-large-min-width;
+            width: 100%;
+            height: 100%;
+            // min-width: $ch5-textinput-input-large-min-width;
         }
         /// @require .ch5-textinput__input
         /// Class apply on the input when size="x-large"
@@ -636,7 +705,9 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
             font-style: $ch5-textinput-x-large-font-style;
             font-size: $ch5-textinput-x-large-font-size;
             font-weight: $ch5-textinput-x-large-font-weight;
-            min-width: $ch5-textinput-input-x-large-min-width;
+            width: 100%;
+            height: 100%;
+            // min-width: $ch5-textinput-input-x-large-min-width;
         }
     }
 }
@@ -739,6 +810,9 @@ $ch5-textinput-input-regular-lr-padding: 20px !default;
 /// set the min width for regular size of the textinput
 $ch5-textinput-input-regular-min-width: 400px !default;
 
+/// set the width for regular size of the textinput
+$ch5-textinput-size-regular-width: 400px !default;
+
 /// set the font size unit for regular size of the textinput
 $ch5-textinput-regular-font-size-unit: px !default;
 
@@ -747,6 +821,9 @@ $ch5-textinput-regular-font-size-value: 16 !default;
 
 /// set the font size for regular size of the textinput
 $ch5-textinput-regular-font-size: $ch5-textinput-regular-font-size-value + $ch5-textinput-regular-font-size-unit !default;
+
+/// set the font size for regular size of the textinput
+$ch5-textinput-regular-mask-font-size: calc($ch5-textinput-regular-font-size - 2px);
 
 /// set the font style for regular size of the textinput
 $ch5-textinput-regular-font-style: $ch5-textinput-font-style !default;
@@ -772,6 +849,9 @@ $ch5-textinput-x-small-font-size-value: 12 !default;
 /// set the font size for x-small size of the textinput
 $ch5-textinput-x-small-font-size: $ch5-textinput-x-small-font-size-value + $ch5-textinput-x-small-font-size-unit !default;
 
+/// set the font size for x-small size of the textinput
+$ch5-textinput-x-small-mask-font-size: calc($ch5-textinput-x-small-font-size - 1px);
+
 /// set the font style for x-small size of the textinput
 $ch5-textinput-x-small-font-style: $ch5-textinput-font-style !default;
 
@@ -787,6 +867,9 @@ $ch5-textinput-input-x-small-lr-padding: 10px !default;
 /// set the min width for x-small size of the textinput
 $ch5-textinput-input-x-small-min-width: 200px !default;
 
+/// set the width for x-small size of the textinput
+$ch5-textinput-size-x-small-width: 200px !default;
+
 /// set the font size of icon for x-small size of the textinput
 $ch5-textinput-icon-x-small-font-size: $ch5-textinput-input-x-small-tb-padding !default;
 
@@ -800,7 +883,7 @@ $ch5-textinput-icon-x-small-lr-margin: $ch5-textinput-x-small-font-size !default
 $ch5-textinput-input-small-tb-padding: 15px !default;
 
 /// set left and right padding for small size of the textinput
-$ch5-textinput-input-small-lr-padding: 20px !default;
+$ch5-textinput-input-small-lr-padding: 15px !default;
 
 /// set the font size unit for small size of the textinput
 $ch5-textinput-small-font-size-unit: $ch5-textinput-font-size-unit !default;
@@ -811,6 +894,9 @@ $ch5-textinput-small-font-size-value: 14 !default;
 /// set the font size for small size of the textinput
 $ch5-textinput-small-font-size: $ch5-textinput-small-font-size-value + $ch5-textinput-small-font-size-unit !default;
 
+/// set the font size for small size of the textinput
+$ch5-textinput-small-mask-font-size: calc($ch5-textinput-small-font-size - 1px);
+
 /// set the font style for small size of the textinput
 $ch5-textinput-small-font-style: $ch5-textinput-font-style !default;
 
@@ -819,6 +905,9 @@ $ch5-textinput-small-font-weight: $ch5-textinput-font-weight !default;
 
 /// set the min width for small size of the textinput
 $ch5-textinput-input-small-min-width: 250px !default;
+
+/// set the width for small size of the textinput
+$ch5-textinput-size-small-width: 250px !default;
 
 /// set the font size of icon for small size of the textinput
 $ch5-textinput-icon-small-font-size: $ch5-textinput-small-font-size !default;
@@ -830,10 +919,10 @@ $ch5-textinput-icon-small-tb-margin: $ch5-textinput-small-font-size !default;
 $ch5-textinput-icon-small-lr-margin: $ch5-textinput-small-font-size !default;
 
 /// set top and bottom padding for large size of the textinput
-$ch5-textinput-input-large-tb-padding: 20px !default;
+$ch5-textinput-input-large-tb-padding: 15px !default;
 
 /// set left and right padding for large size of the textinput
-$ch5-textinput-input-large-lr-padding: 15px !default;
+$ch5-textinput-input-large-lr-padding: 20px !default;
 
 /// set the font size value for large size of the textinput
 $ch5-textinput-large-font-size-unit: $ch5-textinput-font-size-unit !default;
@@ -844,6 +933,9 @@ $ch5-textinput-large-font-size-value: 18 !default;
 /// set the font size for large size of the textinput
 $ch5-textinput-large-font-size: $ch5-textinput-large-font-size-value + $ch5-textinput-large-font-size-unit !default;
 
+/// set the font size for large size of the textinput
+$ch5-textinput-large-mask-font-size: calc($ch5-textinput-large-font-size - 4px);
+
 /// set the font style for large size of the textinput
 $ch5-textinput-large-font-style: $ch5-textinput-font-style !default;
 
@@ -852,6 +944,9 @@ $ch5-textinput-large-font-weight: $ch5-textinput-font-weight !default;
 
 /// set the min width for large size of the textinput
 $ch5-textinput-input-large-min-width: 500px !default;
+
+/// set the width for large size of the textinput
+$ch5-textinput-size-large-width: 500px !default;
 
 /// set the font size of icon for large size of the textinput
 $ch5-textinput-icon-large-font-size: $ch5-textinput-large-font-size !default;
@@ -877,6 +972,9 @@ $ch5-textinput-x-large-font-size-value: 22 !default;
 /// set the font size for x-large size of the textinput
 $ch5-textinput-x-large-font-size: $ch5-textinput-x-large-font-size-value + $ch5-textinput-x-large-font-size-unit !default;
 
+/// set the font size for x-large size of the textinput
+$ch5-textinput-x-large-mask-font-size: calc($ch5-textinput-x-large-font-size - 4px);
+
 /// set the font style for x-large size of the textinput
 $ch5-textinput-x-large-font-style: $ch5-textinput-font-style !default;
 
@@ -885,6 +983,9 @@ $ch5-textinput-x-large-font-weight: $ch5-textinput-font-weight !default;
 
 /// set the min width for x-large size of the textinput
 $ch5-textinput-input-x-large-min-width: $ch5-textinput-input-large-min-width !default;
+
+/// set the width for x-large size of the textinput
+$ch5-textinput-size-x-large-width: $ch5-textinput-size-large-width !default;
 
 /// set the font size of icon for x-large size of the textinput
 $ch5-textinput-icon-x-large-font-size:  $ch5-textinput-x-large-font-size !default;
@@ -939,99 +1040,3 @@ $ch5-textinput-icon-x-large-lr-margin: $ch5-textinput-x-large-font-size !default
   }
 }
 
-
-ch5-textinput {
-  display: inline-block;
-}
-
-/// Main class
-.ch5-textinput {
-
-  color: $ch5-textinput-text-color;
-
-  &__assets {
-    display: flex;
-    align-items: center;
-    border: $ch5-textinput-input-border-width solid $ch5-textinput-input-border-color;
-    border-radius: $ch5-textinput-input-border-radius;
-    height: 100%;
-    width: 100%;
-  }
-
-  // text-transform
-  &--uppercase {
-    text-transform: uppercase;
-  }
-
-  &--lowercase {
-    text-transform: lowercase;
-  }
-
-  &--capitalize {
-    text-transform: capitalize;
-  }
-
-  &--none {
-    text-transform: none;
-  }
-
-  &--x-small {
-    span {
-      font-style: $ch5-textinput-x-small-font-style;
-      font-size: $ch5-textinput-x-small-font-size;
-      font-weight: $ch5-textinput-x-small-font-weight;
-    }
-  }
-
-  &--small {
-    span {
-      font-style: $ch5-textinput-small-font-style;
-      font-size: $ch5-textinput-small-font-size;
-      font-weight: $ch5-textinput-small-font-weight;
-    }
-  }
-
-  &--large {
-    span {
-      font-style: $ch5-textinput-large-font-style;
-      font-size: $ch5-textinput-large-font-size;
-      font-weight: $ch5-textinput-large-font-weight;
-    }
-  }
-
-  &--x-large {
-    span {
-      font-style: $ch5-textinput-x-large-font-style;
-      font-size: $ch5-textinput-x-large-font-size;
-      font-weight: $ch5-textinput-x-large-font-weight;
-    }
-  }
-
-  &--content {
-
-    height: 100%;
-    width: 100%;
-    .ch5-textinput__assets {
-      height: 100%;
-      width: 100%;
-      input {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-  &--width {
-    width: 100%;
-    .ch5-textinput__assets {
-      input {
-        width: 100%;
-      }
-    }
-  }
-}
-
-/// Added automatically based on the disabled attribute or by receiveStateEnable
-.ch5-textinput--disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}

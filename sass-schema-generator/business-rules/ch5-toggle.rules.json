@@ -37,8 +37,8 @@
     },
     {
       "contains": ".ch5-toggle--disabled",
-      "key": "state",
-      "value": "disabled"
+      "key": "disabled",
+      "value": true
     },
     {
       "contains": ".ch5-toggle--oval",
