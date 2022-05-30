@@ -431,9 +431,9 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			if (_.isNil(value)) {
 				this._stretch = null;
 				this.removeAttribute('stretch');
-				for (let i: number = 0; i < Ch5Textinput.STRETCH.length; i++) {
-					this.classList.remove(this.cssClassPrefix + '--' + Ch5Textinput.STRETCH[i]);
-				}
+				Ch5Textinput.STRETCH.forEach((stretchValue: string) => {
+					this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
+				});
 			} else {
 				if (Ch5Textinput.STRETCH.indexOf(value) >= 0) {
 					this._stretch = value;
@@ -442,9 +442,9 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 				} else {
 					this._stretch = null;
 					this.removeAttribute('stretch');
-					for (let i: number = 0; i < Ch5Textinput.STRETCH.length; i++) {
-						this.classList.remove(this.cssClassPrefix + '--' + Ch5Textinput.STRETCH[i]);
-					}
+					Ch5Textinput.STRETCH.forEach((stretchValue: string) => {
+						this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
+					});
 				}
 			}
 		}
