@@ -2475,10 +2475,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
 			if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
-				// this._elButton.classList.add(cssClass);
 				this._elSpanForLabelIconImg.classList.add(cssClass);
 			} else {
-				// this._elButton.classList.remove(cssClass);
 				this._elSpanForLabelIconImg.classList.remove(cssClass);
 			}
 		});
@@ -2503,23 +2501,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				targetEl.classList.remove(cssClass);
 			}
 		});
-
-		// if (stretchCssClassNameToAdd !== '') {
-		// 	Ch5ButtonBase.SIZES.forEach((size: TCh5ButtonSize) => {
-		// 		const cssClass = this.primaryCssClass + '--size-' + size;
-		// 		if (cssClass !== stretchCssClassNameToAdd) {
-		// 			targetEl.classList.remove(cssClass);
-		// 		}
-		// 	});
-		// 	targetEl.classList.add(stretchCssClassNameToAdd);
-		// } else {
-		// 	Ch5ButtonBase.SIZES.forEach((size: TCh5ButtonSize) => {
-		// 		const cssClass = this.primaryCssClass + '--size-' + size;
-		// 		if (size === this.size) {
-		// 			targetEl.classList.add(cssClass);
-		// 		}
-		// 	});
-		// }
 	}
 
 	protected updateCssClassesForCustomState(): void {

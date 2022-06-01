@@ -234,6 +234,7 @@
         expect(ch5JointextString.getAttribute('show')).to.be.equal('false');
         expect(ch5JointextString.show).to.be.equal(false);
         ch5JointextString.removeAttribute('show');
+        expect(ch5JointextString.getAttribute('show')).to.be.equal(null);
         ch5JointextString.setAttribute('show', 'true');
         expect(ch5JointextString.getAttribute('show')).to.be.equal('true');
         expect(ch5JointextString.show).to.be.equal(true);
