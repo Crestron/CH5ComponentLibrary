@@ -107,22 +107,6 @@ export class Ch5Log extends HTMLElement {
 	}
 
 	/**
-	 * Converts value to boolean
-	 *
-	 * @private
-	 * @param {string|boolean} str
-	 * @returns {boolean}
-	 */
-	protected _toBoolean(val: any): boolean {
-		const str = String(val);
-		switch (str.toLowerCase().trim()) {
-			case "true": case "yes": case "1": return true;
-			case "false": case "no": case "0": case null: return false;
-			default: return Boolean(false);
-		}
-	}
-
-	/**
 		* Converts value to boolean
 		* Applicable for 'true', 'false', and null
 		* @private
@@ -130,18 +114,20 @@ export class Ch5Log extends HTMLElement {
 		* @returns {boolean}
 		*/
 	protected toBoolean(val: any, isEmptyValueEqualToTrue = false): boolean {
-		const str = String(val);
-		switch (str.toLowerCase().trim()) {
-			case "true": case "yes": case "1": return true;
-			case "false": case "no": case "0": case null: return false;
-			case "":
+		const str = String(val).toLowerCase().trim();
+		switch (str) {
+			case "true": case "yes": case "1":
+				return true;
+			case "false": case "no": case "0":
+				return false;
+			case "": case null: case undefined: case "null": case "undefined":
 				if (isEmptyValueEqualToTrue === true) {
 					return true;
 				} else {
-					return Boolean(false);
+					return false;
 				}
 			default:
-				return Boolean(false);
+				return false;
 		}
 	}
 

@@ -2369,10 +2369,10 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			this.indexId = this.getAttribute('indexid');
 		}
 		if (this.hasAttribute('pagedswipe')) {
-			this.pagedSwipe = this._toBoolean(this.getAttribute('pagedswipe'));
+			this.pagedSwipe = this.toBoolean(this.getAttribute('pagedswipe'));
 		}
 		if (this.hasAttribute('endless')) {
-			this.endless = this._toBoolean(this.getAttribute('endless'));
+			this.endless = this.toBoolean(this.getAttribute('endless'));
 		} else {
 			this.endless = false;
 		}

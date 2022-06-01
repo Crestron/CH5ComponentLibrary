@@ -101,7 +101,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     public static registerSignalAttributeTypes() {
         Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5KeypadButton.ELEMENT_NAME, Ch5KeypadButton.SIGNAL_ATTRIBUTE_TYPES);
     }
-    
+
 
     //#endregion
 
@@ -172,7 +172,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     /**
      * key
      */
-     public set key(value: string) {
+    public set key(value: string) {
         this.logger.start('set key("' + value + '")');
         if ((value !== '') && (value !== this._key)) {
             this._key = value;
@@ -186,31 +186,31 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
     }
 
     public set pressed(value: boolean) {
-		this.logger.log('set pressed("' + value + '")');
+        this.logger.log('set pressed("' + value + '")');
         if (value !== this._pressed) {
             this._pressed = value;
         } else {
             this._pressed = this.params.pressed;
         }
-		if (this._pressable) {
-			if (this._pressable._pressed !== value) {
-				this._pressable.setPressed(value);
-			}
-		}
+        if (this._pressable) {
+            if (this._pressable._pressed !== value) {
+                this._pressable.setPressed(value);
+            }
+        }
         this.setAttribute('pressed', value.toString());
 
         if (value === true) {
             this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
             this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
         }
-	}
-	public get pressed(): boolean {
-		if (this._pressable) {
-			return this._pressable._pressed;
-		} else {
-			return false;
-		}
-	}
+    }
+    public get pressed(): boolean {
+        if (this._pressable) {
+            return this._pressable._pressed;
+        } else {
+            return false;
+        }
+    }
 
     //#endregion
 
@@ -265,10 +265,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
         this.pressed = ComponentHelper.setAttributeToElement(this, 'pressed'.toLowerCase(), this._pressed.toString()) === 'true';
 
         if (this.hasAttribute('pressed')) {
-			if (this._pressable) {
-				this._pressable.setPressed(this.toBoolean((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false"), false));
-			}
-		}
+            if (this._pressable) {
+                this._pressable.setPressed(this.toBoolean((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false"), false));
+            }
+        }
 
         const remaningParamsKeys = Object.keys(remaningParams);
         const remaningParamsValues = Object.values(remaningParams);
@@ -359,9 +359,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
     protected attachEventListeners() {
         if (!_.isNil(this._pressable)) {
-			this._pressable?.init();
-			this._subscribeToPressableIsPressed();
-		}
+            this._pressable?.init();
+            this._subscribeToPressableIsPressed();
+        }
         // events binding
         this.bindEventListenersToThis();
     }
@@ -390,8 +390,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
         this.disconnectCommonMutationObserver();
 
         if (!_.isNil(this._pressable)) {
-			this._unsubscribeFromPressableIsPressed();
-		}
+            this._unsubscribeFromPressableIsPressed();
+        }
 
         this.logger.stop();
     }
@@ -444,8 +444,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
         ];
 
         // received signals
-        const receivedSignals: string[] = [
-        ];
+        const receivedSignals: string[] = [];
 
         // sent signals
         const sentSignals: string[] = [];
@@ -477,25 +476,46 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
                 break;
             case 'labelminor':
                 this.labelMinor = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                if (this.children && this.children.length > 0) {
+                    const minorButton = this.children[0].getElementsByClassName("label-minor");
+                    if (minorButton && minorButton[0]) {
+                        minorButton[0].innerHTML = this.labelMinor;
+                    }
+                }
                 break;
             case 'labelmajor':
                 this.labelMajor = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                if (this.children && this.children.length > 0) {
+                    const majorButton = this.children[0].getElementsByClassName("label-major");
+                    if (majorButton && majorButton[0]) {
+                        majorButton[0].innerHTML = this.labelMajor;
+                    }
+                }
                 break;
             case 'iconclass':
                 this.iconClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                if (this.children && this.children.length > 0) {
+                    const iconButton = this.children[0].getElementsByClassName("label-major has-icon");
+                    if (iconButton && iconButton[0]) {
+                        const spanBtn = iconButton[0].children[0];
+                        if (spanBtn) {
+                            spanBtn.setAttribute("class", this.iconClass);
+                        }
+                    }
+                }
                 break;
             case 'sendeventonclick':
                 this.sendEventOnClick = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
                 break;
             case 'pressed':
                 let isPressed = false;
-				if (this.hasAttribute('pressed')) {
-					isPressed = this.toBoolean(newValue, true);
-				}
-				if (this._pressable) {
-					this._pressable.setPressed(isPressed);
-				}
-				this.updateCssClasses();
+                if (this.hasAttribute('pressed')) {
+                    isPressed = this.toBoolean(newValue, true);
+                }
+                if (this._pressable) {
+                    this._pressable.setPressed(isPressed);
+                }
+                this.updateCssClasses();
                 break;
             case 'show':
             case 'enable':
