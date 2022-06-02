@@ -165,7 +165,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		ComponentHelper.setAttributeValueOnControl(this, 'shape', value, Ch5Dpad.SHAPES,
 			() => {
 				this.checkAndRestructureDomOfDpad();
-				this.updateCssClasses();
 			}
 		);
 		this.logger.stop();
@@ -192,7 +191,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		ComponentHelper.setAttributeValueOnControl(this, 'size', value, Ch5Dpad.SIZES,
 			() => {
 				this.checkAndRestructureDomOfDpad();
-				this.updateCssClasses();
 			}
 		);
 		this.logger.stop();
@@ -937,16 +935,31 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		if (!buttonsList.length) {
 			return;
 		}
-
-		let centerBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'center');
-		let upBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'up');
-
-		let rightBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'right');
-
-		let downBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'down');
-
-		let leftBtn = Array.from(buttonsList).find(item => item.getAttribute('key') === 'left');
-
+		let centerBtn;
+		let upBtn;
+		let rightBtn;
+		let downBtn;
+		let leftBtn;
+		Array.from(buttonsList).forEach(item => {
+			switch (item.getAttribute('key')) {
+				case 'center':
+					centerBtn = item;
+					break;
+				case 'up':
+					upBtn = item;
+					break;
+				case 'right':
+					rightBtn = item;
+					break;
+				case 'down':
+					downBtn = item;
+					break;
+				case 'left':
+					leftBtn = item;
+					break;
+				default: throw new Error("Seems to be an invalid dpad Button value ");
+			}
+		})
 		// if user forget one or more buttons the default ones will be added
 		if (!centerBtn) {
 			centerBtn = new Ch5DpadButton();
