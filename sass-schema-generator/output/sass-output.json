@@ -37,30 +37,11 @@
       "componentThemeVersion": "1.0.0",
       "selectors": [
         {
-          "className": ".ch5-button .cb-btn",
+          "className": ".ch5-button--disabled",
           "description": "",
           "selectorStyles": [
             {
-              "styleName": "line-height",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "padding",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": []
-        },
-        {
-          "className": ".ch5-button--icon",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "line-height",
+              "styleName": "opacity",
               "limits": [
                 {}
               ]
@@ -68,27 +49,8 @@
           ],
           "showWhen": [
             {
-              "iconClass": [
-                "SHOWWHEN.NOT_EMPTY"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-button--img",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "line-height",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "iconUrl": [
-                "SHOWWHEN.NOT_EMPTY"
+              "disabled": [
+                true
               ]
             }
           ]
@@ -279,6 +241,63 @@
           ]
         },
         {
+          "className": ".ch5-button .cb-btn",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "padding",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            }
+          ]
+        },
+        {
           "className": ".ch5-button .cb-btn.ch5-button--vertical",
           "description": "",
           "selectorStyles": [
@@ -425,25 +444,6 @@
             {
               "orientation": [
                 "vertical"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-button--disabled",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "opacity",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "disabled": [
-                true
               ]
             }
           ]
@@ -20508,6 +20508,12 @@
               "limits": [
                 {}
               ]
+            },
+            {
+              "styleName": "$ch5-keypad-x-small-container-width, $ch5-keypad-x-small-container-height, $ch5-keypad-x-small-container-height-extra, $ch5-keypad-x-small-font-size-major, $ch5-keypad-x-small-font-size-minor )",
+              "limits": [
+                {}
+              ]
             }
           ],
           "showWhen": []
@@ -20620,6 +20626,38 @@
           "showWhen": []
         },
         {
+          "className": ".ch5-keypad.ch5-keypad--size-x-small .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-x-small .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
           "className": ".ch5-keypad.ch5-keypad--size-small",
           "description": "",
           "selectorStyles": [
@@ -20643,6 +20681,12 @@
             },
             {
               "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "$ch5-keypad-small-container-width, $ch5-keypad-small-container-height, $ch5-keypad-small-container-height-extra, $ch5-keypad-small-font-size-major, $ch5-keypad-small-font-size-minor )",
               "limits": [
                 {}
               ]
@@ -20758,6 +20802,214 @@
           "showWhen": []
         },
         {
+          "className": ".ch5-keypad.ch5-keypad--size-small .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-small .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "min-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "$ch5-keypad-regular-container-width, $ch5-keypad-regular-container-height, $ch5-keypad-regular-container-height-extra, $ch5-keypad-regular-font-size-major, $ch5-keypad-regular-font-size-minor )",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular .keypad-container",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "min-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular[showextrabutton=\"true\"]",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular[usecontractforextrabuttonshow=\"true\"]",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular[showextrabutton=\"true\"] .keypad-container",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular[usecontractforextrabuttonshow=\"true\"] .keypad-container",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
           "className": ".ch5-keypad.ch5-keypad--size-large",
           "description": "",
           "selectorStyles": [
@@ -20781,6 +21033,12 @@
             },
             {
               "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "$ch5-keypad-large-container-width, $ch5-keypad-large-container-height, $ch5-keypad-large-container-height-extra, $ch5-keypad-large-font-size-major, $ch5-keypad-large-font-size-minor )",
               "limits": [
                 {}
               ]
@@ -20896,6 +21154,38 @@
           "showWhen": []
         },
         {
+          "className": ".ch5-keypad.ch5-keypad--size-large .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-large .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
           "className": ".ch5-keypad.ch5-keypad--size-x-large",
           "description": "",
           "selectorStyles": [
@@ -20919,6 +21209,12 @@
             },
             {
               "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "$ch5-keypad-x-large-container-width, $ch5-keypad-x-large-container-height, $ch5-keypad-x-large-container-height-extra, $ch5-keypad-x-large-font-size-major, $ch5-keypad-x-large-font-size-minor )",
               "limits": [
                 {}
               ]
@@ -21026,6 +21322,38 @@
             },
             {
               "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-x-large .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-x-large .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
               "limits": [
                 {}
               ]
