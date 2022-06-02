@@ -2,63 +2,73 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="/bower_components/web-component-tester/browser.js"></script>
-    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
-    <script src="/wct_tests/js/helpers.js"></script>
-    <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
 </head>
 
 <body>
 
-<test-fixture id="ch5-dpad-shapes-fixture">
+  <test-fixture id="ch5-dpad-shapes-fixture">
     <template>
-        <ch5-dpad shape="plus"></ch5-dpad>
+      <ch5-dpad shape="plus"></ch5-dpad>
     </template>
-</test-fixture>
+  </test-fixture>
 
-<script>
-  suite('ch5-dpad', () => {
+  <script>
+    suite('ch5-dpad', () => {
 
-    let ch5Dpad;
+      let ch5Dpad;
 
-    setup(async () => {
-      ch5Dpad = fixture('ch5-dpad-shapes-fixture');
-    });
-
-    const valid_shapes = CrComLib.Ch5Dpad.SHAPES;
-    const invalid_shapes = ['', null, 'Square', 'Rectangle'];
-    const default_shape = CrComLib.Ch5Dpad.SHAPES[0];
-
-    test(`Check attribute shape ${default_shape} by not adding the type attribute in HTML or through javascript to the button`, () => {
-      expect(ch5Dpad.shape).to.be.equal(default_shape);
-      expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + default_shape)).to.be.equal(true);
-    });
-
-    test(`Check default dir attribute`, () => {
-      expect(ch5Dpad.dir).to.be.equal('ltr');
-    });
-
-    valid_shapes.forEach((shapeName, i) => {
-      test(`Check attribute shape: "${shapeName}"`, () => {
-        ch5Dpad.setAttribute('shape', shapeName);
-        expect(ch5Dpad.shape).to.be.equal(shapeName);
-        expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + shapeName)).to.be.equal(true);
+      setup(async () => {
+        ch5Dpad = fixture('ch5-dpad-shapes-fixture');
       });
-    });
 
-    invalid_shapes.forEach((shapeName, i) => {
-      test(`Check attribute shape for invalid value: "${shapeName}"`, () => {
-        ch5Dpad.setAttribute('shape', shapeName);
+      const valid_shapes = CrComLib.Ch5Dpad.SHAPES;
+      const invalid_shapes = ['', null, 'Square', 'Rectangle'];
+      const default_shape = CrComLib.Ch5Dpad.SHAPES[0];
+
+      test(`Check attribute shape ${default_shape} by not adding the type attribute in HTML or through javascript to the button`, () => {
         expect(ch5Dpad.shape).to.be.equal(default_shape);
         expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + default_shape)).to.be.equal(true);
       });
+
+      test(`Check default dir attribute`, () => {
+        expect(ch5Dpad.dir).to.be.equal('ltr');
+      });
+
+      valid_shapes.forEach((shapeName, i) => {
+        test(`Check attribute shape: "${shapeName}"`, (done) => {
+          ch5Dpad.setAttribute('shape', shapeName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Dpad.shape).to.be.equal(shapeName);
+              expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + shapeName)).to.be.equal(true);
+              done();
+            }, 100);
+          });
+        });
+      });
+
+      invalid_shapes.forEach((shapeName, i) => {
+        test(`Check attribute shape for invalid value: "${shapeName}"`, (done) => {
+          ch5Dpad.setAttribute('shape', shapeName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5Dpad.shape).to.be.equal(default_shape);
+              expect(ch5Dpad.classList.contains("ch5-dpad--shape-" + default_shape)).to.be.equal(true);
+              done();
+            }, 100);
+          });
+        });
+      });
     });
-  });
-</script>
+  </script>
 </body>
 
 </html>
