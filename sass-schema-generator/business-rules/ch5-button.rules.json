@@ -2,22 +2,22 @@
   "businessRules": [
     {
       "contains": "iconposition",
-      "key": "iconClass",
+      "key": "iconclass",
       "value": "SHOWWHEN.NOT_EMPTY"
     },
     {
       "contains": "iconposition",
-      "key": "iconUrl",
+      "key": "iconurl",
       "value": "SHOWWHEN.NOT_EMPTY"
     },
     {
       "contains": "--icon",
-      "key": "iconClass",
+      "key": "iconclass",
       "value": "SHOWWHEN.NOT_EMPTY"
     },
     {
       "contains": "--img",
-      "key": "iconUrl",
+      "key": "iconurl",
       "value": "SHOWWHEN.NOT_EMPTY"
     },
     {
@@ -27,12 +27,12 @@
     },
     {
       "contains": "icon-pos",
-      "key": "iconClass",
+      "key": "iconclass",
       "value": "SHOWWHEN.NOT_EMPTY"
     },
     {
       "contains": "icon-pos",
-      "key": "iconUrl",
+      "key": "iconurl",
       "value": "SHOWWHEN.NOT_EMPTY"
     },    
     {
