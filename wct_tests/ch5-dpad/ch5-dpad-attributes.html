@@ -2,76 +2,76 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="/bower_components/web-component-tester/browser.js"></script>
-    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
-    <script src="/wct_tests/js/helpers.js"></script>
-    <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
 </head>
 
 <body>
-    <test-fixture id="ch5-dpad-disabled-fixture">
-        <template>
-            <ch5-dpad type="default" ID="test1a" shape="plus" disabled>
-            </ch5-dpad>
-        </template>
-    </test-fixture>
+  <test-fixture id="ch5-dpad-disabled-fixture">
+    <template>
+      <ch5-dpad type="default" ID="test1a" shape="plus" disabled>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
 
-    <test-fixture id="ch5-dpad-custom-class-fixture">
-        <template>
-            <ch5-dpad type="success" stretch="width" shape="plus" customClass="blue-dashed-border"></ch5-dpad>
-        </template>
-    </test-fixture>
+  <test-fixture id="ch5-dpad-custom-class-fixture">
+    <template>
+      <ch5-dpad type="success" stretch="width" shape="plus" customClass="blue-dashed-border"></ch5-dpad>
+    </template>
+  </test-fixture>
 
-    <test-fixture id="ch5-dpad-custom-style-fixture">
-        <template>
-            <ch5-dpad type="default" ID="test1a" shape="plus" customStyle="border:1px solid red">
-            </ch5-dpad>
-        </template>
-    </test-fixture>
+  <test-fixture id="ch5-dpad-custom-style-fixture">
+    <template>
+      <ch5-dpad type="default" ID="test1a" shape="plus" customStyle="border:1px solid red">
+      </ch5-dpad>
+    </template>
+  </test-fixture>
 
-    <script>
-        suite('ch5-dpad-disabled', () => {
-            let ch5Dpad;
+  <script>
+    suite('ch5-dpad-disabled', () => {
+      let ch5Dpad;
 
-            setup(async () => {
-              ch5Dpad = fixture('ch5-dpad-disabled-fixture');
-            });
+      setup(async () => {
+        ch5Dpad = fixture('ch5-dpad-disabled-fixture');
+      });
 
-          test(`Check disabled`, () => {
-            expect(ch5Dpad.getAttribute('disabled')).to.be.equal("");
-            ch5Dpad.removeAttribute('disabled');
-            expect(ch5Dpad.getAttribute('disabled')).to.be.equal(null);
-          });
-        });
+      test(`Check disabled`, () => {
+        expect(ch5Dpad.getAttribute('disabled')).to.be.equal(null);
+        ch5Dpad.removeAttribute('disabled');
+        expect(ch5Dpad.getAttribute('disabled')).to.be.equal(null);
+      });
+    });
 
-        suite('ch5-dpad-custom-class', () => {
-          let ch5Dpad;
+    suite('ch5-dpad-custom-class', () => {
+      let ch5Dpad;
 
-          setup(async () => {
-            ch5Dpad = fixture('ch5-dpad-custom-class-fixture');
-          });
+      setup(async () => {
+        ch5Dpad = fixture('ch5-dpad-custom-class-fixture');
+      });
 
-          test(`Check custom-class`, () => {
-            expect(ch5Dpad[0].classList.contains('blue-dashed-border')).to.be.equal(true);
-          });
-        });
+      test(`Check custom-class`, () => {
+        expect(ch5Dpad.classList.contains('blue-dashed-border')).to.be.equal(true);
+      });
+    });
 
-        suite('ch5-dpad-custom-style', () => {
-          let ch5Dpad;
+    suite('ch5-dpad-custom-style', () => {
+      let ch5Dpad;
 
-          setup(async () => {
-            ch5Dpad = fixture('ch5-dpad-custom-style-fixture');
-          });
+      setup(async () => {
+        ch5Dpad = fixture('ch5-dpad-custom-style-fixture');
+      });
 
-          test(`Check custom-style`, () => {
-            expect(ch5Dpad.getAttribute('customstyle')).to.equal('border:1px solid red');
-          });
-        })
-    </script>
+      test(`Check custom-style`, () => {
+        expect(ch5Dpad.getAttribute('customstyle')).to.equal('border:1px solid red');
+      });
+    })
+  </script>
 </body>
 
 </html>
