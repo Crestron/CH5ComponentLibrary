@@ -74,7 +74,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 			this._icon.style.backgroundImage = `url(${this.iconUrl})`;
 		} else if (this.iconClass) {
 			this._icon = CH5DpadUtils.getIconContainer();
-			this._icon.classList.add(...(this.iconClass.split(' ')));
+			this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces;
 		} else if (this.label.length > 0 && this.key === 'center') {
 			this._icon = CH5DpadUtils.getLabelContainer(this.labelClass);
 			this._icon.innerHTML = this.label;
