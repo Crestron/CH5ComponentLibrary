@@ -1,65 +1,69 @@
 <!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="/bower_components/web-component-tester/browser.js"></script>
-    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+<head>
+	<meta charset="utf-8">
+	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="/bower_components/web-component-tester/browser.js"></script>
+	<link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+	<script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
+
 <body>
 
-<test-fixture id="ch5-form-fixture">
-    <template>
-        <ch5-form> 
-            <ch5-toggle 
-                label="Do not disturb"
-                feedbackMode="submit" 
-                receiveStateValue="room_donotdisturb_selected" 
-                sendSignalOnClick="room_donotdisturb_clicked">
-            </ch5-toggle> 
-            
-            <ch5-slider feedbackMode="submit" receiveStateValue="room_thermostat_set_fb" sendSignalOnChange="room_thermostat_set" step="10" min="0" max="100"> </ch5-slider>
+	<test-fixture id="ch5-form-fixture">
+		<template>
+			<ch5-form>
+				<ch5-toggle label="Do not disturb" feedbackMode="submit" receiveStateValue="room_donotdisturb_selected" sendSignalOnClick="room_donotdisturb_clicked">
+				</ch5-toggle>
 
-            <ch5-textinput feedbackMode="submit" required="false" receiveStateValue="room_special_request_fb" sendSignalOnChange="room_special_request"></ch5-textinput>
-            
+				<ch5-slider feedbackMode="submit" receiveStateValue="room_thermostat_set_fb" sendSignalOnChange="room_thermostat_set" step="10" min="0" max="100"> </ch5-slider>
 
-            <ch5-button type="reset" id="room_cancel_id" label="Revert Changes"></ch5-button> 
-        </ch5-form>
-    </template>
-</test-fixture>
+				<ch5-textinput feedbackMode="submit" required="false" receiveStateValue="room_special_request_fb" sendSignalOnChange="room_special_request"></ch5-textinput>
 
-<script>
-    suite('ch5-form', function() {
-        let ch5Form;
-        let ch5FormChild;
 
-        /* coverity[implicit_this_used] */
-        setup(() => {
-            ch5Form = fixture('ch5-form-fixture');
-            
-            return Promise.all([
-                    customElements.whenDefined('ch5-button'),
-                    customElements.whenDefined('ch5-toggle'),
-                    customElements.whenDefined('ch5-slider'),
-                    customElements.whenDefined('ch5-textinput'),
-            ]).then(_ => {
-                ch5FormChild = document.querySelectorAll("[feedbackmode='submit']");
-            });
-        });
+				<ch5-button type="primary" id="room_cancel_id" label="Revert Changes"></ch5-button>
+			</ch5-form>
+		</template>
+	</test-fixture>
 
-        test('Default cancelButtonIcon is empty', function() {
-            expect(ch5Form.cancelButtonIcon).to.be.empty;
-            expect(ch5Form.cancelButtonIcon.iconClass).to.be.empty;
-        });
+	<script>
+		suite('ch5-form', () => {
+			let ch5Form;
+			let ch5FormChild;
 
-        test('cancelButtonIcon is "fa fa-star"', function() {
-            ch5Form.setAttribute('cancelButtonIcon', 'fa fa-star');
-            expect(ch5Form.cancelButtonIcon).to.be.equal('fa fa-star');
-            expect(ch5Form.cancelButton.iconClass).to.be.equal('fa fa-star ch5-form__cancel__icon');
-        });
-    });
-</script>
+			/* coverity[implicit_this_used] */
+			setup(() => {
+				ch5Form = fixture('ch5-form-fixture');
+
+				return Promise.all([
+					customElements.whenDefined('ch5-button'),
+					customElements.whenDefined('ch5-toggle'),
+					customElements.whenDefined('ch5-slider'),
+					customElements.whenDefined('ch5-textinput'),
+				]).then(_ => {
+					ch5FormChild = document.querySelectorAll("[feedbackmode='submit']");
+				});
+			});
+
+			test('Default cancelButtonIcon is empty', () => {
+				expect(ch5Form.cancelButtonIcon).to.be.empty;
+				expect(ch5Form.cancelButtonIcon.iconClass).to.be.empty;
+			});
+
+			test('cancelButtonIcon is "fa fa-star"', (done) => {
+				ch5Form.setAttribute('cancelButtonIcon', 'fa fa-star');
+				flush(() => {
+					setTimeout(() => {
+						expect(ch5Form.cancelButtonIcon).to.be.equal('fa fa-star');
+						expect(ch5Form.cancelButton.iconClass).to.be.equal('fa fa-star ch5-form__cancel__icon');
+						done();
+					}, 100);
+				});
+			});
+		});
+	</script>
 </body>
+
 </html>
