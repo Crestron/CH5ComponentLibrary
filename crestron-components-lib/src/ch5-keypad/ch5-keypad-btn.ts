@@ -226,8 +226,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		}
 		this.params = params;
 
-		ComponentHelper.clearComponentContent(this);
-		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 
 		this.logger.stop();
 	}
@@ -243,7 +241,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 
 		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
 
-		const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remaningParams } = this.params;
+		const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remainingParams } = this.params;
 		this._labelMajor = major;
 		this._labelMinor = minor;
 		this._iconClass = iconClass.join(' ');
@@ -253,14 +251,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		const eventHandlerValue = (contractName.length > 0) ? contractName : joinCountToAdd;
 		this._sendEventOnClick = eventHandlerValue;
 
-		this.labelMajor = ComponentHelper.setAttributeToElement(this,
-			'labelMajor'.toLowerCase(), this._labelMajor);
-		this.labelMinor = ComponentHelper.setAttributeToElement(this,
-			'labelMinor'.toLowerCase(), this._labelMinor);
-		this.iconClass = ComponentHelper.setAttributeToElement(this,
-			'iconClass'.toLowerCase(), this._iconClass);
-		this.sendEventOnClick = ComponentHelper.setAttributeToElement(this,
-			'sendEventOnClick'.toLowerCase(), this._sendEventOnClick);
+		this.labelMajor = ComponentHelper.setAttributeToElement(this, 'labelMajor'.toLowerCase(), this._labelMajor);
+		this.labelMinor = ComponentHelper.setAttributeToElement(this, 'labelMinor'.toLowerCase(), this._labelMinor);
+		this.iconClass = ComponentHelper.setAttributeToElement(this, 'iconClass'.toLowerCase(), this._iconClass);
+		this.sendEventOnClick = ComponentHelper.setAttributeToElement(this, 'sendEventOnClick'.toLowerCase(), this._sendEventOnClick);
 		this.key = ComponentHelper.setAttributeToElement(this, 'key'.toLowerCase(), this._key);
 		this.pressed = ComponentHelper.setAttributeToElement(this, 'pressed'.toLowerCase(), this._pressed.toString()) === 'true';
 
@@ -270,12 +264,12 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			}
 		}
 
-		const remaningParamsKeys = Object.keys(remaningParams);
-		const remaningParamsValues = Object.values(remaningParams);
-		if (remaningParamsKeys.length) {
-			for (let index = 0; index < remaningParamsKeys.length; index++) {
-				if (!_.isNil(remaningParamsValues[index])) {
-					ComponentHelper.setAttributeToElement(this, remaningParamsKeys[index].toLowerCase(), remaningParamsValues[index]);
+		const remainingParamsKeys = Object.keys(remainingParams);
+		const remainingParamsValues = Object.values(remainingParams);
+		if (remainingParamsKeys.length) {
+			for (let index = 0; index < remainingParamsKeys.length; index++) {
+				if (!_.isNil(remainingParamsValues[index])) {
+					ComponentHelper.setAttributeToElement(this, remainingParamsKeys[index].toLowerCase(), remainingParamsValues[index]);
 				}
 			}
 		}
@@ -289,21 +283,18 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
-
 		if (this.parentElement && !this.parentElement.classList.contains(this.parentDivCssClass)) {
 			this.logger.stop();
 			return;
 		}
 
+		ComponentHelper.clearComponentContent(this);
+		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+
 		this.setAttribute('data-ch5-id', this.getCrId());
 
 		// init pressable before initAttributes because pressable subscribe to gestureable attribute
 		if (!ComponentHelper.isNullOrUndefined(this._pressable) && !!this._pressable) {
-			this._pressable.init();
-			this._subscribeToPressableIsPressed();
-		}
-
-		if (!_.isNil(this._pressable)) {
 			this._pressable.init();
 			this._subscribeToPressableIsPressed();
 		}
@@ -321,13 +312,13 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 * Function to create HTML elements of the components including child elements
 	 */
 	protected createElementsAndInitialize() {
+		this.initAttributes();
 		if (!this._wasInstatiated) {
-			this.initAttributes();
 			this.createHtmlElements();
-			this.attachEventListeners();
-			this.updateCssClasses();
 		}
 		this._wasInstatiated = true;
+		this.attachEventListeners();
+		this.updateCssClasses();
 	}
 
 	/**
@@ -680,15 +671,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		}
 	}
 
-	/**
-	 * If type node is updated via html or js or signal, the change set attribue of type;
-	 * if receivestate is true, then even if type attribute chagnes, just use receivestatevalue
-	 * if receivestate is false, then
-	 * if mode attribute is updated, always call this method, and update all attributes 
-	 * @param fromNode 
-	 * @param isModeAttributeUpdated 
-	 * @param attibuteName 
-	 */
 	public setButtonDisplay() {
 		this.setButtonDisplayDetails();
 	}
