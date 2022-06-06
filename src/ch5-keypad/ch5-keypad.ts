@@ -793,14 +793,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         super();
         this.logger.start('constructor()', this.COMPONENT_NAME);
 
-        // set attributes based on onload attributes
-        this.initAttributes();
-
-        // build child elements ref object
-        this.buildRuntimeChildButtonList();
-
-        ComponentHelper.clearComponentContent(this);
-
         this.logger.stop();
     }
 
@@ -873,6 +865,14 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     public connectedCallback() {
         this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
+        // set attributes based on onload attributes
+        this.initAttributes();
+
+        // build child elements ref object
+        this.buildRuntimeChildButtonList();
+
+        ComponentHelper.clearComponentContent(this);
+
         Promise.all([
             customElements.whenDefined('ch5-keypad-button')
         ]).then(() => {
@@ -930,6 +930,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      * Useful for running clean up code.
      */
     public disconnectedCallback() {
+        this.logger.log("disconnectedCallback");
         this.removeEvents();
         this.unsubscribeFromSignals();
 
@@ -1291,7 +1292,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                     if (parentElement) {
                         if (Math.floor(requiredCellHeight * colCount) <= parentElement.offsetWidth) {
                             this.container.style.height = (requiredCellHeight * rowCount) + 'px';
-                            this.container.style.width = (requiredCellHeight * colCount) + 'px';	
+                            this.container.style.width = (requiredCellHeight * colCount) + 'px';
                         } else {
                             this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
                             this.container.style.width = (cellDimensionToRender * colCount) + 'px';
