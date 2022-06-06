@@ -172,7 +172,7 @@
                     ch5ButtonUsingNumeric = ch5Template.querySelector('ch5-button.uses-numeric');
                     ch5ButtonUsingContract = ch5Template.querySelector('ch5-button.uses-contract');
                     resolve(); 
-                });
+                },50); // TODO:
             });
             
             return Promise.all([
@@ -746,7 +746,7 @@
         });
         
         test('Increment sendeventonchange', function (done) {
-            assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '201', "numeric sendeventonchange mismatch");
+            assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '101', "numeric sendeventonchange mismatch");
             assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SliderValue', "contract sendeventonchange mismatch");
             done();
         });

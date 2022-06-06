@@ -60,3 +60,21 @@ from ch5 components, and custom attributes will not be affected)
 * setConfigKeyValue(key:string, value:boolean) - Changes the value of a key
 
 Mau: Branched CH5-Components-Release1
+
+/*
+implementation in the Ch5Pressable class where a state machine is used to take different actions on events based upon the state of the gesture.   
+*/
+
+  cd 'crestron-components-lib'
+
+  npm install
+
+  npm run build:dev:umd
+
+  npm run test:wct
+
+  npm start
+
+Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.ts(2580)
+
+  npm i --save-dev @types/node
