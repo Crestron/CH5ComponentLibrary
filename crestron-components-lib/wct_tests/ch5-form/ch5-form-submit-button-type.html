@@ -1,65 +1,74 @@
 <!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="/bower_components/web-component-tester/browser.js"></script>
-    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+<head>
+	<meta charset="utf-8">
+	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="/bower_components/web-component-tester/browser.js"></script>
+	<link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+	<script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
+
 <body>
 
-<test-fixture id="ch5-form-fixture">
-    <template>
-        <ch5-form> 
-            <ch5-toggle 
-                label="Do not disturb"
-                feedbackMode="submit" 
-                receiveStateValue="room_donotdisturb_selected" 
-                sendSignalOnClick="room_donotdisturb_clicked">
-            </ch5-toggle> 
-            
-            <ch5-slider feedbackMode="submit" receiveStateValue="room_thermostat_set_fb" sendSignalOnChange="room_thermostat_set" step="10" min="0" max="100"> </ch5-slider>
+	<test-fixture id="ch5-form-fixture">
+		<template>
+			<ch5-form>
+				<ch5-toggle label="Do not disturb" feedbackMode="submit" receiveStateValue="room_donotdisturb_selected" sendSignalOnClick="room_donotdisturb_clicked">
+				</ch5-toggle>
 
-            <ch5-textinput feedbackMode="submit" required="false" receiveStateValue="room_special_request_fb" sendSignalOnChange="room_special_request"></ch5-textinput>
-            
+				<ch5-slider feedbackMode="submit" receiveStateValue="room_thermostat_set_fb" sendSignalOnChange="room_thermostat_set" step="10" min="0" max="100"> </ch5-slider>
 
-            <ch5-button type="reset" id="room_cancel_id" label="Revert Changes"></ch5-button> 
-        </ch5-form>
-    </template>
-</test-fixture>
+				<ch5-textinput feedbackMode="submit" required="false" receiveStateValue="room_special_request_fb" sendSignalOnChange="room_special_request"></ch5-textinput>
 
-<script>
-    suite('ch5-form', function() {
-        let ch5Form;
-        let ch5FormChild;
 
-        /* coverity[implicit_this_used] */
-        setup(() => {
-            ch5Form = fixture('ch5-form-fixture');
-            
-            return Promise.all([
-                    customElements.whenDefined('ch5-button'),
-                    customElements.whenDefined('ch5-toggle'),
-                    customElements.whenDefined('ch5-slider'),
-                    customElements.whenDefined('ch5-textinput'),
-            ]).then(_ => {
-                ch5FormChild = document.querySelectorAll("[feedbackmode='submit']");
-            });
-        });
+				<ch5-button type="primary" id="room_cancel_id" label="Revert Changes"></ch5-button>
+			</ch5-form>
+		</template>
+	</test-fixture>
 
-        test('Default submitButtonType is "default"', function() {
-            expect(ch5Form.submitButtonType).to.be.equal('default');
-            expect(ch5Form.submitButton.type).to.be.equal('default');
-        });
+	<script>
+		suite('ch5-form', () => {
+			let ch5Form;
+			let ch5FormChild;
 
-        test('submitButtonType is "success"', function() {
-            ch5Form.setAttribute('submitButtonType', 'success');
-            expect(ch5Form.submitButtonType).to.be.equal('success');
-            expect(ch5Form.submitButton.type).to.be.equal('success');
-        });
-    });
-</script>
+			/* coverity[implicit_this_used] */
+			setup(() => {
+				ch5Form = fixture('ch5-form-fixture');
+
+				return Promise.all([
+					customElements.whenDefined('ch5-button'),
+					customElements.whenDefined('ch5-toggle'),
+					customElements.whenDefined('ch5-slider'),
+					customElements.whenDefined('ch5-textinput'),
+				]).then(_ => {
+					ch5FormChild = document.querySelectorAll("[feedbackmode='submit']");
+				});
+			});
+
+			test('Default submitButtonType is "default"', (done) => {
+				flush(() => {
+				setTimeout(() => {
+					expect(ch5Form.submitButtonType).to.be.equal('default');
+				expect(ch5Form.submitButton.type).to.be.equal('default');				
+				done();
+				}, 100);
+				});
+			});
+
+			test('submitButtonType is "success"', (done) => {
+				ch5Form.setAttribute('submitButtonType', 'success');
+				flush(() => {
+				setTimeout(() => {
+					expect(ch5Form.submitButtonType).to.be.equal('success');
+				expect(ch5Form.submitButton.type).to.be.equal('success');				
+				done();
+				}, 100);
+				});
+			});
+		});
+	</script>
 </body>
+
 </html>

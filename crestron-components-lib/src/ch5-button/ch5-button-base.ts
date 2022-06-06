@@ -231,6 +231,29 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		stringjoinoffset: { stringJoin: 1 }
 	};
 
+	private readonly BUTTON_PROPERTIES = {
+		CHECKBOX_SHOW: {
+			default: false,
+			valueOnAttributeNullOrEmpty: true,
+			variableName: "_checkboxShow",
+			attributeName: "checkboxShow",
+			propertyName: "checkboxShow",
+			type: "boolean",
+			componentReference: this,
+			callback: this.checkboxDisplay.bind(this)
+		},
+		SELECTED: {
+			default: false,
+			valueOnAttributeNullOrEmpty: true,
+			variableName: "_selected",
+			attributeName: "selected",
+			propertyName: "selected",
+			type: "boolean",
+			componentReference: this,
+			callback: this.setSelectionMethods.bind(this)
+		}
+	};
+
 	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
 	private readonly BUTTON_PRIMARY_CLASS: string = 'cb-btn';
 
@@ -638,27 +661,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set checkboxShow(value: boolean) {
 		this.logger.log('set checkboxShow("' + value + '")');
-		// Value always comes as boolean even if input is junk
-		if (typeof this._elCheckboxIcon.classList === "undefined") {
-			return;
-		}
-		if (isNil(value)) {
-			value = this.hasAttribute('checkboxShow');
-		} else if ([true, false].indexOf(value) < 0) {
-			value = true;
-		}
-		if (this.hasAttribute('checkboxShow')) {
-			if (value === false) {
-				this.setAttribute('checkboxShow', 'false');
-			} else {
-				this.setAttribute('checkboxShow', 'true');
-			}
-		}
-		if (value !== this._checkboxShow) {
-			this._checkboxShow = value;
-			this.checkboxDisplay();
-		}
+		this.setCommonBooleanProperty(this.BUTTON_PROPERTIES.CHECKBOX_SHOW, value);
 	}
+
 	public get checkboxShow(): boolean {
 		return this._checkboxShow;
 	}
@@ -755,23 +760,25 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set selected(value: boolean) {
 		this.logger.log('set selected("' + value + '")');
-		if (isNil(value)) {
-			value = this.hasAttribute('selected');
-		} else if ([true, false].indexOf(value) < 0) {
-			value = true;
-		}
-		if (this.hasAttribute('selected')) {
-			if (value === false) {
-				this.setAttribute('selected', 'false');
-			} else {
-				this.setAttribute('selected', 'true');
-			}
-		}
-		if (value !== this._selected) {
-			this._selected = value;
-			this.setButtonDisplay();
-			this.checkboxDisplay();
-		}
+		this.setCommonBooleanProperty(this.BUTTON_PROPERTIES.SELECTED, value);
+
+		// if (isNil(value)) {
+		// 	value = this.hasAttribute('selected');
+		// } else if ([true, false].indexOf(value) < 0) {
+		// 	value = true;
+		// }
+		// if (this.hasAttribute('selected')) {
+		// 	if (value === false) {
+		// 		this.setAttribute('selected', 'false');
+		// 	} else {
+		// 		this.setAttribute('selected', 'true');
+		// 	}
+		// }
+		// if (value !== this._selected) {
+		// 	this._selected = value;
+		// 	this.setButtonDisplay();
+		// 	this.checkboxDisplay();
+		// }
 	}
 	public get selected(): boolean {
 		return this._selected;
@@ -882,7 +889,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		this._subReceiveSelected = receiveSignal.subscribe((newValue: boolean) => {
 			if (newValue !== this._selected) {
-				this.setAttribute('selected', '' + newValue); // concatenates with empty string to convert to string
+				this.selected = this.setBooleanForProperty(newValue, this.BUTTON_PROPERTIES.SELECTED.default, this.BUTTON_PROPERTIES.SELECTED.valueOnAttributeNullOrEmpty);
+				// this.setAttribute('selected', '' + newValue); // concatenates with empty string to convert to string
 			}
 		});
 	}
@@ -1126,7 +1134,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.checkboxPosition = this.getAttribute('checkboxposition') as TCh5ButtonCheckboxPosition;
 		}
 		if (this.hasAttribute('checkboxshow')) {
-			this.checkboxShow = this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false"));
+			this.checkboxShow = this.setBooleanForProperty(this.getAttribute('checkboxshow'), this.BUTTON_PROPERTIES.CHECKBOX_SHOW.default, this.BUTTON_PROPERTIES.CHECKBOX_SHOW.valueOnAttributeNullOrEmpty);
 		}
 		if (this.hasAttribute('customclassselected')) {
 			this.customClassState = this.getAttribute('customclassselected') as string;
@@ -1172,7 +1180,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// TODO - why is customclassselected checked?
 		// if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
 		if (this.hasAttribute('selected')) {
-			this.selected = this.toBoolean((this.hasAttribute('selected') && this.getAttribute('selected') !== "false"));
+			this.selected = this.setBooleanForProperty(this.getAttribute('selected'), this.BUTTON_PROPERTIES.SELECTED.default, this.BUTTON_PROPERTIES.SELECTED.valueOnAttributeNullOrEmpty);
 		}
 		if (this.hasAttribute('shape')) {
 			this.shape = this.getAttribute('shape') as TCh5ButtonShape;
@@ -1356,12 +1364,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				break;
 
 			case 'selected':
-				if (!this.hasAttribute('customclassselected')) {
-					if (this.hasAttribute('selected')) {
-						this.selected = this.toBoolean(newValue, true);
-					}
-					this.updateCssClasses();
-				}
+				// if (!this.hasAttribute('customclassselected')) {
+				// if (this.hasAttribute('selected')) {
+				// 	this.selected = this.toBoolean(newValue, true);
+				// }	
+				// this.updateCssClasses();
+				this.logger.log("newValue for selected is", newValue);
+				this.selected = this.setBooleanForProperty(newValue, this.BUTTON_PROPERTIES.SELECTED.default, this.BUTTON_PROPERTIES.SELECTED.valueOnAttributeNullOrEmpty);
+
+
+				// }
 				break;
 
 			case 'pressed':
@@ -1376,12 +1388,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				break;
 
 			case 'checkboxshow':
-				let isCheckboxShow = false;
-				if (this.hasAttribute('checkboxshow')) {
-					isCheckboxShow = this.toBoolean(newValue, true);
-				}
-				this.checkboxShow = isCheckboxShow;
-				this.checkboxDisplay();
+				this.checkboxShow = this.setBooleanForProperty(newValue, this.BUTTON_PROPERTIES.CHECKBOX_SHOW.default, this.BUTTON_PROPERTIES.CHECKBOX_SHOW.valueOnAttributeNullOrEmpty);
 				break;
 
 			case 'checkboxposition':
@@ -2514,6 +2521,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
+	private setSelectionMethods() {
+		this.setButtonDisplay();
+		this.checkboxDisplay();
+		this.updateCssClasses();
+	}
 	//#endregion
 
 }

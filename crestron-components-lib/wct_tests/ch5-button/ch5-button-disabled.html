@@ -29,7 +29,7 @@
                 ch5Button = fixture('ch5-button-disabled-fixture');
             });
 
-            const availabledisabled = [
+            const disabledList = [
                 {
                     key: true,
                     value: true
@@ -48,7 +48,7 @@
                 },
                 {
                     key: "TRUE",
-                    value: true
+                    value: false
                 },
                 {
                     key: "FALSE",
@@ -60,7 +60,7 @@
                 }
             ];
 
-            availabledisabled.forEach((disabledName, i) => {
+            disabledList.forEach((disabledName, i) => {
                 test(`Check attribute disabled: "${disabledName.key}"`, (done) => {
                     ch5Button.setAttribute('disabled', disabledName.key);
                     flush(() => {
@@ -83,13 +83,7 @@
                             // for (let i = 0; i < ch5Button.attributes.length; i++) {
                             //     console.log(ch5Button.attributes[i].nodeName, ch5Button.attributes[i].nodeValue);
                             // }
-                            expect(ch5Button.getAttribute('disabled')).to.satisfy((getValue) => {
-                                if (getValue === "" || getValue === true) {
-                                    return !enabledName;
-                                } else {
-                                    return enabledName;
-                                }
-                            });
+                            expect(ch5Button.getAttribute('disabled')).to.be.equal(String(!enabledName));
                             expect(ch5Button.disabled).to.be.equal(!enabledName);
                             done();
                         }, BASIC_TESTING_TIMEOUT);

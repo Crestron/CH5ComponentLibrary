@@ -50,6 +50,29 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		sendeventonshow: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
+	private readonly COMMON_PROPERTIES = {
+		SHOW: {
+			default: true,
+			valueOnAttributeNullOrEmpty: true,
+			variableName: "_show",
+			attributeName: "show",
+			propertyName: "show",
+			type: "boolean",
+			componentReference: this,
+			callback: this.updateForChangeInShowStatus.bind(this)
+		},
+		DISABLED: {
+			default: false,
+			valueOnAttributeNullOrEmpty: true,
+			variableName: "_disabled",
+			attributeName: "disabled",
+			propertyName: "disabled",
+			type: "boolean",
+			componentReference: this,
+			callback: this.updateForChangeInDisabledStatus.bind(this)
+		}
+	};
+
 	// The first value of the array is considered the default one	 
 	private showTypes: TCh5ShowType[] = ['display', 'visibility', 'remove'];
 
@@ -100,7 +123,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 * boolean value that determines if the components is shown ( the visibility type is defined in noshowType )
 	 */
 	protected _show: boolean = true;
-	private _isShowPropertyAccessed: boolean = false;
 
 	/**
 	 * Reflects the visibility type of the item
@@ -356,19 +378,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 	public set show(value: boolean) {
 		this.logger.log('set show(\'' + value + '\')');
-		if (this._show !== value) {
-			this._show = value;
-			if (this.hasAttribute("show") === true && (['true', 'false', '0', '1', 'yes', 'no'].indexOf(String(this.getAttribute("show"))) < 0) && this._show === true) {
-				// Remove only for true cos it must still show up for false
-				this.removeAttribute('show');
-			} else if (this.hasAttribute("show") === false) {
-				this.removeAttribute('show');
-			} else {
-				this.setAttribute('show', this._show.toString());
-			}
-			// the noshowtype also needs to be checked and updated before processing a show/hide
-			this.updateForChangeInShowStatus();
-		}
+		this.setCommonBooleanProperty(this.COMMON_PROPERTIES.SHOW, value);
 	}
 	public get show(): boolean {
 		return this._show;
@@ -392,18 +402,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 	public set disabled(value: boolean) {
 		this.logger.log('set disabled(\'' + value + '\')');
-		if (this._disabled !== value) {
-			this._disabled = value;
-			if (this.hasAttribute("disabled") === true && (['true', 'false', '0', '1', 'yes', 'no'].indexOf(String(this.getAttribute("disabled"))) < 0) && this._disabled === false) {
-				// Remove only for true cos it must still show up for false
-				this.removeAttribute('disabled');
-			} else if (this.hasAttribute("disabled") === false) {
-				this.removeAttribute('disabled');
-			} else {
-				this.setAttribute('disabled', this._disabled.toString());
-			}
-			this.updateForChangeInDisabledStatus();
-		}
+		this.setCommonBooleanProperty(this.COMMON_PROPERTIES.DISABLED, value);
 	}
 	public get disabled(): boolean {
 		return this._disabled;
@@ -518,7 +517,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		this._subKeySigReceiveEnable = recSig.subscribe((newVal: boolean) => {
 			this.logger.log(' subs callback for signalReceiveEnable: ', this._subKeySigReceiveEnable, ' Signal has value ', newVal);
 			if (!this.disabled !== newVal) {
-				this.disabled = this.setBooleanForProperty(!newVal, false, false);
+				this.disabled = this.setBooleanForProperty(!newVal, this.COMMON_PROPERTIES.DISABLED.default, this.COMMON_PROPERTIES.DISABLED.valueOnAttributeNullOrEmpty);
 			}
 		});
 	}
@@ -628,7 +627,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 		this._subKeySigReceiveShow = recSig.subscribe((newVal: boolean) => {
 			this.logger.log('subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newVal);
-			this.show = this.setBooleanForProperty(newVal, true, true);
+			this.show = this.setBooleanForProperty(newVal, this.COMMON_PROPERTIES.SHOW.default, this.COMMON_PROPERTIES.SHOW.valueOnAttributeNullOrEmpty);
 		});
 	}
 
@@ -1090,7 +1089,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				this.updateForChangeInStyleCss();
 				break;
 			case 'show':
-				this.show = this.setBooleanForProperty(newValue, true, true);
+				this.show = this.setBooleanForProperty(newValue, this.COMMON_PROPERTIES.SHOW.default, this.COMMON_PROPERTIES.SHOW.valueOnAttributeNullOrEmpty);
 				break;
 			case 'noshowtype':
 				this.updateForChangeInShowStatus();
@@ -1153,7 +1152,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				break;
 			case 'disabled':
 				if (!this.hasAttribute('customclassdisabled')) {
-					this.disabled = this.setBooleanForProperty(newValue, false, false);
+					this.disabled = this.setBooleanForProperty(newValue, this.COMMON_PROPERTIES.DISABLED.default, this.COMMON_PROPERTIES.DISABLED.valueOnAttributeNullOrEmpty);
 				}
 				break;
 			case 'gestureable':
@@ -1450,34 +1449,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		this.applyPreConfiguredAttributes();
 
 		if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled')) {
-			this.disabled = this.setBooleanForProperty(this.getAttribute('disabled'), false, false);
-			// Below is required for first time
-			if (this.hasAttribute("disabled") === true && (['true', 'false', '0', '1', 'yes', 'no'].indexOf(String(this.getAttribute("disabled"))) < 0) && this._disabled === false) {
-				// Remove only for true cos it must still show up for false
-				this.removeAttribute('disabled');
-			} else if (this.hasAttribute("disabled") === false) {
-				this.removeAttribute('disabled');
-			} else {
-				this.setAttribute('disabled', this._disabled.toString());
-			}
-			this.updateForChangeInShowStatus();
+			this.disabled = this.setBooleanForProperty(this.getAttribute('disabled'), this.COMMON_PROPERTIES.DISABLED.default, this.COMMON_PROPERTIES.DISABLED.valueOnAttributeNullOrEmpty);
 		}
 		if (this.hasAttribute('debug')) {
 			this._isDebugEnabled = true;
 		}
 		if (this.hasAttribute('show')) {
-			this.show = this.setBooleanForProperty(this.getAttribute('show'), true, true);
-			// Below is required for first time
-			if (this.hasAttribute("show") === true && (['true', 'false', '0', '1', 'yes', 'no'].indexOf(String(this.getAttribute("show"))) < 0) && this._show === true) {
-				// Remove only for true cos it must still show up for false
-				this.removeAttribute('show');
-			} else if (this.hasAttribute("show") === false) {
-				this.removeAttribute('show');
-			} else {
-				this.setAttribute('show', this._show.toString());
-			}
-			// the noshowtype also needs to be checked and updated before processing a show/hide
-			this.updateForChangeInShowStatus();
+			this.show = this.setBooleanForProperty(this.getAttribute('show'), this.COMMON_PROPERTIES.SHOW.default, this.COMMON_PROPERTIES.SHOW.valueOnAttributeNullOrEmpty);
 		}
 
 		if (this.hasAttribute('customclass')) {
@@ -1523,7 +1501,6 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				this.updateInViewPortClass();
 			});
 		}
-		this.updateForChangeInDisabledStatus();
 	}
 
 	protected attachEventListeners() {
@@ -1737,7 +1714,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	}
 
 	protected setBooleanForProperty(val: any, defaultValue: boolean, isEmptyValueEqualToTrue: boolean = false): boolean {
-		if ([true, false, "true", "false", "0", "1", 0, 1].indexOf(val) < 0) {
+		if ([true, false, "true", "false", "0", "1", 0, 1, '', null].indexOf(val) < 0) {
 			val = defaultValue;
 		}
 		return this.toBoolean(val, isEmptyValueEqualToTrue);
@@ -1895,6 +1872,28 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				callbackOnSignalReceived(newValue);
 			}
 		});
+	}
+
+	protected setCommonBooleanProperty(property: any, value: boolean) {
+		this.logger.log('setCommonBooleanProperty: ' + property.attributeName + ' - "' + value + '"');
+		const attribute = property.attributeName.toLowerCase();
+		const thisRef = property.componentReference;
+
+		// this[property.variableName + "Initialized"] !== true is for first time - variable isn't declared and is not required
+		// This variable is required only for checking first time and making changes when the default value is true
+		if (thisRef[property.propertyName] !== value || thisRef[property.variableName + "Initialized"] !== true) {
+			thisRef[property.variableName] = value;
+			thisRef[property.variableName + "Initialized"] = true;
+			if (thisRef.hasAttribute(attribute) === true && (['true', 'false'].indexOf(String(thisRef.getAttribute(attribute))) < 0) && thisRef[property.propertyName] === property.defaultValue) {
+				// Remove only for thisRef[property.propertyName] === defaultValue cos it must still show up for its opposite
+				thisRef.removeAttribute(attribute);
+			} else {
+				thisRef.setAttribute(attribute, thisRef[property.propertyName].toString());
+			}
+			if (property.callback !== null) {
+				property.callback();
+			}
+		}
 	}
 
 	//#endregion

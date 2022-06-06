@@ -2073,6 +2073,25 @@ $ch5-button-text-disabled-font-color: $text-disabled-font-color !default;
   }
 }
 
+@mixin ch5-button-content--selected($property-selected-border-color, $property-selected-background-color, $property-selected-font-color) {
+  border-color: $property-selected-border-color;
+  background-color: $property-selected-background-color;
+  color: $property-selected-font-color;
+}
+
+@mixin ch5-button-content--pressed($property-pressed-border-color, $property-pressed-background-color, $property-pressed-font-color) {
+  border-color: $property-pressed-border-color;
+  background-color: $property-pressed-background-color;
+  color: $property-pressed-font-color;
+}
+
+@mixin ch5-button-content($property-border-width, $property-border-style, $property-default-border-color, $property-default-background-color, $property-default-font-color) {
+  border-style: $property-border-style;
+  border-width: $property-border-width;
+  border-color: $property-default-border-color;
+  background-color: $property-default-background-color;
+  color: $property-default-font-color;
+}
 
 .ch5-button {
   .cb-btn {
@@ -2250,7 +2269,18 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-font-size;
   }
+
   @include ch5-button-set-icon-classes($ch5-button-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+
+  ch5-button[mode="?"] {
+    @include ch5-button-set-icon-classes($ch5-button-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    ch5-button-mode-state[state="normal"],
+    ch5-button-mode-state[state="pressed"],
+    ch5-button-mode-state[state="selected"] {
+      @include ch5-button-set-icon-classes($ch5-button-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    }
+  }
+  
 }
 
 .ch5-button--size-x-small {
@@ -2265,8 +2295,19 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-x-small-font-size;
   }
+
   @include ch5-button-set-icon-classes($ch5-button-x-small-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+
+  ch5-button[mode="?"] {
+    @include ch5-button-set-icon-classes($ch5-button-x-small-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    ch5-button-mode-state[state="normal"],
+    ch5-button-mode-state[state="pressed"],
+    ch5-button-mode-state[state="selected"] {
+      @include ch5-button-set-icon-classes($ch5-button-x-small-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    }
+  }
 }
+
 .ch5-button--size-small {
   .cb-btn {
     font-size: $ch5-button-small-font-size;
@@ -2279,8 +2320,19 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-small-font-size;
   }
+
   @include ch5-button-set-icon-classes($ch5-button-small-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+
+  ch5-button[mode="?"] {
+    @include ch5-button-set-icon-classes($ch5-button-small-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    ch5-button-mode-state[state="normal"],
+    ch5-button-mode-state[state="pressed"],
+    ch5-button-mode-state[state="selected"] {
+      @include ch5-button-set-icon-classes($ch5-button-small-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    }
+  }
 }
+
 .ch5-button--size-large {
   .cb-btn {
     font-size: $ch5-button-large-font-size;
@@ -2293,8 +2345,19 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-large-font-size;
   }
+
   @include ch5-button-set-icon-classes($ch5-button-large-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+
+  ch5-button[mode="?"] {
+    @include ch5-button-set-icon-classes($ch5-button-large-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    ch5-button-mode-state[state="normal"],
+    ch5-button-mode-state[state="pressed"],
+    ch5-button-mode-state[state="selected"] {
+      @include ch5-button-set-icon-classes($ch5-button-large-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    }
+  }
 }
+
 .ch5-button--size-x-large {
   .cb-btn {
     font-size: $ch5-button-x-large-font-size;
@@ -2307,7 +2370,17 @@ ch5-button[stretch="both"] {
   .ch5-button__checkbox--unchecked:before {
     font-size: $ch5-button-x-large-font-size;
   }
+
   @include ch5-button-set-icon-classes($ch5-button-x-large-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+
+  ch5-button[mode="?"] {
+    @include ch5-button-set-icon-classes($ch5-button-x-large-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    ch5-button-mode-state[state="normal"],
+    ch5-button-mode-state[state="pressed"],
+    ch5-button-mode-state[state="selected"] {
+      @include ch5-button-set-icon-classes($ch5-button-x-large-font-size, $ch5-button-icon-color, $ch5-button-icon-font-size);
+    }
+  }
 }
 
 .ch5-button--circle {
@@ -2575,6 +2648,518 @@ i.cb-icon.cx-button-icon-pos-top {
 /// @author Crestron
 /// @group ch5-button
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-button
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-button-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-core-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Font size unit
+$ch5-font-size-unit: px !default;
+
+/// Font size value
+$ch5-font-size-value: 16 !default;
+
+/// Font size 
+$ch5-font-size: $ch5-font-size-value + $ch5-font-size-unit !default;
+
+/// Font style
+$ch5-font-style: normal !default;
+
+/// Font weight
+$ch5-font-weight: normal !default;
+
+/// Scrollbar width
+$ch5-scrollbar-width:          7px !default;
+
+/// Scrollbar border radius
+$ch5-scrollbar-border-radius:  10px !default;
+
+/// Scrollbar track color
+$ch5-scrollbar-track-color:    rgba(0, 0, 0, 0.1) !default;
+
+/// Scrollbar thumb color
+$ch5-scrollbar-thumb-color:    rgba(0, 0, 0, 0.5) !default;
+
+
+$ch5-button-font-size: 14px !default;
+$ch5-button-font-style: $ch5-font-style !default;
+
+/// The font weight of the button.
+$ch5-button-font-weight: $ch5-font-weight !default;
+
+/// The padding for icon of the button.
+$ch5-button-icon-color: inherit !default;
+$ch5-button-icon-font-size: inherit !default;
+$ch5-button-icon-padding: 5px !default;
+$ch5-button-padding: 0.25rem !default;
+
+/// The margin for image of the button.
+$ch5-button-img-margin: 5px !default;
+
+/// The height for image of the button.
+$ch5-button-img-height: 20px !default;
+
+/// The width for image of the button.
+$ch5-button-img-width: 20px !default;
+
+/// The height for icon of the button with circle form.
+$ch5-button-circle-icon-height: 30px !default;
+
+/// The width for icon of the button with circle form.
+$ch5-button-circle-icon-width: 30px !default;
+
+/// The line height for icon of the button with circle form.
+$ch5-button-circle-icon-line-height: 20px !default;
+
+$ch5-button-content-line-height: 1.2;
+
+// button solid-border
+$ch5-button-default-border-width: 1px !default;
+$ch5-button-primary-border-width: 1px !default;
+$ch5-button-secondary-border-width: 1px !default;
+$ch5-button-success-border-width: 1px !default;
+$ch5-button-info-border-width: 1px !default;
+$ch5-button-warning-border-width: 1px !default;
+$ch5-button-danger-border-width: 1px !default;
+$ch5-button-text-border-width: 1px !default;
+
+$ch5-button-default-border-style: solid !default;
+$ch5-button-primary-border-style: solid !default;
+$ch5-button-secondary-border-style: solid !default;
+$ch5-button-success-border-style: solid !default;
+$ch5-button-info-border-style: solid !default;
+$ch5-button-warning-border-style: solid !default;
+$ch5-button-danger-border-style: solid !default;
+$ch5-button-text-border-style: solid !default;
+
+// button rounded-rectangle
+$ch5-button-border-radius: 5px !default;
+
+//button circle
+$ch5-button-circle-border-radius: 50% !default;
+
+/// button oval
+$ch5-button-oval-border-radius: 50% !default;
+
+/// button tab
+$ch5-button-tab-border-radius: 10px 10px 0px 0px !default;
+
+// sizes
+$ch5-button-size: 42px !default;
+
+// size x-small
+$ch5-button-x-small-font-size: 11px !default;
+$ch5-button-x-small-font-style: normal !default;
+$ch5-button-x-small-font-weight: normal !default;
+$ch5-button-x-small-size: 32px !default;
+
+// size small
+$ch5-button-small-font-size: 13px !default;
+$ch5-button-small-font-style: normal !default;
+$ch5-button-small-font-weight: normal !default;
+$ch5-button-small-size: 36px !default;
+
+// size large
+$ch5-button-large-font-size: 16px !default;
+$ch5-button-large-font-style: normal !default;
+$ch5-button-large-font-weight: normal !default;
+$ch5-button-large-size: 52px !default;
+
+// size x-large
+$ch5-button-x-large-font-size: 18px !default;
+$ch5-button-x-large-font-style: normal !default;
+$ch5-button-x-large-font-weight: normal !default;
+$ch5-button-x-large-size: 72px !default;
+
+$ch5-button-disabled-opacity: 0.5 !default;
+
+$ch5-button-faicon-font-family: "Font Awesome 5 Free" !default;
+
+/// Checkbox variables for advanced button
+$ch5-button-checkbox-checked-faicon: "\f14a" !default;
+$ch5-button-checkbox-unchecked-faicon: "\f0c8" !default;
+$ch5-button-checkbox-checked-font-weight: 400 !default;
+$ch5-button-checkbox-unchecked-font-weight: 400 !default;
+$ch5-button-checkbox-margin: 5px !default;
+$ch5-button-checkbox-padding: 5px !default;
+
+/* ===============================================
+CH5-BUTTON
+============================================= */
+
+// danger type
+
+/// The border color for default type of the button.
+$ch5-button-default-default-border-color: $default-border-color !default;
+
+/// The background color for default type of the button.
+$ch5-button-default-default-background-color: $default-background-color !default;
+
+/// The font color for default type of the button.
+$ch5-button-default-default-font-color: $default-font-color !default;
+
+/// the border color for default type of the pressed button
+$ch5-button-default-pressed-border-color: $default-pressed-border-color !default;
+
+/// the background color for default type of the pressed button
+$ch5-button-default-pressed-background-color: $default-pressed-background-color !default;
+
+/// the font color for default type of the pressed button
+$ch5-button-default-pressed-font-color: $default-pressed-font-color !default;
+
+/// the border color for default type of the selected button
+$ch5-button-default-selected-border-color: $default-selected-border-color !default;
+
+/// the background color for default type of the selected button
+$ch5-button-default-selected-background-color: $default-selected-background-color !default;
+
+/// the font color for default type of the selected button
+$ch5-button-default-selected-font-color: $default-selected-font-color !default;
+
+/// the border color for default type of the disabled button
+$ch5-button-default-disabled-border-color: $default-disabled-border-color !default;
+
+/// the background color for default type of the disabled button
+$ch5-button-default-disabled-background-color: $default-disabled-background-color !default;
+
+/// the font color for default type of the disabled button
+$ch5-button-default-disabled-font-color: $default-disabled-font-color !default;
+
+// ------------------------------------------------------
+
+// primary type
+
+/// The border color for primary type of the button.
+$ch5-button-primary-default-border-color: $primary-border-color !default;
+
+/// The background color for primary type of the button.
+$ch5-button-primary-default-background-color: $primary-background-color !default;
+
+/// The font color for primary type of the button.
+$ch5-button-primary-default-font-color: $primary-font-color !default;
+
+/// the border color for primary type of the pressed button
+$ch5-button-primary-pressed-border-color: $primary-pressed-border-color !default;
+
+/// the background color for primary type of the pressed button
+$ch5-button-primary-pressed-background-color: $primary-pressed-background-color !default;
+
+/// the font color for primary type of the pressed button
+$ch5-button-primary-pressed-font-color: $primary-pressed-font-color !default;
+
+/// the border color for primary type of the selected button
+$ch5-button-primary-selected-border-color: $primary-selected-border-color !default;
+
+/// the background color for primary type of the selected button
+$ch5-button-primary-selected-background-color: $primary-selected-background-color !default;
+
+/// the font color for primary type of the selected button
+$ch5-button-primary-selected-font-color: $primary-selected-font-color !default;
+
+/// the border color for primary type of the disabled button
+$ch5-button-primary-disabled-border-color: $primary-disabled-border-color !default;
+
+/// the background color for primary type of the disabled button
+$ch5-button-primary-disabled-background-color: $primary-disabled-background-color !default;
+
+/// the font color for primary type of the disabled button
+$ch5-button-primary-disabled-font-color: $primary-disabled-font-color !default;
+
+// ------------------------------------------------------
+
+// info type
+
+/// The border color for info type of the button.
+$ch5-button-info-default-border-color: $info-border-color !default;
+
+/// The background color for info type of the button.
+$ch5-button-info-default-background-color: $info-background-color !default;
+
+/// The font color for info type of the button.
+$ch5-button-info-default-font-color: $info-font-color !default;
+
+/// the border color for info type of the pressed button
+$ch5-button-info-pressed-border-color: $info-pressed-border-color !default;
+
+/// the background color for info type of the pressed button
+$ch5-button-info-pressed-background-color: $info-pressed-background-color !default;
+
+/// the font color for info type of the pressed button
+$ch5-button-info-pressed-font-color: $info-pressed-font-color !default;
+
+/// the border color for info type of the selected button
+$ch5-button-info-selected-border-color: $info-selected-border-color !default;
+
+/// the background color for info type of the selected button
+$ch5-button-info-selected-background-color: $info-selected-background-color !default;
+
+/// the font color for info type of the selected button
+$ch5-button-info-selected-font-color: $info-selected-font-color !default;
+
+/// the border color for info type of the disabled button
+$ch5-button-info-disabled-border-color: $info-disabled-border-color !default;
+
+/// the background color for info type of the disabled button
+$ch5-button-info-disabled-background-color: $info-disabled-background-color !default;
+
+/// the font color for info type of the disabled button
+$ch5-button-info-disabled-font-color: $info-disabled-font-color !default;
+
+// ------------------------------------------------------
+
+// danger type
+
+/// The border color for danger type of the button.
+$ch5-button-danger-default-border-color: $danger-border-color !default;
+
+/// The background color for danger type of the button.
+$ch5-button-danger-default-background-color: $danger-background-color !default;
+
+/// The font color for danger type of the button.
+$ch5-button-danger-default-font-color: $danger-font-color !default;
+
+/// the border color for danger type of the pressed button
+$ch5-button-danger-pressed-border-color: $danger-pressed-border-color !default;
+
+/// the background color for danger type of the pressed button
+$ch5-button-danger-pressed-background-color: $danger-pressed-background-color !default;
+
+/// the font color for danger type of the pressed button
+$ch5-button-danger-pressed-font-color: $danger-pressed-font-color !default;
+
+/// the border color for danger type of the selected button
+$ch5-button-danger-selected-border-color: $danger-selected-border-color !default;
+
+/// the background color for danger type of the selected button
+$ch5-button-danger-selected-background-color: $danger-selected-background-color !default;
+
+/// the font color for danger type of the selected button
+$ch5-button-danger-selected-font-color: $danger-selected-font-color !default;
+
+/// the border color for danger type of the disabled button
+$ch5-button-danger-disabled-border-color: $danger-disabled-border-color !default;
+
+/// the background color for danger type of the disabled button
+$ch5-button-danger-disabled-background-color: $danger-disabled-background-color !default;
+
+/// the font color for danger type of the disabled button
+$ch5-button-danger-disabled-font-color: $danger-disabled-font-color !default;
+
+// ------------------------------------------------------
+
+// secondary type
+
+/// The border color for secondary type of the button.
+$ch5-button-secondary-default-border-color: $secondary-border-color !default;
+
+/// The background color for secondary type of the button.
+$ch5-button-secondary-default-background-color: $secondary-background-color !default;
+
+/// The font color for secondary type of the button.
+$ch5-button-secondary-default-font-color: $secondary-font-color !default;
+
+/// the border color for secondary type of the pressed button
+$ch5-button-secondary-pressed-border-color: $secondary-pressed-border-color !default;
+
+/// the background color for secondary type of the pressed button
+$ch5-button-secondary-pressed-background-color: $secondary-pressed-background-color !default;
+
+/// the font color for secondary type of the pressed button
+$ch5-button-secondary-pressed-font-color: $secondary-pressed-font-color !default;
+
+/// the border color for secondary type of the selected button
+$ch5-button-secondary-selected-border-color: $secondary-selected-border-color !default;
+
+/// the background color for secondary type of the selected button
+$ch5-button-secondary-selected-background-color: $secondary-selected-background-color !default;
+
+/// the font color for secondary type of the selected button
+$ch5-button-secondary-selected-font-color: $secondary-selected-font-color !default;
+
+/// the border color for secondary type of the disabled button
+$ch5-button-secondary-disabled-border-color: $secondary-disabled-border-color !default;
+
+/// the background color for secondary type of the disabled button
+$ch5-button-secondary-disabled-background-color: $secondary-disabled-background-color !default;
+
+/// the font color for secondary type of the disabled button
+$ch5-button-secondary-disabled-font-color: $secondary-disabled-font-color !default;
+
+// ------------------------------------------------------
+
+// success type
+
+/// The border color for success type of the button.
+$ch5-button-success-default-border-color: $success-border-color !default;
+
+/// The background color for success type of the button.
+$ch5-button-success-default-background-color: $success-background-color !default;
+
+/// The font color for success type of the button.
+$ch5-button-success-default-font-color: $success-font-color !default;
+
+/// the border color for success type of the pressed button
+$ch5-button-success-pressed-border-color: $success-pressed-border-color !default;
+
+/// the background color for success type of the pressed button
+$ch5-button-success-pressed-background-color: $success-pressed-background-color !default;
+
+/// the font color for success type of the pressed button
+$ch5-button-success-pressed-font-color: $success-pressed-font-color !default;
+
+/// the border color for success type of the selected button
+$ch5-button-success-selected-border-color: $success-selected-border-color !default;
+
+/// the background color for success type of the selected button
+$ch5-button-success-selected-background-color: $success-selected-background-color !default;
+
+/// the font color for success type of the selected button
+$ch5-button-success-selected-font-color: $success-selected-font-color !default;
+
+/// the border color for success type of the disabled button
+$ch5-button-success-disabled-border-color: $success-disabled-border-color !default;
+
+/// the background color for success type of the disabled button
+$ch5-button-success-disabled-background-color: $success-disabled-background-color !default;
+
+/// the font color for success type of the disabled button
+$ch5-button-success-disabled-font-color: $success-disabled-font-color !default;
+
+// ------------------------------------------------------
+
+// warning type
+
+/// The border color for warning type of the button.
+$ch5-button-warning-default-border-color: $warning-border-color !default;
+
+/// The background color for warning type of the button.
+$ch5-button-warning-default-background-color: $warning-background-color !default;
+
+/// The font color for warning type of the button.
+$ch5-button-warning-default-font-color: $warning-font-color !default;
+
+/// the border color for warning type of the pressed button
+$ch5-button-warning-pressed-border-color: $warning-pressed-border-color !default;
+
+/// the background color for warning type of the pressed button
+$ch5-button-warning-pressed-background-color: $warning-pressed-background-color !default;
+
+/// the font color for warning type of the pressed button
+$ch5-button-warning-pressed-font-color: $warning-pressed-font-color !default;
+
+/// the border color for warning type of the selected button
+$ch5-button-warning-selected-border-color: $warning-selected-border-color !default;
+
+/// the background color for warning type of the selected button
+$ch5-button-warning-selected-background-color: $warning-selected-background-color !default;
+
+/// the font color for warning type of the selected button
+$ch5-button-warning-selected-font-color: $warning-selected-font-color !default;
+
+/// the border color for warning type of the disabled button
+$ch5-button-warning-disabled-border-color: $warning-disabled-border-color !default;
+
+/// the background color for warning type of the disabled button
+$ch5-button-warning-disabled-background-color: $warning-disabled-background-color !default;
+
+/// the font color for warning type of the disabled button
+$ch5-button-warning-disabled-font-color: $warning-disabled-font-color !default;
+
+// ------------------------------------------------------
+
+// text type
+
+/// The border color for text type of the button.
+$ch5-button-text-default-border-color: $text-border-color !default;
+
+/// The background color for text type of the button.
+$ch5-button-text-default-background-color: $text-background-color !default;
+
+/// The font color for text type of the button.
+$ch5-button-text-default-font-color: $text-font-color !default;
+
+/// the border color for text type of the pressed button
+$ch5-button-text-pressed-border-color: $text-pressed-border-color !default;
+
+/// the background color for text type of the pressed button
+$ch5-button-text-pressed-background-color: $text-pressed-background-color !default;
+
+/// the font color for text type of the pressed button
+$ch5-button-text-pressed-font-color: $text-pressed-font-color !default;
+
+/// the border color for text type of the selected button
+$ch5-button-text-selected-border-color: $text-selected-border-color !default;
+
+/// the background color for text type of the selected button
+$ch5-button-text-selected-background-color: $text-selected-background-color !default;
+
+/// the font color for text type of the selected button
+$ch5-button-text-selected-font-color: $text-selected-font-color !default;
+
+/// the border color for text type of the disabled button
+$ch5-button-text-disabled-border-color: $text-disabled-border-color !default;
+
+/// the background color for text type of the disabled button
+$ch5-button-text-disabled-background-color: $text-disabled-background-color !default;
+
+/// the font color for text type of the disabled button
+$ch5-button-text-disabled-font-color: $text-disabled-font-color !default;
+
+// ------------------------------------------------------
+
+
+@mixin ch5-button-set-icon-classes($property-image-height, $property-icon-color, $property-icon-font-size) {
+  .ch5-button--img {
+    display: block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    color: inherit;
+    height: $property-image-height * 1.5;
+    width: $property-image-height * 1.5;
+
+    &::before,
+    &::after {
+      content: none;
+    }
+  }
+
+  .ch5-button--icon {
+    vertical-align: middle;
+    color: $property-icon-color;
+    font-size: $property-icon-font-size;
+  }
+}
 
 @mixin ch5-button-content--selected($property-selected-border-color, $property-selected-background-color, $property-selected-font-color) {
   border-color: $property-selected-border-color;
@@ -2596,100 +3181,224 @@ i.cb-icon.cx-button-icon-pos-top {
   color: $property-default-font-color;
 }
 
-/// Applied when type='text'
-.ch5-button--text {
-  @include ch5-button-content($ch5-button-text-border-width, $ch5-button-text-border-style, $ch5-button-text-default-border-color, $ch5-button-text-default-background-color, $ch5-button-text-default-font-color);
-  
-  &.ch5-button--selected {
-    @include ch5-button-content--selected($ch5-button-text-selected-border-color, $ch5-button-text-selected-background-color, $ch5-button-text-selected-font-color);
+@mixin ch5-button-set-types() {
+  /// Applied when type='text'
+  .ch5-button--text {
+    @include ch5-button-content(
+      $ch5-button-text-border-width,
+      $ch5-button-text-border-style,
+      $ch5-button-text-default-border-color,
+      $ch5-button-text-default-background-color,
+      $ch5-button-text-default-font-color
+    );
+
+    &.ch5-button--selected {
+      @include ch5-button-content--selected(
+        $ch5-button-text-selected-border-color,
+        $ch5-button-text-selected-background-color,
+        $ch5-button-text-selected-font-color
+      );
+    }
+    &.ch5-button--pressed {
+      @include ch5-button-content--pressed(
+        $ch5-button-text-pressed-border-color,
+        $ch5-button-text-pressed-background-color,
+        $ch5-button-text-pressed-font-color
+      );
+    }
   }
-  &.ch5-button--pressed {
-    @include ch5-button-content--pressed($ch5-button-text-pressed-border-color, $ch5-button-text-pressed-background-color, $ch5-button-text-pressed-font-color);
+
+  /// Applied when type='danger'
+  .ch5-button--danger {
+    @include ch5-button-content(
+      $ch5-button-danger-border-width,
+      $ch5-button-danger-border-style,
+      $ch5-button-danger-default-border-color,
+      $ch5-button-danger-default-background-color,
+      $ch5-button-danger-default-font-color
+    );
+
+    &.ch5-button--selected {
+      @include ch5-button-content--selected(
+        $ch5-button-danger-selected-border-color,
+        $ch5-button-danger-selected-background-color,
+        $ch5-button-danger-selected-font-color
+      );
+    }
+    &.ch5-button--pressed {
+      @include ch5-button-content--pressed(
+        $ch5-button-danger-pressed-border-color,
+        $ch5-button-danger-pressed-background-color,
+        $ch5-button-danger-pressed-font-color
+      );
+    }
+  }
+
+  /// Applied when type='warning'
+  .ch5-button--warning {
+    @include ch5-button-content(
+      $ch5-button-warning-border-width,
+      $ch5-button-warning-border-style,
+      $ch5-button-warning-default-border-color,
+      $ch5-button-warning-default-background-color,
+      $ch5-button-warning-default-font-color
+    );
+
+    &.ch5-button--selected {
+      @include ch5-button-content--selected(
+        $ch5-button-warning-selected-border-color,
+        $ch5-button-warning-selected-background-color,
+        $ch5-button-warning-selected-font-color
+      );
+    }
+    &.ch5-button--pressed {
+      @include ch5-button-content--pressed(
+        $ch5-button-warning-pressed-border-color,
+        $ch5-button-warning-pressed-background-color,
+        $ch5-button-warning-pressed-font-color
+      );
+    }
+  }
+
+  /// Applied when type='info'
+  .ch5-button--info {
+    @include ch5-button-content(
+      $ch5-button-info-border-width,
+      $ch5-button-info-border-style,
+      $ch5-button-info-default-border-color,
+      $ch5-button-info-default-background-color,
+      $ch5-button-info-default-font-color
+    );
+
+    &.ch5-button--selected {
+      @include ch5-button-content--selected(
+        $ch5-button-info-selected-border-color,
+        $ch5-button-info-selected-background-color,
+        $ch5-button-info-selected-font-color
+      );
+    }
+    &.ch5-button--pressed {
+      @include ch5-button-content--pressed(
+        $ch5-button-info-pressed-border-color,
+        $ch5-button-info-pressed-background-color,
+        $ch5-button-info-pressed-font-color
+      );
+    }
+  }
+
+  /// Applied when type='success'
+  .ch5-button--success {
+    @include ch5-button-content(
+      $ch5-button-success-border-width,
+      $ch5-button-success-border-style,
+      $ch5-button-success-default-border-color,
+      $ch5-button-success-default-background-color,
+      $ch5-button-success-default-font-color
+    );
+
+    &.ch5-button--selected {
+      @include ch5-button-content--selected(
+        $ch5-button-success-selected-border-color,
+        $ch5-button-success-selected-background-color,
+        $ch5-button-success-selected-font-color
+      );
+    }
+    &.ch5-button--pressed {
+      @include ch5-button-content--pressed(
+        $ch5-button-success-pressed-border-color,
+        $ch5-button-success-pressed-background-color,
+        $ch5-button-success-pressed-font-color
+      );
+    }
+  }
+
+  /// Default button
+  .ch5-button--default {
+    @include ch5-button-content(
+      $ch5-button-default-border-width,
+      $ch5-button-default-border-style,
+      $ch5-button-default-default-border-color,
+      $ch5-button-default-default-background-color,
+      $ch5-button-default-default-font-color
+    );
+
+    &.ch5-button--selected {
+      @include ch5-button-content--selected(
+        $ch5-button-default-selected-border-color,
+        $ch5-button-default-selected-background-color,
+        $ch5-button-default-selected-font-color
+      );
+    }
+    &.ch5-button--pressed {
+      @include ch5-button-content--pressed(
+        $ch5-button-default-pressed-border-color,
+        $ch5-button-default-pressed-background-color,
+        $ch5-button-default-pressed-font-color
+      );
+    }
+  }
+
+  /// Applied when type='primary'
+  .ch5-button--primary {
+    @include ch5-button-content(
+      $ch5-button-primary-border-width,
+      $ch5-button-primary-border-style,
+      $ch5-button-primary-default-border-color,
+      $ch5-button-primary-default-background-color,
+      $ch5-button-primary-default-font-color
+    );
+
+    &.ch5-button--selected {
+      @include ch5-button-content--selected(
+        $ch5-button-primary-selected-border-color,
+        $ch5-button-primary-selected-background-color,
+        $ch5-button-primary-selected-font-color
+      );
+    }
+    &.ch5-button--pressed {
+      @include ch5-button-content--pressed(
+        $ch5-button-primary-pressed-border-color,
+        $ch5-button-primary-pressed-background-color,
+        $ch5-button-primary-pressed-font-color
+      );
+    }
+  }
+
+  /// Applied when type='secondary'
+  .ch5-button--secondary {
+    @include ch5-button-content(
+      $ch5-button-secondary-border-width,
+      $ch5-button-secondary-border-style,
+      $ch5-button-secondary-default-border-color,
+      $ch5-button-secondary-default-background-color,
+      $ch5-button-secondary-default-font-color
+    );
+
+    &.ch5-button--selected {
+      @include ch5-button-content--selected(
+        $ch5-button-secondary-selected-border-color,
+        $ch5-button-secondary-selected-background-color,
+        $ch5-button-secondary-selected-font-color
+      );
+    }
+    &.ch5-button--pressed {
+      @include ch5-button-content--pressed(
+        $ch5-button-secondary-pressed-border-color,
+        $ch5-button-secondary-pressed-background-color,
+        $ch5-button-secondary-pressed-font-color
+      );
+    }
   }
 }
 
-/// Applied when type='danger'
-.ch5-button--danger {
-  @include ch5-button-content($ch5-button-danger-border-width, $ch5-button-danger-border-style, $ch5-button-danger-default-border-color, $ch5-button-danger-default-background-color, $ch5-button-danger-default-font-color);
-  
-  &.ch5-button--selected {
-    @include ch5-button-content--selected($ch5-button-danger-selected-border-color, $ch5-button-danger-selected-background-color, $ch5-button-danger-selected-font-color);
-  }
-  &.ch5-button--pressed {
-    @include ch5-button-content--pressed($ch5-button-danger-pressed-border-color, $ch5-button-danger-pressed-background-color, $ch5-button-danger-pressed-font-color);
+@include ch5-button-set-types();
+
+ch5-button[mode="?"] {
+  @include ch5-button-set-types();
+  ch5-button-mode-state[state="normal"],
+  ch5-button-mode-state[state="pressed"],
+  ch5-button-mode-state[state="selected"] {
+    @include ch5-button-set-types();
   }
 }
-
-/// Applied when type='warning'
-.ch5-button--warning {
-  @include ch5-button-content($ch5-button-warning-border-width, $ch5-button-warning-border-style, $ch5-button-warning-default-border-color, $ch5-button-warning-default-background-color, $ch5-button-warning-default-font-color);
-  
-  &.ch5-button--selected {
-    @include ch5-button-content--selected($ch5-button-warning-selected-border-color, $ch5-button-warning-selected-background-color, $ch5-button-warning-selected-font-color);
-  }
-  &.ch5-button--pressed {
-    @include ch5-button-content--pressed($ch5-button-warning-pressed-border-color, $ch5-button-warning-pressed-background-color, $ch5-button-warning-pressed-font-color);
-  }
-}
-
-/// Applied when type='info'
-.ch5-button--info {
-  @include ch5-button-content($ch5-button-info-border-width, $ch5-button-info-border-style, $ch5-button-info-default-border-color, $ch5-button-info-default-background-color, $ch5-button-info-default-font-color);
-  
-  &.ch5-button--selected {
-    @include ch5-button-content--selected($ch5-button-info-selected-border-color, $ch5-button-info-selected-background-color, $ch5-button-info-selected-font-color);
-  }
-  &.ch5-button--pressed {
-    @include ch5-button-content--pressed($ch5-button-info-pressed-border-color, $ch5-button-info-pressed-background-color, $ch5-button-info-pressed-font-color);
-  }
-}
-
-/// Applied when type='success'
-.ch5-button--success {
-  @include ch5-button-content($ch5-button-success-border-width, $ch5-button-success-border-style, $ch5-button-success-default-border-color, $ch5-button-success-default-background-color, $ch5-button-success-default-font-color);
-  
-  &.ch5-button--selected {
-    @include ch5-button-content--selected($ch5-button-success-selected-border-color, $ch5-button-success-selected-background-color, $ch5-button-success-selected-font-color);
-  }
-  &.ch5-button--pressed {
-    @include ch5-button-content--pressed($ch5-button-success-pressed-border-color, $ch5-button-success-pressed-background-color, $ch5-button-success-pressed-font-color);
-  }
-}
-
-/// Default button
-.ch5-button--default {
-  @include ch5-button-content($ch5-button-default-border-width, $ch5-button-default-border-style, $ch5-button-default-default-border-color, $ch5-button-default-default-background-color, $ch5-button-default-default-font-color);
-  
-  &.ch5-button--selected {
-    @include ch5-button-content--selected($ch5-button-default-selected-border-color, $ch5-button-default-selected-background-color, $ch5-button-default-selected-font-color);
-  }
-  &.ch5-button--pressed {
-    @include ch5-button-content--pressed($ch5-button-default-pressed-border-color, $ch5-button-default-pressed-background-color, $ch5-button-default-pressed-font-color);
-  }
-}
-
-/// Applied when type='primary'
-.ch5-button--primary {
-  @include ch5-button-content($ch5-button-primary-border-width, $ch5-button-primary-border-style, $ch5-button-primary-default-border-color, $ch5-button-primary-default-background-color, $ch5-button-primary-default-font-color);
-  
-  &.ch5-button--selected {
-    @include ch5-button-content--selected($ch5-button-primary-selected-border-color, $ch5-button-primary-selected-background-color, $ch5-button-primary-selected-font-color);
-  }
-  &.ch5-button--pressed {
-    @include ch5-button-content--pressed($ch5-button-primary-pressed-border-color, $ch5-button-primary-pressed-background-color, $ch5-button-primary-pressed-font-color);
-  }
-}
-
-/// Applied when type='secondary'
-.ch5-button--secondary {
-  @include ch5-button-content($ch5-button-secondary-border-width, $ch5-button-secondary-border-style, $ch5-button-secondary-default-border-color, $ch5-button-secondary-default-background-color, $ch5-button-secondary-default-font-color);
-  
-  &.ch5-button--selected {
-    @include ch5-button-content--selected($ch5-button-secondary-selected-border-color, $ch5-button-secondary-selected-background-color, $ch5-button-secondary-selected-font-color);
-  }
-  &.ch5-button--pressed {
-    @include ch5-button-content--pressed($ch5-button-secondary-pressed-border-color, $ch5-button-secondary-pressed-background-color, $ch5-button-secondary-pressed-font-color);
-  }
-}
-
 
