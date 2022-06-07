@@ -339,6 +339,7 @@
             // ch5Button3
             [true, false].forEach((selectionObj, i) => {
                 test(`Check attribute type for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_alignments_fixture3', selectionObj);
                     ch5Button3.setAttribute('selected', selectionObj);
                     flush(() => {
                         setTimeout(() => {

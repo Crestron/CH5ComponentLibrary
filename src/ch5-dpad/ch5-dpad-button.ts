@@ -6,7 +6,6 @@
 // under which you licensed this source code.
 
 import _ from "lodash";
-import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5DpadChildBase } from "./ch5-dpad-child-base";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
@@ -93,7 +92,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 	}
 
 	static get observedAttributes() {
-		const commonAttributes: string[] = Ch5Common.observedAttributes;
+		const commonAttributes: string[] = Ch5DpadChildBase.observedAttributes;
 
 		// attributes
 		const attributes: string[] = [

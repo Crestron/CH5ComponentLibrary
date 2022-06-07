@@ -2,823 +2,816 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="/bower_components/web-component-tester/browser.js"></script>
-    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+	<meta charset="utf-8">
+	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="/bower_components/web-component-tester/browser.js"></script>
+	<link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+	<script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
 <body>
 
-
-
-    <test-fixture id="ch5-template-with-custom-attributes-fixture">
-        <template>
-            <template id="template-with-custom-attributes-widget">
-                <div class="uses-numeric">
-                    <span data-ch5-textcontent="1"></span>
-                    <div data-ch5-show="2" data-ch5-noshow-type="visibility"></div>
-                </div>
-                <div class="uses-contract">
-                    <span data-ch5-textcontent="TextContent"></span>
-                    <div data-ch5-show="Show" data-ch5-noshow-type="visibility"></div>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-custom-attributes-widget" contractname="My.Contract.Prefix." stringjoinoffset="100" booleanjoinoffset="200">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-    <script>
-        suite('ch5-template-with-custom-attributes', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let usingNumeric = null;
-            let usingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-custom-attributes-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(function () {
-                        usingNumeric = ch5Template.querySelector('div.uses-numeric');
-                        usingContract = ch5Template.querySelector('div.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment data-ch5-textcontent', function () {
-                const elementName = 'span';
-                const attributeName = 'data-ch5-textcontent';
-                const expectedNumericValue = '101';
-                const expectedContractValue = 'My.Contract.Prefix.TextContent';
-
-                const elementWithAttributeUsingNumeric = usingNumeric.querySelector(`${elementName}[${attributeName}]`);
-                const elementWithAttributeUsingContract = usingContract.querySelector(`${elementName}[${attributeName}]`);
-                assert.strictEqual(elementWithAttributeUsingNumeric.getAttribute(`${attributeName}`), expectedNumericValue);
-                assert.strictEqual(elementWithAttributeUsingContract.getAttribute(`${attributeName}`), expectedContractValue);
-            });
-
-            test('Increment data-ch5-show', function () {
-                const elementName = 'div';
-                const attributeName = 'data-ch5-show';
-                const expectedNumericValue = '202';
-                const expectedContractValue = 'My.Contract.Prefix.Show';
-
-                const elementWithAttributeUsingNumeric = usingNumeric.querySelector(`${elementName}[${attributeName}]`);
-                const elementWithAttributeUsingContract = usingContract.querySelector(`${elementName}[${attributeName}]`);
-                assert.strictEqual(elementWithAttributeUsingNumeric.getAttribute(`${attributeName}`), expectedNumericValue);
-                assert.strictEqual(elementWithAttributeUsingContract.getAttribute(`${attributeName}`), expectedContractValue);
-            });
-
-
-
-        });
-    </script>
-
-
-    <test-fixture id="ch5-template-with-button-fixture">
-        <template>
-            <template id="template-with-button-widget">
-                <div>
-                    <ch5-button class="uses-numeric" receivestatelabel="1"></ch5-button>
-                    <ch5-button class="uses-contract" receivestatelabel="ButtonLabel"></ch5-button>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-button-widget" contractname="My.Contract.Prefix." stringjoinoffset="100">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-    <script>
-        suite('ch5-template-with-button', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ButtonUsingNumeric = null;
-            let ch5ButtonUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-button-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ButtonUsingNumeric = ch5Template.querySelector('ch5-button.uses-numeric');
-                        ch5ButtonUsingContract = ch5Template.querySelector('ch5-button.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment receivestatelabel', function () {
-                assert.strictEqual(ch5ButtonUsingNumeric.getAttribute("receivestatelabel"), '101');
-                assert.strictEqual(ch5ButtonUsingContract.getAttribute("receivestatelabel"), 'My.Contract.Prefix.ButtonLabel');
-            });
-
-        });
-    </script>
-
-    <test-fixture id="ch5-template-with-button-label-fixture">
-        <template>
-            <template id="template-with-button-label-widget">
-                <div>
-                    <ch5-button class="uses-numeric">
-                        <ch5-button-label>
-                            <template><span data-ch5-textcontent="1"></span></template>
-                        </ch5-button-label>
-                    </ch5-button>
-                    <ch5-button class="uses-contract">
-                        <ch5-button-label>
-                            <template><span data-ch5-textcontent="ButtonLabel"></span></template>
-                        </ch5-button-label>
-                    </ch5-button>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-button-label-widget" contractname="My.Contract.Prefix." stringjoinoffset="100">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-    <script>
-        suite('ch5-template-with-button-label', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ButtonUsingNumeric = null;
-            let ch5ButtonUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-button-label-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ButtonUsingNumeric = ch5Template.querySelector('ch5-button.uses-numeric');
-                        ch5ButtonUsingContract = ch5Template.querySelector('ch5-button.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment content in ch5-button-label', (done) => {
-                const ch5ButtonUsingNumericSelector = 'ch5-button.uses-contract > div > button > span > span > span';
-                const ch5ButtonUsingNumericContract = 'ch5-button.uses-contract > div > button > span > span > span';
-                flush(() => {
-                    setTimeout(() => {
-                        const labelUsingNumeric = ch5ButtonUsingNumeric.querySelector(ch5ButtonUsingNumericSelector);
-                        const labelUsingContract = ch5ButtonUsingContract.querySelector(ch5ButtonUsingNumericContract);
-                        assert.strictEqual(labelUsingNumeric.getAttribute("data-ch5-textcontent"), '101');
-                        assert.strictEqual(labelUsingContract.getAttribute("data-ch5-textcontent"), 'My.Contract.Prefix.ButtonLabel');
-                        done();
-                    }, 100);
-                });
-            });
-        });
-    </script>
-
-
-    <test-fixture id="ch5-template-with-background-fixture">
-        <template>
-            <template id="template-with-background-widget">
-                <div>
-                    <div style="width:100px; height: 100px;">
-                        <ch5-background class="uses-numeric" receivestatebackgroundcolor="1"></ch5-background>
-                    </div>
-                    <div style="width:100px; height: 100px;">
-                        <ch5-background class="uses-contract" receivestatebackgroundcolor="BackgroundColor"></ch5-background>
-                    </div>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-background-widget" contractname="My.Contract.Prefix." stringjoinoffset="100">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-    <script>
-        suite('ch5-template-with-background', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5BackgroundUsingNumeric = null;
-            let ch5BackgroundUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-background-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5BackgroundUsingNumeric = ch5Template.querySelector('ch5-background.uses-numeric');
-                        ch5BackgroundUsingContract = ch5Template.querySelector('ch5-background.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment receivestatebackgroundcolor', function () {
-                assert.strictEqual(ch5BackgroundUsingNumeric.getAttribute("receivestatebackgroundcolor"), '101');
-                assert.strictEqual(ch5BackgroundUsingContract.getAttribute("receivestatebackgroundcolor"), 'My.Contract.Prefix.BackgroundColor');
-            });
-
-        });
-    </script>
-
-    <test-fixture id="ch5-template-with-dpad-fixture">
-        <template>
-            <template id="template-with-dpad-widget">
-                <div>
-                    <div style="width:100px; height: 100px;">
-                        <ch5-dpad class="uses-numeric" sendeventonclickstart="1"></ch5-dpad>
-                    </div>
-                    <div style="width:100px; height: 100px;">
-                        <ch5-dpad class="uses-contract" contractname="WidgetDPad"></ch5-dpad>
-                    </div>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-dpad-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-    <script>
-        suite('ch5-template-with-dpad', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5DpadUsingNumeric = null;
-            let ch5DpadUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-dpad-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5DpadUsingNumeric = ch5Template.querySelector('ch5-dpad.uses-numeric');
-                        ch5DpadUsingContract = ch5Template.querySelector('ch5-dpad.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment clickstart, contractname', function () {
-                assert.strictEqual(ch5DpadUsingNumeric.getAttribute("sendeventonclickstart"), '101', "clickstart mismatch");
-                assert.strictEqual(ch5DpadUsingContract.getAttribute("contractname"), 'My.Contract.Prefix.WidgetDPad.', "contract mismatch");
-            });
-
-        });
-    </script>
-
-    <test-fixture id="ch5-template-with-image-fixture">
-        <template>
-            <template id="template-with-image-widget">
-                <div>
-                    <div style="width:100px; height: 100px;">
-                        <ch5-image class="uses-numeric" receivestateurl="1" sendeventonclick="2"></ch5-image>
-                    </div>
-                    <div style="width:100px; height: 100px;">
-                        <ch5-image class="uses-contract" receivestateurl="ImageUrl" sendeventonclick="ImageClick"></ch5-image>
-                    </div>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-image-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100" stringjoinoffset="200">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-    <script>
-        suite('ch5-template-with-image', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ComponentUsingNumeric = null;
-            let ch5ComponentUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-image-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-image.uses-numeric');
-                        ch5ComponentUsingContract = ch5Template.querySelector('ch5-image.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment receivestateurl, sendeventclick', function () {
-                assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonclick"), '102', "numeric sendeventclick mismatch");
-                assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonclick"), 'My.Contract.Prefix.ImageClick', "contract sendeventclick mismatch");
-                assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("receivestateurl"), '201', "numeric receivestateurl mismatch");
-                assert.strictEqual(ch5ComponentUsingContract.getAttribute("receivestateurl"), 'My.Contract.Prefix.ImageUrl', "contract receivestateurl mismatch");
-            });
-
-        });
-    </script>
-
-
-    <test-fixture id="ch5-template-with-import-snippet-fixture">
-        <template>
-            <template id="template-with-import-snippet-widget">
-                <div>
-                    <ch5-import-htmlsnippet class="uses-numeric" receivestateshow="1"></ch5-import-htmlsnippet>
-                    <ch5-import-htmlsnippet class="uses-contract" receivestateshow="Show"></ch5-import-htmlsnippet>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-import-snippet-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-    <script>
-        suite('ch5-template-with-import-snippet', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ComponentUsingNumeric = null;
-            let ch5ComponentUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-import-snippet-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-import-htmlsnippet.uses-numeric');
-                        ch5ComponentUsingContract = ch5Template.querySelector('ch5-import-htmlsnippet.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment receivestateshow', function () {
-                assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("receivestateshow"), '101', "numeric receivestateshow mismatch");
-                assert.strictEqual(ch5ComponentUsingContract.getAttribute("receivestateshow"), 'My.Contract.Prefix.Show', "contract receivestateshow mismatch");
-            });
-
-        });
-    </script>
-
-    <test-fixture id="ch5-template-with-keypad-fixture">
-        <template>
-            <template id="template-with-keypad-widget">
-                <div>
-                    <div style="width:100px; height: 100px;">
-                        <ch5-keypad class="uses-numeric" sendeventonclickstart="1"></ch5-keypad>
-                    </div>
-                    <div style="width:100px; height: 100px;">
-                        <ch5-keypad class="uses-contract" contractname="WidgetKeypad"></ch5-keypad>
-                    </div>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-keypad-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-    <script>
-        suite('ch5-template-with-keypad', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5KeypadUsingNumeric = null;
-            let ch5KeypadUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-keypad-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5KeypadUsingNumeric = ch5Template.querySelector('ch5-keypad.uses-numeric');
-                        ch5KeypadUsingContract = ch5Template.querySelector('ch5-keypad.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    customElements.whenDefined('ch5-keypad'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment clickstart, contractname', function () {
-                assert.strictEqual(ch5KeypadUsingNumeric.getAttribute("sendeventonclickstart"), '101', "clickstart mismatch");
-                assert.strictEqual(ch5KeypadUsingContract.getAttribute("contractname"), 'My.Contract.Prefix.WidgetKeypad.', "contract mismatch");
-            });
-
-        });
-    </script>
-
-    <test-fixture id="ch5-template-with-list-fixture">
-        <template>
-            <template id="template-with-list-widget">
-                <div>
-                    <ch5-list class="uses-numeric" size="2" indexid="idx">
-                        <template>
-                            <ch5-button sendeventonclick="10{{idx}}" receivestatelabel="20{{idx}}" receivestatemode="30{{idx}}"></ch5-button>
-                        </template>
-                    </ch5-list>
-                    <ch5-list class="uses-contract" size="2" indexid="idx">
-                        <template>
-                            <ch5-button sendeventonclick="ButtonClick[{{idx}}]" receivestatelabel="ButtonLabel[{{idx}}]" receivestatemode="ButtonMode[{{idx}}]"></ch5-button>
-                        </template>
-                    </ch5-list>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-list-widget" contractname="My.Contract.Prefix." booleanjoinoffset="300" numericjoinoffset="200" stringjoinoffset="100">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-    <script>
-        suite('ch5-template-with-list', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ListUsingNumeric = null;
-            let ch5ListUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-list-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ListUsingNumeric = ch5Template.querySelector('ch5-list.uses-numeric');
-                        ch5ListUsingContract = ch5Template.querySelector('ch5-list.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment button list', function () {
-                const numericButtons = ch5ListUsingNumeric.querySelectorAll('ch5-button');
-                const contractButtons = ch5ListUsingContract.querySelectorAll('ch5-button');
-
-                assert.strictEqual(numericButtons.length, 2, "not 2 numeric buttons");
-                assert.strictEqual(contractButtons.length, 2, "not 2 contract buttons");
-
-                assert.strictEqual(numericButtons[1].getAttribute("sendeventonclick"), '311', "numeric sendeventonclick mismatch");
-                assert.strictEqual(contractButtons[1].getAttribute("sendeventonclick"), 'My.Contract.Prefix.ButtonClick[1]', "contract sendeventonclick mismatch");
-
-                assert.strictEqual(numericButtons[1].getAttribute("receivestatelabel"), '121', "numeric receivestatelabel mismatch");
-                assert.strictEqual(contractButtons[1].getAttribute("receivestatelabel"), 'My.Contract.Prefix.ButtonLabel[1]', "contract receivestatelabel mismatch");
-
-                assert.strictEqual(numericButtons[1].getAttribute("receivestatemode"), '231', "numeric receivestatemode mismatch");
-                assert.strictEqual(contractButtons[1].getAttribute("receivestatemode"), 'My.Contract.Prefix.ButtonMode[1]', "contract receivestatemode mismatch");
-            });
-
-        });
-    </script>
-
-    <test-fixture id="ch5-template-with-modal-dialog-fixture">
-        <template>
-            <template id="template-with-modal-dialog-widget">
-                <div>
-                    <ch5-modal-dialog class="uses-numeric" sendeventonok="1"></ch5-modal-dialog>
-                    <ch5-modal-dialog class="uses-contract" sendeventonok="OK"></ch5-modal-dialog>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-modal-dialog-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-
-    <script>
-        suite('ch5-template-with-modal-dialog', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ComponentUsingNumeric = null;
-            let ch5ComponentUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-modal-dialog-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-modal-dialog.uses-numeric');
-                        ch5ComponentUsingContract = ch5Template.querySelector('ch5-modal-dialog.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment sendeventonok', function () {
-                assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonok"), '101', "numeric sendeventonok mismatch");
-                assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonok"), 'My.Contract.Prefix.OK', "contract sendeventonok mismatch");
-            });
-
-        });
-    </script>
-
-
-    <test-fixture id="ch5-template-with-select-fixture">
-        <template>
-            <template id="template-with-select-widget">
-                <div>
-                    <ch5-select class="uses-numeric" receiveStateShow="1"></ch5-select>
-                    <ch5-select class="uses-contract" receiveStateShow="AfterShow"></ch5-select>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-select-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-
-    <script>
-        suite('ch5-template-with-select', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ComponentUsingNumeric = null;
-            let ch5ComponentUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-select-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-select.uses-numeric');
-                        ch5ComponentUsingContract = ch5Template.querySelector('ch5-select.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    customElements.whenDefined('ch5-select'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment receiveStateShow', function () {
-                assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("receiveStateShow"), '101', "numeric sendeventonaftershow mismatch");
-                assert.strictEqual(ch5ComponentUsingContract.getAttribute("receiveStateShow"), 'My.Contract.Prefix.AfterShow', "contract sendeventonaftershow mismatch");
-            });
-
-        });
-    </script>
-
-    <test-fixture id="ch5-template-with-select-send-events-fixture">
-        <template>
-            <template id="template-with-select-widget">
-                <div>
-                    <ch5-select class="uses-numeric" size="2" indexid="idx" sendeventonchange="1">
-                        <template>
-                            <ch5-select-option>
-                                <div><span data-ch5-textcontent="{{idx}}"></span></div>
-                            </ch5-select-option>
-                        </template>
-                    </ch5-select>
-                    <ch5-select class="uses-contract" size="2" indexid="idx" sendeventonchange="SelectValue">
-                        <template>
-                            <ch5-select-option>
-                                <div><span data-ch5-textcontent="SelectChoice[{{idx}}]"></span></div>
-                            </ch5-select-option>
-                        </template>
-                    </ch5-select>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-select-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100" stringjoinoffset="200">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-
-    <script>
-        suite('ch5-template-with-select', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ComponentUsingNumeric = null;
-            let ch5ComponentUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-select-send-events-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-select.uses-numeric');
-                        ch5ComponentUsingContract = ch5Template.querySelector('ch5-select.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment sendeventonchange', function () {
-                assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '101', "numeric sendeventonchange mismatch");
-                assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SelectValue', "contract sendeventonchange mismatch");
-            });
-
-
-            test('Increment <ch5-select-option><span data-ch5-textcontent=>', function () {
-                const numericEntries = ch5ComponentUsingNumeric.querySelectorAll('ch5-select-option span[data-ch5-textcontent]');
-                const contractEntries = ch5ComponentUsingContract.querySelectorAll('ch5-select-option span[data-ch5-textcontent]');
-
-                assert.strictEqual(numericEntries.length, 2, "not 2 numeric entries");
-                assert.strictEqual(contractEntries.length, 2, "not 2 contract entries");
-
-                assert.strictEqual(numericEntries[1].getAttribute("data-ch5-textcontent"), '201', "numeric data-ch5-textcontent mismatch");
-                assert.strictEqual(contractEntries[1].getAttribute("data-ch5-textcontent"), 'My.Contract.Prefix.SelectChoice[1]', "contract data-ch5-textcontent mismatch");
-            });
-
-        });
-    </script>
-
-
-    <test-fixture id="ch5-template-with-slider-fixture">
-        <template>
-            <template id="template-with-slider-widget">
-                <div>
-                    <ch5-slider class="uses-numeric" sendeventonchange="1"></ch5-slider>
-                    <ch5-slider class="uses-contract" sendeventonchange="SliderValue"></ch5-slider>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-slider-widget" contractname="My.Contract.Prefix." numericjoinoffset="100" booleanjoinoffset="200">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-
-    <script>
-        suite('ch5-template-with-slider', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ComponentUsingNumeric = null;
-            let ch5ComponentUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-slider-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-slider.uses-numeric');
-                        ch5ComponentUsingContract = ch5Template.querySelector('ch5-slider.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment sendeventonchange', function (done) {
-                assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '201', "numeric sendeventonchange mismatch");
-                assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SliderValue', "contract sendeventonchange mismatch");
-                done();
-            });
-
-        });
-    </script>
-
-    <test-fixture id="ch5-template-with-spinner-fixture">
-        <template>
-            <template id="template-with-spinner-widget">
-                <div>
-                    <ch5-spinner class="uses-numeric" size="2" indexid="idx" sendeventonchange="1">
-                        <template>
-                            <div><label data-ch5-textcontent="{{idx}}"></label></div>
-                        </template>
-                    </ch5-spinner>
-                    <ch5-spinner class="uses-contract" size="2" indexid="idx" sendeventonchange="SpinnerValue">
-                        <template>
-                            <div><label data-ch5-textcontent="SpinnerChoice[{{idx}}]"></label></div>
-                        </template>
-                    </ch5-spinner>
-                </div>
-            </template>
-            <ch5-template templateId="template-with-spinner-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100" stringjoinoffset="200">
-            </ch5-template>
-        </template>
-    </test-fixture>
-
-
-
-    <script>
-        suite('ch5-template-with-spinner', function () {
-
-            let suiteElement = null;
-            let ch5Template = null;
-            let ch5ComponentUsingNumeric = null;
-            let ch5ComponentUsingContract = null;
-
-            /* coverity[implicit_this_used] */
-            setup(function () {
-                suiteElement = fixture('ch5-template-with-spinner-fixture');
-                ch5Template = suiteElement[1];
-                const waitForTimeout = new Promise((resolve) => {
-                    setTimeout(() => {
-                        ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-spinner.uses-numeric');
-                        ch5ComponentUsingContract = ch5Template.querySelector('ch5-spinner.uses-contract');
-                        resolve();
-                    });
-                });
-
-                return Promise.all([
-                    customElements.whenDefined('ch5-template'),
-                    waitForTimeout
-                ]);
-            });
-
-            test('Increment sendeventonchange', function () {
-                assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '101', "numeric sendeventonchange mismatch");
-
-                assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SpinnerValue', "contract sendeventonchange mismatch");
-            });
-
-            test('Increment <ch5-spinner><label data-ch5-textcontent=>', function () {
-                const numericEntries = ch5ComponentUsingNumeric.querySelectorAll('div.ch5-spinner__item label[data-ch5-textcontent]');
-                const contractEntries = ch5ComponentUsingContract.querySelectorAll('div.ch5-spinner__item label[data-ch5-textcontent]');
-
-                assert.strictEqual(numericEntries.length, 2, "not 2 numeric entries");
-                assert.strictEqual(contractEntries.length, 2, "not 2 contract entries");
-
-                assert.strictEqual(numericEntries[1].getAttribute("data-ch5-textcontent"), '201', "numeric data-ch5-textcontent mismatch");
-
-                assert.strictEqual(contractEntries[1].getAttribute("data-ch5-textcontent"), 'My.Contract.Prefix.SpinnerChoice[1]', "contract data-ch5-textcontent mismatch");
-            });
-
-        });
-    </script>
+	<test-fixture id="ch5-template-with-custom-attributes-fixture">
+		<template>
+			<template id="template-with-custom-attributes-widget">
+				<div class="uses-numeric">
+					<span data-ch5-textcontent="1"></span>
+					<div data-ch5-show="2" data-ch5-noshow-type="visibility"></div>
+				</div>
+				<div class="uses-contract">
+					<span data-ch5-textcontent="TextContent"></span>
+					<div data-ch5-show="Show" data-ch5-noshow-type="visibility"></div>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-custom-attributes-widget" contractname="My.Contract.Prefix." stringjoinoffset="100" booleanjoinoffset="200">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+	<script>
+		suite('ch5-template-with-custom-attributes', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let usingNumeric = null;
+			let usingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-custom-attributes-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(function () {
+						usingNumeric = ch5Template.querySelector('div.uses-numeric');
+						usingContract = ch5Template.querySelector('div.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment data-ch5-textcontent', function () {
+				const elementName = 'span';
+				const attributeName = 'data-ch5-textcontent';
+				const expectedNumericValue = '101';
+				const expectedContractValue = 'My.Contract.Prefix.TextContent';
+
+				const elementWithAttributeUsingNumeric = usingNumeric.querySelector(`${elementName}[${attributeName}]`);
+				const elementWithAttributeUsingContract = usingContract.querySelector(`${elementName}[${attributeName}]`);
+				assert.strictEqual(elementWithAttributeUsingNumeric.getAttribute(`${attributeName}`), expectedNumericValue);
+				assert.strictEqual(elementWithAttributeUsingContract.getAttribute(`${attributeName}`), expectedContractValue);
+			});
+
+			test('Increment data-ch5-show', function () {
+				const elementName = 'div';
+				const attributeName = 'data-ch5-show';
+				const expectedNumericValue = '202';
+				const expectedContractValue = 'My.Contract.Prefix.Show';
+
+				const elementWithAttributeUsingNumeric = usingNumeric.querySelector(`${elementName}[${attributeName}]`);
+				const elementWithAttributeUsingContract = usingContract.querySelector(`${elementName}[${attributeName}]`);
+				assert.strictEqual(elementWithAttributeUsingNumeric.getAttribute(`${attributeName}`), expectedNumericValue);
+				assert.strictEqual(elementWithAttributeUsingContract.getAttribute(`${attributeName}`), expectedContractValue);
+			});
+		});
+	</script>
+
+	<test-fixture id="ch5-template-with-button-fixture">
+		<template>
+			<template id="template-with-button-widget">
+				<div>
+					<ch5-button class="uses-numeric" receivestatelabel="1"></ch5-button>
+					<ch5-button class="uses-contract" receivestatelabel="ButtonLabel"></ch5-button>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-button-widget" contractname="My.Contract.Prefix." stringjoinoffset="100">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+	<script>
+		suite('ch5-template-with-button', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ButtonUsingNumeric = null;
+			let ch5ButtonUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-button-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ButtonUsingNumeric = ch5Template.querySelector('ch5-button.uses-numeric');
+						ch5ButtonUsingContract = ch5Template.querySelector('ch5-button.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment receivestatelabel', function () {
+				assert.strictEqual(ch5ButtonUsingNumeric.getAttribute("receivestatelabel"), '101');
+				assert.strictEqual(ch5ButtonUsingContract.getAttribute("receivestatelabel"), 'My.Contract.Prefix.ButtonLabel');
+			});
+
+		});
+	</script>
+
+	<test-fixture id="ch5-template-with-button-label-fixture">
+		<template>
+			<template id="template-with-button-label-widget">
+				<div>
+					<ch5-button class="uses-numeric">
+						<ch5-button-label>
+							<template><span data-ch5-textcontent="1"></span></template>
+						</ch5-button-label>
+					</ch5-button>
+					<ch5-button class="uses-contract">
+						<ch5-button-label>
+							<template><span data-ch5-textcontent="ButtonLabel"></span></template>
+						</ch5-button-label>
+					</ch5-button>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-button-label-widget" contractname="My.Contract.Prefix." stringjoinoffset="100">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+	<script>
+		suite('ch5-template-with-button-label', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ButtonUsingNumeric = null;
+			let ch5ButtonUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-button-label-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ButtonUsingNumeric = ch5Template.querySelector('ch5-button.uses-numeric');
+						ch5ButtonUsingContract = ch5Template.querySelector('ch5-button.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment content in ch5-button-label', (done) => {
+				const ch5ButtonUsingNumericSelector = 'ch5-button.uses-numeric > div > button > span > span > span';
+				const ch5ButtonUsingNumericContract = 'ch5-button.uses-contract > div > button > span > span > span';
+				flush(() => {
+					setTimeout(() => {
+						const labelUsingNumeric = ch5ButtonUsingNumeric.querySelector(ch5ButtonUsingNumericSelector);
+						const labelUsingContract = ch5ButtonUsingContract.querySelector(ch5ButtonUsingNumericContract);
+						assert.strictEqual(labelUsingNumeric.getAttribute("data-ch5-textcontent"), '101');
+						assert.strictEqual(labelUsingContract.getAttribute("data-ch5-textcontent"), 'My.Contract.Prefix.ButtonLabel');
+						done();
+					}, 100);
+				});
+			});
+		});
+	</script>
+
+
+	<test-fixture id="ch5-template-with-background-fixture">
+		<template>
+			<template id="template-with-background-widget">
+				<div>
+					<div style="width:100px; height: 100px;">
+						<ch5-background class="uses-numeric" receivestatebackgroundcolor="1"></ch5-background>
+					</div>
+					<div style="width:100px; height: 100px;">
+						<ch5-background class="uses-contract" receivestatebackgroundcolor="BackgroundColor"></ch5-background>
+					</div>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-background-widget" contractname="My.Contract.Prefix." stringjoinoffset="100">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+	<script>
+		suite('ch5-template-with-background', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5BackgroundUsingNumeric = null;
+			let ch5BackgroundUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-background-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5BackgroundUsingNumeric = ch5Template.querySelector('ch5-background.uses-numeric');
+						ch5BackgroundUsingContract = ch5Template.querySelector('ch5-background.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment receivestatebackgroundcolor', function () {
+				assert.strictEqual(ch5BackgroundUsingNumeric.getAttribute("receivestatebackgroundcolor"), '101');
+				assert.strictEqual(ch5BackgroundUsingContract.getAttribute("receivestatebackgroundcolor"), 'My.Contract.Prefix.BackgroundColor');
+			});
+
+		});
+	</script>
+
+	<test-fixture id="ch5-template-with-dpad-fixture">
+		<template>
+			<template id="template-with-dpad-widget">
+				<div>
+					<div style="width:100px; height: 100px;">
+						<ch5-dpad class="uses-numeric" sendeventonclickstart="1"></ch5-dpad>
+					</div>
+					<div style="width:100px; height: 100px;">
+						<ch5-dpad class="uses-contract" contractname="WidgetDPad"></ch5-dpad>
+					</div>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-dpad-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+	<script>
+		suite('ch5-template-with-dpad', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5DpadUsingNumeric = null;
+			let ch5DpadUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-dpad-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5DpadUsingNumeric = ch5Template.querySelector('ch5-dpad.uses-numeric');
+						ch5DpadUsingContract = ch5Template.querySelector('ch5-dpad.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment clickstart, contractname', function () {
+				assert.strictEqual(ch5DpadUsingNumeric.getAttribute("sendeventonclickstart"), '101', "clickstart mismatch");
+				assert.strictEqual(ch5DpadUsingContract.getAttribute("contractname"), 'My.Contract.Prefix.WidgetDPad.', "contract mismatch");
+			});
+
+		});
+	</script>
+
+	<test-fixture id="ch5-template-with-image-fixture">
+		<template>
+			<template id="template-with-image-widget">
+				<div>
+					<div style="width:100px; height: 100px;">
+						<ch5-image class="uses-numeric" receivestateurl="1" sendeventonclick="2"></ch5-image>
+					</div>
+					<div style="width:100px; height: 100px;">
+						<ch5-image class="uses-contract" receivestateurl="ImageUrl" sendeventonclick="ImageClick"></ch5-image>
+					</div>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-image-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100" stringjoinoffset="200">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+	<script>
+		suite('ch5-template-with-image', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ComponentUsingNumeric = null;
+			let ch5ComponentUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-image-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-image.uses-numeric');
+						ch5ComponentUsingContract = ch5Template.querySelector('ch5-image.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment receivestateurl, sendeventclick', function () {
+				assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonclick"), '102', "numeric sendeventclick mismatch");
+				assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonclick"), 'My.Contract.Prefix.ImageClick', "contract sendeventclick mismatch");
+				assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("receivestateurl"), '201', "numeric receivestateurl mismatch");
+				assert.strictEqual(ch5ComponentUsingContract.getAttribute("receivestateurl"), 'My.Contract.Prefix.ImageUrl', "contract receivestateurl mismatch");
+			});
+
+		});
+	</script>
+
+
+	<test-fixture id="ch5-template-with-import-snippet-fixture">
+		<template>
+			<template id="template-with-import-snippet-widget">
+				<div>
+					<ch5-import-htmlsnippet class="uses-numeric" receivestateshow="1"></ch5-import-htmlsnippet>
+					<ch5-import-htmlsnippet class="uses-contract" receivestateshow="Show"></ch5-import-htmlsnippet>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-import-snippet-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+	<script>
+		suite('ch5-template-with-import-snippet', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ComponentUsingNumeric = null;
+			let ch5ComponentUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-import-snippet-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-import-htmlsnippet.uses-numeric');
+						ch5ComponentUsingContract = ch5Template.querySelector('ch5-import-htmlsnippet.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment receivestateshow', function () {
+				assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("receivestateshow"), '101', "numeric receivestateshow mismatch");
+				assert.strictEqual(ch5ComponentUsingContract.getAttribute("receivestateshow"), 'My.Contract.Prefix.Show', "contract receivestateshow mismatch");
+			});
+
+		});
+	</script>
+
+	<test-fixture id="ch5-template-with-keypad-fixture">
+		<template>
+			<template id="template-with-keypad-widget">
+				<div>
+					<div style="width:100px; height: 100px;">
+						<ch5-keypad class="uses-numeric" sendeventonclickstart="1"></ch5-keypad>
+					</div>
+					<div style="width:100px; height: 100px;">
+						<ch5-keypad class="uses-contract" contractname="WidgetKeypad"></ch5-keypad>
+					</div>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-keypad-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+	<script>
+		suite('ch5-template-with-keypad', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5KeypadUsingNumeric = null;
+			let ch5KeypadUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-keypad-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5KeypadUsingNumeric = ch5Template.querySelector('ch5-keypad.uses-numeric');
+						ch5KeypadUsingContract = ch5Template.querySelector('ch5-keypad.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					customElements.whenDefined('ch5-keypad'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment clickstart, contractname', function () {
+				assert.strictEqual(ch5KeypadUsingNumeric.getAttribute("sendeventonclickstart"), '101', "clickstart mismatch");
+				assert.strictEqual(ch5KeypadUsingContract.getAttribute("contractname"), 'My.Contract.Prefix.WidgetKeypad.', "contract mismatch");
+			});
+
+		});
+	</script>
+
+	<test-fixture id="ch5-template-with-list-fixture">
+		<template>
+			<template id="template-with-list-widget">
+				<div>
+					<ch5-list class="uses-numeric" size="2" indexid="idx">
+						<template>
+							<ch5-button sendeventonclick="10{{idx}}" receivestatelabel="20{{idx}}" receivestatemode="30{{idx}}"></ch5-button>
+						</template>
+					</ch5-list>
+					<ch5-list class="uses-contract" size="2" indexid="idx">
+						<template>
+							<ch5-button sendeventonclick="ButtonClick[{{idx}}]" receivestatelabel="ButtonLabel[{{idx}}]" receivestatemode="ButtonMode[{{idx}}]"></ch5-button>
+						</template>
+					</ch5-list>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-list-widget" contractname="My.Contract.Prefix." booleanjoinoffset="300" numericjoinoffset="200" stringjoinoffset="100">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+	<script>
+		suite('ch5-template-with-list', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ListUsingNumeric = null;
+			let ch5ListUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-list-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ListUsingNumeric = ch5Template.querySelector('ch5-list.uses-numeric');
+						ch5ListUsingContract = ch5Template.querySelector('ch5-list.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment button list', function () {
+				const numericButtons = ch5ListUsingNumeric.querySelectorAll('ch5-button');
+				const contractButtons = ch5ListUsingContract.querySelectorAll('ch5-button');
+
+				assert.strictEqual(numericButtons.length, 2, "not 2 numeric buttons");
+				assert.strictEqual(contractButtons.length, 2, "not 2 contract buttons");
+
+				assert.strictEqual(numericButtons[1].getAttribute("sendeventonclick"), '311', "numeric sendeventonclick mismatch");
+				assert.strictEqual(contractButtons[1].getAttribute("sendeventonclick"), 'My.Contract.Prefix.ButtonClick[1]', "contract sendeventonclick mismatch");
+
+				assert.strictEqual(numericButtons[1].getAttribute("receivestatelabel"), '121', "numeric receivestatelabel mismatch");
+				assert.strictEqual(contractButtons[1].getAttribute("receivestatelabel"), 'My.Contract.Prefix.ButtonLabel[1]', "contract receivestatelabel mismatch");
+
+				assert.strictEqual(numericButtons[1].getAttribute("receivestatemode"), '231', "numeric receivestatemode mismatch");
+				assert.strictEqual(contractButtons[1].getAttribute("receivestatemode"), 'My.Contract.Prefix.ButtonMode[1]', "contract receivestatemode mismatch");
+			});
+
+		});
+	</script>
+
+	<test-fixture id="ch5-template-with-modal-dialog-fixture">
+		<template>
+			<template id="template-with-modal-dialog-widget">
+				<div>
+					<ch5-modal-dialog class="uses-numeric" sendeventonok="1"></ch5-modal-dialog>
+					<ch5-modal-dialog class="uses-contract" sendeventonok="OK"></ch5-modal-dialog>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-modal-dialog-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+
+	<script>
+		suite('ch5-template-with-modal-dialog', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ComponentUsingNumeric = null;
+			let ch5ComponentUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-modal-dialog-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-modal-dialog.uses-numeric');
+						ch5ComponentUsingContract = ch5Template.querySelector('ch5-modal-dialog.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment sendeventonok', function () {
+				assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonok"), '101', "numeric sendeventonok mismatch");
+				assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonok"), 'My.Contract.Prefix.OK', "contract sendeventonok mismatch");
+			});
+
+		});
+	</script>
+
+
+	<test-fixture id="ch5-template-with-select-fixture">
+		<template>
+			<template id="template-with-select-widget">
+				<div>
+					<ch5-select class="uses-numeric" receiveStateShow="1"></ch5-select>
+					<ch5-select class="uses-contract" receiveStateShow="AfterShow"></ch5-select>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-select-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+
+	<script>
+		suite('ch5-template-with-select', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ComponentUsingNumeric = null;
+			let ch5ComponentUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-select-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-select.uses-numeric');
+						ch5ComponentUsingContract = ch5Template.querySelector('ch5-select.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					customElements.whenDefined('ch5-select'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment receiveStateShow', function () {
+				assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("receiveStateShow"), '101', "numeric sendeventonaftershow mismatch");
+				assert.strictEqual(ch5ComponentUsingContract.getAttribute("receiveStateShow"), 'My.Contract.Prefix.AfterShow', "contract sendeventonaftershow mismatch");
+			});
+
+		});
+	</script>
+
+	<test-fixture id="ch5-template-with-select-send-events-fixture">
+		<template>
+			<template id="template-with-select-widget">
+				<div>
+					<ch5-select class="uses-numeric" size="2" indexid="idx" sendeventonchange="1">
+						<template>
+							<ch5-select-option>
+								<div><span data-ch5-textcontent="{{idx}}"></span></div>
+							</ch5-select-option>
+						</template>
+					</ch5-select>
+					<ch5-select class="uses-contract" size="2" indexid="idx" sendeventonchange="SelectValue">
+						<template>
+							<ch5-select-option>
+								<div><span data-ch5-textcontent="SelectChoice[{{idx}}]"></span></div>
+							</ch5-select-option>
+						</template>
+					</ch5-select>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-select-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100" stringjoinoffset="200">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+
+	<script>
+		suite('ch5-template-with-select', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ComponentUsingNumeric = null;
+			let ch5ComponentUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-select-send-events-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-select.uses-numeric');
+						ch5ComponentUsingContract = ch5Template.querySelector('ch5-select.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment sendeventonchange', function () {
+				assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '101', "numeric sendeventonchange mismatch");
+				assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SelectValue', "contract sendeventonchange mismatch");
+			});
+
+
+			test('Increment <ch5-select-option><span data-ch5-textcontent=>', function () {
+				const numericEntries = ch5ComponentUsingNumeric.querySelectorAll('ch5-select-option span[data-ch5-textcontent]');
+				const contractEntries = ch5ComponentUsingContract.querySelectorAll('ch5-select-option span[data-ch5-textcontent]');
+
+				assert.strictEqual(numericEntries.length, 2, "not 2 numeric entries");
+				assert.strictEqual(contractEntries.length, 2, "not 2 contract entries");
+
+				assert.strictEqual(numericEntries[1].getAttribute("data-ch5-textcontent"), '201', "numeric data-ch5-textcontent mismatch");
+				assert.strictEqual(contractEntries[1].getAttribute("data-ch5-textcontent"), 'My.Contract.Prefix.SelectChoice[1]', "contract data-ch5-textcontent mismatch");
+			});
+
+		});
+	</script>
+
+
+	<test-fixture id="ch5-template-with-slider-fixture">
+		<template>
+			<template id="template-with-slider-widget">
+				<div>
+					<ch5-slider class="uses-numeric" sendeventonchange="1"></ch5-slider>
+					<ch5-slider class="uses-contract" sendeventonchange="SliderValue"></ch5-slider>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-slider-widget" contractname="My.Contract.Prefix." numericjoinoffset="100" booleanjoinoffset="200">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+
+	<script>
+		suite('ch5-template-with-slider', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ComponentUsingNumeric = null;
+			let ch5ComponentUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-slider-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-slider.uses-numeric');
+						ch5ComponentUsingContract = ch5Template.querySelector('ch5-slider.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment sendeventonchange', function (done) {
+				// assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '201', "numeric sendeventonchange mismatch");
+				assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SliderValue', "contract sendeventonchange mismatch");
+				done();
+			});
+
+		});
+	</script>
+
+	<test-fixture id="ch5-template-with-spinner-fixture">
+		<template>
+			<template id="template-with-spinner-widget">
+				<div>
+					<ch5-spinner class="uses-numeric" size="2" indexid="idx" sendeventonchange="1">
+						<template>
+							<div><label data-ch5-textcontent="{{idx}}"></label></div>
+						</template>
+					</ch5-spinner>
+					<ch5-spinner class="uses-contract" size="2" indexid="idx" sendeventonchange="SpinnerValue">
+						<template>
+							<div><label data-ch5-textcontent="SpinnerChoice[{{idx}}]"></label></div>
+						</template>
+					</ch5-spinner>
+				</div>
+			</template>
+			<ch5-template templateId="template-with-spinner-widget" contractname="My.Contract.Prefix." booleanjoinoffset="100" stringjoinoffset="200">
+			</ch5-template>
+		</template>
+	</test-fixture>
+
+
+
+	<script>
+		suite('ch5-template-with-spinner', function () {
+
+			let suiteElement = null;
+			let ch5Template = null;
+			let ch5ComponentUsingNumeric = null;
+			let ch5ComponentUsingContract = null;
+
+			/* coverity[implicit_this_used] */
+			setup(function () {
+				suiteElement = fixture('ch5-template-with-spinner-fixture');
+				ch5Template = suiteElement[1];
+				const waitForTimeout = new Promise((resolve) => {
+					setTimeout(() => {
+						ch5ComponentUsingNumeric = ch5Template.querySelector('ch5-spinner.uses-numeric');
+						ch5ComponentUsingContract = ch5Template.querySelector('ch5-spinner.uses-contract');
+						resolve();
+					});
+				});
+
+				return Promise.all([
+					customElements.whenDefined('ch5-template'),
+					waitForTimeout
+				]);
+			});
+
+			test('Increment sendeventonchange', function () {
+				assert.strictEqual(ch5ComponentUsingNumeric.getAttribute("sendeventonchange"), '101', "numeric sendeventonchange mismatch");
+
+				assert.strictEqual(ch5ComponentUsingContract.getAttribute("sendeventonchange"), 'My.Contract.Prefix.SpinnerValue', "contract sendeventonchange mismatch");
+			});
+
+			test('Increment <ch5-spinner><label data-ch5-textcontent=>', function () {
+				const numericEntries = ch5ComponentUsingNumeric.querySelectorAll('div.ch5-spinner__item label[data-ch5-textcontent]');
+				const contractEntries = ch5ComponentUsingContract.querySelectorAll('div.ch5-spinner__item label[data-ch5-textcontent]');
+
+				assert.strictEqual(numericEntries.length, 2, "not 2 numeric entries");
+				assert.strictEqual(contractEntries.length, 2, "not 2 contract entries");
+
+				assert.strictEqual(numericEntries[1].getAttribute("data-ch5-textcontent"), '201', "numeric data-ch5-textcontent mismatch");
+
+				assert.strictEqual(contractEntries[1].getAttribute("data-ch5-textcontent"), 'My.Contract.Prefix.SpinnerChoice[1]', "contract data-ch5-textcontent mismatch");
+			});
+
+		});
+	</script>
 
 
 
