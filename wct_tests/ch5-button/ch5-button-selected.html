@@ -79,13 +79,14 @@
 			[true, false].forEach((selectedName, i) => {
 				test(`receiveStateSelected: "${selectedName}"`, (done) => {
 					ch5Button.setAttribute('receiveStateSelected', 'hall_lights_selected_' + String(selectedName));
+					CrComLib.publishEvent('b', 'hall_lights_selected_' + String(selectedName), !selectedName); // Why - becos of first time selected value
 					CrComLib.publishEvent('b', 'hall_lights_selected_' + String(selectedName), selectedName);
 					flush(() => {
 						setTimeout(() => {
 							const selectedValue = (selectedName === true) ? "true" : "false";
-							console.log("ch5Button", ch5Button);
-							expect(ch5Button.getAttribute('selected')).to.be.equal((selectedValue));
+							// Note = first time selected would not be there for signal value
 							expect(ch5Button.selected).to.be.equal(selectedName);
+							expect(ch5Button.getAttribute('selected')).to.be.equal((selectedValue));
 							done();
 						}, BASIC_TESTING_TIMEOUT);
 					});

@@ -247,6 +247,7 @@
             [true, false].forEach((selectionObj, i) => {
                 test(`Check attribute type for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
                     ch5Button3.setAttribute('selected', selectionObj);
+                    CrComLib.publishEvent('b', 'receive_selected_state_types_fixture3', selectionObj);
                     flush(() => {
                         setTimeout(() => {
                             const expectedValue = selectionObj === true ? "success" : "warning";
