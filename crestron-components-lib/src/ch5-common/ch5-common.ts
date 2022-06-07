@@ -1896,7 +1896,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		}
 	}
 
-	protected setAttributeAndProperty(property: any, value: any) {
+	protected setAttributeAndProperty(property: any, value: any, setFromSignal: boolean = false) {
 		this.logger.log('setAttributeAndProperty: ' + property.attributeName + ' - "' + value + '"');
 		const attribute = property.attributeName.toLowerCase();
 		const thisRef = property.componentReference;
@@ -1925,7 +1925,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			if (property.enumeratedValues && property.enumeratedValues.length > 0 && property.enumeratedValues.indexOf(String(thisRef.getAttribute(value))) < 0) {
 				if (property.removeAttributeOnNull === true) {
 					if (!this.hasAttribute(attribute)) {
-						thisRef.removeAttribute(attribute);
+						if (setFromSignal === true) {
+							thisRef.setAttribute(attribute, valueToSet.toString());
+						} else {
+							thisRef.removeAttribute(attribute);
+						}
 					} else {
 						thisRef.setAttribute(attribute, valueToSet.toString());
 					}

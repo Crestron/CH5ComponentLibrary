@@ -876,8 +876,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		this._subReceiveSelected = receiveSignal.subscribe((newValue: boolean) => {
-			if (newValue !== this._selected) {
-				this.setAttributeAndProperty(this.BUTTON_PROPERTIES.SELECTED, newValue as unknown as boolean);
+			if (newValue !== this.selected) {
+				this.setAttributeAndProperty(this.BUTTON_PROPERTIES.SELECTED, newValue as unknown as boolean, true);
 				// this.selected = newValue as unknown as boolean; // this.setBooleanForProperty(newValue, this.BUTTON_PROPERTIES.SELECTED.default, this.BUTTON_PROPERTIES.SELECTED.valueOnAttributeEmpty);
 				// this.setAttribute('selected', '' + newValue); // concatenates with empty string to convert to string
 			}

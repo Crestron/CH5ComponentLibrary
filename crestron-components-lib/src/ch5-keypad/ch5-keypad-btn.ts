@@ -144,7 +144,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 */
 	public set iconClass(value: string) {
 		this.logger.start('set iconClass("' + value + '")');
-		if ((value !== '') && (value !== this._iconClass)) {
+		if (value !== this._iconClass) {
 			this._iconClass = value;
 		} else {
 			this._iconClass = this.params.iconClass.join(' ');
@@ -240,10 +240,11 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.setAttribute('data-ch5-id', this.getCrId());
 
 		ComponentHelper.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5KeypadChild); // WAI-ARIA Attributes
-
+		const defaultMajors: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '#', ''];
+		const defaultMinors: string[] = ['+', '&nbsp;', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ', '', '', ''];
 		const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remainingParams } = this.params;
-		this._labelMajor = major;
-		this._labelMinor = minor;
+		this._labelMajor = major ? major : defaultMajors[indexRef];
+		this._labelMinor = minor ? minor : defaultMinors[indexRef];
 		this._iconClass = iconClass.join(' ');
 		this._key = key;
 		this._pressed = pressed;
@@ -332,10 +333,10 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		this.setAttribute('key', this.params.name);
 		if (this.params.major.length > 0 ||
 			this.params.minor.length > 0 ||
-			this.params.iconClass.length > 0) {
+			this.params.iconClass.length > 0 || this.params.key.length > 0) {
 			const btn = document.createElement('button');
-			btn.appendChild(this.createLabelElementAndAppend(this.labelMajorCssClass, this.params.major));
-			btn.appendChild(this.createLabelElementAndAppend(this.labelMinorCssClass, this.params.minor));
+			btn.appendChild(this.createLabelElementAndAppend(this.labelMajorCssClass, this._labelMajor));
+			btn.appendChild(this.createLabelElementAndAppend(this.labelMinorCssClass, this._labelMinor));
 			this.appendChild(btn);
 		} else {
 			this.classList.add(this.emptyBtnCssClass);
