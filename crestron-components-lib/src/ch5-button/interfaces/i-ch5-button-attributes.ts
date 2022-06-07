@@ -202,7 +202,7 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * [
    * "`type` attribute",
    * "***",
-   * "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
+   * "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
    * "Overrides the appearance of the button with alternative CSS ",
    * "defined in classes defined with ch5-button--type, where type is ",
    * "the value of the property. If no 'type' is provided, the type of ",

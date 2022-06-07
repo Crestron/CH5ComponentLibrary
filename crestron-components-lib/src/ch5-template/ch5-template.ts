@@ -12,6 +12,7 @@ import { Ch5TemplateStructure } from "./ch5-template-structure";
 import { ICh5TemplateAttributes } from "./interfaces/i-ch5-template-attributes";
 import { publishEvent } from "../ch5-core";
 import { ch5TemplateSubject } from "./refresh-ch5-template";
+import { Subscription } from "rxjs";
 
 export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 
@@ -46,16 +47,35 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 	 */
 	private _context: string = '';
 
-	// TODO: add comments for these
+	/**
+	 * The value of the contract attribute
+	 */
 	private _contractName: string = '';
+
+	/**
+	 * the value of the boolean join offset attribute
+	 */
 	private _booleanJoinOffset: string = '';
+
+	/**
+	 * the value of the numeric join offset attribute
+	 */
 	private _numericJoinOffset: string = '';
+
+	/**
+	 * the value of the string join offset attribute
+	 */
 	private _stringJoinOffset: string = '';
 
 	/**
 	 * @type {Ch5TemplateStructure}
 	 */
 	private _templateHelper: Ch5TemplateStructure = {} as Ch5TemplateStructure;
+
+	/**
+	 * The subscription id of listener for refresh 
+	 */
+	private _refreshSubId: Subscription|null = null;
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Template.ELEMENT_NAME, Ch5Template.SIGNAL_ATTRIBUTE_TYPES);
@@ -168,22 +188,34 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		]).then(() => {
 			this.initializations();
 			this.info('Ch5Template --- Callback loaded');
+
+			if (this._templateHelper && this._templateHelper.instanceId) {
+				publishEvent('object', `ch5-template:${this._templateId}`, { loaded: true, id: this._templateHelper.instanceId, elementIds: this._templateHelper.elementIds });
+			}
 		});
+
 
 		this.listenForCh5TemplateRefreshRequests();
 	}
 
+	/**
+	 * function to setup a subscription for a change 
+	 * This functionality is primarily to support CCIDE update the template definition after a template 
+	 * instance has been put onto the CCIDE canvas. 
+	 * The implemetnation is 'good enough' for design time to show updated widget, but in a runtime environment,
+	 * it will leak references over time. 
+	 */
 	private listenForCh5TemplateRefreshRequests() {
 		this.info('Ch5Template.listenForCh5TemplateRefreshRequests()');
 		
-		ch5TemplateSubject.subscribe((ch5TemplateId: string) => {
+		this._refreshSubId = ch5TemplateSubject.subscribe((ch5TemplateId: string) => {
 			this.info(`Ch5Template.listenForCh5TemplateRefreshRequests() new request for ${ch5TemplateId}`);
 			
 			if (!this.shouldRefresh(ch5TemplateId)) {
 				return;
 			}
 
-			this.initializations();
+			this.initializations(true);
 		});
 	}
 
@@ -208,14 +240,18 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 		}
 	}
 
-	private initializations(): void {
+	private initializations(force?: boolean): void {
 
-		this.info('Ch5Template.initializations()');
-		this.classList.add(Ch5Template.CH5_TEMPLATE_STYLE_CLASS);
-		this.initAttributes();
-		this._templateHelper = new Ch5TemplateStructure(this);
-		this._templateHelper.generateTemplate(this.templateId, this.context);
-		this.info('Ch5Template --- Initialization Finished');
+		this.info(`Ch5Template.initializations(${force === true})`);
+
+		if (force === true || !this._templateHelper || !this._templateHelper.instanceId ) {
+			this.classList.add(Ch5Template.CH5_TEMPLATE_STYLE_CLASS);
+			this.initAttributes();
+			this._templateHelper = new Ch5TemplateStructure(this);
+			this._templateHelper.generateTemplate(this.templateId, this.context);
+			this.info('Ch5Template --- Initialization Finished');
+		}
+
 	}
 
 	/**
@@ -265,12 +301,11 @@ export class Ch5Template extends Ch5Common implements ICh5TemplateAttributes {
 			publishEvent('object', `ch5-template:${this.templateId}`, { loaded: false, id: this._templateHelper.instanceId });
 		}
 
-		// Then undo the work in initializations 
-		this.classList.remove(Ch5Template.CH5_TEMPLATE_STYLE_CLASS);
-		while (this.firstElementChild) { // there should be only one child
-			this.removeChild(this.firstElementChild);
+		if (this._refreshSubId !== null) {
+			this._refreshSubId.unsubscribe();
+			this._refreshSubId = null;
 		}
-		this._templateHelper = {} as Ch5TemplateStructure;
+
 	}
 	
 }

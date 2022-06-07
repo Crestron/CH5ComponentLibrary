@@ -234,25 +234,11 @@
         expect(ch5JointextString.getAttribute('show')).to.be.equal('false');
         expect(ch5JointextString.show).to.be.equal(false);
         ch5JointextString.removeAttribute('show');
+        expect(ch5JointextString.hasAttribute('show')).to.be.equal(true);
+        expect(ch5JointextString.show).to.be.equal(true);
         ch5JointextString.setAttribute('show', 'true');
         expect(ch5JointextString.getAttribute('show')).to.be.equal('true');
         expect(ch5JointextString.show).to.be.equal(true);
-      });
-    });
-
-    suite('ch5-jointotext-string-disabled', () => {
-      let ch5JointextString;
-
-      setup(async () => {
-        ch5JointextString = fixture('ch5-jointotext-string-disabled-fixture');
-      });
-
-      test(`Check disabled when true`, () => {
-        expect(ch5JointextString.getAttribute('disabled')).to.be.equal('true');
-        expect(ch5JointextString.disabled).to.be.equal(true);
-        ch5JointextString.removeAttribute('disabled');
-        expect(ch5JointextString.getAttribute('disabled')).to.be.equal(null);
-        expect(ch5JointextString.disabled).to.be.equal(false);
       });
     });
 

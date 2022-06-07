@@ -37,30 +37,11 @@
       "componentThemeVersion": "1.0.0",
       "selectors": [
         {
-          "className": ".ch5-button .cb-btn",
+          "className": ".ch5-button--disabled",
           "description": "",
           "selectorStyles": [
             {
-              "styleName": "line-height",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "padding",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": []
-        },
-        {
-          "className": ".ch5-button--icon",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "line-height",
+              "styleName": "opacity",
               "limits": [
                 {}
               ]
@@ -68,26 +49,7 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-button--img",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "line-height",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "icon": [
+              "disabled": [
                 true
               ]
             }
@@ -283,37 +245,57 @@
           "description": "",
           "selectorStyles": [
             {
-              "styleName": "width",
+              "styleName": "line-height",
               "limits": [
                 {}
               ]
             },
             {
-              "styleName": "height",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
+              "styleName": "padding",
               "limits": [
                 {}
               ]
             }
           ],
           "showWhen": []
+        },
+        {
+          "className": ".ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            }
+          ]
         },
         {
           "className": ".ch5-button .cb-btn.ch5-button--vertical",
@@ -404,31 +386,6 @@
           ]
         },
         {
-          "className": ".ch5-button .ch5-button--img",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "height",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "width",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "icon": [
-                true
-              ]
-            }
-          ]
-        },
-        {
           "className": ".ch5-button--stretch-height .cb-btn",
           "description": "",
           "selectorStyles": [
@@ -492,11 +449,35 @@
           ]
         },
         {
-          "className": ".ch5-button--disabled",
+          "className": ".ch5-button--size-regular .cb-btn",
           "description": "",
           "selectorStyles": [
             {
-              "styleName": "opacity",
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-weight",
               "limits": [
                 {}
               ]
@@ -504,14 +485,62 @@
           ],
           "showWhen": [
             {
-              "state": [
-                "disabled"
+              "size": [
+                "regular"
               ]
             }
           ]
         },
         {
-          "className": ".ch5-button--img",
+          "className": ".ch5-button--size-regular .ch5-button__checkbox--checked:before",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "checkboxShow": [
+                true
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular .ch5-button__checkbox--unchecked:before",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "checkboxShow": [
+                false
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular .ch5-button--img",
           "description": "",
           "selectorStyles": [
             {
@@ -529,8 +558,283 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular ch5-button[mode=\"?\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular ch5-button[mode=\"?\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-regular ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "regular"
               ]
             }
           ]
@@ -591,7 +895,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             },
@@ -615,7 +919,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             },
@@ -645,8 +949,278 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small ch5-button[mode=\"?\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small ch5-button[mode=\"?\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             },
             {
@@ -712,7 +1286,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             },
@@ -736,7 +1310,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             },
@@ -766,8 +1340,278 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small ch5-button[mode=\"?\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small ch5-button[mode=\"?\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "small"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-small ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             },
             {
@@ -833,7 +1677,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             },
@@ -857,7 +1701,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             },
@@ -887,8 +1731,278 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large ch5-button[mode=\"?\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large ch5-button[mode=\"?\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             },
             {
@@ -954,7 +2068,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             },
@@ -978,7 +2092,7 @@
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             },
@@ -1008,8 +2122,278 @@
           ],
           "showWhen": [
             {
-              "icon": [
-                true
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large ch5-button[mode=\"?\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large ch5-button[mode=\"?\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--img",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconUrl": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
+              ]
+            },
+            {
+              "size": [
+                "x-large"
+              ]
+            }
+          ]
+        },
+        {
+          "className": ".ch5-button--size-x-large ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"] .ch5-button--icon",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "iconClass": [
+                "SHOWWHEN.NOT_EMPTY"
               ]
             },
             {
@@ -1140,7 +2524,7 @@
           ]
         },
         {
-          "className": ".ch5-button--circle .cb-btn",
+          "className": ".ch5-button--circle.ch5-button--size-regular .cb-btn",
           "description": "",
           "selectorStyles": [
             {
@@ -1161,11 +2545,16 @@
               "shape": [
                 "circle"
               ]
+            },
+            {
+              "size": [
+                "regular"
+              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--vertical:not(.ch5-button--circle) .cb-btn",
+          "className": ".ch5-button--vertical:not(.ch5-button--circle).ch5-button--size-regular .cb-btn",
           "description": "",
           "selectorStyles": [
             {
@@ -1188,6 +2577,11 @@
                 "rectangle",
                 "tab",
                 "oval"
+              ]
+            },
+            {
+              "size": [
+                "regular"
               ]
             },
             {
@@ -1370,17 +2764,11 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 true
               ]
             }
@@ -1407,17 +2795,11 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
             {
-              "checkbox": [
+              "checkboxShow": [
                 false
               ]
             }
@@ -1462,8 +2844,8 @@
           ]
         },
         {
-          "className": ".ch5-button--text",
-          "description": "Applied when type='text'",
+          "className": "",
+          "description": "Applied when type='text' .ch5-button--text",
           "selectorStyles": [
             {
               "styleName": "border-style",
@@ -1496,16 +2878,10 @@
               ]
             }
           ],
-          "showWhen": [
-            {
-              "type": [
-                "text"
-              ]
-            }
-          ]
+          "showWhen": []
         },
         {
-          "className": ".ch5-button--text.ch5-button--selected",
+          "className": ".ch5-button--selected",
           "description": "",
           "selectorStyles": [
             {
@@ -1532,16 +2908,11 @@
               "state": [
                 "selected"
               ]
-            },
-            {
-              "type": [
-                "text"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--text.ch5-button--pressed",
+          "className": ".ch5-button--pressed",
           "description": "",
           "selectorStyles": [
             {
@@ -1568,17 +2939,12 @@
               "state": [
                 "pressed"
               ]
-            },
-            {
-              "type": [
-                "text"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--danger",
-          "description": "Applied when type='danger'",
+          "className": "",
+          "description": "Applied when type='danger' .ch5-button--danger",
           "selectorStyles": [
             {
               "styleName": "border-style",
@@ -1611,16 +2977,10 @@
               ]
             }
           ],
-          "showWhen": [
-            {
-              "type": [
-                "danger"
-              ]
-            }
-          ]
+          "showWhen": []
         },
         {
-          "className": ".ch5-button--danger.ch5-button--selected",
+          "className": ".ch5-button--selected",
           "description": "",
           "selectorStyles": [
             {
@@ -1647,16 +3007,11 @@
               "state": [
                 "selected"
               ]
-            },
-            {
-              "type": [
-                "danger"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--danger.ch5-button--pressed",
+          "className": ".ch5-button--pressed",
           "description": "",
           "selectorStyles": [
             {
@@ -1683,17 +3038,12 @@
               "state": [
                 "pressed"
               ]
-            },
-            {
-              "type": [
-                "danger"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--warning",
-          "description": "Applied when type='warning'",
+          "className": "",
+          "description": "Applied when type='warning' .ch5-button--warning",
           "selectorStyles": [
             {
               "styleName": "border-style",
@@ -1726,16 +3076,10 @@
               ]
             }
           ],
-          "showWhen": [
-            {
-              "type": [
-                "warning"
-              ]
-            }
-          ]
+          "showWhen": []
         },
         {
-          "className": ".ch5-button--warning.ch5-button--selected",
+          "className": ".ch5-button--selected",
           "description": "",
           "selectorStyles": [
             {
@@ -1762,16 +3106,11 @@
               "state": [
                 "selected"
               ]
-            },
-            {
-              "type": [
-                "warning"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--warning.ch5-button--pressed",
+          "className": ".ch5-button--pressed",
           "description": "",
           "selectorStyles": [
             {
@@ -1798,17 +3137,12 @@
               "state": [
                 "pressed"
               ]
-            },
-            {
-              "type": [
-                "warning"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--info",
-          "description": "Applied when type='info'",
+          "className": "",
+          "description": "Applied when type='info' .ch5-button--info",
           "selectorStyles": [
             {
               "styleName": "border-style",
@@ -1841,16 +3175,10 @@
               ]
             }
           ],
-          "showWhen": [
-            {
-              "type": [
-                "info"
-              ]
-            }
-          ]
+          "showWhen": []
         },
         {
-          "className": ".ch5-button--info.ch5-button--selected",
+          "className": ".ch5-button--selected",
           "description": "",
           "selectorStyles": [
             {
@@ -1877,16 +3205,11 @@
               "state": [
                 "selected"
               ]
-            },
-            {
-              "type": [
-                "info"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--info.ch5-button--pressed",
+          "className": ".ch5-button--pressed",
           "description": "",
           "selectorStyles": [
             {
@@ -1913,17 +3236,12 @@
               "state": [
                 "pressed"
               ]
-            },
-            {
-              "type": [
-                "info"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--success",
-          "description": "Applied when type='success'",
+          "className": "",
+          "description": "Applied when type='success' .ch5-button--success",
           "selectorStyles": [
             {
               "styleName": "border-style",
@@ -1956,16 +3274,10 @@
               ]
             }
           ],
-          "showWhen": [
-            {
-              "type": [
-                "success"
-              ]
-            }
-          ]
+          "showWhen": []
         },
         {
-          "className": ".ch5-button--success.ch5-button--selected",
+          "className": ".ch5-button--selected",
           "description": "",
           "selectorStyles": [
             {
@@ -1992,16 +3304,11 @@
               "state": [
                 "selected"
               ]
-            },
-            {
-              "type": [
-                "success"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--success.ch5-button--pressed",
+          "className": ".ch5-button--pressed",
           "description": "",
           "selectorStyles": [
             {
@@ -2028,17 +3335,12 @@
               "state": [
                 "pressed"
               ]
-            },
-            {
-              "type": [
-                "success"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--default",
-          "description": "Default button",
+          "className": "",
+          "description": "Default button .ch5-button--default",
           "selectorStyles": [
             {
               "styleName": "border-style",
@@ -2071,16 +3373,10 @@
               ]
             }
           ],
-          "showWhen": [
-            {
-              "type": [
-                "default"
-              ]
-            }
-          ]
+          "showWhen": []
         },
         {
-          "className": ".ch5-button--default.ch5-button--selected",
+          "className": ".ch5-button--selected",
           "description": "",
           "selectorStyles": [
             {
@@ -2107,16 +3403,11 @@
               "state": [
                 "selected"
               ]
-            },
-            {
-              "type": [
-                "default"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--default.ch5-button--pressed",
+          "className": ".ch5-button--pressed",
           "description": "",
           "selectorStyles": [
             {
@@ -2143,17 +3434,12 @@
               "state": [
                 "pressed"
               ]
-            },
-            {
-              "type": [
-                "default"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--primary",
-          "description": "Applied when type='primary'",
+          "className": "",
+          "description": "Applied when type='primary' .ch5-button--primary",
           "selectorStyles": [
             {
               "styleName": "border-style",
@@ -2186,16 +3472,10 @@
               ]
             }
           ],
-          "showWhen": [
-            {
-              "type": [
-                "primary"
-              ]
-            }
-          ]
+          "showWhen": []
         },
         {
-          "className": ".ch5-button--primary.ch5-button--selected",
+          "className": ".ch5-button--selected",
           "description": "",
           "selectorStyles": [
             {
@@ -2222,16 +3502,11 @@
               "state": [
                 "selected"
               ]
-            },
-            {
-              "type": [
-                "primary"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--primary.ch5-button--pressed",
+          "className": ".ch5-button--pressed",
           "description": "",
           "selectorStyles": [
             {
@@ -2258,17 +3533,12 @@
               "state": [
                 "pressed"
               ]
-            },
-            {
-              "type": [
-                "primary"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--secondary",
-          "description": "Applied when type='secondary'",
+          "className": "",
+          "description": "Applied when type='secondary' .ch5-button--secondary",
           "selectorStyles": [
             {
               "styleName": "border-style",
@@ -2301,16 +3571,10 @@
               ]
             }
           ],
-          "showWhen": [
-            {
-              "type": [
-                "secondary"
-              ]
-            }
-          ]
+          "showWhen": []
         },
         {
-          "className": ".ch5-button--secondary.ch5-button--selected",
+          "className": ".ch5-button--selected",
           "description": "",
           "selectorStyles": [
             {
@@ -2337,16 +3601,11 @@
               "state": [
                 "selected"
               ]
-            },
-            {
-              "type": [
-                "secondary"
-              ]
             }
           ]
         },
         {
-          "className": ".ch5-button--secondary.ch5-button--pressed",
+          "className": ".ch5-button--pressed",
           "description": "",
           "selectorStyles": [
             {
@@ -2373,10 +3632,3173 @@
               "state": [
                 "pressed"
               ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"]",
+          "description": "Applied when type='text' .ch5-button--text",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
             },
             {
-              "type": [
-                "secondary"
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"]",
+          "description": "Applied when type='danger' .ch5-button--danger",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"]",
+          "description": "Applied when type='warning' .ch5-button--warning",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"]",
+          "description": "Applied when type='info' .ch5-button--info",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"]",
+          "description": "Applied when type='success' .ch5-button--success",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"]",
+          "description": "Default button .ch5-button--default",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"]",
+          "description": "Applied when type='primary' .ch5-button--primary",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"]",
+          "description": "Applied when type='secondary' .ch5-button--secondary",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"]",
+          "description": "Applied when type='text' .ch5-button--text",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"]",
+          "description": "Applied when type='text' .ch5-button--text",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"]",
+          "description": "Applied when type='text' .ch5-button--text",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"]",
+          "description": "Applied when type='danger' .ch5-button--danger",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"]",
+          "description": "Applied when type='danger' .ch5-button--danger",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"]",
+          "description": "Applied when type='danger' .ch5-button--danger",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"]",
+          "description": "Applied when type='warning' .ch5-button--warning",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"]",
+          "description": "Applied when type='warning' .ch5-button--warning",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"]",
+          "description": "Applied when type='warning' .ch5-button--warning",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"]",
+          "description": "Applied when type='info' .ch5-button--info",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"]",
+          "description": "Applied when type='info' .ch5-button--info",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"]",
+          "description": "Applied when type='info' .ch5-button--info",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"]",
+          "description": "Applied when type='success' .ch5-button--success",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"]",
+          "description": "Applied when type='success' .ch5-button--success",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"]",
+          "description": "Applied when type='success' .ch5-button--success",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"]",
+          "description": "Default button .ch5-button--default",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"]",
+          "description": "Default button .ch5-button--default",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"]",
+          "description": "Default button .ch5-button--default",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"]",
+          "description": "Applied when type='primary' .ch5-button--primary",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"]",
+          "description": "Applied when type='primary' .ch5-button--primary",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"]",
+          "description": "Applied when type='primary' .ch5-button--primary",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"]",
+          "description": "Applied when type='secondary' .ch5-button--secondary",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"]",
+          "description": "Applied when type='secondary' .ch5-button--secondary",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"]",
+          "description": "Applied when type='secondary' .ch5-button--secondary",
+          "selectorStyles": [
+            {
+              "styleName": "border-style",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--selected",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "selected"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"normal\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"pressed\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
+              ]
+            }
+          ]
+        },
+        {
+          "className": "ch5-button[mode=\"?\"] ch5-button-mode-state[state=\"selected\"].ch5-button--pressed",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "border-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "background-color",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "color",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": [
+            {
+              "state": [
+                "pressed"
               ]
             }
           ]
@@ -2387,7 +6809,7 @@
       "componentThemeVersion": "1.0.0",
       "selectors": [
         {
-          "className": "ch5-image>img",
+          "className": ".ch5-image.ch5-image__img",
           "description": "",
           "selectorStyles": [
             {
@@ -3382,8 +7804,8 @@
           ],
           "showWhen": [
             {
-              "state": [
-                "disabled"
+              "disabled": [
+                true
               ]
             }
           ]
@@ -3910,12 +8332,6 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "min-width",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
@@ -3950,12 +8366,6 @@
             },
             {
               "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "min-width",
               "limits": [
                 {}
               ]
@@ -3996,12 +8406,6 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "min-width",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
@@ -4039,12 +8443,6 @@
               "limits": [
                 {}
               ]
-            },
-            {
-              "styleName": "min-width",
-              "limits": [
-                {}
-              ]
             }
           ],
           "showWhen": [
@@ -4079,12 +8477,6 @@
             },
             {
               "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "min-width",
               "limits": [
                 {}
               ]
@@ -4238,162 +8630,6 @@
             {
               "icon": [
                 true
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-textinput",
-          "description": "Main class",
-          "selectorStyles": [
-            {
-              "styleName": "color",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": []
-        },
-        {
-          "className": ".ch5-textinput__assets",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "border",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "border-radius",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": []
-        },
-        {
-          "className": ".ch5-textinput--x-small span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "size": [
-                "x-small"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-textinput--small span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "size": [
-                "small"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-textinput--large span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "size": [
-                "large"
-              ]
-            }
-          ]
-        },
-        {
-          "className": ".ch5-textinput--x-large span",
-          "description": "",
-          "selectorStyles": [
-            {
-              "styleName": "font-style",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-size",
-              "limits": [
-                {}
-              ]
-            },
-            {
-              "styleName": "font-weight",
-              "limits": [
-                {}
-              ]
-            }
-          ],
-          "showWhen": [
-            {
-              "size": [
-                "x-large"
               ]
             }
           ]
@@ -20512,6 +24748,12 @@
               "limits": [
                 {}
               ]
+            },
+            {
+              "styleName": "$ch5-keypad-x-small-container-width, $ch5-keypad-x-small-container-height, $ch5-keypad-x-small-container-height-extra, $ch5-keypad-x-small-font-size-major, $ch5-keypad-x-small-font-size-minor )",
+              "limits": [
+                {}
+              ]
             }
           ],
           "showWhen": []
@@ -20624,6 +24866,38 @@
           "showWhen": []
         },
         {
+          "className": ".ch5-keypad.ch5-keypad--size-x-small .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-x-small .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
           "className": ".ch5-keypad.ch5-keypad--size-small",
           "description": "",
           "selectorStyles": [
@@ -20647,6 +24921,12 @@
             },
             {
               "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "$ch5-keypad-small-container-width, $ch5-keypad-small-container-height, $ch5-keypad-small-container-height-extra, $ch5-keypad-small-font-size-major, $ch5-keypad-small-font-size-minor )",
               "limits": [
                 {}
               ]
@@ -20762,6 +25042,214 @@
           "showWhen": []
         },
         {
+          "className": ".ch5-keypad.ch5-keypad--size-small .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-small .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "min-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "$ch5-keypad-regular-container-width, $ch5-keypad-regular-container-height, $ch5-keypad-regular-container-height-extra, $ch5-keypad-regular-font-size-major, $ch5-keypad-regular-font-size-minor )",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular .keypad-container",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "min-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular[showextrabutton=\"true\"]",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular[usecontractforextrabuttonshow=\"true\"]",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular[showextrabutton=\"true\"] .keypad-container",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular[usecontractforextrabuttonshow=\"true\"] .keypad-container",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-width",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-regular .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
           "className": ".ch5-keypad.ch5-keypad--size-large",
           "description": "",
           "selectorStyles": [
@@ -20785,6 +25273,12 @@
             },
             {
               "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "$ch5-keypad-large-container-width, $ch5-keypad-large-container-height, $ch5-keypad-large-container-height-extra, $ch5-keypad-large-font-size-major, $ch5-keypad-large-font-size-minor )",
               "limits": [
                 {}
               ]
@@ -20900,6 +25394,38 @@
           "showWhen": []
         },
         {
+          "className": ".ch5-keypad.ch5-keypad--size-large .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-large .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
           "className": ".ch5-keypad.ch5-keypad--size-x-large",
           "description": "",
           "selectorStyles": [
@@ -20923,6 +25449,12 @@
             },
             {
               "styleName": "height",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "$ch5-keypad-x-large-container-width, $ch5-keypad-x-large-container-height, $ch5-keypad-x-large-container-height-extra, $ch5-keypad-x-large-font-size-major, $ch5-keypad-x-large-font-size-minor )",
               "limits": [
                 {}
               ]
@@ -21030,6 +25562,38 @@
             },
             {
               "styleName": "min-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-x-large .keypad-row .keypad-btn button .label-major",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
+              "limits": [
+                {}
+              ]
+            },
+            {
+              "styleName": "line-height",
+              "limits": [
+                {}
+              ]
+            }
+          ],
+          "showWhen": []
+        },
+        {
+          "className": ".ch5-keypad.ch5-keypad--size-x-large .keypad-row .keypad-btn button .label-minor",
+          "description": "",
+          "selectorStyles": [
+            {
+              "styleName": "font-size",
               "limits": [
                 {}
               ]

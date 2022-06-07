@@ -2,18 +2,23 @@
   "businessRules": [
     {
       "contains": "iconposition",
-      "key": "icon",
-      "value": true
+      "key": "iconClass",
+      "value": "SHOWWHEN.NOT_EMPTY"
+    },
+    {
+      "contains": "iconposition",
+      "key": "iconUrl",
+      "value": "SHOWWHEN.NOT_EMPTY"
     },
     {
       "contains": "--icon",
-      "key": "icon",
-      "value": true
+      "key": "iconClass",
+      "value": "SHOWWHEN.NOT_EMPTY"
     },
     {
       "contains": "--img",
-      "key": "icon",
-      "value": true
+      "key": "iconUrl",
+      "value": "SHOWWHEN.NOT_EMPTY"
     },
     {
       "contains": "ios",
@@ -22,17 +27,22 @@
     },
     {
       "contains": "icon-pos",
-      "key": "icon",
-      "value": true
+      "key": "iconClass",
+      "value": "SHOWWHEN.NOT_EMPTY"
     },
     {
+      "contains": "icon-pos",
+      "key": "iconUrl",
+      "value": "SHOWWHEN.NOT_EMPTY"
+    },    
+    {
       "contains": "checkbox--checked",
-      "key": "checkbox",
+      "key": "checkboxShow",
       "value": true
     },
     {
       "contains": "checkbox--unchecked",
-      "key": "checkbox",
+      "key": "checkboxShow",
       "value": false
     },
     {
@@ -47,8 +57,8 @@
     },
     {
       "contains": ".ch5-button--disabled",
-      "key": "state",
-      "value": "disabled"
+      "key": "disabled",
+      "value": true
     },
     {
       "contains": ".ch5-button--pressed",

@@ -1,3 +1,10 @@
+<style>
+	td,
+	th {
+		border: solid 1px black;
+		padding: 5px;
+	}
+</style>
 <h1>ContractName attribute</h1>
 <br>
 	<p>
@@ -16,33 +23,118 @@
 </p>
 <br/>
 <p>
-    If the  initial value of <b>contractname</b> is assigned as "LivingRoom.AppleTV" (digitals), 
-    the events are bound on each child button as below:
+    If the  initial value of <b>contractname</b> is assigned as "LivingRoom.Tivo" (digitals), 
+    the events are bound on each child button as below:<br/><br/>
 </p>
-<p>
-	<b>ch5-keypad-button</b>  key="button1" sendeventonclick="LivingRoom.AppleTV.Press1"
-	<br/>
-	<b>ch5-keypad-button</b>  key="button2" sendeventonclick="LivingRoom.AppleTV.Press2"
-	<br/>
-	<b>ch5-keypad-button</b>  key="button3" sendeventonclick="LivingRoom.AppleTV.Press3"
-	<br/>
-	<b>ch5-keypad-button</b>  key="button4" sendeventonclick="LivingRoom.AppleTV.Press4"
-	<br/>
-	<b>ch5-keypad-button</b>  key="button5" sendeventonclick="LivingRoom.AppleTV.Press5"
-	<br/>
-	<b>ch5-keypad-button</b>  key="button6" sendeventonclick="LivingRoom.AppleTV.Press6"
-	<br/>
-	<b>ch5-keypad-button</b>  key="button7" sendeventonclick="LivingRoom.AppleTV.Press7"
-	<br/>
-	<b>ch5-keypad-button</b>  key="button8" sendeventonclick="LivingRoom.AppleTV.Press8"
-	<br/>
-	<b>ch5-keypad-button</b>  key="button9" sendeventonclick="LivingRoom.AppleTV.Press9"
-	<br/>
-	<b>ch5-keypad-button</b>  key="button0" sendeventonclick="LivingRoom.AppleTV.Press0"
-	<br/>
-	<b>ch5-keypad-button</b>  key="buttonstar" sendeventonclick="LivingRoom.AppleTV.PressStar"
-	<br/>
-	<b>ch5-keypad-button</b>  key="buttonhash" sendeventonclick="LivingRoom.AppleTV.PressHash"
-	<br/>
-	<b>ch5-keypad-button</b>  key="buttonextra" sendeventonclick="LivingRoom.AppleTV.PressExtraButton"
-</p>
+<table>
+	<thead>
+		<tr>
+			<th>Key</th>
+			<th>Attribute</th>
+			<th>Contract Value</th>
+			<th>Example</th>
+		</tr>
+	</thead>
+	<tr>
+		<td></td>
+		<td>receiveStateShow</td>
+		<td>Show</td>
+		<td>LivingRoom.Tivo.Show</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>receiveStateEnable</td>
+		<td>Enable</td>
+		<td>LivingRoom.Tivo.Enable</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>receiveStateShowLetters</td>
+		<td>ShowLetters</td>
+		<td>LivingRoom.Tivo.ShowLetters</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>receiveStateLabelPosition</td>
+		<td>LabelPosition</td>
+		<td>LivingRoom.Tivo.LabelPosition</td>
+	</tr>
+	<tr>
+		<td>numbers (0-9)</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>Number0Clicked</td>
+		<td>LivingRoom.Tivo.Number0Clicked - These values will be based on the "key" attribute (0 to 9)</td>
+	</tr>
+	<tr>
+		<td>numbers (0-9)</td>
+		<td>receiveStateLabel</td>
+		<td>Key0Label</td>
+		<td>LivingRoom.Tivo.Key0Label - These values will be based on the "key" attribute (0 to 9)</td>
+	</tr>
+	<tr>
+		<td>numbers (0-9)</td>
+		<td>receiveStateSubLabel</td>
+		<td>Key0SubLabel</td>
+		<td>LivingRoom.Tivo.Key0SubLabel - These values will be based on the "key" attribute (0 to 9)</td>
+	</tr>
+	<tr>
+		<td>misc1</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>Misc1Clicked</td>
+		<td>LivingRoom.Tivo.Misc1Clicked</td>
+	</tr>
+	<tr>
+		<td>misc1</td>
+		<td>receiveStateShow</td>
+		<td>Misc1Show</td>
+		<td>LivingRoom.Tivo.Misc1Show</td>
+	</tr>
+	<tr>
+		<td>misc1</td>
+		<td>receiveStateEnable</td>
+		<td>Misc1Enable</td>
+		<td>LivingRoom.Tivo.Misc1Enable</td>
+	</tr>
+	<tr>
+		<td>misc1</td>
+		<td>receiveStateLabel</td>
+		<td>Misc1Label</td>
+		<td>LivingRoom.Tivo.Misc1Label</td>
+	</tr>
+	<tr>
+		<td>misc1</td>
+		<td>receiveStateSubLabel</td>
+		<td>Misc1SubLabel</td>
+		<td>LivingRoom.Tivo.Misc1SubLabel</td>
+	</tr>
+	<tr>
+		<td>misc2</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>Misc2Clicked</td>
+		<td>LivingRoom.Tivo.Misc2Clicked</td>
+	</tr>
+	<tr>
+		<td>misc2</td>
+		<td>receiveStateShow</td>
+		<td>Misc2Show</td>
+		<td>LivingRoom.Tivo.Misc2Show</td>
+	</tr>
+	<tr>
+		<td>misc2</td>
+		<td>receiveStateEnable</td>
+		<td>Misc2Enable</td>
+		<td>LivingRoom.Tivo.Misc2Enable</td>
+	</tr>
+	<tr>
+		<td>misc2</td>
+		<td>receiveStateLabel</td>
+		<td>Misc2Label</td>
+		<td>LivingRoom.Tivo.Misc2Label</td>
+	</tr>
+	<tr>
+		<td>misc1</td>
+		<td>receiveStateSubLabel</td>
+		<td>Misc2SubLabel</td>
+		<td>LivingRoom.Tivo.Misc2SubLabel</td>
+	</tr>
+</table>

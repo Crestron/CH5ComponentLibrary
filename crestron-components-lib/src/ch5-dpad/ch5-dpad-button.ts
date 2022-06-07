@@ -6,7 +6,6 @@
 // under which you licensed this source code.
 
 import _ from "lodash";
-import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5DpadChildBase } from "./ch5-dpad-child-base";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
@@ -14,163 +13,162 @@ import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-
 import { TCh5DpadChildButtonType } from "./interfaces/t-ch5-dpad";
 
 export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBaseAttributes {
-    public static readonly ELEMENT_NAME = 'ch5-dpad-button';
-    //#region 1. Variables
 
-    //#region 1.1 readonly variables
-    public static readonly DEFAULT_ICONS = {
-        up: 'fa-caret-up',
-        down: 'fa-caret-down',
-        left: 'fa-caret-left',
-        right: 'fa-caret-right',
-        center: 'fa-circle'
-    };
+	//#region 1. Variables
 
-    //#endregion
+	//#region 1.1 readonly variables
+	public static readonly ELEMENT_NAME = 'ch5-dpad-button';
 
-    //#region 1.2 private / protected variables
-    private labelClass: string = 'dpad-btn-label';
+	public static readonly DEFAULT_ICONS = {
+		up: 'fa-caret-up',
+		down: 'fa-caret-down',
+		left: 'fa-caret-left',
+		right: 'fa-caret-right',
+		center: 'fa-circle'
+	};
 
-    //#endregion
+	//#endregion
 
-    //#endregion
+	//#region 1.2 private / protected variables
+	private labelClass: string = 'dpad-btn-label';
 
-    //#region 2. Lifecycle Hooks
+	//#endregion
 
-    public constructor() {
-        super();
-    }
+	//#endregion
 
-    public static registerSignalAttributeTypes() {
-        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5DpadButton.ELEMENT_NAME, Ch5DpadButton.SIGNAL_ATTRIBUTE_TYPES);
-    }
+	//#region 2. Lifecycle Hooks
 
-    /**
-     * Function to create all inner html elements required to complete dpad center button
-     */
-    public createHtmlElements(): void {
-        this.logger.start('createHtmlElements', this.COMPONENT_NAME);
+	public constructor() {
+		super();
+	}
 
-        if (this.primaryCssClass) {
-            this.classList.add(this.primaryCssClass);
-        }
-        this.classList.add(this.CSS_CLASS_LIST.commonBtnClass);
-        if (this.CSS_CLASS_LIST.primaryTagClass) {
-            this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
-        }
-        if (this.CSS_CLASS_LIST.defaultArrowClass) {
-            this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
-        }
+	public static registerSignalAttributeTypes() {
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5DpadButton.ELEMENT_NAME, Ch5DpadButton.SIGNAL_ATTRIBUTE_TYPES);
+	}
 
-        // Order of preference is:
-        // 0 parentContract
-        // 4 iconUrl
-        // 5 iconClass
-        // 6 label
-        if (this.iconUrl.length > 0) {
-            this._icon = CH5DpadUtils.getImageContainer(this.iconUrl);
-            this._icon.style.backgroundImage = `url(${this.iconUrl})`;
-        } else if (this.iconClass) {
-            this._icon = CH5DpadUtils.getIconContainer();
-            this._icon.classList.add(...(this.iconClass.split(' ')));
-        } else if (this.label.length > 0 && this.key === 'center') {
-            this._icon = CH5DpadUtils.getLabelContainer(this.labelClass);
-            this._icon.innerHTML = this.label;
-        } else {
-            // if nothing works, then render as default
-            this._icon = CH5DpadUtils.getIconContainer();
-            this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
-            this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
-        }
+	/**
+	 * Function to create all inner html elements required to complete dpad center button
+	 */
+	public createHtmlElements(): void {
+		this.logger.start('createHtmlElements', this.COMPONENT_NAME);
 
-        if (this._icon.parentElement !== this) {
-            this.appendChild(this._icon);
-        }
+		if (this.primaryCssClass) {
+			this.classList.add(this.primaryCssClass);
+		}
+		this.classList.add(this.CSS_CLASS_LIST.commonBtnClass);
+		if (this.CSS_CLASS_LIST.primaryTagClass) {
+			this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
+		}
+		if (this.CSS_CLASS_LIST.defaultArrowClass) {
+			this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
+		}
 
-        this.logger.stop();
-    }
+		// Order of preference is:
+		// 0 parentContract
+		// 4 iconUrl
+		// 5 iconClass
+		// 6 label
+		if (this.iconUrl.length > 0) {
+			this._icon = CH5DpadUtils.getImageContainer(this.iconUrl);
+			this._icon.style.backgroundImage = `url(${this.iconUrl})`;
+		} else if (this.iconClass) {
+			this._icon = CH5DpadUtils.getIconContainer();
+			this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces;
+		} else if (this.label.length > 0 && this.key === 'center') {
+			this._icon = CH5DpadUtils.getLabelContainer(this.labelClass);
+			this._icon.innerHTML = this.label;
+		} else {
+			// if nothing works, then render as default
+			this._icon = CH5DpadUtils.getIconContainer();
+			this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
+			this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
+		}
 
-    static get observedAttributes() {
-        const commonAttributes: string[] = Ch5Common.observedAttributes;
+		if (this._icon.parentElement !== this) {
+			this.appendChild(this._icon);
+		}
 
-        // attributes
-        const attributes: string[] = [
-            "label",
-            "iconclass",
-            "iconurl",
-            'key',
-            'pressed'
-        ];
+		this.logger.stop();
+	}
 
-        // received signals
-        const receivedSignals: string[] = [
-        ];
+	static get observedAttributes() {
+		const commonAttributes: string[] = Ch5DpadChildBase.observedAttributes;
 
-        // sent signals
-        const sentSignals: string[] = [];
+		// attributes
+		const attributes: string[] = [
+			"label",
+			"iconclass",
+			"iconurl",
+			'key',
+			'pressed'
+		];
 
-        const ch5DpadAttributes = commonAttributes.concat(attributes).concat(receivedSignals).concat(sentSignals);
+		// received signals
+		const receivedSignals: string[] = [];
 
-        return ch5DpadAttributes;
-    }
+		// sent signals
+		const sentSignals: string[] = [];
 
-    public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-        this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
-        attr = attr.toLowerCase();
+		const ch5DpadAttributes = commonAttributes.concat(attributes).concat(receivedSignals).concat(sentSignals);
 
-        if (oldValue === newValue) {
-            return;
-        }
+		return ch5DpadAttributes;
+	}
 
-        this.info('ch5-dpad-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-        switch (attr) {
-            case 'label':
-                CH5DpadUtils.createIconTag(this);
-                this.label = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-                break;
-            case 'key':
-                CH5DpadUtils.createIconTag(this);
-                this.key = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-                if (newValue) {
-                    super.initializeParams({
-                        primaryTagClass: newValue as TCh5DpadChildButtonType,
-                        defaultIconClass: Ch5DpadButton.DEFAULT_ICONS[newValue as TCh5DpadChildButtonType],
-                        defaultArrowClass: newValue  === 'center' ? '' : 'direction-btn',
-                        btnType: newValue as TCh5DpadChildButtonType
-                    });
-                }
-                break;
-            case 'pressed':
-                CH5DpadUtils.setAttributeToElement(this, 'pressed', newValue);
-                this.pressed = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-                break;
-            default:
-                super.attributeChangedCallback(attr, oldValue, newValue);
-                break;
-        }
+	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
+		this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
+		attr = attr.toLowerCase();
 
-        this.logger.stop();
-    }
+		if (oldValue === newValue) {
+			return;
+		}
 
-    /**
-     *  Called to initialize all attributes
-     */
-    protected initAttributes(): void {
-        super.initAttributes();
-        // below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
-        this.label = CH5DpadUtils.setAttributeToElement(this, 'label', this._label);
+		this.info('ch5-dpad-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+		switch (attr) {
+			case 'label':
+				CH5DpadUtils.createIconTag(this);
+				this.label = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				break;
+			case 'key':
+				CH5DpadUtils.createIconTag(this);
+				this.key = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				if (newValue) {
+					super.initializeParams({
+						primaryTagClass: newValue as TCh5DpadChildButtonType,
+						defaultIconClass: Ch5DpadButton.DEFAULT_ICONS[newValue as TCh5DpadChildButtonType],
+						defaultArrowClass: newValue === 'center' ? '' : 'direction-btn',
+						btnType: newValue as TCh5DpadChildButtonType
+					});
+				}
+				break;
+			case 'pressed':
+				CH5DpadUtils.setAttributeToElement(this, 'pressed', newValue);
+				this.pressed = CH5DpadUtils.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+				break;
+			default:
+				super.attributeChangedCallback(attr, oldValue, newValue);
+				break;
+		}
 
-        this.logger.stop();
-    }
+		this.logger.stop();
+	}
 
-    //#endregion
+	/**
+	 *  Called to initialize all attributes
+	 */
+	protected initAttributes(): void {
+		super.initAttributes();
+		// below actions, set default value to the control's attribute if they dont exist, and assign them as a return value
+		this.label = CH5DpadUtils.setAttributeToElement(this, 'label', this._label);
+	}
+
+	//#endregion
 
 }
 
 if (typeof window === "object"
-    && typeof window.customElements === "object"
-    && typeof window.customElements.define === "function") {
-    window.customElements.define(Ch5DpadButton.ELEMENT_NAME, Ch5DpadButton);
+	&& typeof window.customElements === "object"
+	&& typeof window.customElements.define === "function") {
+	window.customElements.define(Ch5DpadButton.ELEMENT_NAME, Ch5DpadButton);
 }
 
 Ch5DpadButton.registerSignalAttributeTypes();

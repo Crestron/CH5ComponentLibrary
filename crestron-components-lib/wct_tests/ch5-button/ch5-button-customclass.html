@@ -261,6 +261,7 @@
             // ch5Button3
             [true, false].forEach((selectionObj, j) => {
                 test(`Check attribute customclass for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_customclass_fixture3', selectionObj);
                     ch5Button3.setAttribute('selected', selectionObj);
                     flush(() => {
                         setTimeout(() => {

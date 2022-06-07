@@ -2,137 +2,125 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="/bower_components/web-component-tester/browser.js"></script>
-    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
-    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
 </head>
 
 <body>
-    <test-fixture id="ch5-keypad-disabled-fixture">
-        <template>
-            <ch5-keypad type="danger" type="danger" disabled></ch5-keypad>
-        </template>
-    </test-fixture>
+  <test-fixture id="ch5-keypad-disabled-fixture">
+    <template>
+      <ch5-keypad type="danger" type="danger" disabled></ch5-keypad>
+    </template>
+  </test-fixture>
 
-    <test-fixture id="ch5-keypad-custom-class-fixture">
-        <template>
-            <ch5-keypad type="success" stretch="width" shape="square" customClass="blue-dashed-border"></ch5-keypad>
-        </template>
-    </test-fixture>
+  <test-fixture id="ch5-keypad-custom-class-fixture">
+    <template>
+      <ch5-keypad type="success" stretch="width" shape="square" customClass="blue-dashed-border"></ch5-keypad>
+    </template>
+  </test-fixture>
 
-    <test-fixture id="ch5-keypad-custom-style-fixture">
-        <template>
-            <ch5-keypad type="default" ID="test1a" shape="square" customStyle="border:1px solid red">
-            </ch5-keypad>
-        </template>
-    </test-fixture>
+  <test-fixture id="ch5-keypad-custom-style-fixture">
+    <template>
+      <ch5-keypad type="default" ID="test1a" shape="square" customStyle="border:1px solid red">
+      </ch5-keypad>
+    </template>
+  </test-fixture>
 
-    <test-fixture id="ch5-keypad-extra-button-fixture">
-        <template>
-            <ch5-keypad showExtraButton="false" type="default" ID="test1a" shape="square">
-                <ch5-keypad-button key="button1" labelMajor="11" labelMinor="ONE"></ch5-keypad-button>
-                <ch5-keypad-button key="button2" labelMajor="12" labelMinor="TWO"></ch5-keypad-button>
-                <ch5-keypad-button key="button3" labelMajor="13" labelMinor="THREE"></ch5-keypad-button>
-                <ch5-keypad-button key="button4" labelMajor="14" labelMinor="FOUR"></ch5-keypad-button>
-                <ch5-keypad-button key="button5" labelMajor="15" labelMinor="FIVE"></ch5-keypad-button>
-                <ch5-keypad-button key="button6" labelMajor="16" labelMinor="SIX"></ch5-keypad-button>
-                <ch5-keypad-button key="button7" labelMajor="17" labelMinor="SEVEN"></ch5-keypad-button>
-                <ch5-keypad-button key="button8" labelMajor="18" labelMinor="EIGHT"></ch5-keypad-button>
-                <ch5-keypad-button key="button9" labelMajor="19" labelMinor="NINE"></ch5-keypad-button>
-                <ch5-keypad-button key="button0" labelMajor="10" labelMinor="ZERO"></ch5-keypad-button>
-                <ch5-keypad-button key="buttonstar" labelMajor="^^" labelMinor="MISC1"></ch5-keypad-button>
-                <ch5-keypad-button key="buttonhash" labelMajor="&&" labelMinor="MISC2"></ch5-keypad-button>
-            </ch5-keypad>
-            <ch5-keypad showExtraButton="true" type="default" ID="test1a" shape="square">
-                <ch5-keypad-button key="button1" labelMajor="11" labelMinor="ONE"></ch5-keypad-button>
-                <ch5-keypad-button key="button2" labelMajor="12" labelMinor="TWO"></ch5-keypad-button>
-                <ch5-keypad-button key="button3" labelMajor="13" labelMinor="THREE"></ch5-keypad-button>
-                <ch5-keypad-button key="button4" labelMajor="14" labelMinor="FOUR"></ch5-keypad-button>
-                <ch5-keypad-button key="button5" labelMajor="15" labelMinor="FIVE"></ch5-keypad-button>
-                <ch5-keypad-button key="button6" labelMajor="16" labelMinor="SIX"></ch5-keypad-button>
-                <ch5-keypad-button key="button7" labelMajor="17" labelMinor="SEVEN"></ch5-keypad-button>
-                <ch5-keypad-button key="button8" labelMajor="18" labelMinor="EIGHT"></ch5-keypad-button>
-                <ch5-keypad-button key="button9" labelMajor="19" labelMinor="NINE"></ch5-keypad-button>
-                <ch5-keypad-button key="button0" labelMajor="10" labelMinor="ZERO"></ch5-keypad-button>
-                <ch5-keypad-button key="buttonstar" labelMajor="^^" labelMinor="MISC1"></ch5-keypad-button>
-                <ch5-keypad-button key="buttonhash" labelMajor="&&" labelMinor="MISC2"></ch5-keypad-button>
-                <ch5-keypad-button key="buttoncenter" iconClass="fas fa-user"></ch5-keypad-button>
-            </ch5-keypad>
-        </template>
-    </test-fixture>
+  <test-fixture id="ch5-keypad-extra-button-fixture">
+    <template>
+      <ch5-keypad showExtraButton="false" type="default" ID="test1a" shape="square">
+        <ch5-keypad-button key="button1" labelMajor="11" labelMinor="ONE"></ch5-keypad-button>
+        <ch5-keypad-button key="button2" labelMajor="12" labelMinor="TWO"></ch5-keypad-button>
+        <ch5-keypad-button key="button3" labelMajor="13" labelMinor="THREE"></ch5-keypad-button>
+        <ch5-keypad-button key="button4" labelMajor="14" labelMinor="FOUR"></ch5-keypad-button>
+        <ch5-keypad-button key="button5" labelMajor="15" labelMinor="FIVE"></ch5-keypad-button>
+        <ch5-keypad-button key="button6" labelMajor="16" labelMinor="SIX"></ch5-keypad-button>
+        <ch5-keypad-button key="button7" labelMajor="17" labelMinor="SEVEN"></ch5-keypad-button>
+        <ch5-keypad-button key="button8" labelMajor="18" labelMinor="EIGHT"></ch5-keypad-button>
+        <ch5-keypad-button key="button9" labelMajor="19" labelMinor="NINE"></ch5-keypad-button>
+        <ch5-keypad-button key="button0" labelMajor="10" labelMinor="ZERO"></ch5-keypad-button>
+        <ch5-keypad-button key="buttonstar" labelMajor="^^" labelMinor="MISC1"></ch5-keypad-button>
+        <ch5-keypad-button key="buttonhash" labelMajor="&&" labelMinor="MISC2"></ch5-keypad-button>
+      </ch5-keypad>
+      <ch5-keypad showExtraButton="true" type="default" ID="test1a" shape="square">
+        <ch5-keypad-button key="button1" labelMajor="11" labelMinor="ONE"></ch5-keypad-button>
+        <ch5-keypad-button key="button2" labelMajor="12" labelMinor="TWO"></ch5-keypad-button>
+        <ch5-keypad-button key="button3" labelMajor="13" labelMinor="THREE"></ch5-keypad-button>
+        <ch5-keypad-button key="button4" labelMajor="14" labelMinor="FOUR"></ch5-keypad-button>
+        <ch5-keypad-button key="button5" labelMajor="15" labelMinor="FIVE"></ch5-keypad-button>
+        <ch5-keypad-button key="button6" labelMajor="16" labelMinor="SIX"></ch5-keypad-button>
+        <ch5-keypad-button key="button7" labelMajor="17" labelMinor="SEVEN"></ch5-keypad-button>
+        <ch5-keypad-button key="button8" labelMajor="18" labelMinor="EIGHT"></ch5-keypad-button>
+        <ch5-keypad-button key="button9" labelMajor="19" labelMinor="NINE"></ch5-keypad-button>
+        <ch5-keypad-button key="button0" labelMajor="10" labelMinor="ZERO"></ch5-keypad-button>
+        <ch5-keypad-button key="buttonstar" labelMajor="^^" labelMinor="MISC1"></ch5-keypad-button>
+        <ch5-keypad-button key="buttonhash" labelMajor="&&" labelMinor="MISC2"></ch5-keypad-button>
+        <ch5-keypad-button key="buttoncenter" iconClass="fas fa-user"></ch5-keypad-button>
+      </ch5-keypad>
+    </template>
+  </test-fixture>
 
-    <script>
-        suite('ch5-keypad-disabled', () => {
-            let ch5keypad;
+  <script>
+    suite('ch5-keypad-disabled', () => {
+      let ch5keypad;
 
-            setup(async () => {
-              ch5keypad = fixture('ch5-keypad-disabled-fixture');
-            });
+      setup(async () => {
+        ch5keypad = fixture('ch5-keypad-disabled-fixture');
+      });
 
-          test(`Check disabled`, () => {
-            expect(ch5keypad.getAttribute('disabled')).to.be.equal("");
-            ch5keypad.removeAttribute('disabled');
-            expect(ch5keypad.getAttribute('disabled')).to.be.equal(null);
-          });
-        });
+      test(`Check disabled`, () => {
+        expect(ch5keypad.getAttribute('disabled')).to.be.equal(null);
+        ch5keypad.removeAttribute('disabled');
+        expect(ch5keypad.getAttribute('disabled')).to.be.equal(null);
+      });
+    });
 
-        suite('ch5-keypad-custom-class', () => {
-          let ch5keypad;
+    suite('ch5-keypad-custom-class', () => {
+      let ch5keypad;
 
-          setup(async () => {
-            ch5keypad = fixture('ch5-keypad-custom-class-fixture');
-          });
+      setup(async () => {
+        ch5keypad = fixture('ch5-keypad-custom-class-fixture');
+      });
 
-          test(`Check custom-class`, () => {
-            expect(ch5keypad[0].classList.contains('blue-dashed-border')).to.be.equal(true);
-          });
+      test(`Check custom-class`, () => {
+        expect(ch5keypad.classList.contains('blue-dashed-border')).to.be.equal(true);
+      });
+    });
+    
+    suite('ch5-keypad-custom-style', () => {
+      let ch5keypad;
 
-          test(`Check custom-class-selected`, () => {
-            expect(ch5keypad[1].getAttribute('customclassselected')).to.be.equal("btn-active");
-          });
+      setup(async () => {
+        ch5keypad = fixture('ch5-keypad-custom-style-fixture');
+      });
 
-          test(`Check custom-class-pressed`, () => {
-            expect(ch5keypad[2].getAttribute('customclasspressed')).to.be.equal("btn-pressed");
-          });
+      test(`Check custom-style`, (done) => {
+        expect(ch5keypad.getAttribute('customstyle')).to.equal('border:1px solid red');
+      });
+    });
 
-          test(`Check custom-class-disabled`, () => {
-            expect(ch5keypad[3].getAttribute('customclassdisabled')).to.be.equal("btn-disabled");
-          });
-        });
+    suite('ch5-keypad-extra-button', () => {
+      let ch5keypad;
 
-        suite('ch5-keypad-custom-style', () => {
-          let ch5keypad;
+      setup(async () => {
+        ch5keypad = fixture('ch5-keypad-extra-button-fixture');
+      });
 
-          setup(async () => {
-            ch5keypad = fixture('ch5-keypad-custom-style-fixture');
-          });
+      test('ch5-keypad-extra-button', () => {
+        expect(ch5keypad[0].children.length).to.equal(12);
+        expect(ch5keypad[0].getAttribute('showExtraButton')).to.equal('false');
+      });
 
-          test(`Check custom-style`, () => {
-            expect(ch5keypad.getAttribute('customstyle')).to.equal('border:1px solid red');
-          });
-        });
-
-        suite('ch5-keypad-extra-button', () => {
-          let ch5keypad;
-
-          setup(async () => {
-            ch5keypad = fixture('ch5-keypad-extra-button-fixture');
-          });
-
-          test('ch5-keypad-extra-button', () => {
-            expect(ch5keypad[0].children.length).to.equal(12);
-            expect(ch5keypad[0].getAttribute('showExtraButton')).to.equal('false');
-          });
-
-          test('ch5-keypad-extra-button', () => {
-            expect(ch5keypad[1].children.length).to.equal(13);
-            expect(ch5keypad[1].getAttribute('showExtraButton')).to.equal('true');
-          });
-        })
-    </script>
+      test('ch5-keypad-extra-button', () => {
+        expect(ch5keypad[1].children.length).to.equal(13);
+        expect(ch5keypad[1].getAttribute('showExtraButton')).to.equal('true');
+      });
+    })
+  </script>
 </body>
 
 </html>

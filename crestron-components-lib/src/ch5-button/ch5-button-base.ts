@@ -225,10 +225,37 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
-		contractname: {contractName: true},
+		contractname: { contractName: true },
 		booleanjoinoffset: { booleanJoin: 1 },
 		numericjoinoffset: { numericJoin: 1 },
 		stringjoinoffset: { stringJoin: 1 }
+	};
+
+	private readonly BUTTON_PROPERTIES = {
+		CHECKBOX_SHOW: {
+			default: false,
+			valueOnAttributeEmpty: true,
+			variableName: "_checkboxShow",
+			attributeName: "checkboxShow",
+			propertyName: "checkboxShow",
+			type: "boolean",
+			removeAttributeOnNull: true,
+			enumeratedValues: ['true', 'false', '', true, false],
+			componentReference: this,
+			callback: this.checkboxDisplay.bind(this)
+		},
+		SELECTED: {
+			default: false,
+			valueOnAttributeEmpty: true,
+			variableName: "_selected",
+			attributeName: "selected",
+			propertyName: "selected",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			enumeratedValues: ['true', 'false', '', true, false],
+			componentReference: this,
+			callback: this.setSelectionMethods.bind(this)
+		}
 	};
 
 	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
@@ -254,7 +281,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 	public cssClassPrefix: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 
-	private  DEBOUNCE_BUTTON_DISPLAY: number = 25;
+	private DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
 	private _elContainer: HTMLElement = {} as HTMLElement;
 	private _elButton: HTMLElement = {} as HTMLElement;
@@ -505,48 +532,70 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	public set customClass(value: string) {
-		this.setButtonAttribute('customClass', value, []);
+		this.setButtonAttribute('customClass', value);
 	}
 	public get customClass(): string {
 		return this._customClass;
 	}
 
 	public set customStyle(value: string) {
-		this.setButtonAttribute('customStyle', value, []);
+		this.setButtonAttribute('customStyle', value);
 	}
 	public get customStyle(): string {
 		return this._customStyle;
 	}
 
 	public set iconClass(value: string) {
-		this.setButtonAttribute('iconClass', value, []);
+		this.setButtonAttribute('iconClass', value);
 	}
 	public get iconClass(): string {
 		return this._iconClass;
 	}
 
 	public set hAlignLabel(value: TCh5ButtonHorizontalAlignLabel) {
-		this.setButtonAttribute('hAlignLabel', value, Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS);
+		this.setButtonAttribute('hAlignLabel', value, Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS, Ch5ButtonBase.HORIZONTAL_LABEL_ALIGNMENTS[0]);
 	}
 	public get hAlignLabel(): TCh5ButtonHorizontalAlignLabel {
 		return this._hAlignLabel;
 	}
 
-	private setButtonAttribute<T>(attribute: keyof Ch5ButtonBase, value: T, masterData: T[]) {
-		this.logger.log('set ' + attribute + '("' + value + '")');
-		if (!isNil(value) && this[attribute] !== value) {
-			if (masterData.length === 0) {
-				this.setAttribute(attribute, String(value));
-				this.setButtonDisplay();
+	/**
+	 * @param attribute 
+	 * @param value 
+	 * @param enumeratedMasterData 
+	 */
+	private setButtonAttribute<T>(attribute: keyof Ch5ButtonBase, value: T, enumeratedMasterData: T[] = [], defaultValue?: T) {
+		this.logger.log('setButtonAttribute: ' + attribute + ' - "' + value + '"');
+		if (this[attribute] !== value) {
+			if (enumeratedMasterData.length === 0) {
+				// Implies that the content can be any string
+				if (_.isNil(value) || String(value).trim() === "") {
+					this.removeAttribute(attribute);
+					this.setButtonDisplay();
+				} else {
+					this.setAttribute(attribute, String(value));
+					this.setButtonDisplay();
+				}
 			} else {
-				this.setAttribute(attribute, String(Ch5ButtonUtils.getValidInputValue<T>(masterData, value)));
-				this.setButtonDisplay();
+				// Implies that the content has to be an enumerated value ONLY
+				if (enumeratedMasterData.indexOf(value) >= 0) {
+					this.setAttribute(attribute, String(value).trim());
+					this.setButtonDisplay();
+				} else {
+					if (!_.isNil(defaultValue)) {
+						this.setAttribute(attribute, String(defaultValue).trim());
+						this.setButtonDisplay();
+					} else {
+						this.removeAttribute(attribute);
+						this.setButtonDisplay();
+					}
+				}
 			}
 		}
 	}
 
 	public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel) {
-		this.setButtonAttribute('vAlignLabel', value, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS);
+		this.setButtonAttribute('vAlignLabel', value, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0]);
 	}
 	public get vAlignLabel(): TCh5ButtonVerticalAlignLabel {
 		return this._vAlignLabel;
@@ -608,7 +657,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	public set checkboxPosition(value: TCh5ButtonCheckboxPosition) {
-		this.setButtonAttribute('checkboxPosition', value, Ch5ButtonBase.CHECKBOX_POSITIONS);
+		this.setButtonAttribute('checkboxPosition', value, Ch5ButtonBase.CHECKBOX_POSITIONS, Ch5ButtonBase.CHECKBOX_POSITIONS[0]);
 	}
 	public get checkboxPosition(): TCh5ButtonCheckboxPosition {
 		return this._checkboxPosition;
@@ -616,40 +665,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set checkboxShow(value: boolean) {
 		this.logger.log('set checkboxShow("' + value + '")');
-		// Value always comes as boolean even if input is junk
-		if (typeof this._elCheckboxIcon.classList === "undefined") {
-			return;
-		}
-		if (isNil(value)) {
-            value = this.hasAttribute('checkboxShow');
-        } else if ([true, false].indexOf(value) < 0) {
-            value = true;
-        }
-        if (this.hasAttribute('checkboxShow')) {
-            if (value === false) {
-                this.setAttribute('checkboxShow', 'false');
-            } else {
-                this.setAttribute('checkboxShow', 'true');
-            }
-        }
-        if (value !== this._checkboxShow) {
-            this._checkboxShow = value;
-			this.checkboxDisplay();
-        }
+		this.setCommonBooleanProperty(this.BUTTON_PROPERTIES.CHECKBOX_SHOW, value);
 	}
+
 	public get checkboxShow(): boolean {
 		return this._checkboxShow;
 	}
 
 	public set iconPosition(value: TCh5ButtonIconPosition) {
-		this.setButtonAttribute('iconPosition', value, Ch5ButtonBase.ICON_POSITIONS);
+		this.setButtonAttribute('iconPosition', value, Ch5ButtonBase.ICON_POSITIONS, Ch5ButtonBase.ICON_POSITIONS[0]);
 	}
 	public get iconPosition(): TCh5ButtonIconPosition {
 		return this._iconPosition;
 	}
 
 	public set iconUrl(value: string) {
-		this.setButtonAttribute('iconUrl', value, []);
+		this.setButtonAttribute('iconUrl', value);
 	}
 	public get iconUrl(): string {
 		return this._iconUrl;
@@ -733,23 +764,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set selected(value: boolean) {
 		this.logger.log('set selected("' + value + '")');
-		if (isNil(value)) {
-            value = this.hasAttribute('selected');
-        } else if ([true, false].indexOf(value) < 0) {
-            value = true;
-        }
-        if (this.hasAttribute('selected')) {
-            if (value === false) {
-                this.setAttribute('selected', 'false');
-            } else {
-                this.setAttribute('selected', 'true');
-            }
-        }
-        if (value !== this._selected) {
-            this._selected = value;
-			this.setButtonDisplay();
-			this.checkboxDisplay();
-        }
+		if (_.isNil(this.receiveStateSelected) || this.receiveStateSelected === "") {
+			this.setAttributeAndProperty(this.BUTTON_PROPERTIES.SELECTED, value);
+		}
 	}
 	public get selected(): boolean {
 		return this._selected;
@@ -859,8 +876,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		this._subReceiveSelected = receiveSignal.subscribe((newValue: boolean) => {
-			if (newValue !== this._selected) {
-				this.setAttribute('selected', '' + newValue); // concatenates with empty string to convert to string
+			if (newValue !== this.selected) {
+				this.setAttributeAndProperty(this.BUTTON_PROPERTIES.SELECTED, newValue as unknown as boolean, true);
+				// this.selected = newValue as unknown as boolean; // this.setBooleanForProperty(newValue, this.BUTTON_PROPERTIES.SELECTED.default, this.BUTTON_PROPERTIES.SELECTED.valueOnAttributeEmpty);
+				// this.setAttribute('selected', '' + newValue); // concatenates with empty string to convert to string
 			}
 		});
 	}
@@ -972,7 +991,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		const signalResponse = thisButton._ch5ButtonSignal.setSignal(attributeName, attributeValue);
 		if (!isNil(signalResponse)) {
-			signalResponse.subscribe((newValue: string) => {
+			thisButton._ch5ButtonSignal.getSignal(attributeName).signalState = signalResponse.subscribe((newValue: string) => {
 				thisButton._ch5ButtonSignal.getSignal(attributeName).currentValue = newValue;
 				thisButton._ch5ButtonSignal.setVariable<T>(attributeName, newValue);
 				thisButton.setButtonDisplay();
@@ -1104,7 +1123,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.checkboxPosition = this.getAttribute('checkboxposition') as TCh5ButtonCheckboxPosition;
 		}
 		if (this.hasAttribute('checkboxshow')) {
-			this.checkboxShow = this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false"));
+			this.checkboxShow = this.setBooleanForProperty(this.getAttribute('checkboxshow'), this.BUTTON_PROPERTIES.CHECKBOX_SHOW.default, this.BUTTON_PROPERTIES.CHECKBOX_SHOW.valueOnAttributeEmpty);
 		}
 		if (this.hasAttribute('customclassselected')) {
 			this.customClassState = this.getAttribute('customclassselected') as string;
@@ -1150,7 +1169,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// TODO - why is customclassselected checked?
 		// if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
 		if (this.hasAttribute('selected')) {
-			this.selected = this.toBoolean((this.hasAttribute('selected') && this.getAttribute('selected') !== "false"));
+			this.selected = this.getAttribute('selected') as unknown as boolean;
+			// this.selected =  this.setBooleanForProperty(this.getAttribute('selected'), this.BUTTON_PROPERTIES.SELECTED.default, this.BUTTON_PROPERTIES.SELECTED.valueOnAttributeEmpty);
 		}
 		if (this.hasAttribute('shape')) {
 			this.shape = this.getAttribute('shape') as TCh5ButtonShape;
@@ -1236,7 +1256,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			return;
 		}
 
-		this.logger.log('ch5-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
+		this.logger.log('ch5-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 
 		switch (attr) {
 			case 'customclass':
@@ -1334,12 +1354,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				break;
 
 			case 'selected':
-				if (!this.hasAttribute('customclassselected')) {
-					if (this.hasAttribute('selected')) {
-						this.selected = this.toBoolean(newValue, true);
-					}
-					this.updateCssClasses();
-				}
+				// if (!this.hasAttribute('customclassselected')) {
+				// if (this.hasAttribute('selected')) {
+				// 	this.selected = this.toBoolean(newValue, true);
+				// }	
+				// this.updateCssClasses();
+				this.logger.log("newValue for selected is", newValue);
+				this.selected = newValue as unknown as boolean;
+				// }
 				break;
 
 			case 'pressed':
@@ -1354,12 +1376,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				break;
 
 			case 'checkboxshow':
-				let isCheckboxShow = false;
-				if (this.hasAttribute('checkboxshow')) {
-					isCheckboxShow =  this.toBoolean(newValue, true);
-				}
-				this.checkboxShow = isCheckboxShow;
-				this.checkboxDisplay();
+				this.checkboxShow = this.setBooleanForProperty(newValue, this.BUTTON_PROPERTIES.CHECKBOX_SHOW.default, this.BUTTON_PROPERTIES.CHECKBOX_SHOW.valueOnAttributeEmpty);
 				break;
 
 			case 'checkboxposition':
@@ -1643,7 +1660,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.start("updateIconDisplay");
 		if (!isNil(this._previousIconUrl) && this._previousIconUrl !== '') {
 			this._elIcon.style.backgroundImage = '';
-			// this._elIcon.classList.remove(this.primaryCssClass + '--img');
 		}
 		if (!isNil(this._previousIconClass) && this._previousIconClass !== '') {
 			this._previousIconClass.split(' ').forEach((className: string) => {
@@ -1652,7 +1668,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					this._elIcon.classList.remove(className);
 				}
 			});
-			// this._elIcon.classList.remove(this.primaryCssClass + '--icon');
 		}
 
 		if (!isNil(this.iconUrl) && this.iconUrl !== '') {
@@ -1838,7 +1853,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		let hasCheckboxIcon = false;
 
-		if (this.hasAttribute("checkboxShow") &&  this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
+		if (this.hasAttribute("checkboxShow") && this.toBoolean((this.hasAttribute('checkboxshow') && this.getAttribute('checkboxshow') !== "false")) === true) {
 			hasCheckboxIcon = true;
 		}
 		this.logger.log("hasCheckboxIcon", hasCheckboxIcon);
@@ -1884,8 +1899,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public setButtonDisplay(): void {
 		if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {
 			this.setButtonDisplayDetails();
-		// } else if (this.isButtonInitiated === false) {
-		// 	this.setButtonDisplayDetails();
+			// } else if (this.isButtonInitiated === false) {
+			// 	this.setButtonDisplayDetails();
 		} else {
 			this.debounceSetButtonDisplay();
 		}
@@ -2095,7 +2110,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (templateData && templateData.length > 0) {
 				const checkDirectSelectedButtonModeLabelButton = Array.prototype.slice.call(templateData).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === "ch5-button");
 				if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && !isNil(checkDirectSelectedButtonModeLabelButton[0].children[0])) {
-					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) { 
+					if (checkDirectSelectedButtonModeLabelButton && checkDirectSelectedButtonModeLabelButton.length > 0 && checkDirectSelectedButtonModeLabelButton[0].children) {
 						extendedProperties.labelHtml = checkDirectSelectedButtonModeLabelButton[0].children[0].innerHTML as string;
 					} else if (!isNil(this.getAttribute("label"))) {
 						extendedProperties.label = this.getAttribute("label") as string
@@ -2123,10 +2138,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.log("extendedProperties Final: ", JSON.parse(JSON.stringify(extendedProperties)));
 
 		// update templateContent attributes to increment join numbers and prefix contract name
-		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '', 
-		parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0, 
-		parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0, 
-		parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);   
+		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
+			parseInt(this.getAttribute("booleanjoinoffset") || '0', 10) || 0,
+			parseInt(this.getAttribute("numericJoinOffset") || '0', 10) || 0,
+			parseInt(this.getAttribute("stringJoinOffset") || '0', 10) || 0);
 
 		this.logger.stop();
 	}
@@ -2160,16 +2175,20 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// iconUrl, iconClass
 		this._previousIconUrl = this._iconUrl;
 		this._previousIconClass = this._iconClass;
-		if (!isNil(updatedNodes.iconUrl)) {
-			this._iconUrl = updatedNodes.iconUrl;
+		if (isNil(updatedNodes.iconUrl)) {
+			updatedNodes.iconUrl = "";
 		}
-		if (!isNil(updatedNodes.iconClass)) {
-			this._iconClass = updatedNodes.iconClass;
+		this._iconUrl = updatedNodes.iconUrl;
+
+		if (isNil(updatedNodes.iconClass)) {
+			updatedNodes.iconClass = "";
 		}
-		if (this.previousExtendedProperties.iconUrl !== this.iconUrl && !isNil(this.iconUrl) && this.iconUrl !== "") {
+		this._iconClass = updatedNodes.iconClass;
+
+		if (this.previousExtendedProperties.iconUrl !== this.iconUrl) {
 			updateUIMethods.updateIconDisplay = true;
 			updateUIMethods.updateInternalHtml = true; // Applicable when iconUrl changes and iconclass and url combines
-		} else if (this.previousExtendedProperties.iconClass !== this.iconClass && !isNil(this.iconClass) && this.iconClass !== "") {
+		} else if (this.previousExtendedProperties.iconClass !== this.iconClass) {
 			updateUIMethods.updateIconDisplay = true;
 			updateUIMethods.updateInternalHtml = true; // Applicable when iconUrl changes and iconclass and url combines
 		}
@@ -2194,17 +2213,19 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		// customClass
-		if (!isNil(updatedNodes.customClass)) {
-			this._customClass = updatedNodes.customClass;
+		if (isNil(updatedNodes.customClass)) {
+			updatedNodes.customClass = "";
 		}
+		this._customClass = updatedNodes.customClass;
 		if (this.previousExtendedProperties.customClass !== this.customClass) {
 			updateUIMethods.updateForChangeInCustomCssClass = true;
 		}
 
 		// customStyle
-		if (!isNil(updatedNodes.customStyle)) {
-			this._customStyle = updatedNodes.customStyle;
+		if (isNil(updatedNodes.customStyle)) {
+			updatedNodes.customStyle = "";
 		}
+		this._customStyle = updatedNodes.customStyle;
 		if (this.previousExtendedProperties.customStyle !== this.customStyle) {
 			updateUIMethods.updateForChangeInStyleCss = true;
 		}
@@ -2412,11 +2433,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// type
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.type);
 
-		if (this.stretch === null) {
-			// size
-			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--size-' + this.size);
-		} else {
-			// stretch
+		// size
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--size-' + this.size);
+		if (!_.isNil(this.stretch)) {
+			// stretch overrides size
 			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--stretch-' + this.stretch);
 		}
 
@@ -2450,10 +2470,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
 			if (setOfCssClassesToBeAppliedForLabelAlignment.has(cssClass)) {
-				// this._elButton.classList.add(cssClass);
 				this._elSpanForLabelIconImg.classList.add(cssClass);
 			} else {
-				// this._elButton.classList.remove(cssClass);
 				this._elSpanForLabelIconImg.classList.remove(cssClass);
 			}
 		});
@@ -2478,23 +2496,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				targetEl.classList.remove(cssClass);
 			}
 		});
-
-		if (stretchCssClassNameToAdd !== '') {
-			Ch5ButtonBase.SIZES.forEach((size: TCh5ButtonSize) => {
-				const cssClass = this.primaryCssClass + '--size-' + size;
-				if (cssClass !== stretchCssClassNameToAdd) {
-					targetEl.classList.remove(cssClass);
-				}
-			});
-			targetEl.classList.add(stretchCssClassNameToAdd);
-		} else {
-			Ch5ButtonBase.SIZES.forEach((size: TCh5ButtonSize) => {
-				const cssClass = this.primaryCssClass + '--size-' + size;
-				if (size === this.size) {
-					targetEl.classList.add(cssClass);
-				}
-			});
-		}
 	}
 
 	protected updateCssClassesForCustomState(): void {
@@ -2508,6 +2509,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
+	private setSelectionMethods() {
+		this.setButtonDisplay();
+		this.checkboxDisplay();
+		this.updateCssClasses();
+	}
 	//#endregion
 
 }

@@ -1,3 +1,11 @@
+<style>
+	td,
+	th {
+		border: solid 1px black;
+		padding: 5px;
+	}
+</style>
+
 <h1>ContractName attribute</h1>
 <br />
 <p>
@@ -14,20 +22,121 @@
     If the  initial value of <b>contractname</b> is assigned as "LivingRoom.AppleTV" (digitals), 
     the events are bound on each child button as below:
 </p>
-<p>
-    <b>ch5-dpad-button key="up"</b> sendeventonclick = "LivingRoom.AppleTV.Up"
-    <br />
-    <b>ch5-dpad-button key="down"</b>  sendeventonclick = "LivingRoom.AppleTV.Down"
-    <br />
-    <b>ch5-dpad-button key="left"</b>  sendeventonclick = "LivingRoom.AppleTV.Left"
-    <br />
-    <b>ch5-dpad-button key="right"</b>  sendeventonclick = "LivingRoom.AppleTV.Right"
-    <br />
-    <b>ch5-dpad-button key="center"</b>  sendeventonclick = "LivingRoom.AppleTV.Center"
-    <br />
-    The receiveStateLabel value will be LivingRoom.AppleTv.CenterLabel
-    <br />
-    The receiveStateShow value will be LivingRoom.AppleTv.Show
-    <br />
-    The receiveStateEnable value will be LivingRoom.AppleTv.Enable
-</p>
+<table>
+	<thead>
+		<tr>
+			<td>Key</td>
+			<td>Attribute</td>
+			<td>Contract Value</td>
+			<td>Example</td>
+		</tr>
+	</thead>
+	<tr>
+		<td></td>
+		<td>receiveStateShow</td>
+		<td>Show</td>
+		<td>LivingRoom.AppleTv.Show</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>receiveStateEnable</td>
+		<td>Enable</td>
+		<td>LivingRoom.AppleTv.Enable</td>
+	</tr>
+	<tr>
+		<td>left</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>LeftClicked</td>
+		<td>LivingRoom.AppleTv.LeftClicked</td>
+	</tr>
+	<tr>
+		<td>left</td>
+		<td>receiveStateShow</td>
+		<td>LeftShow</td>
+		<td>LivingRoom.AppleTv.LeftShow</td>
+	</tr>
+	<tr>
+		<td>left</td>
+		<td>receiveStateEnable</td>
+		<td>LeftEnable</td>
+		<td>LivingRoom.AppleTv.LeftEnable</td>
+	</tr>
+	<tr>
+		<td>right</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>RightClicked</td>
+		<td>LivingRoom.AppleTv.RightClicked</td>
+	</tr>
+	<tr>
+		<td>right</td>
+		<td>receiveStateShow</td>
+		<td>RightShow</td>
+		<td>LivingRoom.AppleTv.RightShow</td>
+	</tr>
+	<tr>
+		<td>right</td>
+		<td>receiveStateEnable</td>
+		<td>RightEnable</td>
+		<td>LivingRoom.AppleTv.RightEnable</td>
+	</tr>
+	<tr>
+		<td>top</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>TopClicked</td>
+		<td>LivingRoom.AppleTv.TopClicked</td>
+	</tr>
+	<tr>
+		<td>top</td>
+		<td>receiveStateShow</td>
+		<td>TopShow</td>
+		<td>LivingRoom.AppleTv.TopShow</td>
+	</tr>
+	<tr>
+		<td>top</td>
+		<td>receiveStateEnable</td>
+		<td>TopEnable</td>
+		<td>LivingRoom.AppleTv.TopEnable</td>
+	</tr>
+	<tr>
+		<td>bottom</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>BottomClicked</td>
+		<td>LivingRoom.AppleTv.BottomClicked</td>
+	</tr>
+	<tr>
+		<td>bottom</td>
+		<td>receiveStateShow</td>
+		<td>BottomShow</td>
+		<td>LivingRoom.AppleTv.BottomShow</td>
+	</tr>
+	<tr>
+		<td>bottom</td>
+		<td>receiveStateEnable</td>
+		<td>BottomEnable</td>
+		<td>LivingRoom.AppleTv.BottomEnable</td>
+	</tr>
+	<tr>
+		<td>center</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>CenterClicked</td>
+		<td>LivingRoom.AppleTv.CenterClicked</td>
+	</tr>
+	<tr>
+		<td>center</td>
+		<td>receiveStateShow</td>
+		<td>CenterShow</td>
+		<td>LivingRoom.AppleTv.CenterShow</td>
+	</tr>
+	<tr>
+		<td>center</td>
+		<td>receiveStateEnable</td>
+		<td>CenterEnable</td>
+		<td>LivingRoom.AppleTv.CenterEnable</td>
+	</tr>
+	<tr>
+		<td>center</td>
+		<td>receiveStateLabel</td>
+		<td>CenterLabel</td>
+		<td>LivingRoom.AppleTv.CenterLabel</td>
+	</tr>
+</table>

@@ -2,8 +2,8 @@
   "businessRules": [
     {
       "contains": ".ch5-textinput--disabled",
-      "key": "state",
-      "value": "disabled"
+      "key": "disabled",
+      "value": true
     },
     {
       "contains": ".ch5-textinput--focused",
