@@ -473,21 +473,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     /**
      *  overriding default receiveStateShow specific getter-setter
      */
-    public set show(value: boolean) {
-        const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShow", value);
-        if (isContractBased) {
-            // contract name exists and attribute allows it to be based on contract, then receiveStateShow becomes void
-            return;
-        }
-        if (value !== this._show) {
-            this._show = value;
-            this.setAttribute('show', value.toString());
-        }
-    }
-
-    /**
-     *  overriding default receiveStateShow specific getter-setter
-     */
     public set disabled(value: boolean) {
         const isContractBased = this.checkIfContractAllows("useContractForEnable", "receiveStateEnable", value);
         if (isContractBased) {
@@ -505,38 +490,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 this.removeAttribute('disabled');
             }
         }
-    }
-
-    /**
-     * overriding default receiveStateShow specific getter-setter
-     */
-    public set receiveStateShow(value: string) {
-        const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShow", value);
-        if (isContractBased) {
-            // contract name exists and attribute allows it to be based on contract, then receiveStateShow becomes void
-            return;
-        }
-        value = this._checkAndSetStringValue(value);
-        if ('' === value || value === this._receiveStateShow) {
-            return;
-        }
-
-        this.clearBooleanSignalSubscription(this._receiveStateShow, this._subKeySigReceiveShow);
-
-        this._receiveStateShow = value;
-        this.setAttribute('receivestateshow', value);
-
-        const recSigShowName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShow);
-        const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowName);
-
-        if (null === recSig) {
-            return;
-        }
-
-        this._subKeySigReceiveShow = recSig.subscribe((newVal: boolean) => {
-            this.info(' subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newVal);
-            this.show = newVal;
-        });
     }
 
     public set receiveStateExtraButtonShow(value: string) {
@@ -1005,7 +958,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                 break;
             case 'receivestateshow':
                 if (!isValidContract) {
-                    this.receiveStateShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+                    super.attributeChangedCallback(attr, oldValue, newValue);
                 }
                 break;
             case 'receivestateenable':
@@ -1067,7 +1020,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             case 'size':
                 this.size = newValue as TCh5KeypadSize;
                 break;
+            case 'show':
+                if (!isValidContract) {
+                    super.attributeChangedCallback(attr, oldValue, newValue);
+                }
+                break;
             default:
+                this.logger.log("attributeChangedCallback: going to default");
                 super.attributeChangedCallback(attr, oldValue, newValue);
                 break;
         }
