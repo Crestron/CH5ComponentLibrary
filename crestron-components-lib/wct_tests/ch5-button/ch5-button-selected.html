@@ -82,7 +82,8 @@
 					CrComLib.publishEvent('b', 'hall_lights_selected_' + String(selectedName), selectedName);
 					flush(() => {
 						setTimeout(() => {
-							const selectedValue = (selectedName === true) ? "true" : null;
+							const selectedValue = (selectedName === true) ? "true" : "false";
+							console.log("ch5Button", ch5Button);
 							expect(ch5Button.getAttribute('selected')).to.be.equal((selectedValue));
 							expect(ch5Button.selected).to.be.equal(selectedName);
 							done();

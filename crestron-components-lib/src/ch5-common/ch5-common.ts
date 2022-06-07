@@ -53,7 +53,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	private readonly COMMON_PROPERTIES = {
 		SHOW: {
 			default: true,
-			valueOnAttributeNullOrEmpty: true,
+			valueOnAttributeEmpty: true,
 			variableName: "_show",
 			attributeName: "show",
 			propertyName: "show",
@@ -63,7 +63,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		},
 		DISABLED: {
 			default: false,
-			valueOnAttributeNullOrEmpty: true,
+			valueOnAttributeEmpty: true,
 			variableName: "_disabled",
 			attributeName: "disabled",
 			propertyName: "disabled",
@@ -517,7 +517,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		this._subKeySigReceiveEnable = recSig.subscribe((newVal: boolean) => {
 			this.logger.log(' subs callback for signalReceiveEnable: ', this._subKeySigReceiveEnable, ' Signal has value ', newVal);
 			if (!this.disabled !== newVal) {
-				this.disabled = this.setBooleanForProperty(!newVal, this.COMMON_PROPERTIES.DISABLED.default, this.COMMON_PROPERTIES.DISABLED.valueOnAttributeNullOrEmpty);
+				this.disabled = this.setBooleanForProperty(!newVal, this.COMMON_PROPERTIES.DISABLED.default, this.COMMON_PROPERTIES.DISABLED.valueOnAttributeEmpty);
 			}
 		});
 	}
@@ -627,7 +627,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 
 		this._subKeySigReceiveShow = recSig.subscribe((newVal: boolean) => {
 			this.logger.log('subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newVal);
-			this.show = this.setBooleanForProperty(newVal, this.COMMON_PROPERTIES.SHOW.default, this.COMMON_PROPERTIES.SHOW.valueOnAttributeNullOrEmpty);
+			this.show = this.setBooleanForProperty(newVal, this.COMMON_PROPERTIES.SHOW.default, this.COMMON_PROPERTIES.SHOW.valueOnAttributeEmpty);
 		});
 	}
 
@@ -1089,7 +1089,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				this.updateForChangeInStyleCss();
 				break;
 			case 'show':
-				this.show = this.setBooleanForProperty(newValue, this.COMMON_PROPERTIES.SHOW.default, this.COMMON_PROPERTIES.SHOW.valueOnAttributeNullOrEmpty);
+				this.show = this.setBooleanForProperty(newValue, this.COMMON_PROPERTIES.SHOW.default, this.COMMON_PROPERTIES.SHOW.valueOnAttributeEmpty);
 				break;
 			case 'noshowtype':
 				this.updateForChangeInShowStatus();
@@ -1152,7 +1152,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 				break;
 			case 'disabled':
 				if (!this.hasAttribute('customclassdisabled')) {
-					this.disabled = this.setBooleanForProperty(newValue, this.COMMON_PROPERTIES.DISABLED.default, this.COMMON_PROPERTIES.DISABLED.valueOnAttributeNullOrEmpty);
+					this.disabled = this.setBooleanForProperty(newValue, this.COMMON_PROPERTIES.DISABLED.default, this.COMMON_PROPERTIES.DISABLED.valueOnAttributeEmpty);
 				}
 				break;
 			case 'gestureable':
@@ -1449,13 +1449,13 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		this.applyPreConfiguredAttributes();
 
 		if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled')) {
-			this.disabled = this.setBooleanForProperty(this.getAttribute('disabled'), this.COMMON_PROPERTIES.DISABLED.default, this.COMMON_PROPERTIES.DISABLED.valueOnAttributeNullOrEmpty);
+			this.disabled = this.setBooleanForProperty(this.getAttribute('disabled'), this.COMMON_PROPERTIES.DISABLED.default, this.COMMON_PROPERTIES.DISABLED.valueOnAttributeEmpty);
 		}
 		if (this.hasAttribute('debug')) {
 			this._isDebugEnabled = true;
 		}
 		if (this.hasAttribute('show')) {
-			this.show = this.setBooleanForProperty(this.getAttribute('show'), this.COMMON_PROPERTIES.SHOW.default, this.COMMON_PROPERTIES.SHOW.valueOnAttributeNullOrEmpty);
+			this.show = this.setBooleanForProperty(this.getAttribute('show'), this.COMMON_PROPERTIES.SHOW.default, this.COMMON_PROPERTIES.SHOW.valueOnAttributeEmpty);
 		}
 
 		if (this.hasAttribute('customclass')) {
@@ -1890,6 +1890,52 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 			} else {
 				thisRef.setAttribute(attribute, thisRef[property.propertyName].toString());
 			}
+			if (property.callback !== null) {
+				property.callback();
+			}
+		}
+	}
+
+	protected setAttributeAndProperty(property: any, value: any) {
+		this.logger.log('setAttributeAndProperty: ' + property.attributeName + ' - "' + value + '"');
+		const attribute = property.attributeName.toLowerCase();
+		const thisRef = property.componentReference;
+
+		let valueToSet: boolean = false;
+		if (property.type === "boolean") {
+			if (typeof value === property.type) {
+				valueToSet = value;
+			} else {
+				if (this.hasAttribute(attribute)) {
+					valueToSet = this.setBooleanForProperty(value, property.default, property.valueOnAttributeEmpty);
+				} else {
+					valueToSet = property.default;
+				}
+			}
+		}
+
+		if (thisRef[property.propertyName] !== valueToSet || thisRef[property.variableName + "Initialized"] !== true || String(value) !== String(valueToSet)) {
+
+			// this[property.variableName + "Initialized"] !== true is for first time - variable isn't declared and is not required
+			// This variable is required only for checking first time and making changes when the default value is true
+			thisRef[property.variableName] = valueToSet;
+			thisRef[property.variableName + "Initialized"] = true;
+
+			// enumeratedValues is always present for boolean.
+			if (property.enumeratedValues && property.enumeratedValues.length > 0 && property.enumeratedValues.indexOf(String(thisRef.getAttribute(value))) < 0) {
+				if (property.removeAttributeOnNull === true) {
+					if (!this.hasAttribute(attribute)) {
+						thisRef.removeAttribute(attribute);
+					} else {
+						thisRef.setAttribute(attribute, valueToSet.toString());
+					}
+				} else {
+					thisRef.setAttribute(attribute, valueToSet.toString());
+				}
+			} else {
+				thisRef.setAttribute(attribute, valueToSet.toString());
+			}
+
 			if (property.callback !== null) {
 				property.callback();
 			}

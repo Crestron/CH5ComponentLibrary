@@ -9,6 +9,24 @@ import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 
 export class CH5DpadUtils {
 
+	    // the join number is applied to the up button, join+1 applies to down,
+    // join+2 applies to left, join+3 applies to right, join+4 to center
+    public static readonly sendEventOnClickSigCountToAdd = {
+			up: 0,
+			down: 1,
+			left: 2,
+			right: 3,
+			center: 4
+	};
+
+	public static readonly contractSuffix = {
+			up: 'Up',
+			down: 'Down',
+			left: 'Left',
+			right: 'Right',
+			center: 'Center'
+	};
+
 	/**
 	 * Function to return the attribute as a string
 	 * @param thisRef 

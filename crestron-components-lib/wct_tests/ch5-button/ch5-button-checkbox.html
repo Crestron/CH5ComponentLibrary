@@ -300,9 +300,11 @@
 			// ch5Button3
 			valid_selected.forEach((selectionObj, i) => {
 				test(`ch5-button-checkbox-fixture3 - Check attribute checkboxPosition for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
-					ch5Button3.setAttribute('selected', selectionObj);
+					CrComLib.publishEvent('b', 'receive_selected_state_checkboxPosition_fixture3', selectionObj);
+					ch5Button3.setAttribute('selected', (selectionObj));
 					flush(() => {
 						setTimeout(() => {
+							console.log("ch5Button3", ch5Button3);
 							const expectedValue = selectionObj === true ? "right" : "left";
 							expect(ch5Button3.getAttribute('checkboxPosition')).to.be.equal("right");
 							expect(ch5Button3.checkboxPosition).to.be.equal(expectedValue);

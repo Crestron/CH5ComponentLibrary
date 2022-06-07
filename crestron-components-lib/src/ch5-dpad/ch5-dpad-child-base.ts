@@ -14,7 +14,6 @@ import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core";
 import { normalizeEvent } from "../ch5-triggerview/utils";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Dpad } from "./ch5-dpad";
-import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ICh5DpadChildBaseAttributes } from "./interfaces/i-ch5-dpad-child-base-attributes";
 import { TCh5DpadButtonClassListType, TCh5DpadChildButtonType, TCh5DpadConstructorParam } from "./interfaces/t-ch5-dpad";
@@ -403,7 +402,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		// will have the flags ready for contract level content to be ready
 		this.createElementsAndInitialize();
 
-		customElements.whenDefined(`ch5-dpad-button-${this.buttonType}`).then(() => {
+		customElements.whenDefined('ch5-dpad-button').then(() => {
 			this.initCommonMutationObserver(this);
 			this.logger.stop();
 		});
@@ -415,13 +414,15 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	protected createElementsAndInitialize() {
 		if (!this._wasInstatiated) {
 			CH5DpadUtils.createIconTag(this);
-
-			this.initAttributes();
-			this.createHtmlElements();
-			this.attachEventListeners();
-			this.updateCssClasses();
 		}
-		this._wasInstatiated = true;
+		this.initAttributes();
+
+		if (!this._wasInstatiated) {
+			this.createHtmlElements();
+			this._wasInstatiated = true;
+		}
+		this.attachEventListeners();
+		this.updateCssClasses();
 	}
 
 	/**
@@ -529,8 +530,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		];
 
 		// received signals
-		const receivedSignals: string[] = [
-		];
+		const receivedSignals: string[] = [];
 
 		// sent signals
 		const sentSignals: string[] = [];
@@ -542,6 +542,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
 		this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
+		this.logger.log("***", attr, oldValue, newValue);
 		attr = attr.toLowerCase();
 		if (oldValue === newValue) {
 			return;
@@ -614,11 +615,11 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			const parentContractName: string = CH5DpadUtils.getAttributeAsString(ele, 'contractname', '');
 			const parentContractEvent: string = CH5DpadUtils.getAttributeAsString(ele, 'sendeventonclickstart', '');
 			if (parentContractName.length > 0) {
-				const joinValue = parentContractName + CH5DpadContractUtils.contractSuffix[btnType];
+				const joinValue = parentContractName + CH5DpadUtils.contractSuffix[btnType];
 				this.sendEventOnClick = joinValue.toString();
 			} else if (parentContractEvent.length > 0) {
 				const joinValue = parseInt(parentContractEvent, 10) +
-					CH5DpadContractUtils.sendEventOnClickSigCountToAdd[btnType];
+					CH5DpadUtils.sendEventOnClickSigCountToAdd[btnType];
 				this.sendEventOnClick = joinValue.toString();
 			} else {
 				this.sendEventOnClick = "";
@@ -645,7 +646,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		}
 
 		this.addEventListener('mousedown', this._onPressClick);
-		this.addEventListener('click', this._onTap);
+		// this.addEventListener('click', this._onTap);
 		this.addEventListener('mouseup', this._onMouseUp);
 		this.addEventListener('mousemove', this._onMouseMove);
 		this.addEventListener('touchstart', this._onPress, { passive: true });
@@ -824,15 +825,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		}
 	}
 
-	/**
-	 * If type node is updated via html or js or signal, the change set attribue of type;
-	 * if receivestate* is true, then even if type attribute chagnes, just use receivestate*
-	 * if receivestate* is false, then
-	 * if mode attribute is updated, always call this method, and update all attributes
-	 * @param fromNode
-	 * @param isModeAttributeUpdated
-	 * @param attibuteName
-	 */
 	public setButtonDisplay() {
 		this.setButtonDisplayDetails();
 	}

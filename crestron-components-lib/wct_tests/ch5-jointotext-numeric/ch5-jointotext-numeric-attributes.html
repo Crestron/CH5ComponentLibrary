@@ -468,24 +468,8 @@
         expect(ch5JointextNumeric.getAttribute('show')).to.be.equal('false');
         expect(ch5JointextNumeric.show).to.be.equal(false);
         ch5JointextNumeric.removeAttribute('show');
-        expect(ch5JointextNumeric.getAttribute('show')).to.be.equal(null);
+        expect(ch5JointextNumeric.getAttribute('show')).to.be.equal('true');
         expect(ch5JointextNumeric.show).to.be.equal(true);
-      });
-    });
-
-    suite('ch5-jointotext-numeric-disabled', () => {
-      let ch5JointextNumeric;
-
-      setup(async () => {
-        ch5JointextNumeric = fixture('ch5-jointotext-numeric-disabled-fixture');
-      });
-
-      test(`Check disabled when true`, () => {
-        expect(ch5JointextNumeric.getAttribute('disabled')).to.be.equal('true');
-        expect(ch5JointextNumeric.disabled).to.be.equal(true);
-        ch5JointextNumeric.removeAttribute('disabled');
-        expect(ch5JointextNumeric.getAttribute('disabled')).to.be.equal(null);
-        expect(ch5JointextNumeric.disabled).to.be.equal(false);
       });
     });
 

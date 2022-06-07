@@ -12,7 +12,7 @@ import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-attributes";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType, TCh5DpadSize } from "./interfaces/t-ch5-dpad";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
-import { CH5DpadContractUtils } from "./ch5-dpad-contract-utils";
+import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5DpadButton } from "./ch5-dpad-button";
@@ -1228,23 +1228,23 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
 		if (contractName.length === 0 && !isNaN(eventKeyStart)) {
 			if (!_.isNil(centerBtn)) {
-				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.center;
+				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.center;
 				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 			if (!_.isNil(upBtn)) {
-				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.up;
+				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.up;
 				upBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 			if (!_.isNil(rightBtn)) {
-				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.right;
+				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.right;
 				rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 			if (!_.isNil(downBtn)) {
-				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.down;
+				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.down;
 				downBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 			if (!_.isNil(leftBtn)) {
-				const contractVal = eventKeyStart + CH5DpadContractUtils.sendEventOnClickSigCountToAdd.left;
+				const contractVal = eventKeyStart + CH5DpadUtils.sendEventOnClickSigCountToAdd.left;
 				leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 		}
@@ -1286,27 +1286,27 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 		if (contractName.length > 0) {
 			if (!_.isNil(centerBtn)) {
-				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.center;
+				const contractVal = contractName + CH5DpadUtils.contractSuffix.center;
 				centerBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 
 			if (!_.isNil(upBtn)) {
-				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.up;
+				const contractVal = contractName + CH5DpadUtils.contractSuffix.up;
 				upBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 
 			if (!_.isNil(rightBtn)) {
-				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.right;
+				const contractVal = contractName + CH5DpadUtils.contractSuffix.right;
 				rightBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 
 			if (!_.isNil(downBtn)) {
-				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.down;
+				const contractVal = contractName + CH5DpadUtils.contractSuffix.down;
 				downBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 
 			if (!_.isNil(leftBtn)) {
-				const contractVal = contractName + CH5DpadContractUtils.contractSuffix.left;
+				const contractVal = contractName + CH5DpadUtils.contractSuffix.left;
 				leftBtn.setAttribute('sendEventOnClick'.toLowerCase(), contractVal.toString());
 			}
 		}
