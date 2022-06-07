@@ -1478,13 +1478,8 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		const callback: SignalSubscriptionCallback = (newValue: string | number | boolean) => {
 			const _newValue = newValue as number;
 			if (_newValue !== null || _newValue !== undefined) {
-				// TODO: remove comments and console log
-				console.log('debug.SignalSubscriptionCallback');
-				// CH5C-2380 Please check if subscribeInViewPortChange can resolve this issue rather than a setTimeout (line no. 1481) in ch5-list.ts
 				subscribeInViewPortChange(this, () => {
-					console.log('debug.subscribeInViewPortChange');
 					if (this.elementIsInViewPort && this._isListVisible) {
-						console.log('debug.elementIsInViewPort._isListVisible');
 						const bufferAmount = this.bufferAmount || 0;
 						const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
 						this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
