@@ -245,6 +245,9 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 		const { major, minor, contractName, joinCountToAdd, iconClass, key, pressed, name, indexRef, contractKey, className, ...remainingParams } = this.params;
 		this._labelMajor = major ? major : defaultMajors[indexRef];
 		this._labelMinor = minor ? minor : defaultMinors[indexRef];
+		if (this._labelMajor === "*") {
+			this._labelMinor = "";
+		}
 		this._iconClass = iconClass.join(' ');
 		this._key = key;
 		this._pressed = pressed;
