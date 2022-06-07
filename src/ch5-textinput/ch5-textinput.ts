@@ -75,7 +75,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @param {number} index
 	 */
 	public set tabIndex(index: number) {
-
 		if (
 			this.tabIndex !== index &&
 			(index === undefined || index === null)
@@ -213,36 +212,14 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			)
 			this._elIcon.classList.add(this.cssClassPrefix + '__icon');
 		}
-
 	}
 
-	/**
-	 * Getter for icon
-	 *
-	 * Deprecated, not used anymore
-	 *
-	 * @return {string}
-	 */
 	public get icon(): string {
-
 		this.info('get <ch5-textinput iconClass />');
-
 		return this._icon;
 	}
 
-	/**
-	 * Getter for iconPosition
-	 *
-	 * @return {TCh5TextInputIconPosition}
-	 */
-
-	/**
-	 * Setter for iconPosition
-	 *
-	 * @param {TCh5TextInputIconPosition} position
-	 */
 	public set iconPosition(position: TCh5TextInputIconPosition) {
-
 		this.info("set <ch5-textinput iconposition='" + position + "'/>");
 
 		if (
@@ -448,30 +425,29 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 *
 	 * @param {TCh5TextInputStretch} value
 	 */
-	public set stretch(value: TCh5TextInputStretch) {
-
+	public set stretch(value: TCh5TextInputStretch | null) {
 		this.info('set <ch5-textinput stretch="' + value + '"');
-
 		if (this.stretch !== value) {
-			if (value === undefined || value === null) {
-				value = 'fixed';
+			if (_.isNil(value)) {
+				this._stretch = null;
+				this.removeAttribute('stretch');
+				Ch5Textinput.STRETCH.forEach((stretchValue: string) => {
+					this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
+				});
+			} else {
+				if (Ch5Textinput.STRETCH.indexOf(value) >= 0) {
+					this._stretch = value;
+					this.setAttribute('stretch', value);
+					this._addModifierClass(this._stretch, Ch5Textinput.STRETCH as [string]);
+				} else {
+					this._stretch = null;
+					this.removeAttribute('stretch');
+					Ch5Textinput.STRETCH.forEach((stretchValue: string) => {
+						this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
+					});
+				}
 			}
 		}
-
-		let _stretchIndex = Ch5Textinput.STRETCH.indexOf(value);
-
-		if (_stretchIndex === -1) {
-			_stretchIndex = 0;
-		}
-
-		value = Ch5Textinput.STRETCH[_stretchIndex];
-
-		if (value !== this.stretch) {
-			this.setAttribute('stretch', value);
-		}
-
-		this._stretch = value;
-		this._addModifierClass(this.stretch, Ch5Textinput.STRETCH as [string]);
 	}
 
 	/**
@@ -479,10 +455,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 *
 	 * @return {TCh5TextInputStretch}
 	 */
-	public get stretch(): TCh5TextInputStretch {
-
-		this.info('get <ch5-textinput stretch />');
-
+	public get stretch(): TCh5TextInputStretch | null {
 		return this._stretch;
 	}
 
@@ -1398,7 +1371,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @memberof Ch5Textinput
 	 * @type {TCh5TextInputStretch}
 	 */
-	private _stretch: TCh5TextInputStretch = 'fixed' as TCh5TextInputStretch;
+	private _stretch: TCh5TextInputStretch | null = null;
 
 	/**
 	 * Activate the scaling for the input
@@ -2140,11 +2113,11 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.info("<ch5-textinput />.iconPositioning()");
 		if (
 			(this.iconClass !== undefined &&
-			this.iconClass !== '' &&
-			(this._elInput !== undefined || this._elInput !== null)) ||
+				this.iconClass !== '' &&
+				(this._elInput !== undefined || this._elInput !== null)) ||
 			(this.icon !== undefined &&
-			this.icon !== '' &&
-			(this._elInput !== undefined || this._elInput !== null))
+				this.icon !== '' &&
+				(this._elInput !== undefined || this._elInput !== null))
 		) {
 			this.iconPositioningHandler();
 		}

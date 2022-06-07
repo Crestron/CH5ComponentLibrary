@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-export type TCh5KeypadType = 'default' | 'info' | 'text' | 'danger' | 'warning' | 'success' | 'primary' | 'secondary';
+export type TCh5KeypadType = 'default' | 'primary' | 'info' | 'text' | 'danger' | 'warning' | 'success'  | 'secondary';
 
 export type TCh5KeypadShape = 'rounded-rectangle' | 'square' | 'circle';
 

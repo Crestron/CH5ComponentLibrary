@@ -98,7 +98,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`size` attribute",
    * "***",
-   * "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'. ",
+   * "The default value is 'regular'. Valid values: 'regular', 'x-small', 'small', 'large', 'xlarge'. ",
    * "The size of the slider."
    * ]
    * @name size
@@ -113,7 +113,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * "`handlesize` attribute",
    * "***",
    * "The default value is 'regular'. The size of the handle.",
-   * "Valid values: 'x-small', 'small', 'regular', 'large', 'x-large'."
+   * "Valid values: 'regular', 'x-small', 'small', 'large', 'x-large'."
    * ]
    * @name handlesize
    * @default regular
@@ -141,7 +141,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * [
    * "`stretch` attribute",
    * "***",
-   * "The default value is 'both'. Valid Values: 'width', 'height', 'both'. ",
+   * "The default value is 'both'. Valid Values: 'both', 'width', 'height'. ",
    * "When the stretch property is set, the slider inherits the width and/or ",
    * "height of the container."
    * ]

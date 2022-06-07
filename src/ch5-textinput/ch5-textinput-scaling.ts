@@ -17,7 +17,7 @@ export class Ch5TextInputScaling {
   public static USERBEHAVIORS: TCh5TextInputUserBehavior[] = ['none','fill', 'erase'] as TCh5TextInputUserBehavior[];
 
   /**
-   * The change factor for fontSize increase/descrease actions
+   * The change factor for fontSize increase/decrease actions
    * 
    * @static
    */

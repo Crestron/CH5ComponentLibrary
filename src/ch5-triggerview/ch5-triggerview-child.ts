@@ -330,7 +330,7 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 				// assure that noshowtype attribute value is always 'visibility'
 				this.noshowType = Ch5TriggerViewChild.SHOW_TYPES[0];
 
-				this.updateForChangeInShowStatus();
+				this.updateForChangeInShowStatusOld();
 				break;
 			default:
 				super.attributeChangedCallback(attr, oldValue, newValue);

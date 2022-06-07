@@ -447,7 +447,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
         this.setAttribute('useContractForExtraButtonShow'.toLowerCase(), isUseContractForExtraButtonShow.toString());
         this._useContractForExtraButtonShow = isUseContractForExtraButtonShow;
-        const sigVal = contractName + "CustomClass";
+        const sigVal = contractName + "ExtraButton";
 
         const params: TCh5CreateReceiveStateSigParams = {
             caller: this,
@@ -793,14 +793,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         super();
         this.logger.start('constructor()', this.COMPONENT_NAME);
 
-        // set attributes based on onload attributes
-        this.initAttributes();
-
-        // build child elements ref object
-        this.buildRuntimeChildButtonList();
-
-        ComponentHelper.clearComponentContent(this);
-
         this.logger.stop();
     }
 
@@ -873,6 +865,14 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
     public connectedCallback() {
         this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
 
+        // set attributes based on onload attributes
+        this.initAttributes();
+
+        // build child elements ref object
+        this.buildRuntimeChildButtonList();
+
+        ComponentHelper.clearComponentContent(this);
+
         Promise.all([
             customElements.whenDefined('ch5-keypad-button')
         ]).then(() => {
@@ -930,6 +930,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
      * Useful for running clean up code.
      */
     public disconnectedCallback() {
+        this.logger.log("disconnectedCallback");
         this.removeEvents();
         this.unsubscribeFromSignals();
 
@@ -1103,9 +1104,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
         }
         if (!!this.stretch && this.stretch.length > 0) { // checking for length since it does not have a default value
             this.classList.add(Ch5Keypad.btnStretchClassPrefix + this.stretch);
-            if (!!this.size && this.size.length > 0) {
-                this.classList.remove(Ch5Keypad.btnSizeClassPrefix + this.size);
-            }
         }
 
         this.classList.add(Ch5Keypad.btnTypeClassPrefix +
@@ -1191,11 +1189,15 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             });
         }
 
-        const doesContractPermit = (this.contractName.length > 0 && this.useContractForExtraButtonShow);
+        const doesContractPermit = (this.contractName.trim().length > 0 && this.useContractForExtraButtonShow);
 
         if ((doesContractPermit || (!doesContractPermit && this.showExtraButton)) &&
             (!!this.container.classList &&
                 this.container.classList.contains(this.containerClass))) {
+            if (this.contractName.trim() === ".") {
+                return;
+            }
+            this.classList.add('ch5-keypad--for-extra-button');
             const rowEle = this.appendKeysRowToContainer();
             this.container.appendChild(rowEle);
 
@@ -1291,7 +1293,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                     if (parentElement) {
                         if (Math.floor(requiredCellHeight * colCount) <= parentElement.offsetWidth) {
                             this.container.style.height = (requiredCellHeight * rowCount) + 'px';
-                            this.container.style.width = (requiredCellHeight * colCount) + 'px';	
+                            this.container.style.width = (requiredCellHeight * colCount) + 'px';
                         } else {
                             this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
                             this.container.style.width = (cellDimensionToRender * colCount) + 'px';
