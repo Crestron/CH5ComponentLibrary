@@ -519,19 +519,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
             this.info(' subs callback for signalReceiveExtraButtonShow: ', this._subKeySigReceiveExtraButtonShow, ' Signal has value ', newVal);
             this.showExtraButton = newVal;
             if (newVal) {
-                if (this.classList.contains(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide')) {
-                    this.classList.remove(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
-                }
-                if (!this.classList.contains(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show')) {
-                    this.classList.add(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
-                }
+                this.classList.remove(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
+                this.classList.add(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
+                this.classList.add('ch5-keypad--for-extra-button');
             } else {
-                if (this.classList.contains(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show')) {
-                    this.classList.remove(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
-                }
-                if (!this.classList.contains(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide')) {
-                    this.classList.add(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
-                }
+                this.classList.remove(Ch5Keypad.btnTypeClassPrefix + 'extra-row-show');
+                this.classList.add(Ch5Keypad.btnTypeClassPrefix + 'extra-row-hide');
+                this.classList.remove('ch5-keypad--for-extra-button');
             }
         });
     }
@@ -1235,13 +1229,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
                     const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
                     const parentElement = this.parentElement;
                     if (parentElement) {
-                        if (Math.floor(requiredCellWidth * rowCount) <= parentElement.offsetHeight) {
-                            this.container.style.height = (requiredCellWidth * rowCount) + 'px';
-                            this.container.style.width = (requiredCellWidth * colCount) + 'px';
-                        } else {
-                            this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-                            this.container.style.width = (cellDimensionToRender * colCount) + 'px';
+                        console.log("Hii" + parentElement.offsetHeight, parentElement.offsetWidth);
+                        let buttonSize = Math.floor((parentElement.offsetWidth - 30) / 3);
+                        while (buttonSize * rowCount > parentElement.offsetHeight) {
+                            buttonSize--;
                         }
+                        this.container.style.height = buttonSize * rowCount + 'px';
+                        this.container.style.width = buttonSize * colCount + 'px';
                     } else {
                         this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
                         this.container.style.width = (cellDimensionToRender * colCount) + 'px';
