@@ -348,20 +348,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		return this._useContractForCustomClass;
 	}
 
-	/**
-	 * overriding default receiveStateShow specific getter-setter
-	 */
-	public set show(value: boolean) {
-		const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShow", value);
-		if (isContractBased) {
-			// contract name exists and attribute allows it to be based on contract, then receiveStateShow becomes void
-			return;
-		}
-		if (value !== this._show) {
-			this._show = value;
-			this.setAttribute('show', value.toString());
-		}
-	}
+
 
 	/**
 	 *  overriding default receiveStateShow specific getter-setter
@@ -385,37 +372,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		}
 	}
 
-	/**
-	 * overriding default receiveStateShow specific getter-setter
-	 */
-	public set receiveStateShow(value: string) {
-		const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShow", value);
-		if (isContractBased) {
-			// contract name exists and attribute allows it to be based on contract, then receiveStateShow becomes void
-			return;
-		}
-		value = this._checkAndSetStringValue(value);
-		if ('' === value || value === this._receiveStateShow) {
-			return;
-		}
 
-		this.clearBooleanSignalSubscription(this._receiveStateShow, this._subKeySigReceiveShow);
-
-		this._receiveStateShow = value;
-		this.setAttribute('receivestateshow', value);
-
-		const recSigShowName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShow);
-		const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowName);
-
-		if (null === recSig) {
-			return;
-		}
-
-		this._subKeySigReceiveShow = recSig.subscribe((newVal: boolean) => {
-			this.info(' subs callback for signalReceiveShow: ', this._subKeySigReceiveShow, ' Signal has value ', newVal);
-			this.show = newVal;
-		});
-	}
 
 	/**
 	 * overriding default receiveStateEnable specific getter-setter
@@ -789,7 +746,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				break;
 			case 'receivestateshow':
 				if (!isValidContract) {
-					this.receiveStateShow = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
+					super.attributeChangedCallback(attr, oldValue, newValue);
 				}
 				break;
 			case 'receivestateenable':
@@ -843,7 +800,13 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			case 'size':
 				this.size = newValue as TCh5DpadSize;
 				break;
+			case 'show':
+				if (!isValidContract) {
+					super.attributeChangedCallback(attr, oldValue, newValue);
+				}
+				break;
 			default:
+				this.logger.log("attributeChangedCallback: going to default");
 				super.attributeChangedCallback(attr, oldValue, newValue);
 				break;
 		}
