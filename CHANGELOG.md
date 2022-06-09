@@ -10,9 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - 2022-05-02 - [2.0.26]
 ShowcaseApp CH5 version is 2.0.26-alpha.26 dated 2022-05-02
 http://nj6v-cloudrelaybuild/ch5/crcomlib/2.0.26/downloads/ShowcaseApp/index.html 
+- ch5-button (multi-mode features)
 - ch5-dpad
 - ch5-keypad
-- ch5-button (multi-mode features)
 
 ## [1.3.0] - 2021-11-18
 ShowcaseApp CH5 version is 1.1.0 dated 2021-01-27
