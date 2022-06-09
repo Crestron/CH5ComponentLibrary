@@ -1038,24 +1038,18 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 			dimensionVal = 0;
 		}
 		if (!!this.container && !!this.container.style) {
-			if (dimensionVal > 0) {
-				this.container.style.height = dimensionVal + 'px';
-				this.container.style.width = dimensionVal + 'px';
-			} else {
+			if (dimensionVal === 0) {
 				this.container.style.removeProperty('height');
 				this.container.style.removeProperty('width');
 			}
-		}
-		// if the shape is a 'plus', line-height of icons need to be managed well
-		if (this.shape === Ch5Dpad.SHAPES[0]) {
-			const btns = Array.from(this.getElementsByClassName('direction-btn'));
-			for (const btn of btns) {
-				const ele = btn.getElementsByClassName('icon-class');
-				if (!!ele && ele.length > 0 && dimensionVal > 0) {
-					(ele[0] as HTMLElement).style.lineHeight = dimensionVal / 3 + 'px';
-				}
+			const parentElement = this.parentElement;
+			if (!!this.stretch && this.stretch.trim().length > 0 && !!parentElement) {
+				dimensionVal = Math.min(parentElement.offsetHeight, parentElement.offsetWidth);
+				this.container.style.height = dimensionVal + 'px';
+				this.container.style.width = dimensionVal + 'px';
 			}
 		}
+
 		this.logger.stop();
 	}
 
