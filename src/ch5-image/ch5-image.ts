@@ -1267,12 +1267,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		super.updateElementVisibility(visible);
 
 		if (this.elementIsVisible && this.isVisible()) {
-			this._show = true;
+			this.show = true;
 			if (this._img.src === '') {
 				this.enableImageLoading();
 			}
 		} else {
-			this._show = false;
+			this.show = false;
 		}
 	}
 
@@ -1567,10 +1567,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		// TODO: visibility here is an HTMLElement, not a boolean
 		//       and for this reason, it will always go on the if branch
 		if (visibility) {
-			this._show = true;
+			this.show = true;
 			this._maybeLoadImage(true);
 		} else {
-			this._show = false;
+			this.show = false;
 		}
 	}
 }

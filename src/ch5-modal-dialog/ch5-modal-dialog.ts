@@ -437,7 +437,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
 
         if (!this.hasAttribute('show')) {
-            this.setAttribute('show', '' + this._show);
+            this.setAttribute('show', 'false');
         }
         this._ready.then(() => {
             this._initialize();

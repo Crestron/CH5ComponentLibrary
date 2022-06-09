@@ -989,11 +989,11 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 				this.getTargetElementForCssClassesAndStyle().classList.add(this.cssClassPrefix + '--dir--' + this.direction);
 				break;
 			case 'disabled':
-				this._disabled = hasValue;
+				super.disabled = hasValue
 				this.setAttribute('aria-disabled', hasValue.toString());
 
 				// The `tabindex` attribute does not provide a way to fully remove
-				// focusability from an element.
+				// focus ability from an element.
 				// Elements with `tabindex=-1` can still be focused with
 				// a mouse or by calling `focus()`.
 				// To make sure an element is disabled and not focusable, remove the

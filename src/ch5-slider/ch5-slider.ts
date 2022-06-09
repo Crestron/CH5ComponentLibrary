@@ -1609,7 +1609,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	protected updateForChangeInDisabledStatus() {
 		super.updateForChangeInDisabledStatus();
 
-		if (true === this._disabled) {
+		if (true === this.disabled) {
 			this._elSlider.setAttribute('disabled', 'true');
 		} else {
 			this._elSlider.removeAttribute('disabled');

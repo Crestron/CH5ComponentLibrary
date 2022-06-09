@@ -10,7 +10,6 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5DpadAttributes } from "./interfaces/i-ch5-dpad-attributes";
 import { TCh5DpadShape, TCh5DpadStretch, TCh5DpadType, TCh5DpadSize } from "./interfaces/t-ch5-dpad";
-import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
 import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
@@ -348,234 +347,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		return this._useContractForCustomClass;
 	}
 
-
-
-	/**
-	 *  overriding default receiveStateShow specific getter-setter
-	 */
-	public set disabled(value: boolean) {
-		const isContractBased = this.checkIfContractAllows("useContractForEnable", "receiveStateEnable", value);
-		if (isContractBased) {
-			// contract name exists and attribute allows it to be based on contract, then receiveStateEnable becomes void
-			return;
-		}
-		if (null === value || undefined === value) {
-			value = false;
-		}
-		if (value !== this._disabled) {
-			this._disabled = this.toBoolean(value);
-			if (this._disabled) {
-				this.setAttribute('disabled', '');
-			} else {
-				this.removeAttribute('disabled');
-			}
-		}
-	}
-
-
-
-	/**
-	 * overriding default receiveStateEnable specific getter-setter
-	 */
-	public set receiveStateEnable(value: string) {
-		const isContractBased = this.checkIfContractAllows("useContractForEnable", "receiveStateEnable", value);
-		if (isContractBased) {
-			// contract name exists and attribute allows it to be based on contract, then receiveStateEnable becomes void
-			return;
-		}
-		value = this._checkAndSetStringValue(value);
-		if ('' === value || value === this._receiveStateEnable) {
-			return;
-		}
-
-		this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
-
-		this._receiveStateEnable = value;
-		this.setAttribute('receivestateenable', value);
-
-		const recSigEnableName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateEnable);
-		const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigEnableName);
-
-		if (null === recSig) {
-			return;
-		}
-		let hasSignalChanged = false;
-		this._subKeySigReceiveEnable = recSig.subscribe((newVal: boolean) => {
-			this.info(' subs callback for signalReceiveEnable: ', this._subKeySigReceiveEnable, ' Signal has value ', newVal);
-
-			if (!this.disabled !== newVal) {
-				hasSignalChanged = true;
-			}
-			if (hasSignalChanged) {
-				if (true === newVal) {
-					this.removeAttribute('disabled');
-				} else {
-					this.setAttribute('disabled', '');
-				}
-			}
-		});
-	}
-
-	/**
-	 * overriding default receiveStateHidePulse specific getter-setter
-	 */
-	public set receiveStateHidePulse(value: string) {
-		this.info('Ch5Dpad set receiveStateHidePulse("' + value + '")');
-		const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateHidePulse", value);
-		if (isContractBased) {
-			// contract name exists and attribute allows it to be based on contract, then receiveStateHidePulse becomes void
-			return;
-		}
-		value = this._checkAndSetStringValue(value);
-		if ('' === value || value === this._receiveStateHidePulse) {
-			return;
-		}
-
-		this.clearBooleanSignalSubscription(this._receiveStateHidePulse, this._subKeySigReceiveHidePulse);
-
-		this._receiveStateHidePulse = value;
-		this.setAttribute('receivestatehidepulse', value);
-
-		const recSigHidePulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateHidePulse);
-		const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigHidePulseName);
-
-		if (null === recSig) {
-			return;
-		}
-
-		this._subKeySigReceiveHidePulse = recSig.subscribe((newVal: boolean) => {
-			this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' Signal has value ', newVal);
-			if (null !== recSig) {
-				if (false === recSig.prevValue && true === newVal) {
-					this.setAttribute('show', 'false');
-				}
-			} else {
-				this.info(' subs callback for signalReceiveHidePulse: ', this._subKeySigReceiveHidePulse, ' recSig is null');
-			}
-		});
-	}
-
-	/**
-	 * overriding default receiveStateShowPulse specific getter-setter
-	 */
-	public set receiveStateShowPulse(value: string) {
-		this.info('Ch5Dpad set receiveStateShowPulse("' + value + '")');
-		const isContractBased = this.checkIfContractAllows("useContractForShow", "receiveStateShowPulse", value);
-		if (isContractBased) {
-			// contract name exists and attribute allows it to be based on contract, then receiveStateShowPulse becomes void
-			return;
-		}
-		value = this._checkAndSetStringValue(value);
-		if ('' === value || value === this._receiveStateShowPulse) {
-			return;
-		}
-
-		this.clearBooleanSignalSubscription(this._receiveStateShowPulse, this._subKeySigReceiveShowPulse);
-
-		this._receiveStateShowPulse = value;
-		this.setAttribute('receivestateshowpulse', value);
-
-		const recSigShowPulseName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateShowPulse);
-		const recSig: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(recSigShowPulseName);
-
-		if (null === recSig) {
-			return;
-		}
-
-		this._subKeySigReceiveShowPulse = recSig.subscribe((newVal: boolean) => {
-			this.info(' subs callback for signalReceiveShowPulse: ', this._subKeySigReceiveShowPulse, ' Signal has value ', newVal);
-			if (null !== recSig) {
-				const _newVal = (newVal as never as { repeatdigital: boolean }).repeatdigital !== undefined ? (newVal as never as { repeatdigital: boolean }).repeatdigital : newVal;
-				if ((recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital !== undefined) {
-					if (false === (recSig.prevValue as never as { repeatdigital: boolean }).repeatdigital && true === _newVal) {
-						this.setAttribute('show', 'true')
-					}
-					return;
-				}
-				if (false === recSig.prevValue && true === _newVal) {
-					this.setAttribute('show', 'true')
-				}
-			}
-		});
-	}
-
-	/**
-	 * overriding default receiveStateCustomStyle specific getter-setter
-	 */
-	public set receiveStateCustomStyle(value: string) {
-		const isContractBased = this.checkIfContractAllows("useContractForCustomStyle", "receiveStateCustomStyle", value);
-		if (isContractBased) {
-			// contract name exists and attribute allows it to be based on contract, then receiveStateCustomStyle becomes void
-			return;
-		}
-		value = this._checkAndSetStringValue(value);
-		if ('' === value || value === this._receiveStateCustomStyle) {
-			return;
-		}
-
-		this.clearStringSignalSubscription(this._receiveStateCustomStyle, this._subKeySigReceiveCustomStyle);
-
-		this._receiveStateCustomStyle = value;
-		this.setAttribute('receivestatecustomstyle', value);
-
-		const recSigCustomStyleName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomStyle);
-		const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomStyleName);
-
-		if (null === recSig) {
-			return;
-		}
-
-		let hasSignalChanged = false;
-		this._subKeySigReceiveCustomStyle = recSig.subscribe((newVal: string) => {
-			this.info(' subs callback for signalReceiveCustomStyle: ', this._subKeySigReceiveCustomStyle, ' Signal has value ', newVal);
-			if ('' !== newVal) {
-				hasSignalChanged = true;
-			}
-			if (newVal !== this.customStyle && hasSignalChanged) {
-				this.setAttribute('customStyle', newVal);
-			}
-		});
-	}
-
-	/**
-	 * overriding default receiveStateCustomClass specific getter-setter
-	 */
-	public set receiveStateCustomClass(value: string) {
-		const isContractBased = this.checkIfContractAllows("useContractForCustomClass", "receiveStateCustomClass", value);
-		if (isContractBased) {
-			// contract name exists and attribute allows it to be based on contract, then receiveStateCustomClass becomes void
-			return;
-		}
-		value = this._checkAndSetStringValue(value);
-		if ('' === value || value === this._receiveStateCustomClass) {
-			return;
-		}
-
-		this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
-
-		this._receiveStateCustomClass = value;
-		this.setAttribute('receivestatecustomclass', value);
-
-		const recSigCustomClassName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateCustomClass);
-		const recSig: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(recSigCustomClassName);
-
-		if (null === recSig) {
-			return;
-		}
-		let hasSignalChanged = false;
-
-		this._subKeySigReceiveCustomClass = recSig.subscribe((newVal: string) => {
-			this.info('subs callback for signalReceiveCustomClass: ', this._receiveStateCustomClass, ' Signal has value ', newVal);
-			if ('' !== newVal) {
-				hasSignalChanged = true;
-			}
-			if (newVal !== this.customClass && hasSignalChanged) {
-				// this.setAttribute('customclass', newVal);
-				this.customClass = newVal;
-			}
-		});
-	}
-
 	//#endregion
 
 	//#region Static Methods
@@ -745,34 +516,16 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 				this.useContractForCustomClass = ComponentHelper.getBoolFromString(ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), (this.hasAttribute('usecontractforcustomclass') && this.getAttribute('usecontractforcustomclass') !== "false"), ''));
 				break;
 			case 'receivestateshow':
+			case 'receivestateenable':
+			case 'receivestateenable':
+			case 'receivestateshowpulse':
+			case 'receivestatehidepulse':
+			case 'receivestatecustomstyle':
+			case 'receivestatecustomclass':
 				if (!isValidContract) {
 					super.attributeChangedCallback(attr, oldValue, newValue);
 				}
-				break;
-			case 'receivestateenable':
-				if (!isValidContract) {
-					this.receiveStateEnable = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-				}
-				break;
-			case 'receivestateshowpulse':
-				if (!isValidContract) {
-					this.receiveStateShowPulse = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-				}
-				break;
-			case 'receivestatehidepulse':
-				if (!isValidContract) {
-					this.receiveStateHidePulse = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-				}
-				break;
-			case 'receivestatecustomstyle':
-				if (!isValidContract) {
-					this.receiveStateCustomStyle = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-				}
-				break;
-			case 'receivestatecustomclass':
-				if (!isValidContract) {
-					this.receiveStateCustomClass = ComponentHelper.setAttributesBasedValue(this.hasAttribute(attr), newValue, '');
-				}
+
 				break;
 			case 'sendeventonclickstart':
 				if (!isValidContract) {

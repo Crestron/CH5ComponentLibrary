@@ -135,11 +135,11 @@
         });
 
         test('Disable image loading if component is not visible', function(done) {
-            expect(ch5Image._show).to.be.equal(true);
+            expect(ch5Image.show).to.be.equal(true);
             expect(ch5Image.elementIsVisible).to.be.equal(true);
             ch5ImageParent.setAttribute('style', 'display: none');
             flush(function() {
-                expect(ch5Image._show).to.be.equal(false);
+                expect(ch5Image.show).to.be.equal(false);
                 expect(ch5Image.elementIsVisible).to.be.equal(false);
                 done();
             });
