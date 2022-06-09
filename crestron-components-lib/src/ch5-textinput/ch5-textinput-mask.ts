@@ -506,18 +506,18 @@ export class Ch5tTextInputMask {
   /**
    * Setter for show property
    *
-   * @param {boolean} show
+   * @param {boolean} value
    */
-  public set show(show: boolean) {
+  public set show(value: boolean) {
 
     if (
-      this.show !== show &&
-      (show === undefined || show === null)
+      this.show !== value &&
+      (value === undefined || value === null)
     ) {
-      show = false;
+      value = false;
     }
 
-    this._show = show;
+    this._show = value;
 
     if (this.input.value.length === 0) {
       this.maskElement.style.zIndex = this.show === true ? '99' : '-1';

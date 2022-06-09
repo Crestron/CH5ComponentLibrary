@@ -56,8 +56,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	};
 
 	// protected setter getter specific vars
-	// protected _disabled: boolean = true; // not required as its in common.ts
-	// protected _show: boolean = true; // not required as its in common.t
 	protected _label: string = '';
 	protected _iconClass: string = '';
 	protected _iconUrl: string = '';
@@ -559,6 +557,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			case 'receivestatecustomclass':
 			case 'dir':
 				// Do nothing for any of the receiveState*
+				// this.removeAttribute(attr);
 				break;
 			case 'iconclass':
 				CH5DpadUtils.createIconTag(this);

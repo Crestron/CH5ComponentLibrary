@@ -139,7 +139,6 @@
 					CrComLib.publishEvent('b', 'toggle_btn_visibility1', showName);
 					flush(() => {
 						setTimeout(() => {
-							console.log("ch5Button", ch5Button);
 							expect(ch5Button.getAttribute('show')).to.be.equal(String(showName).toLowerCase());
 							expect(ch5Button.show).to.be.equal(showName);
 							done();

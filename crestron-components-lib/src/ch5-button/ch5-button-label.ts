@@ -12,7 +12,6 @@ import { Ch5ButtonModeState } from "./ch5-button-mode-state";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5Log } from "../ch5-common/ch5-log";
 import { ICh5ButtonLabelAttributes } from "./interfaces/i-ch5-button-label-attributes";
-import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5ButtonLabel extends Ch5Log implements ICh5ButtonLabelAttributes {

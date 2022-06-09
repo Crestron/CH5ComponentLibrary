@@ -257,11 +257,6 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	protected _ready: Promise<any>;
 
 	/**
-	 * Override the default value from Ch5Common
-	 */
-	protected _show: boolean = false;
-
-	/**
 	 * Events
 	 *
 	 * show
@@ -346,8 +341,9 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			this.setAttribute('role', Ch5RoleAttributeMapping.ch5OverlayPanel);
 		}
 
+		console.log("this.hasAttribute('show')" + this.hasAttribute('show'));
 		if (!this.hasAttribute('show')) {
-			this.setAttribute('show', '' + this._show);
+			this.setAttribute('show', 'false');
 		}
 
 		this._ready.then(() => {

@@ -43,8 +43,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	protected parentDivCssClass: string = 'keypad-row';
 
 	// protected setter getter specific vars
-	// protected _disabled: boolean = true; // not required as its in common.ts
-	// protected _show: boolean = true; // not required as its in common.ts
 	protected _labelMajor: string = '';
 	protected _labelMinor: string = '';
 	protected _iconClass: string = '';
@@ -456,8 +454,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			return;
 		}
 
-		this.info('ch5-keypad-button' + this.params.name +
-			' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+		this.info('ch5-keypad-button' + this.params.name + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 		switch (attr) {
 			case 'receivestateshow':
 			case 'receivestateenable':
@@ -513,7 +510,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 				this.updateCssClasses();
 				break;
 			case 'show':
-			case 'enable':
+			case 'disabled':
 			default:
 				super.attributeChangedCallback(attr, oldValue, newValue);
 				break;

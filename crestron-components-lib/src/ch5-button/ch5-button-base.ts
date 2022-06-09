@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5Common, ICh5AttributeAndPropertySettings } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import isNil from 'lodash/isNil';
@@ -69,8 +69,8 @@ import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals
  *
  * CSS Classes applied for ch5-button
  *
- * | Name                              | Description                                                          |
- * |:--------------------------------- |:-------------------------------------------------------------------- |
+ * | Name                             | Description                                                          |
+ * |----------------------------------|-------------------------------------------------------------------- |
  * | ch5-button                       | primary class
  * | ch5-button--label                | applied on button label
  * | ch5-button--icon                 | applied on button icon
@@ -231,32 +231,48 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		stringjoinoffset: { stringJoin: 1 }
 	};
 
-	private readonly BUTTON_PROPERTIES = {
-		CHECKBOX_SHOW: {
-			default: false,
-			valueOnAttributeEmpty: true,
-			variableName: "_checkboxShow",
-			attributeName: "checkboxShow",
-			propertyName: "checkboxShow",
-			type: "boolean",
-			removeAttributeOnNull: true,
-			enumeratedValues: ['true', 'false', '', true, false],
-			componentReference: this,
-			callback: this.checkboxDisplay.bind(this)
-		},
-		SELECTED: {
-			default: false,
-			valueOnAttributeEmpty: true,
-			variableName: "_selected",
-			attributeName: "selected",
-			propertyName: "selected",
-			removeAttributeOnNull: true,
-			type: "boolean",
-			enumeratedValues: ['true', 'false', '', true, false],
-			componentReference: this,
-			callback: this.setSelectionMethods.bind(this)
-		}
-	};
+	private readonly BUTTON_PROPERTIES: {
+		CHECKBOX_SHOW: ICh5AttributeAndPropertySettings,
+		SELECTED: ICh5AttributeAndPropertySettings,
+		VALIGN_LABEL: ICh5AttributeAndPropertySettings
+	} = {
+			CHECKBOX_SHOW: {
+				default: false,
+				valueOnAttributeEmpty: true,
+				variableName: "_checkboxShow",
+				attributeName: "checkboxShow",
+				propertyName: "checkboxShow",
+				type: "boolean",
+				removeAttributeOnNull: true,
+				enumeratedValues: ['true', 'false', '', true, false],
+				componentReference: this,
+				callback: this.checkboxDisplay.bind(this)
+			},
+			SELECTED: {
+				default: false,
+				valueOnAttributeEmpty: true,
+				variableName: "_selected",
+				attributeName: "selected",
+				propertyName: "selected",
+				removeAttributeOnNull: true,
+				type: "boolean",
+				enumeratedValues: ['true', 'false', '', true, false],
+				componentReference: this,
+				callback: this.setSelectionMethods.bind(this)
+			},
+			VALIGN_LABEL: {
+				default: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0],
+				valueOnAttributeEmpty: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0],
+				variableName: "_vAlignLabel",
+				attributeName: "vAlignLabel",
+				propertyName: "vAlignLabel",
+				removeAttributeOnNull: false,
+				type: "enum",
+				enumeratedValues: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS,
+				componentReference: this,
+				callback: this.setButtonDisplay.bind(this)
+			}
+		};
 
 	private readonly STATE_CHANGE_TIMEOUTS: number = 500;
 	private readonly BUTTON_PRIMARY_CLASS: string = 'cb-btn';
@@ -292,10 +308,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private _elIosDots: HTMLElement = {} as HTMLElement;
 
 	private isLabelLoaded: boolean = false;
-
-	// This variable ensures that the first time load on a project happens without debounce and buttons do not appear blank.
-	// private isButtonInitiated: boolean = false;
-
 	private _isPressedSubscription: Subscription | null = null;
 
 	/**
@@ -466,11 +478,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _customClassDisabled: string | null = null;
 
-	// private allowPress: boolean = true;
-	// private allowPressTimeout: number = 0;
-
-	// private isTouch: boolean = false;
-
 	private previousExtendedProperties: ICh5ButtonExtendedProperties = {};
 
 	private debounceSetButtonDisplay = this.debounce(() => {
@@ -595,7 +602,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	public set vAlignLabel(value: TCh5ButtonVerticalAlignLabel) {
-		this.setButtonAttribute('vAlignLabel', value, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0]);
+		// this.setButtonAttribute('vAlignLabel', value, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS, Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS[0]);
+		this.setAttributeAndProperty(this.BUTTON_PROPERTIES.VALIGN_LABEL, value);
 	}
 	public get vAlignLabel(): TCh5ButtonVerticalAlignLabel {
 		return this._vAlignLabel;
@@ -665,7 +673,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set checkboxShow(value: boolean) {
 		this.logger.log('set checkboxShow("' + value + '")');
-		this.setCommonBooleanProperty(this.BUTTON_PROPERTIES.CHECKBOX_SHOW, value);
+		this.setAttributeAndProperty(this.BUTTON_PROPERTIES.CHECKBOX_SHOW, value);
 	}
 
 	public get checkboxShow(): boolean {
@@ -878,8 +886,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this._subReceiveSelected = receiveSignal.subscribe((newValue: boolean) => {
 			if (newValue !== this.selected) {
 				this.setAttributeAndProperty(this.BUTTON_PROPERTIES.SELECTED, newValue as unknown as boolean, true);
-				// this.selected = newValue as unknown as boolean; // this.setBooleanForProperty(newValue, this.BUTTON_PROPERTIES.SELECTED.default, this.BUTTON_PROPERTIES.SELECTED.valueOnAttributeEmpty);
-				// this.setAttribute('selected', '' + newValue); // concatenates with empty string to convert to string
 			}
 		});
 	}
@@ -981,22 +987,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public get receiveStateCustomClass(): string {
 		return this._attributeValueAsString('receivestatecustomclass');
-	}
-
-	private receiveSignalAsString<T>(thisButton: Ch5ButtonBase, attributeName: string, attributeValue: string) {
-		this.logger.log('set ' + attributeName + '("' + attributeValue + '")');
-		const attributeNameLowerCase: string = attributeName.toLowerCase();
-		if (!thisButton.hasAttribute(attributeNameLowerCase) || thisButton.getAttribute(attributeNameLowerCase) !== attributeValue) {
-			thisButton.setAttribute(attributeNameLowerCase, attributeValue);
-		}
-		const signalResponse = thisButton._ch5ButtonSignal.setSignal(attributeName, attributeValue);
-		if (!isNil(signalResponse)) {
-			thisButton._ch5ButtonSignal.getSignal(attributeName).signalState = signalResponse.subscribe((newValue: string) => {
-				thisButton._ch5ButtonSignal.getSignal(attributeName).currentValue = newValue;
-				thisButton._ch5ButtonSignal.setVariable<T>(attributeName, newValue);
-				thisButton.setButtonDisplay();
-			});
-		}
 	}
 
 	// Rewriting this property from base class since it has to follow more features for button like buttonmode and state
@@ -1123,7 +1113,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.checkboxPosition = this.getAttribute('checkboxposition') as TCh5ButtonCheckboxPosition;
 		}
 		if (this.hasAttribute('checkboxshow')) {
-			this.checkboxShow = this.setBooleanForProperty(this.getAttribute('checkboxshow'), this.BUTTON_PROPERTIES.CHECKBOX_SHOW.default, this.BUTTON_PROPERTIES.CHECKBOX_SHOW.valueOnAttributeEmpty);
+			this.checkboxShow = this.getAttribute('checkboxshow') as unknown as boolean;
 		}
 		if (this.hasAttribute('customclassselected')) {
 			this.customClassState = this.getAttribute('customclassselected') as string;
@@ -1170,7 +1160,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		// if (this.hasAttribute('selected') && !this.hasAttribute('customclassselected')) {
 		if (this.hasAttribute('selected')) {
 			this.selected = this.getAttribute('selected') as unknown as boolean;
-			// this.selected =  this.setBooleanForProperty(this.getAttribute('selected'), this.BUTTON_PROPERTIES.SELECTED.default, this.BUTTON_PROPERTIES.SELECTED.valueOnAttributeEmpty);
 		}
 		if (this.hasAttribute('shape')) {
 			this.shape = this.getAttribute('shape') as TCh5ButtonShape;
@@ -1359,7 +1348,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				// 	this.selected = this.toBoolean(newValue, true);
 				// }	
 				// this.updateCssClasses();
-				this.logger.log("newValue for selected is", newValue);
 				this.selected = newValue as unknown as boolean;
 				// }
 				break;
@@ -1376,7 +1364,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				break;
 
 			case 'checkboxshow':
-				this.checkboxShow = this.setBooleanForProperty(newValue, this.BUTTON_PROPERTIES.CHECKBOX_SHOW.default, this.BUTTON_PROPERTIES.CHECKBOX_SHOW.valueOnAttributeEmpty);
+				this.checkboxShow = newValue as unknown as boolean;
 				break;
 
 			case 'checkboxposition':
@@ -2297,6 +2285,22 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
+	private receiveSignalAsString<T>(thisButton: Ch5ButtonBase, attributeName: string, attributeValue: string) {
+		this.logger.log('set ' + attributeName + '("' + attributeValue + '")');
+		const attributeNameLowerCase: string = attributeName.toLowerCase();
+		if (!thisButton.hasAttribute(attributeNameLowerCase) || thisButton.getAttribute(attributeNameLowerCase) !== attributeValue) {
+			thisButton.setAttribute(attributeNameLowerCase, attributeValue);
+		}
+		const signalResponse = thisButton._ch5ButtonSignal.setSignal(attributeName, attributeValue);
+		if (!isNil(signalResponse)) {
+			thisButton._ch5ButtonSignal.getSignal(attributeName).signalState = signalResponse.subscribe((newValue: string) => {
+				thisButton._ch5ButtonSignal.getSignal(attributeName).currentValue = newValue;
+				thisButton._ch5ButtonSignal.setVariable<T>(attributeName, newValue);
+				thisButton.setButtonDisplay();
+			});
+		}
+	}
+
 	/**
 	 * Reorders ( if needed ) the position of the label and the icon inside the button
 	 */
@@ -2514,6 +2518,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.checkboxDisplay();
 		this.updateCssClasses();
 	}
+
 	//#endregion
 
 }
