@@ -90,7 +90,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		receivestatesize: { direction: "state", numericJoin: 1, contractName: true },
 		receivestatescrollto: { direction: "state", numericJoin: 1, contractName: true },
 		receivestatetemplatevars: { direction: "state", stringJoin: 1, contractName: true },
-		contractname: {contractName: true},
+		contractname: { contractName: true },
 		booleanjoinoffset: { booleanJoin: 1 },
 		numericjoinoffset: { numericJoin: 1 },
 		stringjoinoffset: { stringJoin: 1 }
@@ -1478,12 +1478,14 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		const callback: SignalSubscriptionCallback = (newValue: string | number | boolean) => {
 			const _newValue = newValue as number;
 			if (_newValue !== null || _newValue !== undefined) {
-				setTimeout(() => {
-					const bufferAmount = this.bufferAmount || 0;
-					const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
-					this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
-					this.animationHelper.signalScrollTo(_newValue as number);
-				}, 200);
+				subscribeInViewPortChange(this, () => {
+					if (this.elementIsInViewPort && this._isListVisible) {
+						const bufferAmount = this.bufferAmount || 0;
+						const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
+						this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
+						this.animationHelper.signalScrollTo(_newValue as number);
+					}
+				});
 			}
 		};
 
@@ -1493,7 +1495,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			this.receiveStateScrollToSub as string,
 			callback
 		);
-
 	}
 
 	public get receiveStateTemplateVars(): string | null | undefined {
