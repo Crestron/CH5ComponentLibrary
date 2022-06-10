@@ -59,3 +59,34 @@ from ch5 components, and custom attributes will not be affected)
 * disablesAll() - Disables all keys
 * setConfigKeyValue(key:string, value:boolean) - Changes the value of a key
 
+### Build Dev Universal Module Definition
+
+  npm run build:dev:umd
+
+### Run Test web-component-tester
+
+  npm run test:wct
+
+### Start
+
+  npm run start
+
+### LocalHost 3000 with parameters IP ID and Host
+
+http://localhost:3000/?ipId=0x99&host=10.0.0.203
+
+### npm link
+
+  cd crestron-components-lib
+  npm link
+
+  cd CH5Sandbox\shell-template\
+  npm link @crestron/ch5-crcomlib
+
+### yarn link
+
+  cd crestron-components-lib
+  yarn link
+
+  cd CH5Sandbox\shell-template\
+  yarn link @crestron/ch5-crcomlib
