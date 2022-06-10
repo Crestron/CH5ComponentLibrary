@@ -23,7 +23,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @name closeicon
    * @attributeType "IconClass"
    */
-  closeIcon: string
+  closeIcon: string;
 
   /**
    * @documentation
@@ -38,7 +38,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @default null
    * @attributeType "EnumeratedValue"
    */
-  stretch: TCh5OverlayPanelStretch | null
+  stretch: TCh5OverlayPanelStretch | null;
 
   /**
    * @documentation
@@ -56,7 +56,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @default scroll
    * @attributeType "EnumeratedValue"
    */
-  overflow: TCh5OverlayPanelOverflow
+  overflow: TCh5OverlayPanelOverflow;
 
   /**
    * @documentation
@@ -69,7 +69,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @name positionto
    * @attributeType "String"
    */
-  positionTo: string
+  positionTo: string;
 
   /**
    * @documentation
@@ -85,7 +85,7 @@ export interface ICh5OverlayPanelAttributes extends ICh5CommonAttributes {
    * @default top-left
    * @attributeType "EnumeratedValue"
    */
-  positionOffset: TCh5OverlayPanelPositionOffset
+  positionOffset: TCh5OverlayPanelPositionOffset;
 
   /**
    * @documentation

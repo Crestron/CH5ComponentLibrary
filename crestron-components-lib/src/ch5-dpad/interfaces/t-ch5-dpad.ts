@@ -14,19 +14,19 @@ export type TCh5DpadStretch = 'both' | 'width' | 'height';
 export type TCh5DpadChildButtonType = 'up' | 'down' | 'left' | 'right' | 'center';
 
 export type TCh5DpadButtonClassListType = {
-    commonBtnClass: string,
-    primaryTagClass: string,
-    primaryIconClass: string,
-    defaultIconClass: string,
-    imageClassName: string,
-    defaultArrowClass: string
+    commonBtnClass: string;
+    primaryTagClass: string;
+    primaryIconClass: string;
+    defaultIconClass: string;
+    imageClassName: string;
+    defaultArrowClass: string;
 }
 
 export type TCh5DpadConstructorParam = {
-    primaryTagClass: string,
-    defaultIconClass: string,
-    defaultArrowClass: string,
-    btnType: TCh5DpadChildButtonType
+    primaryTagClass: string;
+    defaultIconClass: string;
+    defaultArrowClass: string;
+    btnType: TCh5DpadChildButtonType;
 };
 
 export type TCh5DpadSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large';

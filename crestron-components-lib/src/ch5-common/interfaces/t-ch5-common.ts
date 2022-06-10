@@ -10,15 +10,15 @@ export type TBoolAttribute = 'false' | 'true';
 export type TCh5ShowType = 'visibility' | 'display' | 'remove';
 
 export type TCh5ProcessUriParams = {
-  protocol: string,
-  user: string,
-  password: string,
-  url: string
+  protocol: string;
+  user: string;
+  password: string;
+  url: string;
 };
 
 export type TCh5CreateReceiveStateSigParams = {
-  caller: any,
-  attrKey: string,
-  value: string,
-  callbackOnSignalReceived: (val: string | boolean) => void
+  caller: any;
+  attrKey: string;
+  value: string;
+  callbackOnSignalReceived: (val: string | boolean) => void;
 };

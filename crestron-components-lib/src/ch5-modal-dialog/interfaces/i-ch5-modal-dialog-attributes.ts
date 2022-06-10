@@ -23,7 +23,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * @name closeicon
    * @attributeType "IconClass"
    */
-  closeIcon: string
+  closeIcon: string;
 
   /**
    * @documentation
@@ -38,7 +38,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * @default null
    * @attributeType "EnumeratedValue"
    */
-  stretch: TCh5OverlayPanelStretch | null
+  stretch: TCh5OverlayPanelStretch | null;
 
   /**
    * @documentation
@@ -56,7 +56,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * @default scroll
    * @attributeType "EnumeratedValue"
    */
-  overflow: TCh5OverlayPanelOverflow
+  overflow: TCh5OverlayPanelOverflow;
 
   /**
    * @documentation
@@ -213,7 +213,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * @default true
    * @attributeType "Boolean"
    */
-  dismissable: boolean
+  dismissable: boolean;
 
   /**
    * @documentation
@@ -227,7 +227,7 @@ export interface ICh5ModalDialogAttributes extends ICh5CommonAttributes {
    * @default false
    * @attributeType "Boolean"
    */
-  closable: boolean
+  closable: boolean;
 
   /**
    * @documentation

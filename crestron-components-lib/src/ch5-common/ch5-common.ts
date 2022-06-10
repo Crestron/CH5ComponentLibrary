@@ -29,16 +29,16 @@ import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-sign
 import _ from 'lodash';
 
 export interface ICh5AttributeAndPropertySettings {
-	default: any,
-	valueOnAttributeEmpty: any,
-	variableName: string,
-	attributeName: string,
-	propertyName: string,
-	removeAttributeOnNull: boolean,
-	type: string,
-	enumeratedValues: any[],
-	componentReference: any,
-	callback?: any
+	default: any;
+	valueOnAttributeEmpty: any;
+	variableName: string;
+	attributeName: string;
+	propertyName: string;
+	removeAttributeOnNull: boolean;
+	type: string;
+	enumeratedValues: any[];
+	componentReference: any;
+	callback?: any;
 };
 
 export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {

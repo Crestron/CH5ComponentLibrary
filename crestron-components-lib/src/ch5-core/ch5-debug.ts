@@ -8,7 +8,7 @@
 import {LogLevelEnum} from '../ch5-logger/enums/index';
 
 export type TCh5DebugConfig={
-    [key:string]: boolean | string | LogLevelEnum
+    [key:string]: boolean | string | LogLevelEnum;
 }
 
 export class Ch5Debug {

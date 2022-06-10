@@ -16,7 +16,7 @@ import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
 import { TCh5ListElementOrientation } from "./interfaces";
 
 export interface ICh5ListStylesheet {
-	[key: string]: any
+	[key: string]: any;
 }
 
 export class Ch5ListTemplate extends Ch5ListAbstractHelper {

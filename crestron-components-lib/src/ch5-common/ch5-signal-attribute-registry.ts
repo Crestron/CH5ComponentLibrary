@@ -7,36 +7,36 @@
 
 
 interface Ch5SignalElementAttributeRegistryEntry {
-    readonly direction?: "event" | "state",
-    readonly booleanJoin?: number, 
-    readonly numericJoin?: number, 
-    readonly stringJoin?: number, 
-    readonly contractName?: boolean
+    readonly direction?: "event" | "state";
+    readonly booleanJoin?: number;
+    readonly numericJoin?: number;
+    readonly stringJoin?: number; 
+    readonly contractName?: boolean;
 };
 
 export interface Ch5SignalElementAttributeRegistryEntries {
-    [attributeName: string]: Ch5SignalElementAttributeRegistryEntry
+    [attributeName: string]: Ch5SignalElementAttributeRegistryEntry;
 };
 
 export interface CH5SignalElementDefaultAttributeEntry {
-    attributes: string[], 
-    defaultValue: string
+    attributes: string[]; 
+    defaultValue: string;
 };
 
 export interface CH5SignalElementDefaultAttributeEntries {
-    contractName?: CH5SignalElementDefaultAttributeEntry,
-    booleanJoin?: CH5SignalElementDefaultAttributeEntry,
-    numericJoin?: CH5SignalElementDefaultAttributeEntry,
-    stringJoin?: CH5SignalElementDefaultAttributeEntry 
+    contractName?: CH5SignalElementDefaultAttributeEntry;
+    booleanJoin?: CH5SignalElementDefaultAttributeEntry;
+    numericJoin?: CH5SignalElementDefaultAttributeEntry;
+    stringJoin?: CH5SignalElementDefaultAttributeEntry;
 }
 
 export interface CH5SignalElementRegistryEntry {
-    attributes: Ch5SignalElementAttributeRegistryEntries, 
-    addAttributeWhen?: CH5SignalElementDefaultAttributeEntries
+    attributes: Ch5SignalElementAttributeRegistryEntries; 
+    addAttributeWhen?: CH5SignalElementDefaultAttributeEntries;
 }
 
 interface RegistryEntries {
-    [elementName: string]: CH5SignalElementRegistryEntry
+    [elementName: string]: CH5SignalElementRegistryEntry;
 }
 
 export class Ch5SignalAttributeRegistry {
