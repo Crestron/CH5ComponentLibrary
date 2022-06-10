@@ -109,9 +109,6 @@ export class CH5KeypadButtonData {
 			};
 			retArr.push(obj);
 		}
-		if (retArr[0].iconClass.length === 0) {
-			retArr[0].iconClass = ['fas', 'fa-phone-alt'];
-		}
 		return retArr;
 	}
 

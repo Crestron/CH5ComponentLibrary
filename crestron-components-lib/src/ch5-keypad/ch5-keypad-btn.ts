@@ -142,7 +142,7 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	 */
 	public set iconClass(value: string) {
 		this.logger.start('set iconClass("' + value + '")');
-		if (value !== this._iconClass) {
+		if (value !== '' && value !== this._iconClass) {
 			this._iconClass = value;
 		} else {
 			this._iconClass = this.params.iconClass.join(' ');

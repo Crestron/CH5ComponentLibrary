@@ -944,6 +944,13 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this.logger.stop();
 	}
 
+	private setContainerHeightAndWidth(height: number, width: number) {
+		this.container.style.height = height + 'px';
+		this.container.style.width = width + 'px';
+		this.style.height = height + 'px';
+		this.style.width = width + 'px';
+	}
+
 	private stretchHandler() {
 		this.logger.start(this.COMPONENT_NAME + ' > stretchHandler');
 		this.updateCssClasses();
@@ -957,39 +964,23 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				const requiredCellHeight: number = this.offsetHeight / rowCount;
 				const requiredCellWidth: number = this.offsetWidth / colCount;
 
-				if (this.stretch === 'both') {
+				const buttonGap: number = 6;
+				if (!this.parentElement) {
 					const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
-					this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-					this.container.style.width = (cellDimensionToRender * colCount) + 'px';
-				} else if (this.stretch === 'width') {
-					const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
-					const parentElement = this.parentElement;
-					if (parentElement) {
-						let buttonSize = Math.floor((parentElement.offsetWidth - 30) / 3);
-						while (buttonSize * rowCount > parentElement.offsetHeight) {
-							buttonSize--;
-						}
-						this.container.style.height = buttonSize * rowCount + 'px';
-						this.container.style.width = buttonSize * colCount + 'px';
-					} else {
-						this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-						this.container.style.width = (cellDimensionToRender * colCount) + 'px';
-					}
-				} else if (this.stretch === 'height') {
-					const cellDimensionToRender: number = Math.min(requiredCellHeight, requiredCellWidth);
-					const parentElement = this.parentElement;
-					if (parentElement) {
-						if (Math.floor(requiredCellHeight * colCount) <= parentElement.offsetWidth) {
-							this.container.style.height = (requiredCellHeight * rowCount) + 'px';
-							this.container.style.width = (requiredCellHeight * colCount) + 'px';
-						} else {
-							this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-							this.container.style.width = (cellDimensionToRender * colCount) + 'px';
-						}
-					} else {
-						this.container.style.height = (cellDimensionToRender * rowCount) + 'px';
-						this.container.style.width = (cellDimensionToRender * colCount) + 'px';
-					}
+					this.setContainerHeightAndWidth(cellDimensionToRender * rowCount, cellDimensionToRender * colCount);
+					return this.logger.stop();
+				}
+				const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
+				if (this.stretch === 'width' || (this.stretch === 'both' && parentWidth <= parentHeight)) {
+					let buttonSize: number = Math.floor((parentWidth - (colCount + 1) * buttonGap) / colCount);
+					while (buttonSize * rowCount + (rowCount + 1) * buttonGap > parentHeight)
+						buttonSize--;
+					this.setContainerHeightAndWidth(buttonSize * rowCount + (rowCount + 1) * buttonGap, buttonSize * colCount + (colCount + 1) * buttonGap);
+				} else if (this.stretch === 'height' || (this.stretch === 'both' && parentHeight < parentWidth)) {
+					let buttonSize: number = Math.floor((parentHeight - (rowCount + 1) * buttonGap) / rowCount);
+					while (buttonSize * colCount + (colCount + 1) * buttonGap > parentWidth)
+						buttonSize--;
+					this.setContainerHeightAndWidth(buttonSize * rowCount + (rowCount + 1) * buttonGap, buttonSize * colCount + (colCount + 1) * buttonGap);
 				}
 			} else {
 				this.container.style.removeProperty('height');
