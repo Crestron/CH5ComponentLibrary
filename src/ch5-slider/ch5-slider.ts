@@ -20,11 +20,11 @@ import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } 
 
 export interface IRcbSignal {
 	rcb: {
-		time: number,
-		value: number,
-		startt?: number,
-		startv?: number
-	}
+		time: number;
+		value: number;
+		startt?: number;
+		startv?: number;
+	};
 }
 
 export interface IRcbUpdateValue {

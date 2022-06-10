@@ -184,7 +184,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * @default off
    * @attributeType "EnumeratedValue"
    */
-  toolTipShowType: TCh5SliderTooltipType
+  toolTipShowType: TCh5SliderTooltipType;
 
   /**
    * @documentation
@@ -297,7 +297,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * @default false
    * @attributeType "Boolean"
    */
-  noHandle: boolean
+  noHandle: boolean;
 
   /**
    * @documentation
@@ -310,7 +310,7 @@ export interface ICh5SliderAttributes extends ICh5CommonAttributes {
    * @default false
    * @attributeType "Boolean"
    */
-  tapSettable: boolean
+  tapSettable: boolean;
 
   /**
    * @documentation

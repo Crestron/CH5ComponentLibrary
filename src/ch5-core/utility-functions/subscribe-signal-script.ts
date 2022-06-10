@@ -11,7 +11,7 @@ import { getState } from "./get-signal";
 import { unsubscribeState } from "./unsubscribe-signal";
 import { Ch5Signal } from "../ch5-signal";
 
-export type TSigNameTypeSub = { sigName:string, sigType:'b'|'n'|'s', sigSub:string};
+export type TSigNameTypeSub = { sigName:string; sigType:'b'|'n'|'s'; sigSub:string;};
 /**
  * A global hash table used to keep track of signal subscriptions used in the subscribeStateScript utility function
  */

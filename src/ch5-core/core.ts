@@ -17,14 +17,14 @@ export type TActionLogic = "set"|"link"|"toggle"|"pulse"|"increment"|"decrement"
 export type TStringSet = Set<string>;
 
 export type TSignalsSubscriptionsByType = {
-    "boolean": TStringSet,
-    "number": TStringSet,
-    "string": TStringSet,
-    "object": TStringSet,
-    [key: string]: TStringSet
+    "boolean": TStringSet;
+    "number": TStringSet;
+    "string": TStringSet;
+    "object": TStringSet;
+    [key: string]: TStringSet;
 };
 export type TSignalSubscriptions = {
-    [key: string]:Subscription
+    [key: string]:Subscription;
 };
 
 /* tslint:disable */

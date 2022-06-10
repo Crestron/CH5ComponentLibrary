@@ -8,26 +8,26 @@
 import {Ch5Common} from "./ch5-common";
 
 export type TCh5ConfigAttributes={
-    [attrName:string]: string
+    [attrName:string]: string;
 }
 export type TCh5ConfigTemplateVars={
-    [varName:string]: string
+    [varName:string]: string;
 }
 
 export type TCh5Config={
     "attributes": {
         "id": {
-            [id:string]:TCh5ConfigAttributes
-        },
+            [id:string]:TCh5ConfigAttributes;
+        };
         "component": {
-            [component:string]:TCh5ConfigAttributes
-        }
-    },
+            [component:string]:TCh5ConfigAttributes;
+        };
+    };
     "templatevariables": {
         "id": {
-            [id:string]:TCh5ConfigTemplateVars[]
-        }
-    }
+            [id:string]:TCh5ConfigTemplateVars[];
+        };
+    };
 }
 
 export class Ch5Config {

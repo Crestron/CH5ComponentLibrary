@@ -13,39 +13,39 @@ import { TCh5Signal } from '../ch5-core/types/signal.type';
 import { isNull, isUndefined, isBoolean, isString, isNumber, isObject } from 'lodash';
 
 export type TScenarioOnStart = {
-    type: TSignalNonStandardTypeName,
-    state: string,
-    value: TSignalValue
+    type: TSignalNonStandardTypeName;
+    state: string;
+    value: TSignalValue;
 }
 
 /**
  * Defines the format of the ch5-emulator logic input
  */
 export interface IEmulatorScenario {
-    cues: IEmulatorCue[],
-    onStart?: TScenarioOnStart[]
+    cues: IEmulatorCue[];
+    onStart?: TScenarioOnStart[];
 }
 
 /**
  * Defines the format of a ch5-emulator logic cue
  */
 export interface IEmulatorCue {
-    type: TSignalNonStandardTypeName,
-    event: string,
-    trigger: TSignalValue,
-    actions: IEmulatorAction[]
+    type: TSignalNonStandardTypeName;
+    event: string;
+    trigger: TSignalValue;
+    actions: IEmulatorAction[];
 }
 
 /**
  * Defines the format of a ch5-emulator logic action
  */
 export interface IEmulatorAction {
-    state: string,
-    type: TSignalNonStandardTypeName,
-    logic: TActionLogic,
-    value?: TSignalValue,
-    offset?: number,
-    time?: number
+    state: string;
+    type: TSignalNonStandardTypeName;
+    logic: TActionLogic;
+    value?: TSignalValue;
+    offset?: number;
+    time?: number;
 }
 
 export class Ch5Emulator {
