@@ -14,18 +14,18 @@ export type TCh5KeypadStretch = 'both' | 'width' | 'height';
 export type TCh5KeypadTextOrientation = 'top' | 'right' | 'bottom' | 'left';
 
 export type TCh5KeypadButtonCreateDTO = {
-    indexRef: number,
-    name: string,
-    major: string,
-    minor: string,
-    className: string,
-    iconClass: string[],
-    contractName: string,
-    contractKey: string,
-    joinCountToAdd: string,
-    key: string,
-    pressed: boolean,
-    [key: string]: any,
+    indexRef: number;
+    name: string;
+    major: string;
+    minor: string;
+    className: string;
+    iconClass: string[];
+    contractName: string;
+    contractKey: string;
+    joinCountToAdd: string;
+    key: string;
+    pressed: boolean;
+    [key: string]: any;
 }
 
 export type TCh5KeypadSize = 'regular' | 'x-small' | 'small' | 'large' | 'x-large';

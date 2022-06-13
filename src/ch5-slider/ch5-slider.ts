@@ -24,7 +24,7 @@ export interface IRcbSignal {
 		value: number,
 		startt?: number,
 		startv?: number
-	}
+	};
 }
 
 export interface IRcbUpdateValue {

@@ -40,7 +40,7 @@ export interface ICh5ListItemInfo {
 
 export enum Ch5ListItemAxis { X, Y }
 
-export type Ch5ListSignature = { [key: string]: any };
+export type Ch5ListSignature = { [key: string]: any;};
 export const duration = 300;
 export const easeMode = 'ease-out';
 
