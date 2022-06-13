@@ -8,8 +8,8 @@
 import { isNil, isEmpty } from 'lodash';
 
 export type TSchemas = {
-  http: string,
-  https?: string,
+  http: string;
+  https?: string;
 }
 
 export class Ch5ImageUriModel {

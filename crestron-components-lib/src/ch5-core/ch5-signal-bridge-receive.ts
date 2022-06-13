@@ -11,27 +11,27 @@ import {Ch5Signal} from "./ch5-signal";
 
 export type Ch5RcbSimpleObject = {
     'rcb':{
-        'value':number, // integer value
-        'time':number   // timestamp
-    }
+        'value':number;// integer value
+        'time':number ;  // timestamp
+    };
 }
 
 export type Ch5RcbExtendedObject={
     'rcb':{
-        'value':number,  // integer value
-        'time':number,   // timestamp
-        'startv':number, // starting value
-        'startt':number  // starting timestamp
-    }
+        'value':number;  // integer value
+        'time':number;  // timestamp
+        'startv':number; // starting value
+        'startt':number;  // starting timestamp
+    };
 }
 
 export type Ch5RcbObject = Ch5RcbSimpleObject | Ch5RcbExtendedObject;
 
 type TCh5RcbIntervalTimersHashTable = {
-    [signalName: string]: number
+    [signalName: string]: number;
 }
 type TCh5RcbTimersHashTable = {
-    [signalName: string]: number
+    [signalName: string]: number;
 }
 
 const rcbIntervalTimers = {} as TCh5RcbIntervalTimersHashTable;

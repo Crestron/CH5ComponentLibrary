@@ -2,10 +2,10 @@ import { NumericFormat } from "./numeric-format";
 import { isNaN } from 'lodash';
 
 export type PercentageFormatOptions = {
-    min: number,
-    max: number,
-    decimalLength: number,
-    length: number,
+    min: number;
+    max: number;
+    decimalLength: number;
+    length: number;
 }
 
 export class PercentageFormat extends NumericFormat {
