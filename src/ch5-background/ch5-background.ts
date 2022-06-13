@@ -308,11 +308,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 			value = 604800;
 		}
 		if (this._refreshRate !== value) {
-			if (Ch5Background.REFRESHRATE) {
-				this._refreshRate = value;
-			} else {
-				this._refreshRate = Ch5Background.REFRESHRATE;
-			}
+			this._refreshRate = value;
 			this.setAttribute('refreshrate', this._refreshRate.toString());
 		}
 	}
@@ -1230,10 +1226,19 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 * Changing background image/color with fadein effect as per refresh rate time.
 	 */
 	private changeBackground(count: number) {
-		this._canvasList[0].classList.add('ch5bg-fadein');
 		clearInterval(this._interval);
 		if (count > 1) {
-			this._bgIdx = 1;
+			let isBackgroundSet: boolean = false;
+			this._canvasList.forEach((c: HTMLCanvasElement) => {
+				if (c.classList && c.classList.contains('ch5bg-fadein')) {
+					isBackgroundSet = true;
+					return;
+				}
+			});
+			if (isBackgroundSet === false) {
+				this._canvasList[0].classList.add('ch5bg-fadein');
+			}
+			// this._bgIdx = 1;
 			this._interval = setInterval(() => {
 				if (this.isCanvasListValid()) {
 					this._canvasList.forEach((c: HTMLCanvasElement) => c.classList.remove('ch5bg-fadein'));
@@ -1244,6 +1249,8 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 					}
 				}
 			}, this._refreshRate * 1000);
+		} else {
+			this._canvasList[0].classList.add('ch5bg-fadein');
 		}
 	}
 
