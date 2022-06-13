@@ -11,7 +11,7 @@ export interface IResynchronizationRequestModel {
     id: string;
     state: string;
     value?: {
-        excludePrefixes?: string[];
-        range?: ICh5ClearRangeDataModel;
+        excludePrefixes?: string[],
+        range?: ICh5ClearRangeDataModel
     };
 }
