@@ -1,0 +1,48 @@
+{
+    "cues": [
+         {
+        "type": "b",
+        "event": "trigger_data_ch5_show_1",
+        "trigger": "&change",
+        "actions": [
+          {
+            "state": "data_ch5_show_1",
+            "type": "boolean",
+            "logic": "pulse"
+          }
+        ]
+      },
+      {
+        "type": "b",
+        "event": "trigger_data_ch5_hide_1",
+        "trigger": "&change",
+        "actions": [
+          {
+            "state": "data_ch5_hide_1",
+            "type": "boolean",
+            "logic": "pulse"
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "event": "toggle_btn_visibility",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "show_button",
+            "type": "boolean",
+            "logic": "toggle"
+          }
+        ]
+      }
+    ],
+    "onStart": [
+      {
+        "type": "b",
+        "state": "show_button",
+        "value": false
+      }
+    ]
+  }
+  
