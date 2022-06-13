@@ -42,7 +42,7 @@
       });
 
       test(`Check disabled`, () => {
-        expect(ch5Dpad.getAttribute('disabled')).to.be.equal("");
+        expect(ch5Dpad.getAttribute('disabled')).to.be.equal("true");
         ch5Dpad.removeAttribute('disabled');
         expect(ch5Dpad.getAttribute('disabled')).to.be.equal(null);
       });

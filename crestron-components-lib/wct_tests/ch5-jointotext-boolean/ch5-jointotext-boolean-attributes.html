@@ -277,7 +277,7 @@
         expect(ch5JointextBoolean.getAttribute('show')).to.be.equal('false');
         expect(ch5JointextBoolean.show).to.be.equal(false);
         ch5JointextBoolean.removeAttribute('show');
-        expect(ch5JointextBoolean.getAttribute('show')).to.be.equal('true');
+        expect(ch5JointextBoolean.getAttribute('show')).to.be.equal(null);
         expect(ch5JointextBoolean.show).to.be.equal(true);
       });
     });
