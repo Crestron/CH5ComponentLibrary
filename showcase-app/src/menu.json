@@ -1,299 +1,342 @@
 {
   "menuItems": [
     {
-      "label": "Info",
-      "url": "index.html",
       "children": [
         {
           "label": "Readme",
           "url": "index.html"
         }
-      ]
+      ],
+      "label": "Info",
+      "url": "index.html"
     },
     {
-      "url": "ch5-background/ch5-background-url.html",
       "children": [
         {
-          "url": "ch5-background/ch5-background-styling-css-classes.html",
           "children": [
             {
-              "url": "ch5-background/ch5-background-styling-css-classes.html",
-              "label": "CSS classes"
+              "label": "CSS classes",
+              "url": "ch5-background/ch5-background-styling-css-classes.html"
             }
           ],
-          "label": "Styling"
+          "label": "Styling",
+          "url": "ch5-background/ch5-background-styling-css-classes.html"
         },
         {
-          "url": "ch5-background/ch5-background-url.html",
           "children": [
             {
-              "url": "ch5-background/ch5-background-url.html",
-              "label": "url"
+              "label": "url",
+              "url": "ch5-background/ch5-background-url.html"
             },
             {
-              "url": "ch5-background/ch5-background-color.html",
-              "label": "backgroundColor"
+              "label": "backgroundColor",
+              "url": "ch5-background/ch5-background-color.html"
             },
             {
-              "url": "ch5-background/ch5-background-repeat.html",
-              "label": "repeat"
+              "label": "repeat",
+              "url": "ch5-background/ch5-background-repeat.html"
             },
             {
-              "url": "ch5-background/ch5-background-scale.html",
-              "label": "scale"
+              "label": "scale",
+              "url": "ch5-background/ch5-background-scale.html"
             },
             {
-              "url": "ch5-background/ch5-background-refresh-rate.html",
-              "label": "refreshRate"
+              "label": "refreshRate",
+              "url": "ch5-background/ch5-background-refresh-rate.html"
             },
             {
-              "url": "ch5-background/ch5-background-img-background-color.html",
-              "label": "imgBackgroundColor"
+              "label": "imgBackgroundColor",
+              "url": "ch5-background/ch5-background-img-background-color.html"
             },
             {
-              "url": "ch5-background/ch5-background-transition-effect.html",
-              "label": "transitionEffect"
+              "label": "transitionEffect",
+              "url": "ch5-background/ch5-background-transition-effect.html"
             },
             {
-              "url": "ch5-background/ch5-background-transition-duration.html",
-              "label": "transitionDuration"
+              "label": "transitionDuration",
+              "url": "ch5-background/ch5-background-transition-duration.html"
             }
           ],
-          "label": "Attributes"
+          "label": "Attributes",
+          "url": "ch5-background/ch5-background-url.html"
         },
         {
-          "url": "ch5-background/ch5-background-receive-url.html",
           "children": [
             {
-              "url": "ch5-background/ch5-background-receive-url.html",
-              "label": "receiveStateUrl"
+              "label": "receiveStateUrl",
+              "url": "ch5-background/ch5-background-receive-url.html"
             },
             {
-              "url": "ch5-background/ch5-background-receive-background-color.html",
-              "label": "receiveStateBackgroundColor"
+              "label": "receiveStateBackgroundColor",
+              "url": "ch5-background/ch5-background-receive-background-color.html"
             },
             {
-              "url": "ch5-background/ch5-background-receive-refresh-rate.html",
-              "label": "receiveStateRefreshRate"
+              "label": "receiveStateRefreshRate",
+              "url": "ch5-background/ch5-background-receive-refresh-rate.html"
             }
           ],
-          "label": "Receive State Attributes"
+          "label": "Receive State Attributes",
+          "url": "ch5-background/ch5-background-receive-url.html"
         }
       ],
-      "label": "CH5 Background"
+      "label": "CH5 Background",
+      "url": "ch5-background/ch5-background-url.html"
     },
     {
-      "url": "ch5-button/ch5-button-types.html",
       "children": [
         {
-          "url": "ch5-button/ch5-button-styling-css-classes.html",
           "children": [
             {
-              "url": "ch5-button/ch5-button-styling-css-classes.html",
-              "label": "CSS classes"
+              "label": "CSS classes",
+              "url": "ch5-button/ch5-button-styling-css-classes.html"
             }
           ],
-          "label": "Styling"
+          "label": "Styling",
+          "url": "ch5-button/ch5-button-styling-css-classes.html"
         },
         {
-          "url": "ch5-button/ch5-button-types.html",
           "children": [
             {
-              "url": "ch5-button/ch5-button-types.html",
-              "label": "type"
+              "label": "type",
+              "url": "ch5-button/ch5-button-types.html"
             },
             {
-              "url": "ch5-button/ch5-button-sizes.html",
-              "label": "size"
+              "label": "size",
+              "url": "ch5-button/ch5-button-sizes.html"
             },
             {
-              "url": "ch5-button/ch5-button-shapes.html",
-              "label": "shape"
+              "label": "shape",
+              "url": "ch5-button/ch5-button-shapes.html"
             },
             {
-              "url": "ch5-button/ch5-button-stretches.html",
-              "label": "stretch"
+              "label": "stretch",
+              "url": "ch5-button/ch5-button-stretches.html"
             },
             {
-              "url": "ch5-button/ch5-button-icons.html",
-              "label": "icon"
+              "label": "icon",
+              "url": "ch5-button/ch5-button-icons.html"
             },
             {
-              "url": "ch5-button/ch5-button-icon-url.html",
-              "label": "iconUrl"
+              "label": "iconUrl",
+              "url": "ch5-button/ch5-button-icon-url.html"
             },
             {
-              "url": "ch5-button/ch5-button-label.html",
-              "label": "label"
+              "label": "label",
+              "url": "ch5-button/ch5-button-label.html"
             },
             {
-              "url": "ch5-button/ch5-button-alignments.html",
-              "label": "alignment"
+              "label": "alignment",
+              "url": "ch5-button/ch5-button-alignments.html"
             },
             {
-              "url": "ch5-button/ch5-button-orientation.html",
-              "label": "orientation"
+              "label": "orientation",
+              "url": "ch5-button/ch5-button-orientation.html"
             },
             {
-              "url": "ch5-button/ch5-button-selected.html",
-              "label": "selected"
+              "label": "selected",
+              "url": "ch5-button/ch5-button-selected.html"
             },
             {
-              "url": "ch5-button/ch5-button-pressed.html",
-              "label": "pressed"
+              "label": "pressed",
+              "url": "ch5-button/ch5-button-pressed.html"
             },
             {
-              "url": "ch5-button/ch5-button-checkbox.html",
-              "label": "checkbox"
+              "label": "checkbox",
+              "url": "ch5-button/ch5-button-checkbox.html"
             },
             {
-              "url": "ch5-button/ch5-button-send-on-click-touch.html",
-              "label": "sendEventOnClick, sendEventOnTouch"
+              "label": "sendEventOnClick, sendEventOnTouch",
+              "url": "ch5-button/ch5-button-send-on-click-touch.html"
             },
             {
-              "url": "ch5-button/ch5-button-events.html",
-              "label": "Events"
+              "label": "Events",
+              "url": "ch5-button/ch5-button-events.html"
             },
             {
-              "url": "ch5-button/ch5-button-gestureable-container.html",
-              "label": "Gestureable Container"
+              "label": "Gestureable Container",
+              "url": "ch5-button/ch5-button-gestureable-container.html"
             }
           ],
-          "label": "Attributes"
+          "label": "Attributes",
+          "url": "ch5-button/ch5-button-types.html"
         },
         {
-          "url": "ch5-button/ch5-button-multimode-buttonmode.html",
           "children": [
             {
-              "url": "ch5-button/ch5-button-multimode-buttonlabel.html",
-              "label": "Button Label"
+              "label": "Button Label",
+              "url": "ch5-button/ch5-button-multimode-buttonlabel.html"
             },
             {
-              "url": "ch5-button/ch5-button-multimode-buttonmode.html",
-              "label": "Button Mode"
+              "label": "Button Mode",
+              "url": "ch5-button/ch5-button-multimode-buttonmode.html"
             },
             {
-              "url": "ch5-button/ch5-button-multimode-buttonmodestate.html",
-              "label": "Button Mode State"
+              "label": "Button Mode State",
+              "url": "ch5-button/ch5-button-multimode-buttonmodestate.html"
             }
           ],
-          "label": "Multi-mode"
+          "label": "Multi-mode",
+          "url": "ch5-button/ch5-button-multimode-buttonmode.html"
         },
         {
-          "url": "ch5-button/ch5-button-set-label.html",
           "children": [
             {
-              "url": "ch5-button/ch5-button-set-label.html",
-              "label": "Set Label"
+              "label": "Set Label",
+              "url": "ch5-button/ch5-button-set-label.html"
             },
             {
-              "url": "ch5-button/ch5-button-set-mode.html",
-              "label": "Set Mode"
+              "label": "Set Mode",
+              "url": "ch5-button/ch5-button-set-mode.html"
             }
           ],
-          "label": "Methods"
+          "label": "Methods",
+          "url": "ch5-button/ch5-button-set-label.html"
         },
         {
-          "url": "ch5-button/ch5-button-common-disable-enable.html",
           "children": [
             {
-              "url": "ch5-button/ch5-button-common-disable-enable.html",
-              "label": "disabled"
+              "label": "disabled",
+              "url": "ch5-button/ch5-button-common-disable-enable.html"
             },
             {
-              "url": "ch5-button/ch5-button-common-custom-class.html",
-              "label": "customClass"
+              "label": "customClass",
+              "url": "ch5-button/ch5-button-common-custom-class.html"
             },
             {
-              "url": "ch5-button/ch5-button-common-custom-style.html",
-              "label": "customStyle"
+              "label": "customStyle",
+              "url": "ch5-button/ch5-button-common-custom-style.html"
             },
             {
-              "url": "ch5-button/ch5-button-common-show.html",
-              "label": "show"
+              "label": "show",
+              "url": "ch5-button/ch5-button-common-show.html"
             }
           ],
-          "label": "Common"
+          "label": "Common",
+          "url": "ch5-button/ch5-button-common-disable-enable.html"
         },
         {
-          "url": "ch5-button/ch5-button-playground.html",
-          "label": "Playground"
+          "label": "Playground",
+          "url": "ch5-button/ch5-button-playground.html"
         }
       ],
-      "label": "CH5 Button"
+      "label": "CH5 Button",
+      "url": "ch5-button/ch5-button-types.html"
     },
     {
-      "url": "ch5-dpad/ch5-dpad-types.html",
       "children": [
         {
-          "url": "ch5-dpad/ch5-dpad-styling-css-classes.html",
-          "children": [
-            {
-              "url": "ch5-dpad/ch5-dpad-styling-css-classes.html",
-              "label": "CSS classes"
-            }
-          ],
-          "label": "Styling"
+          "label": "Attributes",
+          "url": "component-configuration/attributes.html"
         },
         {
-          "url": "ch5-dpad/ch5-dpad-types.html",
-          "children": [
-            {
-              "url": "ch5-dpad/ch5-dpad-types.html",
-              "label": "type"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-shapes.html",
-              "label": "shape"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-stretches.html",
-              "label": "stretch"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-sizes.html",
-              "label": "size"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-sendeventonclickstart.html",
-              "label": "sendEventOnClickStart"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-contract.html",
-              "label": "contractName"
-            }
-          ],
-          "label": "Attributes"
+          "label": "template variables ch5-list",
+          "url": "component-configuration/template-variables-list.html"
         },
         {
-          "url": "ch5-dpad/ch5-dpad-common-disable-enable.html",
-          "children": [
-            {
-              "url": "ch5-dpad/ch5-dpad-common-disable-enable.html",
-              "label": "disabled"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-common-custom-class.html",
-              "label": "customClass"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-common-custom-style.html",
-              "label": "customStyle"
-            },
-            {
-              "url": "ch5-dpad/ch5-dpad-common-show.html",
-              "label": "show"
-            }
-          ],
-          "label": "Common"
+          "label": "template variables ch5-select",
+          "url": "component-configuration/template-variables-select.html"
+        }
+      ],
+      "label": "CH5 Component Configuration",
+      "url": "component-configuration/attributes.html"
+    },
+    {
+      "children": [
+        {
+          "label": "data-ch5-show",
+          "url": "data-ch5/data-ch5-show.html"
         },
         {
-          "label": "CH5 DPadButton",
-          "url": "ch5-dpad-button/ch5-dpad-button-key.html",
+          "label": "data-ch5-showpulse / hidepulse",
+          "url": "data-ch5/data-ch5-showpulse.html"
+        },
+        {
+          "label": "data-ch5-textcontent",
+          "url": "data-ch5/data-ch5-textcontent.html"
+        },
+        {
+          "label": "data-ch5-innerhtml",
+          "url": "data-ch5/data-ch5-innerhtml.html"
+        },
+        {
+          "label": "data-ch5-appendstyle",
+          "url": "data-ch5/data-ch5-appendstyle.html"
+        },
+        {
+          "label": "data-ch5-appendclass",
+          "url": "data-ch5/data-ch5-appendclass.html"
+        }
+      ],
+      "label": "CH5 Custom Attributes",
+      "url": "data-ch5/data-ch5-show.html"
+    },
+    {
+      "children": [
+        {
           "children": [
             {
-              "label": "Attributes",
-              "url": "ch5-dpad-button/ch5-dpad-button-key.html",
+              "label": "CSS classes",
+              "url": "ch5-dpad/ch5-dpad-styling-css-classes.html"
+            }
+          ],
+          "label": "Styling",
+          "url": "ch5-dpad/ch5-dpad-styling-css-classes.html"
+        },
+        {
+          "children": [
+            {
+              "label": "type",
+              "url": "ch5-dpad/ch5-dpad-types.html"
+            },
+            {
+              "label": "shape",
+              "url": "ch5-dpad/ch5-dpad-shapes.html"
+            },
+            {
+              "label": "stretch",
+              "url": "ch5-dpad/ch5-dpad-stretches.html"
+            },
+            {
+              "label": "size",
+              "url": "ch5-dpad/ch5-dpad-sizes.html"
+            },
+            {
+              "label": "sendEventOnClickStart",
+              "url": "ch5-dpad/ch5-dpad-sendeventonclickstart.html"
+            },
+            {
+              "label": "contractName",
+              "url": "ch5-dpad/ch5-dpad-contract.html"
+            }
+          ],
+          "label": "Attributes",
+          "url": "ch5-dpad/ch5-dpad-types.html"
+        },
+        {
+          "children": [
+            {
+              "label": "disabled",
+              "url": "ch5-dpad/ch5-dpad-common-disable-enable.html"
+            },
+            {
+              "label": "customClass",
+              "url": "ch5-dpad/ch5-dpad-common-custom-class.html"
+            },
+            {
+              "label": "customStyle",
+              "url": "ch5-dpad/ch5-dpad-common-custom-style.html"
+            },
+            {
+              "label": "show",
+              "url": "ch5-dpad/ch5-dpad-common-show.html"
+            }
+          ],
+          "label": "Common",
+          "url": "ch5-dpad/ch5-dpad-common-disable-enable.html"
+        },
+        {
+          "children": [
+            {
               "children": [
                 {
                   "label": "key",
@@ -315,107 +358,425 @@
                   "label": "pressed",
                   "url": "ch5-dpad-button/ch5-dpad-button-pressed.html"
                 }
-              ]
-            }
-          ]
-        }
-      ],
-      "label": "CH5 DPad"
-    },
-    {
-      "url": "ch5-keypad/ch5-keypad-types.html",
-      "children": [
-        {
-          "url": "ch5-keypad/ch5-keypad-styling-css-classes.html",
-          "children": [
-            {
-              "url": "ch5-keypad/ch5-keypad-styling-css-classes.html",
-              "label": "CSS classes"
+              ],
+              "label": "Attributes",
+              "url": "ch5-dpad-button/ch5-dpad-button-key.html"
             }
           ],
-          "label": "Styling"
-        },
+          "label": "CH5 DPad Button",
+          "url": "ch5-dpad-button/ch5-dpad-button-key.html"
+        }
+      ],
+      "label": "CH5 DPad",
+      "url": "ch5-dpad/ch5-dpad-types.html"
+    },
+    {
+      "children": [
         {
-          "url": "ch5-keypad/ch5-keypad-showextrabutton.html",
           "children": [
             {
-              "url": "ch5-keypad/ch5-keypad-types.html",
-              "label": "type"
+              "label": "hideSubmitButton",
+              "url": "ch5-form/hide-submit.html"
             },
             {
-              "url": "ch5-keypad/ch5-keypad-shapes.html",
-              "label": "shape"
+              "label": "submitButtonLabel",
+              "url": "ch5-form/label-submit.html"
             },
             {
-              "url": "ch5-keypad/ch5-keypad-sizes.html",
-              "label": "size"
+              "label": "submitButtonIcon",
+              "url": "ch5-form/icon-submit.html"
             },
             {
-              "url": "ch5-keypad/ch5-keypad-stretches.html",
-              "label": "stretch"
+              "label": "submitButtonStyle",
+              "url": "ch5-form/style-submit.html"
             },
             {
-              "url": "ch5-keypad/ch5-keypad-sendeventonclickstart.html",
-              "label": "sendEventOnClickStart"
+              "label": "submitButtonType",
+              "url": "ch5-form/type-submit.html"
             },
             {
-              "url": "ch5-keypad/ch5-keypad-contract.html",
-              "label": "contractName"
+              "label": "hideCancelButton",
+              "url": "ch5-form/hide-cancel.html"
             },
             {
-              "url": "ch5-keypad/ch5-keypad-showextrabutton.html",
-              "label": "showExtraButton"
+              "label": "cancelButtonLabel",
+              "url": "ch5-form/label-cancel.html"
             },
             {
-              "url": "ch5-keypad/ch5-keypad-textorientation.html",
-              "label": "textOrientation"
+              "label": "cancelButtonIcon",
+              "url": "ch5-form/icon-cancel.html"
+            },
+            {
+              "label": "cancelButtonStyle",
+              "url": "ch5-form/style-cancel.html"
+            },
+            {
+              "label": "cancelButtonType",
+              "url": "ch5-form/type-cancel.html"
             }
           ],
           "label": "Attributes"
         },
         {
-          "url": "ch5-keypad/ch5-keypad-receivestateextrabuttonshow.html",
-          "label": "Events",
           "children": [
             {
-              "url": "ch5-keypad/ch5-keypad-receivestateextrabuttonshow.html",
-              "label": "receiveStateExtraButtonShow"
-            }
-          ]
-        },
-        {
-          "url": "ch5-keypad/ch5-keypad-common-disable-enable.html",
-          "children": [
-            {
-              "url": "ch5-keypad/ch5-keypad-common-disable-enable.html",
-              "label": "disabled"
+              "label": "Custom Submit/Cancel buttons",
+              "url": "ch5-form/custom-submit-cancel-buttons.html"
             },
             {
-              "url": "ch5-keypad/ch5-keypad-common-custom-class.html",
-              "label": "customClass"
-            },
-            {
-              "url": "ch5-keypad/ch5-keypad-common-custom-style.html",
-              "label": "customstyle"
-            },
-            {
-              "url": "ch5-keypad/ch5-keypad-common-show.html",
-              "label": "show"
-            },
-            {
-              "url": "ch5-keypad/ch5-keypad-i18n.html",
-              "label": "internationalization"
+              "label": "Shared signals and multiple ch5-forms",
+              "url": "ch5-form/custom-submit-cancel-buttons-with-emulator.html"
             }
           ],
-          "label": "Common"
-        },
+          "label": "Examples"
+        }
+      ],
+      "label": "CH5 Form",
+      "url": "ch5-form/hide-submit.html"
+    },
+    {
+      "children": [
         {
-          "label": "CH5 KeypadButton",
-          "url": "ch5-keypad-button/ch5-keypad-button-key.html",
           "children": [
             {
-              "label": "Attributes",
-              "url": "ch5-keypad-button/ch5-keypad-button-key.html",
+              "label": "CSS classes",
+              "url": "ch5-image/ch5-image-styling-css-classes.html"
+            }
+          ],
+          "label": "Styling",
+          "url": "ch5-image/ch5-image-styling-css-classes.html"
+        },
+        {
+          "children": [
+            {
+              "label": "url",
+              "url": "ch5-image/ch5-image-url.html"
+            },
+            {
+              "label": "alt",
+              "url": "ch5-image/ch5-image-alt.html"
+            },
+            {
+              "label": "width",
+              "url": "ch5-image/ch5-image-width.html"
+            },
+            {
+              "label": "height",
+              "url": "ch5-image/ch5-image-height.html"
+            },
+            {
+              "label": "refreshRate",
+              "url": "ch5-image/ch5-image-refresh.html"
+            },
+            {
+              "label": "mode",
+              "url": "ch5-image/ch5-image-mode.html"
+            }
+          ],
+          "label": "Attributes",
+          "url": "ch5-image/ch5-image-url.html"
+        },
+        {
+          "children": [
+            {
+              "label": "receiveStateUrl",
+              "url": "ch5-image/ch5-image-receive-url.html"
+            }
+          ],
+          "label": "Receive State Attributes",
+          "url": "ch5-image/ch5-image-receive-url.html"
+        },
+        {
+          "children": [
+            {
+              "label": "Authentication",
+              "url": "ch5-image/ch5-image-authentication.html"
+            },
+            {
+              "label": "user",
+              "url": "ch5-image/ch5-image-user.html"
+            },
+            {
+              "label": "password",
+              "url": "ch5-image/ch5-image-password.html"
+            }
+          ],
+          "label": "Authentication",
+          "url": "ch5-image/ch5-image-authentication.html"
+        },
+        {
+          "children": [
+            {
+              "label": "sendEventOnClick",
+              "url": "ch5-image/ch5-image-send-signal-click.html"
+            },
+            {
+              "label": "sendEventOnError",
+              "url": "ch5-image/ch5-image-send-signal-error.html"
+            },
+            {
+              "label": "sendEventOnTouch",
+              "url": "ch5-image/ch5-image-send-signal-touch.html"
+            }
+          ],
+          "label": "Send Event Attributes",
+          "url": "ch5-image/ch5-image-send-signal-click.html"
+        },
+        {
+          "children": [
+            {
+              "label": "click",
+              "url": "ch5-image/ch5-image-click-event.html"
+            },
+            {
+              "label": "press",
+              "url": "ch5-image/ch5-image-press-event.html"
+            },
+            {
+              "label": "release",
+              "url": "ch5-image/ch5-image-release-event.html"
+            },
+            {
+              "label": "error",
+              "url": "ch5-image/ch5-image-error-event.html"
+            }
+          ],
+          "label": "Events",
+          "url": "ch5-image/ch5-image-click-event.html"
+        },
+        {
+          "children": [
+            {
+              "label": "disabled",
+              "url": "ch5-image/ch5-image-common-disable-enable.html"
+            }
+          ],
+          "label": "Common",
+          "url": "ch5-image/ch5-image-common-disable-enable.html"
+        }
+      ],
+      "label": "CH5 Image",
+      "url": "ch5-image/ch5-image-url.html"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "label": "url",
+              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-url.html"
+            }
+          ],
+          "label": "Attributes",
+          "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-url.html"
+        },
+        {
+          "children": [
+            {
+              "label": "receiveStateShowpulse",
+              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-showpulse.html"
+            },
+            {
+              "label": "receiveStateHidepulse",
+              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-hidepulse.html"
+            },
+            {
+              "label": "receiveStateShow",
+              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-show.html"
+            }
+          ],
+          "label": "Receive States",
+          "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-showpulse.html"
+        },
+        {
+          "children": [
+            {
+              "label": "sendEventOnShow",
+              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-send-event-onshow.html"
+            }
+          ],
+          "label": "Send Events",
+          "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-send-event-onshow.html"
+        }
+      ],
+      "label": "CH5 Import HtmlSnippet",
+      "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-url.html"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "label": "value",
+              "url": "ch5-jointotext-string/ch5-jointotext-string-value.html"
+            },
+            {
+              "label": "textWhenEmpty",
+              "url": "ch5-jointotext-string/ch5-jointotext-string-text-when-empty.html"
+            }
+          ],
+          "label": "Attributes",
+          "url": "ch5-jointotext-string/ch5-jointotext-string-value.html"
+        },
+        {
+          "children": [
+            {
+              "label": "receiveStateValue",
+              "url": "ch5-jointotext-string/ch5-jointotext-string-receive-state-value.html"
+            }
+          ],
+          "label": "Receive State Attributes",
+          "url": "ch5-jointotext-string/ch5-jointotext-string-receive-state-value.html"
+        }
+      ],
+      "label": "CH5 JoinToText String",
+      "url": "ch5-jointotext-string/ch5-jointotext-string-value.html"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "label": "textWhenTrue",
+              "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html"
+            },
+            {
+              "label": "textWhenFalse",
+              "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-false.html"
+            }
+          ],
+          "label": "Attributes",
+          "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html"
+        },
+        {
+          "children": [
+            {
+              "label": "receiveStateValue",
+              "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-receive-state-value.html"
+            }
+          ],
+          "label": "Receive State Attributes",
+          "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-receive-state-value.html"
+        }
+      ],
+      "label": "CH5 JoinToText Boolean",
+      "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "label": "type",
+              "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-type.html"
+            }
+          ],
+          "label": "Attributes",
+          "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-type.html"
+        },
+        {
+          "children": [
+            {
+              "label": "receiveStateValue",
+              "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-receive-state-value.html"
+            }
+          ],
+          "label": "Receive State Attributes",
+          "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-receive-state-value.html"
+        }
+      ],
+      "label": "CH5 JoinToText Numeric",
+      "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-type.html"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "label": "CSS classes",
+              "url": "ch5-keypad/ch5-keypad-styling-css-classes.html"
+            }
+          ],
+          "label": "Styling",
+          "url": "ch5-keypad/ch5-keypad-styling-css-classes.html"
+        },
+        {
+          "children": [
+            {
+              "label": "type",
+              "url": "ch5-keypad/ch5-keypad-types.html"
+            },
+            {
+              "label": "shape",
+              "url": "ch5-keypad/ch5-keypad-shapes.html"
+            },
+            {
+              "label": "size",
+              "url": "ch5-keypad/ch5-keypad-sizes.html"
+            },
+            {
+              "label": "stretch",
+              "url": "ch5-keypad/ch5-keypad-stretches.html"
+            },
+            {
+              "label": "sendEventOnClickStart",
+              "url": "ch5-keypad/ch5-keypad-sendeventonclickstart.html"
+            },
+            {
+              "label": "contractName",
+              "url": "ch5-keypad/ch5-keypad-contract.html"
+            },
+            {
+              "label": "showExtraButton",
+              "url": "ch5-keypad/ch5-keypad-showextrabutton.html"
+            },
+            {
+              "label": "textOrientation",
+              "url": "ch5-keypad/ch5-keypad-textorientation.html"
+            }
+          ],
+          "label": "Attributes",
+          "url": "ch5-keypad/ch5-keypad-showextrabutton.html"
+        },
+        {
+          "children": [
+            {
+              "label": "receiveStateExtraButtonShow",
+              "url": "ch5-keypad/ch5-keypad-receivestateextrabuttonshow.html"
+            }
+          ],
+          "label": "Receive State Attributes",
+          "url": "ch5-keypad/ch5-keypad-receivestateextrabuttonshow.html"
+        },
+        {
+          "children": [
+            {
+              "label": "disabled",
+              "url": "ch5-keypad/ch5-keypad-common-disable-enable.html"
+            },
+            {
+              "label": "customClass",
+              "url": "ch5-keypad/ch5-keypad-common-custom-class.html"
+            },
+            {
+              "label": "customstyle",
+              "url": "ch5-keypad/ch5-keypad-common-custom-style.html"
+            },
+            {
+              "label": "show",
+              "url": "ch5-keypad/ch5-keypad-common-show.html"
+            },
+            {
+              "label": "internationalization",
+              "url": "ch5-keypad/ch5-keypad-i18n.html"
+            }
+          ],
+          "label": "Common",
+          "url": "ch5-keypad/ch5-keypad-common-disable-enable.html"
+        },
+        {
+          "children": [
+            {
               "children": [
                 {
                   "label": "key",
@@ -437,979 +798,617 @@
                   "label": "pressed",
                   "url": "ch5-keypad-button/ch5-keypad-button-pressed.html"
                 }
-              ]
+              ],
+              "label": "Attributes",
+              "url": "ch5-keypad-button/ch5-keypad-button-key.html"
             }
-          ]
+          ],
+          "label": "CH5 Keypad Button",
+          "url": "ch5-keypad-button/ch5-keypad-button-key.html"
         }
       ],
-      "label": "CH5 Keypad"
+      "label": "CH5 Keypad",
+      "url": "ch5-keypad/ch5-keypad-types.html"
     },
     {
-      "url": "component-configuration/attributes.html",
-      "children": [
-        {
-          "url": "component-configuration/attributes.html",
-          "label": "Attributes"
-        },
-        {
-          "url": "component-configuration/template-variables-list.html",
-          "label": "template variables ch5-list"
-        },
-        {
-          "url": "component-configuration/template-variables-select.html",
-          "label": "template variables ch5-select"
-        }
-      ],
-      "label": "CH5 Component Configuration"
-    },
-    {
-      "url": "data-ch5/data-ch5-show.html",
-      "children": [
-        {
-          "url": "data-ch5/data-ch5-show.html",
-          "label": "data-ch5-show"
-        },
-        {
-          "url": "data-ch5/data-ch5-showpulse.html",
-          "label": "data-ch5-showpulse / hidepulse"
-        },
-        {
-          "url": "data-ch5/data-ch5-textcontent.html",
-          "label": "data-ch5-textcontent"
-        },
-        {
-          "url": "data-ch5/data-ch5-innerhtml.html",
-          "label": "data-ch5-innerhtml"
-        },
-        {
-          "url": "data-ch5/data-ch5-appendstyle.html",
-          "label": "data-ch5-appendstyle"
-        },
-        {
-          "url": "data-ch5/data-ch5-appendclass.html",
-          "label": "data-ch5-appendclass"
-        }
-      ],
-      "label": "CH5 Custom Attributes"
-    },
-    {
-      "url": "ch5-form/hide-submit.html",
       "children": [
         {
           "children": [
             {
-              "url": "ch5-form/hide-submit.html",
-              "label": "hideSubmitButton"
-            },
-            {
-              "url": "ch5-form/label-submit.html",
-              "label": "submitButtonLabel"
-            },
-            {
-              "url": "ch5-form/icon-submit.html",
-              "label": "submitButtonIcon"
-            },
-            {
-              "url": "ch5-form/style-submit.html",
-              "label": "submitButtonStyle"
-            },
-            {
-              "url": "ch5-form/type-submit.html",
-              "label": "submitButtonType"
-            },
-            {
-              "url": "ch5-form/hide-cancel.html",
-              "label": "hideCancelButton"
-            },
-            {
-              "url": "ch5-form/label-cancel.html",
-              "label": "cancelButtonLabel"
-            },
-            {
-              "url": "ch5-form/icon-cancel.html",
-              "label": "cancelButtonIcon"
-            },
-            {
-              "url": "ch5-form/style-cancel.html",
-              "label": "cancelButtonStyle"
-            },
-            {
-              "url": "ch5-form/type-cancel.html",
-              "label": "cancelButtonType"
+              "label": "CSS classes",
+              "url": "ch5-list/ch5-list-styling-css-classes.html"
             }
           ],
-          "label": "Attributes"
+          "label": "Styling",
+          "url": "ch5-list/ch5-list-styling-css-classes.html"
         },
         {
           "children": [
             {
-              "url": "ch5-form/custom-submit-cancel-buttons.html",
-              "label": "Custom Submit/Cancel buttons"
+              "label": "orientation",
+              "url": "ch5-list/ch5-list-orientation.html"
             },
             {
-              "url": "ch5-form/custom-submit-cancel-buttons-with-emulator.html",
-              "label": "Shared signals and multiple ch5-forms"
+              "label": "size",
+              "url": "ch5-list/ch5-list-size.html"
+            },
+            {
+              "label": "dimensions",
+              "url": "ch5-list/ch5-list-dimensions.html"
+            },
+            {
+              "label": "endless",
+              "url": "ch5-list/ch5-list-endless.html"
+            },
+            {
+              "label": "bufferAmount",
+              "url": "ch5-list/ch5-list-buffer-amount.html"
+            },
+            {
+              "label": "pagedSwipe",
+              "url": "ch5-list/ch5-list-paged-swipe.html"
+            },
+            {
+              "label": "receiveStateScrollTo",
+              "url": "ch5-list/ch5-list-receive-signal-scroll-to.html"
+            },
+            {
+              "label": "receiveStateSize",
+              "url": "ch5-list/ch5-list-receive-signal-size.html"
+            },
+            {
+              "label": "receiveStateTemplateVars",
+              "url": "ch5-list/ch5-list-receive-signal-template-vars.html"
             }
           ],
-          "label": "Examples"
+          "label": "Attributes",
+          "url": "ch5-list/ch5-list-orientation.html"
+        },
+        {
+          "children": [
+            {
+              "label": "disabled",
+              "url": "ch5-list/ch5-list-common-disable-enable.html"
+            }
+          ],
+          "label": "Common",
+          "url": "ch5-list/ch5-list-common-disable-enable.html"
+        },
+        {
+          "children": [
+            {
+              "label": "ngNonBindable directive",
+              "url": "ch5-list/ch5-list-in-angular.html"
+            }
+          ],
+          "label": "Angular 2+",
+          "url": "ch5-list/ch5-list-in-angular.html"
         }
       ],
-      "label": "CH5 Form"
+      "label": "CH5 List",
+      "url": "ch5-list/ch5-list-orientation.html"
     },
     {
-      "url": "ch5-image/ch5-image-url.html",
       "children": [
         {
-          "url": "ch5-image/ch5-image-styling-css-classes.html",
           "children": [
             {
-              "url": "ch5-image/ch5-image-styling-css-classes.html",
-              "label": "CSS classes"
+              "label": "CSS classes",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-styling-css-classes.html"
             }
           ],
-          "label": "Styling"
+          "label": "Styling",
+          "url": "ch5-modal-dialog/ch5-modal-dialog-styling-css-classes.html"
         },
         {
-          "url": "ch5-image/ch5-image-url.html",
           "children": [
             {
-              "url": "ch5-image/ch5-image-url.html",
-              "label": "url"
+              "label": "closable",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-closable.html"
             },
             {
-              "url": "ch5-image/ch5-image-alt.html",
-              "label": "alt"
+              "label": "closeIcon",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-close-icon.html"
             },
             {
-              "url": "ch5-image/ch5-image-width.html",
-              "label": "width"
+              "label": "dismissable",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-dismissable.html"
             },
             {
-              "url": "ch5-image/ch5-image-height.html",
-              "label": "height"
+              "label": "mask",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-mask.html"
             },
             {
-              "url": "ch5-image/ch5-image-refresh.html",
-              "label": "refreshRate"
+              "label": "maskStyle",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-mask-style.html"
             },
             {
-              "url": "ch5-image/ch5-image-mode.html",
-              "label": "mode"
+              "label": "overflow",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-overflow.html"
+            },
+            {
+              "label": "stretch",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-stretch.html"
+            },
+            {
+              "label": "label",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-title.html"
+            },
+            {
+              "label": "prompt, promptIcon",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-prompt.html"
+            },
+            {
+              "label": "width, height",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-dimensions.html"
+            },
+            {
+              "label": "okButton, cancelButton",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-buttons.html"
             }
           ],
-          "label": "Attributes"
+          "label": "Attributes",
+          "url": "ch5-modal-dialog/ch5-modal-dialog-closable.html"
         },
         {
-          "url": "ch5-image/ch5-image-receive-url.html",
           "children": [
             {
-              "url": "ch5-image/ch5-image-receive-url.html",
-              "label": "receiveStateUrl"
+              "label": "send events",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-send-on-show-hide.html"
             }
           ],
-          "label": "Receive State Attributes"
+          "label": "Send Events",
+          "url": "ch5-modal-dialog/ch5-modal-dialog-send-on-show-hide.html"
         },
         {
-          "url": "ch5-image/ch5-image-authentication.html",
           "children": [
             {
-              "url": "ch5-image/ch5-image-authentication.html",
-              "label": "Authentication"
+              "label": "beforeshow",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-before-show-event.html"
             },
             {
-              "url": "ch5-image/ch5-image-user.html",
-              "label": "user"
+              "label": "aftershow",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-after-show-event.html"
             },
             {
-              "url": "ch5-image/ch5-image-password.html",
-              "label": "password"
+              "label": "beforehide",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-before-hide-event.html"
+            },
+            {
+              "label": "afterhide",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-after-hide-event.html"
             }
           ],
-          "label": "Authentication"
+          "label": "Events",
+          "url": "ch5-modal-dialog/ch5-modal-dialog-before-show-event.html"
         },
         {
-          "url": "ch5-image/ch5-image-send-signal-click.html",
           "children": [
             {
-              "url": "ch5-image/ch5-image-send-signal-click.html",
-              "label": "sendEventOnClick"
+              "label": "customClass",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-common-custom-class.html"
             },
             {
-              "url": "ch5-image/ch5-image-send-signal-error.html",
-              "label": "sendEventOnError"
+              "label": "customstyle",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-common-custom-style.html"
             },
             {
-              "url": "ch5-image/ch5-image-send-signal-touch.html",
-              "label": "sendEventOnTouch"
+              "label": "show",
+              "url": "ch5-modal-dialog/ch5-modal-dialog-common-show.html"
             }
           ],
-          "label": "Send Event Attributes"
-        },
-        {
-          "url": "ch5-image/ch5-image-click-event.html",
-          "children": [
-            {
-              "url": "ch5-image/ch5-image-click-event.html",
-              "label": "click"
-            },
-            {
-              "url": "ch5-image/ch5-image-press-event.html",
-              "label": "press"
-            },
-            {
-              "url": "ch5-image/ch5-image-release-event.html",
-              "label": "release"
-            },
-            {
-              "url": "ch5-image/ch5-image-error-event.html",
-              "label": "error"
-            }
-          ],
-          "label": "Events"
-        },
-        {
-          "url": "ch5-image/ch5-image-common-disable-enable.html",
-          "children": [
-            {
-              "url": "ch5-image/ch5-image-common-disable-enable.html",
-              "label": "disabled"
-            }
-          ],
-          "label": "Common"
+          "label": "Common",
+          "url": "ch5-modal-dialog/ch5-modal-dialog-common-custom-class.html"
         }
       ],
-      "label": "CH5 Image"
+      "label": "CH5 Modal Dialog",
+      "url": "ch5-modal-dialog/ch5-modal-dialog-closable.html"
     },
     {
-      "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-url.html",
       "children": [
         {
-          "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-url.html",
           "children": [
             {
-              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-url.html",
-              "label": "url"
+              "label": "CSS classes",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-styling-css-classes.html"
             }
           ],
-          "label": "Attributes"
+          "label": "Styling",
+          "url": "ch5-overlay-panel/ch5-overlay-panel-styling-css-classes.html"
         },
         {
-          "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-showpulse.html",
           "children": [
             {
-              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-showpulse.html",
-              "label": "receiveStateShowpulse"
+              "label": "closable",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-closable.html"
             },
             {
-              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-hidepulse.html",
-              "label": "receiveStateHidepulse"
+              "label": "closeIcon",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-close-icon.html"
             },
             {
-              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-receive-state-show.html",
-              "label": "receiveStateShow"
+              "label": "dismissable",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-dismissable.html"
+            },
+            {
+              "label": "overflow",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-overflow.html"
+            },
+            {
+              "label": "position-offset",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-position-offset.html"
+            },
+            {
+              "label": "position-to",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-position-to.html"
+            },
+            {
+              "label": "stretch",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-stretch.html"
             }
           ],
-          "label": "Receive States"
+          "label": "Attributes",
+          "url": "ch5-overlay-panel/ch5-overlay-panel-closable.html"
         },
         {
-          "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-send-event-onshow.html",
           "children": [
             {
-              "url": "ch5-import-htmlsnippet/ch5-import-htmlsnippet-send-event-onshow.html",
-              "label": "sendEventOnShow"
+              "label": "send events",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-send-on-show-hide.html"
             }
           ],
-          "label": "Send Events"
+          "label": "Send Events",
+          "url": "ch5-overlay-panel/ch5-overlay-panel-send-on-show-hide.html"
+        },
+        {
+          "children": [
+            {
+              "label": "receiveStatePositionTo",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-receive-signal-position-to.html"
+            },
+            {
+              "label": "receiveStatePositionOffset",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-receive-signal-position-offset.html"
+            }
+          ],
+          "label": "Receive States",
+          "url": "ch5-overlay-panel/ch5-overlay-panel-receive-signal-position-to.html"
+        },
+        {
+          "children": [
+            {
+              "label": "beforeShow",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-before-show-event.html"
+            },
+            {
+              "label": "afterShow",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-after-show-event.html"
+            },
+            {
+              "label": "beforeHide",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-before-hide-event.html"
+            },
+            {
+              "label": "afterHide",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-after-hide-event.html"
+            }
+          ],
+          "label": "Events",
+          "url": "ch5-overlay-panel/ch5-overlay-panel-before-show-event.html"
+        },
+        {
+          "children": [
+            {
+              "label": "customClass",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-common-custom-class.html"
+            },
+            {
+              "label": "customstyle",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-common-custom-style.html"
+            },
+            {
+              "label": "show",
+              "url": "ch5-overlay-panel/ch5-overlay-panel-common-show.html"
+            }
+          ],
+          "label": "Common",
+          "url": "ch5-overlay-panel/ch5-overlay-panel-common-custom-class.html"
         }
       ],
-      "label": "CH5 Import HtmlSnippet"
+      "label": "CH5 Overlay Panel",
+      "url": "ch5-overlay-panel/ch5-overlay-panel-closable.html"
     },
     {
-      "url": "ch5-jointotext-string/ch5-jointotext-string-value.html",
       "children": [
         {
-          "url": "ch5-jointotext-string/ch5-jointotext-string-value.html",
           "children": [
             {
-              "url": "ch5-jointotext-string/ch5-jointotext-string-value.html",
-              "label": "value"
-            },
-            {
-              "url": "ch5-jointotext-string/ch5-jointotext-string-text-when-empty.html",
-              "label": "textWhenEmpty"
+              "label": "CSS classes",
+              "url": "ch5-select/ch5-select-styling-css-classes.html"
             }
           ],
-          "label": "Attributes"
+          "label": "Styling",
+          "url": "ch5-select/ch5-select-styling-css-classes.html"
         },
         {
-          "url": "ch5-jointotext-string/ch5-jointotext-string-receive-state-value.html",
           "children": [
             {
-              "url": "ch5-jointotext-string/ch5-jointotext-string-receive-state-value.html",
-              "label": "receiveStateValue"
+              "label": "dimensions",
+              "url": "ch5-select/dimensions.html"
+            },
+            {
+              "label": "mode",
+              "url": "ch5-select/mode.html"
+            },
+            {
+              "label": "Template processing",
+              "url": "ch5-select/template-processing.html"
+            },
+            {
+              "label": "Single selection",
+              "url": "ch5-select/single-selection.html"
+            },
+            {
+              "label": "Multi selection",
+              "url": "ch5-select/multi-selection.html"
+            },
+            {
+              "label": "receiveStateSize",
+              "url": "ch5-select/receive-state-size.html"
+            },
+            {
+              "label": "receiveStateTemplateVars",
+              "url": "ch5-select/receive-state-template-vars.html"
             }
           ],
-          "label": "Receive State Attributes"
+          "label": "Attributes",
+          "url": "ch5-select/dimensions.html"
+        },
+        {
+          "children": [
+            {
+              "label": "sendEventOnChange, receiveStateValue",
+              "url": "ch5-select/methods/ex1.html"
+            },
+            {
+              "label": "sendEventOnClick, receiveStateValue",
+              "url": "ch5-select/methods/ex2.html"
+            },
+            {
+              "label": "sendEventOnClick, receiveStateSelected",
+              "url": "ch5-select/methods/ex3.html"
+            },
+            {
+              "label": "multiselect sendEventOnClick, receiveStateSelected",
+              "url": "ch5-select/methods/ex4.html"
+            }
+          ],
+          "label": "Methods",
+          "url": "ch5-select/methods.html"
+        },
+        {
+          "label": "Events",
+          "url": "ch5-select/events.html"
+        },
+        {
+          "children": [
+            {
+              "label": "disabled",
+              "url": "ch5-select/ch5-select-common-disable-enable.html"
+            }
+          ],
+          "label": "Common",
+          "url": "ch5-select/ch5-select-common-disable-enable.html"
         }
       ],
-      "label": "CH5 JoinToText String"
+      "label": "CH5 Select",
+      "url": "ch5-select/dimensions.html"
     },
     {
-      "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html",
       "children": [
         {
-          "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html",
           "children": [
             {
-              "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-true.html",
-              "label": "textWhenTrue"
-            },
-            {
-              "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-text-when-false.html",
-              "label": "textWhenFalse"
+              "label": "CSS classes",
+              "url": "ch5-slider/ch5-slider-styling-css-classes.html"
             }
           ],
-          "label": "Attributes"
+          "label": "Styling",
+          "url": "ch5-slider/ch5-slider-styling-css-classes.html"
         },
         {
-          "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-receive-state-value.html",
           "children": [
             {
-              "url": "ch5-jointotext-boolean/ch5-jointotext-boolean-receive-state-value.html",
-              "label": "receiveStateValue"
+              "label": "handleShape",
+              "url": "ch5-slider/handle-shape.html"
+            },
+            {
+              "label": "range",
+              "url": "ch5-slider/range.html"
+            },
+            {
+              "label": "value",
+              "url": "ch5-slider/value.html"
+            },
+            {
+              "label": "noHandle",
+              "url": "ch5-slider/noHandle.html"
+            },
+            {
+              "label": "valueHigh",
+              "url": "ch5-slider/value-high.html"
+            },
+            {
+              "label": "min, max",
+              "url": "ch5-slider/min-max.html"
+            },
+            {
+              "label": "orientation",
+              "url": "ch5-slider/orientation.html"
+            },
+            {
+              "label": "size",
+              "url": "ch5-slider/size.html"
+            },
+            {
+              "label": "handleSize",
+              "url": "ch5-slider/handle-size.html"
+            },
+            {
+              "label": "step",
+              "url": "ch5-slider/step.html"
+            },
+            {
+              "label": "stretch",
+              "url": "ch5-slider/stretch.html"
+            },
+            {
+              "label": "ticks",
+              "url": "ch5-slider/ticks.html"
+            },
+            {
+              "label": "showTickValues",
+              "url": "ch5-slider/show-tick-values.html"
+            },
+            {
+              "label": "toolTipShowType",
+              "url": "ch5-slider/tooltip-show-type.html"
+            },
+            {
+              "label": "toolTipDisplayType",
+              "url": "ch5-slider/tooltip-display-type.html"
+            },
+            {
+              "label": "tapSettable",
+              "url": "ch5-slider/tapSettable.html"
             }
           ],
-          "label": "Receive State Attributes"
+          "label": "Attributes",
+          "url": "ch5-slider/handle-shape.html"
+        },
+        {
+          "children": [
+            {
+              "label": "sendEventOnChange",
+              "url": "ch5-slider/send-value.html"
+            },
+            {
+              "label": "sendEventOnChangeHigh",
+              "url": "ch5-slider/send-value-high.html"
+            }
+          ],
+          "label": "Send Event Attributes",
+          "url": "ch5-slider/send-value.html"
+        },
+        {
+          "children": [
+            {
+              "label": "receiveStateValue",
+              "url": "ch5-slider/receive-value.html"
+            },
+            {
+              "label": "receiveStateValueHigh",
+              "url": "ch5-slider/receive-value-high.html"
+            }
+          ],
+          "label": "Receive State Attributes",
+          "url": "ch5-slider/receive-value.html"
+        },
+        {
+          "children": [
+            {
+              "label": "slider, slidestart, slideend",
+              "url": "ch5-slider/slider-events.html"
+            },
+            {
+              "label": "focus, blur",
+              "url": "ch5-slider/focus-blur-event.html"
+            },
+            {
+              "label": "change",
+              "url": "ch5-slider/change-event.html"
+            },
+            {
+              "label": "dirty",
+              "url": "ch5-slider/dirty-event.html"
+            }
+          ],
+          "label": "Events",
+          "url": "ch5-slider/slider-events.html"
+        },
+        {
+          "children": [
+            {
+              "label": "submit",
+              "url": "ch5-slider/submit-method.html"
+            },
+            {
+              "label": "reset",
+              "url": "ch5-slider/reset-method.html"
+            },
+            {
+              "label": "getDirty",
+              "url": "ch5-slider/getdirty-method.html"
+            }
+          ],
+          "label": "Methods",
+          "url": "ch5-slider/submit-method.html"
+        },
+        {
+          "children": [
+            {
+              "label": "disabled",
+              "url": "ch5-slider/disabled.html"
+            }
+          ],
+          "label": "Common",
+          "url": "ch5-slider/disabled.html"
         }
       ],
-      "label": "CH5 JoinToText Boolean"
+      "label": "CH5 Slider",
+      "url": "ch5-slider/handle-shape.html"
     },
     {
-      "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-type.html",
       "children": [
         {
-          "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-type.html",
           "children": [
             {
-              "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-type.html",
-              "label": "type"
+              "label": "CSS classes",
+              "url": "ch5-spinner/ch5-spinner-styling-css-classes.html"
             }
           ],
-          "label": "Attributes"
-        },
-        {
-          "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-receive-state-value.html",
-          "children": [
-            {
-              "url": "ch5-jointotext-numeric/ch5-jointotext-numeric-receive-state-value.html",
-              "label": "receiveStateValue"
-            }
-          ],
-          "label": "Receive State Attributes"
-        }
-      ],
-      "label": "CH5 JoinToText Numeric"
-    },
-    {
-      "url": "ch5-list/ch5-list-orientation.html",
-      "children": [
-        {
-          "url": "ch5-list/ch5-list-styling-css-classes.html",
-          "children": [
-            {
-              "url": "ch5-list/ch5-list-styling-css-classes.html",
-              "label": "CSS classes"
-            }
-          ],
-          "label": "Styling"
-        },
-        {
-          "url": "ch5-list/ch5-list-orientation.html",
-          "children": [
-            {
-              "url": "ch5-list/ch5-list-orientation.html",
-              "label": "orientation"
-            },
-            {
-              "url": "ch5-list/ch5-list-size.html",
-              "label": "size"
-            },
-            {
-              "url": "ch5-list/ch5-list-dimensions.html",
-              "label": "dimensions"
-            },
-            {
-              "url": "ch5-list/ch5-list-endless.html",
-              "label": "endless"
-            },
-            {
-              "url": "ch5-list/ch5-list-buffer-amount.html",
-              "label": "bufferAmount"
-            },
-            {
-              "url": "ch5-list/ch5-list-paged-swipe.html",
-              "label": "pagedSwipe"
-            },
-            {
-              "url": "ch5-list/ch5-list-receive-signal-scroll-to.html",
-              "label": "receiveStateScrollTo"
-            },
-            {
-              "url": "ch5-list/ch5-list-receive-signal-size.html",
-              "label": "receiveStateSize"
-            },
-            {
-              "url": "ch5-list/ch5-list-receive-signal-template-vars.html",
-              "label": "receiveStateTemplateVars"
-            }
-          ],
-          "label": "Attributes"
-        },
-        {
-          "url": "ch5-list/ch5-list-common-disable-enable.html",
-          "children": [
-            {
-              "url": "ch5-list/ch5-list-common-disable-enable.html",
-              "label": "disabled"
-            }
-          ],
-          "label": "Common"
-        },
-        {
-          "url": "ch5-list/ch5-list-in-angular.html",
-          "children": [
-            {
-              "url": "ch5-list/ch5-list-in-angular.html",
-              "label": "ngNonBindable directive"
-            }
-          ],
-          "label": "Angular 2+"
-        }
-      ],
-      "label": "CH5 List"
-    },
-    {
-      "url": "ch5-modal-dialog/ch5-modal-dialog-closable.html",
-      "children": [
-        {
-          "url": "ch5-modal-dialog/ch5-modal-dialog-styling-css-classes.html",
-          "children": [
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-styling-css-classes.html",
-              "label": "CSS classes"
-            }
-          ],
-          "label": "Styling"
-        },
-        {
-          "url": "ch5-modal-dialog/ch5-modal-dialog-closable.html",
-          "children": [
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-closable.html",
-              "label": "closable"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-close-icon.html",
-              "label": "closeIcon"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-dismissable.html",
-              "label": "dismissable"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-mask.html",
-              "label": "mask"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-mask-style.html",
-              "label": "maskStyle"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-overflow.html",
-              "label": "overflow"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-stretch.html",
-              "label": "stretch"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-title.html",
-              "label": "label"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-prompt.html",
-              "label": "prompt, promptIcon"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-dimensions.html",
-              "label": "width, height"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-buttons.html",
-              "label": "okButton, cancelButton"
-            }
-          ],
-          "label": "Attributes"
-        },
-        {
-          "url": "ch5-modal-dialog/ch5-modal-dialog-send-on-show-hide.html",
-          "children": [
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-send-on-show-hide.html",
-              "label": "send events"
-            }
-          ],
-          "label": "Send Events"
-        },
-        {
-          "url": "ch5-modal-dialog/ch5-modal-dialog-before-show-event.html",
-          "children": [
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-before-show-event.html",
-              "label": "beforeshow"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-after-show-event.html",
-              "label": "aftershow"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-before-hide-event.html",
-              "label": "beforehide"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-after-hide-event.html",
-              "label": "afterhide"
-            }
-          ],
-          "label": "Events"
-        },
-        {
-          "url": "ch5-modal-dialog/ch5-modal-dialog-common-custom-class.html",
-          "children": [
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-common-custom-class.html",
-              "label": "customClass"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-common-custom-style.html",
-              "label": "customstyle"
-            },
-            {
-              "url": "ch5-modal-dialog/ch5-modal-dialog-common-show.html",
-              "label": "show"
-            }
-          ],
-          "label": "Common"
-        }
-      ],
-      "label": "CH5 Modal Dialog"
-    },
-    {
-      "url": "ch5-overlay-panel/ch5-overlay-panel-closable.html",
-      "children": [
-        {
-          "url": "ch5-overlay-panel/ch5-overlay-panel-styling-css-classes.html",
-          "children": [
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-styling-css-classes.html",
-              "label": "CSS classes"
-            }
-          ],
-          "label": "Styling"
-        },
-        {
-          "url": "ch5-overlay-panel/ch5-overlay-panel-closable.html",
-          "children": [
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-closable.html",
-              "label": "closable"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-close-icon.html",
-              "label": "closeIcon"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-dismissable.html",
-              "label": "dismissable"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-overflow.html",
-              "label": "overflow"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-position-offset.html",
-              "label": "position-offset"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-position-to.html",
-              "label": "position-to"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-stretch.html",
-              "label": "stretch"
-            }
-          ],
-          "label": "Attributes"
-        },
-        {
-          "url": "ch5-overlay-panel/ch5-overlay-panel-send-on-show-hide.html",
-          "children": [
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-send-on-show-hide.html",
-              "label": "send events"
-            }
-          ],
-          "label": "Send Events"
-        },
-        {
-          "url": "ch5-overlay-panel/ch5-overlay-panel-receive-signal-position-to.html",
-          "children": [
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-receive-signal-position-to.html",
-              "label": "receiveStatePositionTo"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-receive-signal-position-offset.html",
-              "label": "receiveStatePositionOffset"
-            }
-          ],
-          "label": "Receive States"
-        },
-        {
-          "url": "ch5-overlay-panel/ch5-overlay-panel-before-show-event.html",
-          "children": [
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-before-show-event.html",
-              "label": "beforeShow"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-after-show-event.html",
-              "label": "afterShow"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-before-hide-event.html",
-              "label": "beforeHide"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-after-hide-event.html",
-              "label": "afterHide"
-            }
-          ],
-          "label": "Events"
-        },
-        {
-          "url": "ch5-overlay-panel/ch5-overlay-panel-common-custom-class.html",
-          "children": [
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-common-custom-class.html",
-              "label": "customClass"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-common-custom-style.html",
-              "label": "customstyle"
-            },
-            {
-              "url": "ch5-overlay-panel/ch5-overlay-panel-common-show.html",
-              "label": "show"
-            }
-          ],
-          "label": "Common"
-        }
-      ],
-      "label": "CH5 Overlay Panel"
-    },
-    {
-      "url": "ch5-select/dimensions.html",
-      "children": [
-        {
-          "url": "ch5-select/ch5-select-styling-css-classes.html",
-          "children": [
-            {
-              "url": "ch5-select/ch5-select-styling-css-classes.html",
-              "label": "CSS classes"
-            }
-          ],
-          "label": "Styling"
-        },
-        {
-          "url": "ch5-select/dimensions.html",
-          "children": [
-            {
-              "url": "ch5-select/dimensions.html",
-              "label": "dimensions"
-            },
-            {
-              "url": "ch5-select/mode.html",
-              "label": "mode"
-            },
-            {
-              "url": "ch5-select/template-processing.html",
-              "label": "Template processing"
-            },
-            {
-              "url": "ch5-select/single-selection.html",
-              "label": "Single selection"
-            },
-            {
-              "url": "ch5-select/multi-selection.html",
-              "label": "Multi selection"
-            },
-            {
-              "url": "ch5-select/receive-state-size.html",
-              "label": "receiveStateSize"
-            },
-            {
-              "url": "ch5-select/receive-state-template-vars.html",
-              "label": "receiveStateTemplateVars"
-            }
-          ],
-          "label": "Attributes"
-        },
-        {
-          "url": "ch5-select/methods.html",
-          "children": [
-            {
-              "url": "ch5-select/methods/ex1.html",
-              "label": "sendEventOnChange, receiveStateValue"
-            },
-            {
-              "url": "ch5-select/methods/ex2.html",
-              "label": "sendEventOnClick, receiveStateValue"
-            },
-            {
-              "url": "ch5-select/methods/ex3.html",
-              "label": "sendEventOnClick, receiveStateSelected"
-            },
-            {
-              "url": "ch5-select/methods/ex4.html",
-              "label": "multiselect sendEventOnClick, receiveStateSelected"
-            }
-          ],
-          "label": "Methods"
-        },
-        {
-          "url": "ch5-select/events.html",
-          "label": "Events"
-        },
-        {
-          "url": "ch5-select/ch5-select-common-disable-enable.html",
-          "children": [
-            {
-              "url": "ch5-select/ch5-select-common-disable-enable.html",
-              "label": "disabled"
-            }
-          ],
-          "label": "Common"
-        }
-      ],
-      "label": "CH5 Select"
-    },
-    {
-      "url": "ch5-slider/handle-shape.html",
-      "children": [
-        {
-          "url": "ch5-slider/ch5-slider-styling-css-classes.html",
-          "children": [
-            {
-              "url": "ch5-slider/ch5-slider-styling-css-classes.html",
-              "label": "CSS classes"
-            }
-          ],
-          "label": "Styling"
-        },
-        {
-          "url": "ch5-slider/handle-shape.html",
-          "children": [
-            {
-              "url": "ch5-slider/handle-shape.html",
-              "label": "handleShape"
-            },
-            {
-              "url": "ch5-slider/range.html",
-              "label": "range"
-            },
-            {
-              "url": "ch5-slider/value.html",
-              "label": "value"
-            },
-            {
-              "url": "ch5-slider/noHandle.html",
-              "label": "noHandle"
-            },
-            {
-              "url": "ch5-slider/value-high.html",
-              "label": "valueHigh"
-            },
-            {
-              "url": "ch5-slider/min-max.html",
-              "label": "min, max"
-            },
-            {
-              "url": "ch5-slider/orientation.html",
-              "label": "orientation"
-            },
-            {
-              "url": "ch5-slider/size.html",
-              "label": "size"
-            },
-            {
-              "url": "ch5-slider/handle-size.html",
-              "label": "handleSize"
-            },
-            {
-              "url": "ch5-slider/step.html",
-              "label": "step"
-            },
-            {
-              "url": "ch5-slider/stretch.html",
-              "label": "stretch"
-            },
-            {
-              "url": "ch5-slider/ticks.html",
-              "label": "ticks"
-            },
-            {
-              "url": "ch5-slider/show-tick-values.html",
-              "label": "showTickValues"
-            },
-            {
-              "url": "ch5-slider/tooltip-show-type.html",
-              "label": "toolTipShowType"
-            },
-            {
-              "url": "ch5-slider/tooltip-display-type.html",
-              "label": "toolTipDisplayType"
-            },
-            {
-              "url": "ch5-slider/tapSettable.html",
-              "label": "tapSettable"
-            }
-          ],
-          "label": "Attributes"
-        },
-        {
-          "url": "ch5-slider/send-value.html",
-          "children": [
-            {
-              "url": "ch5-slider/send-value.html",
-              "label": "sendEventOnChange"
-            },
-            {
-              "url": "ch5-slider/send-value-high.html",
-              "label": "sendEventOnChangeHigh"
-            }
-          ],
-          "label": "Send Event Attributes"
-        },
-        {
-          "url": "ch5-slider/receive-value.html",
-          "children": [
-            {
-              "url": "ch5-slider/receive-value.html",
-              "label": "receiveStateValue"
-            },
-            {
-              "url": "ch5-slider/receive-value-high.html",
-              "label": "receiveStateValueHigh"
-            }
-          ],
-          "label": "Receive State Attributes"
-        },
-        {
-          "url": "ch5-slider/slider-events.html",
-          "children": [
-            {
-              "url": "ch5-slider/slider-events.html",
-              "label": "slider, slidestart, slideend"
-            },
-            {
-              "url": "ch5-slider/focus-blur-event.html",
-              "label": "focus, blur"
-            },
-            {
-              "url": "ch5-slider/change-event.html",
-              "label": "change"
-            },
-            {
-              "url": "ch5-slider/dirty-event.html",
-              "label": "dirty"
-            }
-          ],
-          "label": "Events"
-        },
-        {
-          "url": "ch5-slider/submit-method.html",
-          "children": [
-            {
-              "url": "ch5-slider/submit-method.html",
-              "label": "submit"
-            },
-            {
-              "url": "ch5-slider/reset-method.html",
-              "label": "reset"
-            },
-            {
-              "url": "ch5-slider/getdirty-method.html",
-              "label": "getDirty"
-            }
-          ],
-          "label": "Methods"
-        },
-        {
-          "url": "ch5-slider/disabled.html",
-          "children": [
-            {
-              "url": "ch5-slider/disabled.html",
-              "label": "disabled"
-            }
-          ],
-          "label": "Common"
-        }
-      ],
-      "label": "CH5 Slider"
-    },
-    {
-      "url": "ch5-spinner/attribute-size.html",
-      "children": [
-        {
-          "url": "ch5-spinner/ch5-spinner-styling-css-classes.html",
-          "children": [
-            {
-              "url": "ch5-spinner/ch5-spinner-styling-css-classes.html",
-              "label": "CSS classes"
-            }
-          ],
-          "label": "Styling"
+          "label": "Styling",
+          "url": "ch5-spinner/ch5-spinner-styling-css-classes.html"
         },
         {
           "children": [
             {
-              "url": "ch5-spinner/attribute-size.html",
-              "label": "size"
+              "label": "size",
+              "url": "ch5-spinner/attribute-size.html"
             },
             {
-              "url": "ch5-spinner/attribute-icon-position.html",
-              "label": "iconPosition"
+              "label": "iconPosition",
+              "url": "ch5-spinner/attribute-icon-position.html"
             },
             {
-              "url": "ch5-spinner/attribute-selected-value.html",
-              "label": "selectedValue"
+              "label": "selectedValue",
+              "url": "ch5-spinner/attribute-selected-value.html"
             },
             {
-              "url": "ch5-spinner/attribute-item-height.html",
-              "label": "itemHeight"
+              "label": "itemHeight",
+              "url": "ch5-spinner/attribute-item-height.html"
             },
             {
-              "url": "ch5-spinner/attribute-visible-item-scroll.html",
-              "label": "visibleItemScroll"
+              "label": "visibleItemScroll",
+              "url": "ch5-spinner/attribute-visible-item-scroll.html"
             },
             {
-              "url": "ch5-spinner/attribute-endless.html",
-              "label": "endless"
+              "label": "endless",
+              "url": "ch5-spinner/attribute-endless.html"
             },
             {
-              "url": "ch5-spinner/attribute-resize.html",
-              "label": "resize"
+              "label": "resize",
+              "url": "ch5-spinner/attribute-resize.html"
             }
           ],
           "label": "Attributes"
@@ -1417,8 +1416,8 @@
         {
           "children": [
             {
-              "url": "ch5-spinner/event-focus-blur-change-dirty.html",
-              "label": "focus/blur/change/dirty"
+              "label": "focus/blur/change/dirty",
+              "url": "ch5-spinner/event-focus-blur-change-dirty.html"
             }
           ],
           "label": "Events"
@@ -1426,16 +1425,16 @@
         {
           "children": [
             {
-              "url": "ch5-spinner/receive-signal-value.html",
-              "label": "receiveStateValue"
+              "label": "receiveStateValue",
+              "url": "ch5-spinner/receive-signal-value.html"
             },
             {
-              "url": "ch5-spinner/receive-signal-size.html",
-              "label": "receiveStateSize"
+              "label": "receiveStateSize",
+              "url": "ch5-spinner/receive-signal-size.html"
             },
             {
-              "url": "ch5-spinner/receive-signal-label.html",
-              "label": "receiveStateLabel, receiveStateUrl"
+              "label": "receiveStateLabel, receiveStateUrl",
+              "url": "ch5-spinner/receive-signal-label.html"
             }
           ],
           "label": "Receive State Attributes"
@@ -1443,183 +1442,16 @@
         {
           "children": [
             {
-              "url": "ch5-spinner/send-signal-on-focus.html",
-              "label": "sendEventOnFocus"
+              "label": "sendEventOnFocus",
+              "url": "ch5-spinner/send-signal-on-focus.html"
             },
             {
-              "url": "ch5-spinner/send-signal-on-change.html",
-              "label": "sendEventOnChange"
+              "label": "sendEventOnChange",
+              "url": "ch5-spinner/send-signal-on-change.html"
             },
             {
-              "url": "ch5-spinner/send-signal-on-overflow-underoverflow.html",
-              "label": "sendEventOnOverflow ­ sendEventOnUnderflow"
-            }
-          ],
-          "label": "Send Event Attributes"
-        },
-        {
-          "url": "ch5-spinner/ch5-spinner-in-angular.html",
-          "children": [
-            {
-              "url": "ch5-spinner/ch5-spinner-in-angular.html",
-              "label": "ngNonBindable directive"
-            }
-          ],
-          "label": "Angular 2+"
-        }
-      ],
-      "label": "CH5 Spinner"
-    },
-    {
-      "url": "ch5-template/validation.html",
-      "children": [
-        {
-          "url": "ch5-template/validation.html",
-          "label": "Validation messages"
-        },
-        {
-          "url": "ch5-template/receive-send-signal.html",
-          "label": "Send and Receive signals"
-        },
-        {
-          "url": "ch5-template/context-pairs.html",
-          "label": "Context Pairs"
-        },
-        {
-          "url": "ch5-template/ch5-template-in-template.html",
-          "label": "CH5-template inside other templates"
-        },
-        {
-          "url": "ch5-template/template-in-template-ch5-list.html",
-          "children": [
-            {
-              "url": "ch5-template/template-in-template-ch5-list.html",
-              "label": "CH5-List"
-            },
-            {
-              "url": "ch5-template/template-in-template-ch5-spinner.html",
-              "label": "CH5-Spinner"
-            },
-            {
-              "url": "ch5-template/template-in-template-ch5-select.html",
-              "label": "CH5-Select"
-            }
-          ],
-          "label": "CH5-template inside ch5-components"
-        },
-        {
-          "url": "ch5-template/other-elements-ch5-triggerview.html",
-          "children": [
-            {
-              "url": "ch5-template/other-elements-ch5-triggerview.html",
-              "label": "CH5-Triggerview"
-            },
-            {
-              "url": "ch5-template/other-elements-ch5-image.html",
-              "label": "CH5-Image"
-            },
-            {
-              "url": "ch5-template/other-elements-ch5-form.html",
-              "label": "CH5-Form"
-            }
-          ],
-          "label": "CH5-components inside ch5-template"
-        }
-      ],
-      "label": "CH5 Template"
-    },
-    {
-      "url": "ch5-textinput/attribute-placeholder.html",
-      "children": [
-        {
-          "url": "ch5-textinput/ch5-textinput-styling-css-classes.html",
-          "children": [
-            {
-              "url": "ch5-textinput/ch5-textinput-styling-css-classes.html",
-              "label": "CSS classes"
-            }
-          ],
-          "label": "Styling"
-        },
-        {
-          "children": [
-            {
-              "url": "ch5-textinput/attribute-placeholder.html",
-              "label": "placeholder"
-            },
-            {
-              "url": "ch5-textinput/attribute-icon.html",
-              "label": "icon, iconPosition"
-            },
-            {
-              "url": "ch5-textinput/attribute-type.html",
-              "label": "type"
-            },
-            {
-              "url": "ch5-textinput/attribute-minmaxlength.html",
-              "label": "minLength, maxLength"
-            },
-            {
-              "url": "ch5-textinput/attribute-minmaxvalue.html",
-              "label": "minValue, maxValue"
-            },
-            {
-              "url": "ch5-textinput/attribute-size.html",
-              "label": "size"
-            },
-            {
-              "url": "ch5-textinput/attribute-stretch.html",
-              "label": "stretch"
-            },
-            {
-              "url": "ch5-textinput/attribute-scaling.html",
-              "label": "scaling"
-            },
-            {
-              "url": "ch5-textinput/attribute-mask.html",
-              "label": "mask"
-            },
-            {
-              "url": "ch5-textinput/attribute-tabindex.html",
-              "label": "tabIndex"
-            },
-            {
-              "url": "ch5-textinput/attribute-text-transform.html",
-              "label": "text-transform"
-            },
-            {
-              "url": "ch5-textinput/attribute-feedbackmode.html",
-              "label": "feedbackMode"
-            }
-          ],
-          "label": "Attributes"
-        },
-        {
-          "children": [
-            {
-              "url": "ch5-textinput/receive-signal-focus.html",
-              "label": "receiveStateFocus"
-            },
-            {
-              "url": "ch5-textinput/receive-signal-value.html",
-              "label": "receiveStateValue"
-            }
-          ],
-          "label": "Receive State Attributes"
-        },
-        {
-          "children": [
-            {
-              "url": "ch5-textinput/send-signal-on-focus.html",
-              "label": "sendEventOnFocus"
-            },
-            {
-              "url": "ch5-textinput/send-signal-on-change.html",
-              "label": "sendEventOnChange"
-            },
-            {
-              "url": "ch5-textinput/send-signal-on-blur.html",
-              "label": "sendEventOnBlur"
+              "label": "sendEventOnOverflow ­ sendEventOnUnderflow",
+              "url": "ch5-spinner/send-signal-on-overflow-underoverflow.html"
             }
           ],
           "label": "Send Event Attributes"
@@ -1627,403 +1459,571 @@
         {
           "children": [
             {
-              "url": "ch5-textinput/event-change.html",
-              "label": "change"
+              "label": "ngNonBindable directive",
+              "url": "ch5-spinner/ch5-spinner-in-angular.html"
+            }
+          ],
+          "label": "Angular 2+",
+          "url": "ch5-spinner/ch5-spinner-in-angular.html"
+        }
+      ],
+      "label": "CH5 Spinner",
+      "url": "ch5-spinner/attribute-size.html"
+    },
+    {
+      "children": [
+        {
+          "label": "Validation messages",
+          "url": "ch5-template/validation.html"
+        },
+        {
+          "label": "Send and Receive signals",
+          "url": "ch5-template/receive-send-signal.html"
+        },
+        {
+          "label": "Context Pairs",
+          "url": "ch5-template/context-pairs.html"
+        },
+        {
+          "label": "CH5-template inside other templates",
+          "url": "ch5-template/ch5-template-in-template.html"
+        },
+        {
+          "children": [
+            {
+              "label": "CH5-List",
+              "url": "ch5-template/template-in-template-ch5-list.html"
             },
             {
-              "url": "ch5-textinput/event-validitychange.html",
-              "label": "validitychange"
+              "label": "CH5-Spinner",
+              "url": "ch5-template/template-in-template-ch5-spinner.html"
             },
             {
-              "url": "ch5-textinput/event-keypress.html",
-              "label": "keypress"
+              "label": "CH5-Select",
+              "url": "ch5-template/template-in-template-ch5-select.html"
+            }
+          ],
+          "label": "CH5-template inside ch5-components",
+          "url": "ch5-template/template-in-template-ch5-list.html"
+        },
+        {
+          "children": [
+            {
+              "label": "CH5-Triggerview",
+              "url": "ch5-template/other-elements-ch5-triggerview.html"
             },
             {
-              "url": "ch5-textinput/event-dirty.html",
-              "label": "dirty"
+              "label": "CH5-Image",
+              "url": "ch5-template/other-elements-ch5-image.html"
+            },
+            {
+              "label": "CH5-Form",
+              "url": "ch5-template/other-elements-ch5-form.html"
+            }
+          ],
+          "label": "CH5-components inside ch5-template",
+          "url": "ch5-template/other-elements-ch5-triggerview.html"
+        }
+      ],
+      "label": "CH5 Template",
+      "url": "ch5-template/validation.html"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "label": "CSS classes",
+              "url": "ch5-textinput/ch5-textinput-styling-css-classes.html"
+            }
+          ],
+          "label": "Styling",
+          "url": "ch5-textinput/ch5-textinput-styling-css-classes.html"
+        },
+        {
+          "children": [
+            {
+              "label": "placeholder",
+              "url": "ch5-textinput/attribute-placeholder.html"
+            },
+            {
+              "label": "icon, iconPosition",
+              "url": "ch5-textinput/attribute-icon.html"
+            },
+            {
+              "label": "type",
+              "url": "ch5-textinput/attribute-type.html"
+            },
+            {
+              "label": "minLength, maxLength",
+              "url": "ch5-textinput/attribute-minmaxlength.html"
+            },
+            {
+              "label": "minValue, maxValue",
+              "url": "ch5-textinput/attribute-minmaxvalue.html"
+            },
+            {
+              "label": "size",
+              "url": "ch5-textinput/attribute-size.html"
+            },
+            {
+              "label": "stretch",
+              "url": "ch5-textinput/attribute-stretch.html"
+            },
+            {
+              "label": "scaling",
+              "url": "ch5-textinput/attribute-scaling.html"
+            },
+            {
+              "label": "mask",
+              "url": "ch5-textinput/attribute-mask.html"
+            },
+            {
+              "label": "tabIndex",
+              "url": "ch5-textinput/attribute-tabindex.html"
+            },
+            {
+              "label": "text-transform",
+              "url": "ch5-textinput/attribute-text-transform.html"
+            },
+            {
+              "label": "feedbackMode",
+              "url": "ch5-textinput/attribute-feedbackmode.html"
+            }
+          ],
+          "label": "Attributes"
+        },
+        {
+          "children": [
+            {
+              "label": "receiveStateFocus",
+              "url": "ch5-textinput/receive-signal-focus.html"
+            },
+            {
+              "label": "receiveStateValue",
+              "url": "ch5-textinput/receive-signal-value.html"
+            }
+          ],
+          "label": "Receive State Attributes"
+        },
+        {
+          "children": [
+            {
+              "label": "sendEventOnFocus",
+              "url": "ch5-textinput/send-signal-on-focus.html"
+            },
+            {
+              "label": "sendEventOnChange",
+              "url": "ch5-textinput/send-signal-on-change.html"
+            },
+            {
+              "label": "sendEventOnBlur",
+              "url": "ch5-textinput/send-signal-on-blur.html"
+            }
+          ],
+          "label": "Send Event Attributes"
+        },
+        {
+          "children": [
+            {
+              "label": "change",
+              "url": "ch5-textinput/event-change.html"
+            },
+            {
+              "label": "validitychange",
+              "url": "ch5-textinput/event-validitychange.html"
+            },
+            {
+              "label": "keypress",
+              "url": "ch5-textinput/event-keypress.html"
+            },
+            {
+              "label": "dirty",
+              "url": "ch5-textinput/event-dirty.html"
             }
           ],
           "label": "Custom Event"
         },
         {
-          "url": "ch5-textinput-common-disable-enable.html",
           "children": [
             {
-              "url": "ch5-textinput/ch5-textinput-common-disable-enable.html",
-              "label": "disabled"
+              "label": "disabled",
+              "url": "ch5-textinput/ch5-textinput-common-disable-enable.html"
             }
           ],
-          "label": "Common"
+          "label": "Common",
+          "url": "ch5-textinput-common-disable-enable.html"
         }
       ],
-      "label": "CH5 Textinput"
+      "label": "CH5 Textinput",
+      "url": "ch5-textinput/attribute-placeholder.html"
     },
     {
-      "url": "ch5-toggle/label.html",
       "children": [
         {
-          "url": "ch5-toggle/ch5-toggle-styling-css-classes.html",
           "children": [
             {
-              "url": "ch5-toggle/ch5-toggle-styling-css-classes.html",
-              "label": "CSS classes"
+              "label": "CSS classes",
+              "url": "ch5-toggle/ch5-toggle-styling-css-classes.html"
             }
           ],
-          "label": "Styling"
+          "label": "Styling",
+          "url": "ch5-toggle/ch5-toggle-styling-css-classes.html"
         },
         {
-          "url": "ch5-toggle/label.html",
           "children": [
             {
-              "url": "ch5-toggle/label.html",
-              "label": "label"
+              "label": "label",
+              "url": "ch5-toggle/label.html"
             },
             {
-              "url": "ch5-toggle/label-on-off.html",
-              "label": "label on/off"
+              "label": "label on/off",
+              "url": "ch5-toggle/label-on-off.html"
             },
             {
-              "url": "ch5-toggle/icon-on-off.html",
-              "label": "icon on/off"
+              "label": "icon on/off",
+              "url": "ch5-toggle/icon-on-off.html"
             },
             {
-              "url": "ch5-toggle/handleShape.html",
-              "label": "handleShape"
+              "label": "handleShape",
+              "url": "ch5-toggle/handleShape.html"
             },
             {
-              "url": "ch5-toggle/orientation.html",
-              "label": "orientation"
+              "label": "orientation",
+              "url": "ch5-toggle/orientation.html"
             },
             {
-              "url": "ch5-toggle/value.html",
-              "label": "value"
+              "label": "value",
+              "url": "ch5-toggle/value.html"
             }
           ],
-          "label": "Attributes"
+          "label": "Attributes",
+          "url": "ch5-toggle/label.html"
         },
         {
-          "url": "ch5-toggle/receive-value.html",
           "children": [
             {
-              "url": "ch5-toggle/receive-value.html",
-              "label": "receiveStateValue"
+              "label": "receiveStateValue",
+              "url": "ch5-toggle/receive-value.html"
             },
             {
-              "url": "ch5-toggle/receive-label-value.html",
+              "label": "receiveStateScriptLabelHTML",
               "style": "word-break: break-all",
-              "label": "receiveStateScriptLabelHTML"
+              "url": "ch5-toggle/receive-label-value.html"
             }
           ],
-          "label": "Received Signal Attributes"
+          "label": "Received Signal Attributes",
+          "url": "ch5-toggle/receive-value.html"
         },
         {
-          "url": "ch5-toggle/send-signal-click.html",
           "children": [
             {
-              "url": "ch5-toggle/send-signal-click.html",
-              "label": "sendEventOnClick"
+              "label": "sendEventOnClick",
+              "url": "ch5-toggle/send-signal-click.html"
             }
           ],
-          "label": "Send Event Attributes"
+          "label": "Send Event Attributes",
+          "url": "ch5-toggle/send-signal-click.html"
         },
         {
-          "url": "ch5-toggle/change-event.html",
           "children": [
             {
-              "url": "ch5-toggle/change-event.html",
-              "label": "change"
+              "label": "change",
+              "url": "ch5-toggle/change-event.html"
             },
             {
-              "url": "ch5-toggle/click-event.html",
-              "label": "click"
+              "label": "click",
+              "url": "ch5-toggle/click-event.html"
             },
             {
-              "url": "ch5-toggle/focus-blur-event.html",
-              "label": "focus, blur"
+              "label": "focus, blur",
+              "url": "ch5-toggle/focus-blur-event.html"
             },
             {
-              "url": "ch5-toggle/dirty-event.html",
-              "label": "dirty"
+              "label": "dirty",
+              "url": "ch5-toggle/dirty-event.html"
             }
           ],
-          "label": "Events"
+          "label": "Events",
+          "url": "ch5-toggle/change-event.html"
         },
         {
-          "url": "ch5-toggle/submit-method.html",
           "children": [
             {
-              "url": "ch5-toggle/submit-method.html",
-              "label": "submit"
+              "label": "submit",
+              "url": "ch5-toggle/submit-method.html"
             },
             {
-              "url": "ch5-toggle/reset-method.html",
-              "label": "reset"
+              "label": "reset",
+              "url": "ch5-toggle/reset-method.html"
             },
             {
-              "url": "ch5-toggle/getdirty-method.html",
-              "label": "getDirty"
+              "label": "getDirty",
+              "url": "ch5-toggle/getdirty-method.html"
             }
           ],
-          "label": "Methods"
+          "label": "Methods",
+          "url": "ch5-toggle/submit-method.html"
         }
       ],
-      "label": "CH5 Toggle"
+      "label": "CH5 Toggle",
+      "url": "ch5-toggle/label.html"
     },
     {
-      "url": "ch5-triggerview/endless.html",
       "children": [
         {
-          "url": "ch5-triggerview/ch5-triggerview-styling-css-classes.html",
           "children": [
             {
-              "url": "ch5-triggerview/ch5-triggerview-styling-css-classes.html",
-              "label": "CSS classes"
+              "label": "CSS classes",
+              "url": "ch5-triggerview/ch5-triggerview-styling-css-classes.html"
             }
           ],
-          "label": "Styling"
+          "label": "Styling",
+          "url": "ch5-triggerview/ch5-triggerview-styling-css-classes.html"
         },
         {
-          "url": "ch5-triggerview/endless.html",
           "children": [
             {
-              "url": "ch5-triggerview/endless.html",
-              "label": "endless"
+              "label": "endless",
+              "url": "ch5-triggerview/endless.html"
             },
             {
-              "url": "ch5-triggerview/gestureable.html",
-              "label": "gestureable"
+              "label": "gestureable",
+              "url": "ch5-triggerview/gestureable.html"
             },
             {
-              "url": "ch5-triggerview/active-view.html",
-              "label": "activeView"
+              "label": "activeView",
+              "url": "ch5-triggerview/active-view.html"
             },
             {
-              "url": "ch5-triggerview/disable-animation.html",
-              "label": "disableAnimation"
+              "label": "disableAnimation",
+              "url": "ch5-triggerview/disable-animation.html"
             }
           ],
-          "label": "Attributes"
+          "label": "Attributes",
+          "url": "ch5-triggerview/endless.html"
         },
         {
-          "url": "ch5-triggerview/send-value.html",
           "children": [
             {
-              "url": "ch5-triggerview/send-value.html",
-              "label": "sendEventShow­ChildIndex"
+              "label": "sendEventShow­ChildIndex",
+              "url": "ch5-triggerview/send-value.html"
             }
           ],
-          "label": "Send Event Attributes"
+          "label": "Send Event Attributes",
+          "url": "ch5-triggerview/send-value.html"
         },
         {
-          "url": "ch5-triggerview/receive-value.html",
           "children": [
             {
-              "url": "ch5-triggerview/receive-value.html",
-              "label": "receiveStateShow­ChildIndex"
+              "label": "receiveStateShow­ChildIndex",
+              "url": "ch5-triggerview/receive-value.html"
             }
           ],
-          "label": "Receive State Attributes"
+          "label": "Receive State Attributes",
+          "url": "ch5-triggerview/receive-value.html"
         },
         {
-          "url": "ch5-triggerview/events.html",
           "children": [
             {
-              "url": "ch5-triggerview/events.html",
-              "label": "select"
+              "label": "select",
+              "url": "ch5-triggerview/events.html"
             }
           ],
-          "label": "Events"
+          "label": "Events",
+          "url": "ch5-triggerview/events.html"
         },
         {
-          "url": "ch5-triggerview/previous-child-method.html",
           "children": [
             {
-              "url": "ch5-triggerview/previous-next-child-method.html",
-              "label": "previousViewChild, nextViewChild"
+              "label": "previousViewChild, nextViewChild",
+              "url": "ch5-triggerview/previous-next-child-method.html"
             },
             {
-              "url": "ch5-triggerview/set-active-child-method.html",
-              "label": "setActiveViewChild"
+              "label": "setActiveViewChild",
+              "url": "ch5-triggerview/set-active-child-method.html"
             },
             {
-              "url": "ch5-triggerview/set-active-method.html",
-              "label": "setActiveView"
+              "label": "setActiveView",
+              "url": "ch5-triggerview/set-active-method.html"
             }
           ],
-          "label": "Methods"
+          "label": "Methods",
+          "url": "ch5-triggerview/previous-child-method.html"
         },
         {
-          "url": "ch5-triggerview-child/send-value.html",
           "children": [
             {
-              "url": "ch5-triggerview-child/send-value.html",
               "children": [
                 {
-                  "url": "ch5-triggerview-child/send-value.html",
-                  "label": "sendEventOnShow"
+                  "label": "sendEventOnShow",
+                  "url": "ch5-triggerview-child/send-value.html"
                 }
               ],
-              "label": "Send Event Attributes"
+              "label": "Send Event Attributes",
+              "url": "ch5-triggerview-child/send-value.html"
             },
             {
-              "url": "ch5-triggerview/receive-value.html",
               "children": [
                 {
-                  "url": "ch5-triggerview-child/receive-value.html",
-                  "label": "receiveStateShow"
+                  "label": "receiveStateShow",
+                  "url": "ch5-triggerview-child/receive-value.html"
                 }
               ],
-              "label": "Receive State Attributes"
+              "label": "Receive State Attributes",
+              "url": "ch5-triggerview/receive-value.html"
             }
           ],
-          "label": "CH5 TriggerViewChild"
+          "label": "CH5 TriggerViewChild",
+          "url": "ch5-triggerview-child/send-value.html"
         }
       ],
-      "label": "CH5 TriggerView"
+      "label": "CH5 TriggerView",
+      "url": "ch5-triggerview/endless.html"
     },
     {
-      "url": "utility-functions/utility-textformat.html",
       "children": [
         {
-          "url": "utility-functions/utility-textformat.html",
-          "label": "textformat"
+          "label": "textformat",
+          "url": "utility-functions/utility-textformat.html"
         },
         {
-          "url": "utility-functions/utility-count-components.html",
-          "label": "countNumberOfCh5Components"
+          "label": "countNumberOfCh5Components",
+          "url": "utility-functions/utility-count-components.html"
         },
         {
-          "url": "utility-functions/utility-subscribe-signal-script.html",
-          "label": "subscribeStateScript"
+          "label": "subscribeStateScript",
+          "url": "utility-functions/utility-subscribe-signal-script.html"
         },
         {
-          "url": "utility-functions/utility-unsubscribe-signal-script.html",
-          "label": "unsubscribeStateScript"
+          "label": "unsubscribeStateScript",
+          "url": "utility-functions/utility-unsubscribe-signal-script.html"
         },
         {
-          "url": "utility-functions/utility-get-signal.html",
-          "label": "getState"
+          "label": "getState",
+          "url": "utility-functions/utility-get-signal.html"
         },
         {
-          "url": "utility-functions/utility-subscribe-signal.html",
-          "label": "subscribeState"
+          "label": "subscribeState",
+          "url": "utility-functions/utility-subscribe-signal.html"
         },
         {
-          "url": "utility-functions/utility-unsubscribe-signal.html",
-          "label": "unsubscribeState"
+          "label": "unsubscribeState",
+          "url": "utility-functions/utility-unsubscribe-signal.html"
         },
         {
-          "url": "utility-functions/utility-publish-signal.html",
-          "label": "publishEvent"
+          "label": "publishEvent",
+          "url": "utility-functions/utility-publish-signal.html"
         },
         {
-          "url": "utility-functions/utility-subscribe-in-viewport-change.html",
-          "label": "subscribeInViewPortChange"
+          "label": "subscribeInViewPortChange",
+          "url": "utility-functions/utility-subscribe-in-viewport-change.html"
         }
       ],
-      "label": "CH5 Utility Functions"
+      "label": "CH5 Utility Functions",
+      "url": "utility-functions/utility-textformat.html"
     },
     {
-      "url": "ch5-video/ch5-video-description.html",
       "children": [
         {
-          "url": "ch5-video/ch5-video-description.html",
-          "label": "Description"
+          "label": "Description",
+          "url": "ch5-video/ch5-video-description.html"
         }
       ],
-      "label": "CH5 Video"
+      "label": "CH5 Video",
+      "url": "ch5-video/ch5-video-description.html"
     },
     {
-      "url": "common-attributes/append-class-when-in-viewport.html",
       "children": [
         {
-          "url": "common-attributes/append-class-when-in-viewport.html",
-          "label": "appendClassWhenInViewport"
+          "label": "appendClassWhenInViewport",
+          "url": "common-attributes/append-class-when-in-viewport.html"
         },
         {
-          "url": "common-attributes/custom-class.html",
-          "label": "customClass"
+          "label": "customClass",
+          "url": "common-attributes/custom-class.html"
         },
         {
-          "url": "common-attributes/custom-style.html",
-          "label": "customStyle"
+          "label": "customStyle",
+          "url": "common-attributes/custom-style.html"
         },
         {
-          "url": "common-attributes/disabled.html",
-          "label": "disabled"
+          "label": "disabled",
+          "url": "common-attributes/disabled.html"
         },
         {
-          "url": "common-attributes/no-show-type.html",
-          "label": "noShowType"
+          "label": "noShowType",
+          "url": "common-attributes/no-show-type.html"
         },
         {
-          "url": "common-attributes/receive-state-custom-class.html",
-          "label": "receiveStateCustomClass"
+          "label": "receiveStateCustomClass",
+          "url": "common-attributes/receive-state-custom-class.html"
         },
         {
-          "url": "common-attributes/receive-state-custom-style.html",
-          "label": "receiveStateCustomStyle"
+          "label": "receiveStateCustomStyle",
+          "url": "common-attributes/receive-state-custom-style.html"
         },
         {
-          "url": "common-attributes/receive-state-enable.html",
-          "label": "receiveStateEnable"
+          "label": "receiveStateEnable",
+          "url": "common-attributes/receive-state-enable.html"
         },
         {
-          "url": "common-attributes/receive-state-show.html",
-          "label": "receiveStateShow"
+          "label": "receiveStateShow",
+          "url": "common-attributes/receive-state-show.html"
         },
         {
-          "url": "common-attributes/receive-state-show-hide-pulse.html",
-          "label": "receiveStateShowPulse & receiveStateHidePulse"
+          "label": "receiveStateShowPulse & receiveStateHidePulse",
+          "url": "common-attributes/receive-state-show-hide-pulse.html"
         },
         {
-          "url": "common-attributes/send-event-on-show.html",
-          "label": "sendEventOnShow"
+          "label": "sendEventOnShow",
+          "url": "common-attributes/send-event-on-show.html"
         }
       ],
-      "label": "Common attributes"
+      "label": "Common attributes",
+      "url": "common-attributes/append-class-when-in-viewport.html"
     },
     {
-      "url": "join-numbers-as-signal-names/utility-functions.html",
       "children": [
         {
-          "url": "join-numbers-as-signal-names/utility-functions.html",
-          "label": "Utility functions"
+          "label": "Utility functions",
+          "url": "join-numbers-as-signal-names/utility-functions.html"
         },
         {
-          "url": "join-numbers-as-signal-names/receive-signal-attributes.html",
-          "label": "receiveState* attributes"
+          "label": "receiveState* attributes",
+          "url": "join-numbers-as-signal-names/receive-signal-attributes.html"
         },
         {
-          "url": "join-numbers-as-signal-names/ch5-data-attrs.html",
-          "label": "data-ch5-* attributes"
+          "label": "data-ch5-* attributes",
+          "url": "join-numbers-as-signal-names/ch5-data-attrs.html"
         },
         {
-          "url": "join-numbers-as-signal-names/variable-nr-of-signals.html",
-          "label": "Variable number of signals"
+          "label": "Variable number of signals",
+          "url": "join-numbers-as-signal-names/variable-nr-of-signals.html"
         }
       ],
-      "label": "Join Numbers as Signal Names"
+      "label": "Join Numbers as Signal Names",
+      "url": "join-numbers-as-signal-names/utility-functions.html"
     },
     {
-      "url": "multi-language/language-change.html",
       "children": [
         {
-          "url": "multi-language/language-change.html",
-          "label": "Language Change"
+          "label": "Language Change",
+          "url": "multi-language/language-change.html"
         }
       ],
-      "label": "Multi Language Support"
+      "label": "Multi Language Support",
+      "url": "multi-language/language-change.html"
     },
     {
-      "url": "playground.html",
       "children": [
         {
-          "url": "playground.html",
-          "label": "Playground"
+          "label": "Playground",
+          "url": "playground.html"
         }
       ],
-      "label": "Playground"
+      "label": "Playground",
+      "url": "playground.html"
     }
   ]
 }

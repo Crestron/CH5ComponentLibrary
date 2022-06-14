@@ -1213,7 +1213,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 
 	/**
 	 * Updating background color and calling video crop function
-	 * @param color is backround color
+	 * @param color is background color
 	 * @param ctx is canvas context
 	 */
 	private updateBgColor(color: string, ctx: any) {
