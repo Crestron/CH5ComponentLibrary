@@ -121,16 +121,18 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 	public set url(value: string) {
-		if (!this._url) {
-			this._img?.removeAttribute('src');
-		}
+		if (_.isNil(this.receiveStateUrl) || this.receiveStateUrl === "") {
+			if (!this._url) {
+				this._img?.removeAttribute('src');
+			}
 
-		if (this._url !== value) {
-			this.setImageDisplay();
-			// this.updateImageUrl(value);
-			// if (this.canProcessUri()) {
-			// 	this.processUri();
-			// }
+			if (this._url !== value) {
+				this.setImageDisplay(value);
+				// this.updateImageUrl(value);
+				// if (this.canProcessUri()) {
+				// 	this.processUri();
+				// }
+			}
 		}
 	}
 
@@ -330,9 +332,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 
 		this._subReceiveUrl = receiveSignal.subscribe((newValue: string) => {
-			if ('' !== newValue && newValue !== this._url && !_.isNil(newValue)) {
+			if (newValue !== this._url || newValue === "") {
+				this.logger.log("value from signal is ", newValue);
+				if (newValue === "" && this.sendEventOnError !== "") {
+					newValue = this.receiveStateUrl; // Temporary fix and must be cleaned up
+				}
 				this.setUrlByInput(newValue);
-				this._initRefreshRate();
 				if (this.canProcessUri()) {
 					this.processUri();
 				}
@@ -396,7 +401,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	public set sendEventOnClick(value: string) {
 		this.info('set sendEventOnClick(\'' + value + '\')');
 
-		// prevent infinte loop
+		// prevent infinite loop
 		if ('' === value) {
 			return;
 		}
@@ -1008,16 +1013,18 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		}
 	}
 
-	public setImageDisplay() {
+	public setImageDisplay(value: string = "") {
 		if (!this.hasAttribute('receivestateurl')) {
 			const imagesModesArray = this.getElementsByTagName("ch5-image-mode");
 			if (imagesModesArray && imagesModesArray.length > 0) {
 				const selectedImageMode = imagesModesArray[this.mode];
 				if (selectedImageMode) {
-					this.setUrlByInput(selectedImageMode.getAttribute("url") as string);
+					const urlValue = (!_.isNil(selectedImageMode.getAttribute("url")) && selectedImageMode.getAttribute("url") !== "") ? selectedImageMode.getAttribute("url") : (!_.isNil(value) && value !== "") ? value : "";
+					this.setUrlByInput(urlValue as string);
 				}
 			} else {
-				this.setUrlByInput(this.getAttribute("url") as string);
+				const urlValue = (!_.isNil(value) && value !== "") ? value : this.getAttribute("url");
+				this.setUrlByInput(urlValue as string);
 			}
 			if (this.canProcessUri()) {
 				this.processUri();
@@ -1026,6 +1033,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 	private setUrlByInput(url: string) {
+		this.logger.log("setUrlByInput url: ", url);
 		this._url = url;
 		this.setAttribute('url', this._url);
 		this._maybeLoadImage();
@@ -1399,6 +1407,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	}
 
 	private _onError(inEvent: Event): void {
+		this.logger.log("onError called");
 		this.dispatchEvent(this.errorEvent);
 		// inEvent.preventDefault();
 
