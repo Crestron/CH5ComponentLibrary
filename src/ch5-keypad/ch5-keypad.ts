@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5Common, ICh5AttributeAndPropertySettings } from "../ch5-common/ch5-common";
 import { TCh5CreateReceiveStateSigParams } from "../ch5-common/interfaces";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5Signal, Ch5SignalFactory } from "../ch5-core";
@@ -116,6 +116,24 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 	public readonly primaryCssClass = 'ch5-keypad';
 	public readonly cssClassPrefix = 'ch5-keypad';
+
+	private readonly KEYPAD_PROPERTIES: {
+		SHOW_EXTRA_BUTTON: ICh5AttributeAndPropertySettings
+	} = {
+			SHOW_EXTRA_BUTTON: {
+				default: false,
+				valueOnAttributeEmpty: true,
+				variableName: "_showExtraButton",
+				attributeName: "showExtraButton",
+				propertyName: "showExtraButton",
+				type: "boolean",
+				removeAttributeOnNull: true,
+				enumeratedValues: ['true', 'false', '', true, false],
+				componentReference: this,
+				callback: this.showExtraButtonForNonContract.bind(this),
+				isSignalValueOppositeOfValue: false
+			}
+		};
 
 	//#endregion
 
@@ -259,14 +277,12 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			return;
 		}
 		this.logger.start('set showExtraButton ("' + value + '")');
-		ComponentHelper.setAttributeValueOnControlAsBool(
-			this, 'showExtraButton', value, false,
-			() => {
-				if (!this._useContractForExtraButtonShow) {
-					this.showExtraButtonHandler();
-				}
-			}
-		);
+		this.setAttributeAndProperty(this.KEYPAD_PROPERTIES.SHOW_EXTRA_BUTTON, value);
+		// ComponentHelper.setAttributeValueOnControlAsBool(this, 'showExtraButton', value, false, () => {
+		// 	if (!this._useContractForExtraButtonShow) {
+		// 		this.showExtraButtonHandler();
+		// 	}
+		// });
 	}
 	public get showExtraButton(): boolean {
 		return this._showExtraButton;
@@ -536,7 +552,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this.stretch = ComponentHelper.setAttributeToElement(this, 'stretch', this._stretch as string) as TCh5KeypadStretch;
 		this.textOrientation = ComponentHelper.setAttributeToElement(this, 'textOrientation', this._textOrientation as string) as TCh5KeypadTextOrientation;
 		this.sendEventOnClickStart = ComponentHelper.setAttributeToElement(this, 'sendEventOnClickStart'.toLowerCase(), this._sendEventOnClickStart);
-		this.showExtraButton = ComponentHelper.getBoolFromString(ComponentHelper.setAttributeToElement(this, 'showExtraButton', this._showExtraButton.toString()));
+		this.showExtraButton = this.getAttribute('showextrabutton') as unknown as boolean; // ComponentHelper.getBoolFromString(ComponentHelper.setAttributeToElement(this, 'showExtraButton', this._showExtraButton.toString()));
 		this.size = ComponentHelper.setAttributeToElement(this, 'size', this._size) as TCh5KeypadSize;
 
 		// DEV NOTE: if contract name exists, and the individual attribute values don't exist,
@@ -749,6 +765,9 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 			case 'size':
 				this.size = newValue as TCh5KeypadSize;
 				break;
+			case 'showextrabutton':
+				this.showExtraButton = newValue as unknown as boolean;
+				break;
 			case 'show':
 			case 'disabled':
 				if (!isValidContract) {
@@ -864,6 +883,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		}
 	}
 
+	private showExtraButtonForNonContract() {
+		if (!this._useContractForExtraButtonShow) {
+			this.showExtraButtonHandler();
+		}
+	}
 	/**
 	 * Function to add the extra row of buttons if contract or attribute permits
 	 */
@@ -898,6 +922,8 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				this.childButtonList[btn.name] = keyBtn;
 				rowEle.appendChild(keyBtn);
 			}
+		} else {
+			this.classList.remove('ch5-keypad--for-extra-button');
 		}
 
 		this.logger.stop();
