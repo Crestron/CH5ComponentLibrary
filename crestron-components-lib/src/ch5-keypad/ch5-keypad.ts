@@ -130,8 +130,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 				removeAttributeOnNull: true,
 				enumeratedValues: ['true', 'false', '', true, false],
 				componentReference: this,
-				callback: this.showExtraButtonForNonContract.bind(this),
-				isSignalValueOppositeOfValue: false
+				callback: this.showExtraButtonForNonContract.bind(this)
 			}
 		};
 
