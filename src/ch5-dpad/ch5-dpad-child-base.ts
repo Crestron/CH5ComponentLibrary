@@ -88,8 +88,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	// protected _buttonPressed: boolean = false;
 	protected _buttonPressedInPressable: boolean = false;
 	// protected _pressableIsPressedSubscription: Subscription | null = null;
-	// This variable ensures that the first time load on a project happens without debounce and buttons do not appear blank.
-	protected isButtonInitated: boolean = false;
 	private _isPressedSubscription: Subscription | null = null;
 	private _repeatDigitalInterval: number | null = null;
 

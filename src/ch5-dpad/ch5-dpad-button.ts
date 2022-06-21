@@ -16,7 +16,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 
 	//#region 1. Variables
 
-	//#region 1.1 readonly variables
 	public static readonly ELEMENT_NAME = 'ch5-dpad-button';
 
 	public static readonly DEFAULT_ICONS = {
@@ -27,12 +26,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 		center: 'fa-circle'
 	};
 
-	//#endregion
-
-	//#region 1.2 private / protected variables
-	private labelClass: string = 'dpad-btn-label';
-
-	//#endregion
+	private readonly LABEL_CLASS: string = 'dpad-btn-label';
 
 	//#endregion
 
@@ -75,7 +69,7 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 			this._icon = CH5DpadUtils.getIconContainer();
 			this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces;
 		} else if (this.label.length > 0 && this.key === 'center') {
-			this._icon = CH5DpadUtils.getLabelContainer(this.labelClass);
+			this._icon = CH5DpadUtils.getLabelContainer(this.LABEL_CLASS);
 			this._icon.innerHTML = this.label;
 		} else {
 			// if nothing works, then render as default
@@ -94,7 +88,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 	static get observedAttributes() {
 		const commonAttributes: string[] = Ch5DpadChildBase.observedAttributes;
 
-		// attributes
 		const attributes: string[] = [
 			"label",
 			"iconclass",
@@ -103,10 +96,8 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 			'pressed'
 		];
 
-		// received signals
 		const receivedSignals: string[] = [];
 
-		// sent signals
 		const sentSignals: string[] = [];
 
 		const ch5DpadAttributes = commonAttributes.concat(attributes).concat(receivedSignals).concat(sentSignals);
