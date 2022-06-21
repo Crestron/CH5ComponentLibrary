@@ -124,7 +124,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	private _contractName: string = '';
 	private _type: TCh5KeypadType = Ch5Keypad.TYPES[0];
 	private _shape: TCh5KeypadShape = Ch5Keypad.SHAPES[0];
-	private _stretch: TCh5KeypadStretch | null = null; // Ch5Keypad.STRETCHES[0];
+	private _stretch: TCh5KeypadStretch | null = null;
 	private _textOrientation: TCh5KeypadTextOrientation = Ch5Keypad.TEXT_ORIENTATIONS[0];
 	private _sendEventOnClickStart: string = '';
 	private _showExtraButton: boolean = false;

@@ -356,14 +356,12 @@ export class Ch5Pressable {
 	 */
 
 	private _onClick(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable._onClick()');
 		// reset touchstart/touchend flags
 		this._touchStart = false;
 		this._touchEnd = false;
 	}
 
 	private _onMouseDown(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable._onMouseDown()');
 		// ignore mousedown if touchstart
 		if (this._touchStart) { return }
 		if (this.isTouch) { return }
@@ -380,8 +378,6 @@ export class Ch5Pressable {
 	}
 
 	private _onMouseMove(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable.onMouseMove()');
-
 		if (this.isTouch) {
 			return;
 		}
@@ -405,8 +401,6 @@ export class Ch5Pressable {
 	}
 
 	private _onMouseUp(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable._onMouseUp()');
-
 		if (this.isTouch) {
 			return;
 		}
@@ -433,8 +427,6 @@ export class Ch5Pressable {
 	}
 
 	private _onMouseLeave(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable._onMouseLeave()');
-
 		if (this.isTouch) {
 			return;
 		}
@@ -461,7 +453,6 @@ export class Ch5Pressable {
 	}
 
 	private _onTouchStart(inEvent: Event): void {
-
 		if (this.isMouse) {
 			return;
 		}
@@ -472,7 +463,7 @@ export class Ch5Pressable {
 		this._touchStart = true;
 		const touchEvent: TouchEvent = inEvent as TouchEvent;
 		const touch: Touch = touchEvent.changedTouches[0];
-		this._ch5Component.info(`Ch5Pressable._onTouchStart(), ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
+		// this._ch5Component.info(`Ch5Pressable._onTouchStart(), ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
 		if (this._fingerState.mode === Ch5PressableFingerStateMode.Idle) {
 			this._fingerState.mode = Ch5PressableFingerStateMode.Start;
 			this._fingerState.touchHoldTimer = window.setTimeout(this._onTouchHoldTimer, this.pressDelayTime);
@@ -483,8 +474,6 @@ export class Ch5Pressable {
 	}
 
 	private _onTouchMove(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable._onTouchMove()');
-
 		if (this.isMouse) {
 			return;
 		}
@@ -495,7 +484,7 @@ export class Ch5Pressable {
 			const touchEvent: TouchEvent = inEvent as TouchEvent;
 			const touch: Touch | null = this._fingerState.getTouchFromTouchList(touchEvent);
 			if (touch !== null) {
-				this._ch5Component.info(`Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
+				// this._ch5Component.info(`Ch5Pressable._onTouchMove() , ${touch.clientX}, ${touch.clientY}, ${touch.identifier}`);
 				const xMoveDistance = touch.clientX - this._fingerState.touchStartLocationX;
 				const yMoveDistance = touch.clientY - this._fingerState.touchStartLocationY;
 				const distanceMoved = Math.sqrt(xMoveDistance ** 2 + yMoveDistance ** 2);
@@ -510,7 +499,7 @@ export class Ch5Pressable {
 	}
 
 	private _onTouchHoldTimer(event: Event): void {
-		this._ch5Component.info(`Ch5Pressable._onTouchHoldTimer(), ${this._fingerState.touchPointId}`);
+		// this._ch5Component.info(`Ch5Pressable._onTouchHoldTimer(), ${this._fingerState.touchPointId}`);
 		this._fingerState.touchHoldTimer = null;
 		this._fingerIsDownActions();
 	}
@@ -527,8 +516,6 @@ export class Ch5Pressable {
 	}
 
 	private _onTouchEnd(inEvent: Event): void {
-		this._ch5Component.info('Ch5Pressable._onTouchEnd()');
-
 		if (this.isMouse) {
 			return;
 		}

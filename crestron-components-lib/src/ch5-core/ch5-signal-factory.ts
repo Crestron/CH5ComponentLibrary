@@ -85,11 +85,9 @@ export class Ch5SignalFactory {
         } else {
             const existingSignal: Ch5Signal<T> = this._signals[type][name] as Ch5Signal<T>;
             if (existingSignal.type === typeof(typeInstance)) {
-                // console.log("getState('" + name + "') return existing signal");
                 return existingSignal;
             } else {
-                //// not the same type !!! return null for now.
-                // console.log("getState('" + name + "') return null");
+                // not the same type !!! return null for now.
                 return null;
             }
         }

@@ -99,21 +99,20 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	/**
 	 * Setter for placeholder
 	 *
-	 * @param {string} placeholder
+	 * @param {string} value
 	 */
-	public set placeholder(placeholder: string) {
+	public set placeholder(value: string) {
+		let _placeholder = value;
+		this.info("set <ch5-textinput placeholder='" + value + "'/>");
 
-		let _placeholder = placeholder;
-		this.info("set <ch5-textinput placeholder='" + placeholder + "'/>");
-
-		if ((placeholder === undefined || placeholder === null)) {
+		if (_.isNil(value) || value === "") {
 			_placeholder = '';
 		} else {
-			_placeholder = this._getTranslatedValue('placeholder', placeholder);
+			_placeholder = this._getTranslatedValue('placeholder', value);
 		}
 
 		// TODO: Refactoring
-		if (_placeholder !== placeholder) {
+		if (_placeholder !== value) {
 			this.setAttribute('placeholder', _placeholder);
 		}
 
@@ -173,12 +172,9 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @return {string}
 	 */
 	public get iconClass(): string {
-
 		this.info('get <ch5-textinput iconClass />');
-
 		return this._iconClass;
 	}
-
 
 	/**
 	 * Setter for icon
@@ -1664,7 +1660,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		if (this._wasInstatiated && newValue !== '') {
 			switch (attr) {
 				case 'label':
-					this.label = this.attributeChangeHandler('label', oldValue, newValue) as string;
+					this.label = newValue; //  this.attributeChangeHandler('label', oldValue, newValue) as string;
 					break;
 				case 'stretch':
 					this.stretch = this.attributeChangeHandler('stretch', oldValue, newValue) as TCh5TextInputStretch;
@@ -1675,21 +1671,21 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 					}
 					break;
 				case 'value':
-					this.value = this.attributeChangeHandler('value', oldValue, newValue);
+					this.value = newValue; //  this.attributeChangeHandler('value', oldValue, newValue);
 					break;
 				case 'placeholder':
-					this.placeholder = this.attributeChangeHandler('placeholder', oldValue, newValue);
+					this.placeholder = newValue; // this.attributeChangeHandler('placeholder', oldValue, newValue);
 					break;
 				case 'pattern':
-					this.pattern = this.attributeChangeHandler('pattern', oldValue, newValue);
+					this.pattern = newValue; //  this.attributeChangeHandler('pattern', oldValue, newValue);
 					break;
 				case 'iconclass':
-					this.iconClass = this.attributeChangeHandler('icon', oldValue, newValue);
+					this.iconClass = newValue; //  this.attributeChangeHandler('icon', oldValue, newValue);
 					this.iconPositioning();
 					this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
 					break;
 				case 'icon':
-					this.icon = this.attributeChangeHandler('icon', oldValue, newValue);
+					this.icon = newValue; // this.attributeChangeHandler('icon', oldValue, newValue);
 					this.iconPositioning();
 					this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
 					break;
@@ -1698,7 +1694,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 					this.iconPositioning();
 					break;
 				case 'mask':
-					this.mask = this.getAttribute('mask') as string;
+					this.mask = newValue; //  this.getAttribute('mask') as string;
 					break;
 				case 'type':
 					this.inputType = this.attributeChangeHandler('type', oldValue, newValue) as TCh5TextInputType;

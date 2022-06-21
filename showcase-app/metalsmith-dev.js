@@ -4,7 +4,7 @@ const markdown = require('metalsmith-markdown');
 const nunjucks = require("nunjucks");
 const inplace = require('metalsmith-in-place');
 const static = require('metalsmith-static');
-const sass = require('metalsmith-sass');
+const sass = require('@metalsmith/sass');
 const browserSync = require('metalsmith-browser-sync');
 const fs = require('fs');
 
@@ -29,6 +29,10 @@ metalsmith(__dirname)
     "siteurl": "/" + path + "/",
     "menuItems": menu.menuItems
   })
+  .use(static({
+    "src": "./static",
+    "dest": "."
+  }))
   .use(assets({
     "source": "./node_modules/@crestron/ch5-crcomlib/build_bundles/umd/",
     "destination": "./cr-com-lib"
@@ -39,14 +43,16 @@ metalsmith(__dirname)
   }))
   .use(markdown())
   .use(inplace({}))
-  .use(static({
-    "src": "./static",
-    "dest": "."
-  }))
   .use(sass({
-    "outputDir": "css/",
-    "sourceMap": true,
-    "sourceMapContents": true
+    style: 'expanded',
+    sourceMap: true,
+    sourceMapIncludeSources: true,
+    loadPaths: ['src'],
+    entries: {
+      // add scss entry points from
+      'src/scss/main.scss': 'css/main.css',
+      'src/scss/normalize.scss': 'css/normalize.css'
+    }
   }))
   .use(browserSync({
     server: {
