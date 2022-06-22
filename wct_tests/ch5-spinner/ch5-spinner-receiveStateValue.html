@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-spinner-reciveStateValue-fixture">
+        <template>
+            <ch5-spinner
+            indexId="idx"
+            label="item {{idx}}"
+            receiveStateValue="receive_spinner_value"
+            itemHeight="40"
+            size="7"
+          ></ch5-spinner>
+          
+
+        
+        </template>
+    </test-fixture>
+
+ <script>
+        suite('ch5-spinner receiveStateValue', () => {
+            let ch5Spinner;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/receiveStateValue.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Spinner = fixture('ch5-spinner-reciveStateValue-fixture');
+
+                return Promise.all([
+                    customElements.whenDefined('ch5-spinner')
+                ]);
+            });
+
+            test(`Check receive state value "selected Value:5"`, (done) => {
+                CrComLib.publishEvent('b', 'trig1', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Spinner.getAttribute('receivestatevalue')).to.be.equal('receive_spinner_value');
+                        expect(ch5Spinner.selectedValue).to.be.equal(5);
+                        done();
+                    }, 100);
+                });
+            });
+
+           
+            test(`Check receive state value "selected Value:3"`, (done) => {
+                CrComLib.publishEvent('b', 'trig2', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Spinner.getAttribute('receivestatevalue')).to.be.equal('receive_spinner_value');
+                        expect(ch5Spinner.selectedValue).to.be.equal(3);
+                        done();
+                    }, 100);
+                });
+            });
+
+    
+
+      
+        });
+        
+
+    </script>
+</body>
+
+</html>
