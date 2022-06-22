@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-spinner-reciveStateLabel_url-fixture">
+        <template>
+            <ch5-spinner indexId="idx" receiveStateSize="receive_spinner_size"
+                receiveStateLabel="receive_spinner_label_1" size="1" autosetitemheight>
+                <template>
+                    <div>
+                        <label>Item {{idx}}</label>
+                        <ch5-image refreshrate="0" receiveStateUrl="receive_spinner_icon_{{idx}}"></ch5-image>
+                    </div>
+                </template>
+            </ch5-spinner>
+
+
+
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-spinner reciveStateLabel_url', () => {
+            let ch5Spinner;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/receiveStateLabel_Url.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Spinner = fixture('ch5-spinner-reciveStateLabel_url-fixture');
+
+                return Promise.all([
+                    customElements.whenDefined('ch5-spinner')
+                ]);
+            });
+
+            test(`Check receive state label "label :Affiliate marketing"`, (done) => {
+                CrComLib.publishEvent('b', 'trig1', true);
+                flush(() => {
+                    setTimeout(() => {
+                        
+                        expect(ch5Spinner.getAttribute('receivestatelabel')).to.be.equal('receive_spinner_label_1');
+                        expect(ch5Spinner.getAttribute('label')).to.be.equal("Affiliate marketing");
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>

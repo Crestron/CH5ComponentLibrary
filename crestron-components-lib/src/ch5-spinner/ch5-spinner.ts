@@ -310,6 +310,12 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     if (this.selectedValue !== value && isNil(value)) {
       value = 0;
     }
+    if(this.size<value)
+   { value=this.size-1;
+  }
+    else if(value<0)
+    {value=0;
+}
 
     if (value !== this.selectedValue) {
       this.setAttribute('selectedValue', value + '');
@@ -383,6 +389,8 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     if (items > this.size) {
       items = this.size;
     }
+    if(items==NaN||items<=0)
+    items=3;
 
     if (items !== this.visibleItemScroll) {
       this.repaint();
