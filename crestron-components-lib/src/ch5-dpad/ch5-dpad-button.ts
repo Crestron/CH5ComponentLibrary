@@ -26,8 +26,6 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 		center: 'fa-circle'
 	};
 
-	private readonly LABEL_CLASS: string = 'dpad-btn-label';
-
 	//#endregion
 
 	//#region 2. Lifecycle Hooks
@@ -43,47 +41,47 @@ export class Ch5DpadButton extends Ch5DpadChildBase implements ICh5DpadChildBase
 	/**
 	 * Function to create all inner html elements required to complete dpad center button
 	 */
-	public createHtmlElements(): void {
-		this.logger.start('createHtmlElements', this.COMPONENT_NAME);
+	// public createHtmlElements(): void {
+	// 	this.logger.start('createHtmlElements', this.COMPONENT_NAME);
 
-		if (this.primaryCssClass) {
-			this.classList.add(this.primaryCssClass);
-		}
-		this.classList.add(this.CSS_CLASS_LIST.commonBtnClass);
-		if (this.CSS_CLASS_LIST.primaryTagClass) {
-			this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
-		}
-		if (this.CSS_CLASS_LIST.defaultArrowClass) {
-			this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
-		}
+	// 	if (this.primaryCssClass) {
+	// 		this.classList.add(this.primaryCssClass);
+	// 	}
+	// 	this.classList.add(this.CSS_CLASS_LIST.commonBtnClass);
+	// 	if (this.CSS_CLASS_LIST.primaryTagClass) {
+	// 		this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
+	// 	}
+	// 	if (this.CSS_CLASS_LIST.defaultArrowClass) {
+	// 		this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
+	// 	}
 
-		// Order of preference is:
-		// 0 parentContract
-		// 4 iconUrl
-		// 5 iconClass
-		// 6 label
-		if (this.iconUrl.length > 0) {
-			this._icon = CH5DpadUtils.getImageContainer(this.iconUrl);
-			this._icon.style.backgroundImage = `url(${this.iconUrl})`;
-		} else if (this.iconClass) {
-			this._icon = CH5DpadUtils.getIconContainer();
-			this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces;
-		} else if (this.label.length > 0 && this.key === 'center') {
-			this._icon = CH5DpadUtils.getLabelContainer(this.LABEL_CLASS);
-			this._icon.innerHTML = this.label;
-		} else {
-			// if nothing works, then render as default
-			this._icon = CH5DpadUtils.getIconContainer();
-			this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
-			this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
-		}
+	// 	// Order of preference is:
+	// 	// 0 parentContract
+	// 	// 4 iconUrl
+	// 	// 5 iconClass
+	// 	// 6 label
+	// 	if (this.iconUrl.length > 0) {
+	// 		this._icon = CH5DpadUtils.getImageContainer(this.iconUrl);
+	// 		this._icon.style.backgroundImage = `url(${this.iconUrl})`;
+	// 	} else if (this.iconClass) {
+	// 		this._icon = CH5DpadUtils.getIconContainer();
+	// 		this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces;
+	// 	} else if (this.label.length > 0 && this.key === 'center') {
+	// 		this._icon = CH5DpadUtils.getLabelContainer(this.LABEL_CLASS);
+	// 		this._icon.innerHTML = this.label;
+	// 	} else {
+	// 		// if nothing works, then render as default
+	// 		this._icon = CH5DpadUtils.getIconContainer();
+	// 		this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
+	// 		this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
+	// 	}
 
-		if (this._icon.parentElement !== this) {
-			this.appendChild(this._icon);
-		}
+	// 	if (this._icon.parentElement !== this) {
+	// 		this.appendChild(this._icon);
+	// 	}
 
-		this.logger.stop();
-	}
+	// 	this.logger.stop();
+	// }
 
 	static get observedAttributes() {
 		const commonAttributes: string[] = Ch5DpadChildBase.observedAttributes;

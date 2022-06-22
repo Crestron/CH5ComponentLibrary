@@ -1972,40 +1972,41 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		} else if (property.type === "enum") {
 
 			if (thisRef[attribute] !== value) {
-				let callBackEnabled: boolean = false;
-				if (property.enumeratedValues.length === 0) {
-					// Implies that the content can be any string
-					if (_.isNil(value) || String(value).trim() === "") {
-						thisRef.removeAttribute(attribute);
-						callBackEnabled = true;
-					} else {
-						thisRef.setAttribute(attribute, String(value));
-						callBackEnabled = true;
-					}
+				// Implies that the content has to be an enumerated value ONLY
+				if (property.enumeratedValues.indexOf(value) >= 0) {
+					thisRef.setAttribute(attribute, String(value));
+					thisRef[property.variableName] = String(value);
 				} else {
-					// Implies that the content has to be an enumerated value ONLY
-					if (property.enumeratedValues.indexOf(value) >= 0) {
-						thisRef.setAttribute(attribute, String(value).trim());
-						callBackEnabled = true;
+					if (!_.isNil(property.default)) {
+						thisRef.setAttribute(attribute, String(property.default));
+						thisRef[property.variableName] = String(property.default);
 					} else {
-						if (!_.isNil(property.default)) {
-							thisRef.setAttribute(attribute, String(property.default).trim());
-							callBackEnabled = true;
-						} else {
-							thisRef.removeAttribute(attribute);
-							callBackEnabled = true;
-						}
+						thisRef.removeAttribute(attribute);
+						thisRef[property.variableName] = String(property.default);
 					}
 				}
 
-				if (callBackEnabled === true) {
-					if (property.callback !== null) {
-						property.callback();
-					}
+				if (property.callback !== null) {
+					property.callback();
+				}
+			}
+
+		} else if (property.type === "string") {
+
+			if (thisRef[attribute] !== value) {
+				if (_.isNil(value) || String(value).trim() === "") {
+					thisRef.removeAttribute(attribute);
+					thisRef[property.variableName] = String(property.default);
+				} else {
+					thisRef.setAttribute(attribute, String(value));
+					thisRef[property.variableName] = String(value);
+				}
+
+				if (property.callback !== null) {
+					property.callback();
 				}
 			}
 		}
-
 
 	}
 
