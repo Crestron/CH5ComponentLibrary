@@ -1,0 +1,84 @@
+
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-spinner-resize-fixture">
+        <template>
+            <ch5-spinner label="item {{idx}}" indexId="idx" size="7" itemHeight="40">
+            </ch5-spinner>
+        </template>
+    </test-fixture>
+
+
+    <script>
+        suite('ch5-spinner-resize ', function () {
+
+            let ch5Spinner;
+
+            /* coverity[implicit_this_used] */
+            setup(() => {
+                ch5Spinner = fixture('ch5-spinner-resize-fixture');
+
+                return Promise.all([
+                    customElements.whenDefined('ch5-spinner')
+                ]);
+            });
+
+
+
+
+
+
+            test(`Check width of spinner depinding on resize`, (done) => {
+               
+                flush(() => {
+                    setTimeout(() => {
+             
+                        let widthGot = ch5Spinner.querySelectorAll('.ch5-spinner__wrapper')[0].style.width;
+
+
+
+                        expect(widthGot).to.be.equal('');
+                        done();
+                    }, 50);
+                });
+            });
+
+
+            test(`Check width of spinner depinding on resize`, (done) => {
+         
+                flush(() => {
+                    setTimeout(() => {
+                        ch5Spinner.setAttribute('resize', '');
+                        
+                        let widthGot = ch5Spinner.querySelectorAll('.ch5-spinner__wrapper')[0].style.width;
+
+
+
+                        expect(ch5Spinner.style.width).to.be.equal('auto');
+                        done();
+                    }, 50);
+                });
+            });
+     
+
+
+
+
+        });
+    </script>
+</body>
+
+</html>

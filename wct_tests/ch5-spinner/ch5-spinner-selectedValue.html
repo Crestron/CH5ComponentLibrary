@@ -12,22 +12,22 @@
 
 <body>
 
-    <test-fixture id="ch5-spinner-size-fixture">
+    <test-fixture id="ch5-spinner-selectedValue-fixture">
         <template>
-            <ch5-spinner size="5">
+            <ch5-spinner label="item {{idx}}" indexId="idx" size="7">
             </ch5-spinner>
         </template>
     </test-fixture>
 
 
     <script>
-        suite('ch5-spinner-size ', function () {
+        suite('ch5-spinner-selectedValue ', function () {
 
             let ch5Spinner;
 
             /* coverity[implicit_this_used] */
             setup(() => {
-                ch5Spinner = fixture('ch5-spinner-size-fixture');
+                ch5Spinner = fixture('ch5-spinner-selectedValue-fixture');
 
                 return Promise.all([
                     customElements.whenDefined('ch5-spinner')
@@ -35,34 +35,31 @@
             });
 
 
-            test('Expect attribute size to be "5"', function () {
-                expect(ch5Spinner.getAttribute('size')).to.be.equal('5');
-            });
+
 
 
             let testCases = ["-1", "0", "1", "15", "29", "30", "31", "35"];
-            let expectedResult = ['0', '0', '1', '15', '29', '30', '30', '30'];
+            let expectedResult = [null, '0', '1', '6', '6', '6', '6', '6'];
             testCases.forEach((ele, i) => {
-                test(`Check Size of element is valid : "${ele}"`, (done) => {
-                    ch5Spinner.setAttribute('size', ele);
+                test(`Check SelectedValue of element is valid : "${ele}"`, (done) => {
+                    // ch5Spinner.setAttribute('selectedValue', ele);
+                    ch5Spinner.selectedValue = ele;
+                
                     flush(() => {
                         setTimeout(() => {
-                            expect(ch5Spinner.querySelectorAll('.ch5-spinner__item')).to.be.lengthOf(expectedResult[i]);
+
+
+                            expect(ch5Spinner.getAttribute('selectedValue')).to.be.equal(expectedResult[i]);
                             done();
                         }, 50);
                     });
                 });
             });
-      
+            // test('Expect property size to be 5', function() {
+            //     expect(ch5Spinner.size).to.be.equal(5);
+            // });
 
-            test('Expect element to have 5 items', function () {
-                customElements.whenDefined('ch5-spinner').then(
-                    () => {
-                        expect(ch5Spinner.querySelectorAll('.ch5-spinner__item')).to.be.lengthOf(5);
-                    }
-                );
 
-            });
 
 
         });
