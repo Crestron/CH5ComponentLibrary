@@ -41,6 +41,8 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	public cssClassPrefix = '';
 	public readonly pressedCssClassPostfix = '--pressed';
 
+	private readonly LABEL_CLASS: string = 'dpad-btn-label';
+
 	//#endregion
 
 	//#region 1.2 protected / protected variables
@@ -184,7 +186,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			} else {
 				this._icon.classList.remove(...(prevValue.split(' ').filter(element => element))); // the filter removes empty spaces
 				this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
-				this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
+				if (this.CSS_CLASS_LIST.defaultIconClass && this.CSS_CLASS_LIST.defaultIconClass !== "") {
+					this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
+				}
 			}
 		}
 	}
@@ -355,7 +359,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		this.COMPONENT_NAME = this.componentPrefix + params.btnType;
 		this.CSS_CLASS_LIST.primaryTagClass = params.btnType;
 		this.CSS_CLASS_LIST.defaultIconClass = params.defaultIconClass;
-		this.CSS_CLASS_LIST.defaultArrowClass = params.defaultArrowClass;
+		if (params.defaultArrowClass && params.defaultArrowClass !== "") {
+			this.CSS_CLASS_LIST.defaultArrowClass = params.defaultArrowClass;
+		}
 		this.primaryCssClass = this.componentPrefix + params.btnType;
 		this.cssClassPrefix = this.componentPrefix + params.btnType;
 		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
@@ -424,28 +430,40 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	/**
 	 * Function to create all inner html elements required to complete dpad child-base button
 	 */
-	protected createHtmlElements(): void {
+	 protected createHtmlElements(): void {
 		this.logger.start('createHtmlElements', this.COMPONENT_NAME);
+		if (this.primaryCssClass && this.primaryCssClass !== "") {
 		this.classList.add(this.primaryCssClass);
+		}
 		this.classList.add(this.CSS_CLASS_LIST.commonBtnClass);
+		if (this.CSS_CLASS_LIST.primaryTagClass  && this.CSS_CLASS_LIST.primaryTagClass !== "") {
 		this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
-		this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
+		}
+		if (this.CSS_CLASS_LIST.defaultArrowClass && this.CSS_CLASS_LIST.defaultArrowClass !== "") {
+			this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
+		}
 
 		// Order of preference is:
 		// 0 parentContract
 		// 4 iconUrl
 		// 5 iconClass
+		// 6 label
 		if (this.iconUrl.length > 0) {
 			this._icon = CH5DpadUtils.getImageContainer(this.iconUrl);
 			this._icon.style.backgroundImage = `url(${this.iconUrl})`;
 		} else if (this.iconClass) {
 			this._icon = CH5DpadUtils.getIconContainer();
 			this._icon.classList.add(...(this.iconClass.split(' ').filter(element => element))); // the filter removes empty spaces
+		} else if (this.label.length > 0 && this.key === 'center') {
+			this._icon = CH5DpadUtils.getLabelContainer(this.LABEL_CLASS);
+			this._icon.innerHTML = this.label;
 		} else {
 			// if nothing works, then render as default
 			this._icon = CH5DpadUtils.getIconContainer();
 			this._icon.classList.add(this.CSS_CLASS_LIST.primaryIconClass);
-			this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
+			if (this.CSS_CLASS_LIST.defaultIconClass && this.CSS_CLASS_LIST.defaultIconClass !== "") {
+				this._icon.classList.add(this.CSS_CLASS_LIST.defaultIconClass);
+			}
 		}
 
 		if (this._icon.parentElement !== this) {

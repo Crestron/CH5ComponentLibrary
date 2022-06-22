@@ -122,7 +122,7 @@ export class CH5DpadUtils {
 	public static getIconContainer() {
 		const retEle = document.createElement('span');
 		retEle.classList.add('dpad-btn-icon');
-		retEle.classList.add('icon-class');
+		// retEle.classList.add('icon-class');
 		retEle.classList.add('fas');
 		return retEle;
 	}

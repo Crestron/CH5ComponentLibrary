@@ -386,9 +386,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 		}
 		// clean up old subscription
 		if (this._receiveStateRefreshRate) {
-			const oldReceiveIntervalSigName: string = Ch5Signal.getSubscriptionSignalName(
-				this._receiveStateRefreshRate
-			);
+			const oldReceiveIntervalSigName: string = Ch5Signal.getSubscriptionSignalName(this._receiveStateRefreshRate);
 
 			const oldSignal: Ch5Signal<number> | null = Ch5SignalFactory.getInstance().getNumberSignal(oldReceiveIntervalSigName);
 
