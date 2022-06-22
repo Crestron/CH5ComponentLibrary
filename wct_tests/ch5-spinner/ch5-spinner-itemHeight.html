@@ -1,4 +1,4 @@
-<!doctype html>
+<!--<!doctype html>
 <html>
 
 <head>
@@ -14,11 +14,7 @@
 
     <test-fixture id="ch5-spinner-itemHeight-fixture">
         <template>
-            <ch5-spinner    label="item {{idx}}"
-            indexId="idx"
-            size="7"
-            itemHeight="30px"
-            visibleItemScroll="3">
+            <ch5-spinner label="item {{idx}}" indexId="idx" size="7" itemHeight="30px" visibleItemScroll="3">
             </ch5-spinner>
         </template>
     </test-fixture>
@@ -39,21 +35,21 @@
             });
 
 
-           
 
 
-            let testCases = ["0", "1", "30px", "40", "invalid", "635467", "35","22vh"];
+
+            let testCases = ["0", "1", "30px", "40", "invalid", "635467", "35", "22vh"];
             let expectedResult = ['26px', '1px', '30px', '40px', '26px', '635467px', '35px', '22vh'];
             testCases.forEach((ele, i) => {
                 test(`Check itemHeight of element is valid : "${ele}"`, (done) => {
-                  
-                    ch5Spinner.itemHeight=ele;
-                   
+
+                    ch5Spinner.itemHeight = ele;
+
                     flush(() => {
                         setTimeout(() => {
-                          
-                                
-                                expect(ch5Spinner.getAttribute('itemHeight')).to.be.equal(expectedResult[i]); 
+
+
+                            expect(ch5Spinner.getAttribute('itemHeight')).to.be.equal(expectedResult[i]);
                             done();
                         }, 50);
                     });
@@ -63,11 +59,11 @@
             //     expect(ch5Spinner.size).to.be.equal(5);
             // });
 
-          
+
 
 
         });
     </script>
 </body>
 
-</html>
+</html>-->
