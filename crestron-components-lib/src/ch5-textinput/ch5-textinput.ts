@@ -983,16 +983,9 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	public set scaling(scale: boolean) {
 
 		this.info('set <ch5-textinput scaling="' + scale + '" />');
-
-		if (
-			this.scaling !== scale &&
-			(scale === undefined || scale === null)
-		) {
-			scale = false;
-		} else if (this.scaling !== scale) {
-			this.setAttribute('scaling', scale + '');
+		if (this.scaling === scale) {
+			return;
 		}
-
 		this._scaling = scale;
 
 		/**
@@ -2234,7 +2227,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		if (this.hasAttribute('scaling')) {
 			const scaling = this.getAttribute('scaling') === 'false' ? false : true;
-			this.scaling = scaling;
+			this.setAttribute('scaling', scaling + '')
 		}
 
 		if (this.hasAttribute('minimumfontsize')) {
