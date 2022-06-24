@@ -10,8 +10,8 @@ import { Ch5Signal } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Button } from "../ch5-button/ch5-button";
 import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attributes";
-import {Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries} from '../ch5-common/ch5-signal-attribute-registry';
-import {Ch5Common} from '../ch5-common/ch5-common';
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5Common } from '../ch5-common/ch5-common';
 
 // @ts-ignore
 /**
@@ -75,11 +75,11 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         sendeventonaftershow: { direction: "state", booleanJoin: 1, contractName: true },
         sendeventonbeforehide: { direction: "state", booleanJoin: 1, contractName: true },
         sendeventonafterhide: { direction: "state", booleanJoin: 1, contractName: true },
-        sendeventonok: {direction: "state", booleanJoin: 1, contractName: true},
-        contractname: {contractName: true},
-		booleanjoinoffset: { booleanJoin: 1 },
-		numericjoinoffset: { numericJoin: 1 },
-		stringjoinoffset: { stringJoin: 1 }
+        sendeventonok: { direction: "state", booleanJoin: 1, contractName: true },
+        contractname: { contractName: true },
+        booleanjoinoffset: { booleanJoin: 1 },
+        numericjoinoffset: { numericJoin: 1 },
+        stringjoinoffset: { stringJoin: 1 }
     };
 
     public static readonly COMPONENT_DATA: any = {
@@ -314,8 +314,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
     }
 
     public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog.SIGNAL_ATTRIBUTE_TYPES);
-	}
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog.SIGNAL_ATTRIBUTE_TYPES);
+    }
 
 
     protected attachEventListeners() {
@@ -353,13 +353,16 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
     protected _onOkClick(inEvent: Event) {
         this.info('_onOkClick()');
         this.dispatchEvent(this._okEvent);
-        this.setAttribute('show', 'false');
+        // TODO: The show attribute works but the biggest challenge comes with receiveStateShow
+        // This must be globally corrected in the next version for ok, cancel and close icon
+        // Creating a hard show to false
+        this.setShowBasedOnAttributes();
     }
 
     protected _onCancelClick(inEvent: Event) {
         this.info('_onCancelClick()');
         this.dispatchEvent(this._cancelEvent);
-        this.setAttribute('show', 'false');
+        this.setShowBasedOnAttributes();
     }
 
     protected _parseSizeAttr(value: string) {
@@ -375,7 +378,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
     protected _clickedOnMask(inEvent: Event) {
         this.info('_clickedOnMask()');
         if (true === this.mask && true === this.dismissable) {
-            this.setAttribute('show', 'false');
+            this.setShowBasedOnAttributes();
         }
         inEvent.stopPropagation();
         return false;
@@ -437,7 +440,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
 
         if (!this.hasAttribute('show')) {
-            this.setAttribute('show', 'false');
+            this.setShowBasedOnAttributes();
         }
         this._ready.then(() => {
             this._initialize();
@@ -452,6 +455,10 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
         // disconnect common mutation observer
         this.disconnectCommonMutationObserver();
+    }
+
+    private setShowBasedOnAttributes() {
+        this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
     }
 
     public static get observedAttributes() {

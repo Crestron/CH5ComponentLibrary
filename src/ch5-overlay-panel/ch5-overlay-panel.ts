@@ -341,9 +341,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			this.setAttribute('role', Ch5RoleAttributeMapping.ch5OverlayPanel);
 		}
 
-		console.log("this.hasAttribute('show')" + this.hasAttribute('show'));
 		if (!this.hasAttribute('show')) {
-			this.setAttribute('show', 'false');
+			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
 		}
 
 		this._ready.then(() => {
@@ -651,13 +650,13 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	protected _handleKeyPress(event: KeyboardEvent) {
 		if (this.getAttribute('show') !== 'false' && event.key === 'Escape') {
 			this.info('_handleKeyPress()');
-			this.setAttribute('show', 'false');
+			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
 		}
 	}
 
 	protected _clickedOnClose(inEvent: Event) {
 		this.info('_clickedOnClose()');
-		this.setAttribute('show', 'false');
+		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
 	}
 
 	protected _getReadyCheckPromise(): Promise<any> {
@@ -926,8 +925,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		}
 
 		this.info('_dismissElement() inEvent', inEvent);
-		this.setAttribute('show', 'false');
-	}
+		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
+		}
 
 	protected _clickAndTouchEvent(event: Event) {
 		event.stopPropagation();
