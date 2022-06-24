@@ -64,7 +64,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		sendeventonshow: { direction: "event", booleanJoin: 1, contractName: true }
 	};
 
-	private readonly COMMON_PROPERTIES: {
+	protected readonly COMMON_PROPERTIES: {
 		SHOW: ICh5AttributeAndPropertySettings,
 		DISABLED: ICh5AttributeAndPropertySettings
 	} = {
