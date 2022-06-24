@@ -546,7 +546,9 @@ export class Ch5SpinnerTemplate {
       // TODO-ANDREI
       // This is a temporary solution and
       // needs further improvements
-      this.handleDefaultItemHeight((this.childrenObject as [HTMLElement])[0] as HTMLElement);
+      if(parseInt(this._element.itemHeight,10)<=0||isNaN(parseInt(this._element.itemHeight,10))){
+     this.handleDefaultItemHeight((this.childrenObject as [HTMLElement])[0] as HTMLElement);
+    }
 
     }
   }
