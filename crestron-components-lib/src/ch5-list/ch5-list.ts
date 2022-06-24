@@ -40,7 +40,7 @@ export interface ICh5ListItemInfo {
 
 export enum Ch5ListItemAxis { X, Y }
 
-export type Ch5ListSignature = { [key: string]: any;};
+export type Ch5ListSignature = { [key: string]: any; };
 export const duration = 300;
 export const easeMode = 'ease-out';
 
@@ -1477,15 +1477,12 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 		const callback: SignalSubscriptionCallback = (newValue: string | number | boolean) => {
 			const _newValue = newValue as number;
+			this.info("SignalSubscriptionCallback value is ", _newValue);
 			if (_newValue !== null || _newValue !== undefined) {
-				subscribeInViewPortChange(this, () => {
-					if (this.elementIsInViewPort && this._isListVisible) {
-						const bufferAmount = this.bufferAmount || 0;
-						const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
-						this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
-						this.animationHelper.signalScrollTo(_newValue as number);
-					}
-				});
+				const bufferAmount = this.bufferAmount || 0;
+				const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
+				this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
+				this.animationHelper.signalScrollTo(_newValue as number);
 			}
 		};
 
@@ -1495,6 +1492,18 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			this.receiveStateScrollToSub as string,
 			callback
 		);
+
+		subscribeInViewPortChange(this, () => {
+			this.info("in subscribeInViewPortChange", this.elementIsInViewPort, this._isListVisible);
+			if (this.elementIsInViewPort && this._isListVisible) {
+				this._receiveStateScrollToSub = this.signalManager.subscribeToSignal<number>(
+					0,
+					this.receiveStateScrollTo as string,
+					this.receiveStateScrollToSub as string,
+					callback
+				);
+			}
+		});
 	}
 
 	public get receiveStateTemplateVars(): string | null | undefined {
