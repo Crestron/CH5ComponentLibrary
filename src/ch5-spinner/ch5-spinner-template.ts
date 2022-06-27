@@ -6,10 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Spinner } from "./ch5-spinner";
-import { AnimationFrameScheduler } from "rxjs/internal/scheduler/AnimationFrameScheduler";
-import { signalNameForLibraryBuildDate } from "../ch5-core";
-import {Ch5AugmentVarSignalsNames} from "../ch5-common/ch5-augment-var-signals-names";
-import { isNil } from "lodash";
+import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 
 export class Ch5SpinnerTemplate {
 
@@ -520,7 +517,7 @@ export class Ch5SpinnerTemplate {
     this.wrapperElement.appendChild(this.highlightElement);
     this.wrapperElement.appendChild(this.scrollableArea);
 
-   // remove  wrapper if exist
+    // remove  wrapper if exist
     if (this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__overlay').length
       || this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__wrapper').length) {
       const overlayEle = Array.from(this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__overlay'));
@@ -546,9 +543,9 @@ export class Ch5SpinnerTemplate {
       // TODO-ANDREI
       // This is a temporary solution and
       // needs further improvements
-      if(parseInt(this._element.itemHeight,10)<=0||isNaN(parseInt(this._element.itemHeight,10))){
-     this.handleDefaultItemHeight((this.childrenObject as [HTMLElement])[0] as HTMLElement);
-    }
+      if (parseInt(this._element.itemHeight, 10) <= 0 || isNaN(parseInt(this._element.itemHeight, 10))) {
+        this.handleDefaultItemHeight((this.childrenObject as [HTMLElement])[0] as HTMLElement);
+      }
 
     }
   }
@@ -603,7 +600,7 @@ export class Ch5SpinnerTemplate {
    * @param {number} index
    * @return {HTMLElement|null}
    */
-  public getSelectedItem(index: number): HTMLElement|null {
+  public getSelectedItem(index: number): HTMLElement | null {
 
     try {
       if (this.childrenObject !== null) {
@@ -676,7 +673,7 @@ export class Ch5SpinnerTemplate {
     if (this.element.indexId !== '') {
       // replace the placeholder for id'sd
       // replace indexId in attributes
-      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(documentContainer, index , this.element.indexId);
+      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(documentContainer, index, this.element.indexId);
       // replace remaining Idx from content using innerHTML and replace
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(documentContainer, index, this.element.indexId);
     }
@@ -709,7 +706,7 @@ export class Ch5SpinnerTemplate {
         }
       }
     } catch (e) {
-      console.error(Ch5SpinnerTemplate.ERROR.structure,e);
+      console.error(Ch5SpinnerTemplate.ERROR.structure, e);
     }
   }
 
@@ -759,11 +756,11 @@ export class Ch5SpinnerTemplate {
     //   .replaceIndexIdInTmplElemsContent(template, (index), this.element.indexId as string);
 
     let childrenObject: DocumentFragment = document.importNode(template.content, true);
-    
+
     if (childrenObject.children.length > 0) {
       // replace the placeholder for id'sd
-        const childrenObjectUpdated: DocumentFragment | undefined =
-          this.resolveId(index, childrenObject.childNodes as NodeListOf<HTMLElement>);
+      const childrenObjectUpdated: DocumentFragment | undefined =
+        this.resolveId(index, childrenObject.childNodes as NodeListOf<HTMLElement>);
 
       if (childrenObjectUpdated !== undefined) {
         childrenObject = childrenObjectUpdated;

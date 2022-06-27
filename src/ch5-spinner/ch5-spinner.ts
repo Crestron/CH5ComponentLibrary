@@ -310,11 +310,12 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     if (this.selectedValue !== value && isNil(value)) {
       value = 0;
     }
-    if(this.size<value){ 
-      value=this.size-1;}
-    else if(value<0)
-    {value=0;
-}
+    if (this.size < value) {
+      value = this.size - 1;
+    }
+    else if (value < 0) {
+      value = 0;
+    }
 
     if (value !== this.selectedValue) {
       this.setAttribute('selectedValue', value + '');
@@ -388,16 +389,16 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     if (items > this.size) {
       items = this.size;
     }
-    if(isNaN(items)||items<=0)
-    items=3;
-   
+    if (isNaN(items) || items <= 0)
+      items = 3;
+
     if (items !== this.visibleItemScroll) {
-      
+
       this.setAttribute('visibleItemScroll', items.toString() + '');
-    
+
     }
     this._visibleItemScroll = items;
-  
+
   }
 
   /**
@@ -848,10 +849,10 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
     sendeventonfocus: { direction: "event", booleanJoin: 1, contractName: true },
     sendeventonoverflow: { direction: "event", booleanJoin: 1, contractName: true },
     sendEventonunderflow: { direction: "event", booleanJoin: 1, contractName: true },
-    contractname: {contractName: true},
-		booleanjoinoffset: { booleanJoin: 1 },
-		numericjoinoffset: { numericJoin: 1 },
-		stringjoinoffset: { stringJoin: 1 }
+    contractname: { contractName: true },
+    booleanjoinoffset: { booleanJoin: 1 },
+    numericjoinoffset: { numericJoin: 1 },
+    stringjoinoffset: { stringJoin: 1 }
   };
 
   public static primaryCssClass = 'ch5-spinner';
@@ -1164,13 +1165,13 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   }
 
   public static registerSignalAttributeDefaults() {
-		Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Spinner.ELEMENT_NAME, {
-			contractName: { attributes: ["contractname"], defaultValue: "" },
-			booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
-			numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
-			stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
-		});
-	}
+    Ch5SignalAttributeRegistry.instance.addElementDefaultAttributeEntries(Ch5Spinner.ELEMENT_NAME, {
+      contractName: { attributes: ["contractname"], defaultValue: "" },
+      booleanJoin: { attributes: ["booleanjoinoffset"], defaultValue: "0" },
+      numericJoin: { attributes: ["numericjoinoffset"], defaultValue: "0" },
+      stringJoin: { attributes: ["stringjoinoffset"], defaultValue: "0" }
+    });
+  }
 
   /**
    * Triggered when the component is attached to the DOM

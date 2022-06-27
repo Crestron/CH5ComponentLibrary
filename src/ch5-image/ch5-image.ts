@@ -256,8 +256,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			&& this._sigNameReceivePassword !== null) {
 
 			const oldSigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePassword);
-			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-				.getStringSignal(oldSigName);
+			const oldSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(oldSigName);
 
 			if (oldSignal !== null) {
 				oldSignal.unsubscribe(this._subReceivePassword);
@@ -269,8 +268,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		// setup new subscription.
 		const sigName: string = Ch5Signal.getSubscriptionSignalName(this._sigNameReceivePassword);
-		const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance()
-			.getStringSignal(sigName);
+		const receiveSignal: Ch5Signal<string> | null = Ch5SignalFactory.getInstance().getStringSignal(sigName);
 
 		if (receiveSignal === null) {
 			return;
@@ -1275,12 +1273,12 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		super.updateElementVisibility(visible);
 
 		if (this.elementIsVisible && this.isVisible()) {
-			this.show = true;
+			this._show = true;
 			if (this._img.src === '') {
 				this.enableImageLoading();
 			}
 		} else {
-			this.show = false;
+			this._show = false;
 		}
 	}
 
@@ -1576,10 +1574,10 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		// TODO: visibility here is an HTMLElement, not a boolean
 		//       and for this reason, it will always go on the if branch
 		if (visibility) {
-			this.show = true;
+			this._show = true;
 			this._maybeLoadImage(true);
 		} else {
-			this.show = false;
+			this._show = false;
 		}
 	}
 }
