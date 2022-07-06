@@ -765,6 +765,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this._stretch = null;
 			this.removeAttribute('stretch');
 		}
+		this.updateCssClasses();
 	}
 	public get stretch(): TCh5ButtonStretch | null {
 		return this._stretch;
@@ -1041,7 +1042,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		this.initAttributes();
 		this.updateCssClasses();
-		this.updateForChangeInStretch();
+		// this.updateForChangeInStretch();
 		this.attachEventListeners();
 		this.initCommonMutationObserver(this);
 		if (!this.hasAttribute('customclasspressed')) {
@@ -1339,7 +1340,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			case 'stretch':
 				this.stretch = Ch5ButtonUtils.getAttributeValue<TCh5ButtonStretch | null>(this, 'stretch', newValue as TCh5ButtonStretch, null);
-				this.updateForChangeInStretch();
+				this.updateCssClasses();
 				break;
 
 			case 'selected':
@@ -2464,6 +2465,27 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			}
 		}
 
+		if (!_.isNil(this.stretch)) {
+			if (this.shape === "circle") {
+				if (this.parentElement) {
+					const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
+					let setValue = 0;
+					if (parentWidth < parentHeight) {
+						setValue = parentWidth;
+					} else if (parentWidth > parentHeight) {
+						setValue = parentHeight;
+					} else {
+						setValue = parentWidth;
+					}
+					this._elContainer.style.height = setValue + 'px';
+					this._elContainer.style.width = setValue + 'px';
+				}
+			}
+		} else {
+			this._elContainer.style.removeProperty('height');
+			this._elContainer.style.removeProperty('width');
+		}
+
 		const setOfCssClassesToBeAppliedForLabelAlignment = new Set<string>();
 
 		// horizontal align
@@ -2483,7 +2505,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	protected updateForChangeInStretch(): void {
+	private updateForChangeInStretch(): void {
 		const parentEl = this.parentElement as HTMLElement;
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (!parentEl) {
