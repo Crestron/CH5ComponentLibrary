@@ -146,6 +146,15 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 	}
 
 	public connectedCallback() {
+		this.initAttributes();
+
+		customElements.whenDefined(Ch5JoinToTextBoolean.ELEMENT_NAME).then(() => {
+			this.toggleText(); // This is to handle specific case where the formatValue isn't called as component attributes are set to "default" values.
+		});
+	}
+	
+	protected initAttributes() {
+		super.initAttributes();
 		if (this.hasAttribute('textwhentrue')) {
 			this.textWhenTrue = this.getAttribute('textwhentrue') as string;
 		}
@@ -163,10 +172,6 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 		} else {
 			this.value = false;
 		}
-
-		customElements.whenDefined(Ch5JoinToTextBoolean.ELEMENT_NAME).then(() => {
-			this.toggleText(); // This is to handle specific case where the formatValue isn't called as component attributes are set to "default" values.
-		});
 	}
 
 	public disconnectedCallback() {
@@ -175,6 +180,7 @@ export class Ch5JoinToTextBoolean extends Ch5Common implements ICh5JoinToTextBoo
 
 		if (oldSignal !== null) {
 			oldSignal.unsubscribe(this._subReceiveStateValue);
+			this._receiveStateValue = "";
 		}
 	}
 

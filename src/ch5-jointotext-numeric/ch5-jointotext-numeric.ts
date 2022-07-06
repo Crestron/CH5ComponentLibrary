@@ -294,6 +294,14 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 	}
 
 	public connectedCallback() {
+		this.initAttributes();
+		customElements.whenDefined(Ch5JoinToTextNumeric.ELEMENT_NAME).then(() => {
+			this.formatValue(); // This is to handle specific case where the formatValue isn't called as all component attributes are set to "default" values.
+		});
+	}
+
+	protected initAttributes() {
+		super.initAttributes();
 		if (this.hasAttribute('value')) {
 			this.value = this.getAttribute('value') + '';
 		}
@@ -305,10 +313,6 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 		if (this.hasAttribute('type')) {
 			this.type = this.getAttribute('type') as TCh5JoinInfoNumericFormats;
 		}
-
-		customElements.whenDefined(Ch5JoinToTextNumeric.ELEMENT_NAME).then(() => {
-			this.formatValue(); // This is to handle specific case where the formatValue isn't called as all component attributes are set to "default" values.
-		});
 	}
 
 	public disconnectedCallback() {
@@ -317,6 +321,7 @@ export class Ch5JoinToTextNumeric extends Ch5Common implements ICh5JoinToTextNum
 
 		if (oldSignal !== null) {
 			oldSignal.unsubscribe(this._subReceiveStateValue);
+			this._receiveStateValue = "";
 		}
 	}
 

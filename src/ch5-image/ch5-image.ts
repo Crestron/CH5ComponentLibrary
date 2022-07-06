@@ -1269,18 +1269,21 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		return _isVisible(this);
 	}
-	public updateElementVisibility(visible: boolean) {
-		super.updateElementVisibility(visible);
+	// Need if we really need the below. Other comps dont follow this
+	// public updateElementVisibility(visible: boolean) {
+	// 	this.logger.log("updateElementVisibility", visible, this.isVisible());
+	// 	super.updateElementVisibility(visible);
 
-		if (this.elementIsVisible && this.isVisible()) {
-			this._show = true;
-			if (this._img.src === '') {
-				this.enableImageLoading();
-			}
-		} else {
-			this._show = false;
-		}
-	}
+	// 	// if (this.elementIsVisible && this.isVisible()) {
+	// 		if (this.isVisible()) {
+	// 			this._show = true;
+	// 		if (this._img.src === '') {
+	// 			this.enableImageLoading();
+	// 		}
+	// 	} else {
+	// 		this._show = false;
+	// 	}
+	// }
 
 	protected afterHandlingShow(): void {
 		this.info('afterHandlingShow()');
@@ -1326,7 +1329,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	 * Load image
 	 */
 	private _maybeLoadImage(refreshParam?: boolean): void {
-		let candidateUrl = '';
+		// let candidateUrl = '';
 
 		/**
 		 * this.show returns information about the show/visibility parameter of the current component
@@ -1334,16 +1337,17 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		 * ( it does not include the case of css property visibility:hidden - this is considered as visible since the
 		 * browser reserved space for the component)
 		 */
-		if (this.elementIsVisible) {
+		 this.logger.log("****** this.elementIsVisible in Image", this.elementIsVisible, this.show);
+		//  if (this.elementIsVisible) { // Commenting - but need to understand why this gets set to false
 			if (null !== this._url && '' !== this.url && true === this.show) {
-				candidateUrl = refreshParam ? this._insertParamToUrl('__cr_avoid_cache', new Date().getTime().toString()) : this._url;
+				const candidateUrl = refreshParam ? this._insertParamToUrl('__cr_avoid_cache', new Date().getTime().toString()) : this._url;
 
 				this._img.src = candidateUrl;
 				this._imageWasLoaded = true;
 
 				this.info('image source ', this._img.src);
 			}
-		}
+		// }
 	}
 
 	/**
@@ -1558,17 +1562,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 
 		return vars;
 	}
-
-	// /**
-	//  * Update the image url
-	//  *
-	//  * @param {string} url
-	//  */
-	// private updateImageUrl(url: string): void {
-	// 	this._url = url;
-	// 	this.setAttribute('url', this._url);
-	// 	this._maybeLoadImage();
-	// }
 
 	public updateElementInViewportChange(visibility: boolean) {
 		// TODO: visibility here is an HTMLElement, not a boolean
