@@ -1,4 +1,4 @@
-:<h1>ch5-dpad (ch5-common) <b>noshowType</b>, <b>receiveStateShowPulse</b>, <b>receiveStateHidePulse</b>:</h1>
+:<h1>ch5-dpad (ch5-common) <b>noshowType</b>, <b>receiveStateShowPulse</b>,<b>receiveStateHidePulse</b>, <b>sendEventOnShow</b>:</h1>
 <p>
     If the dpad are already visible then triggering a pulse for <b>receiveStateShowPulse</b> will have no effect.
 </p>
@@ -11,3 +11,4 @@
 <p>
     If the dpad are not visible then triggering a pulse for <b>receiveStateHidePulse</b> will have no effect.
 </p>
+<p>When the dpad gets shown it will also send a true value on the signal defined in <b>sendEventOnShow</b></p>
