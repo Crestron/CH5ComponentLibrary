@@ -1472,56 +1472,56 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	/**
 	 * Initializes the values of the common attributes, taking into account the attribute values declared in the HTML
 	 */
-	protected initAttributes() {
+	protected initAttributes(ignoreAttributes:string[] = []) {
 		this.applyPreConfiguredAttributes();
 
-		if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled')) {
+		if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled') && ignoreAttributes.includes('disabled') === false) {
 			this.disabled = this.getAttribute('disabled') as unknown as boolean;
 		}
-		if (this.hasAttribute('debug')) {
+		if (this.hasAttribute('debug') && ignoreAttributes.includes('debug') === false) {
 			this._isDebugEnabled = true;
 		}
-		if (this.hasAttribute('show')) {
+		if (this.hasAttribute('show') && ignoreAttributes.includes('show') === false) {
 			this.show = this.getAttribute('show') as unknown as boolean;
 		}
 
-		if (this.hasAttribute('customclass')) {
+		if (this.hasAttribute('customclass') && ignoreAttributes.includes('customclass') === false) {
 			this.customClass = this.getAttribute('customclass') as string;
 			this.updateForChangeInCustomCssClass();
 		}
-		if (this.hasAttribute('customstyle')) {
+		if (this.hasAttribute('customstyle') && ignoreAttributes.includes('customstyle') === false) {
 			this.customStyle = this.getAttribute('customstyle') as string;
 			this.updateForChangeInStyleCss();
 		}
-		if (this.hasAttribute('noshowtype')) {
+		if (this.hasAttribute('noshowtype') && ignoreAttributes.includes('noshowtype') === false) {
 			this.noshowType = this.getAttribute('noshowtype') as TCh5ShowType;
 		}
-		if (this.hasAttribute('receivestatecustomclass')) {
+		if (this.hasAttribute('receivestatecustomclass') && ignoreAttributes.includes('receivestatecustomclass') === false) {
 			this.receiveStateCustomClass = this.getAttribute('receivestatecustomclass') as string;
 		}
-		if (this.hasAttribute('receivestatecustomstyle')) {
+		if (this.hasAttribute('receivestatecustomstyle') && ignoreAttributes.includes('receivestatecustomstyle') === false) {
 			this.receiveStateCustomStyle = this.getAttribute('receivestatecustomstyle') as string;
 		}
-		if (this.hasAttribute('receivestateshow')) {
+		if (this.hasAttribute('receivestateshow') && ignoreAttributes.includes('receivestateshow') === false) {
 			this.receiveStateShow = this.getAttribute('receivestateshow') as string;
 		}
-		if (this.hasAttribute('receivestateshowpulse')) {
+		if (this.hasAttribute('receivestateshowpulse') && ignoreAttributes.includes('receivestateshowpulse') === false) {
 			this.receiveStateShowPulse = this.getAttribute('receivestateshowpulse') as string;
 		}
-		if (this.hasAttribute('receivestatehidepulse')) {
+		if (this.hasAttribute('receivestatehidepulse') && ignoreAttributes.includes('receivestatehidepulse') === false) {
 			this.receiveStateHidePulse = this.getAttribute('receivestatehidepulse') as string;
 		}
-		if (this.hasAttribute('receivestateenable')) {
+		if (this.hasAttribute('receivestateenable') && ignoreAttributes.includes('receivestateenable') === false) {
 			this.receiveStateEnable = this.getAttribute('receivestateenable') as string;
 		}
-		if (this.hasAttribute('sendeventonshow')) {
+		if (this.hasAttribute('sendeventonshow') && ignoreAttributes.includes('sendeventonshow') === false) {
 			this.sigNameSendOnShow = this.getAttribute('sendeventonshow') as string;
 		}
-		if (this.hasAttribute('gestureable')) {
+		if (this.hasAttribute('gestureable') && ignoreAttributes.includes('gestureable') === false) {
 			this.gestureable = this.toBoolean(this.getAttribute('gestureable') as string);
 		}
 		this.dir = this.getAttribute('dir') || Ch5Common.DIRECTION[0];
-		if (this.hasAttribute('appendclasswheninviewport')) {
+		if (this.hasAttribute('appendclasswheninviewport') && ignoreAttributes.includes('appendclasswheninviewport') === false) {
 			this.appendClassWhenInViewPort = this.getAttribute('appendclasswheninviewport') as string;
 			subscribeInViewPortChange(this, (isInViewPort: boolean) => {
 				this.updateElementVisibility(isInViewPort);

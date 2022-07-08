@@ -25,13 +25,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestateshow: { direction: "state", booleanJoin: 1, contractName: true },
-		receivestateenable: { direction: "state", booleanJoin: 1, contractName: true },
-		receivestateshowpulse: { direction: "state", booleanJoin: 1, contractName: true },
-		receivestatehidepulse: { direction: "state", booleanJoin: 1, contractName: true },
-		receivestatecustomstyle: { direction: "state", stringJoin: 1, contractName: true },
-		receivestatecustomclass: { direction: "state", stringJoin: 1, contractName: true },
-
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true }
 	};
@@ -63,10 +56,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	protected _iconUrl: string = '';
 	protected _sendEventOnClick: string = '';
 	protected _key: TCh5DpadChildButtonType = null as unknown as TCh5DpadChildButtonType;
-
-	// signal based vars for each receive state
-
-	// parent specific contract based signals for each receive state
 
 	// elements specific vars
 	protected _icon: HTMLElement = {} as HTMLElement;
@@ -237,83 +226,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 		return this._sendEventOnClick;
 	}
 
-	/**
-	 * overriding default receiveStateShow
-	 */
-	public set receiveStateShow(value: string) {
-		this.removeAttribute("receiveStateShow".toLowerCase());
-		return;
-	}
-	public get receiveStateShow() {
-		return "";
-	}
-
-	/**
-	 * overriding default receiveStateEnable
-	 */
-	public set receiveStateEnable(value: string) {
-		this.removeAttribute("receiveStateEnable".toLowerCase());
-		return;
-	}
-	public get receiveStateEnable() {
-		return "";
-	}
-
-	/**
-	 * overriding default receiveStateShowPulse
-	 */
-	public set receiveStateShowPulse(value: string) {
-		this.removeAttribute("receiveStateShowPulse".toLowerCase());
-		return;
-	}
-	public get receiveStateShowPulse() {
-		return "";
-	}
-
-	/**
-	 * overriding default receiveStateHidePulse
-	 */
-	public set receiveStateHidePulse(value: string) {
-		this.removeAttribute("receiveStateHidePulse".toLowerCase());
-		return;
-	}
-	public get receiveStateHidePulse() {
-		return "";
-	}
-
-	/**
-	 * overriding default receiveStateCustomStyle
-	 */
-	public set receiveStateCustomStyle(value: string) {
-		this.removeAttribute("receiveStateCustomStyle".toLowerCase());
-		return;
-	}
-	public get receiveStateCustomStyle() {
-		return "";
-	}
-
-	/**
-	 * overriding default receiveStateCustomClass
-	 */
-	public set receiveStateCustomClass(value: string) {
-		this.removeAttribute("receiveStateCustomClass".toLowerCase());
-		return;
-	}
-	public get receiveStateCustomClass() {
-		return "";
-	}
-
-	/**
-	 * overriding default dir
-	 */
-	public set dir(value: string) {
-		this.removeAttribute("dir".toLowerCase());
-		return;
-	}
-	public get dir() {
-		return "";
-	}
-
 	public set pressed(value: boolean) {
 		this.logger.log('set pressed("' + value + '")');
 		if (this._pressable) {
@@ -338,7 +250,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	//#region 3. Lifecycle Hooks
 
-	// public constructor(params: TCh5DpadConstructorParam) {
 	public constructor() {
 		super();
 		this.logger.start('constructor()', this.COMPONENT_NAME);
@@ -430,14 +341,14 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	/**
 	 * Function to create all inner html elements required to complete dpad child-base button
 	 */
-	 protected createHtmlElements(): void {
+	protected createHtmlElements(): void {
 		this.logger.start('createHtmlElements', this.COMPONENT_NAME);
 		if (this.primaryCssClass && this.primaryCssClass !== "") {
-		this.classList.add(this.primaryCssClass);
+			this.classList.add(this.primaryCssClass);
 		}
 		this.classList.add(this.CSS_CLASS_LIST.commonBtnClass);
-		if (this.CSS_CLASS_LIST.primaryTagClass  && this.CSS_CLASS_LIST.primaryTagClass !== "") {
-		this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
+		if (this.CSS_CLASS_LIST.primaryTagClass && this.CSS_CLASS_LIST.primaryTagClass !== "") {
+			this.classList.add(this.CSS_CLASS_LIST.primaryTagClass);
 		}
 		if (this.CSS_CLASS_LIST.defaultArrowClass && this.CSS_CLASS_LIST.defaultArrowClass !== "") {
 			this.classList.add(this.CSS_CLASS_LIST.defaultArrowClass);
@@ -556,14 +467,12 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
 		this.logger.start("attributeChangedCallback", this.COMPONENT_NAME);
-		this.logger.log("***", attr, oldValue, newValue);
 		attr = attr.toLowerCase();
 		if (oldValue === newValue) {
 			return;
 		}
 
-		this.info('ch5-dpad-button' + this.buttonType +
-			' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+		this.info('ch5-dpad-button' + this.buttonType + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 		switch (attr) {
 			case 'receivestateshow':
 			case 'receivestateenable':
@@ -571,7 +480,9 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			case 'receivestatehidepulse':
 			case 'receivestatecustomstyle':
 			case 'receivestatecustomclass':
-			case 'dir':
+			case 'show':
+			case 'disabled':
+			case 'sendeventonshow':
 				// Do nothing for any of the receiveState*
 				// this.removeAttribute(attr);
 				break;
@@ -600,8 +511,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 				}
 				this.updateCssClasses();
 				break;
-			case 'show':
-			case 'enable':
 			default:
 				super.attributeChangedCallback(attr, oldValue, newValue);
 				break;
@@ -615,7 +524,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 */
 	protected initAttributes(): void {
 		this.logger.start("initAttributes", this.COMPONENT_NAME);
-		super.initAttributes();
+		super.initAttributes(["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"]);
 
 		CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
