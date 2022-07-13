@@ -281,7 +281,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 */
 	public get inputType(): TCh5TextInputType {
 
-		this.info('get <ch5-textiput type />');
+		this.info('get <ch5-textinput type />');
 
 		return this._inputType;
 	}
@@ -952,7 +952,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		}
 
 		this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
-
+		this._elInput.setAttribute('size', this._size);
 
 		if (this.scaling === true) {
 			this._scalingUtility.updateDefaultFontSize();
@@ -1077,7 +1077,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * @static
 	 * @type {Array<TCh5TextInputType>}
 	 */
-	public static TYPES: TCh5TextInputType[] = ['text', 'number', 'text', 'email'];
+	public static TYPES: TCh5TextInputType[] = ['text', 'number', 'email'];
 
 	/**
 	 * Contains the allowed size values
@@ -1225,7 +1225,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 	/**
 	 * Type of the input. Default 'text'
-	 * Choice of input limited to 'password', 'number', 'text', 'email'
+	 * Choice of input limited to 'number', 'text', 'email'
 	 * This will affect the validation, length of the component.
 	 *
 	 * @private
@@ -2152,21 +2152,19 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.size = this.getAttribute('size') as TCh5TextInputSize;
 		this.stretch = this.getAttribute('stretch') as TCh5TextInputStretch;
 		this.value = this._elInput.value = this.getAttribute('value') as string;
-
 		this.info("<ch5-textinput />.initAttributes()");
-
 		if (this.hasAttribute('pattern')) {
 			this.pattern = this.getAttribute('pattern') as string;
 		}
-
 		if (this.hasAttribute('mask') && !this.hasAttribute('pattern')) {
 			this.mask = this.getAttribute('mask') as string;
 		}
-
 		if (!this.hasAttribute('type')) {
 			this.setAttribute('type', this.inputType);
 		}
-
+		if (!this.hasAttribute('size')) {
+			this.setAttribute('size', this.size);
+		}
 		if (this.inputType === 'text') {
 			this.textTransform = this.getAttribute('text-transform') as TCh5TextInputTextTransform;
 		}
