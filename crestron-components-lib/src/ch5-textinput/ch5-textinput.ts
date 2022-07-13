@@ -2152,19 +2152,25 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this.size = this.getAttribute('size') as TCh5TextInputSize;
 		this.stretch = this.getAttribute('stretch') as TCh5TextInputStretch;
 		this.value = this._elInput.value = this.getAttribute('value') as string;
+
 		this.info("<ch5-textinput />.initAttributes()");
+
 		if (this.hasAttribute('pattern')) {
 			this.pattern = this.getAttribute('pattern') as string;
 		}
+
 		if (this.hasAttribute('mask') && !this.hasAttribute('pattern')) {
 			this.mask = this.getAttribute('mask') as string;
 		}
+
 		if (!this.hasAttribute('type')) {
 			this.setAttribute('type', this.inputType);
 		}
+
 		if (!this.hasAttribute('size')) {
 			this.setAttribute('size', this.size);
 		}
+
 		if (this.inputType === 'text') {
 			this.textTransform = this.getAttribute('text-transform') as TCh5TextInputTextTransform;
 		}
