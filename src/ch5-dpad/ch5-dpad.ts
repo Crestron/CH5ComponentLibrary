@@ -478,6 +478,11 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 		this.removeEvents();
 		this.unsubscribeFromSignals();
 
+		if (!!this.container && !!this.container.style) {
+			this.container.style.removeProperty('height');
+			this.container.style.removeProperty('width');
+		}
+
 		// disconnect common mutation observer
 		this.disconnectCommonMutationObserver();
 	}

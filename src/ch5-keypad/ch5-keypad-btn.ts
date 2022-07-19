@@ -463,7 +463,8 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 			case 'receivestatecustomstyle':
 			case 'receivestatecustomclass':
 			case 'receivestateextrabuttonshow':
-			case 'dir':
+			case 'show':
+			case 'disabled':
 				// Do nothing for any of the receiveState*
 				break;
 			case 'labelminor':
@@ -509,8 +510,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 				}
 				this.updateCssClasses();
 				break;
-			case 'show':
-			case 'disabled':
 			default:
 				super.attributeChangedCallback(attr, oldValue, newValue);
 				break;

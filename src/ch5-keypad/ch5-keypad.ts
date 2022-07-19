@@ -651,6 +651,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this.removeEvents();
 		this.unsubscribeFromSignals();
 
+		if (this.container && this.container.style) {
+			this.container.style.removeProperty('height');
+			this.container.style.removeProperty('width');
+		}
+
 		// disconnect common mutation observer
 		this.disconnectCommonMutationObserver();
 	}
