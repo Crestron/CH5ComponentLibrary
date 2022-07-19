@@ -234,7 +234,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			}
 		}
 		this._pressed = value;
-		this.setAttribute('pressed', value.toString());
 		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 		this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
 	}
