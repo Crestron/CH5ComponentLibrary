@@ -128,13 +128,26 @@ export interface ICh5ImageAttributes extends ICh5CommonAttributes {
    * [
    * "`receivestateurl` attribute",
    * "***",
-   * "The image URL passed via state."
+   * "The image URL."
    * ]
    * @name receivestateurl
    * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
    * @attributeType "Join"
    */
   receiveStateUrl: string;
+
+  /**
+   * @documentation
+   * [
+   * "`receivestatemode` attribute",
+   * "***",
+   * "The image mode received."
+   * ]
+   * @name receivestatemode
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+   receiveStateMode: string;
 
   /**
    * @documentation
