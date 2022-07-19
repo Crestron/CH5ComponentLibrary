@@ -977,8 +977,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	private setContainerHeightAndWidth(height: number, width: number) {
 		this.container.style.height = height + 'px';
 		this.container.style.width = width + 'px';
-		this.style.height = height + 'px';
-		this.style.width = width + 'px';
 	}
 
 	private stretchHandler() {
