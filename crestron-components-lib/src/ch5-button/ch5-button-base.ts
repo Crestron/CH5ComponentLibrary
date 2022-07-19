@@ -234,7 +234,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private readonly BUTTON_PROPERTIES: {
 		CHECKBOX_SHOW: ICh5AttributeAndPropertySettings,
 		SELECTED: ICh5AttributeAndPropertySettings,
-		VALIGN_LABEL: ICh5AttributeAndPropertySettings
+		VALIGN_LABEL: ICh5AttributeAndPropertySettings,
+		PRESSED: ICh5AttributeAndPropertySettings
 	} = {
 			CHECKBOX_SHOW: {
 				default: false,
@@ -271,6 +272,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				enumeratedValues: Ch5ButtonBase.VERTICAL_LABEL_ALIGNMENTS,
 				componentReference: this,
 				callback: this.setButtonDisplay.bind(this)
+			},
+			PRESSED: {
+				default: false,
+				valueOnAttributeEmpty: true,
+				variableName: "_pressed",
+				attributeName: "pressed",
+				propertyName: "pressed",
+				removeAttributeOnNull: true,
+				type: "boolean",
+				enumeratedValues: ['true', 'false', '', true, false],
+				componentReference: this,
+				callback: this.setPressableEvent.bind(this)
 			}
 		};
 
@@ -400,6 +413,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * on the button component
 	 */
 	private _selected: boolean = false;
+
+	private _pressed: boolean = false;
 
 	/**
 	 * State class name as defined in customClassSelected, customClassPressed and customClassDisabled HTML attribute
@@ -783,19 +798,41 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set pressed(value: boolean) {
 		this.logger.log('set pressed("' + value + '")');
-		if (this._pressable) {
-			if (this._pressable._pressed !== value) {
-				this._pressable.setPressed(value);
-			}
-		}
+		// if (this._buttonPressedInPressable !== value) {
+		// 	if ([true, false].indexOf(value) >= 0) {
+		// 		if (!this.hasAttribute("pressed")) {
+		// 			this.setAttribute("pressed", "true");
+		// 		}
+		// 		this.setPressableEvent(value);
+		// 	} else {
+		// 		if (this.hasAttribute("pressed")) {
+		// 			if (this.getAttribute("pressed") === "true" || this.getAttribute("pressed") === "false") {
+		// 				value = this.toBoolean(this.getAttribute("pressed"), true);
+		// 				this.setPressableEvent(value);
+		// 			} else if (this.getAttribute("pressed") === "" || _.isNil(this.getAttribute("pressed"))) {
+		// 				value = true;
+		// 				this.setPressableEvent(value);
+		// 			} else {
+		// 				value = true;
+		// 				this.setAttribute("pressed", "true");
+		// 			}
+		// 		} else {
+		// 			value = false;
+		// 			this.setPressableEvent(value);
+		// 		}
+		// 	}
+		// }
+		this.setAttributeAndProperty(this.BUTTON_PROPERTIES.PRESSED, value);
 	}
 	public get pressed(): boolean {
-		if (this._pressable) {
-			return this._pressable._pressed;
-		} else {
-			return false;
-		}
+		// if (this._pressable) {
+		// 	return this._pressable._pressed;
+		// } else {
+		// 	return false;
+		// }
+		return this._pressed;
 	}
+
 
 	public set customClassState(value: string) {
 		this.logger.log('set customclassstate("' + value + '")');
@@ -1022,6 +1059,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', this.primaryCssClass);
+
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 
@@ -1039,11 +1077,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 
 		// this._hammerManager = new Hammer(this._elContainer);
+		this.attachEventListeners();
 
 		this.initAttributes();
 		this.updateCssClasses();
 		// this.updateForChangeInStretch();
-		this.attachEventListeners();
 		this.initCommonMutationObserver(this);
 		if (!this.hasAttribute('customclasspressed')) {
 			this.updateCssClassesForCustomState();
@@ -1178,9 +1216,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.vAlignLabel = this.getAttribute('valignlabel') as TCh5ButtonVerticalAlignLabel;
 		}
 		if (this.hasAttribute('pressed')) {
-			if (this._pressable) {
-				this._pressable.setPressed(this.toBoolean((this.hasAttribute('pressed') && this.getAttribute('pressed') !== "false"), false));
-			}
+			this.pressed = this.getAttribute('pressed') as unknown as boolean;
 		}
 		if (this.hasAttribute('labelInnerHTML')) {
 			this.labelInnerHTML = this.getAttribute('labelInnerHTML') as string;
@@ -1213,6 +1249,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (this.hasAttribute('sendeventontouch')) {
 			this.sendEventOnTouch = this.getAttribute('sendeventontouch') as string;
 		}
+		this.updateCssClasses();
 		this.updateInternalHtml();
 		this.logger.stop();
 	}
@@ -1230,7 +1267,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	protected removeEventListeners() {
 		super.removeEventListeners();
-
+		if (this.style) {
+			this.style.removeProperty('height');
+			this.style.removeProperty('width');
+		}
 		if (!isNil(this._pressable)) {
 			this._unsubscribeFromPressableIsPressed();
 		}
@@ -1354,14 +1394,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				break;
 
 			case 'pressed':
-				let isPressed = false;
-				if (this.hasAttribute('pressed')) {
-					isPressed = this.toBoolean(newValue, true);
-				}
-				if (this._pressable) {
-					this._pressable.setPressed(isPressed);
-				}
-				this.updateCssClasses();
+				this.pressed = newValue as unknown as boolean;
 				break;
 
 			case 'checkboxshow':
@@ -1476,35 +1509,35 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-				this.info(`Ch5Button.pressableSubscriptionCb(${value})`);
-				if (value !== this._buttonPressedInPressable) {
-
-					this._buttonPressedInPressable = value;
-					if (value === false) {
-						if (this._repeatDigitalInterval !== null) {
-							window.clearInterval(this._repeatDigitalInterval as number);
-						}
-						this.sendValueForRepeatDigitalWorking(false);
-						setTimeout(() => {
-							this.setButtonDisplay();
-						}, this.STATE_CHANGE_TIMEOUTS);
-					} else {
-						this.sendValueForRepeatDigitalWorking(true);
-						if (this._repeatDigitalInterval !== null) {
-							window.clearInterval(this._repeatDigitalInterval as number);
-						}
-						let numRepeatDigitals = 0;
-						this._repeatDigitalInterval = window.setInterval(() => {
-							this.sendValueForRepeatDigitalWorking(true);
-							if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
-								console.warn("Ch5Button MAXIMUM Repeat digitals sent");
-								window.clearInterval(this._repeatDigitalInterval as number);
-								this.sendValueForRepeatDigitalWorking(false);
-							}
-						}, REPEAT_DIGITAL_PERIOD);
-						this.setButtonDisplay();
+				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`);
+				// if (value !== this._buttonPressedInPressable || value !== this._pressable?._pressed) {
+				// this._buttonPressedInPressable = value;
+				this.pressed = value;
+				if (value === false) {
+					if (this._repeatDigitalInterval !== null) {
+						window.clearInterval(this._repeatDigitalInterval as number);
 					}
+					this.sendValueForRepeatDigitalWorking(false);
+					setTimeout(() => {
+						this.setButtonDisplay();
+					}, this.STATE_CHANGE_TIMEOUTS);
+				} else {
+					this.sendValueForRepeatDigitalWorking(true);
+					if (this._repeatDigitalInterval !== null) {
+						window.clearInterval(this._repeatDigitalInterval as number);
+					}
+					let numRepeatDigitals = 0;
+					this._repeatDigitalInterval = window.setInterval(() => {
+						this.sendValueForRepeatDigitalWorking(true);
+						if (++numRepeatDigitals >= MAX_REPEAT_DIGITALS) {
+							console.warn("Ch5Button MAXIMUM Repeat digitals sent");
+							window.clearInterval(this._repeatDigitalInterval as number);
+							this.sendValueForRepeatDigitalWorking(false);
+						}
+					}, REPEAT_DIGITAL_PERIOD);
+					this.setButtonDisplay();
 				}
+				// }
 			});
 		}
 	}
@@ -1920,7 +1953,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		const extendedProperties: ICh5ButtonExtendedProperties = {};
 
-		let isButtonModePressedAvailable: boolean = false;
+		// let isButtonModePressedAvailable: boolean = false;
 
 		// Priority 1: ReceiveState Signals
 		if (this.receiveStateType && this.receiveStateType !== '') {
@@ -1969,20 +2002,34 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				const buttonModeStatesArray = selectedButtonMode.getElementsByTagName("ch5-button-mode-state");
 				if (buttonModeStatesArray && buttonModeStatesArray.length > 0) {
 					let selectedButtonModeState = null;
-					if (this._buttonPressedInPressable === false) {
-						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-							return ((buttonModeState.getAttribute("state") === "selected" && this.selected === true) ||
-								(buttonModeState.getAttribute("state") === "normal" && this.selected === false));
-						});
-					} else {
+					// this.logger.log("this._buttonPressedInPressable is ", this._buttonPressedInPressable);
+					// if (this._buttonPressedInPressable === false) {
+					// 	selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
+					// 		return ((buttonModeState.getAttribute("state") === "selected" && this.selected === true) ||
+					// 			(buttonModeState.getAttribute("state") === "normal" && this.selected === false));
+					// 	});
+					// } else {
+					// 	selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
+					// 		return (buttonModeState.getAttribute("state") === "pressed");
+					// 	});
+					// }
+
+					if (this._pressable?._pressed === true || (this.pressed === true)) {
 						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
 							return (buttonModeState.getAttribute("state") === "pressed");
 						});
 					}
+					if (!selectedButtonModeState) {
+						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
+							return ((buttonModeState.getAttribute("state") === "selected" && this.selected === true) ||
+								(buttonModeState.getAttribute("state") === "normal" && this.selected === false));
+						});
+					}
+
 					if (selectedButtonModeState) {
-						if (this._buttonPressedInPressable === true) {
-							isButtonModePressedAvailable = true;
-						}
+						// if (this._buttonPressedInPressable === true) {
+						// 	isButtonModePressedAvailable = true;
+						// }
 
 						if (isNil(extendedProperties.type) && !isNil(selectedButtonModeState.getAttribute("type"))) {
 							extendedProperties.type = selectedButtonModeState.getAttribute("type") as TCh5ButtonType;
@@ -2116,15 +2163,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			extendedProperties.labelHtml = "";
 		}
 
-		if (this._buttonPressedInPressable === false) {
-			this.updatePropertiesObject(extendedProperties);
-		} else {
-			if (isButtonModePressedAvailable === true) {
-				this.updatePropertiesObject(extendedProperties);
-			}
-		}
+		this.updatePropertiesObject(extendedProperties);
+		// if (this._buttonPressedInPressable === false) {
+		// 	this.updatePropertiesObject(extendedProperties);
+		// } else {
+		// 	if (isButtonModePressedAvailable === true) {
+		// 		this.updatePropertiesObject(extendedProperties);
+		// 	}
+		// }
 
-		this.logger.log("extendedProperties Final: ", JSON.parse(JSON.stringify(extendedProperties)));
+		// this.logger.log("extendedProperties Final: ", JSON.parse(JSON.stringify(extendedProperties)));
 
 		// update templateContent attributes to increment join numbers and prefix contract name
 		Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(this, this.getAttribute("contractname") || '',
@@ -2215,7 +2263,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			updatedNodes.customStyle = "";
 		}
 		this._customStyle = updatedNodes.customStyle;
-		if (this.previousExtendedProperties.customStyle !== this.customStyle) {
+		if ((this.previousExtendedProperties.customStyle) !== this.customStyle && (!_.isNil(this.previousExtendedProperties.customStyle))) {
+			// isNil is accounted for first time change to style css
 			updateUIMethods.updateForChangeInStyleCss = true;
 		}
 
@@ -2465,25 +2514,23 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			}
 		}
 
-		if (!_.isNil(this.stretch)) {
-			if (this.shape === "circle") {
-				if (this.parentElement) {
-					const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
-					let setValue = 0;
-					if (parentWidth < parentHeight) {
-						setValue = parentWidth;
-					} else if (parentWidth > parentHeight) {
-						setValue = parentHeight;
-					} else {
-						setValue = parentWidth;
-					}
-					this._elContainer.style.height = setValue + 'px';
-					this._elContainer.style.width = setValue + 'px';
-				}
+		if (!_.isNil(this.stretch) && this.shape === "circle" && this.parentElement) {
+			const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
+			let setValue = 0;
+			if (parentWidth < parentHeight) {
+				setValue = parentWidth;
+			} else if (parentWidth > parentHeight) {
+				setValue = parentHeight;
+			} else {
+				setValue = parentWidth;
 			}
+			this.style.removeProperty('height');
+			this.style.removeProperty('width');
+			this.style.height = setValue + 'px';
+			this.style.width = setValue + 'px';
 		} else {
-			this._elContainer.style.removeProperty('height');
-			this._elContainer.style.removeProperty('width');
+			this.style.removeProperty('height');
+			this.style.removeProperty('width');
 		}
 
 		const setOfCssClassesToBeAppliedForLabelAlignment = new Set<string>();
@@ -2505,24 +2552,24 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
-	private updateForChangeInStretch(): void {
-		const parentEl = this.parentElement as HTMLElement;
-		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
-		if (!parentEl) {
-			this.logger.log('updateForChangeInStretch() - parent element not found');
-			return;
-		}
-		let stretchCssClassNameToAdd: string = '';
-		if (!isNil(this.stretch) && Ch5ButtonBase.STRETCHES.indexOf(this.stretch) >= 0) {
-			stretchCssClassNameToAdd = this.primaryCssClass + '--stretch-' + this.stretch;
-		}
-		Ch5ButtonBase.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
-			const cssClass = this.primaryCssClass + '--stretch-' + stretch;
-			if (cssClass !== stretchCssClassNameToAdd) {
-				targetEl.classList.remove(cssClass);
-			}
-		});
-	}
+	// private updateForChangeInStretch(): void {
+	// 	const parentEl = this.parentElement as HTMLElement;
+	// 	const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
+	// 	if (!parentEl) {
+	// 		this.logger.log('updateForChangeInStretch() - parent element not found');
+	// 		return;
+	// 	}
+	// 	let stretchCssClassNameToAdd: string = '';
+	// 	if (!isNil(this.stretch) && Ch5ButtonBase.STRETCHES.indexOf(this.stretch) >= 0) {
+	// 		stretchCssClassNameToAdd = this.primaryCssClass + '--stretch-' + this.stretch;
+	// 	}
+	// 	Ch5ButtonBase.STRETCHES.forEach((stretch: TCh5ButtonStretch) => {
+	// 		const cssClass = this.primaryCssClass + '--stretch-' + stretch;
+	// 		if (cssClass !== stretchCssClassNameToAdd) {
+	// 			targetEl.classList.remove(cssClass);
+	// 		}
+	// 	});
+	// }
 
 	protected updateCssClassesForCustomState(): void {
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
@@ -2538,6 +2585,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private setSelectionMethods() {
 		this.setButtonDisplay();
 		this.checkboxDisplay();
+		this.updateCssClasses();
+	}
+
+	private setPressableEvent() {
+		if (this._pressable) {
+			// this._buttonPressedInPressable = value;
+			this.logger.log("pressed * ", this._pressable._pressed, this._pressed);
+			if (this._pressable._pressed !== this._pressed) {
+				this.logger.log("pressed ***** ");
+				this._pressable.setPressed(this._pressed);
+			}
+		}
 		this.updateCssClasses();
 	}
 
