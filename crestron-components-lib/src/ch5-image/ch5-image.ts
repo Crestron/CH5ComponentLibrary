@@ -30,6 +30,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
 		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
 		receivestateurl: { direction: "state", stringJoin: 1, contractName: true },
+		receivestatemode: { direction: "state", numericJoin: 1, contractName: true },
 
 		sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
 		sendeventontouch: { direction: "event", booleanJoin: 1, contractName: true },
@@ -371,7 +372,6 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 				oldSignal.unsubscribe(this._subReceiveMode);
 			}
 		}
-
 
 		this._sigNameReceiveMode = value;
 		this.setAttribute('receivestatemode', value);

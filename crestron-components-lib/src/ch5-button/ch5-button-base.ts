@@ -1588,8 +1588,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	protected updateForChangeInCustomCssClass() {
 		const targetElement: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		this.logger.start("updateForChangeInCustomCssClass()");
-		this.logger.log("updateForChangeInCustomCssClass()", this._prevAddedCustomClasses);
-		this.logger.log("from ch5button - updateForChangeInCustomCssClass()", this.customClass);
 
 		this._prevAddedCustomClasses.forEach((className: string) => {
 			if (className !== '') {
@@ -1990,7 +1988,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			extendedProperties.label = this._ch5ButtonSignal.getVariable<string>("receiveStateLabel");
 		}
 
-		this.logger.log("extendedProperties Signals: ", extendedProperties);
+		// this.logger.log("extendedProperties Signals: ", extendedProperties);
 
 		// TODO - update nodes cannot be on pressed becos it cannot take debounce
 
@@ -2065,7 +2063,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 							extendedProperties.labelHtml = selectedButtonModeStateLabelButton[0].children[0].innerHTML as string;
 						}
 					}
-					this.logger.log("extendedProperties Mode States: ", JSON.parse(JSON.stringify(extendedProperties)));
+					// this.logger.log("extendedProperties Mode States: ", JSON.parse(JSON.stringify(extendedProperties)));
 				}
 
 				// Priority 3: Button Mode Attributes for Selected Mode
@@ -2107,7 +2105,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					}
 				}
 
-				this.logger.log("extendedProperties Mode: ", JSON.parse(JSON.stringify(extendedProperties)));
+				// this.logger.log("extendedProperties Mode: ", JSON.parse(JSON.stringify(extendedProperties)));
 				// }
 			}
 		}
@@ -2156,7 +2154,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				extendedProperties.label = this.getAttribute("label") as string
 			}
 		}
-		this.logger.log("extendedProperties Button: ", JSON.parse(JSON.stringify(extendedProperties)));
+		// this.logger.log("extendedProperties Button: ", JSON.parse(JSON.stringify(extendedProperties)));
 		// }
 
 		if (isNil(extendedProperties.labelHtml) && isNil(extendedProperties.label)) {
@@ -2308,7 +2306,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			updateUIMethods.updateInternalHtml = true;
 		}
 
-		this.logger.log("updateUIMethods", (updateUIMethods));
+		// this.logger.log("updateUIMethods", (updateUIMethods));
 
 		// Methods to be invoked
 		if (updateUIMethods.updateCssClasses === true) {
@@ -2591,9 +2589,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private setPressableEvent() {
 		if (this._pressable) {
 			// this._buttonPressedInPressable = value;
-			this.logger.log("pressed * ", this._pressable._pressed, this._pressed);
 			if (this._pressable._pressed !== this._pressed) {
-				this.logger.log("pressed ***** ");
 				this._pressable.setPressed(this._pressed);
 			}
 		}
