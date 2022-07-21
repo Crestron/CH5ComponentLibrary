@@ -952,7 +952,6 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		}
 
 		this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
-		this._elInput.setAttribute('size', this._size);
 
 		if (this.scaling === true) {
 			this._scalingUtility.updateDefaultFontSize();
