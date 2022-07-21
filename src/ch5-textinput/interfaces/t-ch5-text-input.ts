@@ -13,5 +13,5 @@ export type TCh5TextInputStretch = 'fixed' | 'width' | 'content';
 
 export type TCh5TextInputTextTransform = 'none' | 'capitalize' | 'uppercase' | 'lowercase';
 
-export type TCh5TextInputType = 'text' | 'number' | 'text' | 'email';
+export type TCh5TextInputType = 'text' | 'number' | 'email';
 
