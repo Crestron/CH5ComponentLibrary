@@ -360,6 +360,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	private _checkboxShow: boolean = false;
 
+	private isButtonInitiated: boolean = false;
 	/**
 	 * Horizontal Alignment for Label
 	 */
@@ -1059,6 +1060,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', this.primaryCssClass);
+		this.isButtonInitiated = false;
 
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
@@ -1080,14 +1082,12 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.attachEventListeners();
 
 		this.initAttributes();
-		this.updateCssClasses();
-		// this.updateForChangeInStretch();
 		this.initCommonMutationObserver(this);
 		if (!this.hasAttribute('customclasspressed')) {
 			this.updateCssClassesForCustomState();
 		}
 		customElements.whenDefined('ch5-button').then(() => {
-			// this.isButtonInitiated = true;
+			this.isButtonInitiated = true;
 			this.setButtonDisplay(); // This is to handle specific case where the setButtonDisplay isn't called as all button attributes are set to "default" values.
 			this.componentLoadedEvent(this.ELEMENT_NAME, this.id);
 			// publishEvent('object', `component`, { tagName: 'ch5-button', loaded: true, id: this.id });
@@ -1474,7 +1474,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public createButtonLabel(selectedObject: Ch5ButtonBase | Ch5ButtonMode | Ch5ButtonModeState) {
 		const buttonLabelList = selectedObject.getElementsByTagName("ch5-button-label");
 		const findButtonLabel = Array.prototype.slice.call(buttonLabelList).filter((x: { parentNode: { nodeName: { toString: () => string; }; }; }) => x.parentNode.nodeName.toString().toLowerCase() === selectedObject.nodeName.toString().toLowerCase());
-		let childButtonLabel = null;
+		let childButtonLabel: any = null;
 		if (findButtonLabel && findButtonLabel.length > 0 && !isNil(findButtonLabel[0].children[0])) {
 			childButtonLabel = findButtonLabel[0];
 		} else {
@@ -1999,7 +1999,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (selectedButtonMode) {
 				const buttonModeStatesArray = selectedButtonMode.getElementsByTagName("ch5-button-mode-state");
 				if (buttonModeStatesArray && buttonModeStatesArray.length > 0) {
-					let selectedButtonModeState = null;
+					let selectedButtonModeState: any = null;
 					// this.logger.log("this._buttonPressedInPressable is ", this._buttonPressedInPressable);
 					// if (this._buttonPressedInPressable === false) {
 					// 	selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
@@ -2012,15 +2012,19 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 					// 	});
 					// }
 
-					if (this._pressable?._pressed === true || (this.pressed === true)) {
+					if (this.pressed === true) {
+						if (this._pressable?._pressed === true) {
+							selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
+								return (buttonModeState.getAttribute("state") === "pressed");
+							});
+						}
+					} else if (this.selected === true) {
 						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-							return (buttonModeState.getAttribute("state") === "pressed");
+							return (buttonModeState.getAttribute("state") === "selected");
 						});
-					}
-					if (!selectedButtonModeState) {
+					} else {
 						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-							return ((buttonModeState.getAttribute("state") === "selected" && this.selected === true) ||
-								(buttonModeState.getAttribute("state") === "normal" && this.selected === false));
+							return (buttonModeState.getAttribute("state") === "normal");
 						});
 					}
 
@@ -2483,7 +2487,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.shape);
 
 		// type
-		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.type);
+		if (this.isButtonInitiated === true) {
+			setOfCssClassesToBeApplied.add(this.primaryCssClass + '--' + this.type);
+		}
 
 		// size
 		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--size-' + this.size);
