@@ -53,22 +53,6 @@
                 });
             });
         });
-
-        suite('ch5-textinput invalid size', function () {
-            let ch5Textinput;
-
-            setup(() => {
-                ch5Textinput = fixture('ch5-textinput-size-invalid-fixture');
-            });
-
-            // testing with a random value in a size attribute
-            test('Invalid size should be defaulted to "regular"', function (done) {
-                setTimeout(() => {
-                    expect(ch5Textinput.querySelector('input').getAttribute('size')).to.be.equal('regular');
-                    done();
-                })
-            })
-        })
     </script>
 </body>
 </html>
