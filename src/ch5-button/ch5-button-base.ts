@@ -326,7 +326,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	/**
 	 * State of the button ( pressed or not )
 	 */
-	private _buttonPressedInPressable: boolean = false;
+	// private _buttonPressedInPressable: boolean = false;
 
 	private _mode: number = 0;
 	private isModeSetUsingJavascript: boolean = false;
@@ -1061,6 +1061,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', this.primaryCssClass);
 		this.isButtonInitiated = false;
+		this.previousExtendedProperties = {}; // Very important - for pages hidden with buttons and shown back with noshowtype remove
 
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
@@ -1087,6 +1088,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.updateCssClassesForCustomState();
 		}
 		customElements.whenDefined('ch5-button').then(() => {
+			this.logger.log("AAAAAAAAAA");
 			this.isButtonInitiated = true;
 			this.setButtonDisplay(); // This is to handle specific case where the setButtonDisplay isn't called as all button attributes are set to "default" values.
 			this.componentLoadedEvent(this.ELEMENT_NAME, this.id);
