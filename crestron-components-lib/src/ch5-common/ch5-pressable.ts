@@ -561,11 +561,11 @@ export class Ch5Pressable {
 			// add the visual feedback
 			this._addCssPressClass();
 
-			this._ch5Component.setAttribute("pressed", "true");
-			// update state of the button and tell the button the state
 			this._pressed = true;
-			this.observablePressed.next(this._pressed);
 			this._released = false;
+			this.observablePressed.next(this._pressed);
+			// update state of the button and tell the button the state
+			this._ch5Component.setAttribute("pressed", "true");
 
 			// dispatch event for addEventListener consumers
 			this._ch5Component.dispatchEvent(this._pressEvent);
@@ -605,8 +605,8 @@ export class Ch5Pressable {
 
 			// update state of the button and tell the button the state
 			this._pressed = false;
-			this.observablePressed.next(this._pressed);
 			this._released = true;
+			this.observablePressed.next(this._pressed);
 			this._ch5Component.removeAttribute("pressed");
 
 			// dispatch event for addEventListener consumers
