@@ -49,8 +49,7 @@
     });
 
     test(`Check default 'stretch' attribute`, () => {
-      expect(ch5Dpad.attributes.stretch).to.exist;
-      expect(ch5Dpad.attributes.stretch.nodeValue).to.equal('');
+      expect(ch5Dpad.attributes.stretch).not.to.exist;
     });
 
     test(`Check default 'type' attribute`, () => {
@@ -59,7 +58,7 @@
     });
 
     test(`Check default classes`, () => {
-      expect(ch5Dpad.attributes.class.nodeValue).to.equal('ch5-dpad--type-default ch5-dpad--shape-plus ch5-dpad--size-regular');
+      expect(ch5Dpad.attributes.class.nodeValue).to.equal('ch5-dpad ch5-dpad--type-default ch5-dpad--shape-plus ch5-dpad--size-regular');
     });
   });
 </script>
