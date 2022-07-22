@@ -47,23 +47,23 @@
       });
 
       test(`Check icon attribute button center`, () => {
-        expect(ch5DpadIcons.childNodes[1]._iconClass).to.be.equal('fas fa-adjust');
+        expect(ch5DpadIcons.children[0].children[0]._iconClass).to.be.equal('fas fa-adjust');
       });
 
       test(`Check icon attribute button up`, () => {
-        expect(ch5DpadIcons.childNodes[3]._iconClass).to.be.equal('fas fa-angle-double-up');
+        expect(ch5DpadIcons.children[0].children[1]._iconClass).to.be.equal('fas fa-angle-double-up');
       });
 
       test(`Check icon attribute button left`, () => {
-        expect(ch5DpadIcons.childNodes[5]._iconClass).to.be.equal('fas fa-angle-double-right');
+        expect(ch5DpadIcons.children[0].children[2]._iconClass).to.be.equal('fas fa-angle-double-left');
       });
 
       test(`Check icon attribute button right`, () => {
-        expect(ch5DpadIcons.childNodes[7]._iconClass).to.be.equal('fas fa-angle-double-left');
+        expect(ch5DpadIcons.children[0].children[3]._iconClass).to.be.equal('fas fa-angle-double-right');
       });
 
       test(`Check icon attribute button bottom`, () => {
-        expect(ch5DpadIcons.childNodes[9]._iconClass).to.be.equal('fas fa-angle-double-down');
+        expect(ch5DpadIcons.children[0].children[4]._iconClass).to.be.equal('fas fa-angle-double-down');
       });
     });
 
@@ -76,23 +76,24 @@
       });
 
       test(`Check default icon attribute button center`, () => {
-        expect(ch5DpadNoIcons.childNodes[1].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-circle');
+        console.log(ch5DpadNoIcons.children[0].children[0].CSS_CLASS_LIST.defaultIconClass)
+        expect(ch5DpadNoIcons.children[0].children[0].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-circle');
       });
 
       test(`Check default icon attribute button up`, () => {
-        expect(ch5DpadNoIcons.childNodes[3].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-up');
+        expect(ch5DpadNoIcons.children[0].children[1].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-up');
       });
 
       test(`Check default icon attribute button left`, () => {
-        expect(ch5DpadNoIcons.childNodes[5].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-left');
+        expect(ch5DpadNoIcons.children[0].children[2].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-left');
       });
 
       test(`Check default icon attribute button right`, () => {
-        expect(ch5DpadNoIcons.childNodes[7].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-right');
+        expect(ch5DpadNoIcons.children[0].children[3].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-right');
       });
 
       test(`Check default icon attribute button down`, () => {
-        expect(ch5DpadNoIcons.childNodes[9].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-down');
+        expect(ch5DpadNoIcons.children[0].children[4].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-down');
       });
     });
   </script>
