@@ -1472,7 +1472,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	/**
 	 * Initializes the values of the common attributes, taking into account the attribute values declared in the HTML
 	 */
-	protected initAttributes(ignoreAttributes:string[] = []) {
+	protected initAttributes(ignoreAttributes: string[] = []) {
 		this.applyPreConfiguredAttributes();
 
 		if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled') && ignoreAttributes.includes('disabled') === false) {
@@ -1923,19 +1923,17 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		if (property.type === "boolean") {
 
 			let valueToSet: boolean = false;
-			if (property.type === "boolean") {
-				if (typeof value === property.type) {
-					valueToSet = value;
-				} else {
-					if (this.hasAttribute(attribute)) {
-						let tempVal = value;
-						if ([true, false, "true", "false", "0", "1", 0, 1, '', null].indexOf(tempVal) < 0) {
-							tempVal = property.default;
-						}
-						valueToSet = this.toBoolean(tempVal, property.valueOnAttributeEmpty);
-					} else {
-						valueToSet = property.default;
+			if (typeof value === property.type) {
+				valueToSet = value;
+			} else {
+				if (this.hasAttribute(attribute)) {
+					let tempVal = value;
+					if ([true, false, "true", "false", "0", "1", 0, 1, '', null].indexOf(tempVal) < 0) {
+						tempVal = property.default;
 					}
+					valueToSet = this.toBoolean(tempVal, property.valueOnAttributeEmpty);
+				} else {
+					valueToSet = property.default;
 				}
 			}
 
@@ -1964,11 +1962,10 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 					thisRef.setAttribute(attribute, valueToSet.toString());
 				}
 
-				if (property.callback !== null) {
+				if (!_.isNil(property.callback)) {
 					property.callback();
 				}
 			}
-
 		} else if (property.type === "enum") {
 
 			if (thisRef[attribute] !== value) {
@@ -1986,7 +1983,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 					}
 				}
 
-				if (property.callback !== null) {
+				if (!_.isNil(property.callback)) {
 					property.callback();
 				}
 			}
@@ -2002,12 +1999,11 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 					thisRef[property.variableName] = String(value);
 				}
 
-				if (property.callback !== null) {
+				if (!_.isNil(property.callback)) {
 					property.callback();
 				}
 			}
 		}
-
 	}
 
 	//#endregion

@@ -282,8 +282,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				removeAttributeOnNull: true,
 				type: "boolean",
 				enumeratedValues: ['true', 'false', '', true, false],
-				componentReference: this,
-				callback: this.setPressableEvent.bind(this)
+				componentReference: this
 			}
 		};
 
@@ -414,8 +413,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 * on the button component
 	 */
 	private _selected: boolean = false;
-
-	private _pressed: boolean = false;
 
 	/**
 	 * State class name as defined in customClassSelected, customClassPressed and customClassDisabled HTML attribute
@@ -799,41 +796,36 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public set pressed(value: boolean) {
 		this.logger.log('set pressed("' + value + '")');
-		// if (this._buttonPressedInPressable !== value) {
-		// 	if ([true, false].indexOf(value) >= 0) {
-		// 		if (!this.hasAttribute("pressed")) {
-		// 			this.setAttribute("pressed", "true");
-		// 		}
-		// 		this.setPressableEvent(value);
-		// 	} else {
-		// 		if (this.hasAttribute("pressed")) {
-		// 			if (this.getAttribute("pressed") === "true" || this.getAttribute("pressed") === "false") {
-		// 				value = this.toBoolean(this.getAttribute("pressed"), true);
-		// 				this.setPressableEvent(value);
-		// 			} else if (this.getAttribute("pressed") === "" || _.isNil(this.getAttribute("pressed"))) {
-		// 				value = true;
-		// 				this.setPressableEvent(value);
-		// 			} else {
-		// 				value = true;
-		// 				this.setAttribute("pressed", "true");
-		// 			}
-		// 		} else {
-		// 			value = false;
-		// 			this.setPressableEvent(value);
-		// 		}
-		// 	}
-		// }
 		this.setAttributeAndProperty(this.BUTTON_PROPERTIES.PRESSED, value);
+
+		let valueToSet: boolean = false;
+		if (typeof value === "boolean") {
+			valueToSet = value;
+		} else {
+			if (this.hasAttribute("pressed")) {
+				let tempVal: boolean = true;
+				if ([true, false, "true", "false", "0", "1", 0, 1, '', null].indexOf(value) < 0) {
+					tempVal = false;
+				}
+				valueToSet = this.toBoolean(tempVal, false);
+			} else {
+				valueToSet = false;
+			}
+		}
+		if (this._pressable) {
+			if (this._pressable?._pressed !== valueToSet && this._pressable?._pressed === false) {
+				this._pressable.setPressed(valueToSet);
+			}
+		}
+		this.updateCssClasses();
 	}
 	public get pressed(): boolean {
-		// if (this._pressable) {
-		// 	return this._pressable._pressed;
-		// } else {
-		// 	return false;
-		// }
-		return this._pressed;
+		if (this._pressable) {
+			return this._pressable._pressed;
+		} else {
+			return false;
+		}
 	}
-
 
 	public set customClassState(value: string) {
 		this.logger.log('set customclassstate("' + value + '")');
@@ -1088,7 +1080,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.updateCssClassesForCustomState();
 		}
 		customElements.whenDefined('ch5-button').then(() => {
-			this.logger.log("AAAAAAAAAA");
 			this.isButtonInitiated = true;
 			this.setButtonDisplay(); // This is to handle specific case where the setButtonDisplay isn't called as all button attributes are set to "default" values.
 			this.componentLoadedEvent(this.ELEMENT_NAME, this.id);
@@ -1511,10 +1502,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		const MAX_REPEAT_DIGITALS = 30000 / REPEAT_DIGITAL_PERIOD;
 		if (this._isPressedSubscription === null && this._pressable !== null) {
 			this._isPressedSubscription = this._pressable.observablePressed.subscribe((value: boolean) => {
-				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`);
-				// if (value !== this._buttonPressedInPressable || value !== this._pressable?._pressed) {
-				// this._buttonPressedInPressable = value;
-				this.pressed = value;
+				this.logger.log(`Ch5Button.pressableSubscriptionCb(${value})`, this.pressed);
 				if (value === false) {
 					if (this._repeatDigitalInterval !== null) {
 						window.clearInterval(this._repeatDigitalInterval as number);
@@ -2002,24 +1990,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				const buttonModeStatesArray = selectedButtonMode.getElementsByTagName("ch5-button-mode-state");
 				if (buttonModeStatesArray && buttonModeStatesArray.length > 0) {
 					let selectedButtonModeState: any = null;
-					// this.logger.log("this._buttonPressedInPressable is ", this._buttonPressedInPressable);
-					// if (this._buttonPressedInPressable === false) {
-					// 	selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-					// 		return ((buttonModeState.getAttribute("state") === "selected" && this.selected === true) ||
-					// 			(buttonModeState.getAttribute("state") === "normal" && this.selected === false));
-					// 	});
-					// } else {
-					// 	selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-					// 		return (buttonModeState.getAttribute("state") === "pressed");
-					// 	});
-					// }
-
-					if (this.pressed === true) {
-						if (this._pressable?._pressed === true) {
-							selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
-								return (buttonModeState.getAttribute("state") === "pressed");
-							});
-						}
+					if (this._pressable?._pressed === true) {
+						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
+							return (buttonModeState.getAttribute("state") === "pressed");
+						});
 					} else if (this.selected === true) {
 						selectedButtonModeState = Array.from(buttonModeStatesArray).find(buttonModeState => {
 							return (buttonModeState.getAttribute("state") === "selected");
@@ -2267,7 +2241,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			updatedNodes.customStyle = "";
 		}
 		this._customStyle = updatedNodes.customStyle;
-		if ((this.previousExtendedProperties.customStyle) !== this.customStyle && (!_.isNil(this.previousExtendedProperties.customStyle))) {
+		if (this.previousExtendedProperties.customStyle !== this.customStyle) {
 			// isNil is accounted for first time change to style css
 			updateUIMethods.updateForChangeInStyleCss = true;
 		}
@@ -2591,16 +2565,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private setSelectionMethods() {
 		this.setButtonDisplay();
 		this.checkboxDisplay();
-		this.updateCssClasses();
-	}
-
-	private setPressableEvent() {
-		if (this._pressable) {
-			// this._buttonPressedInPressable = value;
-			if (this._pressable._pressed !== this._pressed) {
-				this._pressable.setPressed(this._pressed);
-			}
-		}
 		this.updateCssClasses();
 	}
 
