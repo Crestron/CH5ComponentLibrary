@@ -18,8 +18,8 @@
       <ch5-dpad type="default" ID="test2a" shape="plus">
         <ch5-dpad-button key="center" iconurl="https://img.icons8.com/material/24/000000/search.png" iconclass="fas fa-user"></ch5-dpad-button>
         <ch5-dpad-button key="up" iconurl="https://img.icons8.com/material/24/000001/search.png" iconclass="fas fa-user"></ch5-dpad-button>
-        <ch5-dpad-button key="right" iconurl="https://img.icons8.com/material/24/000002/search.png" iconclass="fas fa-user"></ch5-dpad-button>
-        <ch5-dpad-button key="left" iconurl="https://img.icons8.com/material/24/000003/search.png" iconclass="fas fa-user"></ch5-dpad-button>
+        <ch5-dpad-button key="left" iconurl="https://img.icons8.com/material/24/000002/search.png" iconclass="fas fa-user"></ch5-dpad-button>
+        <ch5-dpad-button key="right" iconurl="https://img.icons8.com/material/24/000003/search.png" iconclass="fas fa-user"></ch5-dpad-button>
         <ch5-dpad-button key="down" iconurl="https://img.icons8.com/material/24/000004/search.png" iconclass="fas fa-user"></ch5-dpad-button>
       </ch5-dpad>
     </template>
@@ -35,23 +35,23 @@
       });
 
       test(`Check iconurl attribute button center`, () => {
-        expect(ch5DpadIconUrl.children[0].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000000/search.png');
+        expect(ch5DpadIconUrl.children[0].children[0].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000000/search.png');
       });
 
       test(`Check iconurl attribute button up`, () => {
-        expect(ch5DpadIconUrl.children[1].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000001/search.png');
+        expect(ch5DpadIconUrl.children[0].children[1].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000001/search.png');
       });
 
       test(`Check iconurl attribute button left`, () => {
-        expect(ch5DpadIconUrl.children[2].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000002/search.png');
+        expect(ch5DpadIconUrl.children[0].children[2].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000002/search.png');
       });
 
       test(`Check iconurl attribute button right`, () => {
-        expect(ch5DpadIconUrl.children[3].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000003/search.png');
+        expect(ch5DpadIconUrl.children[0].children[3].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000003/search.png');
       });
 
       test(`Check iconurl attribute button bottom`, () => {
-        expect(ch5DpadIconUrl.children[4].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000004/search.png');
+        expect(ch5DpadIconUrl.children[0].children[4].getAttribute('iconUrl')).to.be.equal('https://img.icons8.com/material/24/000004/search.png');
       });
     });
   </script>

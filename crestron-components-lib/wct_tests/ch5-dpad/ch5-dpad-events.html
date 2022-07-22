@@ -49,25 +49,26 @@
         expect(ch5DpadEvent.getAttribute('sendeventonclickstart')).to.be.equal("5");
       });
 
-      test(`Check sendeventonclick - button up`, () => {
-        expect(ch5DpadEvent.childNodes[1].getAttribute('sendeventonclick')).to.be.equal("5");
+      test(`Check sendeventonclick - button center`, () => {
+        expect(ch5DpadEvent.children[0].children[0].getAttribute('sendeventonclick')).to.be.equal("9");
       });
 
-      test(`Check sendeventonclick - button down`, () => {
-        expect(ch5DpadEvent.childNodes[3].getAttribute('sendeventonclick')).to.be.equal("6");
+      test(`Check sendeventonclick - button up`, () => {
+        expect(ch5DpadEvent.children[0].children[1].getAttribute('sendeventonclick')).to.be.equal("5");
       });
 
       test(`Check sendeventonclick - button  left`, () => {
-        expect(ch5DpadEvent.childNodes[5].getAttribute('sendeventonclick')).to.be.equal("7");
+        expect(ch5DpadEvent.children[0].children[2].getAttribute('sendeventonclick')).to.be.equal("7");
       });
 
       test(`Check sendeventonclick - button right`, () => {
-        expect(ch5DpadEvent.childNodes[7].getAttribute('sendeventonclick')).to.be.equal("8");
+        expect(ch5DpadEvent.children[0].children[3].getAttribute('sendeventonclick')).to.be.equal("8");
       });
 
-      test(`Check sendeventonclick - button center`, () => {
-        expect(ch5DpadEvent.childNodes[9].getAttribute('sendeventonclick')).to.be.equal("9");
+      test(`Check sendeventonclick - button down`, () => {
+        expect(ch5DpadEvent.children[0].children[4].getAttribute('sendeventonclick')).to.be.equal("6");
       });
+      
     });
 
     suite('ch5-dpad-contractName', () => {
@@ -82,25 +83,27 @@
         expect(ch5DpadEvent.getAttribute('contractname')).to.be.equal("LivingRoom.AppleTV.");
       });
 
+      test(`Check sendeventonclick - button center`, () => {
+        expect(ch5DpadEvent.children[0].children[0].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Center");
+      });
+
       test(`Check sendeventonclick - button up`, () => {
-        expect(ch5DpadEvent.childNodes[1].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Up");
+        expect(ch5DpadEvent.children[0].children[1].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Up");
       });
 
       test(`Check sendeventonclick - button down`, () => {
-        expect(ch5DpadEvent.childNodes[3].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Down");
+        expect(ch5DpadEvent.children[0].children[4].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Down");
       });
 
       test(`Check sendeventonclick - button left`, () => {
-        expect(ch5DpadEvent.childNodes[5].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Left");
+        expect(ch5DpadEvent.children[0].children[2].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Left");
       });
 
       test(`Check sendeventonclick - button right`, () => {
-        expect(ch5DpadEvent.childNodes[7].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Right");
+        expect(ch5DpadEvent.children[0].children[3].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Right");
       });
 
-      test(`Check sendeventonclick - button center`, () => {
-        expect(ch5DpadEvent.childNodes[9].getAttribute('sendeventonclick')).to.be.equal("LivingRoom.AppleTV.Center");
-      });
+     
     });
   </script>
 </body>
