@@ -1054,7 +1054,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.start('connectedCallback()', this.primaryCssClass);
 		this.isButtonInitiated = false;
 		this.previousExtendedProperties = {}; // Very important - for pages hidden with buttons and shown back with noshowtype remove
-
+			
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 
@@ -1082,6 +1082,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		customElements.whenDefined('ch5-button').then(() => {
 			this.isButtonInitiated = true;
 			this.setButtonDisplay(); // This is to handle specific case where the setButtonDisplay isn't called as all button attributes are set to "default" values.
+			this.updateCssClasses(); // Temporary fix for the previousExtendedProperties mentioned above
 			this.componentLoadedEvent(this.ELEMENT_NAME, this.id);
 			// publishEvent('object', `component`, { tagName: 'ch5-button', loaded: true, id: this.id });
 			// publishEvent('object', `ch5-button:${this.id}`, { loaded: true, id: this.id });
