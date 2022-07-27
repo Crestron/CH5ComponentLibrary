@@ -8,6 +8,7 @@
 import { Ch5Common, ICh5AttributeAndPropertySettings } from "../ch5-common/ch5-common";
 import { Ch5Signal, Ch5SignalBridge, Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
 import isNil from 'lodash/isNil';
 
 import {
@@ -1053,9 +1054,19 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', this.primaryCssClass);
+		subscribeInViewPortChange(this, () => {
+			if (this.elementIsInViewPort) {
+				if (!_.isNil(this.stretch) && this.shape === "circle" && this.parentElement) {
+					const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
+					const setValue = parentWidth <= parentHeight ? parentWidth : parentHeight;
+					this.style.height = setValue + 'px';
+					this.style.width = setValue + 'px';
+				}
+			}
+		});
 		this.isButtonInitiated = false;
 		this.previousExtendedProperties = {}; // Very important - for pages hidden with buttons and shown back with noshowtype remove
-			
+
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 
@@ -1552,7 +1563,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.start('disconnectedCallback()');
 		this.removeEventListeners();
 		this.unsubscribeFromSignals();
-
+		unSubscribeInViewPortChange(this);
 		// destroy pressable
 		if (null !== this._pressable) {
 			this._pressable.destroy();
@@ -2499,16 +2510,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		if (!_.isNil(this.stretch) && this.shape === "circle" && this.parentElement) {
 			const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
-			let setValue = 0;
-			if (parentWidth < parentHeight) {
-				setValue = parentWidth;
-			} else if (parentWidth > parentHeight) {
-				setValue = parentHeight;
-			} else {
-				setValue = parentWidth;
-			}
-			this.style.removeProperty('height');
-			this.style.removeProperty('width');
+			const setValue = parentWidth <= parentHeight ? parentWidth : parentHeight;
 			this.style.height = setValue + 'px';
 			this.style.width = setValue + 'px';
 		} else {

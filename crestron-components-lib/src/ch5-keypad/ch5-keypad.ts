@@ -15,6 +15,7 @@ import { CH5KeypadButtonData } from "./ch5-keypad-btn-data";
 import { ICh5KeypadAttributes } from "./interfaces/i-ch5-keypad-attributes";
 import { TCh5KeypadButtonCreateDTO, TCh5KeypadShape, TCh5KeypadSize, TCh5KeypadStretch, TCh5KeypadTextOrientation, TCh5KeypadType } from "./interfaces/t-ch5-keypad";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { subscribeInViewPortChange, unSubscribeInViewPortChange } from "../ch5-core";
 
 export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	//#region 1. Variables
@@ -584,7 +585,11 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 
 		// set attributes based on onload attributes
 		this.initAttributes();
-
+		subscribeInViewPortChange(this, () => {
+			if (this.elementIsInViewPort) {
+				this.stretchHandler();
+			}
+		});
 		// build child elements ref object
 		this.buildRuntimeChildButtonList();
 
@@ -650,7 +655,7 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 		this.logger.log("disconnectedCallback");
 		this.removeEvents();
 		this.unsubscribeFromSignals();
-
+		unSubscribeInViewPortChange(this);
 		if (this.container && this.container.style) {
 			this.container.style.removeProperty('height');
 			this.container.style.removeProperty('width');
