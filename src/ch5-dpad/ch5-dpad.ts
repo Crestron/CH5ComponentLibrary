@@ -15,6 +15,7 @@ import { CH5DpadUtils } from "./ch5-dpad-utils";
 import { ComponentHelper } from "../ch5-common/utils/component-helper";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { Ch5DpadButton } from "./ch5-dpad-button";
+import { subscribeInViewPortChange, unSubscribeInViewPortChange } from "../ch5-core";
 
 export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 
@@ -425,7 +426,16 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback() - start', this.COMPONENT_NAME);
-
+		subscribeInViewPortChange(this, () => {
+			if (this.elementIsInViewPort) {
+				if (!_.isNil(this.stretch) && this.parentElement) {
+					const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
+					const setValue = parentWidth <= parentHeight ? parentWidth : parentHeight;
+					this.container.style.height = setValue + 'px';
+					this.container.style.width = setValue + 'px';
+				}
+			}
+		});
 		customElements.whenDefined('ch5-dpad').then(() => {
 			// create element
 			if (!this._wasInstatiated) {
@@ -477,6 +487,7 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	public disconnectedCallback() {
 		this.removeEvents();
 		this.unsubscribeFromSignals();
+		unSubscribeInViewPortChange(this);
 
 		if (!!this.container && !!this.container.style) {
 			this.container.style.removeProperty('height');
