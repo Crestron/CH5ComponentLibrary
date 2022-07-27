@@ -803,15 +803,16 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			valueToSet = value;
 		} else {
 			if (this.hasAttribute("pressed")) {
-				let tempVal: boolean = true;
 				if ([true, false, "true", "false", "0", "1", 0, 1, '', null].indexOf(value) < 0) {
-					tempVal = false;
+					valueToSet = false;
+				} else {
+					valueToSet = this.toBoolean(value, true);
 				}
-				valueToSet = this.toBoolean(tempVal, false);
 			} else {
 				valueToSet = false;
 			}
 		}
+		this.logger.log("###", this._pressable, this._pressable?._pressed , valueToSet );
 		if (this._pressable) {
 			if (this._pressable?._pressed !== valueToSet && this._pressable?._pressed === false) {
 				this._pressable.setPressed(valueToSet);
@@ -1210,6 +1211,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			this.vAlignLabel = this.getAttribute('valignlabel') as TCh5ButtonVerticalAlignLabel;
 		}
 		if (this.hasAttribute('pressed')) {
+			this.logger.log("### P: ", this.getAttribute('pressed') as unknown as boolean);
 			this.pressed = this.getAttribute('pressed') as unknown as boolean;
 		}
 		if (this.hasAttribute('labelInnerHTML')) {
