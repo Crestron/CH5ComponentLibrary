@@ -314,7 +314,16 @@ export class Ch5TriggerViewSlidesManager {
       const slideIndex = this.triggerViewEl.endless ? slideBaseOneIndex + 1 : slideBaseOneIndex;
       if (slideIndex !== this._swiper!.activeIndex && this._swiper!.hasOwnProperty('snapGrid')) {
         const selectedSpeed = instantTransition ? 0 : _speed;
-        this._swiper!.slideTo(slideIndex, selectedSpeed);
+        try {
+          this._swiper!.slideTo(slideIndex, selectedSpeed);
+        } catch (e) {
+          // This try catch is to resolve a bug in swiperjs
+          /*
+          setTransition.js:5 Uncaught TypeError: Cannot read properties of undefined (reading 'transition')
+              at Swiper.setTransition (setTransition.js:5:1)
+              at Swiper.slideTo (slideTo.js:152:1)
+          */
+        }
         this._updateActiveSlideAttributes();
       }
     } else if (this.ch5SwiperIsActive() && !_.isNil(this._ch5Swiper)) {
