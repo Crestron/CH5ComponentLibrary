@@ -564,7 +564,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TriggerView.ELEMENT_NAME, Ch5TriggerView.SIGNAL_ATTRIBUTE_TYPES);
-	}	
+	}
 
 	/**
 	 * Fires when the element is inserted into the DOM.
@@ -831,11 +831,21 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 			// update attr to avoid triggering slideTo action here
 			this.setAttribute('activeView', '0');
 		}
-		this._upgradeProperty('endless');
-		this._upgradeProperty('gestureable');
-		this._upgradeProperty('disableanimation');
-		this._upgradeProperty('receiveStateShowChildIndex');
-		this._upgradeProperty('sendEventShowChildIndex');
+		if (this.hasAttribute('endless')) {
+			this._upgradeProperty('endless');
+		}
+		if (this.hasAttribute('gestureable')) {
+			this._upgradeProperty('gestureable');
+		}
+		if (this.hasAttribute('disableanimation')) {
+			this._upgradeProperty('disableanimation');
+		}
+		if (this.hasAttribute('receiveStateShowChildIndex')) {
+			this._upgradeProperty('receiveStateShowChildIndex');
+		}
+		if (this.hasAttribute('sendEventShowChildIndex')) {
+			this._upgradeProperty('sendEventShowChildIndex');
+		}
 	}
 
 	/**
