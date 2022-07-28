@@ -813,9 +813,9 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				valueToSet = false;
 			}
 		}
-		this.logger.log("###", this._pressable, this._pressable?._pressed , valueToSet );
+
 		if (this._pressable) {
-			if (this._pressable?._pressed !== valueToSet && this._pressable?._pressed === false) {
+			if (this._pressable?._pressed !== valueToSet) {
 				this._pressable.setPressed(valueToSet);
 			}
 		}
@@ -1059,8 +1059,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 				if (!_.isNil(this.stretch) && this.shape === "circle" && this.parentElement) {
 					const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
 					const setValue = parentWidth <= parentHeight ? parentWidth : parentHeight;
-					this.style.height = setValue + 'px';
-					this.style.width = setValue + 'px';
+					if (setValue !== 0) {
+						this.style.height = setValue + 'px';
+						this.style.width = setValue + 'px';
+					}
 				}
 			}
 		});
@@ -1923,8 +1925,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	public setButtonDisplay(): void {
 		if (this.DEBOUNCE_BUTTON_DISPLAY === 0) {
 			this.setButtonDisplayDetails();
-			// } else if (this.isButtonInitiated === false) {
-			// 	this.setButtonDisplayDetails();
+		} else if (this.isButtonInitiated === true) {
+			this.setButtonDisplayDetails();
 		} else {
 			this.debounceSetButtonDisplay();
 		}
@@ -2511,8 +2513,10 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		if (!_.isNil(this.stretch) && this.shape === "circle" && this.parentElement) {
 			const { offsetHeight: parentHeight, offsetWidth: parentWidth } = this.parentElement;
 			const setValue = parentWidth <= parentHeight ? parentWidth : parentHeight;
-			this.style.height = setValue + 'px';
-			this.style.width = setValue + 'px';
+			if (setValue !== 0) {
+				this.style.height = setValue + 'px';
+				this.style.width = setValue + 'px';
+			}
 		} else {
 			this.style.removeProperty('height');
 			this.style.removeProperty('width');
