@@ -1,13 +1,10 @@
+const toggleResizeButton = document.getElementById('toggle-resize');
+const ch5select = document.getElementById('resize-ex');
 
-    const toggleResizeButton = document.getElementById('toggle-resize');
-    const ch5select = document.getElementById('resize-ex');
-   toggleResizeButton.addEventListener('click', function(){
-
+toggleResizeButton.addEventListener('click', function(){
    if (ch5select.hasAttribute('resize')) {
         ch5select.removeAttribute('resize');
    } else {
         ch5select.setAttribute('resize', true);
     }
 });
-
-
