@@ -305,7 +305,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	//#endregion
 
 	//#region 1.2 private / protected variables
-
+	
 	public readonly ELEMENT_NAME: string = 'ch5-button';
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 	public cssClassPrefix: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
@@ -1046,6 +1046,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 		this._wasInstatiated = true;
 		this._ch5ButtonSignal = new Ch5ButtonSignal();
+		this._onBlur = this._onBlur.bind(this);
+		this._onFocus = this._onFocus.bind(this);
 		this.logger.stop();
 	}
 
@@ -1266,6 +1268,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	protected attachEventListeners() {
 		super.attachEventListeners();
 
+		this._elButton.addEventListener('focus', this._onFocus);
+		this._elButton.addEventListener('blur', this._onBlur);
 		// init pressable before initAttributes because pressable subscribe to gestureable attribute
 		this.logger.log("this._pressable", this._pressable);
 		if (!isNil(this._pressable)) {
@@ -1276,6 +1280,8 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	protected removeEventListeners() {
 		super.removeEventListeners();
+		this._elButton.removeEventListener('focus', this._onFocus);
+		this._elButton.removeEventListener('blur', this._onBlur);
 		if (this.style) {
 			this.style.removeProperty('height');
 			this.style.removeProperty('width');
@@ -1285,6 +1291,26 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		}
 	}
 
+	protected _onFocus(inEvent: Event): void {
+		this.logger.start("_onFocus");
+		let clonedEvent: Event;
+		clonedEvent = new Event(inEvent.type, inEvent);
+		this.dispatchEvent(clonedEvent);
+		inEvent.preventDefault();
+		inEvent.stopPropagation();
+		this.logger.stop();
+	}
+
+	protected _onBlur(inEvent: Event): void {
+		this.logger.start("_onBlur");
+		let clonedEvent: Event;
+		this.pressed = false;
+		clonedEvent = new Event(inEvent.type, inEvent);
+		this.dispatchEvent(clonedEvent);
+		inEvent.preventDefault();
+		inEvent.stopPropagation();
+		this.logger.stop();
+	}
 	/**
 	 * Called when an HTML attribute is changed, added or removed
 	 */
