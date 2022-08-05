@@ -6,11 +6,12 @@
 // under which you licensed this source code.
 
 import { ICh5CommonInputAttributes } from "../../ch5-common-input/interfaces/i-ch5-common-input-attributes";
-import { TCh5TextInputStretch,
-          TCh5TextInputSize,
-          TCh5TextInputType,
-          TCh5TextInputTextTransform,
-          TCh5TextInputIconPosition
+import {
+  TCh5TextInputStretch,
+  TCh5TextInputSize,
+  TCh5TextInputType,
+  TCh5TextInputTextTransform,
+  TCh5TextInputIconPosition
 } from "./index";
 
 /**
@@ -60,7 +61,7 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * "description": "This attribute is deprecated, please use 'iconClass' attribute."
    * }
    */
-   icon: string;
+  icon: string;
 
   /**
    * @documentation
@@ -309,4 +310,35 @@ export interface ICh5TextInputAttributes extends ICh5CommonInputAttributes {
    * @attributeType "Join"
    */
   sendEventOnBlur: string;
+
+  /**
+   * @documentation
+   * [
+   * "`minimumfontsize` attribute",
+   * "***",
+   * "The default value is 12. ",
+   * "The minimum font size is applied when the input text exceeds the width of the input text box. ", 
+   * "This will work only if a scaling attribute is set."
+   * ]
+   * @name minimumfontsize
+   * @default 12
+   * @attributeType "Integer"
+   */
+  minimumFontSize: number;
+
+  /**
+   * @documentation
+   * [
+   * "`tabIndex` attribute",
+   * "***",
+   * "The default value is 0. ",
+   * "The tabIndex global attribute indicates that its element ",
+   * "can be focused and indicates where it places in sequential ",
+   * "keyboard navigation."
+   * ]
+   * @name tabindex
+   * @default 0
+   * @attributeType "Integer"
+   */
+  tabIndex: number;
 }

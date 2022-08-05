@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "componentsVersion": "0.1.5",
+  "componentsVersion": "2.0.0-dev3.97",
   "htmlElements": {
     "common": {
       "attributes": [
@@ -804,7 +804,7 @@
             "documentation": [
               "`type` attribute",
               "***",
-              "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
+              "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
               "Overrides the appearance of the button with alternative CSS ",
               "defined in classes defined with ch5-button--type, where type is ",
               "the value of the property. If no 'type' is provided, the type of ",
@@ -1089,7 +1089,7 @@
             "documentation": [
               "`type` attribute",
               "***",
-              "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
+              "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
               "Overrides the appearance of the button with alternative CSS ",
               "defined in classes defined with ch5-button--type, where type is ",
               "the value of the property. If no 'type' is provided, the type of ",
@@ -1841,7 +1841,7 @@
             "documentation": [
               "`type` attribute",
               "***",
-              "Valid values: 'default', 'info', 'text', 'danger', 'warning', 'success', 'primary', 'secondary'.",
+              "Valid values: 'default', 'primary', 'info', 'text', 'danger', 'warning', 'success', 'secondary'.",
               "Overrides the appearance of the button with alternative CSS ",
               "defined in classes defined with ch5-button--type, where type is ",
               "the value of the property. If no 'type' is provided, the type of ",
@@ -2484,144 +2484,6 @@
           },
           {
             "documentation": [
-              "`receivestatecustomclass` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'customClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomclass",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receivestatecustomstyle` attribute",
-              "***",
-              "The value of this signal will be applied as an equivalent property on 'styleClass'.",
-              "The change of value will remove the prior value and apply the new value."
-            ],
-            "value": [],
-            "name": "receivestatecustomstyle",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "stringJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receivestateshow` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is visible."
-            ],
-            "value": [],
-            "name": "receivestateshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`'receivestateshowpulse` attribute",
-              "***",
-              "on transition from false to true, this signal directs the component to become visible."
-            ],
-            "value": [],
-            "name": "receivestateshowpulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receivestatehidepulse` attribute",
-              "***",
-              "on transition from false to true, this signal will direct if the component is no longer visible."
-            ],
-            "value": [],
-            "name": "receivestatehidepulse",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`receivestateenable` attribute",
-              "***",
-              "When true, the boolean value of the signal determines if the component is enabled.",
-              "Note that the signal name is provided, and the value of the signal has the opposite ",
-              "convention of the 'disabled' attribute. This is to provide consistency with current programming practices."
-            ],
-            "value": [],
-            "name": "receivestateenable",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "state",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
-              "`sendeventonshow` attribute",
-              "***",
-              "Has a boolean value of true when the component is visible and false when not visible.",
-              "Note that even if component is completely covered by other visible elements, it is still considered visible."
-            ],
-            "value": [],
-            "name": "sendeventonshow",
-            "default": "null",
-            "hideWhen": [],
-            "showWhen": [],
-            "join": {
-              "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
-            },
-            "limits": [],
-            "attributeType": "Join"
-          },
-          {
-            "documentation": [
               "`appendclasswheninviewport` attribute",
               "***",
               "Applies the provided value as class name while the component is visible and removes the class name when not visible."
@@ -2633,24 +2495,6 @@
             "showWhen": [],
             "limits": [],
             "attributeType": "String"
-          },
-          {
-            "documentation": [
-              "`show` attribute",
-              "***",
-              "The visibility of the component depends upon the boolean value. The component is visible ",
-              "when the value is true and hides when it is false."
-            ],
-            "value": [
-              "false",
-              "true"
-            ],
-            "name": "show",
-            "default": "true",
-            "hideWhen": [],
-            "showWhen": [],
-            "limits": [],
-            "attributeType": "Boolean"
           },
           {
             "documentation": [
@@ -2799,34 +2643,34 @@
         ],
         "snippets": [
           {
-            "prefix": "ch5-dpad-button key=\"bottom\":blank",
-            "description": "Crestron Dpad Button",
+            "prefix": "ch5-dpad-button key=\"down\":blank",
+            "description": "Crestron Dpad Button Blank",
             "body": [
-              "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\">",
+              "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\">",
               "</ch5-dpad-button>$0"
             ]
           },
           {
             "prefix": "ch5-dpad-button:iconurl",
-            "description": "Crestron Dpad Button Bottom",
+            "description": "Crestron Dpad Icon Url",
             "body": [
-              "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\" iconurl=\"btn_${2:Icon Url}\">",
+              "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\" iconurl=\"btn_${2:Icon Url}\">",
               "</ch5-dpad-button>$0"
             ]
           },
           {
             "prefix": "ch5-dpad-button:iconclass",
-            "description": "Crestron Dpad Button Bottom",
+            "description": "Crestron Dpad Icon Class",
             "body": [
-              "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\" iconclass=\"btn_${2:Icon Class}\">",
+              "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\" iconclass=\"btn_${2:Icon Class}\">",
               "</ch5-dpad-button>$0"
             ]
           },
           {
             "prefix": "ch5-dpad-button:all-attributes",
-            "description": "Crestron Dpad Button Bottom",
+            "description": "Crestron Dpad All Attributes",
             "body": [
-              "<ch5-dpad-button key=\"${1|center,top,bottom,left,right|}\">",
+              "<ch5-dpad-button key=\"${1|center,up,down,left,right|}\">",
               "\ticonurl=\"btn_${2:IconUrl}\"",
               "\tshow=\"${3:Show}\"",
               "\tenable=\"${4:Enable}\"",
@@ -3125,12 +2969,12 @@
             ],
             "value": [
               "default",
+              "primary",
               "info",
               "text",
               "danger",
               "warning",
               "success",
-              "primary",
               "secondary"
             ],
             "name": "type",
@@ -3288,7 +3132,7 @@
               "`sendEventOnClickStart` attribute",
               "***",
               "Only applies if contractName is not provided, if this parameter is supplied,",
-              " the join number is applied to the top button, join+1 applies to bottom, ",
+              " the join number is applied to the up button, join+1 applies to down, ",
               "join+2 applies to left, join+3 applies to right, join+4 to center ."
             ],
             "value": [],
@@ -3298,8 +3142,7 @@
             "showWhen": [],
             "join": {
               "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
+              "booleanJoin": 5
             },
             "limits": [],
             "attributeType": "Join"
@@ -4863,7 +4706,7 @@
             "documentation": [
               "`receivestateurl` attribute",
               "***",
-              "The image URL passed via state."
+              "The image URL."
             ],
             "value": [],
             "name": "receivestateurl",
@@ -4874,6 +4717,25 @@
               "direction": "state",
               "isContractName": true,
               "stringJoin": 1
+            },
+            "limits": [],
+            "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`receivestatemode` attribute",
+              "***",
+              "The image mode received."
+            ],
+            "value": [],
+            "name": "receivestatemode",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": [],
+            "join": {
+              "direction": "state",
+              "isContractName": true,
+              "numericJoin": 1
             },
             "limits": [],
             "attributeType": "Join"
@@ -5754,12 +5616,12 @@
             ],
             "value": [
               "default",
+              "primary",
               "info",
               "text",
               "danger",
               "warning",
               "success",
-              "primary",
               "secondary"
             ],
             "name": "type",
@@ -6006,8 +5868,7 @@
             "showWhen": [],
             "join": {
               "direction": "event",
-              "isContractName": true,
-              "booleanJoin": 1
+              "booleanJoin": 13
             },
             "limits": [],
             "attributeType": "Join"
@@ -10115,7 +9976,7 @@
             "documentation": [
               "`size` attribute",
               "***",
-              "The default value is 'regular'. Valid values: 'x-small', 'small', 'regular', 'large', 'xlarge'. ",
+              "The default value is 'regular'. Valid values: 'regular', 'x-small', 'small', 'large', 'xlarge'. ",
               "The size of the slider."
             ],
             "value": [
@@ -10137,7 +9998,7 @@
               "`handlesize` attribute",
               "***",
               "The default value is 'regular'. The size of the handle.",
-              "Valid values: 'x-small', 'small', 'regular', 'large', 'x-large'."
+              "Valid values: 'regular', 'x-small', 'small', 'large', 'x-large'."
             ],
             "value": [
               "regular",
@@ -10173,7 +10034,7 @@
             "documentation": [
               "`stretch` attribute",
               "***",
-              "The default value is 'both'. Valid Values: 'width', 'height', 'both'. ",
+              "The default value is 'both'. Valid Values: 'both', 'width', 'height'. ",
               "When the stretch property is set, the slider inherits the width and/or ",
               "height of the container."
             ],
@@ -10451,7 +10312,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": [],
             "attributeType": "Join"
@@ -10470,7 +10331,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "numericJoin": 1
             },
             "limits": [],
             "attributeType": "Join"
@@ -11134,7 +10995,7 @@
               "false",
               "true"
             ],
-            "name": "autoSetItemHeight",
+            "name": "autosetitemheight",
             "default": "false",
             "hideWhen": [],
             "showWhen": [],
@@ -12381,7 +12242,7 @@
             "documentation": [
               "`stretch` attribute",
               "***",
-              "The default value is 'fixed'. Valid values: 'fixed', 'width', and 'content'.",
+              "The default value is 'null'. Valid values: 'fixed', 'width', and 'content'.",
               "Sets the width of the input.",
               "Fixed - fixed position (from CSS classes) ",
               "Width - Width of the parent content ",
@@ -12393,7 +12254,7 @@
               "content"
             ],
             "name": "stretch",
-            "default": "fixed",
+            "default": "null",
             "hideWhen": [],
             "showWhen": [],
             "limits": [],
@@ -12445,7 +12306,7 @@
             "documentation": [
               "`receivestatefocus` attribute",
               "***",
-              "When focused, send true. When unfocusesd, send false."
+              "When focused, send true. When focus is lost, send false."
             ],
             "value": [],
             "name": "receivestatefocus",
@@ -12455,7 +12316,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "stringJoin": 1
+              "boolean": 1
             },
             "limits": [],
             "attributeType": "Join"
@@ -12493,7 +12354,7 @@
             "join": {
               "direction": "event",
               "isContractName": true,
-              "booleanJoin": 1
+              "stringJoin": 1
             },
             "limits": [],
             "attributeType": "Join"
@@ -12535,6 +12396,39 @@
             },
             "limits": [],
             "attributeType": "Join"
+          },
+          {
+            "documentation": [
+              "`minimumfontsize` attribute",
+              "***",
+              "The default value is 12. ",
+              "The minimum font size is applied when the input text exceeds the width of the input text box. ",
+              "This will work only if a scaling attribute is set."
+            ],
+            "value": [],
+            "name": "minimumfontsize",
+            "default": "12",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Integer"
+          },
+          {
+            "documentation": [
+              "`tabIndex` attribute",
+              "***",
+              "The default value is 0. ",
+              "The tabIndex global attribute indicates that its element ",
+              "can be focused and indicates where it places in sequential ",
+              "keyboard navigation."
+            ],
+            "value": [],
+            "name": "tabindex",
+            "default": "0",
+            "hideWhen": [],
+            "showWhen": [],
+            "limits": [],
+            "attributeType": "Integer"
           },
           {
             "documentation": [
@@ -13164,7 +13058,7 @@
             "join": {
               "direction": "state",
               "isContractName": true,
-              "stringJoin": 1
+              "booleanJoin": 1
             },
             "limits": [],
             "attributeType": "Join"
@@ -16574,7 +16468,7 @@
             "description": "Crestron JoinToText Numeric (Default)",
             "body": [
               "<ch5-jointotext-numeric value=\"${1:true}\"",
-              "\ttype=\"${2:percentage}\">",
+              "\ttype=\"${2:signed}\">",
               "</ch5-jointotext-numeric>$0"
             ]
           },
@@ -16583,7 +16477,7 @@
             "description": "Crestron JoinToText Numeric (Receive Signal)",
             "body": [
               "<ch5-jointotext-numeric receiveStateValue=\"${1:19}\"",
-              "\ttype=\"${2:percentage}\">",
+              "\ttype=\"${2:signed}\">",
               "</ch5-jointotext-numeric>$0"
             ]
           }

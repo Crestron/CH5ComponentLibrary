@@ -221,7 +221,7 @@ export interface ICh5SpinnerAttributes extends ICh5CommonAttributes {
    * "The default value is false. ",
    * "Adjusts the height of ch5-spinner items automatically."
    * ]
-   * @name autoSetItemHeight
+   * @name autosetitemheight
    * @default false
    * @attributeType "Boolean"
    */
