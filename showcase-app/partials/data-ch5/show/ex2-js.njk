@@ -1,45 +1,33 @@
-var elem = document.getElementById("change-to-ch5-show-3");  
-
-elem.addEventListener('click', function(){
-
-     var e=document.getElementsByClassName('custom-dom-changes');
-            for (var i = 0; i < e.length; i++) {
-            e[i].setAttribute('data-ch5-show', 'data_ch5_show_2_2');}
-
+const elem = document.getElementById("change-to-ch5-show-3");  
+elem.addEventListener('click', function() {
+     const e = document.getElementsByClassName('custom-dom-changes');
+     for (let i = 0; i < e.length; i++) {
+            e[i].setAttribute('data-ch5-show', 'data_ch5_show_2_2');
+     }
 });
 
-var elemRemove = document.getElementById("remove-ch5-show");  
-
-elemRemove.addEventListener('click', function(){
-
-     var e=document.getElementsByClassName('custom-dom-changes');
-            for (var i = 0; i < e.length; i++) {
-            e[i].removeAttribute('data-ch5-show');}
-
+const elemRemove = document.getElementById("remove-ch5-show");  
+elemRemove.addEventListener('click', function() {
+     const e = document.getElementsByClassName('custom-dom-changes');
+     for (let i = 0; i < e.length; i++) {
+            e[i].removeAttribute('data-ch5-show');
+     }
 });
 
 
-var elemAdd = document.getElementById("add-ch5-show");  
-
-elemAdd.addEventListener('click', function(){
-
-     var e=document.getElementsByClassName('custom-dom-changes');
-            for (var i = 0; i < e.length; i++) {
-            e[i].setAttribute('data-ch5-show', 'data_ch5_show_2_1');}
-
+const elemAdd = document.getElementById("add-ch5-show");  
+elemAdd.addEventListener('click', function() {
+     const e = document.getElementsByClassName('custom-dom-changes');
+     for (let i = 0; i < e.length; i++) {
+            e[i].setAttribute('data-ch5-show', 'data_ch5_show_2_1');
+     }
 });
 
-
-var elemRem = document.getElementById("rem-ch5-show-el");  
-
-elemRem.addEventListener('click', function(){
-
-     var e=document.getElementsByClassName('custom-dom-changes');
-
-            for (var i = 0; i <e.length; i++) {
+const elemRem = document.getElementById("rem-ch5-show-el");  
+elemRem.addEventListener('click', function() {
+     const e = document.getElementsByClassName('custom-dom-changes');
+     for (let i = 0; i < e.length; i++) {
             e[i].remove();
             i--;
-
-            }
-
+     }
 });
