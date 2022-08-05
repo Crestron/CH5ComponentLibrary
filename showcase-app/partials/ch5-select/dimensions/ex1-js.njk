@@ -1,7 +1,5 @@
-const toggleResizeButton = document.getElementById('toggle-resize');
-const ch5select = document.getElementById('resize-ex');
-
-toggleResizeButton.addEventListener('click', function(){
+document.getElementById('toggle-resize').addEventListener('click', function(){
+     const ch5select = document.getElementById('resize-ex');
    if (ch5select.hasAttribute('resize')) {
         ch5select.removeAttribute('resize');
    } else {
