@@ -19,7 +19,7 @@ import { Ch5ListBufferedItems, ICh5ListBufferedItems } from './ch5-list-buffered
 import { Ch5AnimationFactory } from './animation/ch5-animation-factory';
 import { ICh5ListAttributes } from "./interfaces";
 import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
-import { subscribeInViewPortChange } from '../ch5-core';
+import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
 import { Ch5RoleAttributeMapping } from '../utility-models';
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 
@@ -483,10 +483,16 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 	public connectedCallback() {
 		this.contentCleanUp();
-
 		subscribeInViewPortChange(this, () => {
 			this.info(`Ch5List.subscribeInViewPortChange() with elementIsInViewPort = ${this.elementIsInViewPort}`);
 
+			if (this.hasAttribute('scrollbar') && this.scrollbar) {
+				this.templateHelper.customScrollbar(this.divList);
+				setTimeout(() => {
+					this.templateHelper.resizeList(this.divList, this.templateVars);
+				}, 0.5);
+			}
+			
 			if (this.elementIsInViewPort && this._isListVisible) {
 				this.templateHelper.checkAndSetSizes();
 				this.templateHelper.customScrollbar(this.divList);
@@ -580,7 +586,8 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		this.removeEvents();
 		// unsubscribe from signals
 		this.unsubscribeFromSignals();
-
+		// unsubscribe view port
+		unSubscribeInViewPortChange(this);
 		// disconnect common mutation observer
 		this.disconnectCommonMutationObserver();
 	}
@@ -735,7 +742,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 					this.scrollbar = newValue === 'true' ? true : false;
 					this.templateHelper.customScrollbar(this.divList);
 				} else {
-					this.scrollbar = false
+					this.scrollbar = false;
 				}
 				break;
 			case 'scrolltotime':
