@@ -487,7 +487,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			this.info(`Ch5List.subscribeInViewPortChange() with elementIsInViewPort = ${this.elementIsInViewPort}`);
 
 			if (this.elementIsInViewPort && this._isListVisible) {
-				if (this.hasAttribute('scrollbar') && String(this.getAttribute('scrollbar')) == 'true') {
+				if (this.hasAttribute('scrollbar') && String(this.getAttribute('scrollbar')) === 'true') {
 					this.templateHelper.customScrollbar(this.divList);
 					setTimeout(() => {
 						this.templateHelper.resizeList(this.divList, this.templateVars);
