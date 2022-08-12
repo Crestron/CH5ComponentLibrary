@@ -486,20 +486,27 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		subscribeInViewPortChange(this, () => {
 			this.info(`Ch5List.subscribeInViewPortChange() with elementIsInViewPort = ${this.elementIsInViewPort}`);
 
-			if (this.hasAttribute('scrollbar') && this.scrollbar) {
-				this.templateHelper.customScrollbar(this.divList);
-				setTimeout(() => {
-					this.templateHelper.resizeList(this.divList, this.templateVars);
-				}, 0.5);
-			}
-			
 			if (this.elementIsInViewPort && this._isListVisible) {
+				if (this.hasAttribute('scrollbar') && String(this.getAttribute('scrollbar')) == 'true') {
+					this.templateHelper.customScrollbar(this.divList);
+					setTimeout(() => {
+						this.templateHelper.resizeList(this.divList, this.templateVars);
+					}, 0.5);
+				}
+
 				this.templateHelper.checkAndSetSizes();
 				this.templateHelper.customScrollbar(this.divList);
 				this._isListVisible = false;
+				this.setScrollToContent();
 			}
 		});
 
+		// subscribeInViewPortChange(this, () => {
+		// 	this.info("in subscribeInViewPortChange", this.elementIsInViewPort, this._isListVisible);
+		// 	if (this.elementIsInViewPort && this._isListVisible) {
+
+		// 	}
+		// });
 		const listInitialization = () => {
 			// WAI-ARIA Attributes
 			if (!this.hasAttribute('role')) {
@@ -1482,37 +1489,30 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		this._receiveStateScrollTo = value;
 		this.setAttribute('receivestatescrollto', value);
 
-		const callback: SignalSubscriptionCallback = (newValue: string | number | boolean) => {
-			const _newValue = newValue as number;
-			this.info("SignalSubscriptionCallback value is ", _newValue);
-			if (_newValue !== null || _newValue !== undefined) {
-				const bufferAmount = this.bufferAmount || 0;
-				const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
-				this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
-				this.animationHelper.signalScrollTo(_newValue as number);
-			}
-		};
-
-		this._receiveStateScrollToSub = this.signalManager.subscribeToSignal<number>(
-			0,
-			this.receiveStateScrollTo as string,
-			this.receiveStateScrollToSub as string,
-			callback
-		);
-
-		subscribeInViewPortChange(this, () => {
-			this.info("in subscribeInViewPortChange", this.elementIsInViewPort, this._isListVisible);
-			if (this.elementIsInViewPort && this._isListVisible) {
-				this._receiveStateScrollToSub = this.signalManager.subscribeToSignal<number>(
-					0,
-					this.receiveStateScrollTo as string,
-					this.receiveStateScrollToSub as string,
-					callback
-				);
-			}
-		});
+		this.setScrollToContent();
 	}
 
+	private setScrollToContent() {
+		setTimeout(() => {
+			const callback: SignalSubscriptionCallback = (newValue: string | number | boolean) => {
+				const _newValue = newValue as number;
+				this.info("SignalSubscriptionCallback value is ", _newValue);
+				if (_newValue !== null || _newValue !== undefined) {
+					const bufferAmount = this.bufferAmount || 0;
+					const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
+					this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
+					this.animationHelper.signalScrollTo(_newValue as number);
+				}
+			};
+			this._receiveStateScrollToSub = this.signalManager.subscribeToSignal<number>(
+				0,
+				this.receiveStateScrollTo as string,
+				this.receiveStateScrollToSub as string,
+				callback
+			);
+		}, 100);
+
+	}
 	public get receiveStateTemplateVars(): string | null | undefined {
 		// The internal property is changed if/when the element is removed from DOM
 		// Returning the attribute instead of the internal property preserves functionality
