@@ -435,6 +435,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 	private _isListVisible: boolean = true;
 
+	private receiveStateScrollToChanged: boolean = false;
 
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5List.ELEMENT_NAME, Ch5List.SIGNAL_ATTRIBUTE_TYPES);
@@ -473,7 +474,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		this.animationHelper.addTemplateHelper(this.templateHelper);
 		this.animationHelper.addEventManager(this.eventManager);
 
-
 		this.bufferdItemsHelper.addTemplateHelper(this.templateHelper);
 	}
 
@@ -482,31 +482,31 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	}
 
 	public connectedCallback() {
+		this._isListVisible = true;
 		this.contentCleanUp();
-		subscribeInViewPortChange(this, () => {
-			this.info(`Ch5List.subscribeInViewPortChange() with elementIsInViewPort = ${this.elementIsInViewPort}`);
 
-			if (this.elementIsInViewPort && this._isListVisible) {
+		subscribeInViewPortChange(this, () => {
+			this.info(`Ch5List.subscribeInViewPortChange() with elementIsInViewPort: ${this.elementIsInViewPort}, this.receiveStateScrollToChanged: ${this.receiveStateScrollToChanged}, _isListVisible: ${this._isListVisible},  this.hasAttribute('scrollbar'): ${this.hasAttribute('scrollbar')}`);
+
+			if (this.elementIsInViewPort && (this._isListVisible || this.receiveStateScrollToChanged)) {
+				this.info("Updating View");
 				if (this.hasAttribute('scrollbar') && String(this.getAttribute('scrollbar')) === 'true') {
 					this.templateHelper.customScrollbar(this.divList);
 					setTimeout(() => {
 						this.templateHelper.resizeList(this.divList, this.templateVars);
 					}, 0.5);
+				} else {
+					this.templateHelper.resetListLayout();
 				}
 
 				this.templateHelper.checkAndSetSizes();
 				this.templateHelper.customScrollbar(this.divList);
 				this._isListVisible = false;
+				this.receiveStateScrollToChanged = false;
 				this.setScrollToContent();
 			}
 		});
 
-		// subscribeInViewPortChange(this, () => {
-		// 	this.info("in subscribeInViewPortChange", this.elementIsInViewPort, this._isListVisible);
-		// 	if (this.elementIsInViewPort && this._isListVisible) {
-
-		// 	}
-		// });
 		const listInitialization = () => {
 			// WAI-ARIA Attributes
 			if (!this.hasAttribute('role')) {
@@ -1488,8 +1488,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		}
 		this._receiveStateScrollTo = value;
 		this.setAttribute('receivestatescrollto', value);
-
-		this.setScrollToContent();
+		// this.setScrollToContent();
 	}
 
 	private setScrollToContent() {
@@ -1502,6 +1501,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 					const maxOffsetTranslate = this.animationHelper.adjustMaxOffset(bufferAmount > 0);
 					this.animationHelper.maxOffsetTranslate = maxOffsetTranslate;
 					this.animationHelper.signalScrollTo(_newValue as number);
+					this.receiveStateScrollToChanged = true;
 				}
 			};
 			this._receiveStateScrollToSub = this.signalManager.subscribeToSignal<number>(
@@ -2002,7 +2002,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		// _lastViewIndex, and then we can force an update on selected.
 		const shouldForceSelectedUpdate = this._items.length === 0 && this._lastViewIndex === -1;
 
-		// Calling internalUpdate instead of update, to avoid race coniditions
+		// Calling internalUpdate instead of update, to avoid race conditions
 		// (update is debounced). This is because the number of items is
 		// essential for computing the remaining internal values.
 		this._internalUpdate();
