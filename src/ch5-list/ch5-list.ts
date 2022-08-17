@@ -503,7 +503,9 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 				this.templateHelper.customScrollbar(this.divList);
 				this._isListVisible = false;
 				this.receiveStateScrollToChanged = false;
-				this.setScrollToContent();
+				if (this.hasAttribute('receiveStateScrollTo') && String(this.getAttribute('receiveStateScrollTo')) !== '') {
+					this.setScrollToContent();
+				}
 			}
 		});
 
