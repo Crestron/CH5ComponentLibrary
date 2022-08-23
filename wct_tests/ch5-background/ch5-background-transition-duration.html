@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
@@ -20,9 +19,40 @@
         </template>
     </test-fixture>
 
+    <test-fixture id="ch5-background-transitionduration-float">
+        <template>
+            <ch5-background transitionduration="3.2s" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="12">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-transitionduration-invalid-1-fixture">
+        <template>
+            <ch5-background transitionduration="1dn" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="12">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-transitionduration-remove">
+        <template>
+            <ch5-background transitionduration="6s" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="12">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-transitionduration-invalid-1">
+        <template>
+            <ch5-background transitionduration="9.2s*" url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200"
+            refreshRate="12">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
     <script>
         suite('ch5-background transitionduration', () => {
             let ch5Background;
+
+            /* coverity[implicit_this_used] */
             setup(() => {
                 ch5Background = fixture('ch5-background-transitionduration-fixture');
                 return Promise.all([customElements.whenDefined('ch5-background')]);
@@ -36,7 +66,78 @@
                 });
             });
         });
-    </script>
+
+        suite('ch5-background transitionduration in float', () =>{
+            let ch5Background;
+
+            setup(() => {
+                ch5Background = fixture('ch5-background-transitionduration-float');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('transitionDuration "3.2s"', (done) => {
+                flush(() =>{
+                    setTimeout(() => {
+                    const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                    expect(canvasElm.style.transitionDuration).to.be.equal('3.2s');
+                    done();
+                    }, 100);
+                });
+            });
+        });
+
+        suite('ch5-background transitionduration', () => {
+            let ch5Background;
+
+            setup(() => {
+                ch5Background = fixture('ch5-background-transitionduration-invalid-1-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test(`transitionDuration "invalid"`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+                        expect(canvasElm.style.transitionDuration).to.be.equal('1s');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        // suite('ch5-background transitionduration remove', () => {
+        //     let ch5Background;
+            
+        //     setup(() => {
+        //         ch5Background = fixture('ch5-background-transitionduration-remove');
+        //         return Promise.all([customElements.whenDefined('ch5-background')]);
+        //     });
+
+        //     test(`transitionDuration remove`, () => {
+        //         const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+        //         expect(ch5Background.getAttribute('transitionduration')).to.be.equal("6s");
+        //         ch5Background.removeAttribute('transitionduration');
+        //         expect(canvasElm.style.transitionDuration).to.be.equal('1s');
+        //     });
+        // });
+
+        // suite('ch5-background transitionduration invalid "9.2s*"', () => {
+        //     let ch5Background;
+            
+        //     setup(() => {
+        //         ch5Background = fixture('ch5-background-transitionduration-invalid-1');
+        //         return Promise.all([customElements.whenDefined('ch5-background')]);
+        //     });
+
+        //     test(`transitionDuration remove "9.2s*"`, () => {
+        //         const canvasElm = ch5Background.querySelector('.ch5-background--canvas');
+        //         expect(ch5Background.getAttribute('transitionduration')).to.be.equal("9.2s*");
+        //         expect(ch5Background.transitionDuration).to.be.equal('9.2s*');
+        //         expect(canvasElm.style.transitionDuration).to.be.equal('1s');
+        //     });
+        // });
+   
+   </script>
 </body>
 
 </html>

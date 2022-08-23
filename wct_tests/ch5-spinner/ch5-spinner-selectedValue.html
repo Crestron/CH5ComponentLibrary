@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-spinner-selectedValue-fixture">
+        <template>
+            <ch5-spinner label="item {{idx}}" indexId="idx" size="7">
+            </ch5-spinner>
+        </template>
+    </test-fixture>
+
+
+    <script>
+        suite('ch5-spinner-selectedValue ', function () {
+
+            let ch5Spinner;
+
+            /* coverity[implicit_this_used] */
+            setup(() => {
+                ch5Spinner = fixture('ch5-spinner-selectedValue-fixture');
+
+                return Promise.all([
+                    customElements.whenDefined('ch5-spinner')
+                ]);
+            });
+
+
+
+
+
+            let testCases = ["-1", "0", "1", "15", "29", "30", "31", "35"];
+            let expectedResult = [null, '0', '1', '6', '6', '6', '6', '6'];
+            testCases.forEach((ele, i) => {
+                test(`Check SelectedValue of element is valid : "${ele}"`, (done) => {
+                    // ch5Spinner.setAttribute('selectedValue', ele);
+                    ch5Spinner.selectedValue = ele;
+                
+                    flush(() => {
+                        setTimeout(() => {
+
+
+                            expect(ch5Spinner.getAttribute('selectedValue')).to.be.equal(expectedResult[i]);
+                            done();
+                        }, 50);
+                    });
+                });
+            });
+            // test('Expect property size to be 5', function() {
+            //     expect(ch5Spinner.size).to.be.equal(5);
+            // });
+
+
+
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-fixture-with-mode">
+        <template>
+            <ch5-button>
+                <ch5-button-mode></ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <!--
+
+<ch5-button 
+    type="danger" 
+    label="Danger" 
+    role="button" 
+    dir="ltr" 
+    style="touch-action: auto; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+    <div 
+        class="cb-cntr ch5-button ch5-button--rounded-rectangle ch5-button--danger ch5-button--size-regular" 
+        style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+        <button 
+            class="cb-btn" 
+            data-ch5-id="cr-id-43">
+            <span class="cb-lbl ch5-button--label">Danger</span>
+        </button>
+    </div>
+</ch5-button>
+
+    -->
+
+    <script>
+        suite('ch5-button with ch5-button-mode', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/types.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Button = fixture('ch5-button-fixture-with-mode');
+            });
+
+            // Type, ReceiveStateType, Selected
+            const availableTypes = CrComLib.Ch5Button.TYPES;
+            availableTypes.forEach((typeName, i) => {
+                availableTypes.forEach((newTypeName, j) => {
+                    test(`Check button attribute type: "${typeName}" and button-mode attribute: "${newTypeName}"`, () => {
+                        ch5Button.setAttribute('type', typeName);
+                        ch5Button.getElementsByTagName('ch5-button-mode')[0].setAttribute('type', newTypeName)
+                        expect(ch5Button.getAttribute('type')).to.be.equal(typeName);
+                        expect(ch5Button.type).to.be.equal(newTypeName);
+                    });
+                    test(`Check ch5-button > div css class name for type: "${typeName}" and button-mode attribute: "${newTypeName}"`, () => {
+                        ch5Button.setAttribute('type', typeName);
+                        ch5Button.getElementsByTagName('ch5-button-mode')[0].setAttribute('type', newTypeName)
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--" + newTypeName)).to.be.equal(true);
+                    });
+                });
+            });
+
+            // availableTypes.forEach((typeName, i) => {
+            //     test(`Check attribute type: "${typeName}" with selected as empty`, () => {
+            //         ch5Button.setAttribute('type', typeName);
+            //         ch5Button.setAttribute('selected', '');
+            //         expect(ch5Button.getAttribute('selected')).to.be.equal("");
+            //         expect(ch5Button.selected).to.be.equal(true);
+            //     });
+            //     test(`Check attribute type: "${typeName}" with selected as true`, () => {
+            //         ch5Button.setAttribute('type', typeName);
+            //         ch5Button.setAttribute('selected', 'true');
+            //         expect(ch5Button.getAttribute('selected')).to.be.equal("");
+            //         expect(ch5Button.selected).to.be.equal(true);
+            //     });
+            //     test(`Check attribute type: "${typeName}" with selected as false`, () => {
+            //         ch5Button.setAttribute('type', typeName);
+            //         ch5Button.setAttribute('selected', 'false');
+            //         expect(ch5Button.getAttribute('selected')).to.be.equal('false');
+            //         expect(ch5Button.selected).to.be.equal(false);
+            //     });
+            //     test(`Check ch5-button > div css class name for type: "${typeName}" with selected as empty`, () => {
+            //         ch5Button.setAttribute('type', typeName);
+            //         ch5Button.setAttribute('selected', '');
+            //         expect(getDiv(ch5Button).classList.contains("ch5-button--selected")).to.be.equal(true);
+            //     });
+            //     test(`Check ch5-button > div css class name for type: "${typeName}" with selected as true`, () => {
+            //         ch5Button.setAttribute('type', typeName);
+            //         ch5Button.setAttribute('selected', 'true');
+            //         expect(getDiv(ch5Button).classList.contains("ch5-button--selected")).to.be.equal(true);
+            //     });
+            //     test(`Check ch5-button > div css class name for type: "${typeName}" with selected as false`, () => {
+            //         ch5Button.setAttribute('type', typeName);
+            //         ch5Button.setAttribute('selected', 'false');
+            //         expect(getDiv(ch5Button).classList.contains("ch5-button--selected")).to.be.equal(false);
+            //     });
+            // });
+
+            // availableTypes.forEach((typeName, i) => {
+            //     test(`receiveStateType: "${typeName}"`, (done) => {
+            //         ch5Button.setAttribute('receiveStateType', 'current_type');
+            //         CrComLib.publishEvent('s', 'current_type', typeName);
+            //         flush(() => {
+            //             setTimeout(() => {
+            //                 expect(ch5Button.getAttribute('type')).to.be.equal(typeName);
+            //                 expect(ch5Button.type).to.be.equal(typeName);
+            //                 done();
+            //             }, 100);
+            //         });
+            //     });
+            // });
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+{
+    "cues": [
+      { "type": "number",
+        "event": "spin1.change",
+        "trigger": "&change",
+        "actions": [
+            {
+                "state": "spin1.value",
+                "type": "number",
+                "logic": "set",
+                "value": 5
+              }
+        ]
+      }
+    ],
+    "onStart":[
+    ]
+  }

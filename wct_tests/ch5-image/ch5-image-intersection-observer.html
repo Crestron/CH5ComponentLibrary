@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
@@ -39,6 +38,7 @@
         let ch5ImageParent;
         let ch5Image;
 
+        /* coverity[implicit_this_used] */
         setup(() => {
             ch5ImageParent = fixture('ch5-image-intersection-observer');
 
@@ -71,7 +71,7 @@
 
         test('Intersection observer is instantiated', function() {
             expect(ch5Image).to.have.property('viewportCallBack');
-            expect(ch5Image._show).to.be.equal(true);
+            expect(ch5Image.show).to.be.equal(true);
         });
 
         test('Component is in viewport and then exists viewport', function(done){

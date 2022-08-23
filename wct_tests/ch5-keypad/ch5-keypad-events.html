@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-keypad-sendEventOnClick-fixture">
+    <template>
+      <ch5-keypad type="default" ID="test1a" shape="rounded-rectangle" sendEventOnClickStart="5">
+        <ch5-keypad-button key="button1" labelMajor="11" labelMinor="ONE"></ch5-keypad-button>
+        <ch5-keypad-button key="button2" labelMajor="12" labelMinor="TWO"></ch5-keypad-button>
+        <ch5-keypad-button key="button3" labelMajor="13" labelMinor="THREE"></ch5-keypad-button>
+        <ch5-keypad-button key="button4" labelMajor="14" labelMinor="FOUR"></ch5-keypad-button>
+        <ch5-keypad-button key="button5" labelMajor="15" labelMinor="FIVE"></ch5-keypad-button>
+        <ch5-keypad-button key="button6" labelMajor="16" labelMinor="SIX"></ch5-keypad-button>
+        <ch5-keypad-button key="button7" labelMajor="17" labelMinor="SEVEN"></ch5-keypad-button>
+        <ch5-keypad-button key="button8" labelMajor="18" labelMinor="EIGHT"></ch5-keypad-button>
+        <ch5-keypad-button key="button9" labelMajor="19" labelMinor="NINE"></ch5-keypad-button>
+        <ch5-keypad-button key="button0" labelMajor="10" labelMinor="ZERO"></ch5-keypad-button>
+        <ch5-keypad-button key="buttonstar" labelMajor="^^" labelMinor="MISC1"></ch5-keypad-button>
+        <ch5-keypad-button key="buttonhash" labelMajor="&&" labelMinor="MISC2"></ch5-keypad-button>
+      </ch5-keypad>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-keypad-contractName-fixture">
+    <template>
+      <ch5-keypad type="default" ID="test1a" shape="rounded-rectangle" contractName="LivingRoom.AppleTV">
+      </ch5-keypad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-keypad-sendEventOnClick', () => {
+
+      let ch5KeypadEvent;
+
+      setup(async () => {
+        ch5KeypadEvent = fixture('ch5-keypad-sendEventOnClick-fixture');
+      });
+
+      test(`Check sendeventonclick - keypad`, () => {
+        expect(ch5KeypadEvent.getAttribute('sendeventonclickstart')).to.be.equal("5");
+      });
+
+      // test(`Check sendeventonclick - button 1`, () => {
+      // console.log(ch5KeypadEvent.children[0]);
+      // template not as expected
+      // });
+    });
+
+    suite('ch5-keypad-contractName', () => {
+
+      let ch5KeypadEvent;
+
+      setup(async () => {
+        ch5KeypadEvent = fixture('ch5-keypad-contractName-fixture');
+      });
+
+      test(`Check contractName - keypad`, () => {
+        expect(ch5KeypadEvent.getAttribute('contractName')).to.be.equal("LivingRoom.AppleTV.");
+      });
+    });
+  </script>
+</body>
+
+</html>

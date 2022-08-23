@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
@@ -154,6 +153,7 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
     
     suite('ch5-video x-small size', function() {
         let ch5Video;
+        /* coverity[implicit_this_used] */
         setup(() => {
             ch5Video = fixture('ch5-video-default-fixture');
 
@@ -174,22 +174,23 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
             });
         });
 
-        test('ch5-video should have one canvas element.', function(done) {
-            flush(function() {
-                let canvasEl = ch5Video.querySelectorAll('canvas');
-                expect(canvasEl.length).to.be.equal(1);
-                done();
-            });
-        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        // test('ch5-video should have one canvas element.', function(done) {
+        //     flush(function() {
+        //         let canvasEl = ch5Video.querySelectorAll('canvas');
+        //         expect(canvasEl.length).to.be.equal(1);
+        //         done();
+        //     });
+        // });
 
-        test('Canvas height for aspectratio "16:9" and size "x-small" should be equal to videoSize height', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(16, 9, 'x-small');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.height).to.be.equal(videoSize.height);
-                done();
-            });
-        });
+        // test('Canvas height for aspectratio "16:9" and size "x-small" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(16, 9, 'x-small');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
 
     });
 
@@ -206,14 +207,15 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
         test('ch5-video size a string', function() {
             expect(ch5Video.size).to.be.a('string');
         });
-         test('Canvas height for aspectratio "16:9" and size "small" should be equal to videoSize height', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(16, 9, 'small');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.height).to.be.equal(videoSize.height);
-                done();
-            });
-        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "16:9" and size "small" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(16, 9, 'small');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
 
     });
     
@@ -231,22 +233,23 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
         test('ch5-video size a string', function() {
             expect(ch5Video.size).to.be.a('string');
         });
-         test('Canvas height for aspectratio "4:3" and size "large" should be equal to videoSize height', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(4, 3, 'large');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.height).to.be.equal(videoSize.height);
-                done();
-            });
-        });
-         test('Canvas width for aspectratio "4:3" and size "large" should be equal to videoSize width', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(4, 3, 'large');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.width).to.be.equal(videoSize.width);
-                done();
-            });
-        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "4:3" and size "large" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+        //  test('Canvas width for aspectratio "4:3" and size "large" should be equal to videoSize width', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.width).to.be.equal(videoSize.width);
+        //         done();
+        //     });
+        // });
 
     });
 
@@ -263,22 +266,23 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
         test('ch5-video size a string', function() {
             expect(ch5Video.size).to.be.a('string');
         });
-         test('Canvas height for aspectratio "4:3" and size "x-large" should be equal to videoSize height', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(4, 3, 'x-large');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.height).to.be.equal(videoSize.height);
-                done();
-            });
-        });
-         test('Canvas width for aspectratio "4:3" and size "x-large" should be equal to videoSize width', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(4, 3, 'x-large');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.width).to.be.equal(videoSize.width);
-                done();
-            });
-        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "4:3" and size "x-large" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'x-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+        //  test('Canvas width for aspectratio "4:3" and size "x-large" should be equal to videoSize width', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'x-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.width).to.be.equal(videoSize.width);
+        //         done();
+        //     });
+        // });
 
     });
 
@@ -295,22 +299,23 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
         test('ch5-video size a string', function() {
             expect(ch5Video.size).to.be.a('string');
         });
-         test('Canvas height for aspectratio "16:9" and size "xx-large" should be equal to videoSize height', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(16, 9, 'xx-large');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.height).to.be.equal(videoSize.height);
-                done();
-            });
-        });
-         test('Canvas width for aspectratio "16:9" and size "xx-large" should be equal to videoSize width', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(16, 9, 'xx-large');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.width).to.be.equal(videoSize.width);
-                done();
-            });
-        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "16:9" and size "xx-large" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(16, 9, 'xx-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+        //  test('Canvas width for aspectratio "16:9" and size "xx-large" should be equal to videoSize width', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(16, 9, 'xx-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.width).to.be.equal(videoSize.width);
+        //         done();
+        //     });
+        // });
 
     });
     suite('ch5-video xx-large with aspectratio 4:3', function() {
@@ -326,22 +331,23 @@ const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
         test('ch5-video size a string', function() {
             expect(ch5Video.size).to.be.a('string');
         });
-         test('Canvas height for aspectratio "4:3" and size "xx-large" should be equal to videoSize height', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(4, 3, 'xx-large');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.height).to.be.equal(videoSize.height);
-                done();
-            });
-        });
-         test('Canvas width for aspectratio "4:3" and size "xx-large" should be equal to videoSize width', function(done) {
-            flush(function() {
-                let videoSize = aspectRatio(4, 3, 'xx-large');
-                let canvasEl = ch5Video.querySelector('canvas');
-                expect(canvasEl.width).to.be.equal(videoSize.width);
-                done();
-            });
-        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "4:3" and size "xx-large" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'xx-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+        //  test('Canvas width for aspectratio "4:3" and size "xx-large" should be equal to videoSize width', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'xx-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.width).to.be.equal(videoSize.width);
+        //         done();
+        //     });
+        // });
 
     });
 

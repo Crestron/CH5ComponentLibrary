@@ -7,10 +7,9 @@
 
 import { Ch5AttrsLog } from './ch5-attrs-log';
 import {Ch5Signal, Ch5SignalFactory} from "../ch5-core";
-import { ICh5AttrsTextContent } from '../_interfaces/ch5-custom-attrs/i-ch5-attrs-text-content';
-import { CustomAttribute } from '../_interfaces/ch5-custom-attrs/helpers/custom-attribute';
-
 import {Ch5TranslationUtility} from "../ch5-core/ch5-translation-utility";
+import { CustomAttribute, ICh5AttrsTextContent } from './interfaces';
+import { Ch5SignalAttributeRegistry } from '../ch5-common/ch5-signal-attribute-registry';
 
 export class Ch5AttrsTextContent extends CustomAttribute<string> implements ICh5AttrsTextContent {
 
@@ -102,4 +101,10 @@ export class Ch5AttrsTextContent extends CustomAttribute<string> implements ICh5
         }
     }
 
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addCustomAttributeEntry(Ch5AttrsTextContent.DATA_CH5_ATTR_NAME, 
+            {direction: "state", stringJoin: 1, contractName: true});
+    }
 }
+
+Ch5AttrsTextContent.registerSignalAttributeTypes();

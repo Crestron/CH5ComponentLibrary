@@ -177,4 +177,20 @@ export class Ch5SpinnerEvents {
 
     return event;
   }
+
+  /**
+   * Dispatch the mouseup event
+   * @return {void}
+   */
+   public dispatchMouseUp(): void {
+      this.dispatch('mouseup');
+  }
+
+  /**
+   * Dispatch the mouseup event
+   * @return {void}
+   */
+  public dispatchTouchEnd(): void {
+    this.dispatch('touchend');
+  }
 }

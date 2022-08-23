@@ -1,18 +1,18 @@
-import { iCh5VideoCollection, iCh5VideoListMgr, iCh5VideoRef } from '../_interfaces/ch5-video/types';
+import { ICh5VideoCollection, ICh5VideoListManager, ICh5VideoRef } from './interfaces/types';
 import './i-ch5-video.d.ts';
 
 declare var window: any;
 
 /**
  * Class designed for handling all the global management of video manager
- * Some challenges like, co-ordinated window rendering of ch5-video sections within a list of them etc
+ * Some challenges like, coordinated window rendering of ch5-video sections within a list of them etc
  * will be addressed here
  */
-export class Ch5VideoListMgr implements iCh5VideoListMgr {
+export class Ch5VideoListManager implements ICh5VideoListManager {
     // this var controls the list of video tags subscribed under the manager, essentially all the ones in the app
-    private _videoCollection: { [index: string]: iCh5VideoRef } = {};
+    private _videoCollection: { [index: string]: ICh5VideoRef } = {};
     // this var controls the list of the ch5-video elements strictly in view
-    private _videoCollectionInView: { [index: string]: iCh5VideoRef } = {};
+    private _videoCollectionInView: { [index: string]: ICh5VideoRef } = {};
     
     constructor() {
         this._init();
@@ -23,7 +23,7 @@ export class Ch5VideoListMgr implements iCh5VideoListMgr {
      */
     private _init() {
         if (typeof window === "object" && typeof window.Ch5VideoListManager === "undefined") {
-            window.Ch5VideoListManager = {} as iCh5VideoListMgr;
+            window.Ch5VideoListManager = {} as ICh5VideoListManager;
         }
         return window.Ch5VideoListManager;
     }
@@ -40,7 +40,7 @@ export class Ch5VideoListMgr implements iCh5VideoListMgr {
      * pushVideoRefNode
      * Function to add a video element's reference into the global object's observable
      */
-    public addToMasterCollection(videoNode: iCh5VideoRef) {
+    public addToMasterCollection(videoNode: ICh5VideoRef) {
         this._videoCollection[videoNode.id] = videoNode;
     }
 
@@ -48,7 +48,7 @@ export class Ch5VideoListMgr implements iCh5VideoListMgr {
      * getVideoElements
      * Function to return the video elements subscribed under manager
      */
-    public getAllVideoElements(): iCh5VideoCollection {
+    public getAllVideoElements(): ICh5VideoCollection {
         return this._videoCollection;
     }
 
@@ -56,7 +56,7 @@ export class Ch5VideoListMgr implements iCh5VideoListMgr {
      * getVideoElements
      * Function to return the video elements subscribed under manager
      */
-    public getAllVideoElements_InView(): iCh5VideoCollection {
+    public getAllVideoElements_InView(): ICh5VideoCollection {
         return this._videoCollectionInView;
     }
 
@@ -64,7 +64,7 @@ export class Ch5VideoListMgr implements iCh5VideoListMgr {
      * updateVideoRefStatus_InView
      * Function to update the status for a given ch5-video element to be under the visible range
      */
-    public updateVideoRefStatus_InView(videoRefObj: iCh5VideoRef) {
+    public updateVideoRefStatus_InView(videoRefObj: ICh5VideoRef) {
         this._videoCollectionInView[videoRefObj.id] = videoRefObj;
     }
 
@@ -88,6 +88,6 @@ export class Ch5VideoListMgr implements iCh5VideoListMgr {
     }
 }
 
-// Finally, allocate the videolistmgr as an object to window
-window.Ch5VideoListManager = new Ch5VideoListMgr();
+// Finally, allocate the Ch5VideoListMgr as an object to window
+window.Ch5VideoListManager = new Ch5VideoListManager();
 

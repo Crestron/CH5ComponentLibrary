@@ -6,16 +6,18 @@
 // under which you licensed this source code.
 
 import { Ch5TriggerView } from "./ch5-triggerview";
-import Swiper, { SwiperOptions } from "swiper";
+import Swiper from "swiper";
 import { getCSSCustomProperty } from "./utils";
 import { Ch5TriggerViewChild } from "./ch5-triggerview-child";
 import { isNil } from "lodash";
 import { Ch5CustomAttributes } from "../ch5-custom-attrs";
 import { publishEvent } from "../ch5-core";
+import { Ch5TriggerViewSwiper } from "./ch5-triggerview-swiper";
+import _ from "lodash";
 
 export class Ch5TriggerViewSlidesManager {
 
-  public static TRIGGERVIEW_SLIDER_CONTAINER_CLASS: string = 'swiper-container';
+  public static TRIGGERVIEW_SLIDER_CONTAINER_CLASS: string = 'swiper'; // 'swiper-container';
   public static TRIGGERVIEW_SLIDES_WRAPPER_CLASS: string = 'swiper-wrapper';
   public static TRIGGERVIEW_SLIDE_CLASS: string = 'swiper-slide';
   public static TRIGGERVIEW_CHILD_SELECTOR: string = 'ch5-triggerview-child';
@@ -28,26 +30,14 @@ export class Ch5TriggerViewSlidesManager {
   public triggerViewEl: Ch5TriggerView = {} as Ch5TriggerView;
 
   /**
-   * The width of private _slidesWrapper (in px). Derived from CSS.
-   * @type {number}
-   * @private
-   */
-  private _wrapperWidth = 0;
-
-  /**
    * The width of the gap between each slide (in px). Derived from CSS.
    * @type {number}
    * @private
    */
-  private _slidesGap = 0;
+  private _slidesGap: number = 0;
 
-  /**
-   * The width of each individual slide (in px). Computed mathematically
-   * from other properties.
-   * @type {number}
-   * @private
-   */
-  private _slidesWidth = 0;
+  private isSwiperInitialized: boolean = false;
+  private isCh5SwiperInitialized: boolean = false;
 
   /**
    * Swiper lib object used to for slide action
@@ -55,6 +45,7 @@ export class Ch5TriggerViewSlidesManager {
    * @private
    */
   private _swiper: Swiper | null = null;
+  private _ch5Swiper: Ch5TriggerViewSwiper | null = null;
 
   /**
    * Slide transition speed
@@ -87,7 +78,7 @@ export class Ch5TriggerViewSlidesManager {
    * Prepare swiper wrappers and slides
    */
   public prepareSwiperSlides() {
-    const slides: HTMLElement[] = this.getTriggerviewChildSlides();
+    const slides: HTMLElement[] = this.getTriggerViewChildSlides();
     if (!this._externalWrapper) {
       this._createSlidesWrappers();
     }
@@ -96,69 +87,117 @@ export class Ch5TriggerViewSlidesManager {
   }
 
   /**
-   * Initialilze Swiper
+   * Initialize Swiper
    */
   public initSwiper() {
     const id = this.triggerViewEl.getCrId();
-    this._swiper = new Swiper(`#${id!} .${Ch5TriggerViewSlidesManager.TRIGGERVIEW_SLIDER_CONTAINER_CLASS}`, {
-      slidesPerView: 1,
-      spaceBetween: this._slidesGap,
-      loop: this.triggerViewEl.endless,
-      speed: this._getSlidingSpeed(),
-      touchRatio: 1.4,
-      followFinger: true,
-      threshold: this.triggerViewEl.swipeThreshold,
-      touchStartPreventDefault: false,
-      touchMoveStopPropagation: false,
-      nested: this.triggerViewEl.nested,
-      updateOnImagesReady: true,
-    });
+    if (this.triggerViewEl.gestureable === false && this.triggerViewEl.disableAnimation === true) {
+      if (!_.isNil(this._slidesWrapper)) {
+        this._slidesWrapper.classList.add("slider-full-width-page");
+      }
 
-    // make sure active slide is the one set from activeView
-    if (this._swiper.realIndex !== this.triggerViewEl.activeView) {
-      this.swipeTo(this.triggerViewEl.activeView, true);
+      this._ch5Swiper = new Ch5TriggerViewSwiper(`#${id!} .${Ch5TriggerViewSlidesManager.TRIGGERVIEW_SLIDER_CONTAINER_CLASS}`);
+      this.isSwiperInitialized = false;
+      this.isCh5SwiperInitialized = true;
+      const slides: HTMLElement[] = this.getTriggerViewChildSlides();
+      this._ch5Swiper.slides = slides;
+      this._ch5Swiper.activeView = this.triggerViewEl.activeView;
+      this.setActiveIndexForLite();
+    } else {
+      if (!_.isNil(this._slidesWrapper)) {
+        this._slidesWrapper.classList.remove("slider-full-width-page");
+      }
+
+      this._swiper = new Swiper(`#${id!} .${Ch5TriggerViewSlidesManager.TRIGGERVIEW_SLIDER_CONTAINER_CLASS}`, {
+        slidesPerView: 1,
+        spaceBetween: this._slidesGap,
+        loop: this.triggerViewEl.endless,
+        speed: this._getSlidingSpeed(),
+        touchRatio: 1.4,
+        followFinger: true,
+        threshold: this.triggerViewEl.swipeThreshold,
+        touchStartPreventDefault: false,
+        touchMoveStopPropagation: false,
+        nested: this.triggerViewEl.nested,
+        updateOnImagesReady: true,
+        initialSlide: this.getInitialSlide()
+      });
+      this.isSwiperInitialized = true;
+      this.isCh5SwiperInitialized = false;
+
+      this._swiper.on('slideChange', () => {
+        // update active slide attributes (also prev active slide attrs will be updated)
+        this._updateActiveSlideAttributes();
+        this._updateTriggerViewElActiveViewWhenChangedBySwiper();
+
+        // publishing slidechange event for ch5-video
+        publishEvent('b', 'triggerview.slidechange', true);
+      });
+
+      // publishing slidemove event for ch5-video
+      this._swiper.on('slideChangeTransitionStart', () => {
+        publishEvent('b', 'triggerview.slidemove', true);
+      });
+
+      // set gestures on/off
+      this.setAllowTouchMove(this.triggerViewEl.gestureable);
+
+      this._swiper.on('touchStart', (...e: any[]) => {
+        const target: HTMLElement = e[0].target;
+        if (this.eventTargetBelongsToCh5List(target)) {
+          this.setAllowTouchMove(false);
+          this._touchMoveListRelatedEventDisabled = true;
+        }
+      });
+
+      this._swiper.on('touchEnd', (...e: any[]) => {
+        const target: HTMLElement = e[0].target;
+        if (this.eventTargetBelongsToCh5List(target) || this._touchMoveListRelatedEventDisabled) {
+          this.setAllowTouchMove(this.triggerViewEl.gestureable);
+          this._touchMoveListRelatedEventDisabled = false;
+        }
+
+        // publishing touchend event for ch5-video
+        publishEvent('b', 'triggerview.touchend', true);
+      });
     }
-
-    this._swiper.on('slideChange', () => {
-      // update active slide attributes (also prev active slide attrs will be updated)
-      this._updateActiveSlideAttributes();
-      this._updateTriggerViewElActiveViewWhenChangedBySwiper();
-
-      // publishing slidechange event for ch5-video
-      publishEvent('b', 'triggerview.slidechange', true);
-    });
-
-    // publishing slidemove eevnt for ch5-video
-    this._swiper.on('slideChangeTransitionStart', () => {
-      publishEvent('b', 'triggerview.slidemove', true);
-    });    
-
-    // set gestures on/off
-    this.setAllowTouchMove(this.triggerViewEl.gestureable);
-
-    this._swiper.on('touchStart', (...e: any[]) => {
-      const target: HTMLElement = e[0].target;
-      if (this.eventTargetBelongsToCh5List(target)) {
-        this.setAllowTouchMove(false);
-        this._touchMoveListRelatedEventDisabled = true;
-      }
-    });
-
-    this._swiper.on('touchEnd', (...e: any[]) => {
-      const target: HTMLElement = e[0].target;
-      if (this.eventTargetBelongsToCh5List(target) || this._touchMoveListRelatedEventDisabled) {
-        this.setAllowTouchMove(this.triggerViewEl.gestureable);
-        this._touchMoveListRelatedEventDisabled = false;
-      }
-
-      // publishing touchend eevnt for ch5-video
-      publishEvent('b', 'triggerview.touchend', true);
-    });
   }
 
+  private getInitialSlide() {
+    if (this.triggerViewEl && 0 !== this.triggerViewEl.activeView) {
+      return this.triggerViewEl.activeView;
+    } else {
+      return 0;
+    }
+  }
+  public setActiveIndexForLite() {
+    if (this._ch5Swiper) {
+      const activeSlideIndex = this._ch5Swiper.activeView;
+      if (activeSlideIndex !== this.triggerViewEl.activeView) {
+        this.triggerViewEl.activeView = this._ch5Swiper.activeView;
+      }
+      const slides: HTMLElement[] = this.getTriggerViewChildSlides();
+      Array.from(slides).forEach((slide: HTMLElement, index) => {
+        slide.style.width = "100%";
+        if (index !== activeSlideIndex) {
+          slide.setAttribute('tabindex', '-1');
+          slide.setAttribute('aria-hidden', 'true');
+          slide.setAttribute('inert', 'true');
+          slide.classList.add('ch5-hide-dis');
+          slide.removeAttribute('selected');
+        } else {
+          slide.setAttribute('tabindex', '1');
+          slide.setAttribute('aria-hidden', 'false');
+          slide.removeAttribute('inert');
+          slide.classList.remove('ch5-hide-dis');
+          slide.setAttribute('selected', '');
+        }
+      });
+    }
+  }
   private eventTargetBelongsToCh5List(el: HTMLElement): boolean {
-    const isSlideEl = el.closest('ch5-slider') !== null;
-    const isListEl = el.closest('ch5-list') !== null;
+    const isSlideEl = !!el && el.closest('ch5-slider') !== null;
+    const isListEl = !!el && el.closest('ch5-list') !== null;
     let touchMoveForList = false;
     if (isListEl) {
       const listEl = el.closest('ch5-list');
@@ -174,6 +213,9 @@ export class Ch5TriggerViewSlidesManager {
     if (this.swiperIsActive()) {
       this.destroySwiper();
       this.initSwiper();
+    } else if (this.ch5SwiperIsActive()) {
+      this._ch5Swiper = null;
+      this.initSwiper();
     }
   }
 
@@ -183,7 +225,6 @@ export class Ch5TriggerViewSlidesManager {
    */
   public set swiperSensitivity(newThreshold: number) {
     this.triggerViewEl.swipeThreshold = newThreshold;
-
     if (this._swiper !== null) {
       this._swiper.params.threshold = newThreshold;
     }
@@ -193,7 +234,11 @@ export class Ch5TriggerViewSlidesManager {
    * Check if swiper was initialized
    */
   public swiperIsActive(): boolean {
-    return this._swiper instanceof Swiper;
+    return ((this._swiper instanceof Swiper) && !_.isNil(this._swiper) && this.isSwiperInitialized === true);
+  }
+
+  public ch5SwiperIsActive(): boolean {
+    return ((this._ch5Swiper instanceof Ch5TriggerViewSwiper) && !_.isNil(this._ch5Swiper) && this.isCh5SwiperInitialized === true);
   }
 
   /**
@@ -213,8 +258,10 @@ export class Ch5TriggerViewSlidesManager {
   public getSlidesNumber(): number {
     if (this.swiperIsActive() && !isNil(this._swiper) && !isNil(this._swiper.slides)) {
       return this._swiper.slides.length;
+    } else if (this.ch5SwiperIsActive() && !isNil(this._ch5Swiper) && !isNil(this._ch5Swiper.slides)) {
+      return this._ch5Swiper.slides.length;
     } else {
-      const slides = this.getTriggerviewChildSlides();
+      const slides = this.getTriggerViewChildSlides();
       return slides.length;
     }
   }
@@ -223,7 +270,6 @@ export class Ch5TriggerViewSlidesManager {
    * Init slides by adding them inside required Swiper wrappers and adding slide class
    */
   public initSlides(slides: HTMLElement[]) {
-
     Ch5CustomAttributes.preventUnsubscribe = true;
 
     const trvHasListRole: boolean = this.triggerViewEl.getAttribute('role') === 'list';
@@ -261,29 +307,38 @@ export class Ch5TriggerViewSlidesManager {
    * @param slideIndex
    */
   public swipeTo(slideBaseOneIndex: number, instantTransition: boolean = false, speed?: number) {
-
     if (this.swiperIsActive()) {
-
-      const _speed = speed !== undefined ? speed : this._transitionSpeed;
+      const _speed = !_.isNil(speed) ? speed : this._transitionSpeed;
 
       // in loop mode first slide bas index 0 (because of the duplicate slides created by swiper)
       const slideIndex = this.triggerViewEl.endless ? slideBaseOneIndex + 1 : slideBaseOneIndex;
       if (slideIndex !== this._swiper!.activeIndex && this._swiper!.hasOwnProperty('snapGrid')) {
-
-        this._swiper!.slideTo(slideIndex, instantTransition ? 0 : _speed);
+        const selectedSpeed = instantTransition ? 0 : _speed;
+        try {
+          this._swiper!.slideTo(slideIndex, selectedSpeed);
+        } catch (e) {
+          // This try catch is to resolve a bug in swiperjs
+          /*
+          setTransition.js:5 Uncaught TypeError: Cannot read properties of undefined (reading 'transition')
+              at Swiper.setTransition (setTransition.js:5:1)
+              at Swiper.slideTo (slideTo.js:152:1)
+          */
+        }
         this._updateActiveSlideAttributes();
       }
+    } else if (this.ch5SwiperIsActive() && !_.isNil(this._ch5Swiper)) {
+      this._ch5Swiper.activeView = slideBaseOneIndex;
+      this.setActiveIndexForLite();
     }
   }
 
   public getChildElSwipeIndex(childView: Ch5TriggerViewChild) {
     let slideIndex = null;
     if (this.swiperIsActive()) {
-
       let slide = null;
       let index = null;
-
       if (!isNil(this._swiper) && !isNil(this._swiper.slides)) {
+        // @ts-ignore
         Array.from(this._swiper!.slides).forEach((s: Ch5TriggerViewChild, i) => {
           if (!s.classList.contains('swiper-slide-duplicate') && childView === s) {
             slide = s;
@@ -299,16 +354,44 @@ export class Ch5TriggerViewSlidesManager {
           slideIndex = index;
         }
       }
+    } else if (this.ch5SwiperIsActive()) {
+      if (!isNil(this._ch5Swiper)) {
+        let slide = null;
+        let index = null;
+        Array.from(this._ch5Swiper.slides).forEach((s, i) => {
+          if (childView === s) {
+            slide = s;
+            index = i;
+          }
+        });
+        if (slide !== null) {
+          if (this.triggerViewEl.endless) {
+            slideIndex = Number((slide as HTMLElement).getAttribute('data-swiper-slide-index'));
+          } else {
+            slideIndex = index;
+          }
+        }
+      }
     }
     return isNaN(slideIndex as number) ? null : slideIndex;
   }
 
   public slideNext() {
-    this._swiper!.slideNext(this._getSlidingSpeed());
+    if (this.swiperIsActive()) {
+      this._swiper!.slideNext(this._getSlidingSpeed());
+    } else if (this.ch5SwiperIsActive() && !_.isNil(this._ch5Swiper)) {
+      this._ch5Swiper.incrementActiveView(this.triggerViewEl.endless);
+      this.setActiveIndexForLite();
+    }
   }
 
   public slidePrevious() {
-    this._swiper!.slidePrev(this._getSlidingSpeed());
+    if (this.swiperIsActive()) {
+      this._swiper!.slidePrev(this._getSlidingSpeed());
+    } else if (this.ch5SwiperIsActive() && !_.isNil(this._ch5Swiper)) {
+      this._ch5Swiper.decrementActiveView(this.triggerViewEl.endless);
+      this.setActiveIndexForLite();
+    }
   }
 
   public setAllowTouchMove(active: boolean) {
@@ -324,9 +407,14 @@ export class Ch5TriggerViewSlidesManager {
   }
 
   public getActiveIndex() {
-    return this._swiper!.realIndex;
+    if (this.swiperIsActive()) {
+      return this._swiper!.realIndex;
+    } else if (this.ch5SwiperIsActive() && !_.isNil(this._ch5Swiper)) {
+      return this._ch5Swiper.activeView;
+    } else {
+      return this._swiper!.realIndex;
+    }
   }
-
   public getSwiperParam(paramName: string) {
     if (!this.swiperIsActive()) {
       return null;
@@ -334,11 +422,29 @@ export class Ch5TriggerViewSlidesManager {
     return (this._swiper!.params as any)[paramName];
   }
 
-  public getTriggerviewChildSlides() {
-    const slidesElements = Array.from(this.triggerViewEl.children)
-      .filter((e: Element) => e.tagName.toLowerCase() === Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR);
+  public getTriggerViewChildSlides() {
+    if (this.swiperIsActive()) {
+      const slidesElements = Array.from(this.triggerViewEl.children)
+        .filter((e: Element) => e.tagName.toLowerCase() === Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR);
 
-    return slidesElements as HTMLElement[];
+      return slidesElements as HTMLElement[];
+    } else if (this.ch5SwiperIsActive()) {
+      if (this.triggerViewEl.children && this.triggerViewEl.children.length > 1 && this.triggerViewEl.children[1].children && this.triggerViewEl.children[1].children.length > 0) {
+        const slidesElements = Array.from(this.triggerViewEl.children[1].children[0].children)
+          .filter((e: Element) => e.tagName.toLowerCase() === Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR);
+        // const slidesElements = Array.from(this.triggerViewEl.getElementsByTagName(Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR))
+        // .filter((e: Element) => e.tagName.toLowerCase() === Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR);
+
+        return slidesElements as HTMLElement[];
+      } else {
+        return [] as HTMLElement[];
+      }
+    } else {
+      const slidesElements = Array.from(this.triggerViewEl.children)
+        .filter((e: Element) => e.tagName.toLowerCase() === Ch5TriggerViewSlidesManager.TRIGGERVIEW_CHILD_SELECTOR);
+
+      return slidesElements as HTMLElement[];
+    }
   }
 
   /**
@@ -359,9 +465,7 @@ export class Ch5TriggerViewSlidesManager {
    * @private
    */
   private _computeSizes() {
-    this._wrapperWidth = this.triggerViewEl.getBoundingClientRect().width;
     this._slidesGap = this._getSlidesGap();
-    this._slidesWidth = this._getSlideWidth();
   }
 
   /**
@@ -381,19 +485,9 @@ export class Ch5TriggerViewSlidesManager {
     if (firstSlideEl) {
       const parsedGap = parseInt(
         window.getComputedStyle(firstSlideEl as HTMLElement).getPropertyValue("margin-right"), 10);
-      // @ts-ignore
       return !Number.isFinite(parsedGap) ? 0 : parsedGap;
     }
     return 0;
-  }
-
-  /**
-   * Computes the width of one slide given the layout constraint.
-   * @returns {number} The width (in px) of one slide.
-   * @private
-   */
-  private _getSlideWidth() {
-    return this._wrapperWidth - this._slidesGap;
   }
 
   private _updateActiveSlideAttributes() {
@@ -430,8 +524,11 @@ export class Ch5TriggerViewSlidesManager {
   public getSlidesArray() {
     if (this.swiperIsActive() && !isNil(this._swiper) && !isNil(this._swiper.slides)) {
       return this._swiper.slides;
+    } else if (this.ch5SwiperIsActive() && !isNil(this._ch5Swiper) && !isNil(this._ch5Swiper.slides)) {
+      return this.getTriggerViewChildSlides();
     } else {
-      return this.getTriggerviewChildSlides();
+      return this.getTriggerViewChildSlides();
     }
   }
+
 }

@@ -14,10 +14,10 @@ export class Ch5TextInputScaling {
    * 
    * @static
    */
-  public static USERBEHAVIORS: TCh5TextInputUserBehavior[] = ['none','fill', 'erase'] as TCh5TextInputUserBehavior[];
+  public static USERBEHAVIORS: TCh5TextInputUserBehavior[] = ['none', 'fill', 'erase'] as TCh5TextInputUserBehavior[];
 
   /**
-   * The change factor for fontSize increase/descrease actions
+   * The change factor for fontSize increase/decrease actions
    * 
    * @static
    */
@@ -104,19 +104,13 @@ export class Ch5TextInputScaling {
    * @param {HTMLInputElement} input
    */
   constructor(input: HTMLInputElement) {
-
     this._input = input;
-
     this.updateDefaultFontSize();
-    
     this._addInputPlaceholder();
-
     // adding styles for inputPlaceholder
     this._makeInputPlaceholderFeelLikeInput();
-
     // make the placeholder unreachable by the user
     this._makeInputPlaceholderUnreachable();
-
     this.attachEventListener();
   }
 
@@ -143,7 +137,6 @@ export class Ch5TextInputScaling {
    */
   public scaleUp() {
 
-    const userBehavior = this.detectUserBehavior();
     let action = 'decrease';
 
     this._fillInputPlaceholder();
@@ -175,7 +168,7 @@ export class Ch5TextInputScaling {
     }
 
     // update the valueLength property
-    this.valueLength = this._input.value.length;  
+    this.valueLength = this._input.value.length;
   }
 
   /**
@@ -190,7 +183,7 @@ export class Ch5TextInputScaling {
     this._flagTheLengthWhichExactlyFits();
     this._resetFontSizeWhenExactlyFits();
 
-    this.valueLength = this._input.value.length;  
+    this.valueLength = this._input.value.length;
   }
 
   /**
@@ -201,7 +194,7 @@ export class Ch5TextInputScaling {
   public set fontSize(fontSize: number) {
 
     if (
-      this.fontSize !== fontSize && 
+      this.fontSize !== fontSize &&
       (fontSize === undefined || fontSize === null)
     ) {
       fontSize = 16;
@@ -228,8 +221,8 @@ export class Ch5TextInputScaling {
 
     if (
       this.minimumFontSize !== fontSize &&
-      (fontSize === undefined || fontSize === null) 
-    ){
+      (fontSize === undefined || fontSize === null)
+    ) {
       fontSize = 12;
     }
 
@@ -254,10 +247,10 @@ export class Ch5TextInputScaling {
   public set maximumFontSize(fontSize: number) {
 
     if (
-      this.maximumFontSize !== fontSize && 
+      this.maximumFontSize !== fontSize &&
       (fontSize === undefined || fontSize === null)
     ) {
-        fontSize = 20;
+      fontSize = 20;
     }
 
     this._maximumFontSize = fontSize;
@@ -306,10 +299,10 @@ export class Ch5TextInputScaling {
   public set edge(isEdge: boolean) {
 
     if (
-      this.edge !== isEdge && 
+      this.edge !== isEdge &&
       (isEdge !== undefined || isEdge !== null)) {
-        this._edge = isEdge;
-    } 
+      this._edge = isEdge;
+    }
   }
 
   /**
@@ -340,17 +333,17 @@ export class Ch5TextInputScaling {
   public set currentFontSize(fontSize: number) {
 
     if (
-      this.currentFontSize !== fontSize && 
+      this.currentFontSize !== fontSize &&
       (fontSize === undefined || fontSize === null)
     ) {
       fontSize = 16;
     }
 
-    if (!this._validateFontSizeValue(fontSize,'min')) {
+    if (!this._validateFontSizeValue(fontSize, 'min')) {
       fontSize = this.minimumFontSize;
-    } else if (!this._validateFontSizeValue(fontSize,'max')) {
+    } else if (!this._validateFontSizeValue(fontSize, 'max')) {
       fontSize = this.maximumFontSize;
-    } 
+    }
 
     this._currentFontSize = fontSize;
   }
@@ -416,7 +409,7 @@ export class Ch5TextInputScaling {
    * @return {HTMLSpanElement}
    */
   private _createInputPlaceholder(): HTMLSpanElement {
-    
+
     const inputPlaceholder = document.createElement('span');
     inputPlaceholder.style.whiteSpace = 'nowrap';
 
@@ -472,11 +465,18 @@ export class Ch5TextInputScaling {
    */
   private _isTextWidthGreaterThanInputWidth(): boolean {
 
-    if (this._inputPlaceholder.getBoundingClientRect().width > this._input.clientWidth - 10) {
-      return true;
+    // getting the current overflow value of input tag
+    const curOverflow = this._input.style.overflow;
+    // checking the overflow is same as default value
+    if (!curOverflow || curOverflow === "visible") {
+      // Will temporarily modify the "overflow" style to detect this
+      this._input.style.overflow = "hidden";
     }
-
-    return false;
+    // returns true if the text is overflows
+    const isOverflowing = this._input.clientWidth < this._input.scrollWidth;
+    // setting the overflow style to default
+    this._input.style.overflow = curOverflow;
+    return isOverflowing;
   }
 
   /**
@@ -492,10 +492,7 @@ export class Ch5TextInputScaling {
     const inputPlaceholderWidth = this._inputPlaceholder.getBoundingClientRect().width;
     const inputWidth = this._input.clientWidth;
 
-    if (
-      this._valueLengthOnHitTheEdge === undefined &&
-      inputPlaceholderWidth > inputWidth - 10
-    ) {
+    if (this._valueLengthOnHitTheEdge === undefined && inputPlaceholderWidth > inputWidth - 10) {
       this._valueLengthOnHitTheEdge = this._input.value.length;
     }
   }
@@ -526,15 +523,8 @@ export class Ch5TextInputScaling {
    * @return {void}
    */
   private _scaleFontSize(action: string = 'increase'): void {
-
     const changeFactor = this.currentFontSize * Ch5TextInputScaling.CHANGEFACTOR;
-
-    if (action === 'increase') {
-      this.currentFontSize = this.currentFontSize + changeFactor;
-    } else {
-      this.currentFontSize = this.currentFontSize - changeFactor;
-    }
-
+    this.currentFontSize = (action === 'increase') ? this.currentFontSize + changeFactor : this.currentFontSize - changeFactor;
     this._setFontSizeToInput(this.currentFontSize);
   }
 
@@ -552,7 +542,6 @@ export class Ch5TextInputScaling {
     if (edge === 'min' && fontSize < this.minimumFontSize) {
       return false;
     } else if (edge === 'max' && fontSize > this.maximumFontSize) {
-
       return false;
     }
 
@@ -568,7 +557,6 @@ export class Ch5TextInputScaling {
    * @return {string}
    */
   private _setFontSizeToInput(fontSize: number): string {
-
     return this._input.style.fontSize = this._inputPlaceholder.style.fontSize = fontSize + 'px';
   }
 }

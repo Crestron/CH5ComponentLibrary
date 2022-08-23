@@ -11,7 +11,7 @@ export interface IDebouncerDetails {
 }
 
 /**
- * Ensure a funtion will execute just one time in debounceTime time no matter how many times was called
+ * Ensure a function will execute just one time in debounceTime time no matter how many times was called
  * @param {IDebouncerDetails} debouncer
  * @param {Function} callback Any function, code specific
  * @param {number} debounceTime Time in milliseconds

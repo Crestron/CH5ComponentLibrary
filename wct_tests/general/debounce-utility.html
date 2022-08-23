@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
@@ -16,6 +15,8 @@
       let counter;
       let callbackExecTimes;
       let counterUpdateCallback;
+
+      /* coverity[implicit_this_used] */
       setup(() => {
           counter = 0;
           callbackExecTimes = 0;

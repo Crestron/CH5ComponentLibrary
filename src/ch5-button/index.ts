@@ -5,4 +5,8 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
+export * from './ch5-button-base';
 export * from './ch5-button';
+export * from './ch5-button-label';
+export * from './ch5-button-mode';
+export * from './ch5-button-mode-state';

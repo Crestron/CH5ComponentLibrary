@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { TCh5ShowType } from "../_interfaces/ch5-common/types/t-ch5-show-type";
+import { TCh5ShowType } from "../ch5-common/interfaces";
 
 /**
  * At the moment this class is only used by the ch5-spinner 

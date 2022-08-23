@@ -1,0 +1,378 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-customstyle-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customstyle-fixture1">
+        <template>
+            <ch5-button mode="0" label="Verify Custom Style for ch5-button-mode" customstyle="color: white;" type="danger">
+                <ch5-button-mode customstyle="color: green;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: orange;"></ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customstyle-fixture2">
+        <template>
+            <ch5-button receiveStateMode="current_mode_customstyle_fixture2" label="Verify Custom Style for ch5-button-mode" type="danger">
+                <ch5-button-mode customstyle="color: green;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: orange;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: white;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: grey;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: magenta;"></ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customstyle-fixture3">
+        <template>
+            <ch5-button label="Verify Custom Style for Mode State" stretch="width" type="text" mode="0" customstyle="color: white;" receivestateselected="receive_selected_state_customstyle_fixture3">
+                <ch5-button-mode customstyle="color: magenta;">
+                    <ch5-button-mode-state state="normal" customstyle="color: orange;"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="pressed" customstyle="color: grey;"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="selected" customstyle="color: green;"></ch5-button-mode-state>
+                </ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customstyle-fixture4">
+        <template>
+            <ch5-button receiveStateMode="current_mode_customstyle_fixture4" label="Verify Custom Style for ch5-button-mode" type="danger">
+                <ch5-button-mode customstyle="color: green;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: orange;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: red;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: white;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: grey;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: blue;"></ch5-button-mode>
+                <ch5-button-mode customstyle="color: magenta;"></ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customstyle-fixture5">
+        <template>
+            <ch5-button label="Verify Custom Style for Mode State" stretch="width" type="text" mode="0" customstyle="color: white;" receivestateselected="receive_selected_state_customstyle_fixture5">
+                <ch5-button-mode customstyle="color: magenta;">
+                    <ch5-button-mode-state state="normal" customstyle="color: orange;"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="pressed" customstyle="color: grey;"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="selected" customstyle="color: green;"></ch5-button-mode-state>
+                </ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+
+        suite('ch5-button', () => {
+
+            let ch5Button;
+            let ch5Button1;
+            let ch5Button2;
+            let ch5Button3;
+            let ch5Button4;
+            let ch5Button5;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/customstyle.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Button = fixture('ch5-button-customstyle-fixture');
+                ch5Button1 = fixture('ch5-button-customstyle-fixture1');
+                ch5Button2 = fixture('ch5-button-customstyle-fixture2');
+                ch5Button3 = fixture('ch5-button-customstyle-fixture3');
+                ch5Button4 = fixture('ch5-button-customstyle-fixture4');
+                ch5Button5 = fixture('ch5-button-customstyle-fixture5');
+            });
+
+            const customStyleAttribute = "color: black;";
+            const customStyleSelectedAttribute = "color: red;";
+            const customStylePressedAttribute = "color: orange;";
+            const customStyleDisabledAttribute = "color: green;";
+            const customStyleAttributeArray = ["color: green;",
+                "color: orange;",
+                "color: white;",
+                "color: grey;",
+                "color: magenta;"];
+
+            test(`Check attribute customstyle: "${customStyleAttribute}"`, (done) => {
+                ch5Button.setAttribute('customStyle', customStyleAttribute);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.customStyle).to.be.equal(customStyleAttribute);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+            // test(`Check ch5-button > div css style name for customStyle: "${customStyleAttribute}"`, (done) => {
+            //     ch5Button.setAttribute('customStyle', customStyleAttribute);
+            //     flush(() => {
+            //         setTimeout(() => {
+            //             console.log("A", getDiv(ch5Button).getAttribute("style"));
+            //             const x = String(getDiv(ch5Button).getAttribute("style"));
+            //             console.log("B", x);
+            //             console.log("C", x.indexOf(customStyleAttribute) >= 0);
+            //             console.log("C1", (customStyleAttribute));
+            //             console.log("D", x === customStyleAttribute);
+            //             // TODO: Issue is solid 2px black vs 2px solid black;
+            //             expect(String(getDiv(ch5Button).getAttribute("style")).indexOf(customStyleAttribute) >= 0).to.be.equal(true);
+            //             done();
+            //         }, BASIC_TESTING_TIMEOUT);
+            //     });
+
+            // });
+
+            // test(`Check attribute customStyleSelected: "${customStyleSelectedAttribute}"`, (done) => {
+            //     ch5Button.setAttribute('customStyleselected', customStyleSelectedAttribute);
+            //     expect(ch5Button.customStyleState).to.be.equal(customStyleSelectedAttribute);
+            // });
+            // test(`Check ch5-button > div css style name for customStyleSelected: "${customStyleSelectedAttribute}"`, (done) => {
+            //     ch5Button.setAttribute('customStyleSelected', customStyleSelectedAttribute);
+            //     expect(getDiv(ch5Button).classList.contains(customStyleSelectedAttribute)).to.be.equal(true);
+            // });
+
+            // test(`Check attribute customStylePressed: "${customStylePressedAttribute}"`, (done) => {
+            //     ch5Button.setAttribute('customStylePressed', customStylePressedAttribute);
+            //     // Note: Even customStyleState has this value
+            //     expect(ch5Button.customStylePressed).to.be.equal(customStylePressedAttribute);
+            // });
+            // // TODO: Commenting the test case below becos we are unable to set customStyleedPressed in Javascript way
+            // // test(`Check ch5-button > div css style name for customStylePressed: "${customStylePressedAttribute}"`, (done) => {
+            // //     ch5Button.setAttribute('customStylepressed', customStylePressedAttribute);
+            // //     flush(() => {
+            // //         setTimeout(() => {
+            // //             triggerEvent(ch5Button, "touchstart");
+            // //             console.log(getDiv(ch5Button).classList);
+            // //             expect(getDiv(ch5Button).classList.contains("ch5-button--pressed")).to.be.equal(true);
+            // //             expect(getDiv(ch5Button).classList.contains(customStylePressedAttribute)).to.be.equal(true);
+            // //             triggerEvent(ch5Button, "touchend");
+            // //             console.log(getDiv(ch5Button).classList);
+            // //             done();
+            // //         }, BASIC_TESTING_TIMEOUT);
+            // //     });
+            // // });
+
+            // test(`Check attribute customStyleDisabled: "${customStyleDisabledAttribute}"`, (done) => {
+            //     ch5Button.setAttribute('customStyleDisabled', customStyleDisabledAttribute);
+            //     expect(ch5Button.customStyleDisabled).to.be.equal(customStyleDisabledAttribute);
+            // });
+            // test(`Check ch5-button > div css style name for customStyleDisabled: "${customStyleDisabledAttribute}"`, (done) => {
+            //     ch5Button.setAttribute('customStyleDisabled', customStyleDisabledAttribute);
+            //     expect(getDiv(ch5Button).classList.contains(customStyleDisabledAttribute)).to.be.equal(true);
+            // });
+
+
+            test(`Check attribute customstyle: "${customStyleAttribute}"`, (done) => {
+                ch5Button.setAttribute('customStyle', customStyleAttribute);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.customStyle).to.be.equal(customStyleAttribute);
+                        expect(getDiv(ch5Button).getAttribute("style").indexOf(customStyleAttribute) >= 0).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            // ch5Button1
+            test(`Check attribute customstyle for ch5-button-mode and mode value=0`, (done) => {
+                ch5Button1.setAttribute('mode', "0");
+                flush(() => {
+                    setTimeout(() => {
+                        const expectedValue = "color: green;";
+                        expect(ch5Button1.getAttribute('customstyle')).to.be.equal("color: white;");
+                        expect(ch5Button1.customStyle).to.be.equal(expectedValue);
+                        expect(getDiv(ch5Button1).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            test(`Check attribute customstyle for ch5-button-mode and mode value=1`, (done) => {
+                ch5Button1.setAttribute('mode', "1");
+                flush(() => {
+                    setTimeout(() => {
+                        const expectedValue = "color: orange;";
+                        expect(ch5Button1.getAttribute('customstyle')).to.be.equal("color: white;");
+                        expect(ch5Button1.customStyle).to.be.equal(expectedValue);
+                        expect(getDiv(ch5Button1).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            test(`Check attribute customstyle for ch5-button-mode and mode value=2`, (done) => {
+                ch5Button1.setAttribute('mode', "2");
+                flush(() => {
+                    setTimeout(() => {
+                        const expectedValue = "color: green;";
+                        expect(ch5Button1.getAttribute('customstyle')).to.be.equal("color: white;");
+                        expect(ch5Button1.customStyle).to.be.equal(expectedValue);
+                        expect(getDiv(ch5Button1).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            // ch5Button2
+            [0, 1, 2, 3, 4].forEach((modeTypeObj, j) => {
+                test(`Check attribute customstyle for ch5-button-mode using receiveStateMode "${modeTypeObj}"`, (done) => {
+                    CrComLib.publishEvent('n', 'current_mode_customstyle_fixture2', modeTypeObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button2.customStyle).to.be.equal(customStyleAttributeArray[modeTypeObj]);
+                            const expectedValue = customStyleAttributeArray[modeTypeObj];
+                            expect(getDiv(ch5Button2).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+
+                test(`Check attribute customstyle for ch5-button-mode using receiveStateMode "${modeTypeObj}" with a setAttribute of customStyle on parent button`, (done) => {
+                    const parentButtonCustomStyle = "color: white;";
+                    ch5Button2.setAttribute("customstyle", parentButtonCustomStyle);
+                    CrComLib.publishEvent('n', 'current_mode_customstyle_fixture2', modeTypeObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button2.getAttribute('customstyle')).to.be.equal(parentButtonCustomStyle);
+                            expect(ch5Button2.customStyle).to.be.equal(customStyleAttributeArray[modeTypeObj]);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+
+            });
+
+            // ch5Button3
+            [true, false].forEach((selectionObj, j) => {
+                test(`Check attribute customstyle for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_customstyle_fixture3', selectionObj);
+                    ch5Button3.setAttribute('selected', selectionObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            const expectedValue = selectionObj === true ? "color: green;" : "color: orange;";
+                            expect(ch5Button3.getAttribute('customstyle')).to.be.equal("color: white;");
+                            expect(ch5Button3.customStyle).to.be.equal(expectedValue);
+                            expect(getDiv(ch5Button3).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+
+                test(`Check attribute customstyle for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_customstyle_fixture3', selectionObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button3.getAttribute('customstyle')).to.be.equal("color: white;");
+                            const expectedValue = selectionObj === true ? "color: green;" : "color: orange;";
+                            expect(ch5Button3.customStyle).to.be.equal(expectedValue);
+                            expect(getDiv(ch5Button3).getAttribute("style").indexOf(expectedValue) >= 0).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+
+            // ch5Button4
+            [0, 1, 2, 3, 4].forEach((modeTypeObj, j) => {
+                test(`Check attribute customstyle for ch5-button-mode using receiveStateMode "${modeTypeObj}"`, (done) => {
+                    CrComLib.publishEvent('n', 'current_mode_customstyle_fixture4', modeTypeObj);
+                    ch5Button4.setAttribute('receiveStateCustomStyle', "current_mode_customstyle_fixture4_" + modeTypeObj);
+                    const setValueForSignal = "color: red;";
+                    CrComLib.publishEvent('s', 'current_mode_customstyle_fixture4_' + modeTypeObj, setValueForSignal);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button4.customStyle).to.be.equal(setValueForSignal);
+                            expect(getDiv(ch5Button4).getAttribute("style").indexOf(setValueForSignal) >= 0).to.be.equal(true);
+                            const unexpectedValue = customStyleAttributeArray;
+                            for (let i = 0; i < unexpectedValue.length; i++) {
+                                expect(getDiv(ch5Button4).getAttribute("style").indexOf(unexpectedValue[i]) >= 0).to.be.equal(false);
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+
+                test(`Check attribute customstyle for ch5-button-mode using receiveStateMode "${modeTypeObj}" with a setAttribute of customStyle on parent button`, (done) => {
+                    const parentButtonCustomStyle = "color: white;";
+                    ch5Button4.setAttribute("customstyle", parentButtonCustomStyle);
+                    ch5Button4.setAttribute('receiveStateCustomStyle', "current_mode_customstyle_fixture4_" + modeTypeObj);
+                    const setValueForSignal = "color: pink;";
+                    CrComLib.publishEvent('s', 'current_mode_customstyle_fixture4_' + modeTypeObj, setValueForSignal);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button4.getAttribute('customstyle')).to.be.equal(parentButtonCustomStyle);
+                            expect(ch5Button4.customStyle).to.be.equal(setValueForSignal);
+                            expect(getDiv(ch5Button4).getAttribute("style").indexOf(setValueForSignal) >= 0).to.be.equal(true);
+                            const unexpectedValue = customStyleAttributeArray;
+                            for (let i = 0; i < unexpectedValue.length; i++) {
+                                expect(getDiv(ch5Button4).getAttribute("style").indexOf(unexpectedValue[i]) >= 0).to.be.equal(false);
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+
+            // ch5Button5
+            [true, false].forEach((selectionObj, j) => {
+                test(`Check attribute customstyle for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
+                    ch5Button5.setAttribute('selected', selectionObj);
+                    ch5Button5.setAttribute('receiveStateCustomStyle', "current_value_customstyle_fixture5_" + String(selectionObj));
+                    const setValueForSignal = "color: blue;";
+                    CrComLib.publishEvent('s', 'current_value_customstyle_fixture5_' + String(selectionObj), setValueForSignal);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button5.getAttribute('customstyle')).to.be.equal("color: white;");
+                            expect(ch5Button5.customStyle).to.be.equal(setValueForSignal);
+                            expect(getDiv(ch5Button5).getAttribute("style").indexOf(setValueForSignal) >= 0).to.be.equal(true);
+                            const unexpectedValue = customStyleAttributeArray;
+                            for (let i = 0; i < unexpectedValue.length; i++) {
+                                expect(getDiv(ch5Button5).getAttribute("style").indexOf(unexpectedValue[i]) >= 0).to.be.equal(false);
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+
+                test(`Check attribute customstyle for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_customstyle_fixture5', selectionObj);
+                    ch5Button5.setAttribute('receiveStateCustomStyle', "current_value_customstyle_fixture5_" + String(selectionObj));
+                    const setValueForSignal = "color: blue;";
+                    CrComLib.publishEvent('s', 'current_value_customstyle_fixture5_' + String(selectionObj), setValueForSignal);
+                    
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button5.getAttribute('customstyle')).to.be.equal("color: white;");
+                           expect(ch5Button5.customStyle).to.be.equal(setValueForSignal);
+                            expect(getDiv(ch5Button5).getAttribute("style").indexOf(setValueForSignal) >= 0).to.be.equal(true);
+                            const unexpectedValue = customStyleAttributeArray;
+                            for (let i = 0; i < unexpectedValue.length; i++) {
+                                expect(getDiv(ch5Button5).getAttribute("style").indexOf(unexpectedValue[i]) >= 0).to.be.equal(false);
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

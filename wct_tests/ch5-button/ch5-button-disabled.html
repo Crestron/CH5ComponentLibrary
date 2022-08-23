@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="/bower_components/web-component-tester/browser.js"></script>
+	<link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+	<script src="/build_bundles/umd/cr-com-lib.js"></script>
+	<script src="/wct_tests/js/helpers.js"></script>
+	<script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+	<test-fixture id="ch5-button-disabled-fixture">
+		<template>
+			<ch5-button></ch5-button>
+		</template>
+	</test-fixture>
+
+	<script>
+		suite('ch5-button', () => {
+
+			let ch5Button;
+
+			setup(async () => {
+				ch5Button = fixture('ch5-button-disabled-fixture');
+			});
+
+			const disabledList = [
+				{
+					key: true,
+					value: true
+				},
+				{
+					key: false,
+					value: false
+				},
+				{
+					key: "true",
+					value: true
+				},
+				{
+					key: "false",
+					value: false
+				},
+				{
+					key: "TRUE",
+					value: false
+				},
+				{
+					key: "FALSE",
+					value: false
+				},
+				{
+					key: "Junk",
+					value: false
+				},
+				{
+					key: "null",
+					value: false
+				},
+				{
+					key: "undefined",
+					value: false
+				},
+				{
+					key: "",
+					value: true
+				}
+			];
+
+			disabledList.forEach((disabledName, i) => {
+				test(`Check attribute disabled: "${disabledName.key}"`, (done) => {
+					ch5Button.setAttribute('disabled', disabledName.key);
+					flush(() => {
+						setTimeout(() => {
+							expect(ch5Button.disabled).to.be.equal(disabledName.value);
+							expect(getDiv(ch5Button).classList.contains("ch5-button--disabled")).to.be.equal(disabledName.value);
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
+
+
+			// [true, false].forEach((showName, i) => {
+			// 	test(`receiveStateShow: "${showName}"`, (done) => {
+			// 		ch5Button.setAttribute('receiveStateShow', 'toggle_btn_visibility1');
+			// 		CrComLib.publishEvent('b', 'toggle_btn_visibility1', showName);
+			// 		flush(() => {
+			// 			setTimeout(() => {
+			// 				expect(ch5Button.getAttribute('show')).to.be.equal(String(showName).toLowerCase());
+			// 				expect(ch5Button.show).to.be.equal(showName);
+			// 				done();
+			// 			}, BASIC_TESTING_TIMEOUT);
+			// 		});
+			// 	});
+
+
+			[true, false].forEach((enabledName, i) => {
+				test(`receiveStateEnable: "${enabledName}"`, (done) => {
+					ch5Button.setAttribute('receiveStateEnable', 'hall_lights_selected_1' );
+					// CrComLib.publishEvent('b', 'hall_lights_selected_' + String(enabledName), !enabledName);
+					CrComLib.publishEvent('b', 'hall_lights_selected_1', enabledName);
+					flush(() => {
+						setTimeout(() => {
+							console.log("ch5button", ch5Button);
+							expect(ch5Button.getAttribute('disabled')).to.be.equal(String(!enabledName));
+							expect(ch5Button.disabled).to.be.equal(!enabledName);
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
+
+		});
+	</script>
+</body>
+
+</html>

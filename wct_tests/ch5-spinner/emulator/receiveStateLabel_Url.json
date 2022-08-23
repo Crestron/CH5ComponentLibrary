@@ -1,0 +1,88 @@
+{
+    "cues": [
+      {
+        "type": "b",
+        "event": "trig1",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_spinner_size",
+            "type": "number",
+            "logic": "set",
+            "value": 6
+          },
+          {
+            "state": "receive_spinner_label_1",
+            "type": "string",
+            "logic": "set",
+            "value": "Affiliate marketing"
+          },
+          {
+            "state": "receive_spinner_icon_1",
+            "type": "string",
+            "logic": "set",
+            "value": "https://picsum.photos/200/300/?random"
+          },
+          {
+            "state": "receive_spinner_label_2",
+            "type": "string",
+            "logic": "set",
+            "value": "Management"
+          },
+          {
+            "state": "receive_spinner_icon_2",
+            "type": "string",
+            "logic": "set",
+            "value": "https://picsum.photos/200/300/?random"
+          },
+          {
+            "state": "receive_spinner_label_3",
+            "type": "string",
+            "logic": "set",
+            "value": "Books"
+          },
+          {
+            "state": "receive_spinner_icon_3",
+            "type": "string",
+            "logic": "set",
+            "value": "https://picsum.photos/200/300/?random"
+          },{
+            "state": "receive_spinner_label_4",
+            "type": "string",
+            "logic": "set",
+            "value": "Affiliate marketing"
+          },
+          {
+            "state": "receive_spinner_icon_4",
+            "type": "string",
+            "logic": "set",
+            "value": "https://picsum.photos/200/300/?random"
+          },
+          {
+            "state": "receive_spinner_label_5",
+            "type": "string",
+            "logic": "set",
+            "value": "Management"
+          },
+          {
+            "state": "receive_spinner_icon_5",
+            "type": "string",
+            "logic": "set",
+            "value": "https://picsum.photos/200/300/?random"
+          },
+          {
+            "state": "receive_spinner_label_6",
+            "type": "string",
+            "logic": "set",
+            "value": "Books"
+          },
+          {
+            "state": "receive_spinner_icon_6",
+            "type": "string",
+            "logic": "set",
+            "value": "https://picsum.photos/200/300/?random"
+          }
+        ]
+      }
+    ]
+}

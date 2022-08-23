@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
@@ -36,6 +35,7 @@
         let ch5TriggerView;
         let ch5TriggerViewChild;
 
+        /* coverity[implicit_this_used] */
         setup(() => {
             ch5TriggerView = fixture('ch5-triggerview-endless-fixture');
             ch5TriggerViewChild = document.querySelectorAll('ch5-triggerview-child');

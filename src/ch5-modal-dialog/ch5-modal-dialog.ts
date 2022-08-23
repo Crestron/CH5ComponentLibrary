@@ -5,20 +5,15 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5OverlayPanel,} from "../ch5-overlay-panel/index";
-import { Ch5Signal, Ch5SignalFactory, Ch5TranslationUtility } from "../ch5-core/index";
-import {
-    TCh5OverlayPanelPositionOffset,
-    TCh5OverlayPanelStretch,
-    TCh5OverlayPanelOverflow
-} from "../_interfaces/ch5-overlay-panel/types";
-import { ICh5ModalDialog } from "../_interfaces/ch5-modal-dialog/i-ch5-modal-dialog";
-import { Ch5MutationObserver } from "../ch5-common/ch5-mutation-observer";
-import { ICh5ModalDialogAttributes } from "../_interfaces/ch5-modal-dialog";
+import { Ch5OverlayPanel, } from "../ch5-overlay-panel/index";
+import { Ch5Signal } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { Ch5Button } from "../ch5-button/ch5-button";
+import { ICh5ModalDialogAttributes } from "./interfaces/i-ch5-modal-dialog-attributes";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5Common } from '../ch5-common/ch5-common';
 
+// @ts-ignore
 /**
  * Html Attributes
  *
@@ -68,6 +63,45 @@ import { Ch5Button } from "../ch5-button/ch5-button";
  *
  */
 export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAttributes {
+
+    public static readonly ELEMENT_NAME: string = 'ch5-modal-dialog';
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+        ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+        receivestatepositionto: { direction: "state", numericJoin: 1, contractName: true },
+        receivestatepositionoffset: { direction: "state", numericJoin: 1, contractName: true },
+
+        sendeventonbeforeshow: { direction: "state", booleanJoin: 1, contractName: true },
+        sendeventonaftershow: { direction: "state", booleanJoin: 1, contractName: true },
+        sendeventonbeforehide: { direction: "state", booleanJoin: 1, contractName: true },
+        sendeventonafterhide: { direction: "state", booleanJoin: 1, contractName: true },
+        sendeventonok: { direction: "state", booleanJoin: 1, contractName: true },
+        contractname: { contractName: true },
+        booleanjoinoffset: { booleanJoin: 1 },
+        numericjoinoffset: { numericJoin: 1 },
+        stringjoinoffset: { stringJoin: 1 }
+    };
+
+    public static readonly COMPONENT_DATA: any = {
+        POSITION_OFFSETS: {
+            default: Ch5OverlayPanel.POSITION_OFFSETS[0],
+            values: Ch5OverlayPanel.POSITION_OFFSETS,
+            key: 'position_offset',
+            classListPrefix: 'ch5-modal-dialog--pos-'
+        },
+        STRETCH: {
+            default: Ch5OverlayPanel.STRETCHES[0],
+            values: Ch5OverlayPanel.STRETCHES,
+            key: 'stretch',
+            classListPrefix: 'ch5-modal-dialog--stretch-'
+        },
+        OVERFLOWS: {
+            default: Ch5OverlayPanel.OVERFLOWS[0],
+            values: Ch5OverlayPanel.OVERFLOWS,
+            key: 'overflow',
+            classListPrefix: 'ch5-modal-dialog--overflow-'
+        },
+    };
 
     public primaryCssClass = 'ch5-modal-dialog';
     public cssClassPrefix = 'ch5-modal-dialog';
@@ -249,7 +283,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
     private _cancelEvent: Event;
 
-    private _crModalWasInstatiated:boolean = false;
+    private _crModalWasInstatiated: boolean = false;
 
 
     public constructor() {
@@ -258,20 +292,20 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
 
         if (!this._crModalWasInstatiated) {
-          this._rebindEventCallbacks();
-          this.createInternalHtml();
+            this._rebindEventCallbacks();
+            this.createInternalHtml();
             this._closeIcon = this.cssClassPrefix + '-default-close-icon';
         }
         this._crModalWasInstatiated = true;
 
         this._okEvent = new CustomEvent('ok', {
-           bubbles:true,
-           cancelable:false
+            bubbles: true,
+            cancelable: false
         });
 
         this._cancelEvent = new CustomEvent('cancel', {
-            bubbles:true,
-            cancelable:false
+            bubbles: true,
+            cancelable: false
         });
 
         this._cancelButtonLabel = this._btnCancelDefaultLabelText;
@@ -279,15 +313,20 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
     }
 
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog.SIGNAL_ATTRIBUTE_TYPES);
+    }
+
+
     protected attachEventListeners() {
         super.attachEventListeners();
 
         if (!this._elBtnCancel) {
-          return;
+            return;
         }
 
         if (!this._elBtnOk) {
-          return;
+            return;
         }
 
         this._elBtnOk.addEventListener('click', this._onOkClick);
@@ -302,7 +341,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
     }
 
-    protected _rebindEventCallbacks(){
+    protected _rebindEventCallbacks() {
         super._rebindEventCallbacks();
 
         this._onOkClick = this._onOkClick.bind(this);
@@ -311,20 +350,23 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         this._clickedOnMask = this._clickedOnMask.bind(this);
     }
 
-    protected _onOkClick(inEvent:Event) {
+    protected _onOkClick(inEvent: Event) {
         this.info('_onOkClick()');
         this.dispatchEvent(this._okEvent);
-        this.setAttribute('show', 'false');
+        // TODO: The show attribute works but the biggest challenge comes with receiveStateShow
+        // This must be globally corrected in the next version for ok, cancel and close icon
+        // Creating a hard show to false
+        this.setShowBasedOnAttributes();
     }
 
-    protected _onCancelClick(inEvent:Event) {
+    protected _onCancelClick(inEvent: Event) {
         this.info('_onCancelClick()');
         this.dispatchEvent(this._cancelEvent);
-        this.setAttribute('show', 'false');
+        this.setShowBasedOnAttributes();
     }
 
-    protected _parseSizeAttr(value:string) {
-        let retVal:string = value.trim().toLowerCase();
+    protected _parseSizeAttr(value: string) {
+        let retVal: string = value.trim().toLowerCase();
 
         if (retVal.indexOf('px') === -1) {
             retVal += 'px';
@@ -333,24 +375,24 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         return retVal;
     }
 
-    protected _clickedOnMask(inEvent: Event){
+    protected _clickedOnMask(inEvent: Event) {
         this.info('_clickedOnMask()');
-        if (true === this.mask && true === this.dismissable){
-            this.setAttribute('show', 'false');
+        if (true === this.mask && true === this.dismissable) {
+            this.setShowBasedOnAttributes();
         }
         inEvent.stopPropagation();
         return false;
     }
 
-    protected _checkAndAttachMaskIfNeeded(){
+    protected _checkAndAttachMaskIfNeeded() {
         if (true === this.mask
             && this._elMask.parentElement !== this
             && this._elContainer.parentElement === this) {
-            this.insertBefore(this._elMask,this._elContainer);
+            this.insertBefore(this._elMask, this._elContainer);
         }
     }
 
-    protected getTargetElementForCssClassesAndStyle():HTMLElement{
+    protected getTargetElementForCssClassesAndStyle(): HTMLElement {
         return this._elContainer;
     }
 
@@ -369,7 +411,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
         switch (this.stretch) {
             case 'width':
-                if (!this.hasAttribute('width')){
+                if (!this.hasAttribute('width')) {
                     targetEl.style.width = window.innerWidth - (2 * horizontalMargin) + 'px';
                 }
                 break;
@@ -397,13 +439,13 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
             this.setAttribute('role', Ch5RoleAttributeMapping.ch5ModalDialog);
         }
 
-        if (!this.hasAttribute('show')){
-            this.setAttribute('show','' + this._show);
+        if (!this.hasAttribute('show')) {
+            this.setShowBasedOnAttributes();
         }
         this._ready.then(() => {
-              this._initialize();
-              this.initCommonMutationObserver(this);
-            }
+            this._initialize();
+            this.initCommonMutationObserver(this);
+        }
         );
     }
 
@@ -415,14 +457,18 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         this.disconnectCommonMutationObserver();
     }
 
+    private setShowBasedOnAttributes() {
+        this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
+    }
+
     public static get observedAttributes() {
         const inheritedObsAttrs = Ch5OverlayPanel.observedAttributes;
 
         // remove positionTo, positionOffset, receiveStatePositionTo, receiveStatePositionOffset
-        inheritedObsAttrs.filter((attr:string) => {
-            let skip=false;
+        inheritedObsAttrs.filter((attr: string) => {
+            let skip = false;
             const lcAttr = attr.toLowerCase();
-            if ( lcAttr === 'positionto' || lcAttr === 'positionoffset'
+            if (lcAttr === 'positionto' || lcAttr === 'positionoffset'
                 || lcAttr === 'receivestatepositionto'
                 || lcAttr === 'receivestatepositionoffset') {
                 skip = true;
@@ -431,7 +477,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
             return skip;
         });
 
-        const newObsAttrs =  [
+        const newObsAttrs = [
 
             'width',
             'height',
@@ -458,7 +504,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         return inheritedObsAttrs.concat(newObsAttrs);
     }
 
-    public getListOfAllPossibleComponentCssClasses():string[]{
+    public getListOfAllPossibleComponentCssClasses(): string[] {
         return super.getListOfAllPossibleComponentCssClasses();
     }
 
@@ -468,7 +514,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         const existingModal = this.querySelector(`.${this.primaryCssClass}`);
 
         if (!existingModal) {
-            while (this.childNodes.length){
+            while (this.childNodes.length) {
                 this._elContents.appendChild(this.childNodes[0]);
             }
             this.appendChild(this._elContainer);
@@ -483,7 +529,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         this.attachEventListeners();
     }
 
-    protected initAttributes(){
+    protected initAttributes() {
         super.initAttributes();
 
         if (this.hasAttribute('width')
@@ -563,7 +609,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
             this.promptIcon = this.getAttribute('prompticon') as string;
         }
 
-        if (this.hasAttribute('mask')){
+        if (this.hasAttribute('mask')) {
             const tmpMask = this.getAttribute('mask') as string;
             if ('0' === tmpMask
                 || 'false' === tmpMask.toLowerCase()) {
@@ -583,14 +629,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
 
         if (this.hasAttribute('sendeventonok')
-            && null !== this.getAttribute('sendeventonok')){
+            && null !== this.getAttribute('sendeventonok')) {
             this.sendEventOnOk = this.getAttribute('sendeventonok') as string;
         } else {
             this.sendEventOnOk = '';
         }
 
         if (this.hasAttribute('sendeventoncancel')
-           && null !== this.getAttribute('sendeventoncancel')){
+            && null !== this.getAttribute('sendeventoncancel')) {
             this.sendEventOnCancel = this.getAttribute('sendeventoncancel') as string;
         } else {
             this.sendEventOnCancel = '';
@@ -599,25 +645,25 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         this._checkAndAttachMaskIfNeeded();
         this.adjustInternalHtmlStructure();
 
-        if (this.hasAttribute('positionto')){
+        if (this.hasAttribute('positionto')) {
             this.removeAttribute('positionto');
         }
 
-        if (this.hasAttribute('positionoffset')){
+        if (this.hasAttribute('positionoffset')) {
             this.removeAttribute('positionoffset');
         }
 
-        if (this.hasAttribute('receivestatepositionto')){
+        if (this.hasAttribute('receivestatepositionto')) {
             this.removeAttribute('receivestatepositionto');
         }
 
-        if (this.hasAttribute('receivestatepositionoffset')){
+        if (this.hasAttribute('receivestatepositionoffset')) {
             this.removeAttribute('receivestatepositionoffset');
         }
 
     }
 
-    protected generateListOfAllPossibleComponentCssClasses():string[]{
+    protected generateListOfAllPossibleComponentCssClasses(): string[] {
         return super.generateListOfAllPossibleComponentCssClasses();
     }
 
@@ -635,15 +681,15 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         // overflow
         setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--overflow-' + this.overflow);
 
-        const targetEl:HTMLElement = this.getTargetElementForCssClassesAndStyle();
+        const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
         if (typeof targetEl.classList !== 'undefined') {
-            this._listOfAllPossibleComponentCssClasses.forEach((cssClass:string) => {
-                if (setOfCssClassesToBeApplied.has(cssClass)){
+            this._listOfAllPossibleComponentCssClasses.forEach((cssClass: string) => {
+                if (setOfCssClassesToBeApplied.has(cssClass)) {
                     targetEl.classList.add(cssClass);
-                    this.info('add CSS class',cssClass);
+                    this.info('add CSS class', cssClass);
                 } else {
                     targetEl.classList.remove(cssClass);
-                    this.info('remove CSS class',cssClass);
+                    this.info('remove CSS class', cssClass);
                 }
             });
         }
@@ -746,7 +792,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
                 this.adjustInternalHtmlStructure();
                 break;
             case 'mask':
-                if (this.hasAttribute('mask')){
+                if (this.hasAttribute('mask')) {
                     const tmpMask = this.getAttribute('mask') as string;
                     if ('0' === tmpMask
                         || 'false' === tmpMask.toLowerCase()) {
@@ -767,17 +813,17 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
                 }
                 break;
             case 'sendeventonok':
-                if (this.hasAttribute('sendeventonok')){
+                if (this.hasAttribute('sendeventonok')) {
                     this.sendEventOnOk = newValue;
                 } else {
                     this.sendEventOnOk = '';
                 }
                 break;
             case 'sendeventoncancel':
-                if (this.hasAttribute('sendeventoncancel')){
+                if (this.hasAttribute('sendeventoncancel')) {
                     this.sendEventOnCancel = newValue;
                 } else {
-                    this.sendEventOnOk = '';
+                    this.sendEventOnCancel = '';
                 }
                 break;
             case 'positionto':
@@ -805,73 +851,73 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
         if (!existingModal) {
 
-          this.info('ch5-modal-dialog create internal Html');
-          this._elContainer = document.createElement('div');
+            this.info('ch5-modal-dialog create internal Html');
+            this._elContainer = document.createElement('div');
 
-          this._elCloseIconBtn = document.createElement('button');
-          this._elCloseIconBtn.setAttribute('type','button');
-          this._elCloseIconBtn.classList.add(this.cssClassPrefix + '-close-icon-btn');
-          this._elCloseIconBtn.setAttribute('aria-label','Close');
+            this._elCloseIconBtn = document.createElement('button');
+            this._elCloseIconBtn.setAttribute('type', 'button');
+            this._elCloseIconBtn.classList.add(this.cssClassPrefix + '-close-icon-btn');
+            this._elCloseIconBtn.setAttribute('aria-label', 'Close');
 
-          this._elCloseIcon = document.createElement('span');
-          this._elCloseIcon.setAttribute('aria-hidden','true');
-          this._elCloseIcon.classList.add(this.cssClassPrefix + '-close-icon');
-          this._elCloseIcon.classList.add(this.cssClassPrefix + '-default-close-icon');
+            this._elCloseIcon = document.createElement('span');
+            this._elCloseIcon.setAttribute('aria-hidden', 'true');
+            this._elCloseIcon.classList.add(this.cssClassPrefix + '-close-icon');
+            this._elCloseIcon.classList.add(this.cssClassPrefix + '-default-close-icon');
 
-          this._elCloseIconBtn.appendChild(this._elCloseIcon);
+            this._elCloseIconBtn.appendChild(this._elCloseIcon);
 
-          this._elHeader = document.createElement('div');
-          this._elHeader.classList.add(this.cssClassPrefix + '-header');
+            this._elHeader = document.createElement('div');
+            this._elHeader.classList.add(this.cssClassPrefix + '-header');
 
-          this._elPrompt = document.createElement('div');
-          this._elPrompt.classList.add(this.cssClassPrefix + '-prompt');
-          this._elPromptIcon = document.createElement('img');
-          this._elPromptIcon.classList.add(this.cssClassPrefix + '-prompt-icon');
-          this._elPromptText = document.createElement('span');
-          this._elPromptText.classList.add(this.cssClassPrefix + '-prompt-text');
+            this._elPrompt = document.createElement('div');
+            this._elPrompt.classList.add(this.cssClassPrefix + '-prompt');
+            this._elPromptIcon = document.createElement('img');
+            this._elPromptIcon.classList.add(this.cssClassPrefix + '-prompt-icon');
+            this._elPromptText = document.createElement('span');
+            this._elPromptText.classList.add(this.cssClassPrefix + '-prompt-text');
 
-          this._elFooter = document.createElement('div');
-          this._elFooter.classList.add(this.cssClassPrefix + '-footer');
-            
-          this._elBtnOk = new Ch5Button();
-          this._elBtnOk.setAttribute('type','success');
-          this._elBtnOk.setAttribute('label', this._btnOkDefaultLabelText);
-          // this._elBtnOk.setAttribute('customClass', this.cssClassPrefix + '-btn-ok');
-          this._elBtnOk.classList.add(this.cssClassPrefix + '-btn-ok');
+            this._elFooter = document.createElement('div');
+            this._elFooter.classList.add(this.cssClassPrefix + '-footer');
 
-          this._elBtnCancel = new Ch5Button();
-          this._elBtnCancel.setAttribute('type', 'warning');
-          this._elBtnCancel.setAttribute('label', this._btnCancelDefaultLabelText);
-          // this._elBtnCancel.setAttribute('customClass', this.cssClassPrefix + '-btn-cancel');
-          this._elBtnCancel.classList.add(this.cssClassPrefix + '-btn-cancel');
+            this._elBtnOk = new Ch5Button();
+            this._elBtnOk.setAttribute('type', 'success');
+            this._elBtnOk.setAttribute('label', this._btnOkDefaultLabelText);
+            // this._elBtnOk.setAttribute('customClass', this.cssClassPrefix + '-btn-ok');
+            this._elBtnOk.classList.add(this.cssClassPrefix + '-btn-ok');
 
-          this._elContents = document.createElement('div');
-          this._elContents.classList.add(this.cssClassPrefix + '-contents');
+            this._elBtnCancel = new Ch5Button();
+            this._elBtnCancel.setAttribute('type', 'warning');
+            this._elBtnCancel.setAttribute('label', this._btnCancelDefaultLabelText);
+            // this._elBtnCancel.setAttribute('customClass', this.cssClassPrefix + '-btn-cancel');
+            this._elBtnCancel.classList.add(this.cssClassPrefix + '-btn-cancel');
 
-          this._elContainer.classList.add(this.primaryCssClass);
-          this._elContainer.setAttribute('data-ch5-id', this.getCrId());
+            this._elContents = document.createElement('div');
+            this._elContents.classList.add(this.cssClassPrefix + '-contents');
 
-          // this._elContainer.appendChild(this._elCloseIconBtn);
-          // this._elContainer.appendChild(this._elContents);
+            this._elContainer.classList.add(this.primaryCssClass);
+            this._elContainer.setAttribute('data-ch5-id', this.getCrId());
+
+            // this._elContainer.appendChild(this._elCloseIconBtn);
+            // this._elContainer.appendChild(this._elContents);
 
 
-          this._elMask = document.createElement('div');
-          this._elMask.classList.add(this.cssClassPrefix + '-mask');
-          this._elMask.classList.add(this.cssClassPrefix + '-mask-default-style');
-          this._elMask.setAttribute('cr-id',this.getCrId() + '-mask');
+            this._elMask = document.createElement('div');
+            this._elMask.classList.add(this.cssClassPrefix + '-mask');
+            this._elMask.classList.add(this.cssClassPrefix + '-mask-default-style');
+            this._elMask.setAttribute('cr-id', this.getCrId() + '-mask');
         } else {
-          this._elCloseIconBtn = this.querySelector(`.${this.cssClassPrefix}-close-icon-btn`) as HTMLElement;
-          this._elCloseIcon = this.querySelector(`.${this.cssClassPrefix}-close-icon`) as HTMLElement;
-          this._elHeader = this.querySelector(`.${this.cssClassPrefix}-header`) as HTMLElement;
-          this._elPrompt = this.querySelector(`.${this.cssClassPrefix}-prompt`) as HTMLElement;
-          this._elPromptIcon = this.querySelector(`.${this.cssClassPrefix}-prompt-icon`) as HTMLElement;
-          this._elPromptText = this.querySelector(`.${this.cssClassPrefix}-prompt-text`) as HTMLElement;
-          this._elFooter = this.querySelector(`.${this.cssClassPrefix}-footer`) as HTMLElement;
-          this._elBtnOk = this.querySelector(`.${this.cssClassPrefix}-btn-ok`) as Ch5Button;
-          this._elBtnCancel = this.querySelector(`.${this.cssClassPrefix}-btn-cancel`) as Ch5Button;
-          this._elContents = this.querySelector(`.${this.cssClassPrefix}-contents`) as HTMLElement;
-          this._elContainer = existingModal as HTMLElement;
-          this._elMask = this.querySelector(`.${this.cssClassPrefix}-mask`) as HTMLElement;
+            this._elCloseIconBtn = this.querySelector(`.${this.cssClassPrefix}-close-icon-btn`) as HTMLElement;
+            this._elCloseIcon = this.querySelector(`.${this.cssClassPrefix}-close-icon`) as HTMLElement;
+            this._elHeader = this.querySelector(`.${this.cssClassPrefix}-header`) as HTMLElement;
+            this._elPrompt = this.querySelector(`.${this.cssClassPrefix}-prompt`) as HTMLElement;
+            this._elPromptIcon = this.querySelector(`.${this.cssClassPrefix}-prompt-icon`) as HTMLElement;
+            this._elPromptText = this.querySelector(`.${this.cssClassPrefix}-prompt-text`) as HTMLElement;
+            this._elFooter = this.querySelector(`.${this.cssClassPrefix}-footer`) as HTMLElement;
+            this._elBtnOk = this.querySelector(`.${this.cssClassPrefix}-btn-ok`) as Ch5Button;
+            this._elBtnCancel = this.querySelector(`.${this.cssClassPrefix}-btn-cancel`) as Ch5Button;
+            this._elContents = this.querySelector(`.${this.cssClassPrefix}-contents`) as HTMLElement;
+            this._elContainer = existingModal as HTMLElement;
+            this._elMask = this.querySelector(`.${this.cssClassPrefix}-mask`) as HTMLElement;
         }
 
     }
@@ -893,8 +939,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
 
         if (this.prompt !== '' || this.promptIcon !== '') {
-            if (this.promptIcon !== ''){
-                this._elPromptIcon.setAttribute('src',this.promptIcon);
+            if (this.promptIcon !== '') {
+                this._elPromptIcon.setAttribute('src', this.promptIcon);
                 this._elPrompt.appendChild(this._elPromptIcon);
             } else if (this._elPromptIcon) {
                 this._elPromptIcon.remove();
@@ -904,9 +950,9 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
                 this._elPromptText.textContent = this.prompt;
                 this._elPrompt.appendChild(this._elPromptText);
                 if (this._elPromptIcon instanceof Node) {
-                  this._elPrompt.insertBefore(this._elPromptIcon, this._elPromptText);
+                    this._elPrompt.insertBefore(this._elPromptIcon, this._elPromptText);
                 }
-            } else if (this._elPromptText instanceof Node){
+            } else if (this._elPromptText instanceof Node) {
                 this._elPromptText.remove();
             }
 
@@ -917,15 +963,15 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
         docFrag.appendChild(this._elContents);
 
-        if (!this.hideOkButton || !this.hideCancelButton){
+        if (!this.hideOkButton || !this.hideCancelButton) {
             docFrag.appendChild(this._elFooter);
-            if (!this.hideOkButton){
+            if (!this.hideOkButton) {
                 this._elFooter.appendChild(this._elBtnOk);
             } else if (this._elBtnOk) {
                 this._elBtnOk.remove();
             }
 
-            if (!this.hideCancelButton){
+            if (!this.hideCancelButton) {
                 this._elFooter.appendChild(this._elBtnCancel);
             } else if (this._elBtnCancel) {
                 this._elBtnCancel.remove();
@@ -938,23 +984,23 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
     }
 
     protected afterHandlingShow() {
-      super.afterHandlingShow();
+        super.afterHandlingShow();
         // Using EventLoop to attach event listener
         // to document only after all event pipeline was called ( mousedown -> mouseup -> click)
         // Attaching it when mousedown is triggered and that event being attached to document
         // this will be triggerd as well.
         setTimeout(() => {
-          if (this._elMask) {
-            this._elMask.addEventListener('click', this._clickedOnMask);
-          }
+            if (this._elMask) {
+                this._elMask.addEventListener('click', this._clickedOnMask);
+            }
         })
     }
 
     protected afterHandlingHide() {
-      super.afterHandlingHide();
-      if (this._elMask) {
-        this._elMask.removeEventListener('click', this._clickedOnMask);
-      }
+        super.afterHandlingHide();
+        if (this._elMask) {
+            this._elMask.removeEventListener('click', this._clickedOnMask);
+        }
     }
 
     // Getters and setters
@@ -970,7 +1016,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
     }
 
-    public get width():string {
+    public get width(): string {
         return this._width;
     }
 
@@ -986,7 +1032,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
     }
 
-    public get height():string {
+    public get height(): string {
         return this._height;
     }
 
@@ -998,7 +1044,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
         const trValue = this._getTranslatedValue('title', value);
 
-        if ( trValue === this.title) {
+        if (trValue === this.title) {
             return;
         }
 
@@ -1011,11 +1057,11 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
     }
 
-    public get title():string {
+    public get title(): string {
         return this._title;
     }
 
-    public set mask(value:boolean) {
+    public set mask(value: boolean) {
         this.info('set mask("' + value + '")');
         if (this._mask !== value) {
             if (typeof value === 'undefined' || null === value) {
@@ -1024,14 +1070,14 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
             this._mask = value;
             this.setAttribute('mask', value.toString());
         }
-        if (true === this._mask){
+        if (true === this._mask) {
             this._elMask.classList.add(this.primaryCssClass + '-mask-default-style');
-        }else{
+        } else {
             this._elMask.classList.remove(this.primaryCssClass + '-mask-default-style');
         }
     }
 
-    public get mask():boolean {
+    public get mask(): boolean {
         return this._mask;
     }
 
@@ -1048,7 +1094,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         return this._maskStyle;
     }
 
-    public set hideOkButton(value:boolean) {
+    public set hideOkButton(value: boolean) {
         this.info('set hideOkButton("' + value + '")');
         if (value !== this._hideOkButton) {
             this._hideOkButton = value;
@@ -1056,7 +1102,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
     }
 
-    public get hideOkButton():boolean {
+    public get hideOkButton(): boolean {
         return this._hideOkButton;
     }
 
@@ -1068,7 +1114,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
         const trValue = this._getTranslatedValue('okButtonLabel', value);
 
-        if (this.okButtonLabel === trValue){
+        if (this.okButtonLabel === trValue) {
             return;
         }
 
@@ -1080,7 +1126,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
     }
 
-    public get okButtonLabel():string {
+    public get okButtonLabel(): string {
         return this._okButtonLabel;
     }
 
@@ -1107,11 +1153,11 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
     }
 
-    public get okButtonStyle():string {
+    public get okButtonStyle(): string {
         return this._okButtonStyle;
     }
 
-    public set hideCancelButton(value:boolean) {
+    public set hideCancelButton(value: boolean) {
         this.info('set hideCancelButton' + value);
         if (value !== this._hideCancelButton) {
             this._hideCancelButton = value;
@@ -1119,7 +1165,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
     }
 
-    public get hideCancelButton():boolean {
+    public get hideCancelButton(): boolean {
         return this._hideCancelButton;
     }
 
@@ -1132,7 +1178,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
         const trValue = this._getTranslatedValue('cancelButtonLabel', value);
 
-        if (this.cancelButtonLabel === trValue){
+        if (this.cancelButtonLabel === trValue) {
             return;
         }
 
@@ -1144,7 +1190,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         this.setAttribute('cancelbuttonlabel', trValue);
     }
 
-    public get cancelButtonLabel():string {
+    public get cancelButtonLabel(): string {
         return this._cancelButtonLabel;
     }
 
@@ -1172,16 +1218,16 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
     }
 
-    public get cancelButtonStyle():string {
+    public get cancelButtonStyle(): string {
         return this._cancelButtonStyle;
     }
 
-    public set prompt(value:string) {
+    public set prompt(value: string) {
         this.info('set prompt ' + value);
 
         const _value = value;
 
-        if (value === undefined || value === null){
+        if (value === undefined || value === null) {
             value = '';
         }
         const trValue = this._getTranslatedValue('prompt', value);
@@ -1198,13 +1244,13 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
     }
 
-    public get prompt():string {
+    public get prompt(): string {
         return this._prompt
     }
 
     public set promptIcon(value: string) {
         this.info('set promptIcon ' + value);
-        if (value !== this._promptIcon ) {
+        if (value !== this._promptIcon) {
             this._promptIcon = value;
             this.setAttribute('prompticon', value);
         }
@@ -1214,7 +1260,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         return this._promptIcon;
     }
 
-    public set sendEventOnOk(value:string){
+    public set sendEventOnOk(value: string) {
         this.info('set sendEventOnOk ' + value);
         if (value !== this._sigNameSendOnOk) {
             this._sigNameSendOnOk = value;
@@ -1223,11 +1269,11 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
     }
 
-    public get sendEventOnOk():string {
+    public get sendEventOnOk(): string {
         return this._sigNameSendOnOk;
     }
 
-    public set sendEventOnCancel(value:string){
+    public set sendEventOnCancel(value: string) {
         this.info('set sendEventOnCancel ' + value);
         if (value !== this._sigNameSendOnCancel) {
             this._sigNameSendOnCancel = value;
@@ -1236,7 +1282,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
         }
     }
 
-    public get sendEventOnCancel():string {
+    public get sendEventOnCancel(): string {
         return this._sigNameSendOnCancel;
     }
 
@@ -1244,7 +1290,8 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 }
 if (typeof window === "object"
     && typeof window.customElements === "object"
-    && typeof window.customElements.define === "function" ){
-
-    window.customElements.define('ch5-modal-dialog', Ch5ModalDialog);
+    && typeof window.customElements.define === "function") {
+    window.customElements.define(Ch5ModalDialog.ELEMENT_NAME, Ch5ModalDialog);
 }
+
+Ch5ModalDialog.registerSignalAttributeTypes();

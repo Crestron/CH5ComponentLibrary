@@ -1,0 +1,457 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-jointotext-string-value-fixture">
+    <template>
+      <ch5-jointotext-string value="test"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-text-when-empty-fixture">
+    <template>
+      <ch5-jointotext-string textWhenEmpty="text when empty" value="test"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-receivestatevalue-fixture">
+    <template>
+      <ch5-jointotext-string textWhenEmpty="No feedback from garage door"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-show-fixture">
+    <template>
+      <ch5-jointotext-string show="false"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-disabled-fixture">
+    <template>
+      <ch5-jointotext-string disabled="true"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-custom-class-fixture">
+    <template>
+      <ch5-jointotext-string customClass="test-class"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-custom-style-fixture">
+    <template>
+      <ch5-jointotext-string customStyle="color: red;"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-no-show-type-fixture">
+    <template>
+      <ch5-jointotext-string noShowType="remove"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-value-specialcharacter">
+    <template>
+      <ch5-jointotext-string value="-198sfnm&">
+      </ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-value-empty-textWhenEmpty-avilable">
+    <template>
+      <ch5-jointotext-string value="" textWhenEmpty="-198sfnm&">
+      </ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-jointotext-string-textWhenEmpty-avilable">
+    <template>
+      <ch5-jointotext-string textWhenEmpty="playing78dm"></ch5-jointotext-string>
+    </template>
+  </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-value-textWhenEmpty-avilable">
+  <template>
+    <ch5-jointotext-string textWhenEmpty="378-90 90" value="Hello!">
+    </ch5-jointotext-string>
+  </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-textWhenEmpty-empty">
+   <template>
+      <ch5-jointotext-string textWhenEmpty="">
+      </ch5-jointotext-string>
+   </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-value-is-empty">
+  <template>
+    <ch5-jointotext-string value=''>
+    </ch5-jointotext-string>
+  </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-value-is-empty-textWhenEmpty-empty">
+   <template>
+     <ch5-jointotext-string textWhenEmpty="" value="">
+     </ch5-jointotext-string>
+   </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-textWhenEmpty-special-character">
+   <template>
+     <ch5-jointotext-string textWhenEmpty="@#-fnmd-*(">
+     </ch5-jointotext-string>
+   </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-typeOf">
+   <template>
+     <ch5-jointotext-string value="45">
+     </ch5-jointotext-string>
+   </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-custom-style">
+  <template>
+    <ch5-jointotext-string value="Hello world" customStyle="color:red;">
+    </ch5-jointotext-string>
+  </template>
+ </test-fixture>
+
+ <test-fixture id="ch5-jointotext-string-receiveStatevalue-empty">
+  <template>
+    <ch5-jointotext-sting textWhenEmpty="No feedback">
+    </ch5-jointotext-sting>
+  </template>
+ </test-fixture>
+ 
+
+  <script>
+    suite('ch5-jointotext-string-value', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-fixture');
+      });
+
+      test(`Check value`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal("test");
+        expect(ch5JointextString.textContent).to.be.equal("test");
+        ch5JointextString.removeAttribute('value');
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal("");
+      });
+
+      test(`Set value`, () => {
+        ch5JointextString.setAttribute('value', "test123");
+        expect(ch5JointextString.getAttribute('value')).to.be.equal("test123");
+        expect(ch5JointextString.textContent).to.be.equal("test123");
+        ch5JointextString.removeAttribute('value');
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal("");
+      });
+    });
+
+    suite('ch5-jointotext-string-text-when-empty', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-text-when-empty-fixture');
+      });
+
+      test(`Check text when not empty`, () => {
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal("text when empty");
+        expect(ch5JointextString.textContent).to.be.equal("test");
+      });
+
+      test(`Check text when empty`, () => {
+        ch5JointextString.setAttribute('textWhenEmpty', 'new text');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal("new text");
+        expect(ch5JointextString.textContent).to.be.equal("test");
+
+        ch5JointextString.setAttribute('value', ' ');
+        expect(ch5JointextString.textContent).to.be.equal(" ");
+
+        ch5JointextString.setAttribute('value', '         ');
+        expect(ch5JointextString.textContent).to.be.equal("         ");
+
+        ch5JointextString.setAttribute('value', '');
+        expect(ch5JointextString.textContent).to.be.equal("new text");
+
+        ch5JointextString.setAttribute('value', 'test');
+        ch5JointextString.removeAttribute('textWhenEmpty');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal("test");
+      });
+
+    });
+
+    suite('ch5-jointotext-string-receivestatevalue', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5JointextString = fixture('ch5-jointotext-string-receivestatevalue-fixture');
+      });
+
+      [true, false].forEach((value, i) => {
+        test(`receiveStateValue: "${value}"`, (done) => {
+          ch5JointextString.setAttribute('receiveStateValue', 'garage_door_status');
+          CrComLib.publishEvent('s', 'trigger_change_value', value);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5JointextString.getAttribute('receiveStateValue')).to.be.equal('garage_door_status');
+              expect(ch5JointextString.receiveStateValue).to.be.equal('garage_door_status');
+              expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('No feedback from garage door');
+              done();
+            }, 1000);
+          });
+        });
+      });
+    
+    });
+
+    suite('ch5-jointotext-string-show', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-show-fixture');
+      });
+
+      test(`Check show when false`, () => {
+        expect(ch5JointextString.getAttribute('show')).to.be.equal('false');
+        expect(ch5JointextString.show).to.be.equal(false);
+        ch5JointextString.removeAttribute('show');
+        expect(ch5JointextString.hasAttribute('show')).to.be.equal(false);
+        expect(ch5JointextString.show).to.be.equal(true);
+        ch5JointextString.setAttribute('show', 'true');
+        expect(ch5JointextString.getAttribute('show')).to.be.equal('true');
+        expect(ch5JointextString.show).to.be.equal(true);
+      });
+    });
+
+    suite('ch5-jointotext-string-custom-class', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-custom-class-fixture');
+      });
+
+      test(`Check customClass when is test-class`, () => {
+        expect(ch5JointextString.getAttribute('customClass')).to.be.equal('test-class');
+        expect(ch5JointextString.customClass).to.be.equal('test-class');
+        ch5JointextString.removeAttribute('customClass');
+        expect(ch5JointextString.getAttribute('customClass')).to.be.equal('');
+        expect(ch5JointextString.customClass).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-custom-style', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-custom-style-fixture');
+      });
+
+      test(`Check customStyle when is 'color: red;'`, () => {
+        expect(ch5JointextString.getAttribute('customStyle')).to.be.equal('color: red;');
+        expect(ch5JointextString.customStyle).to.be.equal('color: red;');
+        ch5JointextString.removeAttribute('customStyle');
+        expect(ch5JointextString.getAttribute('customStyle')).to.be.equal('');
+        expect(ch5JointextString.customStyle).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-no-show-type', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-no-show-type-fixture');
+      });
+
+      test(`Check noShowType when is 'remove'`, () => {
+        expect(ch5JointextString.getAttribute('noShowType')).to.be.equal('remove');
+        ch5JointextString.removeAttribute('noShowType');
+        expect(ch5JointextString.getAttribute('noShowType')).to.be.equal('display');
+      });
+    });
+
+    suite('ch5-jointotext-string-specialcharacter', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-specialcharacter');
+      });
+
+      test(`Check special character`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('-198sfnm&');
+        expect(ch5JointextString.textContent).to.be.equal('-198sfnm&');
+        ch5JointextString.removeAttribute('value');
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-value-empty-textWhenEmpty avilable', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-empty-textWhenEmpty-avilable');
+      });
+
+      test(`Check value is empty textWhenEmpty avilable`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('-198sfnm&');
+        expect(ch5JointextString.textContent).to.be.equal('-198sfnm&');
+      });
+    });
+
+    suite('ch5-jointotext-string-textWhenEmpty-avilable', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        ch5JointextString = fixture('ch5-jointotext-string-textWhenEmpty-avilable');
+      });
+
+      test(`Check textWhenEmpty`, () => {
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('playing78dm');
+        expect(ch5JointextString.textContent).to.be.equal('playing78dm');
+      });
+    });
+
+    suite('ch5-jointotext-string-value-textWhenEmpty-avilable', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-textWhenEmpty-avilable');
+      });
+
+      test(`Check value and textWhenEmpty avilable`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('Hello!');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('378-90 90');
+        expect(ch5JointextString.textContent).to.be.equal('Hello!');
+
+      });
+    });
+
+    suite('ch5-jointotext-string-value-textWhenEmpty-empty', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        ch5JointextString = fixture('ch5-jointotext-string-textWhenEmpty-empty');
+      });
+
+      test(`Check when textWhenEmpty is empty`, () => {
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal("");
+        expect(ch5JointextString.textContent).to.be.equal("");
+      });
+    });
+
+    suite('ch5-jointotext-string-value-is-empty', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-is-empty');
+      });
+
+      test(`Check value is empty`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-value-is-empty-textWhenEmpty-empty', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-value-is-empty-textWhenEmpty-empty');
+      });
+
+      test(`Check value is empty and textWhenEmpty is empty`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('');
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('');
+        expect(ch5JointextString.textContent).to.be.equal('');
+      });
+    });
+
+    suite('ch5-jointotext-string-textWhenEmpty-special-character', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-textWhenEmpty-special-character');
+      });
+
+      test(`Check textWhenEmpty Special Character`, () => {
+        expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('@#-fnmd-*(');
+        expect(ch5JointextString.textContent).to.be.equal('@#-fnmd-*(');
+      });
+    });
+
+    suite('ch5-jointotext-string-typeOf', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-typeOf');
+      });
+
+      test(`Check the type of value`, () => {       
+        expect(ch5JointextString.getAttribute('value')).to.be.equal("45");
+        expect(typeof ch5JointextString.getAttribute('value')).to.be.equal('string');
+      });
+    });
+
+    suite('ch5-jointotext-string-custom-style', () => {
+      let ch5JointextString;
+
+      setup(async () => {
+        ch5JointextString = fixture('ch5-jointotext-string-custom-style');
+      });
+
+      test(`Check custom style color "color:red"`, () => {
+        expect(ch5JointextString.getAttribute('value')).to.be.equal('Hello world');
+        expect(ch5JointextString.getAttribute('customStyle')).to.be.equal('color:red;');
+        expect(ch5JointextString.style.color).to.be.equal('red');
+      }); 
+    });
+
+    suite('ch5-jointotext-string-receiveState-empty', () => {
+      let ch5JointextString;
+
+      setup(async() => {
+        const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5JointextString = fixture('ch5-jointotext-string-receiveStatevalue-empty');
+      });
+
+      test(`Check receivestate value empty`, (done) => {
+        ch5JointextString.setAttribute('receiveStateValue', 'garage_door_status');
+        CrComLib.publishEvent('s', 'trigger_change_value', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5JointextString.getAttribute('receiveStateValue')).to.be.equal('garage_door_status');
+            expect(ch5JointextString.getAttribute('textWhenEmpty')).to.be.equal('No feedback');
+            // expect(ch5JointextString.textContent).to.be.equal('No feedback');
+            done();
+          }, 100);
+        });
+      });
+    });
+    
+
+  </script>
+</body>
+
+</html>

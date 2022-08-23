@@ -6,11 +6,11 @@
 // under which you licensed this source code.
 
 import { translationFactory } from "../ch5-translation-factory";
-import i18next from "i18next";
+import { i18n } from "i18next";
 import { Ch5TranslationConfiguration } from "../ch5-translation-configuration";
 import { Ch5TranslationUtility } from "../ch5-translation-utility";
 
-export function registerTranslationInterface(translator: i18next.i18n, beginWith?: string, endingWith?: string) {
+export function registerTranslationInterface(translator: i18n, beginWith?: string, endingWith?: string) {
 
   if (
     (beginWith !== undefined && endingWith !== undefined) &&

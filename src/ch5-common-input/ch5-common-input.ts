@@ -6,9 +6,9 @@
 // under which you licensed this source code.
 
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { ICh5CommonInputAttributes } from "../_interfaces/ch5-common-input/";
-import { TCh5CommonInputFeedbackModes } from "../_interfaces/ch5-common-input/types";
 import HtmlCallback from "../ch5-common/utils/html-callback";
+import { ICh5CommonInputAttributes } from "./interfaces/i-ch5-common-input-attributes";
+import { TCh5CommonInputFeedbackModes } from "./interfaces/t-ch5-common-input";
 
 /** 
  * @class Ch5CommonInput

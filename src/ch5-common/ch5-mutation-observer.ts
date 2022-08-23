@@ -19,19 +19,19 @@ export class Ch5MutationObserver {
     private _mutationsObserver: MutationObserver;
     private _mutationsObserverConfig: object;
     private _element: Ch5Common = {} as Ch5Common;
-    
+
     /**
      * Check the element validity to be observed by Mutation Observer
      *
-     * @param {HTMLElement} target 
+     * @param {HTMLElement} target
      * @return {boolean}
      */
     public static checkElementValidity(target: HTMLElement): boolean {
         return (
-            !_.isNil(target) && 
-            target.nodeName !== 'BODY' && 
+            !_.isNil(target) &&
+            target.nodeName !== 'BODY' &&
             (
-                (target.classList === undefined) || 
+                (target.classList === undefined) ||
                 (target.classList.length <= 0) ||
                 (Ch5Common.ELEMENTS_MO_EXCEPTION.indexOf(target.classList[0]) < 0)
             )
@@ -48,7 +48,7 @@ export class Ch5MutationObserver {
                 }
             });
         });
-        
+
         this._mutationsObserverConfig = {
             attributes: true, // attribute changes will be observed | on add/remove/change attributes
             attributeOldValue: true, // will show oldValue of attribute | on add/remove/change attributes | default: null
@@ -57,7 +57,7 @@ export class Ch5MutationObserver {
             attributeFilter: ['style', 'inert'] // filter for attributes | array of attributes that should be observed
         };
     }
-    
+
     public observe(target: Node) {
         this._mutationsObserver.observe(target, this._mutationsObserverConfig);
     }
@@ -92,7 +92,7 @@ export class Ch5MutationObserver {
     private _shouldUpdateComponentVisibility(node: Node) {
         let styles: IShowStyle = {} as IShowStyle;
 
-        if (window.getComputedStyle) {
+        if (document && document.defaultView) {
             styles = document.defaultView.getComputedStyle(node as Element) as IShowStyle;
 
             if (styles.opacity === '0' || styles.visibility === 'hidden' ||  (node as Element).hasAttribute('inert')) {
@@ -100,6 +100,6 @@ export class Ch5MutationObserver {
             }
         }
 
-        return true;   
+        return true;
     }
 }

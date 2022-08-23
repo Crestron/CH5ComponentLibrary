@@ -1,5 +1,5 @@
 import { getAspectRatio } from "../ch5-common/utils/viewport";
-import { TPosDimension, TDimension, iElementDimensions } from "../_interfaces/ch5-video/types";
+import { TPosDimension, TDimension, IVideoElementDimensions } from "./interfaces/types";
 
 export class CH5VideoUtils {
 
@@ -37,7 +37,7 @@ export class CH5VideoUtils {
      */
     public static getSizeAndPositionForFixedSize = (elem: Element, displaySizeObj: TDimension): any => {
         let position = { xPos: 0, yPos: 0 };
-        const elementDimensions: iElementDimensions = CH5VideoUtils.getParentElementOffsetAndDimension(elem);
+        const elementDimensions: IVideoElementDimensions = CH5VideoUtils.getParentElementOffsetAndDimension(elem);
 
         if (displaySizeObj.width < elementDimensions.totalWidth) {
             position = CH5VideoUtils.calculatePillarBoxPadding(elementDimensions.totalWidth, displaySizeObj.width);
@@ -56,7 +56,7 @@ export class CH5VideoUtils {
      * and return them in the expected format
      * @param ele is the DOM element whose dimensions are calculated and returned
      */
-    public static getParentElementOffsetAndDimension = (ele: Element): iElementDimensions => {
+    public static getParentElementOffsetAndDimension = (ele: Element): IVideoElementDimensions => {
         let totalWidth = ele.clientWidth;
         let totalHeight = ele.clientHeight;
         console.log(ele.className, totalHeight, totalWidth);
@@ -93,14 +93,14 @@ export class CH5VideoUtils {
 
     /**
      * Returns double digit string based on input number
-     * @param n 
+     * @param n
      */
     private static pad = (n: number) => {
         return n < 10 ? ("0" + n) : String(n);
     }
 
     /**
-     * 
+     *
      * @returns Boolean
      */
     public static isPortrait = (): boolean => {
@@ -108,7 +108,7 @@ export class CH5VideoUtils {
     }
 
     /**
-     * 
+     *
      * @returns Boolean
      */
     public static isLandscape = (): boolean => {
@@ -120,7 +120,7 @@ export class CH5VideoUtils {
 
     /**
      * Gets Timezone Offset
-     * @param offset 
+     * @param offset
      */
     private static timezoneOffset = (offset: number) => {
         let sign: any;
@@ -143,7 +143,7 @@ export class CH5VideoUtils {
     /**
      * Get the Aspect Ratio of the video based on the viewport size and returns a sizeObj with width and height as keys
      * @param aspectRatio - has 16:9 or 4:3 as value
-     * @param size 
+     * @param size
      */
     public static getAspectRatioForVideo = (aspectRatio: string, size: string) => {
         let sizeObj: { width: number, height: number } = { width: 0, height: 0 };
@@ -189,8 +189,8 @@ export class CH5VideoUtils {
 
     /**
      * Returns the height for the given width based on the aspect ratio
-     * @param aRatio 
-     * @param width 
+     * @param aRatio
+     * @param width
      * @param height
      */
     public static getDisplayWxH = (aRatio: any, width: number, height: number) => {
@@ -221,8 +221,8 @@ export class CH5VideoUtils {
 
     /**
      * Calculate the padding space for aspect ratio 4:3
-     * @param availableWidth 
-     * @param displayWidth 
+     * @param availableWidth
+     * @param displayWidth
      */
     public static calculatePillarBoxPadding = (availableWidth: number, displayWidth: number) => {
         const yPos: number = 0;
@@ -232,8 +232,8 @@ export class CH5VideoUtils {
 
     /**
      * Calculate the padding space for aspect ratio 16:9
-     * @param availableHeight 
-     * @param displayHeight 
+     * @param availableHeight
+     * @param displayHeight
      */
     public static calculateLetterBoxPadding = (availableHeight: number, displayHeight: number) => {
         const xPos: number = 0;
@@ -242,14 +242,17 @@ export class CH5VideoUtils {
     }
 
     /**
-     * 
+     *
      * @returns Function to get the position of the current video element w.r.t the viewport
      */
     public static getVideoElementOffset(el: HTMLElement) {
-        const rect = el.getBoundingClientRect();
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+        // if (document.documentElement) {
+            const rect = el.getBoundingClientRect();
+            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+        // }
+        // return {};
     }
 
 }

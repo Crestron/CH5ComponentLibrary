@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
     <script>
@@ -30,401 +30,416 @@
 
     <script src="/bower_components/web-component-tester/browser.js"></script>
 </head>
+
 <body>
 
-<test-fixture id="ch5-button1">
-    <template>
-        <ch5-button></ch5-button>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-button2">
-    <template>
-        <ch5-button id="btn2" customClass="c2"></ch5-button>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-button1">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-button2">
+        <template>
+            <ch5-button id="btn2" customClass="c2"></ch5-button>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-form1">
-    <template>
-        <ch5-form><ch5-button></ch5-button></ch5-form>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-form2">
-    <template>
-        <ch5-form id="cf2" customClass="c2"></ch5-form>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-form1">
+        <template>
+            <ch5-form>
+                <ch5-button></ch5-button>
+            </ch5-form>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-form2">
+        <template>
+            <ch5-form id="cf2" customClass="c2"></ch5-form>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-image1">
-    <template>
-        <ch5-image></ch5-image>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-image2">
-    <template>
-        <ch5-image id="img2" customClass="c2"></ch5-image>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-image1">
+        <template>
+            <ch5-image></ch5-image>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-image2">
+        <template>
+            <ch5-image id="img2" customClass="c2"></ch5-image>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-list1">
-    <template>
-        <ch5-list></ch5-list>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-list2">
-    <template>
-        <ch5-list id="cl2" customClass="c2"></ch5-list>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-list1">
+        <template>
+            <ch5-list></ch5-list>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-list2">
+        <template>
+            <ch5-list id="cl2" customClass="c2"></ch5-list>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-modal-dialog1">
-    <template>
-        <ch5-modal-dialog></ch5-modal-dialog>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-modal-dialog2">
-    <template>
-        <ch5-modal-dialog id="cm2" customClass="c2"></ch5-modal-dialog>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-modal-dialog1">
+        <template>
+            <ch5-modal-dialog></ch5-modal-dialog>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-modal-dialog2">
+        <template>
+            <ch5-modal-dialog id="cm2" customClass="c2"></ch5-modal-dialog>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-overlay-panel1">
-    <template>
-        <ch5-overlay-panel></ch5-overlay-panel>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-overlay-panel2">
-    <template>
-        <ch5-overlay-panel id="cop2" customClass="c2"></ch5-overlay-panel>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-overlay-panel1">
+        <template>
+            <ch5-overlay-panel></ch5-overlay-panel>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-overlay-panel2">
+        <template>
+            <ch5-overlay-panel id="cop2" customClass="c2"></ch5-overlay-panel>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-select1">
-    <template>
-        <ch5-select></ch5-select>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-select2">
-    <template>
-        <ch5-select id="select2" customClass="c2"></ch5-select>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-select1">
+        <template>
+            <ch5-select></ch5-select>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-select2">
+        <template>
+            <ch5-select id="select2" customClass="c2"></ch5-select>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-slider1">
-    <template>
-        <ch5-slider></ch5-slider>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-slider2">
-    <template>
-        <ch5-slider id="slider2" customClass="c2"></ch5-slider>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-slider1">
+        <template>
+            <ch5-slider></ch5-slider>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-slider2">
+        <template>
+            <ch5-slider id="slider2" customClass="c2"></ch5-slider>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-spinner1">
-    <template>
-        <ch5-spinner></ch5-spinner>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-spinner2">
-    <template>
-        <ch5-spinner id="spinner2" customClass="c2"></ch5-spinner>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-spinner1">
+        <template>
+            <ch5-spinner></ch5-spinner>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-spinner2">
+        <template>
+            <ch5-spinner id="spinner2" customClass="c2"></ch5-spinner>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-textinput1">
-    <template>
-        <ch5-textinput></ch5-textinput>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-textinput2">
-    <template>
-        <ch5-textinput id="text2" customClass="c2"></ch5-textinput>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-textinput1">
+        <template>
+            <ch5-textinput></ch5-textinput>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-textinput2">
+        <template>
+            <ch5-textinput id="text2" customClass="c2"></ch5-textinput>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-toggle1">
-    <template>
-        <ch5-toggle></ch5-toggle>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-toggle2">
-    <template>
-        <ch5-toggle id="toggle2" customClass="c2"></ch5-toggle>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-toggle1">
+        <template>
+            <ch5-toggle></ch5-toggle>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-toggle2">
+        <template>
+            <ch5-toggle id="toggle2" customClass="c2"></ch5-toggle>
+        </template>
+    </test-fixture>
 
-<test-fixture id="ch5-triggerview1">
-    <template>
-        <ch5-triggerview></ch5-triggerview>
-    </template>
-</test-fixture>
-<test-fixture id="ch5-triggerview2">
-    <template>
-        <ch5-triggerview id="trigger2" customClass="c2"></ch5-triggerview>
-    </template>
-</test-fixture>
+    <test-fixture id="ch5-triggerview1">
+        <template>
+            <ch5-triggerview></ch5-triggerview>
+        </template>
+    </test-fixture>
+    <test-fixture id="ch5-triggerview2">
+        <template>
+            <ch5-triggerview id="trigger2" customClass="c2"></ch5-triggerview>
+        </template>
+    </test-fixture>
 
 
 
-<script>
-    suite('component config attributes', function() {
+    <script>
+        suite('component config attributes', function () {
 
-        let config = {
-            "attributes":{
-                "id":{
-                    "btn2":{
-                        "customClass":"c2"
+            let config = {
+                "attributes": {
+                    "id": {
+                        "btn2": {
+                            "customClass": "c2"
+                        },
+                        "cf2": {
+                            "customClass": "c2"
+                        },
+                        "img2": {
+                            "customClass": "c2"
+                        },
+                        "cl2": {
+                            "customClass": "c2"
+                        },
+                        "cm2": {
+                            "customClass": "c2"
+                        },
+                        "cop2": {
+                            "customClass": "c2"
+                        },
+                        "select2": {
+                            "customClass": "c2"
+                        },
+                        "slider2": {
+                            "customClass": "c2"
+                        },
+                        "spinner2": {
+                            "customClass": "c2"
+                        },
+                        "text2": {
+                            "customClass": "c2"
+                        },
+                        "toggle2": {
+                            "customClass": "c2"
+                        },
+                        "trigger2": {
+                            "customClass": "c2"
+                        },
                     },
-                    "cf2":{
-                        "customClass":"c2"
-                    },
-                    "img2":{
-                        "customClass":"c2"
-                    },
-                    "cl2":{
-                        "customClass":"c2"
-                    },
-                    "cm2":{
-                        "customClass":"c2"
-                    },
-                    "cop2":{
-                        "customClass":"c2"
-                    },
-                    "select2":{
-                        "customClass":"c2"
-                    },
-                    "slider2":{
-                        "customClass":"c2"
-                    },
-                    "spinner2":{
-                        "customClass":"c2"
-                    },
-                    "text2":{
-                        "customClass":"c2"
-                    },
-                    "toggle2":{
-                        "customClass":"c2"
-                    },
-                    "trigger2":{
-                        "customClass":"c2"
-                    },
-                },
-                "component":{
-                    "ch5-button":{
-                        "customClass":"c1"
-                    },
-                    "ch5-form":{
-                        "customClass":"c1"
-                    },
-                    "ch5-image":{
-                        "customClass":"c1"
-                    },
-                    "ch5-list":{
-                        "customClass":"c1"
-                    },
-                    "ch5-modal-dialog":{
-                        "customClass":"c1"
-                    },
-                    "ch5-overlay-panel":{
-                        "customClass":"c1"
-                    },
-                    "ch5-select":{
-                        "customClass":"c1"
-                    },
-                    "ch5-slider":{
-                        "customClass":"c1"
-                    },
-                    "ch5-spinner":{
-                        "customClass":"c1"
-                    },
-                    "ch5-textinput":{
-                        "customClass":"c1"
-                    },
-                    "ch5-toggle":{
-                        "customClass":"c1"
-                    },
-                    "ch5-triggerview":{
-                        "customClass":"c1"
+                    "component": {
+                        "ch5-button": {
+                            "customClass": "c1"
+                        },
+                        "ch5-form": {
+                            "customClass": "c1"
+                        },
+                        "ch5-image": {
+                            "customClass": "c1"
+                        },
+                        "ch5-list": {
+                            "customClass": "c1"
+                        },
+                        "ch5-modal-dialog": {
+                            "customClass": "c1"
+                        },
+                        "ch5-overlay-panel": {
+                            "customClass": "c1"
+                        },
+                        "ch5-select": {
+                            "customClass": "c1"
+                        },
+                        "ch5-slider": {
+                            "customClass": "c1"
+                        },
+                        "ch5-spinner": {
+                            "customClass": "c1"
+                        },
+                        "ch5-textinput": {
+                            "customClass": "c1"
+                        },
+                        "ch5-toggle": {
+                            "customClass": "c1"
+                        },
+                        "ch5-triggerview": {
+                            "customClass": "c1"
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        setup(() => {
-            CrComLib.Ch5Config.loadConfig(config);
+            /* coverity[implicit_this_used] */
+            setup(() => {
+                CrComLib.Ch5Config.loadConfig(config);
 
-            return Promise.all([
-                customElements.whenDefined('ch5-button')
-            ]);
-        });
+                return Promise.all([
+                    customElements.whenDefined('ch5-button')
+                ]);
+            });
 
-        test('ch5-button preconfigured customClass', function() {
-            const b1 = fixture('ch5-button1');
-            expect(b1.customClass).to.be.equal('c1');
-        });
-        test('ch5-button preconfigured customClass from id', function() {
-            const b2 = fixture('ch5-button2');
-            expect(b2.customClass).to.be.equal('c2');
-        });
-
-        test('ch5-form preconfigured customClass', function() {
-            const f1 = fixture('ch5-form1');
-
-            customElements.whenDefined('ch5-form').then(
-                ()=> {
-                    expect(f1.getAttribute('customClass')).to.be.equal('c1');
+            test('ch5-button preconfigured customClass', (done) => {
+                const b1 = fixture('ch5-button1');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(b1.customClass).to.be.equal('c1');
+                        done();
+                    }, 100);
                 });
-        });
-        test('ch5-form preconfigured customClass from id', function() {
-            const f2 = fixture('ch5-form2');
-            customElements.whenDefined('ch5-form').then(
-                ()=> {
-                    expect(f2.getAttribute('customClass')).to.be.equal('c2');
+            });
+            test('ch5-button preconfigured customClass from id', function () {
+                const b2 = fixture('ch5-button2');
+                flush(() => {
+                    setTimeout(() => {
+                        expect(b2.customClass).to.be.equal('c2');
+                        done();
+                    }, 100);
                 });
-        });
+            });
 
-        test('ch5-image preconfigured customClass', function() {
-            const i1 = fixture('ch5-image1');
-            customElements.whenDefined('ch5-image').then(
-                ()=> {
-                    expect(i1.customClass).to.be.equal('c1');
-                });
-        });
-        test('ch5-image preconfigured customClass from id', function() {
-            const i2 = fixture('ch5-image2');
-            customElements.whenDefined('ch5-image').then(
-                ()=> {
-                    expect(i2.customClass).to.be.equal('c2');
-                });
-        });
+            test('ch5-form preconfigured customClass', function () {
+                const f1 = fixture('ch5-form1');
 
-        test('ch5-list preconfigured customClass', function() {
-            const list1 = fixture('ch5-list1');
-            customElements.whenDefined('ch5-list').then(
-                ()=> {
-                    expect(list1.customClass).to.be.equal('c1');
-                });
-        });
-        test('ch5-list preconfigured customClass from id', function() {
-            const list2 = fixture('ch5-list2');
-            customElements.whenDefined('ch5-list').then(
-                ()=> {
-                    expect(list2.customClass).to.be.equal('c2');
-                });
+                customElements.whenDefined('ch5-form').then(
+                    () => {
+                        expect(f1.getAttribute('customClass')).to.be.equal('c1');
+                    });
+            });
+            test('ch5-form preconfigured customClass from id', function () {
+                const f2 = fixture('ch5-form2');
+                customElements.whenDefined('ch5-form').then(
+                    () => {
+                        expect(f2.getAttribute('customClass')).to.be.equal('c2');
+                    });
+            });
+
+            test('ch5-image preconfigured customClass', function () {
+                const i1 = fixture('ch5-image1');
+                customElements.whenDefined('ch5-image').then(
+                    () => {
+                        expect(i1.customClass).to.be.equal('c1');
+                    });
+            });
+            test('ch5-image preconfigured customClass from id', function () {
+                const i2 = fixture('ch5-image2');
+                customElements.whenDefined('ch5-image').then(
+                    () => {
+                        expect(i2.customClass).to.be.equal('c2');
+                    });
+            });
+
+            test('ch5-list preconfigured customClass', function () {
+                const list1 = fixture('ch5-list1');
+                customElements.whenDefined('ch5-list').then(
+                    () => {
+                        expect(list1.customClass).to.be.equal('c1');
+                    });
+            });
+            test('ch5-list preconfigured customClass from id', function () {
+                const list2 = fixture('ch5-list2');
+                customElements.whenDefined('ch5-list').then(
+                    () => {
+                        expect(list2.customClass).to.be.equal('c2');
+                    });
+
+            });
+
+            test('ch5-modal-dialog preconfigured customClass', function () {
+                const m1 = fixture('ch5-modal-dialog1');
+                customElements.whenDefined('ch5-modal-dialog').then(
+                    () => {
+                        expect(m1.customClass).to.be.equal('c1');
+                    });
+            });
+            test('ch5-modal-dialog preconfigured customClass from id', function () {
+                const m2 = fixture('ch5-modal-dialog2');
+                customElements.whenDefined('ch5-modal-dialog').then(
+                    () => {
+                        expect(m2.customClass).to.be.equal('c2');
+                    });
+            });
+
+            test('ch5-overlay-panel preconfigured customClass', function () {
+                const o1 = fixture('ch5-overlay-panel1');
+                customElements.whenDefined('ch5-overlay-panel').then(
+                    () => {
+                        expect(o1.customClass).to.be.equal('c1');
+                    });
+            });
+            test('ch5-overlay-panel preconfigured customClass from id', function () {
+                const o2 = fixture('ch5-overlay-panel2');
+                customElements.whenDefined('ch5-overlay-panel').then(
+                    () => {
+                        expect(o2.customClass).to.be.equal('c2');
+                    });
+            });
+
+            test('ch5-select preconfigured customClass', function () {
+                const s1 = fixture('ch5-select1');
+                customElements.whenDefined('ch5-select').then(
+                    () => {
+                        expect(s1.customClass).to.be.equal('c1');
+                    });
+            });
+            test('ch5-select preconfigured customClass from id', function () {
+                const s2 = fixture('ch5-select2');
+                customElements.whenDefined('ch5-select').then(
+                    () => {
+                        expect(s2.customClass).to.be.equal('c2');
+                    });
+            });
+
+            test('ch5-slider preconfigured customClass', function () {
+                const sl1 = fixture('ch5-slider1');
+                customElements.whenDefined('ch5-slider').then(
+                    () => {
+                        expect(sl1.customClass).to.be.equal('c1');
+                    });
+            });
+            test('ch5-slider preconfigured customClass from id', function () {
+                const sl2 = fixture('ch5-slider2');
+                customElements.whenDefined('ch5-slider').then(
+                    () => {
+                        expect(sl2.customClass).to.be.equal('c2');
+                    });
+            });
+
+            test('ch5-spinner preconfigured customClass', function () {
+                const sp1 = fixture('ch5-spinner1');
+                customElements.whenDefined('ch5-spinner').then(
+                    () => {
+                        expect(sp1.customClass).to.be.equal('c1');
+                    });
+            });
+            test('ch5-spinner preconfigured customClass from id', function () {
+                const sp2 = fixture('ch5-spinner2');
+                customElements.whenDefined('ch5-spinner').then(
+                    () => {
+                        expect(sp2.customClass).to.be.equal('c2');
+                    });
+            });
+
+            test('ch5-textinput preconfigured customClass', function () {
+                const ti1 = fixture('ch5-textinput1');
+
+                customElements.whenDefined('ch5-textinput1').then(
+                    () => {
+                        expect(ti1.customClass).to.be.equal('c1');
+                    });
+            });
+
+            test('ch5-textinput preconfigured customClass from id', function () {
+                const ti2 = fixture('ch5-textinput2');
+                expect(ti2.customClass).to.be.equal('c2');
+            });
+
+            test('ch5-toggle preconfigured customClass', function () {
+                const to1 = fixture('ch5-toggle1');
+                expect(to1.customClass).to.be.equal('c1');
+            });
+            test('ch5-toggle preconfigured customClass from id', function () {
+                const to2 = fixture('ch5-toggle2');
+                expect(to2.customClass).to.be.equal('c2');
+            });
+
+            test('ch5-triggerview preconfigured customClass', function () {
+                const tv1 = fixture('ch5-triggerview1');
+                customElements.whenDefined('ch5-triggerview').then(
+                    () => {
+                        expect(tv1.customClass).to.be.equal('c1');
+                    });
+            });
+            test('ch5-triggerview preconfigured customClass from id', function () {
+                const tv2 = fixture('ch5-triggerview2');
+                expect(tv2.customClass).to.be.equal('c2');
+            });
 
         });
-
-        test('ch5-modal-dialog preconfigured customClass', function() {
-            const m1 = fixture('ch5-modal-dialog1');
-            customElements.whenDefined('ch5-modal-dialog').then(
-                ()=> {
-                    expect(m1.customClass).to.be.equal('c1');
-                });
-        });
-        test('ch5-modal-dialog preconfigured customClass from id', function() {
-            const m2 = fixture('ch5-modal-dialog2');
-            customElements.whenDefined('ch5-modal-dialog').then(
-                ()=> {
-                    expect(m2.customClass).to.be.equal('c2');
-                });
-        });
-
-        test('ch5-overlay-panel preconfigured customClass', function() {
-            const o1 = fixture('ch5-overlay-panel1');
-            customElements.whenDefined('ch5-overlay-panel').then(
-                ()=> {
-                    expect(o1.customClass).to.be.equal('c1');
-                });
-        });
-        test('ch5-overlay-panel preconfigured customClass from id', function() {
-            const o2 = fixture('ch5-overlay-panel2');
-            customElements.whenDefined('ch5-overlay-panel').then(
-                ()=> {
-                    expect(o2.customClass).to.be.equal('c2');
-                });
-        });
-
-        test('ch5-select preconfigured customClass', function() {
-            const s1 = fixture('ch5-select1');
-            customElements.whenDefined('ch5-select').then(
-                ()=> {
-                    expect(s1.customClass).to.be.equal('c1');
-                });
-        });
-        test('ch5-select preconfigured customClass from id', function() {
-            const s2 = fixture('ch5-select2');
-            customElements.whenDefined('ch5-select').then(
-                ()=> {
-                    expect(s2.customClass).to.be.equal('c2');
-                });
-        });
-
-        test('ch5-slider preconfigured customClass', function() {
-            const sl1 = fixture('ch5-slider1');
-            customElements.whenDefined('ch5-slider').then(
-                ()=> {
-                    expect(sl1.customClass).to.be.equal('c1');
-                });
-        });
-        test('ch5-slider preconfigured customClass from id', function() {
-            const sl2 = fixture('ch5-slider2');
-            customElements.whenDefined('ch5-slider').then(
-                ()=> {
-                    expect(sl2.customClass).to.be.equal('c2');
-                });
-        });
-
-        test('ch5-spinner preconfigured customClass', function() {
-            const sp1 = fixture('ch5-spinner1');
-            customElements.whenDefined('ch5-spinner').then(
-                ()=> {
-                    expect(sp1.customClass).to.be.equal('c1');
-                });
-        });
-        test('ch5-spinner preconfigured customClass from id', function() {
-            const sp2 = fixture('ch5-spinner2');
-            customElements.whenDefined('ch5-spinner').then(
-                ()=> {
-                    expect(sp2.customClass).to.be.equal('c2');
-                });
-        });
-
-      test('ch5-textinput preconfigured customClass', function () {
-        const ti1 = fixture('ch5-textinput1');
-        
-        customElements.whenDefined('ch5-textinput1').then(
-          () => {
-            expect(ti1.customClass).to.be.equal('c1');
-          });
-      });
-
-        test('ch5-textinput preconfigured customClass from id', function() {
-            const ti2 = fixture('ch5-textinput2');
-            expect(ti2.customClass).to.be.equal('c2');
-        });
-
-        test('ch5-toggle preconfigured customClass', function() {
-            const to1 = fixture('ch5-toggle1');
-            expect(to1.customClass).to.be.equal('c1');
-        });
-        test('ch5-toggle preconfigured customClass from id', function() {
-            const to2 = fixture('ch5-toggle2');
-            expect(to2.customClass).to.be.equal('c2');
-        });
-
-        test('ch5-triggerview preconfigured customClass', function() {
-            const tv1 = fixture('ch5-triggerview1');
-            customElements.whenDefined('ch5-triggerview').then(
-                ()=> {
-                    expect(tv1.customClass).to.be.equal('c1');
-                });
-        });
-        test('ch5-triggerview preconfigured customClass from id', function() {
-            const tv2 = fixture('ch5-triggerview2');
-            expect(tv2.customClass).to.be.equal('c2');
-        });
-
-    });
-</script>
+    </script>
 </body>
+
 </html>

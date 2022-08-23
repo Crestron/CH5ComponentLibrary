@@ -8,12 +8,443 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5CommonInput } from "../ch5-common-input/ch5-common-input";
 import { Ch5Button } from "../ch5-button/ch5-button";
-import { ICh5FormAttributes } from "../_interfaces/ch5-form";
-import { TCh5ButtonType } from "../_interfaces/ch5-button/types";
+import { TCh5ButtonType } from "../ch5-button/interfaces/t-ch5-button";
 import { isEmpty, isNil } from 'lodash';
-
+import { ICh5FormAttributes } from "./interfaces/i-ch5-form-attributes";
+import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { Ch5SignalElementAttributeRegistryEntries, Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
 
 export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
+
+    /**
+     * Getter inputElements
+     * @return {Ch5CommonInput[] }
+     */
+    public get inputElements() {
+        return this._inputElements;
+    }
+
+    /**
+     * Getter submitButton
+     * @return {Ch5Button }
+     */
+    public get submitButton(): Ch5Button {
+        return this._submitButton;
+    }
+
+    /**
+     * Setter submitButton
+     * @param {Ch5Button } value
+     */
+    public set submitButton(value: Ch5Button) {
+        this._submitButton = value;
+    }
+
+
+    /**
+     * Getter cancelButton
+     * @return {Ch5Button }
+     */
+    public get cancelButton(): Ch5Button {
+        return this._cancelButton;
+    }
+
+    /**
+     * Setter cancelButton
+     * @param {Ch5Button } value
+     */
+    public set cancelButton(value: Ch5Button) {
+        this._cancelButton = value;
+    }
+
+
+    /**
+     * ATTR GETTERS AND SETTERS
+     */
+
+
+    /**
+     * Getter hideSubmitButton
+     * @return {boolean }
+     */
+    public get hideSubmitButton() {
+        return this._hideSubmitButton;
+    }
+
+    /**
+     * Setter hideSubmitButton
+     * @param {boolean } value
+     */
+    public set hideSubmitButton(value: boolean) {
+        this.info('Ch5Form set hideSubmitButton("' + value + '")');
+
+        const isHidden = this.toBoolean(value, true);
+
+        if (this._hideSubmitButton !== isHidden) {
+            this._hideSubmitButton = isHidden;
+
+            if (isHidden === true) {
+                this.submitButton.setAttribute('hidden', '')
+            } else {
+                this.submitButton.removeAttribute('hidden');
+            }
+            this.setAttribute('hidesubmitbutton', isHidden.toString());
+        }
+    }
+
+    public get hidesubmitbutton() {
+        return this.hideSubmitButton;
+    }
+
+    public set hidesubmitbutton(value: boolean) {
+        this.hideSubmitButton = value;
+    }
+
+    /**
+     * Getter submitButtonLabel
+     * @return {string }
+     */
+    public get submitButtonLabel(): string {
+        return this._submitButtonLabel;
+    }
+
+    /**
+     * Setter submitButtonLabel
+     * @param {string } value
+     */
+    public set submitButtonLabel(value: string) {
+
+        this.info('Ch5Form set submitButtonLabel("' + value + '")');
+
+        if (value === undefined || value === null || value === '') {
+            value = Ch5Form.SUBMIT_LABEL;
+        }
+
+
+        const trValue = this._getTranslatedValue('submitbuttonlabel', value);
+
+        if (trValue !== this.submitButtonLabel) {
+            this._submitButtonLabel = value;
+            this.submitButton.setAttribute('label', trValue);
+            this.setAttribute('submitbuttonlabel', trValue);
+        }
+    }
+
+    /**
+     * Getter submitButtonIcon
+     * @return {string }
+     */
+    public get submitButtonIcon(): string {
+        return this._submitButtonIcon;
+    }
+
+    /**
+     * Setter submitButtonIcon
+     * @param {string } value
+     */
+    public set submitButtonIcon(value: string) {
+        this.info('Ch5Form set submitButtonIcon("' + value + '")');
+
+        if (this._submitButtonIcon !== value) {
+            if (value === undefined || value === null || value === '') {
+                value = '';
+            }
+
+            const iconClass = `${value} ${this.cssClassPrefix}__submit__icon`;
+
+            this._submitButtonIcon = value;
+            this.setAttribute('submitbuttonicon', value);
+            this.submitButton.setAttribute('iconClass', iconClass);
+        }
+    }
+
+    /**
+     * Getter submitButtonStyle
+     * @return {string }
+     */
+    public get submitButtonStyle(): string {
+        return this._submitButtonStyle;
+    }
+
+    /**
+     * Setter submitButtonStyle
+     * @param {string } value
+     */
+    public set submitButtonStyle(value: string) {
+        this.info('Ch5Form set submitButtonStyle("' + value + '")');
+
+        if (this._submitButtonStyle !== value) {
+            if (value === undefined || value === null || value === '') {
+                value = '';
+            }
+
+            this._submitButtonStyle = value;
+            this.setAttribute('submitbuttonstyle', value);
+            this.submitButton.setAttribute('customStyle', value);
+        }
+    }
+
+    /**
+     * Getter submitButtonType
+     * @return {string }
+     */
+    public get submitButtonType(): TCh5ButtonType {
+        return this._submitButtonType;
+    }
+
+    /**
+     * Setter submitButtonType
+     * @param {string } value
+     */
+    public set submitButtonType(value: TCh5ButtonType) {
+        this.info('Ch5Form set submitButtonType("' + value + '")');
+
+        if (this._submitButtonType !== value) {
+            if (isNil(value)) {
+                value = 'default';
+            }
+
+            this._submitButtonType = value;
+            this.setAttribute('submitbuttontype', value);
+            this.submitButton.setAttribute('type', value);
+        }
+    }
+
+    /**
+     * Getter hideCancelButton
+     * @return {boolean }
+     */
+    public get hideCancelButton() {
+        return this._hideCancelButton;
+    }
+
+    /**
+     * Setter hideCancelButton
+     * @param {boolean } value
+     */
+    public set hideCancelButton(value: boolean) {
+        this.info('Ch5Form set hideCancelButton("' + value + '")');
+
+        const isHidden = this.toBoolean(value, true);
+
+        if (this._hideCancelButton !== isHidden) {
+            this._hideCancelButton = isHidden;
+
+            if (isHidden === true) {
+                this.cancelButton.setAttribute('hidden', '');
+            } else {
+                this.cancelButton.removeAttribute('hidden');
+            }
+
+            this.setAttribute('hidecancelbutton', isHidden.toString());
+        }
+    }
+
+    /**
+     * Getter cancelButtonLabel
+     * @return {string }
+     */
+    public get cancelButtonLabel(): string {
+        return this._cancelButtonLabel;
+    }
+
+    /**
+     * Setter cancelButtonLabel
+     * @param {string } value
+     */
+    public set cancelButtonLabel(value: string) {
+        this.info('Ch5Form set cancelButtonLabel("' + value + '")');
+
+        if (value === undefined || value === null || value === '') {
+            value = Ch5Form.CANCEL_LABEL;
+        }
+
+        const trValue = this._getTranslatedValue('cancelButtonLabel', value);
+
+        if (trValue !== this.cancelButtonLabel) {
+            this._cancelButtonLabel = trValue;
+            this.cancelButton.setAttribute('label', trValue);
+            this.setAttribute('cancelbuttonlabel', trValue);
+        }
+    }
+
+    /**
+     * Getter cancelButtonIcon
+     * @return {string }
+     */
+    public get cancelButtonIcon(): string {
+        return this._cancelButtonIcon;
+    }
+
+    /**
+     * Setter cancelButtonIcon
+     * @param {string } value
+     */
+    public set cancelButtonIcon(value: string) {
+        this.info('Ch5Form set cancelButtonIcon("' + value + '")');
+
+        if (this._cancelButtonIcon !== value) {
+            if (value === undefined || value === null || value === '') {
+                value = '';
+            }
+
+            const iconClass = `${value} ${this.cssClassPrefix}__cancel__icon`;
+
+            this._cancelButtonIcon = value;
+            this.setAttribute('cancelbuttonicon', value);
+            this.cancelButton.setAttribute('iconclass', iconClass);
+        }
+    }
+
+    /**
+     * Getter cancelButtonStyle
+     * @return {string }
+     */
+    public get cancelButtonStyle(): string {
+        return this._cancelButtonStyle;
+    }
+
+    /**
+     * Setter cancelButtonStyle
+     * @param {string } value
+     */
+    public set cancelButtonStyle(value: string) {
+        this.info('Ch5Form set cancelButtonStyle("' + value + '")');
+
+        if (this._cancelButtonStyle !== value) {
+            if (value === undefined || value === null || value === '') {
+                value = '';
+            }
+
+            this._cancelButtonStyle = value;
+            this.setAttribute('cancelbuttonstyle', value);
+            this.cancelButton.setAttribute('customstyle', value);
+        }
+    }
+
+    /**
+     * Getter cancelButtonType
+     * @return {string }
+     */
+    public get cancelButtonType(): TCh5ButtonType {
+        return this._cancelButtonType;
+    }
+
+    /**
+     * Setter cancelButtonType
+     * @param {string } value
+     */
+    public set cancelButtonType(value: TCh5ButtonType) {
+        this.info('Ch5Form set cancelButtonType("' + value + '")');
+
+        if (this._cancelButtonType !== value) {
+            if (isNil(value)) {
+                value = 'default';
+            }
+
+            this._cancelButtonType = value;
+            this.setAttribute('cancelbuttontype', value);
+            this.cancelButton.setAttribute('type', value);
+        }
+    }
+
+    /**
+     * Getter submitId
+     * @return {string }
+     */
+    public get submitId(): string {
+        return this._submitId;
+    }
+
+    /**
+     * Setter submitId
+     * @param {string } value
+     */
+    public set submitId(value: string) {
+        this.info('Ch5Form set submitId("' + value + '")');
+
+        if (this._submitId !== value && !isNil(value)) {
+            this._submitId = value;
+        }
+    }
+
+    /**
+     * Getter cancelId
+     * @return {string }
+     */
+    public get cancelId(): string {
+        return this._cancelId;
+    }
+
+    /**
+     * Setter cancelId
+     * @param {string } value
+     */
+    public set cancelId(value: string) {
+        this.info('Ch5Form set cancelId("' + value + '")');
+
+        if (this._cancelId !== value && !isNil(value)) {
+            this._cancelId = value;
+        }
+    }
+
+    constructor() {
+        super(); // always call super() first in the constructor.
+
+        this._onClickSubmitButton = this._onClickSubmitButton.bind(this);
+        this._onClickCancelButton = this._onClickCancelButton.bind(this);
+        this._checkIfCancelOrSubmitShouldBeDisabled = this._checkIfCancelOrSubmitShouldBeDisabled.bind(this);
+
+        // used to create form buttons
+        this._initFormButtons();
+
+        // set ready property as promise
+        this.ready = Promise.all([
+            customElements.whenDefined('ch5-button'),
+            customElements.whenDefined('ch5-toggle'),
+            customElements.whenDefined('ch5-slider'),
+            customElements.whenDefined('ch5-select'),
+            customElements.whenDefined('ch5-list'),
+            customElements.whenDefined('ch5-textinput'),
+            customElements.whenDefined('ch5-spinner')
+        ])
+            .then(_ => {
+                this._linkInputElements();
+                this._linkFormButtons();
+
+                this._wasInstatiated = true;
+            });
+    }
+
+    /**
+     * Respond to attribute changes.
+     * @readonly
+     */
+    static get observedAttributes() {
+        const commonAttributes = Ch5Common.observedAttributes;
+        const ch5FormAttributes: string[] = [
+            'hidesubmitbutton',
+            'submitbuttonlabel',
+            'submitbuttonicon',
+            'submitbuttonstyle',
+            'submitbuttontype',
+            'hidecancelbutton',
+            'cancelbuttonlabel',
+            'cancelbuttonicon',
+            'cancelbuttonstyle',
+            'cancelbuttontype',
+            'submitid',
+            'cancelid'
+        ];
+
+        return commonAttributes.concat(ch5FormAttributes);
+    }
+
+    public static readonly ELEMENT_NAME = 'ch5-form';
+
+    public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES
+	};
 
     /**
      * COMPONENT DEFAULT VALUES
@@ -212,376 +643,8 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
     public ready: Promise<void>;
 
-    /**
-     * Getter inputElements
-     * @return {Ch5CommonInput[] }
-     */
-    public get inputElements() {
-        return this._inputElements;
-    }
-
-    /**
-     * Getter submitButton
-     * @return {Ch5Button }
-     */
-    public get submitButton(): Ch5Button {
-        return this._submitButton;
-    }
-
-    /**
-     * Setter submitButton
-     * @param {Ch5Button } value
-     */
-    public set submitButton(value: Ch5Button) {
-        this._submitButton = value;
-    }
-
-
-    /**
-     * Getter cancelButton
-     * @return {Ch5Button }
-     */
-    public get cancelButton(): Ch5Button {
-        return this._cancelButton;
-    }
-
-    /**
-     * Setter cancelButton
-     * @param {Ch5Button } value
-     */
-    public set cancelButton(value: Ch5Button) {
-        this._cancelButton = value;
-    }
-
-
-    /**
-     * ATTR GETTERS AND SETTERS
-     */
-
-
-    /**
-     * Getter hideSubmitButton
-     * @return {boolean }
-     */
-    public get hideSubmitButton() {
-        return this._hideSubmitButton;
-    }
-
-    /**
-     * Setter hideSubmitButton
-     * @param {boolean } value
-     */
-    public set hideSubmitButton(value: boolean | string) {
-        this.info('Ch5Form set hideSubmitButton("' + value + '")');
-
-        const isHidden = this._toBoolean(value);
-
-        if (this._hideSubmitButton !== isHidden) {
-            this._hideSubmitButton = isHidden;
-
-            if (isHidden === true) {
-                this.submitButton.setAttribute('hidden', '')
-            } else {
-                this.submitButton.removeAttribute('hidden');
-            }
-            this.setAttribute('hidesubmitbutton', isHidden.toString());
-        }
-    }
-
-    public get hidesubmitbutton() {
-        return this.hideSubmitButton;
-    }
-
-    public set hidesubmitbutton(value: boolean | string) {
-        this.hideSubmitButton = value;
-    }
-
-    /**
-     * Getter submitButtonLabel
-     * @return {string }
-     */
-    public get submitButtonLabel(): string {
-        return this._submitButtonLabel;
-    }
-
-    /**
-     * Setter submitButtonLabel
-     * @param {string } value
-     */
-    public set submitButtonLabel(value: string) {
-
-        this.info('Ch5Form set submitButtonLabel("' + value + '")');
-
-        if (value === undefined || value === null || value === '') {
-            value = Ch5Form.SUBMIT_LABEL;
-        }
-
-
-        const trValue = this._getTranslatedValue('submitbuttonlabel', value);
-
-        if (trValue !== this.submitButtonLabel) {
-            this._submitButtonLabel = value;
-            this.submitButton.setAttribute('label', trValue);
-            this.setAttribute('submitbuttonlabel', trValue);
-        }
-    }
-
-    /**
-     * Getter submitButtonIcon
-     * @return {string }
-     */
-    public get submitButtonIcon(): string {
-        return this._submitButtonIcon;
-    }
-
-    /**
-     * Setter submitButtonIcon
-     * @param {string } value
-     */
-    public set submitButtonIcon(value: string) {
-        this.info('Ch5Form set submitButtonIcon("' + value + '")');
-
-        if (this._submitButtonIcon !== value) {
-            if (value === undefined || value === null || value === '') {
-                value = '';
-            }
-
-            const iconClass = `${value} ${this.cssClassPrefix}__submit__icon`;
-
-            this._submitButtonIcon = value;
-            this.setAttribute('submitbuttonicon', value);
-            this.submitButton.setAttribute('iconClass', iconClass);
-        }
-    }
-
-    /**
-     * Getter submitButtonStyle
-     * @return {string }
-     */
-    public get submitButtonStyle(): string {
-        return this._submitButtonStyle;
-    }
-
-    /**
-     * Setter submitButtonStyle
-     * @param {string } value
-     */
-    public set submitButtonStyle(value: string) {
-        this.info('Ch5Form set submitButtonStyle("' + value + '")');
-
-        if (this._submitButtonStyle !== value) {
-            if (value === undefined || value === null || value === '') {
-                value = '';
-            }
-
-            this._submitButtonStyle = value;
-            this.setAttribute('submitbuttonstyle', value);
-            this.submitButton.setAttribute('customStyle', value);
-        }
-    }
-
-    /**
-     * Getter submitButtonType
-     * @return {string }
-     */
-    public get submitButtonType(): TCh5ButtonType {
-        return this._submitButtonType;
-    }
-
-    /**
-     * Setter submitButtonType
-     * @param {string } value
-     */
-    public set submitButtonType(value: TCh5ButtonType) {
-        this.info('Ch5Form set submitButtonType("' + value + '")');
-
-        if (this._submitButtonType !== value) {
-            if (isNil(value)) {
-                value = 'default';
-            }
-
-            this._submitButtonType = value;
-            this.setAttribute('submitbuttontype', value);
-            this.submitButton.setAttribute('type', value);
-        }
-    }
-
-    /**
-     * Getter hideCancelButton
-     * @return {boolean }
-     */
-    public get hideCancelButton() {
-        return this._hideCancelButton;
-    }
-
-    /**
-     * Setter hideCancelButton
-     * @param {boolean } value
-     */
-    public set hideCancelButton(value: boolean | string) {
-        this.info('Ch5Form set hideCancelButton("' + value + '")');
-
-        const isHidden = this._toBoolean(value);
-
-        if (this._hideCancelButton !== isHidden) {
-            this._hideCancelButton = isHidden;
-
-            if (isHidden === true) {
-                this.cancelButton.setAttribute('hidden', '');
-            } else {
-                this.cancelButton.removeAttribute('hidden');
-            }
-
-            this.setAttribute('hidecancelbutton', isHidden.toString());
-        }
-    }
-
-    /**
-     * Getter cancelButtonLabel
-     * @return {string }
-     */
-    public get cancelButtonLabel(): string {
-        return this._cancelButtonLabel;
-    }
-
-    /**
-     * Setter cancelButtonLabel
-     * @param {string } value
-     */
-    public set cancelButtonLabel(value: string) {
-        this.info('Ch5Form set cancelButtonLabel("' + value + '")');
-
-        if (value === undefined || value === null || value === '') {
-            value = Ch5Form.CANCEL_LABEL;
-        }
-
-        const trValue = this._getTranslatedValue('cancelButtonLabel', value);
-
-        if (trValue !== this.cancelButtonLabel) {
-            this._cancelButtonLabel = trValue;
-            this.cancelButton.setAttribute('label', trValue);
-            this.setAttribute('cancelbuttonlabel', trValue);
-        }
-    }
-
-    /**
-     * Getter cancelButtonIcon
-     * @return {string }
-     */
-    public get cancelButtonIcon(): string {
-        return this._cancelButtonIcon;
-    }
-
-    /**
-     * Setter cancelButtonIcon
-     * @param {string } value
-     */
-    public set cancelButtonIcon(value: string) {
-        this.info('Ch5Form set cancelButtonIcon("' + value + '")');
-
-        if (this._cancelButtonIcon !== value) {
-            if (value === undefined || value === null || value === '') {
-                value = '';
-            }
-
-            const iconClass = `${value} ${this.cssClassPrefix}__cancel__icon`;
-
-            this._cancelButtonIcon = value;
-            this.setAttribute('cancelbuttonicon', value);
-            this.cancelButton.setAttribute('iconclass', iconClass);
-        }
-    }
-
-    /**
-     * Getter cancelButtonStyle
-     * @return {string }
-     */
-    public get cancelButtonStyle(): string {
-        return this._cancelButtonStyle;
-    }
-
-    /**
-     * Setter cancelButtonStyle
-     * @param {string } value
-     */
-    public set cancelButtonStyle(value: string) {
-        this.info('Ch5Form set cancelButtonStyle("' + value + '")');
-
-        if (this._cancelButtonStyle !== value) {
-            if (value === undefined || value === null || value === '') {
-                value = '';
-            }
-
-            this._cancelButtonStyle = value;
-            this.setAttribute('cancelbuttonstyle', value);
-            this.cancelButton.setAttribute('customstyle', value);
-        }
-    }
-
-    /**
-     * Getter cancelButtonType
-     * @return {string }
-     */
-    public get cancelButtonType(): TCh5ButtonType {
-        return this._cancelButtonType;
-    }
-
-    /**
-     * Setter cancelButtonType
-     * @param {string } value
-     */
-    public set cancelButtonType(value: TCh5ButtonType) {
-        this.info('Ch5Form set cancelButtonType("' + value + '")');
-
-        if (this._cancelButtonType !== value) {
-            if (isNil(value)) {
-                value = 'default';
-            }
-
-            this._cancelButtonType = value;
-            this.setAttribute('cancelbuttontype', value);
-            this.cancelButton.setAttribute('type', value);
-        }
-    }
-
-    /**
-     * Getter submitId
-     * @return {string }
-     */
-    public get submitId(): string {
-        return this._submitId;
-    }
-
-    /**
-     * Setter submitId
-     * @param {string } value
-     */
-    public set submitId(value: string) {
-        this.info('Ch5Form set submitId("' + value + '")');
-
-        if (this._submitId !== value && !isNil(value)) {
-            this._submitId = value;
-        }
-    }
-
-    /**
-     * Getter cancelId
-     * @return {string }
-     */
-    public get cancelId(): string {
-        return this._cancelId;
-    }
-
-    /**
-     * Setter cancelId
-     * @param {string } value
-     */
-    public set cancelId(value: string) {
-        this.info('Ch5Form set cancelId("' + value + '")');
-
-        if (this._cancelId !== value && !isNil(value)) {
-            this._cancelId = value;
-        }
+    public static registerSignalAttributeTypes() {
+        Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Form.ELEMENT_NAME, Ch5Form.SIGNAL_ATTRIBUTE_TYPES);
     }
 
     /**
@@ -622,34 +685,6 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         this.info(`Ch5Form submit button with ${this.submitId} found, events added`);
     }
 
-    constructor() {
-        super(); // always call super() first in the constructor.
-
-        this._onClickSubmitButton = this._onClickSubmitButton.bind(this);
-        this._onClickCancelButton = this._onClickCancelButton.bind(this);
-        this._checkIfCancelOrSubmitShouldBeDisabled = this._checkIfCancelOrSubmitShouldBeDisabled.bind(this);
-
-        // used to create form buttons
-        this._initFormButtons();
-
-        // set ready property as promise
-        this.ready = Promise.all([
-            customElements.whenDefined('ch5-button'),
-            customElements.whenDefined('ch5-toggle'),
-            customElements.whenDefined('ch5-slider'),
-            customElements.whenDefined('ch5-select'),
-            customElements.whenDefined('ch5-list'),
-            customElements.whenDefined('ch5-textinput'),
-            customElements.whenDefined('ch5-spinner')
-        ])
-            .then(_ => {
-                this._linkInputElements();
-                this._linkFormButtons();
-
-                this._wasInstatiated = true;
-            });
-    }
-
     /**
      *  Called every time the element is inserted into the DOM.
      *  Useful for running setup code, such as fetching resources or rendering.
@@ -657,7 +692,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
     public connectedCallback() {
         // WAI-ARIA Attributes
         if (!this.hasAttribute('role')) {
-            this.setAttribute('role', 'form');
+            this.setAttribute('role', Ch5RoleAttributeMapping.ch5Form);
         }
 
         this.ready.then(() => {
@@ -688,30 +723,6 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
     }
 
     /**
-     * Respond to attribute changes.
-     * @readonly
-     */
-    static get observedAttributes() {
-        const commonAttributes = Ch5Common.observedAttributes;
-        const ch5FormAttributes: string[] = [
-            'hidesubmitbutton',
-            'submitbuttonlabel',
-            'submitbuttonicon',
-            'submitbuttonstyle',
-            'submitbuttontype',
-            'hidecancelbutton',
-            'cancelbuttonlabel',
-            'cancelbuttonicon',
-            'cancelbuttonstyle',
-            'cancelbuttontype',
-            'submitid',
-            'cancelid'
-        ];
-
-        return commonAttributes.concat(ch5FormAttributes);
-    }
-
-    /**
      * Called when an HTML attribute is changed, added or removed
      */
     public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
@@ -724,7 +735,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
         switch (attr) {
             case 'hidesubmitbutton':
                 if (this.hasAttribute('hideSubmitButton')) {
-                    this.hideSubmitButton = newValue;
+                    this.hideSubmitButton = this.toBoolean(newValue, true);
                 } else {
                     this.hideSubmitButton = false;
                 }
@@ -759,7 +770,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
                 break;
             case 'hidecancelbutton':
                 if (this.hasAttribute('hidecancelbutton')) {
-                    this.hideCancelButton = newValue;
+                    this.hideCancelButton = this.toBoolean(newValue, true);
                 } else {
                     this.hideCancelButton = false;
                 }
@@ -1089,5 +1100,7 @@ export class Ch5Form extends Ch5Common implements ICh5FormAttributes {
 
 if (typeof window === "object" && typeof window.customElements === "object"
     && typeof window.customElements.define === "function") {
-    window.customElements.define('ch5-form', Ch5Form);
+    window.customElements.define(Ch5Form.ELEMENT_NAME, Ch5Form);
 }
+
+Ch5Form.registerSignalAttributeTypes();
