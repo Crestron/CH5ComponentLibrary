@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-shapes-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-button', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                ch5Button = fixture('ch5-button-shapes-fixture');
+            });
+
+            const valid_shapes = CrComLib.Ch5Button.SHAPES;
+            const invalid_shapes = ['', null, 'Circle', 'Square', 'Rectangle'];
+            const default_shape = CrComLib.Ch5Button.SHAPES[0];
+
+            valid_shapes.forEach((shapeName, i) => {
+                test(`Check attribute shape: "${shapeName}"`, (done) => {
+                    ch5Button.setAttribute('shape', shapeName);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.shape).to.be.equal(shapeName);
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--" + shapeName)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+
+            test(`Check attribute shape "rounded-rectangle" by not adding the type attribute in HTML or through javascript to the button`, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.shape).to.be.equal(default_shape);
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--" + default_shape)).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            invalid_shapes.forEach((shapeName, i) => {
+                test(`Check attribute shape for invalid value: "${shapeName}"`, (done) => {
+                    ch5Button.setAttribute('shape', shapeName);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.shape).to.be.equal(default_shape);
+                            expect(getDiv(ch5Button).classList.contains("ch5-button--" + default_shape)).to.be.equal(true);
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

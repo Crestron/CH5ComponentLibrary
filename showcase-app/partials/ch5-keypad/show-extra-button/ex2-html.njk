@@ -1,0 +1,32 @@
+<h4>Without extra button</h4>
+<div class="divp">
+    <div >
+        <h6>Page</h6>
+        <ch5-keypad showExtraButton="false" type="default" shape="rounded-rectangle"></ch5-keypad>
+    </div>
+    <br>
+    <div>
+        <h6>Widget</h6>
+        <ch5-template templateId="sampleTemplate" context="REPLACEVAL:false"></ch5-template>
+    </div>
+</div>
+
+<hr/>
+
+
+<h4>With extra button</h4>
+<div class="divp">
+    <div >
+        <h6>Page</h6>
+        <ch5-keypad showExtraButton="true" type="default" shape="rounded-rectangle"></ch5-keypad>
+    </div>
+    <br>
+    <div >
+        <h6>Widget</h6>
+        <ch5-template templateId="sampleTemplate" context="REPLACEVAL:true"></ch5-template>
+    </div>
+</div>
+
+<template id="sampleTemplate">
+    <ch5-keypad showExtraButton="REPLACEVAL" type="default" shape="rounded-rectangle"></ch5-keypad>
+</template>

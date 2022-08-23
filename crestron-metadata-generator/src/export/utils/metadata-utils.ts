@@ -16,11 +16,13 @@ function addTypeDefinition(definition: Definition, aliases: DefinitionTuple[]): 
     const result = Ch5Element.New();
     result.description = _.getDescription(definition);
     result.documentation = _.getDocumentation(definition);
+    result.childElements = _.getChildElements(definition);
     result.name = _.getName(definition);
     result.tagName = _.getTagName(definition);
+    result.role = _.getTypeForAriaRoles(definition);
     result.snippets = _.getSnippets(definition);
     result.attributes = getProperties(definition, aliases);
-
+    result.componentVersion = _.getComponentVersion(definition);
     return result;
 }
 
@@ -29,28 +31,24 @@ function addAttributeDefinition(definition: Definition, aliases: DefinitionTuple
     result.documentation = _.getDocumentation(definition);
     result.name = _.getName(definition);
     result.value = getProperties(definition, aliases)[0].value;
-
     return result;
 }
 
 function getProperties(definition: Definition, aliases: DefinitionTuple[]): Ch5Attribute[] {
     const properties = definition.attributes;
     const attributes: Ch5Attribute[] = [];
-
     if (!isNil(properties)) {
         const propertyKeys = Array.from(properties.keys() || []);
         if (!isNil(propertyKeys) && propertyKeys.length > 0) {
             // we have attributes, parse them.
             for (const propertyKey of propertyKeys) {
                 const propertyMetadata = properties.get(propertyKey);
-
                 if (!isNil(propertyMetadata)) {
                     attributes.push(addPropertyDefinition(propertyMetadata, aliases));
                 }
             }
         }
     }
-
     return attributes;
 }
 
@@ -68,19 +66,31 @@ function getAliasTypesRefs(definition: Definition): string[] {
         }
     } else {
         // just one alias type
-        aliasTypesRefs.push(ref);
+        // The below if condition is to ensure that an empty value is not populated into the array of AliasTypesRef
+        if (!isNil(ref) && ref !== '') {
+            aliasTypesRefs.push(ref);
+        }
     }
     return aliasTypesRefs;
 }
 
 function getAliasTypeValues(ref: string, aliases: DefinitionTuple[]): string[] {
-    let values: string[] = []; 
+    let values: string[] = [];
     const aliasName = ref.substring(ref.lastIndexOf("/") + 1);
     const alias = aliases.find(x => x.name === aliasName);
     if (!isNil(alias)) {
         const aliasValues = alias.definition.enum;
         values = [...(<string[]>aliasValues)];
     }
+    return values;
+}
+
+function getAliasTypeValuesForBasicTypes(type: string): string[] {
+    let values: string[] = [];
+    if (type.toLowerCase() === 'boolean') {
+        values = ["false", "true"];
+    }
+    // values = [...(<string[]>aliasValues)];
     return values;
 }
 
@@ -109,7 +119,7 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
                 const type = definition.type as string;
                 if (!isNil(type)) {
                     if (isBasicType(type)) {
-                        result.value = [];
+                        result.value = getAliasTypeValuesForBasicTypes(type);
                     } else {
                         result.value = [type];
                     }
@@ -124,6 +134,21 @@ function addPropertyDefinition(definition: Definition, aliases: DefinitionTuple[
 
     result.name = _.getName(definition);
     result.documentation = _.getDocumentation(definition);
+    // const defaultValue = _.getDefault(definition);
+    // if (!isNil(defaultValue) && defaultValue !== "") {
+    result.default = _.getDefault(definition);
+    result.hideWhen = _.getHideWhen(definition);
+    result.showWhen = _.getShowWhen(definition);
+    result.join = _.getJoin(definition);
+    result.limits = _.getLimits(definition);
+    result.attributeType = _.getAttributeType(definition);
+    if (_.getDeprecated(definition) !== null) {
+        result.deprecated = _.getDeprecated(definition);
+    }
+    if (_.getHidden(definition) !== null) {
+        result.hidden = _.getHidden(definition);
+    }
+    // }
 
     return result;
 }

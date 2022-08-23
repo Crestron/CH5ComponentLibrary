@@ -1,0 +1,48 @@
+{
+    "cues": [
+      {
+        "type": "b",
+        "event": "trig0",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_image_mode",
+            "type": "number",
+            "logic": "set",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "type": "b",
+        "event": "trig1",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_image_mode",
+            "type": "number",
+            "logic": "set",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "type": "b",
+        "event": "trig2",
+        "trigger": true,
+        "actions": [
+          {
+            "state": "receive_image_mode",
+            "type": "number",
+            "logic": "set",
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "onStart":[{
+      "state": "receive_image_mode",
+      "type": "number",
+      "value": 0
+    }]
+}

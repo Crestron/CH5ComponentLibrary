@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
@@ -21,6 +20,7 @@
 <script>
     suite('ch5-overlay-panel attributes and properties', function() {
 
+        /* coverity[implicit_this_used] */
         setup(() => {
             return Promise.all([
                 customElements.whenDefined('ch5-overlay-panel')

@@ -1,0 +1,43 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-image
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@import "scss/_variables";
+
+ch5-image {
+    display: inline-block;
+}
+
+/// Added automatically on the first child of the ch5-image element.
+.ch5-image {
+    &.ch5-image__img {
+        height: $ch5-image-height;
+        width: $ch5-image-width;
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: $ch5-image-object-fit;
+    }
+    // flip image
+    &.ch5-image--dir--rtl {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+    }
+}
+
+/// Added automatically based on the disabled attribute or by receiveStateEnable.
+.ch5-image--disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

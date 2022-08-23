@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
@@ -22,13 +21,14 @@
 
         let ch5Textinput;
 
+        /* coverity[implicit_this_used] */
         setup(() => {
             ch5Textinput = fixture('ch5-textinput-stretches-default-fixture');
         });
 
 
         test('Default stretch is "fixed"', function() {
-            expect(ch5Textinput.stretch).to.be.equal('fixed');
+            expect(ch5Textinput.stretch).to.be.equal(null);
         });
 
         const availableStretches = ['width', 'content'];

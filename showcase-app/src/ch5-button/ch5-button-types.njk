@@ -6,11 +6,14 @@ title: "ch5-button: type"
 
 {% block content %}
     {% set scenario1 -%}
-        {%- include "./emulator-scenarios/scenario-ch5-button-type.json" %}
+        {%- include "./emulator-scenarios/ch5-button/type.json" %}
     {%- endset %}
 
     {% call exampleSectionFromPartials('ch5-button/types/','ex1') %}{% endcall %}
     {% call emulatorScenarioSection(scenario1) %}{% endcall %}
     {% call exampleSectionFromPartials('ch5-button/types/','ex2') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-button/types/','ex3') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-button/types/','ex4') %}{% endcall %}
 
 {% endblock %}

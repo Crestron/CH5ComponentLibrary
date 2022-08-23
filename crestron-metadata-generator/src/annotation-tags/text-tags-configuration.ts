@@ -11,10 +11,14 @@ export class TextTagsConfiguration {
         "description",
         "name",
         "tagName",
+        "role",
         "documentation",
+        "childElements",
         "format",
         "pattern",
         "snippets",
         "isattribute",
+        "default",
+        "componentVersion"
     ];
 }

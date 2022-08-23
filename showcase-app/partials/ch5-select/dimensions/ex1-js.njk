@@ -1,12 +1,8 @@
-{% raw %}
-(function($, CrComLib){
-    $('#toggle-resize').on('click', () => {
-        const ch5Select = $('#resize-ex')[0];
-        if (ch5Select.hasAttribute('resize')) {
-            ch5Select.removeAttribute('resize');
-        } else {
-            ch5Select.setAttribute('resize', true);
-        }
-    });
-})(jQuery,CrComLib);
-{% endraw %}
+document.getElementById('toggle-resize').addEventListener('click', function(){
+   const ch5select = document.getElementById('resize-ex');
+   if (ch5select.hasAttribute('resize')) {
+        ch5select.removeAttribute('resize');
+   } else {
+        ch5select.setAttribute('resize', true);
+   }
+});

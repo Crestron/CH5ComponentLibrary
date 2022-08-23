@@ -7,7 +7,7 @@
  * under which you licensed this source code.
  */
 
-import { TCh5ListElementOrientation } from "../_interfaces/ch5-list/types";
+import { TCh5ListElementOrientation } from "./interfaces";
 
 
 export class Ch5ListSizeResolver {

@@ -9,6 +9,8 @@ import { Metadata } from "../../types/export/metadata";
 import { ValidationError } from "../error/validation-error";
 import { Definition, DefinitionTuple } from "../schema/definition";
 import { Schema } from "../schema/schema";
+import * as packageJson from "./../../package.json";
+import * as CrComLibPackageJson from "./../../../crestron-components-lib/package.json";
 
 import { IsAttributeValidator } from "./is-atrribute-validator";
 import { SchemaNotEmptyValidator } from "./schema-not-empty-validator";
@@ -45,10 +47,11 @@ export class Exporter {
         if (!schemaUtils.hasKeys(this.schema)) {
             throw new ValidationError("No definitions were extracted");
         }
-
         const aliases: DefinitionTuple[] = schemaUtils.getAliasTypes(this.schema);
         const actualTypes: Definition[] = schemaUtils.getTypes(this.schema);
 
+        result.version = packageJson.version;
+        result.componentsVersion = CrComLibPackageJson.version;
         for (const definition of actualTypes) {
             if (definition.isattribute) {
                 const attributeDefinition = metadataUtils.addAttributeDefinition(definition, aliases);
@@ -58,7 +61,6 @@ export class Exporter {
                 result.ch5Elements.elements.push(typeDefinition);
             }
         }
-
         return result;
     }
 }

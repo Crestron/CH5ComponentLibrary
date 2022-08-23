@@ -1,0 +1,110 @@
+Click the below button to change the mode and state attributes
+<ch5-button type="text" mode="0" sendeventonclick="signal.trig_1" stretch="width" label="Click me to Change Mode and Selected for below button">
+</ch5-button>
+<br /><br />
+
+<ch5-button type="info" mode="0" checkboxShow="true" receivestatemode="signal.trig_1.mode" receivestateselected="signal.trig_1.selected" stretch="width">
+    <ch5-button-mode type="primary">
+        <ch5-button-label>
+            <template>
+                <b>Button Label for Mode 0 from ch5-button-mode</b>
+            </template>
+        </ch5-button-label>
+        <ch5-button-mode-state state="normal" iconclass="fa fa-play">
+            <ch5-button-label>
+                <template>
+                    <b>Button Label for Mode 0 from ch5-button-mode-state 'normal'</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode type="secondary">
+        <ch5-button-label>
+            <template>
+                <b>Button Label for Mode 1 from ch5-button-mode</b>
+            </template>
+        </ch5-button-label>
+        <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
+            <ch5-button-label>
+                <template>
+                    <b>Button Label for Mode 1 from ch5-button-mode-state 'normal'</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="text">
+            <ch5-button-label>
+                <template>
+                    <b>Button Label for Mode 1 from ch5-button-mode-state 'pressed'</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
+            <ch5-button-label>
+                <template>
+                    <b>Button Label for Mode 1 from ch5-button-mode-state 'selected'</b>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-label>
+        <template>
+            <b>Button Label from ch5-button</b>
+        </template>
+    </ch5-button-label>
+</ch5-button>
+
+<hr />
+
+Click the below button to view the <i>pressed</i> state from the ch5-button-mode-state attributes.
+<br />
+<br />
+
+<ch5-button type="primary" mode="0" checkboxShow="true" sendeventonclick="signal.trig_2" receivestatemode="signal.trig_2.mode" receivestateselected="signal.trig_2.selected" stretch="width">
+    <ch5-button-mode type="primary">
+        <ch5-button-label>
+            <template>
+                <i>Button Label for Mode 0 from ch5-button-mode</i>
+            </template>
+        </ch5-button-label>
+        <ch5-button-mode-state state="normal" iconclass="fa fa-play">
+            <ch5-button-label>
+                <template>
+                    <i>Button Label for Mode 0 from ch5-button-mode-state 'normal'</i>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-mode type="secondary">
+        <ch5-button-label>
+            <template>
+                <i>Button Label for Mode 1 from ch5-button-mode</i>
+            </template>
+        </ch5-button-label>
+        <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="danger">
+            <ch5-button-label>
+                <template>
+                    <i>Button Label for Mode 1 from ch5-button-mode-state 'normal'</i>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="pressed" iconclass="fa fa-play" type="warning" customStyle="font-weight:bold;">
+            <ch5-button-label>
+                <template>
+                    <i>Button Label for Mode 1 from ch5-button-mode-state 'pressed'</i>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+        <ch5-button-mode-state state="selected" iconclass="fa fa-pause" type="success">
+            <ch5-button-label>
+                <template>
+                    <i>Button Label for Mode 1 from ch5-button-mode-state 'selected'</i>
+                </template>
+            </ch5-button-label>
+        </ch5-button-mode-state>
+    </ch5-button-mode>
+    <ch5-button-label>
+        <template>
+            <i>Button Label from ch5-button</i>
+        </template>
+    </ch5-button-label>
+</ch5-button>

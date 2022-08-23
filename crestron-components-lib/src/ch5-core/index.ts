@@ -14,6 +14,8 @@ export * from './ch5-signal-bridge';
 export * from './ch5-signal-bridge-receive';
 export * from './ch5-signal-factory';
 export * from './ch5-signal-behavior-subject';
+export * from './utility-functions/signals';
+export * from './utility-functions/components';
 export * from './utility-functions/get-signal';
 export * from './utility-functions/publish-signal';
 export * from './utility-functions/subscribe-signal';

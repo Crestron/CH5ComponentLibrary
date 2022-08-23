@@ -1,0 +1,28 @@
+<h5>Change the mode below from "0" to "1" in the 'HTML' editor.</h5>
+<br/>
+
+<ch5-button mode="0" stretch="width" label="Verify Type for ch5-button-mode" type="danger">
+    <ch5-button-mode type="default" iconClass="fa fa-play"></ch5-button-mode>
+    <ch5-button-mode type="warning" iconClass="fas fa-pause"></ch5-button-mode>
+</ch5-button>
+
+<hr/>
+
+<h5>Change the mode (receiveStateMode) by clicking on the '+ Mode' / '- Mode' button.</h5>
+
+<br/>
+
+<ch5-button type="primary" sendeventonclick="trigger_type_increment_mode" iconClass="fas fa-plus" label="Mode"></ch5-button>
+<ch5-button type="primary" sendeventonclick="trigger_type_decrement_mode" iconClass="fas fa-minus" label="Mode"></ch5-button>
+
+<br/><br/>
+
+<ch5-button receiveStateMode="current_mode" stretch="width" label="Verify Type for ch5-button-mode" type="danger">
+    <ch5-button-mode type="success" iconClass="fa fa-play"></ch5-button-mode>
+    <ch5-button-mode type="warning" iconClass="fas fa-pause"></ch5-button-mode>
+    <ch5-button-mode type="danger" iconClass="fab fa-amilia"></ch5-button-mode>
+    <ch5-button-mode type="text" iconClass="fas fa-anchor"></ch5-button-mode>
+    <ch5-button-mode type="info" iconClass="fas fa-battery-quarter"></ch5-button-mode>
+    <ch5-button-mode type="primary" iconClass="fas fa-at"></ch5-button-mode>
+    <ch5-button-mode type="secondary" iconClass="fab fa-apple"></ch5-button-mode>
+</ch5-button>

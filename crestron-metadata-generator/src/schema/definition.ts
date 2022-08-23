@@ -36,5 +36,7 @@ export interface Definition {
     defaultProperties?: string[];
     isAliasType?: boolean;
     typeof?: "function";
+    role?: string;
+    componentVersion?: string;
 }
 

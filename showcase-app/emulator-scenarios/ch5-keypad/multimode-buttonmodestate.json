@@ -1,0 +1,42 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "signal.trig_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "signal.trig_1.mode",
+          "type": "number",
+          "logic": "set",
+          "value": 1
+        },
+        {
+          "state": "signal.trig_1.selected",
+          "type": "b",
+          "logic": "set",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "signal.trig_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "signal.trig_2.mode",
+          "type": "number",
+          "logic": "set",
+          "value": 1
+        },
+        {
+          "state": "signal.trig_2.selected",
+          "type": "b",
+          "logic": "set",
+          "value": 1
+        }
+      ]
+    }
+  ]
+}

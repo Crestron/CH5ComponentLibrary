@@ -1,5 +1,15 @@
-<div class="">
-    <ch5-button type="info" label="change hall_lights_tap which will toggle hall_lights_selected" sendEventOnClick="hall_lights_tap"></ch5-button>
-</div>
-<br>
-<ch5-button type="success" shape="rectangle" label="ReceiveSelectedFromSignal" receiveStateSelected="hall_lights_selected"></ch5-button>
+<p>
+    Selected buttons
+    <ch5-button type="success" shape="rectangle"
+                 label="Button1" selected></ch5-button>
+    <ch5-button type="success" shape="rectangle"
+                 label="Button2" selected="true"></ch5-button>
+</p>
+
+<p>
+    Default/Unselected buttons
+    <ch5-button type="success" shape="rectangle"
+                 label="Button3"></ch5-button>
+    <ch5-button type="success" shape="rectangle"
+                 label="Button4" selected="false"></ch5-button>
+</p>

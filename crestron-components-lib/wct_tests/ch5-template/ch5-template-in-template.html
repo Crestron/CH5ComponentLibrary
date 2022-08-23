@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
     
@@ -46,6 +45,7 @@
         let ch5TemplateInsideCh5Template = null;
         let ch5List = null;
         
+        /* coverity[implicit_this_used] */
         setup(() => {
             testFixture = fixture('ch5-temple-signals-fixture');
             ch5List = document.getElementById("ch5List");

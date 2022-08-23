@@ -1,0 +1,47 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "hall_lights_tap",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "hall_lights_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "sig_trig_pulse1",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "a_pulse1",
+          "type": "boolean",
+          "logic": "pulse"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "sig_trig_pulse2",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "a_pulse2",
+          "type": "boolean",
+          "logic": "pulse"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "b",
+      "state": "hall_lights_selected",
+      "value": true
+    }
+  ]
+}

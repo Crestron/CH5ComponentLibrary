@@ -6,10 +6,7 @@
 // under which you licensed this source code.
 
 import { Ch5Spinner } from "./ch5-spinner";
-import { AnimationFrameScheduler } from "rxjs/internal/scheduler/AnimationFrameScheduler";
-import { signalNameForLibraryBuildDate } from "../ch5-core";
-import {Ch5AugmentVarSignalsNames} from "../ch5-common/ch5-augment-var-signals-names";
-import { isNil } from "lodash";
+import { Ch5AugmentVarSignalsNames } from "../ch5-common/ch5-augment-var-signals-names";
 
 export class Ch5SpinnerTemplate {
 
@@ -433,7 +430,7 @@ export class Ch5SpinnerTemplate {
     const visibleItemScroll = this.element.visibleItemScroll;
     const endless = this.element.endless;
 
-    
+
 
     // create the overlay element
     // this will be appended to the document body
@@ -520,7 +517,7 @@ export class Ch5SpinnerTemplate {
     this.wrapperElement.appendChild(this.highlightElement);
     this.wrapperElement.appendChild(this.scrollableArea);
 
-   // remove  wrapper if exist
+    // remove  wrapper if exist
     if (this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__overlay').length
       || this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__wrapper').length) {
       const overlayEle = Array.from(this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__overlay'));
@@ -546,7 +543,10 @@ export class Ch5SpinnerTemplate {
       // TODO-ANDREI
       // This is a temporary solution and
       // needs further improvements
-      this.handleDefaultItemHeight((this.childrenObject as [HTMLElement])[0] as HTMLElement);
+      if (parseInt(this._element.itemHeight, 10) <= 0 || isNaN(parseInt(this._element.itemHeight, 10))) {
+        this.handleDefaultItemHeight((this.childrenObject as [HTMLElement])[0] as HTMLElement);
+      }
+
     }
   }
 
@@ -562,7 +562,7 @@ export class Ch5SpinnerTemplate {
     if (onTop === true) {
       this.overlayElement.style.zIndex = '999999';
     } else {
-      delete this.overlayElement.style.zIndex;
+      this.overlayElement.style.zIndex = '';
     }
 
     if (show === true) {
@@ -600,7 +600,7 @@ export class Ch5SpinnerTemplate {
    * @param {number} index
    * @return {HTMLElement|null}
    */
-  public getSelectedItem(index: number): HTMLElement|null {
+  public getSelectedItem(index: number): HTMLElement | null {
 
     try {
       if (this.childrenObject !== null) {
@@ -620,45 +620,38 @@ export class Ch5SpinnerTemplate {
 
   public handleDefaultItemHeight(child: HTMLElement) {
 
-    let image: HTMLElement | null;
-    let animationFrame: number;
+    let image: HTMLElement | null = null;
     let time: number = 1;
-    let label: HTMLElement | null;
+    let label: HTMLElement | null = null;
+    let count = 0;
+    let itemHeight: number = 0;
 
-    const setItemHeight = () => {
-      time += this.element.signalValueSyncTimeout / 60;
-      if (this.element.signalValueSyncTimeout > time) {
-        this.toggleOverlay(true, true);
-        if (child !== undefined && child !== null) {
-
-          if (image === null || image === undefined) {
-            image = child.querySelector('ch5-image');
-          }
-
-          if (label === null || label === undefined) {
-            label = child.querySelector('label');
-          }
-
-          // use offsetHeight instead of clientHeight as it also includes borders
-          const itemHeight = (image && (image.offsetHeight || image.getBoundingClientRect().height) ||
-            (label && (label.offsetHeight || label.getBoundingClientRect().height)) ||
-            (child.offsetHeight || child.getBoundingClientRect().height));
-
-          if (itemHeight > 0){
-            this.element.itemHeight = itemHeight + '';
-          }
-
-          animationFrame = window.requestAnimationFrame(setItemHeight);
-
-        }
-      } else {
-        window.cancelAnimationFrame(animationFrame);
-        this.toggleOverlay(false);
+    const getBoundingRect = () => {
+      if (count % 8 === 0) {
+        // use offsetHeight instead of clientHeight as it also includes borders
+        itemHeight = (image && (image.offsetHeight || image.getBoundingClientRect().height) ||
+          (label && (label.offsetHeight || label.getBoundingClientRect().height)) ||
+          (child.offsetHeight || child.getBoundingClientRect().height));
       }
+      count++;
     };
 
-    if (this.element.autoSetItemHeight === true) {
-      animationFrame = window.requestAnimationFrame(setItemHeight);
+    time += this.element.signalValueSyncTimeout / 60;
+    if (this.element.signalValueSyncTimeout > time) {
+      this.toggleOverlay(true, true);
+      if (child) {
+        image = child.querySelector('ch5-image');
+
+        label = child.querySelector('label');
+
+        getBoundingRect();
+
+        if (itemHeight > 0) {
+          this.element.itemHeight = itemHeight + '';
+        }
+      }
+    } else {
+      this.toggleOverlay(false);
     }
   }
 
@@ -680,7 +673,7 @@ export class Ch5SpinnerTemplate {
     if (this.element.indexId !== '') {
       // replace the placeholder for id'sd
       // replace indexId in attributes
-      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(documentContainer, index , this.element.indexId);
+      Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsAttrs(documentContainer, index, this.element.indexId);
       // replace remaining Idx from content using innerHTML and replace
       Ch5AugmentVarSignalsNames.replaceIndexIdInTmplElemsContent(documentContainer, index, this.element.indexId);
     }
@@ -713,7 +706,7 @@ export class Ch5SpinnerTemplate {
         }
       }
     } catch (e) {
-      console.error(Ch5SpinnerTemplate.ERROR.structure,e);
+      console.error(Ch5SpinnerTemplate.ERROR.structure, e);
     }
   }
 
@@ -755,12 +748,19 @@ export class Ch5SpinnerTemplate {
   protected invokeChildElement(index: number): void {
 
     const template = this.element.querySelector('template') as HTMLTemplateElement;
+    // replace indexId in attributes
+    // Ch5AugmentVarSignalsNames
+    // .replaceIndexIdInTmplElemsAttrs(template, (index), this.element.indexId as string);
+    // // replace remaining Idx from content using innerHTML and replace
+    // Ch5AugmentVarSignalsNames
+    //   .replaceIndexIdInTmplElemsContent(template, (index), this.element.indexId as string);
+
     let childrenObject: DocumentFragment = document.importNode(template.content, true);
 
     if (childrenObject.children.length > 0) {
       // replace the placeholder for id'sd
       const childrenObjectUpdated: DocumentFragment | undefined =
-          this.resolveId(index, childrenObject.childNodes as NodeListOf<HTMLElement>);
+        this.resolveId(index, childrenObject.childNodes as NodeListOf<HTMLElement>);
 
       if (childrenObjectUpdated !== undefined) {
         childrenObject = childrenObjectUpdated;
@@ -769,6 +769,14 @@ export class Ch5SpinnerTemplate {
       const children = childrenObject.children[0];
       children.setAttribute('data-initial-index', String(index));
       children.setAttribute('role', 'option');
+
+      Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(
+        children as HTMLElement,
+        this.element.getAttribute("contractname") || '',
+        parseInt(this.element.getAttribute("booleanjoinoffset") || '0', 10) || 0,
+        parseInt(this.element.getAttribute("numericJoinOffset") || '0', 10) || 0,
+        parseInt(this.element.getAttribute("stringJoinOffset") || '0', 10) || 0
+      );
 
       this.addChild(childrenObject.children[0] as HTMLElement);
     }

@@ -1,0 +1,59 @@
+{
+  "businessRules": [
+    {
+      "contains": ".ch5-toggle--on",
+      "key": "value",
+      "value": true
+    },
+    {
+      "contains": ".ch5-toggle__label",
+      "key": "label",
+      "value": true
+    },
+    {
+      "contains": ".ch5-toggle__on-icon",
+      "key": "iconValue",
+      "value": true
+    },
+    {
+      "contains": ".ch5-toggle__off-icon",
+      "key": "iconValue",
+      "value": false
+    },
+    {
+      "contains": ".ch5-toggle__on-label",
+      "key": "labelValue",
+      "value": true
+    },
+    {
+      "contains": ".ch5-toggle__off-label",
+      "key": "labelValue",
+      "value": false
+    },
+    {
+      "contains": ".ch5-toggle__handle",
+      "key": "handle",
+      "value": true
+    },
+    {
+      "contains": ".ch5-toggle--disabled",
+      "key": "disabled",
+      "value": true
+    },
+    {
+      "contains": ".ch5-toggle--oval",
+      "key": "shape",
+      "value": "oval"
+    },
+    {
+      "contains": ".ch5-toggle--rectangle",
+      "key": "shape",
+      "value": "rectangle"
+    },
+    {
+      "contains": ".ch5-toggle--circle",
+      "key": "shape",
+      "value": "circle"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+---
+title: "ch5-button: checkboxPosition and checkboxShow"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/ch5-button/checkbox.json" %}
+    {%- endset %}
+
+    {% call exampleSectionFromPartials('ch5-button/checkbox/','ex1') %}{% endcall %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+    
+    {% call exampleSectionFromPartials('ch5-button/checkbox/','ex2') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-button/checkbox/','ex3') %}{% endcall %}
+
+{% endblock %}

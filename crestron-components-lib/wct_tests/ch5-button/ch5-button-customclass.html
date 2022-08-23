@@ -1,0 +1,392 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-customclass-fixture">
+        <template>
+            <ch5-button ontouchstart="mouseDown()" ontouchend="mouseUp()" onmousedown="mouseDown()" onmouseup="mouseUp()"></ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customclass-fixture1">
+        <template>
+            <ch5-button mode="0" label="Verify Custom Class for ch5-button-mode" customclass="text-border text-color-font" type="danger">
+                <ch5-button-mode customclass="success-border success-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="warning-border warning-color-font"></ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customclass-fixture2">
+        <template>
+            <ch5-button receiveStateMode="current_mode_customclass_fixture2" label="Verify Custom Class for ch5-button-mode" type="danger">
+                <ch5-button-mode customclass="success-border success-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="warning-border warning-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="danger-border danger-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="text-border text-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="info-border info-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="primary-border primary-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="secondary-border secondary-color-font"></ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customclass-fixture3">
+        <template>
+            <ch5-button label="Verify Custom Class for Mode State" stretch="width" type="text" mode="0" customclass="text-border text-color-font" receivestateselected="receive_selected_state_customclass_fixture3">
+                <ch5-button-mode customclass="secondary-border secondary-color-font">
+                    <ch5-button-mode-state state="normal" customclass="warning-border warning-color-font"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="pressed" customclass="info-border info-color-font"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="selected" customclass="success-border success-color-font"></ch5-button-mode-state>
+                </ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customclass-fixture4">
+        <template>
+            <ch5-button receiveStateMode="current_mode_customclass_fixture4" customClass="secondary-color-font" label="Verify Custom Class for ch5-button-mode" type="danger">
+                <ch5-button-mode customclass="success-border success-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="warning-border warning-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="danger-border danger-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="text-border text-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="info-border info-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="primary-border primary-color-font"></ch5-button-mode>
+                <ch5-button-mode customclass="secondary-border secondary-color-font"></ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-customclass-fixture5">
+        <template>
+            <ch5-button label="Verify Custom Class for Mode State" stretch="width" type="text" mode="0" customclass="text-border text-color-font" receivestateselected="receive_selected_state_customclass_fixture5">
+                <ch5-button-mode customclass="secondary-border secondary-color-font">
+                    <ch5-button-mode-state state="normal" customclass="warning-border warning-color-font"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="pressed" customclass="info-border info-color-font"></ch5-button-mode-state>
+                    <ch5-button-mode-state state="selected" customclass="success-border success-color-font"></ch5-button-mode-state>
+                </ch5-button-mode>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-button', () => {
+
+            let ch5Button;
+            let ch5Button1;
+            let ch5Button2;
+            let ch5Button3;
+            let ch5Button4;
+            let ch5Button5;
+
+            setup(async () => {
+                ch5Button = fixture('ch5-button-customclass-fixture');
+                ch5Button1 = fixture('ch5-button-customclass-fixture1');
+                ch5Button2 = fixture('ch5-button-customclass-fixture2');
+                ch5Button3 = fixture('ch5-button-customclass-fixture3');
+                ch5Button4 = fixture('ch5-button-customclass-fixture4');
+                ch5Button5 = fixture('ch5-button-customclass-fixture5');
+            });
+
+            const customClassSelectedAttribute = "border-green-selected";
+            const customClassPressedAttribute = "border-yellow-pressed";
+            const customClassDisabledAttribute = "border-black-disabled";
+            const customClassAttribute = "blue-border red-color-font";
+            const customClassAttributeArray = ["success-border success-color-font",
+                "warning-border warning-color-font",
+                "danger-border danger-color-font",
+                "text-border text-color-font",
+                "info-border info-color-font",
+                "primary-border primary-color-font",
+                "secondary-border secondary-color-font"];
+
+            test(`Check attribute customclass: "${customClassAttribute}"`, (done) => {
+                ch5Button.setAttribute('customClass', customClassAttribute);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.customClass).to.be.equal(customClassAttribute);
+                        const splitClass = customClassAttribute.split(" ");
+                        for (let i = 0; i < splitClass.length; i++) {
+                            expect(getDiv(ch5Button).classList.contains(splitClass[i])).to.be.equal(true);
+                        }
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            test(`Check attribute customClassSelected: "${customClassSelectedAttribute}"`, (done) => {
+                ch5Button.setAttribute('customClassSelected', customClassSelectedAttribute);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.customClassState).to.be.equal(customClassSelectedAttribute);
+                        expect(getDiv(ch5Button).classList.contains(customClassSelectedAttribute)).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            test(`Check attribute customClassPressed: "${customClassPressedAttribute}"`, (done) => {
+                ch5Button.setAttribute('customClassPressed', customClassPressedAttribute);
+                // Note: Even customClassState has this value
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.customClassPressed).to.be.equal(customClassPressedAttribute);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+            // TODO: Commenting the test case below becos we are unable to set customClassedPressed in Javascript way
+            // test(`Check ch5-button > div css class name for customClassPressed: "${customClassPressedAttribute}"`, (done) => {
+            //     ch5Button.setAttribute('customclasspressed', customClassPressedAttribute);
+            //     flush(() => {
+            //         setTimeout(() => {
+            //             triggerEvent(ch5Button, "touchstart");
+            //             console.log(getDiv(ch5Button).classList);
+            //             expect(getDiv(ch5Button).classList.contains("ch5-button--pressed")).to.be.equal(true);
+            //             expect(getDiv(ch5Button).classList.contains(customClassPressedAttribute)).to.be.equal(true);
+            //             triggerEvent(ch5Button, "touchend");
+            //             console.log(getDiv(ch5Button).classList);
+            //             done();
+            //         }, BASIC_TESTING_TIMEOUT);
+            //     });
+            // });
+
+            test(`Check attribute customClassDisabled: "${customClassDisabledAttribute}"`, (done) => {
+                ch5Button.setAttribute('customClassDisabled', customClassDisabledAttribute);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button.customClassDisabled).to.be.equal(customClassDisabledAttribute);
+                        expect(getDiv(ch5Button).classList.contains(customClassDisabledAttribute)).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            // ch5Button1
+            test(`Check attribute customclass for ch5-button-mode and mode value=0`, (done) => {
+                ch5Button1.setAttribute('mode', "0");
+                const expectedValue = "success-border success-color-font";
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button1.getAttribute('customclass')).to.be.equal("text-border text-color-font");
+                        expect(ch5Button1.customClass).to.be.equal(expectedValue);
+                        const splitValue = "success-border success-color-font".split(" ");
+                        for (let i = 0; i < splitValue.length; i++) {
+                            expect(getDiv(ch5Button1).classList.contains(splitValue[i])).to.be.equal(true);
+                        }
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            test(`Check attribute customclass for ch5-button-mode and mode value=1`, (done) => {
+                ch5Button1.setAttribute('mode', "1");
+                flush(() => {
+                    setTimeout(() => {
+                        const expectedValue = "warning-border warning-color-font";
+                        expect(ch5Button1.getAttribute('customclass')).to.be.equal("text-border text-color-font");
+                        expect(ch5Button1.customClass).to.be.equal(expectedValue);
+                        const splitValue = "warning-border warning-color-font".split(" ");
+                        for (let i = 0; i < splitValue.length; i++) {
+                            expect(getDiv(ch5Button1).classList.contains(splitValue[i])).to.be.equal(true);
+                        }
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            test(`Check attribute customclass for ch5-button-mode and mode value=2`, (done) => {
+                ch5Button1.setAttribute('mode', "2");
+                flush(() => {
+                    setTimeout(() => {
+                        const expectedValue = "success-border success-color-font";
+                        expect(ch5Button1.getAttribute('customclass')).to.be.equal("text-border text-color-font");
+                        expect(ch5Button1.customClass).to.be.equal(expectedValue);
+                        const splitValue = "success-border success-color-font".split(" ");
+                        for (let i = 0; i < splitValue.length; i++) {
+                            expect(getDiv(ch5Button1).classList.contains(splitValue[i])).to.be.equal(true);
+                        }
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
+            });
+
+            // ch5Button2
+            const modeArraysToTest = [0, 1, 2, 3, 4, 5, 6];
+            modeArraysToTest.forEach((modeTypeObj, j) => {
+                test(`Check attribute customclass for ch5-button-mode using receiveStateMode "${modeTypeObj}"`, (done) => {
+                    CrComLib.publishEvent('n', 'current_mode_customclass_fixture2', modeTypeObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button2.customClass).to.be.equal(customClassAttributeArray[modeTypeObj]);
+                            const splitValue = customClassAttributeArray[modeTypeObj].split(" ");
+                            for (let i = 0; i < splitValue.length; i++) {
+                                expect(getDiv(ch5Button2).classList.contains(splitValue[i])).to.be.equal(true);
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+
+                test(`Check attribute customclass for ch5-button-mode using receiveStateMode "${modeTypeObj}" with a setAttribute of customClass on parent button`, (done) => {
+                    const parentButtonCustomClass = "text-border text-color-font";
+                    ch5Button2.setAttribute("customclass", parentButtonCustomClass);
+                    CrComLib.publishEvent('n', 'current_mode_customclass_fixture2', modeTypeObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button2.getAttribute('customclass')).to.be.equal(parentButtonCustomClass);
+                            expect(ch5Button2.customClass).to.be.equal(customClassAttributeArray[modeTypeObj]);
+                            const splitValue = customClassAttributeArray[modeTypeObj].split(" ");
+                            for (let i = 0; i < splitValue.length; i++) {
+                                expect(getDiv(ch5Button2).classList.contains(splitValue[i])).to.be.equal(true);
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+
+            // ch5Button3
+            [true, false].forEach((selectionObj, j) => {
+                test(`Check attribute customclass for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_customclass_fixture3', selectionObj);
+                    ch5Button3.setAttribute('selected', selectionObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            const expectedValue = selectionObj === true ? "success-border success-color-font" : "warning-border warning-color-font";
+                            expect(ch5Button3.getAttribute('customclass')).to.be.equal("text-border text-color-font");
+                            expect(ch5Button3.customClass).to.be.equal(expectedValue);
+                            const splitValue = ((selectionObj === true) ? "success-border success-color-font" : "warning-border warning-color-font").split(" ");
+                            for (let i = 0; i < splitValue.length; i++) {
+                                expect(getDiv(ch5Button3).classList.contains(splitValue[i])).to.be.equal(true);
+                            }
+                            let notUsedCssList = ["text-border text-color-font", "secondary-border secondary-color-font"];
+                            if (selectionObj === true) {
+                                notUsedCssList.push("warning-border warning-color-font");
+                            } else {
+                                notUsedCssList.push("success-border success-color-font");
+                            }
+                            for (let x = 0; x < notUsedCssList.length; x++) {
+                                const unwantedSplitValue = notUsedCssList[x].split(" ");
+                                for (let y = 0; y < unwantedSplitValue.length; y++) {
+                                    expect(getDiv(ch5Button3).classList.contains(unwantedSplitValue[y])).to.be.equal(false);
+                                }
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+
+                test(`Check attribute customclass for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_customclass_fixture3', selectionObj);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button3.getAttribute('customclass')).to.be.equal("text-border text-color-font");
+                            const expectedValue = selectionObj === true ? "success-border success-color-font" : "warning-border warning-color-font";
+                            expect(ch5Button3.customClass).to.be.equal(expectedValue);
+                            const splitValue = expectedValue.split(" ");
+                            for (let i = 0; i < splitValue.length; i++) {
+                                expect(getDiv(ch5Button3).classList.contains(splitValue[i])).to.be.equal(true);
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+
+            // ch5Button4
+            modeArraysToTest.forEach((modeTypeObj, j) => {
+                test(`Check attribute customclass for ch5-button-mode using receiveStateMode "${modeTypeObj}"`, (done) => {
+                    CrComLib.publishEvent('n', 'current_mode_customclass_fixture4', modeTypeObj);
+                    ch5Button4.setAttribute('receiveStateCustomClass', "current_value_customclass_fixture4_" + modeTypeObj);
+                    const setValueForSignal = "customClassFromSignal SecondValueFromSignal";
+                    CrComLib.publishEvent('s', 'current_value_customclass_fixture4_' + modeTypeObj, setValueForSignal);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button4.customClass).to.be.equal(setValueForSignal);
+                            const splitValue = setValueForSignal.split(" ");
+                            for (let i = 0; i < splitValue.length; i++) {
+                                expect(getDiv(ch5Button4).classList.contains(splitValue[i])).to.be.equal(true);
+                            }
+                            const unexpectedValue = customClassAttributeArray[modeTypeObj].split(" ");
+                            for (let i = 0; i < unexpectedValue.length; i++) {
+                                expect(getDiv(ch5Button4).classList.contains(unexpectedValue[i])).to.be.equal(false);
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+
+            // ch5Button5
+            [true, false].forEach((selectionObj, j) => {
+                test(`Check attribute customclass for ch5-button-mode-state with selected as "${selectionObj}"`, (done) => {
+                    ch5Button5.setAttribute('selected', selectionObj);
+                    ch5Button5.setAttribute('receiveStateCustomClass', "current_value_customclass_fixture5_" + String(selectionObj));
+                    const setValueForSignal = "customClassFromSignal SecondValueFromSignal";
+                    CrComLib.publishEvent('s', 'current_value_customclass_fixture5_' + String(selectionObj), setValueForSignal);
+                    flush(() => {
+                        setTimeout(() => {
+                            const expectedValue = setValueForSignal;
+                            expect(ch5Button5.getAttribute('customclass')).to.be.equal("text-border text-color-font");
+                            expect(ch5Button5.customClass).to.be.equal(expectedValue);
+                            const splitValue = setValueForSignal.split(" ");
+                            for (let i = 0; i < splitValue.length; i++) {
+                                expect(getDiv(ch5Button5).classList.contains(splitValue[i])).to.be.equal(true);
+                            }
+                            const notUsedCssList = ["text-border text-color-font", "warning-border warning-color-font", "secondary-border secondary-color-font", "success-border success-color-font"];
+                            for (let x = 0; x < notUsedCssList.length; x++) {
+                                const unwantedSplitValue = notUsedCssList[x].split(" ");
+                                for (let y = 0; y < unwantedSplitValue.length; y++) {
+                                    expect(getDiv(ch5Button5).classList.contains(unwantedSplitValue[y])).to.be.equal(false);
+                                }
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+
+                test(`Check attribute customclass for for ch5-button-mode-state using receiveStateSelected as "${selectionObj}"`, (done) => {
+                    CrComLib.publishEvent('b', 'receive_selected_state_customclass_fixture5', selectionObj);
+                    ch5Button5.setAttribute('receiveStateCustomClass', "current_value_customclass_fixture5_" + String(selectionObj));
+                    const setValueForSignal = "customClassFromSignal SecondValueFromSignal";
+                    CrComLib.publishEvent('s', 'current_value_customclass_fixture5_' + String(selectionObj), setValueForSignal);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button5.getAttribute('customclass')).to.be.equal("text-border text-color-font");
+                            const expectedValue = setValueForSignal;
+                            expect(ch5Button5.customClass).to.be.equal(expectedValue);
+                            const splitValue = setValueForSignal.split(" ");
+                            for (let i = 0; i < splitValue.length; i++) {
+                                expect(getDiv(ch5Button5).classList.contains(splitValue[i])).to.be.equal(true);
+                            }
+                            const notUsedCssList = ["text-border text-color-font", "warning-border warning-color-font", "secondary-border secondary-color-font", "success-border success-color-font"];
+                            for (let x = 0; x < notUsedCssList.length; x++) {
+                                const unwantedSplitValue = notUsedCssList[x].split(" ");
+                                for (let y = 0; y < unwantedSplitValue.length; y++) {
+                                    expect(getDiv(ch5Button5).classList.contains(unwantedSplitValue[y])).to.be.equal(false);
+                                }
+                            }
+                            done();
+                        }, BASIC_TESTING_TIMEOUT);
+                    });
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

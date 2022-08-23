@@ -90,8 +90,8 @@ describe('Ch5-button', ()=>{
             .clickPreviewBtn()
             .checkExistance(ButtonData.GENERATED_BTN)
             .checkVisibility(ButtonData.GENERATED_BTN)
-            .checkElementHTML(ButtonData.GENERATED_BTN_INNER_HTML, ButtonData.STRECH_CLASS)
-            .checkAttribute(ButtonData.GENERATED_BTN, ButtonData.STRECH_ATTRIBUTE, ButtonData.STRETCH_ATTRIBUTE_VALUE);           
+            .checkElementHTML(ButtonData.GENERATED_BTN_INNER_HTML, ButtonData.STRETCH_CLASS)
+            .checkAttribute(ButtonData.GENERATED_BTN, ButtonData.STRETCH_ATTRIBUTE, ButtonData.STRETCH_ATTRIBUTE_VALUE);           
     });
 
     it('should have the type attribute', () =>{

@@ -1,0 +1,16 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_set_selected_state",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receive_selected_state",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ]
+}

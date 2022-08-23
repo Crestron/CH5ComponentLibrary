@@ -1,0 +1,37 @@
+<p>See the JS tab for the code</p>
+
+<div id="my-container">
+    <div>
+        <ch5-button type="danger"  label="Danger"></ch5-button>
+        <ch5-button type="text" label="Text"></ch5-button>
+        <ch5-button type="warning" label="Warning"></ch5-button>
+        <ch5-button type="info" label="Info"></ch5-button>
+        <ch5-button type="secondary" label="Secondary"></ch5-button>
+
+        <br/>
+        <br/>
+
+        <ch5-image
+    url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg"></ch5-image>
+
+        <br/>
+        <br/>
+
+        <ch5-list id="demo-list-1"
+           size="5"
+           orientation="horizontal"
+           indexId="idx">
+ {% raw %}           
+            <template>
+                <div class="horizontal-list-item">
+                    <span>item_{{idx}}</span>
+                </div>
+            </template>
+ {% endraw %}
+        </ch5-list>
+    </div>
+</div>
+<br/><br/>
+<div>
+    The result of <pre id="code1"></pre> is <pre id="res1"></pre>
+</div>

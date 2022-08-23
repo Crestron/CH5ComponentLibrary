@@ -1,0 +1,1 @@
+[{"shape":["rounded-rectangle","rectangle","circle","oval"]},{"orientation":["horizontal","vertical"]},{"size":["regular","x-small","small","large","x-large"]},{"handle_size":["regular","x-small","small","large","x-large"]},{"stretch":["both","width","height"]},{"direction":["ltr","rtl"]},{"tooltip":["off","on","auto"]},{"tdisplay":["%","value"]}]

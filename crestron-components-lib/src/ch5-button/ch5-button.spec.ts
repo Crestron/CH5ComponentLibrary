@@ -15,6 +15,10 @@ describe('Ch5Button', () => {
 
     let cb = document.createElement('ch5-button');
 
+    before(() => {
+        Ch5Button.registerCustomElement();
+    });
+
     beforeEach(() => {
         // const cb = new Ch5Button(); // cannot be instantiated like this
         cb = document.createElement('ch5-button');
@@ -38,7 +42,7 @@ describe('Ch5Button', () => {
 
         for (let i = 0, len = invalidTypes.length; i < len; i++) {
             cb.setAttribute('type', invalidTypes[i]);
-            expect(cb.getAttribute('type')).to.be.equal(invalidTypes[i]);
+            expect(cb.getAttribute('type')).to.be.equal('default');
         }
     });
 });

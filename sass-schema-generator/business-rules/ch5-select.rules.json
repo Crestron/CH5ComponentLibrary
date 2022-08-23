@@ -1,0 +1,59 @@
+{
+  "businessRules": [
+    {
+      "contains": "select--disabled",
+      "key": "disabled",
+      "value": true
+    },
+    {
+      "contains": "select--selected",
+      "key": "state",
+      "value": "selected"
+    },
+    {
+      "contains": "select--pressed",
+      "key": "state",
+      "value": "pressed"
+    },
+    {
+      "contains": "select__combo ",
+      "key": "mode",
+      "value": "combo"
+    },
+    {
+      "contains": "select__combo_trigger",
+      "key": "mode",
+      "value": "combo-dropdown"
+    },
+    {
+      "contains": "select__panel ",
+      "key": "mode",
+      "value": "panel"
+    },
+    {
+      "contains": "select__panel--open",
+      "key": "overlay",
+      "value": "visible"
+    },
+    {
+      "contains": "select__panel__items",
+      "key": "container",
+      "value": "items"
+    },
+    {
+      "contains": "select__panel__item",
+      "key": "item",
+      "value": true
+    },
+    {
+      "contains": ".ch5-select__panel__item--selected",
+      "key": "itemState",
+      "value": "selected"
+    },
+    {
+      "contains": ".ch5-select__panel__item--disabled",
+      "key": "itemState",
+      "value": "disabled"
+    }
+  ]
+}

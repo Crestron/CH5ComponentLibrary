@@ -1,0 +1,74 @@
+{
+  "businessRules": [
+    {
+      "contains": "iconposition",
+      "key": "iconClass",
+      "value": "SHOWWHEN.NOT_EMPTY"
+    },
+    {
+      "contains": "iconposition",
+      "key": "iconUrl",
+      "value": "SHOWWHEN.NOT_EMPTY"
+    },
+    {
+      "contains": "--icon",
+      "key": "iconClass",
+      "value": "SHOWWHEN.NOT_EMPTY"
+    },
+    {
+      "contains": "--img",
+      "key": "iconUrl",
+      "value": "SHOWWHEN.NOT_EMPTY"
+    },
+    {
+      "contains": "ios",
+      "key": "platform",
+      "value": "ios"
+    },
+    {
+      "contains": "icon-pos",
+      "key": "iconClass",
+      "value": "SHOWWHEN.NOT_EMPTY"
+    },
+    {
+      "contains": "icon-pos",
+      "key": "iconUrl",
+      "value": "SHOWWHEN.NOT_EMPTY"
+    },    
+    {
+      "contains": "checkbox--checked",
+      "key": "checkboxShow",
+      "value": true
+    },
+    {
+      "contains": "checkbox--unchecked",
+      "key": "checkboxShow",
+      "value": false
+    },
+    {
+      "contains": "checkbox--right",
+      "key": "checkboxPosition",
+      "value": "right"
+    },
+    {
+      "contains": "checkbox--left",
+      "key": "checkboxPosition",
+      "value": "left"
+    },
+    {
+      "contains": ".ch5-button--disabled",
+      "key": "disabled",
+      "value": true
+    },
+    {
+      "contains": ".ch5-button--pressed",
+      "key": "state",
+      "value": "pressed"
+    },
+    {
+      "contains": ".ch5-button--selected",
+      "key": "state",
+      "value": "selected"
+    }
+  ]
+}

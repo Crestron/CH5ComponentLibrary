@@ -1,9 +1,9 @@
 {% raw %}
-(function($, CrComLib){
-    const mutationsParentEl = $('#mutations-parent')[0];
-    const addBtn = $('#add')[0];
-    const updateBtn = $('#update')[0];
-    const removeBtn = $('#remove')[0];
+(function () {
+    const mutationsParentEl = document.getElementById('mutations-parent');
+    const addBtn = document.getElementById('add');
+    const updateBtn = document.getElementById('update');
+    const removeBtn = document.getElementById('remove');
 
     addBtn.addEventListener('click', () => {
         const divWithInnerhtmlCustomAttr = document.createElement('div');
@@ -18,18 +18,18 @@
     });
 
     updateBtn.addEventListener('click', () => {
-        const divWithInnerhtmlCustomAttr = $('#new-el')[0];
+        const divWithInnerhtmlCustomAttr = document.getElementById('new-el');
         if (divWithInnerhtmlCustomAttr) {
             divWithInnerhtmlCustomAttr.setAttribute('data-ch5-innerhtml', 'data_ch5_innerhtml_signal_3');
         }
     });
 
     removeBtn.addEventListener('click', () => {
-        const divWithInnerhtmlCustomAttr = $('#new-el')[0];
+        const divWithInnerhtmlCustomAttr = document.getElementById('new-el');
         if (divWithInnerhtmlCustomAttr) {
             mutationsParentEl.removeChild(divWithInnerhtmlCustomAttr);
         }
     });
 
-})(jQuery,CrComLib);
+})();
 {% endraw %}

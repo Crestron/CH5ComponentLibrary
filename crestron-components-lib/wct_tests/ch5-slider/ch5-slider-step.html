@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
     
@@ -30,6 +29,7 @@
 
         let ch5Slider;
         
+        /* coverity[implicit_this_used] */
         setup(() => {
             ch5Slider = fixture('ch5-slider-step-fixture');
             return Promise.all([

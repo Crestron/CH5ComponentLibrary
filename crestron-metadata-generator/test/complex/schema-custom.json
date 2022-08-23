@@ -1,22 +1,18 @@
 {
+  "version": "1.0.0",
+  "componentsVersion": "0.1.5",
   "htmlElements": {
     "common": {
       "attributes": [
         {
-          "attributes": [
-            {
-              "documentation": [],
-              "value": [
-                "one",
-                "two"
-              ],
-              "name": "type"
-            }
-          ],
           "documentation": [
             "`ch5-show-attribute` element",
             "***",
             "Extension to standard HTML attributes."
+          ],
+          "value": [
+            "one",
+            "two"
           ],
           "name": "Ch5 Show Attribute"
         }
@@ -49,14 +45,15 @@
               "primary",
               "secondary"
             ],
-            "name": "type"
+            "name": "type",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           },
           {
             "documentation": [
               "`size` attribute",
               "***",
-              "Valid values: default, info, text, danger, warning, success, primary, secondary.",
-              "",
               "Overrides the appearance of the button with alternative css defined in classes defined with ch5-button--type where type is the value of the property.If no `size` is provided, type of `default` is used."
             ],
             "value": [
@@ -69,12 +66,18 @@
               "primary",
               "secondary"
             ],
-            "name": "size"
+            "name": "size",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           },
           {
             "documentation": [],
             "value": [],
-            "name": "id"
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           }
         ],
         "documentation": [
@@ -116,9 +119,12 @@
             ]
           }
         ],
+        "childElements": [],
         "description": "Ch5 Button offers a wide range of functionality out-of-the-box.",
         "name": "Ch5 Button",
-        "tagName": "ch5-button"
+        "tagName": "ch5-button",
+        "role": "",
+        "componentVersion": ""
       },
       {
         "attributes": [
@@ -140,7 +146,10 @@
               "primary",
               "secondary"
             ],
-            "name": "type"
+            "name": "type",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           },
           {
             "documentation": [
@@ -160,12 +169,18 @@
               "primary",
               "secondary"
             ],
-            "name": "composite"
+            "name": "composite",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           },
           {
             "documentation": [],
             "value": [],
-            "name": "id"
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
           }
         ],
         "documentation": [
@@ -207,9 +222,12 @@
             ]
           }
         ],
+        "childElements": [],
         "description": "Ch5 Slider offers a wide range of functionality out-of-the-box.",
         "name": "Ch5 Slider",
-        "tagName": "ch5-slider"
+        "tagName": "ch5-slider",
+        "role": "",
+        "componentVersion": ""
       }
     ]
   }

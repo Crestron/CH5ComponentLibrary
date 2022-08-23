@@ -1,0 +1,18 @@
+---
+title: "ch5-keypad: customStyle, receiveStateCustomStyle"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/ch5-keypad/custom-style.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-keypad/common-custom-style/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-keypad/common-custom-style/','ex2') %}{% endcall %}
+
+{% endblock %}

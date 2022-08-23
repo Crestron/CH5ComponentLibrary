@@ -1,0 +1,11 @@
+<h5>Click on the button to see the change of 'type' attribute based on 'state'.</h5>
+
+<br/>
+
+<ch5-button label="Verify Type for Mode State" stretch="width" type="text" mode="0" receivestateselected="receive_selected_state" sendeventonclick="trigger_set_selected_state">
+    <ch5-button-mode type="secondary">
+        <ch5-button-mode-state state="normal" iconclass="fa fa-play" type="warning"></ch5-button-mode-state>
+        <ch5-button-mode-state state="pressed" iconclass="fa-2x fas fa-circle-notch" type="info"></ch5-button-mode-state>
+        <ch5-button-mode-state state="selected" iconclass="fas fa-pause" type="success"></ch5-button-mode-state>
+    </ch5-button-mode>
+</ch5-button>

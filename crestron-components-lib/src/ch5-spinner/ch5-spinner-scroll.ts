@@ -253,14 +253,18 @@ export class Ch5SpinnerScroll {
   protected attachEventListeners(): void {
 
     try {
-      this._mouseDownListener = this._onMouseDown.bind(this);
-      this._mouseUpListener = this._onMouseUp.bind(this);
-      this._mouseMoveListener = this._onMouseMove.bind(this);
-      this._touchstartListener = this._onMouseDown.bind(this);
-      this._toucheendUpListener = this._onMouseUp.bind(this);
-      this._touchmoveListener = this._onMouseMove.bind(this);
-      this._mouseLeaveListener = this._onMouseLeave.bind(this);
-      this._touchendLeaveListener = this._onMouseLeave.bind(this);
+      if (
+        this.element.templateHelper instanceof Ch5SpinnerTemplate &&
+        this.element.templateHelper.wrapperElement instanceof HTMLElement
+      ) {
+      this._mouseDownListener = this._onMouseDown.bind(this) as unknown as EventListener;
+      this._mouseUpListener = this._onMouseUp.bind(this) as unknown as EventListener;
+      this._mouseMoveListener = this._onMouseMove.bind(this) as unknown as EventListener;
+      this._touchstartListener = this._onMouseDown.bind(this) as unknown as EventListener;
+      this._toucheendUpListener = this._onMouseUp.bind(this) as unknown as EventListener;
+      this._touchmoveListener = this._onMouseMove.bind(this) as unknown as EventListener;
+      this._mouseLeaveListener = this._onMouseLeave.bind(this) as unknown as EventListener;
+      this._touchendLeaveListener = this._onMouseLeave.bind(this) as unknown as EventListener;
 
       this.element.templateHelper.wrapperElement.addEventListener('mousedown', this._mouseDownListener, { passive: true });
       this.element.addEventListener('mouseup', this._mouseUpListener);
@@ -273,7 +277,7 @@ export class Ch5SpinnerScroll {
       // reset on mouse leave
       this.element.addEventListener('mouseleave', this._mouseLeaveListener);
       this.element.addEventListener('touchend', this._touchendLeaveListener);
-
+      }
     } catch (e) {
       console.log('Adding listeners have problems', e);
     }
@@ -483,9 +487,48 @@ export class Ch5SpinnerScroll {
    * @param {MouseEvent} event
    * @return {void}
    */
-  private _onMouseMove(event: MouseEvent): void {
+  private _onMouseMove(event: any): void {
 
     const mouseYPos = this.getMousePosition(event).y;
+    let offsetX = 0;
+		let offsetY = 0;
+		let sliderElement = this.element as unknown as any;
+		while (sliderElement && !isNaN(sliderElement.offsetLeft) && !isNaN(sliderElement.offsetTop)) {
+			offsetX += sliderElement.offsetLeft - sliderElement.scrollLeft + sliderElement.clientLeft;
+			offsetY += sliderElement.offsetTop - sliderElement.scrollTop + sliderElement.clientTop;
+			sliderElement = sliderElement.offsetParent;
+		}
+
+    let eventOffsetX = null;
+		let eventOffsetY = null;
+
+    const maxOffsetLeft = offsetX;
+    const maxOffsetRight = offsetX + this.element.clientWidth;
+    const maxOffestTop = offsetY;
+    const maxOffestBottom = offsetY + this.element.clientHeight;
+
+    if (event.type === 'touchmove') {
+			const touch = event.touches[0] || event.changedTouches[0];
+			eventOffsetX = touch.clientX;
+			eventOffsetY = touch.clientY;
+		} else {
+			eventOffsetX = event.clientX;
+			eventOffsetY = event.clientY;
+		}
+
+    if (eventOffsetX < maxOffsetLeft ||
+			eventOffsetX > maxOffsetRight ||
+			eventOffsetY < maxOffestTop ||
+			eventOffsetY > maxOffestBottom
+		) {
+      if (this.mouseDown === true && event.type === 'touchmove') {
+        this.mouseDown = false;
+        this.moveTheList();
+        this.element.eventsHelper.dispatchTouchEnd();
+      }
+      return;
+    }
+
 
     if (this.mouseDown === true) {
       if ((Math.abs(this.initialMousePos - mouseYPos)) >= this.element.selectedItem.getBoundingClientRect().height * 0.3) {
@@ -515,6 +558,7 @@ export class Ch5SpinnerScroll {
         if (
           endless === true &&
           this._isBoundary(this.currentYOffset, minimumTopOffset, maximumTopOffset) &&
+          /* coverity[check_after_deref] */
           childrenObject !== null
         ) {
 
@@ -626,6 +670,9 @@ export class Ch5SpinnerScroll {
   private _onMouseLeave(event: MouseEvent): void {
     if (this.mouseDown === true) {
       this.mouseDown = false;
+
+      this.moveTheList();
+      this.element.eventsHelper.dispatchMouseUp();
     }
 
   }

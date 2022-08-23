@@ -1,0 +1,29 @@
+<ch5-button 
+    stretch="width" 
+    sendEventOnClick="hall_lights_tap">
+<ch5-button-label>
+<template>
+<ch5-jointotext-boolean
+    receiveStateValue="hall_lights_selected"
+    textWhenTrue="Click to disable ch5-dpad"
+    textWhenFalse="Click to enable ch5-dpad">
+</ch5-jointotext-boolean>
+</template>
+</ch5-button-label>
+</ch5-button>
+<hr>
+<p>DPad : without Disable</p>
+<ch5-dpad 
+    type="success" 
+    receiveStateEnable="hall_lights_selected">
+</ch5-dpad>
+
+<br /><br />
+
+<p>DPad : with Disable</p>
+
+<ch5-dpad 
+    type="warning" 
+    receiveStateEnable="hall_lights_selected" 
+    disabled>
+</ch5-dpad>

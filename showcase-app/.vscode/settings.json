@@ -1,0 +1,8 @@
+{
+    "workbench.editor.enablePreview": false,
+    "explorer.autoReveal": false,
+    "scm.autoReveal": false,
+    "problems.autoReveal": false,
+    "workbench.editor.enablePreviewFromQuickOpen": true,
+    "workbench.editor.enablePreviewFromCodeNavigation": true
+}

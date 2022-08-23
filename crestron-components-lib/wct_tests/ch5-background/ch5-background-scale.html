@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
@@ -33,10 +32,16 @@
             <ch5-background scale="randomScale" url="https://picsum.photos/id/1/300/300"></ch5-background>
         </template>
     </test-fixture>
-
+    <test-fixture id="ch5-background-scale-valid-invalid-fixture">
+        <template>
+            <ch5-background scale="" url="https://picsum.photos/id/1/300/300"></ch5-background>
+        </template>
+    </test-fixture>
     <script>
         suite('ch5-background default scale', () => {
             let ch5Background;
+
+            /* coverity[implicit_this_used] */
             setup(() => {
                 ch5Background = fixture('ch5-background-scale-default-fixture');
                 return Promise.all([customElements.whenDefined('ch5-background')]);
@@ -81,6 +86,34 @@
             test('Invalid scale should switch to default "stretch"', () => {
                 expect(ch5Background.scale).to.be.equal('stretch');
             });
+        });
+        suite('ch5-background-scale-valid-invalid-fixture', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-scale-valid-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+            let testcases = {
+                "stretch":"stretch",
+                "fill":"fill",
+                "fit":"fit",
+                "fit | fill":"stretch",
+                "stretch | fit":"stretch",
+                "empty":"stretch",
+                "fit,fill":"stretch",
+                "fit fill":"stretch",
+                "null":"stretch",
+                "true":"stretch",
+                "":"stretch",
+
+            }
+            Object.keys(testcases).forEach(ele=>{
+                test(`Case  repeat=${ele}`, () => {
+                    ch5Background.scale = ele;
+                    expect(ch5Background.scale).to.be.equal(testcases[`${ele}`]);
+                });
+            })
+            
         });
     </script>
 </body>

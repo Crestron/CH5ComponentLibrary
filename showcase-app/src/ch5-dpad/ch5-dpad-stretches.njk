@@ -1,0 +1,13 @@
+---
+title: "ch5-dpad: stretch"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-dpad/stretches/','ex1') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-dpad/stretches/','ex2') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-dpad/stretches/','ex3') %}{% endcall %}
+
+{% endblock %}

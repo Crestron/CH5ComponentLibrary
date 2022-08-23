@@ -42,8 +42,8 @@ export class ButtonData{
     public static SIZE_ATTRIBUTE_VALUE: string = 'x-large';   
     public static HTML_TEMPLATE_SIZE: string = '<ch5-button size="x-large"></ch5-button>';
 
-    public static STRECH_CLASS: string = 'ch5-button--stretch-width';
-    public static STRECH_ATTRIBUTE: string = 'stretch';   
+    public static STRETCH_CLASS: string = 'ch5-button--stretch-width';
+    public static STRETCH_ATTRIBUTE: string = 'stretch';   
     public static STRETCH_ATTRIBUTE_VALUE: string = 'width';   
     public static HTML_TEMPLATE_STRETCH: string = '<ch5-button stretch="width"></ch5-button>';
 

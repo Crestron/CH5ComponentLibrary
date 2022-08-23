@@ -1,9 +1,9 @@
 {% raw %}
-(function($, CrComLib){
-    const mutationsParentEl = $('#mutations-parent')[0];
-    const addBtn = $('#add')[0];
-    const updateBtn = $('#update')[0];
-    const removeBtn = $('#remove')[0];
+(function(){
+    const mutationsParentEl = document.getElementById('mutations-parent');
+    const addBtn = document.getElementById('add');
+    const updateBtn = document.getElementById('update');
+    const removeBtn = document.getElementById('remove');
 
     addBtn.addEventListener('click', () => {
         const newEl = document.createElement('div');
@@ -23,7 +23,7 @@
     });
 
     updateBtn.addEventListener('click', () => {
-        const newEl = $('#new-el')[0];
+        const newEl = document.getElementById('new-el');
         if (newEl) {
              newEl.setAttribute('data-ch5-appendstyle', 'data_ch5_appendstyle_signal_3');
              CrComLib.publishEvent('s', 'data_ch5_appendstyle_signal_3', null);
@@ -31,11 +31,11 @@
     });
 
     removeBtn.addEventListener('click', () => {
-        const newEl = $('#new-el')[0];
+        const newEl = document.getElementById('new-el');
         if (newEl) {
             mutationsParentEl.removeChild(newEl);
         }
     });
 
-})(jQuery,CrComLib);
+})();
 {% endraw %}

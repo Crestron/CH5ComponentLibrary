@@ -1,0 +1,9 @@
+{
+  "businessRules": [
+    {
+      "contains": ".ch5-modal-dialog--disabled",
+      "key": "disabled",
+      "value": true
+    }
+  ]
+}

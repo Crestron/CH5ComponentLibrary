@@ -1,0 +1,91 @@
+<style>
+	td,
+	th {
+		border: solid 1px black;
+		padding: 5px;
+	}
+</style>
+<h1>ContractName attribute</h1>
+<br>
+	<p>
+		<b>contractname</b> attribute allows a developer to bind event clicks based on a contract.
+    The value is referred to, and each child button is assigned with an incremental digit based on 
+    the initial value passed as attribute value.
+</p>
+</br>
+<p>
+	The keypad buttons will inherit their contract reference value derived from their intended value (1,2,3,...0,Star, Hash, ExtraButton).
+</p>
+
+<br/>
+<p style="color:red">
+	<strong style="color:inherit">NOTE: The Showcase app is not capable of testing with this attribute. Please check this attribute with Contract enabled control system.</strong>
+</p>
+<br/>
+<p>
+    If the  initial value of <b>contractname</b> is assigned as "LivingRoom.Tivo" (digitals), 
+    the events are bound on each child button as below:<br/><br/>
+</p>
+<table>
+	<thead>
+		<tr>
+			<th>Key</th>
+			<th>Attribute</th>
+			<th>Contract Value</th>
+			<th>Example</th>
+		</tr>
+	</thead>
+	<tr>
+		<td></td>
+		<td>receiveStateShow</td>
+		<td>Show</td>
+		<td>LivingRoom.Tivo.Show</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>receiveStateEnable</td>
+		<td>Enable</td>
+		<td>LivingRoom.Tivo.Enable</td>
+	</tr>
+
+	
+	<tr>
+		<td>numbers (0-9)</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>Number0Clicked</td>
+		<td>LivingRoom.Tivo.Number0Clicked - These values will be based on the "key" attribute (0 to 9)</td>
+	</tr>
+	<tr>
+		<td>numbers (0-9)</td>
+		<td>receiveStateLabel</td>
+		<td>Key0Label</td>
+		<td>LivingRoom.Tivo.Key0Label - These values will be based on the "key" attribute (0 to 9)</td>
+	</tr>
+	
+	<tr>
+		<td>misc1</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>Misc1Clicked</td>
+		<td>LivingRoom.Tivo.Misc1Clicked</td>
+	</tr>
+	<tr>
+		<td>misc1</td>
+		<td>receiveStateLabel</td>
+		<td>Misc1Label</td>
+		<td>LivingRoom.Tivo.Misc1Label</td>
+	</tr>
+
+	<tr>
+		<td>misc2</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>Misc2Clicked</td>
+		<td>LivingRoom.Tivo.Misc2Clicked</td>
+	</tr>
+	<tr>
+		<td>misc2</td>
+		<td>receiveStateLabel</td>
+		<td>Misc2Label</td>
+		<td>LivingRoom.Tivo.Misc2Label</td>
+	</tr>
+
+</table>

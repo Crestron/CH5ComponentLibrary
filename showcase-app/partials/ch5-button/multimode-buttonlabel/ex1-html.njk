@@ -1,0 +1,33 @@
+This example shows <strong>ch5-button</strong> with no <i>label</i> attribute. The label for the button is set inside <b>ch5-button-label</b> element.<br/><br/>
+
+<ch5-button type="warning" stretch="both">
+    <ch5-button-label>
+        <template>
+            <b>Label set in ch5-button-label</b>
+        </template>
+    </ch5-button-label>
+</ch5-button>
+
+<hr/>
+
+<strong>ch5-button-label</strong> overrides <i>label</i> attribute in <strong>ch5-button</strong>.<br/><br/>
+
+<ch5-button type="primary" label="Primary label which is overridden" stretch="width">
+    <ch5-button-label>
+        <template>
+            <b>ch5-button-label inside ch5-button</b>
+        </template>
+    </ch5-button-label>
+</ch5-button>
+
+<hr/>
+
+<strong>ch5-button-label</strong> is empty inside <strong>ch5-button</strong>. Label attribute in <strong>ch5-button</strong> has content.<br/><br/>
+
+<ch5-button type="danger" label="Primary label which is overridden" stretch="both">
+    <ch5-button-label>
+        <template>
+        
+        </template>
+    </ch5-button-label>
+</ch5-button>

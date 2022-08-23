@@ -1,4 +1,4 @@
-import { TVideoTouchManagerParams } from "../_interfaces/ch5-video/types";
+import { TVideoTouchManagerParams } from "./interfaces/types";
 
 /**
  * This class is designed to handle the touch events on document and update the video component as required

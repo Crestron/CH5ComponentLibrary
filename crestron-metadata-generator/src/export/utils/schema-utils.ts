@@ -6,6 +6,7 @@
 // under which you licensed this source code.
 
 import { isNil } from "lodash";
+import { Deprecated } from "../../../types/export/ch5-attribute";
 import { Ch5Snippet } from "../../../types/export/ch5-snippet";
 import { Definition, DefinitionTuple } from "../../schema/definition";
 import { Schema } from "../../schema/schema";
@@ -37,19 +38,33 @@ function getName(definition: Definition): string {
     return parser.getNameFromObject(definition);
 }
 
+function getDefault(definition: Definition): string {
+    return parser.getDefaultFromObject(definition);
+}
+
 function getDocumentation(definition: Definition): string[] {
     return parser.getDocumentationFromObject(definition);
+}
+
+function getChildElements(definition: Definition): string[] {
+    return parser.getChildElementsFromObject(definition);
 }
 
 function getDescription(definition: Definition): string {
     return definition.description || "";
 }
 
-
 function getSnippets(definition: Definition): Ch5Snippet[] {
     return parser.getSnippetsFromObject(definition);
 }
 
+function getTypeForAriaRoles(definition: Definition): string {
+    return parser.getTypeForAriaRolesFromObject(definition);
+}
+
+function getComponentVersion(definition: Definition): string {
+    return parser.getComponentVersionFromObject(definition);
+}
 
 function getTagName(definition: Definition): string {
     return parser.getTagNameFromObject(definition);
@@ -60,7 +75,6 @@ function getTypesInternal(keys: string[], definitions: Map<string, Definition>, 
 
     for (const key of keys) {
         const value = definitions.get(key);
-
         if (!isNil(value)) {
             if (filter(value)) {
                 result.push(<DefinitionTuple>{
@@ -70,11 +84,36 @@ function getTypesInternal(keys: string[], definitions: Map<string, Definition>, 
             }
         }
     }
-
     return result;
 }
 
+function getHideWhen(definition: Definition): object[] {
+    return parser.getHideWhenFromObject(definition);
+}
 
+function getShowWhen(definition: Definition): object[] {
+    return parser.getShowWhenFromObject(definition);
+}
+
+function getDeprecated(definition: Definition): Deprecated | undefined {
+    return parser.getDeprecatedFromObject(definition);
+}
+
+function getJoin(definition: Definition): object | undefined {
+    return parser.getJoinFromObject(definition);
+}
+
+function getLimits(definition: Definition): object[] {
+    return parser.getLimitsFromObject(definition);
+}
+
+function getAttributeType(definition: Definition): string {
+    return parser.getAttributeTypeFromObject(definition);
+}
+
+function getHidden(definition: Definition): boolean | undefined {
+    return parser.getHiddenFromObject(definition);
+}
 
 export {
     hasKeys,
@@ -83,6 +122,17 @@ export {
     getName,
     getTagName,
     getDocumentation,
+    getChildElements,
     getSnippets,
     getDescription,
+    getDefault,
+    getTypeForAriaRoles,
+    getComponentVersion,
+    getHideWhen,
+    getShowWhen,
+    getAttributeType,
+    getJoin,
+    getLimits,
+    getDeprecated,
+    getHidden,
 };

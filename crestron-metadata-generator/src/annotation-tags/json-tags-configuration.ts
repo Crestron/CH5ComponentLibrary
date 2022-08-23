@@ -11,7 +11,10 @@ export class JsonTagsConfiguration {
         "exclusiveMinimum",
         "name",
         "tagName",
+        "role",
+        "componentVersion",
         "documentation",
+        "childElements",
         "maximum",
         "exclusiveMaximum",
         "snippets",
@@ -32,5 +35,14 @@ export class JsonTagsConfiguration {
         "examples",
 
         "default",
+        "hideWhen",
+        "showWhen",
+        "join",
+        "limits",
+        "attributeType",
+
+        "deprecated",
+
+        "hidden",
     ];
 }

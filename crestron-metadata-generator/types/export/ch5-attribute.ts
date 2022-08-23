@@ -7,8 +7,17 @@
 
 export class Ch5Attribute {
     public name: string;
+    public type?: string;
     public value: string[];
     public documentation?: string[];
+    public default?: string;
+    public hideWhen?: object[];
+    public showWhen?: object[];
+    public join?: object;
+    public limits?: object[];
+    public attributeType?: string;
+    public deprecated?: Deprecated;
+    public hidden?: boolean;
 
     public static New(): Ch5Attribute {
         const result = new Ch5Attribute();
@@ -16,4 +25,9 @@ export class Ch5Attribute {
         result.value = [];
         return result;
     }
+}
+
+export interface Deprecated {
+    version: string;
+    description: string;
 }

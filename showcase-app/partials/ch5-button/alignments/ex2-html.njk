@@ -1,0 +1,96 @@
+<h5>Change the mode below from "0" to "1" in the 'HTML' editor.</h5>
+<br/>
+
+<ch5-button mode="0" size="x-large" label="center middle" type="default">
+    <ch5-button-mode type="default" hAlignLabel="left" vAlignLabel="top">
+        <ch5-button-label>
+            <template>
+                left top
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+    <ch5-button-mode type="warning" hAlignLabel="right" vAlignLabel="bottom">
+        <ch5-button-label>
+            <template>
+                right bottom
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode> 
+</ch5-button>
+
+<hr/>
+
+<h5>Change the mode (receiveStateMode) by clicking on the '+ Mode' / '- Mode' button.</h5>
+
+<br/>
+
+<ch5-button type="primary" sendeventonclick="trigger_type_increment_mode" iconClass="fas fa-plus" label="Mode"></ch5-button>
+<ch5-button type="primary" sendeventonclick="trigger_type_decrement_mode" iconClass="fas fa-minus" label="Mode"></ch5-button>
+
+<br/><br/>
+
+<ch5-button receiveStateMode="current_mode" hAlignLabel="center" vAlignLabel="middle" size="x-large" label="center middle" type="danger">
+    <ch5-button-mode type="success" hAlignLabel="center" vAlignLabel="middle">
+        <ch5-button-label>
+            <template>
+                center middle
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+    <ch5-button-mode type="warning" hAlignLabel="center" vAlignLabel="top">        
+        <ch5-button-label>
+            <template>
+                center top
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+    <ch5-button-mode type="danger" hAlignLabel="center" vAlignLabel="bottom">       
+        <ch5-button-label>
+            <template>
+                center bottom
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+    <ch5-button-mode type="text" hAlignLabel="left" vAlignLabel="middle">       
+        <ch5-button-label>
+            <template>
+                left middle
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+    <ch5-button-mode type="info" hAlignLabel="left" vAlignLabel="top">       
+        <ch5-button-label>
+            <template>
+                left top
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+    <ch5-button-mode type="primary" hAlignLabel="left" vAlignLabel="bottom">
+        <ch5-button-label>
+            <template>
+                left bottom
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+    <ch5-button-mode type="secondary" hAlignLabel="right" vAlignLabel="middle">
+        <ch5-button-label>
+            <template>
+                right middle
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+     <ch5-button-mode type="danger" hAlignLabel="right" vAlignLabel="top">       
+        <ch5-button-label>
+            <template>
+                right top
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+    <ch5-button-mode type="text" hAlignLabel="right" vAlignLabel="bottom">       
+        <ch5-button-label>
+            <template>
+                right bottom
+            </template>
+        </ch5-button-label>
+    </ch5-button-mode>
+</ch5-button>

@@ -1,0 +1,283 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-toggle
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@import "./scss/_variables";
+
+ch5-toggle:focus {
+    outline: none;
+}
+/// the class added on the div that is the only direct child of the ch5-toggle element and wraps all its contents
+.ch5-toggle {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+
+    font-size: $ch5-toggle-font-size;
+    font-style: $ch5-toggle-font-style;
+    font-weight: $ch5-toggle-font-weight;
+    z-index: $ch5-toggle-z-index;
+
+    &[hidden] {
+        display: none;
+    }
+
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* ch5-toggle - label */
+    /// class apply on label
+    .ch5-toggle__label {
+        display: inline-flex;
+        vertical-align: middle;
+        font-style: $ch5-toggle-label-font-style;
+        font-size: $ch5-toggle-label-font-size;
+        font-weight: $ch5-toggle-label-font-weight;
+        color: $ch5-toggle-label-font-color;
+        margin: $ch5-toggle-label-margin;
+
+        &[hidden] {
+            display: none;
+        }
+    }
+
+    .ch5-toggle__on-label,
+    .ch5-toggle__off-label {
+        word-wrap: normal;
+        color: $ch5-toggle-text-font-color;
+        font-style: $ch5-toggle-text-font-style;
+        font-size: $ch5-toggle-text-font-size;
+        font-weight: $ch5-toggle-text-font-weight;
+    }
+    /// class apply on on label
+    .ch5-toggle__on-label,
+    /// class apply on off label
+    .ch5-toggle__off-label,
+    /// class apply on icon-on
+    .ch5-toggle__on-icon,
+    /// class apply on icon-off
+    .ch5-toggle__off-icon {
+        margin: 0 2px 0 2px;
+        color: $ch5-toggle-icon-font-color;
+        font-style: $ch5-toggle-icon-font-style;
+        font-size: $ch5-toggle-icon-font-size;
+        font-weight: $ch5-toggle-icon-font-weight;
+    }
+
+    /* ch5-toggle - handle default */
+    /// class apply on the handle
+    .ch5-toggle__handle {
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 100px;
+        height: 100%;
+        min-height: 2em;
+        padding: 0;
+        transition: all 0.4s ease-out;
+
+        /* ch5-toggle - on/off container */
+        div {
+            position: relative;
+            z-index: $ch5-toggle-container-z-index;
+            line-height: 2em;
+            text-align: center;
+            user-select: none;
+            opacity: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:first-of-type {
+                opacity: 1;
+            }
+        }
+
+        /* ch5-toggle - knob */
+        a {
+            position: absolute;
+            right: 50%;
+            top: 0;
+            z-index: $ch5-toggle-knob-z-index;
+            display: block;
+            width: 50%;
+            height: 100%;
+            padding: 0;
+            transition: all 0.2s ease-out;
+        }
+    }
+
+    /* ch5-toggle - circle shape */
+    &.ch5-toggle--circle {
+        .ch5-toggle__handle {
+            border-radius: 1.75em;
+            background-color: $ch5-toggle-handle-circle-background;
+            margin: $ch5-toggle-handle-circle-margin;
+            div {
+                width: 100%;
+                transition: all 0.2s ease-out;
+
+                &:first-of-type {
+                    color: $ch5-toggle-circle-label-off-color;
+                    text-align: center;
+                    padding-left: 1.75em;
+                }
+
+                &:last-of-type {
+                    display: none;
+                    color: $ch5-toggle-circle-label-on-color;
+                    text-align: center;
+                    padding-right: 1.75em;
+                }
+            }
+
+            a {
+                left: 0;
+                top: 0;
+                width: 2em;
+                height: 2em;
+                border-radius: 100%;
+                background-color: $ch5-toggle-circle-knob-color;
+                border: 0.25em solid $ch5-toggle-handle-circle-background;
+            }
+        }
+    }
+
+    /* ch5-toggle - rectangle shape */
+    &.ch5-toggle--rectangle {
+        .ch5-toggle__handle {
+            background: $ch5-toggle-handle-rectangle-background;
+            border-radius: 1px;
+            box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;
+            margin: $ch5-toggle-handle-rectangle-margin;
+            div {
+                display: inline-flex;
+                padding: 0 15px;
+                transition: all 0.1s;
+
+                &:first-of-type {
+                    color: $ch5-toggle-rectangle-label-off-color;
+                }
+
+                &:last-of-type {
+                    color: $ch5-toggle-rectangle-label-on-color;
+                }
+            }
+
+            a {
+                border-radius: 1px;
+                background-color: $ch5-toggle-rectangle-knob-color;
+            }
+        }
+    }
+
+    /* ch5-toggle - checked/on */
+    /// class apply when value is true
+    &.ch5-toggle--on {
+        .ch5-toggle__handle {
+            a {
+                right: 0%;
+            }
+
+            div:first-of-type {
+                opacity: 0;
+            }
+            div:last-of-type {
+                opacity: 1;
+            }
+        }
+
+        /* ch5-toggle - circle shape checked/on */
+        /// Class to apply when shape='circle'
+        &.ch5-toggle--circle {
+            .ch5-toggle__handle {
+                box-shadow: inset 0 0 0 30px $ch5-toggle-handle-checked-color;
+
+                div:first-of-type {
+                    display: none;
+                }
+                div:last-of-type {
+                    display: flex;
+                }
+
+                a {
+                    left: 100%;
+                    margin-left: -2em;
+                    background-color: $ch5-toggle-circle-knob-color;
+                    border-color: $ch5-toggle-handle-checked-color;
+                }
+            }
+        }
+
+        /* ch5-toggle - rectangle shape checked/on */
+        /// Class to apply when shape='rectangle'
+        &.ch5-toggle--rectangle {
+            .ch5-toggle__handle {
+                div {
+                    right: 0;
+                }
+
+                a {
+                    background-color: $ch5-toggle-handle-checked-color;
+                }
+            }
+        }
+    }
+
+    /* ch5-toggle - vertical orientation */
+    /// Class to apply when orientation='vertical'
+    &.ch5-toggle--vertical {
+        > div {
+            padding: 50% 0;
+            height: 0;
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+    }
+
+    // 'rtl' support
+    &.ch5-toggle--dir--rtl {
+        .ch5-toggle__handle a {
+            left: 50%;
+            right: auto;
+        }
+        &.ch5-toggle--circle .ch5-toggle__handle div:first-of-type {
+            padding-left: 0;
+            padding-right: 1.75em;
+        }
+        &.ch5-toggle--circle .ch5-toggle__handle div:last-of-type {
+            padding-right: 0;
+            padding-left: 1.75em;
+        }
+        &.ch5-toggle--circle .ch5-toggle__handle a {
+            right: auto;
+            left: 100%;
+            margin-left: -2em;
+        }
+        &.ch5-toggle--on {
+            .ch5-toggle__handle a {
+                left: 0;
+                right: auto;
+            }
+        }
+        &.ch5-toggle--on.ch5-toggle--circle {
+            .ch5-toggle__handle a {
+                left: 2em;
+            }
+        }
+    }
+}

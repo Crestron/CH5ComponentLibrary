@@ -7,8 +7,20 @@
 
 import { isEmpty, isNil } from 'lodash';
 import { Ch5Template } from "./ch5-template";
+import { Ch5AugmentVarSignalsNames } from '../ch5-common/ch5-augment-var-signals-names';
 
 export class Ch5TemplateStructure {
+
+    /**
+     * The template of the component
+     *
+     * @private
+     * @static
+     * @memberof Ch5TemplateStructure
+     * @type {Object}
+     */
+    private static _numInstances: { [key: string]: number; } = {};
+
 
     /**
      * ch5-template element
@@ -32,6 +44,25 @@ export class Ch5TemplateStructure {
      * Wrapper div for the ch5-template content
      */
     private _wrapperDiv: HTMLDivElement = {} as HTMLDivElement;
+
+    /**
+     * The id if created an instance of the template
+     */
+    private _instanceId: string | null = null;
+
+    private _elementIds: string[] | null = null;
+
+    /**
+     * @private
+     * @param templateIdentifier
+     * @returns monotomic incrementing integer for given templateIdentifer
+     */
+    private static nextInstanceNum(templateIdentifier: string): number {
+        const priorNumber = Ch5TemplateStructure._numInstances[templateIdentifier];
+        const nextNumber: number = (priorNumber === undefined ? 1 : priorNumber + 1);
+        Ch5TemplateStructure._numInstances[templateIdentifier] = nextNumber;
+        return nextNumber;
+    }
 
     constructor(element: Ch5Template) {
         this.element = element;
@@ -78,15 +109,24 @@ export class Ch5TemplateStructure {
         return this._templateElement;
     }
 
-    /**
-     * Add default style to ch5-template
-     */
-    private setDefaultElementStyle(): void {
-        // set display style only if it was not set by another element (like the ch5-spinner)
-        if (isEmpty(this.element.style.display)) {
-            this.element.style.display = "inline";
-        }
+    public get instanceId(): string | null {
+        return this._instanceId;
     }
+
+    public get elementIds(): string[] | null {
+        return this._elementIds;
+    }
+
+    // DELETE after 2.0.27
+    // /**
+    //  * Add default style to ch5-template
+    //  */
+    // private setDefaultElementStyle(): void {
+    //     // set display style only if it was not set by another element (like the ch5-spinner)
+    //     if (isEmpty(this.element.style.display)) {
+    //         this.element.style.display = "inline";
+    //     }
+    // }
 
     private initializeWrapperDiv(): void {
         this._wrapperDiv = document.createElement("DIV") as HTMLDivElement;
@@ -141,7 +181,7 @@ export class Ch5TemplateStructure {
         }
 
         const template = document.getElementById(templateId) as HTMLTemplateElement;
-        let newElement = null;
+        let newElement: HTMLElement | null = null;
 
         if (!(isNil(template))) {
             this.templateElement = template as HTMLTemplateElement;
@@ -175,9 +215,9 @@ export class Ch5TemplateStructure {
 
                 for (let i = 0; i < contextPairs.length; i++) {
                     const parsedContext = contextPairs[i].split(':');
-                    
+
                     this.element.info(`Processing original:replacement pair: ${parsedContext}`);
-                    
+
                     if (parsedContext.length !== 2 || isEmpty(parsedContext[0]) || isEmpty(parsedContext[1])) {
                         console.warn(`[ch5-template] Warning: Invalid context pair structure, expected: "original:replacement", but received "${parsedContext}", moving to the next context pair`);
                         continue;
@@ -187,13 +227,22 @@ export class Ch5TemplateStructure {
                     this.element.info(`Ch5TemplateStructure --- Count: [${i + 1}/${parsedContext.length}] 
                     Replace original string: ${parsedContext[0]} 
                     with provided replacement string: ${parsedContext[1]}`);
-                
+
                     const patternIdentifier = new RegExp(parsedContext[0], "g");
                     newInnerHtml = newInnerHtml.replace(patternIdentifier, parsedContext[1]);
                 }
 
-                this.element.info("Original template inner HTML after rename: ", newInnerHtml);
                 templateContent.innerHTML = newInnerHtml as string;
+
+                // update templateContent attributes to increment join numbers and prefix contract name
+                Ch5AugmentVarSignalsNames.differentiateTmplElemsAttrs(templateContent, this.element.contractName, 
+                    parseInt(this.element.booleanJoinOffset, 10) || 0, 
+                    parseInt(this.element.numericJoinOffset, 10) || 0, 
+                    parseInt(this.element.stringJoinOffset, 10) || 0);    
+                
+                if (this.element.isDebug()) {
+                    this.element.info("After substitution and increment/prefix:", templateContent.innerHTML);
+                }
             }
 
             // keep the ch5-template (parent) after its content has been added
@@ -209,10 +258,24 @@ export class Ch5TemplateStructure {
         } catch (e) {
             throw new Error(`[ch5-template] Error: Failed to generate content: ${e}`);
         } finally {
-            this.setDefaultElementStyle();
-            if (newElement !== null) {
-                this.element.info("Ch5TemplateStructure --- [FINAL] Adding content to ChTemplate: ", newElement);
+            // this.setDefaultElementStyle();
+            if (newElement !== null && newElement.children) {
+                // create unique id for each instance of this template
+                const thisInstanceNum = Ch5TemplateStructure.nextInstanceNum(templateId);
+                this._instanceId = `${templateId}:${thisInstanceNum}`;
+                newElement.id = this._instanceId;
+                // provide unique id for each first level element of the template unless it already has id
+                this._elementIds = [];
+                for (let childcnt = 0; childcnt < newElement.children.length; childcnt++) {
+                    if (!newElement.children[childcnt].id) {
+                        newElement.children[childcnt].id = `${this._instanceId}:${childcnt}`;
+                    }
+                    this._elementIds.push(newElement.children[childcnt].id);
+                }
+
+                this.element.info(`Ch5TemplateStructure --- [FINAL] Adding content to ChTemplate: ${this._instanceId}`, newElement);
                 this.element = newElement as Ch5Template;
+
             }
         }
     }

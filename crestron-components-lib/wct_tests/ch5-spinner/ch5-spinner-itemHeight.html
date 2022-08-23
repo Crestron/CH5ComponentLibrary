@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-spinner-itemHeight-fixture">
+        <template>
+            <ch5-spinner label="item {{idx}}" indexId="idx" size="7" itemHeight="30px" visibleItemScroll="3">
+            </ch5-spinner>
+        </template>
+    </test-fixture>
+
+
+    <script>
+        suite('ch5-spinner-itemHeight ', function () {
+
+            let ch5Spinner;
+
+            /* coverity[implicit_this_used] */
+            setup(() => {
+                ch5Spinner = fixture('ch5-spinner-itemHeight-fixture');
+
+                return Promise.all([
+                    customElements.whenDefined('ch5-spinner')
+                ]);
+            });
+
+
+
+
+
+            let testCases = ["0", "1", "30px", "40", "invalid", "635467", "35", "22vh"];
+            let expectedResult = ['26px', '1px', '30px', '40px', '26px', '635467px', '35px', '22vh'];
+            testCases.forEach((ele, i) => {
+                test(`Check itemHeight of element is valid : "${ele}"`, (done) => {
+
+                    ch5Spinner.itemHeight = ele;
+
+                    flush(() => {
+                        setTimeout(() => {
+
+
+                            expect(ch5Spinner.getAttribute('itemHeight')).to.be.equal(expectedResult[i]);
+                            done();
+                        }, 50);
+                    });
+                });
+            });
+            // test('Expect property size to be 5', function() {
+            //     expect(ch5Spinner.size).to.be.equal(5);
+            // });
+
+
+
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-spinner-endless-fixture">
+        <template>
+            <ch5-spinner label="item {{idx}}" indexId="idx" size="7" itemHeight="40">
+            </ch5-spinner>
+        </template>
+    </test-fixture>
+
+
+    <script>
+        suite('ch5-spinner-endless ', function () {
+
+            let ch5Spinner;
+
+
+            setup(() => {
+                ch5Spinner = fixture('ch5-spinner-endless-fixture');
+
+                return Promise.all([
+                    customElements.whenDefined('ch5-spinner')
+                ]);
+            });
+
+
+
+
+
+
+            let testCases = ["true", " ", "false"];
+            let expectedResult = ['11', '11', '7'];
+            testCases.forEach((ele, i) => {
+                test(`Check size of spinner item  depending on endless': "${ele}"`, (done) => {
+
+                    ch5Spinner.endless = ele;
+
+                    flush(() => {
+                        setTimeout(() => {
+
+                            expect(ch5Spinner.querySelectorAll('.ch5-spinner__item')).to.be.lengthOf(expectedResult[i]);
+                            done();
+                        }, 50);
+                    });
+                });
+            });
+
+
+
+
+        });
+    </script>
+</body>
+
+</html>

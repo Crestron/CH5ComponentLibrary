@@ -1,0 +1,28 @@
+<h5>Change the mode below from "0" to "1" in the 'HTML' editor.</h5>
+<br/>
+
+<ch5-button mode="0" checkboxShow="true" stretch="width" label="Verify Checkbox Position for ch5-button-mode" type="danger">
+    <ch5-button-mode checkboxPosition="left"></ch5-button-mode>
+    <ch5-button-mode checkboxPosition="right"></ch5-button-mode>
+</ch5-button>
+
+<hr/>
+
+<h5>Change the mode (receiveStateMode) by clicking on the '+ Mode' / '- Mode' button.</h5>
+
+<br/>
+
+<ch5-button type="primary" sendeventonclick="trigger_increment_mode" iconClass="fas fa-plus" label="Mode"></ch5-button>
+<ch5-button type="primary" sendeventonclick="trigger_decrement_mode" iconClass="fas fa-minus" label="Mode"></ch5-button>
+
+<br/><br/>
+
+<ch5-button receiveStateMode="current_mode_button_mode" stretch="width" checkboxShow="true" checkboxPosition="left" label="Verify Checkbox Position for ch5-button-mode" type="danger">
+    <ch5-button-mode type="success" checkboxPosition="left"></ch5-button-mode>
+    <ch5-button-mode type="warning" checkboxPosition="right"></ch5-button-mode>
+    <ch5-button-mode type="danger" checkboxPosition="left"></ch5-button-mode>
+    <ch5-button-mode type="text" checkboxPosition="right"></ch5-button-mode>
+    <ch5-button-mode type="info" checkboxPosition="left"></ch5-button-mode>
+    <ch5-button-mode type="primary" checkboxPosition="right"></ch5-button-mode>
+    <ch5-button-mode type="secondary" checkboxPosition="left"></ch5-button-mode>
+</ch5-button>

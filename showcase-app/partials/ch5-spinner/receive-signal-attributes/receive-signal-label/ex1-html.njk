@@ -1,13 +1,14 @@
 {% raw %}
+<label>Press the button below to get data from signal</label>
 <ch5-spinner
   indexId="idx"
   receiveStateSize="receive_spinner_size"
   size="1"
   autosetitemheight
 >
-<template>
+  <template>
     <div>
-        <label>Press the button below to get data from signal</label>
+        <label>Item {{idx}}</label>
         <ch5-image refreshrate="0" receiveStateUrl="receive_spinner_icon_{{idx}}"></ch5-image>
     </div>
   </template>
@@ -15,7 +16,8 @@
 
 <ch5-button
   sendEventOnClick="trig1"
-  label="Change the label"
-  ></ch5-button>
+  label="Change the url"
+  stretch="width"
+></ch5-button>
 
 {% endraw %}

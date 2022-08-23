@@ -1,0 +1,16 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "extra_button_tap",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "extra_button_state",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ]
+}

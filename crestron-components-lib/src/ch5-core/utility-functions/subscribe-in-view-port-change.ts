@@ -17,3 +17,14 @@ export function subscribeInViewPortChange(el: HTMLElement, callback: subscribeIn
     // out of library, this method may be called with CrComLib.subscribeInViewPortChange([add params]);
     Ch5CoreIntersectionObserver.getInstance().observe(el as Element, callback);
 }
+
+export function unSubscribeInViewPortChange(el: HTMLElement) {
+    // implement the logic to observe the element 
+    // update the isInViewPort with the returned value from IntersectionObserver
+    // the value related to visibility of the specified element
+
+    // out of library, this method may be called with CrComLib.subscribeInViewPortChange([add params]);
+    if (Ch5CoreIntersectionObserver.getInstance() instanceof Ch5CoreIntersectionObserver) {
+        Ch5CoreIntersectionObserver.getInstance().unobserve(el as Element);
+    }
+}

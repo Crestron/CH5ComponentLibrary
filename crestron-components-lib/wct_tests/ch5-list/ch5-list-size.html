@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <script src="/webcomponentsjs/webcomponents-lite.js"></script>
-    <script>void(0)</script>
     <script src="/bower_components/web-component-tester/browser.js"></script>
     <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
@@ -29,6 +28,8 @@
     suite('ch5-list size', function() {
 
         let ch5List;
+
+        /* coverity[implicit_this_used] */
         setup(() => {
             ch5List = fixture('ch5-list-size-fixture');
         });
