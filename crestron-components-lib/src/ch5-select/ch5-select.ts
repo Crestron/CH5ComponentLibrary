@@ -1318,6 +1318,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 				if (ch5SelectOption)
 					this._setOptionSelected(ch5SelectOption);
 			});
+			this._updateMultiSelectionInMainPanel();
 		}
 	}
 
