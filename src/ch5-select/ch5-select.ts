@@ -716,9 +716,10 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		super.initAttributes();
 
 		this.info('initAttributes()');
-		if (this.multiselect)
+		if (this.multiselect) {
 			this.selectedValues = this.selectedValues;
-			
+		}
+		
 		if (this.hasAttribute('size')) {
 			this.size = this.getAttribute('size') as string;
 		}
@@ -1315,8 +1316,9 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		} else {
 			this.selectedValues.forEach((optIdx: number) => {
 				const ch5SelectOption: Ch5SelectOption | null = this._getOptionElByIdx(optIdx);
-				if (ch5SelectOption)
+				if (ch5SelectOption) {
 					this._setOptionSelected(ch5SelectOption);
+				}
 			});
 		}
 	}
