@@ -436,7 +436,9 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		this._subReceiveStateShowChildIndexId = receiveState.subscribe((newValue: number) => {
 			if (!isNaN(newValue) && receiveState.hasChangedSinceInit()) {
 				this._signalIsReceived = true;
-				this.activeView = newValue;
+				setTimeout(() => {
+					this.activeView = newValue;	//setTimeout needed to be removed (Temporary Fix)
+				}, 50);
 			} else {
 				this.info('Ch5TriggerView receiveStateShowChildIndex signal value for ' + this.getAttribute('data-ch5-id') + ' is invalid');
 			}
@@ -562,6 +564,9 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 
 	private _nested: boolean = false;
 
+	public flag: number = -1;
+
+	public slidesNumber: number = 0;
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TriggerView.ELEMENT_NAME, Ch5TriggerView.SIGNAL_ATTRIBUTE_TYPES);
 	}
@@ -572,6 +577,14 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	 * and install event listeners.
 	 */
 	public connectedCallback() {
+		subscribeInViewPortChange(this, () => {
+			this.info('ch5-triggerview.subscribeInViewPortChange()');
+			if (this.elementIsInViewPort && !this.wasInstantiatedInViewport) {
+				this._updateSizeStyleProperties();
+				setup();
+				this.wasInstantiatedInViewport = true;
+			}
+		});
 		const setup = () => {
 			this.info('Ch5TriggerView.connectedCallback()');
 
@@ -611,14 +624,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 			return;
 		}
 
-		subscribeInViewPortChange(this, () => {
-			this.info('ch5-triggerview.subscribeInViewPortChange()');
-			if (this.elementIsInViewPort && !this.wasInstantiatedInViewport) {
-				this._updateSizeStyleProperties();
-				setup();
-				this.wasInstantiatedInViewport = true;
-			}
-		});
+
 
 		// this is a quick fix
 		// problem is that when connected callback is called
