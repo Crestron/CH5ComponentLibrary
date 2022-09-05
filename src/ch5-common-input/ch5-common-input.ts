@@ -277,6 +277,8 @@ export abstract class Ch5CommonInput extends Ch5Common implements ICh5CommonInpu
         }
 
         this._value = value;
+        
+        this.setAttribute('value',this.value as string);
     }
 
     /**
