@@ -79,6 +79,10 @@ export class Ch5TriggerViewSlidesManager {
    */
   public prepareSwiperSlides() {
     const slides: HTMLElement[] = this.getTriggerViewChildSlides();
+    if (this.triggerViewEl.flag === -1) {
+      this.triggerViewEl.slidesNumber = slides.length;
+      this.triggerViewEl.flag = 0;
+    }
     if (!this._externalWrapper) {
       this._createSlidesWrappers();
     }
@@ -256,14 +260,15 @@ export class Ch5TriggerViewSlidesManager {
    * Get number of slides
    */
   public getSlidesNumber(): number {
-    if (this.swiperIsActive() && !isNil(this._swiper) && !isNil(this._swiper.slides)) {
-      return this._swiper.slides.length;
-    } else if (this.ch5SwiperIsActive() && !isNil(this._ch5Swiper) && !isNil(this._ch5Swiper.slides)) {
-      return this._ch5Swiper.slides.length;
-    } else {
-      const slides = this.getTriggerViewChildSlides();
-      return slides.length;
-    }
+    return this.triggerViewEl.slidesNumber;
+    // if (this.swiperIsActive() && !isNil(this._swiper) && !isNil(this._swiper.slides)) {
+    //   return this._swiper.slides.length;
+    // } else if (this.ch5SwiperIsActive() && !isNil(this._ch5Swiper) && !isNil(this._ch5Swiper.slides)) {
+    //   return this._ch5Swiper.slides.length;
+    // } else {
+    //   const slides = this.getTriggerViewChildSlides();
+    //   return slides.length;
+    // }
   }
 
   /**
