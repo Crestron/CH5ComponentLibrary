@@ -437,7 +437,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 			if (!isNaN(newValue) && receiveState.hasChangedSinceInit()) {
 				this._signalIsReceived = true;
 				setTimeout(() => {
-					this.activeView = newValue;	//setTimeout needed to be removed (Temporary Fix)
+					this.activeView = newValue;	 // setTimeout needed to be removed (Temporary Fix)
 				}, 50);
 			} else {
 				this.info('Ch5TriggerView receiveStateShowChildIndex signal value for ' + this.getAttribute('data-ch5-id') + ' is invalid');

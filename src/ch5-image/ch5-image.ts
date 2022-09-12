@@ -1404,7 +1404,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		this.info("Ch5Image._onClick()");
 		// inEvent.preventDefault();
 
-		//this._sendValueForClickSignal();
+		// this._sendValueForClickSignal();
 	}
 
 	private _onError(inEvent: Event): void {
