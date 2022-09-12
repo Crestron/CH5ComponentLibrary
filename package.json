@@ -1,6 +1,6 @@
 {
   "name": "@crestron/ch5-crcomlib",
-  "version": "0.1.5",
+  "version": "2.0.0",
   "description": "Crestron HTML5 (CH5) Components Library",
   "repository": {
     "type": "git",
@@ -58,7 +58,7 @@
     "doc:json": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --json docs/json/typedoc.json src/ "
   },
   "engines": {
-    "node": ">=8.11",
+    "node": ">=16.13",
     "yarn": ">=1.6.0"
   },
   "author": "Crestron",
@@ -85,13 +85,12 @@
     "@types/semver": "^7.3.8",
     "@types/swiper": "^5.4.3",
     "autoprefixer": "^10.3.1",
-    "awesome-typescript-loader": "5.2.1",
     "bower": "^1.8.12",
     "chai": "^4.3.4",
     "chalk": "^4.1.2",
     "copy-webpack-plugin": "5.1.1",
     "copyfiles": "^2.4.1",
-    "cross-env": "5.1.5",
+    "cross-env": "^7.0.3",
     "dotenv-webpack": "^1.7.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "jsdom": "^16.7.0",
@@ -108,7 +107,6 @@
     "typedoc": "0.14",
     "typescript": "^4.3.5",
     "url-loader": "^4.1.1",
-    "wct-junit-reporter": "https://github.com/candreitodorut/wct-junit-reporter.git",
     "web-component-tester": "^6.9.2",
     "webpack": "4.8.3",
     "webpack-cli": "^4.9.1",
