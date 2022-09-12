@@ -1658,7 +1658,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		return 'ch5-disabled';
 	}
 
-	public unsubscribeFromSignals() {
+	protected unsubscribeFromSignals() {
 		if (false === this._keepListeningOnSignalsAfterRemoval) {
 			this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
 			this._receiveStateEnable = '';
