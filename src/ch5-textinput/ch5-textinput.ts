@@ -17,7 +17,7 @@ import { TCh5CommonInputFeedbackModes } from "../ch5-common-input/interfaces/t-c
 import { ICh5TextInputAttributes, TCh5TextInputIconPosition, TCh5TextInputSize, TCh5TextInputStretch, TCh5TextInputTextTransform, TCh5TextInputType } from "./interfaces";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
 
-export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttributes {
+export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttributes {
 
 	constructor() {
 		super();
@@ -156,11 +156,11 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		/* coverity[check_after_deref] */
 		if (this._elIcon !== undefined) {
-			this.iconClass.split(' ').forEach(
-				(className: string) => {
-					this._elIcon.classList.add(className);
+			this.iconClass.split(' ').forEach((className: string) => {
+				if (className && className.trim() !== "") {
+					this._elIcon.classList.add(className.trim());
 				}
-			)
+			});
 			this._elIcon.classList.add(this.cssClassPrefix + '__icon');
 		}
 
@@ -201,11 +201,11 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this._elIcon.className = '';
 
 		if (this._elIcon !== undefined) {
-			this.icon.split(' ').forEach(
-				(className: string) => {
-					this._elIcon.classList.add(className);
+			this.icon.split(' ').forEach((className: string) => {
+				if (className && className.trim() !== "") {
+					this._elIcon.classList.add(className.trim());
 				}
-			)
+			});
 			this._elIcon.classList.add(this.cssClassPrefix + '__icon');
 		}
 	}
@@ -225,12 +225,12 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			position = 'first';
 		}
 
-		let _iconPositionIndex = Ch5Textinput.ICONPOSITION.indexOf(position);
+		let _iconPositionIndex = Ch5TextInput.ICONPOSITION.indexOf(position);
 		if (_iconPositionIndex === -1) {
 			_iconPositionIndex = 0;
 		}
 
-		position = Ch5Textinput.ICONPOSITION[_iconPositionIndex];
+		position = Ch5TextInput.ICONPOSITION[_iconPositionIndex];
 
 		if (position !== this.iconPosition) {
 			this.setAttribute('iconPosition', position);
@@ -239,7 +239,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this._iconPosition = position;
 
 		if (this._elIcon.constructor === HTMLElement) {
-			this._removeModifierClass(Ch5Textinput.ICONPOSITION as [string]);
+			this._removeModifierClass(Ch5TextInput.ICONPOSITION as [string]);
 			this._elIcon.classList.add(this.cssClassPrefix + '__icon--' + position);
 		}
 	}
@@ -261,7 +261,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			type = 'text';
 		}
 
-		const currentType = Ch5Textinput.TYPES.filter(t => {
+		const currentType = Ch5TextInput.TYPES.filter(t => {
 			return t === type;
 		});
 
@@ -427,18 +427,18 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			if (_.isNil(value)) {
 				this._stretch = null;
 				this.removeAttribute('stretch');
-				Ch5Textinput.STRETCH.forEach((stretchValue: string) => {
+				Ch5TextInput.STRETCH.forEach((stretchValue: string) => {
 					this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
 				});
 			} else {
-				if (Ch5Textinput.STRETCH.indexOf(value) >= 0) {
+				if (Ch5TextInput.STRETCH.indexOf(value) >= 0) {
 					this._stretch = value;
 					this.setAttribute('stretch', value);
-					this._addModifierClass(this._stretch, Ch5Textinput.STRETCH as [string]);
+					this._addModifierClass(this._stretch, Ch5TextInput.STRETCH as [string]);
 				} else {
 					this._stretch = null;
 					this.removeAttribute('stretch');
-					Ch5Textinput.STRETCH.forEach((stretchValue: string) => {
+					Ch5TextInput.STRETCH.forEach((stretchValue: string) => {
 						this.classList.remove(this.cssClassPrefix + '--' + stretchValue);
 					});
 				}
@@ -471,13 +471,13 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			style = 'none';
 		}
 
-		let _styleIndex = Ch5Textinput.TEXTTRANSFORM.indexOf(style);
+		let _styleIndex = Ch5TextInput.TEXTTRANSFORM.indexOf(style);
 
 		if (_styleIndex === -1) {
 			_styleIndex = 0;
 		}
 
-		style = Ch5Textinput.TEXTTRANSFORM[_styleIndex];
+		style = Ch5TextInput.TEXTTRANSFORM[_styleIndex];
 
 		if (style !== this.textTransform) {
 			this.setAttribute('text-transform', style);
@@ -486,7 +486,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this._textTransform = style;
 
 		// adding modifier also to the childrens
-		this._addModifierClass(this.textTransform, Ch5Textinput.TEXTTRANSFORM as [string], true);
+		this._addModifierClass(this.textTransform, Ch5TextInput.TEXTTRANSFORM as [string], true);
 	}
 
 	/**
@@ -933,13 +933,13 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 		this.info('set <ch5-textinput size="' + size + '"');
 
-		let _sizeIndex = Ch5Textinput.SIZES.indexOf(size);
+		let _sizeIndex = Ch5TextInput.SIZES.indexOf(size);
 
 		if (_sizeIndex === -1) {
 			_sizeIndex = 0;
 		}
 
-		size = Ch5Textinput.SIZES[_sizeIndex];
+		size = Ch5TextInput.SIZES[_sizeIndex];
 
 		if (this.size !== size) {
 
@@ -951,7 +951,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			this.setAttribute('size', size);
 		}
 
-		this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
+		this._addModifierClass(this.size, Ch5TextInput.SIZES as [string], true);
 
 		if (this.scaling === true) {
 			this._scalingUtility.updateDefaultFontSize();
@@ -1116,32 +1116,32 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 	public static readonly COMPONENT_DATA: any = {
 		TYPES: {
-			default: Ch5Textinput.TYPES[0],
-			values: Ch5Textinput.TYPES,
+			default: Ch5TextInput.TYPES[0],
+			values: Ch5TextInput.TYPES,
 			key: 'type',
 			classListPrefix: 'ch5-textinput--'
 		},
 		SIZES: {
-			default: Ch5Textinput.SIZES[0],
-			values: Ch5Textinput.SIZES,
+			default: Ch5TextInput.SIZES[0],
+			values: Ch5TextInput.SIZES,
 			key: 'size',
 			classListPrefix: 'ch5-textinput--'
 		},
 		STRETCH: {
-			default: Ch5Textinput.STRETCH[0],
-			values: Ch5Textinput.STRETCH,
+			default: Ch5TextInput.STRETCH[0],
+			values: Ch5TextInput.STRETCH,
 			key: 'stretch',
 			classListPrefix: 'ch5-textinput--'
 		},
 		TEXT_TRANSFORM: {
-			default: Ch5Textinput.TEXTTRANSFORM[0],
-			values: Ch5Textinput.TEXTTRANSFORM,
+			default: Ch5TextInput.TEXTTRANSFORM[0],
+			values: Ch5TextInput.TEXTTRANSFORM,
 			key: 'text_transform',
 			classListPrefix: 'ch5-textinput--'
 		},
 		ICON_POSITION: {
-			default: Ch5Textinput.ICONPOSITION[0],
-			values: Ch5Textinput.ICONPOSITION,
+			default: Ch5TextInput.ICONPOSITION[0],
+			values: Ch5TextInput.ICONPOSITION,
 			key: 'icon_position',
 			classListPrefix: 'ch5-textinput--'
 		}
@@ -1569,7 +1569,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	private _onvaliditychange: HtmlCallback | ((this: any, arg: any) => void) = {} as HtmlCallback;
 
 	public static registerSignalAttributeTypes() {
-		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5Textinput.ELEMENT_NAME, Ch5Textinput.SIGNAL_ATTRIBUTE_TYPES);
+		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TextInput.ELEMENT_NAME, Ch5TextInput.SIGNAL_ATTRIBUTE_TYPES);
 	}
 
 	public connectedCallback(): void {
@@ -1674,12 +1674,12 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 				case 'iconclass':
 					this.iconClass = newValue; //  this.attributeChangeHandler('icon', oldValue, newValue);
 					this.iconPositioning();
-					this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
+					this._addModifierClass(this.size, Ch5TextInput.SIZES as [string], true);
 					break;
 				case 'icon':
 					this.icon = newValue; // this.attributeChangeHandler('icon', oldValue, newValue);
 					this.iconPositioning();
-					this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
+					this._addModifierClass(this.size, Ch5TextInput.SIZES as [string], true);
 					break;
 				case 'iconposition':
 					this.iconPosition = this.attributeChangeHandler('iconposition', oldValue, newValue) as TCh5TextInputIconPosition;
@@ -2057,7 +2057,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 	 * before creating view for ch5-textinput
 	 */
 	protected clearComponentContent() {
-		const containers = this.getElementsByClassName(this.cssClassPrefix + Ch5Textinput.COMPONENT_CONTENT_POSTFIX);
+		const containers = this.getElementsByClassName(this.cssClassPrefix + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
 		Array.from(containers).forEach((container) => {
 			container.remove();
 		})
@@ -2080,7 +2080,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		this._elInput.classList.add(this.cssClassPrefix + '__input');
 
 		this._assetsWrapper = document.createElement('div');
-		this._assetsWrapper.classList.add(this.cssClassPrefix + Ch5Textinput.COMPONENT_CONTENT_POSTFIX);
+		this._assetsWrapper.classList.add(this.cssClassPrefix + Ch5TextInput.COMPONENT_CONTENT_POSTFIX);
 
 		this._assetsWrapper.appendChild(this._elInput);
 
@@ -2126,7 +2126,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 		}
 
 		this.info("** 2. this.iconPosition: " + this.iconPosition);
-		if (this.iconPosition === Ch5Textinput.ICONPOSITION[1]) {
+		if (this.iconPosition === Ch5TextInput.ICONPOSITION[1]) {
 			this.info("** 3. IN");
 			this._assetsWrapper.appendChild(this._elIcon);
 		} else {
@@ -2190,7 +2190,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			this.iconPosition = this.getAttribute('iconPosition') as TCh5TextInputIconPosition;
 			this.setAttribute('iconPosition', this.iconPosition);
 			this.iconPositioning();
-			this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
+			this._addModifierClass(this.size, Ch5TextInput.SIZES as [string], true);
 		}
 
 		// icon attribute is deprecated
@@ -2199,7 +2199,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 			this.iconPosition = this.getAttribute('iconPosition') as TCh5TextInputIconPosition;
 			this.setAttribute('iconPosition', this.iconPosition);
 			this.iconPositioning();
-			this._addModifierClass(this.size, Ch5Textinput.SIZES as [string], true);
+			this._addModifierClass(this.size, Ch5TextInput.SIZES as [string], true);
 		}
 
 		if (this.hasAttribute('label')) {
@@ -2477,7 +2477,7 @@ export class Ch5Textinput extends Ch5CommonInput implements ICh5TextInputAttribu
 
 if (typeof window === "object" && typeof window.customElements === "object"
 	&& typeof window.customElements.define === "function") {
-	window.customElements.define(Ch5Textinput.ELEMENT_NAME, Ch5Textinput);
+	window.customElements.define(Ch5TextInput.ELEMENT_NAME, Ch5TextInput);
 }
 
-Ch5Textinput.registerSignalAttributeTypes();
+Ch5TextInput.registerSignalAttributeTypes();
