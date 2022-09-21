@@ -584,14 +584,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	 * and install event listeners.
 	 */
 	public connectedCallback() {
-		subscribeInViewPortChange(this, () => {
-			this.info('ch5-triggerview.subscribeInViewPortChange()');
-			if (this.elementIsInViewPort && !this.wasInstantiatedInViewport) {
-				this._updateSizeStyleProperties();
-				setup();
-				this.wasInstantiatedInViewport = true;
-			}
-		});
 		const setup = () => {
 			this.info('Ch5TriggerView.connectedCallback()');
 
@@ -630,7 +622,14 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 			setTimeout(setup);
 			return;
 		}
-
+		subscribeInViewPortChange(this, () => {
+			this.info('ch5-triggerview.subscribeInViewPortChange()');
+			if (this.elementIsInViewPort && !this.wasInstantiatedInViewport) {
+				this._updateSizeStyleProperties();
+				setup();
+				this.wasInstantiatedInViewport = true;
+			}
+		});
 
 
 		// this is a quick fix
