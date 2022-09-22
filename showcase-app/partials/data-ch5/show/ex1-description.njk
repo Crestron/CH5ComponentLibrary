@@ -1,0 +1,9 @@
+<h1>data-ch5-show</h1>
+<p>In the following example, multiple HTML elements are given the same signal on data-ch5-show and different
+    data-ch5-no-show-type values.</p>
+<p>When clicking the first button (Toggle the data-ch5-show-signal), the signal named <b>trigger_data_ch5_show_1</b>
+    will change and, according to the scenario JSON, it will also toggle the <b>data_ch5_show_1</b> signal that
+    controls the visibility of the elements</p>
+<p>When the data-ch5-no-show-type is set to 'remove', the element is detached from DOM, but references to its parent
+    and next sibling are kept. The element continues to listen to the signals (it is not unsubscribed) so that it can
+    be attached again to the DOM in case the show signal changes to true.</p>

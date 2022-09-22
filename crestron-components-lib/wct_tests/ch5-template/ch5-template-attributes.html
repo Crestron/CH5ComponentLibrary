@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-temple-attributes-fixture">
+    <template id="testTemplateId">
+        <div>
+            Sample Content
+        </div>
+    </template>
+    <ch5-template id="firstTemplate" templateId="testTemplateId" context="original:replacement">
+    </ch5-template>
+
+     <ch5-template id="secondTemplate"  templateId="testTemplateId">
+    </ch5-template>
+</test-fixture>
+
+<script>
+  suite('ch5-template-attributes', function () {
+
+    let ch5Template;
+    let ch5Template2;
+
+    /* coverity[implicit_this_used] */
+    setup(() => {
+      ch5Template = document.getElementById("firstTemplate");
+      ch5Template2 = document.getElementById("secondTemplate");
+
+      return Promise.all([
+        customElements.whenDefined('ch5-template')
+      ]);
+    });
+
+    test('Can set templateId', function () {
+      expect(ch5Template.getAttribute('templateId')).to.be.equal('testTemplateId');
+    });
+
+    test('Can set context', function () {
+      expect(ch5Template.getAttribute('context')).to.be.equal('original:replacement');
+    });
+
+     test('Will not throw error if the optional context attribute is not set', function () {
+      expect(ch5Template2.getAttribute('context')).to.be.equal(null);
+    });
+  });
+</script>
+</body>
+</html>

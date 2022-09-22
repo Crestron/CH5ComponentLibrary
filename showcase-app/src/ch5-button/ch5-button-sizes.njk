@@ -1,0 +1,12 @@
+---
+title: "ch5-button: size"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-button/sizes/','ex1') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-button/sizes/','ex2') %}{% endcall %}
+
+{% endblock %}

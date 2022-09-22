@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+<body>
+
+<test-fixture id="ch5-select-dimensions-fixture">
+    <template>
+        <ch5-select size="5" idx="idx"
+                minWidth="250px" maxWidth="350px"
+                minHeight="36px"  maxHeight="48px">
+            <template>
+                <ch5-select-option>
+                    <span>item_{{idx}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-select-dimensions-fixture ', function() {
+
+        let ch5Select;
+        const panelScrollHeightFallbackValues = ['0', '0px', '0vw', '0vh'];
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Select = fixture('ch5-select-dimensions-fixture');
+        });
+
+        test('Expect attribute/property minWidth to be "250px"', function() {
+            expect(ch5Select.getAttribute('minWidth')).to.be.equal('250px');
+            expect(ch5Select.minWidth).to.be.equal('250px');
+        });
+
+        test('Expect attribute/property maxWidth to be "350px"', function() {
+            expect(ch5Select.getAttribute('maxWidth')).to.be.equal('350px');
+            expect(ch5Select.maxWidth).to.be.equal('350px');
+        });
+
+        test('Expect attribute/property minHeight to be "36px"', function() {
+            expect(ch5Select.getAttribute('minHeight')).to.be.equal('36px');
+            expect(ch5Select.minHeight).to.be.equal('36px');
+        });
+
+        test('Expect attribute/property maxHeight to be "48px"', function() {
+            expect(ch5Select.getAttribute('maxHeight')).to.be.equal('48px');
+            expect(ch5Select.maxHeight).to.be.equal('48px');
+        });
+
+        test('Expect attribute/property maxHeight to be "48px"', function() {
+            expect(ch5Select.getAttribute('maxHeight')).to.be.equal('48px');
+            expect(ch5Select.maxHeight).to.be.equal('48px');
+        });
+
+      test('Expect all size attributes to be added in element style', function (done) {
+        setTimeout(() => {
+          expect(ch5Select.getAttribute('minWidth')).to.be.equal(ch5Select.style.minWidth);
+          expect(ch5Select.getAttribute('maxWidth')).to.be.equal(ch5Select.style.maxWidth);
+          expect(ch5Select.getAttribute('minHeight')).to.be.equal(ch5Select.style.minHeight);
+          expect(ch5Select.getAttribute('maxHeight')).to.be.equal(ch5Select.style.maxHeight);
+          done();
+        });
+      });
+
+        test('Expect resize property to be false (default)', function() {
+            expect(ch5Select.resize).to.be.equal(false);
+        });
+
+        test('Expect panelScrollHeight property to be 0px (default)', function() {
+            expect(ch5Select.panelScrollHeight).to.be.equal("0px");
+        });
+
+
+      test('When panelScrollHeight is 0 (regardless of m.u.), it will not set panel maxHeight', function (done) {
+        setTimeout(() => {
+          for (let i = 0; i <= panelScrollHeightFallbackValues.length; i++) {
+            ch5Select.setAttribute('panelScrollHeight', panelScrollHeightFallbackValues[i]);
+            const getPanel = document.getElementsByClassName('ch5-select__panel__items');
+            expect(getPanel[0].style.maxHeight).to.be.empty;
+          }
+          done();
+        });
+      });
+
+      test('By updating panelScrollHeight property to 250px, the select panel height will also be updated to a ' +
+        'maxHeight specified by panelScrollHeight.', function (done) {
+        setTimeout(() => {
+          ch5Select.setAttribute('panelScrollHeight', '250px');
+          expect(ch5Select.panelScrollHeight).to.be.equal("250px");
+          const selectPanelMaxHeight = ch5Select.selectPanel.style.maxHeight;
+          expect(ch5Select.panelScrollHeight).to.be.equal(selectPanelMaxHeight);
+          done();
+        });
+      });
+    });
+</script>
+</body>
+</html>

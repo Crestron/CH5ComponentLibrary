@@ -1,0 +1,15 @@
+---
+title: "ch5-spinner: receiveStateLabel attribute"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/scenario-ch5-spinner-receive-signal-label.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-spinner/receive-signal-attributes/receive-signal-label/','ex1') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-spinner/receive-signal-attributes/receive-signal-label/','ex2') %}{% endcall %}
+{% endblock %}

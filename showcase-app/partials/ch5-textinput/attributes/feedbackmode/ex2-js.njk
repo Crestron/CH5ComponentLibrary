@@ -1,0 +1,26 @@
+var input = document.querySelector('ch5-textinput');
+var submit = document.querySelector('#submit');
+var reset = document.querySelector('#reset');
+var dirty = document.querySelector('#dirty');
+var form = document.querySelector('form');
+
+submit.addEventListener('click', function() {
+    input.submit(); 
+});
+
+reset.addEventListener('click', function() {
+    input.reset();
+})
+
+dirty.addEventListener('click', function() {
+    console.log(input.getDirty());
+})
+
+
+
+
+
+
+
+
+

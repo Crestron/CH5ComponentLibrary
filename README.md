@@ -4,7 +4,11 @@
  
 # CH5 - Creston Components library (CrComLib) - Getting Started
 
+<<<<<<< HEAD
 #### Continuous Integration and Deployment Status
+=======
+#### Continuous Integration and Deployment Status - CH5 Library Only
+>>>>>>> 91fb3f65a7820c8fd334d68008e8e88280654232
 
 | DEV NIGHTLY - latest-dev | Status |
 | ------ | ----------- |
@@ -18,6 +22,7 @@
 | Release Pipeline | ![Deployment status](https://vsrm.dev.azure.com/crestron-mobile-devops/_apis/public/Release/badge/0403b700-ab40-43cd-9990-961924c561bc/38/94) |
 | NPM | ![npm (tag)](https://img.shields.io/npm/v/@crestron/ch5-crcomlib/latest-qe) |
 
+<<<<<<< HEAD
 ## See Crestron developer website for documentation 
 https://www.crestron.com/developer
 Search for CRESTRON HTML5 USER INTERFACE 
@@ -59,3 +64,12 @@ from ch5 components, and custom attributes will not be affected)
 * disablesAll() - Disables all keys
 * setConfigKeyValue(key:string, value:boolean) - Changes the value of a key
 
+=======
+#### For further details and setup guides, please consult the README in each project.
+- [CH5 Component Library](./crestron-components-lib/README.md)
+- [CH5 Component Library Use Case Tests](./crestron-components-lib-tests/README.md)
+- [CH5 Component SASS](./crestron-components-sass/README.md)
+- [CH5 Metadata Generator](./crestron-metadata-generator/README.md)
+- [Showcase Application](./showcase-app/README.md)
+- [Showcase Application Automated Tests](./showcase-app-automated-tests/README.md)
+>>>>>>> 91fb3f65a7820c8fd334d68008e8e88280654232

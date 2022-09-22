@@ -1,0 +1,11 @@
+var demo = document.getElementById('demo');
+var button = document.getElementById('button');
+var thirdChild = document.getElementById('third-child');
+
+button.addEventListener('click', function() {
+	demo.setActiveViewChild(thirdChild); 
+});
+
+demo.addEventListener('select', function(e) {
+    console.log('select event with detail: ', e.detail );
+});

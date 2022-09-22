@@ -1,0 +1,9 @@
+<h1>ch5-keypad (ch5-common) noshowType, receiveStateShow</h1>
+<br />
+<p>A click on the trigger keypad will result in a change for the signal <b>hall_lights_tap</b> which in turn will
+    change the <b>hall_lights_selected</b> signal ( see definition of the emulator scenario in the json at the top of the page)</p>
+<p>The noshowType attribute can have the following values: visibility, none, remove. This attribute controls the way
+    the ch5 element will be hidden: 'visibility:hidden', 'display:none' and for 'remove' the ch5 element is detached from the DOM.
+    In the case of 'remove', in order to be able to add the element again ( should the signal change in value), references
+    are kept for the parent element.
+</p>

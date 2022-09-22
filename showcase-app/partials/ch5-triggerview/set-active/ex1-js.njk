@@ -1,0 +1,10 @@
+var demo = document.getElementById('demo');
+var button = document.getElementById('button');
+
+button.addEventListener('click', function() {
+	demo.setActiveView(2); 
+});
+
+demo.addEventListener('select', function(e) {
+    console.log('select event with detail: ', e.detail );
+});

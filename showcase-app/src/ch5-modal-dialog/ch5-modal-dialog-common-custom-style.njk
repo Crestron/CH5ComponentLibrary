@@ -1,0 +1,19 @@
+---
+title: "ch5-modal-dialog (common): customStyle, receiveStateCustomStyle"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./partials/ch5-modal-dialog/common-custom-style/scenario-ch5-modal-dialog-common-custom-style.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/common-custom-style/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-modal-dialog/common-custom-style/','ex2') %}{% endcall %}
+
+{% endblock %}

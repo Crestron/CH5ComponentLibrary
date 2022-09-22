@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-triggerview-endless-fixture">
+    <template>
+        <ch5-triggerview> 
+            <ch5-triggerview-child> First View </ch5-triggerview-child > 
+            <ch5-triggerview-child> Second View </ch5-triggerview-child >
+            <ch5-triggerview-child> Third View </ch5-triggerview-child >  
+        </ch5-triggerview>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-triggerview-infinit-invalid-fixture">
+    <template>
+        <ch5-triggerview endless="true"> 
+            <ch5-triggerview-child> First View </ch5-triggerview-child > 
+            <ch5-triggerview-child> Second View </ch5-triggerview-child >
+            <ch5-triggerview-child> Third View </ch5-triggerview-child >  
+        </ch5-triggerview>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-triggerview endless', function() {
+        let ch5TriggerView;
+        let ch5TriggerViewChild;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5TriggerView = fixture('ch5-triggerview-endless-fixture');
+            ch5TriggerViewChild = document.querySelectorAll('ch5-triggerview-child');
+        });
+
+        test('Default endless is "false"', function() {
+            expect(ch5TriggerView.endless).to.be.equal(false);
+        });
+
+        test('endless "true"', function() {
+            ch5TriggerView.setAttribute('endless', true);
+            expect(ch5TriggerView.endless).to.be.equal(true);
+        });
+
+        test('wraping around when endless "true"', function() {
+            ch5TriggerView.setAttribute('endless', true);
+            expect(ch5TriggerView.endless).to.be.equal(true);
+            
+            const firstChild = ch5TriggerViewChild[0];
+            const lastChild = ch5TriggerViewChild[ch5TriggerViewChild.length -1];
+            
+            ch5TriggerView.setActiveViewChild(lastChild);
+            expect(ch5TriggerViewChild[ch5TriggerViewChild.length -1 ].selected).to.be.equal(true);
+            expect(firstChild.selected).to.be.equal(false);
+
+            ch5TriggerView.nextViewChild();
+            expect(firstChild.selected).to.be.equal(true);
+
+            ch5TriggerView.previousViewChild();
+            expect(firstChild.selected).to.be.equal(false);
+            expect(lastChild.selected).to.be.equal(true);
+        });
+
+        test('stop wraping around when endless "false"', function() {
+            ch5TriggerView.setAttribute('endless', false);
+            expect(ch5TriggerView.endless).to.be.equal(false);
+            
+            const firstChild = ch5TriggerViewChild[0];
+            const lastChild = ch5TriggerViewChild[ch5TriggerViewChild.length -1];
+            
+            ch5TriggerView.setActiveViewChild(lastChild);
+            expect(lastChild.selected).to.be.equal(true);
+
+            ch5TriggerView.nextViewChild();
+            expect(lastChild.selected).to.be.equal(true);
+            expect(firstChild.selected).to.be.equal(false);
+
+            ch5TriggerView.setActiveViewChild(firstChild);
+            expect(firstChild.selected).to.be.equal(true);
+            expect(lastChild.selected).to.be.equal(false);
+
+            ch5TriggerView.previousViewChild();
+            expect(firstChild.selected).to.be.equal(true);
+            expect(lastChild.selected).to.be.equal(false);
+        });
+    });
+
+    suite('ch5-triggerview invalid endless', function() {
+        let ch5TriggerView;
+        let ch5TriggerViewChild;
+        
+        setup(() => {
+            ch5TriggerView = fixture('ch5-triggerview-infinit-invalid-fixture');
+            ch5TriggerViewChild = document.querySelectorAll('ch5-triggerview-child');
+        });
+
+        // testing with a random value in a endless attribute
+        test('Invalid endless should be switched to default "false"', function() {
+            expect(ch5TriggerView.endless).to.be.equal(false);
+        })
+    })
+</script>
+</body>
+</html>

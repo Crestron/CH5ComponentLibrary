@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-toggle-labelOff-fixture">
+    <template>
+        <ch5-toggle
+            label="Toggle label"
+            labelOn="On"
+            labeloff="Off"    
+            >
+        </ch5-toggle>
+    </template>
+</test-fixture>
+
+<script>
+
+    suite('ch5-toggle labeloff', function() {
+
+        let ch5Toggle;
+        
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Toggle = fixture('ch5-toggle-labelOff-fixture');
+        });
+
+        test('labeloff to be a string', function() {
+            expect(ch5Toggle.labelOff).to.be.a('string');
+        });
+
+        test('labeloff is "Off"', function() {
+            expect(ch5Toggle.labelOff).to.be.equal('Off');
+        });
+
+        test('labeloff attribute value to be equal with innerText of internal _eloffLabel elem', function() {
+            expect(ch5Toggle.labelOff).to.be.equal(ch5Toggle._elLabelOff.innerText);
+        });
+
+        test('Internal _eloffLabel elem has class "ch5-toggle__off-icon"', function() {
+            expect(ch5Toggle._elLabelOff.className).to.contain('ch5-toggle__off-label');
+        });
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<p>Open the browser console to see that when the submit button is clicked submit method on ch5-toggle is called and signal named send_signal_on_submit is sent. 
+Also a signal named receive_switch_value is received</p>
+
+<ch5-toggle
+    id="demo"
+    label="Alarm"
+    labelOn="On"
+    labelOff="Off"
+    feedbackMode="submit"    
+    sendEventOnClick="send_signal_on_submit"
+    receiveStateValue="receive_switch_value"
+    >
+</ch5-toggle>
+
+<br><br>
+
+<button id="button">Submit</button>

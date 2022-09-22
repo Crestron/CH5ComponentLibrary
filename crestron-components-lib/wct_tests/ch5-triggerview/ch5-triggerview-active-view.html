@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-triggerview-activeView-fixture">
+    <template>
+        <ch5-triggerview> 
+            <ch5-triggerview-child> First View </ch5-triggerview-child > 
+            <ch5-triggerview-child> Second View </ch5-triggerview-child >
+            <ch5-triggerview-child> Third View </ch5-triggerview-child >  
+        </ch5-triggerview>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-triggerview activeView', function() {
+        let ch5TriggerView;
+        let ch5TriggerViewChild;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5TriggerView = fixture('ch5-triggerview-activeView-fixture');
+            ch5TriggerViewChild = document.querySelectorAll('ch5-triggerview-child');
+        });
+
+        test('Default activeView is "0"', function(done) {
+            setTimeout(() => {
+                expect(ch5TriggerView.getAttribute('activeview')).to.be.equal('0');
+                done();
+            })
+        });
+
+        test('first child active when default activeView', function(done) {
+
+            setTimeout(() => {
+                expect(ch5TriggerView.getAttribute('activeview')).to.be.equal('0');
+            
+                const firstChild = ch5TriggerViewChild[0];
+            
+                expect(firstChild.selected).to.be.equal(true);
+                done();
+            })
+            
+        });
+
+        test('activeView is "1"', function(done) {
+            setTimeout(() => {
+                ch5TriggerView.setAttribute('activeView', 1);
+                
+                const firstChild = ch5TriggerViewChild[0];
+                const secondChild = ch5TriggerViewChild[1];
+    
+                expect(secondChild.selected).to.be.equal(true);
+                expect(firstChild.selected).to.be.equal(false);
+
+                done();
+            })
+        });
+
+        // testing with a bigger value in a activeView attribute then childrens
+        test('bigger activeView value then childrens should be switched to default first active view', function(done) {
+
+            setTimeout(() => {
+                ch5TriggerView.setAttribute('activeView', 999);
+                const firstChild = ch5TriggerViewChild[0];
+                
+                expect(firstChild.selected).to.be.equal(true);
+                done();
+            })
+        })
+    });
+</script>
+</body>
+</html>

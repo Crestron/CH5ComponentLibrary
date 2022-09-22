@@ -1,0 +1,71 @@
+{% raw %}
+<p>
+    Clicking this button will increment the signal for the first list by 5
+    <ch5-button label="Btn1" sendEventOnClick="trigH1"></ch5-button>
+</p>
+<p>
+    Clicking this button will increment the signal for the second list by 10
+    <ch5-button label="Btn1" sendEventOnClick="trigH2"></ch5-button>
+</p>
+<p>
+    Clicking this button will increment the signal for the third list by 15
+    <ch5-button label="Btn1" sendEventOnClick="trigH3"></ch5-button>
+</p>
+
+<ch5-list size="100"
+           orientation="horizontal"
+           minWidth="250px"
+           maxWidth="500px"
+           minHeight="100px"
+           maxHeight="150px"
+           indexId="idx"
+           itemWidth="125px"
+           itemHeight="75px"
+           scrollbar="true"
+           receiveStateScrollTo="sigH1">
+    <template>
+        <div class="horizontal-list-item">
+            <span>item_{{idx}}</span>
+        </div>
+    </template>
+</ch5-list>
+<hr>
+<ch5-list size="100"
+           orientation="horizontal"
+           minWidth="250px"
+           maxWidth="500px"
+           minHeight="100px"
+           maxHeight="150px"
+           indexId="idx"
+           itemWidth="125px"
+           itemHeight="75px"
+           scrollbar="true"
+           receiveStateScrollTo="sigH2"
+           scrollToTime="700">
+    <template>
+        <div class="horizontal-list-item">
+            <span>item_{{idx}}</span>
+        </div>
+    </template>
+</ch5-list>
+<hr>
+<ch5-list size="500"
+           orientation="horizontal"
+           indexId="idx"
+           minWidth="250px"
+           maxWidth="500px"
+           minHeight="100px"
+           maxHeight="150px"
+           itemWidth="125px"
+           itemHeight="75px"
+           scrollbar="true"
+           receiveStateScrollTo="sigH3"
+           scrollToTime="1000">
+    <template>
+        <div class="horizontal-list-item">
+            <span>item_{{idx}}</span>
+        </div>
+    </template>
+</ch5-list>
+
+{% endraw %}

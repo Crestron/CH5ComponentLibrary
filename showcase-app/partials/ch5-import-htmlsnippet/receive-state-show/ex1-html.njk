@@ -1,0 +1,16 @@
+{% raw %}
+<ch5-button type="primary" label="Content 1" 
+        receiveStateSelected="show_first_view_signal" 
+        sendEventOnClick="trig1"></ch5-button>
+<ch5-button type="primary" label="Content 2" 
+        receiveStateSelected="show_second_view_signal" 
+        sendEventOnClick="trig2"></ch5-button>
+                
+<ch5-import-htmlsnippet
+    url="ch5-import-htmlsnippet/ch5-import-htmlsnippet-content.html" receivestateshow="show_first_view_signal">
+</ch5-import-htmlsnippet>
+
+<ch5-import-htmlsnippet
+    url="ch5-import-htmlsnippet/ch5-import-htmlsnippet-content2.html" receivestateshow="show_second_view_signal">
+</ch5-import-htmlsnippet>
+{% endraw %}

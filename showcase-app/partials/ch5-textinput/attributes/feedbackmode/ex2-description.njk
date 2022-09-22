@@ -1,0 +1,8 @@
+feedbackMode sends the input text changes based on the attribute value.<br/><br/>
+The default value for feedbackMode attribute is 'direct'<br/>
+Valid values: 'direct' and 'submit'.
+<ul>
+<li>'direct' updates the trigger change event and sendEventOnChange as the user changes.</li>
+<li>'submit' triggers a change event and updates the signal in attribute only when the submit() method is called by a Form Component.</li>
+</ul><br/>
+A usage of the receiveStateValue with feedbackMode attribute value 'submit':<br/>

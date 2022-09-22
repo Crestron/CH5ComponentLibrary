@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-overlay-panel-default">
+    <template>
+        <ch5-overlay-panel show="true"><h1>Overlay Panel</h1></ch5-overlay-panel>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-overlay-panel attributes and properties', function() {
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            return Promise.all([
+                customElements.whenDefined('ch5-overlay-panel')
+            ]);
+        });
+
+        test('property "dismissable" is by default true, even when the attribute is not set', function() {
+            const cop = fixture('ch5-overlay-panel-default');
+            expect(cop.dismissable).to.be.equal(true);
+        });
+        test('property "dismissable" is true when attribute is present and different from "0" or "false"', function() {
+            const cop = fixture('ch5-overlay-panel-default');
+            cop.setAttribute('dismissable','');
+            expect(cop.dismissable).to.be.equal(true);
+            cop.setAttribute('dismissable','1');
+            expect(cop.dismissable).to.be.equal(true);
+            cop.setAttribute('dismissable','true');
+            expect(cop.dismissable).to.be.equal(true);
+        });
+        test('property "dismissable" is false when attribute is present and set to "0" or "false"', function() {
+            const cop = fixture('ch5-overlay-panel-default');
+            cop.setAttribute('dismissable','0');
+            expect(cop.dismissable).to.be.equal(false);
+            cop.setAttribute('dismissable','false');
+            expect(cop.dismissable).to.be.equal(false);
+        });
+
+        test('property "closable" is by default false', function() {
+            const cop = fixture('ch5-overlay-panel-default');
+            expect(cop.closable).to.be.equal(false);
+        });
+        test('property "closable" is true when attribute is present and different from "0" or "false"', function() {
+            const cop = fixture('ch5-overlay-panel-default');
+            cop.setAttribute('closable','');
+            expect(cop.closable).to.be.equal(true);
+            cop.setAttribute('closable','1');
+            expect(cop.closable).to.be.equal(true);
+            cop.setAttribute('closable','true');
+            expect(cop.closable).to.be.equal(true);
+        });
+        test('property "closable" is false when attribute is present and set to "0" or "false"', function() {
+            const cop = fixture('ch5-overlay-panel-default');
+            cop.setAttribute('closable','0');
+            expect(cop.closable).to.be.equal(false);
+            cop.setAttribute('closable','false');
+            expect(cop.closable).to.be.equal(false);
+        });
+
+
+        test('when attribute "closable" is true, a default close icon is used', function(done) {
+            const cop = fixture('ch5-overlay-panel-default');
+            setTimeout(() => {
+              cop.setAttribute('closable','true');
+
+              const closeIconEl = cop.querySelector('.ch5-overlay-panel-close-icon-btn>span');
+              expect(closeIconEl).to.not.be.undefined;
+              expect(closeIconEl.classList.contains('ch5-overlay-panel-default-close-icon')).to.be.equal(true);
+              done();
+
+            })
+            
+        });
+
+        test('when attribute "closable" is true, then the css class(es) defined in the closeIcon attribute are applied to the close icon', function(done) {
+            const cop = fixture('ch5-overlay-panel-default');
+            setTimeout(() => {
+
+              cop.setAttribute('closable','true');
+              cop.setAttribute('closeIcon','fa-icon fa-icon2');
+              const closeIconEl = document.querySelector('.ch5-overlay-panel-close-icon-btn>span');
+              expect(closeIconEl).to.not.be.undefined;
+              expect(closeIconEl.classList.contains('fa-icon')).to.be.equal(true);
+              expect(closeIconEl.classList.contains('fa-icon2')).to.be.equal(true);
+              done();
+            })
+               
+        });
+    });
+</script>
+</body>
+</html>

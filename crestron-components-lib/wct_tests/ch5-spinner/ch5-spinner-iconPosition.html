@@ -1,0 +1,182 @@
+<!--<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-spinner-iconPosition-fixture">
+        <template>
+            <ch5-spinner dir="rtl">
+            </ch5-spinner>
+        </template>
+    </test-fixture>
+
+
+    <script>
+        suite('ch5-spinner-iconPostion', function () {
+
+            let ch5Spinner;
+
+            /* coverity[implicit_this_used] */
+            setup(() => {
+                ch5Spinner = fixture('ch5-spinner-iconPostion-fixture');
+
+                return Promise.all([
+                    customElements.whenDefined('ch5-spinner')
+                ]);
+            });
+
+
+           
+
+
+            let testCases = ["last", "invalid", "first"];
+            let testCases1 = ["rtl","ltr"];
+           
+            testCases.forEach((ele, i) => {
+                testCases1.forEach((ele1,j)=>{
+                    test(`Check iconPosition of element is valid : "${ele}"`, (done) => {
+                    ch5Spinner.setAttribute('iconPosition', ele);
+                    ch5Spinner.setAttribute('dir', ele1);
+                    ch5Spinner.iconPosition=ele;
+                    ch5Spinner.dir=ele1;
+                    console.log(spinner);
+                    flush(() => {
+                        setTimeout(() => {
+                            console.log("heeeeeeeeeeeeeeeeee"+ch5Spinner.querySelectorAll('.ch5-spinner__item').firstElementChild);
+
+                            if(ele!='first')
+{ 
+//expect(ch5Spinner.querySelectorAll('.ch5-spinner__item').firstElementChild('first');
+}//else expect(ch5Spinner.querySelectorAll('.ch5-spinner__item')).firstElementChild('last');
+                  
+                           
+                            done();
+                        }, 50);
+                    });
+                });
+                });
+              
+            });
+            // test('Expect property size to be 5', function() {
+            //     expect(ch5Spinner.size).to.be.equal(5);
+            // });
+
+            test('Expect element to have 5 items', function () {
+                customElements.whenDefined('ch5-spinner').then(
+                    () => {
+                        expect(ch5Spinner.querySelectorAll('.ch5-spinner__icon fas fa-plane')).to.be.equal('last')
+                        ;
+                    }
+                );
+
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>
+--->
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-spinner-iconPosition-fixture">
+        <template>
+            <ch5-spinner    label="item {{idx}}"
+            indexId="idx"
+            size="7"
+            dir="ltr">
+            <template>
+                <div>
+                    <i class="ch5-spinner__icon fas fa-plane"></i>
+                    <label class="ch5-spinner__label">Item {{idx}}</label>
+        
+                </div>
+            </template>
+            </ch5-spinner>
+        </template>
+    </test-fixture>
+
+
+    <script>
+        suite('ch5-spinner-iconPosition ', function () {
+
+            let ch5Spinner;
+
+            /* coverity[implicit_this_used] */
+            setup(() => {
+                ch5Spinner = fixture('ch5-spinner-iconPosition-fixture');
+
+                return Promise.all([
+                    customElements.whenDefined('ch5-spinner')
+                ]);
+            });
+
+
+           
+
+
+            let testCases = ["last", "invalid", "first"];
+            let testCases1 = ["rtl","ltr"];
+          
+            testCases.forEach((ele, i) => {
+                testCases1.forEach((ele1,j)=>{
+                    test(`Check iconPosition of element is valid : "${ele}"`, (done) => {
+                    ch5Spinner.setAttribute('iconPosition', ele);
+                    ch5Spinner.setAttribute('dir', ele1);
+                    ch5Spinner.iconPosition=ele;
+                    ch5Spinner.dir=ele1;
+                    console.log(ch5Spinner);
+                    flush(() => {
+                        setTimeout(() => {
+                            var htmlGot=ch5Spinner.querySelector('.ch5-spinner__item').innerHTML;
+                            htmlGot.toString();
+                            
+                            console.log("heeeeeeeeeeeeeeeeee"+htmlGot.trim().charAt(1));
+    
+                            if(ele=='last')
+{ 
+expect(htmlGot.trim().charAt(1)).to.be.equal('l');
+}else expect(htmlGot.trim().charAt(1)).to.be.equal('i');
+                  
+                           
+                            done();
+                        }, 50);
+                    });
+                });
+                });
+              
+            });
+            // test('Expect property size to be 5', function() {
+            //     expect(ch5Spinner.size).to.be.equal(5);
+            // });
+
+          
+
+
+        });
+    </script>
+</body>
+
+</html>

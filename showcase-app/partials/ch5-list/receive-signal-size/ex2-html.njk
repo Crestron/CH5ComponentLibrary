@@ -1,0 +1,90 @@
+{% raw %}
+    <p>Clicking the buttons below will either increase or decrease the size of the ch5-lists.</p>
+    <div class="list-size-control">
+        <ch5-button type="primary" iconClass="fas fa-chevron-up" sendEventOnClick="triggerIncrementVerticalListBy5"
+                    label="Increment by 5"></ch5-button>
+        <ch5-button type="primary" iconClass="fas fa-chevron-up" sendEventOnClick="triggerIncrementVerticalListBy1"
+                    label="Increment by 1"></ch5-button>
+    </div>
+    <div class="list-size-control">
+        <ch5-button type="secondary" iconClass="fas fa-chevron-down" sendEventOnClick="triggerDecrementVerticalListBy3"
+                    label="Decrement by 3"></ch5-button>
+        <ch5-button type="secondary" iconClass="fas fa-chevron-down" sendEventOnClick="triggerDecrementVerticalListBy1"
+                    label="Decrement by 1"></ch5-button>
+    </div>
+
+    <h4>Simple list</h4>
+    <ch5-list
+            orientation="vertical"
+            indexId="idx"
+            maxWidth="500px"
+            minHeight="250px"
+            maxHeight="150px"
+            itemWidth="125px"
+            itemHeight="75px"
+            scrollbar="true"
+            receiveStateSize="receiveSizeVerticalList">
+        <template>
+            <div class="vertical-list-item">
+                <span>item_{{idx}}</span>
+            </div>
+        </template>
+    </ch5-list>
+
+    <h4>Endless mode</h4>
+    <ch5-list
+            orientation="vertical"
+            endless
+            indexId="idx"
+            maxWidth="500px"
+            minHeight="250px"
+            maxHeight="150px"
+            itemWidth="125px"
+            itemHeight="75px"
+            scrollbar="true"
+            receiveStateSize="receiveSizeVerticalList">
+        <template>
+            <div class="vertical-list-item">
+                <span>item_{{idx}}</span>
+            </div>
+        </template>
+    </ch5-list>
+
+
+    <h4>Right to left</h4>
+    <ch5-list
+            orientation="vertical"
+            dir="rtl"
+            indexId="idx"
+            maxWidth="500px"
+            minHeight="250px"
+            maxHeight="150px"
+            itemWidth="125px"
+            itemHeight="75px"
+            scrollbar="true"
+            receiveStateSize="receiveSizeVerticalList">
+        <template>
+            <div class="vertical-list-item">
+                <span>item_{{idx}}</span>
+            </div>
+        </template>
+    </ch5-list>
+
+    <h4>Buffer amount</h4>
+    <ch5-list orientation="vertical"
+              bufferAmount="3"
+              indexId="idx"
+              maxWidth="500px"
+              minHeight="250px"
+              maxHeight="150px"
+              itemWidth="125px"
+              itemHeight="75px"
+              scrollbar="true"
+              receiveStateSize="receiveSizeVerticalList">
+        <template>
+            <div class="vertical-list-item">
+                <span>item_{{idx}}</span>
+            </div>
+        </template>
+    </ch5-list>
+{% endraw %}

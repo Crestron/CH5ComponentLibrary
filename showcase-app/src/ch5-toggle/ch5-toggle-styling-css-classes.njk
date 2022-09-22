@@ -1,0 +1,71 @@
+---
+title: "ch5-toggle styling"
+---
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>CSS Class</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ch5-toggle</td>
+            <td>the class added on the div that is the only direct child of the ch5-toggle element and wraps all its contents</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle--on</td>
+            <td>class apply when value is true</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle__label</td>
+            <td>class apply on label</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle__on-icon</td>
+            <td>class apply on icon-on</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle__off-icon</td>
+            <td>class apply on icon-off</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle__on-label</td>
+            <td>class apply on on label</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle__off-label</td>
+            <td>class apply on off label</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle__handle</td>
+            <td>class apply on the handle</td>
+        </tr>  
+        <tr>
+            <td>ch5-toggle--disabled</td>
+            <td>class apply when disabled</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle--circle</td>
+            <td>Class to apply when shape='circle'</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle--rectangle</td>
+            <td>Class to apply when shape='rectangle'</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle--vertical</td>
+            <td>Class to apply when orientation='vertical'</td>
+        </tr>
+        <tr>
+            <td>ch5-toggle--horizontal</td>
+            <td>Class to apply when orientation='horizontal'</td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+<div class="row">
+    {% raw %}
+    <ch5-select id="multiselect_ex" size="5" indexId="Idx"
+        multiselect mode="panel" feedbackMode="submit" noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option receiveStateSelected="multi_select_opt_{{Idx}}_selected"
+                                sendEventOnClick="multi_select_opt_{{Idx}}_on_click"
+                                receiveStateLabel="label_signal_{{Idx}}">
+                <span>{{label}}</span>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+    {% endraw %}
+     <br/>
+    <table>
+        <thead>
+            <tr>
+                <td>Property</td>
+                <td>Value</td>
+                <td>Explanation</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dirty</td>
+                <td id="dirty-select-4"></td>
+                <td>Shows whether the selected value has been changed, but not submitted</td>
+            </tr>
+            <tr>
+                <td>Selected</td>
+                <td id="selected-4"></td>
+                <td>Shows the 0-based indexes of the currently selected values</td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="margin-top: 36px;">
+        <ch5-button id="submit-btn-4" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn-4" label="Reset"></ch5-button>
+        <ch5-button id="set-btn-4" label="Set value: [2, 4]"></ch5-button>
+        <ch5-button id="update-selection" label="Refresh"></ch5-button><br>
+    </p>
+
+    <div>
+        <ul style="list-style-type: circle">
+            <li>
+                The <strong>Submit</strong> button persists the currently selected values.
+            </li>
+            <li>
+                The <strong>Reset</strong> button reverts the form and its properties to the previously submitted value or the default value if the form has not been submitted yet.
+            </li>
+            <li>
+                The Set value: [2, 4] button will set the selection to Option 2 and Option 4. It can't be reset again, thus setting the dirty property to false.
+            </li>
+            <li>
+                The <strong>Refresh </strong> button displays the currently selected items (not submitted) in the table above.
+            </li>
+        </ul>
+    </div>
+</div>
+

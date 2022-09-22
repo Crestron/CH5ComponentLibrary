@@ -1,0 +1,28 @@
+<div class="content">
+    <p>
+        The buttons change the value of <b>receive_slider_value</b> ( See the Emulator section )
+    </p>
+    <p>
+        <ch5-button label="Value -10" sendEventOnClick="trig1"></ch5-button>
+    </p>
+    <p>
+        <ch5-button label="Value -30" sendEventOnClick="trig2"></ch5-button>
+    </p>
+        <p>
+        <ch5-button label="RCB Value -10" sendEventOnClick="trig4"></ch5-button>
+    </p>
+    <p>
+        <ch5-button label="RCB Value -30" sendEventOnClick="trig3"></ch5-button>
+    </p>
+</div>
+
+<ch5-slider  
+    ticks='{"0":"-60", "25":"-40", "50":"-20", "75":"-10", "100": "0" }'
+    showTickValues="true"     toolTipShowType="on"
+    toolTipDisplayType="value" sendEventOnChange="slider_value_on_change" 
+    receiveStateValue="receive_slider_value"
+    >
+</ch5-slider> 
+<br>
+<br>
+<br>

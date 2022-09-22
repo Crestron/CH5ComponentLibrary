@@ -1,0 +1,11 @@
+---
+title: ch5-template template in template with ch5-select
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+{% call exampleSectionFromPartials('ch5-template/template-in-template/ch5-select/','ex1') %}{% endcall %}
+
+{% endblock %}

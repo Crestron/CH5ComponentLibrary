@@ -1,0 +1,19 @@
+
+(function(CrComLib){
+    var btn1=document.querySelector('#btn-show-current-values');
+
+    btn1.addEventListener('click',btn1Click);
+
+    function btn1Click() {
+        var s1 = document.querySelector('#s1');
+        var s2 = document.querySelector('#s2');
+        var s3 = document.querySelector('#s3');
+        var sigVal1 = CrComLib.getState('b','sig_b');
+        var sigVal2 = CrComLib.getState('n','sig_n');
+        var sigVal3 = CrComLib.getState('s','city');
+
+        s1.textContent=sigVal1;
+        s2.textContent=sigVal2;
+        s3.textContent=sigVal3;
+    }
+})(CrComLib);

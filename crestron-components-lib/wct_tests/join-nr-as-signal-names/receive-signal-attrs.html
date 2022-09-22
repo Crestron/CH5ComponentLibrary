@@ -1,0 +1,665 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="ch5-btn-fixture">
+    <template>
+      <ch5-button receiveStateSelected="22" receiveStateLabel="23"></ch5-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-btn-html-label-fixture">
+    <template>
+      <ch5-button receiveStateScriptLabelHtml="24"></ch5-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-list-fixture">
+    <template>
+      <ch5-list size="10" orientation="horizontal" indexId="idx" minWidth="250px" maxWidth="500px" minHeight="100px" maxHeight="150px" itemWidth="125px" itemHeight="75px" scrollbar="true" receiveStateSize="48" receiveStateTemplateVars="49">
+        <template>
+          <div class="horizontal-list-item">
+            <span class="{{cssClass}}">item_{{idx}} {{label}}</span>
+          </div>
+        </template>
+      </ch5-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-img-fixture">
+    <template>
+      <ch5-image alt="Backyard image" height="200px" width="300px" receiveStateUrl="25">
+      </ch5-image>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-select-fixture-1">
+    <template>
+      <ch5-select size="2" indexId="Idx" sendEventOnChange="26" receiveStateValue="26" receiveStateSize="27" receiveStateTemplateVars="28" noneSelectedPrompt="Select">
+        <template>
+          <ch5-select-option>
+            <span>Option {{Index}} - {{description}}</span>
+          </ch5-select-option>
+        </template>
+      </ch5-select>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-select-fixture-2">
+    <template>
+      <ch5-select size="2" indexId="Idx" mode="panel" noneSelectedPrompt="Select">
+        <template>
+          <ch5-select-option sendEventOnClick="29{{Idx}}" receiveStateSelected="29{{Idx}}">
+            <span>Option {{Idx}}</span>
+          </ch5-select-option>
+        </template>
+      </ch5-select>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-select-fixture-3">
+    <template>
+      <ch5-select size="2" indexId="Index" noneSelectedPrompt="Select">
+        <template>
+          <ch5-select-option useDefaultTmpl receiveStateLabel="31{{Index}}">
+          </ch5-select-option>
+        </template>
+      </ch5-select>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-toggle-fixture">
+    <template>
+      <ch5-toggle label="Alarm" labelOn="On" labeloff="Off" sendEventOnClick="33" receiveStateValue="33" receiveStateScriptLabelHtml="34">
+      </ch5-toggle>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-overlay-panel-fixture">
+    <template>
+      <ch5-overlay-panel show="true" receiveStatePositionTo="35" receiveStatePositionOffset="36" positionOffset="bottom-left" closable>
+        <p>Sample text</p>
+      </ch5-overlay-panel>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-modal-dialog-fixture">
+    <template>
+      <ch5-modal-dialog receiveStateShow="37" closable>
+        <span>Sample text</span>
+      </ch5-modal-dialog>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-slider-fixture">
+    <template>
+      <ch5-slider value="0" valueHigh="75" step="25" min="-50" max="100" range="true" toolTipDisplayType="value" receiveStateValue="38" receiveStateValueHigh="75">
+      </ch5-slider>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-triggerview-fixture-1">
+    <template>
+      <ch5-triggerview receiveStateShowChildIndex="40">
+        <ch5-triggerview-child>
+          <div class="viewcontent">
+            <h1>First View</h1>
+          </div>
+        </ch5-triggerview-child>
+        <ch5-triggerview-child>
+          <div class="viewcontent">
+            <h1>Second View</h1>
+          </div>
+        </ch5-triggerview-child>
+        <ch5-triggerview-child>
+          <div class="viewcontent">
+            <h1>Third View</h1>
+          </div>
+        </ch5-triggerview-child>
+      </ch5-triggerview>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-triggerview-fixture-2">
+    <template>
+      <ch5-triggerview id="demo">
+        <ch5-triggerview-child receiveStateShow="41">
+          <div class="viewcontent">
+            <h1>First View</h1>
+          </div>
+        </ch5-triggerview-child>
+        <ch5-triggerview-child receiveStateShow="42">
+          <div class="viewcontent">
+            <h1>Second View</h1>
+          </div>
+        </ch5-triggerview-child>
+        <ch5-triggerview-child receiveStateShow="43">
+          <div class="viewcontent">
+            <h1>Third View</h1>
+          </div>
+        </ch5-triggerview-child>
+      </ch5-triggerview>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-textinput">
+    <template>
+      <ch5-textinput receiveStateFocus="44" receiveStateValue="45">
+      </ch5-textinput>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-spinner">
+    <template>
+      <ch5-spinner indexId="idx" label="item {{idx}}" receiveStateValue="46" receiveStateSize="47" itemHeight="40" size="7"></ch5-spinner>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('Test Ch5 components receive signal attributes', async function () {
+      const scenario = {
+        "cues": [{
+          "event": "trigBtnSigUpdates",
+          "type": "b",
+          "trigger": true,
+          "actions": [{
+            "state": "22",
+            "type": "b",
+            "logic": "set",
+            "value": true
+          },
+          {
+            "state": "23",
+            "type": "s",
+            "logic": "set",
+            "value": "Label received from state - emulator"
+          },
+          {
+            "state": "24",
+            "type": "s",
+            "logic": "set",
+            "value": "He<b>ll</b>o <span style=\"color:red\">World</span><i style=\"color: blue;\">!</i>"
+          }
+          ]
+        },
+        {
+          "type": "b",
+          "event": "ch5-list-sig",
+          "trigger": true,
+          "actions": [{
+            "state": "48",
+            "type": "n",
+            "logic": "set",
+            "value": 21
+          },
+          {
+            "state": "49",
+            "type": "string",
+            "logic": "set",
+            "value": "[{\"label\":\"Rewind\",\"cssClass\":\"green\"},{\"label\":\"Play\",\"cssClass\":\"blue\"},{\"label\":\"FWD\",\"cssClass\":\"blue\"},{\"label\":\"Stop\",\"cssClass\":\"green\"},{\"label\":\"Record\",\"cssClass\":\"red\"}]"
+          },
+          {
+            "state": "50",
+            "type": "n",
+            "logic": "set",
+            "value": 10
+          }
+          ]
+        },
+        {
+          "type": "b",
+          "event": "ch5-img-sig",
+          "trigger": true,
+          "actions": [{
+            "state": "25",
+            "type": "s",
+            "logic": "set",
+            "value": "https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg"
+          }]
+        },
+        {
+          "type": "b",
+          "event": "ch5-select-size-and-tmpl-vars",
+          "trigger": true,
+          "actions": [{
+            "state": "27",
+            "type": "n",
+            "logic": "set",
+            "value": 4
+          },
+          {
+            "state": "28",
+            "type": "s",
+            "logic": "set",
+            "value": "[{\"description\":\"North\"},{\"description\":\"South\"},{\"description\":\"East\"},{\"description\":\"West\"}]"
+          }
+          ]
+        },
+        {
+          "type": "n",
+          "event": "26",
+          "trigger": "&change",
+          "actions": [{
+            "state": "26",
+            "type": "n",
+            "logic": "link"
+          }]
+        },
+        {
+          "type": "b",
+          "event": "29",
+          "trigger": true,
+          "actions": [{
+            "state": "29",
+            "type": "b",
+            "logic": "set",
+            "value": true
+          }]
+        },
+        {
+          "type": "b",
+          "event": "30",
+          "trigger": true,
+          "actions": [{
+            "state": "30",
+            "type": "b",
+            "logic": "set",
+            "value": true
+          }]
+        },
+        {
+          "type": "b",
+          "event": "update_select_labels",
+          "trigger": true,
+          "actions": [{
+            "state": "31",
+            "type": "s",
+            "logic": "set",
+            "value": "Label 0"
+          },
+          {
+            "state": "32",
+            "type": "s",
+            "logic": "set",
+            "value": "Label 1"
+          }
+          ]
+        },
+        {
+          "type": "b",
+          "event": "33",
+          "trigger": true,
+          "actions": [{
+            "state": "33",
+            "type": "b",
+            "logic": "set",
+            "value": true
+          }]
+        },
+        {
+          "type": "b",
+          "event": "34",
+          "trigger": true,
+          "actions": [{
+            "state": "34",
+            "type": "s",
+            "logic": "set",
+            "value": "<span style='color:green'>Hello</span><br/><span style='color:red'>W</span>orld!"
+          }]
+        },
+        {
+          "type": "b",
+          "event": "trigger_pos",
+          "trigger": true,
+          "actions": [{
+            "state": "35",
+            "type": "s",
+            "logic": "set",
+            "value": "el-id-to-position"
+          }]
+        },
+        {
+          "type": "b",
+          "event": "trigger_pos_offset",
+          "trigger": true,
+          "actions": [{
+            "state": "36",
+            "type": "string",
+            "logic": "set",
+            "value": "bottom-right"
+          }]
+        },
+        {
+          "type": "b",
+          "event": "37",
+          "trigger": true,
+          "actions": [{
+            "state": "37",
+            "type": "b",
+            "logic": "set",
+            "value": true
+          }]
+        },
+        {
+          "type": "b",
+          "event": "update_slider_values_1",
+          "trigger": true,
+          "actions": [{
+            "state": "38",
+            "type": "n",
+            "logic": "set",
+            "value": 25
+          }]
+        },
+        {
+          "type": "b",
+          "event": "update_slider_values_2",
+          "trigger": true,
+          "actions": [{
+            "state": "39",
+            "type": "n",
+            "logic": "set",
+            "value": 70
+          }]
+        },
+        {
+          "type": "b",
+          "event": "trig1",
+          "trigger": true,
+          "actions": [{
+            "state": "40",
+            "value": 3,
+            "type": "n",
+            "logic": "set"
+          }]
+        },
+        {
+          "type": "b",
+          "event": "trig2",
+          "trigger": true,
+          "actions": [{
+            "state": "41",
+            "value": false,
+            "type": "b",
+            "logic": "set"
+          },
+          {
+            "state": "42",
+            "value": true,
+            "type": "b",
+            "logic": "set"
+          },
+          {
+            "state": "43",
+            "value": false,
+            "type": "b",
+            "logic": "set"
+          }
+          ]
+        },
+        {
+          "type": "b",
+          "event": "44",
+          "trigger": true,
+          "actions": [{
+            "state": "44",
+            "value": true,
+            "type": "b",
+            "logic": "set"
+          },
+          {
+            "state": "45",
+            "value": "John Doe",
+            "type": "s",
+            "logic": "set"
+          }
+          ]
+        },
+        {
+          "type": "b",
+          "event": "46",
+          "trigger": true,
+          "actions": [{
+            "state": "46",
+            "value": 5,
+            "type": "n",
+            "logic": "set"
+          },
+          {
+            "state": "47",
+            "value": 15,
+            "type": "n",
+            "logic": "set"
+          }
+          ]
+        }
+        ]
+      };
+      const emulator = CrComLib.Ch5Emulator.getInstance();
+
+      let ch5Btn = null;
+      let ch5BtnHtmlLabel = null;
+      let ch5List = null;
+      let ch5Img = null;
+      let ch5Select1 = null;
+      let ch5Select2 = null;
+      let ch5Select3 = null;
+      let ch5toggle = null;
+      let ch5OverlayPanel = null;
+      let ch5ModalDialog = null;
+      let ch5Slider = null;
+      let ch5Triggerview1 = null;
+      let ch5Triggerview2 = null;
+      let ch5Textinput = null;
+      let ch5Spinner = null;
+
+      /* coverity[implicit_this_used] */
+      setup(async () => {
+        emulator.loadScenario(scenario);
+        ch5Btn = fixture('ch5-btn-fixture');
+        ch5BtnHtmlLabel = fixture('ch5-btn-html-label-fixture');
+        ch5List = fixture('ch5-list-fixture');
+        ch5Img = fixture('ch5-img-fixture');
+        ch5Select1 = fixture('ch5-select-fixture-1');
+        ch5Select2 = fixture('ch5-select-fixture-2');
+        ch5Select3 = fixture('ch5-select-fixture-3');
+        ch5toggle = fixture('ch5-toggle-fixture');
+        ch5OverlayPanel = fixture('ch5-overlay-panel-fixture');
+        ch5ModalDialog = fixture('ch5-modal-dialog-fixture');
+        ch5Slider = fixture('ch5-slider-fixture');
+        ch5Triggerview1 = fixture('ch5-triggerview-fixture-1');
+        ch5Triggerview2 = fixture('ch5-triggerview-fixture-2');
+        ch5Textinput = fixture('ch5-textinput');
+        ch5Spinner = fixture('ch5-spinner');
+      });
+
+      test('[ch5-button] receiveStateSelected, receiveStateLabel, receiveStateScriptLabelHtml', function (done) {
+        // trigger signal updates
+        CrComLib.publishEvent('b', 'trigBtnSigUpdates', true);
+        flush(() => {
+          setTimeout(() => {
+            // check if new received signal values updated btn data as it should
+            expect(ch5Btn.label).to.equal('Label received from state - emulator');
+            expect(ch5Btn.selected).to.equal(true);
+
+            const btn2Label = ch5BtnHtmlLabel.querySelector('.ch5-button--label');
+            expect(btn2Label.innerHTML)
+              .to.equal("He<b>ll</b>o <span style=\"color:red\">World</span><i style=\"color: blue;\">!</i>");
+            done();
+          }, 40);
+        });
+      });
+
+      test('[ch5-list] receiveStateSize, receiveStateScrollTo, receiveStateTemplateVars', function (done) {
+        CrComLib.publishEvent('b', 'ch5-list-sig', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5List.size).to.equal(21);
+            expect(CrComLib.getState('n', '50')).to.equal(10); // scrollTo item nr
+            expect(JSON.parse(ch5List.templateVars).length).to.equal(5);
+            done();
+          }, 40);
+        });
+      });
+
+      test('[ch5-image] receiveStateUrl', function (done) {
+        CrComLib.publishEvent('b', 'ch5-img-sig', true);
+        setTimeout(() => {
+          expect(ch5Img.url).to.equal('https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/' +
+            'Featured%20Pages/Digital%20Media/all-in-one.jpg');
+          done();
+        }, 40);
+      });
+
+      test('[ch5-select] receiveStateValue, receiveStateSize, receiveStateTemplateVars',
+        function (done) {
+          CrComLib.publishEvent('b', 'ch5-select-size-and-tmpl-vars', true);
+          CrComLib.publishEvent('n', '26', 3);
+          setTimeout(() => {
+            expect(ch5Select1.templateVarsData.length).to.equal(4);
+            expect(ch5Select1.size).to.equal(4);
+            expect(ch5Select1.selectedValue).to.equal(3);
+            done();
+          }, 40);
+        });
+
+      test('Variable signals augmentation on items generated by a template', function () {
+        // check variable signals augmentation
+        const options = ch5Select2.querySelectorAll('ch5-select-option');
+        for (let i = 0; i < options.length; i++) {
+          expect(options[i].receiveStateSelected).to.equal(String(29 + i));
+          const optTextContent = options[i].querySelector('span');
+          expect(optTextContent.innerHTML).to.equal('Option ' + String((i)));
+        }
+      });
+
+      test('[ch5-select-option] receiveStateSelected, receiveStateLabel', function (done) {
+        // select first option
+        CrComLib.publishEvent('b', '29', true);
+        setTimeout(() => {
+          expect(ch5Select2.selectedValue).to.equal(0);
+          // select second option
+          CrComLib.publishEvent('b', '30', true);
+          setTimeout(() => {
+            expect(ch5Select2.selectedValue).to.equal(1);
+            // check receiveState label
+            CrComLib.publishEvent('b', 'update_select_labels', true);
+            setTimeout(() => {
+              const options2 = ch5Select3.querySelectorAll('ch5-select-option');
+              for (let i = 0; i < options2.length; i++) {
+                expect(options2[i].optLabel).to.equal('Label ' + (i));
+              }
+              done();
+            }, 40);
+          }, 40);
+        }, 40);
+      });
+
+      test('[ch5-toggle] receiveStateValue, receiveStateScriptLabelHTML', function (done) {
+        CrComLib.publishEvent('b', '33', true);
+        CrComLib.publishEvent('b', '34', true);
+        setTimeout(() => {
+          expect(ch5toggle.value).to.equal(true);
+          expect(ch5toggle.label).to.equal('<span style=\'color:green\'>Hello</span><br/><span style=\'color:red\'>W</span>orld!');
+          done();
+        }, 40);
+      });
+
+      test('[ch5-toggle] receiveStateValue, receiveStateScriptLabelHTML', function () {
+        CrComLib.publishEvent('b', '33', true);
+        expect(ch5toggle.value).to.equal(true);
+
+        CrComLib.publishEvent('b', '34', true);
+        expect(ch5toggle.label).to.equal(
+          '<span style=\'color:green\'>Hello</span><br/><span style=\'color:red\'>W</span>orld!');
+      });
+
+      test('[ch5-overlay-panel] receiveStatePositionTo, receiveStatePositionOffset', function (done) {
+        CrComLib.publishEvent('b', 'trigger_pos', true);
+        CrComLib.publishEvent('b', 'trigger_pos_offset', true);
+        setTimeout(() => {
+          expect(ch5OverlayPanel.positionTo).to.equal('el-id-to-position');
+          expect(ch5OverlayPanel.positionOffset).to.equal('bottom-right');
+          done();
+        }, 40);
+      });
+
+      test('[ch5-modal-dialog] inherits ch5-overlay-panel receive signal attributes', function (done) {
+        expect(ch5ModalDialog.getAttribute('show')).to.equal('false');
+        CrComLib.publishEvent('b', '37', true);
+        setTimeout(() => {
+          expect(ch5ModalDialog.getAttribute('show')).to.equal('true');
+          done();
+        }, 40);
+      });
+
+      test('[ch5-slider] receiveStateValue, receiveStateValueHigh', function (done) {
+        expect(ch5Slider.value).to.equal(0);
+        expect(ch5Slider.valueHigh).to.equal(75);
+        CrComLib.publishEvent('b', 'update_slider_values_1', true);
+        setTimeout(() => {
+          expect(ch5Slider.value).to.equal(25);
+          // receiveStateValueHigh state not working properly with object type and WCT tests
+          // expect(ch5Slider.valueHigh).to.equal(70);
+          done();
+        }, 40);
+      });
+
+      test('[ch5-triggerview & ch5-triggerview-child] receiveStateShow', (done) => {
+        expect(ch5Triggerview1.activeView).to.equal(0); // first child selected (default)
+        expect(ch5Triggerview2.activeView).to.equal(0); // first child selected (default)
+
+        CrComLib.publishEvent('b', 'trig1', true);
+        // CrComLib.publishEvent('b', 'trig2', true);
+
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Triggerview1.activeView).to.equal(3); // third child selected
+            // TODO: ch5-triggerview-child receiveStateShow cannot update parent activeView inside WCT test-fixture
+            // expect(ch5Triggerview2.activeView).to.equal(2); // second child selected
+            done();
+          }, 100);
+        });
+      });
+
+      test('[ch5-textinput] receiveStateFocus, receiveStateValue', function (done) {
+        flush(() => {
+          expect(ch5Textinput.classList.contains('ch5-textinput--focused')).to.equal(false);
+          expect(ch5Textinput.value).to.equal('');
+          CrComLib.publishEvent('b', '44', true);
+
+          setTimeout(() => {
+            // focus has some issues with wct, check for focused class commented for now
+            // expect(ch5Textinput.classList.contains('ch5-textinput--focused')).to.equal(true);
+            expect(ch5Textinput.value).to.equal('John Doe');
+            done();
+          }, 40);
+        });
+      });
+
+      test('[ch5-spinner] receiveStateValue, receiveStateSize', function (done) {
+        flush(() => {
+          expect(ch5Spinner.selectedValue).to.equal(0);
+          CrComLib.publishEvent('b', '46', true);
+          setTimeout(() => {
+            expect(ch5Spinner.selectedValue).to.equal(5);
+            expect(ch5Spinner.size).to.equal(15);
+            done();
+          }, 40);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

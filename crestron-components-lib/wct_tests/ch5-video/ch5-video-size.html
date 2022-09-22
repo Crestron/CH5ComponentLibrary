@@ -1,0 +1,356 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+<test-fixture id="ch5-video-default-fixture">
+    <template>
+       <ch5-video aspectratio="16:9" 
+        indexid="0" size="x-small" zindex="0" 
+        url="rtsp://admin:Welcome2C$@10.88.17.10" 
+        userid="admin" password="Welcome2C$" sourcetype="Network" 
+        snapshoturl="https://picsum.photos/512/288/?random" snapshotrefreshrate="5" controls="true">
+       </ch5-video>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-video-small-size-fixture">
+    <template>
+       <ch5-video aspectratio="16:9" 
+        indexid="0" size="small" zindex="0" 
+        url="rtsp://admin:Welcome2C$@10.88.17.10" 
+        userid="admin" password="Welcome2C$" sourcetype="Network" 
+        snapshoturl="https://picsum.photos/512/288/?random" snapshotrefreshrate="5" controls="true">
+       </ch5-video>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-video-large-size-fixture">
+    <template>
+       <ch5-video aspectratio="4:3" 
+        indexid="0" size="large" zindex="0" 
+        url="rtsp://admin:Welcome2C$@10.88.17.10" 
+        userid="admin" password="Welcome2C$" sourcetype="Network" 
+        snapshoturl="https://picsum.photos/512/288/?random" snapshotrefreshrate="5" controls="true">
+       </ch5-video>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-video-x-large-size-fixture">
+    <template>
+       <ch5-video aspectratio="4:3" 
+        indexid="0" size="x-large" zindex="0" 
+        url="rtsp://admin:Welcome2C$@10.88.17.10"
+        userid="admin" password="Welcome2C$" sourcetype="Network" 
+        snapshoturl="https://picsum.photos/512/288/?random" snapshotrefreshrate="5" controls="true">
+       </ch5-video>
+    </template>
+</test-fixture>
+<test-fixture id="ch5-video-xx-large-size-fixture">
+    <template>
+       <ch5-video aspectratio="16:9" 
+        indexid="0" size="xx-large" zindex="0" 
+        url="rtsp://admin:Welcome2C$@10.88.17.10"
+        userid="admin" password="Welcome2C$" sourcetype="Network" 
+        snapshoturl="https://picsum.photos/512/288/?random" snapshotrefreshrate="5" controls="true">
+       </ch5-video>
+    </template>
+</test-fixture>
+<test-fixture id="ch5-video-xx-large-aspectratio4:3-size-fixture">
+    <template>
+       <ch5-video aspectratio="4:3" 
+        indexid="0" size="xx-large" zindex="0" 
+        url="rtsp://admin:Welcome2C$@10.88.17.10"
+        userid="admin" password="Welcome2C$" sourcetype="Network" 
+        snapshoturl="https://picsum.photos/512/288/?random" snapshotrefreshrate="5" controls="true">
+       </ch5-video>
+    </template>
+</test-fixture>
+
+<script>
+
+function getAspectRatioWidth(pixelWidth, aRatio) {
+    let pHeight = 0;
+    pHeight = pixelWidth / aRatio.width * aRatio.height;
+    pHeight = parseFloat(pHeight.toFixed(2));
+    return pHeight;
+}
+
+function getAspectRatioHeight(pixelHeight, aRatio) {
+    let pWidth = 0;
+    pWidth = pixelHeight / aRatio.height * aRatio.width;
+    pWidth = parseFloat(pWidth.toFixed(2));
+    return pWidth;
+}
+function aspectRatioCalculation(ratioWidth, ratioHeight, pixelWidth, pixelHeight) {
+    const pWidth = pixelWidth - (pixelWidth % ratioWidth);
+    const pHeight = pixelHeight - (pixelHeight % ratioHeight);
+
+    const roundedWidth = pWidth - (pWidth % ratioWidth);
+    const roundedHeight = pHeight - (pHeight % ratioHeight);
+
+    let pw = roundedWidth;
+    let ph = roundedHeight;
+
+   const aRatio = { width: ratioWidth, height: ratioHeight };
+    ph = getAspectRatioWidth(roundedWidth, aRatio);
+
+    if (ph > pHeight) {
+        ph = roundedHeight;
+        pw = getAspectRatioHeight(roundedHeight, aRatio);
+    }
+
+   return ({ width: pw, height: ph });
+}
+
+function convertVhUnitsToPx(vh) {
+
+        const height = window.innerHeight || document.documentElement.clientHeight;
+        const convertedValue = (vh * height) / 100;
+        return convertedValue;
+    }
+    function convertVwUnitsToPx(vw) {
+        const width = window.innerWidth || document.documentElement.clientWidth;
+        const convertedValue = (vw * width) / 100;
+        return convertedValue;
+    }
+ function getAspectRatio(ratioWidth, ratioHeight, viewPortSize) {
+    const pixelVH = convertVhUnitsToPx(viewPortSize);
+    const pixelVW = convertVwUnitsToPx(viewPortSize);
+    return aspectRatioCalculation(ratioWidth, ratioHeight, pixelVW, pixelVH);
+}
+ function aspectRatio(ratioWidth, ratioHeight, size) {
+    let sizeObj = {};
+    switch (size) {
+        case 'xx-large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 85);
+            break;
+        case 'x-large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 70);
+            break;
+        case 'large':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+            break;
+        case 'small':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 40);
+            break;
+        case 'x-small':
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 25);
+            break;
+        default:
+            sizeObj = getAspectRatio(ratioWidth, ratioHeight, 55);
+            break;
+    }
+    return sizeObj;
+}
+const  availablesizes = ['x-small', 'small', 'large', 'x-large', 'xx-large'];
+    
+    suite('ch5-video x-small size', function() {
+        let ch5Video;
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Video = fixture('ch5-video-default-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-video')
+            ]);
+        });
+
+        test('ch5-video size a string', function() {
+            expect(ch5Video.size).to.be.a('string');
+        });
+
+        test('ch5-video should have one control-panel element.', function(done) {
+               flush(function() {
+                    let controlPanel = ch5Video.querySelectorAll('.control-panel');
+                    expect(controlPanel.length).to.be.equal(1);
+                    done();
+            });
+        });
+
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        // test('ch5-video should have one canvas element.', function(done) {
+        //     flush(function() {
+        //         let canvasEl = ch5Video.querySelectorAll('canvas');
+        //         expect(canvasEl.length).to.be.equal(1);
+        //         done();
+        //     });
+        // });
+
+        // test('Canvas height for aspectratio "16:9" and size "x-small" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(16, 9, 'x-small');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+
+    });
+
+    suite('ch5-video small size', function() {
+        let ch5Video;
+        setup(() => {
+            ch5Video = fixture('ch5-video-small-size-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-video')
+            ]);
+        });
+
+        test('ch5-video size a string', function() {
+            expect(ch5Video.size).to.be.a('string');
+        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "16:9" and size "small" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(16, 9, 'small');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+
+    });
+    
+
+    suite('ch5-video large size', function() {
+        let ch5Video;
+        setup(() => {
+            ch5Video = fixture('ch5-video-large-size-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-video')
+            ]);
+        });
+
+        test('ch5-video size a string', function() {
+            expect(ch5Video.size).to.be.a('string');
+        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "4:3" and size "large" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+        //  test('Canvas width for aspectratio "4:3" and size "large" should be equal to videoSize width', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.width).to.be.equal(videoSize.width);
+        //         done();
+        //     });
+        // });
+
+    });
+
+     suite('ch5-video x-large size', function() {
+        let ch5Video;
+        setup(() => {
+            ch5Video = fixture('ch5-video-x-large-size-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-video')
+            ]);
+        });
+
+        test('ch5-video size a string', function() {
+            expect(ch5Video.size).to.be.a('string');
+        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "4:3" and size "x-large" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'x-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+        //  test('Canvas width for aspectratio "4:3" and size "x-large" should be equal to videoSize width', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'x-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.width).to.be.equal(videoSize.width);
+        //         done();
+        //     });
+        // });
+
+    });
+
+    suite('ch5-video xx-large size', function() {
+        let ch5Video;
+        setup(() => {
+            ch5Video = fixture('ch5-video-xx-large-size-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-video')
+            ]);
+        });
+
+        test('ch5-video size a string', function() {
+            expect(ch5Video.size).to.be.a('string');
+        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "16:9" and size "xx-large" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(16, 9, 'xx-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+        //  test('Canvas width for aspectratio "16:9" and size "xx-large" should be equal to videoSize width', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(16, 9, 'xx-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.width).to.be.equal(videoSize.width);
+        //         done();
+        //     });
+        // });
+
+    });
+    suite('ch5-video xx-large with aspectratio 4:3', function() {
+        let ch5Video;
+        setup(() => {
+            ch5Video = fixture('ch5-video-xx-large-aspectratio4:3-size-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-video')
+            ]);
+        });
+
+        test('ch5-video size a string', function() {
+            expect(ch5Video.size).to.be.a('string');
+        });
+        // HH : Commenting "Canvas" based test cases as video component no longer has canvas tag within it
+        //  test('Canvas height for aspectratio "4:3" and size "xx-large" should be equal to videoSize height', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'xx-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.height).to.be.equal(videoSize.height);
+        //         done();
+        //     });
+        // });
+        //  test('Canvas width for aspectratio "4:3" and size "xx-large" should be equal to videoSize width', function(done) {
+        //     flush(function() {
+        //         let videoSize = aspectRatio(4, 3, 'xx-large');
+        //         let canvasEl = ch5Video.querySelector('canvas');
+        //         expect(canvasEl.width).to.be.equal(videoSize.width);
+        //         done();
+        //     });
+        // });
+
+    });
+
+</script>
+</body>
+</html>

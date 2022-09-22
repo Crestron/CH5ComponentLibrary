@@ -1,0 +1,35 @@
+{% raw %}
+(function () {
+    const mutationsParentEl = document.getElementById('mutations-parent');
+    const addBtn = document.getElementById('add');
+    const updateBtn = document.getElementById('update');
+    const removeBtn = document.getElementById('remove');
+
+    addBtn.addEventListener('click', () => {
+        const divWithInnerhtmlCustomAttr = document.createElement('div');
+        divWithInnerhtmlCustomAttr.classList.add('b-red');
+        divWithInnerhtmlCustomAttr.setAttribute('id', 'new-el');
+        divWithInnerhtmlCustomAttr.setAttribute('debug', '');
+        divWithInnerhtmlCustomAttr.setAttribute('data-ch5-innerhtml', 'data_ch5_innerhtml_signal_2');
+
+        if (mutationsParentEl.querySelector('#new-el') === null) {
+            mutationsParentEl.appendChild(divWithInnerhtmlCustomAttr);
+        }
+    });
+
+    updateBtn.addEventListener('click', () => {
+        const divWithInnerhtmlCustomAttr = document.getElementById('new-el');
+        if (divWithInnerhtmlCustomAttr) {
+            divWithInnerhtmlCustomAttr.setAttribute('data-ch5-innerhtml', 'data_ch5_innerhtml_signal_3');
+        }
+    });
+
+    removeBtn.addEventListener('click', () => {
+        const divWithInnerhtmlCustomAttr = document.getElementById('new-el');
+        if (divWithInnerhtmlCustomAttr) {
+            mutationsParentEl.removeChild(divWithInnerhtmlCustomAttr);
+        }
+    });
+
+})();
+{% endraw %}

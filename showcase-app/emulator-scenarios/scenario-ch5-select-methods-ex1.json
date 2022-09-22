@@ -1,0 +1,17 @@
+{
+  "cues": [
+    {
+      "type": "number",
+      "event": "volume_select",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "volume_selected",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    }
+  ],
+  "onStart": []
+}

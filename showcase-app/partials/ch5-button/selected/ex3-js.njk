@@ -1,0 +1,14 @@
+(function () {
+    const selectorTrue = document.getElementsByClassName('btn_rec_sel_true')[0];
+    const selectorFalse = document.getElementsByClassName('btn_rec_sel_false')[0];
+    
+    const sigName = 'btn_receive_selected';
+    
+    selectorTrue.addEventListener('click', () => {
+        CrComLib.publishEvent('b', sigName, true);
+    });
+
+    selectorFalse.addEventListener('click', () => {
+        CrComLib.publishEvent('b', sigName, false);
+    });
+})()

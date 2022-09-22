@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-image-url-fixture">
+    <template>
+        <ch5-image
+            url="https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg">
+        </ch5-image>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-image url', function() {
+
+        let ch5Image;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Image = fixture('ch5-image-url-fixture');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-image')
+            ]);
+        });
+
+        test('Url to be a string', function() {
+            ch5Image.setAttribute('url', false);
+            expect(ch5Image.url).to.be.a('string');
+        });
+
+        test('Url "https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg"', function() {
+            expect(ch5Image.url).to.be.equal('https://www.crestron.com/Crestron/media/Crestron/GeneralSiteImages/Featured%20Pages/Digital%20Media/all-in-one.jpg');
+        });
+
+        test('Url is reflected in image src', function(){
+            customElements.whenDefined('ch5-image').then(
+                ()=>{
+                    const internalImgElement = ch5Image.querySelector('img');
+                    expect(ch5Image.url).to.be.equal(internalImgElement.src);
+                }
+            );
+        });
+    });
+</script>
+</body>
+</html>

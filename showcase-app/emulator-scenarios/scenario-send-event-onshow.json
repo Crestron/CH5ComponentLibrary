@@ -1,0 +1,20 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "show_element",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "show_1",
+          "type": "boolean",
+          "logic": "set",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "onStart":[
+    {"state": "show_1", "value": true, "type": "b","logic": "set"}
+  ]
+}

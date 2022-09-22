@@ -1,0 +1,20 @@
+{
+  "attributes":{
+    "id":{
+      "volume1":{
+        "size":"4",
+        "noneSelectedPrompt":"Please select an option"
+      }
+    }
+  },
+  "templatevariables": {
+    "id": {
+      "volume1": [
+        {"label":"Down", "fa-icon": "volume-down"},
+        {"label":"Up", "fa-icon": "volume-up"},
+        {"label":"Mute", "fa-icon": "volume-off"},
+        {"label":"Speaker", "fa-icon": "phone-volume"}
+      ]
+    }
+  }
+}

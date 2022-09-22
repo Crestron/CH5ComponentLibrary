@@ -1,0 +1,12 @@
+---
+title: "ch5-select: minWidth, maxWidth, minHeight, maxHeight, scrollWidth, resize"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% call exampleSectionFromPartials('ch5-select/dimensions/','ex1') %}{% endcall %}
+    {% call exampleSectionFromPartials('ch5-select/dimensions/','ex2') %}{% endcall %}
+
+{% endblock %}

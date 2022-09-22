@@ -1,0 +1,192 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "xyz_0.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_0 button clicked"
+        },
+        {
+          "state": "receive.stop_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_1.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_1 button clicked"
+        },
+        {
+          "state": "receive.prevtrack_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_2.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_2 button clicked"
+        },
+        {
+          "state": "receive.play_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_3.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_3 button clicked"
+        },
+        {
+          "state": "receive.nexttrack_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_4.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_4 button clicked"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_5.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_5 button clicked"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_6.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_6 button clicked"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_7.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_7 button clicked"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_8.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_8 button clicked"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_9.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_9 button clicked"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "xyz_10.click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "selected_button_from_list",
+          "type": "s",
+          "logic": "set",
+          "value": "xyz_10 button clicked"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "4",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "4",
+          "type": "s",
+          "logic": "set",
+          "value": "25 degrees Celsius"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "selected_button_from_list",
+      "type": "s",
+      "value": "No buttons from ch5-list have been clicked"
+    },
+    {
+      "state": "numXYZ",
+      "type": "n",
+      "value": 10
+    }
+  ]
+}

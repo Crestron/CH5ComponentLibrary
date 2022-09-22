@@ -1,0 +1,42 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_type_increment_mode",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "current_mode",
+          "type": "n",
+          "logic": "increment",
+          "offset": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_type_decrement_mode",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "current_mode",
+          "type": "n",
+          "logic": "decrement",
+          "offset": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_set_selected_state",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "receive_selected_state",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ]
+}

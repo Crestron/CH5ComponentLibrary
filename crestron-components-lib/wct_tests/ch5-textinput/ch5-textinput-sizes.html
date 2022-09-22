@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+    <test-fixture id="ch5-textinput-size-default-fixture">
+        <template>
+            <ch5-textinput 
+            label="First Name"
+            icon="fa fa-plane"></ch5-textinput>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-textinput-size-invalid-fixture">
+        <template>
+            <ch5-textinput 
+            label="First Name"
+            size="invalidvalue"></ch5-textinput>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-textinput default size', function () {
+
+            let ch5Textinput;
+
+            /* coverity[implicit_this_used] */
+            setup(() => {
+                ch5Textinput = fixture('ch5-textinput-size-default-fixture');
+            });
+
+            test('Default size is "regular"', function (done) {
+                setTimeout(() => {
+                    expect(ch5Textinput.getAttribute('size')).to.be.equal('regular');
+                    done();
+                });
+            });
+
+            const availableSizes = ['regular', 'x-small', 'small', 'large', 'x-large'];
+
+            availableSizes.forEach((sizeName, i) => {
+                test(`size: "${sizeName}"`, function () {
+                    ch5Textinput.setAttribute('size', sizeName);
+                    expect(ch5Textinput.getAttribute('size')).to.be.equal(sizeName);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

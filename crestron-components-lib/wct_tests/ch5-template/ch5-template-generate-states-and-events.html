@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-temple-generate-states-and-events">
+    <template id="transportbuttons">
+        <div class="trnsbtns">
+            <ch5-button customClass="trnsbtns__prev"
+                        id="TRANSBTNS.prevtrack"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-fast_rewind"
+                        sendEventOnClick="TRANSBTNS.prevtrack_clicked"
+                        receiveStateSelected="TRANSBTNS.prevtrack_selected">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__play"
+                        id="TRANSBTNS.play"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-play_arrow"
+                        sendEventOnClick="TRANSBTNS.play_clicked"
+                        receiveStateSelected="TRANSBTNS.play_selected">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__next"
+                        id="TRANSBTNS.nexttrack"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-fast_forward"
+                        sendEventOnClick="TRANSBTNS.nexttrack_clicked"
+                        receiveStateSelected="TRANSBTNS.nexttrack_selected">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__record"
+                        id="TRANSBTNS.record"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-fiber_manual_record"
+                        sendEventOnClick="TRANSBTNS.record_clicked"
+                        receiveStateSelected="TRANSBTNS.record_selected"
+                        receiveStateShow="TRANSBTNS.record_show">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__stop"
+                        id="TRANSBTNS.stop"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-stop"
+                        sendEventOnClick="TRANSBTNS.stop_clicked"
+                        receiveStateSelected="TRANSBTNS.stop_selected">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__pause"
+                        id="TRANSBTNS.pause"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-pause"
+                        sendEventOnClick="TRANSBTNS.pause_clicked"
+                        receiveStateSelected="TRANSBTNS.pause_selected">
+            </ch5-button>
+        </div>
+    </template>
+    <template id="transportbuttons_nextline">
+        <div>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-fast_rewind"
+                        receiveStateSelected="TRANSBTNS.prevtrack_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-play_arrow"
+                        receiveStateSelected="TRANSBTNS.play_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-fast_forward"
+                        receiveStateSelected="TRANSBTNS.nexttrack_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-fiber_manual_record"
+                        receiveStateSelected="TRANSBTNS.record_selected"
+                        receiveStateShow="TRANSBTNS.record_show">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-stop"
+                        receiveStateSelected="TRANSBTNS.stop_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-pause"
+                        receiveStateSelected="TRANSBTNS.pause_selected">
+            </ch5-button>
+        </div>
+    </template>
+
+    <ch5-template id="receive"
+                  templateid="transportbuttons_nextline"
+                  context="TRANSBTNS:receive"></ch5-template>
+
+    <ch5-template id="directv"
+                  receiveStateShow="directv.show"
+                  templateid="transportbuttons"
+                  context="TRANSBTNS:directv"></ch5-template>
+</test-fixture>
+
+<script>
+  // SOW Example, available in the showcase app under ch5-template-receive-send-signal
+  suite('ch5-template-generate-states-and-events', function () {
+    let ch5TemplateReceive;
+    let ch5Template2Directv;
+    let ch5SignalFactory = CrComLib.Ch5SignalFactory.getInstance();
+
+    const emulator = CrComLib.Ch5Emulator.getInstance();
+
+    /* coverity[implicit_this_used] */
+    setup(() => {
+
+      const scenario = {
+        "cues": [
+          {
+            "type": "boolean",
+            "event": "directv.prevtrack_clicked",
+            "trigger": true,
+            "actions": [
+              {
+                "state": "selected_button",
+                "type": "s",
+                "logic": "set",
+                "value": "prev track clicked"
+              },
+              {
+                "state": "receive.prevtrack_selected",
+                "type": "boolean",
+                "logic": "toggle"
+              }
+            ]
+          },
+          {
+            "type": "boolean",
+            "event": "directv.play_clicked",
+            "trigger": true,
+            "actions": [
+              {
+                "state": "selected_button",
+                "type": "s",
+                "logic": "set",
+                "value": "play clicked"
+              },
+              {
+                "state": "receive.play_selected",
+                "type": "boolean",
+                "logic": "toggle"
+              }
+            ]
+          },
+          {
+            "type": "boolean",
+            "event": "directv.nexttrack_clicked",
+            "trigger": true,
+            "actions": [
+              {
+                "state": "selected_button",
+                "type": "s",
+                "logic": "set",
+                "value": "next button clicked"
+              },
+              {
+                "state": "receive.nexttrack_selected",
+                "type": "boolean",
+                "logic": "toggle"
+              }
+            ]
+          },
+          {
+            "type": "boolean",
+            "event": "directv.record_clicked",
+            "trigger": true,
+            "actions": [
+              {
+                "state": "selected_button",
+                "type": "s",
+                "logic": "set",
+                "value": "record button clicked"
+              },
+              {
+                "state": "receive.record_selected",
+                "type": "boolean",
+                "logic": "toggle"
+              }
+            ]
+          },
+          {
+            "type": "boolean",
+            "event": "directv.stop_clicked",
+            "trigger": true,
+            "actions": [
+              {
+                "state": "selected_button",
+                "type": "s",
+                "logic": "set",
+                "value": "stop button clicked"
+              },
+              {
+                "state": "receive.stop_selected",
+                "type": "boolean",
+                "logic": "toggle"
+              }
+            ]
+          },
+          {
+            "type": "boolean",
+            "event": "directv.pause_clicked",
+            "trigger": true,
+            "actions": [
+              {
+                "state": "selected_button",
+                "type": "s",
+                "logic": "set",
+                "value": "pause button clicked"
+              },
+              {
+                "state": "receive.pause_selected",
+                "type": "boolean",
+                "logic": "toggle"
+              }
+            ]
+          }
+        ],
+        "onStart": [
+          {
+            "state": "selected_button",
+            "type": "s",
+            "value": "no button clicked"
+          }
+        ]
+      };
+
+      emulator.loadScenario(scenario);
+
+      ch5TemplateReceive = document.getElementById("receive");
+      ch5Template2Directv = document.getElementById("directv");
+      ch5SignalFactory = CrComLib.Ch5SignalFactory.getInstance();
+
+      return Promise.all([
+        customElements.whenDefined('ch5-template')
+      ]);
+    });
+
+    test('Events and states will be created when used in a ch5-template', function () {
+      expect(ch5SignalFactory.getBooleanSignal("directv.nexttrack_clicked", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.pause_clicked", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.play_clicked", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.prevtrack_clicked", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.record_clicked", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.stop_clicked", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.record_show", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.show", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.nexttrack_selected", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.pause_selected", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.play_selected", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.prevtrack_selected", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.record_selected", false)).to.not.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("directv.stop_selected", false)).to.not.be.null;
+    });
+
+    test('Default events and states will not be created if those elements are not used inside a ch5-template', function () {
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.nexttrack_clicked", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.pause_clicked", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.play_clicked", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.prevtrack_clicked", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.record_clicked", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.stop_clicked", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.record_show", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.show", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.nexttrack_selected", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.pause_selected", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.play_selected", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.prevtrack_selected", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.record_selected", false)).to.be.null;
+      expect(ch5SignalFactory.getBooleanSignal("TRANSBTNS.stop_selected", false)).to.be.null;
+    });
+  });
+</script>
+</body>
+</html>

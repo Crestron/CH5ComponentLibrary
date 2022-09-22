@@ -1,0 +1,39 @@
+$( document ).ready(function() {
+var input = document.querySelector("#price input");
+var p = document.createElement('p');
+input.parentNode.parentNode.parentNode.appendChild(p);
+
+var ch5textinput = document.querySelector("#price");
+
+input.addEventListener('blur', function() {
+
+  ch5textinput.submit();
+
+});
+input.addEventListener('blur', function(e) {
+    console.log(this.validity.valid);
+    this.parentNode.parentNode.parentNode.querySelector('p').classList.remove('hidden');
+
+    if(this.value.length === 0) {
+        this.parentNode.parentNode.parentNode.querySelector('p').classList.add('hidden');
+
+    }
+});
+input.addEventListener('maskerror', function(e) {
+    this.parentNode.parentNode.parentNode.querySelector('p').classList.remove('hidden');
+
+
+  this.parentNode.parentNode.parentNode.querySelector('p').classList.add('invalid-text');
+  this.parentNode.parentNode.parentNode.querySelector('p').classList.remove('valid-text');
+
+  this.parentNode.parentNode.parentNode.querySelector('p').innerHTML = '<span class="fa fa-times"></span> Price is not yet valid'
+});
+
+input.addEventListener('maskcomplete', function(e) {
+    p.classList.remove('hidden');
+    this.parentNode.parentNode.parentNode.querySelector('p').classList.add('valid-text');
+    this.parentNode.parentNode.parentNode.querySelector('p').classList.remove('invalid-text');
+
+    this.parentNode.parentNode.parentNode.querySelector('p').innerHTML = '<span class="fa fa-check"></span> Price is valid';
+})
+});

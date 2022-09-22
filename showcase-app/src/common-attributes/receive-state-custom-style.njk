@@ -1,0 +1,17 @@
+---
+title: "Common attributes: receiveStateCustomStyle"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/common-attributes/receive-state-custom-style.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+
+    {% call exampleSectionFromPartials('common-attributes/receive-state-custom-style/','ex1', true) %}{% endcall %}
+
+{% endblock %}

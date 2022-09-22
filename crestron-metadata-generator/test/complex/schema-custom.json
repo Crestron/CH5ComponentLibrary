@@ -1,0 +1,234 @@
+{
+  "version": "1.0.0",
+  "componentsVersion": "0.1.5",
+  "htmlElements": {
+    "common": {
+      "attributes": [
+        {
+          "documentation": [
+            "`ch5-show-attribute` element",
+            "***",
+            "Extension to standard HTML attributes."
+          ],
+          "value": [
+            "one",
+            "two"
+          ],
+          "name": "Ch5 Show Attribute"
+        }
+      ]
+    },
+    "elements": []
+  },
+  "ch5Elements": {
+    "common": {
+      "attributes": []
+    },
+    "elements": [
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`type` attribute",
+              "***",
+              "Valid values: default, info, text, danger, warning, success, primary, secondary.",
+              "",
+              "Overrides the appearance of the button with alternative css defined in classes defined with ch5-button--type where type is the value of the property.If no `type` is provided, type of `default` is used."
+            ],
+            "value": [
+              "default",
+              "info",
+              "text",
+              "danger",
+              "warning",
+              "success",
+              "primary",
+              "secondary"
+            ],
+            "name": "type",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
+          },
+          {
+            "documentation": [
+              "`size` attribute",
+              "***",
+              "Overrides the appearance of the button with alternative css defined in classes defined with ch5-button--type where type is the value of the property.If no `size` is provided, type of `default` is used."
+            ],
+            "value": [
+              "default",
+              "info",
+              "text",
+              "danger",
+              "warning",
+              "success",
+              "primary",
+              "secondary"
+            ],
+            "name": "size",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
+          },
+          {
+            "documentation": [],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
+          }
+        ],
+        "documentation": [
+          "`ch5-button` element",
+          "***",
+          "Extension to standard HTML ch5-button element with icons and simple formats."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-button",
+            "description": "Crestron Button",
+            "body": [
+              "<ch5-button id=\"btn_${1:id}\"",
+              "\tlabel=\"${2:Crestron Button}\"",
+              "\tsendSignalOnClick=\"${3:btn_${1}_clicked}\">",
+              "</ch5-button>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-button-",
+            "description": "Crestron Button (All Attributes)",
+            "body": [
+              "<ch5-button id=\"btn_${1:id}\"",
+              "\tlabel=\"${2:Crestron Button}\"",
+              "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
+              "\tcustomClass=\"${4:customClass}\"",
+              "\tshape=\"${5|rounded-rectangle,rectangle,tab,circle,oval|}\"",
+              "\tsize=\"${6|regular,x-small,small,large,x-large|}\"",
+              "\tstretch=\"${7|both,width,height|}\"",
+              "\ticonPosition=\"${8|first,last,top,bottom|}\"",
+              "\ticonClass=\"${9:iconClass}\"",
+              "\torientation=\"${8|horizontal,vertical|}\"",
+              "\tsendSignalOnClick=\"${9:btn_${1}_clicked}\"",
+              "\tsendSignalOnTouch=\"${10:btn_${1}_touched}\"",
+              "\treceiveSignalSelected=\"${11}\"",
+              "\treceiveSignalLabel=\"${12}\"",
+              "\treceiveSignalScriptLabelHtml=\"${13}\">",
+              "</ch5-button>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Button offers a wide range of functionality out-of-the-box.",
+        "name": "Ch5 Button",
+        "tagName": "ch5-button",
+        "role": "",
+        "componentVersion": ""
+      },
+      {
+        "attributes": [
+          {
+            "documentation": [
+              "`type` attribute",
+              "***",
+              "Valid values: default, info, text, danger, warning, success, primary, secondary.",
+              "",
+              "Overrides the appearance of the button with alternative css defined in classes defined with ch5-button--type where type is the value of the property.If no `type` is provided, type of `default` is used."
+            ],
+            "value": [
+              "default",
+              "info",
+              "text",
+              "danger",
+              "warning",
+              "success",
+              "primary",
+              "secondary"
+            ],
+            "name": "type",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
+          },
+          {
+            "documentation": [
+              "`size` attribute",
+              "***",
+              "Valid values: default, info, text, danger, warning, success, primary, secondary.",
+              "",
+              "Overrides the appearance of the button with alternative css defined in classes defined with ch5-button--type where type is the value of the property.If no `size` is provided, type of `default` is used."
+            ],
+            "value": [
+              "default",
+              "info",
+              "text",
+              "danger",
+              "warning",
+              "success",
+              "primary",
+              "secondary"
+            ],
+            "name": "composite",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
+          },
+          {
+            "documentation": [],
+            "value": [],
+            "name": "id",
+            "default": "null",
+            "hideWhen": [],
+            "showWhen": []
+          }
+        ],
+        "documentation": [
+          "`ch5-slider` element",
+          "***",
+          "Extension to standard HTML ch5-button element with icons and simple formats."
+        ],
+        "snippets": [
+          {
+            "prefix": "ch5-button",
+            "description": "Crestron Button",
+            "body": [
+              "<ch5-slider id=\"btn_${1:id}\"",
+              "\tlabel=\"${2:Crestron Button}\"",
+              "\tsendSignalOnClick=\"${3:btn_${1}_clicked}\">",
+              "</ch5-slider>$0"
+            ]
+          },
+          {
+            "prefix": "ch5-slider-",
+            "description": "Crestron Slider (All Attributes)",
+            "body": [
+              "<ch5-slider id=\"btn_${1:id}\"",
+              "\tlabel=\"${2:Crestron Button}\"",
+              "\ttype=\"${3|default,primary,info,text,danger,warning,success,secondary|}\"",
+              "\tcustomClass=\"${4:customClass}\"",
+              "\tshape=\"${5|rounded-rectangle,rectangle,tab,circle,oval|}\"",
+              "\tsize=\"${6|regular,x-small,small,large,x-large|}\"",
+              "\tstretch=\"${7|both,width,height|}\"",
+              "\ticonPosition=\"${8|first,last,top,bottom|}\"",
+              "\ticonClass=\"${9:iconClass}\"",
+              "\torientation=\"${8|horizontal,vertical|}\"",
+              "\tsendSignalOnClick=\"${9:btn_${1}_clicked}\"",
+              "\tsendSignalOnTouch=\"${10:btn_${1}_touched}\"",
+              "\treceiveSignalSelected=\"${11}\"",
+              "\treceiveSignalLabel=\"${12}\"",
+              "\treceiveSignalScriptLabelHtml=\"${13}\">",
+              "</ch5-slider>$0"
+            ]
+          }
+        ],
+        "childElements": [],
+        "description": "Ch5 Slider offers a wide range of functionality out-of-the-box.",
+        "name": "Ch5 Slider",
+        "tagName": "ch5-slider",
+        "role": "",
+        "componentVersion": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+---
+title: "ch5-template with ch5-triggerview"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+    {% call exampleSectionFromPartials('ch5-template/other-elements/ch5-triggerview/','ex1') %}{% endcall %}
+{% endblock %}

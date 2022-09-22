@@ -1,0 +1,21 @@
+{% raw %}
+    <h6> Ch5-template used with a ch5-select.</h6>
+    <br/>
+    <template id="volumeTemplate">
+        <span>INST</span>
+    </template>
+
+    <ch5-select minWidth="250px" maxWidth="350px"
+                minHeight="36px" maxHeight="48px"
+                size="5" indexId="idx"
+                noneSelectedPrompt="Select">
+        <template>
+            <ch5-select-option>
+                <ch5-template templateid="volumeTemplate"
+                              context="INST:item_{{idx}}">
+                </ch5-template>
+            </ch5-select-option>
+        </template>
+    </ch5-select>
+
+{% endraw %}

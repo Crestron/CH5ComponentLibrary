@@ -1,0 +1,11 @@
+<h5>Click on the button to see the change of 'checkboxPosition' attribute based on 'state'.</h5>
+
+<br/>
+
+<ch5-button label="Verify Type for Mode State" checkboxShow="true" sendeventonclick="trigger_set_selected_button_mode_state" checkboxPosition="right" stretch="width" type="text" mode="0" receivestateselected="receive_selected_button_mode_state">
+    <ch5-button-mode checkboxPosition="right">
+        <ch5-button-mode-state state="normal" type="warning" checkboxPosition="left"></ch5-button-mode-state>
+        <ch5-button-mode-state state="pressed" type="info" checkboxPosition="left"></ch5-button-mode-state>
+        <ch5-button-mode-state state="selected" type="success" checkboxPosition="right"></ch5-button-mode-state>
+    </ch5-button-mode>
+</ch5-button>

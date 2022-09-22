@@ -1,0 +1,17 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "hall_lights_tap",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "hall_lights_selected",
+          "type": "b",
+          "logic": "set",
+          "value": true
+        }
+      ]
+    }
+  ]
+}

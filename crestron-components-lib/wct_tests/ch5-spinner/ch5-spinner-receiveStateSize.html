@@ -1,0 +1,77 @@
+
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-spinner-reciveStateSize-fixture">
+        <template>
+            <ch5-spinner
+            label="item {{idx}}"
+            indexId="idx"
+            receiveStateSize="receive_spinner_size"
+            itemHeight="40"
+            size="15"
+          ></ch5-spinner>
+        
+        </template>
+    </test-fixture>
+
+ <script>
+        suite('ch5-spinner receiveStateSize', () => {
+            let ch5Spinner;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/receiveStateSize.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Spinner = fixture('ch5-spinner-reciveStateSize-fixture');
+
+                return Promise.all([
+                    customElements.whenDefined('ch5-spinner')
+                ]);
+            });
+
+            test(`Check receive state size "size:10"`, (done) => {
+                CrComLib.publishEvent('b', 'trig1', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Spinner.getAttribute('receivestatesize')).to.be.equal('receive_spinner_size');
+                        expect(ch5Spinner.size).to.be.equal(10);
+                        done();
+                    }, 100);
+                });
+            });
+
+           
+            test(`Check receive state size "size:30"`, (done) => {
+                CrComLib.publishEvent('b', 'trig2', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Spinner.getAttribute('receivestatesize')).to.be.equal('receive_spinner_size');
+                        expect(ch5Spinner.size).to.be.equal(30);
+                        done();
+                    }, 100);
+                });
+            });
+
+    
+
+      
+        });
+        
+
+    </script>
+</body>
+
+</html>

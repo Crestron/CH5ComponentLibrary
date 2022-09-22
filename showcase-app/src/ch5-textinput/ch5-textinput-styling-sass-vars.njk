@@ -1,0 +1,301 @@
+---
+title: "ch5-textinput styling"
+---
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>SASS variable</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>$ch5-textinput-text-color</td>
+        <td>the text color of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-text-color</td>
+        <td>the color of the icon within the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-label-text-color</td>
+        <td>the color for the label of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-border-color</td>
+        <td>the color for the border of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-text-color</td>
+        <td>set the color of text for the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-border-radius</td>
+        <td>the border radius for the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-border-width</td>
+        <td>set the textinput border's width </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-box-shadow-color</td>
+        <td>the color for box shadow of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-font-size-unit</td>
+        <td>set the default font size unit for the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-font-size-value</td>
+        <td>set the default font size value for the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-font-size</td>
+        <td>set the default font size for the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-font-style</td>
+        <td>set the default font style for the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-font-weight</td>
+        <td>set the default font weight for the textinput </td>
+    </tr>
+
+    <!-- regular size setup -->
+    <tr>
+        <td>$ch5-textinput-input-regular-tb-padding</td>
+        <td>set top and bottom padding for regular size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-regular-lr-padding</td>
+        <td>set left and right padding for regular size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-regular-min-width</td>
+        <td>set the min width for regular size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-regular-font-size-unit</td>
+        <td>set the font size unit for regular size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-regular-font-size-value</td>
+        <td>set the font size value for regular size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-regular-font-size</td>
+        <td>set the font size for regular size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-regular-font-style</td>
+        <td>set the font style for regular size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-regular-font-weight</td>
+        <td>set the font weight for regular size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-regular-font-size</td>
+        <td>set the font size of icon for regular size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-regular-tb-margin</td>
+        <td>set top and bottom margin of icon for regular size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-regular-lr-margin</td>
+        <td>set left and right margin of icon for regular size of the textinput </td>
+    </tr>
+
+    <!-- x-small size-->
+    <tr>
+        <td>$ch5-textinput-x-small-font-size-unit</td>
+        <td>set the font size unit for x-small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-x-small-font-size-value</td>
+        <td>set the font size value for x-small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-x-small-font-size</td>
+        <td>set the font size for x-small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-x-small-font-style</td>
+        <td>set the font style for x-small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-x-small-font-weight</td>
+        <td>set the font weight for x-small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-x-small-tb-padding</td>
+        <td>set top and bottom padding for x-small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-x-small-lr-padding</td>
+        <td>set left and right padding for x-small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-x-small-min-width</td>
+        <td>set the min width for x-small size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-x-small-font-size</td>
+        <td>set the font size of icon for x-small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-x-small-tb-margin</td>
+        <td>set top and bottom margin of icon for x-small size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-x-small-lr-margin</td>
+        <td>set left and right margin of icon for x-small size of the textinput </td>
+    </tr>
+
+    <!-- small size-->
+    <tr>
+        <td>$ch5-textinput-small-font-size-unit</td>
+        <td>set the font size unit for small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-small-font-size-value</td>
+        <td>set the font size value for small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-small-font-size</td>
+        <td>set the font size for small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-small-font-style</td>
+        <td>set the font style for small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-small-font-weight</td>
+        <td>set the font weight for small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-small-tb-padding</td>
+        <td>set top and bottom padding for small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-small-lr-padding</td>
+        <td>set left and right padding for small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-small-min-width</td>
+        <td>set the min width for small size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-small-font-size</td>
+        <td>set the font size of icon for small size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-small-tb-margin</td>
+        <td>set top and bottom margin of icon for small size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-small-lr-margin</td>
+        <td>set left and right margin of icon for small size of the textinput </td>
+    </tr>
+
+    <!-- large size-->
+    <tr>
+        <td>$ch5-textinput-large-font-size-unit</td>
+        <td>set the font size value for large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-large-font-size-value</td>
+        <td>set the font size value for large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-large-font-size</td>
+        <td>set the font size for large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-large-font-style</td>
+        <td>set the font style for large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-large-font-weight</td>
+        <td>set the font weight for large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-large-tb-padding</td>
+        <td>set top and bottom padding for large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-large-lr-padding</td>
+        <td>set left and right padding for large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-large-min-width</td>
+        <td>set the min width for large size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-large-font-size</td>
+        <td>set the font size of icon for large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-large-tb-margin</td>
+        <td>set top and bottom margin of icon for large size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-large-lr-margin</td>
+        <td>set left and right margin of icon for large size of the textinput </td>
+    </tr>
+
+    <!-- x-large size-->
+    <tr>
+        <td>$ch5-textinput-x-large-font-size-unit</td>
+        <td>set the font size unit for x-large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-x-large-font-size-value</td>
+        <td>set the font size value for x-large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-x-large-font-size</td>
+        <td>set the font size for x-large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-x-large-font-style</td>
+        <td>set the font style for x-large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-x-large-font-weight</td>
+        <td>set the font weight for x-large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-x-large-tb-padding</td>
+        <td>set top and bottom padding for x-large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-x-large-lr-padding</td>
+        <td>set left and right padding for x-large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-input-x-large-min-width</td>
+        <td>set the min width for x-large size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-x-large-font-size</td>
+        <td>set the font size of icon for x-large size of the textinput</td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-x-large-tb-margin</td>
+        <td>set top and bottom margin of icon for x-large size of the textinput </td>
+    </tr>
+    <tr>
+        <td>$ch5-textinput-icon-x-large-lr-margin</td>
+        <td>set left and right margin of icon for x-large size of the textinput </td>
+    </tr>
+    </tbody>
+</table>
+
+{% endblock %}

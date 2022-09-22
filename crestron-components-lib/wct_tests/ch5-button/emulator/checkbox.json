@@ -1,0 +1,30 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_type_change_danger",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "current_type",
+          "type": "s",
+          "logic": "set",
+          "value": "danger"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_type_change_warning",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "current_type",
+          "type": "s",
+          "logic": "set",
+          "value": "warning"
+        }
+      ]
+    }
+  ]
+}

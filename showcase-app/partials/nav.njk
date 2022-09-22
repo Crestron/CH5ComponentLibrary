@@ -1,0 +1,50 @@
+<aside id="left-hand-menu" class="menu side-menu">
+	<div class="search" id="search-comps">
+		<div class="field">
+			<div class="control has-icons-right">
+				<input id="search-term" class="input" type="text" placeholder="Filter..." value="">
+				<span class="icon is-small is-right">
+					<i class="fa fa-search"></i>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="menu-links">
+		{% for item in menuItems %}
+			<p class="menu-label">
+				<a onclick='loadPage("{{ siteurl }}{{ item.url }}")'>{{ item.label }}</a>
+			</p>
+			<ul class="menu-list">
+				{% for itemChild in item.children %}
+					<li>
+						{% if itemChild.children and itemChild.children.length > 0 %}
+							<a class="menu-label" onclick='loadPage("{{ siteurl }}{{ itemChild.url }}")'>{{ itemChild.label }}</a>
+							<ul>
+								{% for itemSubChild in itemChild.children %}
+									{% if itemSubChild.children and itemSubChild.children.length > 0 %}
+										<li>
+											<a onclick='loadPage("{{ siteurl }}{{ itemSubChild.url }}")'>{{ itemSubChild.label }}</a>
+											<ul>
+												{% for child in itemSubChild.children %}
+													<li>
+														<a onclick='loadPage("{{ siteurl }}{{ child.url }}")'>{{ child.label }}</a>
+													</li>
+												{% endfor %}
+											</ul>
+										</li>
+									{% else %}
+										<li>
+											<a onclick='loadPage("{{ siteurl }}{{ itemSubChild.url }}")'>{{ itemSubChild.label }}</a>
+										</li>
+									{% endif %}
+								{% endfor %}
+							</ul>
+						{% else %}
+							<a onclick='loadPage("{{ siteurl }}{{ itemChild.url }}")'>{{ itemChild.label }}</a>
+						{% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+		{% endfor %}
+	</div>
+</aside>

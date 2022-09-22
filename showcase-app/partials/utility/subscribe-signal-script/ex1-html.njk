@@ -1,0 +1,26 @@
+<p>See the JS tab for the code and browser console for messages</p>
+
+<p>
+    Click this button to change the value of the <b>sig_string</b> signal to "Las Vegas"
+    <ch5-button label="Btn1" sendEventOnClick="trig1"></ch5-button>
+</p>
+<p>
+    Click this button to change the value of the <b>sig_string</b> signal to "New York"
+    <ch5-button label="Btn2" sendEventOnClick="trig2"></ch5-button>
+</p>
+<p>
+    Click this button to decrement the value of the <b>sig_n</b> with 3
+    <ch5-button label="Btn3" sendEventOnClick="trig3"></ch5-button>
+</p>
+<p>
+    Click this button to increment the value of the <b>sig_n</b> signal by 5
+    <ch5-button label="Btn4" sendEventOnClick="trig4"></ch5-button>
+</p>
+{% raw %}
+<p>
+    The red bordered element contains the value of the subscribeStateScript function for the following template string
+    <code>"\" City: {{s.city}}; Number: {{ n.sig_n}}; Number*3: \"+{{ n.sig_n }}*3 "</code>
+    {#You will need to change both <b>sig_n</b> and <b>sig_string</b> in order for the value to change from the default one.#}
+</p>
+{% endraw %}
+<div id="updated-element"></div>

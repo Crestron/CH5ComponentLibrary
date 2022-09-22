@@ -1,0 +1,66 @@
+{% raw %}
+
+$(document).ready(() => {
+    const updateDirty = (container, selectEl) => {
+        container.innerHTML = selectEl.getDirty();
+    };
+
+    const updateShownSelectedValue = (container, selectEl, multi) => {
+        container.innerHTML = selectEl.getValue();
+    };
+
+    const initActions = (selectSelector, dirtyContainerSelector, selectedValContainerSelector,
+                         submitBtnSelector, resetBtnSelector, setBtnSelector, valForSet,
+                         refreshSelectionBtnSelector) => {
+        let dirtyValContainer = document.getElementById(dirtyContainerSelector);
+        let select = document.getElementById(selectSelector);
+        updateDirty(dirtyValContainer, select);
+
+        let selectedValContainer = document.getElementById(selectedValContainerSelector);
+        updateShownSelectedValue(selectedValContainer, select);
+
+        select.addEventListener('change', (e) => {
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select);
+        });
+
+        select.addEventListener('dirty', (e) => {
+            console.log('dirty event for select id: ' + select.id);
+            updateDirty(dirtyValContainer, select);
+        });
+        select.addEventListener('clean', (e) => {
+            console.log('clean event for select id: ' + select.id);
+            updateDirty(dirtyValContainer, select);
+        });
+
+        let submitBtn = document.getElementById(submitBtnSelector);
+        submitBtn.addEventListener('click', (e) => {
+            select.submit();
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select);
+        });
+
+        let resetBtn = document.getElementById(resetBtnSelector);
+        resetBtn.addEventListener('click', (e) => {
+            select.reset();
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select);
+        });
+
+        let setBtn = document.getElementById(setBtnSelector);
+        setBtn.addEventListener('click', (e) => {
+            select.setValue(valForSet);
+            updateDirty(dirtyValContainer, select);
+            updateShownSelectedValue(selectedValContainer, select);
+        });
+    };
+
+    initActions('volume1', 'dirty-select-1', 'selected-1', 'submit-btn-1', 'reset-btn-1', 'set-btn-1', 3);
+})
+
+
+
+
+
+
+{% endraw %}

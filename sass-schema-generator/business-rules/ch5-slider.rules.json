@@ -1,0 +1,24 @@
+{
+  "businessRules": [
+    {
+      "contains": ".ch5-slider__icon--vertical",
+      "key": "icon",
+      "value": "vertical"
+    },
+    {
+      "contains": ".ch5-slider__icon--horizontal",
+      "key": "icon",
+      "value": "horizontal"
+    },
+    {
+      "contains": ".ch5-slider--pressed",
+      "key": "state",
+      "value": "pressed"
+    },
+    {
+      "contains": ".ch5-slider--disabled",
+      "key": "disabled",
+      "value": true
+    }
+  ]
+}

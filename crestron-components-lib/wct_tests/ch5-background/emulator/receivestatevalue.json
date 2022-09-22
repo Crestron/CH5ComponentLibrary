@@ -1,0 +1,37 @@
+{
+    "cues": [
+        {
+            "type": "b",
+            "event": "send_refresh_rate_1",
+            "trigger": true,
+            "actions": [
+                {
+                    "state": "receive_refresh_rate",
+                    "type": "number",
+                    "logic": "set",
+                    "value": 30
+                }
+            ]
+        },
+        {
+            "type": "b",
+            "event": "send_refresh_rate_2",
+            "trigger": true,
+            "actions": [
+                {
+                    "state": "receive_refresh_rate",
+                    "type": "number",
+                    "logic": "set",
+                    "value": 15
+                }
+            ]
+        }
+    ],
+    "onStart": [
+        {
+            "state": "receive_refresh_rate",
+            "type": "number",
+            "value": 10
+        }
+    ]
+}

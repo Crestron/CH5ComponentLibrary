@@ -1,0 +1,23 @@
+{
+  "name": "@crestron/ch5-crcomlib-quickstart-scripts",
+  "version": "0.1.5",
+  "description": "Crestron HTML5 (CH5) Components Library",
+  "license": "SEE LICENSE IN ../LICENSE.txt",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Crestron/CH5ComponentLibrary.git"
+  },
+  "scripts": {
+    "steps:all": "yarn 1-setup-all-projects && yarn 2-build-lib-build-showcase && yarn 3-build-lib-gen-metadata && yarn 4-run-all-tests",
+    "1-setup-all-projects": "cd ../crestron-components-lib && yarn install && cd ../showcase-app && yarn install && cd ../crestron-metadata-generator && yarn install && cd ../crestron-components-lib-tests && yarn install && cd ../showcase-app-automated-tests && yarn install",
+    "2-build-lib-build-showcase": "cd ../crestron-components-lib && yarn build:dev && cd ../showcase-app && yarn build",
+    "3-build-lib-gen-metadata": "cd ../crestron-metadata-generator && yarn gen:metadata && cd ../crestron-components-lib",
+    "4-run-all-tests": "yarn test:mocha && yarn wct:xml-report && cd ../crestron-components-lib-tests && yarn test"
+  },
+  "engines": {
+    "node": ">=8.11",
+    "yarn": ">=1.6.0"
+  },
+  "author": "Crestron"
+}
+    

@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-keypad-default-fixture">
+    <template>
+      <ch5-keypad></ch5-keypad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-keypad', () => {
+
+      let ch5Keypad;
+
+      setup(async () => {
+        ch5Keypad = fixture('ch5-keypad-default-fixture');
+      });
+
+      test(`Check default 'dir' attribute`, () => {
+        expect(ch5Keypad.attributes.dir).to.exist;
+        expect(ch5Keypad.attributes.dir.nodeValue).to.equal('ltr');
+      });
+
+      test(`Check default 'data-ch5-id' attribute`, () => {
+        expect(ch5Keypad.attributes['data-ch5-id']).to.exist;
+        expect(ch5Keypad.attributes['data-ch5-id'].nodeValue).to.contain('cr-id-');
+      });
+
+      test(`Check default 'role' attribute`, () => {
+        expect(ch5Keypad.attributes.role).to.exist;
+        expect(ch5Keypad.attributes.role.nodeValue).to.equal('keypad');
+      });
+
+      test(`Check default 'shape' attribute`, () => {
+        expect(ch5Keypad.attributes.shape).to.exist;
+        expect(ch5Keypad.attributes.shape.nodeValue).to.equal('rounded-rectangle');
+      });
+
+      test(`Check default 'stretch' attribute`, () => {
+        expect(ch5Keypad.stretch).to.equal(null);
+      });
+
+      test(`Check default 'type' attribute`, () => {
+        expect(ch5Keypad.attributes.type).to.exist;
+        expect(ch5Keypad.attributes.type.nodeValue).to.equal('default');
+      });
+    });
+  </script>
+</body>
+
+</html>

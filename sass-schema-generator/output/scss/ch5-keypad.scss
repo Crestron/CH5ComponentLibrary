@@ -1,0 +1,1266 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Variables below
+$ch5-keypad-x-small-container-width: 207px;
+$ch5-keypad-x-small-container-height: 270px;
+$ch5-keypad-x-small-container-height-extra: 345px;
+$ch5-keypad-x-small-font-size-major: 1.8rem;
+$ch5-keypad-x-small-font-size-minor: 0.65rem;
+
+$ch5-keypad-small-container-width: 250px;
+$ch5-keypad-small-container-height: 326.1px;
+$ch5-keypad-small-container-height-extra: 416.7px;
+$ch5-keypad-small-font-size-major: 2rem;
+$ch5-keypad-small-font-size-minor: 0.75rem;
+
+$ch5-keypad-regular-container-width: 270px;
+$ch5-keypad-regular-container-height: 352.2px;
+$ch5-keypad-regular-container-height-extra: 450px;
+$ch5-keypad-regular-font-size-major: 2.4rem;
+$ch5-keypad-regular-font-size-minor: 0.85rem;
+
+$ch5-keypad-large-container-width: 300px;
+$ch5-keypad-large-container-height: 391.35px;
+$ch5-keypad-large-container-height-extra: 500px;
+$ch5-keypad-large-font-size-major: 2.8rem;
+$ch5-keypad-large-font-size-minor: 0.95rem;
+
+$ch5-keypad-x-large-container-width: 320px;
+$ch5-keypad-x-large-container-height: 417.45px;
+$ch5-keypad-x-large-container-height-extra: 533.4px;
+$ch5-keypad-x-large-font-size-major: 3.0rem;
+$ch5-keypad-x-large-font-size-minor: 1.05rem;
+
+// ------------------------------------------------------
+
+// default type
+
+/// The default background color for default type of keypad
+$ch5-keypad-default-default-background-color: $default-background-color !default;
+
+/// The default font color for default type of keypad.
+$ch5-keypad-default-default-font-color: $default-font-color !default;
+
+/// The default border color for default type of keypad.
+$ch5-keypad-default-default-border-color: $default-border-color !default;
+
+/// the selected background color for default type of keypad
+$ch5-keypad-default-selected-background-color: $default-selected-background-color !default;
+
+/// the selected font color for default type of keypad
+$ch5-keypad-default-selected-font-color: $default-selected-font-color !default;
+
+/// the selected border color for default type of keypad
+$ch5-keypad-default-selected-border-color: $default-selected-border-color !default;
+
+/// the pressed background color for default type of keypad
+$ch5-keypad-default-pressed-background-color: $default-pressed-background-color !default;
+
+/// the pressed font color for default type of keypad
+$ch5-keypad-default-pressed-font-color: $default-pressed-font-color !default;
+
+/// the pressed border color for default type of keypad
+$ch5-keypad-default-pressed-border-color: $default-pressed-border-color !default;
+
+/// the disabled background color for default type of keypad
+$ch5-keypad-default-disabled-background-color: $default-disabled-background-color !default;
+
+/// the disabled font color for default type of keypad
+$ch5-keypad-default-disabled-font-color: $default-disabled-font-color !default;
+
+/// the disabled border color for default type of keypad
+$ch5-keypad-default-disabled-border-color: $default-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// primary type
+
+/// The default background color for primary type of keypad
+$ch5-keypad-primary-default-background-color: $primary-background-color !default;
+
+/// The default font color for primary type of keypad.
+$ch5-keypad-primary-default-font-color: $primary-font-color !default;
+
+/// The default border color for primary type of keypad.
+$ch5-keypad-primary-default-border-color: $primary-border-color !default;
+
+/// the selected background color for primary type of keypad
+$ch5-keypad-primary-selected-background-color: $primary-selected-background-color !default;
+
+/// the selected font color for primary type of keypad
+$ch5-keypad-primary-selected-font-color: $primary-selected-font-color !default;
+
+/// the selected border color for primary type of keypad
+$ch5-keypad-primary-selected-border-color: $primary-selected-border-color !default;
+
+/// the pressed background color for primary type of keypad
+$ch5-keypad-primary-pressed-background-color: $primary-pressed-background-color !default;
+
+/// the pressed font color for primary type of keypad
+$ch5-keypad-primary-pressed-font-color: $primary-pressed-font-color !default;
+
+/// the pressed border color for primary type of keypad
+$ch5-keypad-primary-pressed-border-color: $primary-pressed-border-color !default;
+
+/// the disabled background color for primary type of keypad
+$ch5-keypad-primary-disabled-background-color: $primary-disabled-background-color !default;
+
+/// the disabled font color for primary type of keypad
+$ch5-keypad-primary-disabled-font-color: $primary-disabled-font-color !default;
+
+/// the disabled border color for primary type of keypad
+$ch5-keypad-primary-disabled-border-color: $primary-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// info type
+
+/// The default background color for info type of keypad
+$ch5-keypad-info-default-background-color: $info-background-color !default;
+
+/// The default font color for info type of keypad.
+$ch5-keypad-info-default-font-color: $info-font-color !default;
+
+/// The default border color for info type of keypad.
+$ch5-keypad-info-default-border-color: $info-border-color !default;
+
+/// the selected background color for info type of keypad
+$ch5-keypad-info-selected-background-color: $info-selected-background-color !default;
+
+/// the selected font color for info type of keypad
+$ch5-keypad-info-selected-font-color: $info-selected-font-color !default;
+
+/// the selected border color for info type of keypad
+$ch5-keypad-info-selected-border-color: $info-selected-border-color !default;
+
+/// the pressed background color for info type of keypad
+$ch5-keypad-info-pressed-background-color: $info-pressed-background-color !default;
+
+/// the pressed font color for info type of keypad
+$ch5-keypad-info-pressed-font-color: $info-pressed-font-color !default;
+
+/// the pressed border color for info type of keypad
+$ch5-keypad-info-pressed-border-color: $info-pressed-border-color !default;
+
+/// the disabled background color for info type of keypad
+$ch5-keypad-info-disabled-background-color: $info-disabled-background-color !default;
+
+/// the disabled font color for info type of keypad
+$ch5-keypad-info-disabled-font-color: $info-disabled-font-color !default;
+
+/// the disabled border color for info type of keypad
+$ch5-keypad-info-disabled-border-color: $info-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// danger type
+
+/// The default background color for danger type of keypad
+$ch5-keypad-danger-default-background-color: $danger-background-color !default;
+
+/// The default font color for danger type of keypad.
+$ch5-keypad-danger-default-font-color: $danger-font-color !default;
+
+/// The default border color for danger type of keypad.
+$ch5-keypad-danger-default-border-color: $danger-border-color !default;
+
+/// the selected background color for danger type of keypad
+$ch5-keypad-danger-selected-background-color: $danger-selected-background-color !default;
+
+/// the selected font color for danger type of keypad
+$ch5-keypad-danger-selected-font-color: $danger-selected-font-color !default;
+
+/// the selected border color for danger type of keypad
+$ch5-keypad-danger-selected-border-color: $danger-selected-border-color !default;
+
+/// the pressed background color for danger type of keypad
+$ch5-keypad-danger-pressed-background-color: $danger-pressed-background-color !default;
+
+/// the pressed font color for danger type of keypad
+$ch5-keypad-danger-pressed-font-color: $danger-pressed-font-color !default;
+
+/// the pressed border color for danger type of keypad
+$ch5-keypad-danger-pressed-border-color: $danger-pressed-border-color !default;
+
+/// the disabled background color for danger type of keypad
+$ch5-keypad-danger-disabled-background-color: $danger-disabled-background-color !default;
+
+/// the disabled font color for danger type of keypad
+$ch5-keypad-danger-disabled-font-color: $danger-disabled-font-color !default;
+
+/// the disabled border color for danger type of keypad
+$ch5-keypad-danger-disabled-border-color: $danger-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// secondary type
+
+/// The default background color for secondary type of keypad
+$ch5-keypad-secondary-default-background-color: $secondary-background-color !default;
+
+/// The default font color for secondary type of keypad.
+$ch5-keypad-secondary-default-font-color: $secondary-font-color !default;
+
+/// The default border color for secondary type of keypad.
+$ch5-keypad-secondary-default-border-color: $secondary-border-color !default;
+
+/// the selected background color for secondary type of keypad
+$ch5-keypad-secondary-selected-background-color: $secondary-selected-background-color !default;
+
+/// the selected font color for secondary type of keypad
+$ch5-keypad-secondary-selected-font-color: $secondary-selected-font-color !default;
+
+/// the selected border color for secondary type of keypad
+$ch5-keypad-secondary-selected-border-color: $secondary-selected-border-color !default;
+
+/// the pressed background color for secondary type of keypad
+$ch5-keypad-secondary-pressed-background-color: $secondary-pressed-background-color !default;
+
+/// the pressed font color for secondary type of keypad
+$ch5-keypad-secondary-pressed-font-color: $secondary-pressed-font-color !default;
+
+/// the pressed border color for secondary type of keypad
+$ch5-keypad-secondary-pressed-border-color: $secondary-pressed-border-color !default;
+
+/// the disabled background color for secondary type of keypad
+$ch5-keypad-secondary-disabled-background-color: $secondary-disabled-background-color !default;
+
+/// the disabled font color for secondary type of keypad
+$ch5-keypad-secondary-disabled-font-color: $secondary-disabled-font-color !default;
+
+/// the disabled border color for secondary type of keypad
+$ch5-keypad-secondary-disabled-border-color: $secondary-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// success type
+
+/// The default background color for success type of keypad
+$ch5-keypad-success-default-background-color: $success-background-color !default;
+
+/// The default font color for success type of keypad.
+$ch5-keypad-success-default-font-color: $success-font-color !default;
+
+/// The default border color for success type of keypad.
+$ch5-keypad-success-default-border-color: $success-border-color !default;
+
+/// the selected background color for success type of keypad
+$ch5-keypad-success-selected-background-color: $success-selected-background-color !default;
+
+/// the selected font color for success type of keypad
+$ch5-keypad-success-selected-font-color: $success-selected-font-color !default;
+
+/// the selected border color for success type of keypad
+$ch5-keypad-success-selected-border-color: $success-selected-border-color !default;
+
+/// the pressed background color for success type of keypad
+$ch5-keypad-success-pressed-background-color: $success-pressed-background-color !default;
+
+/// the pressed font color for success type of keypad
+$ch5-keypad-success-pressed-font-color: $success-pressed-font-color !default;
+
+/// the pressed border color for success type of keypad
+$ch5-keypad-success-pressed-border-color: $success-pressed-border-color !default;
+
+/// the disabled background color for success type of keypad
+$ch5-keypad-success-disabled-background-color: $success-disabled-background-color !default;
+
+/// the disabled font color for success type of keypad
+$ch5-keypad-success-disabled-font-color: $success-disabled-font-color !default;
+
+/// the disabled border color for success type of keypad
+$ch5-keypad-success-disabled-border-color: $success-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// warning type
+
+/// The default background color for warning type of keypad
+$ch5-keypad-warning-default-background-color: $warning-background-color !default;
+
+/// The default font color for warning type of keypad.
+$ch5-keypad-warning-default-font-color: $warning-font-color !default;
+
+/// The default border color for warning type of keypad.
+$ch5-keypad-warning-default-border-color: $warning-border-color !default;
+
+/// the selected background color for warning type of keypad
+$ch5-keypad-warning-selected-background-color: $warning-selected-background-color !default;
+
+/// the selected font color for warning type of keypad
+$ch5-keypad-warning-selected-font-color: $warning-selected-font-color !default;
+
+/// the selected border color for warning type of keypad
+$ch5-keypad-warning-selected-border-color: $warning-selected-border-color !default;
+
+/// the pressed background color for warning type of keypad
+$ch5-keypad-warning-pressed-background-color: $warning-pressed-background-color !default;
+
+/// the pressed font color for warning type of keypad
+$ch5-keypad-warning-pressed-font-color: $warning-pressed-font-color !default;
+
+/// the pressed border color for warning type of keypad
+$ch5-keypad-warning-pressed-border-color: $warning-pressed-border-color !default;
+
+/// the disabled background color for warning type of keypad
+$ch5-keypad-warning-disabled-background-color: $warning-disabled-background-color !default;
+
+/// the disabled font color for warning type of keypad
+$ch5-keypad-warning-disabled-font-color: $warning-disabled-font-color !default;
+
+/// the disabled border color for warning type of keypad
+$ch5-keypad-warning-disabled-border-color: $warning-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// text type
+
+/// The default background color for text type of keypad
+$ch5-keypad-text-default-background-color: $text-background-color !default;
+
+/// The default font color for text type of keypad.
+$ch5-keypad-text-default-font-color: $text-font-color !default;
+
+/// The default border color for text type of keypad.
+$ch5-keypad-text-default-border-color: $text-border-color !default;
+
+/// the selected background color for text type of keypad
+$ch5-keypad-text-selected-background-color: $text-selected-background-color !default;
+
+/// the selected font color for text type of keypad
+$ch5-keypad-text-selected-font-color: $text-selected-font-color !default;
+
+/// the selected border color for text type of keypad
+$ch5-keypad-text-selected-border-color: $text-selected-border-color !default;
+
+/// the pressed background color for text type of keypad
+$ch5-keypad-text-pressed-background-color: $text-pressed-background-color !default;
+
+/// the pressed font color for text type of keypad
+$ch5-keypad-text-pressed-font-color: $text-pressed-font-color !default;
+
+/// the pressed border color for text type of keypad
+$ch5-keypad-text-pressed-border-color: $text-pressed-border-color !default;
+
+/// the disabled background color for text type of keypad
+$ch5-keypad-text-disabled-background-color: $text-disabled-background-color !default;
+
+/// the disabled font color for text type of keypad
+$ch5-keypad-text-disabled-font-color: $text-disabled-font-color !default;
+
+/// the disabled border color for text type of keypad
+$ch5-keypad-text-disabled-border-color: $text-disabled-border-color !default;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad-mixins
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@mixin ch5-keypad-content(
+	$property-default-background-color,
+	$property-default-border-color,
+	$property-default-font-color
+) {
+	.keypad-row {
+		color: $property-default-font-color;
+		.keypad-btn {
+			button {
+				background-color: $property-default-background-color;
+				border: 1px solid $property-default-border-color;
+			}
+		}
+	}
+}
+
+@mixin ch5-keypad-content--pressed(
+	$property-pressed-background-color,
+	$property-pressed-border-color,
+	$property-pressed-font-color
+) {
+	&.keypad-btn {
+		button {
+			background-color: $property-pressed-background-color;
+			border: 1px solid $property-pressed-border-color;
+			color: $property-pressed-font-color;
+		}
+	}
+}
+
+@mixin ch5-keypad-fonts-sizes(
+	$property-container-width,
+	$property-container-height,
+	$property-container-height-extra,
+	$property-container-font-major,
+	$property-container-font-minor
+) {
+	min-width: $property-container-width;
+	min-height: $property-container-height;
+	width: $property-container-width;
+	height: $property-container-height;
+	.keypad-container {
+		min-width: $property-container-width;
+		min-height: $property-container-height;
+		width: $property-container-width;
+		height: $property-container-height;
+	}
+
+	&[showextrabutton="true"],
+	&[usecontractforextrabuttonshow="true"] {
+		height: $property-container-height-extra;
+		.keypad-container {
+			height: $property-container-height-extra;
+			min-width: $property-container-width;
+			min-height: $property-container-height-extra;
+		}
+	}
+
+	.keypad-row {
+		.keypad-btn {
+			button {
+				.label-major {
+					font-size: $property-container-font-major;
+					line-height: $property-container-font-major;
+				}
+				.label-minor {
+					font-size: $property-container-font-minor;
+				}
+			}
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad-variables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// Variables below
+$ch5-keypad-x-small-container-width: 207px;
+$ch5-keypad-x-small-container-height: 270px;
+$ch5-keypad-x-small-container-height-extra: 345px;
+$ch5-keypad-x-small-font-size-major: 1.8rem;
+$ch5-keypad-x-small-font-size-minor: 0.65rem;
+
+$ch5-keypad-small-container-width: 250px;
+$ch5-keypad-small-container-height: 326.1px;
+$ch5-keypad-small-container-height-extra: 416.7px;
+$ch5-keypad-small-font-size-major: 2rem;
+$ch5-keypad-small-font-size-minor: 0.75rem;
+
+$ch5-keypad-regular-container-width: 270px;
+$ch5-keypad-regular-container-height: 352.2px;
+$ch5-keypad-regular-container-height-extra: 450px;
+$ch5-keypad-regular-font-size-major: 2.4rem;
+$ch5-keypad-regular-font-size-minor: 0.85rem;
+
+$ch5-keypad-large-container-width: 300px;
+$ch5-keypad-large-container-height: 391.35px;
+$ch5-keypad-large-container-height-extra: 500px;
+$ch5-keypad-large-font-size-major: 2.8rem;
+$ch5-keypad-large-font-size-minor: 0.95rem;
+
+$ch5-keypad-x-large-container-width: 320px;
+$ch5-keypad-x-large-container-height: 417.45px;
+$ch5-keypad-x-large-container-height-extra: 533.4px;
+$ch5-keypad-x-large-font-size-major: 3.0rem;
+$ch5-keypad-x-large-font-size-minor: 1.05rem;
+
+// ------------------------------------------------------
+
+// default type
+
+/// The default background color for default type of keypad
+$ch5-keypad-default-default-background-color: $default-background-color !default;
+
+/// The default font color for default type of keypad.
+$ch5-keypad-default-default-font-color: $default-font-color !default;
+
+/// The default border color for default type of keypad.
+$ch5-keypad-default-default-border-color: $default-border-color !default;
+
+/// the selected background color for default type of keypad
+$ch5-keypad-default-selected-background-color: $default-selected-background-color !default;
+
+/// the selected font color for default type of keypad
+$ch5-keypad-default-selected-font-color: $default-selected-font-color !default;
+
+/// the selected border color for default type of keypad
+$ch5-keypad-default-selected-border-color: $default-selected-border-color !default;
+
+/// the pressed background color for default type of keypad
+$ch5-keypad-default-pressed-background-color: $default-pressed-background-color !default;
+
+/// the pressed font color for default type of keypad
+$ch5-keypad-default-pressed-font-color: $default-pressed-font-color !default;
+
+/// the pressed border color for default type of keypad
+$ch5-keypad-default-pressed-border-color: $default-pressed-border-color !default;
+
+/// the disabled background color for default type of keypad
+$ch5-keypad-default-disabled-background-color: $default-disabled-background-color !default;
+
+/// the disabled font color for default type of keypad
+$ch5-keypad-default-disabled-font-color: $default-disabled-font-color !default;
+
+/// the disabled border color for default type of keypad
+$ch5-keypad-default-disabled-border-color: $default-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// primary type
+
+/// The default background color for primary type of keypad
+$ch5-keypad-primary-default-background-color: $primary-background-color !default;
+
+/// The default font color for primary type of keypad.
+$ch5-keypad-primary-default-font-color: $primary-font-color !default;
+
+/// The default border color for primary type of keypad.
+$ch5-keypad-primary-default-border-color: $primary-border-color !default;
+
+/// the selected background color for primary type of keypad
+$ch5-keypad-primary-selected-background-color: $primary-selected-background-color !default;
+
+/// the selected font color for primary type of keypad
+$ch5-keypad-primary-selected-font-color: $primary-selected-font-color !default;
+
+/// the selected border color for primary type of keypad
+$ch5-keypad-primary-selected-border-color: $primary-selected-border-color !default;
+
+/// the pressed background color for primary type of keypad
+$ch5-keypad-primary-pressed-background-color: $primary-pressed-background-color !default;
+
+/// the pressed font color for primary type of keypad
+$ch5-keypad-primary-pressed-font-color: $primary-pressed-font-color !default;
+
+/// the pressed border color for primary type of keypad
+$ch5-keypad-primary-pressed-border-color: $primary-pressed-border-color !default;
+
+/// the disabled background color for primary type of keypad
+$ch5-keypad-primary-disabled-background-color: $primary-disabled-background-color !default;
+
+/// the disabled font color for primary type of keypad
+$ch5-keypad-primary-disabled-font-color: $primary-disabled-font-color !default;
+
+/// the disabled border color for primary type of keypad
+$ch5-keypad-primary-disabled-border-color: $primary-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// info type
+
+/// The default background color for info type of keypad
+$ch5-keypad-info-default-background-color: $info-background-color !default;
+
+/// The default font color for info type of keypad.
+$ch5-keypad-info-default-font-color: $info-font-color !default;
+
+/// The default border color for info type of keypad.
+$ch5-keypad-info-default-border-color: $info-border-color !default;
+
+/// the selected background color for info type of keypad
+$ch5-keypad-info-selected-background-color: $info-selected-background-color !default;
+
+/// the selected font color for info type of keypad
+$ch5-keypad-info-selected-font-color: $info-selected-font-color !default;
+
+/// the selected border color for info type of keypad
+$ch5-keypad-info-selected-border-color: $info-selected-border-color !default;
+
+/// the pressed background color for info type of keypad
+$ch5-keypad-info-pressed-background-color: $info-pressed-background-color !default;
+
+/// the pressed font color for info type of keypad
+$ch5-keypad-info-pressed-font-color: $info-pressed-font-color !default;
+
+/// the pressed border color for info type of keypad
+$ch5-keypad-info-pressed-border-color: $info-pressed-border-color !default;
+
+/// the disabled background color for info type of keypad
+$ch5-keypad-info-disabled-background-color: $info-disabled-background-color !default;
+
+/// the disabled font color for info type of keypad
+$ch5-keypad-info-disabled-font-color: $info-disabled-font-color !default;
+
+/// the disabled border color for info type of keypad
+$ch5-keypad-info-disabled-border-color: $info-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// danger type
+
+/// The default background color for danger type of keypad
+$ch5-keypad-danger-default-background-color: $danger-background-color !default;
+
+/// The default font color for danger type of keypad.
+$ch5-keypad-danger-default-font-color: $danger-font-color !default;
+
+/// The default border color for danger type of keypad.
+$ch5-keypad-danger-default-border-color: $danger-border-color !default;
+
+/// the selected background color for danger type of keypad
+$ch5-keypad-danger-selected-background-color: $danger-selected-background-color !default;
+
+/// the selected font color for danger type of keypad
+$ch5-keypad-danger-selected-font-color: $danger-selected-font-color !default;
+
+/// the selected border color for danger type of keypad
+$ch5-keypad-danger-selected-border-color: $danger-selected-border-color !default;
+
+/// the pressed background color for danger type of keypad
+$ch5-keypad-danger-pressed-background-color: $danger-pressed-background-color !default;
+
+/// the pressed font color for danger type of keypad
+$ch5-keypad-danger-pressed-font-color: $danger-pressed-font-color !default;
+
+/// the pressed border color for danger type of keypad
+$ch5-keypad-danger-pressed-border-color: $danger-pressed-border-color !default;
+
+/// the disabled background color for danger type of keypad
+$ch5-keypad-danger-disabled-background-color: $danger-disabled-background-color !default;
+
+/// the disabled font color for danger type of keypad
+$ch5-keypad-danger-disabled-font-color: $danger-disabled-font-color !default;
+
+/// the disabled border color for danger type of keypad
+$ch5-keypad-danger-disabled-border-color: $danger-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// secondary type
+
+/// The default background color for secondary type of keypad
+$ch5-keypad-secondary-default-background-color: $secondary-background-color !default;
+
+/// The default font color for secondary type of keypad.
+$ch5-keypad-secondary-default-font-color: $secondary-font-color !default;
+
+/// The default border color for secondary type of keypad.
+$ch5-keypad-secondary-default-border-color: $secondary-border-color !default;
+
+/// the selected background color for secondary type of keypad
+$ch5-keypad-secondary-selected-background-color: $secondary-selected-background-color !default;
+
+/// the selected font color for secondary type of keypad
+$ch5-keypad-secondary-selected-font-color: $secondary-selected-font-color !default;
+
+/// the selected border color for secondary type of keypad
+$ch5-keypad-secondary-selected-border-color: $secondary-selected-border-color !default;
+
+/// the pressed background color for secondary type of keypad
+$ch5-keypad-secondary-pressed-background-color: $secondary-pressed-background-color !default;
+
+/// the pressed font color for secondary type of keypad
+$ch5-keypad-secondary-pressed-font-color: $secondary-pressed-font-color !default;
+
+/// the pressed border color for secondary type of keypad
+$ch5-keypad-secondary-pressed-border-color: $secondary-pressed-border-color !default;
+
+/// the disabled background color for secondary type of keypad
+$ch5-keypad-secondary-disabled-background-color: $secondary-disabled-background-color !default;
+
+/// the disabled font color for secondary type of keypad
+$ch5-keypad-secondary-disabled-font-color: $secondary-disabled-font-color !default;
+
+/// the disabled border color for secondary type of keypad
+$ch5-keypad-secondary-disabled-border-color: $secondary-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// success type
+
+/// The default background color for success type of keypad
+$ch5-keypad-success-default-background-color: $success-background-color !default;
+
+/// The default font color for success type of keypad.
+$ch5-keypad-success-default-font-color: $success-font-color !default;
+
+/// The default border color for success type of keypad.
+$ch5-keypad-success-default-border-color: $success-border-color !default;
+
+/// the selected background color for success type of keypad
+$ch5-keypad-success-selected-background-color: $success-selected-background-color !default;
+
+/// the selected font color for success type of keypad
+$ch5-keypad-success-selected-font-color: $success-selected-font-color !default;
+
+/// the selected border color for success type of keypad
+$ch5-keypad-success-selected-border-color: $success-selected-border-color !default;
+
+/// the pressed background color for success type of keypad
+$ch5-keypad-success-pressed-background-color: $success-pressed-background-color !default;
+
+/// the pressed font color for success type of keypad
+$ch5-keypad-success-pressed-font-color: $success-pressed-font-color !default;
+
+/// the pressed border color for success type of keypad
+$ch5-keypad-success-pressed-border-color: $success-pressed-border-color !default;
+
+/// the disabled background color for success type of keypad
+$ch5-keypad-success-disabled-background-color: $success-disabled-background-color !default;
+
+/// the disabled font color for success type of keypad
+$ch5-keypad-success-disabled-font-color: $success-disabled-font-color !default;
+
+/// the disabled border color for success type of keypad
+$ch5-keypad-success-disabled-border-color: $success-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// warning type
+
+/// The default background color for warning type of keypad
+$ch5-keypad-warning-default-background-color: $warning-background-color !default;
+
+/// The default font color for warning type of keypad.
+$ch5-keypad-warning-default-font-color: $warning-font-color !default;
+
+/// The default border color for warning type of keypad.
+$ch5-keypad-warning-default-border-color: $warning-border-color !default;
+
+/// the selected background color for warning type of keypad
+$ch5-keypad-warning-selected-background-color: $warning-selected-background-color !default;
+
+/// the selected font color for warning type of keypad
+$ch5-keypad-warning-selected-font-color: $warning-selected-font-color !default;
+
+/// the selected border color for warning type of keypad
+$ch5-keypad-warning-selected-border-color: $warning-selected-border-color !default;
+
+/// the pressed background color for warning type of keypad
+$ch5-keypad-warning-pressed-background-color: $warning-pressed-background-color !default;
+
+/// the pressed font color for warning type of keypad
+$ch5-keypad-warning-pressed-font-color: $warning-pressed-font-color !default;
+
+/// the pressed border color for warning type of keypad
+$ch5-keypad-warning-pressed-border-color: $warning-pressed-border-color !default;
+
+/// the disabled background color for warning type of keypad
+$ch5-keypad-warning-disabled-background-color: $warning-disabled-background-color !default;
+
+/// the disabled font color for warning type of keypad
+$ch5-keypad-warning-disabled-font-color: $warning-disabled-font-color !default;
+
+/// the disabled border color for warning type of keypad
+$ch5-keypad-warning-disabled-border-color: $warning-disabled-border-color !default;
+
+// ------------------------------------------------------
+
+// text type
+
+/// The default background color for text type of keypad
+$ch5-keypad-text-default-background-color: $text-background-color !default;
+
+/// The default font color for text type of keypad.
+$ch5-keypad-text-default-font-color: $text-font-color !default;
+
+/// The default border color for text type of keypad.
+$ch5-keypad-text-default-border-color: $text-border-color !default;
+
+/// the selected background color for text type of keypad
+$ch5-keypad-text-selected-background-color: $text-selected-background-color !default;
+
+/// the selected font color for text type of keypad
+$ch5-keypad-text-selected-font-color: $text-selected-font-color !default;
+
+/// the selected border color for text type of keypad
+$ch5-keypad-text-selected-border-color: $text-selected-border-color !default;
+
+/// the pressed background color for text type of keypad
+$ch5-keypad-text-pressed-background-color: $text-pressed-background-color !default;
+
+/// the pressed font color for text type of keypad
+$ch5-keypad-text-pressed-font-color: $text-pressed-font-color !default;
+
+/// the pressed border color for text type of keypad
+$ch5-keypad-text-pressed-border-color: $text-pressed-border-color !default;
+
+/// the disabled background color for text type of keypad
+$ch5-keypad-text-disabled-background-color: $text-disabled-background-color !default;
+
+/// the disabled font color for text type of keypad
+$ch5-keypad-text-disabled-font-color: $text-disabled-font-color !default;
+
+/// the disabled border color for text type of keypad
+$ch5-keypad-text-disabled-border-color: $text-disabled-border-color !default;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2021 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-keypad-mixins
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@mixin ch5-keypad-content(
+	$property-default-background-color,
+	$property-default-border-color,
+	$property-default-font-color
+) {
+	.keypad-row {
+		color: $property-default-font-color;
+		.keypad-btn {
+			button {
+				background-color: $property-default-background-color;
+				border: 1px solid $property-default-border-color;
+			}
+		}
+	}
+}
+
+@mixin ch5-keypad-content--pressed(
+	$property-pressed-background-color,
+	$property-pressed-border-color,
+	$property-pressed-font-color
+) {
+	&.keypad-btn {
+		button {
+			background-color: $property-pressed-background-color;
+			border: 1px solid $property-pressed-border-color;
+			color: $property-pressed-font-color;
+		}
+	}
+}
+
+@mixin ch5-keypad-fonts-sizes(
+	$property-container-width,
+	$property-container-height,
+	$property-container-height-extra,
+	$property-container-font-major,
+	$property-container-font-minor
+) {
+	min-width: $property-container-width;
+	min-height: $property-container-height;
+	width: $property-container-width;
+	height: $property-container-height;
+	.keypad-container {
+		min-width: $property-container-width;
+		min-height: $property-container-height;
+		width: $property-container-width;
+		height: $property-container-height;
+	}
+
+	&[showextrabutton="true"],
+	&[usecontractforextrabuttonshow="true"] {
+		height: $property-container-height-extra;
+		.keypad-container {
+			height: $property-container-height-extra;
+			min-width: $property-container-width;
+			min-height: $property-container-height-extra;
+		}
+	}
+
+	.keypad-row {
+		.keypad-btn {
+			button {
+				.label-major {
+					font-size: $property-container-font-major;
+					line-height: $property-container-font-major;
+				}
+				.label-minor {
+					font-size: $property-container-font-minor;
+				}
+			}
+		}
+	}
+}
+
+
+.ch5-keypad {
+	display: inline-block; // Changing from inline-flex - identify if any issues
+	min-width: $ch5-keypad-regular-container-width;
+	min-height: $ch5-keypad-regular-container-height;
+	width: $ch5-keypad-regular-container-width;
+	height: $ch5-keypad-regular-container-height;
+	vertical-align: top;
+
+	&[disabled] {
+		opacity: 0.5;
+		pointer-events: none;
+		cursor: default;
+		button {
+			cursor: default;
+		}
+	}
+
+	&[showextrabutton="true"],
+	&[usecontractforextrabuttonshow="true"] {
+		height: $ch5-keypad-regular-container-height-extra;
+		.keypad-container {
+			height: $ch5-keypad-regular-container-height-extra;
+			min-width: $ch5-keypad-regular-container-width;
+			min-height: $ch5-keypad-regular-container-height-extra;
+			.keypad-row {
+				flex: 0 1 18%;
+
+				.keypad-btn.special-center button {
+					color: $ch5-keypad-success-default-font-color;
+					background-color: $ch5-keypad-success-default-background-color;
+					border: 1px solid $ch5-keypad-success-default-border-color;
+				}
+
+				.keypad-btn.special-center.keypad-btn-pressed button {
+					color: $ch5-keypad-success-pressed-font-color;
+					background-color: $ch5-keypad-success-pressed-background-color;
+					border: 1px solid $ch5-keypad-success-pressed-border-color;
+				}
+				.keypad-btn.empty-btn {
+					display: none;
+				}
+			}
+		}
+	}
+
+	&.ch5-keypad--type-default {
+		@include ch5-keypad-content(
+			$ch5-keypad-default-default-background-color,
+			$ch5-keypad-default-default-border-color,
+			$ch5-keypad-default-default-font-color
+		);
+		.keypad-btn-pressed {
+			@include ch5-keypad-content--pressed(
+				$ch5-keypad-default-pressed-background-color,
+				$ch5-keypad-default-pressed-border-color,
+				$ch5-keypad-default-pressed-font-color
+			);
+		}
+	}
+	&.ch5-keypad--type-primary {
+		@include ch5-keypad-content(
+			$ch5-keypad-primary-default-background-color,
+			$ch5-keypad-primary-default-border-color,
+			$ch5-keypad-primary-default-font-color
+		);
+		.keypad-btn-pressed {
+			@include ch5-keypad-content--pressed(
+				$ch5-keypad-primary-pressed-background-color,
+				$ch5-keypad-primary-pressed-border-color,
+				$ch5-keypad-primary-pressed-font-color
+			);
+		}
+	}
+	&.ch5-keypad--type-info {
+		@include ch5-keypad-content(
+			$ch5-keypad-info-default-background-color,
+			$ch5-keypad-info-default-border-color,
+			$ch5-keypad-info-default-font-color
+		);
+		.keypad-btn-pressed {
+			@include ch5-keypad-content--pressed(
+				$ch5-keypad-info-pressed-background-color,
+				$ch5-keypad-info-pressed-border-color,
+				$ch5-keypad-info-pressed-font-color
+			);
+		}
+	}
+	&.ch5-keypad--type-text {
+		@include ch5-keypad-content(
+			$ch5-keypad-text-default-background-color,
+			$ch5-keypad-text-default-border-color,
+			$ch5-keypad-text-default-font-color
+		);
+		.keypad-btn-pressed {
+			@include ch5-keypad-content--pressed(
+				$ch5-keypad-text-pressed-background-color,
+				$ch5-keypad-text-pressed-border-color,
+				$ch5-keypad-text-pressed-font-color
+			);
+		}
+	}
+	&.ch5-keypad--type-danger {
+		@include ch5-keypad-content(
+			$ch5-keypad-danger-default-background-color,
+			$ch5-keypad-danger-default-border-color,
+			$ch5-keypad-danger-default-font-color
+		);
+		.keypad-btn-pressed {
+			@include ch5-keypad-content--pressed(
+				$ch5-keypad-danger-pressed-background-color,
+				$ch5-keypad-danger-pressed-border-color,
+				$ch5-keypad-danger-pressed-font-color
+			);
+		}
+	}
+	&.ch5-keypad--type-warning {
+		@include ch5-keypad-content(
+			$ch5-keypad-warning-default-background-color,
+			$ch5-keypad-warning-default-border-color,
+			$ch5-keypad-warning-default-font-color
+		);
+		.keypad-btn-pressed {
+			@include ch5-keypad-content--pressed(
+				$ch5-keypad-warning-pressed-background-color,
+				$ch5-keypad-warning-pressed-border-color,
+				$ch5-keypad-warning-pressed-font-color
+			);
+		}
+	}
+	&.ch5-keypad--type-success {
+		@include ch5-keypad-content(
+			$ch5-keypad-success-default-background-color,
+			$ch5-keypad-success-default-border-color,
+			$ch5-keypad-success-default-font-color
+		);
+		.keypad-btn-pressed {
+			@include ch5-keypad-content--pressed(
+				$ch5-keypad-success-pressed-background-color,
+				$ch5-keypad-success-pressed-border-color,
+				$ch5-keypad-success-pressed-font-color
+			);
+		}
+	}
+	&.ch5-keypad--type-secondary {
+		@include ch5-keypad-content(
+			$ch5-keypad-secondary-default-background-color,
+			$ch5-keypad-secondary-default-border-color,
+			$ch5-keypad-secondary-default-font-color
+		);
+		.keypad-btn-pressed {
+			@include ch5-keypad-content--pressed(
+				$ch5-keypad-secondary-pressed-background-color,
+				$ch5-keypad-secondary-pressed-border-color,
+				$ch5-keypad-secondary-pressed-font-color
+			);
+		}
+	}
+
+	&.ch5-keypad--orientation-top {
+		button {
+			flex-direction: column;
+		}
+	}
+
+	&.ch5-keypad--orientation-right {
+		button {
+			flex-direction: row-reverse;
+			.label-major {
+				margin-left: 2px;
+			}
+		}
+	}
+
+	&.ch5-keypad--orientation-bottom {
+		button {
+			flex-direction: column-reverse;
+		}
+	}
+
+	&.ch5-keypad--orientation-left {
+		button {
+			flex-direction: row;
+			.label-major {
+				margin-right: 2px;
+			}
+		}
+	}
+}
+
+.keypad-container {
+	display: flex;
+	justify-content: space-evenly;
+	width: $ch5-keypad-regular-container-width;
+	height: $ch5-keypad-regular-container-height;
+	min-width: $ch5-keypad-regular-container-width;
+	min-height: $ch5-keypad-regular-container-height;
+	flex-direction: column;
+}
+
+.keypad-row {
+	display: flex;
+	flex: 0 1 23%;
+	color: #fff;
+	justify-content: space-evenly;
+	.keypad-btn {
+		cursor: pointer;
+		display: flex;
+		width: 30%;
+		overflow: hidden;
+		button {
+			display: flex;
+			height: 100%;
+			width: 100%;
+			align-items: center;
+			justify-content: center;
+			outline: none !important;
+			color: inherit;
+			cursor: pointer;
+			span {
+				white-space: pre;
+				color: inherit;
+			}
+			.label-major {
+				font-weight: 300;
+			}
+			.label-minor {
+				margin-top: 0;
+				letter-spacing: 0.1rem;
+			}
+		}
+
+		&[key="button0"] {
+			.label-minor {
+				margin-left: 3%;
+			}
+		}
+	}
+}
+
+.ch5-keypad.ch5-keypad--shape-square {
+	.keypad-container {
+		.keypad-row {
+			.keypad-btn {
+				button {
+					border-radius: 0;
+				}
+			}
+		}
+	}
+}
+
+.ch5-keypad.ch5-keypad--shape-circle {
+	.keypad-container {
+		.keypad-row {
+			.keypad-btn {
+				button {
+					border-radius: 50%;
+				}
+			}
+		}
+	}
+}
+
+.ch5-keypad.ch5-keypad--shape-rounded-rectangle {
+	.keypad-container {
+		.keypad-row {
+			.keypad-btn {
+				button {
+					border-radius: 10%;
+				}
+			}
+		}
+	}
+}
+
+.ch5-keypad.ch5-keypad--stretch-both {
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+.ch5-keypad.ch5-keypad--stretch-height {
+	height: 100%;
+	align-items: center;
+}
+
+.ch5-keypad.ch5-keypad--stretch-width {
+	width: 100%;
+	justify-content: center;
+}
+
+// sizes
+.ch5-keypad {
+	&.ch5-keypad--size-x-small {
+		@include ch5-keypad-fonts-sizes(
+			$ch5-keypad-x-small-container-width,
+			$ch5-keypad-x-small-container-height,
+			$ch5-keypad-x-small-container-height-extra,
+			$ch5-keypad-x-small-font-size-major,
+			$ch5-keypad-x-small-font-size-minor
+		);
+	}
+
+	&.ch5-keypad--size-small {
+		@include ch5-keypad-fonts-sizes(
+			$ch5-keypad-small-container-width,
+			$ch5-keypad-small-container-height,
+			$ch5-keypad-small-container-height-extra,
+			$ch5-keypad-small-font-size-major,
+			$ch5-keypad-small-font-size-minor
+		);
+	}
+
+	&.ch5-keypad--size-regular {
+		@include ch5-keypad-fonts-sizes(
+			$ch5-keypad-regular-container-width,
+			$ch5-keypad-regular-container-height,
+			$ch5-keypad-regular-container-height-extra,
+			$ch5-keypad-regular-font-size-major,
+			$ch5-keypad-regular-font-size-minor
+		);
+	}
+
+	&.ch5-keypad--size-large {
+		@include ch5-keypad-fonts-sizes(
+			$ch5-keypad-large-container-width,
+			$ch5-keypad-large-container-height,
+			$ch5-keypad-large-container-height-extra,
+			$ch5-keypad-large-font-size-major,
+			$ch5-keypad-large-font-size-minor
+		);
+	}
+
+	&.ch5-keypad--size-x-large {
+		@include ch5-keypad-fonts-sizes(
+			$ch5-keypad-x-large-container-width,
+			$ch5-keypad-x-large-container-height,
+			$ch5-keypad-x-large-container-height-extra,
+			$ch5-keypad-x-large-font-size-major,
+			$ch5-keypad-x-large-font-size-minor
+		);
+	}
+}
+

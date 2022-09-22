@@ -1,0 +1,139 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-select
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@import './scss/_variables';
+
+/// Main class
+.ch5-select {
+  position: relative;
+  display: block;
+  border: $ch5-select-border-width solid $ch5-select-border-color;
+  border-radius: $ch5-select-border-radius;
+}
+
+.ch5-select__combo:hover {
+  cursor: pointer;
+}
+
+/// Top line container (holds selected items and combo trigger button)
+.ch5-select__main {
+  // for direction rtl we might just have to set display to `row-reverse`
+
+  @include layout-h;
+  @include layout-flex;
+  @include layout-center;
+  @include layout-justify;
+
+  width: 100%;
+  overflow: hidden;
+  padding: $ch5-select-padding;
+  box-sizing: border-box;
+  font-style: $ch5-select-font-style;
+  font-size: $ch5-select-font-size;
+  font-weight: $ch5-select-font-weight;
+  color: $ch5-select-font-color;
+
+  &[dir="rtl"] {
+    @include rtl-style;
+  }
+
+  /// Dropdown button
+  .ch5-select__combo_trigger {
+    display: block;
+    width: $ch5-select-combo-trigger-width;
+    height: $ch5-select-combo-trigger-height;
+    overflow: hidden;
+    margin: $ch5-select-combo-trigger-margin;
+  }
+
+
+  .ch5-select__selected_items {
+    width: $ch5-select-item-selected-width;
+    overflow: hidden;
+    @include layout-h;
+    @include layout-flex;
+    @include layout-center;
+  }
+
+}
+
+.ch5-select__panel .ch5-select__main .ch5-select__combo_trigger {
+  display: none;
+}
+
+.ch5-select__panel-open .ch5-select__combo_trigger {
+  -webkit-transform: rotate(180deg);
+  /* Chrome and other webkit browsers */
+  -moz-transform: rotate(180deg);
+  /* FF */
+  -o-transform: rotate(180deg);
+  /* Opera */
+  -ms-transform: rotate(180deg);
+  /* IE9 */
+  transform: rotate(180deg);
+  /* W3C compliant browsers */
+}
+
+/// List container with items
+.ch5-select__panel__items {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: absolute;
+  left: 0;
+  display: none;
+  background-color: $ch5-select-panel-items-background-color;
+  box-shadow: $ch5-select-panel-items-box-shadow;
+}
+
+.ch5-select__combo .ch5-select__panel__items {
+  z-index: $ch5-select-panel-z-index;
+}
+
+.ch5-select__panel-open .ch5-select__panel__items,
+.ch5-select__panel .ch5-select__panel__items {
+  display: block;
+}
+
+.ch5-select__panel .ch5-select__panel__items {
+  position: relative;
+}
+
+/// Each item
+.ch5-select__panel__item {
+  @include layout-h;
+  @include layout-flex;
+  @include layout-center;
+  padding: $ch5-select-panel-item-padding;
+  cursor: pointer;
+  color: $ch5-select-panel-item-color;
+  border: $ch5-select-panel-item-border-width solid $ch5-select-panel-item-border-color;
+  background-color: $ch5-select-panel-item-background-color;
+
+  &[dir="rtl"] {
+    @include rtl-style;
+  }
+
+  &:not(.ch5-select__panel__item--selected):hover {
+    background-color: $ch5-select-panel-item-hover-background-color;
+  }
+    /// Selected
+  &.ch5-select__panel__item--selected {
+    background-color: $ch5-select-panel-item-selected-background-color;
+  }
+}
+
+/// Added automatically based on the disabled attribute or by receiveStateEnable
+.ch5-select--disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

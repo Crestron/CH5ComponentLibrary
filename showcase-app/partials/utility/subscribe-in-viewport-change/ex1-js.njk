@@ -1,0 +1,37 @@
+{% raw %}
+(function($, CrComLib){
+
+    var firstEl = document.querySelector('#first');
+    var secondEl = document.querySelector('#second');
+    
+    var firstResultEl = document.querySelector('#firstResult');
+    var secondResultEl = document.querySelector('#secondResult')
+    
+    firstEl.innerHTML = "Scroll up and down to enter/exit the viewport";
+    secondEl.innerHTML = "Scroll up and down to enter/exit the viewport";
+
+    var firstCallback = function(element, isInViewPort) { 
+        if (isInViewPort) {
+            firstResultEl.innerHTML = 'Element with id #first is in viewport';
+            console.log('Element with id #first is in viewport');
+        } else {
+            firstResultEl.innerHTML = 'Element with id #first is not in viewport';
+            console.log('Element with id #first is not in viewport');
+        }
+    };
+    
+    CrComLib.subscribeInViewPortChange(firstEl, firstCallback);
+
+    var secondCallback = function(element, isInViewPort) { 
+        if (isInViewPort) {
+            secondResultEl.innerHTML = 'Element with id #second is in viewport';
+            console.log('Element with id #second is in viewport');
+        } else {
+            secondResultEl.innerHTML = 'Element with id #second is not in viewport';
+            console.log('Element with id #second is not in viewport');
+        }
+    };
+    CrComLib.subscribeInViewPortChange(secondEl, secondCallback);
+    
+})(jQuery,CrComLib);
+{% endraw %}

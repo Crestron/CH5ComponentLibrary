@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+<test-fixture id="ch5-video-with-controls">
+    <template>
+       <ch5-video aspectratio="16:9" 
+        indexid="0" size="x-small" zindex="0" 
+        url="rtsp://admin:Welcome2C$@10.88.17.10" 
+        userid="admin" password="Welcome2C$" sourcetype="Network" 
+        snapshoturl="https://picsum.photos/512/288/?random" snapshotrefreshrate="5" controls="true">
+       </ch5-video>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-video-without-controls">
+    <template>
+       <ch5-video aspectratio="16:9" 
+        indexid="0" size="small" zindex="0" 
+        url="rtsp://admin:Welcome2C$@10.88.17.10" 
+        userid="admin" password="Welcome2C$" sourcetype="Network" 
+        snapshoturl="https://picsum.photos/512/288/?random" snapshotrefreshrate="5" controls="false">
+       </ch5-video>
+    </template>
+</test-fixture>
+<script>
+
+    suite('ch5-video with controls', function() {
+        let ch5Video;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Video = fixture('ch5-video-with-controls');
+
+            return Promise.all([
+                customElements.whenDefined('ch5-video')
+            ]);
+        });
+
+        test('ch5-video should have one control-panel element.', function(done) {
+               flush(function() {
+                    let controlPanel = ch5Video.querySelectorAll('.control-panel');
+                    expect(controlPanel.length).to.be.equal(1);
+                    done();
+            });
+        });
+    });
+
+    suite('ch5-video without controls', function() {
+        let ch5Video;
+        setup(() => {
+            ch5Video = fixture('ch5-video-without-controls');
+            return Promise.all([
+                customElements.whenDefined('ch5-video')
+            ]);
+        });
+
+        // HH: Below is a valid test case but commenting for now. Must be a dev fix 
+        // whenever addressed next time and uncomment this test case below
+        //  test('ch5-video should not have control-panel if controls attribute having false value.', function(done) {
+        //        flush(function() {
+        //             let controlPanel = ch5Video.querySelectorAll('.control-panel');
+        //             expect(controlPanel.length).to.be.equal(0);
+        //             done();
+        //     });
+        // });
+    });
+
+</script>
+</body>
+</html>

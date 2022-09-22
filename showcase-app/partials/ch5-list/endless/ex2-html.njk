@@ -1,0 +1,22 @@
+
+{% raw %}
+<ch5-list id="demo-list-2"
+           size="50"
+           orientation="vertical"
+           indexId="idx"
+           minWidth="150px"
+           maxWidth="165px"
+           minHeight="300px"
+           maxHeight="550px"
+           itemWidth="150px"
+           itemHeight="75px"
+           scrollbar="true"
+           pagedSwipe="true"
+           endless="true">
+    <template>
+        <div class="vertical-list-item">
+            <span>item_{{idx}}</span>
+        </div>
+    </template>
+</ch5-list>
+{% endraw %}

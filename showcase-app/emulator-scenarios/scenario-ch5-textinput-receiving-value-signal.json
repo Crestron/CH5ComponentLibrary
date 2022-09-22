@@ -1,0 +1,29 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "trig1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "btn_receive_value",
+          "type": "string",
+          "logic": "set",
+          "value": "Hello!"
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "event": "ti.output_1",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "ti.input_1",
+          "type": "string",
+          "logic": "link"
+        }
+      ]
+    }
+  ]
+}

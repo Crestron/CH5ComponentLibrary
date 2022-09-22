@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-common-role-attribute">
+    <template>
+        <ch5-button id="test-ch5-button" label="Test button"></ch5-button>
+        <ch5-button id="test-ch5-button-change-role" role="custom-role" label="Test button"></ch5-button>
+        
+        <ch5-list id="test-ch5-list" label="Test list"></ch5-list>
+        <ch5-list id="test-ch5-list-change-role" role="custom-role" label="Test list"></ch5-list>
+        
+        <ch5-form id="test-ch5-form" label="Test image"></ch5-form>
+        <ch5-form id="test-ch5-form-change-role" role="custom-role" label="Test form"></ch5-form>
+        
+        <ch5-image id="test-ch5-image" label="Test image"></ch5-image>
+        <ch5-image id="test-ch5-image-change-role" role="custom-role" label="Test image"></ch5-image>
+        
+        <ch5-modal-dialog id="test-ch5-modal-dialog" label="Test modal-dialog"></ch5-modal-dialog>
+        <ch5-image id="test-ch5-modal-dialog-change-role" role="custom-role" label="Test modal-dialog"></ch5-image>
+        
+        <ch5-overlay-panel id="test-ch5-overlay-panel" label="Test overlay-panel"></ch5-overlay-panel>
+        <ch5-overlay-panel id="test-ch5-overlay-panel-change-role" role="custom-role"
+                           label="Test overlay-panel"></ch5-overlay-panel>
+        
+        <ch5-select id="test-ch5-select" label="Test select">
+            <ch5-select-option id="test-ch5-select-option" label="Test select-option"></ch5-select-option>
+            <ch5-select-option id="test-ch5-select-option-change-role" role="custom-role"
+                               label="Test select-option"></ch5-select-option>
+        </ch5-select>
+        <ch5-select id="test-ch5-select-change-role" role="custom-role" label="Test select"></ch5-select>
+        
+        
+        <ch5-slider id="test-ch5-slider" label="Test slider"></ch5-slider>
+        <ch5-slider id="test-ch5-slider-change-role" role="custom-role" label="Test slider"></ch5-slider>
+        
+        <ch5-spinner id="test-ch5-spinner" label="Test spinner"></ch5-spinner>
+        <ch5-spinner id="test-ch5-spinner-change-role" role="custom-role" label="Test spinner"></ch5-spinner>
+        
+        <ch5-textinput id="test-ch5-textinput" label="Test textinput"></ch5-textinput>
+        <ch5-textinput id="test-ch5-textinput-change-role" role="custom-role"
+                       label="Test textinput"></ch5-textinput>
+        
+        <ch5-toggle id="test-ch5-toggle" label="Test toggle"></ch5-toggle>
+        <ch5-toggle id="test-ch5-toggle-change-role" role="custom-role" label="Test toggle"></ch5-toggle>
+        
+        <ch5-triggerview id="test-ch5-triggerview">
+            <ch5-triggerview-child> First View</ch5-triggerview-child>
+            <ch5-triggerview-child> Second View</ch5-triggerview-child>
+            <ch5-triggerview-child> Third View</ch5-triggerview-child>
+        </ch5-triggerview>
+        <ch5-triggerview id="test-ch5-triggerview-change-role" role="custom-role">
+            <ch5-triggerview-child> First View</ch5-triggerview-child>
+            <ch5-triggerview-child> Second View</ch5-triggerview-child>
+            <ch5-triggerview-child> Third View</ch5-triggerview-child>
+        </ch5-triggerview>
+    </template>
+</test-fixture>
+
+<script>
+    
+    
+    suite('ch5-common-role-attribute', () => {
+        let testFixture;
+        const changedRole = 'custom-role';
+        
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            testFixture = fixture('ch5-common-role-attribute');
+            
+            return Promise.all([
+                customElements.whenDefined('ch5-button'),
+                customElements.whenDefined('ch5-image'),
+                customElements.whenDefined('ch5-list'),
+                customElements.whenDefined('ch5-modal-dialog'),
+                customElements.whenDefined('ch5-overlay-panel'),
+                customElements.whenDefined('ch5-select'),
+                customElements.whenDefined('ch5-select-option'),
+                customElements.whenDefined('ch5-triggerview'),
+                customElements.whenDefined('ch5-triggerview-child'),
+                customElements.whenDefined('ch5-spinner'),
+                customElements.whenDefined('ch5-toggle'),
+                customElements.whenDefined('ch5-slider'),
+                customElements.whenDefined('ch5-textinput')
+            ]).then(() => {
+            });
+        });
+        
+        testRoleAttribute(`ch5-button - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5Button}"`,
+          'test-ch5-button', CrComLib.Ch5RoleAttributeMapping.ch5Button);
+        testRoleAttribute('ch5-button - can change default role',
+          'test-ch5-button-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-image - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5Image}"`,
+          'test-ch5-image', CrComLib.Ch5RoleAttributeMapping.ch5Image);
+        testRoleAttribute('ch5-image - can change default role',
+          'test-ch5-image-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-list - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5List}"`,
+          'test-ch5-list', CrComLib.Ch5RoleAttributeMapping.ch5List);
+        testRoleAttribute('ch5-list - can change default role',
+          'test-ch5-list-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-modal-dialog - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5ModalDialog}"`,
+          'test-ch5-modal-dialog', CrComLib.Ch5RoleAttributeMapping.ch5ModalDialog);
+        testRoleAttribute('ch5-modal-dialog - can change default role',
+          'test-ch5-modal-dialog-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-overlay-panel - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5OverlayPanel}"`,
+          'test-ch5-overlay-panel', CrComLib.Ch5RoleAttributeMapping.ch5OverlayPanel);
+        testRoleAttribute('ch5-overlay-panel - can change default role',
+          'test-ch5-overlay-panel-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-select - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5Select}"`,
+          'test-ch5-select', CrComLib.Ch5RoleAttributeMapping.ch5Select);
+        testRoleAttribute('ch5-select - can change default role',
+          'test-ch5-select-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-select-option - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5SelectOption}"`,
+          'test-ch5-select-option', CrComLib.Ch5RoleAttributeMapping.ch5SelectOption);
+        testRoleAttribute('ch5-select-option - can change default role',
+          'test-ch5-select-option-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-slider - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5Slider}"`,
+          'test-ch5-slider', CrComLib.Ch5RoleAttributeMapping.ch5Slider);
+        testRoleAttribute('ch5-slider - can change default role',
+          'test-ch5-slider-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-spinner - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5Spinner}"`,
+          'test-ch5-spinner', CrComLib.Ch5RoleAttributeMapping.ch5Spinner);
+        testRoleAttribute('ch5-spinner - can change default role',
+          'test-ch5-spinner-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-textinput - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5TextInput}"`,
+          'test-ch5-textinput', CrComLib.Ch5RoleAttributeMapping.ch5TextInput);
+        testRoleAttribute('ch5-button - can change default role',
+          'test-ch5-textinput-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-toggle - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5Toggle}"`,
+          'test-ch5-toggle', CrComLib.Ch5RoleAttributeMapping.ch5Toggle);
+        testRoleAttribute('ch5-toggle - can change default role',
+          'test-ch5-toggle-change-role', changedRole);
+        
+        testRoleAttribute(`ch5-triggerview - default role is: "${CrComLib.Ch5RoleAttributeMapping.ch5TriggerView}"`,
+          'test-ch5-triggerview', CrComLib.Ch5RoleAttributeMapping.ch5TriggerView);
+        testRoleAttribute('ch5-triggerview - can change default role',
+          'test-ch5-triggerview-change-role', changedRole);
+        
+        function testRoleAttribute(testName, id, roleValue) {
+            test(testName, function (done) {
+                let element = document.getElementById(id);
+                
+                setTimeout(() => {
+                    expect(element.hasAttribute('role')).to.be.true;
+                    expect(element.attributes['role'].value).to.equal(roleValue);
+                    done();
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

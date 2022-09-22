@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<script src="/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="/bower_components/web-component-tester/browser.js"></script>
+	<link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+	<script src="/build_bundles/umd/cr-com-lib.js"></script>
+	<script src="/wct_tests/js/helpers.js"></script>
+	<script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+	<test-fixture id="ch5-button-selected-fixture">
+		<template>
+			<ch5-button></ch5-button>
+		</template>
+	</test-fixture>
+
+	<script>
+		suite('ch5-button', () => {
+
+			let ch5Button;
+
+			setup(async () => {
+				const emulatorJson = await fetch('./emulator/selected.json').then((response) => response.json());
+				const emulator = CrComLib.Ch5Emulator.getInstance();
+				emulator.loadScenario(emulatorJson);
+				ch5Button = fixture('ch5-button-selected-fixture');
+			});
+
+			const availableSelected = [
+				{
+					key: true,
+					value: true
+				},
+				{
+					key: false,
+					value: false
+				},
+				{
+					key: "true",
+					value: true
+				},
+				{
+					key: "false",
+					value: false
+				},
+				{
+					key: "TRUE",
+					value: false
+				},
+				{
+					key: "FALSE",
+					value: false
+				},
+				{
+					key: "",
+					value: true
+				}
+			];
+
+			availableSelected.forEach((selectedName, i) => {
+				test(`Check attribute selected: "${selectedName.key}"`, (done) => {
+					ch5Button.setAttribute('selected', selectedName.key);
+					flush(() => {
+						setTimeout(() => {
+							expect(ch5Button.selected).to.be.equal(selectedName.value);
+							expect(getDiv(ch5Button).classList.contains("ch5-button--selected")).to.be.equal(selectedName.value);
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
+
+			[true, false].forEach((selectedName, i) => {
+				test(`receiveStateSelected: "${selectedName}"`, (done) => {
+					ch5Button.setAttribute('receiveStateSelected', 'hall_lights_selected_' + String(selectedName));
+					CrComLib.publishEvent('b', 'hall_lights_selected_' + String(selectedName), !selectedName); // Why - becos of first time selected value
+					CrComLib.publishEvent('b', 'hall_lights_selected_' + String(selectedName), selectedName);
+					flush(() => {
+						setTimeout(() => {
+							const selectedValue = (selectedName === true) ? "true" : "false";
+							// Note = first time selected would not be there for signal value
+							expect(ch5Button.selected).to.be.equal(selectedName);
+							expect(ch5Button.getAttribute('selected')).to.be.equal((selectedValue));
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
+			// The test above and below are different - one is two blank signals for true and false, and second is true converted to false, and then to true and then to false
+			[true, false, true, false].forEach((selectedName, i) => {
+				test(`receiveStateSelected: "${selectedName}"`, (done) => {
+					ch5Button.setAttribute('receiveStateSelected', 'hall_lights_selected_test_new');
+					CrComLib.publishEvent('b', 'hall_lights_selected_test_new', selectedName);
+					flush(() => {
+						setTimeout(() => {
+							expect(ch5Button.getAttribute('selected')).to.be.equal(String(selectedName));
+							expect(ch5Button.selected).to.be.equal(selectedName);
+							done();
+						}, BASIC_TESTING_TIMEOUT);
+					});
+				});
+			});
+
+		});
+	</script>
+</body>
+
+</html>

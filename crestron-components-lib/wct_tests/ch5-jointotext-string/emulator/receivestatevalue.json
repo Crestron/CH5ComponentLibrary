@@ -1,0 +1,17 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_change_value",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "garage_door_status",
+          "type": "s",
+          "logic": "set",
+          "value": "No feedback"
+        } 
+      ]
+    }
+  ]
+}

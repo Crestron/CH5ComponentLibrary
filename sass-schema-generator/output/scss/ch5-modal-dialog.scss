@@ -1,0 +1,157 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-modal-dialog
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@import './scss/_variables';
+@import './../ch5-core/themes/high-contrast.scss';
+
+/// the class added on the div that is the only direct child of the ch5-modal-dialog element and wraps all its contents
+.ch5-modal-dialog {
+  position: fixed;
+  box-sizing: border-box;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: $ch5-modal-z-index;
+
+  background-color: $ch5-modal-background-color;
+  border-radius: $ch5-modal-border-radius;
+  border: $ch5-modal-border-width $ch5-modal-border-style $ch5-modal-border-color;
+  color: $ch5-modal-text-color;
+  padding: $ch5-modal-padding;
+  min-width: 200px;
+
+  .ch5-modal-dialog-close-icon-btn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    float: right;
+
+    background-color: $ch5-modal-close-icon-background-color;
+    margin: $ch5-modal-close-icon-margin;
+    padding: $ch5-modal-close-icon-padding;
+    width: $ch5-modal-close-icon-width;
+    font-size: $ch5-modal-close-icon-font-size;
+    font-style: $ch5-modal-close-icon-font-style;
+    font-weight: $ch5-modal-close-icon-font-weight;
+
+    &.f-left{
+      float: left;
+    }
+    &.f-right{
+      float: right;
+    }
+  }
+
+  .ch5-modal-dialog-default-close-icon {
+    color: $ch5-modal-close-icon-color;
+    font-size: $ch5-modal-default-close-icon-font-size;
+    font-style: $ch5-modal-default-close-icon-font-style;
+    font-weight: $ch5-modal-default-close-icon-font-weight;
+    &:before{
+      content:'\00d7';
+    }
+    &:hover{
+      color: $ch5-modal-close-icon-color-hover;
+    }
+  }
+
+  /// the class added on the ok button
+  .ch5-modal-dialog-btn-ok {
+    float: left;
+  }
+
+  /// the class of the cancel button
+  .ch5-modal-dialog-btn-cancel {
+    float:right;
+  }
+}
+
+.ch5-modal-dialog-title{
+  font-size: $ch5-modal-title-font-size;
+  font-style: $ch5-modal-title-font-style;
+  font-weight: $ch5-modal-title-font-weight;
+}
+
+/// modal section (a div) that wraps the prompt-icon and the prompt-text
+.ch5-modal-dialog-prompt {
+  &:before{
+    clear: both;
+  }
+  padding: $ch5-modal-prompt-padding;
+  vertical-align: middle;
+
+  /// an image element.
+  .ch5-modal-dialog-prompt-icon{
+    vertical-align: middle;
+    margin-right: $ch5-modal-prompt-icon-margin-right;
+    font-size: $ch5-modal-prompt-icon-font-size;
+    font-style: $ch5-modal-prompt-icon-font-style;
+    font-weight: $ch5-modal-prompt-icon-font-weight;
+  }
+
+  /// a span element
+  .ch5-modal-dialog-prompt-text{
+    vertical-align: middle;
+    font-size: $ch5-modal-prompt-text-font-size;
+    font-style: $ch5-modal-prompt-text-font-style;
+    font-weight: $ch5-modal-prompt-text-font-weight;
+    color: $ch5-modal-prompt-text-font-color;
+  }
+}
+
+.ch5-modal-dialog-boxed {
+  padding: 3px;
+  border: $ch5-modal-border-width $ch5-modal-border-style $ch5-modal-border-color;
+}
+
+.ch5-modal-dialog--overflow-scroll {
+  overflow:auto;
+}
+.ch5-modal-dialog--overflow-show {
+  overflow:visible;
+}
+
+.ch5-modal-dialog--stretch-width {
+  width: 100%;
+  height: auto;
+}
+.ch5-modal-dialog--stretch-height {
+  height: 100%;
+}
+.ch5-modal-dialog--stretch-both {
+  width: 100%;
+  height: 100%;
+}
+
+/// class added on the mask element
+.ch5-modal-dialog-mask {
+  top:0;
+  left:0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: $ch5-modal-mask-z-index;
+}
+
+.ch5-modal-dialog-mask-default-style {
+  background-color: $ch5-modal-mask-bg-color;
+}
+
+/// wrap the html that is initially between the ch5-modal-dialog tags
+.ch5-modal-dialog-contents {
+  padding: $ch5-modal-contents-padding;
+  font-size: $ch5-modal-contents-font-size;
+  font-style: $ch5-model-contents-font-style;
+  font-weight: $ch5-model-contents-font-weight;
+  color: $ch5-modal-contents-font-color;
+}
+

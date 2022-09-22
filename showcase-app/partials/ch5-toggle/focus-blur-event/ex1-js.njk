@@ -1,0 +1,18 @@
+var elem = document.getElementById("demo");  
+var elem2 = document.getElementById("demo2");  
+
+elem.addEventListener('focus', function(e){
+    console.log('ch5-toggle focus event: ', e.target.attributes.label.nodeValue);
+});
+
+elem.addEventListener('blur', function(e){
+    console.log('ch5-toggle blur event: ', e.target.attributes.label.nodeValue);
+});
+
+elem2.addEventListener('focus', function(e){
+    console.log('ch5-toggle focus event: ', e.target.attributes.label.nodeValue);
+});
+
+elem2.addEventListener('blur', function(e){
+    console.log('ch5-toggle blur event: ', e.target.attributes.label.nodeValue);
+});

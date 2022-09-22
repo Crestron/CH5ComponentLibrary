@@ -1,0 +1,24 @@
+{% raw %}
+    <div class="row">
+        <ch5-select indexId="Idx" size="15" multiselect mode="panel"
+                    receiveStateSize="ch5_multi_select_receive_signal_size"
+                    noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option receiveStateSelected="option_2_{{Idx}}_selected"
+                                   sendEventOnClick="option_2_{{Idx}}_on_click"
+                                   receiveStateLabel="label_signal_{{Idx}}">
+                    <span>Option {{Idx}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+
+        <p style="margin-top: 24px">
+            Clicking this button will increment the signal for the ch5-select by 3 (check the <i>offset</i> in the
+            emulator scenario). There are receiveStateSize and receiveStateSelected signals defined in the emulator for
+            a max size of 15.
+        </p>
+        <p>
+            <ch5-button label="Increment by 3" sendEventOnClick="trigCh5SelectSizeIncrementMultiSelect"></ch5-button>
+        </p>
+    </div>
+{% endraw %}

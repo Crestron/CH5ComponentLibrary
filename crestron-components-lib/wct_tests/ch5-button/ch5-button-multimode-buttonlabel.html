@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-fixture-multimode-buttonlabel-ex1">
+        <template>
+            <ch5-button type="warning" stretch="both">
+                <ch5-button-mode type="danger"></ch5-button-mode>
+                <ch5-button-label>
+                    <template>
+                        <b>Label set in ch5-button-label</b>
+                    </template>
+                </ch5-button-label>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-fixture-multimode-buttonlabel-ex2">
+        <template>
+            <ch5-button type="primary" label="Primary label which is overridden" stretch="width">
+                <ch5-button-label>
+                    <template>
+                        <b>ch5-button-label inside ch5-button</b>
+                    </template>
+                </ch5-button-label>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-fixture-multimode-buttonlabel-ex3">
+        <template>
+            <ch5-button type="danger" label="Primary label which is overridden" stretch="both">
+                <ch5-button-label>
+                    <template>
+
+                    </template>
+                </ch5-button-label>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+
+    <test-fixture id="ch5-button-fixture-multimode-buttonlabel-ex4">
+        <template>
+            <ch5-button type="info" label="Primary label which is overridden" receiveStateLabel="labelForButton" stretch="both">
+                <ch5-button-label>
+                    <template>
+                        <i>How is the weather today?</i>
+                    </template>
+                </ch5-button-label>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-button-fixture-multimode-buttonlabel-ex5">
+        <template>
+            <ch5-button type="text" label="Primary label which is overridden" receiveStateLabel="labelForButton" receiveStateScriptLabelHtml="labelForButtonHtml" stretch="both">
+                <ch5-button-label>
+                    <template>
+                        <i>How is the weather today?</i>
+                    </template>
+                </ch5-button-label>
+            </ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-button with ch5-button-mode', () => {
+
+            let ch5Button_ex1;
+            let ch5Button_ex2;
+            let ch5Button_ex3;
+            let ch5Button_ex4;
+            let ch5Button_ex5;
+
+            // TODO - assume structure is static for advanced button. Dynamic addition of child elements to be handled later
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/multimode-buttonlabel.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Button_ex1 = fixture('ch5-button-fixture-multimode-buttonlabel-ex1');
+                ch5Button_ex2 = fixture('ch5-button-fixture-multimode-buttonlabel-ex2');
+                ch5Button_ex3 = fixture('ch5-button-fixture-multimode-buttonlabel-ex3');
+                ch5Button_ex4 = fixture('ch5-button-fixture-multimode-buttonlabel-ex4');
+                ch5Button_ex5 = fixture('ch5-button-fixture-multimode-buttonlabel-ex5');
+            });
+
+            test(`ch5-button with no label attribute. The label for the button is set inside ch5-button-label element.`, () => {
+                expect(ch5Button_ex1.activeLabel.trim()).to.be.equal("<b>Label set in ch5-button-label</b>");
+            });
+
+            test(`ch5-button-label overrides label attribute in ch5-button.`, () => {
+                expect(ch5Button_ex2.activeLabel.trim()).to.be.equal("<b>ch5-button-label inside ch5-button</b>");
+            });
+
+            test(`ch5-button-label is empty inside ch5-button. Label attribute in ch5-button has content.`, () => {
+                expect(ch5Button_ex3.activeLabel.trim()).to.be.equal("");
+            });
+
+            test(`The below button contains receiveStateLabel which takes preference over label attribute in ch5-button and ch5-button-label.`, (done) => {
+                CrComLib.publishEvent('b', 'trig1', true);
+                // TODO - why is receivestatelabel not working in fixture
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button_ex4.activeLabel.trim()).to.be.equal("Label received from event - emulator");
+                        // expect(ch5Button_ex4.activeLabel.trim()).to.be.equal("Hello from receiveStateLabel");
+                        done();
+                    }, 100);
+                });
+            });
+
+            test(`The below button contains receiveStateScriptLabelHtml which takes preference over label attribute in ch5-button, receiveStateLabel and ch5-button-label. `, (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Button_ex5.activeLabel.trim()).to.be.equal("He<b>ll</b>o <span style='color:red'>World</span><i style='color: blue;'>!</i>");
+                        //expect(ch5Button_ex5.activeLabel.trim()).to.be.equal("He<b>ll</b>o <span style='color:red'> from labelHTML</span> <i style='color: blue;'>!!!</i>");
+                        done();
+                    }, 100);
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

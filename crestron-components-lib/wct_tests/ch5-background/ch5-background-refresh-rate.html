@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-background-refreshRate-fixture">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="12">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-refreshRate-minvalue-fixture">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="5"></ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-refreshRate-maxvalue-fixture">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="7000000"></ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-refreshRate-invalid-fixture">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="randomRefreshRate">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-refreshrate-float-value">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" refreshRate="10.2">
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="ch5-background-referesh-rate-receiveState">
+        <template>
+            <ch5-background url="https://picsum.photos/id/1/300/200 | https://picsum.photos/id/10/300/200" receivestaterefreshrate= 'receive_refresh_rate'>
+            </ch5-background>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-background refreshRate', () => {
+            let ch5Background;
+
+            /* coverity[implicit_this_used] */
+            setup(() => {
+                ch5Background = fixture('ch5-background-refreshRate-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Default refreshRate is "600"', () => {
+                ch5Background.removeAttribute('refreshRate');
+                expect(ch5Background.refreshRate).to.be.equal(600);
+            });
+
+            test('refreshRate "12"', () => {
+                expect(ch5Background.refreshRate).to.be.equal(12);
+            });
+        });
+
+        suite('ch5-background refreshRate minimum value', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-refreshRate-minvalue-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Below 10 second refreshRate should switch to "10"', () => {
+                expect(ch5Background.refreshRate).to.be.equal(10);
+            });
+        });
+
+        suite('ch5-background refreshRate maximum value', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-refreshRate-maxvalue-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Above 604800 second refreshRate should switch to "604800"', () => {
+                expect(ch5Background.refreshRate).to.be.equal(604800);
+            });
+        });
+
+        suite('ch5-background refreshRate invalid', () => {
+            let ch5Background;
+            setup(() => {
+                ch5Background = fixture('ch5-background-refreshRate-invalid-fixture');
+                return Promise.all([customElements.whenDefined('ch5-background')]);
+            });
+
+            test('Invalid refreshRate should switch to default "600"', () => {
+                expect(ch5Background.refreshRate).to.be.equal(600);
+            });
+        });
+
+        suite('ch5-background refreshrate float value', () => {
+            let ch5Background;
+            
+            setup(() => {
+                ch5Background = fixture('ch5-background-refreshrate-float-value');
+            });
+            
+            test('Refresh rate time in float"10.2"',  () => {
+                expect(ch5Background.getAttribute('refreshRate')).to.be.equal('10.2');
+                expect(ch5Background.refreshRate).to.be.equal(10.2);
+            });
+        });
+
+        suite('ch5-background refreshrate receive state value', () => {
+            let ch5Background;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Background = fixture('ch5-background-referesh-rate-receiveState');
+            });
+
+            test(`Check receive state value "refresh rate:30"`, (done) => {
+                CrComLib.publishEvent('b', 'send_refresh_rate_1', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Background.getAttribute('receivestaterefreshrate')).to.be.equal('receive_refresh_rate');
+                        expect(ch5Background.refreshRate).to.be.equal(30);
+                        done();
+                    }, 100);
+                });
+            }); 
+
+            test(`Check receive state value "refresh rate:15"`, (done) => {
+                CrComLib.publishEvent('b', 'send_refresh_rate_2', true);
+                flush(() => {
+                    setTimeout(() => {
+                        expect(ch5Background.getAttribute('receivestaterefreshrate')).to.be.equal('receive_refresh_rate');
+                        expect(ch5Background.refreshRate).to.be.equal(15);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

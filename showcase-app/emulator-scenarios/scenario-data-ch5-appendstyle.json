@@ -1,0 +1,79 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_appendstyle_signal_1",
+          "type": "s",
+          "logic": "set",
+          "value": "background-color: yellow; color: red; font-weight: bold;"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_appendstyle_signal_1",
+          "type": "s",
+          "logic": "set",
+          "value": "background-color: gray; color: black; font-style: italic; font-size: 18px;"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_appendstyle_signal_2",
+          "type": "s",
+          "logic": "set",
+          "value": "background-color: green; color: black; font-style: bolder; font-size: 14px;"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_4",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_appendstyle_signal_3",
+          "type": "s",
+          "logic": "set",
+          "value": "background-color: black; color: white; font-style: bolder; font-size: 14px;"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_5",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "data_ch5_appendstyle_signal_2",
+          "type": "s",
+          "logic": "set",
+          "value": ""
+        },
+        {
+          "state": "data_ch5_appendstyle_signal_3",
+          "type": "s",
+          "logic": "set",
+          "value": ""
+        }
+      ]
+    }
+
+  ],
+  "onStart":[
+
+  ]
+}

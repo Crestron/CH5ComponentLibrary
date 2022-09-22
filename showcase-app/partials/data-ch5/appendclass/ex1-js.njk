@@ -1,0 +1,44 @@
+{% raw %}
+(function () {
+    const mutationsParentEl = document.getElementById('mutations-parent');
+    const addBtn = document.getElementById('add');
+    const updateBtn = document.getElementById('update');
+    const removeBtn = document.getElementById('remove');
+
+    addBtn.addEventListener('click', () => {
+        const newEl = document.createElement('div');
+        newEl.classList.add('b-blue');
+        newEl.setAttribute('id', 'new-el');
+        newEl.classList.add('alarm-system')
+        newEl.innerHTML = 'Security System mode: ';
+
+        const alarmStatusEl = document.createElement('span');
+        alarmStatusEl.setAttribute('id', 'status-el');
+        alarmStatusEl.setAttribute('debug', '');
+        alarmStatusEl.setAttribute('data-ch5-textcontent', 'security_system_mode_text_2');
+        alarmStatusEl.setAttribute('data-ch5-appendclass', 'security_system_mode_class_2');
+
+        alarmStatusEl.classList.add('alarm-status');
+
+        newEl.appendChild(alarmStatusEl);
+
+        if (mutationsParentEl.querySelector('#new-el') === null) {
+            mutationsParentEl.appendChild(newEl);
+        }
+    });
+
+    updateBtn.addEventListener('click', () => {
+        const statusEl = document.getElementById('status-el');
+        if (statusEl) {
+            statusEl.setAttribute('data-ch5-appendclass', 'security_system_mode_class_3');
+        }
+    });
+
+    removeBtn.addEventListener('click', () => {
+        const newEl = document.getElementById('new-el');
+        if (newEl) {
+            mutationsParentEl.removeChild(newEl);
+        }
+    });
+})()
+{% endraw %}

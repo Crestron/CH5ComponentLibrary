@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-temple-signals-fixture">
+    <template>
+        <template id="templateWithButtons">
+            <div>
+                <ch5-button id="ch5button" sendEventOnClick="original.click"
+                            receiveStateSelected="original.selected"></ch5-button>
+                <ch5-button id="ch5button2" sendEventOnClick="original.click2"
+                            receiveStateSelected="original.selected2"></ch5-button>
+            </div>
+        </template>
+        <ch5-template templateId="templateWithButtons" context="original:replacement">
+        </ch5-template>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-temple-in-ch5-list-fixture">
+    <template>
+        <template id="viewXYZ">
+            <div class="xyz">
+                <ch5-button label="INST.label"
+                            sendEventOnClick="INST.click"
+                            receiveStateSelected="INST.selected"></ch5-button>
+            </div>
+        </template>
+        <ch5-list
+                id="ch5-list-using-ch5-template"
+                size="5"
+                orientation="horizontal"
+                indexId="idx">
+            <template>
+                <ch5-template templateid="viewXYZ"
+                              context="INST:xyz[{{idx}}]">
+                </ch5-template>
+            </template>
+        </ch5-list>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-template-rename-states-and-events', function () {
+        
+        let ch5ListUsingCh5Template = null;
+        let templateWithButtons = null;
+        
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            templateWithButtons = fixture('ch5-temple-signals-fixture');
+            ch5ListUsingCh5Template = fixture('ch5-temple-in-ch5-list-fixture');
+            
+            return Promise.all([
+                customElements.whenDefined('ch5-template')
+            ]);
+        });
+        
+        test('Can change the name of events and states', function () {
+            const ch5button = document.getElementById("ch5button");
+            const ch5button2 = document.getElementById("ch5button2");
+            
+            expect(ch5button.getAttribute('sendEventOnClick')).to.be.equal('replacement.click');
+            expect(ch5button.getAttribute('receiveStateSelected')).to.be.equal('replacement.selected');
+            expect(ch5button2.getAttribute('sendEventOnClick')).to.be.equal('replacement.click2');
+            expect(ch5button2.getAttribute('receiveStateSelected')).to.be.equal('replacement.selected2');
+        });
+        
+        test('Can change the name of events and states when used inside a ch5-list', function (done) {
+            let ch5List = document.getElementById("ch5-list-using-ch5-template");
+            
+            setTimeout(() => {
+                expect(ch5List.children[1].children.length).to.be.equal(5);
+                for (let index = 0; index < ch5List.children[1].children.length; index++) {
+                    expect(ch5List.children[1].children[index].children[0].tagName).to.be.equal("CH5-TEMPLATE");
+                    expect(ch5List.children[1].children[index].children[0].getAttribute("context")).to.be.equal(`INST:xyz[${index}]`);
+                    expect(ch5List.children[1].children[index].children[0].children[0].children[0].children[0].getAttribute("sendEventOnClick")).to.be.equal(`xyz[${index}].click`);
+                    expect(ch5List.children[1].children[index].children[0].children[0].children[0].children[0].getAttribute("receiveStateSelected")).to.be.equal(`xyz[${index}].selected`);
+                }
+                done();
+            });
+        });
+    });
+</script>
+</body>
+</html>

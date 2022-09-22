@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-select-multi-selection-fixture">
+    <template>
+        <ch5-select size="5" idx="idx" multiselect
+                     minWidth="250px" maxWidth="350px"
+                     minHeight="36px"  maxHeight="48px">
+            <template>
+                <ch5-select-option>
+                    <span>item_{{idx}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-select-multi-selection', function() {
+
+        let ch5Select;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Select = fixture('ch5-select-multi-selection-fixture');
+        });
+
+        test('Expect attribute multiselect to be present and multiselect property to be true', function() {
+            expect(ch5Select.hasAttribute('multiselect')).to.be.equal(true);
+            expect(ch5Select.multiselect).to.be.equal(true);
+        });
+  
+      test('Selection should be updated in selectedValues property', function (done) {
+        setTimeout(() => {
+          const valsToSet = [2, 3, 4];
+          ch5Select.setValue(valsToSet);
+          valsToSet.forEach((idx) => {
+            const opt = ch5Select._getOptionElByIdx(idx);
+            expect(opt.classList.contains('ch5-select__panel__item--selected')).to.be.equal(true);
+          });
+      
+          expect(JSON.stringify(ch5Select.selectedValues)).to.be.equal(JSON.stringify(valsToSet));
+          done();
+        });
+      });
+
+    });
+</script>
+</body>
+</html>

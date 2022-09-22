@@ -1,0 +1,21 @@
+{% raw %}
+    <div class="row">
+        <ch5-select indexId="Index" size="15"
+                    receiveStateSize="ch5_select_receive_signal_size"
+                    noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option>
+                    <span>Option #{{Index}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+
+        <p style="margin-top: 24px">
+            Clicking this button will increment the signal for the ch5-select by 2 (check the <i>offset</i> in the
+            emulator scenario).
+        </p>
+        <p>
+            <ch5-button label="Increment by 2" sendEventOnClick="trigCh5SelectSizeIncrement"></ch5-button>
+        </p>
+    </div>
+{% endraw %}

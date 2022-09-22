@@ -1,0 +1,10 @@
+{% raw %}
+(function () {
+    const updateButton = document.getElementById('update-scroll-h');
+    const ch5select = document.getElementById('scroll-h-ex');
+
+    updateButton.addEventListener('click', () => {
+        ch5select.setAttribute('panelScrollHeight', '300px');
+    });
+})()
+{% endraw %}

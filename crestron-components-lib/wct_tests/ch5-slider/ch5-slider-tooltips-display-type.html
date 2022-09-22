@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-slider-toolTipDisplayType-fixture">
+    <template>
+        <ch5-slider 
+            toolTipShowType="on"
+            >
+        </ch5-slider> 
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-slider-toolTipDisplayType-invalid-fixture">
+    <template>
+        <ch5-slider 
+            toolTipShowType="on"
+            toolTipDisplayType="randomValue"
+            >
+        </ch5-slider> 
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-slider toolTipDisplayType', function() {
+
+        let ch5Slider;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-toolTipDisplayType-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        test('Default toolTipDisplayType is "percent"', function() {
+            expect(ch5Slider.toolTipDisplayType).to.be.equal('%');
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Default toolTipDisplayType: "%" rendered noUiSlider', function() {
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+
+        test('toolTipDisplayType "value"', function() {
+            ch5Slider.setAttribute('toolTipDisplayType', 'value')
+            expect(ch5Slider.toolTipDisplayType).to.be.equal('value');
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('toolTipDisplayType: "value" rendered noUiSlider', function() {
+            ch5Slider.setAttribute('toolTipDisplayType', 'value')
+            expect(ch5Slider.toolTipDisplayType).to.be.equal('value');
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    });
+
+    suite('ch5-slider invalid toolTipDisplayType', function() {
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-toolTipDisplayType-invalid-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        // testing with a random value in a toolTipDisplayType attribute
+        test('Invalid toolTipDisplayType should be switched to default "%"', function() {
+            expect(ch5Slider.toolTipDisplayType).to.be.equal('%');
+        })
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Invalid toolTipDisplayType rendered noUiSlider with default "%"', function() {
+            expect(ch5Slider.toolTipDisplayType).to.be.equal('%');
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    })
+</script>
+</body>
+</html>

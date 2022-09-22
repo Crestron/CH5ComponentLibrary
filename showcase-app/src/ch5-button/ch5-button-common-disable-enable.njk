@@ -1,0 +1,18 @@
+---
+title: "ch5-button common attributes: disabled, receiveStateEnable"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./emulator-scenarios/ch5-button/enable.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-button/common-disable-enable/','ex1') %}{% endcall %}
+
+    {% call exampleSectionFromPartials('ch5-button/common-disable-enable/','ex2') %}{% endcall %}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+<h1>data-ch5-appendclass</h1>
+<p>
+    The 'data-ch5-appendclass' custom HTML attribute appends the value of a signal to the 'class' attribute on a
+    standard HTML element. A change in the value of the signal will remove the prior value of the signal and append
+    the new value. As an example, for an alarm system, the application should have a text display state of "Armed Away" until
+    the homeowner opens a door, in which there is a short period to enter a code. During the code entry period,
+    the text of "Armed Away" turns red and blinks on and off. After code is entered, the display state becomes "Unarmed"
+    and the text no longer is red and blinking.
+    <br><br>
+    Initially, the signals are as follows:
+    Signal security_system_mode_text is set to "Armed Away" and signal security_system_mode_class is set to empty "".
+    When the door is opened, Signal security_system_mode_class is changed to "blinking_red", which changes the "Armed Away"
+    color to red and alternating visibility based upon the class "blinking_red" added to the span elements CSS class
+    list. When code is entered, Signal security_system_mode_text is set to "Unarmed" and signal
+    security_system_mode_class is set to empty "".
+</p>

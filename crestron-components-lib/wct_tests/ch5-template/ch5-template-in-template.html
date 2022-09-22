@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-temple-signals-fixture">
+    <template>
+        <template id="viewOtherStuff">
+            <div class="otherStuff">
+                <h4 data-ch5-textcontent="OSTUFF.title">This will be replaced by the data-ch5-textcontent event, which
+                    does
+                    not exist in this test, so the tag will be empty</h4>
+            </div>
+        </template>
+        
+        <template id="viewXYZ">
+            <div class="xyz">
+                <ch5-template id="ch5TemplateInsideCh5Template" templateid="viewOtherStuff"
+                              context="OSTUFF:INST.ostuff"></ch5-template>
+                <ch5-button type="info" label="INST.label" sendSignalOnClick="INST.click"
+                            receiveSignalSelected="INST.selected"></ch5-button>
+            </div>
+        </template>
+        
+        <ch5-list id="ch5List" size="15" maxHeight="150px" indexId="idx" receiveSignalSize="numXYZ">
+            <template>
+                <ch5-template id="ch5TemplateInsideList"
+                              templateid="viewXYZ"
+                              context="INST:xyz_{{idx}}"></ch5-template>
+            </template>
+        </ch5-list>
+    
+    </template>
+</test-fixture>
+<script>
+    suite('ch5-template-in-template', function () {
+        let ch5TemplateInsideList = null;
+        let ch5TemplateInsideCh5Template = null;
+        let ch5List = null;
+        
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            testFixture = fixture('ch5-temple-signals-fixture');
+            ch5List = document.getElementById("ch5List");
+            
+            return Promise.all([
+                customElements.whenDefined('ch5-template')
+            ]);
+        });
+        
+        test('Will generate the content of the first ch5-template', function (done) {
+            ch5TemplateInsideList = document.getElementById("ch5TemplateInsideList");
+            
+            setTimeout(() => {
+                expect(ch5TemplateInsideList.children[0].tagName).to.be.equal("DIV");
+                expect(ch5TemplateInsideList.children[0].children[0].children[0].tagName).to.be.equal("CH5-TEMPLATE");
+                expect(ch5TemplateInsideList.children[0].children[0].children[1].tagName).to.be.equal("CH5-BUTTON");
+                done();
+            });
+        });
+        
+        test('Will generate the content of the second ch5-template', function (done) {
+            
+            setTimeout(() => {
+                ch5TemplateInsideCh5Template = document.getElementById("ch5TemplateInsideCh5Template");
+                
+                expect(ch5TemplateInsideCh5Template.children[0].tagName).to.be.equal("DIV");
+                expect(ch5TemplateInsideCh5Template.children[0].children[0].children[0].tagName).to.be.equal("H4");
+                done();
+            });
+        });
+        
+        test('Will generate the ch5-templates for each elements of the ch5-list', function (done) {
+            expect(ch5List.children[1].children.length).to.be.equal(15);
+            setTimeout(() => {
+                for (let index = 0; index < ch5List.children[1].children.length; index++) {
+                    expect(ch5List.children[1].children[index].children[0].tagName).to.equal("CH5-TEMPLATE");
+                    expect(ch5List.children[1].children[index].children[0].getAttribute("id")).to.equal("ch5TemplateInsideList");
+                    expect(ch5List.children[1].children[index].children[0].children[0].children[0].children[0].getAttribute("id")).to.be.equal("ch5TemplateInsideCh5Template");
+                }
+                done();
+            });
+        });
+        
+        test('Will rename the signals of the second ch5-template', function () {
+            for (let index = 0; index < ch5List.children[0].children.length; index++) {
+                
+                expect(ch5List.children[0].children[index].children[0].children[0].children[0].children[0].children[0].getAttribute("data-ch5-textcontent")).to.be.equal(`xyz_${+index + 1}.ostuff.title`);
+            }
+        });
+    });
+</script>
+</body>
+</html>

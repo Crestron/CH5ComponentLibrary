@@ -1,0 +1,127 @@
+{% raw %}
+    <p>
+        All the buttons below are generated via ch5-template.
+        When a button from the second row is clicked the corresponding button from the row above will be toggled.
+    </p>
+
+    <p>The first ch5-template will receive an attribute <i>"templateId"</i> which represents the id of the template it
+        needs to
+        generate, in this case the id will be: <i>"transportbuttons"</i>. The second attribute is the context:
+        "TRANSBTNS:receive". </p>
+    <ul>
+        <li>
+            The
+            first substring before the colon represents the original name of the signal while the second one
+            represents the replacement name.
+        </li>
+        <li>Therefore if a component has a receiveStateSelected="<i><b>TRANSBTNS</b>.prevtrack_selected"</i> attribute,
+            its value will
+            become receiveStateSelected="<i><b>receive</b>.prevtrack_selected"</i>
+        </li>
+    </ul>
+
+    <template id="transportbuttons">
+        <div class="TRANSBTNS">
+            <ch5-button customClass="trnsbtns__prev"
+                        id="TRANSBTNS.prevtrack"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-fast_rewind"
+                        sendEventOnClick="TRANSBTNS.prevtrack_clicked"
+                        receiveStateSelected="TRANSBTNS.prevtrack_selected">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__play"
+                        id="TRANSBTNS.play"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-play_arrow"
+                        sendEventOnClick="TRANSBTNS.play_clicked"
+                        receiveStateSelected="TRANSBTNS.play_selected">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__next"
+                        id="TRANSBTNS.nexttrack"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-fast_forward"
+                        sendEventOnClick="TRANSBTNS.nexttrack_clicked"
+                        receiveStateSelected="TRANSBTNS.nexttrack_selected">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__record"
+                        id="TRANSBTNS.record"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-fiber_manual_record"
+                        sendEventOnClick="TRANSBTNS.record_clicked"
+                        receiveStateSelected="TRANSBTNS.record_selected">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__stop"
+                        id="TRANSBTNS.stop"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-stop"
+                        sendEventOnClick="TRANSBTNS.stop_clicked">
+            </ch5-button>
+            <ch5-button customClass="trnsbtns__pause"
+                        id="TRANSBTNS.pause"
+                        shape="rounded-rectangle"
+                        iconClass="material-icons md-pause"
+                        sendEventOnClick="TRANSBTNS.pause_clicked"
+                        receiveStateSelected="TRANSBTNS.pause_selected">
+            </ch5-button>
+        </div>
+    </template>
+    <template id="transportbuttons_nextline">
+        <div class="TRANSBTNS">
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-fast_rewind"
+                        receiveStateSelected="TRANSBTNS.prevtrack_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-play_arrow"
+                        receiveStateSelected="TRANSBTNS.play_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-fast_forward"
+                        receiveStateSelected="TRANSBTNS.nexttrack_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-fiber_manual_record"
+                        receiveStateSelected="TRANSBTNS.record_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-stop"
+                        receiveStateSelected="TRANSBTNS.stop_selected">
+            </ch5-button>
+            <ch5-button shape="rounded-rectangle" type="text"
+                        iconClass="material-icons md-pause"
+                        receiveStateSelected="TRANSBTNS.pause_selected">
+            </ch5-button>
+        </div>
+    </template>
+
+
+    <ch5-template id="receive"
+                  templateid="transportbuttons_nextline"
+                  context="TRANSBTNS:receive"></ch5-template>
+
+    <ch5-template id="directv"
+                  receiveStateShow="show_second_pair_of_template"
+                  templateid="transportbuttons"
+                  context="TRANSBTNS:directv"></ch5-template>
+
+    <div id="textcontent" class="b-red"
+         data-ch5-textcontent="selected_button">
+        [Testing ch5-template]
+    </div>
+
+    <p>
+        The template can be reused again by providing another ch5-template, in this case the context is identical so the
+        same signals will be used.
+    </p>
+
+    <ch5-template id="directv"
+                  receiveStateShow="show_second_pair_of_template"
+                  templateid="transportbuttons"
+                  context="TRANSBTNS:directv"></ch5-template>
+    <br>
+    <p>Ch5-template supports all ch5-common attributes. In this example you can toggle the visibility of the second pair
+        of
+        ch5-templates via the <i>receiveStateShow</i> signal by clicking the button below.</p>
+    <ch5-button label="Toggle the visibility of the second pair of ch5-templates"
+                sendEventOnClick="toggle_second_pair_of_template"></ch5-button>
+{% endraw %}

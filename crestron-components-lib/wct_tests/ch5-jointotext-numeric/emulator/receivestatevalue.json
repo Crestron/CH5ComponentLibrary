@@ -1,0 +1,17 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_change_value",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "temperature",
+          "type": "n",
+          "logic": "increment",
+          "offset": 5
+        } 
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "properties": {
+    "className": [
+      "Name of the selector",
+      "Can be any valid SCSS selector"
+    ],
+    "description": [
+      "Documentation for the selector(s)",
+      "Should start with /// (triple slashes)",
+      "A comment starting with /// will be applied to the following selector. It will apply to multiple selectors only if they are split with ,"
+    ],
+    "supports": [
+      "Within a selector for each rule a variable can be assigned as a value. Those variable names will be displayed in the 'supports' array",
+      "If a selector supports no variable we won't show at all the selector !!!!"
+    ],
+    "showWhen": [
+      "Computed based on the 'className' string",
+      {
+        "properties": {
+          "platform": [
+            "If 'className' contains 'ios' display platform: 'ios'"
+          ],
+          "icon": [
+            "If 'className' contains 'iconposition' display icon: true"
+          ],
+          "type": [
+            "If 'className' contains value of classListPrefix specified in the buttonHelper + one value from the array of possible values we display that value",
+            "i.e. className = 'ch5-button--primary' classListPrefix is 'ch5-button--' and a possible value is 'primary' we will show type: ['primary']",
+            "i.e. if className = ':not(ch5-button--primary)' we will display all the other values except primary"
+          ],
+          "orientation": [
+            "If 'className' contains value of classListPrefix specified in the buttonHelper + one value from the array of possible values we display that value",
+            "i.e. className = 'ch5-button--vertical' classListPrefix is 'ch5-button--' and a possible value is 'vertical' we will show type: ['vertical']",
+            "i.e. if className = ':not(ch5-button--vertical)' we will display all the other values except vertical"
+          ],
+          "shape": [
+            "If 'className' contains value of classListPrefix specified in the buttonHelper + one value from the array of possible values we display that value",
+            "i.e. className = 'ch5-button--circle' classListPrefix is 'ch5-button--' and a possible value is 'circle' we will show type: ['circle']",
+            "i.e. if className = ':not(ch5-button--circle)' we will display all the other values except circle"
+          ],
+          "size": [
+            "If 'className' contains value of classListPrefix specified in the buttonHelper + one value from the array of possible values we display that value",
+            "i.e. className = 'ch5-button--small' classListPrefix is 'ch5-button--' and a possible value is 'small' we will show type: ['small']",
+            "i.e. if className = ':not(ch5-button--small)' we will display all the other values except small"
+          ],
+          "stretch": [
+            "If 'className' contains value of classListPrefix specified in the buttonHelper + one value from the array of possible values we display that value",
+            "i.e. className = 'ch5-button--height' classListPrefix is 'ch5-button--' and a possible value is 'height' we will show type: ['height']",
+            "i.e. if className = ':not(ch5-button--height)' we will display all the other values except height"
+          ]
+        }
+      }
+    ]
+  }
+}

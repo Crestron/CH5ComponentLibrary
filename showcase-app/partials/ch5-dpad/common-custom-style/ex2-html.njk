@@ -1,0 +1,27 @@
+<p>
+    This changes the value of the <b>sig_custom_style</b> signal to "border:2px dashed blue;" ( see Emulator Scenario )
+    <ch5-button label="trigger 1" sendEventOnClick="sig_trig_style1"></ch5-button>
+</p>
+<p>
+    This changes the value of the <b>sig_custom_style</b> signal to "border:3px dotted green; color:red;" ( see Emulator Scenario )
+    <ch5-button label="trigger 2" sendEventOnClick="sig_trig_style2"></ch5-button>
+</p>
+<p>
+    This changes the value of the <b>sig_custom_style</b> signal to "border:1px solid red; color:green;" ( see Emulator Scenario )
+    <ch5-button label="trigger 3" sendEventOnClick="sig_trig_style3"></ch5-button>
+</p>
+
+<hr>
+
+<ch5-dpad 
+    type="success"  
+    label="custom style from signal" 
+    receiveStateCustomStyle="sig_custom_style">
+</ch5-dpad>
+<br /><br />
+<ch5-dpad 
+    type="success"  
+    label="custom style from signal and also from attr" 
+    receiveStateCustomStyle="sig_custom_style" 
+    customStyle="border:1px solid red;">
+</ch5-dpad>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-labels-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('ch5-button', () => {
+
+            let ch5Button;
+
+            setup(async () => {
+                const emulatorJson = await fetch('./emulator/labels.json').then((response) => response.json());
+                const emulator = CrComLib.Ch5Emulator.getInstance();
+                emulator.loadScenario(emulatorJson);
+                ch5Button = fixture('ch5-button-labels-fixture');
+            });
+
+            // Label and ReceiveStateLabel            
+            const labelValues = CH5_BUTTON_MASTERS.LABELS.values;
+
+            labelValues.forEach((labelName, i) => {
+                test(`Check attribute label: "${labelName}"`, () => {
+                    ch5Button.setAttribute('label', labelName);
+                    expect(ch5Button.label).to.be.equal(labelName);
+                });
+                test(`Check attribute label inside ch5-button > div > span: "${labelName}"`, () => {
+                    ch5Button.setAttribute('label', labelName);
+                    expect(ch5Button.children[0].children[0].children[0].innerText).to.be.equal(labelName);
+                });
+            });
+
+            labelValues.forEach((labelName, i) => {
+                test(`receiveStateLabel: "${labelName}"`, (done) => {
+                    ch5Button.setAttribute('receiveStateLabel', 'current_label');
+                    CrComLib.publishEvent('s', 'current_label', labelName);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.getAttribute('label')).to.be.equal(labelName);
+                            expect(ch5Button.label).to.be.equal(labelName);
+                            done();
+                        }, 100);
+                    });
+                });
+                test(`receiveStateLabel: "${labelName}"`, (done) => {
+                    ch5Button.setAttribute('receiveStateLabel', 'current_label');
+                    CrComLib.publishEvent('s', 'current_label', labelName);
+                    flush(() => {
+                        setTimeout(() => {
+                            expect(ch5Button.getAttribute('label')).to.be.equal(labelName);
+                            expect(getSpan(ch5Button).innerText).to.be.equal(labelName);
+                            done();
+                        }, 100);
+                    });
+                });
+            });
+
+            // TODO - ReceiveStateLabelHTML
+        });
+    </script>
+</body>
+
+</html>

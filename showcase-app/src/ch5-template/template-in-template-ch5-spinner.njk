@@ -1,0 +1,11 @@
+---
+title: "ch5-template in template with ch5-spinner"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+{% call exampleSectionFromPartials('ch5-template/template-in-template/ch5-spinner/','ex1') %}{% endcall %}
+
+{% endblock %}

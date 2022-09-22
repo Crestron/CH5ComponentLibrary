@@ -1,0 +1,95 @@
+{
+  "cues": [
+    {
+      "type": "b",
+      "event": "1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "1",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "2",
+          "type": "b",
+          "logic": "pulse"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "3",
+          "type": "b",
+          "logic": "pulse"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "4",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "4",
+          "type": "s",
+          "logic": "set",
+          "value": "25 degrees Celsius"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "5",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "5",
+          "type": "s",
+          "logic": "set",
+          "value": "<strong>DIV: </strong><span class=\"c-green\">innerHTML updated using state defined by</span> <span class=\"c-blue\">data-ch5-innerhtml attribute</span>"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "6",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "6",
+          "type": "s",
+          "logic": "set",
+          "value": "background-color: yellow; color: red; font-weight: bold;"
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "7",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "7",
+          "type": "s",
+          "logic": "set",
+          "value": "c-green"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "cues": [
+    {
+      "type": "number",
+      "event": "Resize",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sizecall",
+          "type": "number",
+          "logic": "increment"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "R2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "sizecall",
+          "type": "number",
+          "logic": "increment"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "type": "number",
+      "state": "Resize",
+      "value": 7
+    },
+    {
+      "type": "number",
+      "state": "ScrollTo5",
+      "value": 3
+    },
+    {
+      "type": "number",
+      "state": "ScrollTo6",
+      "value": 4
+    },
+    {
+      "type": "string",
+      "state": "VAR5",
+      "value": "[{ \"label\":\"Play\", \"sendEventOnClick\":\"play_clicked\", \"receiveStateSelected\":\"play_selected\" },{ \"label\":\"Pause\", \"sendEventOnClick\":\"pause_clicked\", \"receiveStateSelected\":\"plause_selected\" },{ \"label\":\"Stop\", \"sendEventOnClick\":\"stop_clicked\" }, { \"label\":\"Next Track\", \"sendEventOnClick\":\"next_track_clicked\"}]"
+    },
+    {
+      "type": "string",
+      "state": "VAR6",
+      "value": "[{ \"label\":\"Play111\", \"sendEventOnClick\":\"play_clicked\", \"receiveStateSelected\":\"play_selected\" },{ \"label\":\"Pause\", \"sendEventOnClick\":\"pause_clicked\", \"receiveStateSelected\":\"plause_selected\" },{ \"label\":\"Stop\", \"sendEventOnClick\":\"stop_clicked\" }, { \"label\":\"Next Track\", \"sendEventOnClick\":\"next_track_clicked\"}]"
+    }
+  ]
+}

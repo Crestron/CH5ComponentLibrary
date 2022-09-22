@@ -1,0 +1,112 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Copyright (C) 2018 to the present, Crestron Electronics, Inc.
+/// All rights reserved.
+/// No part of this software may be reproduced in any form, machine
+/// or natural, without the express written consent of Crestron Electronics.
+/// Use of this source code is subject to the terms of the Crestron Software License Agreement
+/// under which you licensed this source code.
+///
+/// @author Crestron
+/// @group ch5-spinner
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@import './scss/_variables';
+
+ch5-spinner {
+  display: inline-block;
+  background-color: $ch5-spinner-background-color;
+}
+
+/// Main class
+.ch5-spinner {
+
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none;   /* Firefox all */
+  -ms-user-select: none;  /* IE 10+ */
+  user-select: none;
+  font-size: $ch5-spinner-font-size;
+  font-style: $ch5-spinner-font-style;
+  font-weight: $ch5-spinner-font-weight;
+  cursor: pointer;
+  width: 100%;
+  /// @require .ch5-spinner
+  /// Class apply for spinner wrapper
+  &__wrapper {
+    overflow: hidden;
+    position: relative;
+    z-index: $ch5-spinner-wrapper-z-index;
+    text-align: center;
+
+    &:before, &:after {
+      content: '';
+      height: 30%;
+      left: 0;
+      right: 0;
+      position: absolute;
+      z-index: $ch5-spinner-wrapper-z-index;
+    }
+
+    &:after {
+      background: $ch5-spinner-background-gradient-after;
+      bottom: 0;
+    }
+
+    &:before {
+      background: $ch5-spinner-background-gradient-before;
+      top: 0;
+    }
+  }
+  /// @require .ch5-spinner
+  /// Class apply for scroll animation
+  &__scrollarea--animate {
+    transition: all .5s ease;
+  }
+  /// @require .ch5-spinner
+  /// Class apply for the highlight section
+  &__highlight {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    border-bottom: $ch5-spinner-border-width $ch5-spinner-border-style $ch5-spinner-highlight-border-color;
+    box-shadow: 0px 0px 3px $ch5-spinner-highlight-box-shadow-color;
+  }
+
+  &__overlay {
+    position: fixed;
+    z-index: $ch5-spinner-overlay-z-index;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: $ch5-spinner-overlay-background-color;
+    cursor: grabbing;
+    opacity: $ch5-spinner-overlay-opacity;
+    display: none;
+  }
+  /// @require .ch5-spinner
+  /// Class apply on the item
+  &__item {
+    color:  $ch5-spinner-item-color;
+    white-space: nowrap;
+    transition: all .4s ease;
+    justify-content: center;
+    align-items: center;
+  }
+  /// @require .ch5-spinner
+  /// Class apply on the active item
+  &--active {
+    font-size: $ch5-spinner-font-size;
+    color: $ch5-spinner-active-item-color;
+  }
+  /// @require .ch5-spinner
+  /// Class apply on the icon
+  &__icon {
+    font-size: $ch5-spinner-icon-font-size;
+    padding: $ch5-spinner-icon-padding;
+    margin: $ch5-spinner-icon-margin;
+
+  }
+}

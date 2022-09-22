@@ -1,0 +1,129 @@
+attributeOptions = [
+        {
+            controlName: "shapeAttribute",
+            attributeName: "shape",
+            masterData: CrComLib.Ch5Button.SHAPES,
+            showControl: true
+        },
+        {
+            controlName: "disabledAttribute",
+            attributeName: "disabled",
+            masterData: ['true', 'false'],
+            showControl: true
+        },
+        {
+            controlName: "checkboxShowAttribute",
+            attributeName: "checkboxShow",
+            masterData: ['true', 'false'],
+            showControl: true
+        },
+        {
+            controlName: "checkboxPositionAttribute",
+            attributeName: "checkboxPosition",
+            masterData: CrComLib.Ch5Button.CHECKBOX_POSITIONS,
+            showControl: true
+        },
+        {
+            controlName: "stretchAttribute",
+            attributeName: "stretch",
+            masterData: CrComLib.Ch5Button.STRETCHES,
+            showControl: true
+        },
+        {
+            controlName: "iconPositionAttribute",
+            attributeName: "iconPosition",
+            masterData: CrComLib.Ch5Button.ICON_POSITIONS,
+            showControl: true
+        },
+        {
+            controlName: "selectedAttribute",
+            attributeName: "selected",
+            masterData: ['true', 'false'],
+            showControl: true
+        },
+        {
+            controlName: "orientationAttribute",
+            attributeName: "orientation",
+            masterData: CrComLib.Ch5Button.ORIENTATIONS,
+            showControl: true
+        },
+        {
+            controlName: "hAlignLabelAttribute",
+            attributeName: "hAlignLabel",
+            masterData: CrComLib.Ch5Button.HORIZONTAL_LABEL_ALIGNMENTS,
+            showControl: true
+        },
+        {
+            controlName: "vAlignLabelAttribute",
+            attributeName: "vAlignLabel",
+            masterData: CrComLib.Ch5Button.VERTICAL_LABEL_ALIGNMENTS,
+            showControl: true
+        },
+        {
+            controlName: "sizeAttribute",
+            attributeName: "size",
+            masterData: CrComLib.Ch5Button.SIZES,
+            showControl: true
+        },
+        {
+            controlName: "showAttribute",
+            attributeName: "show",
+            masterData: ['true', 'false'],
+            showControl: true
+        }
+    ];
+
+    function loadSelectOptions(id, langArray) {
+        let select_elem = document.getElementById(id);
+        if (select_elem) {
+            langArray.forEach((arrayValue, index) => {
+                let option_elem = document.createElement('option');
+                // Add index to option_elem
+                option_elem.value = arrayValue;
+                // Add arrayValue HTML
+                option_elem.textContent = arrayValue;
+                // Append option_elem to select_elem
+                select_elem.appendChild(option_elem);
+            });
+        }
+    }
+
+    function setIcons() {
+        try {
+        typesArray = CrComLib.Ch5Button.TYPES;
+        typesArray.forEach((arrayValue, index) => {
+            for (i = 0; i < attributeOptions.length; i++) {
+                 buttonListArray = getButtonList('ch5-button', 'type', arrayValue);
+                for (k = 0; k < buttonListArray.length; k++) {
+                    key = attributeOptions[i].attributeName;
+                    buttonObj = buttonListArray[k];
+                    value = document.getElementById(attributeOptions[i].controlName).value;
+                    if (value && value !== "") {
+                        buttonObj.setAttribute(key, value);
+                    } else {
+                        buttonObj.removeAttribute(key);
+                    }
+                }
+            }
+        });
+        } catch (e) {
+            console.error("Error: " + e);
+        }
+    }
+
+    function getButtonList(tagName, attributeName, attributeValue) {
+        return document.querySelectorAll("[" + attributeName + "=" + attributeValue + "]");
+    }
+
+    function reset() {
+        for (let i = 0; i < attributeOptions.length; i++) {
+            document.getElementById(attributeOptions[i].controlName).selectedIndex = 0;
+        }
+        setIcons();
+    }
+
+    (function initialize() {
+        for (i = 0; i < attributeOptions.length; i++) {
+            loadSelectOptions(attributeOptions[i].controlName, attributeOptions[i].masterData);
+        }
+    }());

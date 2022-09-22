@@ -1,0 +1,40 @@
+<p>See the JS tab for the code and browser console for messages</p>
+
+<p>
+    Click this button to change the value of the <b>city</b> signal to "Las Vegas", will decrement <b>sig_n</b> by 3 and
+    will toggle <b>sig_b</b>.
+    <ch5-button label="Btn1" sendEventOnClick="trig1"></ch5-button>
+</p>
+<p>
+    Click this button to change the value of the <b>city</b> signal to "New York", will increment <b>sig_n</b> by 5 and
+    will set <b>sig_b</b> to true.
+    <ch5-button label="Btn2" sendEventOnClick="trig2"></ch5-button>
+</p>
+
+<p>
+    The following table will display the values of the signals and update them as they change. The update is done using
+    the subscribeState utility function ( see the JS tab).
+</p>
+<table class="table">
+    <tr>
+        <th>signal</th>
+        <th>value</th>
+    </tr>
+    <tr>
+        <td>sig_b</td>
+        <td id="s1"></td>
+    </tr>
+    <tr>
+        <td>sig_n</td>
+        <td id="s2"></td>
+    </tr>
+    <tr>
+        <td>city</td>
+        <td id="s3"></td>
+    </tr>
+</table>
+
+<p>The <b>errCallback</b> is called if something goes wrong, for example if the <i>signalType</i> provided to the <i>subscribeState</i>
+    function
+    is invalid:</p>
+<p id="errCallback-example"></p>

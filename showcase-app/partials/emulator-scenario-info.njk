@@ -1,0 +1,126 @@
+<div class="emulator-info-section">
+    <h5><i>Events</i> and <i>states</i></h5>
+    <p>
+        The Emulator Scenario JSON contains an array of <b>cues</b> and an optional array <b>onStart</b>.
+    </p>
+    <p>
+        &rarr; A <b>cue</b> is defined by: <b>type</b>:string, <b>event</b>:string, <b>trigger</b>:boolean|string|number,
+        <b>actions</b>:array
+        <br>
+        &rarr; An <b>action</b> is defined by: <b>type</b>:string, <b>state</b>:string, <b>logic</b>:string ... plus
+        other
+        fields ( depending on <b>type</b>)
+    </p>
+    <p>
+        The value of the <b>state or event</b> for a cue or for an action is a string which represents the name of that
+        state or action.
+    </p>
+</div>
+<div class="emulator-info-section">
+    <h5><i>Type</i> field</h5>
+    <p>
+        The <b>type</b> for cue or for action can be the string:
+    </p>
+    <ul>
+        <li><b>b</b> or <b>boolean</b> - for a boolean state or event</li>
+        <li><b>n</b> or <b>number</b> or <b>numeric</b> - for a number state or event</li>
+        <li><b>s</b> or <b>string</b> - for a string state or event</li>
+        <li><b>o</b> or <b>object</b> - for an object state or event</li>
+    </ul>
+</div>
+<div class="emulator-info-section">
+    <h5><i>Trigger</i> field</h5>
+    <p>
+        The <b>trigger</b> can be either a fixed value of the <b>same type</b> as the state or event, or the string
+        "&change".
+        If it is a
+        fixed value then, when the emulator detects that the state or event has changed to the value given in
+        <b>trigger</b>,
+        it also executes the actions for that state or event. If the value is the string is "&change", regardless of state or
+        event type, the
+        actions are executed on any change in the value of the state or event.
+    </p>
+</div>
+<div class="emulator-info-section">
+    <h5><i>Logic</i> Field</h5>
+    <p>
+        <b>The logic</b> can be:
+    </p>
+    <ul>
+        <li><b>link</b> - passes the value received on the incoming join through to the outgoing join. Using this
+            between incompatible join types will attempt to cast the value. In the event of a cast failure, the value
+            will be set to false, 0 or "" (empty string).
+        </li>
+        <li><b>set</b> - assigns a specific value to the join. This requires a 5th key of 'value' and the specific
+            value to assign. ie. <code>{"state":"light_level", "type":"n", "logic": "set","value":5}</code>.
+            If the 5th key is omitted, the default value will be sent (false, 0, "" or {}).
+        </li>
+        <li><b>toggle</b> - (boolean Only) reads the current state and changes it to the opposite state.</li>
+        <li><b>pulse</b> - (boolean Only) value goes high and then low.</li>
+        <li><b>increment</b> - (Numeric Only) reads the current value of the analog and adds an offset.
+            This logic accepts an optional 5th key of 'offset which determines how many times to increment by. ie.
+            <code>{"event":"volume_level","type":"n", "logic":"increment","offset":5}</code>. If this 5th key is
+            omitted, the default offset of 1 will be applied.
+        </li>
+        <li><b>decrement</b> - (Numeric Only) reads the current value of the analog and subtracts an offset. This logic
+            accepts an optional 5th key of 'offset which determines how many times to decrement by. ie.
+            <code>{"event":"volume_level","type":"n", "logic":"decrement","offset":5}</code>. If this 5th key is
+            omitted,
+            the default offset of 1 will be applied.
+        </li>
+        <li>
+            <b>RCB logic</b> can be accomplished by defining an action containing an object state or event of RCB type.
+            A 5th key is expected as the amount of time in
+            milliseconds to reach the level.
+            <code> {"signal":"light_level", "type":"n",
+                "logic": "rcb","value":65535, "time":2000}
+            </code>
+            <br>
+            <code>{ "rcb":{ "value": numeric_value, "time": duration_in_ms } }</code>
+        </li>
+        {#
+            <li><b>rcb</b> - (Numeric Only) is very similar to set, but a 5th key is expected as the amount of time in
+                milliseconds to reach the level.
+                <code> {"signal":"light_level", "type":"n",
+                "logic": "rcb","value":65535, "time":2000}
+                </code>
+            </li>
+        #}
+    </ul>
+</div>
+<div class="emulator-info-section">
+    <details>
+        <summary class="summary-h5">Scenario example:</summary>
+        <pre><code>
+    {
+      "cues": [
+        {
+          "type": "boolean",
+          "event": "trigger",
+          "trigger": true,
+          "actions": [
+            {
+              "state": "action1",
+              "type": "boolean",
+              "logic": "toggle"
+            },
+            {
+                "state": "rcb_signal",
+                "type": "object",
+                "logic": "set",
+                "value": {
+                    "rcb":{
+                        "value": 101,
+                        "time": 1500
+                    }
+                }
+            }
+          ]
+        }
+      ],
+      "onStart": [
+      ]
+    }
+    </code></pre>
+    </details>
+</div>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-slider-handle-shape-fixture">
+    <template>
+        <ch5-slider></ch5-slider>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-slider-handle-shape-invalid-fixture">
+    <template>
+        <ch5-slider handleShape="randomShape"></ch5-slider>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-slider handleShape', function() {
+
+        let ch5Slider;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-handle-shape-fixture');
+            
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        test('Default handleShape is "rounded-rectangle"', function() {
+            expect(ch5Slider.handleShape).to.be.equal('rounded-rectangle');
+        });
+
+        test('Default handleShape has class name: "ch5-slider--shape--rounded-rectangle"', function() {
+            expect(ch5Slider.className).to.contain('ch5-slider--shape--rounded-rectangle');
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('Default handleShape: "rounded-rectangle" rendered noUiSlider', function() {
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+
+        const availableHandleShapes = ['rounded-rectangle', 'rectangle', 'circle', 'oval'];
+
+        availableHandleShapes.forEach((handleShapeName,i)=>{
+            test(`handleShape: "${handleShapeName}"`, function() {
+                ch5Slider.setAttribute('handleShape',handleShapeName);
+                expect(ch5Slider.getAttribute('handleShape')).to.be.equal(handleShapeName);
+                expect(ch5Slider.handleShape).to.be.equal(handleShapeName);
+            });
+
+            test(`handleShape: "${handleShapeName}" has class name: "ch5-slider--shape--${handleShapeName}"`, function() {
+                ch5Slider.setAttribute('handleShape',handleShapeName);
+                expect(ch5Slider.className).to.contain('ch5-slider--shape--' + handleShapeName);
+            });
+
+            // this will test if noUiSlider was rendered with current setup
+            test(`handleShape: "${handleShapeName}" rendered noUiSlider`, function() {
+                expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+            });
+        });
+    });
+
+    suite('ch5-slider invalid handleShape', function() {
+        let ch5Slider;
+
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-handle-shape-invalid-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        // testing with a random value in a handleShape attribute
+        test('Invalid handleShape should be switched to default "rounded-rectangle"', function() {
+            expect(ch5Slider.handleShape).to.be.equal('rounded-rectangle');
+        })
+    })
+</script>
+</body>
+</html>

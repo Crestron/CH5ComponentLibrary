@@ -1,0 +1,9 @@
+---
+title: "Common attributes: disabled"
+---
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection, componentConfigurationSection %}
+
+{% block content %}
+    {% call exampleSectionFromPartials('common-attributes/disabled/','ex1', true) %}{% endcall %}
+{% endblock %}

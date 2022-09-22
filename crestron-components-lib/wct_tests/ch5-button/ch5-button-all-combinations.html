@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+    <script src="/wct_tests/js/helpers.js"></script>
+    <script src="/wct_tests/ch5-button/js/helpers.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="ch5-button-all-combinations-fixture">
+        <template>
+            <ch5-button></ch5-button>
+        </template>
+    </test-fixture>
+
+    <script>
+        function loopData(fullTestingArray, masterArray, newObjArr, newIndex) {
+            if (newIndex < masterArray.length) {
+                for (let i = 0; i < masterArray[newIndex].values.length; i++) {
+                    const inputObjNew = { key: masterArray[newIndex].key, value: masterArray[newIndex].values[i], original: masterArray[newIndex] };
+                    const newX = [];
+                    for (let j = 0; j < newObjArr.length; j++) {
+                        newX.push(newObjArr[j]);
+                    }
+                    newX.push(inputObjNew);
+                    fullTestingArray.push(newX);
+                    loopData(fullTestingArray, masterArray, newX, newIndex + 1);
+                }
+            }
+        }
+
+        function getObjectByCategory(categoryType) {
+            // logStringify(masterArrayPRE);
+            const typeObject = masterArrayPRE.find(obj => obj.key.toString().toLowerCase() === categoryType.toString().toLowerCase());
+            if (typeObject) {
+                typeObject.id = masterArray.length + 1;
+                masterArray.push(typeObject);
+            }
+        }
+
+        const COMPONENT_DATA = CrComLib.Ch5Button.COMPONENT_DATA;
+        COMPONENT_DATA['CHECKBOXSHOW'] = {
+            default: false,
+            values: [false, true],
+            key: 'checkboxshow',
+            attribute: 'checkboxShow',
+            classListPrefix: ''
+        };
+        COMPONENT_DATA['SHOW'] = {
+            default: true,
+            values: [false, true],
+            key: 'show',
+            attribute: 'show',
+            classListPrefix: ''
+        };
+        COMPONENT_DATA['DISABLED'] = {
+            default: false,
+            values: [false, true],
+            key: 'disabled',
+            attribute: 'disabled',
+            classListPrefix: ''
+        };
+        const masterArrayPRE = Object.values(COMPONENT_DATA);
+
+        const fullTestingArray = [];
+        const masterArray = [];
+        const suiteArray = [];
+        getObjectByCategory("type");
+        getObjectByCategory("size");
+        getObjectByCategory("stretch");
+        getObjectByCategory("shape");
+        getObjectByCategory("hAlignLabel");
+        getObjectByCategory("vAlignLabel");
+        getObjectByCategory("show");
+        getObjectByCategory("disabled");
+
+        // createSuite("type");
+        // createSuite("hAlignLabel");
+        createSuite("type", "size", "stretch", "shape", "hAlignLabel", "vAlignLabel", "show", "disabled");
+        // logStringify(suiteArray);
+
+        function createSuite(...categoryList) {
+            const outputArray = [];
+            let outputList = "";
+            for (let i = 0; i < categoryList.length; i++) {
+                outputList += categoryList[i] + ", ";
+                outputArray.push(masterArray.find(obj => obj.key.toString().toLowerCase() === categoryList[i].toString().toLowerCase()));
+            }
+            if (outputArray.length > 0) {
+                const indexForMasterArray = 0;
+                const outARR = [];
+                loopData(outARR, outputArray, [], indexForMasterArray);
+                suiteArray.push({ key: outputList.trim().substr(0, outputList.trim().length - 1), values: outARR });
+            }
+        }
+
+        suiteArray.forEach((suiteArrayObject, sa) => {
+            suite('ch5-button: ' + suiteArrayObject.key, () => {
+
+                let ch5Button;
+
+                setup(() => {
+                    // const emulatorJson = await fetch('./emulator/types.json').then((response) => response.json());
+                    // const emulator = CrComLib.Ch5Emulator.getInstance();
+                    // emulator.loadScenario(emulatorJson);
+                    ch5Button = fixture('ch5-button-all-combinations-fixture');
+                });
+
+                suiteArrayObject.values.forEach((testingObject, i) => {
+                    let validationString = "";
+                    for (let j = 0; j < testingObject.length; j++) {
+                        validationString += testingObject[j].key + " === " + testingObject[j].value + "; ";
+                    }
+
+                    test(validationString, (done) => {
+                        for (let j = 0; j < testingObject.length; j++) {
+                            ch5Button.setAttribute(testingObject[j].key, testingObject[j].value);
+                        }
+                        flush(() => {
+                            setTimeout(() => {
+                                for (let j = 0; j < testingObject.length; j++) {
+                                    if ((testingObject[j].key.toString().toLowerCase() === "halignlabel") ||
+                                        (testingObject[j].key.toString().toLowerCase() === "valignlabel")) {
+                                        expect(ch5Button[testingObject[j].original.attribute]).to.be.equal(testingObject[j].value);
+                                        expect(getSpan(ch5Button).classList.contains(testingObject[j].original.classListPrefix + testingObject[j].value)).to.be.equal(true);
+                                    } else if (testingObject[j].key.toString().toLowerCase() === "size" && ch5Button.hasAttribute("size") && ch5Button.hasAttribute("stretch")) {
+                                        expect(ch5Button[testingObject[j].key]).to.be.equal(testingObject[j].value);
+                                        expect(getDiv(ch5Button).classList.contains(testingObject[j].original.classListPrefix + testingObject[j].value)).to.be.equal(false);
+                                    } else if (testingObject[j].key.toString().toLowerCase() === "show" || testingObject[j].key.toString().toLowerCase() === "disabled") {
+                                        expect(ch5Button[testingObject[j].key]).to.be.equal(testingObject[j].value);
+                                        // expect(getDiv(ch5Button).classList.contains(testingObject[j].original.classListPrefix + testingObject[j].value)).to.be.equal(false);
+                                    } else {
+                                        expect(ch5Button[testingObject[j].key]).to.be.equal(testingObject[j].value);
+                                        expect(getDiv(ch5Button).classList.contains(testingObject[j].original.classListPrefix + testingObject[j].value)).to.be.equal(true);
+                                    }
+                                }
+                                done();
+                            }, BASIC_TESTING_TIMEOUT);
+                        });
+                    });
+                });
+
+            });
+        });
+    </script>
+</body>
+
+</html>

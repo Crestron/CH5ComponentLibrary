@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+    
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-slider-ticks-fixture">
+    <template>
+        <ch5-slider
+            value="25"
+            step="25"  
+            ticks='{"0":"-60", "25":"-40", "50":"-20", "75":"-10", "100": "0" }'
+            showTickValues="true"
+            >
+        </ch5-slider> 
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-slider-ticks-invalid-fixture">
+    <template>
+        <ch5-slider
+            value="25"
+            step="25"  
+            min="0"
+            max="100"
+            ticks='randomTicks'
+            showTickValues="true"
+            >
+        </ch5-slider> 
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-slider ticks', function() {
+
+        let ch5Slider;
+        
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-ticks-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        test('ticks value should be empty if attribute does not exists', function() {
+            ch5Slider.removeAttribute('ticks');
+            expect(ch5Slider.ticks).to.be.equal('');
+        });
+
+
+        test('ticks value should be a string', function() {
+            expect(ch5Slider.ticks).to.be.a('string');
+        });
+
+        test('ticks should change min', function() {
+            let ticks = JSON.parse(ch5Slider.ticks);
+            expect(ch5Slider.min).to.be.equal(Number(ticks[0]));
+        });
+
+
+        test('ticks value as valid JSON should show pips on slider', function() {
+            expect(document.querySelector('.noUi-pips').textContent).to.be.a('string');
+        });
+
+        // this will test if noUiSlider was rendered with current setup
+        test('ticks value as valid JSON rendered noUiSlider', function() {
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    });
+
+    suite('ch5-slider invalid ticks', function() {
+
+        let ch5Slider;
+        
+        setup(() => {
+            ch5Slider = fixture('ch5-slider-ticks-invalid-fixture');
+            return Promise.all([
+                    customElements.whenDefined('ch5-slider'),
+            ]).then(_ => {
+                // wait for element to be defined
+            });
+        });
+
+        test('invalid ticks should render the noUiSlider without ticks', function() {
+            expect(document.querySelector('.noUi-pips')).to.be.a('null');
+            expect(ch5Slider._elSlider.hasOwnProperty('noUiSlider')).to.be.equal(true);
+        });
+    });
+
+</script>
+</body>
+</html>

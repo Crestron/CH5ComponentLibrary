@@ -1,0 +1,82 @@
+<style>
+	td,
+	th {
+		border: solid 1px black;
+		padding: 5px;
+	}
+</style>
+
+<h1><b>contractName</b> attribute:</h1>
+<br />
+<p>
+    <b>contractName</b> attribute allows a developer to bind event clicks based on a contract.
+    The value is referred to, and each child button is assigned with an incremental digit based on 
+    the initial value passed as attribute value.
+</p>
+<br />
+<p style="color:red">
+<strong style="color:inherit">NOTE: The Showcase app is not capable of testing with this attribute. Please check this attribute with Contract enabled control system.</strong>
+</p>
+<br />
+<p>
+    If the  initial value of <b>contractName</b> is assigned as "LivingRoom.AppleTV" (digitals), 
+    the events are bound on each child button as below:
+</p>
+<table>
+	<thead>
+		<tr>
+			<td>Key</td>
+			<td>Attribute</td>
+			<td>Contract Value</td>
+			<td>Example</td>
+		</tr>
+	</thead>
+	<tr>
+		<td></td>
+		<td>receiveStateShow</td>
+		<td>Show</td>
+		<td>LivingRoom.AppleTv.Show</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>receiveStateEnable</td>
+		<td>Enable</td>
+		<td>LivingRoom.AppleTv.Enable</td>
+	</tr>
+	<tr>
+		<td>left</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>LeftClicked</td>
+		<td>LivingRoom.AppleTv.LeftClicked</td>
+	</tr>
+	<tr>
+		<td>right</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>RightClicked</td>
+		<td>LivingRoom.AppleTv.RightClicked</td>
+	</tr>
+	<tr>
+		<td>up</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>UpClicked</td>
+		<td>LivingRoom.AppleTv.UpClicked</td>
+	</tr>
+	<tr>
+		<td>down</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>DownClicked</td>
+		<td>LivingRoom.AppleTv.DownClicked</td>
+	</tr>
+	<tr>
+		<td>center</td>
+		<td>sendEventOnClick / sendEventOnTouch</td>
+		<td>CenterClicked</td>
+		<td>LivingRoom.AppleTv.CenterClicked</td>
+	</tr>
+	<tr>
+		<td>center</td>
+		<td>receiveStateLabel</td>
+		<td>CenterLabel</td>
+		<td>LivingRoom.AppleTv.CenterLabel</td>
+	</tr>
+</table>

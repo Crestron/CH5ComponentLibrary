@@ -1,0 +1,9 @@
+{% raw %}
+(function () {
+    const select = document.getElementsByClassName('with-on-change')[0];
+    
+    select.addEventListener('change', (e) => {
+        console.log('[ShowcaseApp] ch5-select selectedValue has changed: ', e.detail);
+    })
+})()
+{% endraw %}

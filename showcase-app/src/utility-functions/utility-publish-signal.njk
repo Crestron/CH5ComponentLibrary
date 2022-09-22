@@ -1,0 +1,20 @@
+---
+title: "Utility function publishEvent"
+---
+
+{% extends "./layouts/base.njk" %}
+{% from "./partials/macros.njk" import exampleSectionFromPartials, emulatorScenarioSection %}
+
+{% block content %}
+
+    {% set scenario1 -%}
+        {%- include "./partials/utility/publish-signal/scenario-utility-publish-signal.json" %}
+    {%- endset %}
+    {% call emulatorScenarioSection(scenario1) %}{% endcall %}
+
+
+{# example 1 #}
+    {% call exampleSectionFromPartials('utility/publish-signal/','ex1') %}{% endcall %}
+
+
+{% endblock %}

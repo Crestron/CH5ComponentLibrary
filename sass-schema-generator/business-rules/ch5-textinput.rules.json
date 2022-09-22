@@ -1,0 +1,34 @@
+{
+  "businessRules": [
+    {
+      "contains": ".ch5-textinput--disabled",
+      "key": "disabled",
+      "value": true
+    },
+    {
+      "contains": ".ch5-textinput--focused",
+      "key": "state",
+      "value": "focused"
+    },
+    {
+      "contains": ".ch5-textinput--error",
+      "key": "state",
+      "value": "error"
+    },
+    {
+      "contains": ".ch5-textinput__label",
+      "key": "label",
+      "value": true
+    },
+    {
+      "contains": ".ch5-textinput__input",
+      "key": "input",
+      "value": true
+    },
+    {
+      "contains": ".ch5-textinput__icon",
+      "key": "icon",
+      "value": true
+    }
+  ]
+}

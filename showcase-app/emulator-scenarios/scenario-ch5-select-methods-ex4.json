@@ -1,0 +1,127 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "multi_select_opt_0_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multi_select_opt_0_selected",
+          "type": "boolean",
+          "trigger": true,
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "multi_select_opt_1_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multi_select_opt_1_selected",
+          "type": "boolean",
+          "trigger": true,
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "multi_select_opt_2_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multi_select_opt_2_selected",
+          "type": "boolean",
+          "trigger": true,
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "multi_select_opt_3_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multi_select_opt_3_selected",
+          "type": "boolean",
+          "trigger": true,
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "multi_select_opt_4_on_click",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "multi_select_opt_4_selected",
+          "type": "boolean",
+          "trigger": true,
+          "logic": "toggle"
+        }
+      ]
+    }
+
+  ],
+  "onStart": [
+    {
+      "type": "b",
+      "state": "multi_select_opt_0_selected",
+      "value": false
+    },
+    {
+      "type": "b",
+      "state": "multi_select_opt_1_selected",
+      "value": false
+    },
+    {
+      "type": "b",
+      "state": "multi_select_opt_2_selected",
+      "value": false
+    },
+    {
+      "type": "b",
+      "state": "multi_select_opt_3_selected",
+      "value": false
+    },
+    {
+      "type": "b",
+      "state": "multi_select_opt_4_selected",
+      "value": false
+    },
+    {
+      "type": "string",
+      "state": "label_signal_0",
+      "logic": "set",
+      "value": "Option 0"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_1",
+      "logic": "set",
+      "value": "Option 1"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_2",
+      "logic": "set",
+      "value": "Option 2"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_3",
+      "logic": "set",
+      "value": "Option 3"
+    },
+    {
+      "type": "string",
+      "state": "label_signal_4",
+      "logic": "set",
+      "value": "Option 4"
+    }
+  ]
+}

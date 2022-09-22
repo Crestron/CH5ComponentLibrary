@@ -1,0 +1,53 @@
+<div>
+    <p>Actions that affect the red bordered div</p>
+    <p>
+        Clicking this will toggle the value of both data_ch5_show_2_1 and data_ch5_show_2_2. See the
+        Scenario JSON
+        <ch5-button sendEventOnClick="trigger_data_ch5_show_2" label="Toggle data-ch5-show"></ch5-button>
+    </p>
+    <p>
+        Clicking this will toggle the value of data_ch5_show_2_1. See the Scenario JSON
+        <ch5-button sendEventOnClick="trigger_data_ch5_show_2a" label="Toggle data-ch5-show"></ch5-button>
+    </p>
+    <p>
+        Clicking this will toggle the value of data_ch5_show_2_2. See the Scenario JSON
+        <ch5-button sendEventOnClick="trigger_data_ch5_show_2b" label="Toggle data-ch5-show"></ch5-button>
+    </p>
+
+    <p> Clicking this will change the value of the data-ch5-show attribute ( It will change the name of the signal)
+        to <b>data_ch5_show_2_2</b>
+        <button id="change-to-ch5-show-3"
+            class="button is-info"
+            type="button">Button1</button>
+    </p>
+    <p>
+        Clicking this will remove the data-ch5-show attribute
+        <button id="remove-ch5-show"
+            class="button is-info"
+            type="button">Button2
+        </button>
+    </p>
+    <p>Clicking this will add/change the data-ch5-show attribute to <b>data_ch5_show_2_1</b>
+        <button id="add-ch5-show"
+            class="button is-info"
+            type="button">Button3
+        </button>
+    </p>
+    <p>Clicking this will remove the element from the DOM. Since the removal is not a consequence of a "show signal" change,
+        the element will no longer listen for singal changes. In this case it unsubscribes from the signal.
+        <button id="rem-ch5-show-el"
+              class="button is-info"
+              type="button">Remove elems with data-ch5-show attribute
+        </button>
+    </p>
+
+</div>
+<hr>
+<div style="border-top:2px dotted green; margin: 24px 0;"></div>
+
+<div class="custom-dom-changes" data-ch5-show="data_ch5_show_2_1" style="border:1px solid red" data-ch5-noshow-type="remove">
+    data_ch5_show_2_1: DIV: Testing data-ch5-show and noshow-type-visibility set to remove
+</div>
+<div class="custom-dom-changes" data-ch5-show="data_ch5_show_2_2" style="border:1px solid blue" data-ch5-noshow-type="remove">
+    data_ch5_show_2_2: DIV: Testing data-ch5-show and noshow-type-visibility set to remove
+</div>

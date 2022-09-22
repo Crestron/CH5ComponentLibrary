@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-toggle-orientation-fixture">
+    <template>
+        <ch5-toggle></ch5-toggle>
+    </template>
+</test-fixture>
+
+<test-fixture id="ch5-toggle-orientation-invalid-fixture">
+    <template>
+        <ch5-toggle orientation="randomShape"></ch5-toggle>
+    </template>
+</test-fixture>
+
+<script>
+    suite('ch5-toggle orientation', function() {
+
+        let ch5Toggle;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5Toggle = fixture('ch5-toggle-orientation-fixture');
+        });
+
+        test('Default orientation is "horizontal"', function() {
+            expect(ch5Toggle.orientation).to.be.equal('horizontal');
+        });
+
+        test('Default orientation has class name: "ch5-toggle--horizontal"', function() {
+            expect(ch5Toggle.firstChild.className).to.contain('ch5-toggle--horizontal');
+        });
+
+        const availableorientations = ['vertical', 'horizontal'];
+
+        availableorientations.forEach((orientationName,i)=>{
+            test(`orientation: "${orientationName}"`, function() {
+                ch5Toggle.setAttribute('orientation',orientationName);
+                expect(ch5Toggle.getAttribute('orientation')).to.be.equal(orientationName);
+                expect(ch5Toggle.orientation).to.be.equal(orientationName);
+            });
+
+            test(`orientation: "${orientationName}" has class name: "ch5-toggle--${orientationName}"`, function() {
+                ch5Toggle.setAttribute('orientation',orientationName);
+                expect(ch5Toggle.firstChild.className).to.contain('ch5-toggle--' + orientationName);
+            });
+        });
+    });
+
+    suite('ch5-toggle invalid orientation', function() {
+        let ch5Toggle;
+
+        setup(() => {
+            ch5Toggle = fixture('ch5-toggle-orientation-invalid-fixture');
+        });
+
+        // testing with a random value in a orientation attribute
+        test('Invalid orientation should be switched to default "horizontal"', function() {
+            expect(ch5Toggle.orientation).to.be.equal('horizontal');
+        })
+
+        test('Invalid orientation has default class name: "ch5-toggle--horizontal"', function() {
+            expect(ch5Toggle.firstChild.className).to.contain('ch5-toggle--horizontal');
+        });
+    })
+</script>
+</body>
+</html>

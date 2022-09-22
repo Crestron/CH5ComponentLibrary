@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-dpad/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-dpad-icons-fixture">
+    <template>
+      <ch5-dpad type="default" id="test1a" shape="plus">
+        <ch5-dpad-button key="center" iconClass="fas fa-adjust"></ch5-dpad-button>
+        <ch5-dpad-button key="up" iconClass="fas fa-angle-double-up"></ch5-dpad-button>
+        <ch5-dpad-button key="right" iconClass="fas fa-angle-double-right"></ch5-dpad-button>
+        <ch5-dpad-button key="left" iconClass="fas fa-angle-double-left"></ch5-dpad-button>
+        <ch5-dpad-button key="down" iconClass="fas fa-angle-double-down"></ch5-dpad-button>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-dpad-no-icons-fixture">
+    <template>
+      <ch5-dpad type="default" id="test1a" shape="plus">
+        <ch5-dpad-button key="center"></ch5-dpad-button>
+        <ch5-dpad-button key="up"></ch5-dpad-button>
+        <ch5-dpad-button key="left"></ch5-dpad-button>
+        <ch5-dpad-button key="right"></ch5-dpad-button>
+        <ch5-dpad-button key="down"></ch5-dpad-button>
+      </ch5-dpad>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('ch5-dpad-icons', () => {
+
+      let ch5DpadIcons;
+
+      setup(async () => {
+        ch5DpadIcons = fixture('ch5-dpad-icons-fixture');
+      });
+
+      test(`Check icon attribute button center`, () => {
+        expect(ch5DpadIcons.children[0].children[0]._iconClass).to.be.equal('fas fa-adjust');
+      });
+
+      test(`Check icon attribute button up`, () => {
+        expect(ch5DpadIcons.children[0].children[1]._iconClass).to.be.equal('fas fa-angle-double-up');
+      });
+
+      test(`Check icon attribute button left`, () => {
+        expect(ch5DpadIcons.children[0].children[2]._iconClass).to.be.equal('fas fa-angle-double-left');
+      });
+
+      test(`Check icon attribute button right`, () => {
+        expect(ch5DpadIcons.children[0].children[3]._iconClass).to.be.equal('fas fa-angle-double-right');
+      });
+
+      test(`Check icon attribute button bottom`, () => {
+        expect(ch5DpadIcons.children[0].children[4]._iconClass).to.be.equal('fas fa-angle-double-down');
+      });
+    });
+
+    suite('ch5-dpad-default-icons', () => {
+
+      let ch5DpadNoIcons;
+
+      setup(async () => {
+        ch5DpadNoIcons = fixture('ch5-dpad-no-icons-fixture');
+      });
+
+      test(`Check default icon attribute button center`, () => {
+        console.log(ch5DpadNoIcons.children[0].children[0].CSS_CLASS_LIST.defaultIconClass)
+        expect(ch5DpadNoIcons.children[0].children[0].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-circle');
+      });
+
+      test(`Check default icon attribute button up`, () => {
+        expect(ch5DpadNoIcons.children[0].children[1].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-up');
+      });
+
+      test(`Check default icon attribute button left`, () => {
+        expect(ch5DpadNoIcons.children[0].children[2].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-left');
+      });
+
+      test(`Check default icon attribute button right`, () => {
+        expect(ch5DpadNoIcons.children[0].children[3].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-right');
+      });
+
+      test(`Check default icon attribute button down`, () => {
+        expect(ch5DpadNoIcons.children[0].children[4].CSS_CLASS_LIST.defaultIconClass).to.be.equal('fa-caret-down');
+      });
+    });
+  </script>
+</body>
+
+</html>

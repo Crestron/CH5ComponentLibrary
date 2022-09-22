@@ -1,0 +1,40 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger.toggle_template_visibility",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "toggle.template.visibility",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger.template.visibility.for.second.ch5.template",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "toggle.template.visibility.for.second.ch5.template",
+          "type": "b",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "trigger.toggle_template_visibility",
+      "type": "b",
+      "value": true
+    },
+    {
+      "state": "toggle.template.visibility.for.second.ch5.template",
+      "type": "b",
+      "value": true
+    }
+  ]
+}

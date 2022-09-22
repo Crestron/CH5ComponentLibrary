@@ -1,0 +1,41 @@
+{% raw %}
+<p>When scrolling this list and reach the end of the loaded elements a new group of buffered elements will be added.
+    This will continue until all the elements have been loaded</p>
+
+<ch5-list
+           size="50"
+           orientation="horizontal"
+           indexId="idx"
+           minWidth="250px"
+           maxWidth="500px"
+           minHeight="100px"
+           maxHeight="150px"
+           itemWidth="125px"
+           itemHeight="75px"
+           scrollbar="true"
+           bufferAmount="10">
+    <template>
+        <div class="horizontal-list-item">
+            <span>item_{{idx}}</span>
+        </div>
+    </template>
+</ch5-list>
+
+<p>Example without setting the maxWidth attribute.</p>
+    <ch5-list
+        size="50"
+        orientation="horizontal"
+        indexId="idx"
+        minHeight="100px"
+        maxHeight="500px"
+        itemWidth="100px"
+        itemHeight="75px"
+        scrollbar="true"
+        bufferAmount="10" >
+        <template>
+            <div class="horizontal-list-item">
+                <span>item {{idx}}</span>
+            </div>
+        </template>
+    </ch5-list>
+{% endraw %}

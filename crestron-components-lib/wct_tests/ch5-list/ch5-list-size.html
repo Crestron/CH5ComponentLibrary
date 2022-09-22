@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="/bower_components/web-component-tester/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+    <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+<body>
+
+<test-fixture id="ch5-list-size-fixture">
+    <template>
+        <ch5-list size="5"
+                   indexId="idx">
+            <template>
+                <div class="horizontal-list-item">
+                    <span>item_{{idx}}</span>
+                </div>
+            </template>
+        </ch5-list>
+    </template>
+</test-fixture>
+
+
+<script>
+    suite('ch5-list size', function() {
+
+        let ch5List;
+
+        /* coverity[implicit_this_used] */
+        setup(() => {
+            ch5List = fixture('ch5-list-size-fixture');
+        });
+
+        test('Expect attribute size to be "5"', function() {
+            expect(ch5List.getAttribute('size')).to.be.equal('5');
+        });
+
+        test('Expect property size to be 5', function(done) {
+            flush(function() {
+                expect(ch5List.size).to.be.equal(5);
+                done();
+            });
+        });
+
+        test('Expect element to have 5 items', function(done) {
+            flush(function() {
+                expect(ch5List.querySelectorAll('.horizontal-list-item')).to.be.lengthOf(5);
+                done();
+            });
+        });
+
+        test('After programmatically changing the size attribute to "7", expect attribute size to be "7"', function() {
+            ch5List.setAttribute('size','7');
+            expect(ch5List.getAttribute('size')).to.be.equal('7');
+        });
+        test('After programmatically changing the size attribute to "7", expect property size to be 7', function(done) {
+            ch5List.setAttribute('size','7');
+            flush(function(){
+               expect(ch5List.size).to.be.equal(7);
+               done()
+            });
+        });
+
+    });
+</script>
+</body>
+</html>

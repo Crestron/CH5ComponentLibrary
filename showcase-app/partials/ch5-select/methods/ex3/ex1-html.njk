@@ -1,0 +1,53 @@
+<div class="row">
+    {% raw %}
+        <ch5-select id="selectWithReceiveSignalSelected" size="4" indexId="Idx"
+            mode="panel" feedbackMode="submit" noneSelectedPrompt="Select">
+            <template>
+                <ch5-select-option sendEventOnClick="item_{{Idx}}_on_click"
+                                    receiveStateSelected="item_{{Idx}}_selected">
+                    <span>Item {{Idx}}</span>
+                </ch5-select-option>
+            </template>
+        </ch5-select>
+    {% endraw %}
+     <br/>
+    <table>
+        <thead>
+            <tr>
+                <td>Property</td>
+                <td>Value</td>
+                <td>Explanation</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dirty</td>
+                <td id="dirty-select-3"></td>
+                <td>Shows whether the selected value has been changed, but not submitted</td>
+            </tr>
+            <tr>
+                <td>Selected</td>
+                <td id="selected-3"></td>
+                <td>Shows the 0-based index of the currently selected value</td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="margin-top: 36px;">
+        <ch5-button id="submit-btn-3" label="Submit"></ch5-button>
+        <ch5-button id="reset-btn-3" label="Reset"></ch5-button>
+        <ch5-button id="set-btn-3" label="Set value: 4"></ch5-button>
+    </p>
+    <div>
+        <ul style="list-style-type: circle">
+            <li>
+                The <strong>Submit</strong> button persists the currently selected values.
+            </li>
+            <li>
+                The <strong>Reset</strong> button reverts the form and its properties to the previously submitted value or the default value if the form has not been submitted yet.
+            </li>
+            <li>
+                The <strong>Set value: 4</strong> button also triggers the submit, thus setting the <strong>dirty</strong> property to false.
+            </li>
+        </ul>
+    </div>
+</div>

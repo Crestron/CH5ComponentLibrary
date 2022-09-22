@@ -1,0 +1,14 @@
+<h1>ch5-select: template processing</h1>
+<p>
+    Creating options is dependent on the following attributes: <strong>size</strong>,
+    <strong>indexId</strong>, <strong>receiveStateTemplateVars</strong> and <strong>"templatevariables"</strong>
+    from global the config data.
+</p>
+<br>
+<p>
+    By default, when a template is defined, the option is created using "templatevariables" data and can be updated
+    by the receiveStateTemplateVars signal data. When an option is selected, the top line will display the entire option
+    HTML (singleselection case) or a list of comma separated labels/"N items selected" (multiselect case).
+    <strong>NOTE:</strong> For multiselect, ensure <strong>receiveStateLabel</strong> is used to provide option labels.
+    If this signal attribute is not used, the multiselect top line will display empty values as a label.
+</p>
