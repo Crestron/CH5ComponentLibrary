@@ -374,9 +374,14 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		if (this.activeViewCallback instanceof Function) {
 			this.activeViewCallback();
 		}
+		if (this.slidesManager.swiperActiveViewInitialized() === true || this.slidesManager.ch5SwiperIsActive()) {
+			intSetter(this, 'activeview', index);
+			this._activeView = index;
+		} else {
+			intSetter(this, 'activeview', this.activeView);
+			this._activeView = this.activeView;
+		}
 
-		intSetter(this, 'activeview', index);
-		this._activeView = index;
 	}
 
 	public get activeView() {
