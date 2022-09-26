@@ -28,7 +28,6 @@ if (NO_CE === '1') { // for browsers that do not support customElements
 
 const path = require('path');
 const basePath = path.resolve(__dirname);
-const bundledThemesPath = basePath + '/../crestron-components-sass/output/';
 const buildPath = path.resolve(basePath, 'build_bundles', moduleBuildFolder);
 
 module.exports = function () {
