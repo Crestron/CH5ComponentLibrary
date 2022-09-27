@@ -1,4 +1,3 @@
-import { Ch5ButtonBase } from "./../ch5-button/ch5-button-base";
 import _ from "lodash";
 import { Ch5Property, ICh5PropertySettings, TPropertyTypes } from "./ch5-property";
 import { Ch5SignalFactory } from "./ch5-signal-factory";

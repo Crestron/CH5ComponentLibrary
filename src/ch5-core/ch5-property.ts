@@ -1,8 +1,6 @@
-import { Ch5ButtonBase } from "./../ch5-button/ch5-button-base";
 import _ from "lodash";
 import { Ch5Signal } from "./ch5-signal";
 import { Ch5SignalFactory } from "./ch5-signal-factory";
-import { TSignal } from "./types/signal.type";
 import { Ch5Common } from "../ch5-common/ch5-common";
 
 export type TPropertyTypes = boolean | number | string | object | any;
@@ -183,9 +181,8 @@ export class Ch5Property {
 				}
 			} else if (this.property.type === "number") {
 
-
 				if (this._propertyValue !== value) {
-					if (Number.isNaN(value)) {
+					if (isNaN(value) || !Number.isInteger(parseInt(value, 10))) {
 						value = this.property.default;
 					}
 					if (this.property.numberProperties) {
@@ -216,17 +213,20 @@ export class Ch5Property {
 					return true;
 				}
 			} else if (this.property.type === "string") {
-				if (this._propertyValue !== value) {
+				if (this._propertyValue !== String(value).trim()) {
 					if (_.isNil(value) || String(value).trim() === "") {
 						this.ch5Component.removeAttribute(this._attributeName);
 						this._propertyValue = String(this.property.default);
 					} else {
 						this.ch5Component.setAttribute(this._attributeName, String(value));
-						this._propertyValue = String(value);
+						this._propertyValue = String(value).trim();
 					}
-// TODO - clear signal
-		// 			this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
+					// TODO - clear signal
+					// 			this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
 
+					if (!_.isNil(callback)) {
+						callback();
+					}
 					if (this.property.isSignal === true) {
 						if (this.property.signalType === "number") {
 							const signalResponse = this.setSignalByNumber(value);
@@ -234,9 +234,6 @@ export class Ch5Property {
 								this.signalState = signalResponse.subscribe((newValue: number) => {
 									this._currentValue = newValue;
 									this.setVariable<number>(newValue);
-									if (!_.isNil(callback)) {
-										callback();
-									}
 									if (!_.isNil(signalCallback)) {
 										signalCallback(newValue);
 									}
@@ -249,9 +246,6 @@ export class Ch5Property {
 								this.signalState = signalResponse.subscribe((newValue: string) => {
 									this._currentValue = newValue;
 									this.setVariable<string>(newValue);
-									if (!_.isNil(callback)) {
-										callback();
-									}
 									if (!_.isNil(signalCallback)) {
 										signalCallback(newValue);
 									}
@@ -264,9 +258,6 @@ export class Ch5Property {
 								this.signalState = signalResponse.subscribe((newValue: boolean) => {
 									this._currentValue = newValue;
 									this.setVariable<boolean>(newValue);
-									if (!_.isNil(callback)) {
-										callback();
-									}
 									if (!_.isNil(signalCallback)) {
 										signalCallback(newValue);
 									}
