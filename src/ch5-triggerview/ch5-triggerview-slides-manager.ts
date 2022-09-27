@@ -260,17 +260,32 @@ export class Ch5TriggerViewSlidesManager {
    * Get number of slides
    */
   public getSlidesNumber(): number {
-    return this.triggerViewEl.slidesNumber;
-    // if (this.swiperIsActive() && !isNil(this._swiper) && !isNil(this._swiper.slides)) {
-    //   return this._swiper.slides.length;
-    // } else if (this.ch5SwiperIsActive() && !isNil(this._ch5Swiper) && !isNil(this._ch5Swiper.slides)) {
-    //   return this._ch5Swiper.slides.length;
-    // } else {
-    //   const slides = this.getTriggerViewChildSlides();
-    //   return slides.length;
-    // }
-  }
 
+    if (this.triggerViewEl.slidesNumber === 0) {
+      if (this.swiperIsActive() && !isNil(this._swiper) && !isNil(this._swiper.slides)) {
+        return this._swiper.slides.length;
+      } else if (this.ch5SwiperIsActive() && !isNil(this._ch5Swiper) && !isNil(this._ch5Swiper.slides)) {
+        return this._ch5Swiper.slides.length;
+      } else {
+        const slides = this.getTriggerViewChildSlides();
+        return slides.length;
+      }
+    } else {
+      return this.triggerViewEl.slidesNumber;
+    }
+  }
+  /**
+   * 
+   * To check swiper ActiveIndex is initialized or not
+   */
+  public swiperActiveViewInitialized() {
+    if (this._swiper) {
+      if (typeof this._swiper.activeIndex === 'undefined') {
+        return false;
+      }
+    }
+    return true;
+  }
   /**
    * Init slides by adding them inside required Swiper wrappers and adding slide class
    */
