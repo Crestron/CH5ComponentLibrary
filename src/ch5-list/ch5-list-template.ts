@@ -638,7 +638,9 @@ export class Ch5ListTemplate extends Ch5ListAbstractHelper {
 			this._list.divListWidth = divListSizeDetails.width;
 			this._list.divListHeight = divListSizeDetails.height;
 			this.updateViewportSize();
-
+			if (this._list.orientation === 'vertical') {
+				this._list.style.width = '100%';
+			}
 			setTimeout(() => {
 				// setting the list offset and client sizes
 				// use offsetWidth and offsetHeight to include borders
