@@ -3,7 +3,7 @@
 	"minor": 0,
 	"patch": 0,
 	"releaseType": "minor",
-	"buildType": "prod",
+	"buildType": "dev",
 	"branchName": "master",
 	"lastBuildDate": 0,
 	"lastBuildNumber": 0
