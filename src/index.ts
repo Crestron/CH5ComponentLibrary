@@ -34,5 +34,6 @@ export * from './ch5-resync/ch5-resync';
 export * from './ch5-jointotext-boolean';
 export * from './ch5-jointotext-string';
 export * from './ch5-jointotext-numeric';
+export * from './ch5-animation';
 // Shared models used for WCT tests
 export * from './utility-models/index'; // Use CrComLib.Ch5RoleAttributeMapping to access

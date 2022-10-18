@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-animation-default-attributes">
+    <template>
+      <ch5-animation></ch5-animation>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-animation-default-attributes-value', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        ch5Animation = fixture('ch5-animation-default-attributes');
+      });
+        
+        test('Check Default value for Size', () => {
+          expect(ch5Animation.getAttribute("Size")).to.be.equal(null);
+          ch5Animation.setAttribute('Size', 'regular');
+          expect(ch5Animation.children[0].classList.contains('ch5-animation--Size-regular')).to.not.be.equal(true);
+          expect(ch5Animation.getAttribute("Size")).to.be.equal('regular');
+          ch5Animation.removeAttribute("Size");
+          expect(ch5Animation.getAttribute("Size")).to.be.equal('regular');
+        });
+        
+    });
+  </script>
+</body>
+
+</html>
