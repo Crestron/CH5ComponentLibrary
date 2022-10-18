@@ -30,7 +30,7 @@
         expect(ch5ColorChip.getAttribute("previewcolor")).to.be.equal('rgb(0, 0, 0)');
       });
       let testCases = ['a', '', ' ', 'number', '1', '#fff', 'blue', 'eee', 'RGBA()', 'RGBA(121,143,221,.5)', 'rgba(111,123,211,.2)', 'rgb(48,121,226)', 'RGB(56,69,123)', '#abcdef', 23, null];
-      let expectedResult = ['rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(255, 255, 255)', 'rgb(0, 0, 255)', 'rgb(238, 238, 238)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(48, 121, 226)', 'rgb(56, 69, 123)', 'rgb(171, 205, 239)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)'];
+      let expectedResult = ['rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)', 'rgb(255, 255, 255)', 'rgb(0, 0, 255)', 'rgb(238, 238, 238)', 'rgb(0, 0, 0)', 'rgb(121, 143, 221)', 'rgb(111, 123, 211)', 'rgb(48, 121, 226)', 'rgb(56, 69, 123)', 'rgb(171, 205, 239)', 'rgb(0, 0, 0)', 'rgb(0, 0, 0)'];
       testCases.forEach((ele, i) => {
         test(`Check Value "PreviewColor: "${ele}"`, () => {
 

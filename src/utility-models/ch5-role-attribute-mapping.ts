@@ -32,4 +32,5 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5Keypad = 'keypad';
     public static readonly ch5KeypadChild = 'keypad-child';
     public static readonly ch5ColorChip = 'color-chip';
+    public static readonly ch5ColorPicker = 'color-picker';
 }
