@@ -1,12 +1,10 @@
- {
- 	"major": "2",
- 	"minor": "0",
- 	"patch": "0",
- 	"compMajor": "2",
- 	"compMinor": "0",
- 	"compPatch": "0",
- 	"relType": "dev",
- 	"branchName": "master",
- 	"lastBuildDate": "",
- 	"lastBuildNumber": ""
- }
+{
+	"major": 2,
+	"minor": 0,
+	"patch": 0,
+	"releaseType": "minor",
+	"buildType": "prod",
+	"branchName": "master",
+	"lastBuildDate": 0,
+	"lastBuildNumber": 0
+}
