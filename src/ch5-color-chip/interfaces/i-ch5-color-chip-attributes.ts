@@ -13,7 +13,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * "PreviewColor"
    * ]
    * @name previewColor
-   * @default 
+   * @default rgb(0,0,0)
    * @attributeType "string"
    */
   previewColor: string;
@@ -87,7 +87,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
   * [
   * "`sendEventColorRedOnChange` attribute",
   * "***",
-  * "SendEventColorRedOnChange"
+  * "Send changed red value to Control System"
   * ]
   * @name sendEventColorRedOnChange
   * @default 
@@ -99,7 +99,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * [
    * "`sendEventColorGreenOnChange` attribute",
    * "***",
-   * "SendEventColorGreenOnChange"
+   * "Send changed green value to Control System"
    * ]
    * @name sendEventColorGreenOnChange
    * @default 

@@ -26,15 +26,15 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       name: "previewColor",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      valueOnAttributeEmpty: "rgb(0,0,0)",
+      isObservableProperty: true
     },
     {
       default: 255,
       name: "maxValue",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 255,
       numberProperties: {
         min: 255,
         max: 65535,
@@ -53,7 +53,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -63,7 +63,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -73,7 +73,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -83,7 +83,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -93,7 +93,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -103,7 +103,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -113,7 +113,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
   ];
 
@@ -140,18 +140,14 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   }
 
   public set maxValue(value: number) {
-    this._ch5Properties.set<number>("maxValue", value, () => {
-      // enter your code
-    });
+    this._ch5Properties.set<number>("maxValue", value);
   }
   public get maxValue(): number {
     return this._ch5Properties.get<number>("maxValue");
   }
 
   public set sendEventOnClick(value: string) {
-    this._ch5Properties.set("sendEventOnClick", value, null, () => {
-      // enter your code
-    });
+    this._ch5Properties.set("sendEventOnClick", value);
   }
   public get sendEventOnClick(): string {
     return this._ch5Properties.get<string>('sendEventOnClick');
@@ -181,7 +177,6 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
     return this._ch5Properties.get<string>('receiveStateGreenValue');
   }
 
-
   public set receiveStateBlueValue(value: string) {
     this._ch5Properties.set("receiveStateBlueValue", value, null, (newValue: number) => {
       if (newValue <= this.maxValue && this.blueValue !== Ch5ColorUtils.getDigitalValue(newValue, this.maxValue)) {
@@ -195,32 +190,25 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   }
 
   public set sendEventColorRedOnChange(value: string) {
-    this._ch5Properties.set("sendEventColorRedOnChange", value, () => {
-      // Enter your code
-    });
+    this._ch5Properties.set("sendEventColorRedOnChange", value);
   }
   public get sendEventColorRedOnChange(): string {
     return this._ch5Properties.get<string>('sendEventColorRedOnChange');
   }
 
   public set sendEventColorGreenOnChange(value: string) {
-    this._ch5Properties.set("sendEventColorGreenOnChange", value, () => {
-      // Enter your code here
-    });
+    this._ch5Properties.set("sendEventColorGreenOnChange", value);
   }
   public get sendEventColorGreenOnChange(): string {
     return this._ch5Properties.get<string>('sendEventColorGreenOnChange');
   }
 
   public set sendEventColorBlueOnChange(value: string) {
-    this._ch5Properties.set("sendEventColorBlueOnChange", value, () => {
-      // Enter your code here
-    });
+    this._ch5Properties.set("sendEventColorBlueOnChange", value);
   }
   public get sendEventColorBlueOnChange(): string {
     return this._ch5Properties.get<string>('sendEventColorBlueOnChange');
   }
-
 
   //#endregion
 
