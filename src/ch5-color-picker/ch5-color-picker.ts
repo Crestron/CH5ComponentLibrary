@@ -335,7 +335,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     } else if (color === 'blue' && this.sendBlueOnChange) {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendBlueOnChange)?.publish(this.blueValue);
     }
-    //add the code for div to respond on new color
+    // add the code for div to respond on new color
   }
 }
 

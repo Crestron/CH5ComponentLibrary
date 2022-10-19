@@ -226,8 +226,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       window.customElements.define(Ch5ColorChip.ELEMENT_NAME, Ch5ColorChip);
     }
   }
-
-  //#endregion
+ //#endregion
 
   //#region Component LifeCycle
 
@@ -340,7 +339,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   private handlePreviewColor() {
     const color = Ch5ColorUtils.col2rgb(this.previewColor);
-    if (color) {
+    if (color && !this.hasAttribute('receiveStateBlueValue') && !this.hasAttribute('receiveStateGreenValue') && !this.hasAttribute('receiveStateRedValue')) {
       const rgb: string[] = color;
       this.redValue = Ch5ColorUtils.getDigitalValue(Number(rgb[0]), this.maxValue);
       this.greenValue = Ch5ColorUtils.getDigitalValue(Number(rgb[1]), this.maxValue);
