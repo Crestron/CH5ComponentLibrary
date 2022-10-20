@@ -229,11 +229,10 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5Animation.ELEMENT_NAME);
-    
+
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-    this.handleFramesPerSecond(Ch5Animation.defaultFramesPerSecond);
     customElements.whenDefined('ch5-animation').then(() => {
       if (!this.hasAttribute('role')) {
         this.setAttribute('role', Ch5RoleAttributeMapping.ch5Animation);
@@ -304,11 +303,8 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
   }
   private handleFramesPerSecond(value: number) {
-    let framesPerSecondMatch: number = 1500;
-    if (value >= 1) {
-      framesPerSecondMatch = (100 - value) * 15;
-    }
-    this._iconContainer.setAttribute('style', `animation-duration:${framesPerSecondMatch}ms;`);
+    const framesPerSecondMatch: number = value < 0 ? Ch5Animation.defaultFramesPerSecond : (100 - value) * 15;
+    this._iconContainer.setAttribute('style', `animation-duration:${framesPerSecondMatch > 0 ? framesPerSecondMatch : 15}ms;`);
   }
   private handleSize() {
     Array.from(Ch5Animation.COMPONENT_DATA.SIZE.values).forEach((e: any) => {
@@ -328,6 +324,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     super.updateCssClasses();
     this._iconContainer.classList.add(Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
+    this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.defaultFramesPerSecond}ms`);
     this.logger.stop();
   }
   public getCssClassDisabled() {
