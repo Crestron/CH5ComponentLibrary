@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-signal-level-gauge-default-attributes">
+    <template>
+      <ch5-signal-level-gauge></ch5-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-signal-level-gauge-default-attributes-value', () => {
+      let ch5SignalLevelGauge;
+
+      setup(async () => {
+        ch5SignalLevelGauge = fixture('ch5-signal-level-gauge-default-attributes');
+      });
+
+      test('Check Default value for orientation', () => {
+        expect(ch5SignalLevelGauge.getAttribute("orientation")).to.be.equal(null);
+        ch5SignalLevelGauge.setAttribute('orientation', 'horizontal');
+        expect(ch5SignalLevelGauge.children[0].classList.contains('ch5-signal-level-gauge--orientation-horizontal')).to.be.equal(true);
+        expect(ch5SignalLevelGauge.getAttribute("orientation")).to.be.equal('horizontal');
+        ch5SignalLevelGauge.removeAttribute("orientation");
+        expect(ch5SignalLevelGauge.getAttribute("orientation")).to.be.equal('horizontal');
+      });
+
+      test('Check Default value for size', () => {
+        expect(ch5SignalLevelGauge.getAttribute("size")).to.be.equal(null);
+        ch5SignalLevelGauge.setAttribute('size', 'regular');
+        expect(ch5SignalLevelGauge.children[0].classList.contains('ch5-signal-level-gauge--size-regular')).to.be.equal(true);
+        expect(ch5SignalLevelGauge.getAttribute("size")).to.be.equal('regular');
+        ch5SignalLevelGauge.removeAttribute("size");
+        expect(ch5SignalLevelGauge.getAttribute("size")).to.be.equal('regular');
+      });
+    });
+  </script>
+</body>
+
+</html>

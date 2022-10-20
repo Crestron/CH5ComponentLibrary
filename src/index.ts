@@ -22,6 +22,7 @@ export * from './ch5-form/index';
 export * from './ch5-overlay-panel/index';
 export * from './ch5-modal-dialog/index';
 export * from './ch5-spinner/index';
+export * from './ch5-signal-level-gauge/index';
 export * from './ch5-touch/index';
 export * from './ch5-template/index';
 export * from './ch5-import-htmlsnippet/index';
