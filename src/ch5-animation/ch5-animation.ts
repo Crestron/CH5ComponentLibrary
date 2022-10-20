@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5RoleAttributeMapping, Ch5Signal, Ch5SignalFactory } from "..";
+import { Ch5RoleAttributeMapping } from "..";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5AnimationSize, TCh5AnimationStyle, } from './interfaces/t-ch5-animation';
 import { ICh5AnimationAttributes } from './interfaces/i-ch5-animation-attributes';
@@ -11,19 +11,19 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
 
   //#region Variables
 
-  public static readonly SIZE: TCh5AnimationSize[] = ['regular', 'small', 'large', 'x-large'];
-  public static readonly ANIMTION_STYLE: TCh5AnimationStyle[] = ['spinner', 'ring', 'roller'];
+  public static readonly SIZES: TCh5AnimationSize[] = ['regular', 'small', 'large', 'x-large'];
+  public static readonly ANIMATION_STYLES: TCh5AnimationStyle[] = ['ring', 'spinner', 'roller'];
   public static readonly COMPONENT_DATA: any = {
     SIZE: {
-      default: Ch5Animation.SIZE[0],
-      values: Ch5Animation.SIZE,
+      default: Ch5Animation.SIZES[0],
+      values: Ch5Animation.SIZES,
       key: 'size',
       attribute: 'size',
       classListPrefix: 'ch5-animation--size-'
     },
     ANIMATION_STYLE: {
-      default: Ch5Animation.ANIMTION_STYLE[0],
-      values: Ch5Animation.ANIMTION_STYLE,
+      default: Ch5Animation.ANIMATION_STYLES[0],
+      values: Ch5Animation.ANIMATION_STYLES,
       key: 'animationstyle',
       attribute: 'animationstyle',
       classListPrefix: 'ch5-animation--style-'
@@ -31,10 +31,9 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-    sendeventonclick: { direction: "state", booleanJoin: 1, contractName: true },
     receivestateanimate: { direction: "state", booleanJoin: 1, contractName: true },
-    receivestatemode: { direction: "state", numericJoin: 1, contractName: true },
-    receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
+    receivestateframespersecond: { direction: "state", numericJoin: 1, contractName: true },
+    receivestatestyle: { direction: "state", stringJoin: 1, contractName: true },
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -47,84 +46,57 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
       isObservableProperty: true
     },
     {
-      default: 6,
-      name: "framesPerSecond",
-      removeAttributeOnNull: true,
-      nameForSignal: "receiveStateMode",
-      type: "number",
-      valueOnAttributeEmpty: null,
-      numberProperties: {
-        min: 1,
-        max: 100,
-        conditionalMin: 1,
-        conditionalMax: 100,
-        conditionalMinValue: 1,
-        conditionalMaxValue: 100
-      },
-      isObservableProperty: true
-    },
-    {
-      default: Ch5Animation.SIZE[0],
-      enumeratedValues: Ch5Animation.SIZE,
+      default: Ch5Animation.SIZES[0],
+      enumeratedValues: Ch5Animation.SIZES,
       name: "size",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5Animation.SIZE[0],
+      valueOnAttributeEmpty: Ch5Animation.SIZES[0],
       isObservableProperty: true
     },
     {
-      default: Ch5Animation.ANIMTION_STYLE[0],
-      enumeratedValues: Ch5Animation.ANIMTION_STYLE,
+      default: Ch5Animation.ANIMATION_STYLES[0],
+      enumeratedValues: Ch5Animation.ANIMATION_STYLES,
       name: "animationStyle",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5Animation.ANIMTION_STYLE[0],
+      valueOnAttributeEmpty: Ch5Animation.ANIMATION_STYLES[0],
       isObservableProperty: true
     },
     {
       default: "",
-      isSignal: true,
-      name: "sendEventOnClick",
-      signalType: "boolean",
-      removeAttributeOnNull: true,
-      type: "string",
-      valueOnAttributeEmpty: "",
-      isObservableProperty: true
-    },
-    {
-      default: "true",
       isSignal: true,
       name: "receiveStateAnimate",
       signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: "",
+      valueOnAttributeEmpty: true,
       isObservableProperty: true
     },
     {
       default: "",
       isSignal: true,
-      name: "receiveStateMode",
+      name: "receiveStateFramesPerSecond",
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: "",
+      valueOnAttributeEmpty: 2,
       isObservableProperty: true
     },
     {
       default: "",
       isSignal: true,
-      name: "receiveStateValue",
+      name: "receiveStateStyle",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: "",
+      valueOnAttributeEmpty: "ring",
       isObservableProperty: true
     },
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-animation';
-
+  public static readonly defaultFramesPerSecond = 1500;
   public cssClassPrefix = 'ch5-animation';
   public primaryCssClass = 'ch5-animation';
 
@@ -145,15 +117,6 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     return this._ch5Properties.get<boolean>("startAnimating");
   }
 
-  public set framesPerSecond(value: number) {
-    this._ch5Properties.set<number>("framesPerSecond", value, () => {
-      this.handleFramesPerSecond(value);
-    });
-  }
-  public get framesPerSecond(): number {
-    return this._ch5Properties.get<number>("framesPerSecond");
-  }
-
   public set size(value: TCh5AnimationSize) {
     this._ch5Properties.set<TCh5AnimationSize>("size", value, () => {
       this.handleSize();
@@ -172,15 +135,6 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     return this._ch5Properties.get<TCh5AnimationStyle>("animationStyle");
   }
 
-  public set sendEventOnClick(value: string) {
-    this._ch5Properties.set("sendEventOnClick", value, null, (newValue: boolean) => {
-      // 
-    });
-  }
-  public get sendEventOnClick(): string {
-    return this._ch5Properties.get<string>('sendEventOnClick');
-  }
-
   public set receiveStateAnimate(value: string) {
     this._ch5Properties.set("receiveStateAnimate", value, null, (newValue: boolean) => {
       this._ch5Properties.setForSignalResponse<boolean>("startAnimating", newValue, () => {
@@ -192,28 +146,25 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     return this._ch5Properties.get<string>('receiveStateAnimate');
   }
 
-  public set receiveStateMode(value: string) {
-    this._ch5Properties.set("receiveStateMode", value, null, (newValue: number) => {
-      this._ch5Properties.setForSignalResponse<number>("framesPerSecond", newValue, () => {
-        this.handleFramesPerSecond(newValue);
-      });
+  public set receiveStateFramesPerSecond(value: string) {
+    this._ch5Properties.set("receiveStateFramesPerSecond", value, null, (newValue: number) => {
+      this.handleFramesPerSecond(newValue);
     });
   }
-  public get receiveStateMode(): string {
-    return this._ch5Properties.get<string>('receiveStateMode');
+  public get receiveStateFramesPerSecond(): string {
+    return this._ch5Properties.get<string>('receiveStateFramesPerSecond');
   }
 
-  public set receiveStateValue(value: string) {
-    this._ch5Properties.set("receiveStateValue", value, null, (newValue: TCh5AnimationStyle) => {
+  public set receiveStateStyle(value: string) {
+    this._ch5Properties.set("receiveStateStyle", value, null, (newValue: TCh5AnimationStyle) => {
       this._ch5Properties.setForSignalResponse<TCh5AnimationStyle>("animationStyle", newValue, () => {
         this.handleAnimationStyle(newValue);
       });
     });
   }
-  public get receiveStateValue(): string {
-    return this._ch5Properties.get<string>('receiveStateValue');
+  public get receiveStateStyle(): string {
+    return this._ch5Properties.get<string>('receiveStateStyle');
   }
-
 
   //#endregion
 
@@ -278,16 +229,15 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5Animation.ELEMENT_NAME);
-    // WAI-ARIA Attributes
-    if (!this.hasAttribute('role')) {
-      this.setAttribute('role', Ch5RoleAttributeMapping.ch5Animation);
-    }
-
+    
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-    this.handleFramesPerSecond(6);
+    this.handleFramesPerSecond(Ch5Animation.defaultFramesPerSecond);
     customElements.whenDefined('ch5-animation').then(() => {
+      if (!this.hasAttribute('role')) {
+        this.setAttribute('role', Ch5RoleAttributeMapping.ch5Animation);
+      }
       this.componentLoadedEvent(Ch5Animation.ELEMENT_NAME, this.id);
     });
     this.logger.stop();
@@ -309,7 +259,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     this._elContainer = document.createElement('div');
     this._iconContainer = document.createElement('i');
     this._iconContainer.classList.add('fas');
-    this._iconContainer.classList.add('fa-spinner');
+    this._iconContainer.classList.add('fa-circle-notch');
     this._iconContainer.classList.add('fa-spin');
 
     this._elContainer.appendChild(this._iconContainer);
@@ -335,14 +285,10 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this.addEventListener("click", this.handleSendEventOnClick);
-    this.addEventListener("release", this.handleSendEventOnRelease);
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this.removeEventListener("click", this.handleSendEventOnClick);
-    this.removeEventListener("release", this.handleSendEventOnRelease);
   }
 
   protected unsubscribeFromSignals() {
@@ -358,8 +304,10 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
   }
   private handleFramesPerSecond(value: number) {
-    let framesPerSecondMatch: number;
-    framesPerSecondMatch = (100 - value) * 10;
+    let framesPerSecondMatch: number = 1500;
+    if (value >= 1) {
+      framesPerSecondMatch = (100 - value) * 15;
+    }
     this._iconContainer.setAttribute('style', `animation-duration:${framesPerSecondMatch}ms;`);
   }
   private handleSize() {
@@ -372,21 +320,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     ["fa-spinner", "fa-circle-notch", "fa-sync"].forEach((clsName) => {
       this._iconContainer.classList.remove(clsName);
     });
-
-    this._iconContainer.classList.add(value === 'spinner' ? 'fa-spinner' : value === 'ring' ? 'fa-circle-notch' : value === 'roller' ? 'fa-sync' : 'fa-spinner');
-  }
-  private handleSendEventOnClick() {
-    const sigChange: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick);
-    if (sigChange) {
-      sigChange.publish(true);
-    }
-  }
-
-  private handleSendEventOnRelease() {
-    const sigChange: Ch5Signal<boolean> | null = Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick);
-    if (sigChange) {
-      sigChange.publish(false);
-    }
+    this._iconContainer.classList.add(value === 'spinner' ? 'fa-spinner' : value === 'ring' ? 'fa-circle-notch' : value === 'roller' ? 'fa-sync' : 'fa-circle-notch');
   }
 
   private updateCssClass() {

@@ -10,9 +10,9 @@ export interface ICh5AnimationAttributes extends ICh5CommonAttributes {
         * [
         * "`startAnimating` attribute",
         * "***",
-        * "StartAnimating"
+        * "Starts or stops playing the animation object."
         * ]
-        * @name startAnimating
+        * @name startanimating
         * @default true
         * @attributeType "boolean"
         */
@@ -20,25 +20,13 @@ export interface ICh5AnimationAttributes extends ICh5CommonAttributes {
        /**
         * @documentation
         * [
-        * "`framesPerSecond` attribute",
-        * "***",
-        * "Sets an integer value representing the number of frames that are played every second. Default value is 6 frames per second."
-        * ]
-        * @name framesPerSecond
-        * @default 6
-        * @attributeType "number"
-        */
-       framesPerSecond: number;
-       /**
-        * @documentation
-        * [
-        * "`Size` attribute",
+        * "`size` attribute",
         * "***",
         * "Select the size of the animation object from small, regular, large and x-large."
         * ]
         * @name size
         * @default regualr
-        * @attributeType "TCh5AnimationSize"
+        * @attributeType "EnumeratedValue"
         */
         size: TCh5AnimationSize;
         /**
@@ -46,25 +34,13 @@ export interface ICh5AnimationAttributes extends ICh5CommonAttributes {
         * [
         * "`animationStyle` attribute",
         * "***",
-        * "The styled graphics that determine the look/feel of this object. Each state of the style chosen corresponds to a frame of the animation."
+        * "The styled graphics that determine the look/feel of this object. Each state of the style chosen corresponds to a frame of the animation. Default value is ring"
         * ]
-        * @name animationStyle
+        * @name animationstyle
         * @default spinner
-        * @attributeType "string"
+        * @attributeType "EnumeratedValue"
         */
        animationStyle: string;
-       /**
-        * @documentation
-        * [
-        * "`sendEventOnClick` attribute",
-        * "***",
-        * "The enable click-through property is used to toggle the option of the Animation Object being click-through."
-        * ]
-        * @name sendEventOnClick
-        * @default 
-        * @attributeType "string"
-        */
-       sendEventOnClick: string;
        /**
         * @documentation
         * [
@@ -72,34 +48,34 @@ export interface ICh5AnimationAttributes extends ICh5CommonAttributes {
         * "***",
         * "Select a digital join receive feedback from the control system. When the signal is high the animation will play. If the signal is low, the animation will stop."
         * ]
-        * @name receiveStateAnimate
-        * @default 
-        * @attributeType "string"
+        * @name receivestateanimate
+        * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+        * @attributeType "Join"
         */
        receiveStateAnimate: string;
        /**
         * @documentation
         * [
-        * "`receiveStateMode` attribute",
+        * "`receiveStateFramesPerSecond` attribute",
         * "***",
-        * "Select a serial join to receive feedback from the control system. The value of this join is the name of the frame of the animation in the theme. If no join is selected, the animation object will display it's initial mode."
+        * "Sets an integer value representing the number of frames that are played every second. Default is 2 frames per second."
         * ]
-        * @name receiveStateMode
-        * @default 
-        * @attributeType "string"
+        * @name receivestateframespersecond
+        * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+        * @attributeType "Join"
         */
-       receiveStateMode: string;
+       receiveStateFramesPerSecond: string;
        /**
         * @documentation
         * [
-        * "`receiveStateValue` attribute",
+        * "`receiveStateStyle` attribute",
         * "***",
-        * "Select an analog join to receive feedback from the control system. The value of join will select which mode the animation object will display. If no join is selected, the animation object will display its initial mode."
+        * "Select an serial join to receive desired animation style to be displayed from the control system. If no join is selected, the animation object will display the default style."
         * ]
-        * @name receiveStateValue
-        * @default 
-        * @attributeType "string"
+        * @name receivestatestyle
+        * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
+        * @attributeType "Join"
         */
-       receiveStateValue: string;
+       receiveStateStyle: string;
        
 }

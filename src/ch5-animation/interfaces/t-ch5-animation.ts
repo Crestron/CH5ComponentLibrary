@@ -6,4 +6,4 @@
 // under which you licensed this source code.
 
 export type TCh5AnimationSize = 'regular' |'small' |'large' |'x-large';
-export type TCh5AnimationStyle = 'spinner' | 'ring' | 'roller'; 
+export type TCh5AnimationStyle = 'ring' | 'spinner' | 'roller'; 
