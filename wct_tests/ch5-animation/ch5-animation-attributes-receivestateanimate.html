@@ -21,7 +21,7 @@
       let ch5Animation;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/receiveStateAnimate.json').then((response) => response.json());
+        const emulatorJson = await fetch('./emulator/receivestateanimate.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
         ch5Animation = fixture('ch5-animation-receiveStateAnimate-attributes');
