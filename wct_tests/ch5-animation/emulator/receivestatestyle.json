@@ -1,0 +1,43 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_event_0",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "s",
+          "logic": "set",
+          "value": "roller"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "s",
+          "logic": "set",
+          "value": "spinner"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "s",
+          "logic": "set",
+          "value": "ring"
+        }
+      ]
+    }
+  ]
+}
