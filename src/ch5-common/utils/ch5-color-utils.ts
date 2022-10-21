@@ -27,9 +27,26 @@ export default class Ch5ColorUtils {
    * @returns [255,255,255]
    */
   static rgbFormat = (color: string): string[] => {
-    const rgb: string[] = color.substring(color.indexOf('(') + 1 , color.lastIndexOf(')')).split(/,\s*/);
+    const rgb: string[] = color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/);
     return rgb;
   };
+
+  public static rgbToHex(red: number, green: number, blue: number) {
+    let r = red.toString(16);
+    let g = green.toString(16);
+    let b = blue.toString(16);
+
+    if (r.length === 1) {
+      r = "0" + r;
+    }
+    if (g.length === 1) {
+      g = "0" + g;
+    }
+    if (b.length === 1) {
+      b = "0" + b;
+    }
+    return "#" + r + g + b;
+  }
 
   public static checkHex(hex: string) {
     const hexRegex = /^[#]*([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i;
@@ -56,9 +73,9 @@ export default class Ch5ColorUtils {
     }
     return hex;
   }
-  
+
   public static hexToRgb(hex: string) {
-    const rgbValue = [];
+    const rgbValue: number[] = [];
     hex = hex.replace('#', '');
     if (hex.length !== 6) {
       hex = this.modifyHex(hex);

@@ -38,9 +38,9 @@ import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
  *        "\treceivestateredvalue=\"${2}\"",
  *       "\treceivestategreenvalue=\"${3}\"",
  *       "\treceivestatebluevalue=\"${4}\"",
- *       "\tsendredonchange=\"${5:colorPicker_${id}_redChange}\"",
- *       "\tsendgreenonchange=\"${6:colorPicker_${id}_greenChange}\"",
- *       "\tsendblueonchange=\"${7:colorPicker_${id}_blueChange}\">",
+ *       "\tsendEventColorRedOnChange=\"${5:colorPicker_${id}_redChange}\"",
+ *       "\tsendEventColorGreenOnChange=\"${6:colorPicker_${id}_greenChange}\"",
+ *       "\tsendEventColorBlueOnChange=\"${7:colorPicker_${id}_blueChange}\">",
  *       "</ch5-color-picker>$0"
  *       ]
  *    }

@@ -56,38 +56,38 @@ export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
   /**
    * @documentation
    * [
-   * "`sendRedOnChange` attribute",
+   * "`sendEventColorRedOnChange` attribute",
    * "***",
    * "Send changed red value to Control System"
    * ]
-   * @name sendRedOnChange
+   * @name sendEventColorRedOnChange
    * @default 
    * @attributeType "string"
    */
-  sendRedOnChange: string;
+  sendEventColorRedOnChange: string;
   /**
    * @documentation
    * [
-   * "`sendGreenOnChange` attribute",
+   * "`sendEventColorGreenOnChange` attribute",
    * "***",
    * "Send changed green value to control system "
    * ]
-   * @name sendGreenOnChange
+   * @name sendEventColorGreenOnChange
    * @default 
    * @attributeType "string"
    */
-  sendGreenOnChange: string;
+  sendEventColorGreenOnChange: string;
   /**
    * @documentation
    * [
-   * "`sendBlueOnChange` attribute",
+   * "`sendEventColorBlueOnChange` attribute",
    * "***",
    * "Send changed blue value to control system "
    * ]
-   * @name sendBlueOnChange
+   * @name sendEventColorBlueOnChange
    * @default 
    * @attributeType "string"
    */
-  sendBlueOnChange: string;
+  sendEventColorBlueOnChange: string;
 
 }
