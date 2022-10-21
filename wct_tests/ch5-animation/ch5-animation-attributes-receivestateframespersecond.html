@@ -16,6 +16,12 @@
       <ch5-animation receiveStateFramesPerSecond="trigger_event_listener"></ch5-animation>
     </template>
   </test-fixture>
+
+  <test-fixture id="ch5-animation-receiveStateFramesPerSecond-invalid-value">
+    <template>
+      <ch5-animation receiveStateFramesPerSecond="trigger_event_listener_2"></ch5-animation>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-animation-receiveStateFramesPerSecond-attributes-value', () => {
       let ch5Animation;
@@ -36,6 +42,28 @@
               ch5Animation.setAttribute('style', `animation-duration:${framesPerSecondMatch}ms`);
               expect(ch5Animation.style.animationDuration).to.be.equal(`${framesPerSecondMatch}ms`);
             }
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-animation-receiveStateFramesPerSecond-attributes-invalid-value', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateframespersecond.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-receiveStateFramesPerSecond-invalid-value');
+      });
+
+      test('receiveStateFramesPerSecond Invalid Value', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_2', true);
+        flush(() => {
+          setTimeout(() => {
+            ch5Animation.setAttribute('style', `animation-duration:1500ms`);
+            expect(ch5Animation.style.animationDuration).to.be.equal('1500ms');
             done();
           }, 100);
         });

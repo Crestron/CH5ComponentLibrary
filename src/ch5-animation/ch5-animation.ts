@@ -13,6 +13,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
 
   public static readonly SIZES: TCh5AnimationSize[] = ['regular', 'small', 'large', 'x-large'];
   public static readonly ANIMATION_STYLES: TCh5AnimationStyle[] = ['ring', 'spinner', 'roller'];
+  public static readonly ANIMATION_STYLES_CLASS: string[] = ['fa-circle-notch', 'fa-spinner', 'fa-sync'];
   public static readonly COMPONENT_DATA: any = {
     SIZE: {
       default: Ch5Animation.SIZES[0],
@@ -33,7 +34,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receivestateanimate: { direction: "state", booleanJoin: 1, contractName: true },
     receivestateframespersecond: { direction: "state", numericJoin: 1, contractName: true },
-    receivestatestyle: { direction: "state", stringJoin: 1, contractName: true },
+    receivestateanimationstyle: { direction: "state", stringJoin: 1, contractName: true },
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -70,7 +71,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
       signalType: "boolean",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: true,
+      valueOnAttributeEmpty: "",
       isObservableProperty: true
     },
     {
@@ -80,17 +81,17 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
       signalType: "number",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: 2,
+      valueOnAttributeEmpty: "",
       isObservableProperty: true
     },
     {
       default: "",
       isSignal: true,
-      name: "receiveStateStyle",
+      name: "receiveStateAnimationStyle",
       signalType: "string",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: "ring",
+      valueOnAttributeEmpty: "",
       isObservableProperty: true
     },
   ];
@@ -155,15 +156,15 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     return this._ch5Properties.get<string>('receiveStateFramesPerSecond');
   }
 
-  public set receiveStateStyle(value: string) {
-    this._ch5Properties.set("receiveStateStyle", value, null, (newValue: TCh5AnimationStyle) => {
+  public set receiveStateAnimationStyle(value: string) {
+    this._ch5Properties.set("receiveStateAnimationStyle", value, null, (newValue: TCh5AnimationStyle) => {
       this._ch5Properties.setForSignalResponse<TCh5AnimationStyle>("animationStyle", newValue, () => {
         this.handleAnimationStyle(newValue);
       });
     });
   }
-  public get receiveStateStyle(): string {
-    return this._ch5Properties.get<string>('receiveStateStyle');
+  public get receiveStateAnimationStyle(): string {
+    return this._ch5Properties.get<string>('receiveStateAnimationStyle');
   }
 
   //#endregion
@@ -258,7 +259,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     this._elContainer = document.createElement('div');
     this._iconContainer = document.createElement('i');
     this._iconContainer.classList.add('fas');
-    this._iconContainer.classList.add('fa-circle-notch');
+    this._iconContainer.classList.add(Ch5Animation.ANIMATION_STYLES_CLASS[0]);
     this._iconContainer.classList.add('fa-spin');
 
     this._elContainer.appendChild(this._iconContainer);
@@ -313,10 +314,10 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     this._iconContainer.classList.add(Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
   }
   private handleAnimationStyle(value: TCh5AnimationStyle) {
-    ["fa-spinner", "fa-circle-notch", "fa-sync"].forEach((clsName) => {
+    Ch5Animation.ANIMATION_STYLES_CLASS.forEach((clsName) => {
       this._iconContainer.classList.remove(clsName);
     });
-    this._iconContainer.classList.add(value === 'spinner' ? 'fa-spinner' : value === 'ring' ? 'fa-circle-notch' : value === 'roller' ? 'fa-sync' : 'fa-circle-notch');
+    this._iconContainer.classList.add(value === 'spinner' ? Ch5Animation.ANIMATION_STYLES_CLASS[1] : value === 'ring' ? Ch5Animation.ANIMATION_STYLES_CLASS[0] : value === 'roller' ? Ch5Animation.ANIMATION_STYLES_CLASS[2] : Ch5Animation.ANIMATION_STYLES_CLASS[0]);
   }
 
   private updateCssClass() {
@@ -324,9 +325,14 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     super.updateCssClasses();
     this._iconContainer.classList.add(Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
-    this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.defaultFramesPerSecond}ms`);
+    this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.defaultFramesPerSecond}ms;`);
     this.logger.stop();
   }
+
+  protected getTargetElementForCssClassesAndStyle(): HTMLElement {
+		return this._elContainer;
+	}
+  
   public getCssClassDisabled() {
     return this.cssClassPrefix + '--disabled';
   }

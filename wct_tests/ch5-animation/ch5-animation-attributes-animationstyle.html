@@ -24,8 +24,8 @@
         ch5Animation = fixture('ch5-animation-style-attributes');
       });
 
-      let testCases = ['spinner', '', ' ', 'ring', 'roller'];
-      let expectedResult = ['spinner', 'ring', 'ring', 'ring', 'roller'];
+      let testCases = ['spinner', '', ' ', 'ring', 'roller', 'xxx'];
+      let expectedResult = ['spinner', 'ring', 'ring', 'ring', 'roller', 'ring'];
       testCases.forEach((ele, i) => {
         test('Check Value "Style"', () => {
           ch5Animation.setAttribute('animationStyle', ele);

@@ -11,25 +11,25 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-animation-Size-attributes">
+  <test-fixture id="ch5-animation-size-attributes">
     <template>
       <ch5-animation></ch5-animation>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-animation-Size-attributes-value', () => {
+    suite('ch5-animation-size-attributes-value', () => {
       let ch5Animation;
 
       setup(async () => {
-        ch5Animation = fixture('ch5-animation-Size-attributes');
+        ch5Animation = fixture('ch5-animation-size-attributes');
       });
 
-      let testCases = ['a', '', ' ', 'number', 'regular', 'small', 'large', 'x-large'];
-      let expectedResult = ['regular', 'regular', 'regular', 'regular', 'regular', 'small', 'large', 'x-large'];
+      let testCases = ['a', '', ' ', 'number', 'regular', 'small', 'large', 'x-large', '567'];
+      let expectedResult = ['regular', 'regular', 'regular', 'regular', 'regular', 'small', 'large', 'x-large', 'regular'];
       testCases.forEach((ele, i) => {
         test('Check Value "Size"', () => {
-          ch5Animation.setAttribute('Size', ele);
-          expect(ch5Animation.getAttribute('Size')).to.be.equal(expectedResult[i]);
+          ch5Animation.setAttribute('size', ele);
+          expect(ch5Animation.getAttribute('size')).to.be.equal(expectedResult[i]);
         });
       });
 

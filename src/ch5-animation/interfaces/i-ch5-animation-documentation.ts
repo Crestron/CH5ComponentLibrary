@@ -16,7 +16,7 @@ import { ICh5AnimationAttributes } from "./i-ch5-animation-attributes";
  * [
  *   "`ch5-animation` element",
  *   "***",
- *   "An animation object is designed to provide options to add startAnimating, size, animationStyle, receiveStateAnimate, receiveStateFramesPerSecond and receiveStateStyle"
+ *   "An animation object is designed to provide options to add startAnimating, size, animationStyle, receiveStateAnimate, receiveStateFramesPerSecond and receiveStateAnimationStyle"
  * ]
  * @snippets
  * [

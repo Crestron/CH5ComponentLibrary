@@ -68,14 +68,14 @@ export interface ICh5AnimationAttributes extends ICh5CommonAttributes {
        /**
         * @documentation
         * [
-        * "`receiveStateStyle` attribute",
+        * "`receiveStateAnimationStyle` attribute",
         * "***",
         * "Select an serial join to receive desired animation style to be displayed from the control system. If no join is selected, the animation object will display the default style."
         * ]
-        * @name receivestatestyle
+        * @name receivestateanimationstyle
         * @join {"direction": "state", "isContractName": true, "stringJoin": 1}
         * @attributeType "Join"
         */
-       receiveStateStyle: string;
+       receiveStateAnimationStyle: string;
        
 }

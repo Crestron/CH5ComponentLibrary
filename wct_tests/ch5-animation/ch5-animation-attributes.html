@@ -16,19 +16,44 @@
       <ch5-animation></ch5-animation>
     </template>
   </test-fixture>
+  <test-fixture id="ch5-animation-animate-receiveStateAnimate">
+    <template>
+      <ch5-animation startAnimating="false" receiveStateAnimate="trigger_event_listener"></ch5-animation>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-animation-default-attributes-value', () => {
       let ch5Animation;
       setup(async () => {
         ch5Animation = fixture('ch5-animation-default-attributes');
       });
-      test('Check Default value for Size', () => {
-        expect(ch5Animation.getAttribute("Size")).to.be.equal(null);
-        ch5Animation.setAttribute('Size', 'regular');
+      test('Check Default value for size', () => {
+        expect(ch5Animation.getAttribute("size")).to.be.equal(null);
+        ch5Animation.setAttribute('size', 'regular');
         expect(ch5Animation.children[0].classList.contains('ch5-animation--Size-regular')).to.not.be.equal(true);
-        expect(ch5Animation.getAttribute("Size")).to.be.equal('regular');
-        ch5Animation.removeAttribute("Size");
-        expect(ch5Animation.getAttribute("Size")).to.be.equal('regular');
+        expect(ch5Animation.getAttribute("size")).to.be.equal('regular');
+        ch5Animation.removeAttribute("size");
+        expect(ch5Animation.getAttribute("size")).to.be.equal('regular');
+      });
+    });
+    suite('ch5-animation-receivestateAnimate-override-startAnimating', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateanimate.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-animate-receiveStateAnimate');
+      });
+
+      test('receiveStateAnimate', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5Animation.getAttribute('startAnimating')).to.be.equal('true');
+            done();
+          }, 100);
+        });
       });
     });
   </script>
