@@ -26,7 +26,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
   * ]
   * @name minvalue
   * @default 0
-  * limits [{"min": 0, "max": 65534}]
+  * @limits [{"min": 0, "max": 65534}]
   * @attributeType "Integer"
   */
   minValue: number;
@@ -39,7 +39,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
    * ]
    * @name maxvalue
    * @default 65535
-   * limits [{"min": 1, "max": 65535}]
+   * @limits [{"min": 1, "max": 65535}]
    * @attributeType "Integer"
    */
   maxValue: number;
@@ -52,7 +52,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
    * ]
    * @name numberofbars
    * @default 6
-   * limits [{"min": 1, "max": 15}]
+   * @limits [{"min": 1, "max": 15}]
    * @attributeType "Integer"
    */
   numberOfBars: number;
@@ -65,7 +65,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
    * ]
    * @name signalbarspacing
    * @default 1
-   * limits [{"min": 0, "max": 6}]
+   * @limits [{"min": 0, "max": 6}]
    * @attributeType "Integer"
    */
   signalBarSpacing: number;

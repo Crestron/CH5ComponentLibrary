@@ -7,14 +7,20 @@ import { ICh5SignalLevelGaugeAttributes } from "./i-ch5-signal-level-gauge-attri
  * @tagName ch5-signal-level-gauge
  * @role signal-level-gauge
  * @description The Signal Level Gauge displays feedback from an Analog Join.
- * @componentVersion 1.0.0
+ * @componentVersion 2.1.0
  * @childElements
  * [
  *    
  * ]
  * @documentation
  * [
- *   {
+ *   "`ch5-signal-level-gauge` element",
+ *   "***",
+ *   "The Signal Level Gauge displays feedback from an Analog Join."
+ * ]
+ * @snippets
+ * [ 
+ * {
  *    "prefix": "ch5-signal-level-gauge:default",
  *    "description": "Crestron SignalLevelGauge",
  *    "body": [
@@ -37,10 +43,6 @@ import { ICh5SignalLevelGaugeAttributes } from "./i-ch5-signal-level-gauge-attri
  *       "</ch5-color-chip>$0"
  *       ]
  *    }
- *  ]
- * @snippets
- * [
- *  
  *  ]
  */
 export interface ICh5SignalLevelGaugeDocumentation extends ICh5Common, ICh5SignalLevelGaugeAttributes {
