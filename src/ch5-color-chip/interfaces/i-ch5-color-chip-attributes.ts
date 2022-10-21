@@ -69,8 +69,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * @name receiveStateGreenValue
    * @default
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "Join" 
-   * @attributeType "string"
+   * @attributeType "Join"
    */
   receiveStateGreenValue: string;
 
@@ -84,8 +83,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * @name receiveStateBlueValue
    * @default
    * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "Join" 
-   * @attributeType "string"
+   * @attributeType "Join"
    */
   receiveStateBlueValue: string;
 
@@ -99,8 +97,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
   * @name sendEventColorRedOnChange
   * @default
   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-  * @attributeType "Join" 
-  * @attributeType "string"
+  * @attributeType "Join"
   */
   sendEventColorRedOnChange: string;
   /**
@@ -113,8 +110,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * @name sendEventColorGreenOnChange
    * @default
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
-   * @attributeType "Join" 
-   * @attributeType "string"
+   * @attributeType "Join"
    */
   sendEventColorGreenOnChange: string;
   /**
@@ -128,7 +124,6 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * @default 
    * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
    * @attributeType "Join"
-   * @attributeType "string"
    */
   sendEventColorBlueOnChange: string;
 
