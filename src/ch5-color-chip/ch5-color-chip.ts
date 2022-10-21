@@ -360,11 +360,11 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   //#endregion
 
   private handleSendSignals(color: string) {
-    if (color === 'red' && this.sendEventColorRedOnChange) {
+    if (color === 'red' && this.sendEventColorRedOnChange !== '') {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorRedOnChange)?.publish(this.redValue);
-    } else if (color === 'green' && this.sendEventColorGreenOnChange) {
+    } else if (color === 'green' && this.sendEventColorGreenOnChange !== '') {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorGreenOnChange)?.publish(this.greenValue);
-    } else if (color === 'blue' && this.sendEventColorBlueOnChange) {
+    } else if (color === 'blue' && this.sendEventColorBlueOnChange !== '') {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorBlueOnChange)?.publish(this.blueValue);
     }
     this._elContainer.style.backgroundColor = `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`;

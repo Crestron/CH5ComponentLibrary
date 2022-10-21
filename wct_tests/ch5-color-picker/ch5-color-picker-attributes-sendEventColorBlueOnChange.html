@@ -21,13 +21,13 @@
       let ch5ColorPicker;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/sendBlueOnChange.json').then((response) => response.json());
+        const emulatorJson = await fetch('./emulator/sendEventColorBlueOnChange.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
         ch5ColorPicker = fixture('ch5-color-picker-sendBlueOnChange-attributes');
       });
 
-      test('sendBlueOnChange', (done) => {
+      test('sendEventColorBlueOnChange', (done) => {
         CrComLib.publishEvent('b', 'trigger_event_1', true);
         flush(() => {
           setTimeout(() => {
@@ -36,7 +36,7 @@
           }, 100);
         });
       });
-      test('sendBlueOnChange', (done) => {
+      test('sendEventColorEventBlueOnChange', (done) => {
         CrComLib.publishEvent('b', 'trigger_event_2', true);
         flush(() => {
           setTimeout(() => {

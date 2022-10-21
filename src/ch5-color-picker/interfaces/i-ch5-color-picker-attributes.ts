@@ -6,16 +6,17 @@ import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
  */
 export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
   /**
-        * @documentation
-        * [
-        * "`maxValue` attribute",
-        * "***",
-        * "Determines the maximum analog value to use as analog join input for changing current red, green and/or blue values of color picker. For hardware that support a wider range than 256, CH5 shall scale the individual color values to a 256 equivalent."
-        * ]
-        * @name maxValue
-        * @default 255
-        * @attributeType "number"
-        */
+   * @documentation
+   * [
+   * "`maxValue` attribute",
+   * "***",
+   * "Determines the maximum analog value to use as analog join input for changing current red, green and/or blue values of color picker. For hardware that support a wider range than 256, CH5 shall scale the individual color values to a 256 equivalent."
+   * ]
+   * @name maxValue
+   * @default 255
+   * @limits [{"min": 255, "max": 65535}]
+   * @attributeType "number"
+   */
   maxValue: number;
   /**
    * @documentation
@@ -25,7 +26,9 @@ export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
    * "Input join, with valid values from 0-Maximum Analog Value, to update red color value of the color chip. Shall scale to 24-bit color range of 256 if Maximum analog value exceeds 256"
    * ]
    * @name receiveStateRedValue
-   * @default 
+   * @default
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join" 
    * @attributeType "string"
    */
   receiveStateRedValue: string;
@@ -37,7 +40,9 @@ export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
    * "Input join, with valid values from 0-Maximum Analog Value, to update green color value of the color chip. Shall scale to 24-bit color range of 256 if Maximum analog value exceeds 256."
    * ]
    * @name receiveStateGreenValue
-   * @default 
+   * @default
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
    * @attributeType "string"
    */
   receiveStateGreenValue: string;
@@ -49,7 +54,9 @@ export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
    * "Input join, with valid values from 0-Maximum Analog Value, to update blue color value of the color chip. Shall scale to 24-bit color range of 256 if Maximum analog value exceeds 256."
    * ]
    * @name receiveStateBlueValue
-   * @default 
+   * @default
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
    * @attributeType "string"
    */
   receiveStateBlueValue: string;
@@ -61,7 +68,9 @@ export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
    * "Send changed red value to Control System"
    * ]
    * @name sendEventColorRedOnChange
-   * @default 
+   * @default
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
    * @attributeType "string"
    */
   sendEventColorRedOnChange: string;
@@ -74,6 +83,8 @@ export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendEventColorGreenOnChange
    * @default 
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
    * @attributeType "string"
    */
   sendEventColorGreenOnChange: string;
@@ -85,7 +96,9 @@ export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
    * "Send changed blue value to control system "
    * ]
    * @name sendEventColorBlueOnChange
-   * @default 
+   * @default
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
    * @attributeType "string"
    */
   sendEventColorBlueOnChange: string;

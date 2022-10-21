@@ -11,36 +11,36 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-color-picker-sendRedOnChange-attributes">
+  <test-fixture id="ch5-color-picker-sendEventColorRedOnChange-attributes">
     <template>
-      <ch5-color-picker sendRedOnChange="trigger_event_listener"></ch5-color-picker>
+      <ch5-color-picker sendEventColorRedOnChange="trigger_event_listener"></ch5-color-picker>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-color-picker-sendRedOnChange-attributes-value', () => {
+    suite('ch5-color-picker-sendEventColorRedOnChange-attributes-value', () => {
       let ch5ColorPicker;
 
       setup(async () => {
-        const emulatorJson = await fetch('./emulator/sendRedOnChange.json').then((response) => response.json());
+        const emulatorJson = await fetch('./emulator/sendEventColorRedOnChange.json').then((response) => response.json());
         const emulator = CrComLib.Ch5Emulator.getInstance();
         emulator.loadScenario(emulatorJson);
-        ch5ColorPicker = fixture('ch5-color-picker-sendRedOnChange-attributes');
+        ch5ColorPicker = fixture('ch5-color-picker-sendEventColorRedOnChange-attributes');
       });
 
-      test('sendRedOnChange', (done) => {
+      test('sendEventColorRedOnChange', (done) => {
         CrComLib.publishEvent('b', 'trigger_event_1', true);
         flush(() => {
           setTimeout(() => {
-            // expect(ch5ColorPicker.getAttribute('sendRedOnChange')).to.be.equal('1');
+            // expect(ch5ColorPicker.getAttribute('sendEventColorRedOnChange')).to.be.equal('1');
             done();
           }, 100);
         });
       });
-      test('sendRedOnChange', (done) => {
+      test('sendEventColorRedOnChange', (done) => {
         CrComLib.publishEvent('b', 'trigger_event_2', true);
         flush(() => {
           setTimeout(() => {
-            // expect(ch5ColorPicker.getAttribute('sendRedOnChange')).to.be.equal('0');
+            // expect(ch5ColorPicker.getAttribute('sendEventColorRedOnChange')).to.be.equal('0');
             done();
           }, 100);
         });

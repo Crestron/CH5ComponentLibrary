@@ -26,6 +26,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * ]
    * @name maxValue
    * @default 255
+   * @limits [{"min": 255, "max": 65535}]
    * @attributeType "number"
    */
   maxValue: number;
@@ -38,8 +39,9 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
  Sends a high signal when user places the finger on the control and low signal when finger is released."
    * ]
    * @name sendEventOnClick
-   * @default 
-   * @attributeType "string"
+   * @default
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
    */
   sendEventOnClick: string;
 
@@ -52,7 +54,8 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * ]
    * @name receiveStateRedValue
    * @default 
-   * @attributeType "string"
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
    */
   receiveStateRedValue: string;
 
@@ -64,7 +67,9 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * "Input join, with valid values from 0-Maximum Analog Value, to update green color value of the color chip. Shall scale to 24-bit color range of 256 if Maximum analog value exceeds 256."
    * ]
    * @name receiveStateGreenValue
-   * @default 
+   * @default
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join" 
    * @attributeType "string"
    */
   receiveStateGreenValue: string;
@@ -77,7 +82,9 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * "Input join, with valid values from 0-Maximum Analog Value, to update blue color value of the color chip. Shall scale to 24-bit color range of 256 if Maximum analog value exceeds 256."
    * ]
    * @name receiveStateBlueValue
-   * @default 
+   * @default
+   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join" 
    * @attributeType "string"
    */
   receiveStateBlueValue: string;
@@ -90,7 +97,9 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
   * "Send changed red value to Control System"
   * ]
   * @name sendEventColorRedOnChange
-  * @default 
+  * @default
+  * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+  * @attributeType "Join" 
   * @attributeType "string"
   */
   sendEventColorRedOnChange: string;
@@ -102,7 +111,9 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * "Send changed green value to Control System"
    * ]
    * @name sendEventColorGreenOnChange
-   * @default 
+   * @default
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join" 
    * @attributeType "string"
    */
   sendEventColorGreenOnChange: string;
@@ -115,6 +126,8 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * ]
    * @name sendEventColorBlueOnChange
    * @default 
+   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @attributeType "Join"
    * @attributeType "string"
    */
   sendEventColorBlueOnChange: string;

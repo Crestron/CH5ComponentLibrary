@@ -36,16 +36,6 @@
           }, 100);
         });
       });
-      test('receiveStateRedValue', (done) => {
-        CrComLib.publishEvent('b', 'trigger_event_2', true);
-        flush(() => {
-          setTimeout(() => {
-            // expect(ch5ColorPicker.getAttribute('receiveStateRedValue')).to.be.equal('0');
-            done();
-          }, 100);
-        });
-      });
-
     });
   </script>
 </body>
