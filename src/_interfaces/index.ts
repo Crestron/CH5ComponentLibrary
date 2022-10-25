@@ -17,6 +17,7 @@ export * from "./../ch5-custom-attrs/interfaces/index";
  */
 export * from './../ch5-background/interfaces/i-ch5-background-documentation';
 export * from "./../ch5-button/interfaces/i-ch5-button-documentation";
+export * from './../ch5-color-chip/interfaces/i-ch5-color-chip-documentation';
 export * from './../ch5-dpad/interfaces/i-ch5-dpad-documentation';
 export * from "./../ch5-form/interfaces/i-ch5-form-documentation";
 export * from "./../ch5-import-htmlsnippet/interfaces/i-ch5-htmlsnippet-documentation";

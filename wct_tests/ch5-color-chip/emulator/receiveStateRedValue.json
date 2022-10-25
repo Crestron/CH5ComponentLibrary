@@ -1,0 +1,108 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "increment",
+          "offset": 10
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "set",
+          "offset": 30
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "set",
+          "offset": 60
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_4",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "set",
+          "offset": 80
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_5",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "set",
+          "offset": 100
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_6",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "set",
+          "offset": 120
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener1",
+          "type": "n",
+          "logic": "set",
+          "offset": 1200
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_neg",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener_neg",
+          "type": "n",
+          "logic": "set",
+          "offset": -120
+        }
+      ]
+    }
+  ]
+}
