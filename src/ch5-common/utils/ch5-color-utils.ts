@@ -106,4 +106,19 @@ export default class Ch5ColorUtils {
     const colorVal = this.convert(color);
     return this.rgbFormat(colorVal);
   }
+
+  public static rgbToObj(rgb: string) {
+    const colors = ["red", "green", "blue", "alpha"];
+    const colorArr = rgb.slice(
+      rgb.indexOf("(") + 1,
+      rgb.indexOf(")")
+    ).split(",");
+
+    const obj: any = {};
+    colorArr.forEach((item, index) => {
+      obj[colors[index]] = Number(item.trim());
+    });
+    return obj;
+  }
+
 }

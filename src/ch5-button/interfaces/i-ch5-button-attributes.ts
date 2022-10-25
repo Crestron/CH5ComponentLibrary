@@ -238,9 +238,9 @@ export interface ICh5ButtonAttributes extends ICh5CommonAttributes {
    * "***",
    * "Valid values: 'top', 'bottom', 'middle'.",
    * "When the vAlignLabel property is set, the label and the icon of the button are vertically aligned. ",
-   * "The middle property sets the horizontal alignment of the label to the middle of the button. ",
-   * "The top property sets the horizontal alignment of the label to the top of the button. ",
-   * "The bottom property sets the horizontal alignment of the label to the bottom of the button. "
+   * "The middle property sets the vertical alignment of the label to the middle of the button. ",
+   * "The top property sets the vertical alignment of the label to the top of the button. ",
+   * "The bottom property sets the vertical alignment of the label to the bottom of the button. "
    * ]
    * @name valignlabel
    * @default middle
