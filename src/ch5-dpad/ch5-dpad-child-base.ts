@@ -228,14 +228,24 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	public set pressed(value: boolean) {
 		this.logger.log('set pressed("' + value + '")');
+		if (typeof value !== 'boolean')
+			{ if(value==='true' || (this.hasAttribute('pressed')&&value==='')) value=true;
+			else value = false;}
+
 		if (this._pressable) {
 			if (this._pressable._pressed !== value) {
 				this._pressable.setPressed(value);
 			}
 		}
 		this._pressed = value;
-		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
-		this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
+		this.setAttribute('pressed', value.toString());
+		if (value) {
+			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
+			this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
+		}
+		else {
+			this.classList.remove(this.primaryCssClass + this.pressedCssClassPostfix);
+		}
 	}
 	public get pressed(): boolean {
 		if (this._pressable) {

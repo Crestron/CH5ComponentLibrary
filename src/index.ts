@@ -8,6 +8,8 @@
 export * from './ch5-core/index';
 export * from './ch5-common/ch5-config';
 export * from './ch5-button/index';
+export * from './ch5-color-chip/index';
+export * from './ch5-color-picker/index';
 export * from './ch5-emulator/index';
 export * from './ch5-list/index';
 export * from './ch5-custom-attrs/index';
@@ -22,6 +24,7 @@ export * from './ch5-form/index';
 export * from './ch5-overlay-panel/index';
 export * from './ch5-modal-dialog/index';
 export * from './ch5-spinner/index';
+export * from './ch5-signal-level-gauge/index';
 export * from './ch5-touch/index';
 export * from './ch5-template/index';
 export * from './ch5-import-htmlsnippet/index';
