@@ -354,6 +354,9 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
     super.updateCssClasses();
     this.logger.stop();
   }
+  protected getTargetElementForCssClassesAndStyle(): HTMLElement {
+    return this._elContainer;
+  }
   public getCssClassDisabled() {
     return this.cssClassPrefix + '--disabled';
   }

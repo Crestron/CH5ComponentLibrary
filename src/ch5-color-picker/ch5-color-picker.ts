@@ -514,6 +514,9 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     super.updateCssClasses();
     this.logger.stop();
   }
+  protected getTargetElementForCssClassesAndStyle(): HTMLElement {
+    return this._elContainer;
+  }
   public getCssClassDisabled() {
     return this.cssClassPrefix + '--disabled';
   }
