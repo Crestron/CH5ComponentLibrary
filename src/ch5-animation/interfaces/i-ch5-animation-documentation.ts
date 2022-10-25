@@ -24,7 +24,7 @@ import { ICh5AnimationAttributes } from "./i-ch5-animation-attributes";
  *    "prefix": "ch5-animation:blank",
  *    "description": "Crestron Animation",
  *    "body": [
- *      "<ch5-animation>"
+ *      "<ch5-animation>",
  *      "</ch5-animation>$0"
  *    ]
  *  }, 

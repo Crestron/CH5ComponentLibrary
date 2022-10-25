@@ -35,8 +35,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * [
    * "`sendEventOnClick` attribute",
    * "***",
-   * "	
- Sends a high signal when user places the finger on the control and low signal when finger is released."
+   * "Sends a high signal when user places the finger on the control and low signal when finger is released."
    * ]
    * @name sendEventOnClick
    * @default
