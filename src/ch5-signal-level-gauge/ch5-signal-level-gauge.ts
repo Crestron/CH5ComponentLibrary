@@ -389,6 +389,9 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     this._elContainer.style.gap = this.signalBarSpacing + 'px';
     this.logger.stop();
   }
+  protected getTargetElementForCssClassesAndStyle(): HTMLElement {
+    return this._elContainer;
+  }
   public getCssClassDisabled() {
     return this.cssClassPrefix + '--disabled';
   }
