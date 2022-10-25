@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5RoleAttributeMapping } from "..";
+import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { TCh5AnimationSize, TCh5AnimationStyle, } from './interfaces/t-ch5-animation';
 import { ICh5AnimationAttributes } from './interfaces/i-ch5-animation-attributes';
@@ -231,13 +231,14 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5Animation.ELEMENT_NAME);
 
+    if (!this.hasAttribute('role')) {
+      this.setAttribute('role', Ch5RoleAttributeMapping.ch5Animation);
+    }
+
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
     customElements.whenDefined('ch5-animation').then(() => {
-      if (!this.hasAttribute('role')) {
-        this.setAttribute('role', Ch5RoleAttributeMapping.ch5Animation);
-      }
       this.componentLoadedEvent(Ch5Animation.ELEMENT_NAME, this.id);
     });
     this.logger.stop();
@@ -330,9 +331,9 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
-		return this._elContainer;
-	}
-  
+    return this._elContainer;
+  }
+
   public getCssClassDisabled() {
     return this.cssClassPrefix + '--disabled';
   }
