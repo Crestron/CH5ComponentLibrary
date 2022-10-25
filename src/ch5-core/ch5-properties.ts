@@ -31,9 +31,9 @@ export class Ch5Properties {
 		}
 	}
 
-	public getSignalValue<T>(propertyName: string): T {
-		return this.getPropertyByName(propertyName)?.getVariable<T>() as unknown as T;
-	}
+	// public getSignalValue<T>(propertyName: string): T {
+	// 	return this.getPropertyByName(propertyName)?.getVariable<T>() as unknown as T;
+	// }
 
 	public get<T>(propertyName: string): T {
 		return this.getPropertyByName(propertyName)?.value as unknown as T;

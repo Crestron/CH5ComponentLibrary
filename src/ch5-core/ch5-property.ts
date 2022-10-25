@@ -40,12 +40,12 @@ export class Ch5Property {
 	private _signalName: string = "";
 	private _signalValue: string = "";
 	private _signalState: string = "";
-	private _currentValue: any;
+	// private _currentValue: any;
 	private _propertyName: string = "";
 	private _propertyValue: boolean | string | object | any;
 	private initializedValue: boolean = false;
 
-	private _hasChangedSinceInit: boolean = false;
+	// private _hasChangedSinceInit: boolean = false;
 
 	constructor(public ch5Component: Ch5Common, public property: ICh5PropertySettings) {
 		this._attributeName = property.name.toLowerCase();
@@ -83,17 +83,17 @@ export class Ch5Property {
 	public set signalState(value: string) {
 		this._signalState = value;
 	}
-	public get currentValue(): any {
-		return this._currentValue;
-	}
+	// public get currentValue(): any {
+	// 	return this._currentValue;
+	// }
 
 	// public get prevValue(): T {
 	// 	return this._prevValue;
 	// }
 
-	public hasChangedSinceInit(): boolean {
-		return this._hasChangedSinceInit;
-	}
+	// public hasChangedSinceInit(): boolean {
+	// 	return this._hasChangedSinceInit;
+	// }
 
 	public setValue<T>(value: T, callback?: any, signalCallback?: any) {
 		this.processValue<T>(value, false, callback, signalCallback);
@@ -163,12 +163,12 @@ export class Ch5Property {
 				if (this._propertyValue !== value) {
 					// Implies that the content has to be an enumerated value ONLY
 					if (this.property.enumeratedValues && this.property.enumeratedValues.length > 0 && this.property.enumeratedValues.indexOf(value) >= 0) {
-						this.ch5Component.setAttribute(this._attributeName, String(value));
 						this._propertyValue = String(value) as unknown as T;
+						this.ch5Component.setAttribute(this._attributeName, String(value));
 					} else {
 						if (!_.isNil(this.property.default)) {
-							this.ch5Component.setAttribute(this._attributeName, String(this.property.default));
 							this._propertyValue = String(this.property.default) as unknown as T;
+							this.ch5Component.setAttribute(this._attributeName, String(this.property.default));
 						} else {
 							this.ch5Component.removeAttribute(this._attributeName);
 							this._propertyValue = String(this.property.default) as unknown as T;
@@ -181,31 +181,25 @@ export class Ch5Property {
 				}
 			} else if (this.property.type === "number") {
 
+				value = Number(value);
 				if (this._propertyValue !== value) {
 					if (isNaN(value) || !Number.isInteger(parseInt(value, 10))) {
 						value = this.property.default;
 					}
 					if (this.property.numberProperties) {
-						if (value >= this.property.numberProperties.min && value <= this.property.numberProperties.max) {
+						if (value < this.property.numberProperties.min || value > this.property.numberProperties.max) {
 							if (value > this.property.numberProperties.conditionalMax) {
 								value = this.property.numberProperties.conditionalMaxValue;
 							} else if (value < this.property.numberProperties.conditionalMin) {
 								value = this.property.numberProperties.conditionalMinValue;
 							}
-							this.ch5Component.setAttribute(this._attributeName, String(value));
-							this._propertyValue = value as unknown as number;
-						} else {
-							this.ch5Component.setAttribute(this._attributeName, String(this.property.default));
-							this._propertyValue = this.property.default as unknown as number;
-							// } else {
-							// 	this.ch5Component.removeAttribute(this._attributeName);
-							// 	this._propertyValue = String(this.property.default) as unknown as number;
-							// }
 						}
+						this._propertyValue = value as unknown as number;
+						this.ch5Component.setAttribute(this._attributeName, String(value));
 					} else {
 						// TODO - check for attributes has attribute etc for all number string etc
+						this._propertyValue = this.property.default as unknown as number;
 						this.ch5Component.setAttribute(this._attributeName, String(this.property.default));
-						this._propertyValue = String(this.property.default) as unknown as number;
 					}
 					if (!_.isNil(callback)) {
 						callback();
@@ -215,11 +209,11 @@ export class Ch5Property {
 			} else if (this.property.type === "string") {
 				if (this._propertyValue !== String(value).trim()) {
 					if (_.isNil(value) || String(value).trim() === "") {
-						this.ch5Component.removeAttribute(this._attributeName);
 						this._propertyValue = String(this.property.default);
+						this.ch5Component.removeAttribute(this._attributeName);
 					} else {
-						this.ch5Component.setAttribute(this._attributeName, String(value));
 						this._propertyValue = String(value).trim();
+						this.ch5Component.setAttribute(this._attributeName, String(value).trim());
 					}
 					// TODO - clear signal
 					// 			this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
@@ -232,8 +226,8 @@ export class Ch5Property {
 							const signalResponse = this.setSignalByNumber(value);
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: number) => {
-									this._currentValue = newValue;
-									this.setVariable<number>(newValue);
+									// this._currentValue = newValue;
+									// this.setVariable<number>(newValue);
 									if (!_.isNil(signalCallback)) {
 										signalCallback(newValue);
 									}
@@ -244,8 +238,8 @@ export class Ch5Property {
 							const signalResponse = this.setSignalByString(value);
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: string) => {
-									this._currentValue = newValue;
-									this.setVariable<string>(newValue);
+									// this._currentValue = newValue;
+									// this.setVariable<string>(newValue);
 									if (!_.isNil(signalCallback)) {
 										signalCallback(newValue);
 									}
@@ -256,8 +250,8 @@ export class Ch5Property {
 							const signalResponse = this.setSignalByBoolean(value);
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: boolean) => {
-									this._currentValue = newValue;
-									this.setVariable<boolean>(newValue);
+									// this._currentValue = newValue;
+									// this.setVariable<boolean>(newValue);
 									if (!_.isNil(signalCallback)) {
 										signalCallback(newValue);
 									}
@@ -383,13 +377,13 @@ export class Ch5Property {
 	// 	return thisSignal;
 	// }
 
-	public setVariable<T>(attributeValue: T) {
-		this._currentValue = attributeValue;
-	}
+	// public setVariable<T>(attributeValue: T) {
+	// 	this._currentValue = attributeValue;
+	// }
 
-	public getVariable<T>(): T {
-		return this.currentValue as T;
-	}
+	// public getVariable<T>(): T {
+	// 	return this.currentValue as T;
+	// }
 
 	private toBoolean(val: any, isEmptyValueEqualToTrue = false): boolean {
 		const str = String(val).toLowerCase().trim();
