@@ -6,6 +6,7 @@ import { ICh5ColorChipAttributes } from './interfaces/i-ch5-color-chip-attribute
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import Ch5ColorUtils from '../ch5-common/utils/ch5-color-utils';
+
 export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   //#region Variables
@@ -290,7 +291,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   }
 
   public disconnectedCallback() {
-    this.logger.start('disconnectedCallback()');
+    this.logger.start('disconnectedCallback()', Ch5ColorChip.ELEMENT_NAME);
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     this.logger.stop();
