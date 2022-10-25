@@ -15,6 +15,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5Select = 'listbox';
     public static readonly ch5SelectOption = 'option';
     public static readonly ch5Slider = 'slider';
+    public static readonly ch5SignalLevelGauge = 'signal-level-gauge';
     public static readonly ch5Spinner = 'listbox';
     public static readonly ch5TextInput = 'textbox';
     public static readonly ch5Toggle = 'switch';
