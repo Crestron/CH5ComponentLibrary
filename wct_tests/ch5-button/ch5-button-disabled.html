@@ -102,12 +102,11 @@
 
 			[true, false].forEach((enabledName, i) => {
 				test(`receiveStateEnable: "${enabledName}"`, (done) => {
-					ch5Button.setAttribute('receiveStateEnable', 'hall_lights_selected_1' );
+					ch5Button.setAttribute('receiveStateEnable', 'hall_lights_selected_1');
 					// CrComLib.publishEvent('b', 'hall_lights_selected_' + String(enabledName), !enabledName);
 					CrComLib.publishEvent('b', 'hall_lights_selected_1', enabledName);
 					flush(() => {
 						setTimeout(() => {
-							console.log("ch5button", ch5Button);
 							expect(ch5Button.getAttribute('disabled')).to.be.equal(String(!enabledName));
 							expect(ch5Button.disabled).to.be.equal(!enabledName);
 							done();
