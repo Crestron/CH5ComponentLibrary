@@ -33,7 +33,8 @@ import { ICh5AnimationAttributes } from "./i-ch5-animation-attributes";
  *    "description": "Crestron Animation",
  *    "body": [
  *      "<ch5-animation startAnimating=\"true\"",
- *      "\tanimationStyle=\"spinner\">",
+ *      "\tanimationStyle=\"ring\"",
+ *      "\tsize=\"regular\">",
  *      "</ch5-animation>$0"
  *    ]
  *  }

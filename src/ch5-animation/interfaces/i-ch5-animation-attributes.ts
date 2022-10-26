@@ -1,5 +1,5 @@
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
-import {TCh5AnimationSize,  }from './t-ch5-animation';
+import {TCh5AnimationSize, TCh5AnimationStyle,  }from './t-ch5-animation';
 
 /**
  * @ignore
@@ -25,7 +25,7 @@ export interface ICh5AnimationAttributes extends ICh5CommonAttributes {
         * "Select the size of the animation object from small, regular, large and x-large."
         * ]
         * @name size
-        * @default regualr
+        * @default regular
         * @attributeType "EnumeratedValue"
         */
         size: TCh5AnimationSize;
@@ -37,10 +37,10 @@ export interface ICh5AnimationAttributes extends ICh5CommonAttributes {
         * "The styled graphics that determine the look/feel of this object. Each state of the style chosen corresponds to a frame of the animation. Default value is ring"
         * ]
         * @name animationstyle
-        * @default spinner
+        * @default ring
         * @attributeType "EnumeratedValue"
         */
-       animationStyle: string;
+       animationStyle: TCh5AnimationStyle;
        /**
         * @documentation
         * [
