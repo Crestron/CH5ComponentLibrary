@@ -298,10 +298,10 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     });
     // needed for preload-true for the calculation of bars height and width depending upon parent
     subscribeInViewPortChange(this, () => {
-			if (this.elementIsInViewPort) {
-      this.handleNumberOfBars();
-			}
-		});
+      if (this.elementIsInViewPort) {
+        this.handleNumberOfBars();
+      }
+    });
     this.logger.stop();
   }
 
