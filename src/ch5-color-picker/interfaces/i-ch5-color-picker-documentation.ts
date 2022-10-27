@@ -7,7 +7,7 @@ import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
  * @tagName ch5-color-picker
  * @role color-picker
  * @description component to render the color picker.
- * @componentVersion 1.0.0
+ * @componentVersion 2.1.0
  * @childElements
  * [
  *    

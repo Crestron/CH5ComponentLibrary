@@ -5,6 +5,7 @@ import { TCh5SignalLevelGaugeOrientation, TCh5SignalLevelGaugeSize, } from './in
 import { ICh5SignalLevelGaugeAttributes } from './interfaces/i-ch5-signal-level-gauge-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
 
 export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGaugeAttributes {
 
@@ -295,6 +296,12 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     customElements.whenDefined('ch5-signal-level-gauge').then(() => {
       this.componentLoadedEvent(Ch5SignalLevelGauge.ELEMENT_NAME, this.id);
     });
+    // needed for preload-true for the calculation of bars height and width depending upon parent
+    subscribeInViewPortChange(this, () => {
+      if (this.elementIsInViewPort) {
+        this.handleNumberOfBars();
+      }
+    });
     this.logger.stop();
   }
 
@@ -302,6 +309,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
+    unSubscribeInViewPortChange(this);
     this.logger.stop();
   }
 

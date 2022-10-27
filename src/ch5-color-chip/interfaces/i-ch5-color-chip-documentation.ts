@@ -7,7 +7,7 @@ import { ICh5ColorChipAttributes } from "./i-ch5-color-chip-attributes";
  * @tagName ch5-color-chip
  * @role color-chip
  * @description Component to render an Color Chip.
- * @componentVersion 1.0.0
+ * @componentVersion 2.1.0
  * @childElements
  * [
  *    
