@@ -3,10 +3,10 @@
 ## Build Requirements
 
 - Node and npm versions:
-- node v8.11.1
-- npm v5.6.0 
+- node v16.13.0
+- npm v8.10.0 
 - Global packages:
--- typescript 2.8.3
+-- typescript 4.8.3
 
 ### Available Scripts
 
@@ -85,7 +85,7 @@ Make sure that you have Java installed and available on your PATH
 Start Selenium and build report
 ```npm run wct:xml-report```
 
-### Generic dev reference
+### Generic developer reference
 
 A custom element must always have a closing tag to render. A simple "< custom-element/>" won't suffice. It should consist the closing tag too "< custom-element><//custom-element>".
 "https://stackoverflow.com/questions/23961178/do-custom-elements-require-a-close-tag?answertab=active#tab-top"

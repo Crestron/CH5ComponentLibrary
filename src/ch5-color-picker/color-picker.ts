@@ -4,9 +4,7 @@ import Ch5ColorUtils from "../ch5-common/utils/ch5-color-utils";
 
 export class ColorPicker {
 
-  private joe: any = null; // colorjoe;
-
-  private _isPickerReady: boolean = false;
+  private joe: any = null;
 
   /**
    * An RxJs observable for the gestureable property.
@@ -15,14 +13,13 @@ export class ColorPicker {
   public colorChanged: Subject<number[]>;
 
   constructor(public pickerId: string, newColor: string) {
-    this._isPickerReady = true;
     this.colorChanged = new Subject<number[]>();
     try {
       // 'currentColor',
       // 'hex'
       this.joe = colorjoe.hsl(this.pickerId, newColor, [
       ]).on('change', (c: any) => {
-        const complement = this.invertHex(c.hex());
+        // const complement = this.invertHex(c.hex());
         const thisColorDiv = document.getElementById(this.pickerId);
         if (thisColorDiv) {
           const queryObj = thisColorDiv.querySelectorAll<HTMLElement>('.oned')[0].querySelectorAll<HTMLElement>('.shape')[0];
@@ -34,6 +31,7 @@ export class ColorPicker {
         const colorObj: any = Ch5ColorUtils.rgbToObj(c.css());
         this.colorChanged?.next([colorObj.red, colorObj.green, colorObj.blue]);
       }).update();
+      
       // this.joe.set =  (c: any) => {
       //   console.log("C", c);
       // }
@@ -48,14 +46,10 @@ export class ColorPicker {
 
   public setColor(newColor: string) {
     try {
-      // this.colorPickerObject.set(newColor);
       this.joe.set(newColor);
     } catch (e) {
       // Do Nothing
     }
-  }
-  public get isPickerReady() {
-    return this._isPickerReady;
   }
 
   public get picker() {

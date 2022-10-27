@@ -12,7 +12,7 @@ export * from "./../ch5-custom-attrs/interfaces/index";
 
 /**
  * Export controls.
- * DEV NOTE: The list of imports below help in the documentation per component level 
+ * The list of imports below help in the documentation per component level 
  * w.r.t crestron-metadata-generator project
  */
 export * from './../ch5-animation/interfaces/i-ch5-animation-documentation';
