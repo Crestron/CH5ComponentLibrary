@@ -534,6 +534,7 @@ export class Ch5Background extends Ch5Common implements ICh5BackgroundAttributes
 	 *  Useful for running setup code, such as fetching resources or rendering.
 	 */
 	public connectedCallback() {
+		this.initAttributes();
 		this.setAttribute('data-ch5-id', this.getCrId());
 		customElements.whenDefined('ch5-background').then(() => {
 			Ch5CoreIntersectionObserver.getInstance().observe(this, () => {
