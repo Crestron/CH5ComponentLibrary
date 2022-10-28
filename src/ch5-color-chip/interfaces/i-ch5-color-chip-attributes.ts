@@ -22,7 +22,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributes {
    * [
    * "`maxValue` attribute",
    * "***",
-   * "Determines the maximum analog value to use as analog join input for changing current red, green and/or blue values of color chip."
+   * "Determines the maximum analog value to use as analog join input for changing current red, green and/or blue values of color chip.DefaultValue is 255 and it can range from 255 to 65535."
    * ]
    * @name maxvalue
    * @default 255
