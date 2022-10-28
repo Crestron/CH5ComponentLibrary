@@ -1,10 +1,10 @@
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributesSet3 } from "../../ch5-common/interfaces";
 import { TCh5SignalLevelGaugeOrientation, TCh5SignalLevelGaugeSize, } from './t-ch5-signal-level-gauge';
 
 /**
  * @ignore
  */
-export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
+export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributesSet3 {
   /**
   * @documentation
   * [

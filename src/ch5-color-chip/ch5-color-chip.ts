@@ -227,12 +227,13 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       window.customElements.define(Ch5ColorChip.ELEMENT_NAME, Ch5ColorChip);
     }
   }
- //#endregion
+  //#endregion
 
   //#region Component LifeCycle
 
   public constructor() {
     super();
+    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"]
     this.logger.start('constructor()', Ch5ColorChip.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();

@@ -1,10 +1,10 @@
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributesSet3 } from "../../ch5-common/interfaces";
 
 
 /**
  * @ignore
  */
-export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
+export interface ICh5ColorPickerAttributes extends ICh5CommonAttributesSet3 {
   /**
    * @documentation
    * [
