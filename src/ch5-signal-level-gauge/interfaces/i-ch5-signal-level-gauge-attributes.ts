@@ -10,7 +10,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`orientation` attribute",
   * "***",
-  * "Sets the orientation (horizontal or vertical) of the gauge."
+  * "Sets the orientation (horizontal or vertical) of the gauge. Devfault Value is 'horizontal'."
   * ]
   * @name orientation
   * @default horizontal
@@ -22,7 +22,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`minValue` attribute",
   * "***",
-  * "The minimum value determines the analog value sent to and received from the control system that will reflect the lowest position of the gauge.DefaultValue is 0 and it can range from 0 to 65534."
+  * "The minimum value determines the analog value sent to and received from the control system that will reflect the lowest position of the gauge. Default Value is 0 and it can range from 0 to 65534."
   * ]
   * @name minvalue
   * @default 0
@@ -35,7 +35,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
    * [
    * "`maxValue` attribute",
    * "***",
-   * "The maximum value determines the analog value sent to and received from the control system that will reflect the topmost point of the gauge.DefaultValue is 65535 and it can range from 1 to 65535."
+   * "The maximum value determines the analog value sent to and received from the control system that will reflect the topmost point of the gauge. Default Value is 65535 and it can range from 1 to 65535."
    * ]
    * @name maxvalue
    * @default 65535
@@ -48,7 +48,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
    * [
    * "`numberOfBars` attribute",
    * "***",
-   * "Sets the number of visible bars on the gauge. DefaultValue is 6 and it can range from 1 to 15."
+   * "Sets the number of visible bars on the gauge. Default Value is 6 and it can range from 1 to 15."
    * ]
    * @name numberofbars
    * @default 6
@@ -61,7 +61,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
    * [
    * "`signalBarSpacing` attribute",
    * "***",
-   * "Sets the spacing (in pixels) between bars in the control.DefaultValue is 1 and it can range from 0 to 6"
+   * "Sets the spacing (in pixels) between bars in the control. Default Value is 1 and it can range from 0 to 6"
    * ]
    * @name signalbarspacing
    * @default 1
@@ -86,7 +86,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributes {
    * [
    * "`size` attribute",
    * "***",
-   * "defines the different sizes of gauge. Possible values are regular, small, large, x-large.Default Value is 'regular'."
+   * "defines the different sizes of gauge. Possible values are regular, small, large, x-large. Default Value is 'regular'."
    * ]
    * @name size
    * @default regular
