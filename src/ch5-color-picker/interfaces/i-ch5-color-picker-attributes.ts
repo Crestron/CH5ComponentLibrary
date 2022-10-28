@@ -10,7 +10,7 @@ export interface ICh5ColorPickerAttributes extends ICh5CommonAttributes {
    * [
    * "`maxValue` attribute",
    * "***",
-   * "Determines the maximum analog value to use as analog join input for changing current red, green and/or blue values of color picker. For hardware that support a wider range than 256, CH5 shall scale the individual color values to a 256 equivalent. Default Value is 255 and it can range from 255 to 65535."
+   * "Determines the maximum analog value to use as analog join input for changing current red, green and/or blue values of color picker. For hardware that support a wider range than 256, CH5 shall scale the individual color values to a 256 equivalent. Default value is 255 and it can range from 255 to 65535."
    * ]
    * @name maxvalue
    * @default 255
