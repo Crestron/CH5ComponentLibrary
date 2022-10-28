@@ -190,6 +190,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
 
   public constructor() {
     super();
+    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestateenable", "receivestateshowpulse", "receivestatehidepulse", "sendeventonshow"];
     this.logger.start('constructor()', Ch5Animation.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();

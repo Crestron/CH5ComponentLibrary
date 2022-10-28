@@ -1,10 +1,10 @@
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributesAnimation } from "../../ch5-common/interfaces";
 import { TCh5AnimationSize, TCh5AnimationStyle } from './t-ch5-animation';
 
 /**
  * @ignore
  */
-export interface ICh5AnimationAttributes extends ICh5CommonAttributes {
+export interface ICh5AnimationAttributes extends ICh5CommonAttributesAnimation {
   /**
         * @documentation
         * [

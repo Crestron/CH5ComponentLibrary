@@ -270,6 +270,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public constructor() {
     super();
+    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"]
     this.logger.start('constructor()', Ch5ColorPicker.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();

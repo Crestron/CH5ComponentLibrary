@@ -266,6 +266,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	public constructor() {
 		super();
+		this.ignoreAttributes = ["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"];
 		this.logger.start('constructor()', this.COMPONENT_NAME);
 
 		CH5DpadUtils.clearComponentContent(this);
@@ -538,7 +539,7 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 	 */
 	protected initAttributes(): void {
 		this.logger.start("initAttributes", this.COMPONENT_NAME);
-		super.initAttributes(["show", "disabled", "receivestateenable", "receivestateshow", "receivestateshowpulse", "receivestatehidepulse", "receivestatecustomclass", "receivestatecustomstyle", "sendeventonshow"]);
+		super.initAttributes();
 
 		CH5DpadUtils.setAttributeToElement(this, 'role', Ch5RoleAttributeMapping.ch5DpadChild); // WAI-ARIA Attributes
 
