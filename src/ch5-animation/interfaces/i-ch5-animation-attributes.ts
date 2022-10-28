@@ -58,7 +58,7 @@ export interface ICh5AnimationAttributes extends ICh5CommonAttributes {
    * [
    * "`receiveStateFramesPerSecond` attribute",
    * "***",
-   * "Sets an integer value representing the number of frames that are played every second. Default is 2 frames per second."
+   * "Sets an integer value representing the number of frames that are played every second. Default is 3 frames per second."
    * ]
    * @name receivestateframespersecond
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
