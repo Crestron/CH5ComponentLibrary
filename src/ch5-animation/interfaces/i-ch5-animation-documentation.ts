@@ -37,8 +37,20 @@ import { ICh5AnimationAttributes } from "./i-ch5-animation-attributes";
  *      "\tsize=\"regular\">",
  *      "</ch5-animation>$0"
  *    ]
- *  }
- *
+ *  },
+ *  {
+ *    "prefix": "ch5-animation:all-attributes",
+ *    "description": "Crestron Animation (All Attributes)",
+ *    "body": [
+ *      "<ch5-animation startAnimating=\"true\"",
+ *      "\tanimationStyle=\"ring\"",
+ *      "\tsize=\"regular\"",
+ *      "\treceiveStateAnimate=\"${4}\"",
+ *      "\treceiveStateFramesPerSecond=\"${5}\"",
+ *      "\treceiveStateAnimationStyle=\"${6}\">",
+ *      "</ch5-animation>$0"
+ *      ] 
+ *    }
  *  ]
  */
 export interface ICh5AnimationDocumentation extends ICh5Common, ICh5AnimationAttributes {
