@@ -25,7 +25,7 @@
       });
 
       let testCases = ['a', '', ' ', 'number', '0', '1', '2', '14', '15', '16'];
-      let expectedResult = ['6', '6', '6', '6', '6', '1', '2', '14', '15', '6'];
+      let expectedResult = ['6', '6', '6', '6', '1', '1', '2', '14', '15', '15'];
       testCases.forEach((ele, i) => {
         test('Check Value "numberOfBars"', () => {
           ch5SignalLevelGauge.setAttribute('numberOfBars', ele);
