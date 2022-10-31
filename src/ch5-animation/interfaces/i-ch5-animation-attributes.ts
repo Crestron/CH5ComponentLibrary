@@ -6,16 +6,16 @@ import { TCh5AnimationSize, TCh5AnimationStyle } from './t-ch5-animation';
  */
 export interface ICh5AnimationAttributes extends ICh5CommonAttributesAnimation {
   /**
-        * @documentation
-        * [
-        * "`startAnimating` attribute",
-        * "***",
-        * "Starts or stops playing the animation object."
-        * ]
-        * @name startanimating
-        * @default true
-        * @attributeType "boolean"
-        */
+   * @documentation
+   * [
+   * "`startAnimating` attribute",
+   * "***",
+   * "Starts or stops playing the animation object."
+   * ]
+   * @name startanimating
+   * @default true
+   * @attributeType "boolean"
+   */
   startAnimating: boolean;
   /**
    * @documentation
@@ -30,16 +30,16 @@ export interface ICh5AnimationAttributes extends ICh5CommonAttributesAnimation {
    */
   size: TCh5AnimationSize;
   /**
-  * @documentation
-  * [
-  * "`animationStyle` attribute",
-  * "***",
-  * "The styled graphics that determine the look/feel of this object. Each state of the style chosen corresponds to a frame of the animation. Default value is ring"
-  * ]
-  * @name animationstyle
-  * @default ring
-  * @attributeType "EnumeratedValue"
-  */
+   * @documentation
+   * [
+   * "`animationStyle` attribute",
+   * "***",
+   * "The styled graphics that determine the look/feel of this object. Each state of the style chosen corresponds to a frame of the animation. Default value is ring"
+   * ]
+   * @name animationstyle
+   * @default ring
+   * @attributeType "EnumeratedValue"
+   */
   animationStyle: TCh5AnimationStyle;
   /**
    * @documentation
