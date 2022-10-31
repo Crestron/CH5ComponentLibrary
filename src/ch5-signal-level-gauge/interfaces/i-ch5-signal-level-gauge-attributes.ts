@@ -1,5 +1,5 @@
-import { ICh5CommonAttributesSet3 } from "../../ch5-common/interfaces";
-import { TCh5SignalLevelGaugeOrientation, TCh5SignalLevelGaugeSize, } from './t-ch5-signal-level-gauge';
+import { ICh5CommonAttributesSet3 } from "../../ch5-common/interfaces/i-ch5-common-attributes-set3";
+import { TCh5SignalLevelGaugeOrientation, TCh5SignalLevelGaugeSize } from './t-ch5-signal-level-gauge';
 
 /**
  * @ignore

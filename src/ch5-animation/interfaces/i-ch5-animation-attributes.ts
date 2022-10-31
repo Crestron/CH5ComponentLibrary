@@ -1,4 +1,4 @@
-import { ICh5CommonAttributesAnimation } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributesAnimation } from "../../ch5-common/interfaces/i-ch5-common-attributes-animation";
 import { TCh5AnimationSize, TCh5AnimationStyle } from './t-ch5-animation';
 
 /**
