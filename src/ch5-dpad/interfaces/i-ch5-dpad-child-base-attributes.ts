@@ -5,13 +5,13 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5CommonAttributesSet2 } from "../../ch5-common/interfaces/i-ch5-common-attributes-set2";
+import { ICh5CommonAttributesDpadChild } from "../../ch5-common/interfaces/i-ch5-common-attributes-dpad-child";
 import { TCh5DpadChildButtonType } from "./t-ch5-dpad";
 
 /**
  * @ignore
  */
-export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributesSet2 {
+export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributesDpadChild {
 
     /**
      * @documentation
@@ -66,7 +66,7 @@ export interface ICh5DpadChildBaseAttributes extends ICh5CommonAttributesSet2 {
      * @name key
      * @attributeType "EnumeratedValue"
      */
-     key: TCh5DpadChildButtonType;
+    key: TCh5DpadChildButtonType;
 
     /**
      * @documentation

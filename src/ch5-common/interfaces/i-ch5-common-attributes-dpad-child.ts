@@ -15,7 +15,7 @@ import { ICh5CommonAttributesForNoShowType } from "./common/i-ch5-common-attribu
 /**
  * @ignore
  */
-export interface ICh5CommonAttributesSet2 extends ICh5CommonAttributesForDir,
+export interface ICh5CommonAttributesDpadChild extends ICh5CommonAttributesForDir,
 	ICh5CommonAttributesForAppendClassWhenInViewPort,
 	ICh5CommonAttributesForNoShowType,
 	ICh5CommonAttributesForCustomStyle,
