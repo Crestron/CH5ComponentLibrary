@@ -200,10 +200,13 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
 
   public set receiveStateValue(value: string) {
     this._ch5Properties.set("receiveStateValue", value, null, (newValue: number) => {
-      if (this.minValue <= newValue && newValue <= this.maxValue) {
-        this.value = newValue;
-        this.handleValue();
+      if (newValue < this.minValue) {
+        newValue = this.minValue;
+      } else if (newValue > this.maxValue) {
+        newValue = this.maxValue;
       }
+      this.value = newValue;
+      this.handleValue();
     });
   }
   public get receiveStateValue(): string {

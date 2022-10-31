@@ -10,7 +10,7 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributesSet3
   * [
   * "`orientation` attribute",
   * "***",
-  * "Sets the orientation (horizontal or vertical) of the gauge. Devfault value is 'horizontal'."
+  * "Sets the orientation (horizontal or vertical) of the gauge. Default value is 'horizontal'."
   * ]
   * @name orientation
   * @default horizontal
