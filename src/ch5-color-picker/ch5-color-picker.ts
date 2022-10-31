@@ -120,21 +120,35 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   private _colorChangedSubscription: Subscription | null = null;
 
   private debounceSignalHandling = this.debounce(() => {
-		this.handleSendSignals();
-	}, 40);
+    this.handleSendSignals();
+    const detail = { value: Ch5ColorUtils.col2rgb(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue)) };
+    // set dirty state and dirty value
+    if (!this._dirty) {
+      // set dirty value
+      this._dirtyValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);
+      // set dirty state
+      this.setDirty();
+    } else {
+      // set state as clean
+      this.setClean();
+    }
+    this._setDirtyHandler();
+    // dispatch 'change' event
+    this._dispatchEvents(detail);
+  }, 20);
 
   /**
-   * Event change: Fires when the component's `checked` value changes due to user interaction.
+   * Event change: Fires when the component's `picker` value changes due to user interaction.
    */
   private changeEvent: Event = {} as Event;
 
   /**
-   * Event dirty: Fires when the component is on feedbackMode='submit' and displayed value is different than the actual value
+   * Event dirty: Fires when the component value is different than the actual value
    */
   private dirtyEvent: Event = {} as Event;
 
   /**
-   * Event clean: Fires when the component is on feedbackMode='submit' and displayed value is the actual value
+   * Event clean: Fires when the component displayed value is the actual value
    */
   private cleanEvent: Event = {} as Event;
 
@@ -170,7 +184,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   private _cleanValue: string = '';
 
   /**
-   * Defines the timeout between the user click the toggle and the time the toggle will check if the value is equal with the value from the signal
+   * Defines the timeout between the user clicks the picker and the time the color-picker will check if the value is equal with the value from the signal
    * @private
    * @type {(number|null)}
    */
@@ -328,7 +342,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     this.colorPicker = new ColorPicker(this.pickerId, "#000000");
     this.setColor();
     this._colorChangedSubscription = this.colorPicker.colorChanged.subscribe((value: number[]) => {
-      if (value.length > 0) {
+      if (value.length > 0 && this.colorPicker) {
 
         // this.redValuePrevious = this.redValue;
         this.redValue = Ch5ColorUtils.getDigitalValue(value[0], this.maxValue);
@@ -339,7 +353,11 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
         // this.blueValuePrevious = this.blueValue;
         this.blueValue = Ch5ColorUtils.getDigitalValue(value[2], this.maxValue);
 
-        this.setColor();
+
+        if (this.redValuePrevious !== this.redValue || this.greenValuePrevious !== this.greenValue || this.blueValuePrevious !== this.blueValue) {
+          this.colorPicker.setColor(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue));
+        }
+
         // const oldColor: string = Ch5ColorUtils.rgbToHex(this.redValuePrevious, this.greenValuePrevious, this.blueValuePrevious);
         // const newColor: string = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);
         // if (oldColor !== newColor) {
@@ -381,92 +399,134 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
       if (this.redValuePrevious !== this.redValue || this.greenValuePrevious !== this.greenValue || this.blueValuePrevious !== this.blueValue) {
         const newColor: string = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);
         this.colorPicker.setColor(newColor);
+        this._cleanValue = newColor;
       }
     }
   }
+  /**
+   * METHODS
+   *
+   * - setClean
+   * - getDirty
+   */
 
-  // /**
-  //  * Because `colorChanged()` is only caused by a user action, it will
-  //  * also dispatch a change event.
-  //  */
-  // private colorChanged() {
-  //   // The detail of the event.
-  //   let detail;
+  /**
+   * Returns true if the displayed value is different than the actual value
+   * @returns {boolean}
+   */
+  private getDirty(): boolean {
+    return this._dirty;
+  }
 
-  //   // Change the value of checked.
-  //   this.checked = !this.checked;
-  //   detail = { value: this.checked };
+  /**
+   * Set the ch5-color-chip to a dirty state
+   *
+   * @fires dirty
+   */
+  private setDirty(): void {
+    this._dirty = true;
+    this._clean = false;
 
-  //   // set dirty state and dirty value
-  //   if (!this._dirty) {
-  //     // set dirty value
-  //     this._dirtyValue = this.checked;
-  //     // set dirty state
-  //     this.setDirty();
-  //   } else {
-  //     // set state as clean
-  //     this.setClean();
-  //   }
+    // fire dirty event
+    if (this.colorPicker) {
 
-  //   // set dirty handler immediately if feedbackMode is not submit and send click signal
-  //   if (this._feedbackMode !== 'submit') {
-  //     this._setDirtyHandler();
-  //     this.sendSignalForClickAndTouch();
-  //   }
+      const detail = { value: this.colorPicker.picker.get().css() };
+      /**
+       * Fired when the component's value changes due to user interaction.
+       *
+       * @event dirty
+       */
+      this.dispatchEvent(
+        this.dirtyEvent = new CustomEvent('dirty', {
+          bubbles: true,
+          cancelable: false,
+          detail
+        })
 
-  //   // dispatch 'change' event
-  //   this._dispatchEvents(detail);
-  // }
+      );
+    }
+  }
 
-  // /**
-  //  * Dirty handler
-  //  * @private
-  //  */
-  // private _setDirtyHandler() {
-  //   this.info('Ch5Toggle._setDirtyHandler');
-  //   if (this._dirtyTimerHandle !== null) {
-  //     clearTimeout(this._dirtyTimerHandle);
-  //   }
+  /**
+   * Set the ch5-color-chip to a clean state
+   */
+  private setClean(): void {
+    if (this._dirtyTimerHandle !== null) {
+      clearTimeout(this._dirtyTimerHandle);
+    }
 
-  //   this._dirtyTimerHandle = window.setTimeout(
-  //     () => this._onDirtyTimerFinished(),
-  //     this._signalValueSyncTimeout
-  //   );
-  // }
+    this._dirty = false;
+    this._clean = true;
 
-  // private _onDirtyTimerFinished() {
-  //   this.info('Ch5Toggle._onDirtyTimerFinished');
-  //   this._dirtyTimerHandle = null;
+    // fire clean event
+    if (this.colorPicker) {
+      const detail = { value: this.colorPicker.picker.get().css() };
+      /**
+       * Fired when the component's becomes clean.
+       *
+       * @event clean
+       */
+      this.dispatchEvent(
+        this.cleanEvent = new CustomEvent('clean', {
+          bubbles: true,
+          cancelable: false,
+          detail
+        })
+      );
+    }
+  }
 
-  //   if (this._dirtyValue !== this._cleanValue) {
-  //     // set ui view value
-  //     this.checked = this._cleanValue;
+  /**
+   * Dirty handler
+   * @private
+   */
+  private _setDirtyHandler() {
+    this.info('Ch5ColorPicker._setDirtyHandler');
+    if (this._dirtyTimerHandle !== null) {
+      clearTimeout(this._dirtyTimerHandle);
+    }
 
-  //     // set state as clean
-  //     this.setClean();
-  //   }
-  // }
+    this._dirtyTimerHandle = window.setTimeout(
+      () => this._onDirtyTimerFinished(),
+      1500
+    );
+  }
 
-  // /**
-  //  * Dispatch change event
-  //  *
-  //  * @private
-  //  * @param {*} detail
-  //  * @memberof Ch5Toggle
-  //  */
-  // private _dispatchEvents(detail: any): void {
-  //   /**
-  //    * Fired when the component's `checked` value changes due to user interaction.
-  //    *
-  //    * @event change
-  //    */
-  //   this.dispatchEvent(
-  //     this.changeEvent = new CustomEvent('change', {
-  //       detail,
-  //       bubbles: true
-  //     })
-  //   );
-  // }
+  private _onDirtyTimerFinished() {
+    this.info('Ch5ColorPicker._onDirtyTimerFinished');
+    this._dirtyTimerHandle = null;
+    if (this._dirtyValue !== this._cleanValue && this.colorPicker) {
+      // set ui view value
+      const colorValue = Ch5ColorUtils.col2rgb(this._cleanValue);
+      this.redValue = Number(colorValue[0]);
+      this.greenValue = Number(colorValue[1]);
+      this.blueValue = Number(colorValue[2]);
+      this.colorPicker.setColor(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue));
+      // set state as clean
+      this.setClean();
+    }
+  }
+
+  /**
+   * Dispatch change event
+   *
+   * @private
+   * @param {*} detail
+   * @memberof Ch5ColorPicker
+   */
+  private _dispatchEvents(detail: any): void {
+    /**
+     * Fired when the component's `colorValue` value changes due to user interaction.
+     *
+     * @event change
+     */
+    this.dispatchEvent(
+      this.changeEvent = new CustomEvent('change', {
+        detail,
+        bubbles: true
+      })
+    );
+  }
 
   protected createInternalHtml() {
     this.logger.start('createInternalHtml()');
