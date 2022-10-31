@@ -1,10 +1,10 @@
 {
-    "branchName": "master", 
     "buildType": "dev", 
-    "lastBuildDate": 1667198490.126514, 
-    "lastBuildNumber": 2, 
     "major": 2, 
-    "minor": 0, 
+    "lastBuildDate": 1667239059.930511, 
+    "releaseType": "minor", 
     "patch": 1, 
-    "releaseType": "minor"
+    "lastBuildNumber": 3, 
+    "branchName": "master", 
+    "minor": 0
 }
