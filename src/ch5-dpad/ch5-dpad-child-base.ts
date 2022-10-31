@@ -248,9 +248,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 			this.classList.add(this.primaryCssClass + this.pressedCssClassPostfix);
 		}
-		else {
-			this.classList.remove(this.primaryCssClass + this.pressedCssClassPostfix);
-		}
 	}
 	public get pressed(): boolean {
 		if (this._pressable) {
