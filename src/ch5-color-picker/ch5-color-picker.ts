@@ -140,17 +140,17 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   /**
    * Event change: Fires when the component's `picker` value changes due to user interaction.
    */
-  public changeEvent: Event = {} as Event;
+  private changeEvent: Event = {} as Event;
 
   /**
    * Event dirty: Fires when the component value is different than the actual value
    */
-  public dirtyEvent: Event = {} as Event;
+  private dirtyEvent: Event = {} as Event;
 
   /**
    * Event clean: Fires when the component displayed value is the actual value
    */
-  public cleanEvent: Event = {} as Event;
+  private cleanEvent: Event = {} as Event;
 
   /**
    * The dirty value flag must be initially set to false when the element is created,
@@ -158,7 +158,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    * @private
    * @type {boolean}
    */
-  protected _dirty: boolean = false;
+  private _dirty: boolean = false;
 
   /**
    * The clean value flag must be initially set to true when the element is created,
@@ -166,7 +166,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    * @private
    * @type {boolean}
    */
-  protected _clean: boolean = true;
+  private _clean: boolean = true;
 
 
   /**
@@ -174,21 +174,21 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    * @private
    * @type {(string)}
    */
-  protected _dirtyValue: string = '';
+  private _dirtyValue: string = '';
 
   /**
    * Initial value or last value received from signal
    * @private
    * @type {(string)}
    */
-  protected _cleanValue: string = '';
+  private _cleanValue: string = '';
 
   /**
    * Defines the timeout between the user clicks the picker and the time the color-picker will check if the value is equal with the value from the signal
    * @private
    * @type {(number|null)}
    */
-  protected _dirtyTimerHandle: number | null = null;
+  private _dirtyTimerHandle: number | null = null;
 
   //#endregion
 
@@ -414,7 +414,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    * Returns true if the displayed value is different than the actual value
    * @returns {boolean}
    */
-  public getDirty(): boolean {
+  private getDirty(): boolean {
     return this._dirty;
   }
 
@@ -423,7 +423,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    *
    * @fires dirty
    */
-  public setDirty(): void {
+  private setDirty(): void {
     this._dirty = true;
     this._clean = false;
 
@@ -450,7 +450,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   /**
    * Set the ch5-color-chip to a clean state
    */
-  public setClean(): void {
+  private setClean(): void {
     if (this._dirtyTimerHandle !== null) {
       clearTimeout(this._dirtyTimerHandle);
     }
