@@ -99,14 +99,14 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   public static readonly ELEMENT_NAME = 'ch5-animation';
   public static readonly DEFAULT_FRAMES_PER_SECOND = 1500;
   public static readonly MAX_FRAMES_PER_SECOND = 1;
+  public static readonly FRAMES_PER_SECOND_MIN = 3;
+  public static readonly FRAMES_PER_SECOND_MAX = 100;
   public cssClassPrefix = 'ch5-animation';
   public primaryCssClass = 'ch5-animation';
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _iconContainer: HTMLElement = {} as HTMLElement;
-  private readonly framesPerSecondMin = 3;
-  private readonly framesPerSecondMax = 100;
 
   //#endregion
 
@@ -309,12 +309,12 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
   }
   private handleFramesPerSecond(value: number) {
-    if (value <= this.framesPerSecondMin) {
+    if (value <= Ch5Animation.FRAMES_PER_SECOND_MIN) {
       this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.DEFAULT_FRAMES_PER_SECOND}ms;`);
-    } else if (value >= this.framesPerSecondMax) {
+    } else if (value >= Ch5Animation.FRAMES_PER_SECOND_MAX) {
       this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.MAX_FRAMES_PER_SECOND}ms;`);
-    } else if (value > this.framesPerSecondMin && value < this.framesPerSecondMax) {
-      this._iconContainer.setAttribute('style', `animation-duration:${(this.framesPerSecondMax - value) * 15}ms;`);
+    } else if (value > Ch5Animation.FRAMES_PER_SECOND_MIN && value < Ch5Animation.FRAMES_PER_SECOND_MAX) {
+      this._iconContainer.setAttribute('style', `animation-duration:${(Ch5Animation.FRAMES_PER_SECOND_MAX - value) * 15}ms;`);
     }
   }
   private handleSize() {
