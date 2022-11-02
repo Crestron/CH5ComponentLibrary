@@ -105,6 +105,8 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _iconContainer: HTMLElement = {} as HTMLElement;
+  private readonly framesPerSecondMin = 3;
+  private readonly framesPerSecondMax = 100;
 
   //#endregion
 
@@ -307,12 +309,12 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
   }
   private handleFramesPerSecond(value: number) {
-    if (value <= 3) {
+    if (value <= this.framesPerSecondMin) {
       this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.DEFAULT_FRAMES_PER_SECOND}ms;`);
-    } else if (value >= 100) {
+    } else if (value >= this.framesPerSecondMax) {
       this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.MAX_FRAMES_PER_SECOND}ms;`);
-    } else if (value > 3 && value <= 99) {
-      this._iconContainer.setAttribute('style', `animation-duration:${(100 - value) * 15}ms;`);
+    } else if (value > this.framesPerSecondMin && value < this.framesPerSecondMax) {
+      this._iconContainer.setAttribute('style', `animation-duration:${(this.framesPerSecondMax - value) * 15}ms;`);
     }
   }
   private handleSize() {
