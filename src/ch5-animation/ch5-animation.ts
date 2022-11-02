@@ -97,7 +97,8 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-animation';
-  public static readonly defaultFramesPerSecond = 1500;
+  public static readonly DEFAULT_FRAMES_PER_SECOND = 1500;
+  public static readonly MAX_FRAMES_PER_SECOND = 1;
   public cssClassPrefix = 'ch5-animation';
   public primaryCssClass = 'ch5-animation';
 
@@ -306,8 +307,13 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
   }
   private handleFramesPerSecond(value: number) {
-    const framesPerSecondMatch: number = value < 0 ? Ch5Animation.defaultFramesPerSecond : (100 - value) * 15;
-    this._iconContainer.setAttribute('style', `animation-duration:${framesPerSecondMatch > 0 ? framesPerSecondMatch : 15}ms;`);
+    if (value <= 3) {
+      this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.DEFAULT_FRAMES_PER_SECOND}ms;`);
+    } else if (value >= 100) {
+      this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.MAX_FRAMES_PER_SECOND}ms;`);
+    } else if (value > 3 && value <= 99) {
+      this._iconContainer.setAttribute('style', `animation-duration:${(100 - value) * 15}ms;`);
+    }
   }
   private handleSize() {
     Array.from(Ch5Animation.COMPONENT_DATA.SIZE.values).forEach((e: any) => {
@@ -327,7 +333,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     super.updateCssClasses();
     this._iconContainer.classList.add(Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
-    this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.defaultFramesPerSecond}ms;`);
+    this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.DEFAULT_FRAMES_PER_SECOND}ms;`);
     this.logger.stop();
   }
 
