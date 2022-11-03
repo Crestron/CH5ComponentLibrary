@@ -22,7 +22,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributesSet3 {
    * [
    * "`maxValue` attribute",
    * "***",
-   * "Determines the maximum analog value to use as analog join input for changing current red, green and/or blue values of color chip. Default value is 255 and it can range from 255 to 65535."
+   * "Determines the maximum analog value to use as analog join input / output for changing current red, green and/or blue values of color chip. Default value is 255 and it can range from 255 to 65535."
    * ]
    * @name maxvalue
    * @default 255
@@ -53,7 +53,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributesSet3 {
    * ]
    * @name receivestateredvalue
    * @default 
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
   receiveStateRedValue: string;
@@ -67,7 +67,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributesSet3 {
    * ]
    * @name receivestategreenvalue
    * @default
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
   receiveStateGreenValue: string;
@@ -81,7 +81,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributesSet3 {
    * ]
    * @name receivestatebluevalue
    * @default
-   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
   receiveStateBlueValue: string;
@@ -95,7 +95,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributesSet3 {
   * ]
   * @name sendeventcolorredonchange
   * @default
-  * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+  * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
   * @attributeType "Join"
   */
   sendEventColorRedOnChange: string;
@@ -108,7 +108,7 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributesSet3 {
    * ]
    * @name sendeventcolorgreenonchange
    * @default
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
   sendEventColorGreenOnChange: string;
@@ -121,10 +121,9 @@ export interface ICh5ColorChipAttributes extends ICh5CommonAttributesSet3 {
    * ]
    * @name sendeventcolorblueonchange
    * @default 
-   * @join {"direction": "event", "isContractName": true, "booleanJoin": 1}
+   * @join {"direction": "event", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
   sendEventColorBlueOnChange: string;
-
 
 }

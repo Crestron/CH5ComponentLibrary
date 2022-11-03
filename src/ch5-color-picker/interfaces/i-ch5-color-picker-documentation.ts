@@ -2,7 +2,7 @@ import { ICh5Common3 } from "../../ch5-common/interfaces/i-ch5-common-set3";
 import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
 
 /**
- * @name ch5 Color Picker
+ * @name Ch5 Color Picker
  * @isattribute false
  * @tagName ch5-color-picker
  * @role color-picker

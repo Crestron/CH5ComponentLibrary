@@ -2,7 +2,7 @@ import { ICh5Common3 } from "../../ch5-common/interfaces/i-ch5-common-set3";
 import { ICh5ColorChipAttributes } from "./i-ch5-color-chip-attributes";
 
 /**
- * @name ch5 Color Chip
+ * @name Ch5 Color Chip
  * @isattribute false
  * @tagName ch5-color-chip
  * @role color-chip
