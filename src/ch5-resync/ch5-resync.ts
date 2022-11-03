@@ -41,7 +41,7 @@ export class Ch5Resync {
             return false;
         }
         for (const excludePrefix of excludeStatesWithThesePrefixes.excludePrefixes) {
-            if (state && typeof state === 'string' && state.startsWith(excludePrefix)) {
+            if (state && state.toString().startsWith(excludePrefix)) {
                 return false;
             }
         }
