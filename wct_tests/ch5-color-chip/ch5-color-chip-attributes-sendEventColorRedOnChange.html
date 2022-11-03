@@ -13,7 +13,7 @@
 body>
 <test-fixture id="ch5-color-chip-sendEventColorRedOnChange-attributes">
   <template>
-    <ch5-color-chip preview='black' sendEventOnClick='trigger_Red' sendEventColorRedOnChange="trigger_event_1"
+    <ch5-color-chip previewcolor='black' sendEventOnClick='trigger_Red' sendEventColorRedOnChange="trigger_event_1"
       receiveStateRedValue="trigger_event_listener"></ch5-color-chip>
   </template>
 </test-fixture>
@@ -35,7 +35,7 @@ body>
       flush(() => {
         setTimeout(() => {
 
-          expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(134, 1, 1)');
+          expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(134, 0, 0)');
           done();
         }, 200);
       });

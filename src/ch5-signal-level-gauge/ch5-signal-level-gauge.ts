@@ -53,7 +53,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       name: "minValue",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 0,
       numberProperties: {
         min: 0,
         max: 65534,
@@ -69,7 +69,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       name: "maxValue",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 65535,
       numberProperties: {
         min: 1,
         max: 65535,
@@ -85,7 +85,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       name: "numberOfBars",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 6,
       numberProperties: {
         min: 1,
         max: 15,
