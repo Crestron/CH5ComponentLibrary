@@ -200,6 +200,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     }
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5Animation.COMPONENT_PROPERTIES);
+    this.updateCssClass();
   }
 
   public static get observedAttributes(): string[] {
@@ -285,7 +286,6 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
         }
       }
     }
-    this.updateCssClass();
   }
 
   protected attachEventListeners() {
