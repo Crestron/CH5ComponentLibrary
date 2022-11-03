@@ -2,7 +2,7 @@ import { ICh5Common3 } from "../../ch5-common/interfaces/i-ch5-common-set3";
 import { ICh5SignalLevelGaugeAttributes } from "./i-ch5-signal-level-gauge-attributes";
 
 /**
- * @name ch5 signal-level-gauge
+ * @name ch5 Signal Level Gauge
  * @isattribute false
  * @tagName ch5-signal-level-gauge
  * @role signal-level-gauge
@@ -20,12 +20,20 @@ import { ICh5SignalLevelGaugeAttributes } from "./i-ch5-signal-level-gauge-attri
  * ]
  * @snippets
  * [ 
- * {
+ *  {
+ *    "prefix": "ch5-signal-level-gauge:blank",
+ *    "description": "Crestron SignalLevelGauge",
+ *    "body": [
+ *      "<ch5-signal-level-gauge>",
+ *      "</ch5-signal-level-gauge>$0"
+ *    ]
+ *   },
+ *   {
  *    "prefix": "ch5-signal-level-gauge:default",
  *    "description": "Crestron SignalLevelGauge",
  *    "body": [
  *       "<ch5-signal-level-gauge signalBarSpacing=\"${1:1}\"",
- *       "\treceivestatevalue=\"${2}\">",
+ *       "\treceiveStateValue=\"${2}\">",
  *       "</ch5-signal-level-gauge>$0"
  *     ]
  *   },
@@ -34,7 +42,7 @@ import { ICh5SignalLevelGaugeAttributes } from "./i-ch5-signal-level-gauge-attri
  *     "description": "Crestron SignalLevelGauge (All Attributes)",
  *     "body": [
  *       "<ch5-signal-level-gauge orientation=\"${1|horizontal,vertical|}\"",
- *       "\treceivestatevalue=\"${2}\"",
+ *       "\treceiveStateValue=\"${2}\"",
  *       "\tsignalBarSpacing=\"${3:1}\"",
  *       "\tminValue=\"${4:0}\"",
  *       "\tmaxValue=\"${5:65535}\"",
