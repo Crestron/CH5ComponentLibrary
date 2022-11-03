@@ -41,7 +41,7 @@ export class Ch5Resync {
             return false;
         }
         for (const excludePrefix of excludeStatesWithThesePrefixes.excludePrefixes) {
-            if (state && state.startsWith(excludePrefix)) {
+            if (state && typeof state === 'string' && state.startsWith(excludePrefix)) {
                 return false;
             }
         }
@@ -68,7 +68,7 @@ export class Ch5Resync {
         this.initializeStartOfUpdateTimer();
         this.startOfUpdateCounter += 1;
 
-        this.setDefaultStatesOnStartOfUpdate(excludeStatesWithThesePrefixes); 
+        this.setDefaultStatesOnStartOfUpdate(excludeStatesWithThesePrefixes);
     }
 
     /**
@@ -77,14 +77,14 @@ export class Ch5Resync {
      * @param statesToReset
      * @param excludePrefixes
      */
-    public onReceiveStartOfUpdateRange(startOfUpdateMsg:string, statesToReset: ICh5ClearRangeDataModel, excludePrefixes: string[]): void {
+    public onReceiveStartOfUpdateRange(startOfUpdateMsg: string, statesToReset: ICh5ClearRangeDataModel, excludePrefixes: string[]): void {
         if (Ch5Debug.shouldDisplay(this.LOG_KEY)) {
             Ch5Debug.info(this.LOG_KEY, `Start of Update Range called with ${JSON.stringify(statesToReset)}`);
         }
 
         if (ResetEventNames.startOfUpdateRange === startOfUpdateMsg) {
             this.initializeStartOfUpdateTimer();
-            this.startOfUpdateCounter += 1;    
+            this.startOfUpdateCounter += 1;
         }
 
         // Add joined states to _statesAtDefaultValue
@@ -136,11 +136,11 @@ export class Ch5Resync {
     }
 
     private resetRemainingStates(): void {
-        this.startOfUpdateCounter = 0;  
+        this.startOfUpdateCounter = 0;
 
         if (this.startOfUpdateCounter !== undefined) {
             window.clearTimeout(this.startOfUpdateTimer as number);
-            this.startOfUpdateTimer = undefined;    
+            this.startOfUpdateTimer = undefined;
         }
 
         this.setRemainingStatesToDefaultValue();
@@ -236,7 +236,7 @@ export class Ch5Resync {
                                     this.statesRef[stateType][stateName].fromSignalBridge(0);
 
                                     if (this.statesRef.object[stateName]) {
-                                        this.statesRef.object[stateName].fromSignalBridge({"rcb": {"value": 0, "time": 0}});
+                                        this.statesRef.object[stateName].fromSignalBridge({ "rcb": { "value": 0, "time": 0 } });
                                     }
                                     break;
                                 case 'string':
@@ -262,7 +262,7 @@ export class Ch5Resync {
         }, time) as never as number;
     }
 
-    private get InUpdateState() : boolean {
-        return this.startOfUpdateTimer !== undefined; 
+    private get InUpdateState(): boolean {
+        return this.startOfUpdateTimer !== undefined;
     }
 }
