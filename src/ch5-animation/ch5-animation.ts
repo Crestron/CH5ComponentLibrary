@@ -304,9 +304,9 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
 
   private handleStartAnimating() {
     ['true', 'false'].forEach((e: any) => {
-      this._iconContainer.classList.remove('ch5-animation--startAnimating-' + e);
+      this._iconContainer.classList.remove('ch5-animation--start-animating-' + e);
     });
-    this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
+    this._iconContainer.classList.add('ch5-animation--start-animating-' + this.startAnimating.toString());
   }
   private handleFramesPerSecond(value: number) {
     if (value <= Ch5Animation.FRAMES_PER_SECOND_MIN) {
@@ -334,7 +334,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
     this._iconContainer.classList.add(Ch5Animation.COMPONENT_DATA.SIZE.classListPrefix + this.size);
-    this._iconContainer.classList.add('ch5-animation--startAnimating-' + this.startAnimating.toString());
+    this._iconContainer.classList.add('ch5-animation--start-animating-' + this.startAnimating.toString());
     this._iconContainer.setAttribute('style', `animation-duration:${Ch5Animation.DEFAULT_FRAMES_PER_SECOND}ms;`);
     this.logger.stop();
   }
