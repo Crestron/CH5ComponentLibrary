@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { Ch5Signal, Ch5SignalFactory } from "../ch5-core/index";
+import { Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { ICh5ColorPickerAttributes } from './interfaces/i-ch5-color-picker-attributes';
@@ -373,13 +373,9 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     this.logger.stop();
   }
 
-  private invertHex(hex: string) {
-    return '#' + hex.match(/[a-f0-9]{2}/ig)?.map(e => (255 - parseInt(e, 16) || 0).toString(16).replace(/^([a-f0-9])$/, '0$1')).join(''); // (Number(`0x1${hex}`) ^ 0xFFFFFF).toString(16).substr(1).toUpperCase()
-  }
-
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()', Ch5ColorPicker.ELEMENT_NAME);
-    // this.colorPickerObject = null;
+    this._elContainer.replaceChildren(); // Remove all content
     this.colorPicker = null;
     this.removeEventListeners();
     this.unsubscribeFromSignals();
