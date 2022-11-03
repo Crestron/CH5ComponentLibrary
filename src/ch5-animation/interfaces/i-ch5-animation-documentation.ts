@@ -2,7 +2,7 @@ import { ICh5CommonAttributesAnim } from "../../ch5-common/interfaces/i-ch5-comm
 import { ICh5AnimationAttributes } from "./i-ch5-animation-attributes";
 
 /**
- * @name ch5 animation
+ * @name ch5 Animation
  * @isattribute false
  * @tagName ch5-animation
  * @role animation

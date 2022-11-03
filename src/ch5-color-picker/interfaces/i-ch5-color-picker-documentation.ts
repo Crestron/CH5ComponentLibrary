@@ -2,7 +2,7 @@ import { ICh5Common3 } from "../../ch5-common/interfaces/i-ch5-common-set3";
 import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
 
 /**
- * @name ch5 color-picker
+ * @name ch5 Color Picker
  * @isattribute false
  * @tagName ch5-color-picker
  * @role color-picker
@@ -20,13 +20,21 @@ import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
  * ]
  * @snippets
  * [
+ *  {
+ *    "prefix": "ch5-color-picker:blank",
+ *    "description": "Crestron color picker",
+ *    "body": [
+ *      "<ch5-color-picker>",
+ *      "</ch5-color-picker>$0"
+ *    ]
+ *   },
  *   {
  *    "prefix": "ch5-color-picker:default",
  *    "description": "Crestron ColorPicker",
  *    "body": [
- *       "<ch5-color-picker receivestateredvalue=\"${1}\"",
- *       "\treceivestategreenvalue=\"${2}\"",
- *       "\treceivestatebluevalue=\"${3}\">",
+ *       "<ch5-color-picker receiveStateRedValue=\"${1}\"",
+ *       "\treceiveStateGreenValue=\"${2}\"",
+ *       "\treceiveStateBlueValue=\"${3}\">",
  *       "</ch5-color-picker>$0"
  *     ]
  *   },
@@ -34,10 +42,10 @@ import { ICh5ColorPickerAttributes } from "./i-ch5-color-picker-attributes";
  *     "prefix": "ch5-color-picker:all-attributes",
  *     "description": "Crestron ColorPicker (All Attributes)",
  *     "body": [
- *       "<ch5-color-picker maxvalue=\"${1:255}\"",
- *        "\treceivestateredvalue=\"${2}\"",
- *       "\treceivestategreenvalue=\"${3}\"",
- *       "\treceivestatebluevalue=\"${4}\"",
+ *       "<ch5-color-picker maxValue=\"${1:255}\"",
+ *        "\treceiveStateRedValue=\"${2}\"",
+ *       "\treceiveStateGreenValue=\"${3}\"",
+ *       "\treceiveStateBlueValue=\"${4}\"",
  *       "\tsendEventColorRedOnChange=\"${5:colorPicker_${id}_redChange}\"",
  *       "\tsendEventColorGreenOnChange=\"${6:colorPicker_${id}_greenChange}\"",
  *       "\tsendEventColorBlueOnChange=\"${7:colorPicker_${id}_blueChange}\">",
