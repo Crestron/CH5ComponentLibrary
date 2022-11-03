@@ -53,7 +53,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       name: "minValue",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 0,
       numberProperties: {
         min: 0,
         max: 65534,
@@ -69,7 +69,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       name: "maxValue",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 65535,
       numberProperties: {
         min: 1,
         max: 65535,
@@ -85,7 +85,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       name: "numberOfBars",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 6,
       numberProperties: {
         min: 1,
         max: 15,
@@ -363,10 +363,10 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     this._elContainer.classList.add(Ch5SignalLevelGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
   }
   private handleValue() {
-    this._elContainer.querySelectorAll('.color-blue').forEach((ele) => ele.classList.remove('color-blue'));
+    this._elContainer.querySelectorAll('.ch5-selected-bar-color').forEach((ele) => ele.classList.remove('ch5-selected-bar-color'));
     const currBar = Math.round(((this.value - this.minValue) * this.numberOfBars) / (this.maxValue - this.minValue));
     for (let i = 0; i < currBar && i < this.numberOfBars; i++) {
-      this._elContainer.children[i].classList.add('color-blue');
+      this._elContainer.children[i].classList.add('ch5-selected-bar-color');
     }
   }
 
@@ -376,7 +376,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     const widthBar = this._elContainer.offsetWidth / this.numberOfBars;
     for (let i = 1; i <= this.numberOfBars; i++) {
       const bar = document.createElement("div");
-      bar.classList.add('bar-color');
+      bar.classList.add('ch5-bar-color');
       bar.style.height = this.orientation === 'horizontal' ? (heightBar * i) + 'px' : heightBar + 'px';
       bar.style.width = this.orientation === 'horizontal' ? widthBar + 'px' : (widthBar * i) + 'px';
       this._elContainer.appendChild(bar);

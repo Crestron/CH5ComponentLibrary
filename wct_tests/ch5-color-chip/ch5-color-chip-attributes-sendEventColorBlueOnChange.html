@@ -13,7 +13,7 @@
 <body>
   <test-fixture id="ch5-color-chip-sendEventColorBlueOnChange-attributes">
     <template>
-      <ch5-color-chip preview='black' sendEventOnClick='trigger_Blue' sendEventColorBlueOnChange="trigger_event_1"
+      <ch5-color-chip previewcolor='black' sendEventOnClick='trigger_Blue' sendEventColorBlueOnChange="trigger_event_1"
         receiveStateBlueValue="trigger_event_listener"></ch5-color-chip>
     </template>
   </test-fixture>
@@ -31,11 +31,11 @@
       test('sendEventColorBlueOnChange', (done) => {
         ch5ColorChip.click();
         CrComLib.publishEvent('b', 'trigger_event_1', 'change');
-        ch5ColorChip.setAttribute('previewColor', 'rgb(1, 1, 1)');
+        ch5ColorChip.setAttribute('previewcolor', 'rgb(1, 1, 1)');
         flush(() => {
           setTimeout(() => {
 
-            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(1, 1, 134)');
+            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(0, 0, 134)');
             done();
           }, 200);
         });
