@@ -40,7 +40,6 @@ export class Ch5Property {
 	private _signalName: string = "";
 	private _signalValue: string = "";
 	private _signalState: string = "";
-	// private _currentValue: any;
 	private _propertyName: string = "";
 	private _propertyValue: boolean | string | object | any;
 	private initializedValue: boolean = false;
@@ -83,17 +82,6 @@ export class Ch5Property {
 	public set signalState(value: string) {
 		this._signalState = value;
 	}
-	// public get currentValue(): any {
-	// 	return this._currentValue;
-	// }
-
-	// public get prevValue(): T {
-	// 	return this._prevValue;
-	// }
-
-	// public hasChangedSinceInit(): boolean {
-	// 	return this._hasChangedSinceInit;
-	// }
 
 	public setValue<T>(value: T, callback?: any, signalCallback?: any) {
 		this.processValue<T>(value, false, callback, signalCallback);
@@ -103,9 +91,15 @@ export class Ch5Property {
 		this.processValue<T>(value, true, callback, signalCallback);
 	}
 
-	private processValue<T>(value: boolean | string | object | any, setFromSignal: boolean, callback?: any, signalCallback?: any) {
-		this.ch5Component.logger.log('setAttributeAndProperty: ' + this.property.name + ' - "' + value + '"');
+	public clearProperty() {
+		this._signalName = "";
+		this._signalValue = "";
+		this._signalState = "";
+		this._propertyValue = null;
+		this.initializedValue = false;
+	}
 
+	private processValue<T>(value: boolean | string | object | any, setFromSignal: boolean, callback?: any, signalCallback?: any) {
 		if (_.isNil(value) && this.property.isNullable && this.property.isNullable === true) { // TODO why isNullable
 			this._propertyValue = null;
 			this.ch5Component.removeAttribute(this._attributeName);
@@ -180,7 +174,6 @@ export class Ch5Property {
 					return true;
 				}
 			} else if (this.property.type === "number") {
-
 				if (this._propertyValue !== value) {
 					if (isNaN(value) || !Number.isInteger(parseInt(value, 10))) {
 						value = this.property.default;
@@ -215,9 +208,8 @@ export class Ch5Property {
 						this._propertyValue = String(value).trim();
 						this.ch5Component.setAttribute(this._attributeName, String(value).trim());
 					}
-					// TODO - clear signal
+					//  clear signal
 					// 			this.clearStringSignalSubscription(this._receiveStateCustomClass, this._subKeySigReceiveCustomClass);
-
 					if (!_.isNil(callback)) {
 						callback();
 					}
@@ -226,8 +218,6 @@ export class Ch5Property {
 							const signalResponse = this.setSignalByNumber(value);
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: number) => {
-									// this._currentValue = newValue;
-									// this.setVariable<number>(newValue);
 									if (!_.isNil(signalCallback)) {
 										signalCallback(newValue);
 									}
@@ -238,8 +228,6 @@ export class Ch5Property {
 							const signalResponse = this.setSignalByString(value);
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: string) => {
-									// this._currentValue = newValue;
-									// this.setVariable<string>(newValue);
 									if (!_.isNil(signalCallback)) {
 										signalCallback(newValue);
 									}
@@ -250,8 +238,6 @@ export class Ch5Property {
 							const signalResponse = this.setSignalByBoolean(value);
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: boolean) => {
-									// this._currentValue = newValue;
-									// this.setVariable<boolean>(newValue);
 									if (!_.isNil(signalCallback)) {
 										signalCallback(newValue);
 									}
@@ -266,33 +252,7 @@ export class Ch5Property {
 		}
 		return false;
 	}
-
-	// public set mode(value: number) {
-	// 	this.logger.log('set mode("' + value + '")');
-	// 	if (this._mode !== value) {
-	// 		if (Number.isNaN(value)) {
-	// 			this._mode = 0;
-	// 		} else {
-	// 			if (value >= this.MODES.MIN_LENGTH && value <= this.MODES.MAX_LENGTH) {
-	// 				const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
-	// 				if (buttonModesArray && buttonModesArray.length > 0) {
-	// 					if (value < buttonModesArray.length) {
-	// 						this._mode = value;
-	// 					} else {
-	// 						this._mode = 0;
-	// 					}
-	// 				} else {
-	// 					this._mode = 0;
-	// 				}
-	// 			} else {
-	// 				this._mode = 0;
-	// 			}
-	// 		}
-	// 		this.setAttribute('mode', String(this._mode));
-	// 		this.setButtonDisplay();
-	// 	}
-	// }
-
+	
 	public setSignalByNumber(signalValue: string): Ch5Signal<number> | null {
 		if (this.signalValue === signalValue || signalValue === null) {
 			return null;
