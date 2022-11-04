@@ -28,6 +28,7 @@ export class Ch5Properties {
 					eachSignal.signalState = "";
 				}
 			}
+			eachSignal.clearProperty();
 		}
 	}
 
