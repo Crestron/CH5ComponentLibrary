@@ -19,9 +19,9 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     receivestateredvalue: { direction: "state", numericJoin: 1, contractName: true },
     receivestategreenvalue: { direction: "state", numericJoin: 1, contractName: true },
     receivestatebluevalue: { direction: "state", numericJoin: 1, contractName: true },
-    sendEventColorRedOnChange: { direction: "event", numericJoin: 1, contractName: true },
-    sendEventColorGreenOnChange: { direction: "event", numericJoin: 1, contractName: true },
-    sendEventColorBlueOnChange: { direction: "event", numericJoin: 1, contractName: true }
+    sendeventcolorredonchange: { direction: "event", numericJoin: 1, contractName: true },
+    sendeventcolorgreenonchange: { direction: "event", numericJoin: 1, contractName: true },
+    sendeventcolorblueonchange: { direction: "event", numericJoin: 1, contractName: true }
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
@@ -284,7 +284,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public constructor() {
     super();
-    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"]
+    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"];
     this.logger.start('constructor()', Ch5ColorPicker.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
@@ -336,6 +336,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
       this._elContainer.setAttribute("id", this.pickerId);
       this.appendChild(this._elContainer);
     }
+    // this.colorPicker = new ColorPicker(this.pickerId, "#000000");
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
@@ -399,12 +400,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
       }
     }
   }
-  /**
-   * METHODS
-   *
-   * - setClean
-   * - getDirty
-   */
 
   /**
    * Returns true if the displayed value is different than the actual value
@@ -425,7 +420,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
     // fire dirty event
     if (this.colorPicker) {
-
       const detail = { value: this.colorPicker.picker.get().css() };
       /**
        * Fired when the component's value changes due to user interaction.
@@ -525,7 +519,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   }
 
   protected createInternalHtml() {
-    this.logger.start('createInternalHtml()');
+    this.logger.start('createInternalHtml');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
     this.logger.stop();
@@ -568,20 +562,19 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     });
   }
 
-
   private updateCssClass() {
     this.logger.start('UpdateCssClass');
     super.updateCssClasses();
     this.logger.stop();
   }
+
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
     return this._elContainer;
   }
+
   public getCssClassDisabled() {
     return this.cssClassPrefix + '--disabled';
   }
-
-  //#endregion
 
   private handleSendSignals() {
     if (this.sendEventColorRedOnChange !== "" && this.redValue !== this.redValuePrevious) {
@@ -594,6 +587,9 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorBlueOnChange)?.publish(this.blueValue);
     }
   }
+
+  //#endregion
+
 }
 
 Ch5ColorPicker.registerCustomElement();

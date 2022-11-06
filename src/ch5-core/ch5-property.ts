@@ -95,7 +95,7 @@ export class Ch5Property {
 		this._signalName = "";
 		this._signalValue = "";
 		this._signalState = "";
-		this._propertyValue = null;
+		this._propertyValue = this.property.default;
 		this.initializedValue = false;
 	}
 
