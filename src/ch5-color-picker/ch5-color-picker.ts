@@ -109,6 +109,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   public primaryCssClass = 'ch5-color-picker';
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
+  private _elColorPicker: HTMLElement = {} as HTMLElement;
   private redValue: number = 0;
   private greenValue: number = 0;
   private blueValue: number = 0;
@@ -332,11 +333,13 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     }
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
-   
+    this._elContainer.classList.add('ch5-color-picker');
+
     if (this._elContainer.parentElement !== this) {
-      this._elContainer.classList.add('ch5-color-picker');
+      this._elColorPicker = document.createElement('div');
       this.pickerId = this.getCrId();
-      this._elContainer.setAttribute("id", this.pickerId);
+      this._elColorPicker.setAttribute("id", this.pickerId);
+      this._elContainer.appendChild(this._elColorPicker);
       this.appendChild(this._elContainer);
     }
     this.colorPicker = new ColorPicker(this.pickerId, "#000000");
@@ -523,8 +526,8 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   protected createInternalHtml() {
     this.logger.start('createInternalHtml');
-    this.clearComponentContent();
-    this._elContainer = document.createElement('div');
+    // this.clearComponentContent();
+    // this._elContainer = document.createElement('div');
     this.logger.stop();
   }
 
