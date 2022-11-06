@@ -42,6 +42,7 @@ export class Ch5Property {
 	private _signalState: string = "";
 	private _propertyName: string = "";
 	private _propertyValue: boolean | string | object | any;
+	private _propertySignalValue: boolean | string | object | any = null;
 	private initializedValue: boolean = false;
 
 	// private _hasChangedSinceInit: boolean = false;
@@ -96,6 +97,7 @@ export class Ch5Property {
 		this._signalValue = "";
 		this._signalState = "";
 		this._propertyValue = this.property.default;
+		this._propertySignalValue = null;
 		this.initializedValue = false;
 	}
 
@@ -219,7 +221,10 @@ export class Ch5Property {
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: number) => {
 									if (!_.isNil(signalCallback)) {
-										signalCallback(newValue);
+										if (newValue !== this._propertySignalValue) {
+											this._propertySignalValue = newValue as unknown as number;
+											signalCallback(newValue);
+										}
 									}
 									return true;
 								});
@@ -229,7 +234,10 @@ export class Ch5Property {
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: string) => {
 									if (!_.isNil(signalCallback)) {
-										signalCallback(newValue);
+										if (newValue !== this._propertySignalValue) {
+											this._propertySignalValue = newValue as unknown as string;
+											signalCallback(newValue);
+										}
 									}
 									return true;
 								});
@@ -239,7 +247,10 @@ export class Ch5Property {
 							if (!_.isNil(signalResponse)) {
 								this.signalState = signalResponse.subscribe((newValue: boolean) => {
 									if (!_.isNil(signalCallback)) {
-										signalCallback(newValue);
+										if (newValue !== this._propertySignalValue) {
+											this._propertySignalValue = newValue as unknown as boolean;
+											signalCallback(newValue);
+										}
 									}
 									return true;
 								});
@@ -252,7 +263,7 @@ export class Ch5Property {
 		}
 		return false;
 	}
-	
+
 	public setSignalByNumber(signalValue: string): Ch5Signal<number> | null {
 		if (this.signalValue === signalValue || signalValue === null) {
 			return null;

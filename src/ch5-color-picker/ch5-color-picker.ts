@@ -336,11 +336,11 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
       this._elContainer.setAttribute("id", this.pickerId);
       this.appendChild(this._elContainer);
     }
-    // this.colorPicker = new ColorPicker(this.pickerId, "#000000");
+    this.colorPicker = new ColorPicker(this.pickerId, "#000000");
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-    this.colorPicker = new ColorPicker(this.pickerId, "#000000");
+    // this.colorPicker = new ColorPicker(this.pickerId, "#000000");
     this.setColor();
     this._colorChangedSubscription = this.colorPicker.colorChanged.subscribe((value: number[]) => {
       if (value.length > 0 && this.colorPicker) {
