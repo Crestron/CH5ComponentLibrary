@@ -204,7 +204,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public set receiveStateRedValue(value: string) {
     this._ch5Properties.set("receiveStateRedValue", value, null, (newValue: number) => {
-      if (newValue <= this.maxValue && this.redValue !== Ch5ColorUtils.getDigitalValue(newValue, this.maxValue)) {
+      if (newValue <= this.maxValue) {
         this.redValuePrevious = this.redValue;
         this.redValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
         this.setColor();
@@ -217,7 +217,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public set receiveStateGreenValue(value: string) {
     this._ch5Properties.set("receiveStateGreenValue", value, null, (newValue: number) => {
-      if (newValue <= this.maxValue && this.greenValue !== Ch5ColorUtils.getDigitalValue(newValue, this.maxValue)) {
+      if (newValue <= this.maxValue ) {
         this.greenValuePrevious = this.greenValue;
         this.greenValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
         this.setColor();
@@ -230,7 +230,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public set receiveStateBlueValue(value: string) {
     this._ch5Properties.set("receiveStateBlueValue", value, null, (newValue: number) => {
-      if (newValue <= this.maxValue && this.blueValue !== Ch5ColorUtils.getDigitalValue(newValue, this.maxValue)) {
+      if (newValue <= this.maxValue) {
         this.blueValuePrevious = this.blueValue;
         this.blueValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
         this.setColor();
