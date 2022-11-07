@@ -331,8 +331,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ColorPicker);
     }
-    this.clearComponentContent();
-    this._elContainer = document.createElement('div');
+    // this._elContainer = document.createElement('div');
     this._elContainer.classList.add('ch5-color-picker');
 
     if (this._elContainer.parentElement !== this) {
@@ -381,8 +380,8 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()', Ch5ColorPicker.ELEMENT_NAME);
-    // this._elContainer.replaceChildren(); // Remove all content
-    this.clearComponentContent();
+    this._elColorPicker.replaceChildren(); // Remove all content
+    // this.clearComponentContent();
     this.colorPicker = null;
     this.removeEventListeners();
     this.unsubscribeFromSignals();
@@ -526,8 +525,8 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   protected createInternalHtml() {
     this.logger.start('createInternalHtml');
-    // this.clearComponentContent();
-    // this._elContainer = document.createElement('div');
+    this.clearComponentContent();
+    this._elContainer = document.createElement('div');
     this.logger.stop();
   }
 
