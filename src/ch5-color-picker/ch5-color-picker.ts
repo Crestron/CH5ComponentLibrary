@@ -119,11 +119,11 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   private pickerId: string = "";
   private colorPicker: ColorPicker | null = null;
   private _colorChangedSubscription: Subscription | null = null;
-  /**
-   * The dirty value flag must be initially set to false when the element is created,
-   * and must be set to true whenever the user interacts with the control in a way that changes the value.
-   */
-  private _dirty: boolean = false;
+  // /**
+  //  * The dirty value flag must be initially set to false when the element is created,
+  //  * and must be set to true whenever the user interacts with the control in a way that changes the value.
+  //  */
+  // private _dirty: boolean = false;
 
   /**
    * Last value set by user
@@ -144,12 +144,8 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     this.handleSendSignals();
     // const detail = { value: Ch5ColorUtils.col2rgb(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue)) };
     // set dirty state and dirty value
-    if (!this._dirty) {
-      this._dirtyValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);
-      this.setDirty();
-    } else {
-      this.setClean();
-    }
+    this._dirtyValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue); // because,debounce is always getting called due to user interaction
+    this.setDirty();
     // this.dispatchChangeEvent(detail);
     this.setDirtyHandler();
   }, 20);
@@ -360,7 +356,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    * @fires dirty
    */
   private setDirty(): void {
-    this._dirty = true;
+    // this._dirty = true;
 
     // fire dirty event
     if (this.colorPicker) {
@@ -386,7 +382,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
       clearTimeout(this._dirtyTimerHandle);
     }
 
-    this._dirty = false;
+    // this._dirty = false;
 
     // fire clean event
     if (this.colorPicker) {
