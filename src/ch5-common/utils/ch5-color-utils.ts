@@ -10,6 +10,11 @@ export default class Ch5ColorUtils {
     return Math.round(digital);
   };
 
+  static getAnalogValue = (digital: number, maxValue: number): number => {
+    const analog = digital * maxValue / 255;
+    return Math.round(analog);
+  };
+
   /**
    * color To RGB string[]
    * using String.prototype.substring() to retrieve

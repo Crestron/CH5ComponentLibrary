@@ -119,35 +119,21 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   private pickerId: string = "";
   private colorPicker: ColorPicker | null = null;
   private _colorChangedSubscription: Subscription | null = null;
-  // /**
-  //  * The dirty value flag must be initially set to false when the element is created,
-  //  * and must be set to true whenever the user interacts with the control in a way that changes the value.
-  //  */
-  // private _dirty: boolean = false;
 
-  /**
-   * Last value set by user
-   */
+  // Last value set by user
   private _dirtyValue: string = '';
 
-  /**
-   * Initial value or last value received from signal
-   */
+  // Initial value or last value received from signal
   private _cleanValue: string = "#000000";
 
-  /**
-   * Defines the timeout between the user clicks the picker and the time the color-picker will check if the value is equal with the value from the signal
-   */
+  // Defines the timeout between the user clicks the picker and the time the color-picker will check if the value is equal with the value from the signal
   private _dirtyTimerHandle: number | null = null;
 
   private debounceSignalHandling = this.debounce(() => {
     this.handleSendSignals();
-    // const detail = { value: Ch5ColorUtils.col2rgb(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue)) };
     // set dirty state and dirty value
     this._dirtyValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue); // because,debounce is always getting called due to user interaction
     this.setDirty();
-    // this.dispatchChangeEvent(detail);
-    this.setDirtyHandler();
   }, 20);
 
   //#endregion
@@ -307,9 +293,9 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     this.setColor();
     this._colorChangedSubscription = this.colorPicker.colorChanged.subscribe((value: number[]) => {
       if (value.length > 0 && this.colorPicker) {
-        this.redValue = Ch5ColorUtils.getDigitalValue(value[0], this.maxValue);
-        this.greenValue = Ch5ColorUtils.getDigitalValue(value[1], this.maxValue);
-        this.blueValue = Ch5ColorUtils.getDigitalValue(value[2], this.maxValue);
+        this.redValue = value[0];
+        this.greenValue = value[1];
+        this.blueValue = value[2];
 
         if (this.redValuePrevious !== this.redValue || this.greenValuePrevious !== this.greenValue || this.blueValuePrevious !== this.blueValue) {
           this.debounceSignalHandling();
@@ -353,24 +339,18 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   /**
    * Set the ch5-color-chip to a dirty state
    *
-   * @fires dirty
+   * @event dirty
    */
   private setDirty(): void {
-    // this._dirty = true;
-
-    // fire dirty event
     if (this.colorPicker) {
       const detail = { value: this.colorPicker.picker.get().css() };
-      /**
-       * Fired when the component's value changes due to user interaction.
-       *
-       * @event dirty
-       */
+      // Fired when the component's value changes due to user interaction.
       this.dispatchEvent(new CustomEvent('dirty', {
         bubbles: true,
         cancelable: false,
         detail
       }));
+      this.setDirtyHandler();
     }
   }
 
@@ -381,8 +361,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     if (this._dirtyTimerHandle !== null) {
       clearTimeout(this._dirtyTimerHandle);
     }
-
-    // this._dirty = false;
 
     // fire clean event
     if (this.colorPicker) {
@@ -410,35 +388,19 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     }
 
     this._dirtyTimerHandle = window.setTimeout(() => {
-      this.onDirtyTimerFinished()
+      this._dirtyTimerHandle = null;
+      if (this._dirtyValue !== this._cleanValue && this.colorPicker) {
+        // set ui view value
+        const colorValue = Ch5ColorUtils.col2rgb(this._cleanValue);
+        this.redValue = Number(colorValue[0]);
+        this.greenValue = Number(colorValue[1]);
+        this.blueValue = Number(colorValue[2]);
+        this.colorPicker.setColor(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue));
+        // set state as clean
+        this.setClean();
+      }
     }, 1500);
   }
-
-  private onDirtyTimerFinished() {
-    this.logger.log('Ch5ColorPicker.onDirtyTimerFinished');
-    this._dirtyTimerHandle = null;
-    if (this._dirtyValue !== this._cleanValue && this.colorPicker) {
-      // set ui view value
-      const colorValue = Ch5ColorUtils.col2rgb(this._cleanValue);
-      this.redValue = Number(colorValue[0]);
-      this.greenValue = Number(colorValue[1]);
-      this.blueValue = Number(colorValue[2]);
-      this.colorPicker.setColor(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue));
-      // set state as clean
-      this.setClean();
-    }
-  }
-
-  // /**
-  //  * Dispatch change event
-  //  */
-  // private dispatchChangeEvent(detail: any): void {
-  //   /**
-  //    * Fired when the component's `colorValue` value changes due to user interaction.
-  //    *
-  //    * @event change
-  //    */
-  // }
 
   protected createInternalHtml() {
     this.logger.start('createInternalHtml');
@@ -500,13 +462,13 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   private handleSendSignals() {
     if (this.sendEventColorRedOnChange !== "" && this.redValue !== this.redValuePrevious) {
-      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorRedOnChange)?.publish(this.redValue);
+      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorRedOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.redValue, this.maxValue));
     }
     if (this.sendEventColorGreenOnChange !== "" && this.greenValue !== this.greenValuePrevious) {
-      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorGreenOnChange)?.publish(this.greenValue);
+      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorGreenOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.greenValue, this.maxValue));
     }
     if (this.sendEventColorBlueOnChange !== "" && this.blueValue !== this.blueValuePrevious) {
-      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorBlueOnChange)?.publish(this.blueValue);
+      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorBlueOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.blueValue, this.maxValue));
     }
   }
 
