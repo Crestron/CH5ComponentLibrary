@@ -262,7 +262,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
       } else {
         super.attributeChangedCallback(attr, oldValue, newValue);
       }
-      this.updateCssClass();
     }
     this.logger.stop();
   }
@@ -272,6 +271,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5ColorPicker.ELEMENT_NAME);
+    this.initializeVariables();
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ColorPicker);
@@ -285,11 +285,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
       this._elContainer.appendChild(this._elColorPicker);
       this.appendChild(this._elContainer);
     }
-    this._cleanValue = "#000000";
     this.colorPicker = new ColorPicker(this.pickerId, this._cleanValue);
-    this.attachEventListeners();
-    this.initAttributes();
-    this.initCommonMutationObserver(this);
     this.setColor();
     this._colorChangedSubscription = this.colorPicker.colorChanged.subscribe((value: number[]) => {
       if (value.length > 0 && this.colorPicker) {
@@ -302,6 +298,9 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
         }
       }
     });
+    this.attachEventListeners();
+    this.initAttributes();
+    this.initCommonMutationObserver(this);
 
     customElements.whenDefined('ch5-color-picker').then(() => {
       this.componentLoadedEvent(Ch5ColorPicker.ELEMENT_NAME, this.id);
@@ -312,7 +311,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()', Ch5ColorPicker.ELEMENT_NAME);
     this._elColorPicker.replaceChildren(); // Remove all content
-    this.colorPicker = null;
+    this.initializeVariables();
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     if (this._colorChangedSubscription !== null) {
@@ -420,7 +419,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
         }
       }
     }
-    this.updateCssClass();
   }
 
   protected attachEventListeners() {
@@ -446,10 +444,18 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     });
   }
 
-  private updateCssClass() {
-    this.logger.start('UpdateCssClass');
-    super.updateCssClasses();
-    this.logger.stop();
+  private initializeVariables() {
+    this.redValue = 0;
+    this.greenValue = 0;
+    this.blueValue = 0;
+    this.redValuePrevious = 0;
+    this.greenValuePrevious = 0;
+    this.blueValuePrevious = 0;
+    this.colorPicker = null;
+    this._colorChangedSubscription = null;
+    this._dirtyValue = '';
+    this._cleanValue = "#000000";
+    this._dirtyTimerHandle = null;
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {

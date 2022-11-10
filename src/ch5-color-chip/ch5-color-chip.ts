@@ -267,7 +267,6 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       } else {
         super.attributeChangedCallback(attr, oldValue, newValue);
       }
-      this.updateCssClass();
     }
     this.logger.stop();
   }
@@ -321,7 +320,6 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
         }
       }
     }
-    this.updateCssClass();
   }
 
   protected attachEventListeners() {
@@ -350,19 +348,14 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
     }
     this.setAttribute('previewcolor', `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`);
   }
-  private updateCssClass() {
-    this.logger.start('UpdateCssClass');
-    super.updateCssClasses();
-    this.logger.stop();
-  }
+
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
     return this._elContainer;
   }
+
   public getCssClassDisabled() {
     return this.cssClassPrefix + '--disabled';
   }
-
-  //#endregion
 
   private handleSendSignals(color: string) {
     if (color === 'red' && this.sendEventColorRedOnChange !== '') {
@@ -375,12 +368,16 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
     this._elContainer.style.backgroundColor = `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`;
     this.setAttribute('previewcolor', `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`);
   }
+
   private handleSendEventOnClick(): void {
     if (this.sendEventOnClick) {
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
     }
   }
+
+  //#endregion
+
 }
 
 Ch5ColorChip.registerCustomElement();
