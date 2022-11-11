@@ -1475,7 +1475,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	 */
 	protected initAttributes() {
 		this.applyPreConfiguredAttributes();
-		
+
 		if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled') && this.ignoreAttributes.includes('disabled') === false) {
 			this.disabled = this.getAttribute('disabled') as unknown as boolean;
 		}
