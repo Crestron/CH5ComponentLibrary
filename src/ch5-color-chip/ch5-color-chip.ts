@@ -37,11 +37,11 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       type: "number",
       valueOnAttributeEmpty: 255,
       numberProperties: {
-        min: 255,
+        min: 50,
         max: 65535,
-        conditionalMin: 255,
+        conditionalMin: 50,
         conditionalMax: 65535,
-        conditionalMinValue: 255,
+        conditionalMinValue: 50,
         conditionalMaxValue: 65535
       },
       isObservableProperty: true

@@ -14,7 +14,7 @@ export interface ICh5ColorPickerAttributes extends ICh5CommonAttributesSet3 {
    * ]
    * @name maxvalue
    * @default 255
-   * @limits [{"min": 255, "max": 65535}]
+   * @limits [{"min": 50, "max": 65535}]
    * @attributeType "number"
    */
   maxValue: number;
