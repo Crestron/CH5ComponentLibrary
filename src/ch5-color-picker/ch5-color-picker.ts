@@ -152,10 +152,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   //   this.setColor();
   // }, 50);
 
-  private debounceSetColor() {
-    this.setColor();
-  }
-
   //#endregion
 
   //#region Getters and Setters
@@ -500,6 +496,10 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     if (this.sendEventColorBlueOnChange !== "" && this.blueValue !== this.blueValuePrevious) {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorBlueOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.blueValue, this.maxValue));
     }
+  }
+
+  private debounceSetColor() {
+    this.setColor();
   }
 
   //#endregion
