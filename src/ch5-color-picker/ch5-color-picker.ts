@@ -131,10 +131,30 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   private debounceSignalHandling = this.debounce(() => {
     this.handleSendSignals();
-    // set dirty state and dirty value
-    this._dirtyValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue); // because,debounce is always getting called due to user interaction
     this.setDirty();
+    // this.debounceDirtyHandling();
   }, 20);
+
+  private debounceDirtyHandler = this.debounce(() => {
+    if (this._dirtyValue !== this._cleanValue && this.colorPicker) {
+      // set ui view value
+      const colorValue = Ch5ColorUtils.col2rgb(this._cleanValue);
+      this.redValue = Number(colorValue[0]);
+      this.greenValue = Number(colorValue[1]);
+      this.blueValue = Number(colorValue[2]);
+      this.colorPicker.setColor(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue));
+      // set state as clean
+      this.setClean();
+    }
+  }, 1500);
+
+  // private debounceSetColor = this.debounce(() => {
+  //   this.setColor();
+  // }, 50);
+
+  private debounceSetColor() {
+    this.setColor();
+  }
 
   //#endregion
 
@@ -149,10 +169,10 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public set receiveStateRedValue(value: string) {
     this._ch5Properties.set("receiveStateRedValue", value, null, (newValue: number) => {
-      if (newValue <= this.maxValue) {
+      if (newValue <= this.maxValue) { // } && newValue !== this.redValue) {
         this.redValuePrevious = this.redValue;
         this.redValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
-        this.setColor();
+        this.debounceSetColor();
       }
     });
   }
@@ -162,10 +182,10 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public set receiveStateGreenValue(value: string) {
     this._ch5Properties.set("receiveStateGreenValue", value, null, (newValue: number) => {
-      if (newValue <= this.maxValue) {
+      if (newValue <= this.maxValue) { //  && newValue !== this.greenValue) {
         this.greenValuePrevious = this.greenValue;
         this.greenValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
-        this.setColor();
+        this.debounceSetColor();
       }
     });
   }
@@ -175,10 +195,10 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   public set receiveStateBlueValue(value: string) {
     this._ch5Properties.set("receiveStateBlueValue", value, null, (newValue: number) => {
-      if (newValue <= this.maxValue) {
+      if (newValue <= this.maxValue) { //  && newValue !== this.blueValue) {
         this.blueValuePrevious = this.blueValue;
         this.blueValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
-        this.setColor();
+        this.debounceSetColor();
       }
     });
   }
@@ -342,6 +362,9 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    */
   private setDirty(): void {
     if (this.colorPicker) {
+      // set dirty state and dirty value
+      this._dirtyValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue); // because,debounce is always getting called due to user interaction
+
       const detail = { value: this.colorPicker.picker.get().css() };
       // Fired when the component's value changes due to user interaction.
       this.dispatchEvent(new CustomEvent('dirty', {
@@ -349,7 +372,8 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
         cancelable: false,
         detail
       }));
-      this.setDirtyHandler();
+      // this.setDirtyHandler();
+      this.debounceDirtyHandler();
     }
   }
 
@@ -382,23 +406,23 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    */
   private setDirtyHandler() {
     this.logger.log("setDirtyHandler");
-    if (this._dirtyTimerHandle !== null) {
-      clearTimeout(this._dirtyTimerHandle);
-    }
+    // if (this._dirtyTimerHandle !== null) {
+    //   clearTimeout(this._dirtyTimerHandle);
+    // }
 
-    this._dirtyTimerHandle = window.setTimeout(() => {
-      this._dirtyTimerHandle = null;
-      if (this._dirtyValue !== this._cleanValue && this.colorPicker) {
-        // set ui view value
-        const colorValue = Ch5ColorUtils.col2rgb(this._cleanValue);
-        this.redValue = Number(colorValue[0]);
-        this.greenValue = Number(colorValue[1]);
-        this.blueValue = Number(colorValue[2]);
-        this.colorPicker.setColor(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue));
-        // set state as clean
-        this.setClean();
-      }
-    }, 1500);
+    // this._dirtyTimerHandle = window.setTimeout(() => {
+    //   this._dirtyTimerHandle = null;
+    //   if (this._dirtyValue !== this._cleanValue && this.colorPicker) {
+    //     // set ui view value
+    //     const colorValue = Ch5ColorUtils.col2rgb(this._cleanValue);
+    //     this.redValue = Number(colorValue[0]);
+    //     this.greenValue = Number(colorValue[1]);
+    //     this.blueValue = Number(colorValue[2]);
+    //     this.colorPicker.setColor(Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue));
+    //     // set state as clean
+    //     this.setClean();
+    //   }
+    // }, 1500);
   }
 
   protected createInternalHtml() {
