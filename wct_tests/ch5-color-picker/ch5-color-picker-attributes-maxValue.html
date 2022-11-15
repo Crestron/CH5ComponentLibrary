@@ -24,8 +24,8 @@
         ch5ColorPicker = fixture('ch5-color-picker-maxValue-attributes');
       });
 
-      let testCases = ['a', '', ' ', 'number', '254', '255', '256', '65534', '65535', '65536'];
-      let expectedResult = ['255', '255', '255', '255', '255', '255', '256', '65534', '65535', '65535'];
+      let testCases = ['a', '', ' ', 'number', '254', '255', '256', '65534', '65535', '65536', 23, null, '50', '100', '40'];
+      let expectedResult = ['255', '255', '255', '255', '254', '255', '256', '65534', '65535', '65535', '50', '255', '50', '100', '50'];
       testCases.forEach((ele, i) => {
         test('Check Value "maxValue"', () => {
           ch5ColorPicker.setAttribute('maxValue', ele);
