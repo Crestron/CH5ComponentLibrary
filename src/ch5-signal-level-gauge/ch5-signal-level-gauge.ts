@@ -13,6 +13,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
 
   public static readonly ORIENTATION: TCh5SignalLevelGaugeOrientation[] = ['horizontal', 'vertical'];
   public static readonly SIZE: TCh5SignalLevelGaugeSize[] = ['regular', 'small', 'large', 'x-large'];
+
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
       default: Ch5SignalLevelGauge.ORIENTATION[0],
@@ -21,7 +22,6 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       attribute: 'orientation',
       classListPrefix: 'ch5-signal-level-gauge--orientation-'
     },
-
     SIZE: {
       default: Ch5SignalLevelGauge.SIZE[0],
       values: Ch5SignalLevelGauge.SIZE,
@@ -30,14 +30,13 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       classListPrefix: 'ch5-signal-level-gauge--size-'
     },
   };
+
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
-
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
-
     {
       default: Ch5SignalLevelGauge.ORIENTATION[0],
       enumeratedValues: Ch5SignalLevelGauge.ORIENTATION,
@@ -45,8 +44,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5SignalLevelGauge.ORIENTATION[0],
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
     {
       default: 0,
@@ -120,7 +118,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: Ch5SignalLevelGauge.SIZE[0],
@@ -129,8 +127,7 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5SignalLevelGauge.SIZE[0],
-      isObservableProperty: true,
-
+      isObservableProperty: true
     },
   ];
 
@@ -142,10 +139,10 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private value: number = 0;
+
   //#endregion
 
   //#region Getters and Setters
-
 
   public set orientation(value: TCh5SignalLevelGaugeOrientation) {
     this._ch5Properties.set<TCh5SignalLevelGaugeOrientation>("orientation", value, () => {
@@ -221,7 +218,6 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
   public get size(): TCh5SignalLevelGaugeSize {
     return this._ch5Properties.get<TCh5SignalLevelGaugeSize>("size");
   }
-
 
   //#endregion
 
@@ -365,9 +361,11 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
   private handleValue() {
     this._elContainer.querySelectorAll('.ch5-signal-level-gauge--selected-bar-color').forEach((ele) => ele.classList.remove('ch5-signal-level-gauge--selected-bar-color'));
     const currBar = Math.round(((this.value - this.minValue) * this.numberOfBars) / (this.maxValue - this.minValue));
-    for (let i = 0; i < currBar && i < this.numberOfBars; i++) {
-      this._elContainer.children[i].classList.add('ch5-signal-level-gauge--selected-bar-color');
-    }
+    Array.from(this._elContainer.children).forEach((ele, i) => {
+      if (i < currBar && i < this.numberOfBars) {
+        ele.classList.add('ch5-signal-level-gauge--selected-bar-color');
+      }
+    });
   }
 
   private handleNumberOfBars() {
@@ -383,7 +381,6 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     }
     this.handleValue();
   }
-
 
   private handleSize() {
     Array.from(Ch5SignalLevelGauge.COMPONENT_DATA.SIZE.values).forEach((e: any) => {
@@ -401,14 +398,17 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     this._elContainer.style.gap = this.signalBarSpacing + 'px';
     this.logger.stop();
   }
+
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
     return this._elContainer;
   }
+
   public getCssClassDisabled() {
     return this.cssClassPrefix + '--disabled';
   }
 
   //#endregion
+
 }
 
 Ch5SignalLevelGauge.registerCustomElement();
