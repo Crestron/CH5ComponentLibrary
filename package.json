@@ -58,13 +58,13 @@
     "doc:json": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --json docs/json/typedoc.json src/ "
   },
   "engines": {
-    "node": ">=16.13"
+    "node": ">=16.13.0"
   },
   "author": "Crestron",
   "license": "SEE LICENSE IN LICENSE.txt",
   "dependencies": {
     "axios": "^0.21.1",
-    "colorjoe": "^4.2.0",
+    "colorjoe": "github:rdabbir-crestron/colorjoe",
     "hammerjs": "^2.0.8",
     "i18next": "^21.6.3",
     "nouislider": "^15.5.0",
