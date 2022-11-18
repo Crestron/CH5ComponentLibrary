@@ -1,4 +1,4 @@
-import * as colorjoe from "colorjoe";
+import * as mycolorpicker from "@raghavendradabbir/mycolorpicker";
 import { Subject } from "rxjs";
 import Ch5ColorUtils from "../ch5-common/utils/ch5-color-utils";
 
@@ -17,7 +17,7 @@ export class ColorPicker {
     try {
       // 'currentColor',
       // 'hex'
-      this.joe = colorjoe.hsl(this.pickerId, newColor, [
+      this.joe = mycolorpicker.hsl(this.pickerId, newColor, [
       ]).on('change', (c: any) => {
         // const complement = this.invertHex(c.hex());
         const thisColorDiv = document.getElementById(this.pickerId);
