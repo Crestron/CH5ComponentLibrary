@@ -21,6 +21,14 @@
       <ch5-animation startAnimating="false" receiveStateAnimate="trigger_event_listener"></ch5-animation>
     </template>
   </test-fixture>
+  <test-fixture id="ch5-animation-invalid-attribute">
+    <template>
+      <div class="animation-div">
+        <ch5-animation id="animation-obj" receiveStateCustomStyle="sig_custom_style"
+          receiveStateEnable="hall_lights_selected" sendEventOnShow="show_animation"></ch5-animation>
+      </div>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-animation-default-attributes-value', () => {
       let ch5Animation;
@@ -51,6 +59,32 @@
         flush(() => {
           setTimeout(() => {
             expect(ch5Animation.getAttribute('startAnimating')).to.be.equal('true');
+            done();
+          }, 100);
+        });
+      });
+    });
+    suite('ch5-animation-invalid-attribute', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/preloadcachepage.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-invalid-attribute');
+      });
+
+      test('Check invalid attribute', (done) => {
+        CrComLib.publishEvent('b', 'sig_trig_class1', true);
+        CrComLib.publishEvent('b', 'hall_lights_tap', true);
+        CrComLib.publishEvent('b', 'toggle_animation_visibility', true);
+        flush(() => {
+          setTimeout(() => {
+            let ch5AnimationComponent = document.getElementById('animation-obj');
+            expect(ch5AnimationComponent.getAttribute('receiveStateCustomStyle')).to.be.equal('sig_custom_style');
+            expect(ch5AnimationComponent.getAttribute('style')).to.be.not.equal('backgroundColor: red');
+            expect(ch5AnimationComponent.getAttribute('disabled')).to.be.not.equal('true');
+            expect(ch5AnimationComponent.getAttribute('show')).to.be.not.equal('true');
             done();
           }, 100);
         });
