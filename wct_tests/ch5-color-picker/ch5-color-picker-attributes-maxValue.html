@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-color-picker-maxValue-attributes">
+    <template>
+      <ch5-color-picker></ch5-color-picker>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-color-picker-maxValue-attributes-value', () => {
+      let ch5ColorPicker;
+
+      setup(async () => {
+        ch5ColorPicker = fixture('ch5-color-picker-maxValue-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', '254', '255', '256', '65534', '65535', '65536', 23, null, '50', '100', '40'];
+      let expectedResult = ['255', '255', '255', '255', '254', '255', '256', '65534', '65535', '65535', '50', '255', '50', '100', '50'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "maxValue"', () => {
+          ch5ColorPicker.setAttribute('maxValue', ele);
+          expect(ch5ColorPicker.getAttribute('maxValue')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

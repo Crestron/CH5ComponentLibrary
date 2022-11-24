@@ -764,7 +764,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 	private _protocol: string = '';
 
 	private _isPressedSubscription: Subscription | null = null;
-	private _buttonPressedInPressable = true;
+	private _buttonPressedInPressable = false;
 
 	private _repeatDigitalInterval = 0;
 
@@ -1404,7 +1404,7 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 		this.info("Ch5Image._onClick()");
 		// inEvent.preventDefault();
 
-		this._sendValueForClickSignal();
+		// this._sendValueForClickSignal();
 	}
 
 	private _onError(inEvent: Event): void {

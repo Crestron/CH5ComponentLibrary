@@ -305,7 +305,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	//#endregion
 
 	//#region 1.2 private / protected variables
-	
+
 	public readonly ELEMENT_NAME: string = 'ch5-button';
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 	public cssClassPrefix: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
@@ -1967,11 +1967,11 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	}
 
 	private decodeInnerHTMLForAttribute(innerHTML: string) {
-		return innerHTML.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/"/g, '&quot;')
-			.replace(/'/g, '&apos;');
+		return innerHTML.replace('&amp;', "&")
+			.replace('&lt;', "<")
+			.replace('&gt;', ">")
+			.replace('&quot;', '/"')
+			.replace("&apos;", "/'");
 	}
 
 	private setButtonDisplayDetails(): void {

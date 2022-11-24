@@ -97,6 +97,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	// The first value of the array is considered the default one	 
 	private showTypes: TCh5ShowType[] = ['display', 'visibility', 'remove'];
 
+	protected ignoreAttributes: string[] = [];
 	public primaryCssClass: string = 'ch5-common';
 	public cssClassPrefix: string = 'ch5-common';
 
@@ -1091,7 +1092,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
-		if (oldValue === newValue) {
+		if (oldValue === newValue || this.ignoreAttributes.includes(attr)) {
 			return;
 		}
 		this.logger.log('ch5-common attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + ')"');
@@ -1472,56 +1473,56 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 	/**
 	 * Initializes the values of the common attributes, taking into account the attribute values declared in the HTML
 	 */
-	protected initAttributes(ignoreAttributes: string[] = []) {
+	protected initAttributes() {
 		this.applyPreConfiguredAttributes();
 
-		if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled') && ignoreAttributes.includes('disabled') === false) {
+		if (this.hasAttribute('disabled') && !this.hasAttribute('customclassdisabled') && this.ignoreAttributes.includes('disabled') === false) {
 			this.disabled = this.getAttribute('disabled') as unknown as boolean;
 		}
-		if (this.hasAttribute('debug') && ignoreAttributes.includes('debug') === false) {
+		if (this.hasAttribute('debug') && this.ignoreAttributes.includes('debug') === false) {
 			this._isDebugEnabled = true;
 		}
-		if (this.hasAttribute('show') && ignoreAttributes.includes('show') === false) {
+		if (this.hasAttribute('show') && this.ignoreAttributes.includes('show') === false) {
 			this.show = this.getAttribute('show') as unknown as boolean;
 		}
 
-		if (this.hasAttribute('customclass') && ignoreAttributes.includes('customclass') === false) {
+		if (this.hasAttribute('customclass') && this.ignoreAttributes.includes('customclass') === false) {
 			this.customClass = this.getAttribute('customclass') as string;
 			this.updateForChangeInCustomCssClass();
 		}
-		if (this.hasAttribute('customstyle') && ignoreAttributes.includes('customstyle') === false) {
+		if (this.hasAttribute('customstyle') && this.ignoreAttributes.includes('customstyle') === false) {
 			this.customStyle = this.getAttribute('customstyle') as string;
 			this.updateForChangeInStyleCss();
 		}
-		if (this.hasAttribute('noshowtype') && ignoreAttributes.includes('noshowtype') === false) {
+		if (this.hasAttribute('noshowtype') && this.ignoreAttributes.includes('noshowtype') === false) {
 			this.noshowType = this.getAttribute('noshowtype') as TCh5ShowType;
 		}
-		if (this.hasAttribute('receivestatecustomclass') && ignoreAttributes.includes('receivestatecustomclass') === false) {
+		if (this.hasAttribute('receivestatecustomclass') && this.ignoreAttributes.includes('receivestatecustomclass') === false) {
 			this.receiveStateCustomClass = this.getAttribute('receivestatecustomclass') as string;
 		}
-		if (this.hasAttribute('receivestatecustomstyle') && ignoreAttributes.includes('receivestatecustomstyle') === false) {
+		if (this.hasAttribute('receivestatecustomstyle') && this.ignoreAttributes.includes('receivestatecustomstyle') === false) {
 			this.receiveStateCustomStyle = this.getAttribute('receivestatecustomstyle') as string;
 		}
-		if (this.hasAttribute('receivestateshow') && ignoreAttributes.includes('receivestateshow') === false) {
+		if (this.hasAttribute('receivestateshow') && this.ignoreAttributes.includes('receivestateshow') === false) {
 			this.receiveStateShow = this.getAttribute('receivestateshow') as string;
 		}
-		if (this.hasAttribute('receivestateshowpulse') && ignoreAttributes.includes('receivestateshowpulse') === false) {
+		if (this.hasAttribute('receivestateshowpulse') && this.ignoreAttributes.includes('receivestateshowpulse') === false) {
 			this.receiveStateShowPulse = this.getAttribute('receivestateshowpulse') as string;
 		}
-		if (this.hasAttribute('receivestatehidepulse') && ignoreAttributes.includes('receivestatehidepulse') === false) {
+		if (this.hasAttribute('receivestatehidepulse') && this.ignoreAttributes.includes('receivestatehidepulse') === false) {
 			this.receiveStateHidePulse = this.getAttribute('receivestatehidepulse') as string;
 		}
-		if (this.hasAttribute('receivestateenable') && ignoreAttributes.includes('receivestateenable') === false) {
+		if (this.hasAttribute('receivestateenable') && this.ignoreAttributes.includes('receivestateenable') === false) {
 			this.receiveStateEnable = this.getAttribute('receivestateenable') as string;
 		}
-		if (this.hasAttribute('sendeventonshow') && ignoreAttributes.includes('sendeventonshow') === false) {
+		if (this.hasAttribute('sendeventonshow') && this.ignoreAttributes.includes('sendeventonshow') === false) {
 			this.sigNameSendOnShow = this.getAttribute('sendeventonshow') as string;
 		}
-		if (this.hasAttribute('gestureable') && ignoreAttributes.includes('gestureable') === false) {
+		if (this.hasAttribute('gestureable') && this.ignoreAttributes.includes('gestureable') === false) {
 			this.gestureable = this.toBoolean(this.getAttribute('gestureable') as string);
 		}
 		this.dir = this.getAttribute('dir') || Ch5Common.DIRECTION[0];
-		if (this.hasAttribute('appendclasswheninviewport') && ignoreAttributes.includes('appendclasswheninviewport') === false) {
+		if (this.hasAttribute('appendclasswheninviewport') && this.ignoreAttributes.includes('appendclasswheninviewport') === false) {
 			this.appendClassWhenInViewPort = this.getAttribute('appendclasswheninviewport') as string;
 			subscribeInViewPortChange(this, (isInViewPort: boolean) => {
 				this.updateElementVisibility(isInViewPort);
@@ -1658,7 +1659,7 @@ export class Ch5Common extends HTMLElement implements ICh5CommonAttributes {
 		return 'ch5-disabled';
 	}
 
-	public unsubscribeFromSignals() {
+	protected unsubscribeFromSignals() {
 		if (false === this._keepListeningOnSignalsAfterRemoval) {
 			this.clearBooleanSignalSubscription(this._receiveStateEnable, this._subKeySigReceiveEnable);
 			this._receiveStateEnable = '';

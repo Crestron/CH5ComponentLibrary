@@ -55,7 +55,6 @@ if (NO_CE === '1') { // for browsers that do not support customElements
     moduleBuildFolder = moduleType + '-no-ce';
 }
 
-const bundledThemesPath = basePath + '/../crestron-components-sass/output/';
 let buildPath = path.resolve(basePath, 'build_bundles', moduleBuildFolder);
 let pathForSchemaJson = path.resolve(basePath, 'build_bundles');
 

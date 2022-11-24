@@ -15,6 +15,8 @@ import { isNil } from 'lodash';
 import { Ch5RoleAttributeMapping } from "../utility-models";
 import { ICh5TriggerViewAttributes } from './interfaces/i-ch5-triggerview-attributes';
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from '../ch5-common/ch5-signal-attribute-registry';
+import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 
 export type TActiveViewCallback = () => {};
 
@@ -175,6 +177,50 @@ template.innerHTML = `<style>${triggerViewStyles}</style> ${triggerViewHtml}`;
 
 export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttributes {
 
+	public static readonly ELEMENT_NAME = 'ch5-triggerview';
+
+	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+		receivestateshowchildindex: { direction: "state", numericJoin: 1, contractName: true },
+		sendeventshowchildindex: { direction: "event", numericJoin: 1, contractName: true }
+	};
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: false,
+			name: "endless",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "gestureable",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "nested",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+		{
+			default: false,
+			name: "disableAnimation",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+	];
+	private _ch5Properties: Ch5Properties;
+
+
 	/**
 	 * Creates a new instance of Ch5TriggerView.
 	 * @constructor
@@ -191,6 +237,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		this.info('Ch5TriggerView.constructor()');
 
 		this._listOfAllPossibleComponentCssClasses = this.generateListOfAllPossibleComponentCssClasses();
+		this._ch5Properties = new Ch5Properties(this, Ch5TriggerView.COMPONENT_PROPERTIES);
 
 		this.attachShadow({ mode: 'open' });
 		(this.shadowRoot as ShadowRoot).appendChild(template.content.cloneNode(true));
@@ -211,22 +258,66 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	 */
 	static get observedAttributes() {
 		const commonAttributes = Ch5Common.observedAttributes;
-
+		const newObsAttrs: string[] = [];
+		for (let i: number = 0; i < Ch5TriggerView.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5TriggerView.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				newObsAttrs.push(Ch5TriggerView.COMPONENT_PROPERTIES[i].name.toLowerCase());
+			}
+		}
 		const ch5TriggerViewAttributes: string[] = [
 			'activeview',
-			'endless',
-			'gestureable',
-			'disableanimation',
-
-			// SEND SIGNALS
 			'sendeventshowchildindex',
-
-			// RECEIVE SIGNALS
 			'receivestateshowchildindex',
-			'nested'
 		];
 
-		return commonAttributes.concat(ch5TriggerViewAttributes);
+		return commonAttributes.concat(ch5TriggerViewAttributes.concat(newObsAttrs));
+	}
+
+	public set endless(value: boolean) {
+		this._ch5Properties.set<boolean>("endless", value, () => {
+			const swiperLoop = this.slidesManager.getSwiperParam('loop');
+			if (typeof swiperLoop === 'boolean' && swiperLoop !== this.endless) {
+				this.slidesManager.reinitializeSwiper();
+			}
+		});
+	}
+	public get endless(): boolean {
+		return this._ch5Properties.get<boolean>("endless");
+	}
+
+	public set gestureable(value: boolean) {
+		this._ch5Properties.set<boolean>("gestureable", value, () => {
+			if (this.disableAnimation) {
+				this.slidesManager.reinitializeSwiper();
+			} else {
+				this.slidesManager.setAllowTouchMove(this.gestureable);
+				this.slidesManager.refreshSlideSpeed();
+			}
+		});
+	}
+	public get gestureable(): boolean {
+		return this._ch5Properties.get<boolean>("gestureable");
+	}
+
+	public set nested(value: boolean) {
+		this._ch5Properties.set<boolean>("nested", value, () => {
+			this.slidesManager.reinitializeSwiper();
+		});
+	}
+	public get nested(): boolean {
+		return this._ch5Properties.get<boolean>("nested");
+	}
+
+	public set disableAnimation(value: boolean) {
+		this._ch5Properties.set<boolean>("disableAnimation", value, () => {
+			const swiperFollowFinger = this.slidesManager.getSwiperParam('followFinger');
+			if (typeof swiperFollowFinger === 'boolean' && !swiperFollowFinger !== this.disableAnimation) {
+				this.slidesManager.reinitializeSwiper();
+			}
+		});
+	}
+	public get disableAnimation(): boolean {
+		return this._ch5Properties.get<boolean>("disableAnimation");
 	}
 
 	public set activeViewCallback(callback: TActiveViewCallback) {
@@ -283,9 +374,14 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		if (this.activeViewCallback instanceof Function) {
 			this.activeViewCallback();
 		}
+		if (this.slidesManager.swiperActiveViewInitialized() === true || this.slidesManager.ch5SwiperIsActive()) {
+			intSetter(this, 'activeview', index);
+			this._activeView = index;
+		} else {
+			intSetter(this, 'activeview', this.activeView);
+			this._activeView = this.activeView;
+		}
 
-		intSetter(this, 'activeview', index);
-		this._activeView = index;
 	}
 
 	public get activeView() {
@@ -297,63 +393,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	 */
 	public get getSwiperSensitivity(): number {
 		return this.swipeThreshold;
-	}
-
-	/**
-	 * Whether the slider is looping (e.g wrapping around).
-	 * @type {boolean}
-	 */
-	set endless(flag) {
-		booleanSetter(this, 'endless', flag);
-
-		const swiperLoop = this.slidesManager.getSwiperParam('loop');
-
-		const value = this.getAttribute('endless');
-		const newEndlessVal = this.toBoolean(value, true);
-		if (typeof swiperLoop === 'boolean' && swiperLoop !== newEndlessVal) {
-			this.slidesManager.reinitializeSwiper();
-		}
-	}
-
-	get endless() {
-		return booleanGetter(this, 'endless');
-	}
-
-	/**
-	 * If true, the slides can not be dragged with pointer events.
-	 * @type {boolean}
-	 */
-	set gestureable(flag) {
-		if (this.disableAnimation) {
-			this.slidesManager.reinitializeSwiper();
-		} else {
-			const value = this.getAttribute('gestureable');
-			this.slidesManager.setAllowTouchMove(this.toBoolean(value, true));
-			this.slidesManager.refreshSlideSpeed();
-		}
-		booleanSetter(this, 'gestureable', flag);
-	}
-
-	get gestureable() {
-		return booleanGetter(this, 'gestureable');
-	}
-
-	/**
-	 * If true, disables CSS transitions and drag deceleration.
-	 * @type {boolean}
-	 */
-	set disableAnimation(flag) {
-		booleanSetter(this, 'disableanimation', flag);
-
-		const swiperFollowFinger = this.slidesManager.getSwiperParam('followFinger');
-		const newDisableAnimation = booleanGetter(this, 'disableanimation');
-		if (typeof swiperFollowFinger === 'boolean' && !swiperFollowFinger !== newDisableAnimation) {
-			this.slidesManager.reinitializeSwiper();
-		}
-	}
-
-	get disableAnimation() {
-		return booleanGetter(this, 'disableanimation');
 	}
 
 	/**
@@ -436,7 +475,9 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		this._subReceiveStateShowChildIndexId = receiveState.subscribe((newValue: number) => {
 			if (!isNaN(newValue) && receiveState.hasChangedSinceInit()) {
 				this._signalIsReceived = true;
-				this.activeView = newValue;
+				setTimeout(() => {
+					this.activeView = newValue;	// setTimeout needed to be removed (Temporary Fix)
+				}, 50);
 			} else {
 				this.info('Ch5TriggerView receiveStateShowChildIndex signal value for ' + this.getAttribute('data-ch5-id') + ' is invalid');
 			}
@@ -454,33 +495,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 		return this._swipeThreshold;
 	}
 
-	/**
-	 * Flag to mark the component as child of ch5-triggerview-child
-	 * @type {boolean}
-	 */
-	set nested(nestedValue) {
-		if (nestedValue !== this._nested) {
-			this._nested = nestedValue;
-			if (this._nested) {
-				this.setAttribute('nested', '');
-			} else {
-				this.removeAttribute('nested');
-			}
-			this.slidesManager.reinitializeSwiper();
-		}
-	}
 
-	get nested() {
-		return this._nested;
-	}
-
-	public static readonly ELEMENT_NAME = 'ch5-triggerview';
-
-	public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-		...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
-		receivestateshowchildindex: { direction: "state", numericJoin: 1, contractName: true },
-		sendeventshowchildindex: { direction: "event", numericJoin: 1, contractName: true }
-	};
 
 	/**
 	 * CSS classes
@@ -560,8 +575,10 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 
 	private slidesManager: Ch5TriggerViewSlidesManager = {} as Ch5TriggerViewSlidesManager;
 
-	private _nested: boolean = false;
 
+	public flag: number = -1;
+
+	public slidesNumber: number = 0;
 	public static registerSignalAttributeTypes() {
 		Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5TriggerView.ELEMENT_NAME, Ch5TriggerView.SIGNAL_ATTRIBUTE_TYPES);
 	}
@@ -610,7 +627,6 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 			setTimeout(setup);
 			return;
 		}
-
 		subscribeInViewPortChange(this, () => {
 			this.info('ch5-triggerview.subscribeInViewPortChange()');
 			if (this.elementIsInViewPort && !this.wasInstantiatedInViewport) {
@@ -619,6 +635,7 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 				this.wasInstantiatedInViewport = true;
 			}
 		});
+
 
 		// this is a quick fix
 		// problem is that when connected callback is called
@@ -716,60 +733,46 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 			this._onSlidesSlotChange();
 		}
 
-		switch (name) {
-			case 'activeview':
-				if (oldValue !== newValue) {
+		const attributeChangedProperty = Ch5TriggerView.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === name.toLowerCase() && property.isObservableProperty === true });
+		if (attributeChangedProperty) {
+			const thisRef: any = this;
+			const key = attributeChangedProperty.name;
+			thisRef[key] = newValue;
+		} else {
+			switch (name) {
+				case 'activeview':
+					if (oldValue !== newValue) {
 
-					const parsedNewValue = parseInt(newValue, 10);
-					// Accept only numbers between `0` and slides number
-					if (this.slidesManager.getSlidesNumber() >= 0 &&
-						(parsedNewValue > this.slidesManager.getSlidesNumber() || parsedNewValue < 0)) {
-						this.activeView = 0;
-						return;
+						const parsedNewValue = parseInt(newValue, 10);
+						// Accept only numbers between `0` and slides number
+						if (this.slidesManager.getSlidesNumber() >= 0 &&
+							(parsedNewValue > this.slidesManager.getSlidesNumber() || parsedNewValue < 0)) {
+							this.activeView = 0;
+							return;
+						}
+						this.activeView = parsedNewValue;
 					}
-					this.activeView = parsedNewValue;
-				}
-				break;
+					break;
+				case 'sendeventshowchildindex':
+					if (this.hasAttribute('sendeventshowchildindex')) {
+						this.sendEventShowChildIndex = newValue;
+					} else {
+						this.sendEventShowChildIndex = '';
+					}
+					break;
 
-			case 'endless':
-				const endlessValue = this.getAttribute('endless');
-				this.endless = this.toBoolean(endlessValue, true);
-				break;
+				case 'receivestateshowchildindex':
+					if (this.hasAttribute('receivestateshowchildindex')) {
+						this.receiveStateShowChildIndex = newValue;
+					} else {
+						this.receiveStateShowChildIndex = '';
+					}
+					break;
 
-			case 'gestureable':
-				const gestureableValue = this.getAttribute('gestureable');
-				this.gestureable = this.toBoolean(gestureableValue, true);
-				break;
-
-			case 'disableanimation':
-				const disableAnimationValue = this.getAttribute('disableanimation')
-				this.disableAnimation = this.toBoolean(disableAnimationValue, true);
-				break;
-
-			case 'sendeventshowchildindex':
-				if (this.hasAttribute('sendeventshowchildindex')) {
-					this.sendEventShowChildIndex = newValue;
-				} else {
-					this.sendEventShowChildIndex = '';
-				}
-				break;
-
-			case 'receivestateshowchildindex':
-				if (this.hasAttribute('receivestateshowchildindex')) {
-					this.receiveStateShowChildIndex = newValue;
-				} else {
-					this.receiveStateShowChildIndex = '';
-				}
-				break;
-
-			case 'nested':
-				const nestedValue = this.getAttribute('nested');
-				this.nested = this.toBoolean(nestedValue, true);
-				break;
-
-			default:
-				super.attributeChangedCallback(name, oldValue, newValue);
-				break;
+				default:
+					super.attributeChangedCallback(name, oldValue, newValue);
+					break;
+			}
 		}
 
 		if (name === 'dir') {
@@ -826,19 +829,19 @@ export class Ch5TriggerView extends Ch5Common implements ICh5TriggerViewAttribut
 	 */
 	protected initAttributes(): void {
 		super.initAttributes();
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5TriggerView.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5TriggerView.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5TriggerView.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5TriggerView.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
+			}
+		}
 
 		if (!this.hasAttribute('activeView')) {
 			// update attr to avoid triggering slideTo action here
 			this.setAttribute('activeView', '0');
-		}
-		if (this.hasAttribute('endless')) {
-			this._upgradeProperty('endless');
-		}
-		if (this.hasAttribute('gestureable')) {
-			this._upgradeProperty('gestureable');
-		}
-		if (this.hasAttribute('disableanimation')) {
-			this._upgradeProperty('disableanimation');
 		}
 		if (this.hasAttribute('receiveStateShowChildIndex')) {
 			this._upgradeProperty('receiveStateShowChildIndex');

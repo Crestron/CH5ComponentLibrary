@@ -716,7 +716,10 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		super.initAttributes();
 
 		this.info('initAttributes()');
-
+		if (this.multiselect) {
+			this.selectedValues = this.selectedValues;
+		}
+		
 		if (this.hasAttribute('size')) {
 			this.size = this.getAttribute('size') as string;
 		}
@@ -1310,6 +1313,14 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 		if (!this.multiselect) {
 			this._markOptionAsSelected(this.selectedValue as number);
 			this._updateSingleSelectionInMainPanel();
+		} else {
+			this.selectedValues.forEach((optIdx: number) => {
+				const ch5SelectOption: Ch5SelectOption | null = this._getOptionElByIdx(optIdx);
+				if (ch5SelectOption) {
+					this._setOptionSelected(ch5SelectOption);
+				}
+			});
+			this._updateMultiSelectionInMainPanel();
 		}
 	}
 
@@ -2035,7 +2046,7 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 				const ch5SelectOption: Ch5SelectOption | null = this._getOptionElByIdx(optIdx);
 				if (ch5SelectOption instanceof HTMLElement) {
 					// is valid option
-					labels.push(ch5SelectOption.optLabel);
+					labels.push(ch5SelectOption.innerHTML);
 				}
 			});
 			const labelsStr = labels.join(', ');

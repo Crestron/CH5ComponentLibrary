@@ -15,6 +15,7 @@
   ],
   //"jsRules": {},
   "rules": {
+    "prefer-for-of": false,
     "ordered-imports": false,
     "interface-over-type-literal": false,
     "variable-name": {
