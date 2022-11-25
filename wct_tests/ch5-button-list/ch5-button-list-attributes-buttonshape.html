@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-buttonShape-attributes">
+    <template>
+      <ch5-button-list></ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-buttonShape-attributes-value', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-buttonShape-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'rounded-rectangle', 'rectangle'];
+      let expectedResult = ['rounded-rectangle', 'rounded-rectangle', 'rounded-rectangle', 'rounded-rectangle', 'rounded-rectangle', 'rectangle'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "buttonShape"', () => {
+          ch5ButtonList.setAttribute('buttonShape', ele);
+          expect(ch5ButtonList.getAttribute('buttonShape')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>
