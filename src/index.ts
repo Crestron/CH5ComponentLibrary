@@ -14,6 +14,7 @@ export * from './ch5-emulator/index';
 export * from './ch5-list/index';
 export * from './ch5-custom-attrs/index';
 export * from './ch5-image/index';
+export * from './ch5-segmented-gauge';
 export * from './ch5-select/index';
 export * from './ch5-select-option/index';
 export * from './ch5-toggle/index';

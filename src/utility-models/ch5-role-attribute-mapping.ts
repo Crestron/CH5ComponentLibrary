@@ -24,6 +24,7 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5ImportHtmlSnippet = 'template';
     public static readonly ch5ModalDialog = 'dialog';
     public static readonly ch5OverlayPanel = 'dialog';
+    public static readonly ch5SegmentedGauge = 'segmented-gauge';
     public static readonly ch5SignalLevelGauge = 'signal-level-gauge';
     public static readonly ch5Select = 'listbox';
     public static readonly ch5SelectOption = 'option';

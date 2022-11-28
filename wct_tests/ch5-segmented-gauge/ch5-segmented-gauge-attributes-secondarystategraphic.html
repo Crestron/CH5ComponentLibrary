@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-segmented-gauge-secondaryStateGraphic-attributes">
+    <template>
+      <ch5-segmented-gauge></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-segmented-gauge-secondaryStateGraphic-attributes-invalid">
+    <template>
+      <ch5-segmented-gauge secondaryStateGraphic="violet"></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-segmented-gauge-secondaryStateGraphic-attributes-value', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-secondaryStateGraphic-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'yellow', 'green', 'inactive', 'red', 'blue', 'orange', 'white'];
+      let expectedResult = ['yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'green', 'inactive', 'red', 'blue', 'orange', 'white'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "secondaryStateGraphic"', () => {
+          ch5SegmentedGauge.setAttribute('secondaryStateGraphic', ele);
+          expect(ch5SegmentedGauge.getAttribute('secondaryStateGraphic')).to.be.equal(expectedResult[i]);
+        });
+      });
+    });
+
+    suite('ch5-segmented-gauge-secondaryStateGraphic-attributes-invalid', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-secondaryStateGraphic-attributes-invalid');
+      });
+
+      test('Check value for "secondaryStateGraphic"', () => {
+        expect(ch5SegmentedGauge.getAttribute('secondaryStateGraphic')).to.be.equal('yellow');
+      });
+    });
+  </script>
+</body>
+
+</html>
