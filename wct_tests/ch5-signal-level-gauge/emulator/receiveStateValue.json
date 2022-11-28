@@ -22,7 +22,20 @@
           "state": "trigger_event_listener1",
           "type": "n",
           "logic": "set",
-          "value": 65535
+          "value": 78000
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener2",
+          "type": "n",
+          "logic": "set",
+          "value": -200
         }
       ]
     }
