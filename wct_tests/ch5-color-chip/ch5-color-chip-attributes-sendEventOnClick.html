@@ -47,7 +47,7 @@
         ch5ColorChip.click();
         flush(() => {
           setTimeout(() => {
-            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(255, 0, 0)');
+            expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgb(255, 0, 0)');
             done();
           }, 100);
         });
@@ -68,7 +68,7 @@
         ch5ColorChip.click();
         flush(() => {
           setTimeout(() => {
-            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(0, 0, 0)');
+            expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgba(0, 0, 0, 0)');
             done();
           }, 100);
         });
@@ -89,7 +89,7 @@
         ch5ColorChip.click();
         flush(() => {
           setTimeout(() => {
-            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(128, 128, 128)');
+            expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgb(128, 128, 128)');
             done();
           }, 100);
         });
