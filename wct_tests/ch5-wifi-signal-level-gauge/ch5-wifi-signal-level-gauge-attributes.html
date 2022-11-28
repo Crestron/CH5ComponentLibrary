@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-wifi-signal-level-gauge-default-attributes">
+    <template>
+      <ch5-wifi-signal-level-gauge></ch5-wifi-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-wifi-signal-level-gauge-default-attributes-value', () => {
+      let ch5WifiSignalLevelGauge;
+
+      setup(async () => {
+        ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-default-attributes');
+      });
+
+      test('Check Default value for gaugeStyle', () => {
+        expect(ch5WifiSignalLevelGauge.getAttribute("gaugeStyle")).to.be.equal(null);
+        ch5WifiSignalLevelGauge.setAttribute('gaugeStyle', 'light');
+        expect(ch5WifiSignalLevelGauge.children[0].classList.contains('ch5-wifi-signal-level-gauge--gauge-style-light')).to.be.equal(true);
+        expect(ch5WifiSignalLevelGauge.getAttribute("gaugeStyle")).to.be.equal('light');
+        ch5WifiSignalLevelGauge.removeAttribute("gaugeStyle");
+        expect(ch5WifiSignalLevelGauge.getAttribute("gaugeStyle")).to.be.equal('light');
+      });
+
+      test('Check Default value for alignment', () => {
+        expect(ch5WifiSignalLevelGauge.getAttribute("alignment")).to.be.equal(null);
+        ch5WifiSignalLevelGauge.setAttribute('alignment', 'up');
+        expect(ch5WifiSignalLevelGauge.children[0].classList.contains('ch5-wifi-signal-level-gauge--alignment-up')).to.be.equal(true);
+        expect(ch5WifiSignalLevelGauge.getAttribute("alignment")).to.be.equal('up');
+        ch5WifiSignalLevelGauge.removeAttribute("alignment");
+        expect(ch5WifiSignalLevelGauge.getAttribute("alignment")).to.be.equal('up');
+      });
+
+      test('Check Default value for size', () => {
+        expect(ch5WifiSignalLevelGauge.getAttribute("size")).to.be.equal(null);
+        ch5WifiSignalLevelGauge.setAttribute('size', 'regular');
+        expect(ch5WifiSignalLevelGauge.children[0].classList.contains('ch5-wifi-signal-level-gauge--size-regular')).to.be.equal(true);
+        expect(ch5WifiSignalLevelGauge.getAttribute("size")).to.be.equal('regular');
+        ch5WifiSignalLevelGauge.removeAttribute("size");
+        expect(ch5WifiSignalLevelGauge.getAttribute("size")).to.be.equal('regular');
+      });
+
+    });
+  </script>
+</body>
+
+</html>

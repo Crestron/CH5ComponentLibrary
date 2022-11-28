@@ -1,0 +1,110 @@
+{
+  "cues": [
+    {
+      "type": "number",
+      "event": "sliderRed.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sliderRed.value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "sliderGreen.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sliderGreen.value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "event": "sliderBlue.change",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "sliderBlue.value",
+          "type": "number",
+          "logic": "link"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "set",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "decrement",
+          "offset": 1
+        }
+      ]
+    },
+    {
+      "type": "b",
+      "event": "changePage",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "showData",
+          "type": "boolean",
+          "logic": "toggle"
+        },
+        {
+          "state": "showData2",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "showData",
+      "type": "boolean",
+      "value": true
+    },
+    {
+      "state": "sliderRed.value",
+      "type": "number",
+      "value": 150
+    },
+    {
+      "state": "sliderGreen.value",
+      "type": "number",
+      "value": 140
+    },
+    {
+      "state": "sliderBlue.value",
+      "type": "number",
+      "value": 85
+    },
+    {
+      "state": "showData2",
+      "type": "boolean",
+      "value": false
+    }
+  ]
+}
