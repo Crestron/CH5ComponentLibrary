@@ -1,0 +1,79 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_event",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "s",
+          "logic": "set",
+          "value": "spinner"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "increment",
+          "offset": 1
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "sig_trig_class1",
+      "trigger": true,
+      "actions": [
+        {
+          "type": "string",
+          "state": "sig_custom_style",
+          "logic": "set",
+          "value": "background-color: red;"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "hall_lights_tap",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "hall_lights_selected",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "toggle_animation_visibility",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "show_animation",
+          "type": "boolean",
+          "logic": "toggle"
+        }
+      ]
+    }
+  ]
+}
