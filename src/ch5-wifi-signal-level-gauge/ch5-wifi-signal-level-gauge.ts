@@ -8,11 +8,10 @@ import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-ma
 
 export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignalLevelGaugeAttributes {
 
+  //#region Variables
 
   public static readonly NUMBER_OF_BARS_MIN: number = 0;
   public static readonly NUMBER_OF_BARS_MAX: number = 3;
-  //#region Variables
-
   public static readonly GAUGE_STYLE: TCh5WifiSignalLevelGaugeGaugeStyle[] = ['light', 'accents', 'dark'];
   public static readonly ALIGNMENT: TCh5WifiSignalLevelGaugeAlignment[] = ['up', 'down', 'left', 'right'];
   public static readonly SIZE: TCh5WifiSignalLevelGaugeSize[] = ['regular', 'small', 'large', 'x-large'];
@@ -37,7 +36,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
       key: 'size',
       attribute: 'size',
       classListPrefix: 'ch5-wifi-signal-level-gauge--size-'
-    },
+    }
   };
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -114,7 +113,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
       type: "enum",
       valueOnAttributeEmpty: Ch5WifiSignalLevelGauge.SIZE[0],
       isObservableProperty: true
-    },
+    }
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-wifi-signal-level-gauge';
@@ -130,7 +129,6 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   //#endregion
 
   //#region Getters and Setters
-
 
   public set receiveStateValue(value: string) {
     this._ch5Properties.set("receiveStateValue", value, null, (newValue: number) => {
@@ -326,7 +324,6 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
     });
   }
 
-
   private handleGaugeStyle() {
     Array.from(Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.values).forEach((gaugeStyle: any) => {
       this._elContainer.classList.remove(Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.classListPrefix + gaugeStyle);
@@ -341,16 +338,16 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   }
 
   private handleValue() {
-    ["0", "1", "2", "3"].forEach((bars: any) => {
-      this._elInnerContainer.classList.remove("ch5-wifi-bars-selected-" + bars);
-    });
+    for (let i: number = 0; i <= Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX; i++) {
+      this._elInnerContainer.classList.remove("ch5-wifi-bars-selected-" + i.toString());
+    };
     let currBar = Math.round(((this.value - this.minValue) * Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX) / (this.maxValue - this.minValue));
     if (currBar > Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX) {
       currBar = Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX;
     } else if (currBar < Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MIN) {
       currBar = Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MIN;
     }
-    this._elInnerContainer.classList.add("ch5-wifi-bars-selected-" + currBar);
+    this._elInnerContainer.classList.add("ch5-wifi-bars-selected-" + currBar.toString());
   }
 
   private handleSize() {
