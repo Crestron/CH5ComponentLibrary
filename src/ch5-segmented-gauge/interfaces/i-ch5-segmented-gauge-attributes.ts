@@ -1,5 +1,5 @@
 import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
-import { TCh5SegmentedGaugeOrientation, TCh5SegmentedGaugeGaugeLedStyle, TCh5SegmentedGaugePrimaryStateGraphic, TCh5SegmentedGaugeSecondaryStateGraphic, TCh5SegmentedGaugeTertiaryStateGraphic, } from './t-ch5-segmented-gauge';
+import { TCh5SegmentedGaugeOrientation, TCh5SegmentedGaugeGaugeLedStyle, TCh5SegmentedGaugeStateGraphic } from './t-ch5-segmented-gauge';
 
 /**
  * @ignore
@@ -22,7 +22,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`gaugeLedStyle` attribute",
   * "***",
-  * "Determines the graphic features of the gauge.  This style contains 2+ states: a deactivated segment and at least one colored segment graphics"
+  * "Determines the graphic features of the gauge. Possible values are rectangle and circle values."
   * ]
   * @name gaugeledstyle
   * @default segmentedGaugeRectPip
@@ -40,7 +40,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * @default green
   * @attributeType "EnumeratedValue"
   */
-  primaryStateGraphic: TCh5SegmentedGaugePrimaryStateGraphic;
+  primaryStateGraphic: TCh5SegmentedGaugeStateGraphic;
   /**
   * @documentation
   * [
@@ -52,7 +52,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * @default yellow
   * @attributeType "EnumeratedValue"
   */
-  secondaryStateGraphic: TCh5SegmentedGaugeSecondaryStateGraphic;
+  secondaryStateGraphic: TCh5SegmentedGaugeStateGraphic;
   /**
   * @documentation
   * [
@@ -64,13 +64,13 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * @default red
   * @attributeType "EnumeratedValue"
   */
-  tertiaryStateGraphic: TCh5SegmentedGaugeTertiaryStateGraphic;
+  tertiaryStateGraphic: TCh5SegmentedGaugeStateGraphic;
   /**
   * @documentation
   * [
   * "`minValue` attribute",
   * "***",
-  * "The minimum value determines the analog value sent to and received from the control system that will reflect the lowest position of the gauge Default value is 0"
+  * "The minimum value determines the analog value sent to and received from the control system that will reflect the lowest position of the gauge. Default value is 0."
   * ]
   * @name minvalue
   * @default 0
@@ -94,7 +94,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`numberOfSegments` attribute",
   * "***",
-  * "The maximum value determines the analog value sent to and received from the control system that will reflect the topmost point of the gauge. Default value is 65535"
+  * "Sets the number of gauge segments displayed on the gauge. This number is restricted to a maximum of 50 for usability."
   * ]
   * @name numberofsegments
   * @default 20
@@ -118,7 +118,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`sendEventOnClick` attribute",
   * "***",
-  * "Sets the number of gauge segments displayed on the gauge. This number is restricted to a maximum of 50 for usability Default value is 20"
+  * "User may optionally select a digital join to send a value to the control system. The value goes high when the user places their finger on the gauge and low when it is released."
   * ]
   * @name sendeventonclick
   * @join {"direction": "state", "isContractName": true, "booleanJoin": 1}
@@ -130,7 +130,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`receiveStateValue` attribute",
   * "***",
-  * "ReceiveStateValue"
+  * "Analog join to receive feedback from the control system. Note that if no join is selected, the gauge will not update its position."
   * ]
   * @name receivestatevalue
   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}

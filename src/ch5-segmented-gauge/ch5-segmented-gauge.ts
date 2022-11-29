@@ -2,7 +2,7 @@ import { Ch5Common } from "../ch5-common/ch5-common";
 import { Ch5SignalFactory } from "../ch5-core/index";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5SegmentedGaugeOrientation, TCh5SegmentedGaugeGaugeLedStyle, TCh5SegmentedGaugePrimaryStateGraphic, TCh5SegmentedGaugeSecondaryStateGraphic, TCh5SegmentedGaugeTertiaryStateGraphic, } from './interfaces/t-ch5-segmented-gauge';
+import { TCh5SegmentedGaugeOrientation, TCh5SegmentedGaugeGaugeLedStyle, TCh5SegmentedGaugeStateGraphic } from './interfaces/t-ch5-segmented-gauge';
 import { ICh5SegmentedGaugeAttributes } from './interfaces/i-ch5-segmented-gauge-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
@@ -12,10 +12,8 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   //#region Variables
 
   public static readonly ORIENTATION: TCh5SegmentedGaugeOrientation[] = ['horizontal', 'vertical'];
-  public static readonly GAUGE_LED_STYLE: TCh5SegmentedGaugeGaugeLedStyle[] = ['segmentedGaugeRectPip', 'segmentedGaugeRoundPip'];
-  public static readonly PRIMARY_STATE_GRAPHIC: TCh5SegmentedGaugePrimaryStateGraphic[] = ['green', 'inactive', 'yellow', 'red', 'blue', 'orange', 'white'];
-  public static readonly SECONDARY_STATE_GRAPHIC: TCh5SegmentedGaugeSecondaryStateGraphic[] = ['yellow', 'green', 'inactive', 'red', 'blue', 'orange', 'white'];
-  public static readonly TERTIARY_STATE_GRAPHIC: TCh5SegmentedGaugeTertiaryStateGraphic[] = ['red', 'green', 'inactive', 'yellow', 'blue', 'orange', 'white'];
+  public static readonly GAUGE_LED_STYLE: TCh5SegmentedGaugeGaugeLedStyle[] = ['rectangle', 'circle'];
+  public static readonly STATE_GRAPHIC: TCh5SegmentedGaugeStateGraphic[] = ['green', 'yellow', 'red', 'blue', 'orange', 'white', 'inactive'];
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
       default: Ch5SegmentedGauge.ORIENTATION[0],
@@ -32,25 +30,25 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
       classListPrefix: 'ch5-segmented-gauge--gauge-led-style-'
     },
     PRIMARY_STATE_GRAPHIC: {
-      default: Ch5SegmentedGauge.PRIMARY_STATE_GRAPHIC[0],
-      values: Ch5SegmentedGauge.PRIMARY_STATE_GRAPHIC,
+      default: Ch5SegmentedGauge.STATE_GRAPHIC[0],
+      values: Ch5SegmentedGauge.STATE_GRAPHIC,
       key: 'primaryStateGraphic',
       attribute: 'primaryStateGraphic',
-      classListPrefix: 'ch5-segmented-gauge--segment-primary-state-graphic-'
+      classListPrefix: 'ch5-segmented-gauge--segment-state-graphic-'
     },
     SECONDARY_STATE_GRAPHIC: {
-      default: Ch5SegmentedGauge.SECONDARY_STATE_GRAPHIC[0],
-      values: Ch5SegmentedGauge.SECONDARY_STATE_GRAPHIC,
+      default: Ch5SegmentedGauge.STATE_GRAPHIC[1],
+      values: Ch5SegmentedGauge.STATE_GRAPHIC,
       key: 'secondaryStateGraphic',
       attribute: 'secondaryStateGraphic',
-      classListPrefix: 'ch5-segmented-gauge--segment-secondary-state-graphic-'
+      classListPrefix: 'ch5-segmented-gauge--segment-state-graphic-'
     },
     TERTIARY_STATE_GRAPHIC: {
-      default: Ch5SegmentedGauge.TERTIARY_STATE_GRAPHIC[0],
-      values: Ch5SegmentedGauge.TERTIARY_STATE_GRAPHIC,
+      default: Ch5SegmentedGauge.STATE_GRAPHIC[2],
+      values: Ch5SegmentedGauge.STATE_GRAPHIC,
       key: 'tertiaryStateGraphic',
       attribute: 'tertiaryStateGraphic',
-      classListPrefix: 'ch5-segmented-gauge--segment-tertiary-state-graphic-'
+      classListPrefix: 'ch5-segmented-gauge--segment-state-graphic-'
     }
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -79,30 +77,30 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
       isObservableProperty: true
     },
     {
-      default: Ch5SegmentedGauge.PRIMARY_STATE_GRAPHIC[0],
-      enumeratedValues: Ch5SegmentedGauge.PRIMARY_STATE_GRAPHIC,
+      default: Ch5SegmentedGauge.STATE_GRAPHIC[0],
+      enumeratedValues: Ch5SegmentedGauge.STATE_GRAPHIC,
       name: "primaryStateGraphic",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5SegmentedGauge.PRIMARY_STATE_GRAPHIC[0],
+      valueOnAttributeEmpty: Ch5SegmentedGauge.STATE_GRAPHIC[0],
       isObservableProperty: true
     },
     {
-      default: Ch5SegmentedGauge.SECONDARY_STATE_GRAPHIC[0],
-      enumeratedValues: Ch5SegmentedGauge.SECONDARY_STATE_GRAPHIC,
+      default: Ch5SegmentedGauge.STATE_GRAPHIC[1],
+      enumeratedValues: Ch5SegmentedGauge.STATE_GRAPHIC,
       name: "secondaryStateGraphic",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5SegmentedGauge.SECONDARY_STATE_GRAPHIC[0],
+      valueOnAttributeEmpty: Ch5SegmentedGauge.STATE_GRAPHIC[1],
       isObservableProperty: true
     },
     {
-      default: Ch5SegmentedGauge.TERTIARY_STATE_GRAPHIC[0],
-      enumeratedValues: Ch5SegmentedGauge.TERTIARY_STATE_GRAPHIC,
+      default: Ch5SegmentedGauge.STATE_GRAPHIC[2],
+      enumeratedValues: Ch5SegmentedGauge.STATE_GRAPHIC,
       name: "tertiaryStateGraphic",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5SegmentedGauge.TERTIARY_STATE_GRAPHIC[0],
+      valueOnAttributeEmpty: Ch5SegmentedGauge.STATE_GRAPHIC[2],
       isObservableProperty: true
     },
     {
@@ -184,25 +182,30 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-segmented-gauge';
-  public static readonly DEFAULT_NUMBER_OF_SEGMENTS = 20;
-
   public cssClassPrefix = 'ch5-segmented-gauge';
   public primaryCssClass = 'ch5-segmented-gauge';
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private segments: HTMLElement = {} as HTMLElement;
   private value: number = 0;
-  private defaultNumberOfSegments: number = 20;
-  private numberOfSegmentsMax: number = 50;
-  private numberOfSegmentsMin: number = 1;
-  private analogMaxValue: number = 65535;
-  private analogMinValue: number = 0;
+  private defaultMaxValue: number = 65535;
+  private defaultMinValue: number = 0;
   // Last value set by user
   private _dirtyValue: number = 0;
   // Initial value or last value received from signal
   private _cleanValue: number = 0;
-  private _dirtyTimerHandle: number | null = null;
+
+  private debounceSignalHandling = this.debounce(() => {
+    this.handleSendEventOnClick();
+    this.setDirtyHandler();
+  }, 10);
+
+  private setDirtyHandler = this.debounce(() => {
+    if (this._dirtyValue !== this._cleanValue) {
+      this.value = this._cleanValue;
+      this.setValueForSegments();
+    }
+  }, 1500);
 
   //#endregion
 
@@ -226,37 +229,37 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     return this._ch5Properties.get<TCh5SegmentedGaugeGaugeLedStyle>("gaugeLedStyle");
   }
 
-  public set primaryStateGraphic(value: TCh5SegmentedGaugePrimaryStateGraphic) {
-    this._ch5Properties.set<TCh5SegmentedGaugePrimaryStateGraphic>("primaryStateGraphic", value, () => {
+  public set primaryStateGraphic(value: TCh5SegmentedGaugeStateGraphic) {
+    this._ch5Properties.set<TCh5SegmentedGaugeStateGraphic>("primaryStateGraphic", value, () => {
       this.setValueForSegments();
     });
   }
-  public get primaryStateGraphic(): TCh5SegmentedGaugePrimaryStateGraphic {
-    return this._ch5Properties.get<TCh5SegmentedGaugePrimaryStateGraphic>("primaryStateGraphic");
+  public get primaryStateGraphic(): TCh5SegmentedGaugeStateGraphic {
+    return this._ch5Properties.get<TCh5SegmentedGaugeStateGraphic>("primaryStateGraphic");
   }
 
-  public set secondaryStateGraphic(value: TCh5SegmentedGaugeSecondaryStateGraphic) {
-    this._ch5Properties.set<TCh5SegmentedGaugeSecondaryStateGraphic>("secondaryStateGraphic", value, () => {
+  public set secondaryStateGraphic(value: TCh5SegmentedGaugeStateGraphic) {
+    this._ch5Properties.set<TCh5SegmentedGaugeStateGraphic>("secondaryStateGraphic", value, () => {
       this.setValueForSegments();
     });
   }
-  public get secondaryStateGraphic(): TCh5SegmentedGaugeSecondaryStateGraphic {
-    return this._ch5Properties.get<TCh5SegmentedGaugeSecondaryStateGraphic>("secondaryStateGraphic");
+  public get secondaryStateGraphic(): TCh5SegmentedGaugeStateGraphic {
+    return this._ch5Properties.get<TCh5SegmentedGaugeStateGraphic>("secondaryStateGraphic");
   }
 
-  public set tertiaryStateGraphic(value: TCh5SegmentedGaugeTertiaryStateGraphic) {
-    this._ch5Properties.set<TCh5SegmentedGaugeTertiaryStateGraphic>("tertiaryStateGraphic", value, () => {
+  public set tertiaryStateGraphic(value: TCh5SegmentedGaugeStateGraphic) {
+    this._ch5Properties.set<TCh5SegmentedGaugeStateGraphic>("tertiaryStateGraphic", value, () => {
       this.setValueForSegments();
     });
   }
-  public get tertiaryStateGraphic(): TCh5SegmentedGaugeTertiaryStateGraphic {
-    return this._ch5Properties.get<TCh5SegmentedGaugeTertiaryStateGraphic>("tertiaryStateGraphic");
+  public get tertiaryStateGraphic(): TCh5SegmentedGaugeStateGraphic {
+    return this._ch5Properties.get<TCh5SegmentedGaugeStateGraphic>("tertiaryStateGraphic");
   }
 
   public set minValue(value: number) {
     this._ch5Properties.set<number>("minValue", value, () => {
       if (value >= this.maxValue) {
-        this.minValue = this.analogMinValue;
+        this.minValue = this.defaultMinValue;
       }
       this.setValueForSegments();
     });
@@ -269,7 +272,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   public set maxValue(value: number) {
     this._ch5Properties.set<number>("maxValue", value, () => {
       if (value <= this.minValue) {
-        this.maxValue = this.analogMaxValue;
+        this.maxValue = this.defaultMaxValue;
       }
       this.setValueForSegments();
     });
@@ -281,7 +284,6 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   public set numberOfSegments(value: number) {
     this._ch5Properties.set<number>("numberOfSegments", value, () => {
-      this.defaultNumberOfSegments = value;
       this.handleNumberOfSegments();
     });
   }
@@ -291,9 +293,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   public set touchSettable(value: boolean) {
-    this._ch5Properties.set<boolean>("touchSettable", value, () => {
-      // enter your code
-    });
+    this._ch5Properties.set<boolean>("touchSettable", value);
   }
   public get touchSettable(): boolean {
     return this._ch5Properties.get<boolean>("touchSettable");
@@ -308,10 +308,10 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   public set receiveStateValue(value: string) {
     this._ch5Properties.set("receiveStateValue", value, null, (newValue: number) => {
-      if (newValue > this.analogMaxValue) {
-        this.value = this.analogMaxValue;
-      } else if (newValue < this.analogMinValue) {
-        this.value = this.analogMinValue;
+      if (newValue > this.maxValue) {
+        this.value = this.maxValue;
+      } else if (newValue < this.minValue) {
+        this.value = this.minValue;
       } else {
         this.value = newValue;
       }
@@ -322,6 +322,8 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   public get receiveStateValue(): string {
     return this._ch5Properties.get<string>('receiveStateValue');
   }
+
+  //#endregion
 
   //#region Static Methods
 
@@ -340,68 +342,6 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   //#endregion
 
-  private debounceSignalHandling() {
-    this.handleSendEventOnClick();
-    this.setDirty();
-  }
-
-  /**
-   * Set the ch5-segmented-gauge to a dirty state
-   *
-   * @event dirty
-   */
-  private setDirty(): void {
-    const detail = { value: this.value };
-    // Fired when the component's value changes due to user interaction.
-    this.dispatchEvent(new CustomEvent('dirty', {
-      bubbles: true,
-      cancelable: false,
-      detail
-    }));
-    this.setDirtyHandler();
-  }
-
-  /**
-   * Set the ch5-segmented-gauge to a clean state
-   */
-  private setClean(): void {
-    if (this._dirtyTimerHandle !== null) {
-      clearTimeout(this._dirtyTimerHandle);
-    }
-    // fire clean event
-    const detail = { value: this.value };
-    /**
-     * Fired when the component's becomes clean.
-     *
-     * @event clean
-     */
-    this.dispatchEvent(new CustomEvent('clean', {
-      bubbles: true,
-      cancelable: false,
-      detail
-    }));
-  }
-
-  /**
-   * Dirty handler
-   */
-  private setDirtyHandler() {
-    this.logger.log("setDirtyHandler");
-    if (this._dirtyTimerHandle !== null) {
-      clearTimeout(this._dirtyTimerHandle);
-    }
-    this._dirtyTimerHandle = window.setTimeout(() => {
-      this._dirtyTimerHandle = null;
-      if (this._dirtyValue !== this._cleanValue) {
-        this.value = this._cleanValue;
-        this.setValueForSegments();
-        this.setClean();
-      }
-    }, 1000);
-  }
-
-  //#endregion
-
   //#region Component Lifecycle
 
   public constructor() {
@@ -413,8 +353,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     }
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5SegmentedGauge.COMPONENT_PROPERTIES);
-    this.handleNumberOfSegments();
-    this.updateCssClass();
+    this.initCssClass();
   }
 
   public static get observedAttributes(): string[] {
@@ -460,7 +399,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-    this.setValueForSegments();
+    this.handleNumberOfSegments();
     customElements.whenDefined('ch5-segmented-gauge').then(() => {
       this.componentLoadedEvent(Ch5SegmentedGauge.ELEMENT_NAME, this.id);
     });
@@ -539,20 +478,14 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.classListPrefix + this.gaugeLedStyle);
   }
   private handleNumberOfSegments() {
-    Array.from(this._elContainer.children).forEach((childEle) => {
-      childEle.remove();
-    });
-    if (this.defaultNumberOfSegments < this.numberOfSegmentsMin) {
-      this.defaultNumberOfSegments = this.numberOfSegmentsMin;
+    Array.from(this._elContainer.children).forEach((childEle) => childEle.remove());
+
+    for (let i = 0; i < this.numberOfSegments; i++) {
+      const segments = document.createElement('div');
+      segments.classList.add(this.primaryCssClass + "-segment");
+      this._elContainer.appendChild(segments);
     }
-    if (this.defaultNumberOfSegments > this.numberOfSegmentsMax) {
-      this.defaultNumberOfSegments = this.numberOfSegmentsMax;
-    }
-    for (let i = 1; i <= this.defaultNumberOfSegments; i++) {
-      this.segments = document.createElement('div');
-      this.segments.classList.add(this.primaryCssClass + "-segment");
-      this._elContainer.appendChild(this.segments);
-    }
+    this.setValueForSegments();
   }
   private handleTouchSettable(e: MouseEvent) {
     if (this.orientation === 'horizontal') {
@@ -569,7 +502,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this.debounceSignalHandling();
   }
   private handleSendEventOnClick(): void {
-    if (this.sendEventOnClick) {
+    if (this.sendEventOnClick && this.sendEventOnClick !== null && this.sendEventOnClick !== undefined) {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventOnClick)?.publish(this.value);
     }
   }
@@ -580,11 +513,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     const secondarySegments = Math.round((30 * this.numberOfSegments) / 100);
     const tertiarySegments = Math.round((10 * this.numberOfSegments) / 100);
 
-    Array.from(segmentChildren).forEach((ele) => {
-      ele.classList.remove(Ch5SegmentedGauge.COMPONENT_DATA.PRIMARY_STATE_GRAPHIC.classListPrefix + this.primaryStateGraphic);
-      ele.classList.remove(Ch5SegmentedGauge.COMPONENT_DATA.SECONDARY_STATE_GRAPHIC.classListPrefix + this.secondaryStateGraphic);
-      ele.classList.remove(Ch5SegmentedGauge.COMPONENT_DATA.TERTIARY_STATE_GRAPHIC.classListPrefix + this.tertiaryStateGraphic);
-    });
+    Array.from(segmentChildren).forEach((ele) => ele.className = this.primaryCssClass + "-segment");
 
     Array.from(segmentChildren).forEach((element, i) => {
       if (i < this.numberOfSegments && i < segmentBars && i < primarySegments) {
@@ -597,9 +526,8 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     });
   }
 
-  private updateCssClass() {
-    this.logger.start('UpdateCssClass');
-    super.updateCssClasses();
+  private initCssClass() {
+    this.logger.start('initCssClass');
 
     this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
 

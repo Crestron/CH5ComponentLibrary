@@ -6,7 +6,7 @@ import { ICh5SegmentedGaugeAttributes } from "./i-ch5-segmented-gauge-attributes
  * @isattribute false
  * @tagName ch5-segmented-gauge
  * @role segmented-gauge
- * @description The Segmented Gauge is used to display feedback from an Analog Join by scaling the analog value on the touch panel instead of via programming on the control system.
+ * @description The Segmented Gauge is used to display feedback from an analog join by scaling the analog value on the touch panel instead of via programming on the control system.
  * @componentVersion 2.2.0
  * @childElements
  * [
@@ -16,7 +16,7 @@ import { ICh5SegmentedGaugeAttributes } from "./i-ch5-segmented-gauge-attributes
  * [
  *   "`ch5-segmented-gauge` element",
  *   "***",
- *   "The Segmented Gauge is used to display feedback from an Analog Join by scaling the analog value on the touch panel instead of via programming on the control system."
+ *   "The Segmented Gauge is used to display feedback from an analog join by scaling the analog value on the touch panel instead of via programming on the control system."
  * ]
  * @snippets
  * [

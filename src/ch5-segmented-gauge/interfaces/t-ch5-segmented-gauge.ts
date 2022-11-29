@@ -6,7 +6,5 @@
 // under which you licensed this source code.
 
 export type TCh5SegmentedGaugeOrientation = 'horizontal' | 'vertical';
-export type TCh5SegmentedGaugeGaugeLedStyle = 'segmentedGaugeRectPip' | 'segmentedGaugeRoundPip';
-export type TCh5SegmentedGaugePrimaryStateGraphic = 'green' | 'inactive' | 'yellow' | 'red' | 'blue' | 'orange' | 'white';
-export type TCh5SegmentedGaugeSecondaryStateGraphic = 'yellow' | 'green' | 'inactive' | 'red' | 'blue' | 'orange' | 'white';
-export type TCh5SegmentedGaugeTertiaryStateGraphic = 'red' | 'green' | 'inactive' | 'yellow' | 'blue' | 'orange' | 'white';
+export type TCh5SegmentedGaugeGaugeLedStyle = 'rectangle' | 'circle';
+export type TCh5SegmentedGaugeStateGraphic = 'green' | 'yellow' | 'red' | 'blue' | 'orange' | 'white' | 'inactive';
