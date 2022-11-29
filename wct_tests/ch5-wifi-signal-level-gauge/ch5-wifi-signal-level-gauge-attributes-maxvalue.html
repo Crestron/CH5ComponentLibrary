@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-wifi-signal-level-gauge-maxValue-attributes">
+    <template>
+      <ch5-wifi-signal-level-gauge></ch5-wifi-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-wifi-signal-level-gauge-maxValue-attributes-value', () => {
+      let ch5WifiSignalLevelGauge;
+
+      setup(async () => {
+        ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-maxValue-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', '0', '1', '2', '99', '100', '101'];
+      let expectedResult = ['100', '100', '100', '100', '1', '1', '2', '99', '100', '100'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "maxValue"', () => {
+          ch5WifiSignalLevelGauge.setAttribute('maxValue', ele);
+          expect(ch5WifiSignalLevelGauge.getAttribute('maxValue')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>
