@@ -460,6 +460,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
+    this.setValueForSegments();
     customElements.whenDefined('ch5-segmented-gauge').then(() => {
       this.componentLoadedEvent(Ch5SegmentedGauge.ELEMENT_NAME, this.id);
     });
