@@ -22,10 +22,10 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`gaugeLedStyle` attribute",
   * "***",
-  * "Determines the graphic features of the gauge. Possible values are rectangle and circle values."
+  * "Determines the graphic features of the gauge. Possible values are rectangle and circle."
   * ]
   * @name gaugeledstyle
-  * @default segmentedGaugeRectPip
+  * @default rectangle
   * @attributeType "EnumeratedValue"
   */
   gaugeLedStyle: TCh5SegmentedGaugeGaugeLedStyle;

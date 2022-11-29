@@ -195,17 +195,17 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   // Initial value or last value received from signal
   private _cleanValue: number = 0;
 
-  private debounceSignalHandling = this.debounce(() => {
-    this.handleSendEventOnClick();
-    this.setDirtyHandler();
-  }, 10);
+  // private debounceSignalHandling = this.debounce(() => {
+  //   this.handleSendEventOnClick();
+  //   this.setDirtyHandler();
+  // }, 10);
 
-  private setDirtyHandler = this.debounce(() => {
-    if (this._dirtyValue !== this._cleanValue) {
-      this.value = this._cleanValue;
-      this.setValueForSegments();
-    }
-  }, 1500);
+  // private setDirtyHandler = this.debounce(() => {
+  //   if (this._dirtyValue !== this._cleanValue) {
+  //     this.value = this._cleanValue;
+  //     this.setValueForSegments();
+  //   }
+  // }, 1500);
 
   //#endregion
 
@@ -499,7 +499,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     }
     this._dirtyValue = this.value;
     // this.setValueForSegments();
-    this.debounceSignalHandling();
+    // this.debounceSignalHandling();
   }
   private handleSendEventOnClick(): void {
     if (this.sendEventOnClick && this.sendEventOnClick !== null && this.sendEventOnClick !== undefined) {
