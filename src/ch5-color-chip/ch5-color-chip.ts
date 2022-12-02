@@ -239,7 +239,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   public constructor() {
     super();
-    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"]
+    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow", "customstyle"];
     this.logger.start('constructor()', Ch5ColorChip.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
