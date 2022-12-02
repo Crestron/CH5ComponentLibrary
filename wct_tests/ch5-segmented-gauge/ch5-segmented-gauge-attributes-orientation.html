@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-segmented-gauge-orientation-attributes">
+    <template>
+      <ch5-segmented-gauge></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-segmented-gauge-orientation-attributes-empty">
+    <template>
+      <ch5-segmented-gauge orientation=""></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-segmented-gauge-orientation-gaugeLedStyle-attributes-empty">
+    <template>
+      <ch5-segmented-gauge orientation="" gaugeLedStyle=""></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-segmented-gauge-orientation-attributes-value', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-orientation-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'horizontal', 'vertical'];
+      let expectedResult = ['horizontal', 'horizontal', 'horizontal', 'horizontal', 'horizontal', 'vertical'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "orientation"', () => {
+          ch5SegmentedGauge.setAttribute('orientation', ele);
+          expect(ch5SegmentedGauge.getAttribute('orientation')).to.be.equal(expectedResult[i]);
+        });
+      });
+    });
+
+    suite('ch5-segmented-gauge-orientation-attributes-value-empty', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-orientation-attributes-empty');
+      });
+
+      test('Check value "orientation"', () => {
+        expect(ch5SegmentedGauge.getAttribute("orientation")).to.be.equal('horizontal');
+      });
+    });
+
+    suite('ch5-segmented-gauge-orientation-gaugeLedStyle-attributes-empty', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-orientation-gaugeLedStyle-attributes-empty');
+      });
+
+      test('Check value "orientation" and "gaugeLedStyle"', () => {
+        expect(ch5SegmentedGauge.getAttribute('orientation')).to.be.equal('horizontal');
+        expect(ch5SegmentedGauge.getAttribute('gaugeLedStyle')).to.be.equal('segmentedGaugeRectPip');
+      });
+    });
+  </script>
+</body>
+
+</html>
