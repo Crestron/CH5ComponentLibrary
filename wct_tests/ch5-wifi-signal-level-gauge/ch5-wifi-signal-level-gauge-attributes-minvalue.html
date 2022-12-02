@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-wifi-signal-level-gauge-minValue-attributes">
+    <template>
+      <ch5-wifi-signal-level-gauge></ch5-wifi-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-wifi-signal-level-gauge-minValue-attributes-value', () => {
+      let ch5WifiSignalLevelGauge;
+
+      setup(async () => {
+        ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-minValue-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', '-1', '0', '1', '98', '99', '100'];
+      let expectedResult = ['0', '0', '0', '0', '0', '0', '1', '98', '99', '99'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "minValue"', () => {
+          ch5WifiSignalLevelGauge.setAttribute('minValue', ele);
+          expect(ch5WifiSignalLevelGauge.getAttribute('minValue')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

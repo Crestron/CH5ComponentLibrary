@@ -36,4 +36,5 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5TriggerViewChild = 'listbox';
     public static readonly ch5Template = 'template';
     public static readonly ch5Video = 'video';
+    public static readonly ch5WifiSignalLevelGauge = 'wifi-signal-level-gauge';
 }
