@@ -1,10 +1,10 @@
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5CommonAttributesSet3 } from "../../ch5-common/interfaces/i-ch5-common-attributes-set3";
 import { TCh5SegmentedGaugeOrientation, TCh5SegmentedGaugeGaugeLedStyle, TCh5SegmentedGaugeStateGraphic } from './t-ch5-segmented-gauge';
 
 /**
  * @ignore
  */
-export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
+export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributesSet3 {
   /**
   * @documentation
   * [

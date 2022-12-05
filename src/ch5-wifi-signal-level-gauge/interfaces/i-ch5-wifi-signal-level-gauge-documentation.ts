@@ -34,7 +34,7 @@ import { ICh5WifiSignalLevelGaugeAttributes } from "./i-ch5-wifi-signal-level-ga
  *    "body": [
  *       "<ch5-wifi-signal-level-gauge gaugeStyle=\"${1:1}\"",
  *       "\treceiveStateValue=\"${2}\">",
- *       "</ch5-signal-level-gauge>$0"
+ *       "</ch5-wifi-signal-level-gauge>$0"
  *     ]
  *   },
  *   {
@@ -42,8 +42,8 @@ import { ICh5WifiSignalLevelGaugeAttributes } from "./i-ch5-wifi-signal-level-ga
  *     "description": "Crestron wifi signal level gauge (All Attributes)",
  *     "body": [
  *       "<ch5-wifi-signal-level-gauge receiveStateValue=\"${1:}\"",
- *       "\tgaugeStyle=\"${2::|light,accents,dark|}\"",
- *       "\talignment=\"${3::|up,down,left,right|}\"",
+ *       "\tgaugeStyle=\"${2|light,accents,dark|}\"",
+ *       "\talignment=\"${3|up,down,left,right|}\"",
  *       "\tminValue=\"${4::}\"",
  *       "\tmaxValue=\"${5:100}\"",
  *       "\tsize=\"${6|regular,small,X-large,large|}\">",
