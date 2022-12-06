@@ -32,8 +32,8 @@ import { ICh5WifiSignalLevelGaugeAttributes } from "./i-ch5-wifi-signal-level-ga
  *    "prefix": "ch5-wifi-signal-level-gauge:default",
  *    "description": "Crestron wifi signal level gauge",
  *    "body": [
- *       "<ch5-wifi-signal-level-gauge gaugeStyle=\"${1:1}\"",
- *       "\treceiveStateValue=\"${2}\">",
+ *       "<ch5-wifi-signal-level-gauge gaugeStyle=\"${1:light}\"",
+ *       "\treceiveStateValue=\"${2:}\">",
  *       "</ch5-wifi-signal-level-gauge>$0"
  *     ]
  *   },
@@ -41,13 +41,14 @@ import { ICh5WifiSignalLevelGaugeAttributes } from "./i-ch5-wifi-signal-level-ga
  *     "prefix": "ch5-wifi-signal-level-gauge:all-attributes",
  *     "description": "Crestron wifi signal level gauge (All Attributes)",
  *     "body": [
- *       "<ch5-wifi-signal-level-gauge receiveStateValue=\"${1:}\"",
- *       "\tgaugeStyle=\"${2|light,accents,dark|}\"",
- *       "\talignment=\"${3|up,down,left,right|}\"",
- *       "\tminValue=\"${4::}\"",
- *       "\tmaxValue=\"${5:100}\"",
- *       "\tsize=\"${6|regular,small,X-large,large|}\">",
- *      "</ch5-wifi-signal-level-gauge>$0"
+ *       "<ch5-wifi-signal-level-gauge id=\"ch5-wifi-signal-level-gauge_${1:id}\"",
+ *       "\treceiveStateValue=\"${2:}\"",
+ *       "\tgaugeStyle=\"${3:light}\"",
+ *       "\torientation=\"${4:up}\"",
+ *       "\tminValue=\"${5:}\"",
+ *       "\tmaxValue=\"${6:100}\"",
+ *       "\tsize=\"${7:regular}\">",
+ *       "</ch5-wifi-signal-level-gauge>$0"
  *       ]
  *    }
  *  ]
