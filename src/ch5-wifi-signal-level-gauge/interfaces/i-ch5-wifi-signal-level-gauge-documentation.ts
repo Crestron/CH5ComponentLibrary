@@ -44,7 +44,7 @@ import { ICh5WifiSignalLevelGaugeAttributes } from "./i-ch5-wifi-signal-level-ga
  *       "<ch5-wifi-signal-level-gauge id=\"ch5-wifi-signal-level-gauge_${1:id}\"",
  *       "\treceiveStateValue=\"${2:}\"",
  *       "\tgaugeStyle=\"${3:light}\"",
- *       "\torientation=\"${4:up}\"",
+ *       "\talignment=\"${4:up}\"",
  *       "\tminValue=\"${5:0}\"",
  *       "\tmaxValue=\"${6:100}\"",
  *       "\tsize=\"${7:regular}\">",
