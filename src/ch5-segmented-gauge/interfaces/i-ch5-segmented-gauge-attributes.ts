@@ -128,6 +128,18 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   /**
   * @documentation
   * [
+  * "`sendEventOnChange` attribute",
+  * "***",
+  * "Send an analog signal value on a change of value in the gauge. "
+  * ]
+  * @name sendeventonchange
+  * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+  * @attributeType "Join"
+  */
+   sendEventOnChange: string;
+  /**
+  * @documentation
+  * [
   * "`receiveStateValue` attribute",
   * "***",
   * "Analog join to receive feedback from the control system. Note that if no join is selected, the gauge will not update its position."

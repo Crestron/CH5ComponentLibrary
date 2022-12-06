@@ -54,6 +54,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     sendeventonclick: { direction: "state", booleanJoin: 1, contractName: true },
+    sendeventonchange: { direction: "event", numericJoin: 1, contractName: true },
     receivestatevalue: { direction: "state", numericJoin: 1, contractName: true },
   };
 
@@ -172,6 +173,16 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     {
       default: "",
       isSignal: true,
+      name: "sendEventOnChange",
+      signalType: "string",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      isSignal: true,
       name: "receiveStateValue",
       signalType: "number",
       removeAttributeOnNull: true,
@@ -187,6 +198,8 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
+  private _elRangeContainer: HTMLElement = {} as HTMLElement;
+  private _elInputRange: HTMLElement = {} as HTMLElement;
   private value: number = 0;
   private defaultMaxValue: number = 65535;
   private defaultMinValue: number = 0;
@@ -194,18 +207,20 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   private _dirtyValue: number = 0;
   // Initial value or last value received from signal
   private _cleanValue: number = 0;
+  private mouseDown: boolean = false;
 
-  // private debounceSignalHandling = this.debounce(() => {
-  //   this.handleSendEventOnClick();
-  //   this.setDirtyHandler();
-  // }, 10);
+  private debounceSignalHandling = this.debounce(() => {
+    this.handleSendEventOnClick();
+    this.handleSendEventOnChange();
+    this.setDirtyHandler();
+  }, 100);
 
-  // private setDirtyHandler = this.debounce(() => {
-  //   if (this._dirtyValue !== this._cleanValue) {
-  //     this.value = this._cleanValue;
-  //     this.setValueForSegments();
-  //   }
-  // }, 1500);
+  private setDirtyHandler = this.debounce(() => {
+    if (this._dirtyValue !== this._cleanValue) {
+      this.value = this._cleanValue;
+      this.setValueForSegments();
+    }
+  }, 1000);
 
   //#endregion
 
@@ -304,6 +319,17 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
   public get sendEventOnClick(): string {
     return this._ch5Properties.get<string>('sendEventOnClick');
+  }
+
+  public set sendEventOnChange(value: string) {
+    this._ch5Properties.set("sendEventOnChange", value, (newValue: number) => {
+      if (this._dirtyValue !== this._cleanValue) {
+        this._dirtyValue = newValue;
+      }
+    });
+  }
+  public get sendEventOnChange(): string {
+    return this._ch5Properties.get<string>('sendEventOnChange');
   }
 
   public set receiveStateValue(value: string) {
@@ -421,6 +447,16 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
+    this._elRangeContainer = document.createElement('div');
+    this._elRangeContainer.classList.add("range-details");
+    this._elInputRange = document.createElement('input');
+    this._elInputRange.setAttribute("type", "range");
+    this._elInputRange.setAttribute("min", "0");
+    this._elInputRange.setAttribute("max", "0");
+    this._elInputRange.setAttribute("value", "0");
+    this._elInputRange.setAttribute("step", "1");
+    this._elRangeContainer.appendChild(this._elInputRange);
+    this._elContainer.appendChild(this._elRangeContainer);
     this.logger.stop();
   }
 
@@ -440,14 +476,13 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    if (this.touchSettable) {
-      this.addEventListener('click', this.handleTouchSettable);
-    }
+    this._elContainer.addEventListener('click', this.handleTouchSettable.bind(this));
+    this._elInputRange.addEventListener('input', this.inputRangeChanged.bind(this));
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this.removeEventListener('click', this.handleTouchSettable);
+    this._elContainer.removeEventListener('click', this.handleTouchSettable);
   }
 
   protected unsubscribeFromSignals() {
@@ -478,8 +513,8 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.classListPrefix + this.gaugeLedStyle);
   }
   private handleNumberOfSegments() {
-    Array.from(this._elContainer.children).forEach((childEle) => childEle.remove());
-
+    Array.from(this._elContainer.querySelectorAll(".ch5-segmented-gauge-segment")).forEach((childEle) => childEle.remove());
+    this._elInputRange.setAttribute("max", String(this.numberOfSegments));
     for (let i = 0; i < this.numberOfSegments; i++) {
       const segments = document.createElement('div');
       segments.classList.add(this.primaryCssClass + "-segment");
@@ -488,42 +523,72 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this.setValueForSegments();
   }
   private handleTouchSettable(e: MouseEvent) {
+    if (this.touchSettable === false) {
+      return;
+    }
     if (this.orientation === 'horizontal') {
       const { left, right } = this._elContainer.getBoundingClientRect();
-      const roundPercent = Math.round(((e.clientX - left) * 100.0) / (right - left));
+      const roundPercent = Math.floor(((e.clientX - left) * 100.0) / (right - left));
       this.value = Math.round(((roundPercent * (this.maxValue - this.minValue)) / 100) + this.minValue);
     } else {
       const { top, bottom } = this._elContainer.getBoundingClientRect();
-      const roundPercent = Math.abs(Math.round(((e.clientY - top) * 100.0) / (bottom - top)) - 100);
+      const roundPercent = Math.abs(Math.floor(((e.clientY - top) * 100.0) / (bottom - top)) - 100);
       this.value = Math.round(((roundPercent * (this.maxValue - this.minValue)) / 100) + this.minValue);
     }
     this._dirtyValue = this.value;
-    // this.setValueForSegments();
-    // this.debounceSignalHandling();
+    this.setValueForSegments();
+    this.debounceSignalHandling();
   }
   private handleSendEventOnClick(): void {
     if (this.sendEventOnClick && this.sendEventOnClick !== null && this.sendEventOnClick !== undefined) {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventOnClick)?.publish(this.value);
     }
   }
+  private handleSendEventOnChange(): void {
+    if (this.sendEventOnChange && this._dirtyValue !== this._cleanValue) {
+      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventOnChange)?.publish(this._dirtyValue);
+    }
+    this.setValueForSegments();
+    // this.debounceSignalHandling();
+  }
+
   private setValueForSegments() {
-    const segmentChildren = this._elContainer.children;
+    const segmentChildren = this._elContainer.querySelectorAll(".ch5-segmented-gauge-segment");
     const segmentBars = Math.round(((this.value - this.minValue) * this.numberOfSegments) / (this.maxValue - this.minValue));
     const primarySegments = Math.round((60 * this.numberOfSegments) / 100);
     const secondarySegments = Math.round((30 * this.numberOfSegments) / 100);
     const tertiarySegments = Math.round((10 * this.numberOfSegments) / 100);
-
-    Array.from(segmentChildren).forEach((ele) => ele.className = this.primaryCssClass + "-segment");
-
     Array.from(segmentChildren).forEach((element, i) => {
-      if (i < this.numberOfSegments && i < segmentBars && i < primarySegments) {
+      element.className = this.primaryCssClass + "-segment";
+      if (i < this.numberOfSegments && i < primarySegments) {
         element.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.PRIMARY_STATE_GRAPHIC.classListPrefix + this.primaryStateGraphic);
-      } else if (i < this.numberOfSegments && i < segmentBars && i < primarySegments + secondarySegments) {
+      } else if (i < this.numberOfSegments && i < primarySegments + secondarySegments) {
         element.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.SECONDARY_STATE_GRAPHIC.classListPrefix + this.secondaryStateGraphic);
-      } else if (i < this.numberOfSegments && i < segmentBars && i < primarySegments + secondarySegments + tertiarySegments) {
+      } else if (i < this.numberOfSegments && i < primarySegments + secondarySegments + tertiarySegments) {
         element.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.TERTIARY_STATE_GRAPHIC.classListPrefix + this.tertiaryStateGraphic);
       }
+      if (i < segmentBars) {
+        element.classList.add("active");
+      }
     });
+  }
+
+  private inputRangeChanged() {
+    const elemInput: HTMLInputElement = this._elContainer.querySelector('input[type="range"]') as HTMLInputElement;
+    const newValue = Number(elemInput.value);
+    const gaugeSegments = this._elContainer.querySelectorAll(".ch5-segmented-gauge-segment");
+    for (let i = 0; i < gaugeSegments.length; i++) {
+      if (newValue === 0) {
+        gaugeSegments[i].classList.remove("active");
+      } else {
+        if (newValue > i) {
+          gaugeSegments[i].classList.add("active");
+        }
+        else {
+          gaugeSegments[i].classList.remove("active");
+        }
+      }
+    }
   }
 
   private initCssClass() {

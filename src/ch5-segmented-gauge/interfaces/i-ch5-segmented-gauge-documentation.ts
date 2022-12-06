@@ -43,7 +43,8 @@ import { ICh5SegmentedGaugeAttributes } from "./i-ch5-segmented-gauge-attributes
  *       "\tnumberOfSegments=\"${9:20}\"",
  *       "\ttouchSettable=\"${10:true}\"",
  *       "\tsendEventOnClick=\"${11:}\"",
- *       "\treceiveStateValue=\"${12:}\">",
+ *       "\tsendEventOnChange=\"${12:}\"",
+ *       "\treceiveStateValue=\"${13:}\">",
  *       "</ch5-segmented-gauge>$0"
  *       ]
  *    },
