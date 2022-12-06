@@ -10,6 +10,8 @@ import _ from "lodash";
 
 export class Ch5ButtonListModeState extends Ch5Common implements ICh5ButtonListModeStateAttributes {
 
+  // TODO - Why extend Ch5Common and not Ch5Log
+  
   //#region Variables
 
   public static readonly STATE: TCh5ButtonListModeStateState[] = ['normal', 'pressed', 'selected'];

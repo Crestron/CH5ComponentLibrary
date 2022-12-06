@@ -9,6 +9,8 @@ import { Ch5ButtonList } from "./ch5-button-list";
 
 export class Ch5ButtonListMode extends Ch5Common implements ICh5ButtonListModeAttributes {
 
+  // TODO - Why extend Ch5Common and not Ch5Log
+  
   //#region Variables
 
   public static readonly TYPE: TCh5ButtonListModeType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
@@ -283,6 +285,7 @@ export class Ch5ButtonListMode extends Ch5Common implements ICh5ButtonListModeAt
     }
     return getTheMatchingParent(this.parentElement as Node);
   }
+
   //#endregion
 
 }

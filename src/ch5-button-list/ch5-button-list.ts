@@ -674,7 +674,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._elContainer.addEventListener('mousemove', this.handleMouseMove);
     this._elContainer.addEventListener('scroll', this.handleScrollEvent);
     window.addEventListener('resize', this.onWindowResizeHandler.bind(this));
-
   }
 
   protected removeEventListeners() {
@@ -685,7 +684,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._elContainer.removeEventListener('mousemove', this.handleMouseMove);
     this._elContainer.removeEventListener('scroll', this.handleScrollEvent);
     window.removeEventListener('resize', this.onWindowResizeHandler);
-
   }
 
   protected unsubscribeFromSignals() {
@@ -864,7 +862,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     if (buttonListModes && buttonListModes.length > 0) {
       Array.from(buttonListModes).forEach((buttonListMode) => {
         if (buttonListMode.parentElement instanceof Ch5ButtonList) {
-          const ch5ButtonMode = new Ch5ButtonMode();
+          const ch5ButtonMode = new Ch5ButtonMode(btn);
           Ch5ButtonMode.observedAttributes.forEach((attr) => {
             if (buttonListMode.hasAttribute(attr)) {
               ch5ButtonMode.setAttribute(attr, buttonListMode.getAttribute(attr) + '');
@@ -875,7 +873,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
           if (buttonListModeStates && buttonListModeStates.length > 0) {
             Array.from(buttonListModeStates).forEach(buttonListModeState => {
               if (buttonListModeState.parentElement instanceof Ch5ButtonListMode) {
-                const buttonModeState = new Ch5ButtonModeState();
+                const buttonModeState = new Ch5ButtonModeState(btn);
                 Ch5ButtonModeState.observedAttributes.forEach((attr) => {
                   if (buttonListModeState.hasAttribute(attr)) {
                     buttonModeState.setAttribute(attr, buttonListModeState.getAttribute(attr) + '');
