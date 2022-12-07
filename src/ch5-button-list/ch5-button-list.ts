@@ -359,9 +359,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private readonly RESIZE_DEBOUNCE: number = 500;
 
   // Default Row and Column value
-  private rowClassValue = 1;
-  private columnClassValue = 1;
-
+  private rowClassValue: number = 1;
+  private columnClassValue: number = 1;
 
   //#endregion
 
@@ -546,7 +545,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     return this._ch5Properties.get<string>("sendEventOnButtonTouch");
   }
 
-
   //#endregion
 
   //#region Static Methods
@@ -691,7 +689,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._ch5Properties.unsubscribe();
   }
 
-  private handleMouseDown = (e: MouseEvent) => {
+  private handleMouseDown(e: MouseEvent) {
     this.isDown = true;
     this._elContainer.classList.add('active');
     if (this.orientation === "horizontal") {
@@ -701,13 +699,13 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       this.startY = e.pageY - this._elContainer.offsetTop;
       this.scrollListTop = this._elContainer.scrollTop;
     }
-
   }
-  private handleMouseUpAndLeave = () => {
+  private handleMouseUpAndLeave() {
     this.isDown = false;
     this._elContainer.classList.remove('active');
   }
-  private handleMouseMove = (e: MouseEvent) => {
+
+  private handleMouseMove(e: MouseEvent) {
     if (!this.isDown) return;
     e.preventDefault();
     if (this.orientation === "horizontal") {
@@ -721,7 +719,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
   }
 
-  private handleScrollEvent = () => {
+  private handleScrollEvent()  {
     // update the scrollbar width and position
     this.initScrollbar();
     let rowColumnValue = 0;
@@ -738,9 +736,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       for (let i = this.loadedButtons; i < this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER && i < this.maxNumItems; i++) { this.createButton(i); }
       this.loadedButtons = this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER > this.maxNumItems ? this.maxNumItems : this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER;
     } else if (this.endless) {
-      console.log("endless");
+      this.logger.log("endless");
     }
   }
+
   /**
    * Clear the content of component in order to avoid duplication of elements
    */
@@ -799,18 +798,23 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
     this.buttonDisplay();
   }
+
   public handleCenterItems() {
     // Enter your Code here
   }
+  
   public handleEndless() {
     // Enter your Code here
   }
+  
   private handleClickHoldTime() {
     // Enter your Code here
   }
+  
   private handleSgIconStyle() {
     // Enter your Code here
   }
+  
   private buttonDisplay() {
     // Remove all the children containers from the container
     Array.from(this._elContainer.children).forEach(container => container.remove());
@@ -835,6 +839,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     // init the scrollbar after loading the initial buttons 
     this.initScrollbar();
   }
+  
   private createButton(index: number) {
     const btn = new Ch5Button();
 

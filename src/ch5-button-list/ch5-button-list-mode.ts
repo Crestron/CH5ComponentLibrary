@@ -187,7 +187,6 @@ export class Ch5ButtonListMode extends Ch5Common implements ICh5ButtonListModeAt
     return this._ch5Properties.get<string>("labelInnerHTML");
   }
 
-
   //#endregion
 
   //#region Static Methods
@@ -215,6 +214,7 @@ export class Ch5ButtonListMode extends Ch5Common implements ICh5ButtonListModeAt
   }
 
   public static get observedAttributes(): string[] {
+    // TODO - Why the below debug and trace - it is automatically available
     const newObsAttrs: string[] = ['debug', 'trace'];
     for (let i: number = 0; i < Ch5ButtonListMode.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5ButtonListMode.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
