@@ -341,7 +341,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
     for (let i: number = 0; i <= Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX; i++) {
       this._elInnerContainer.classList.remove("ch5-wifi-bars-selected-" + i.toString());
     };
-    let currBar = Math.round(((this.value - this.minValue) * Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX) / (this.maxValue - this.minValue));
+    let currBar = Math.floor(((this.value - this.minValue) * Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX) / (this.maxValue - this.minValue));
     if (currBar > Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX) {
       currBar = Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX;
     } else if (currBar < Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MIN) {
