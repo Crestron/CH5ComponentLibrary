@@ -1,4 +1,4 @@
-import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { TCh5ButtonListModeStateState, TCh5ButtonListModeStateType, TCh5ButtonListModeStateHAlignLabel, TCh5ButtonListModeStateVAlignLabel, TCh5ButtonListModeStateCheckboxPosition, TCh5ButtonListModeStateIconPosition, } from './interfaces/t-ch5-button-list-mode-state';
 import { ICh5ButtonListModeStateAttributes } from './interfaces/i-ch5-button-list-mode-state-attributes';
@@ -8,10 +8,8 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5ButtonList } from "./ch5-button-list";
 import _ from "lodash";
 
-export class Ch5ButtonListModeState extends Ch5Common implements ICh5ButtonListModeStateAttributes {
+export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListModeStateAttributes {
 
-  // TODO - Why extend Ch5Common and not Ch5Log
-  
   //#region Variables
 
   public static readonly STATE: TCh5ButtonListModeStateState[] = ['normal', 'pressed', 'selected'];
@@ -224,8 +222,6 @@ export class Ch5ButtonListModeState extends Ch5Common implements ICh5ButtonListM
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5ButtonListModeState.ELEMENT_NAME);
-    this.ignoreAttributes = ['customclass', 'customstyle', 'show', 'noshowtype', 'disabled', 'gestureable', 'receivestatecustomclass', 'receivestatecustomstyle',
-      'receivestateshow', 'receivestateshowpulse', 'receivestatehidepulse', 'receivestateenable', 'sendeventonshow', 'dir', 'appendclasswheninviewport'];
     this._ch5Properties = new Ch5Properties(this, Ch5ButtonListModeState.COMPONENT_PROPERTIES);
     this._parentCh5Button = this.getParentButton();
     this.logger.stop();
@@ -233,17 +229,17 @@ export class Ch5ButtonListModeState extends Ch5Common implements ICh5ButtonListM
   }
 
   public static get observedAttributes(): string[] {
-    const newObsAttrs: string[] = ['debug', 'trace'];
+    const commonAttributes = Ch5Log.observedAttributes;
     for (let i: number = 0; i < Ch5ButtonListModeState.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5ButtonListModeState.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-        newObsAttrs.push(Ch5ButtonListModeState.COMPONENT_PROPERTIES[i].name.toLowerCase());
+        commonAttributes.push(Ch5ButtonListModeState.COMPONENT_PROPERTIES[i].name.toLowerCase());
       }
     }
-    return newObsAttrs;
+    return commonAttributes;
   }
 
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-    this.logger.start("attributeChangedCallback", this.primaryCssClass);
+    this.logger.start("attributeChangedCallback ch5-button-list-mode-state");
     if (oldValue !== newValue) {
       this.logger.log('ch5-button-list-mode-state attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
       const attributeChangedProperty = Ch5ButtonListModeState.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });

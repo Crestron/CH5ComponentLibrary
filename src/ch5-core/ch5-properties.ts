@@ -3,12 +3,13 @@ import { Ch5Property, ICh5PropertySettings, TPropertyTypes } from "./ch5-propert
 import { Ch5SignalFactory } from "./ch5-signal-factory";
 import { Ch5Signal } from "./ch5-signal";
 import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5Log } from "../ch5-common/ch5-log";
 
 export class Ch5Properties {
 
 	private _properties: Ch5Property[] = [];
 
-	public constructor(public ch5Component: Ch5Common, public propertiesObject: ICh5PropertySettings[]) {
+	public constructor(public ch5Component: Ch5Common | Ch5Log, public propertiesObject: ICh5PropertySettings[]) {
 		for (let i: number = 0; i < propertiesObject.length; i++) {
 			const newProperty = new Ch5Property(ch5Component, propertiesObject[i]);
 			this._properties.push(newProperty);

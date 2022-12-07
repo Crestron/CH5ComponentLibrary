@@ -42,7 +42,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       attribute: 'orientation',
       classListPrefix: 'ch5-button-list--orientation-'
     },
-
     STRETCH: {
       default: Ch5ButtonList.STRETCH[0],
       values: Ch5ButtonList.STRETCH,
@@ -50,7 +49,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       attribute: 'stretch',
       classListPrefix: 'ch5-button-list--stretch-'
     },
-
     BUTTON_TYPE: {
       default: Ch5ButtonList.BUTTON_TYPE[0],
       values: Ch5ButtonList.BUTTON_TYPE,
@@ -58,7 +56,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       attribute: 'buttonType',
       classListPrefix: 'ch5-button-list--button-type-'
     },
-
     BUTTON_HALIGN_LABEL: {
       default: Ch5ButtonList.BUTTON_HALIGN_LABEL[0],
       values: Ch5ButtonList.BUTTON_HALIGN_LABEL,
@@ -66,7 +63,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       attribute: 'buttonHAlignLabel',
       classListPrefix: 'ch5-button-list--button-halign-label-'
     },
-
     BUTTON_VALIGN_LABEL: {
       default: Ch5ButtonList.BUTTON_VALIGN_LABEL[0],
       values: Ch5ButtonList.BUTTON_VALIGN_LABEL,
@@ -74,7 +70,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       attribute: 'buttonVAlignLabel',
       classListPrefix: 'ch5-button-list--button-valign-label-'
     },
-
     BUTTON_CHECKBOX_POSITION: {
       default: Ch5ButtonList.BUTTON_CHECKBOX_POSITION[0],
       values: Ch5ButtonList.BUTTON_CHECKBOX_POSITION,
@@ -82,7 +77,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       attribute: 'buttonCheckboxPosition',
       classListPrefix: 'ch5-button-list--button-checkbox-position-'
     },
-
     BUTTON_ICON_POSITION: {
       default: Ch5ButtonList.BUTTON_ICON_POSITION[0],
       values: Ch5ButtonList.BUTTON_ICON_POSITION,
@@ -90,7 +84,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       attribute: 'buttonIconPosition',
       classListPrefix: 'ch5-button-list--button-icon-position-'
     },
-
     BUTTON_SHAPE: {
       default: Ch5ButtonList.BUTTON_SHAPE[0],
       values: Ch5ButtonList.BUTTON_SHAPE,
@@ -111,7 +104,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5ButtonList.BUTTON_TYPE[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: Ch5ButtonList.BUTTON_HALIGN_LABEL[0],
@@ -120,7 +113,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5ButtonList.BUTTON_HALIGN_LABEL[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: Ch5ButtonList.BUTTON_VALIGN_LABEL[0],
@@ -129,7 +122,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5ButtonList.BUTTON_VALIGN_LABEL[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: Ch5ButtonList.BUTTON_CHECKBOX_POSITION[0],
@@ -138,7 +131,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5ButtonList.BUTTON_CHECKBOX_POSITION[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: Ch5ButtonList.BUTTON_ICON_POSITION[0],
@@ -147,7 +140,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5ButtonList.BUTTON_ICON_POSITION[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: Ch5ButtonList.BUTTON_SHAPE[0],
@@ -156,7 +149,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "enum",
       valueOnAttributeEmpty: Ch5ButtonList.BUTTON_SHAPE[0],
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: false,
@@ -164,7 +157,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: false,
@@ -172,7 +165,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: false,
@@ -180,7 +173,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "boolean",
       valueOnAttributeEmpty: true,
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: 0,
@@ -236,7 +229,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -244,7 +237,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -252,7 +245,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -260,7 +253,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -268,7 +261,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -276,7 +269,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -284,7 +277,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -292,7 +285,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -300,7 +293,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -308,7 +301,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -316,7 +309,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -324,7 +317,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
     {
       default: "",
@@ -332,7 +325,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
-      isObservableProperty: true,
+      isObservableProperty: true
     },
   ];
 
@@ -367,70 +360,90 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   //#region Getters and Setters
 
   public set buttonType(value: TCh5ButtonListButtonType) {
-    this._ch5Properties.set<TCh5ButtonListButtonType>("buttonType", value);
+    this._ch5Properties.set<TCh5ButtonListButtonType>("buttonType", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonType(): TCh5ButtonListButtonType {
     return this._ch5Properties.get<TCh5ButtonListButtonType>("buttonType");
   }
 
   public set buttonHAlignLabel(value: TCh5ButtonListButtonHAlignLabel) {
-    this._ch5Properties.set<TCh5ButtonListButtonHAlignLabel>("buttonHAlignLabel", value);
+    this._ch5Properties.set<TCh5ButtonListButtonHAlignLabel>("buttonHAlignLabel", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonHAlignLabel(): TCh5ButtonListButtonHAlignLabel {
     return this._ch5Properties.get<TCh5ButtonListButtonHAlignLabel>("buttonHAlignLabel");
   }
 
   public set buttonVAlignLabel(value: TCh5ButtonListButtonVAlignLabel) {
-    this._ch5Properties.set<TCh5ButtonListButtonVAlignLabel>("buttonVAlignLabel", value);
+    this._ch5Properties.set<TCh5ButtonListButtonVAlignLabel>("buttonVAlignLabel", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonVAlignLabel(): TCh5ButtonListButtonVAlignLabel {
     return this._ch5Properties.get<TCh5ButtonListButtonVAlignLabel>("buttonVAlignLabel");
   }
 
   public set buttonCheckboxPosition(value: TCh5ButtonListButtonCheckboxPosition) {
-    this._ch5Properties.set<TCh5ButtonListButtonCheckboxPosition>("buttonCheckboxPosition", value);
+    this._ch5Properties.set<TCh5ButtonListButtonCheckboxPosition>("buttonCheckboxPosition", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonCheckboxPosition(): TCh5ButtonListButtonCheckboxPosition {
     return this._ch5Properties.get<TCh5ButtonListButtonCheckboxPosition>("buttonCheckboxPosition");
   }
 
   public set buttonIconPosition(value: TCh5ButtonListButtonIconPosition) {
-    this._ch5Properties.set<TCh5ButtonListButtonIconPosition>("buttonIconPosition", value);
+    this._ch5Properties.set<TCh5ButtonListButtonIconPosition>("buttonIconPosition", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonIconPosition(): TCh5ButtonListButtonIconPosition {
     return this._ch5Properties.get<TCh5ButtonListButtonIconPosition>("buttonIconPosition");
   }
 
   public set buttonShape(value: TCh5ButtonListButtonShape) {
-    this._ch5Properties.set<TCh5ButtonListButtonShape>("buttonShape", value);
+    this._ch5Properties.set<TCh5ButtonListButtonShape>("buttonShape", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonShape(): TCh5ButtonListButtonShape {
     return this._ch5Properties.get<TCh5ButtonListButtonShape>("buttonShape");
   }
 
   public set buttonCheckboxShow(value: boolean) {
-    this._ch5Properties.set<boolean>("buttonCheckboxShow", value);
+    this._ch5Properties.set<boolean>("buttonCheckboxShow", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonCheckboxShow(): boolean {
     return this._ch5Properties.get<boolean>("buttonCheckboxShow");
   }
 
   public set buttonSelected(value: boolean) {
-    this._ch5Properties.set<boolean>("buttonSelected", value);
+    this._ch5Properties.set<boolean>("buttonSelected", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonSelected(): boolean {
     return this._ch5Properties.get<boolean>("buttonSelected");
   }
 
   public set buttonPressed(value: boolean) {
-    this._ch5Properties.set<boolean>("buttonPressed", value);
+    this._ch5Properties.set<boolean>("buttonPressed", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonPressed(): boolean {
     return this._ch5Properties.get<boolean>("buttonPressed");
   }
 
   public set buttonMode(value: number) {
-    this._ch5Properties.set<number>("buttonMode", value);
+    this._ch5Properties.set<number>("buttonMode", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonMode(): number {
     return +this._ch5Properties.get<number>("buttonMode");
@@ -455,91 +468,117 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   public set buttonIconClass(value: string) {
-    this._ch5Properties.set<string>("buttonIconClass", value);
+    this._ch5Properties.set<string>("buttonIconClass", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonIconClass(): string {
     return this._ch5Properties.get<string>("buttonIconClass");
   }
 
   public set buttonIconUrl(value: string) {
-    this._ch5Properties.set<string>("buttonIconUrl", value);
+    this._ch5Properties.set<string>("buttonIconUrl", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonIconUrl(): string {
     return this._ch5Properties.get<string>("buttonIconUrl");
   }
 
   public set buttonLabel(value: string) {
-    this._ch5Properties.set<string>("buttonLabel", value);
+    this._ch5Properties.set<string>("buttonLabel", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonLabel(): string {
     return this._ch5Properties.get<string>("buttonLabel");
   }
 
   public set buttonLabelInnerHtml(value: string) {
-    this._ch5Properties.set<string>("buttonLabelInnerHtml", value);
+    this._ch5Properties.set<string>("buttonLabelInnerHtml", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get buttonLabelInnerHtml(): string {
     return this._ch5Properties.get<string>("buttonLabelInnerHtml");
   }
 
   public set receiveStateButtonMode(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonMode", value);
+    this._ch5Properties.set<string>("receiveStateButtonMode", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get receiveStateButtonMode(): string {
     return this._ch5Properties.get<string>("receiveStateButtonMode");
   }
 
   public set receiveStateButtonSelected(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonSelected", value);
+    this._ch5Properties.set<string>("receiveStateButtonSelected", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get receiveStateButtonSelected(): string {
     return this._ch5Properties.get<string>("receiveStateButtonSelected");
   }
 
   public set receiveStateButtonLabel(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonLabel", value);
+    this._ch5Properties.set<string>("receiveStateButtonLabel", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get receiveStateButtonLabel(): string {
     return this._ch5Properties.get<string>("receiveStateButtonLabel");
   }
 
   public set receiveStateButtonScriptLabelHtml(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonScriptLabelHtml", value);
+    this._ch5Properties.set<string>("receiveStateButtonScriptLabelHtml", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get receiveStateButtonScriptLabelHtml(): string {
     return this._ch5Properties.get<string>("receiveStateButtonScriptLabelHtml");
   }
 
   public set receiveStateButtonIconClass(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonIconClass", value);
+    this._ch5Properties.set<string>("receiveStateButtonIconClass", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get receiveStateButtonIconClass(): string {
     return this._ch5Properties.get<string>("receiveStateButtonIconClass");
   }
 
   public set receiveStateButtonType(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonType", value);
+    this._ch5Properties.set<string>("receiveStateButtonType", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get receiveStateButtonType(): string {
     return this._ch5Properties.get<string>("receiveStateButtonType");
   }
 
   public set receiveStateButtonIconUrl(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonIconUrl", value);
+    this._ch5Properties.set<string>("receiveStateButtonIconUrl", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get receiveStateButtonIconUrl(): string {
     return this._ch5Properties.get<string>("receiveStateButtonIconUrl");
   }
 
   public set sendEventOnButtonClick(value: string) {
-    this._ch5Properties.set<string>("sendEventOnButtonClick", value);
+    this._ch5Properties.set<string>("sendEventOnButtonClick", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get sendEventOnButtonClick(): string {
     return this._ch5Properties.get<string>("sendEventOnButtonClick");
   }
 
   public set sendEventOnButtonTouch(value: string) {
-    this._ch5Properties.set<string>("sendEventOnButtonTouch", value);
+    this._ch5Properties.set<string>("sendEventOnButtonTouch", value, () => {
+      this.buttonDisplay();
+    });
   }
   public get sendEventOnButtonTouch(): string {
     return this._ch5Properties.get<string>("sendEventOnButtonTouch");
@@ -617,10 +656,12 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
+    this.buttonDisplay();
     subscribeInViewPortChange(this, () => {
       if (this.elementIsInViewPort) {
-        this.buttonDisplay();
-        this.initScrollbar();
+        if (this.scrollbar) {
+          this.initScrollbar();
+        }
       }
     });
     customElements.whenDefined('ch5-button-list').then(() => {
@@ -666,22 +707,22 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this._elContainer.addEventListener('mousedown', this.handleMouseDown);
-    this._elContainer.addEventListener('mouseleave', this.handleMouseUpAndLeave);
-    this._elContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
-    this._elContainer.addEventListener('mousemove', this.handleMouseMove);
-    this._elContainer.addEventListener('scroll', this.handleScrollEvent);
+    this._elContainer.addEventListener('mousedown', this.handleMouseDown.bind(this));
+    this._elContainer.addEventListener('mouseleave', this.handleMouseUpAndLeave.bind(this));
+    this._elContainer.addEventListener('mouseup', this.handleMouseUpAndLeave.bind(this));
+    this._elContainer.addEventListener('mousemove', this.handleMouseMove.bind(this));
+    this._elContainer.addEventListener('scroll', this.handleScrollEvent.bind(this));
     window.addEventListener('resize', this.onWindowResizeHandler.bind(this));
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this._elContainer.removeEventListener('mouseleave', this.handleMouseUpAndLeave);
-    this._elContainer.removeEventListener('mouseup', this.handleMouseUpAndLeave);
-    this._elContainer.removeEventListener('mousedown', this.handleMouseDown);
-    this._elContainer.removeEventListener('mousemove', this.handleMouseMove);
-    this._elContainer.removeEventListener('scroll', this.handleScrollEvent);
-    window.removeEventListener('resize', this.onWindowResizeHandler);
+    this._elContainer.removeEventListener('mouseleave', this.handleMouseUpAndLeave.bind(this));
+    this._elContainer.removeEventListener('mouseup', this.handleMouseUpAndLeave.bind(this));
+    this._elContainer.removeEventListener('mousedown', this.handleMouseDown.bind(this));
+    this._elContainer.removeEventListener('mousemove', this.handleMouseMove.bind(this));
+    this._elContainer.removeEventListener('scroll', this.handleScrollEvent.bind(this));
+    window.removeEventListener('resize', this.onWindowResizeHandler.bind(this));
   }
 
   protected unsubscribeFromSignals() {
@@ -700,6 +741,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       this.scrollListTop = this._elContainer.scrollTop;
     }
   }
+
   private handleMouseUpAndLeave() {
     this.isDown = false;
     this._elContainer.classList.remove('active');
@@ -719,9 +761,11 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
   }
 
-  private handleScrollEvent()  {
-    // update the scrollbar width and position
-    this.initScrollbar();
+  private handleScrollEvent() {
+    if (this.scrollbar) {
+      // update the scrollbar width and position
+      this.initScrollbar();
+    }
     let rowColumnValue = 0;
     if (this.orientation === "horizontal") {
       if (this._elContainer.offsetWidth + this._elContainer.scrollLeft < this._elContainer.scrollWidth) { return; }
@@ -771,6 +815,9 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + bool.toString());
     });
     this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
+    if (this.scrollbar) {
+      this.initScrollbar();
+    }
   }
 
   public handleRowsAndColumn() {
@@ -802,19 +849,19 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   public handleCenterItems() {
     // Enter your Code here
   }
-  
+
   public handleEndless() {
     // Enter your Code here
   }
-  
+
   private handleClickHoldTime() {
     // Enter your Code here
   }
-  
+
   private handleSgIconStyle() {
     // Enter your Code here
   }
-  
+
   private buttonDisplay() {
     // Remove all the children containers from the container
     Array.from(this._elContainer.children).forEach(container => container.remove());
@@ -837,10 +884,14 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       this.createButton(index);
     }
     // init the scrollbar after loading the initial buttons 
-    this.initScrollbar();
+    if (this.scrollbar) {
+      this.initScrollbar();
+    }
   }
-  
-  private createButton(index: number) {
+
+
+  // TODO - async and await used to solve the buttons in viewport did not add advanced button helper initially.
+  private async createButton(index: number) {
     const btn = new Ch5Button();
 
     // Add the button to container 
@@ -849,10 +900,9 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     btnContainer.appendChild(btn);
     this._elContainer.appendChild(btnContainer);
 
-    this.advancedButtonHelper(btn, index);
     // Set all the button Attributes
     btn.setAttribute('stretch', 'both');
-    Ch5ButtonList.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
+    await Ch5ButtonList.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
       if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
         const attrValue = this.getAttribute(attr.name)?.trim().replace(`${this.indexId}`, index + '');
         if (attrValue) {
@@ -860,6 +910,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
         }
       }
     });
+    await this.advancedButtonHelper(btn, index);
   }
 
   private advancedButtonHelper(btn: Ch5Button, index: number) {
@@ -902,7 +953,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
                 }
                 ch5ButtonMode.appendChild(buttonModeState);
               }
-            })
+            });
           }
           const buttonListModeLabels = buttonListMode.getElementsByTagName('ch5-button-list-label');
           if (buttonListModeLabels && buttonListModeLabels.length > 0) {
@@ -917,11 +968,11 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
                   ch5ButtonMode.appendChild(ch5ButtonLabel);
                 }
               }
-            })
+            });
           }
           btn.appendChild(ch5ButtonMode);
         }
-      })
+      });
     }
     const buttonListLabels = this.getElementsByTagName('ch5-button-list-label');
     if (buttonListLabels && buttonListLabels.length > 0) {
@@ -964,7 +1015,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       this._scrollbar.style.left = Math.ceil(scrollLeft / scrollWidth * 100) + '%';
     } else {
       const { scrollHeight, offsetHeight, scrollTop } = this._elContainer;
-      scrollbarDimension = Math.floor(offsetHeight / scrollHeight * 100)
+      scrollbarDimension = Math.floor(offsetHeight / scrollHeight * 100);
       this._scrollbar.style.height = scrollbarDimension + '%';
       this._scrollbar.style.top = Math.ceil(scrollTop / scrollHeight * 100) + '%';
     }
@@ -998,7 +1049,9 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     if (!this.isResizeInProgress) {
       this.isResizeInProgress = true;
       setTimeout(() => {
-        this.initScrollbar();
+        if (this.scrollbar) {
+          this.initScrollbar();
+        }
         this.isResizeInProgress = false; // reset debounce once completed
       }, this.RESIZE_DEBOUNCE);
     }

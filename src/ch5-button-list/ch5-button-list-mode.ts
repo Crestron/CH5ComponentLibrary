@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Ch5Common } from "../ch5-common/ch5-common";
+import { Ch5Log } from "../ch5-common/ch5-log";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { TCh5ButtonListModeType, TCh5ButtonListModeHAlignLabel, TCh5ButtonListModeVAlignLabel, TCh5ButtonListModeCheckboxPosition, TCh5ButtonListModeIconPosition, } from './interfaces/t-ch5-button-list-mode';
 import { ICh5ButtonListModeAttributes } from './interfaces/i-ch5-button-list-mode-attributes';
@@ -7,10 +7,8 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5ButtonList } from "./ch5-button-list";
 
-export class Ch5ButtonListMode extends Ch5Common implements ICh5ButtonListModeAttributes {
+export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttributes {
 
-  // TODO - Why extend Ch5Common and not Ch5Log
-  
   //#region Variables
 
   public static readonly TYPE: TCh5ButtonListModeType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
@@ -64,7 +62,6 @@ export class Ch5ButtonListMode extends Ch5Common implements ICh5ButtonListModeAt
       type: "enum",
       valueOnAttributeEmpty: Ch5ButtonListMode.ICON_POSITION[0],
       isObservableProperty: true,
-
     },
     {
       default: "",
@@ -207,21 +204,18 @@ export class Ch5ButtonListMode extends Ch5Common implements ICh5ButtonListModeAt
   public constructor() {
     super();
     this.logger.start('constructor()', Ch5ButtonListMode.ELEMENT_NAME);
-    this.ignoreAttributes = ['customclass', 'customstyle', 'show', 'noshowtype', 'disabled', 'gestureable', 'receivestatecustomclass', 'receivestatecustomstyle',
-      'receivestateshow', 'receivestateshowpulse', 'receivestatehidepulse', 'receivestateenable', 'sendeventonshow', 'dir', 'appendclasswheninviewport'];
     this._ch5Properties = new Ch5Properties(this, Ch5ButtonListMode.COMPONENT_PROPERTIES);
     this._parentCh5ButtonList = this.getParentButton();
   }
 
   public static get observedAttributes(): string[] {
-    // TODO - Why the below debug and trace - it is automatically available
-    const newObsAttrs: string[] = ['debug', 'trace'];
+    const commonAttributes = Ch5Log.observedAttributes;
     for (let i: number = 0; i < Ch5ButtonListMode.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5ButtonListMode.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-        newObsAttrs.push(Ch5ButtonListMode.COMPONENT_PROPERTIES[i].name.toLowerCase());
+        commonAttributes.push(Ch5ButtonListMode.COMPONENT_PROPERTIES[i].name.toLowerCase());
       }
     }
-    return newObsAttrs;
+    return commonAttributes;
   }
 
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
@@ -244,7 +238,7 @@ export class Ch5ButtonListMode extends Ch5Common implements ICh5ButtonListModeAt
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5ButtonListMode.ELEMENT_NAME);
-    if (!(this._parentCh5ButtonList instanceof Ch5ButtonList)) {
+    if (_.isNil(this._parentCh5ButtonList)) {
       throw new Error(`Invalid parent element for ch5-button-list-mode.`);
     }
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonListMode);

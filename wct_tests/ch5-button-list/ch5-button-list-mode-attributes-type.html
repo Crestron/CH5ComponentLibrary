@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-mode-type-attributes">
+    <template>
+      <ch5-button-list>
+        <ch5-button-list-mode></ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-mode-type-attributes-value', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-type-attributes');
+        ch5ButtonListMode = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
+      let expectedResult = ['default', 'default', 'default', 'default', 'default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "type"', () => {
+          ch5ButtonListMode.setAttribute('type', ele);
+          expect(ch5ButtonListMode.getAttribute('type')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

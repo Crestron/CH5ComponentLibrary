@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-mode-state-default-attributes">
+    <template>
+      <ch5-button-list>
+        <ch5-button-list-mode>
+          <ch5-button-list-mode-state>
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-mode-state-default-attributes-value', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+      let ch5ButtonListModeState;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-state-default-attributes');
+        ch5ButtonListMode = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+        ch5ButtonListModeState = ch5ButtonListMode.getElementsByTagName('ch5-button-list-mode-state')[0];
+      });
+
+      test('Check Default value for state', () => {
+        console.log(ch5ButtonListModeState);
+        expect(ch5ButtonListModeState.getAttribute("state")).to.be.equal(null);
+        ch5ButtonListModeState.setAttribute('state', 'normal');
+        expect(ch5ButtonListModeState.getAttribute("state")).to.be.equal('normal');
+        ch5ButtonListModeState.removeAttribute("state");
+        expect(ch5ButtonListModeState.getAttribute("state")).to.be.equal('normal');
+      });
+
+      test('Check Default value for type', () => {
+        expect(ch5ButtonListModeState.getAttribute("type")).to.be.equal(null);
+        ch5ButtonListModeState.setAttribute('type', 'default');
+        expect(ch5ButtonListModeState.getAttribute("type")).to.be.equal('default');
+        ch5ButtonListModeState.removeAttribute("type");
+        expect(ch5ButtonListModeState.getAttribute("type")).to.be.equal('default');
+      });
+
+      test('Check Default value for hAlignLabel', () => {
+        expect(ch5ButtonListModeState.getAttribute("hAlignLabel")).to.be.equal(null);
+        ch5ButtonListModeState.setAttribute('hAlignLabel', 'center');
+        expect(ch5ButtonListModeState.getAttribute("hAlignLabel")).to.be.equal('center');
+        ch5ButtonListModeState.removeAttribute("hAlignLabel");
+        expect(ch5ButtonListModeState.getAttribute("hAlignLabel")).to.be.equal('center');
+      });
+
+      test('Check Default value for vAlignLabel', () => {
+        expect(ch5ButtonListModeState.getAttribute("vAlignLabel")).to.be.equal(null);
+        ch5ButtonListModeState.setAttribute('vAlignLabel', 'middle');
+        expect(ch5ButtonListModeState.getAttribute("vAlignLabel")).to.be.equal('middle');
+        ch5ButtonListModeState.removeAttribute("vAlignLabel");
+        expect(ch5ButtonListModeState.getAttribute("vAlignLabel")).to.be.equal('middle');
+      });
+
+      test('Check Default value for checkboxPosition', () => {
+        expect(ch5ButtonListModeState.getAttribute("checkboxPosition")).to.be.equal(null);
+        ch5ButtonListModeState.setAttribute('checkboxPosition', 'left');
+        expect(ch5ButtonListModeState.getAttribute("checkboxPosition")).to.be.equal('left');
+        ch5ButtonListModeState.removeAttribute("checkboxPosition");
+        expect(ch5ButtonListModeState.getAttribute("checkboxPosition")).to.be.equal('left');
+      });
+
+      test('Check Default value for iconPosition', () => {
+        expect(ch5ButtonListModeState.getAttribute("iconPosition")).to.be.equal(null);
+        ch5ButtonListModeState.setAttribute('iconPosition', 'first');
+        expect(ch5ButtonListModeState.getAttribute("iconPosition")).to.be.equal('first');
+        ch5ButtonListModeState.removeAttribute("iconPosition");
+        expect(ch5ButtonListModeState.getAttribute("iconPosition")).to.be.equal('first');
+      });
+
+    });
+  </script>
+</body>
+
+</html>

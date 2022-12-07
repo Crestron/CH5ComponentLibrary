@@ -58,7 +58,6 @@ export class Ch5ButtonListLabel extends Ch5Log implements ICh5ButtonListLabelDoc
 
   //#endregion
 
-
 }
 
 Ch5ButtonListLabel.registerCustomElement();
