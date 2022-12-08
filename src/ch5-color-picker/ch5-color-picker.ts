@@ -124,9 +124,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   private isSendReceiveSignalEqual: boolean = false;
   private sendingValue: boolean = false;
   private receiveingValue: boolean = false;
-  // Last value set by user
-  private _dirtyValue: string = this.COLOR_BLACK;
-
   // Initial value or last value received from signal
   private _cleanValue: string = this.COLOR_BLACK;
 
@@ -278,7 +275,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5ColorPicker.ELEMENT_NAME);
-    // this.initializeVariables(); It is needed to verify in future
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ColorPicker);
@@ -301,9 +297,8 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
           this.blueValue = value[2];
           this.debounceSendSignals();
           this.firstLoad = true;
-          this._dirtyValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);
           if (this.isSendReceiveSignalEqual) {
-            this._cleanValue = this._dirtyValue;
+            this._cleanValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);;
           }
         }
       }
@@ -321,7 +316,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()', Ch5ColorPicker.ELEMENT_NAME);
     this._elColorPicker.replaceChildren(); // Remove all content
-    // this.initializeVariables();
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     if (this._colorChangedSubscription !== null) {
@@ -391,19 +385,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
       container.remove();
     });
   }
-
-  // private initializeVariables() {
-  //   this.redValue = 0;
-  //   this.greenValue = 0;
-  //   this.blueValue = 0;
-  //   this.redValuePrevious = 0;
-  //   this.greenValuePrevious = 0;
-  //   this.blueValuePrevious = 0;
-  //   this.colorPicker = null;
-  //   this._colorChangedSubscription = null;
-  //   this._dirtyValue = this.COLOR_BLACK;
-  //   this._cleanValue = this.COLOR_BLACK;
-  // }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
     return this._elContainer;
