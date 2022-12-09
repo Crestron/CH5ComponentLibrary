@@ -18,12 +18,12 @@
   </test-fixture>
   <test-fixture id="ch5-segmented-gauge-orientation-attributes-empty">
     <template>
-      <ch5-segmented-gauge orientation=""></ch5-segmented-gauge>
+      <ch5-segmented-gauge orientation></ch5-segmented-gauge>
     </template>
   </test-fixture>
   <test-fixture id="ch5-segmented-gauge-orientation-gaugeLedStyle-attributes-empty">
     <template>
-      <ch5-segmented-gauge orientation="" gaugeLedStyle=""></ch5-segmented-gauge>
+      <ch5-segmented-gauge orientation gaugeLedStyle=""></ch5-segmented-gauge>
     </template>
   </test-fixture>
   <script>
@@ -65,7 +65,7 @@
 
       test('Check value "orientation" and "gaugeLedStyle"', () => {
         expect(ch5SegmentedGauge.getAttribute('orientation')).to.be.equal('horizontal');
-        expect(ch5SegmentedGauge.getAttribute('gaugeLedStyle')).to.be.equal('segmentedGaugeRectPip');
+        expect(ch5SegmentedGauge.getAttribute('gaugeLedStyle')).to.be.equal('rectangle');
       });
     });
   </script>

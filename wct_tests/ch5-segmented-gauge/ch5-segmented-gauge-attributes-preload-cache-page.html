@@ -15,8 +15,8 @@
     <template>
       <div data-ch5-noshow-type="remove">
         <ch5-segmented-gauge id="segmented-gauge-0" numberOfSegments="50" orientation="horizontal"
-          gaugeLedStyle="segmentedGaugeRoundPip" primaryStateGraphic="blue" secondaryStateGraphic="orange"
-          tertiaryStateGraphic="yellow" minValue="100" maxValue="65534" receiveStateValue="trigger_event_listener">
+          gaugeLedStyle="circle" primaryStateGraphic="blue" secondaryStateGraphic="orange" tertiaryStateGraphic="yellow"
+          minValue="100" maxValue="65534" receiveStateValue="trigger_event_listener">
         </ch5-segmented-gauge>
       </div>
     </template>
@@ -26,7 +26,7 @@
     <template>
       <div data-ch5-noshow-type="visibility">
         <ch5-segmented-gauge id="segmented-gauge-1" numberOfSegments="21" orientation="vertical"
-          gaugeLedStyle="segmentedGaugeRectPip" primaryStateGraphic="red" secondaryStateGraphic="green"
+          gaugeLedStyle="rectangle" primaryStateGraphic="red" secondaryStateGraphic="green"
           tertiaryStateGraphic="inactive" minValue="0" maxValue="65535" receiveStateValue="trigger_event_listener">
         </ch5-segmented-gauge>
       </div>
@@ -36,9 +36,9 @@
   <test-fixture id="ch5-segmented-gauge-preload-cache-page2">
     <template>
       <div data-ch5-noshow-type="display">
-        <ch5-segmented-gauge id="segmented-gauge-2" numberOfSegments="1" orientation="aa"
-          gaugeLedStyle="segmentedGaugeRectPip" primaryStateGraphic="red" secondaryStateGraphic="green"
-          tertiaryStateGraphic="inactive" minValue="-1" maxValue="65536" receiveStateValue="trigger_event_listener">
+        <ch5-segmented-gauge id="segmented-gauge-2" numberOfSegments="1" orientation gaugeLedStyle="rectangle"
+          primaryStateGraphic="red" secondaryStateGraphic="green" tertiaryStateGraphic="inactive" minValue="-1"
+          maxValue="65536" receiveStateValue="trigger_event_listener">
         </ch5-segmented-gauge>
       </div>
     </template>
@@ -63,7 +63,7 @@
             let ch5SegmentedGaugeComponent = document.getElementById('segmented-gauge-0');
             expect(ch5SegmentedGaugeComponent.getAttribute('numberOfSegments')).to.be.equal('50');
             expect(ch5SegmentedGaugeComponent.getAttribute('orientation')).to.be.equal('horizontal');
-            expect(ch5SegmentedGaugeComponent.getAttribute('gaugeLedStyle')).to.be.equal('segmentedGaugeRoundPip');
+            expect(ch5SegmentedGaugeComponent.getAttribute('gaugeLedStyle')).to.be.equal('circle');
             expect(ch5SegmentedGaugeComponent.getAttribute('primaryStateGraphic')).to.be.equal('blue');
             expect(ch5SegmentedGaugeComponent.getAttribute('secondaryStateGraphic')).to.be.equal('orange');
             expect(ch5SegmentedGaugeComponent.getAttribute('tertiaryStateGraphic')).to.be.equal('yellow');
@@ -94,7 +94,7 @@
             let ch5SegmentedGaugeComponent = document.getElementById('segmented-gauge-1');
             expect(ch5SegmentedGaugeComponent.getAttribute('numberOfSegments')).to.be.equal('21');
             expect(ch5SegmentedGaugeComponent.getAttribute('orientation')).to.be.equal('vertical');
-            expect(ch5SegmentedGaugeComponent.getAttribute('gaugeLedStyle')).to.be.equal('segmentedGaugeRectPip');
+            expect(ch5SegmentedGaugeComponent.getAttribute('gaugeLedStyle')).to.be.equal('rectangle');
             expect(ch5SegmentedGaugeComponent.getAttribute('primaryStateGraphic')).to.be.equal('red');
             expect(ch5SegmentedGaugeComponent.getAttribute('secondaryStateGraphic')).to.be.equal('green');
             expect(ch5SegmentedGaugeComponent.getAttribute('tertiaryStateGraphic')).to.be.equal('inactive');
@@ -125,7 +125,7 @@
             let ch5SegmentedGaugeComponent = document.getElementById('segmented-gauge-2');
             expect(ch5SegmentedGaugeComponent.getAttribute('numberOfSegments')).to.be.equal('1');
             expect(ch5SegmentedGaugeComponent.getAttribute('orientation')).to.be.equal('horizontal');
-            expect(ch5SegmentedGaugeComponent.getAttribute('gaugeLedStyle')).to.be.equal('segmentedGaugeRectPip');
+            expect(ch5SegmentedGaugeComponent.getAttribute('gaugeLedStyle')).to.be.equal('rectangle');
             expect(ch5SegmentedGaugeComponent.getAttribute('primaryStateGraphic')).to.be.equal('red');
             expect(ch5SegmentedGaugeComponent.getAttribute('secondaryStateGraphic')).to.be.equal('green');
             expect(ch5SegmentedGaugeComponent.getAttribute('tertiaryStateGraphic')).to.be.equal('inactive');

@@ -34,7 +34,7 @@ import { ICh5SegmentedGaugeAttributes } from "./i-ch5-segmented-gauge-attributes
  *     "body": [
  *       "<ch5-segmented-gauge id=\"ch5-segmented-gauge_${1:id}\"",
  *       "\torientation=\"${2:horizontal}\"",
- *       "\tgaugeLedStyle=\"${3:segmentedGaugeRectPip}\"",
+ *       "\tgaugeLedStyle=\"${3:rectangle}\"",
  *       "\tprimaryStateGraphic=\"${4:green}\"",
  *       "\tsecondaryStateGraphic=\"${5:yellow}\"",
  *       "\ttertiaryStateGraphic=\"${6:red}\"",
@@ -54,7 +54,7 @@ import { ICh5SegmentedGaugeAttributes } from "./i-ch5-segmented-gauge-attributes
  *      "body": [
  *       "<ch5-segmented-gauge id=\"ch5-segmented-gauge_${1:id}\"",
  *       "\torientation=\"${2:horizontal}\"",
- *       "\tgaugeLedStyle=\"${3:segmentedGaugeRectPip}\"",
+ *       "\tgaugeLedStyle=\"${3:rectangle}\"",
  *       "\tprimaryStateGraphic=\"${4:green}\"",
  *       "\tsecondaryStateGraphic=\"${5:yellow}\"",
  *       "\ttertiaryStateGraphic=\"${6:red}\"",
