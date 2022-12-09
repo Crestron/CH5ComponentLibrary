@@ -24,8 +24,8 @@
         ch5SegmentedGauge = fixture('ch5-segmented-gauge-gaugeLedStyle-attributes');
       });
 
-      let testCases = ['a', '', ' ', 'number', 'segmentedGaugeRectPip', 'segmentedGaugeRoundPip'];
-      let expectedResult = ['segmentedGaugeRectPip', 'segmentedGaugeRectPip', 'segmentedGaugeRectPip', 'segmentedGaugeRectPip', 'segmentedGaugeRectPip', 'segmentedGaugeRoundPip'];
+      let testCases = ['a', '', ' ', 'number', 'rectangle', 'circle'];
+      let expectedResult = ['rectangle', 'rectangle', 'rectangle', 'rectangle', 'rectangle', 'circle'];
       testCases.forEach((ele, i) => {
         test('Check Value "gaugeLedStyle"', () => {
           ch5SegmentedGauge.setAttribute('gaugeLedStyle', ele);
