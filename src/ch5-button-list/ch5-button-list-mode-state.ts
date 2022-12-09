@@ -119,7 +119,7 @@ export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListMode
   public static readonly ELEMENT_NAME = 'ch5-button-list-mode-state';
 
   private _ch5Properties: Ch5Properties;
-  private _parentCh5Button: Ch5ButtonList;
+  private _parentCh5ButtonList: Ch5ButtonList;
 
   //#endregion
 
@@ -223,7 +223,7 @@ export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListMode
     super();
     this.logger.start('constructor()', Ch5ButtonListModeState.ELEMENT_NAME);
     this._ch5Properties = new Ch5Properties(this, Ch5ButtonListModeState.COMPONENT_PROPERTIES);
-    this._parentCh5Button = this.getParentButton();
+    this._parentCh5ButtonList = this.getParentButton();
     this.logger.stop();
 
   }
@@ -263,7 +263,7 @@ export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListMode
     if (!(this.parentElement instanceof Ch5ButtonListMode)) {
       throw new Error(`Invalid parent element for ch5-button-list-mode-state.`);
     }
-    if (_.isNil(this._parentCh5Button)) {
+    if (_.isNil(this._parentCh5ButtonList)) {
       throw new Error(`Missing parent ch5-button-list element for ch5-button-list-mode-state.`);
     }
     if (!this.hasAttribute('role')) {

@@ -12,9 +12,9 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  * @name Ch5 Button List
  * @isattribute false
  * @tagName ch5-button-list
- * @role 
- * @description of the component.
- * @componentVersion 2.2.0
+ * @role button-list
+ * @description Ch5 Button List offers a wide range of functionality out-of-the-box.
+ * @componentVersion 2.3.0
  * @childElements
  * [
  *    
@@ -23,8 +23,7 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  * [
  *   "`ch5-button-list` element",
  *   "***",
- *   "Component description"
-      // TODO: DEV:CHANGES
+ *   "A list of custom buttons designed to provide options to add icons, label, text, multi-select among other powerful options."
  * ]
  * @snippets
  * [
@@ -77,8 +76,23 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tsendEventOnButtonTouch=\"${35:}\">",
  *       "</ch5-button-list>$0"
  *       ]
+ *    },
+ *    {
+ *      "prefix": "ch5-button-list:default",
+ *      "description": "Crestron Button List Default",
+ *      "body": [
+ *       "<ch5-button-list id=\"btn_${1:id}\"",
+ *       "\torientation=\"${2:Crestron horizontal}\"",
+ *       "\trow=\"${3:1}\"",
+ *       "\tscrollbar=\"${4:false}\"",
+ *       "\tmaxNumItems=\"${5:10}\"",
+ *       "\tcenterItems=\"${6:}\"",
+ *       "\tendless=\"${7:}\"",
+ *       "\tindexId=\"${8:idx}\"",
+ *       "\tstretch=\"${9:""}\"",
+ *       "</ch5-button-list>$0"
+ *       ]
  *    }
-      // TODO: DEV:CHANGES
  *  ]
  */
 export interface ICh5ButtonListDocumentation extends ICh5Common, ICh5ButtonListAttributes {

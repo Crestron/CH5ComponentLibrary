@@ -9,9 +9,9 @@
  * @name Ch5 Button List Label
  * @isattribute false
  * @tagName ch5-button-list-label
- * @role 
- * @description of the component.
- * @componentVersion 2.2.0
+ * @role label
+ * @description Ch5 Button List Label is a child node for <ch5-button-list>, <ch5-button-list-mode> and <ch5-button-list-mode-state>.
+ * @componentVersion 2.3.0
  * @childElements
  * [
  *    
@@ -20,8 +20,7 @@
  * [
  *   "`ch5-button-list-label` element",
  *   "***",
- *   "Component description"
-      // TODO: DEV:CHANGES
+ *   "A child element designed to capture the label for Ch5 Button list component."
  * ]
  * @snippets
  * [
@@ -30,6 +29,9 @@
  *     "description": "Crestron button list label",
  *     "body": [
  *       "<ch5-button-list-label>",
+ *       "\t<template>",
+ *       "\t$1",
+ *       "\t</template>",
  *       "</ch5-button-list-label>$0"
  *     ]
  *   }

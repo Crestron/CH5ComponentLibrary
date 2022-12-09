@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-custom-style">
+    <template>
+      <ch5-button-list>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    const individualButtonWidth = 100;
+    const numberOfBuffer = 3;
+
+    const testCases = [
+      {
+        width: individualButtonWidth - 1,
+        expectedOutput: 4
+      }
+    ]
+    suite('ch5-button-list-custom-style', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-style');
+      });
+
+      test('Check Default custom style', () => {
+        console.log(ch5ButtonList);
+      });
+
+
+
+    });
+  </script>
+</body>
+
+</html>

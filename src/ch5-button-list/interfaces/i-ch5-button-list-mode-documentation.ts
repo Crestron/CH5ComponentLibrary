@@ -11,9 +11,9 @@ import { ICh5ButtonListModeAttributes } from "./i-ch5-button-list-mode-attribute
  * @name Ch5 Button List Mode
  * @isattribute false
  * @tagName ch5-button-list-mode
- * @role 
- * @description of the component.
- * @componentVersion 2.0.0
+ * @role template
+ * @description Ch5 Button List Mode is a child node for <ch5-button-list>.
+ * @componentVersion 2.3.0
  * @childElements
  * [
  *    
@@ -22,8 +22,7 @@ import { ICh5ButtonListModeAttributes } from "./i-ch5-button-list-mode-attribute
  * [
  *   "`ch5-button-list-mode` element",
  *   "***",
- *   "Component description"
-      // TODO: DEV:CHANGES
+ *   "A child element designed to capture mode level attributes for Ch5 Button list component."
  * ]
  * @snippets
  * [
@@ -53,7 +52,6 @@ import { ICh5ButtonListModeAttributes } from "./i-ch5-button-list-mode-attribute
  *       "</ch5-button-list-mode>$0"
  *       ]
  *    }
-      // TODO: DEV:CHANGES
  *  ]
  */
 export interface ICh5ButtonListModeDocumentation extends ICh5ButtonListModeAttributes {

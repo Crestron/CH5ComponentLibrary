@@ -12,8 +12,8 @@ import { ICh5ButtonListModeStateAttributes } from "./i-ch5-button-list-mode-stat
  * @isattribute false
  * @tagName ch5-button-list-mode-state
  * @role 
- * @description of the component.
- * @componentVersion 2.0.0
+ * @description Ch5 Button List Mode State is a child node for <ch5-button-list-mode>.
+ * @componentVersion 2.3.0
  * @childElements
  * [
  *    
@@ -22,8 +22,7 @@ import { ICh5ButtonListModeStateAttributes } from "./i-ch5-button-list-mode-stat
  * [
  *   "`ch5-button-list-mode-state` element",
  *   "***",
- *   "Component description"
-      // TODO: DEV:CHANGES
+ *   "A child element designed to capture mode level attributes for Ch5 Button List component."
  * ]
  * @snippets
  * [
@@ -40,7 +39,7 @@ import { ICh5ButtonListModeStateAttributes } from "./i-ch5-button-list-mode-stat
  *     "description": "Crestron button list mode state (All Attributes)",
  *     "body": [
  *       "<ch5-button-list-mode-state id=\"ch5-button-list-mode-state_${1:id}\"",
- *       "\tstate=\"${2:default}\"",
+ *       "\tstate=\"${2:normal}\"",
  *       "\ttype=\"${3:default}\"",
  *       "\thAlignLabel=\"${4:center}\"",
  *       "\tvAlignLabel=\"${5:middle}\"",
@@ -54,7 +53,6 @@ import { ICh5ButtonListModeStateAttributes } from "./i-ch5-button-list-mode-stat
  *       "</ch5-button-list-mode-state>$0"
  *       ]
  *    }
-      // TODO: DEV:CHANGES
  *  ]
  */
 export interface ICh5ButtonListModeStateDocumentation extends ICh5ButtonListModeStateAttributes {
