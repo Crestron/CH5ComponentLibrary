@@ -10,7 +10,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`orientation` attribute",
   * "***",
-  * "Sets the orientation of the gauge (horizontal or vertical)"
+  * "Sets the orientation of the gauge to horizontal(default) or vertical."
   * ]
   * @name orientation
   * @default horizontal
@@ -22,7 +22,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`gaugeLedStyle` attribute",
   * "***",
-  * "Determines the graphic features of the gauge. Possible values are rectangle and circle."
+  * "Determines the graphic features of the gauge. Possible values are rectangle(default) and circle."
   * ]
   * @name gaugeledstyle
   * @default rectangle
@@ -34,7 +34,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`primaryStateGraphic` attribute",
   * "***",
-  * "Sets the segment graphic for the largest group of segments "
+  * "Sets the segment graphic for the largest group of segments. Possible values are green(default), yellow, red, blue, orange, white and inactive."
   * ]
   * @name primarystategraphic
   * @default green
@@ -46,7 +46,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`secondaryStateGraphic` attribute",
   * "***",
-  * "Defines the segment graphic for the second largest group of segments"
+  * "Defines the segment graphic for the second largest group of segments. Possible values are yellow(default), green, red, blue, orange, white and inactive."
   * ]
   * @name secondarystategraphic
   * @default yellow
@@ -58,7 +58,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`tertiaryStateGraphic` attribute",
   * "***",
-  * "Determines the segment graphic for the smallest group of segments"
+  * "Determines the segment graphic for the smallest group of segments. Possible values are red(default), green, yellow, blue, orange, white and inactive."
   * ]
   * @name tertiarystategraphic
   * @default red
@@ -82,7 +82,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`maxValue` attribute",
   * "***",
-  * "The maximum value determines the analog value sent to and received from the control system that will reflect the topmost point of the gauge. Default value is 65535"
+  * "The maximum value determines the analog value sent to and received from the control system that will reflect the topmost point of the gauge. Default value is 65535."
   * ]
   * @name maxvalue
   * @default 65535
@@ -94,7 +94,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`numberOfSegments` attribute",
   * "***",
-  * "Sets the number of gauge segments displayed on the gauge. This number is restricted to a maximum of 50 for usability."
+  * "Sets the number of gauge segments displayed on the gauge. This number is restricted to a maximum of 50 for usability. Default number of segments are 20."
   * ]
   * @name numberofsegments
   * @default 20
@@ -106,7 +106,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * [
   * "`touchSettable` attribute",
   * "***",
-  * "Enables or disables whether the control is touch settable"
+  * "Enables or disables whether the control is touch settable. Default value is true."
   * ]
   * @name touchsettable
   * @default true
