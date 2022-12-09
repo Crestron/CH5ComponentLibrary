@@ -120,7 +120,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   private colorPicker: ColorPicker | null = null;
   private _colorChangedSubscription: Subscription | null = null;
   private readonly COLOR_BLACK = "#000000";
-  private firstLoad: boolean = false;
+  private _dirty: boolean = false;
   private isSendReceiveSignalEqual: boolean = false;
   private sendingValue: boolean = false;
   private receiveingValue: boolean = false;
@@ -296,7 +296,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
           this.greenValue = value[1];
           this.blueValue = value[2];
           this.debounceSendSignals();
-          this.firstLoad = true;
+          this._dirty = true;
           if (this.isSendReceiveSignalEqual) {
             this._cleanValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);;
           }
@@ -331,7 +331,7 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
 
   private setColor() {
     this.receiveingValue = true;
-    if (this.redValuePrevious === this.redValue && this.greenValuePrevious === this.greenValue && this.blueValuePrevious === this.blueValue && this.firstLoad === true) {
+    if (this.redValuePrevious === this.redValue && this.greenValuePrevious === this.greenValue && this.blueValuePrevious === this.blueValue && this._dirty === true) {
       this.isSendReceiveSignalEqual = true;
     }
     const color: string = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);
