@@ -200,9 +200,9 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _elRangeContainer: HTMLElement = {} as HTMLElement;
   private _elInputRange: HTMLElement = {} as HTMLElement;
-  private _innerContainer1: HTMLElement = document.createElement('div');
-  private _innerContainer2: HTMLElement = document.createElement('div');
-  private _innerContainer3: HTMLElement = document.createElement('div');
+  private _innerContainer1: HTMLElement = {} as HTMLElement;
+  private _innerContainer2: HTMLElement = {} as HTMLElement;
+  private _innerContainer3: HTMLElement = {} as HTMLElement;
   private value: number = 0;
   private defaultMaxValue: number = 65535;
   private defaultMinValue: number = 0;
@@ -451,6 +451,9 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this._elInputRange.setAttribute("step", "1");
     this._elRangeContainer.appendChild(this._elInputRange);
     this._elContainer.appendChild(this._elRangeContainer);
+    this._innerContainer1 = document.createElement('div');
+    this._innerContainer2 = document.createElement('div');
+    this._innerContainer3 = document.createElement('div');
     this.logger.stop();
   }
 
