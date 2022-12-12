@@ -74,6 +74,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * ]
   * @name minvalue
   * @default 0
+  * @limits [{"min": 0, "max": 65534}]
   * @attributeType "number"
   */
   minValue: number;
@@ -86,6 +87,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * ]
   * @name maxvalue
   * @default 65535
+  * @limits [{"min": 1, "max": 65535}]
   * @attributeType "number"
   */
   maxValue: number;
@@ -98,6 +100,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * ]
   * @name numberofsegments
   * @default 20
+  * @limits [{"min": 1, "max": 50}]
   * @attributeType "number"
   */
   numberOfSegments: number;
@@ -136,7 +139,7 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributes {
   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
   * @attributeType "Join"
   */
-   sendEventOnChange: string;
+  sendEventOnChange: string;
   /**
   * @documentation
   * [
