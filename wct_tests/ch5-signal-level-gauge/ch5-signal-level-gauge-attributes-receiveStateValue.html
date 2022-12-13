@@ -16,6 +16,16 @@
       <ch5-signal-level-gauge receiveStateValue="trigger_event_listener"></ch5-signal-level-gauge>
     </template>
   </test-fixture>
+  <test-fixture id="ch5-signal-level-gauge-receiveStateValue-attributes-less-than-minValue">
+    <template>
+      <ch5-signal-level-gauge receiveStateValue="trigger_event_listener1"></ch5-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-signal-level-gauge-receiveStateValue-attributes-greater-than-max-value">
+    <template>
+      <ch5-signal-level-gauge receiveStateValue="trigger_event_listener2"></ch5-signal-level-gauge>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-signal-level-gauge-receiveStateValue-attributes-value', () => {
       let ch5SignalLevelGauge;
@@ -31,7 +41,45 @@
         CrComLib.publishEvent('b', 'trigger_event_1', true);
         flush(() => {
           setTimeout(() => {
-            expect(ch5SignalLevelGauge.children[0].querySelectorAll('.color-blue').length).to.be.equal(1);
+            expect(ch5SignalLevelGauge.children[0].querySelectorAll('.ch5-signal-level-gauge--selected-bar-color').length).to.be.equal(1);
+            done();
+          }, 100);
+        });
+      });
+    });
+    suite('ch5-signal-level-gauge-receiveStateValue-attributes-less-than-minValue', () => {
+      let ch5SignalLevelGauge;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receiveStateValue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5SignalLevelGauge = fixture('ch5-signal-level-gauge-receiveStateValue-attributes-less-than-minValue');
+      });
+      test('receiveStateValue-less-than-minValue', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_2', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SignalLevelGauge.children[0].querySelectorAll('.ch5-signal-level-gauge--selected-bar-color').length).to.be.equal(6);
+            done();
+          }, 100);
+        });
+      });
+    });
+    suite('ch5-signal-level-gauge-receiveStateValue-attributes-greater-than-max-value', () => {
+      let ch5SignalLevelGauge;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receiveStateValue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5SignalLevelGauge = fixture('ch5-signal-level-gauge-receiveStateValue-attributes-greater-than-max-value');
+      });
+      test('receiveStateValue', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_3', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SignalLevelGauge.children[0].querySelectorAll('.ch5-signal-level-gauge--selected-bar-color').length).to.be.equal(0);
             done();
           }, 100);
         });

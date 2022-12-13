@@ -1,0 +1,37 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "increment",
+          "offset": 3277.5
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "decrement",
+          "offset": 3277.5
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "trigger_event_listener",
+      "type": "number",
+      "value": 20
+    }
+  ]
+}

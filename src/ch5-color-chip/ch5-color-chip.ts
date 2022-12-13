@@ -10,6 +10,7 @@ import Ch5ColorUtils from '../ch5-common/utils/ch5-color-utils';
 export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   //#region Variables
+
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     sendeventonclick: { direction: "event", booleanJoin: 1, contractName: true },
@@ -115,7 +116,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true
-    },
+    }
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-color-chip';
@@ -127,6 +128,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
   private redValue: number = 0;
   private greenValue: number = 0;
   private blueValue: number = 0;
+
   //#endregion
 
   //#region Getters and Setters
@@ -156,8 +158,9 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   public set receiveStateRedValue(value: string) {
     this._ch5Properties.set("receiveStateRedValue", value, null, (newValue: number) => {
-      if (newValue <= this.maxValue && this.redValue !== Ch5ColorUtils.getDigitalValue(newValue, this.maxValue)) {
-        this.redValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
+      const colorValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
+      if (newValue <= this.maxValue && this.redValue !== colorValue) {
+        this.redValue = colorValue;
         this.handleSendSignals('red');
       }
     });
@@ -168,8 +171,9 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   public set receiveStateGreenValue(value: string) {
     this._ch5Properties.set("receiveStateGreenValue", value, null, (newValue: number) => {
-      if (newValue <= this.maxValue && this.greenValue !== Ch5ColorUtils.getDigitalValue(newValue, this.maxValue)) {
-        this.greenValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
+      const colorValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
+      if (newValue <= this.maxValue && this.greenValue !== colorValue) {
+        this.greenValue = colorValue;
         this.handleSendSignals('green');
       }
     });
@@ -180,8 +184,9 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
 
   public set receiveStateBlueValue(value: string) {
     this._ch5Properties.set("receiveStateBlueValue", value, null, (newValue: number) => {
-      if (newValue <= this.maxValue && this.blueValue !== Ch5ColorUtils.getDigitalValue(newValue, this.maxValue)) {
-        this.blueValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
+      const colorValue = Ch5ColorUtils.getDigitalValue(newValue, this.maxValue);
+      if (newValue <= this.maxValue && this.blueValue !== colorValue) {
+        this.blueValue = colorValue;
         this.handleSendSignals('blue');
       }
     });
@@ -227,20 +232,20 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       window.customElements.define(Ch5ColorChip.ELEMENT_NAME, Ch5ColorChip);
     }
   }
+
   //#endregion
 
   //#region Component LifeCycle
 
   public constructor() {
     super();
-    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow"]
+    this.ignoreAttributes = ["receivestatecustomclass", "receivestatecustomstyle", "receivestatehidepulse", "receivestateshowpulse", "sendeventonshow", "customstyle"];
     this.logger.start('constructor()', Ch5ColorChip.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
     this._wasInstatiated = true;
     this._ch5Properties = new Ch5Properties(this, Ch5ColorChip.COMPONENT_PROPERTIES);
-
   }
 
   public static get observedAttributes(): string[] {
@@ -346,7 +351,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       this.blueValue = Ch5ColorUtils.getDigitalValue(Number(rgb[2]), this.maxValue);
       this._elContainer.style.backgroundColor = `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`;
     }
-    this.setAttribute('previewcolor', `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`);
+    this.previewColor = `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`;
   }
 
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
@@ -366,7 +371,7 @@ export class Ch5ColorChip extends Ch5Common implements ICh5ColorChipAttributes {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorBlueOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.blueValue, this.maxValue));
     }
     this._elContainer.style.backgroundColor = `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`;
-    this.setAttribute('previewcolor', `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`);
+    // this.setAttribute('previewcolor', `rgb(${this.redValue}, ${this.greenValue}, ${this.blueValue})`);
   }
 
   private handleSendEventOnClick(): void {

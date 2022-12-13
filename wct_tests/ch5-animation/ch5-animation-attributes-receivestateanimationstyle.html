@@ -21,6 +21,16 @@
       <ch5-animation receiveStateAnimationStyle="trigger_event_listener" animationStyle="roller"></ch5-animation>
     </template>
   </test-fixture>
+  <test-fixture id="ch5-animation-inside-overlay-panel">
+    <template>
+      <ch5-overlay-panel>
+        <ch5-animation id="animationObj" size="regular" startAnimating="true" animationStyle="roller"
+          receiveStateAnimationStyle="trigger_event_listener">
+        </ch5-animation>
+      </ch5-overlay-panel>
+    </template>
+  </test-fixture>
+
   <script>
     suite('ch5-animation-receiveStateAnimationStyle-attributes-value', () => {
       let ch5Animation;
@@ -63,7 +73,28 @@
           }, 100);
         });
       });
+    });
 
+    suite('ch5-animation-inside-overlay-panel', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateanimationstyle.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-inside-overlay-panel');
+      });
+
+      test('animation inside overlay panel', (done) => {
+        CrComLib.publishEvent('b', `trigger_event_1`, true);
+        flush(() => {
+          setTimeout(() => {
+            let animationComponent = document.getElementById('animationObj');
+            expect(animationComponent.getAttribute('animationStyle')).to.be.equal('spinner');
+            done();
+          }, 100);
+        });
+      });
     });
 
   </script>

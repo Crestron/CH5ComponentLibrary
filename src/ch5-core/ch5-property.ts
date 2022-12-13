@@ -45,13 +45,19 @@ export class Ch5Property {
 	private _propertyValue: boolean | string | object | any;
 	private _propertySignalValue: boolean | string | object | any = null;
 	private initializedValue: boolean = false;
-
+	private _propertySignalType: string = "";
 	// private _hasChangedSinceInit: boolean = false;
 
 	constructor(public ch5Component: Ch5Common | Ch5Log, public property: ICh5PropertySettings) {
 		this._attributeName = property.name.toLowerCase();
 		this._propertyName = property.name;
 		this._propertyValue = property.default;
+		if (property.signalType) {
+			this._propertySignalType = property.signalType;
+		}
+	}
+	public get signalType(): string {
+		return this._propertySignalType;
 	}
 
 	public get value(): boolean | string | object | any {

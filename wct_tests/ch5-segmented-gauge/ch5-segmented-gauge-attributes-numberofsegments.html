@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-segmented-gauge-numberOfSegments-attributes">
+    <template>
+      <ch5-segmented-gauge></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-segmented-gauge-numberOfSegments-attributes-value', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-numberOfSegments-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', '10.5', '-1', '51', '33', '0'];
+      let expectedResult = ['20', '20', '20', '20', '10.5', '1', '50', '33', '1'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "numberOfSegments"', () => {
+          ch5SegmentedGauge.setAttribute('numberOfSegments', ele);
+          expect(ch5SegmentedGauge.getAttribute('numberOfSegments')).to.be.equal(expectedResult[i]);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
