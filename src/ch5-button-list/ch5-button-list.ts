@@ -768,10 +768,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
     let rowColumnValue = 0;
     if (this.orientation === "horizontal") {
-      if (this._elContainer.offsetWidth + this._elContainer.scrollLeft < this._elContainer.scrollWidth) { return; }
+      if (this._elContainer.offsetWidth + this._elContainer.scrollLeft < this._elContainer.scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) { return; }
       rowColumnValue = this.rows;
     } else {
-      if (this._elContainer.offsetHeight + this._elContainer.scrollTop < this._elContainer.scrollHeight) { return; }
+      if (this._elContainer.offsetHeight + this._elContainer.scrollTop < this._elContainer.scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) { return; }
       rowColumnValue = this.columns;
     }
 
