@@ -1,12 +1,12 @@
+import _ from "lodash";
 import { Ch5Log } from "../ch5-common/ch5-log";
+import { Ch5ButtonList } from "./ch5-button-list";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { Ch5ButtonListMode } from "./ch5-button-list-mode";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { TCh5ButtonListModeStateState, TCh5ButtonListModeStateType, TCh5ButtonListModeStateHAlignLabel, TCh5ButtonListModeStateVAlignLabel, TCh5ButtonListModeStateCheckboxPosition, TCh5ButtonListModeStateIconPosition, } from './interfaces/t-ch5-button-list-mode-state';
 import { ICh5ButtonListModeStateAttributes } from './interfaces/i-ch5-button-list-mode-state-attributes';
-import { Ch5ButtonListMode } from "./ch5-button-list-mode";
-import { Ch5Properties } from "../ch5-core/ch5-properties";
-import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { Ch5ButtonList } from "./ch5-button-list";
-import _ from "lodash";
 
 export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListModeStateAttributes {
 
@@ -126,77 +126,99 @@ export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListMode
   //#region Getters and Setters
 
   public set state(value: TCh5ButtonListModeStateState) {
-    this._ch5Properties.set<TCh5ButtonListModeStateState>("state", value);
+    this._ch5Properties.set<TCh5ButtonListModeStateState>("state", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get state(): TCh5ButtonListModeStateState {
     return this._ch5Properties.get<TCh5ButtonListModeStateState>("state");
   }
 
   public set type(value: TCh5ButtonListModeStateType) {
-    this._ch5Properties.set<TCh5ButtonListModeStateType>("type", value);
+    this._ch5Properties.set<TCh5ButtonListModeStateType>("type", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get type(): TCh5ButtonListModeStateType {
     return this._ch5Properties.get<TCh5ButtonListModeStateType>("type");
   }
 
   public set hAlignLabel(value: TCh5ButtonListModeStateHAlignLabel) {
-    this._ch5Properties.set<TCh5ButtonListModeStateHAlignLabel>("hAlignLabel", value);
+    this._ch5Properties.set<TCh5ButtonListModeStateHAlignLabel>("hAlignLabel", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get hAlignLabel(): TCh5ButtonListModeStateHAlignLabel {
     return this._ch5Properties.get<TCh5ButtonListModeStateHAlignLabel>("hAlignLabel");
   }
 
   public set vAlignLabel(value: TCh5ButtonListModeStateVAlignLabel) {
-    this._ch5Properties.set<TCh5ButtonListModeStateVAlignLabel>("vAlignLabel", value);
+    this._ch5Properties.set<TCh5ButtonListModeStateVAlignLabel>("vAlignLabel", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get vAlignLabel(): TCh5ButtonListModeStateVAlignLabel {
     return this._ch5Properties.get<TCh5ButtonListModeStateVAlignLabel>("vAlignLabel");
   }
 
   public set checkboxPosition(value: TCh5ButtonListModeStateCheckboxPosition) {
-    this._ch5Properties.set<TCh5ButtonListModeStateCheckboxPosition>("checkboxPosition", value);
+    this._ch5Properties.set<TCh5ButtonListModeStateCheckboxPosition>("checkboxPosition", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get checkboxPosition(): TCh5ButtonListModeStateCheckboxPosition {
     return this._ch5Properties.get<TCh5ButtonListModeStateCheckboxPosition>("checkboxPosition");
   }
 
   public set iconPosition(value: TCh5ButtonListModeStateIconPosition) {
-    this._ch5Properties.set<TCh5ButtonListModeStateIconPosition>("iconPosition", value);
+    this._ch5Properties.set<TCh5ButtonListModeStateIconPosition>("iconPosition", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get iconPosition(): TCh5ButtonListModeStateIconPosition {
     return this._ch5Properties.get<TCh5ButtonListModeStateIconPosition>("iconPosition");
   }
 
   public set iconClass(value: string) {
-    this._ch5Properties.set<string>("iconClass", value);
+    this._ch5Properties.set<string>("iconClass", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get iconClass(): string {
     return this._ch5Properties.get<string>("iconClass");
   }
 
   public set iconUrl(value: string) {
-    this._ch5Properties.set<string>("iconUrl", value);
+    this._ch5Properties.set<string>("iconUrl", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get iconUrl(): string {
     return this._ch5Properties.get<string>("iconUrl");
   }
 
   public set customClass(value: string) {
-    this._ch5Properties.set<string>("customClass", value);
+    this._ch5Properties.set<string>("customClass", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get customClass(): string {
     return this._ch5Properties.get<string>("customClass");
   }
 
   public set customStyle(value: string) {
-    this._ch5Properties.set<string>("customStyle", value);
+    this._ch5Properties.set<string>("customStyle", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get customStyle(): string {
     return this._ch5Properties.get<string>("customStyle");
   }
 
   public set labelInnerHTML(value: string) {
-    this._ch5Properties.set<string>("labelInnerHTML", value);
+    this._ch5Properties.set<string>("labelInnerHTML", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get labelInnerHTML(): string {
     return this._ch5Properties.get<string>("labelInnerHTML");

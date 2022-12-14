@@ -145,7 +145,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * ]
    * @name buttonmode
    * @default 0
-   * limits [{"min": 0, "max": 99}]
+   * @limits [{"min": 0, "max": 99}]
    * @attributeType "Integer"
    */
   buttonMode: number;
@@ -158,7 +158,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * ]
    * @name clickholdtime
    * @default 0
-   * limits [{"min": 0, "max": 50000}]
+   * @limits [{"min": 0, "max": 50000}]
    * @attributeType "Integer"
    */
   clickHoldTime: number;
@@ -171,7 +171,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * ]
    * @name sgiconstyle
    * @default 0
-   * limits [{"min": 0, "max": 100}]
+   * @limits [{"min": 0, "max": 100}]
    * @attributeType "Integer"
    */
   sgIconStyle: number;

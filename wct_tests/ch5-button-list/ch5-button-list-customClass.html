@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-custom-class-1">
+    <template>
+      <ch5-button-list customClass="bg-1">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-class-2">
+    <template>
+      <ch5-button-list customClass="bg-1 bg-2">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-class-3">
+    <template>
+      <ch5-button-list customClass="">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-class-4">
+    <template>
+      <ch5-button-list customClass>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-class-5">
+    <template>
+      <ch5-button-list customClass="invalid">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-custom-class-6">
+    <template>
+      <ch5-button-list customClass=" ">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-custom-class background color', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-class-1');
+      });
+      test('Check Default custom class', () => {
+        expect(ch5ButtonList.children[0].classList.contains('bg-1')).to.be.equal(true);
+      });
+    });
+
+    suite('ch5-button-list-custom-class border', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-class-2');
+      });
+      test('Check Default custom class', () => {
+        expect(ch5ButtonList.children[0].classList.contains('bg-1')).to.be.equal(true);
+        expect(ch5ButtonList.children[0].classList.contains('bg-2')).to.be.equal(true);
+      });
+    });
+    suite('ch5-button-list-custom-class empty', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-class-3');
+      });
+      test('Check Default custom class', () => {
+        expect(ch5ButtonList.children[0].classList.contains('')).to.be.equal(false);
+      });
+    });
+    suite('ch5-button-list-custom-class null', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-class-4');
+      });
+      test('Check Default custom class', () => {
+        expect(ch5ButtonList.children[0].classList.contains('')).to.be.equal(false);
+      });
+    });
+    suite('ch5-button-list-custom-class invalid', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-class-5');
+      });
+      test('Check Default custom class', () => {
+        expect(ch5ButtonList.children[0].classList.contains('')).to.be.equal(false);
+      });
+    });
+    suite('ch5-button-list-custom-class empty space', () => {
+      let ch5ButtonList;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-custom-class-6');
+      });
+      test('Check Default custom class', () => {
+        expect(ch5ButtonList.children[0].classList.contains('')).to.be.equal(false);
+      });
+    });
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-button-advanced">
+    <template>
+      <ch5-button-list buttonCheckboxShow>
+        <ch5-button-list-mode type="info">
+          <ch5-button-list-mode-state state="normal" type="warning" checkboxPosition="right" hAlignLabel="left"
+            vAlignLabel="top" iconPosition="first" iconClass="fab fa-twitter"
+            customClass="customClassNormal-1 customClassNormal-2" customStyle="border:1px solid green">
+            <ch5-button-list-label>
+              <template>Normal mode</template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state state="pressed" type="text" checkboxPosition="left" hAlignLabel="right"
+            vAlignLabel="bottom" iconPosition="last" iconClass="material-icons md-account_box"
+            customClass="customClassPressed-1 customClassPressed-2" customStyle="border:1px solid black">
+            <ch5-button-list-label>
+              <template>Pressed mode</template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state state="selected" type="success" checkboxPosition="right" hAlignLabel="center"
+            vAlignLabel="middle" iconPosition="top" iconClass="fas fa-anchor"
+            customClass="customClassSelected-1 customClassSelected-2" customStyle="border:1px solid red">
+            <ch5-button-list-label>
+              <template>Selected mode</template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-button advanced', () => {
+      let ch5ButtonList;
+      let ch5ButtonListContainer;
+      let ch5Button;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-button-advanced');
+        ch5ButtonListContainer = ch5ButtonList.querySelector('.ch5-button-list');
+        ch5Button = ch5ButtonListContainer.children[0].children[0];
+      });
+      test('Check ', () => {
+        // expect(ch5ButtonList.children[0].style.backgroundColor).to.be.equal('green');
+        console.log(ch5Button);
+      });
+
+    });
+  </script>
+</body>
+
+</html>

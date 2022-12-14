@@ -1,11 +1,11 @@
 import _ from "lodash";
 import { Ch5Log } from "../ch5-common/ch5-log";
-import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { TCh5ButtonListModeType, TCh5ButtonListModeHAlignLabel, TCh5ButtonListModeVAlignLabel, TCh5ButtonListModeCheckboxPosition, TCh5ButtonListModeIconPosition, } from './interfaces/t-ch5-button-list-mode';
-import { ICh5ButtonListModeAttributes } from './interfaces/i-ch5-button-list-mode-attributes';
-import { Ch5Properties } from "../ch5-core/ch5-properties";
-import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5ButtonList } from "./ch5-button-list";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { ICh5ButtonListModeAttributes } from './interfaces/i-ch5-button-list-mode-attributes';
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { TCh5ButtonListModeType, TCh5ButtonListModeHAlignLabel, TCh5ButtonListModeVAlignLabel, TCh5ButtonListModeCheckboxPosition, TCh5ButtonListModeIconPosition, } from './interfaces/t-ch5-button-list-mode';
 
 export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttributes {
 
@@ -115,70 +115,90 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
   //#region Getters and Setters
 
   public set type(value: TCh5ButtonListModeType) {
-    this._ch5Properties.set<TCh5ButtonListModeType>("type", value);
+    this._ch5Properties.set<TCh5ButtonListModeType>("type", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get type(): TCh5ButtonListModeType {
     return this._ch5Properties.get<TCh5ButtonListModeType>("type");
   }
 
   public set hAlignLabel(value: TCh5ButtonListModeHAlignLabel) {
-    this._ch5Properties.set<TCh5ButtonListModeHAlignLabel>("hAlignLabel", value);
+    this._ch5Properties.set<TCh5ButtonListModeHAlignLabel>("hAlignLabel", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get hAlignLabel(): TCh5ButtonListModeHAlignLabel {
     return this._ch5Properties.get<TCh5ButtonListModeHAlignLabel>("hAlignLabel");
   }
 
   public set vAlignLabel(value: TCh5ButtonListModeVAlignLabel) {
-    this._ch5Properties.set<TCh5ButtonListModeVAlignLabel>("vAlignLabel", value);
+    this._ch5Properties.set<TCh5ButtonListModeVAlignLabel>("vAlignLabel", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get vAlignLabel(): TCh5ButtonListModeVAlignLabel {
     return this._ch5Properties.get<TCh5ButtonListModeVAlignLabel>("vAlignLabel");
   }
 
   public set checkboxPosition(value: TCh5ButtonListModeCheckboxPosition) {
-    this._ch5Properties.set<TCh5ButtonListModeCheckboxPosition>("checkboxPosition", value);
+    this._ch5Properties.set<TCh5ButtonListModeCheckboxPosition>("checkboxPosition", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get checkboxPosition(): TCh5ButtonListModeCheckboxPosition {
     return this._ch5Properties.get<TCh5ButtonListModeCheckboxPosition>("checkboxPosition");
   }
 
   public set iconPosition(value: TCh5ButtonListModeIconPosition) {
-    this._ch5Properties.set<TCh5ButtonListModeIconPosition>("iconPosition", value);
+    this._ch5Properties.set<TCh5ButtonListModeIconPosition>("iconPosition", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get iconPosition(): TCh5ButtonListModeIconPosition {
     return this._ch5Properties.get<TCh5ButtonListModeIconPosition>("iconPosition");
   }
 
   public set iconClass(value: string) {
-    this._ch5Properties.set<string>("iconClass", value);
+    this._ch5Properties.set<string>("iconClass", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get iconClass(): string {
     return this._ch5Properties.get<string>("iconClass");
   }
 
   public set iconUrl(value: string) {
-    this._ch5Properties.set<string>("iconUrl", value);
+    this._ch5Properties.set<string>("iconUrl", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get iconUrl(): string {
     return this._ch5Properties.get<string>("iconUrl");
   }
 
   public set customClass(value: string) {
-    this._ch5Properties.set<string>("customClass", value);
+    this._ch5Properties.set<string>("customClass", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get customClass(): string {
     return this._ch5Properties.get<string>("customClass");
   }
 
   public set customStyle(value: string) {
-    this._ch5Properties.set<string>("customStyle", value);
+    this._ch5Properties.set<string>("customStyle", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get customStyle(): string {
     return this._ch5Properties.get<string>("customStyle");
   }
 
   public set labelInnerHTML(value: string) {
-    this._ch5Properties.set<string>("labelInnerHTML", value);
+    this._ch5Properties.set<string>("labelInnerHTML", value, () => {
+      this._parentCh5ButtonList.buttonDisplay();
+    });
   }
   public get labelInnerHTML(): string {
     return this._ch5Properties.get<string>("labelInnerHTML");
