@@ -449,7 +449,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this._elContainer = document.createElement('div');
     this._elInputRange = document.createElement('input');
     this._elInputRange.setAttribute("type", "range");
-    this._elInputRange.setAttribute("min", "1");
+    this._elInputRange.setAttribute("min", "0");
     this._elInputRange.setAttribute("max", "20");
     this._elInputRange.setAttribute("value", "0");
     this._elInputRange.setAttribute("step", "1");
@@ -591,9 +591,9 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private initInputRange() {
     if (this.orientation === "horizontal") {
-      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + 'px';
+      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + 20 + 'px';
     } else {
-      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + 'px';
+      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + 20 + 'px';
     }
   }
 
