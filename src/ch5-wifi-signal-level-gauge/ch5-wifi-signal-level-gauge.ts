@@ -5,34 +5,38 @@ import { ICh5WifiSignalLevelGaugeAttributes } from './interfaces/i-ch5-wifi-sign
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
+import { subscribeInViewPortChange } from "../ch5-core/utility-functions/subscribe-in-view-port-change";
+import _ from "lodash";
+import { resizeObserver } from "../ch5-core/resize-observer";
 
 export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignalLevelGaugeAttributes {
 
   //#region Variables
 
-  public static readonly NUMBER_OF_BARS_MIN: number = 0;
-  public static readonly NUMBER_OF_BARS_MAX: number = 3;
-  public static readonly GAUGE_STYLE: TCh5WifiSignalLevelGaugeGaugeStyle[] = ['light', 'accents', 'dark'];
-  public static readonly ALIGNMENT: TCh5WifiSignalLevelGaugeAlignment[] = ['up', 'down', 'left', 'right'];
-  public static readonly SIZE: TCh5WifiSignalLevelGaugeSize[] = ['regular', 'small', 'large', 'x-large'];
+  public static readonly MIN_NUMBER_OF_BARS: number = 0;
+  public static readonly MAX_NUMBER_OF_BARS: number = 3;
+  public static readonly GAUGE_STYLES: TCh5WifiSignalLevelGaugeGaugeStyle[] = ['light', 'accents', 'dark'];
+  public static readonly ALIGNMENTS: TCh5WifiSignalLevelGaugeAlignment[] = ['up', 'down', 'left', 'right'];
+  public static readonly SIZES: TCh5WifiSignalLevelGaugeSize[] = ['regular', 'small', 'large', 'x-large'];
+ 
   public static readonly COMPONENT_DATA: any = {
     GAUGE_STYLE: {
-      default: Ch5WifiSignalLevelGauge.GAUGE_STYLE[0],
-      values: Ch5WifiSignalLevelGauge.GAUGE_STYLE,
+      default: Ch5WifiSignalLevelGauge.GAUGE_STYLES[0],
+      values: Ch5WifiSignalLevelGauge.GAUGE_STYLES,
       key: 'gaugeStyle',
       attribute: 'gaugeStyle',
       classListPrefix: 'ch5-wifi-signal-level-gauge--gauge-style-'
     },
     ALIGNMENT: {
-      default: Ch5WifiSignalLevelGauge.ALIGNMENT[0],
-      values: Ch5WifiSignalLevelGauge.ALIGNMENT,
+      default: Ch5WifiSignalLevelGauge.ALIGNMENTS[0],
+      values: Ch5WifiSignalLevelGauge.ALIGNMENTS,
       key: 'alignment',
       attribute: 'alignment',
       classListPrefix: 'ch5-wifi-signal-level-gauge--alignment-'
     },
     SIZE: {
-      default: Ch5WifiSignalLevelGauge.SIZE[0],
-      values: Ch5WifiSignalLevelGauge.SIZE,
+      default: Ch5WifiSignalLevelGauge.SIZES[0],
+      values: Ch5WifiSignalLevelGauge.SIZES,
       key: 'size',
       attribute: 'size',
       classListPrefix: 'ch5-wifi-signal-level-gauge--size-'
@@ -56,21 +60,21 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
       isObservableProperty: true
     },
     {
-      default: Ch5WifiSignalLevelGauge.GAUGE_STYLE[0],
-      enumeratedValues: Ch5WifiSignalLevelGauge.GAUGE_STYLE,
+      default: Ch5WifiSignalLevelGauge.GAUGE_STYLES[0],
+      enumeratedValues: Ch5WifiSignalLevelGauge.GAUGE_STYLES,
       name: "gaugeStyle",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5WifiSignalLevelGauge.GAUGE_STYLE[0],
+      valueOnAttributeEmpty: Ch5WifiSignalLevelGauge.GAUGE_STYLES[0],
       isObservableProperty: true
     },
     {
-      default: Ch5WifiSignalLevelGauge.ALIGNMENT[0],
-      enumeratedValues: Ch5WifiSignalLevelGauge.ALIGNMENT,
+      default: Ch5WifiSignalLevelGauge.ALIGNMENTS[0],
+      enumeratedValues: Ch5WifiSignalLevelGauge.ALIGNMENTS,
       name: "alignment",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5WifiSignalLevelGauge.ALIGNMENT[0],
+      valueOnAttributeEmpty: Ch5WifiSignalLevelGauge.ALIGNMENTS[0],
       isObservableProperty: true
     },
     {
@@ -106,12 +110,12 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
       isObservableProperty: true
     },
     {
-      default: Ch5WifiSignalLevelGauge.SIZE[0],
-      enumeratedValues: Ch5WifiSignalLevelGauge.SIZE,
+      default: Ch5WifiSignalLevelGauge.SIZES[0],
+      enumeratedValues: Ch5WifiSignalLevelGauge.SIZES,
       name: "size",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5WifiSignalLevelGauge.SIZE[0],
+      valueOnAttributeEmpty: Ch5WifiSignalLevelGauge.SIZES[0],
       isObservableProperty: true
     }
   ];
@@ -124,6 +128,9 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _elInnerContainer: HTMLElement = {} as HTMLElement;
+  private _elTopSignal: HTMLElement = {} as HTMLElement;
+  private _elMiddleSignal: HTMLElement = {} as HTMLElement;
+  private _elBottomSignal: HTMLElement = {} as HTMLElement;
   private value: number = 0;
 
   //#endregion
@@ -270,6 +277,13 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
     customElements.whenDefined('ch5-wifi-signal-level-gauge').then(() => {
       this.componentLoadedEvent(Ch5WifiSignalLevelGauge.ELEMENT_NAME, this.id);
     });
+    resizeObserver(this._elContainer, this.setContainerBorderWidth.bind(this));
+
+    subscribeInViewPortChange(this, () => {
+      if (this.elementIsInViewPort) {
+        this.setContainerBorderWidth();
+      }
+    });
     this.logger.stop();
   }
 
@@ -284,13 +298,37 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
 
   //#region Protected / Private Methods
 
+  private setContainerBorderWidth() {
+    let containerWidth = this.offsetWidth;
+    let containerHeight = this.offsetHeight;
+    if (this.alignment === "left" || this.alignment === "right") {
+      containerWidth = this.offsetHeight;
+      containerHeight = this.offsetWidth;
+    }
+    this._elTopSignal.style.borderWidth = Math.floor(containerWidth / 6) + 'px';
+    this._elMiddleSignal.style.borderWidth = Math.floor(containerWidth / 6) + 'px';
+    this._elBottomSignal.style.borderWidth = Math.floor(containerHeight / 3) + 'px';
+  }
+
   protected createInternalHtml() {
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
     this._elInnerContainer = document.createElement('div');
+    this._elTopSignal = document.createElement('div');
+    this._elMiddleSignal = document.createElement('div');
+    this._elBottomSignal = document.createElement('div');
     this._elContainer.classList.add("ch5-wifi-signal-level-gauge");
     this._elInnerContainer.classList.add("ch5-wifi-signal-level-gauge--inner-container");
+    this._elTopSignal.classList.add("ch5-wifi-signal-level-gauge-top-signal");
+    this._elMiddleSignal.classList.add("ch5-wifi-signal-level-gauge-middle-signal");
+    this._elBottomSignal.classList.add("ch5-wifi-signal-level-gauge-bottom-signal");
+    this._elTopSignal.classList.add("ch5-wifi-signal-level-gauge--selected-false");
+    this._elMiddleSignal.classList.add("ch5-wifi-signal-level-gauge--selected-false");
+    this._elBottomSignal.classList.add("ch5-wifi-signal-level-gauge--selected-false");
+    this._elInnerContainer.appendChild(this._elTopSignal);
+    this._elInnerContainer.appendChild(this._elMiddleSignal);
+    this._elInnerContainer.appendChild(this._elBottomSignal);
     this._elContainer.appendChild(this._elInnerContainer);
     this.logger.stop();
   }
@@ -338,16 +376,36 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   }
 
   private handleValue() {
-    for (let i: number = 0; i <= Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX; i++) {
-      this._elInnerContainer.classList.remove("ch5-wifi-bars-selected-" + i.toString());
-    };
-    let currBar = Math.floor(((this.value - this.minValue) * Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX) / (this.maxValue - this.minValue));
-    if (currBar > Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX) {
-      currBar = Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MAX;
-    } else if (currBar < Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MIN) {
-      currBar = Ch5WifiSignalLevelGauge.NUMBER_OF_BARS_MIN;
+    let currBar: number = Math.floor(((this.value - this.minValue) * Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS) / (this.maxValue - this.minValue));
+    if (currBar > Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS) {
+      currBar = Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS;
+    } else if (currBar < Ch5WifiSignalLevelGauge.MIN_NUMBER_OF_BARS) {
+      currBar = Ch5WifiSignalLevelGauge.MIN_NUMBER_OF_BARS;
     }
-    this._elInnerContainer.classList.add("ch5-wifi-bars-selected-" + currBar.toString());
+    if (currBar === 0) {
+      this.setClassForWifiBasedOnValue(this._elTopSignal, false);
+      this.setClassForWifiBasedOnValue(this._elMiddleSignal, false);
+      this.setClassForWifiBasedOnValue(this._elBottomSignal, false);
+    } else if (currBar === 1) {
+      this.setClassForWifiBasedOnValue(this._elTopSignal, false);
+      this.setClassForWifiBasedOnValue(this._elMiddleSignal, false);
+      this.setClassForWifiBasedOnValue(this._elBottomSignal, true);
+    } else if (currBar === 2) {
+      this.setClassForWifiBasedOnValue(this._elTopSignal, false);
+      this.setClassForWifiBasedOnValue(this._elMiddleSignal, true);
+      this.setClassForWifiBasedOnValue(this._elBottomSignal, true);
+    } else if (currBar === 3) {
+      this.setClassForWifiBasedOnValue(this._elTopSignal, true);
+      this.setClassForWifiBasedOnValue(this._elMiddleSignal, true);
+      this.setClassForWifiBasedOnValue(this._elBottomSignal, true);
+    }
+  }
+
+  private setClassForWifiBasedOnValue(container: HTMLElement, selected: boolean) {
+    if (!container.classList.contains("ch5-wifi-signal-level-gauge--selected-" + String(selected))) {
+      container.classList.remove("ch5-wifi-signal-level-gauge--selected-" + String(!selected));
+      container.classList.add("ch5-wifi-signal-level-gauge--selected-" + String(selected));
+    }
   }
 
   private handleSize() {
@@ -359,13 +417,9 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
 
   private initCssClass() {
     this.logger.start('initCssClass');
-
     this._elContainer.classList.add(Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.classListPrefix + this.gaugeStyle);
-
     this._elContainer.classList.add(Ch5WifiSignalLevelGauge.COMPONENT_DATA.ALIGNMENT.classListPrefix + this.alignment);
-
     this._elContainer.classList.add(Ch5WifiSignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + this.size);
-
     this.logger.stop();
   }
 
