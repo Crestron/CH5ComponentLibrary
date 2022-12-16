@@ -6,6 +6,19 @@ import { TCh5WifiSignalLevelGaugeGaugeStyle, TCh5WifiSignalLevelGaugeAlignment, 
  */
 export interface ICh5WifiSignalLevelGaugeAttributes extends ICh5CommonAttributesSet3 {
   /**
+  * @documentation
+  * [
+  * "`value` attribute",
+  * "***",
+  * "It sets the value of wifi signal strength.It can range from 0 to 100. Default value is 0."
+  * ]
+  * @name value
+  * @default 0
+  * @limits [{"min": 0, "max": 100}]
+  * @attributeType "number"
+  */
+  value: number;
+  /**
    * @documentation
    * [
    * "`receiveStateValue` attribute",

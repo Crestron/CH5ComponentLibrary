@@ -50,7 +50,7 @@
         CrComLib.publishEvent('b', 'trigger_event_1', true);
         flush(() => {
           setTimeout(() => {
-            expect(ch5WifiSignalLevelGauge.children[0].children[0].children[0].classList.contains("ch5-wifi-bars-selected-1")).to.be.equal(true);
+            expect(ch5WifiSignalLevelGauge.children[0].getAttribute('value')).to.be.equal('1');
             done();
           }, 100);
         });
@@ -70,7 +70,7 @@
         CrComLib.publishEvent('b', 'trigger_event_1', true);
         flush(() => {
           setTimeout(() => {
-            expect(ch5WifiSignalLevelGauge.children[0].children[0].children[0].classList.contains("ch5-wifi-bars-selected-1")).to.be.equal(true);
+            expect(ch5WifiSignalLevelGauge.children[0].getAttribute('value')).to.be.equal('1');
             done();
           }, 100);
         });
@@ -90,7 +90,7 @@
         CrComLib.publishEvent('b', 'trigger_event_1', true);
         flush(() => {
           setTimeout(() => {
-            expect(ch5WifiSignalLevelGauge.children[0].children[0].children[0].classList.contains("ch5-wifi-bars-selected-1")).to.be.equal(true);
+            expect(ch5WifiSignalLevelGauge.children[0].getAttribute('value')).to.be.equal('1');
             done();
           }, 100);
         });
