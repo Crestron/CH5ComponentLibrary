@@ -199,7 +199,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private _elInputRange: HTMLElement = {} as HTMLElement;
+  private _elInputRange: HTMLInputElement = {} as HTMLInputElement;
   private value: number = 0;
   private defaultMaxValue: number = 65535;
   private defaultMinValue: number = 0;
@@ -450,7 +450,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this._elInputRange = document.createElement('input');
     this._elInputRange.setAttribute("type", "range");
     this._elInputRange.setAttribute("min", "0");
-    this._elInputRange.setAttribute("max", "0");
+    this._elInputRange.setAttribute("max", "20");
     this._elInputRange.setAttribute("value", "0");
     this._elInputRange.setAttribute("step", "1");
     this._elInputRange.classList.add(this.primaryCssClass + "--input-range");
@@ -562,6 +562,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
         element.classList.add("active");
       }
     });
+    this._elInputRange.value = segmentBars + "";
   }
 
   private inputRangeChanged() {
@@ -590,9 +591,9 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private initInputRange() {
     if (this.orientation === "horizontal") {
-      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + 'px';
+      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + 20 + 'px';
     } else {
-      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + 'px';
+      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + 20 + 'px';
     }
   }
 
