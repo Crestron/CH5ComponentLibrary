@@ -6,6 +6,7 @@ import { TCh5SegmentedGaugeOrientation, TCh5SegmentedGaugeGaugeLedStyle, TCh5Seg
 import { ICh5SegmentedGaugeAttributes } from './interfaces/i-ch5-segmented-gauge-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
+import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
 
 export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAttributes {
 
@@ -198,11 +199,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private _elRangeContainer: HTMLElement = {} as HTMLElement;
-  private _elInputRange: HTMLElement = {} as HTMLElement;
-  private _innerContainer1: HTMLElement = {} as HTMLElement;
-  private _innerContainer2: HTMLElement = {} as HTMLElement;
-  private _innerContainer3: HTMLElement = {} as HTMLElement;
+  private _elInputRange: HTMLInputElement = {} as HTMLInputElement;
   private value: number = 0;
   private defaultMaxValue: number = 65535;
   private defaultMinValue: number = 0;
@@ -301,6 +298,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   public set numberOfSegments(value: number) {
     this._ch5Properties.set<number>("numberOfSegments", value, () => {
       this.handleNumberOfSegments();
+      this.initInputRange();
     });
   }
 
@@ -415,11 +413,18 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5SegmentedGauge);
     }
+    if (this._elContainer.parentElement !== this) {
+      this.appendChild(this._elContainer);
+    }
     this.attachEventListeners();
     this.initAttributes();
-    this.handleOrientation();
     this.initCommonMutationObserver(this);
     this.handleNumberOfSegments();
+    subscribeInViewPortChange(this, () => {
+      if (this.elementIsInViewPort) {
+        this.initInputRange();
+      }
+    });
     customElements.whenDefined('ch5-segmented-gauge').then(() => {
       this.componentLoadedEvent(Ch5SegmentedGauge.ELEMENT_NAME, this.id);
     });
@@ -428,6 +433,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()');
+    unSubscribeInViewPortChange(this);
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     this.logger.stop();
@@ -441,19 +447,14 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this.logger.start('createInternalHtml()');
     this.clearComponentContent();
     this._elContainer = document.createElement('div');
-    this._elRangeContainer = document.createElement('div');
-    this._elRangeContainer.classList.add("range-details");
     this._elInputRange = document.createElement('input');
     this._elInputRange.setAttribute("type", "range");
     this._elInputRange.setAttribute("min", "0");
-    this._elInputRange.setAttribute("max", "0");
+    this._elInputRange.setAttribute("max", "20");
     this._elInputRange.setAttribute("value", "0");
     this._elInputRange.setAttribute("step", "1");
-    this._elRangeContainer.appendChild(this._elInputRange);
-    this._elContainer.appendChild(this._elRangeContainer);
-    this._innerContainer1 = document.createElement('div');
-    this._innerContainer2 = document.createElement('div');
-    this._innerContainer3 = document.createElement('div');
+    this._elInputRange.classList.add(this.primaryCssClass + "--input-range");
+    this._elContainer.appendChild(this._elInputRange);
     this.logger.stop();
   }
 
@@ -503,24 +504,6 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
       this._elContainer.classList.remove(Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + e);
     });
     this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
-    if (this.orientation === 'horizontal') {
-      if (this._elContainer.parentElement !== this) {
-        this.appendChild(this._elContainer);
-        if (this._innerContainer1.parentElement === this) {
-          this.removeChild(this._innerContainer1);
-        }
-      }
-    } else {
-      if (this._elContainer.parentElement === this) {
-        this.removeChild(this._elContainer);
-      }
-      this._innerContainer3.appendChild(this._elContainer);
-      this._innerContainer2.appendChild(this._innerContainer3);
-      this._innerContainer1.appendChild(this._innerContainer2);
-      if (this._innerContainer1.parentElement !== this) {
-        this.appendChild(this._innerContainer1);
-      }
-    }
   }
 
   private handleGaugeLedStyle() {
@@ -579,6 +562,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
         element.classList.add("active");
       }
     });
+    this._elInputRange.value = segmentBars + "";
   }
 
   private inputRangeChanged() {
@@ -605,14 +589,16 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this.debounceSignalHandling();
   }
 
+  private initInputRange() {
+    if (this.orientation === "horizontal") {
+      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + 20 + 'px';
+    } else {
+      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + 20 + 'px';
+    }
+  }
+
   private initCssClass() {
     this.logger.start('initCssClass');
-
-    this._innerContainer1.classList.add(this.primaryCssClass + "--inner-container-1");
-
-    this._innerContainer2.classList.add(this.primaryCssClass + "--inner-container-2");
-
-    this._innerContainer3.classList.add(this.primaryCssClass + "--inner-container-3");
 
     this._elContainer.classList.add(this.primaryCssClass);
 

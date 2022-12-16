@@ -51,7 +51,7 @@ export interface ICh5WifiSignalLevelGaugeAttributes extends ICh5CommonAttributes
   * ]
   * @name minvalue
   * @default 0
-  * limits [{"min": 0, "max": 99}]
+  * @limits [{"min": 0, "max": 99}]
   * @attributeType "Integer"
   */
   minValue: number;
@@ -64,7 +64,7 @@ export interface ICh5WifiSignalLevelGaugeAttributes extends ICh5CommonAttributes
    * ]
    * @name maxvalue
    * @default 100
-   * limits [{"min": 1, "max": 100}]
+   * @limits [{"min": 1, "max": 100}]
    * @attributeType "Integer"
    */
   maxValue: number;
