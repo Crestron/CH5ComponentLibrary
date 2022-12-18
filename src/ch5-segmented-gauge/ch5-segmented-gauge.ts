@@ -7,6 +7,8 @@ import { ICh5SegmentedGaugeAttributes } from './interfaces/i-ch5-segmented-gauge
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
+import { resizeObserver } from "../ch5-core/resize-observer";
+import _ from "lodash";
 
 export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAttributes {
 
@@ -298,6 +300,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   public set numberOfSegments(value: number) {
     this._ch5Properties.set<number>("numberOfSegments", value, () => {
       this.handleNumberOfSegments();
+      this.initInputRange();
     });
   }
 
@@ -419,9 +422,15 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this.initAttributes();
     this.initCommonMutationObserver(this);
     this.handleNumberOfSegments();
+    subscribeInViewPortChange(this, () => {
+      if (this.elementIsInViewPort) {
+        this.initInputRange();
+      }
+    });
     customElements.whenDefined('ch5-segmented-gauge').then(() => {
       this.componentLoadedEvent(Ch5SegmentedGauge.ELEMENT_NAME, this.id);
     });
+    resizeObserver(this._elContainer, this.initInputRange.bind(this));
     this.logger.stop();
   }
 
@@ -582,6 +591,22 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this.value = Math.round(((((newValue / this.numberOfSegments) * 100) * (this.maxValue - this.minValue)) / 100) + this.minValue);
     this._dirtyValue = this.value;
     this.debounceSignalHandling();
+  }
+
+  private initInputRange() {
+    if (this.orientation === "vertical") {
+      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + 20 + 'px';
+      const heightOfEachDiv = this._elContainer.querySelector(".ch5-segmented-gauge-segment")?.clientHeight;
+      if (!_.isNil(heightOfEachDiv)) {
+        this._elInputRange.style.bottom = (-2 * heightOfEachDiv) + 'px';
+      }
+    } else {
+      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + 20 + 'px';
+      const widthOfEachDiv = this._elContainer.querySelector(".ch5-segmented-gauge-segment")?.clientWidth;
+      if (!_.isNil(widthOfEachDiv)) {
+        this._elInputRange.style.left = (-1 * widthOfEachDiv) + 'px';
+      }
+    }
   }
 
   private initCssClass() {
