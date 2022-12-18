@@ -18,7 +18,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   public static readonly GAUGE_STYLES: TCh5WifiSignalLevelGaugeGaugeStyle[] = ['light', 'accents', 'dark'];
   public static readonly ALIGNMENTS: TCh5WifiSignalLevelGaugeAlignment[] = ['up', 'down', 'left', 'right'];
   public static readonly SIZES: TCh5WifiSignalLevelGaugeSize[] = ['regular', 'small', 'large', 'x-large'];
- 
+
   public static readonly COMPONENT_DATA: any = {
     GAUGE_STYLE: {
       default: Ch5WifiSignalLevelGauge.GAUGE_STYLES[0],
@@ -407,7 +407,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   }
 
   private handleValue() {
-    let currBar: number = Math.floor(((this.value - this.minValue) * Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS) / (this.maxValue - this.minValue));
+    let currBar: number = Math.round(((this.value - this.minValue) * Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS) / (this.maxValue - this.minValue));
     if (currBar > Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS) {
       currBar = Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS;
     } else if (currBar < Ch5WifiSignalLevelGauge.MIN_NUMBER_OF_BARS) {
