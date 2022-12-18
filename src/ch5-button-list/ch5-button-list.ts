@@ -355,13 +355,17 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private rowClassValue: number = 1;
   private columnClassValue: number = 1;
 
+  public debounceButtonDisplay = this.debounce(() => {
+    this.buttonDisplay();
+  }, 100);
+
   //#endregion
 
   //#region Getters and Setters
 
   public set buttonType(value: TCh5ButtonListButtonType) {
     this._ch5Properties.set<TCh5ButtonListButtonType>("buttonType", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonType(): TCh5ButtonListButtonType {
@@ -370,7 +374,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonHAlignLabel(value: TCh5ButtonListButtonHAlignLabel) {
     this._ch5Properties.set<TCh5ButtonListButtonHAlignLabel>("buttonHAlignLabel", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonHAlignLabel(): TCh5ButtonListButtonHAlignLabel {
@@ -379,7 +383,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonVAlignLabel(value: TCh5ButtonListButtonVAlignLabel) {
     this._ch5Properties.set<TCh5ButtonListButtonVAlignLabel>("buttonVAlignLabel", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonVAlignLabel(): TCh5ButtonListButtonVAlignLabel {
@@ -388,7 +392,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonCheckboxPosition(value: TCh5ButtonListButtonCheckboxPosition) {
     this._ch5Properties.set<TCh5ButtonListButtonCheckboxPosition>("buttonCheckboxPosition", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonCheckboxPosition(): TCh5ButtonListButtonCheckboxPosition {
@@ -397,7 +401,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonIconPosition(value: TCh5ButtonListButtonIconPosition) {
     this._ch5Properties.set<TCh5ButtonListButtonIconPosition>("buttonIconPosition", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonIconPosition(): TCh5ButtonListButtonIconPosition {
@@ -406,7 +410,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonShape(value: TCh5ButtonListButtonShape) {
     this._ch5Properties.set<TCh5ButtonListButtonShape>("buttonShape", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonShape(): TCh5ButtonListButtonShape {
@@ -415,7 +419,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonCheckboxShow(value: boolean) {
     this._ch5Properties.set<boolean>("buttonCheckboxShow", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonCheckboxShow(): boolean {
@@ -424,7 +428,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonSelected(value: boolean) {
     this._ch5Properties.set<boolean>("buttonSelected", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonSelected(): boolean {
@@ -433,7 +437,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonPressed(value: boolean) {
     this._ch5Properties.set<boolean>("buttonPressed", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonPressed(): boolean {
@@ -442,7 +446,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonMode(value: number) {
     this._ch5Properties.set<number>("buttonMode", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonMode(): number {
@@ -469,7 +473,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonIconClass(value: string) {
     this._ch5Properties.set<string>("buttonIconClass", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonIconClass(): string {
@@ -478,7 +482,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonIconUrl(value: string) {
     this._ch5Properties.set<string>("buttonIconUrl", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonIconUrl(): string {
@@ -487,7 +491,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonLabel(value: string) {
     this._ch5Properties.set<string>("buttonLabel", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonLabel(): string {
@@ -496,7 +500,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set buttonLabelInnerHtml(value: string) {
     this._ch5Properties.set<string>("buttonLabelInnerHtml", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get buttonLabelInnerHtml(): string {
@@ -505,7 +509,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set receiveStateButtonMode(value: string) {
     this._ch5Properties.set<string>("receiveStateButtonMode", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get receiveStateButtonMode(): string {
@@ -514,7 +518,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set receiveStateButtonSelected(value: string) {
     this._ch5Properties.set<string>("receiveStateButtonSelected", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get receiveStateButtonSelected(): string {
@@ -523,7 +527,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set receiveStateButtonLabel(value: string) {
     this._ch5Properties.set<string>("receiveStateButtonLabel", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get receiveStateButtonLabel(): string {
@@ -532,7 +536,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set receiveStateButtonScriptLabelHtml(value: string) {
     this._ch5Properties.set<string>("receiveStateButtonScriptLabelHtml", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get receiveStateButtonScriptLabelHtml(): string {
@@ -541,7 +545,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set receiveStateButtonIconClass(value: string) {
     this._ch5Properties.set<string>("receiveStateButtonIconClass", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get receiveStateButtonIconClass(): string {
@@ -550,7 +554,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set receiveStateButtonType(value: string) {
     this._ch5Properties.set<string>("receiveStateButtonType", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get receiveStateButtonType(): string {
@@ -559,7 +563,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set receiveStateButtonIconUrl(value: string) {
     this._ch5Properties.set<string>("receiveStateButtonIconUrl", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get receiveStateButtonIconUrl(): string {
@@ -568,7 +572,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set sendEventOnButtonClick(value: string) {
     this._ch5Properties.set<string>("sendEventOnButtonClick", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get sendEventOnButtonClick(): string {
@@ -577,7 +581,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public set sendEventOnButtonTouch(value: string) {
     this._ch5Properties.set<string>("sendEventOnButtonTouch", value, () => {
-      this.buttonDisplay();
+      this.debounceButtonDisplay();
     });
   }
   public get sendEventOnButtonTouch(): string {
@@ -658,8 +662,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.initCommonMutationObserver(this);
     subscribeInViewPortChange(this, () => {
       if (this.elementIsInViewPort) {
-        this.buttonDisplay();
-        this.initScrollbar();
+        this.debounceButtonDisplay();
+        // this.initScrollbar();
       }
     });
     customElements.whenDefined('ch5-button-list').then(() => {
@@ -838,7 +842,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       // Add the new class to the container
       this._elContainer.classList.add(Ch5ButtonList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
     }
-    this.buttonDisplay();
+    this.debounceButtonDisplay();
   }
 
   public handleCenterItems() {
@@ -884,11 +888,15 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
 
   private createButton(index: number) {
+    console.log("A1");
     const btn = new Ch5Button();
     const btnContainer = document.createElement("div");
+    console.log("A2");
     btnContainer.classList.add("button-container");
     btnContainer.appendChild(btn);
+    console.log("A3");
     this._elContainer.appendChild(btnContainer);
+    console.log("A4");
 
     // button attributes helper
     this.buttonModeHelper(btn, index);

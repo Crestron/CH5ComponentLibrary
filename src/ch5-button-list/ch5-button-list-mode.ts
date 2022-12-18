@@ -116,7 +116,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set type(value: TCh5ButtonListModeType) {
     this._ch5Properties.set<TCh5ButtonListModeType>("type", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get type(): TCh5ButtonListModeType {
@@ -125,7 +125,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set hAlignLabel(value: TCh5ButtonListModeHAlignLabel) {
     this._ch5Properties.set<TCh5ButtonListModeHAlignLabel>("hAlignLabel", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get hAlignLabel(): TCh5ButtonListModeHAlignLabel {
@@ -134,7 +134,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set vAlignLabel(value: TCh5ButtonListModeVAlignLabel) {
     this._ch5Properties.set<TCh5ButtonListModeVAlignLabel>("vAlignLabel", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get vAlignLabel(): TCh5ButtonListModeVAlignLabel {
@@ -143,7 +143,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set checkboxPosition(value: TCh5ButtonListModeCheckboxPosition) {
     this._ch5Properties.set<TCh5ButtonListModeCheckboxPosition>("checkboxPosition", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get checkboxPosition(): TCh5ButtonListModeCheckboxPosition {
@@ -152,7 +152,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set iconPosition(value: TCh5ButtonListModeIconPosition) {
     this._ch5Properties.set<TCh5ButtonListModeIconPosition>("iconPosition", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get iconPosition(): TCh5ButtonListModeIconPosition {
@@ -161,7 +161,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set iconClass(value: string) {
     this._ch5Properties.set<string>("iconClass", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get iconClass(): string {
@@ -170,7 +170,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set iconUrl(value: string) {
     this._ch5Properties.set<string>("iconUrl", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get iconUrl(): string {
@@ -179,7 +179,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set customClass(value: string) {
     this._ch5Properties.set<string>("customClass", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get customClass(): string {
@@ -188,7 +188,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set customStyle(value: string) {
     this._ch5Properties.set<string>("customStyle", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get customStyle(): string {
@@ -197,7 +197,7 @@ export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttri
 
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
-      this._parentCh5ButtonList.buttonDisplay();
+      this._parentCh5ButtonList.debounceButtonDisplay();
     });
   }
   public get labelInnerHTML(): string {

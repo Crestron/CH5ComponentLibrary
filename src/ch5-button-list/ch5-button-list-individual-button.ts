@@ -6,7 +6,6 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5ButtonListIndividualButtonAttributes } from './interfaces/i-ch5-button-list-individual-button-attributes';
 
-
 export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonListIndividualButtonAttributes {
 
 	//#region Variables
@@ -52,7 +51,7 @@ export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonL
 
 	public set buttonLabelInnerHTML(value: string) {
 		this._ch5Properties.set<string>("buttonLabelInnerHTML", value, () => {
-			this._parentCh5ButtonList.buttonDisplay();
+			this._parentCh5ButtonList.debounceButtonDisplay();
 		});
 	}
 	public get buttonLabelInnerHTML(): string {
@@ -61,7 +60,7 @@ export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonL
 
 	public set iconUrl(value: string) {
 		this._ch5Properties.set<string>("iconUrl", value, () => {
-			this._parentCh5ButtonList.buttonDisplay();
+			this._parentCh5ButtonList.debounceButtonDisplay();
 		});
 	}
 	public get iconUrl(): string {
@@ -70,7 +69,7 @@ export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonL
 
 	public set iconClass(value: string) {
 		this._ch5Properties.set<string>("iconClass", value, () => {
-			this._parentCh5ButtonList.buttonDisplay();
+			this._parentCh5ButtonList.debounceButtonDisplay();
 		});
 	}
 	public get iconClass(): string {
