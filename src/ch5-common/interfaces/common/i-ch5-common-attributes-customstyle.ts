@@ -15,7 +15,7 @@ export interface ICh5CommonAttributesForCustomStyle {
 	 * [
 	 * "`customstyle` attribute",
 	 * "***",
-	 * "Contains a list of space-delimited style classes applied on the component."
+	 * "Contains a list of semicolon delimited style classes applied on the component."
 	 * ]
 	 * @name customstyle
 	 * @attributeType "String"
