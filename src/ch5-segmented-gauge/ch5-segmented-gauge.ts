@@ -460,7 +460,6 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   protected initAttributes() {
     super.initAttributes();
-
     const thisRef: any = this;
     for (let i: number = 0; i < Ch5SegmentedGauge.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5SegmentedGauge.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -474,13 +473,15 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this._elContainer.addEventListener('click', this.handleTouchSettable.bind(this));
+    this._elInputRange.addEventListener('mousedown', this.handleTouchSettable.bind(this));
+    this._elInputRange.addEventListener('touchstart', this.handleTouchSettable.bind(this));
     this._elInputRange.addEventListener('input', this.inputRangeChanged.bind(this));
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this._elContainer.removeEventListener('click', this.handleTouchSettable.bind(this));
+    this._elInputRange.removeEventListener('mousedown', this.handleTouchSettable.bind(this));
+    this._elInputRange.removeEventListener('touchstart', this.handleTouchSettable.bind(this));
     this._elInputRange.removeEventListener('input', this.inputRangeChanged.bind(this));
   }
 
@@ -531,7 +532,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   private handleSendEventOnClick(): void {
-    if (this.sendEventOnClick && this.sendEventOnClick !== null && this.sendEventOnClick !== undefined) {
+    if (this.sendEventOnClick) {
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
     }
