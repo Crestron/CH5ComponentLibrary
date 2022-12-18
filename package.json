@@ -55,17 +55,7 @@
       "prebuild": "npm-run-all clean:*",
       "test:mocha": "npm-run-all clean:compiled && tsc -p tsconfig.umd.json --target ES6 && mocha",
       "test:wct": "ws -o",
-      "wct:xml-report": "./node_modules/.bin/wct ./wct_tests/run-all.html",
-      "my:all": "npm run build:dev && npm run rags:showcase && npm run rags:advanced-button && npm run rags:thenewshell && npm run rags:shell && npm run rags:advanced-button-angular",
-      "my:documentation": "npm run build:dev && copyfiles -u 1 'build_bundles/**/*' './../../CH5/CH5DocumentationViewers/ComponentsDocumentation/node_modules/@crestron/ch5-crcomlib/build_bundles/'",
-      "my:omni": "npm run build:prod_all && copyfiles -u 1 'build_bundles/**/*' './../../OMNI/Omni/Crestron.IDE/Components/PageDesigner/Component.PageDesigner.Client/JS/src/pd-core/node_modules/@crestron/ch5-crcomlib/build_bundles/'",
-      "my:pack": "reset && npm run build:prod_all && npm pack",
-      "my:pack:dev": "reset && npm run build:dev && npm pack",
-      "my:shell": "npm run build:dev && copyfiles -u 1 'build_bundles/**/*' './../../CH5/CH5SampleProjects/UISampleProjects/Shell/node_modules/@crestron/ch5-crcomlib/build_bundles/'",
-      "my:showcase": "npm run build:dev && copyfiles -u 1 'build_bundles/**/*' './../../CH5/CH5ShowcaseApp/node_modules/@crestron/ch5-crcomlib/build_bundles/'",
-      "my:testing": "npm run build:dev && copyfiles -u 1 'build_bundles/**/*' './../../JiraDefects/CH5C-3103/shell-template/node_modules/@crestron/ch5-crcomlib/build_bundles/'",
-      "my:theme": "npm run build:dev && copyfiles -u 1 'build_bundles/**/*' './../../CH5/CH5ThemeEditor/node_modules/@crestron/ch5-crcomlib/build_bundles/'",
-      "my:www": "reset && tsc -p tsconfig.umd.json"
+      "wct:xml-report": "./node_modules/.bin/wct ./wct_tests/run-all.html"
     },
     "author": "Crestron",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -75,7 +65,6 @@
       "hammerjs": "^2.0.8",
       "i18next": "^21.6.3",
       "nouislider": "^15.5.0",
-      "i18next": "^21.6.3",
       "rxjs": "^7.3.0",
       "swiper": "^7.3.1"
     },
