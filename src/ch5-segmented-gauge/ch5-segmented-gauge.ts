@@ -595,15 +595,15 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private initInputRange() {
     if (this.orientation === "vertical") {
-      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + 20 + 'px';
       const heightOfEachDiv = this._elContainer.querySelector(".ch5-segmented-gauge-segment")?.clientHeight;
       if (!_.isNil(heightOfEachDiv)) {
-        this._elInputRange.style.bottom = (-2 * heightOfEachDiv) + 'px';
+        this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + heightOfEachDiv + 'px';
+        this._elInputRange.style.bottom = (-1 * (heightOfEachDiv + 10)) + 'px';
       }
     } else {
-      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + 20 + 'px';
       const widthOfEachDiv = this._elContainer.querySelector(".ch5-segmented-gauge-segment")?.clientWidth;
       if (!_.isNil(widthOfEachDiv)) {
+        this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + widthOfEachDiv + 'px';
         this._elInputRange.style.left = (-1 * widthOfEachDiv) + 'px';
       }
     }
