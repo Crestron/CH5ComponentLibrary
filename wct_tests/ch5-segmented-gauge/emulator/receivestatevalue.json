@@ -8,8 +8,8 @@
         {
           "state": "trigger_event_listener",
           "type": "n",
-          "logic": "increment",
-          "offset": 1
+          "logic": "set",
+          "value": 200
         }
       ]
     },
@@ -21,17 +21,23 @@
         {
           "state": "trigger_event_listener",
           "type": "n",
-          "logic": "decrement",
-          "offset": 1
+          "logic": "set",
+          "value": -10000
         }
       ]
-    }
-  ],
-  "onStart": [
+    },
     {
-      "state": "trigger_event_listener",
-      "type": "number",
-      "value": 20
+      "type": "boolean",
+      "event": "trigger_event_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "set",
+          "value": 65537
+        }
+      ]
     }
   ]
 }
