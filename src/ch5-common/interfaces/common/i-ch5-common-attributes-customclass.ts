@@ -15,7 +15,7 @@ export interface ICh5CommonAttributesForCustomClass {
 	 * [
 	 * "`customclass` attribute",
 	 * "***",
-	 * "Contains a list of classes that are applied on the component"
+	 * "Contains a list of space delimited CSS classes that are applied on the component"
 	 * ]
 	 * @name customclass
 	 * @hideWhen [

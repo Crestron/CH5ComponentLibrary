@@ -7,6 +7,8 @@ import { ICh5SegmentedGaugeAttributes } from './interfaces/i-ch5-segmented-gauge
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
+import { resizeObserver } from "../ch5-core/resize-observer";
+import _ from "lodash";
 
 export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAttributes {
 
@@ -428,6 +430,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     customElements.whenDefined('ch5-segmented-gauge').then(() => {
       this.componentLoadedEvent(Ch5SegmentedGauge.ELEMENT_NAME, this.id);
     });
+    resizeObserver(this._elContainer, this.initInputRange.bind(this));
     this.logger.stop();
   }
 
@@ -460,7 +463,6 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   protected initAttributes() {
     super.initAttributes();
-
     const thisRef: any = this;
     for (let i: number = 0; i < Ch5SegmentedGauge.COMPONENT_PROPERTIES.length; i++) {
       if (Ch5SegmentedGauge.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
@@ -474,13 +476,15 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this._elContainer.addEventListener('click', this.handleTouchSettable.bind(this));
+    this._elInputRange.addEventListener('mousedown', this.handleTouchSettable.bind(this));
+    this._elInputRange.addEventListener('touchstart', this.handleTouchSettable.bind(this));
     this._elInputRange.addEventListener('input', this.inputRangeChanged.bind(this));
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this._elContainer.removeEventListener('click', this.handleTouchSettable.bind(this));
+    this._elInputRange.removeEventListener('mousedown', this.handleTouchSettable.bind(this));
+    this._elInputRange.removeEventListener('touchstart', this.handleTouchSettable.bind(this));
     this._elInputRange.removeEventListener('input', this.inputRangeChanged.bind(this));
   }
 
@@ -531,7 +535,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   private handleSendEventOnClick(): void {
-    if (this.sendEventOnClick && this.sendEventOnClick !== null && this.sendEventOnClick !== undefined) {
+    if (this.sendEventOnClick) {
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(true);
       Ch5SignalFactory.getInstance().getBooleanSignal(this.sendEventOnClick)?.publish(false);
     }
@@ -590,22 +594,26 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   private initInputRange() {
-    if (this.orientation === "horizontal") {
-      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + 20 + 'px';
+    if (this.orientation === "vertical") {
+      const heightOfEachDiv = this._elContainer.querySelector(".ch5-segmented-gauge-segment")?.clientHeight;
+      if (!_.isNil(heightOfEachDiv)) {
+        this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + heightOfEachDiv + 'px';
+        this._elInputRange.style.bottom = (-1 * (heightOfEachDiv + 10)) + 'px';
+      }
     } else {
-      this._elInputRange.style.width = this._elContainer.getBoundingClientRect().height + 20 + 'px';
+      const widthOfEachDiv = this._elContainer.querySelector(".ch5-segmented-gauge-segment")?.clientWidth;
+      if (!_.isNil(widthOfEachDiv)) {
+        this._elInputRange.style.width = this._elContainer.getBoundingClientRect().width + widthOfEachDiv + 'px';
+        this._elInputRange.style.left = (-1 * widthOfEachDiv) + 'px';
+      }
     }
   }
 
   private initCssClass() {
     this.logger.start('initCssClass');
-
     this._elContainer.classList.add(this.primaryCssClass);
-
     this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
-
     this._elContainer.classList.add(Ch5SegmentedGauge.COMPONENT_DATA.GAUGE_LED_STYLE.classListPrefix + this.gaugeLedStyle);
-
     this.logger.stop();
   }
 

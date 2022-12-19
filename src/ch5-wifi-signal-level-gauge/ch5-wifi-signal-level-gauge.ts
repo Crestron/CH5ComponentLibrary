@@ -18,7 +18,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   public static readonly GAUGE_STYLES: TCh5WifiSignalLevelGaugeGaugeStyle[] = ['light', 'accents', 'dark'];
   public static readonly ALIGNMENTS: TCh5WifiSignalLevelGaugeAlignment[] = ['up', 'down', 'left', 'right'];
   public static readonly SIZES: TCh5WifiSignalLevelGaugeSize[] = ['regular', 'small', 'large', 'x-large'];
- 
+
   public static readonly COMPONENT_DATA: any = {
     GAUGE_STYLE: {
       default: Ch5WifiSignalLevelGauge.GAUGE_STYLES[0],
@@ -49,6 +49,23 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   };
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+    {
+      default: 0,
+      name: "value",
+      removeAttributeOnNull: true,
+      nameForSignal: "receiveStateValue",
+      type: "number",
+      valueOnAttributeEmpty: null,
+      numberProperties: {
+        min: 0,
+        max: 100,
+        conditionalMin: 0,
+        conditionalMax: 100,
+        conditionalMinValue: 0,
+        conditionalMaxValue: 100
+      },
+      isObservableProperty: true
+    },
     {
       default: "",
       isSignal: true,
@@ -131,16 +148,30 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   private _elTopSignal: HTMLElement = {} as HTMLElement;
   private _elMiddleSignal: HTMLElement = {} as HTMLElement;
   private _elBottomSignal: HTMLElement = {} as HTMLElement;
-  private value: number = 0;
 
   //#endregion
 
   //#region Getters and Setters
 
+  public set value(value: number) {
+    this._ch5Properties.set<number>("value", value, () => {
+      if (this.value < this.minValue) {
+        this.value = this.minValue;
+      } else if (this.value > this.maxValue) {
+        this.value = this.maxValue;
+      }
+      this.handleValue();
+    });
+  }
+  public get value(): number {
+    return +this._ch5Properties.get<number>("value");
+  }
+
   public set receiveStateValue(value: string) {
     this._ch5Properties.set("receiveStateValue", value, null, (newValue: number) => {
-      this.value = newValue < this.minValue ? this.minValue : newValue > this.maxValue ? this.maxValue : newValue;
-      this.handleValue();
+      this._ch5Properties.setForSignalResponse<number>("value", newValue, () => {
+        this.handleValue();
+      });
     });
   }
   public get receiveStateValue(): string {
@@ -376,7 +407,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   }
 
   private handleValue() {
-    let currBar: number = Math.floor(((this.value - this.minValue) * Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS) / (this.maxValue - this.minValue));
+    let currBar: number = Math.round(((this.value - this.minValue) * Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS) / (this.maxValue - this.minValue));
     if (currBar > Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS) {
       currBar = Ch5WifiSignalLevelGauge.MAX_NUMBER_OF_BARS;
     } else if (currBar < Ch5WifiSignalLevelGauge.MIN_NUMBER_OF_BARS) {

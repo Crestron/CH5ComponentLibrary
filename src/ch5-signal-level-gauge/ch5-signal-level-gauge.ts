@@ -48,6 +48,23 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     },
     {
       default: 0,
+      name: "value",
+      removeAttributeOnNull: true,
+      nameForSignal: "receiveStateValue",
+      type: "number",
+      valueOnAttributeEmpty: null,
+      numberProperties: {
+        min: 0,
+        max: 65535,
+        conditionalMin: 0,
+        conditionalMax: 65535,
+        conditionalMinValue: 0,
+        conditionalMaxValue: 65535
+      },
+      isObservableProperty: true
+    },
+    {
+      default: 0,
       name: "minValue",
       removeAttributeOnNull: true,
       type: "number",
@@ -138,7 +155,6 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
 
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
-  private value: number = 0;
 
   //#endregion
 
@@ -195,15 +211,25 @@ export class Ch5SignalLevelGauge extends Ch5Common implements ICh5SignalLevelGau
     return this._ch5Properties.get<number>("signalBarSpacing");
   }
 
+  public set value(value: number) {
+    this._ch5Properties.set<number>("value", value, () => {
+      if (value < this.minValue) {
+        this.value = this.minValue;
+      } else if (value > this.maxValue) {
+        this.value = this.maxValue;
+      }
+      this.handleValue();
+    });
+  }
+  public get value(): number {
+    return this._ch5Properties.get<number>("value");
+  }
+
   public set receiveStateValue(value: string) {
     this._ch5Properties.set("receiveStateValue", value, null, (newValue: number) => {
-      if (newValue < this.minValue) {
-        newValue = this.minValue;
-      } else if (newValue > this.maxValue) {
-        newValue = this.maxValue;
-      }
-      this.value = newValue;
-      this.handleValue();
+      this._ch5Properties.setForSignalResponse<number>("value", newValue, () => {
+        this.handleValue();
+      });
     });
   }
   public get receiveStateValue(): string {
