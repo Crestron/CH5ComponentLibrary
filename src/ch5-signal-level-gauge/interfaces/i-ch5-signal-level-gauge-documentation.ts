@@ -33,7 +33,8 @@ import { ICh5SignalLevelGaugeAttributes } from "./i-ch5-signal-level-gauge-attri
  *    "description": "Crestron SignalLevelGauge",
  *    "body": [
  *       "<ch5-signal-level-gauge signalBarSpacing=\"${1:1}\"",
- *       "\treceiveStateValue=\"${2}\">",
+ *       "\tvalue=\"${2:0}\"",
+ *       "\treceiveStateValue=\"${3}\">",
  *       "</ch5-signal-level-gauge>$0"
  *     ]
  *   },
@@ -47,7 +48,8 @@ import { ICh5SignalLevelGaugeAttributes } from "./i-ch5-signal-level-gauge-attri
  *       "\tminValue=\"${4:0}\"",
  *       "\tmaxValue=\"${5:65535}\"",
  *       "\tnumberOfBars=\"${6:6}\"",
- *       "\tsize=\"${7|regular,small,X-large,large|}\">",
+ *       "\tvalue=\"${7:0}\"",
+ *       "\tsize=\"${8|regular,small,large,x-large|}\">",
  *       "</ch5-signal-level-gauge>$0"
  *       ]
  *    }
