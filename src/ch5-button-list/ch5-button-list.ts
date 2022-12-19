@@ -11,7 +11,6 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5ButtonListMode } from "../ch5-button-list/ch5-button-list-mode";
 import { Ch5ButtonListModeState } from "../ch5-button-list/ch5-button-list-mode-state";
 import { Ch5ButtonModeState } from "../ch5-button/ch5-button-mode-state";
-import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core/index';
 
 export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
 
@@ -346,6 +345,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private scrollListLeft: number = 0;
   private scrollListTop: number = 0;
   private loadedButtons: number = 0;
+  private destroyedButtons: number = 0;
 
   // private members used for window resize events
   private isResizeInProgress: boolean = false;
@@ -660,12 +660,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
-    subscribeInViewPortChange(this, () => {
-      if (this.elementIsInViewPort) {
-        this.debounceButtonDisplay();
-        // this.initScrollbar();
-      }
-    });
+    this.debounceButtonDisplay();
     customElements.whenDefined('ch5-button-list').then(() => {
       this.componentLoadedEvent(Ch5ButtonList.ELEMENT_NAME, this.id);
     });
@@ -676,7 +671,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
     this.unsubscribeFromSignals();
-    unSubscribeInViewPortChange(this);
     this.logger.stop();
   }
 
@@ -769,6 +763,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
     let rowColumnValue = 0;
     if (this.orientation === "horizontal") {
+      this.buttonDestroyHelper();
       if (this._elContainer.offsetWidth + this._elContainer.scrollLeft < this._elContainer.scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) { return; }
       rowColumnValue = this.rows;
     } else {
@@ -887,17 +882,12 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
 
-  private createButton(index: number) {
-    console.log("A1");
+  private createButton(index: number, append: boolean = true) {
     const btn = new Ch5Button();
     const btnContainer = document.createElement("div");
-    console.log("A2");
     btnContainer.classList.add("button-container");
     btnContainer.appendChild(btn);
-    console.log("A3");
-    this._elContainer.appendChild(btnContainer);
-    console.log("A4");
-
+    append ? this._elContainer.appendChild(btnContainer) : this._elContainer.prepend(btnContainer);
     // button attributes helper
     this.buttonModeHelper(btn, index);
     this.buttonLabelHelper(btn, index);
@@ -1086,6 +1076,26 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
         this.initScrollbar();
         this.isResizeInProgress = false; // reset debounce once completed
       }, this.RESIZE_DEBOUNCE);
+    }
+  }
+
+  private buttonDestroyHelper() {
+    const { scrollLeft } = this._elContainer;
+    if (scrollLeft < 100 && this.destroyedButtons !== 0) {
+      for (let i = 0; i < this.rows; i++) {
+        this.createButton(this.destroyedButtons - 1, false);
+        this.destroyedButtons--;
+      }
+      this._elContainer.scrollLeft += 100;
+    }
+    if (scrollLeft > 250) {
+      for (let i = 0; i < this.rows; i++) {
+        if (this._elContainer.children[0]) {
+          this._elContainer.children[0]?.remove();
+          this.destroyedButtons++;
+        }
+      }
+      this._elContainer.scrollLeft -= 100;
     }
   }
 

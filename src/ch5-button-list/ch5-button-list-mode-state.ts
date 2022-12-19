@@ -127,7 +127,9 @@ export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListMode
 
   public set state(value: TCh5ButtonListModeStateState) {
     this._ch5Properties.set<TCh5ButtonListModeStateState>("state", value, () => {
-      this._parentCh5ButtonList.debounceButtonDisplay();
+      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
+        this._parentCh5ButtonList.debounceButtonDisplay();
+      }
     });
   }
   public get state(): TCh5ButtonListModeStateState {

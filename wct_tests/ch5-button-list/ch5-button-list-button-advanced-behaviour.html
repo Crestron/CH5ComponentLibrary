@@ -45,16 +45,67 @@
       let ch5ButtonList;
       let ch5ButtonListContainer;
       let ch5Button;
+      let ch5ButtonContainer;
       setup(async () => {
         ch5ButtonList = fixture('ch5-button-list-button-advanced');
         ch5ButtonListContainer = ch5ButtonList.querySelector('.ch5-button-list');
         ch5Button = ch5ButtonListContainer.children[0].children[0];
+        ch5ButtonContainer = ch5Button.querySelector('.ch5-button');
       });
-      test('Check ', () => {
-        // expect(ch5ButtonList.children[0].style.backgroundColor).to.be.equal('green');
-        console.log(ch5Button);
+      test('Check normal mode type attribute', () => {
+        expect(ch5ButtonContainer.classList.contains('ch5-button--warning')).to.be.equal(true);
       });
 
+      test('Check normal mode checkboxPosition attribute', () => {
+        const buttonTag = ch5ButtonContainer.children[0];
+        const checkbox = buttonTag.querySelector('.cb-checkbox-icon');
+        expect(checkbox.classList.contains('cx-button-checkbox-pos-right')).to.be.equal(true);
+      });
+
+      test('Check normal mode hAlignLabel attribute', () => {
+        const buttonTag = ch5ButtonContainer.children[0];
+        const spanTag = buttonTag.querySelector('.ch5-button--span');
+        expect(spanTag.classList.contains('ch5-button--horizontal-left')).to.be.equal(true);
+      });
+
+      test('Check normal mode vAlignLabel attribute', () => {
+        const buttonTag = ch5ButtonContainer.children[0];
+        const spanTag = buttonTag.querySelector('.ch5-button--span');
+        expect(spanTag.classList.contains('ch5-button--vertical-top')).to.be.equal(true);
+      });
+
+      test('Check normal mode iconPosition attribute', () => {
+        expect(ch5ButtonContainer.classList.contains('ch5-button--iconposition-first')).to.be.equal(true);
+      });
+
+      test('Check normal mode iconClass attribute', () => {
+        const buttonTag = ch5ButtonContainer.children[0];
+        const spanTag = buttonTag.querySelector('.ch5-button--span');
+        const italicTag = spanTag.querySelector('i');
+        expect(italicTag.classList.contains('fab')).to.be.equal(true);
+        expect(italicTag.classList.contains('fa-twitter')).to.be.equal(true);
+      });
+
+      test('Check normal mode iconClass attribute', () => {
+        const buttonTag = ch5ButtonContainer.children[0];
+        const spanTag = buttonTag.querySelector('.ch5-button--span');
+        const italicTag = spanTag.querySelector('i');
+        expect(italicTag.classList.contains('fab')).to.be.equal(true);
+        expect(italicTag.classList.contains('fa-twitter')).to.be.equal(true);
+      });
+
+      test('Check normal mode CustomClass attribute', () => {
+        expect(ch5ButtonContainer.classList.contains('customClassNormal-1')).to.be.equal(true);
+        expect(ch5ButtonContainer.classList.contains('customClassNormal-2')).to.be.equal(true);
+      });
+
+      test('Check normal mode CustomStyle attribute', () => {
+        expect(ch5ButtonContainer.style.border).to.be.equal('1px solid green');
+      });
+
+      test('Check normal mode CustomStyle attribute', () => {
+        expect(ch5ButtonContainer.style.border).to.be.equal('1px solid green');
+      });
     });
   </script>
 </body>
