@@ -49,7 +49,7 @@ import { ICh5SignalLevelGaugeAttributes } from "./i-ch5-signal-level-gauge-attri
  *       "\tmaxValue=\"${5:65535}\"",
  *       "\tnumberOfBars=\"${6:6}\"",
  *       "\tvalue=\"${7:0}\"",
- *       "\tsize=\"${8|regular,small,X-large,large|}\">",
+ *       "\tsize=\"${8|regular,small,large,x-large|}\">",
  *       "</ch5-signal-level-gauge>$0"
  *       ]
  *    }
