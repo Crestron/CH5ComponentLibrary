@@ -537,18 +537,14 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private handleNumberOfSegments() {
     Array.from(this._elContainer.querySelectorAll(".ch5-segmented-gauge-segment")).forEach((childEle) => childEle.remove());
-    for (let i = 0; i < this.numberOfSegments + 1; i++) {
+    for (let i = 1; i <= this.numberOfSegments; i++) {
       const segments = document.createElement('div');
       segments.classList.add(this.primaryCssClass + "-segment");
       this._elContainer.appendChild(segments);
-      if (i === 0) {
-        segments.style.backgroundColor = "transparent";
-      } else {
-        segments.addEventListener("mouseover", this.handleMouseOverEvent.bind(this, i));
-        segments.addEventListener("mouseup", this.handleMouseUpEvent.bind(this, i));
-        segments.addEventListener("touchmove", this.handleTouchMoveEvent.bind(this));
-        segments.addEventListener("dragend", this.handleDragEndEvent.bind(this, i));
-      }
+      segments.addEventListener("mouseover", this.handleMouseOverEvent.bind(this, i));
+      segments.addEventListener("mouseup", this.handleMouseUpEvent.bind(this, i));
+      segments.addEventListener("touchmove", this.handleTouchMoveEvent.bind(this));
+      segments.addEventListener("dragend", this.handleDragEndEvent.bind(this, i));
     }
     this.setValueForSegments();
   }
@@ -588,7 +584,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   private handleIndexValue(idx: number) {
     const segments = this._elContainer.querySelectorAll(".ch5-segmented-gauge-segment");
     Array.from(segments).forEach((element, i) => {
-      if (idx >= i) {
+      if (idx > i) {
         element.classList.add("active");
       } else {
         element.classList.remove("active");
@@ -647,19 +643,19 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     const segmentBars = Math.round(((this.value - this.minValue) * this.numberOfSegments) / (this.maxValue - this.minValue));
     const primarySegments = Math.round((60 * this.numberOfSegments) / 100);
     const secondarySegments = Math.round((25 * this.numberOfSegments) / 100);
-    const tertiarySegments = Math.round((15 * this.numberOfSegments) / 100);
-    for (let i = 0; i < segmentChildren.length - 1; i++) {
+    const tertiarySegments = 100 - primarySegments - secondarySegments; // Math.round((15 * this.numberOfSegments) / 100);
+    for (let i = 0; i < segmentChildren.length; i++) {
       if (i < this.numberOfSegments && i < primarySegments) {
-        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.PRIMARY_STATE_GRAPHIC.classListPrefix + this.primaryStateGraphic);
+        segmentChildren[i].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.PRIMARY_STATE_GRAPHIC.classListPrefix + this.primaryStateGraphic);
       } else if (i < this.numberOfSegments && i < primarySegments + secondarySegments) {
-        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.SECONDARY_STATE_GRAPHIC.classListPrefix + this.secondaryStateGraphic);
+        segmentChildren[i].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.SECONDARY_STATE_GRAPHIC.classListPrefix + this.secondaryStateGraphic);
       } else if (i < this.numberOfSegments && i < primarySegments + secondarySegments + tertiarySegments) {
-        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.TERTIARY_STATE_GRAPHIC.classListPrefix + this.tertiaryStateGraphic);
+        segmentChildren[i].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.TERTIARY_STATE_GRAPHIC.classListPrefix + this.tertiaryStateGraphic);
       }
       if (i < segmentBars) {
-        segmentChildren[i + 1].classList.add("active");
+        segmentChildren[i].classList.add("active");
       } else {
-        segmentChildren[i + 1].classList.remove("active");
+        segmentChildren[i].classList.remove("active");
       }
     }
   }
