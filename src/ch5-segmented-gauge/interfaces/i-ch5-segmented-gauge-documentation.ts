@@ -41,10 +41,11 @@ import { ICh5SegmentedGaugeAttributes } from "./i-ch5-segmented-gauge-attributes
  *       "\tminValue=\"${7:0}\"",
  *       "\tmaxValue=\"${8:65535}\"",
  *       "\tnumberOfSegments=\"${9:20}\"",
- *       "\ttouchSettable=\"${10:true}\"",
- *       "\tsendEventOnClick=\"${11:}\"",
- *       "\tsendEventOnChange=\"${12:}\"",
- *       "\treceiveStateValue=\"${13:}\">",
+ *       "\tvalue=\"${10:0}\"",
+ *       "\ttouchSettable=\"${11:true}\"",
+ *       "\tsendEventOnClick=\"${12:}\"",
+ *       "\tsendEventOnChange=\"${13:}\"",
+ *       "\treceiveStateValue=\"${14:}\">",
  *       "</ch5-segmented-gauge>$0"
  *       ]
  *    },
@@ -61,7 +62,8 @@ import { ICh5SegmentedGaugeAttributes } from "./i-ch5-segmented-gauge-attributes
  *       "\tminValue=\"${7:0}\"",
  *       "\tmaxValue=\"${8:65535}\"",
  *       "\tnumberOfSegments=\"${9:20}\"",
- *       "\ttouchSettable=\"${10:true}\">",
+ *       "\tvalue=\"${10:0}\"",
+ *       "\ttouchSettable=\"${11:true}\">",
  *       "</ch5-segmented-gauge>$0"
  *       ]
  *     }

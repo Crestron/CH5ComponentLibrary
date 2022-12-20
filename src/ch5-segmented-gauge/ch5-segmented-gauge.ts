@@ -156,6 +156,23 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
       isObservableProperty: true
     },
     {
+      default: 0,
+      name: "value",
+      removeAttributeOnNull: true,
+      nameForSignal: "receiveStateValue",
+      type: "number",
+      valueOnAttributeEmpty: null,
+      numberProperties: {
+        min: 0,
+        max: 65535,
+        conditionalMin: 0,
+        conditionalMax: 65535,
+        conditionalMinValue: 0,
+        conditionalMaxValue: 65535
+      },
+      isObservableProperty: true
+    },
+    {
       default: true,
       name: "touchSettable",
       removeAttributeOnNull: true,
@@ -202,7 +219,6 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _elInputRange: HTMLInputElement = {} as HTMLInputElement;
-  private value: number = 0;
   private defaultMaxValue: number = 65535;
   private defaultMinValue: number = 0;
   // Latest value set by user
@@ -308,6 +324,21 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     return +this._ch5Properties.get<number>("numberOfSegments");
   }
 
+  public set value(value: number) {
+    this._ch5Properties.set<number>("value", value, () => {
+      if (value < this.minValue) {
+        this.value = this.minValue;
+      } else if (value > this.maxValue) {
+        this.value = this.maxValue;
+      }
+      this._cleanValue = this.value;
+      this.setValueForSegments();
+    });
+  }
+  public get value(): number {
+    return +this._ch5Properties.get<number>("value");
+  }
+
   public set touchSettable(value: boolean) {
     this._ch5Properties.set<boolean>("touchSettable", value);
   }
@@ -331,15 +362,10 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   public set receiveStateValue(value: string) {
     this._ch5Properties.set("receiveStateValue", value, null, (newValue: number) => {
-      if (newValue > this.maxValue) {
-        this.value = this.maxValue;
-      } else if (newValue < this.minValue) {
-        this.value = this.minValue;
-      } else {
-        this.value = newValue;
-      }
-      this._cleanValue = this.value;
-      this.setValueForSegments();
+      this._ch5Properties.setForSignalResponse<number>("value", newValue, () => {
+        this._cleanValue = this.value;
+        this.setValueForSegments();
+      });
     });
   }
   public get receiveStateValue(): string {
@@ -543,7 +569,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private handleSendEventOnChange(): void {
     if (this.sendEventOnChange) {
-      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventOnChange)?.publish(this.value);
+      Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventOnChange)?.publish(this._dirtyValue);
     }
   }
 
@@ -588,8 +614,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
         }
       }
     }
-    this.value = Math.round(((((newValue / this.numberOfSegments) * 100) * (this.maxValue - this.minValue)) / 100) + this.minValue);
-    this._dirtyValue = this.value;
+    this._dirtyValue = Math.round(((((newValue / this.numberOfSegments) * 100) * (this.maxValue - this.minValue)) / 100) + this.minValue);
     this.debounceSignalHandling();
   }
 
