@@ -1,5 +1,6 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
 import { TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch, } from './interfaces/t-ch5-generic-list-attributes';
+import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { ICh5GenericListAttributesAttributes } from './interfaces/i-ch5-generic-list-attributes-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
@@ -10,6 +11,10 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
 
   public static readonly ORIENTATION: TCh5GenericListAttributesOrientation[] = ['horizontal', 'vertical'];
   public static readonly STRETCH: TCh5GenericListAttributesStretch[] = ['both', 'width', 'height'];
+  public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
+    ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
+    receivestatemaxnumberofitems: { direction: "state", numericJoin: 1, contractName: true },
+  };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
       default: Ch5GenericListAttributes.ORIENTATION[0],
@@ -55,27 +60,11 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
       isObservableProperty: true,
     },
     {
-      default: 10,
-      name: "maxNumItems",
-      removeAttributeOnNull: true,
-      type: "number",
-      valueOnAttributeEmpty: null,
-      numberProperties: {
-        min: 1,
-        max: 500,
-        conditionalMin: 1,
-        conditionalMax: 500,
-        conditionalMinValue: 1,
-        conditionalMaxValue: 500
-      },
-      isObservableProperty: true
-    },
-    {
       default: 1,
       name: "rows",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 1,
       numberProperties: {
         min: 1,
         max: 500,
@@ -91,7 +80,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
       name: "columns",
       removeAttributeOnNull: true,
       type: "number",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: 1,
       numberProperties: {
         min: 1,
         max: 500,
@@ -110,6 +99,33 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
       valueOnAttributeEmpty: "idx",
       isObservableProperty: true,
     },
+    {
+      default: 10,
+      name: "maxNumberOfItems",
+      removeAttributeOnNull: true,
+      nameForSignal: "receiveStateMaxNumberOfItems",
+      type: "number",
+      valueOnAttributeEmpty: 10,
+      numberProperties: {
+        min: 1,
+        max: 500,
+        conditionalMin: 1,
+        conditionalMax: 500,
+        conditionalMinValue: 1,
+        conditionalMaxValue: 500
+      },
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateMaxNumberOfItems",
+      signalType: "number",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    }
   ];
 
   private _ch5PropertiesBase: Ch5Properties;
@@ -163,13 +179,13 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
     return this._ch5PropertiesBase.get<boolean>("endless");
   }
 
-  public set maxNumItems(value: number) {
-    this._ch5PropertiesBase.set<number>("maxNumItems", value, () => {
+  public set maxNumberOfItems(value: number) {
+    this._ch5PropertiesBase.set<number>("maxNumberOfItems", value, () => {
       this.handleRowsAndColumn();
     });
   }
-  public get maxNumItems(): number {
-    return +this._ch5PropertiesBase.get<number>("maxNumItems");
+  public get maxNumberOfItems(): number {
+    return +this._ch5PropertiesBase.get<number>("maxNumberOfItems");
   }
 
   public set rows(value: number) {
@@ -195,6 +211,17 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   }
   public get indexId(): string {
     return this._ch5PropertiesBase.get<string>("indexId");
+  }
+
+  public set receiveStateMaxNumberOfItems(value: string) {
+    this._ch5PropertiesBase.set("receiveStateMaxNumberOfItems", value, null, (newValue: number) => {
+      this._ch5PropertiesBase.setForSignalResponse<number>("maxNumberOfItems", newValue, () => {
+        this.handleReceiveStateMaxNumberOfItems();
+      });
+    });
+  }
+  public get receiveStateMaxNumberOfItems(): string {
+    return this._ch5PropertiesBase.get<string>('receiveStateMaxNumberOfItems');
   }
 
   //#endregion
@@ -274,6 +301,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   abstract handleCenterItems(): void;
   abstract handleEndless(): void;
   abstract handleRowsAndColumn(): void;
+  abstract handleReceiveStateMaxNumberOfItems(): void;
 
   //#endregion
 

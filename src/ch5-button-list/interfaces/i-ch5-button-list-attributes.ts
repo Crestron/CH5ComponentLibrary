@@ -65,6 +65,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * @name buttoncheckboxposition
   * @default left
   * @attributeType "EnumeratedValue"
+  * @showWhen [{"buttonCheckboxShow":true}]
   */
   buttonCheckboxPosition: TCh5ButtonListButtonCheckboxPosition;
   /**
@@ -152,32 +153,6 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   /**
    * @documentation
    * [
-   * "`clickHoldTime` attribute",
-   * "***",
-   * "The number of milliseconds that differentiates a tap from a press and hold for ItemClicked and ItemHeld Joins"
-   * ]
-   * @name clickholdtime
-   * @default 0
-   * @limits [{"min": 0, "max": 50000}]
-   * @attributeType "Integer"
-   */
-  clickHoldTime: number;
-  /**
-   * @documentation
-   * [
-   * "`sgIconStyle` attribute",
-   * "***",
-   * "this IconStyle combined with ItemIcon or SGItemIcon joins will set an appropriate icon for the button"
-   * ]
-   * @name sgiconstyle
-   * @default 0
-   * @limits [{"min": 0, "max": 100}]
-   * @attributeType "Integer"
-   */
-  sgIconStyle: number;
-  /**
-   * @documentation
-   * [
    * "`buttonIconClass` attribute",
    * "***",
    * "The iconClass attribute with Font Awesome icons and Material Icons. 
@@ -200,18 +175,6 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * @attributeType "String"
    */
   buttonIconUrl: string;
-  /**
-   * @documentation
-   * [
-   * "`buttonLabel` attribute",
-   * "***",
-   * "Ability to provide a text for the buttons in the list"
-   * ]
-   * @name buttonlabel
-   * @default 
-   * @attributeType "String"
-   */
-  buttonLabel: string;
   /**
    * @documentation
    * [

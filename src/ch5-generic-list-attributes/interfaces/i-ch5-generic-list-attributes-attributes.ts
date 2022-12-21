@@ -65,18 +65,18 @@ export interface ICh5GenericListAttributesAttributes extends ICh5CommonAttribute
    */
   endless: boolean;
   /**
-   * @documentation
-   * [
-   * "`maxNumItems` attribute",
-   * "***",
-   * "ability to designate the largest number of items they wish the list to include.  "
-   * ]
-   * @name maxnumitems
-   * @default 10
-   * limits [{"min": 1, "max": 500}]
-   * @attributeType "Integer"
-   */
-  maxNumItems: number;
+  * @documentation
+  * [
+  * "`maxNumberOfItems` attribute",
+  * "***",
+  * "MaxNumberOfItems the ability to designate the largest number of items they wish the list to include"
+  * ]
+  * @name maxnumberofitems
+  * @default 10
+  * limits [{"min": 1, "max": 500}]
+  * @attributeType "Integer"
+  */
+  maxNumberOfItems: number;
   /**
    * @documentation
    * [
@@ -88,6 +88,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5CommonAttribute
    * @default 1
    * limits [{"min": 1, "max": 500}]
    * @attributeType "Integer"
+   * @showWhen [{"orientation":["horizontal"]}]
    */
   rows: number;
   /**
@@ -101,6 +102,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5CommonAttribute
    * @default 1
    * limits [{"min": 1, "max": 500}]
    * @attributeType "Integer"
+   * @showWhen [{"orientation":["vertical"]}]
    */
   columns: number;
   /**
@@ -115,5 +117,17 @@ export interface ICh5GenericListAttributesAttributes extends ICh5CommonAttribute
    * @attributeType "String"
    */
   indexId: string;
+  /**
+   * @documentation
+   * [
+   * "`receiveStateMaxNumberOfItems` attribute",
+   * "***",
+   * "Value received from the receiveStateMaxNumberOfItems Join will be constrained for maxNumberOfItems attribute. "
+   * ]
+   * @name receivestatemaxnumberofitems
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateMaxNumberOfItems: string;
 
 }
