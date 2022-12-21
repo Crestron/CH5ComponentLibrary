@@ -504,6 +504,12 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     this._elContainer.removeEventListener("mouseleave", this.handleMouseLeave.bind(this));
     this._elContainer.removeEventListener("touchstart", this.handleTouchStart.bind(this));
     this._elContainer.removeEventListener("touchmove", this.handleTouchMove.bind(this));
+    Array.from(this._elContainer.children).forEach((segments, i) => {
+      segments.removeEventListener("mouseover", this.handleMouseOverEvent.bind(this, i + 1));
+      segments.removeEventListener("mouseup", this.handleMouseUpEvent.bind(this, i + 1));
+      segments.removeEventListener("touchmove", this.handleTouchMoveEvent.bind(this));
+      segments.removeEventListener("dragend", this.handleDragEndEvent.bind(this, i + 1));
+    });
   }
 
   protected unsubscribeFromSignals() {
@@ -576,7 +582,20 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     }
   }
 
-  private handleDragEndEvent(idx: number) {
+  private handleDragEndEvent(idx: number, e: any) {
+    // remove the color for first segment
+    if (this.orientation === "horizontal") {
+      const { x, y, height } = this._elContainer.getBoundingClientRect();
+      if (e.clientX >= x && e.clientX < x + 4 && e.clientY >= y && e.clientY < y + height) {
+        this.handleIndexValue(0);
+      }
+    } else {
+      const { x, bottom, width } = this._elContainer.getBoundingClientRect();
+      if (e.clientX >= x && e.clientX <= x + width && e.clientY > bottom - 4 && e.clientY <= bottom) {
+        this.handleIndexValue(0);
+      }
+    }
+    this.mouseDown = false;
     this.mouseDragEnd = true;
     this.handleDebounceSignal(idx);
   }
@@ -619,8 +638,21 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     }
   }
 
-  private handleTouchSettable() {
+  private handleTouchSettable(e: MouseEvent) {
     if (this.touchSettable === true) {
+      // remove the color for first segment
+      if (this.orientation === "horizontal") {
+        const { x, y, height } = this._elContainer.getBoundingClientRect();
+        if (e.clientX >= x && e.clientX < x + 4 && e.clientY >= y && e.clientY < y + height) {
+          this.handleIndexValue(0);
+        }
+      } else {
+        const { x, bottom, width } = this._elContainer.getBoundingClientRect();
+        if (e.clientX >= x && e.clientX <= x + width && e.clientY > bottom - 4 && e.clientY <= bottom) {
+          this.handleIndexValue(0);
+        }
+      }
+      this.mouseDown = false;
       this.handleSendEventOnClick();
     }
   }
