@@ -220,7 +220,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   private defaultMinValue: number = 0;
   private mouseDown: boolean = false;
   private mouseDragEnd: boolean = false;
-  private mouseLeave: boolean = false;
+  private mouseLeave: boolean = true;
   // Latest value set by user
   private _dirtyValue: number = 0;
   // Initial value or last value received from signal
@@ -543,10 +543,13 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private handleNumberOfSegments() {
     Array.from(this._elContainer.querySelectorAll(".ch5-segmented-gauge-segment")).forEach((childEle) => childEle.remove());
-    for (let i = 1; i <= this.numberOfSegments; i++) {
+    for (let i = 0; i <= this.numberOfSegments; i++) {
       const segments = document.createElement('div');
       segments.classList.add(this.primaryCssClass + "-segment");
       this._elContainer.appendChild(segments);
+      if (i === 0) {
+        segments.classList.add("ch5-segmented-gauge--segment--state-graphic-hidden");
+      }
       segments.addEventListener("mouseover", this.handleMouseOverEvent.bind(this, i));
       segments.addEventListener("mouseup", this.handleMouseUpEvent.bind(this, i));
       segments.addEventListener("touchmove", this.handleTouchMoveEvent.bind(this));
@@ -583,32 +586,19 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   private handleDragEndEvent(idx: number, e: any) {
-    // remove the color for first segment
-    if (this.orientation === "horizontal") {
-      const { x, y, height } = this._elContainer.getBoundingClientRect();
-      if (e.clientX >= x && e.clientX < x + 4 && e.clientY >= y && e.clientY < y + height) {
-        this.handleIndexValue(0);
-      }
-    } else {
-      const { x, bottom, width } = this._elContainer.getBoundingClientRect();
-      if (e.clientX >= x && e.clientX <= x + width && e.clientY > bottom - 4 && e.clientY <= bottom) {
-        this.handleIndexValue(0);
-      }
-    }
-    this.mouseDown = false;
     this.mouseDragEnd = true;
     this.handleDebounceSignal(idx);
   }
 
   private handleIndexValue(idx: number) {
     const segments = this._elContainer.querySelectorAll(".ch5-segmented-gauge-segment");
-    Array.from(segments).forEach((element, i) => {
+    for (let i = 0; i < segments.length - 1; i++) {
       if (idx > i) {
-        element.classList.add("active");
+        segments[i + 1].classList.add("active");
       } else {
-        element.classList.remove("active");
+        segments[i + 1].classList.remove("active");
       }
-    });
+    }
     this._dirtyValue = Math.round(((((idx / this.numberOfSegments) * 100) * (this.maxValue - this.minValue)) / 100) + this.minValue);
     this.debounceSignalHandling();
   }
@@ -640,19 +630,6 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   private handleTouchSettable(e: MouseEvent) {
     if (this.touchSettable === true) {
-      // remove the color for first segment
-      if (this.orientation === "horizontal") {
-        const { x, y, height } = this._elContainer.getBoundingClientRect();
-        if (e.clientX >= x && e.clientX < x + 4 && e.clientY >= y && e.clientY < y + height) {
-          this.handleIndexValue(0);
-        }
-      } else {
-        const { x, bottom, width } = this._elContainer.getBoundingClientRect();
-        if (e.clientX >= x && e.clientX <= x + width && e.clientY > bottom - 4 && e.clientY <= bottom) {
-          this.handleIndexValue(0);
-        }
-      }
-      this.mouseDown = false;
       this.handleSendEventOnClick();
     }
   }
@@ -676,18 +653,18 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     const primarySegments = Math.round((60 * this.numberOfSegments) / 100);
     const secondarySegments = Math.round((25 * this.numberOfSegments) / 100);
     const tertiarySegments = 100 - primarySegments - secondarySegments; // Math.round((15 * this.numberOfSegments) / 100);
-    for (let i = 0; i < segmentChildren.length; i++) {
+    for (let i = 0; i < segmentChildren.length - 1; i++) {
       if (i < this.numberOfSegments && i < primarySegments) {
-        segmentChildren[i].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.PRIMARY_STATE_GRAPHIC.classListPrefix + this.primaryStateGraphic);
+        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.PRIMARY_STATE_GRAPHIC.classListPrefix + this.primaryStateGraphic);
       } else if (i < this.numberOfSegments && i < primarySegments + secondarySegments) {
-        segmentChildren[i].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.SECONDARY_STATE_GRAPHIC.classListPrefix + this.secondaryStateGraphic);
+        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.SECONDARY_STATE_GRAPHIC.classListPrefix + this.secondaryStateGraphic);
       } else if (i < this.numberOfSegments && i < primarySegments + secondarySegments + tertiarySegments) {
-        segmentChildren[i].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.TERTIARY_STATE_GRAPHIC.classListPrefix + this.tertiaryStateGraphic);
+        segmentChildren[i + 1].classList.add(Ch5SegmentedGauge.COMPONENT_DATA.TERTIARY_STATE_GRAPHIC.classListPrefix + this.tertiaryStateGraphic);
       }
       if (i < segmentBars) {
-        segmentChildren[i].classList.add("active");
+        segmentChildren[i + 1].classList.add("active");
       } else {
-        segmentChildren[i].classList.remove("active");
+        segmentChildren[i + 1].classList.remove("active");
       }
     }
   }
