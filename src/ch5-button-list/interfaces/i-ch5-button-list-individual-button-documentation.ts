@@ -28,6 +28,16 @@ import { ICh5ButtonListIndividualButtonAttributes } from "./i-ch5-button-list-in
  *     ]
  *   },
  *   {
+ *     "prefix": "ch5-button-list-individual-button:default",
+ *     "description": "Crestron button list individual button (default)",
+ *     "body": [
+ *       "<ch5-button-list-individual-button id=\"ch5-button-list-individual-button_${1:id}\"",
+ *       "\ticonUrl=\"${2:}\"",
+ *       "\ticonClass=\"${3:}\">",
+ *       "</ch5-button-list-individual-button>$0"
+ *       ]
+ *    },
+ *   {
  *     "prefix": "ch5-button-list-individual-button:all-attributes",
  *     "description": "Crestron button list individual button (All Attributes)",
  *     "body": [

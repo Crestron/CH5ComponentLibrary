@@ -11,7 +11,7 @@ import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5ButtonListMode } from "../ch5-button-list/ch5-button-list-mode";
 import { Ch5ButtonListModeState } from "../ch5-button-list/ch5-button-list-mode-state";
 import { Ch5ButtonModeState } from "../ch5-button/ch5-button-mode-state";
-
+import { resizeObserver } from "../ch5-core/resize-observer";
 export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
 
   //#region Variables
@@ -595,6 +595,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.initAttributes();
     this.initCommonMutationObserver(this);
     this.debounceButtonDisplay();
+    resizeObserver(this._elContainer, this.resizeHandler.bind(this));
     customElements.whenDefined('ch5-button-list').then(() => {
       this.componentLoadedEvent(Ch5ButtonList.ELEMENT_NAME, this.id);
     });
@@ -820,6 +821,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
     // init the scrollbar after loading the initial buttons 
     this.initScrollbar();
+    this.checkButtonDisplay();
   }
 
 
@@ -957,13 +959,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   private initCssClass() {
     this.logger.start('initializeCssClass');
-
     // Default Orientation
     this._elContainer.classList.add(Ch5ButtonList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
-
     // Set default rows 
     this._elContainer.classList.add(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rows);
-
     // Sets default scroll bar class
     this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
 
@@ -1036,6 +1035,27 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
         }
       }
       this._elContainer.scrollLeft -= 100;
+    }
+  }
+
+  private resizeHandler() {
+    this.initScrollbar();
+    this.checkButtonDisplay();
+  }
+
+  private checkButtonDisplay() {
+    if (this.orientation === 'horizontal') {
+      const widthRequired = Math.ceil(this.loadedButtons / this.rows) * Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX;
+      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      if (widthRequired < containerWidth) {
+        this.style.display = 'inline-block';
+      }
+    } else {
+      const heightRequired = Math.ceil(this.loadedButtons / this.columns) * Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX;
+      const containerHeight = this._elContainer.getBoundingClientRect().height;
+      if (heightRequired < containerHeight) {
+        this.style.display = 'inline-block';
+      }
     }
   }
 

@@ -9,9 +9,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * [
   * "`state` attribute",
   * "***",
-  * "Default value is normal. 
-  * Valid values are normal,pressed,selected."
-  * Determines the state of the button. 
+  * "Default value is normal. Valid values are normal,pressed,selected. Determines the state of the button"
   * ]
   * @name state
   * @default normal
@@ -35,12 +33,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * [
   * "`hAlignLabel` attribute",
   * "***",
-  * "Default attribute is center. 
-  * Possible values are 'center', 'left', 'right'. 
-  * When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.  
-  * The center property sets the horizontal alignment of the label to the center of the button. 
-  * The left property sets the horizontal alignment of the label to the left of the button.    
-  * The right property sets the horizontal alignment of the label to the right of the button."
+  * "Default attribute is center. Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned. The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button. The right property sets the horizontal alignment of the label to the right of the button."
   * ]
   * @name halignlabel
   * @default center
@@ -52,12 +45,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * [
   * "`vAlignLabel` attribute",
   * "***",
-  * "Default attribute is middle. 
-  * Possible values are 'middle', 'top', 'bottom'. 
-  * When the buttonvAlignLabel property is set, the label and the icon of the button are vertically aligned. 
-  * The middle property sets the vertical alignment of the label to the middle of the button. 
-  * The top property sets the vertical alignment of the label to the top of the button.  
-  * The bottom property sets the vertical alignment of the label to the bottom of the button."
+  * "Default attribute is middle. Possible values are 'middle', 'top', 'bottom'. When the buttonvAlignLabel property is set, the label and the icon of the button are vertically aligned. The middle property sets the vertical alignment of the label to the middle of the button. The top property sets the vertical alignment of the label to the top of the button. The bottom property sets the vertical alignment of the label to the bottom of the button."
   * ]
   * @name valignlabel
   * @default middle
@@ -69,10 +57,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * [
   * "`checkboxPosition` attribute",
   * "***",
-  * "Default value is left. 
-  * Valid values are 'left', 'right'. 
-  * This property is used to set the position of a checkbox in a button. 
-  * The value left would set the checkbox to the left of the button and the value right would set the checkbox to the right of the button."
+  * "Default value is left. Valid values are 'left', 'right'. This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button and the value right would set the checkbox to the right of the button."
   * ]
   * @name checkboxposition
   * @default left
@@ -84,9 +69,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * [
   * "`iconPosition` attribute",
   * "***",
-  * "The default value is 'first',
-  * Valid values: 'first', 'last', 'top', 'bottom'.
-  * The icon position relative to the label."
+  * "The default value is 'first', Valid values: 'first', 'last', 'top', 'bottom'. The icon position relative to the label."
   * ]
   * @name iconposition
   * @default first
@@ -98,8 +81,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * [
   * "`iconClass` attribute",
   * "***",
-  * "The iconClass attribute with Font Awesome icons and Material Icons. 
-  * You can declare more than one css class in the iconClass attribute."
+  * "The iconClass attribute with Font Awesome icons and Material Icons. You can declare more than one css class in the iconClass attribute."
   * ]
   * @name iconclass
   * @default 

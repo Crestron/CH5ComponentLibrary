@@ -35,6 +35,24 @@ import { ICh5ButtonListModeStateAttributes } from "./i-ch5-button-list-mode-stat
  *     ]
  *   },
  *   {
+ *     "prefix": "ch5-button-list-mode-state:default",
+ *     "description": "Crestron button list mode state (default)",
+ *     "body": [
+ *       "<ch5-button-list-mode-state id=\"ch5-button-list-mode-state_${1:id}\"",
+ *       "\tstate=\"${2:normal}\"",
+ *       "\ttype=\"${3:default}\"",
+ *       "\thAlignLabel=\"${4:center}\"",
+ *       "\tvAlignLabel=\"${5:middle}\"",
+ *       "\tcheckboxPosition=\"${6:left}\"",
+ *       "\ticonPosition=\"${7:first}\"",
+ *       "\ticonClass=\"${8:}\"",
+ *       "\ticonUrl=\"${9:}\"",
+ *       "\tcustomClass=\"${10:}\"",
+ *       "\tcustomStyle=\"${11:}\">",
+ *       "</ch5-button-list-mode-state>$0"
+ *       ]
+ *    },
+ *   {
  *     "prefix": "ch5-button-list-mode-state:all-attributes",
  *     "description": "Crestron button list mode state (All Attributes)",
  *     "body": [

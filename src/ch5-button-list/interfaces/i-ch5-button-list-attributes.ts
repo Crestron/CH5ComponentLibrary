@@ -10,8 +10,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonType` attribute",
   * "***",
-  * "buttonType sets the button background for all the buttons in the list. 
-  * Possible values are default, danger, text, warning, info, success, primary, secondary."
+  * "buttonType sets the button background for all the buttons in the list. Possible values are default, danger, text, warning, info, success, primary, secondary."
   * ]
   * @name buttontype
   * @default default
@@ -23,12 +22,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonHAlignLabel` attribute",
   * "***",
-  * "Default attribute is center. 
-  * Possible values are 'center', 'left', 'right'. 
-  * When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.  
-  * The center property sets the horizontal alignment of the label to the center of the button. 
-  * The left property sets the horizontal alignment of the label to the left of the button.   
-  * The right property sets the horizontal alignment of the label to the right of the button."
+  * "Default attribute is center.  Possible values are 'center', 'left', 'right'. When the buttonHAlignLabel property is set, the label and the icon of the button are horizontally aligned.The center property sets the horizontal alignment of the label to the center of the button. The left property sets the horizontal alignment of the label to the left of the button.  The right property sets the horizontal alignment of the label to the right of the button."
   * ]
   * @name buttonhalignlabel
   * @default center
@@ -40,12 +34,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonVAlignLabel` attribute",
   * "***",
-  * "Default attribute is middle. 
-  * Possible values are 'middle', 'top', 'bottom'. 
-  * When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned. 
-  * The middle property sets the vertical alignment of the label to the middle of the button. 
-  * The top property sets the vertical alignment of the label to the top of the button.  
-  * The bottom property sets the vertical alignment of the label to the bottom of the button."
+  * "Default attribute is middle. Possible values are 'middle', 'top', 'bottom'. When the buttonVAlignLabel property is set, the label and the icon of the button are vertically aligned.  The middle property sets the vertical alignment of the label to the middle of the button.  The top property sets the vertical alignment of the label to the top of the button.   The bottom property sets the vertical alignment of the label to the bottom of the button."
   * ]
   * @name buttonvalignlabel
   * @default middle
@@ -57,10 +46,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonCheckboxPosition` attribute",
   * "***",
-  * "Default value is left. 
-  * Valid values are 'left', 'right'. 
-  * This property is used to set the position of a checkbox in a button. 
-  * The value left would set the checkbox to the left of the button and the value right would set the checkbox to the right of the button."
+  * "Default value is left. Valid values are 'left', 'right'. This property is used to set the position of a checkbox in a button. The value left would set the checkbox to the left of the button and the value right would set the checkbox to the right of the button."
   * ]
   * @name buttoncheckboxposition
   * @default left
@@ -73,9 +59,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonIconPosition` attribute",
   * "***",
-  * "The default value is 'first',
-  * Valid values: 'first', 'last', 'top', 'bottom'.
-  * The icon position relative to the label."
+  * "The default value is 'first', Valid values: 'first', 'last', 'top', 'bottom'. The icon position relative to the label."
   * ]
   * @name buttoniconposition
   * @default first
@@ -87,9 +71,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonShape` attribute",
   * "***",
-  * "The default value is 'rounded-rectangle'. 
-  * Valid values: 'rounded-rectangle', 'rectangle'.  
-  * This attribute sets shape of the button."
+  * "The default value is 'rounded-rectangle'.  Valid values: 'rounded-rectangle', 'rectangle'.   This attribute sets shape of the button."
   * ]
   * @name buttonshape
   * @default rounded-rectangle
@@ -101,9 +83,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonCheckboxShow` attribute",
    * "***",
-   * "The default value is false. 
-   * This property is used to display or hide a checkbox.  
-   * If set to true, a checkbox is displayed."
+   * "The default value is false. This property is used to display or hide a checkbox.  If set to true, a checkbox is displayed."
    * ]
    * @name buttoncheckboxshow
    * @default false
@@ -115,8 +95,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonSelected` attribute",
    * "***",
-   * "The default value is false. 
-   * This property reflects the selected state of the component."
+   * "The default value is false. This property reflects the selected state of the component."
    * ]
    * @name buttonselected
    * @default false
@@ -140,9 +119,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonMode` attribute",
    * "***",
-   * "The default value is 0. 
-   * This property is used to set or get the mode of the ch5-button in a multi-mode environment.
-   * The maximum value that can be set is 99."
+   * "The default value is 0. This property is used to set or get the mode of the ch5-button in a multi-mode environment. The maximum value that can be set is 99."
    * ]
    * @name buttonmode
    * @default 0
@@ -155,8 +132,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonIconClass` attribute",
    * "***",
-   * "The iconClass attribute with Font Awesome icons and Material Icons. 
-   * You can declare more than one css class in the iconClass attribute."
+   * "The iconClass attribute with Font Awesome icons and Material Icons. You can declare more than one css class in the iconClass attribute."
    * ]
    * @name buttoniconclass
    * @default 
@@ -228,8 +204,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`receiveStateButtonScriptLabelHtml` attribute",
    * "***",
-   * "Allows the signal script evaluation to be applied to the button.inner HTML class. 
-   * Allows for multiline, multistyled labels."
+   * "Allows the signal script evaluation to be applied to the button.inner HTML class.  Allows for multiline, multistyled labels."
    * ]
    * @name receivestatebuttonscriptlabelhtml
    * @default 
@@ -253,8 +228,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`receiveStateButtonType` attribute",
    * "***",
-   * "After receiving a stateType value from control system, this value is applied to the type attribute. 
-   * See description of the type attribute."
+   * "After receiving a stateType value from control system, this value is applied to the type attribute. See description of the type attribute."
    * ]
    * @name receivestatebuttontype
    * @default 
@@ -266,8 +240,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`receiveStateButtonIconUrl` attribute",
    * "***",
-   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute. 
-   * See description of the iconUrl attribute."
+   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute. See description of the iconUrl attribute."
    * ]
    * @name receivestatebuttoniconurl
    * @default 
@@ -279,8 +252,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`sendEventOnButtonClick` attribute",
    * "***",
-   * "Sends an event on click or tap (mouse or swipe up and down quickly). 
-   * Use this when the control system takes an action on the rising edge from false to true of a boolean digital event."
+   * "Sends an event on click or tap (mouse or swipe up and down quickly). Use this when the control system takes an action on the rising edge from false to true of a boolean digital event."
    * ]
    * @name sendeventonbuttonclick
    * @default 
@@ -292,8 +264,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`sendEventOnButtonTouch` attribute",
    * "***",
-   * "Sends a boolean true event when the screen is tapped and a boolean false event when released. 
-   * Use this when the control system takes an action on a level-sensitive boolean digital event."
+   * "Sends a boolean true event when the screen is tapped and a boolean false event when released. Use this when the control system takes an action on a level-sensitive boolean digital event."
    * ]
    * @name sendeventonbuttontouch
    * @default 

@@ -7,8 +7,7 @@ export interface ICh5ButtonListIndividualButtonAttributes {
    * [
    * "`buttonLabelInnerHTML` attribute",
    * "***",
-   * "Ability to provide a template that applies for the individual button in the list. 
-   * This attribute overrides the buttonLabelInnerHTML attribute in ch5-button-list for the respective individual button based on index."
+   * "Ability to provide a template that applies for the individual button in the list. This attribute overrides the buttonLabelInnerHTML attribute in ch5-button-list for the respective individual button based on index."
    * ]
    * @name buttonlabelinnerhtml
    * @attributeType "EncodedHTML"
@@ -20,9 +19,7 @@ export interface ICh5ButtonListIndividualButtonAttributes {
    * [
    * "`iconUrl` attribute",
    * "***",
-   * "The iconUrl attribute with SVG icons and PNG Icons. 
-   * We can pass only one url in the iconUrl attribute. 
-   * This attribute overrides the buttonIconUrl attribute in ch5-button-list for the respective individual button based on index."
+   * "The iconUrl attribute with SVG icons and PNG Icons. We can pass only one url in the iconUrl attribute. This attribute overrides the buttonIconUrl attribute in ch5-button-list for the respective individual button based on index."
    * ]
    * @name iconurl
    * @default 
@@ -34,9 +31,7 @@ export interface ICh5ButtonListIndividualButtonAttributes {
    * [
    * "`iconClass` attribute",
    * "***",
-   * "The iconClass attribute with Font Awesome icons and Material Icons. 
-   * We can declare more than one css class in the iconClass attribute. 
-   * This attribute overrides the buttonIconClass attribute in ch5-button-list for the respective individual button based on index."
+   * "The iconClass attribute with Font Awesome icons and Material Icons. We can declare more than one css class in the iconClass attribute. This attribute overrides the buttonIconClass attribute in ch5-button-list for the respective individual button based on index."
    * ]
    * @name iconclass
    * @default 

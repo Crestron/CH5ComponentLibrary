@@ -1,10 +1,10 @@
-import { ICh5CommonAttributes } from "../../ch5-common/interfaces";
+import { ICh5GenericListAttributes } from "../../ch5-common/interfaces/i-ch5-generic-list-attributes";
 import { TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch, } from './t-ch5-generic-list-attributes';
 
 /**
  * @ignore
  */
-export interface ICh5GenericListAttributesAttributes extends ICh5CommonAttributes {
+export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttributes {
   /**
   * @documentation
   * [
@@ -110,7 +110,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5CommonAttribute
    * [
    * "`indexId` attribute",
    * "***",
-   * "default value is idx.  Allows differentiation of each item in the list in the <ch5-button-list-label> element. "
+   * "default value is idx.  Allows differentiation of each item in the list in the ch5-button-list-label element. "
    * ]
    * @name indexid
    * @default idx

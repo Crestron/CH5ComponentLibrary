@@ -5,7 +5,7 @@
 // Use of this source code is subject to the terms of the Crestron Software License Agreement
 // under which you licensed this source code.
 
-import { ICh5Common } from "../../_interfaces";
+import { ICh5GenericListDocumentation } from "../../ch5-common/interfaces/i-ch5-generic-list-documentation";
 import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
 
 /**
@@ -36,6 +36,23 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *     ]
  *   },
  *   {
+ *     "prefix": "ch5-button-list:default",
+ *     "description": "Crestron button list (default)",
+ *     "body": [
+ *       "<ch5-button-list id=\"ch5-button-list_${1:id}\"",
+ *       "\torientation=\"${2:horizontal}\"",
+ *       "\tscrollbar=\"${3:false}\"",
+ *       "\tcenterItems=\"${4:false}\"",
+ *       "\tendless=\"${5:false}\"",
+ *       "\tmaxNumberOfItems=\"${6:10}\"",
+ *       "\trows=\"${7:1}\"",
+ *       "\tcolumns=\"${8:1}\"",
+ *       "\tstretch=\"${9:both}\"",
+ *       "\tindexId=\"${10:idx}\">",
+ *       "</ch5-button-list>$0"
+ *       ]
+ *    },
+ *   {
  *     "prefix": "ch5-button-list:all-attributes",
  *     "description": "Crestron button list (All Attributes)",
  *     "body": [
@@ -47,9 +64,9 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tbuttonCheckboxPosition=\"${6:left}\"",
  *       "\tbuttonIconPosition=\"${7:first}\"",
  *       "\tbuttonShape=\"${8:rounded-rectangle}\"",
- *       "\tscrollbar=\"${9:}\"",
- *       "\tcenterItems=\"${10:}\"",
- *       "\tendless=\"${11:}\"",
+ *       "\tscrollbar=\"${9:false}\"",
+ *       "\tcenterItems=\"${10:false}\"",
+ *       "\tendless=\"${11:false}\"",
  *       "\tbuttonCheckboxShow=\"${12:}\"",
  *       "\tbuttonSelected=\"${13:}\"",
  *       "\tbuttonPressed=\"${14:}\"",
@@ -57,42 +74,25 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\trows=\"${16:1}\"",
  *       "\tcolumns=\"${17:1}\"",
  *       "\tbuttonMode=\"${18:}\"",
- *       "\tstretch=\"${19:}\"",
+ *       "\tstretch=\"${19:both}\"",
  *       "\tsendEventOnButtonClick=\"${20:}\"",
  *       "\tbuttonIconClass=\"${21:}\"",
  *       "\tbuttonIconUrl=\"${22:}\"",
  *       "\tindexId=\"${23:idx}\"",
- *       "\tbuttonLabel=\"${24:}\"",
- *       "\tbuttonLabelInnerHtml=\"${25:}\"",
- *       "\treceiveStateButtonMode=\"${26:}\"",
- *       "\treceiveStateButtonSelected=\"${27:}\"",
- *       "\treceiveStateButtonLabel=\"${28:}\"",
- *       "\treceiveStateButtonScriptLabelHtml=\"${29:}\"",
- *       "\treceiveStateButtonIconClass=\"${30:}\"",
- *       "\treceiveStateButtonType=\"${31:}\"",
- *       "\treceiveStateButtonIconUrl=\"${32:}\"",
- *       "\tsendEventOnButtonTouch=\"${33:}\">",
- *       "</ch5-button-list>$0"
- *       ]
- *    },
- *    {
- *      "prefix": "ch5-button-list:default",
- *      "description": "Crestron Button List Default",
- *      "body": [
- *       "<ch5-button-list id=\"btn_${1:id}\"",
- *       "\torientation=\"${2:Crestron horizontal}\"",
- *       "\trow=\"${3:1}\"",
- *       "\tscrollbar=\"${4:false}\"",
- *       "\tmaxNumberOfItems=\"${5:10}\"",
- *       "\tcenterItems=\"${6:}\"",
- *       "\tendless=\"${7:}\"",
- *       "\tindexId=\"${8:idx}\"",
- *       "\tstretch=\"${9:""}\"",
+ *       "\tbuttonLabelInnerHtml=\"${24:}\"",
+ *       "\treceiveStateButtonMode=\"${25:}\"",
+ *       "\treceiveStateButtonSelected=\"${26:}\"",
+ *       "\treceiveStateButtonLabel=\"${27:}\"",
+ *       "\treceiveStateButtonScriptLabelHtml=\"${28:}\"",
+ *       "\treceiveStateButtonIconClass=\"${29:}\"",
+ *       "\treceiveStateButtonType=\"${30:}\"",
+ *       "\treceiveStateButtonIconUrl=\"${31:}\"",
+ *       "\tsendEventOnButtonTouch=\"${32:}\">",
  *       "</ch5-button-list>$0"
  *       ]
  *    }
  *  ]
  */
-export interface ICh5ButtonListDocumentation extends ICh5Common, ICh5ButtonListAttributes {
+export interface ICh5ButtonListDocumentation extends ICh5GenericListDocumentation, ICh5ButtonListAttributes {
 
 }
