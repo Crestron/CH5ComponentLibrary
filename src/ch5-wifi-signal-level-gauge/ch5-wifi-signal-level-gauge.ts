@@ -164,7 +164,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
     });
   }
   public get value(): number {
-    return +this._ch5Properties.get<number>("value");
+    return this._ch5Properties.get<number>("value");
   }
 
   public set receiveStateValue(value: string) {
@@ -205,7 +205,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
     });
   }
   public get minValue(): number {
-    return +this._ch5Properties.get<number>("minValue");
+    return this._ch5Properties.get<number>("minValue");
   }
 
   public set maxValue(value: number) {
@@ -217,7 +217,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
     });
   }
   public get maxValue(): number {
-    return +this._ch5Properties.get<number>("maxValue");
+    return this._ch5Properties.get<number>("maxValue");
   }
 
   public set size(value: TCh5WifiSignalLevelGaugeSize) {
