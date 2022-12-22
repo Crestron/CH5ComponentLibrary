@@ -664,13 +664,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private handleMouseDown(e: MouseEvent) {
     this.isDown = true;
     this._elContainer.classList.add('active');
-    if (this.orientation === "horizontal") {
-      this.startX = e.pageX - this._elContainer.offsetLeft;
-      this.scrollListLeft = this._elContainer.scrollLeft;
-    } else {
-      this.startY = e.pageY - this._elContainer.offsetTop;
-      this.scrollListTop = this._elContainer.scrollTop;
-    }
+    this.startX = e.pageX - this._elContainer.offsetLeft;
+    this.startY = e.pageY - this._elContainer.offsetTop;
+    this.scrollListLeft = this._elContainer.scrollLeft;
+    this.scrollListTop = this._elContainer.scrollTop;
   }
 
   private handleMouseUpAndLeave() {
@@ -681,15 +678,12 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private handleMouseMove(e: MouseEvent) {
     if (!this.isDown) return;
     e.preventDefault();
-    if (this.orientation === "horizontal") {
-      const x = e.pageX - this._elContainer.offsetLeft;
-      const walk = (x - this.startX) * 3; // scroll-fast
-      this._elContainer.scrollLeft = this.scrollListLeft - walk;
-    } else {
-      const y = e.pageY - this._elContainer.offsetTop;
-      const walk = (y - this.startY) * 3;
-      this._elContainer.scrollTop = this.scrollListTop - walk;
-    }
+    const x = e.pageX - this._elContainer.offsetLeft;
+    const y = e.pageY - this._elContainer.offsetTop;
+    const walkX = (x - this.startX) * 3;
+    const walkY = (y - this.startY) * 3;
+    this._elContainer.scrollLeft = this.scrollListLeft - walkX;
+    this._elContainer.scrollTop = this.scrollListTop - walkY;
   }
 
   private handleScrollEvent() {
@@ -1040,7 +1034,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   private resizeHandler() {
     this.initScrollbar();
-    this.checkButtonDisplay();
   }
 
   private checkButtonDisplay() {

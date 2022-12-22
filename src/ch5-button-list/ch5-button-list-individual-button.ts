@@ -51,7 +51,9 @@ export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonL
 
 	public set buttonLabelInnerHTML(value: string) {
 		this._ch5Properties.set<string>("buttonLabelInnerHTML", value, () => {
-			this._parentCh5ButtonList.debounceButtonDisplay();
+			if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
+				this._parentCh5ButtonList.debounceButtonDisplay();
+			}
 		});
 	}
 	public get buttonLabelInnerHTML(): string {
@@ -60,7 +62,9 @@ export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonL
 
 	public set iconUrl(value: string) {
 		this._ch5Properties.set<string>("iconUrl", value, () => {
-			this._parentCh5ButtonList.debounceButtonDisplay();
+			if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
+				this._parentCh5ButtonList.debounceButtonDisplay();
+			}
 		});
 	}
 	public get iconUrl(): string {
@@ -69,7 +73,9 @@ export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonL
 
 	public set iconClass(value: string) {
 		this._ch5Properties.set<string>("iconClass", value, () => {
-			this._parentCh5ButtonList.debounceButtonDisplay();
+			if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
+				this._parentCh5ButtonList.debounceButtonDisplay();
+			}
 		});
 	}
 	public get iconClass(): string {
