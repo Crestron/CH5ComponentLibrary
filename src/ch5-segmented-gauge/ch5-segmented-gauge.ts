@@ -301,7 +301,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   public get minValue(): number {
-    return +this._ch5Properties.get<number>("minValue");
+    return this._ch5Properties.get<number>("minValue");
   }
 
   public set maxValue(value: number) {
@@ -314,7 +314,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   public get maxValue(): number {
-    return +this._ch5Properties.get<number>("maxValue");
+    return this._ch5Properties.get<number>("maxValue");
   }
 
   public set numberOfSegments(value: number) {
@@ -324,7 +324,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   public get numberOfSegments(): number {
-    return +this._ch5Properties.get<number>("numberOfSegments");
+    return this._ch5Properties.get<number>("numberOfSegments");
   }
 
   public set value(value: number) {
@@ -339,7 +339,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     });
   }
   public get value(): number {
-    return +this._ch5Properties.get<number>("value");
+    return this._ch5Properties.get<number>("value");
   }
 
   public set touchSettable(value: boolean) {
