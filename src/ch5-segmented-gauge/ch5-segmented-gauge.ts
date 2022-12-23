@@ -221,6 +221,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   private mouseDown: boolean = false;
   private mouseDragEnd: boolean = false;
   private mouseLeave: boolean = true;
+  private eventHandler: any = { "mouseover": [], "mouseup": [], "dragend": [] };
   // Latest value set by user
   private _dirtyValue: number = 0;
   // Initial value or last value received from signal
@@ -447,6 +448,12 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
     if (this._elContainer !== this) {
       this.appendChild(this._elContainer);
     }
+    this.handleTouchSettable = this.handleTouchSettable.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handleTouchStart = this.handleTouchStart.bind(this);
+    this.handleTouchMove = this.handleTouchMove.bind(this);
+    this.handleTouchMoveEvent = this.handleTouchMoveEvent.bind(this);
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
@@ -490,25 +497,25 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this._elContainer.addEventListener('click', this.handleTouchSettable.bind(this));
-    this._elContainer.addEventListener("mousedown", this.handleMouseDown.bind(this));
-    this._elContainer.addEventListener("mouseleave", this.handleMouseLeave.bind(this));
-    this._elContainer.addEventListener("touchstart", this.handleTouchStart.bind(this));
-    this._elContainer.addEventListener("touchmove", this.handleTouchMove.bind(this));
+    this._elContainer.addEventListener('click', this.handleTouchSettable);
+    this._elContainer.addEventListener("mousedown", this.handleMouseDown);
+    this._elContainer.addEventListener("mouseleave", this.handleMouseLeave);
+    this._elContainer.addEventListener("touchstart", this.handleTouchStart);
+    this._elContainer.addEventListener("touchmove", this.handleTouchMove);
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this._elContainer.removeEventListener('click', this.handleTouchSettable.bind(this));
-    this._elContainer.removeEventListener("mousedown", this.handleMouseDown.bind(this));
-    this._elContainer.removeEventListener("mouseleave", this.handleMouseLeave.bind(this));
-    this._elContainer.removeEventListener("touchstart", this.handleTouchStart.bind(this));
-    this._elContainer.removeEventListener("touchmove", this.handleTouchMove.bind(this));
+    this._elContainer.removeEventListener('click', this.handleTouchSettable);
+    this._elContainer.removeEventListener("mousedown", this.handleMouseDown);
+    this._elContainer.removeEventListener("mouseleave", this.handleMouseLeave);
+    this._elContainer.removeEventListener("touchstart", this.handleTouchStart);
+    this._elContainer.removeEventListener("touchmove", this.handleTouchMove);
     Array.from(this._elContainer.children).forEach((segments, i) => {
-      segments.removeEventListener("mouseover", this.handleMouseOverEvent.bind(this, i + 1));
-      segments.removeEventListener("mouseup", this.handleMouseUpEvent.bind(this, i + 1));
-      segments.removeEventListener("touchmove", this.handleTouchMoveEvent.bind(this));
-      segments.removeEventListener("dragend", this.handleDragEndEvent.bind(this, i + 1));
+      segments.removeEventListener("mouseover", this.eventHandler.mouseover[i]);
+      segments.removeEventListener("mouseup", this.eventHandler.mouseup[i]);
+      segments.removeEventListener("touchmove", this.handleTouchMoveEvent);
+      segments.removeEventListener("dragend", this.eventHandler.dragend[i]);
     });
   }
 
@@ -550,10 +557,13 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
       if (i === 0) {
         segments.classList.add("ch5-segmented-gauge--segment--state-graphic-hidden");
       }
-      segments.addEventListener("mouseover", this.handleMouseOverEvent.bind(this, i));
-      segments.addEventListener("mouseup", this.handleMouseUpEvent.bind(this, i));
-      segments.addEventListener("touchmove", this.handleTouchMoveEvent.bind(this));
-      segments.addEventListener("dragend", this.handleDragEndEvent.bind(this, i));
+      this.eventHandler.mouseover.push(this.handleMouseOverEvent.bind(this, i));
+      this.eventHandler.mouseup.push(this.handleMouseUpEvent.bind(this, i));
+      this.eventHandler.dragend.push(this.handleDragEndEvent.bind(this, i));
+      segments.addEventListener("mouseover", this.eventHandler.mouseover[i]);
+      segments.addEventListener("mouseup", this.eventHandler.mouseup[i]);
+      segments.addEventListener("touchmove", this.handleTouchMoveEvent);
+      segments.addEventListener("dragend", this.eventHandler.dragend[i]);
     }
     this.setValueForSegments();
   }
@@ -591,6 +601,9 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   private handleIndexValue(idx: number) {
+    if (this.touchSettable === false) {
+      return;
+    }
     const segments = this._elContainer.querySelectorAll(".ch5-segmented-gauge-segment");
     for (let i = 0; i < segments.length - 1; i++) {
       if (idx > i) {
