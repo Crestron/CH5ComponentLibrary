@@ -306,7 +306,9 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private scrollListLeft: number = 0;
   private scrollListTop: number = 0;
   private loadedButtons: number = 0;
-  private destroyedButtons: number = 0;
+  private destroyedButtonsLeft: number = 0;
+  private destroyedButtonsRight: number = 0;
+  private scrollbarReachedEnd: boolean = false;
 
   // private members used for window resize events
   private isResizeInProgress: boolean = false;
@@ -690,7 +692,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     // update the scrollbar width and position
     this.initScrollbar();
     const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._elContainer;
-
     // Checking whether endless can be achieved
     const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + 20 < scrollWidth : offsetHeight + 20 < scrollHeight;
     // working of endless for left and top scroll
@@ -954,7 +955,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
   }
 
-  private async buttonHelper(btn: Ch5Button, index: number) {
+  private buttonHelper(btn: Ch5Button, index: number) {
     const individualButtons = this.getElementsByTagName('ch5-button-list-individual-button');
     const individualButtonsLength = individualButtons.length;
     Ch5ButtonList.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
@@ -1006,26 +1007,39 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   private initScrollbar() {
-    if (this.scrollbar === false) { return; }
 
     let scrollbarDimension: number = 0;
     if (this.orientation === "horizontal") {
       const { scrollWidth, offsetWidth, scrollLeft } = this._elContainer;
       scrollbarDimension = Math.floor(offsetWidth / scrollWidth * 100);
+      const scrollbarLeft = Math.ceil(scrollLeft / scrollWidth * 100);
       this._scrollbar.style.width = scrollbarDimension + '%';
-      this._scrollbar.style.left = Math.ceil(scrollLeft / scrollWidth * 100) + '%';
+      this._scrollbar.style.left = scrollbarLeft + '%';
+      if (scrollLeft === 0) {
+        this.scrollbarReachedEnd = false;
+      } else if (scrollbarDimension + scrollbarLeft === 100) {
+        this.scrollbarReachedEnd = true;
+      }
     } else {
       const { scrollHeight, offsetHeight, scrollTop } = this._elContainer;
       scrollbarDimension = Math.floor(offsetHeight / scrollHeight * 100);
+      const scrollbarTop = Math.ceil(scrollTop / scrollHeight * 100);
       this._scrollbar.style.height = scrollbarDimension + '%';
-      this._scrollbar.style.top = Math.ceil(scrollTop / scrollHeight * 100) + '%';
+      this._scrollbar.style.top = scrollbarTop + '%';
+      if (scrollTop === 0) {
+        this.scrollbarReachedEnd = false;
+      } else if (scrollbarDimension + scrollbarTop === 100) {
+        this.scrollbarReachedEnd = true;
+      }
     }
-    if (scrollbarDimension === 100) {
-      this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
-      this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
-    } else {
-      this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
-      this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+    if (this.scrollbar) {
+      if (scrollbarDimension === 100) {
+        this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+        this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
+      } else {
+        this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
+        this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+      }
     }
   }
 
@@ -1057,32 +1071,70 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   private buttonDestroyHelper() {
     if (this.orientation === 'horizontal') {
-      const { scrollLeft } = this._elContainer;
-      if (scrollLeft < 100 && this.destroyedButtons !== 0) {
+      const { scrollLeft, scrollWidth, offsetWidth } = this._elContainer;
+      if (scrollLeft < Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX && this.destroyedButtonsLeft !== 0) {
         for (let i = 0; i < this.rows; i++) {
-          this.createButton(this.destroyedButtons - 1, false);
-          this.destroyedButtons--;
+          this.createButton(this.destroyedButtonsLeft - 1, false);
+          this.destroyedButtonsLeft--;
         }
-        this._elContainer.scrollLeft += 100;
+        this._elContainer.scrollLeft += Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX;
       }
-      if (scrollLeft > 250) {
+      if (scrollLeft > Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX * 2.5 && this.scrollbarReachedEnd === false) {
+        if (scrollLeft + offsetWidth > scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) { return }
         for (let i = 0; i < this.rows; i++) {
-          if (this._elContainer.children[0]) {
-            this._elContainer.children[0]?.remove();
-            this.destroyedButtons++;
-          }
+          this._elContainer.children[0]?.remove();
+          this.destroyedButtonsLeft++;
         }
-        this._elContainer.scrollLeft -= 100;
+        this._elContainer.scrollLeft -= Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX;
+      }
+      if (scrollLeft + offsetWidth < scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX * 2.5 && this.scrollbarReachedEnd) {
+        if (scrollLeft <= Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) { return; }
+        for (let i = 0; i < this.rows; i++) {
+          this._elContainer.lastElementChild?.remove();
+          this.destroyedButtonsRight++;
+        }
+      }
+      if (scrollLeft + offsetWidth > scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX && this.destroyedButtonsRight !== 0) {
+        for (let i = 0; i < this.rows; i++) {
+          this.createButton(this.maxNumberOfItems - this.destroyedButtonsRight, true);
+          this.destroyedButtonsRight--;
+        }
       }
     } else {
-
+      const { scrollTop, scrollHeight, offsetHeight } = this._elContainer;
+      if (scrollTop < Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX && this.destroyedButtonsLeft !== 0) {
+        for (let i = 0; i < this.columns; i++) {
+          this.createButton(this.destroyedButtonsLeft - 1, false);
+          this.destroyedButtonsLeft--;
+        }
+        this._elContainer.scrollTop += Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX;
+      }
+      if (scrollTop > Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX * 3 && this.scrollbarReachedEnd === false) {
+        if (scrollTop + offsetHeight > scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) { return }
+        for (let i = 0; i < this.columns; i++) {
+          this._elContainer.children[0]?.remove();
+          this.destroyedButtonsLeft++;
+        }
+        this._elContainer.scrollTop -= Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX;
+      }
+      if (scrollTop + offsetHeight < scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX * 3 && this.scrollbarReachedEnd) {
+        if (scrollTop <= Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) { return; }
+        for (let i = 0; i < this.columns; i++) {
+          this._elContainer.lastElementChild?.remove();
+          this.destroyedButtonsRight++;
+        }
+      }
+      if (scrollTop + offsetHeight > scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX && this.destroyedButtonsRight !== 0) {
+        for (let i = 0; i < this.columns; i++) {
+          this.createButton(this.maxNumberOfItems - this.destroyedButtonsRight, true);
+          this.destroyedButtonsRight--;
+        }
+      }
     }
-
   }
 
   private resizeHandler() {
     this.initScrollbar();
-    console.log("resize", this._elContainer.getBoundingClientRect().width);
   }
 
   private checkButtonDisplay() {
