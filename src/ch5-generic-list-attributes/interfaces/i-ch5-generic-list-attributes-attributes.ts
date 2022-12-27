@@ -10,7 +10,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   * [
   * "`orientation` attribute",
   * "***",
-  * "default horizontal. direction of scroll/pan of adjacent "
+  * "The default value is 'horizontal'. Valid values: 'horizontal' or 'vertical'. Positions the list elements in a horizontal or vertical orientation."
   * ]
   * @name orientation
   * @default horizontal
@@ -33,7 +33,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`scrollbar` attribute",
    * "***",
-   * "default value is false"
+   * "The default value is false. If true, shows a scrollbar for the list."
    * ]
    * @name scrollbar
    * @default false
@@ -45,7 +45,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`centerItems` attribute",
    * "***",
-   * "default false"
+   * "The default value is false. NOTE: Parent container has to be set a fixed height and width to see the expected behaviour."
    * ]
    * @name centeritems
    * @default false
@@ -57,7 +57,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`endless` attribute",
    * "***",
-   * "default false"
+   * "The default value is false. If false, continued swiping when reaching end of list reveals no items beyond the last. If true, if the attribute is added without a value, the first list item will virtually follow the last item when the end of the list is reached. Swiping towards the beginning of the list items will also show the last item prior to the first."
    * ]
    * @name endless
    * @default false
@@ -82,13 +82,13 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`rows` attribute",
    * "***",
-   * "showWhen orientation is horizontal"
+   * "sets the number of rows for the list only when the orientation is horizontal."
    * ]
    * @name rows
    * @default 1
    * limits [{"min": 1, "max": 500}]
    * @attributeType "Integer"
-   * @showWhen [{"orientation":["horizontal"]}]
+   * @showWhen [{"orientation":"horizontal"}]
    */
   rows: number;
   /**
@@ -96,13 +96,13 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`columns` attribute",
    * "***",
-   * "show When orientation is vertical"
+   * "sets the number of columns for the list only when the orientation is vertical."
    * ]
    * @name columns
    * @default 1
    * limits [{"min": 1, "max": 500}]
    * @attributeType "Integer"
-   * @showWhen [{"orientation":["vertical"]}]
+   * @showWhen [{"orientation":"vertical"}]
    */
   columns: number;
   /**
@@ -110,7 +110,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`indexId` attribute",
    * "***",
-   * "default value is idx.  Allows differentiation of each item in the list in the ch5-button-list-label element. "
+   * "default value is idx. Allows differentiation of each item in the list in the ch5-button-list-label element."
    * ]
    * @name indexid
    * @default idx
@@ -122,7 +122,7 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`receiveStateMaxNumberOfItems` attribute",
    * "***",
-   * "Value received from the receiveStateMaxNumberOfItems Join will be constrained for maxNumberOfItems attribute. "
+   * "Value received from the receiveStateMaxNumberOfItems Join will be constrained for maxNumberOfItems attribute."
    * ]
    * @name receivestatemaxnumberofitems
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}

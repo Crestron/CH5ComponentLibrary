@@ -120,8 +120,8 @@ export interface ICh5ButtonListModeAttributes {
    * "Ability to provide a template that applies for the button"
    * ]
    * @name labelinnerhtml
-   * @attributeType "EncodedHTML"
-   * @hidden true
+   * @default 
+   * @attributeType "String"
    */
   labelInnerHTML: string;
 }

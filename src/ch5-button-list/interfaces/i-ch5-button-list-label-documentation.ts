@@ -14,7 +14,11 @@
  * @componentVersion 2.3.0
  * @childElements
  * [
- *    
+ *    {
+ *     "tagName": "template",
+ *     "optional": false,
+ *     "childElements": []
+ *    }
  * ]
  * @documentation
  * [

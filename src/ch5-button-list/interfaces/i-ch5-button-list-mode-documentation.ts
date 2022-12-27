@@ -16,7 +16,34 @@ import { ICh5ButtonListModeAttributes } from "./i-ch5-button-list-mode-attribute
  * @componentVersion 2.3.0
  * @childElements
  * [
- *    
+ *     {
+ *      "tagName": "ch5-button-list-label",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "template",
+ *          "optional": false,
+ *          "childElements": []
+ *        }
+ *      ]
+ *    },
+ *    {
+ *      "tagName": "ch5-button-list-mode-state",
+ *      "optional": true,
+ *      "childElements": [
+ *       {
+ *         "tagName": "ch5-button-list-label",
+ *         "optional": true,
+ *         "childElements": [
+ *           {
+ *             "tagName": "template",
+ *             "optional": false,
+ *             "childElements": []
+ *           }
+ *         ]
+ *       }
+ *     ]
+ *   } 
  * ]
  * @documentation
  * [

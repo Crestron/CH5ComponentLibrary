@@ -10,8 +10,8 @@ export interface ICh5ButtonListIndividualButtonAttributes {
    * "Ability to provide a template that applies for the individual button in the list. This attribute overrides the buttonLabelInnerHTML attribute in ch5-button-list for the respective individual button based on index."
    * ]
    * @name buttonlabelinnerhtml
-   * @attributeType "EncodedHTML"
-   * @hidden true
+   * @default 
+   * @attributeType "String"
    */
   buttonLabelInnerHTML: string;
   /**

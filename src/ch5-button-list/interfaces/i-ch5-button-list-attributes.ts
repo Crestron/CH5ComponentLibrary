@@ -71,7 +71,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonShape` attribute",
   * "***",
-  * "The default value is 'rounded-rectangle'.  Valid values: 'rounded-rectangle', 'rectangle'.   This attribute sets shape of the button."
+  * "The default value is 'rounded-rectangle'. Valid values: 'rounded-rectangle', 'rectangle'. This attribute sets shape of the button."
   * ]
   * @name buttonshape
   * @default rounded-rectangle
@@ -107,7 +107,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonPressed` attribute",
    * "***",
-   * "ButtonPressed"
+   * "The default value is false. This property reflects the pressed state of the component."
    * ]
    * @name buttonpressed
    * @default false
@@ -159,8 +159,8 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * "Ability to provide a template that applies for all the buttons in the list"
    * ]
    * @name buttonlabelinnerhtml
-   * @attributeType "EncodedHTML"
-   * @hidden true
+   * @default 
+   * @attributeType "String"
    */
   buttonLabelInnerHtml: string;
   /**
@@ -216,7 +216,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateIconClass` attribute",
    * "***",
-   * "The icon class received from the control system."
+   * "The icon class received from the control system value will be applied to the iconClass attribute."
    * ]
    * @name buttonreceivestateiconclass
    * @default 
@@ -228,7 +228,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`buttonReceiveStateType` attribute",
    * "***",
-   * "After receiving a stateType value from control system, this value is applied to the type attribute. See description of the type attribute."
+   * "After receiving a stateType value from control system, this value is applied to the type attribute."
    * ]
    * @name buttonreceivestatetype
    * @default 
@@ -240,7 +240,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * [
    * "`receiveStateButtonIconUrl` attribute",
    * "***",
-   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute. See description of the iconUrl attribute."
+   * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute."
    * ]
    * @name buttonreceivestateiconurl
    * @default 

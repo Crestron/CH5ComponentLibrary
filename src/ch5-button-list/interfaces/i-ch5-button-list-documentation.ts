@@ -17,7 +17,56 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  * @componentVersion 2.3.0
  * @childElements
  * [
- *    
+ *    {
+ *      "tagName": "ch5-button-list-label",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "template",
+ *          "optional": false,
+ *          "childElements": []
+ *        }
+ *      ]
+ *    },
+ *    {
+ *      "tagName": "ch5-button-list-individual-button",
+ *      "optional": true,
+ *      "childElements": []
+ *    },
+ *    {
+ *      "tagName": "ch5-button-list-mode",
+ *      "optional": true,
+ *      "childElements": [
+ *        {
+ *          "tagName": "ch5-button-list-label",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "template",
+ *              "optional": false,
+ *              "childElements": []
+ *            }
+ *          ]
+ *        },
+ *        {
+ *          "tagName": "ch5-button-list-mode-state",
+ *          "optional": true,
+ *          "childElements": [
+ *            {
+ *              "tagName": "ch5-button-list-label",
+ *              "optional": true,
+ *              "childElements": [
+ *                {
+ *                  "tagName": "template",
+ *                  "optional": false,
+ *                  "childElements": []
+ *                }
+ *              ]
+ *            }
+ *          ]
+ *        } 
+ *      ]
+ *   }
  * ]
  * @documentation
  * [
@@ -75,19 +124,19 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tcolumns=\"${17:1}\"",
  *       "\tbuttonMode=\"${18:}\"",
  *       "\tstretch=\"${19:both}\"",
- *       "\tsendEventOnButtonClick=\"${20:}\"",
+ *       "\tbuttonSendEventOnClick=\"${20:}\"",
  *       "\tbuttonIconClass=\"${21:}\"",
  *       "\tbuttonIconUrl=\"${22:}\"",
  *       "\tindexId=\"${23:idx}\"",
  *       "\tbuttonLabelInnerHtml=\"${24:}\"",
- *       "\treceiveStateButtonMode=\"${25:}\"",
- *       "\treceiveStateButtonSelected=\"${26:}\"",
- *       "\treceiveStateButtonLabel=\"${27:}\"",
- *       "\treceiveStateButtonScriptLabelHtml=\"${28:}\"",
- *       "\treceiveStateButtonIconClass=\"${29:}\"",
- *       "\treceiveStateButtonType=\"${30:}\"",
- *       "\treceiveStateButtonIconUrl=\"${31:}\"",
- *       "\tsendEventOnButtonTouch=\"${32:}\">",
+ *       "\tbuttonReceiveStateMode=\"${25:}\"",
+ *       "\tbuttonReceiveStateSelected=\"${26:}\"",
+ *       "\tbuttonReceiveStateLabel=\"${27:}\"",
+ *       "\tbuttonReceiveStateScriptLabelHtml=\"${28:}\"",
+ *       "\tbuttonReceiveStateIconClass=\"${29:}\"",
+ *       "\tbuttonReceiveStateType=\"${30:}\"",
+ *       "\tbuttonReceiveStateIconUrl=\"${31:}\"",
+ *       "\tbuttonSendEventOnTouch=\"${32:}\">",
  *       "</ch5-button-list>$0"
  *       ]
  *    }
