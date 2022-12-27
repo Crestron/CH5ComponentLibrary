@@ -8,12 +8,14 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
   <test-fixture id="ch5-button-list-buttonShape-attributes">
     <template>
-      <ch5-button-list></ch5-button-list>
+      <ch5-button-list maxNumberOfItems="5"></ch5-button-list>
     </template>
   </test-fixture>
   <script>
@@ -24,12 +26,54 @@
         ch5ButtonList = fixture('ch5-button-list-buttonShape-attributes');
       });
 
-      let testCases = ['a', '', ' ', 'number', 'rounded-rectangle', 'rectangle'];
-      let expectedResult = ['rounded-rectangle', 'rounded-rectangle', 'rounded-rectangle', 'rounded-rectangle', 'rounded-rectangle', 'rectangle'];
-      testCases.forEach((ele, i) => {
-        test('Check Value "buttonShape"', () => {
-          ch5ButtonList.setAttribute('buttonShape', ele);
-          expect(ch5ButtonList.getAttribute('buttonShape')).to.be.equal(expectedResult[i]);
+      const valid_shapes = CrComLib.Ch5ButtonList.BUTTON_SHAPE;
+      const invalid_shapes = ['', null, 'Circle', 'Square', 'Rectangle'].concat(CrComLib.Ch5Button.SHAPES).filter(data => { return !valid_shapes.includes(data) });
+      const default_shape = valid_shapes[0];
+
+      valid_shapes.forEach((shapeName, i) => {
+        test(`Check attribute shape: "${shapeName}"`, (done) => {
+          ch5ButtonList.setAttribute('buttonShape', shapeName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.buttonShape).to.be.equal(shapeName);
+              const allButtons = getAllButtons(ch5ButtonList);
+              for (let i = 0; i < allButtons.length; i++) {
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + shapeName)).to.be.equal(true);
+                expect(ch5ButtonList.getAttribute('buttonShape')).to.be.equal(shapeName);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      test(`Check attribute shape "rounded-rectangle" by not adding the shape attribute in HTML or through javascript to the button`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.buttonShape).to.be.equal(default_shape);
+            const allButtons = getAllButtons(ch5ButtonList);
+            for (let i = 0; i < allButtons.length; i++) {
+              expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + default_shape)).to.be.equal(true);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+      invalid_shapes.forEach((shapeName, i) => {
+        test(`Check attribute shape for invalid value: "${shapeName}"`, (done) => {
+          ch5ButtonList.setAttribute('buttonShape', shapeName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.buttonShape).to.be.equal(default_shape);
+              const allButtons = getAllButtons(ch5ButtonList);
+              for (let i = 0; i < allButtons.length; i++) {
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + default_shape)).to.be.equal(true);
+                expect(ch5ButtonList.getAttribute('buttonShape')).to.be.equal(default_shape);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
         });
       });
 
