@@ -11,25 +11,25 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-button-list-clickHoldTime-attributes">
+  <test-fixture id="ch5-button-list-maxNumberOfItems-attributes">
     <template>
       <ch5-button-list></ch5-button-list>
     </template>
   </test-fixture>
   <script>
-    suite('ch5-button-list-clickHoldTime-attributes-value', () => {
+    suite('ch5-button-list-maxNumberOfItems-attributes-value', () => {
       let ch5ButtonList;
 
       setup(async () => {
-        ch5ButtonList = fixture('ch5-button-list-clickHoldTime-attributes');
+        ch5ButtonList = fixture('ch5-button-list-maxNumberOfItems-attributes');
       });
 
-      let testCases = ['a', '', ' ', 'number', '-1', '0', '1', '49999', '50000', '50001'];
-      let expectedResult = ['0', '0', '0', '0', '0', '0', '1', '49999', '50000', '50000'];
+      let testCases = ['a', '', ' ', 'number', '0', '1', '2', '499', '500', '501'];
+      let expectedResult = ['10', '10', '10', '10', '1', '1', '2', '499', '500', '500'];
       testCases.forEach((ele, i) => {
-        test('Check Value "clickHoldTime"', () => {
-          ch5ButtonList.setAttribute('clickHoldTime', ele);
-          expect(ch5ButtonList.getAttribute('clickHoldTime')).to.be.equal(expectedResult[i]);
+        test('Check Value "maxNumberOfItems"', () => {
+          ch5ButtonList.setAttribute('maxNumberOfItems', ele);
+          expect(ch5ButtonList.getAttribute('maxNumberOfItems')).to.be.equal(expectedResult[i]);
         });
       });
 

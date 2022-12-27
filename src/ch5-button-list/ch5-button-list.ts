@@ -217,7 +217,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonMode",
+      name: "buttonReceiveStateMode",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -225,7 +225,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonSelected",
+      name: "buttonReceiveStateSelected",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -233,7 +233,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonLabel",
+      name: "buttonReceiveStateLabel",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -241,7 +241,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonScriptLabelHtml",
+      name: "buttonReceiveStateScriptLabelHtml",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -249,7 +249,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonIconClass",
+      name: "buttonReceiveStateIconClass",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -257,7 +257,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonType",
+      name: "buttonReceiveStateType",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -265,7 +265,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonIconUrl",
+      name: "buttonReceiveStateIconUrl",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -273,7 +273,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "sendEventOnButtonClick",
+      name: "buttonSendEventOnClick",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -281,7 +281,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "sendEventOnButtonTouch",
+      name: "buttonSendEventOnTouch",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -443,85 +443,85 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     return this._ch5Properties.get<string>("buttonLabelInnerHtml");
   }
 
-  public set receiveStateButtonMode(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonMode", value, () => {
+  public set buttonReceiveStateMode(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateMode", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonMode(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonMode");
+  public get buttonReceiveStateMode(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateMode");
   }
 
-  public set receiveStateButtonSelected(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonSelected", value, () => {
+  public set buttonReceiveStateSelected(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateSelected", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonSelected(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonSelected");
+  public get buttonReceiveStateSelected(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateSelected");
   }
 
-  public set receiveStateButtonLabel(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonLabel", value, () => {
+  public set buttonReceiveStateLabel(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateLabel", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonLabel(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonLabel");
+  public get buttonReceiveStateLabel(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateLabel");
   }
 
-  public set receiveStateButtonScriptLabelHtml(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonScriptLabelHtml", value, () => {
+  public set buttonReceiveStateScriptLabelHtml(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateScriptLabelHtml", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonScriptLabelHtml(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonScriptLabelHtml");
+  public get buttonReceiveStateScriptLabelHtml(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateScriptLabelHtml");
   }
 
-  public set receiveStateButtonIconClass(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonIconClass", value, () => {
+  public set buttonReceiveStateIconClass(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateIconClass", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonIconClass(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonIconClass");
+  public get buttonReceiveStateIconClass(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateIconClass");
   }
 
-  public set receiveStateButtonType(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonType", value, () => {
+  public set buttonReceiveStateType(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateType", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonType(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonType");
+  public get buttonReceiveStateType(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateType");
   }
 
-  public set receiveStateButtonIconUrl(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonIconUrl", value, () => {
+  public set buttonReceiveStateIconUrl(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateIconUrl", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonIconUrl(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonIconUrl");
+  public get buttonReceiveStateIconUrl(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateIconUrl");
   }
 
-  public set sendEventOnButtonClick(value: string) {
-    this._ch5Properties.set<string>("sendEventOnButtonClick", value, () => {
+  public set buttonSendEventOnClick(value: string) {
+    this._ch5Properties.set<string>("buttonSendEventOnClick", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get sendEventOnButtonClick(): string {
-    return this._ch5Properties.get<string>("sendEventOnButtonClick");
+  public get buttonSendEventOnClick(): string {
+    return this._ch5Properties.get<string>("buttonSendEventOnClick");
   }
 
-  public set sendEventOnButtonTouch(value: string) {
-    this._ch5Properties.set<string>("sendEventOnButtonTouch", value, () => {
+  public set buttonSendEventOnTouch(value: string) {
+    this._ch5Properties.set<string>("buttonSendEventOnTouch", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get sendEventOnButtonTouch(): string {
-    return this._ch5Properties.get<string>("sendEventOnButtonTouch");
+  public get buttonSendEventOnTouch(): string {
+    return this._ch5Properties.get<string>("buttonSendEventOnTouch");
   }
 
   //#endregion
