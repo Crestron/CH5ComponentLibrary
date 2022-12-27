@@ -217,7 +217,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonMode",
+      name: "buttonReceiveStateMode",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -225,7 +225,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonSelected",
+      name: "buttonReceiveStateSelected",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -233,7 +233,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonLabel",
+      name: "buttonReceiveStateLabel",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -241,7 +241,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonScriptLabelHtml",
+      name: "buttonReceiveStateScriptLabelHtml",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -249,7 +249,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonIconClass",
+      name: "buttonReceiveStateIconClass",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -257,7 +257,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonType",
+      name: "buttonReceiveStateType",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -265,7 +265,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "receiveStateButtonIconUrl",
+      name: "buttonReceiveStateIconUrl",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -273,7 +273,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "sendEventOnButtonClick",
+      name: "buttonSendEventOnClick",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -281,7 +281,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "sendEventOnButtonTouch",
+      name: "buttonSendEventOnTouch",
       removeAttributeOnNull: true,
       type: "string",
       valueOnAttributeEmpty: "",
@@ -306,7 +306,9 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private scrollListLeft: number = 0;
   private scrollListTop: number = 0;
   private loadedButtons: number = 0;
-  private destroyedButtons: number = 0;
+  private destroyedButtonsLeft: number = 0;
+  private destroyedButtonsRight: number = 0;
+  private scrollbarReachedEnd: boolean = false;
 
   // private members used for window resize events
   private isResizeInProgress: boolean = false;
@@ -441,85 +443,85 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     return this._ch5Properties.get<string>("buttonLabelInnerHtml");
   }
 
-  public set receiveStateButtonMode(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonMode", value, () => {
+  public set buttonReceiveStateMode(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateMode", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonMode(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonMode");
+  public get buttonReceiveStateMode(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateMode");
   }
 
-  public set receiveStateButtonSelected(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonSelected", value, () => {
+  public set buttonReceiveStateSelected(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateSelected", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonSelected(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonSelected");
+  public get buttonReceiveStateSelected(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateSelected");
   }
 
-  public set receiveStateButtonLabel(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonLabel", value, () => {
+  public set buttonReceiveStateLabel(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateLabel", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonLabel(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonLabel");
+  public get buttonReceiveStateLabel(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateLabel");
   }
 
-  public set receiveStateButtonScriptLabelHtml(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonScriptLabelHtml", value, () => {
+  public set buttonReceiveStateScriptLabelHtml(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateScriptLabelHtml", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonScriptLabelHtml(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonScriptLabelHtml");
+  public get buttonReceiveStateScriptLabelHtml(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateScriptLabelHtml");
   }
 
-  public set receiveStateButtonIconClass(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonIconClass", value, () => {
+  public set buttonReceiveStateIconClass(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateIconClass", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonIconClass(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonIconClass");
+  public get buttonReceiveStateIconClass(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateIconClass");
   }
 
-  public set receiveStateButtonType(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonType", value, () => {
+  public set buttonReceiveStateType(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateType", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonType(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonType");
+  public get buttonReceiveStateType(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateType");
   }
 
-  public set receiveStateButtonIconUrl(value: string) {
-    this._ch5Properties.set<string>("receiveStateButtonIconUrl", value, () => {
+  public set buttonReceiveStateIconUrl(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateIconUrl", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get receiveStateButtonIconUrl(): string {
-    return this._ch5Properties.get<string>("receiveStateButtonIconUrl");
+  public get buttonReceiveStateIconUrl(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateIconUrl");
   }
 
-  public set sendEventOnButtonClick(value: string) {
-    this._ch5Properties.set<string>("sendEventOnButtonClick", value, () => {
+  public set buttonSendEventOnClick(value: string) {
+    this._ch5Properties.set<string>("buttonSendEventOnClick", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get sendEventOnButtonClick(): string {
-    return this._ch5Properties.get<string>("sendEventOnButtonClick");
+  public get buttonSendEventOnClick(): string {
+    return this._ch5Properties.get<string>("buttonSendEventOnClick");
   }
 
-  public set sendEventOnButtonTouch(value: string) {
-    this._ch5Properties.set<string>("sendEventOnButtonTouch", value, () => {
+  public set buttonSendEventOnTouch(value: string) {
+    this._ch5Properties.set<string>("buttonSendEventOnTouch", value, () => {
       this.debounceButtonDisplay();
     });
   }
-  public get sendEventOnButtonTouch(): string {
-    return this._ch5Properties.get<string>("sendEventOnButtonTouch");
+  public get buttonSendEventOnTouch(): string {
+    return this._ch5Properties.get<string>("buttonSendEventOnTouch");
   }
 
   //#endregion
@@ -690,7 +692,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     // update the scrollbar width and position
     this.initScrollbar();
     const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._elContainer;
-
     // Checking whether endless can be achieved
     const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + 20 < scrollWidth : offsetHeight + 20 < scrollHeight;
     // working of endless for left and top scroll
@@ -954,7 +955,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
   }
 
-  private async buttonHelper(btn: Ch5Button, index: number) {
+  private buttonHelper(btn: Ch5Button, index: number) {
     const individualButtons = this.getElementsByTagName('ch5-button-list-individual-button');
     const individualButtonsLength = individualButtons.length;
     Ch5ButtonList.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
@@ -1006,26 +1007,39 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   private initScrollbar() {
-    if (this.scrollbar === false) { return; }
 
     let scrollbarDimension: number = 0;
     if (this.orientation === "horizontal") {
       const { scrollWidth, offsetWidth, scrollLeft } = this._elContainer;
       scrollbarDimension = Math.floor(offsetWidth / scrollWidth * 100);
+      const scrollbarLeft = Math.ceil(scrollLeft / scrollWidth * 100);
       this._scrollbar.style.width = scrollbarDimension + '%';
-      this._scrollbar.style.left = Math.ceil(scrollLeft / scrollWidth * 100) + '%';
+      this._scrollbar.style.left = scrollbarLeft + '%';
+      if (scrollLeft === 0) {
+        this.scrollbarReachedEnd = false;
+      } else if (scrollbarDimension + scrollbarLeft === 100) {
+        this.scrollbarReachedEnd = true;
+      }
     } else {
       const { scrollHeight, offsetHeight, scrollTop } = this._elContainer;
       scrollbarDimension = Math.floor(offsetHeight / scrollHeight * 100);
+      const scrollbarTop = Math.ceil(scrollTop / scrollHeight * 100);
       this._scrollbar.style.height = scrollbarDimension + '%';
-      this._scrollbar.style.top = Math.ceil(scrollTop / scrollHeight * 100) + '%';
+      this._scrollbar.style.top = scrollbarTop + '%';
+      if (scrollTop === 0) {
+        this.scrollbarReachedEnd = false;
+      } else if (scrollbarDimension + scrollbarTop === 100) {
+        this.scrollbarReachedEnd = true;
+      }
     }
-    if (scrollbarDimension === 100) {
-      this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
-      this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
-    } else {
-      this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
-      this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+    if (this.scrollbar) {
+      if (scrollbarDimension === 100) {
+        this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+        this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
+      } else {
+        this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
+        this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+      }
     }
   }
 
@@ -1057,32 +1071,70 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   private buttonDestroyHelper() {
     if (this.orientation === 'horizontal') {
-      const { scrollLeft } = this._elContainer;
-      if (scrollLeft < 100 && this.destroyedButtons !== 0) {
+      const { scrollLeft, scrollWidth, offsetWidth } = this._elContainer;
+      if (scrollLeft < Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX && this.destroyedButtonsLeft !== 0) {
         for (let i = 0; i < this.rows; i++) {
-          this.createButton(this.destroyedButtons - 1, false);
-          this.destroyedButtons--;
+          this.createButton(this.destroyedButtonsLeft - 1, false);
+          this.destroyedButtonsLeft--;
         }
-        this._elContainer.scrollLeft += 100;
+        this._elContainer.scrollLeft += Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX;
       }
-      if (scrollLeft > 250) {
+      if (scrollLeft > Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX * 2.5 && this.scrollbarReachedEnd === false) {
+        if (scrollLeft + offsetWidth > scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) { return }
         for (let i = 0; i < this.rows; i++) {
-          if (this._elContainer.children[0]) {
-            this._elContainer.children[0]?.remove();
-            this.destroyedButtons++;
-          }
+          this._elContainer.children[0]?.remove();
+          this.destroyedButtonsLeft++;
         }
-        this._elContainer.scrollLeft -= 100;
+        this._elContainer.scrollLeft -= Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX;
+      }
+      if (scrollLeft + offsetWidth < scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX * 2.5 && this.scrollbarReachedEnd) {
+        if (scrollLeft <= Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) { return; }
+        for (let i = 0; i < this.rows; i++) {
+          this._elContainer.lastElementChild?.remove();
+          this.destroyedButtonsRight++;
+        }
+      }
+      if (scrollLeft + offsetWidth > scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX && this.destroyedButtonsRight !== 0) {
+        for (let i = 0; i < this.rows; i++) {
+          this.createButton(this.maxNumberOfItems - this.destroyedButtonsRight, true);
+          this.destroyedButtonsRight--;
+        }
       }
     } else {
-
+      const { scrollTop, scrollHeight, offsetHeight } = this._elContainer;
+      if (scrollTop < Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX && this.destroyedButtonsLeft !== 0) {
+        for (let i = 0; i < this.columns; i++) {
+          this.createButton(this.destroyedButtonsLeft - 1, false);
+          this.destroyedButtonsLeft--;
+        }
+        this._elContainer.scrollTop += Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX;
+      }
+      if (scrollTop > Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX * 3 && this.scrollbarReachedEnd === false) {
+        if (scrollTop + offsetHeight > scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) { return }
+        for (let i = 0; i < this.columns; i++) {
+          this._elContainer.children[0]?.remove();
+          this.destroyedButtonsLeft++;
+        }
+        this._elContainer.scrollTop -= Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX;
+      }
+      if (scrollTop + offsetHeight < scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX * 3 && this.scrollbarReachedEnd) {
+        if (scrollTop <= Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) { return; }
+        for (let i = 0; i < this.columns; i++) {
+          this._elContainer.lastElementChild?.remove();
+          this.destroyedButtonsRight++;
+        }
+      }
+      if (scrollTop + offsetHeight > scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX && this.destroyedButtonsRight !== 0) {
+        for (let i = 0; i < this.columns; i++) {
+          this.createButton(this.maxNumberOfItems - this.destroyedButtonsRight, true);
+          this.destroyedButtonsRight--;
+        }
+      }
     }
-
   }
 
   private resizeHandler() {
     this.initScrollbar();
-    console.log("resize", this._elContainer.getBoundingClientRect().width);
   }
 
   private checkButtonDisplay() {

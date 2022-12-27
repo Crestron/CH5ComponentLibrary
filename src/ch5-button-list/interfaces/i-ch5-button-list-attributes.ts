@@ -166,75 +166,75 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   /**
    * @documentation
    * [
-   * "`receiveStateButtonMode` attribute",
+   * "`buttonReceiveStateMode` attribute",
    * "***",
    * "When received, applies a value to the mode attribute from the signal."
    * ]
-   * @name receivestatebuttonmode
+   * @name buttonreceivestatemode
    * @default 
    * @attributeType "String"
    */
-  receiveStateButtonMode: string;
+  buttonReceiveStateMode: string;
   /**
    * @documentation
    * [
-   * "`receiveStateButtonSelected` attribute",
+   * "`buttonReceiveStateSelected` attribute",
    * "***",
    * "When received, applies a true value applied by the selected class (ch5-button--selected)."
    * ]
-   * @name receivestatebuttonselected
+   * @name buttonreceivestateselected
    * @default 
    * @attributeType "String"
    */
-  receiveStateButtonSelected: string;
+  buttonReceiveStateSelected: string;
   /**
    * @documentation
    * [
-   * "`receiveStateButtonLabel` attribute",
+   * "`buttonReceiveStateLabel` attribute",
    * "***",
    * "When received, applies the value on the label."
    * ]
-   * @name receivestatebuttonlabel
+   * @name buttonreceivestatelabel
    * @default 
    * @attributeType "String"
    */
-  receiveStateButtonLabel: string;
+  buttonReceiveStateLabel: string;
   /**
    * @documentation
    * [
-   * "`receiveStateButtonScriptLabelHtml` attribute",
+   * "`buttonReceiveStateScriptLabelHtml` attribute",
    * "***",
    * "Allows the signal script evaluation to be applied to the button.inner HTML class.  Allows for multiline, multistyled labels."
    * ]
-   * @name receivestatebuttonscriptlabelhtml
+   * @name buttonreceivestatescriptlabelhtml
    * @default 
    * @attributeType "String"
    */
-  receiveStateButtonScriptLabelHtml: string;
+  buttonReceiveStateScriptLabelHtml: string;
   /**
    * @documentation
    * [
-   * "`receiveStateButtonIconClass` attribute",
+   * "`buttonReceiveStateIconClass` attribute",
    * "***",
    * "The icon class received from the control system."
    * ]
-   * @name receivestatebuttoniconclass
+   * @name buttonreceivestateiconclass
    * @default 
    * @attributeType "String"
    */
-  receiveStateButtonIconClass: string;
+  buttonReceiveStateIconClass: string;
   /**
    * @documentation
    * [
-   * "`receiveStateButtonType` attribute",
+   * "`buttonReceiveStateType` attribute",
    * "***",
    * "After receiving a stateType value from control system, this value is applied to the type attribute. See description of the type attribute."
    * ]
-   * @name receivestatebuttontype
+   * @name buttonreceivestatetype
    * @default 
    * @attributeType "String"
    */
-  receiveStateButtonType: string;
+  buttonReceiveStateType: string;
   /**
    * @documentation
    * [
@@ -242,33 +242,33 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * "***",
    * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute. See description of the iconUrl attribute."
    * ]
-   * @name receivestatebuttoniconurl
+   * @name buttonreceivestateiconurl
    * @default 
    * @attributeType "String"
    */
-  receiveStateButtonIconUrl: string;
+  buttonReceiveStateIconUrl: string;
   /**
    * @documentation
    * [
-   * "`sendEventOnButtonClick` attribute",
+   * "`buttonSendEventOnClick` attribute",
    * "***",
    * "Sends an event on click or tap (mouse or swipe up and down quickly). Use this when the control system takes an action on the rising edge from false to true of a boolean digital event."
    * ]
-   * @name sendeventonbuttonclick
+   * @name buttonsendeventonclick
    * @default 
    * @attributeType "String"
    */
-  sendEventOnButtonClick: string;
+  buttonSendEventOnClick: string;
   /**
    * @documentation
    * [
-   * "`sendEventOnButtonTouch` attribute",
+   * "`buttonSendEventOnTouch` attribute",
    * "***",
    * "Sends a boolean true event when the screen is tapped and a boolean false event when released. Use this when the control system takes an action on a level-sensitive boolean digital event."
    * ]
-   * @name sendeventonbuttontouch
+   * @name buttonsendeventontouch
    * @default 
    * @attributeType "String"
    */
-  sendEventOnButtonTouch: string;
+  buttonSendEventOnTouch: string;
 }
