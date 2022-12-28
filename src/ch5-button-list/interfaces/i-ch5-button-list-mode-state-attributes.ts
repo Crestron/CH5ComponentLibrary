@@ -1,4 +1,4 @@
-import { TCh5ButtonListModeStateState, TCh5ButtonListModeStateType, TCh5ButtonListModeStateHAlignLabel, TCh5ButtonListModeStateVAlignLabel, TCh5ButtonListModeStateCheckboxPosition, TCh5ButtonListModeStateIconPosition, } from './t-ch5-button-list-mode-state';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonModeState } from "./t-ch5-button-list";
 
 /**
  * @ignore
@@ -15,7 +15,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * @default normal
   * @attributeType "EnumeratedValue"
   */
-  state: TCh5ButtonListModeStateState;
+  state: TCh5ButtonListButtonModeState;
   /**
   * @documentation
   * [
@@ -27,7 +27,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * @default default
   * @attributeType "EnumeratedValue"
   */
-  type: TCh5ButtonListModeStateType;
+  type: TCh5ButtonListButtonType;
   /**
   * @documentation
   * [
@@ -39,7 +39,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * @default center
   * @attributeType "EnumeratedValue"
   */
-  hAlignLabel: TCh5ButtonListModeStateHAlignLabel;
+  hAlignLabel: TCh5ButtonListButtonHAlignLabel;
   /**
   * @documentation
   * [
@@ -51,7 +51,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * @default middle
   * @attributeType "EnumeratedValue"
   */
-  vAlignLabel: TCh5ButtonListModeStateVAlignLabel;
+  vAlignLabel: TCh5ButtonListButtonVAlignLabel;
   /**
   * @documentation
   * [
@@ -63,7 +63,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * @default left
   * @attributeType "EnumeratedValue"
   */
-  checkboxPosition: TCh5ButtonListModeStateCheckboxPosition;
+  checkboxPosition: TCh5ButtonListButtonCheckboxPosition;
   /**
   * @documentation
   * [
@@ -75,7 +75,7 @@ export interface ICh5ButtonListModeStateAttributes {
   * @default first
   * @attributeType "EnumeratedValue"
   */
-  iconPosition: TCh5ButtonListModeStateIconPosition;
+  iconPosition: TCh5ButtonListButtonIconPosition;
   /**
   * @documentation
   * [
