@@ -1,60 +1,66 @@
 import _ from "lodash";
 import { Ch5Log } from "../ch5-common/ch5-log";
-import { Ch5ButtonList } from "./ch5-button-list";
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { ICh5ButtonListModeAttributes } from './interfaces/i-ch5-button-list-mode-attributes';
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition } from "./interfaces/t-ch5-button-list";
+import { Ch5ButtonList } from "./ch5-button-list";
 
 export class Ch5ButtonListMode extends Ch5Log implements ICh5ButtonListModeAttributes {
 
   //#region Variables
 
+  public static readonly BUTTON_TYPES: TCh5ButtonListButtonType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
+  public static readonly BUTTON_HALIGN_LABEL_POSITIONS: TCh5ButtonListButtonHAlignLabel[] = ['center', 'left', 'right'];
+  public static readonly BUTTON_VALIGN_LABEL_POSITIONS: TCh5ButtonListButtonVAlignLabel[] = ['middle', 'top', 'bottom'];
+  public static readonly BUTTON_CHECKBOX_POSITIONS: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
+  public static readonly BUTTON_ICON_POSITIONS: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
+
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
-      default: Ch5ButtonList.BUTTON_TYPES[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_TYPES,
-      name: "type",
-      removeAttributeOnNull: true,
-      type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_TYPES[0],
-      isObservableProperty: true,
-    },
-    {
-      default: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS,
+      default: Ch5ButtonListMode.BUTTON_HALIGN_LABEL_POSITIONS[0],
+      enumeratedValues: Ch5ButtonListMode.BUTTON_HALIGN_LABEL_POSITIONS,
       name: "hAlignLabel",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
+      valueOnAttributeEmpty: Ch5ButtonListMode.BUTTON_HALIGN_LABEL_POSITIONS[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS,
+      default: Ch5ButtonListMode.BUTTON_TYPES[0],
+      enumeratedValues: Ch5ButtonListMode.BUTTON_TYPES,
+      name: "type",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: Ch5ButtonListMode.BUTTON_TYPES[0],
+      isObservableProperty: true,
+    },
+    {
+      default: Ch5ButtonListMode.BUTTON_VALIGN_LABEL_POSITIONS[0],
+      enumeratedValues: Ch5ButtonListMode.BUTTON_VALIGN_LABEL_POSITIONS,
       name: "vAlignLabel",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
+      valueOnAttributeEmpty: Ch5ButtonListMode.BUTTON_VALIGN_LABEL_POSITIONS[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS,
+      default: Ch5ButtonListMode.BUTTON_CHECKBOX_POSITIONS[0],
+      enumeratedValues: Ch5ButtonListMode.BUTTON_CHECKBOX_POSITIONS,
       name: "checkboxPosition",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
+      valueOnAttributeEmpty: Ch5ButtonListMode.BUTTON_CHECKBOX_POSITIONS[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_ICON_POSITIONS,
+      default: Ch5ButtonListMode.BUTTON_ICON_POSITIONS[0],
+      enumeratedValues: Ch5ButtonListMode.BUTTON_ICON_POSITIONS,
       name: "iconPosition",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
+      valueOnAttributeEmpty: Ch5ButtonListMode.BUTTON_ICON_POSITIONS[0],
       isObservableProperty: true,
     },
     {

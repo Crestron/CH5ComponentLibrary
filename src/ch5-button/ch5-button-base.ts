@@ -1776,6 +1776,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 		this.logger.stop();
 	}
 
+	public addContainerClass(input: string) {
+		if (!this._elContainer.classList.contains(input)) {
+			this._elContainer.classList.add(input);
+		}
+	}
+
+	public removeContainerClass(input: string) {
+		if (this._elContainer.classList.contains(input)) {
+			this._elContainer.classList.remove(input);
+		}
+	}
+
 	// adding ellipsis in iOS device with vertical button
 	protected createIosEllipsis() {
 		if (isSafariMobile()) {

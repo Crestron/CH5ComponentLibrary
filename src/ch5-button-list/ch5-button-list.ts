@@ -874,6 +874,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.buttonModeHelper(btn, index);
     this.buttonLabelHelper(btn, index);
     this.buttonHelper(btn, index);
+    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType); // TODO - Shakti
+    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonShape); // TODO - Shakti
   }
 
   private buttonModeHelper(btn: Ch5Button, index: number) {
