@@ -11,4 +11,5 @@ export type TCh5ButtonListButtonVAlignLabel = 'middle' | 'top' | 'bottom';
 export type TCh5ButtonListButtonCheckboxPosition = 'left' | 'right';
 export type TCh5ButtonListButtonIconPosition = 'first' | 'last' | 'top' | 'bottom';
 export type TCh5ButtonListButtonShape = 'rounded-rectangle' | 'rectangle';
+export type TCh5ButtonListButtonModeState = 'normal' | 'pressed' | 'selected';
 

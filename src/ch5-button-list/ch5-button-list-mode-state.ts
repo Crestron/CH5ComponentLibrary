@@ -5,73 +5,68 @@ import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { Ch5ButtonListMode } from "./ch5-button-list-mode";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { TCh5ButtonListModeStateState, TCh5ButtonListModeStateType, TCh5ButtonListModeStateHAlignLabel, TCh5ButtonListModeStateVAlignLabel, TCh5ButtonListModeStateCheckboxPosition, TCh5ButtonListModeStateIconPosition, } from './interfaces/t-ch5-button-list-mode-state';
 import { ICh5ButtonListModeStateAttributes } from './interfaces/i-ch5-button-list-mode-state-attributes';
+import { TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonModeState, TCh5ButtonListButtonType, TCh5ButtonListButtonVAlignLabel } from "./interfaces/t-ch5-button-list";
 
 export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListModeStateAttributes {
 
   //#region Variables
 
-  public static readonly STATE: TCh5ButtonListModeStateState[] = ['normal', 'pressed', 'selected'];
-  public static readonly TYPE: TCh5ButtonListModeStateType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
-  public static readonly H_ALIGN_LABEL: TCh5ButtonListModeStateHAlignLabel[] = ['center', 'left', 'right'];
-  public static readonly V_ALIGN_LABEL: TCh5ButtonListModeStateVAlignLabel[] = ['middle', 'top', 'bottom'];
-  public static readonly CHECKBOX_POSITION: TCh5ButtonListModeStateCheckboxPosition[] = ['left', 'right'];
-  public static readonly ICON_POSITION: TCh5ButtonListModeStateIconPosition[] = ['first', 'last', 'top', 'bottom'];
+  public static readonly STATES: TCh5ButtonListButtonModeState[] = ['normal', 'pressed', 'selected'];
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
-      default: Ch5ButtonListModeState.STATE[0],
-      enumeratedValues: Ch5ButtonListModeState.STATE,
+      default: Ch5ButtonListModeState.STATES[0],
+      enumeratedValues: Ch5ButtonListModeState.STATES,
       name: "state",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonListModeState.STATE[0],
+      valueOnAttributeEmpty: Ch5ButtonListModeState.STATES[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5ButtonListModeState.TYPE[0],
-      enumeratedValues: Ch5ButtonListModeState.TYPE,
+      default: Ch5ButtonList.BUTTON_TYPES[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_TYPES,
       name: "type",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonListModeState.TYPE[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_TYPES[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5ButtonListModeState.H_ALIGN_LABEL[0],
-      enumeratedValues: Ch5ButtonListModeState.H_ALIGN_LABEL,
+      default: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS,
       name: "hAlignLabel",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonListModeState.H_ALIGN_LABEL[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5ButtonListModeState.V_ALIGN_LABEL[0],
-      enumeratedValues: Ch5ButtonListModeState.V_ALIGN_LABEL,
+      default: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS,
       name: "vAlignLabel",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonListModeState.V_ALIGN_LABEL[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5ButtonListModeState.CHECKBOX_POSITION[0],
-      enumeratedValues: Ch5ButtonListModeState.CHECKBOX_POSITION,
+      default: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS,
       name: "checkboxPosition",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonListModeState.CHECKBOX_POSITION[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
       isObservableProperty: true,
     },
     {
-      default: Ch5ButtonListModeState.ICON_POSITION[0],
-      enumeratedValues: Ch5ButtonListModeState.ICON_POSITION,
+      default: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_ICON_POSITIONS,
       name: "iconPosition",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonListModeState.ICON_POSITION[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
       isObservableProperty: true,
     },
     {
@@ -125,70 +120,70 @@ export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListMode
 
   //#region Getters and Setters
 
-  public set state(value: TCh5ButtonListModeStateState) {
-    this._ch5Properties.set<TCh5ButtonListModeStateState>("state", value, () => {
+  public set state(value: TCh5ButtonListButtonModeState) {
+    this._ch5Properties.set<TCh5ButtonListButtonModeState>("state", value, () => {
       if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
         this._parentCh5ButtonList.debounceButtonDisplay();
       }
     });
   }
-  public get state(): TCh5ButtonListModeStateState {
-    return this._ch5Properties.get<TCh5ButtonListModeStateState>("state");
+  public get state(): TCh5ButtonListButtonModeState {
+    return this._ch5Properties.get<TCh5ButtonListButtonModeState>("state");
   }
 
-  public set type(value: TCh5ButtonListModeStateType) {
-    this._ch5Properties.set<TCh5ButtonListModeStateType>("type", value, () => {
+  public set type(value: TCh5ButtonListButtonType) {
+    this._ch5Properties.set<TCh5ButtonListButtonType>("type", value, () => {
       if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
         this._parentCh5ButtonList.debounceButtonDisplay();
       }
     });
   }
-  public get type(): TCh5ButtonListModeStateType {
-    return this._ch5Properties.get<TCh5ButtonListModeStateType>("type");
+  public get type(): TCh5ButtonListButtonType {
+    return this._ch5Properties.get<TCh5ButtonListButtonType>("type");
   }
 
-  public set hAlignLabel(value: TCh5ButtonListModeStateHAlignLabel) {
-    this._ch5Properties.set<TCh5ButtonListModeStateHAlignLabel>("hAlignLabel", value, () => {
+  public set hAlignLabel(value: TCh5ButtonListButtonHAlignLabel) {
+    this._ch5Properties.set<TCh5ButtonListButtonHAlignLabel>("hAlignLabel", value, () => {
       if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
         this._parentCh5ButtonList.debounceButtonDisplay();
       }
     });
   }
-  public get hAlignLabel(): TCh5ButtonListModeStateHAlignLabel {
-    return this._ch5Properties.get<TCh5ButtonListModeStateHAlignLabel>("hAlignLabel");
+  public get hAlignLabel(): TCh5ButtonListButtonHAlignLabel {
+    return this._ch5Properties.get<TCh5ButtonListButtonHAlignLabel>("hAlignLabel");
   }
 
-  public set vAlignLabel(value: TCh5ButtonListModeStateVAlignLabel) {
-    this._ch5Properties.set<TCh5ButtonListModeStateVAlignLabel>("vAlignLabel", value, () => {
+  public set vAlignLabel(value: TCh5ButtonListButtonVAlignLabel) {
+    this._ch5Properties.set<TCh5ButtonListButtonVAlignLabel>("vAlignLabel", value, () => {
       if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
         this._parentCh5ButtonList.debounceButtonDisplay();
       }
     });
   }
-  public get vAlignLabel(): TCh5ButtonListModeStateVAlignLabel {
-    return this._ch5Properties.get<TCh5ButtonListModeStateVAlignLabel>("vAlignLabel");
+  public get vAlignLabel(): TCh5ButtonListButtonVAlignLabel {
+    return this._ch5Properties.get<TCh5ButtonListButtonVAlignLabel>("vAlignLabel");
   }
 
-  public set checkboxPosition(value: TCh5ButtonListModeStateCheckboxPosition) {
-    this._ch5Properties.set<TCh5ButtonListModeStateCheckboxPosition>("checkboxPosition", value, () => {
+  public set checkboxPosition(value: TCh5ButtonListButtonCheckboxPosition) {
+    this._ch5Properties.set<TCh5ButtonListButtonCheckboxPosition>("checkboxPosition", value, () => {
       if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
         this._parentCh5ButtonList.debounceButtonDisplay();
       }
     });
   }
-  public get checkboxPosition(): TCh5ButtonListModeStateCheckboxPosition {
-    return this._ch5Properties.get<TCh5ButtonListModeStateCheckboxPosition>("checkboxPosition");
+  public get checkboxPosition(): TCh5ButtonListButtonCheckboxPosition {
+    return this._ch5Properties.get<TCh5ButtonListButtonCheckboxPosition>("checkboxPosition");
   }
 
-  public set iconPosition(value: TCh5ButtonListModeStateIconPosition) {
-    this._ch5Properties.set<TCh5ButtonListModeStateIconPosition>("iconPosition", value, () => {
+  public set iconPosition(value: TCh5ButtonListButtonIconPosition) {
+    this._ch5Properties.set<TCh5ButtonListButtonIconPosition>("iconPosition", value, () => {
       if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
         this._parentCh5ButtonList.debounceButtonDisplay();
       }
     });
   }
-  public get iconPosition(): TCh5ButtonListModeStateIconPosition {
-    return this._ch5Properties.get<TCh5ButtonListModeStateIconPosition>("iconPosition");
+  public get iconPosition(): TCh5ButtonListButtonIconPosition {
+    return this._ch5Properties.get<TCh5ButtonListButtonIconPosition>("iconPosition");
   }
 
   public set iconClass(value: string) {
@@ -350,6 +345,7 @@ export class Ch5ButtonListModeState extends Ch5Log implements ICh5ButtonListMode
     }
     return getTheMatchingParent(this.parentElement as Node);
   }
+  
   //#endregion
 
 }

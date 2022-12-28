@@ -12,6 +12,7 @@ import { Ch5ButtonListMode } from "../ch5-button-list/ch5-button-list-mode";
 import { Ch5ButtonListModeState } from "../ch5-button-list/ch5-button-list-mode-state";
 import { Ch5ButtonModeState } from "../ch5-button/ch5-button-mode-state";
 import { resizeObserver } from "../ch5-core/resize-observer";
+
 export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
 
   //#region Variables
@@ -28,12 +29,13 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   public static readonly DEFAULT_BUTTON_HEIGHT_PX: number = 58;
 
   // Enum types
-  public static readonly BUTTON_TYPE: TCh5ButtonListButtonType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
-  public static readonly BUTTON_HALIGN_LABEL: TCh5ButtonListButtonHAlignLabel[] = ['center', 'left', 'right'];
-  public static readonly BUTTON_VALIGN_LABEL: TCh5ButtonListButtonVAlignLabel[] = ['middle', 'top', 'bottom'];
-  public static readonly BUTTON_CHECKBOX_POSITION: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
-  public static readonly BUTTON_ICON_POSITION: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
-  public static readonly BUTTON_SHAPE: TCh5ButtonListButtonShape[] = ['rounded-rectangle', 'rectangle'];
+  public static readonly BUTTON_TYPES: TCh5ButtonListButtonType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
+  public static readonly BUTTON_HALIGN_LABEL_POSITIONS: TCh5ButtonListButtonHAlignLabel[] = ['center', 'left', 'right'];
+  public static readonly BUTTON_VALIGN_LABEL_POSITIONS: TCh5ButtonListButtonVAlignLabel[] = ['middle', 'top', 'bottom'];
+  public static readonly BUTTON_CHECKBOX_POSITIONS: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
+  public static readonly BUTTON_ICON_POSITIONS: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
+  public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rounded-rectangle', 'rectangle'];
+
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
       default: Ch5ButtonList.ORIENTATION[0],
@@ -50,43 +52,43 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       classListPrefix: 'ch5-button-list--stretch-'
     },
     BUTTON_TYPE: {
-      default: Ch5ButtonList.BUTTON_TYPE[0],
-      values: Ch5ButtonList.BUTTON_TYPE,
+      default: Ch5ButtonList.BUTTON_TYPES[0],
+      values: Ch5ButtonList.BUTTON_TYPES,
       key: 'buttonType',
       attribute: 'buttonType',
       classListPrefix: 'ch5-button-list--button-type-'
     },
     BUTTON_HALIGN_LABEL: {
-      default: Ch5ButtonList.BUTTON_HALIGN_LABEL[0],
-      values: Ch5ButtonList.BUTTON_HALIGN_LABEL,
+      default: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
+      values: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS,
       key: 'buttonHAlignLabel',
       attribute: 'buttonHAlignLabel',
       classListPrefix: 'ch5-button-list--button-halign-label-'
     },
     BUTTON_VALIGN_LABEL: {
-      default: Ch5ButtonList.BUTTON_VALIGN_LABEL[0],
-      values: Ch5ButtonList.BUTTON_VALIGN_LABEL,
+      default: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
+      values: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS,
       key: 'buttonVAlignLabel',
       attribute: 'buttonVAlignLabel',
       classListPrefix: 'ch5-button-list--button-valign-label-'
     },
     BUTTON_CHECKBOX_POSITION: {
-      default: Ch5ButtonList.BUTTON_CHECKBOX_POSITION[0],
-      values: Ch5ButtonList.BUTTON_CHECKBOX_POSITION,
+      default: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
+      values: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS,
       key: 'buttonCheckboxPosition',
       attribute: 'buttonCheckboxPosition',
       classListPrefix: 'ch5-button-list--button-checkbox-position-'
     },
     BUTTON_ICON_POSITION: {
-      default: Ch5ButtonList.BUTTON_ICON_POSITION[0],
-      values: Ch5ButtonList.BUTTON_ICON_POSITION,
+      default: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
+      values: Ch5ButtonList.BUTTON_ICON_POSITIONS,
       key: 'buttonIconPosition',
       attribute: 'buttonIconPosition',
       classListPrefix: 'ch5-button-list--button-icon-position-'
     },
     BUTTON_SHAPE: {
-      default: Ch5ButtonList.BUTTON_SHAPE[0],
-      values: Ch5ButtonList.BUTTON_SHAPE,
+      default: Ch5ButtonList.BUTTON_SHAPES[0],
+      values: Ch5ButtonList.BUTTON_SHAPES,
       key: 'buttonShape',
       attribute: 'buttonShape',
       classListPrefix: 'ch5-button-list--button-shape-'
@@ -98,57 +100,57 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
-      default: Ch5ButtonList.BUTTON_TYPE[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_TYPE,
+      default: Ch5ButtonList.BUTTON_TYPES[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_TYPES,
       name: "buttonType",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_TYPE[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_TYPES[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_HALIGN_LABEL[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_HALIGN_LABEL,
+      default: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS,
       name: "buttonHAlignLabel",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_HALIGN_LABEL[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_VALIGN_LABEL[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_VALIGN_LABEL,
+      default: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS,
       name: "buttonVAlignLabel",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_VALIGN_LABEL[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_CHECKBOX_POSITION[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_CHECKBOX_POSITION,
+      default: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS,
       name: "buttonCheckboxPosition",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_CHECKBOX_POSITION[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_ICON_POSITION[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_ICON_POSITION,
+      default: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_ICON_POSITIONS,
       name: "buttonIconPosition",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_ICON_POSITION[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_SHAPE[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_SHAPE,
+      default: Ch5ButtonList.BUTTON_SHAPES[0],
+      enumeratedValues: Ch5ButtonList.BUTTON_SHAPES,
       name: "buttonShape",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_SHAPE[0],
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_SHAPES[0],
       isObservableProperty: true
     },
     {
@@ -832,7 +834,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   public handleEndless() {
-    // This behaviour is handled in scroll event
+    // This behavior is handled in scroll event
   }
 
   public buttonDisplay() {
@@ -961,12 +963,12 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     const individualButtonsLength = individualButtons.length;
     Ch5ButtonList.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
       if (index < individualButtonsLength) {
-        if (attr.name === 'buttonLabelInnerHtml') {
+        if (attr.name.toLowerCase() === 'buttonlabelinnerhtml') {
           const attrValue = individualButtons[index].getAttribute('buttonlabelinnerhtml');
           if (attrValue) {
             btn.setAttribute('labelinnerhtml', attrValue);
           }
-        } else if (attr.name === 'buttonIconClass') {
+        } else if (attr.name.toLowerCase() === 'buttoniconclass') {
           const attrValue = individualButtons[index].getAttribute('iconclass');
           if (attrValue) {
             btn.setAttribute('iconclass', attrValue);
@@ -1000,9 +1002,9 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
             }
           }
         } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-          const attrValue = this.getAttribute(attr.name)?.trim();
+          const attrValue = this.getAttribute(attr.name);
           if (attrValue) {
-            btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue);
+            btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
           }
         }
       }
@@ -1017,12 +1019,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._elContainer.classList.add(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rows);
     // Sets default scroll bar class
     this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
-
     this.logger.stop();
   }
 
   private initScrollbar() {
-
     let scrollbarDimension: number = 0;
     if (this.orientation === "horizontal") {
       const { scrollWidth, offsetWidth, scrollLeft } = this._elContainer;

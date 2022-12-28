@@ -1,4 +1,4 @@
-import { TCh5ButtonListModeType, TCh5ButtonListModeHAlignLabel, TCh5ButtonListModeVAlignLabel, TCh5ButtonListModeCheckboxPosition, TCh5ButtonListModeIconPosition, } from './t-ch5-button-list-mode';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition } from "./t-ch5-button-list";
 
 /**
  * @ignore
@@ -15,7 +15,7 @@ export interface ICh5ButtonListModeAttributes {
   * @default default
   * @attributeType "EnumeratedValue"
   */
-  type: TCh5ButtonListModeType;
+  type: TCh5ButtonListButtonType;
   /**
   * @documentation
   * [
@@ -27,7 +27,7 @@ export interface ICh5ButtonListModeAttributes {
   * @default center
   * @attributeType "EnumeratedValue"
   */
-  hAlignLabel: TCh5ButtonListModeHAlignLabel;
+  hAlignLabel: TCh5ButtonListButtonHAlignLabel;
   /**
   * @documentation
   * [
@@ -39,7 +39,7 @@ export interface ICh5ButtonListModeAttributes {
   * @default middle
   * @attributeType "EnumeratedValue"
   */
-  vAlignLabel: TCh5ButtonListModeVAlignLabel;
+  vAlignLabel: TCh5ButtonListButtonVAlignLabel;
   /**
   * @documentation
   * [
@@ -51,7 +51,7 @@ export interface ICh5ButtonListModeAttributes {
   * @default left
   * @attributeType "EnumeratedValue"
   */
-  checkboxPosition: TCh5ButtonListModeCheckboxPosition;
+  checkboxPosition: TCh5ButtonListButtonCheckboxPosition;
   /**
   * @documentation
   * [
@@ -63,7 +63,7 @@ export interface ICh5ButtonListModeAttributes {
   * @default first
   * @attributeType "EnumeratedValue"
   */
-  iconPosition: TCh5ButtonListModeIconPosition;
+  iconPosition: TCh5ButtonListButtonIconPosition;
   /**
   * @documentation
   * [
