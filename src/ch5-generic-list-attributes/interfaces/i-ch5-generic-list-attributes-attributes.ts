@@ -67,16 +67,16 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   /**
   * @documentation
   * [
-  * "`maxNumberOfItems` attribute",
+  * "`numberOfItems` attribute",
   * "***",
-  * "MaxNumberOfItems the ability to designate the largest number of items they wish the list to include"
+  * "numberOfItems the ability to designate the largest number of items they wish the list to include"
   * ]
-  * @name maxnumberofitems
+  * @name numberofitems
   * @default 10
   * limits [{"min": 1, "max": 500}]
   * @attributeType "Integer"
   */
-  maxNumberOfItems: number;
+  numberOfItems: number;
   /**
    * @documentation
    * [
@@ -120,14 +120,14 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   /**
    * @documentation
    * [
-   * "`receiveStateMaxNumberOfItems` attribute",
+   * "`receiveStateNumberOfItems` attribute",
    * "***",
-   * "Value received from the receiveStateMaxNumberOfItems Join will be constrained for maxNumberOfItems attribute."
+   * "Value received from the receiveStateNumberOfItems Join will be constrained for numberOfItems attribute."
    * ]
-   * @name receivestatemaxnumberofitems
+   * @name receivestatenumberofitems
    * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
    * @attributeType "Join"
    */
-  receiveStateMaxNumberOfItems: string;
+  receiveStateNumberOfItems: string;
 
 }

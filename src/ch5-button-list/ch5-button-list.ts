@@ -594,7 +594,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.initCommonMutationObserver(this);
     this.setButtonContainerDimension();
     this.debounceButtonDisplay();
-    resizeObserver(this._elContainer, this.resizeHandler.bind(this));
+    resizeObserver(this._elContainer, this.resizeHandler);
     customElements.whenDefined('ch5-button-list').then(() => {
       this.componentLoadedEvent(Ch5ButtonList.ELEMENT_NAME, this.id);
     });
@@ -637,22 +637,22 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   protected attachEventListeners() {
     super.attachEventListeners();
-    this._elContainer.addEventListener('mousedown', this.handleMouseDown.bind(this));
-    this._elContainer.addEventListener('mouseleave', this.handleMouseUpAndLeave.bind(this));
-    this._elContainer.addEventListener('mouseup', this.handleMouseUpAndLeave.bind(this));
-    this._elContainer.addEventListener('mousemove', this.handleMouseMove.bind(this));
-    this._elContainer.addEventListener('scroll', this.handleScrollEvent.bind(this));
-    window.addEventListener('resize', this.onWindowResizeHandler.bind(this));
+    this._elContainer.addEventListener('mousedown', this.handleMouseDown);
+    this._elContainer.addEventListener('mouseleave', this.handleMouseUpAndLeave);
+    this._elContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
+    this._elContainer.addEventListener('mousemove', this.handleMouseMove);
+    this._elContainer.addEventListener('scroll', this.handleScrollEvent);
+    window.addEventListener('resize', this.onWindowResizeHandler);
   }
 
   protected removeEventListeners() {
     super.removeEventListeners();
-    this._elContainer.removeEventListener('mouseleave', this.handleMouseUpAndLeave.bind(this));
-    this._elContainer.removeEventListener('mouseup', this.handleMouseUpAndLeave.bind(this));
-    this._elContainer.removeEventListener('mousedown', this.handleMouseDown.bind(this));
-    this._elContainer.removeEventListener('mousemove', this.handleMouseMove.bind(this));
-    this._elContainer.removeEventListener('scroll', this.handleScrollEvent.bind(this));
-    window.removeEventListener('resize', this.onWindowResizeHandler.bind(this));
+    this._elContainer.removeEventListener('mouseleave', this.handleMouseUpAndLeave);
+    this._elContainer.removeEventListener('mouseup', this.handleMouseUpAndLeave);
+    this._elContainer.removeEventListener('mousedown', this.handleMouseDown);
+    this._elContainer.removeEventListener('mousemove', this.handleMouseMove);
+    this._elContainer.removeEventListener('scroll', this.handleScrollEvent);
+    window.removeEventListener('resize', this.onWindowResizeHandler);
   }
 
   protected unsubscribeFromSignals() {
@@ -660,7 +660,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._ch5Properties.unsubscribe();
   }
 
-  private handleMouseDown(e: MouseEvent) {
+  private handleMouseDown = (e: MouseEvent) => {
     this.isDown = true;
     this._elContainer.classList.add('active');
     this.startX = e.pageX - this._elContainer.offsetLeft;
@@ -669,12 +669,12 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.scrollListTop = this._elContainer.scrollTop;
   }
 
-  private handleMouseUpAndLeave() {
+  private handleMouseUpAndLeave = () => {
     this.isDown = false;
     this._elContainer.classList.remove('active');
   }
 
-  private handleMouseMove(e: MouseEvent) {
+  private handleMouseMove = (e: MouseEvent) => {
     if (!this.isDown) return;
     e.preventDefault();
     const x = e.pageX - this._elContainer.offsetLeft;
@@ -685,14 +685,14 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._elContainer.scrollTop = this.scrollListTop - walkY;
   }
 
-  private handleScrollEvent() {
+  private handleScrollEvent = () => {
     // update the scrollbar width and position
     this.initScrollbar();
     const { offsetHeight, offsetWidth, scrollLeft, scrollTop, scrollWidth, scrollHeight } = this._elContainer;
     // Checking whether endless can be achieved
     const endlessScrollable = this.orientation === 'horizontal' ? offsetWidth + 20 < scrollWidth : offsetHeight + 20 < scrollHeight;
     // working of endless for left and top scroll
-    if (this.loadedButtons === this.maxNumberOfItems && this.endless && endlessScrollable) {
+    if (this.loadedButtons === this.numberOfItems && this.endless && endlessScrollable) {
       if (this.orientation === 'horizontal' && scrollLeft < 5) {
         for (let i = 0; i < this.rows; i++) {
           if (this._elContainer.lastElementChild) {
@@ -731,13 +731,13 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
 
     // check whether all the buttons are loaded
-    if (this.loadedButtons !== this.maxNumberOfItems) {
-      for (let i = this.loadedButtons; i < this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER && i < this.maxNumberOfItems; i++) { this.createButton(i); }
-      this.loadedButtons = this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER > this.maxNumberOfItems ? this.maxNumberOfItems : this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER;
+    if (this.loadedButtons !== this.numberOfItems) {
+      for (let i = this.loadedButtons; i < this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER && i < this.numberOfItems; i++) { this.createButton(i); }
+      this.loadedButtons = this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER > this.numberOfItems ? this.numberOfItems : this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER;
     }
 
     // working of endless for right and bottom scroll
-    if (this.loadedButtons === this.maxNumberOfItems && this.endless && endlessScrollable) {
+    if (this.loadedButtons === this.numberOfItems && this.endless && endlessScrollable) {
       if (this.orientation === 'horizontal') {
         for (let i = 0; i < this.rows; i++) {
           if (this._elContainer.firstElementChild) {
@@ -798,7 +798,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       this._elContainer.classList.remove(Ch5ButtonList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
 
       // Calculate New Row class value
-      this.rowClassValue = this.rows < this.maxNumberOfItems ? this.rows : this.maxNumberOfItems;
+      this.rowClassValue = this.rows < this.numberOfItems ? this.rows : this.numberOfItems;
 
       // Add the new class to the container
       this._elContainer.classList.add(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
@@ -809,7 +809,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       this._elContainer.classList.remove(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
 
       // Calculate New Row class value
-      this.columnClassValue = this.columns < this.maxNumberOfItems ? this.columns : this.maxNumberOfItems;
+      this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
       // Add the new class to the container
       this._elContainer.classList.add(Ch5ButtonList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
@@ -824,7 +824,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
   }
 
-  public handleReceiveStateMaxNumberOfItems() {
+  public handleReceiveStateNumberOfItems() {
     this.debounceButtonDisplay();
   }
 
@@ -833,7 +833,9 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   private setButtonContainerDimension() {
-    this.createButton(0);
+    const btnContainer = document.createElement("div");
+    btnContainer.classList.add("ch5-button-list-button-container");
+    this._elContainer.appendChild(btnContainer);
     this.buttonWidth = this._elContainer.children[0].getBoundingClientRect().width;
     this.buttonHeight = this._elContainer.children[0].getBoundingClientRect().height;
   }
@@ -853,11 +855,11 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       if (containerHeight > this.buttonHeight) {
         this.loadedButtons = Math.floor(containerHeight / this.buttonHeight) * this.columns + this.columns * 2;
       } else {
-        this.loadedButtons = this.maxNumberOfItems;
+        this.loadedButtons = this.numberOfItems;
       }
     }
-    this.loadedButtons = this.loadedButtons > this.maxNumberOfItems ? this.maxNumberOfItems : this.loadedButtons;
-    for (let index = 0; index < this.loadedButtons && index < this.maxNumberOfItems; index++) {
+    this.loadedButtons = this.loadedButtons > this.numberOfItems ? this.numberOfItems : this.loadedButtons;
+    for (let index = 0; index < this.loadedButtons && index < this.numberOfItems; index++) {
       this.createButton(index);
     }
     // init the scrollbar after loading the initial buttons 
@@ -1080,7 +1082,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
   }
 
-  private onWindowResizeHandler() {
+  private onWindowResizeHandler = () => {
     if (!this.isResizeInProgress) {
       this.isResizeInProgress = true;
       setTimeout(() => {
@@ -1118,7 +1120,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       }
       if (scrollLeft + offsetWidth > scrollWidth - this.buttonWidth && this.destroyedButtonsRight !== 0) {
         for (let i = 0; i < this.rows; i++) {
-          this.createButton(this.maxNumberOfItems - this.destroyedButtonsRight, true);
+          this.createButton(this.numberOfItems - this.destroyedButtonsRight, true);
           this.destroyedButtonsRight--;
         }
       }
@@ -1148,14 +1150,14 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       }
       if (scrollTop + offsetHeight > scrollHeight - this.buttonHeight && this.destroyedButtonsRight !== 0) {
         for (let i = 0; i < this.columns; i++) {
-          this.createButton(this.maxNumberOfItems - this.destroyedButtonsRight, true);
+          this.createButton(this.numberOfItems - this.destroyedButtonsRight, true);
           this.destroyedButtonsRight--;
         }
       }
     }
   }
 
-  private resizeHandler() {
+  private resizeHandler = () => {
     this.initScrollbar();
   }
 
