@@ -32,7 +32,7 @@ import { ICh5ButtonListModeStateAttributes } from "./i-ch5-button-list-mode-stat
  * [
  *   "`ch5-button-list-mode-state` element",
  *   "***",
- *   "A child element designed to capture mode level attributes for Ch5 Button List component."
+ *   "A child element designed to capture state level attributes for Ch5 Button List Mode component."
  * ]
  * @snippets
  * [

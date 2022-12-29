@@ -842,6 +842,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     Array.from(this._elContainer.children).forEach(container => container.remove());
 
     if (this.orientation === 'horizontal') {
+      this.style.display = 'grid';
       // Find the number of initial buttons which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       this.loadedButtons = Math.floor(containerWidth / Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) * this.rows + this.rows * 2;
@@ -874,8 +875,11 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.buttonModeHelper(btn, index);
     this.buttonLabelHelper(btn, index);
     this.buttonHelper(btn, index);
-    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType); // TODO - Shakti
-    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonShape); // TODO - Shakti
+    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType);
+    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
+    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
+    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
+
   }
 
   private buttonModeHelper(btn: Ch5Button, index: number) {

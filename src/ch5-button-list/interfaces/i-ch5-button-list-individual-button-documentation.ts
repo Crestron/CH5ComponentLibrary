@@ -15,7 +15,7 @@ import { ICh5ButtonListIndividualButtonAttributes } from "./i-ch5-button-list-in
  * [
  *   "`ch5-button-list-individual-button` element",
  *   "***",
- *   "Ch5 Button List Individual Button tag to provide ability to enter individual button labels and individual icons for each button in the list "
+ *   "Ch5 Button List Individual Button tag to provide ability to enter individual button labels and individual icons for each button in the list."
  * ]
  * @snippets
  * [
