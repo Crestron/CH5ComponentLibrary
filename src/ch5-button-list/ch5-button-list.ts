@@ -4,7 +4,7 @@ import { Ch5ButtonLabel } from "../ch5-button/ch5-button-label";
 import { Ch5GenericListAttributes } from "../ch5-generic-list-attributes/ch5-generic-list-attributes";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, } from './interfaces/t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListButtonStretch } from './interfaces/t-ch5-button-list';
 import { ICh5ButtonListAttributes } from './interfaces/i-ch5-button-list-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
@@ -25,8 +25,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   // Button container dimension and Buffer values
   public static readonly BUTTON_CONTAINER_BUFFER: number = 2;
-  public static readonly DEFAULT_BUTTON_WIDTH_PX: number = 100;
-  public static readonly DEFAULT_BUTTON_HEIGHT_PX: number = 58;
 
   // Enum types
   public static readonly BUTTON_TYPES: TCh5ButtonListButtonType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
@@ -35,6 +33,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   public static readonly BUTTON_CHECKBOX_POSITIONS: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
   public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rounded-rectangle', 'rectangle'];
+  public static readonly BUTTON_STRETCH: TCh5ButtonListButtonStretch[] = ['width', 'height', 'both'];
 
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
@@ -92,6 +91,13 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       key: 'buttonShape',
       attribute: 'buttonShape',
       classListPrefix: 'ch5-button-list--button-shape-'
+    },
+    BUTTON_STRETCH: {
+      default: Ch5ButtonList.BUTTON_STRETCH[0],
+      values: Ch5ButtonList.BUTTON_STRETCH,
+      key: 'buttonStretch',
+      attribute: 'buttonStretch',
+      classListPrefix: 'ch5-button-list--button-stretch-'
     },
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
@@ -152,6 +158,16 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       type: "enum",
       valueOnAttributeEmpty: Ch5ButtonList.BUTTON_SHAPES[0],
       isObservableProperty: true
+    },
+    {
+      default: null,
+      enumeratedValues: Ch5ButtonList.BUTTON_STRETCH,
+      name: "buttonStretch",
+      removeAttributeOnNull: true,
+      type: "enum",
+      valueOnAttributeEmpty: null,
+      isObservableProperty: true,
+      isNullable: true,
     },
     {
       default: false,
@@ -259,14 +275,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     },
     {
       default: "",
-      name: "buttonReceiveStateType",
-      removeAttributeOnNull: true,
-      type: "string",
-      valueOnAttributeEmpty: "",
-      isObservableProperty: true
-    },
-    {
-      default: "",
       name: "buttonReceiveStateIconUrl",
       removeAttributeOnNull: true,
       type: "string",
@@ -280,15 +288,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true
-    },
-    {
-      default: "",
-      name: "buttonSendEventOnTouch",
-      removeAttributeOnNull: true,
-      type: "string",
-      valueOnAttributeEmpty: "",
-      isObservableProperty: true
-    },
+    }
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-button-list';
@@ -311,6 +311,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private destroyedButtonsLeft: number = 0;
   private destroyedButtonsRight: number = 0;
   private scrollbarReachedEnd: boolean = false;
+  private buttonWidth: number = 0;
+  private buttonHeight: number = 0;
 
   // private members used for window resize events
   private isResizeInProgress: boolean = false;
@@ -380,6 +382,15 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
   public get buttonShape(): TCh5ButtonListButtonShape {
     return this._ch5Properties.get<TCh5ButtonListButtonShape>("buttonShape");
+  }
+
+  public set buttonStretch(value: TCh5ButtonListButtonStretch | null) {
+    this._ch5Properties.set<TCh5ButtonListButtonStretch | null>("buttonStretch", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonStretch(): TCh5ButtonListButtonStretch | null {
+    return this._ch5Properties.get<TCh5ButtonListButtonStretch | null>("buttonStretch");
   }
 
   public set buttonCheckboxShow(value: boolean) {
@@ -490,15 +501,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     return this._ch5Properties.get<string>("buttonReceiveStateIconClass");
   }
 
-  public set buttonReceiveStateType(value: string) {
-    this._ch5Properties.set<string>("buttonReceiveStateType", value, () => {
-      this.debounceButtonDisplay();
-    });
-  }
-  public get buttonReceiveStateType(): string {
-    return this._ch5Properties.get<string>("buttonReceiveStateType");
-  }
-
   public set buttonReceiveStateIconUrl(value: string) {
     this._ch5Properties.set<string>("buttonReceiveStateIconUrl", value, () => {
       this.debounceButtonDisplay();
@@ -517,14 +519,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     return this._ch5Properties.get<string>("buttonSendEventOnClick");
   }
 
-  public set buttonSendEventOnTouch(value: string) {
-    this._ch5Properties.set<string>("buttonSendEventOnTouch", value, () => {
-      this.debounceButtonDisplay();
-    });
-  }
-  public get buttonSendEventOnTouch(): string {
-    return this._ch5Properties.get<string>("buttonSendEventOnTouch");
-  }
 
   //#endregion
 
@@ -598,6 +592,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.attachEventListeners();
     this.initAttributes();
     this.initCommonMutationObserver(this);
+    this.setButtonContainerDimension();
     this.debounceButtonDisplay();
     resizeObserver(this._elContainer, this.resizeHandler.bind(this));
     customElements.whenDefined('ch5-button-list').then(() => {
@@ -727,10 +722,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     } else {
       this.buttonDestroyHelper();
       if (this.orientation === "horizontal") {
-        if (offsetWidth + scrollLeft < scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) { return; }
+        if (offsetWidth + scrollLeft < scrollWidth - this.buttonWidth) { return; }
         rowColumnValue = this.rows;
       } else {
-        if (offsetHeight + scrollTop < scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) { return; }
+        if (offsetHeight + scrollTop < scrollHeight - this.buttonHeight) { return; }
         rowColumnValue = this.columns;
       }
     }
@@ -837,6 +832,12 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     // This behavior is handled in scroll event
   }
 
+  private setButtonContainerDimension() {
+    this.createButton(0);
+    this.buttonWidth = this._elContainer.children[0].getBoundingClientRect().width;
+    this.buttonHeight = this._elContainer.children[0].getBoundingClientRect().height;
+  }
+
   public buttonDisplay() {
     // Remove all the children containers from the container
     Array.from(this._elContainer.children).forEach(container => container.remove());
@@ -845,12 +846,12 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       this.style.display = 'grid';
       // Find the number of initial buttons which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width;
-      this.loadedButtons = Math.floor(containerWidth / Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) * this.rows + this.rows * 2;
+      this.loadedButtons = Math.floor(containerWidth / this.buttonWidth) * this.rows + this.rows * 2;
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
       // Check whether the container is set with custom height
-      if (containerHeight > Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) {
-        this.loadedButtons = Math.floor(containerHeight / Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) * this.columns + this.columns * 2;
+      if (containerHeight > this.buttonHeight) {
+        this.loadedButtons = Math.floor(containerHeight / this.buttonHeight) * this.columns + this.columns * 2;
       } else {
         this.loadedButtons = this.maxNumberOfItems;
       }
@@ -868,7 +869,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private createButton(index: number, append: boolean = true) {
     const btn = new Ch5Button();
     const btnContainer = document.createElement("div");
-    btnContainer.classList.add("button-container");
+    btnContainer.classList.add("ch5-button-list-button-container");
     btnContainer.appendChild(btn);
     append ? this._elContainer.appendChild(btnContainer) : this._elContainer.prepend(btnContainer);
     // button attributes helper
@@ -964,7 +965,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   private buttonHelper(btn: Ch5Button, index: number) {
-    const buttonSignals = ['buttonReceiveStateMode', 'buttonReceiveStateSelected', 'buttonReceiveStateLabel', 'buttonReceiveStateScriptLabelHtml', 'buttonReceiveStateIconClass', 'buttonReceiveStateType', 'buttonReceiveStateIconUrl', 'buttonSendEventOnClick', 'buttonSendEventOnTouch'];
+    const buttonSignals = ['buttonReceiveStateMode', 'buttonReceiveStateSelected', 'buttonReceiveStateLabel', 'buttonReceiveStateScriptLabelHtml', 'buttonReceiveStateIconClass', 'buttonReceiveStateIconUrl', 'buttonSendEventOnClick'];
     const individualButtons = this.getElementsByTagName('ch5-button-list-individual-button');
     const individualButtonsLength = individualButtons.length;
     Ch5ButtonList.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
@@ -1093,29 +1094,29 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private buttonDestroyHelper() {
     if (this.orientation === 'horizontal') {
       const { scrollLeft, scrollWidth, offsetWidth } = this._elContainer;
-      if (scrollLeft < Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX && this.destroyedButtonsLeft !== 0) {
+      if (scrollLeft < this.buttonWidth && this.destroyedButtonsLeft !== 0) {
         for (let i = 0; i < this.rows; i++) {
           this.createButton(this.destroyedButtonsLeft - 1, false);
           this.destroyedButtonsLeft--;
         }
-        this._elContainer.scrollLeft += Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX;
+        this._elContainer.scrollLeft += this.buttonWidth;
       }
-      if (scrollLeft > Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX * 2.5 && this.scrollbarReachedEnd === false) {
-        if (scrollLeft + offsetWidth > scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) { return }
+      if (scrollLeft > this.buttonWidth * 2.5 && this.scrollbarReachedEnd === false) {
+        if (scrollLeft + offsetWidth > scrollWidth - this.buttonWidth) { return }
         for (let i = 0; i < this.rows; i++) {
           this._elContainer.children[0]?.remove();
           this.destroyedButtonsLeft++;
         }
-        this._elContainer.scrollLeft -= Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX;
+        this._elContainer.scrollLeft -= this.buttonWidth;
       }
-      if (scrollLeft + offsetWidth < scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX * 2.5 && this.scrollbarReachedEnd) {
-        if (scrollLeft <= Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX) { return; }
+      if (scrollLeft + offsetWidth < scrollWidth - this.buttonWidth * 2.5 && this.scrollbarReachedEnd) {
+        if (scrollLeft <= this.buttonWidth) { return; }
         for (let i = 0; i < this.rows; i++) {
           this._elContainer.lastElementChild?.remove();
           this.destroyedButtonsRight++;
         }
       }
-      if (scrollLeft + offsetWidth > scrollWidth - Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX && this.destroyedButtonsRight !== 0) {
+      if (scrollLeft + offsetWidth > scrollWidth - this.buttonWidth && this.destroyedButtonsRight !== 0) {
         for (let i = 0; i < this.rows; i++) {
           this.createButton(this.maxNumberOfItems - this.destroyedButtonsRight, true);
           this.destroyedButtonsRight--;
@@ -1123,29 +1124,29 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       }
     } else {
       const { scrollTop, scrollHeight, offsetHeight } = this._elContainer;
-      if (scrollTop < Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX && this.destroyedButtonsLeft !== 0) {
+      if (scrollTop < this.buttonHeight && this.destroyedButtonsLeft !== 0) {
         for (let i = 0; i < this.columns; i++) {
           this.createButton(this.destroyedButtonsLeft - 1, false);
           this.destroyedButtonsLeft--;
         }
-        this._elContainer.scrollTop += Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX;
+        this._elContainer.scrollTop += this.buttonHeight;
       }
-      if (scrollTop > Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX * 3 && this.scrollbarReachedEnd === false) {
-        if (scrollTop + offsetHeight > scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) { return }
+      if (scrollTop > this.buttonHeight * 3 && this.scrollbarReachedEnd === false) {
+        if (scrollTop + offsetHeight > scrollHeight - this.buttonHeight) { return }
         for (let i = 0; i < this.columns; i++) {
           this._elContainer.children[0]?.remove();
           this.destroyedButtonsLeft++;
         }
-        this._elContainer.scrollTop -= Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX;
+        this._elContainer.scrollTop -= this.buttonHeight;
       }
-      if (scrollTop + offsetHeight < scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX * 3 && this.scrollbarReachedEnd) {
-        if (scrollTop <= Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX) { return; }
+      if (scrollTop + offsetHeight < scrollHeight - this.buttonHeight * 3 && this.scrollbarReachedEnd) {
+        if (scrollTop <= this.buttonHeight) { return; }
         for (let i = 0; i < this.columns; i++) {
           this._elContainer.lastElementChild?.remove();
           this.destroyedButtonsRight++;
         }
       }
-      if (scrollTop + offsetHeight > scrollHeight - Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX && this.destroyedButtonsRight !== 0) {
+      if (scrollTop + offsetHeight > scrollHeight - this.buttonHeight && this.destroyedButtonsRight !== 0) {
         for (let i = 0; i < this.columns; i++) {
           this.createButton(this.maxNumberOfItems - this.destroyedButtonsRight, true);
           this.destroyedButtonsRight--;
@@ -1160,13 +1161,13 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   private checkButtonDisplay() {
     if (this.orientation === 'horizontal') {
-      const widthRequired = Math.ceil(this.loadedButtons / this.rows) * Ch5ButtonList.DEFAULT_BUTTON_WIDTH_PX;
+      const widthRequired = Math.ceil(this.loadedButtons / this.rows) * this.buttonWidth;
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       if (widthRequired < containerWidth) {
         this.style.display = 'inline-grid';
       }
     } else {
-      const heightRequired = Math.ceil(this.loadedButtons / this.columns) * Ch5ButtonList.DEFAULT_BUTTON_HEIGHT_PX;
+      const heightRequired = Math.ceil(this.loadedButtons / this.columns) * this.buttonHeight;
       const containerHeight = this._elContainer.getBoundingClientRect().height;
       if (heightRequired < containerHeight) {
         this.style.display = 'inline-grid';

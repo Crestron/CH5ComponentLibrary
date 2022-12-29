@@ -1,5 +1,5 @@
 import { ICh5GenericListAttributesAttributes } from "../../ch5-generic-list-attributes/interfaces";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, } from './t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListButtonStretch } from './t-ch5-button-list';
 
 /**
  * @ignore
@@ -66,6 +66,17 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * @attributeType "EnumeratedValue"
   */
   buttonIconPosition: TCh5ButtonListButtonIconPosition;
+  /**
+  * @documentation
+  * [
+  * "`buttonStretch` attribute",
+  * "***",
+  * "Valid values: 'width', 'height', 'both'. When the buttonStretch attribute is set to height, the button stretches in height as much as its button-container allows. When the buttonStretch attribute is set to width, the button stretches in width, as much as its button-container allows. When the buttonStretch attribute is set to both, the button stretches in both width and height, as much as its button-container allows."
+  * ]
+  * @name buttonstretch
+  * @attributeType "EnumeratedValue"
+  */
+  buttonStretch: TCh5ButtonListButtonStretch | null;
   /**
   * @documentation
   * [
@@ -226,18 +237,6 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   /**
    * @documentation
    * [
-   * "`buttonReceiveStateType` attribute",
-   * "***",
-   * "After receiving a stateType value from control system, this value is applied to the type attribute."
-   * ]
-   * @name buttonreceivestatetype
-   * @default 
-   * @attributeType "String"
-   */
-  buttonReceiveStateType: string;
-  /**
-   * @documentation
-   * [
    * "`receiveStateButtonIconUrl` attribute",
    * "***",
    * "After receiving stateIconUrl value from control system, this value is applied to the iconUrl attribute."
@@ -259,16 +258,4 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * @attributeType "String"
    */
   buttonSendEventOnClick: string;
-  /**
-   * @documentation
-   * [
-   * "`buttonSendEventOnTouch` attribute",
-   * "***",
-   * "Sends a boolean true event when the screen is tapped and a boolean false event when released. Use this when the control system takes an action on a level-sensitive boolean digital event."
-   * ]
-   * @name buttonsendeventontouch
-   * @default 
-   * @attributeType "String"
-   */
-  buttonSendEventOnTouch: string;
 }
