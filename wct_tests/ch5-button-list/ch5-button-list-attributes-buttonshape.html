@@ -26,7 +26,7 @@
         ch5ButtonList = fixture('ch5-button-list-buttonShape-attributes');
       });
 
-      const valid_shapes = CrComLib.Ch5ButtonList.BUTTON_SHAPE;
+      const valid_shapes = CrComLib.Ch5ButtonList.BUTTON_SHAPES;
       const invalid_shapes = ['', null, 'Circle', 'Square', 'Rectangle'].concat(CrComLib.Ch5Button.SHAPES).filter(data => { return !valid_shapes.includes(data) });
       const default_shape = valid_shapes[0];
 
