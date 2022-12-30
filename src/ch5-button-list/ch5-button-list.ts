@@ -12,6 +12,7 @@ import { Ch5ButtonListMode } from "../ch5-button-list/ch5-button-list-mode";
 import { Ch5ButtonListModeState } from "../ch5-button-list/ch5-button-list-mode-state";
 import { Ch5ButtonModeState } from "../ch5-button/ch5-button-mode-state";
 import { resizeObserver } from "../ch5-core/resize-observer";
+import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
 
 export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
 
@@ -316,6 +317,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   // private members used for window resize events
   private isResizeInProgress: boolean = false;
+  private firstTimeInViewport: boolean = true;
   private readonly RESIZE_DEBOUNCE: number = 500;
 
   // Default Row and Column value
@@ -595,6 +597,14 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.setButtonContainerDimension();
     this.debounceButtonDisplay();
     resizeObserver(this._elContainer, this.resizeHandler);
+    subscribeInViewPortChange(this, () => {
+      if (this.elementIsInViewPort && this.firstTimeInViewport) {
+        this.handleStretch();
+        this.setButtonContainerDimension();
+        this.debounceButtonDisplay();
+        this.firstTimeInViewport = false;
+      }
+    });
     customElements.whenDefined('ch5-button-list').then(() => {
       this.componentLoadedEvent(Ch5ButtonList.ELEMENT_NAME, this.id);
     });
@@ -604,6 +614,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
+    unSubscribeInViewPortChange(this);
     this.unsubscribeFromSignals();
     this.logger.stop();
   }
@@ -838,6 +849,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._elContainer.appendChild(btnContainer);
     this.buttonWidth = this._elContainer.children[0].getBoundingClientRect().width;
     this.buttonHeight = this._elContainer.children[0].getBoundingClientRect().height;
+    this._elContainer.children[0].remove();
   }
 
   public buttonDisplay() {
