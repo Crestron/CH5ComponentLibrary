@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <test-fixture id="ch5-button-list-maxNumberOfItems-attributes">
+  <test-fixture id="ch5-button-list-numberOfItems-attributes">
     <template>
       <ch5-button-list></ch5-button-list>
     </template>
@@ -21,15 +21,15 @@
       let ch5ButtonList;
 
       setup(async () => {
-        ch5ButtonList = fixture('ch5-button-list-maxNumberOfItems-attributes');
+        ch5ButtonList = fixture('ch5-button-list-numberOfItems-attributes');
       });
 
       let testCases = ['a', '', ' ', 'number', '0', '1', '2', '499', '500', '501'];
       let expectedResult = ['10', '10', '10', '10', '1', '1', '2', '499', '500', '500'];
       testCases.forEach((ele, i) => {
-        test('Check Value "maxNumberOfItems"', () => {
-          ch5ButtonList.setAttribute('maxNumberOfItems', ele);
-          expect(ch5ButtonList.getAttribute('maxNumberOfItems')).to.be.equal(expectedResult[i]);
+        test('Check Value "numberOfItems"', () => {
+          ch5ButtonList.setAttribute('numberOfItems', ele);
+          expect(ch5ButtonList.getAttribute('numberOfItems')).to.be.equal(expectedResult[i]);
         });
       });
 
