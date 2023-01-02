@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-numberOfItems-attributes">
+    <template>
+      <ch5-button-list></ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-numberOfItems-attributes-value', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-numberOfItems-attributes');
+      });
+      const inputOutput = [
+        {
+          input: 'a',
+          output: 10
+        },
+        {
+          input: '',
+          output: 10
+        },
+        {
+          input: ' ',
+          output: 10
+        },
+        {
+          input: 'number',
+          output: 10
+        },
+        {
+          input: '0',
+          output: 1
+        },
+        {
+          input: '1',
+          output: 1
+        },
+        {
+          input: '2',
+          output: 2
+        },
+        {
+          input: '499',
+          output: 499
+        },
+        {
+          input: '500',
+          output: 500
+        },
+        {
+          input: '501',
+          output: 500
+        },
+        {
+          input: '-1',
+          output: 1
+        },
+        {
+          input: '-0',
+          output: 1
+        },
+        {
+          input: -1,
+          output: 1
+        },
+        {
+          input: 0,
+          output: 1
+        },
+        {
+          input: 1,
+          output: 1
+        },
+        {
+          input: 2,
+          output: 2
+        },
+        {
+          input: 499,
+          output: 499
+        },
+        {
+          input: 500,
+          output: 500
+        },
+        {
+          input: 501,
+          output: 500
+        },
+        {
+          input: 600,
+          output: 500
+        },
+        {
+          input: -20,
+          output: 1
+        },
+        {
+          input: -30,
+          output: 1
+        },
+        {
+          input: -0,
+          output: 1
+        }
+      ];
+      inputOutput.forEach((ele, i) => {
+        test('Check Value "numberOfItems" for input ' +  ele.input, () => {
+          ch5ButtonList.setAttribute('numberOfItems', ele.input);
+          expect(ch5ButtonList.getAttribute('numberOfItems')).to.be.equal(String(inputOutput[i].output));
+          expect(ch5ButtonList.numberOfItems).to.be.equal(inputOutput[i].output);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

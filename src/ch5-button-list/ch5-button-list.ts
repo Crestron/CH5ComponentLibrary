@@ -521,7 +521,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     return this._ch5Properties.get<string>("buttonSendEventOnClick");
   }
 
-
   //#endregion
 
   //#region Static Methods
@@ -894,7 +893,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
     btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
     btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
-
   }
 
   private buttonModeHelper(btn: Ch5Button, index: number) {

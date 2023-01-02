@@ -39,18 +39,19 @@
 
       const valid_types = CrComLib.Ch5ButtonList.BUTTON_TYPES;
       const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', null].concat(CrComLib.Ch5Button.TYPES).filter(data => { return !valid_types.includes(data) });
-      const default_types = valid_types[0];
+      const default_type = valid_types[0];
 
-      valid_types.forEach((type, i) => {
-        test(`Check attribute type: "${type}"`, (done) => {
-          ch5ButtonList.setAttribute('buttonType', type);
+      valid_types.forEach((typeName, i) => {
+        test(`Check attribute type: "${typeName}"`, (done) => {
+          ch5ButtonList.setAttribute('buttonType', typeName);
           flush(() => {
             setTimeout(() => {
-              expect(ch5ButtonList.buttonType).to.be.equal(type);
+              expect(ch5ButtonList.buttonType).to.be.equal(typeName);
               const allButtons = getAllButtons(ch5ButtonList);
               for (let i = 0; i < allButtons.length; i++) {
-                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + type)).to.be.equal(true);
-                expect(ch5ButtonList.getAttribute('buttonType')).to.be.equal(type);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button-list--button-type-" + typeName)).to.be.equal(true);
+                expect(ch5ButtonList.getAttribute('buttonType')).to.be.equal(typeName);
               }
               done();
             }, COMPONENT_TESTING_TIMEOUT);
@@ -61,7 +62,7 @@
       test(`Check ch5-button-list > div css class name for attribute buttonType "default" by not adding the buttonType attribute in HTML or through javascript to the button-list`, (done) => {
         flush(() => {
           setTimeout(() => {
-            expect(ch5ButtonList.buttonType).to.be.equal(default_types);
+            expect(ch5ButtonList.buttonType).to.be.equal(default_type);
             done();
           }, COMPONENT_TESTING_TIMEOUT);
         });
@@ -74,7 +75,8 @@
             setTimeout(() => {
               const allButtons = getAllButtons(ch5ButtonList);
               for (let i = 0; i < allButtons.length; i++) {
-                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + default_types)).to.be.equal(true);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + default_type)).to.be.equal(true);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button-list--button-type-" + default_type)).to.be.equal(true);
               }
               done();
             }, COMPONENT_TESTING_TIMEOUT);

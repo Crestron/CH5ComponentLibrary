@@ -15,7 +15,7 @@
 <body>
   <test-fixture id="ch5-button-list-buttonShape-attributes">
     <template>
-      <ch5-button-list maxNumberOfItems="5"></ch5-button-list>
+      <ch5-button-list numberOfItems="5"></ch5-button-list>
     </template>
   </test-fixture>
   <script>
@@ -39,6 +39,7 @@
               const allButtons = getAllButtons(ch5ButtonList);
               for (let i = 0; i < allButtons.length; i++) {
                 expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + shapeName)).to.be.equal(true);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button-list--button-shape-" + shapeName)).to.be.equal(true);
                 expect(ch5ButtonList.getAttribute('buttonShape')).to.be.equal(shapeName);
               }
               done();
@@ -69,6 +70,7 @@
               const allButtons = getAllButtons(ch5ButtonList);
               for (let i = 0; i < allButtons.length; i++) {
                 expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + default_shape)).to.be.equal(true);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button-list--button-shape-" + default_shape)).to.be.equal(true);
                 expect(ch5ButtonList.getAttribute('buttonShape')).to.be.equal(default_shape);
               }
               done();
