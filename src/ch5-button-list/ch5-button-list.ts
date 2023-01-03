@@ -903,7 +903,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
   }
 
-  private buttonModeHelper(btn: Ch5Button, index: number) {
+  private buttonModeHelper(btn: Ch5Button, i: number) {
     const buttonListModes = this.getElementsByTagName('ch5-button-list-mode');
     if (buttonListModes && buttonListModes.length > 0) {
       Array.from(buttonListModes).forEach((buttonListMode, index) => {
@@ -935,7 +935,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
                         if (buttonModeStateLabelTemplate && buttonModeStateLabelTemplate.length > 0) {
                           const ch5ButtonLabel = new Ch5ButtonLabel();
                           const template = document.createElement('template');
-                          template.innerHTML = buttonModeStateLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, index.toString());
+                          template.innerHTML = buttonModeStateLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, i.toString());
                           ch5ButtonLabel.appendChild(template);
                           buttonModeState.appendChild(ch5ButtonLabel);
                         }
@@ -954,7 +954,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
                   if (buttonListModeLabelTemplate && buttonListModeLabelTemplate.length > 0) {
                     const ch5ButtonLabel = new Ch5ButtonLabel();
                     const template = document.createElement('template');
-                    template.innerHTML = buttonListModeLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, index.toString());
+                    template.innerHTML = buttonListModeLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, i.toString());
                     ch5ButtonLabel.appendChild(template);
                     ch5ButtonMode.appendChild(ch5ButtonLabel);
                   }
@@ -987,7 +987,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   private buttonHelper(btn: Ch5Button, index: number) {
-    const buttonSignals = ['buttonReceiveStateMode', 'buttonReceiveStateSelected', 'buttonReceiveStateLabel', 'buttonReceiveStateScriptLabelHtml', 'buttonReceiveStateIconClass', 'buttonReceiveStateIconUrl', 'buttonSendEventOnClick'];
+    // const buttonSignals = ['buttonReceiveStateMode', 'buttonReceiveStateSelected', 'buttonReceiveStateLabel', 'buttonReceiveStateScriptLabelHtml', 'buttonReceiveStateIconClass', 'buttonReceiveStateIconUrl', 'buttonSendEventOnClick'];
     const individualButtons = this.getElementsByTagName('ch5-button-list-individual-button');
     const individualButtonsLength = individualButtons.length;
     Ch5ButtonList.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
@@ -1008,30 +1008,16 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
             btn.setAttribute('iconurl', attrValue);
           }
         } else {
-          if (buttonSignals.includes(attr.name)) {
-            if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-              if (this.getAttribute(attr.name)) {
-                const attrValue = Number(this.getAttribute(attr.name)) ? Number(this.getAttribute(attr.name)) + index : index;
-                btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.toString());
-              }
-            }
-          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-            const attrValue = this.getAttribute(attr.name)?.trim();
+          if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
               btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue);
             }
           }
         }
       } else {
-        if (buttonSignals.includes(attr.name)) {
-          if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-            if (this.getAttribute(attr.name)) {
-              const attrValue = Number(this.getAttribute(attr.name)) ? Number(this.getAttribute(attr.name)) + index : index;
-              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.toString());
-            }
-          }
-        } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
-          const attrValue = this.getAttribute(attr.name);
+        if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+          const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
           if (attrValue) {
             btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
           }
