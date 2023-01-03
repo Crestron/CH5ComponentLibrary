@@ -844,7 +844,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   private setButtonContainerDimension() {
     const btnContainer = document.createElement("div");
-    btnContainer.classList.add("ch5-button-list-button-container");
+    btnContainer.classList.add("ch5-button-list--button-container");
     this._elContainer.appendChild(btnContainer);
     this.buttonWidth = this._elContainer.children[0].getBoundingClientRect().width;
     this.buttonHeight = this._elContainer.children[0].getBoundingClientRect().height;
@@ -882,7 +882,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private createButton(index: number, append: boolean = true) {
     const btn = new Ch5Button();
     const btnContainer = document.createElement("div");
-    btnContainer.classList.add("ch5-button-list-button-container");
+    btnContainer.classList.add("ch5-button-list--button-container");
     btnContainer.appendChild(btn);
     append ? this._elContainer.appendChild(btnContainer) : this._elContainer.prepend(btnContainer);
     // button attributes helper
@@ -1184,6 +1184,19 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       if (heightRequired < containerHeight) {
         this.style.display = 'inline-grid';
       }
+    }
+    if (!this.parentElement) { return; }
+    if (this.stretch === 'both') {
+      this.style.display = 'grid';
+      this._elContainer.style.removeProperty('height');
+      const scrollbarHeight = this._elContainer.classList.contains(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX) ? this._scrollbarContainer.getBoundingClientRect().height : 0;
+      this._elContainer.style.height = this.parentElement.getBoundingClientRect().height + scrollbarHeight + 'px';
+    } else if (this.stretch === 'width') {
+      this.style.display = 'grid';
+    } else if (this.stretch === 'height') {
+      this._elContainer.style.removeProperty('height');
+      const scrollbarHeight = this._elContainer.classList.contains(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX) ? this._scrollbarContainer.getBoundingClientRect().height : 0;
+      this._elContainer.style.height = this.parentElement.getBoundingClientRect().height + scrollbarHeight + 'px';
     }
   }
 
