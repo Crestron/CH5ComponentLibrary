@@ -105,7 +105,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     ...Ch5GenericListAttributes.SIGNAL_ATTRIBUTE_TYPES,
   };
 
-  public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
+  public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show', 'receiveStateEnable', 'receiveStateShow'];
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
       default: Ch5ButtonList.BUTTON_TYPES[0],
