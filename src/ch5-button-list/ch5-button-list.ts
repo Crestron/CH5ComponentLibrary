@@ -906,61 +906,63 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private buttonModeHelper(btn: Ch5Button, index: number) {
     const buttonListModes = this.getElementsByTagName('ch5-button-list-mode');
     if (buttonListModes && buttonListModes.length > 0) {
-      Array.from(buttonListModes).forEach((buttonListMode) => {
-        if (buttonListMode.parentElement instanceof Ch5ButtonList) {
-          const ch5ButtonMode = new Ch5ButtonMode(btn);
-          Ch5ButtonMode.observedAttributes.forEach((attr) => {
-            if (buttonListMode.hasAttribute(attr)) {
-              ch5ButtonMode.setAttribute(attr, buttonListMode.getAttribute(attr) + '');
-            }
-          });
+      Array.from(buttonListModes).forEach((buttonListMode, index) => {
+        if (index < Ch5Button.MODES.MAX_LENGTH) {
+          if (buttonListMode.parentElement instanceof Ch5ButtonList) {
+            const ch5ButtonMode = new Ch5ButtonMode(btn);
+            Ch5ButtonMode.observedAttributes.forEach((attr) => {
+              if (buttonListMode.hasAttribute(attr)) {
+                ch5ButtonMode.setAttribute(attr, buttonListMode.getAttribute(attr) + '');
+              }
+            });
 
-          const buttonListModeStates = buttonListMode.getElementsByTagName('ch5-button-list-mode-state');
-          if (buttonListModeStates && buttonListModeStates.length > 0) {
-            Array.from(buttonListModeStates).forEach(buttonListModeState => {
-              if (buttonListModeState.parentElement instanceof Ch5ButtonListMode) {
-                const buttonModeState = new Ch5ButtonModeState(btn);
-                Ch5ButtonModeState.observedAttributes.forEach((attr) => {
-                  if (buttonListModeState.hasAttribute(attr)) {
-                    buttonModeState.setAttribute(attr, buttonListModeState.getAttribute(attr) + '');
-                  }
-                });
-
-                const buttonModeStateLabels = buttonListModeState.getElementsByTagName("ch5-button-list-label");
-                if (buttonModeStateLabels && buttonModeStateLabels.length > 0) {
-                  Array.from(buttonModeStateLabels).forEach((buttonModeStateLabel) => {
-                    if (buttonModeStateLabel.parentElement instanceof Ch5ButtonListModeState) {
-                      const buttonModeStateLabelTemplate = buttonModeStateLabel.getElementsByTagName("template");
-                      if (buttonModeStateLabelTemplate && buttonModeStateLabelTemplate.length > 0) {
-                        const ch5ButtonLabel = new Ch5ButtonLabel();
-                        const template = document.createElement('template');
-                        template.innerHTML = buttonModeStateLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, index.toString());
-                        ch5ButtonLabel.appendChild(template);
-                        buttonModeState.appendChild(ch5ButtonLabel);
-                      }
+            const buttonListModeStates = buttonListMode.getElementsByTagName('ch5-button-list-mode-state');
+            if (buttonListModeStates && buttonListModeStates.length > 0) {
+              Array.from(buttonListModeStates).forEach(buttonListModeState => {
+                if (buttonListModeState.parentElement instanceof Ch5ButtonListMode) {
+                  const buttonModeState = new Ch5ButtonModeState(btn);
+                  Ch5ButtonModeState.observedAttributes.forEach((attr) => {
+                    if (buttonListModeState.hasAttribute(attr)) {
+                      buttonModeState.setAttribute(attr, buttonListModeState.getAttribute(attr) + '');
                     }
                   });
+
+                  const buttonModeStateLabels = buttonListModeState.getElementsByTagName("ch5-button-list-label");
+                  if (buttonModeStateLabels && buttonModeStateLabels.length > 0) {
+                    Array.from(buttonModeStateLabels).forEach((buttonModeStateLabel) => {
+                      if (buttonModeStateLabel.parentElement instanceof Ch5ButtonListModeState) {
+                        const buttonModeStateLabelTemplate = buttonModeStateLabel.getElementsByTagName("template");
+                        if (buttonModeStateLabelTemplate && buttonModeStateLabelTemplate.length > 0) {
+                          const ch5ButtonLabel = new Ch5ButtonLabel();
+                          const template = document.createElement('template');
+                          template.innerHTML = buttonModeStateLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, index.toString());
+                          ch5ButtonLabel.appendChild(template);
+                          buttonModeState.appendChild(ch5ButtonLabel);
+                        }
+                      }
+                    });
+                  }
+                  ch5ButtonMode.appendChild(buttonModeState);
                 }
-                ch5ButtonMode.appendChild(buttonModeState);
-              }
-            });
-          }
-          const buttonListModeLabels = buttonListMode.getElementsByTagName('ch5-button-list-label');
-          if (buttonListModeLabels && buttonListModeLabels.length > 0) {
-            Array.from(buttonListModeLabels).forEach((buttonListModeLabel) => {
-              if (buttonListModeLabel.parentElement instanceof Ch5ButtonListMode) {
-                const buttonListModeLabelTemplate = buttonListModeLabel.getElementsByTagName("template");
-                if (buttonListModeLabelTemplate && buttonListModeLabelTemplate.length > 0) {
-                  const ch5ButtonLabel = new Ch5ButtonLabel();
-                  const template = document.createElement('template');
-                  template.innerHTML = buttonListModeLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, index.toString());
-                  ch5ButtonLabel.appendChild(template);
-                  ch5ButtonMode.appendChild(ch5ButtonLabel);
+              });
+            }
+            const buttonListModeLabels = buttonListMode.getElementsByTagName('ch5-button-list-label');
+            if (buttonListModeLabels && buttonListModeLabels.length > 0) {
+              Array.from(buttonListModeLabels).forEach((buttonListModeLabel) => {
+                if (buttonListModeLabel.parentElement instanceof Ch5ButtonListMode) {
+                  const buttonListModeLabelTemplate = buttonListModeLabel.getElementsByTagName("template");
+                  if (buttonListModeLabelTemplate && buttonListModeLabelTemplate.length > 0) {
+                    const ch5ButtonLabel = new Ch5ButtonLabel();
+                    const template = document.createElement('template');
+                    template.innerHTML = buttonListModeLabelTemplate[0].innerHTML.replace(`{{${this.indexId}}}`, index.toString());
+                    ch5ButtonLabel.appendChild(template);
+                    ch5ButtonMode.appendChild(ch5ButtonLabel);
+                  }
                 }
-              }
-            });
+              });
+            }
+            btn.appendChild(ch5ButtonMode);
           }
-          btn.appendChild(ch5ButtonMode);
         }
       });
     }
