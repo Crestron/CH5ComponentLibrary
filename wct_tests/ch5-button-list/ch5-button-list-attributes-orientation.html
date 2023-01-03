@@ -41,7 +41,17 @@
 
   <test-fixture id="ch5-button-list-orientation-horizontal-index-attributes">
     <template>
-      <ch5-button-list numberOfItems="20" rows="3">
+      <ch5-button-list numberOfItems="20" rows="3" orientation="horizontal">
+        <ch5-button-list-label>
+          <template><span>btn_{{idx}}</span></template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-orientation-vertical-index-attributes">
+    <template>
+      <ch5-button-list numberOfItems="20" columns="3" orientation="vertical">
         <ch5-button-list-label>
           <template><span>btn_{{idx}}</span></template>
         </ch5-button-list-label>
@@ -54,12 +64,14 @@
       let ch5ButtonList1;
       let ch5ButtonList2;
       let ch5ButtonList3;
+      let ch5ButtonList4;
 
       setup(async () => {
         ch5ButtonList = fixture('ch5-button-list-orientation-attributes');
         ch5ButtonList1 = fixture('ch5-button-list-orientation-horizontal-row-attributes');
         ch5ButtonList2 = fixture('ch5-button-list-orientation-vertical-column-attributes');
         ch5ButtonList3 = fixture('ch5-button-list-orientation-horizontal-index-attributes');
+        ch5ButtonList4 = fixture('ch5-button-list-orientation-vertical-index-attributes');
       });
 
       const availableOrientations = ['horizontal', 'vertical'];
@@ -184,6 +196,40 @@
               done();
             }, COMPONENT_TESTING_TIMEOUT);
           });
+        });
+      });
+
+      test(`Check attributes orientation horizontal with button list index attributes`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList3.numberOfItems).to.be.equal(20);
+            expect(ch5ButtonList3.rows).to.be.equal(3);
+            expect(ch5ButtonList3.orientation).to.be.equal('horizontal');
+            expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--rows-3')).to.be.equal(true);
+            expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+            expect(getComputedStyle(ch5ButtonList3).gridTemplateRows).to.be.equal('0px 396px 0px');
+            for (let i = 0; i < getDiv(ch5ButtonList3).children.length; i++) {
+              expect(getDiv(ch5ButtonList3).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+      test(`Check attributes orientation vertical with button list index attributes`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList4.numberOfItems).to.be.equal(20);
+            expect(ch5ButtonList4.columns).to.be.equal(3);
+            expect(ch5ButtonList4.orientation).to.be.equal('vertical');
+            expect(getDiv(ch5ButtonList4).classList.contains('ch5-button-list--columns-3')).to.be.equal(true);
+            expect(getDiv(ch5ButtonList4).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+            expect(getComputedStyle(ch5ButtonList4).gridTemplateColumns).to.be.equal("86px");
+            for (let i = 0; i < getDiv(ch5ButtonList4).children.length; i++) {
+              expect(getDiv(ch5ButtonList4).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
         });
       });
     });
