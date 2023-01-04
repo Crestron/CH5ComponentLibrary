@@ -1033,6 +1033,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       const { scrollWidth, offsetWidth, scrollLeft } = this._elContainer;
       this.scrollbarDimension = Math.floor(offsetWidth / scrollWidth * 100);
       const scrollbarLeft = Math.ceil(scrollLeft / scrollWidth * 100);
+      this._scrollbar.style.removeProperty('height');
+      this._scrollbar.style.removeProperty('top');
       this._scrollbar.style.width = this.scrollbarDimension + '%';
       this._scrollbar.style.left = scrollbarLeft + '%';
       if (scrollLeft === 0) {
@@ -1044,6 +1046,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       const { scrollHeight, offsetHeight, scrollTop } = this._elContainer;
       this.scrollbarDimension = Math.floor(offsetHeight / scrollHeight * 100);
       const scrollbarTop = Math.ceil(scrollTop / scrollHeight * 100);
+      this._scrollbar.style.removeProperty('width');
+      this._scrollbar.style.removeProperty('left');
       this._scrollbar.style.height = this.scrollbarDimension + '%';
       this._scrollbar.style.top = scrollbarTop + '%';
       if (scrollTop === 0) {
