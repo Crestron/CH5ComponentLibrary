@@ -12,7 +12,6 @@ import { Ch5ButtonListMode } from "../ch5-button-list/ch5-button-list-mode";
 import { Ch5ButtonListModeState } from "../ch5-button-list/ch5-button-list-mode-state";
 import { Ch5ButtonModeState } from "../ch5-button/ch5-button-mode-state";
 import { resizeObserver } from "../ch5-core/resize-observer";
-import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
 
 export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
 
@@ -317,10 +316,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private buttonWidth: number = 0;
   private buttonHeight: number = 0;
 
-  // private members used for window resize events
-  private isResizeInProgress: boolean = false;
-  private firstTimeInViewport: boolean = true;
-  private readonly RESIZE_DEBOUNCE: number = 500;
 
   // Default Row and Column value
   private rowClassValue: number = 1;
@@ -599,13 +594,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.setButtonContainerDimension();
     this.debounceButtonDisplay();
     resizeObserver(this._elContainer, this.resizeHandler);
-    subscribeInViewPortChange(this, () => {
-      if (this.elementIsInViewPort && this.firstTimeInViewport) {
-        this.setButtonContainerDimension();
-        this.debounceButtonDisplay();
-        this.firstTimeInViewport = false;
-      }
-    });
     customElements.whenDefined('ch5-button-list').then(() => {
       this.componentLoadedEvent(Ch5ButtonList.ELEMENT_NAME, this.id);
     });
@@ -615,7 +603,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()');
     this.removeEventListeners();
-    unSubscribeInViewPortChange(this);
     this.unsubscribeFromSignals();
     this.initMembers();
     this.logger.stop();
@@ -655,7 +642,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._elContainer.addEventListener('mouseup', this.handleMouseUpAndLeave);
     this._elContainer.addEventListener('mousemove', this.handleMouseMove);
     this._elContainer.addEventListener('scroll', this.handleScrollEvent);
-    window.addEventListener('resize', this.onWindowResizeHandler);
   }
 
   protected removeEventListeners() {
@@ -665,7 +651,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._elContainer.removeEventListener('mousedown', this.handleMouseDown);
     this._elContainer.removeEventListener('mousemove', this.handleMouseMove);
     this._elContainer.removeEventListener('scroll', this.handleScrollEvent);
-    window.removeEventListener('resize', this.onWindowResizeHandler);
   }
 
   protected unsubscribeFromSignals() {
@@ -800,6 +785,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   public handleRowsAndColumn() {
+    if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     if (this.orientation === "horizontal") {
       // Remove Previous loaded class for both rows and columns
       this._elContainer.classList.remove(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
@@ -837,6 +823,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   public handleEndless() {
+    if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     // This behavior is handled in scroll event
   }
 
@@ -868,7 +855,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       // Find the number of initial buttons which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       this.loadedButtons = Math.floor(containerWidth / this.buttonWidth) * this.rows + this.rows * 2;
-      console.log("container width", containerWidth, this.loadedButtons);
     } else {
       const containerHeight = this._elContainer.getBoundingClientRect().height;
       // Check whether the container is set with custom height
@@ -1092,17 +1078,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
   }
 
-  private onWindowResizeHandler = () => {
-    if (!this.isResizeInProgress) {
-      this.isResizeInProgress = true;
-      setTimeout(() => {
-        this.initScrollbar();
-        this.checkButtonDisplay();
-        this.isResizeInProgress = false; // reset debounce once completed
-      }, this.RESIZE_DEBOUNCE);
-    }
-  }
-
   private buttonDestroyHelper() {
     if (this.orientation === 'horizontal') {
       const { scrollLeft, scrollWidth, offsetWidth } = this._elContainer;
@@ -1168,7 +1143,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   private resizeHandler = () => {
-    this.initScrollbar();
+    this.setButtonContainerDimension();
+    this.debounceButtonDisplay();
   }
 
   private checkButtonDisplay() {
