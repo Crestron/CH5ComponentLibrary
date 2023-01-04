@@ -784,9 +784,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       this._elContainer.classList.remove(Ch5ButtonList.COMPONENT_DATA.ORIENTATION.classListPrefix + orientation);
     });
     this._elContainer.classList.add(Ch5ButtonList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
-    if (this.orientation === 'vertical') {
-      this.style.display = 'inline-block';
-    }
     this.handleRowsAndColumn();
   }
 
@@ -1175,18 +1172,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   private checkButtonDisplay() {
-    if (this.orientation === 'horizontal') {
-      const widthRequired = Math.ceil(this.loadedButtons / this.rows) * this.buttonWidth;
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
-      if (widthRequired < containerWidth) {
-        this.style.display = 'inline-block';
-      }
-    } else {
-      const heightRequired = Math.ceil(this.loadedButtons / this.columns) * this.buttonHeight;
-      const containerHeight = this._elContainer.getBoundingClientRect().height;
-      if (heightRequired < containerHeight) {
-        this.style.display = 'inline-block';
-      }
+    const widthRequired = this.orientation === 'horizontal' ? Math.ceil(this.loadedButtons / this.rows) * this.buttonWidth : this.columns * this.buttonWidth;
+    const containerWidth = this._elContainer.getBoundingClientRect().width;
+    if (widthRequired < containerWidth) {
+      this.style.display = 'inline-block';
     }
     // stretch Behaviour
     if (!this.parentElement) { return; }
