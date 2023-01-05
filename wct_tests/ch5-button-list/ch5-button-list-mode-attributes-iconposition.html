@@ -8,10 +8,19 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
   <test-fixture id="ch5-button-list-mode-iconPosition-attributes">
+    <template>
+      <ch5-button-list>
+        <ch5-button-list-mode></ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-mode-iconPosition-attributes1">
     <template>
       <ch5-button-list>
         <ch5-button-list-mode></ch5-button-list-mode>
@@ -37,6 +46,56 @@
         });
       });
 
+    });
+    suite('ch5-button-list-mode-iconPosition-attributes-classList', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-iconPosition-attributes1');
+        ch5ButtonListMode = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+      });
+
+
+      const valid_iconPosition = CrComLib.Ch5ButtonList.BUTTON_ICON_POSITIONS;
+      const invalid_iconPosition = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'left', 'center', 'middle'];
+
+      valid_iconPosition.forEach((iconPositionName, i) => {
+        test(`Check attribute iconPosition: "${iconPositionName}"`, (done) => {
+          ch5ButtonListMode.setAttribute('iconPosition', iconPositionName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonListMode.iconPosition).to.be.equal(iconPositionName);
+              expect(getFirstButton(ch5ButtonList).children[0].classList.contains("ch5-button--iconposition-" + iconPositionName)).to.be.equal(true);
+              valid_iconPosition.forEach((iconPositionNameErrorCheck, j) => {
+                if (iconPositionNameErrorCheck !== iconPositionName) {
+                  expect(getFirstButton(ch5ButtonList).children[0].classList.contains("ch5-button--iconposition-" + iconPositionNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalid_iconPosition.forEach((iconPositionName, i) => {
+        test(`Check attribute iconPosition: "${iconPositionName}" for invalid values`, (done) => {
+          ch5ButtonListMode.setAttribute('iconPosition', iconPositionName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonListMode.iconPosition).to.be.equal("first");
+              expect(getFirstButton(ch5ButtonList).children[0].classList.contains("ch5-button--iconposition-first")).to.be.equal(true);
+              valid_iconPosition.forEach((iconPositionNameErrorCheck, j) => {
+                if (iconPositionNameErrorCheck !== "first") {
+                  expect(getFirstButton(ch5ButtonList).children[0].classList.contains("ch5-button--iconposition-" + iconPositionNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
     });
   </script>
 </body>

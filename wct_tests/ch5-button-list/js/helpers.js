@@ -9,6 +9,9 @@ function getAllButtons(myComponent) {
   return myComponent.getElementsByTagName('ch5-button');
 }
 
+function getFirstButton(myComponent) {
+  return myComponent.getElementsByTagName('ch5-button')[0];
+}
 
 function getContainerDivForButtons(myComponent) {
   return myComponent.getElementsByTagName('div')[0].children.getElementsByTagName('div')[0];
