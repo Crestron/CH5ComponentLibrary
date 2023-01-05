@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
@@ -24,15 +26,43 @@
         ch5ButtonList = fixture('ch5-button-list-columns-attributes');
       });
 
-      let testCases = ['a', '', ' ', 'number', '0', '1', '2', '499', '500', '501'];
-      let expectedResult = ['1', '1', '1', '1', '1', '1', '2', '499', '500', '500'];
-      testCases.forEach((ele, i) => {
-        test('Check Value "columns"', () => {
-          ch5ButtonList.setAttribute('columns', ele);
-          expect(ch5ButtonList.getAttribute('columns')).to.be.equal(expectedResult[i]);
+      const validColumns = ['1', '10', '12', '20', '100', '450', '500'];
+      const invalidColumns = ['-1', 'a', 'color', '0'];
+
+      validColumns.forEach((val, i) => {
+        test(`Check attribute columns "${val}" for button list`, (done) => {
+          ch5ButtonList.setAttribute('columns', val);
+          ch5ButtonList.setAttribute('numberOfItems', val);
+          ch5ButtonList.setAttribute('orientation', 'vertical');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.columns).to.be.equal(Number(val));
+              expect(ch5ButtonList.numberOfItems).to.be.equal(Number(val));
+              expect(ch5ButtonList.orientation).to.be.equal('vertical');
+              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--columns-' + Number(val))).to.be.equal(true);
+              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          })
+        });
+
+        invalidColumns.forEach((val, i) => {
+          test(`Check attribute columns invalid values "${val}" for button list`, (done) => {
+            ch5ButtonList.setAttribute('columns', val);
+            ch5ButtonList.setAttribute('orientation', 'vertical');
+            ch5ButtonList.setAttribute('numberOfItems', val);
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5ButtonList.columns).to.be.equal(1);
+                expect(ch5ButtonList.orientation).to.be.equal('vertical');
+                expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--columns-1')).to.be.equal(true);
+                expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+                done();
+              }, COMPONENT_TESTING_TIMEOUT);
+            });
+          });
         });
       });
-
     });
   </script>
 </body>

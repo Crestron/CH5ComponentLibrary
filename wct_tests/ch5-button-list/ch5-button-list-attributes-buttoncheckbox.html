@@ -82,7 +82,7 @@
             test(`Check ch5-button-list > div > i css class name for checkboxPosition: "${checkboxPosition}", checkboxShow: "${checkboxShow.key}", and selected: "${selected}"`, (done) => {
               ch5ButtonList.setAttribute('checkboxPosition', checkboxPosition);
               ch5ButtonList.setAttribute('buttonCheckboxShow', checkboxShow.key);
-              ch5ButtonList.setAttribute('selected', selected);
+              ch5ButtonList.setAttribute('buttonSelected', selected);
               flush(() => {
                 setTimeout(() => {
                   expect(!!getITagInButtonForCheckbox(ch5ButtonList)).to.be.equal(checkboxShow.value);

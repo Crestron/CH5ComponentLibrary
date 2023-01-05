@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
@@ -16,13 +18,24 @@
       <ch5-button-list></ch5-button-list>
     </template>
   </test-fixture>
+  <test-fixture id="ch5-button-list-receiveStateNumberOfItems-attributes">
+    <template>
+      <ch5-button-list numberOfItems="10"></ch5-button-list>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-button-list-numberOfItems-attributes-value', () => {
       let ch5ButtonList;
+      let ch5ButtonList1;
 
       setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatenumberofitems.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
         ch5ButtonList = fixture('ch5-button-list-numberOfItems-attributes');
+        ch5ButtonList1 = fixture('ch5-button-list-receiveStateNumberOfItems-attributes');
       });
+      const validOutput = [10, 500, 1, 1];
       const inputOutput = [
         {
           input: 'a',
@@ -118,13 +131,25 @@
         }
       ];
       inputOutput.forEach((ele, i) => {
-        test('Check Value "numberOfItems" for input ' +  ele.input, () => {
+        test(`Check Value "numberOfItems" for input ` + ele.input, () => {
           ch5ButtonList.setAttribute('numberOfItems', ele.input);
           expect(ch5ButtonList.getAttribute('numberOfItems')).to.be.equal(String(inputOutput[i].output));
           expect(ch5ButtonList.numberOfItems).to.be.equal(inputOutput[i].output);
         });
       });
 
+      validOutput.forEach((val, i) => {
+        test(`Check value "receiveStateNumber" of items`, () => {
+          CrComLib.publishEvent('n', 'trigger_signal', true);
+          ch5ButtonList1.setAttribute('receiveStateNumberOfItems', `trigger_event_listener-${i}`);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(val);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
     });
   </script>
 </body>

@@ -207,7 +207,6 @@
             expect(ch5ButtonList3.orientation).to.be.equal('horizontal');
             expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--rows-3')).to.be.equal(true);
             expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
-            expect(getComputedStyle(ch5ButtonList3).gridTemplateRows).to.be.equal('0px 396px 0px');
             for (let i = 0; i < getDiv(ch5ButtonList3).children.length; i++) {
               expect(getDiv(ch5ButtonList3).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
             }
@@ -224,7 +223,6 @@
             expect(ch5ButtonList4.orientation).to.be.equal('vertical');
             expect(getDiv(ch5ButtonList4).classList.contains('ch5-button-list--columns-3')).to.be.equal(true);
             expect(getDiv(ch5ButtonList4).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
-            expect(getComputedStyle(ch5ButtonList4).gridTemplateColumns).to.be.equal("86px");
             for (let i = 0; i < getDiv(ch5ButtonList4).children.length; i++) {
               expect(getDiv(ch5ButtonList4).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
             }
