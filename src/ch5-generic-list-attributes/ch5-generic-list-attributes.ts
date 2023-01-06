@@ -1,5 +1,5 @@
 import { Ch5Common } from "../ch5-common/ch5-common";
-import { TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch, } from './interfaces/t-ch5-generic-list-attributes';
+import { TCh5GenericListAttributesOrientation } from './interfaces/t-ch5-generic-list-attributes';
 import { Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
 import { ICh5GenericListAttributesAttributes } from './interfaces/i-ch5-generic-list-attributes-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
@@ -10,7 +10,6 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   //#region Variables
 
   public static readonly ORIENTATION: TCh5GenericListAttributesOrientation[] = ['horizontal', 'vertical'];
-  public static readonly STRETCH: TCh5GenericListAttributesStretch[] = ['both', 'width', 'height'];
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receiveStateNumberOfItems: { direction: "state", numericJoin: 1, contractName: true },
@@ -24,16 +23,6 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
       type: "enum",
       valueOnAttributeEmpty: Ch5GenericListAttributes.ORIENTATION[0],
       isObservableProperty: true,
-    },
-    {
-      default: null,
-      enumeratedValues: Ch5GenericListAttributes.STRETCH,
-      name: "stretch",
-      removeAttributeOnNull: true,
-      type: "enum",
-      valueOnAttributeEmpty: null,
-      isObservableProperty: true,
-      isNullable: true,
     },
     {
       default: false,
@@ -141,15 +130,6 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   }
   public get orientation(): TCh5GenericListAttributesOrientation {
     return this._ch5PropertiesBase.get<TCh5GenericListAttributesOrientation>("orientation");
-  }
-
-  public set stretch(value: TCh5GenericListAttributesStretch | null) {
-    this._ch5PropertiesBase.set<TCh5GenericListAttributesStretch | null>("stretch", value, () => {
-      this.handleStretch();
-    });
-  }
-  public get stretch(): TCh5GenericListAttributesStretch | null {
-    return this._ch5PropertiesBase.get<TCh5GenericListAttributesStretch | null>("stretch");
   }
 
   public set scrollbar(value: boolean) {
@@ -297,7 +277,6 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
 
 
   abstract handleOrientation(): void;
-  abstract handleStretch(): void;
   abstract handleScrollbar(): void;
   abstract handleCenterItems(): void;
   abstract handleEndless(): void;

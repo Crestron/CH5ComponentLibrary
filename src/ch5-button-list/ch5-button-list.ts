@@ -43,13 +43,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       attribute: 'orientation',
       classListPrefix: 'ch5-button-list--orientation-'
     },
-    STRETCH: {
-      default: Ch5ButtonList.STRETCH[0],
-      values: Ch5ButtonList.STRETCH,
-      key: 'stretch',
-      attribute: 'stretch',
-      classListPrefix: 'ch5-button-list--stretch-'
-    },
     BUTTON_TYPE: {
       default: Ch5ButtonList.BUTTON_TYPES[0],
       values: Ch5ButtonList.BUTTON_TYPES,
@@ -772,10 +765,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.handleRowsAndColumn();
   }
 
-  public handleStretch() {
-    // This feature is implemented in checkButtonDisplay
-  }
-
   public handleScrollbar() {
     [true, false].forEach((bool: boolean) => {
       this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + bool.toString());
@@ -839,16 +828,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   public buttonDisplay() {
     // Remove all the children containers from the container
     Array.from(this._elContainer.children).forEach(container => container.remove());
-
-    // On Preload true and cache false ch5-button-list--button-container takes 100% height and width when stretch is both.
-    // To solve first remove the stretch class and add after creating the initial set of buttons
-    Array.from(Ch5ButtonList.COMPONENT_DATA.STRETCH.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5ButtonList.COMPONENT_DATA.STRETCH.classListPrefix + e);
-    });
-    if (this.stretch) {
-      // Recalculation is needed because height and width takes 100%.
-      this.setButtonContainerDimension();
-    }
 
     if (this.orientation === 'horizontal') {
       this.style.removeProperty('display');
@@ -1152,28 +1131,11 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   private checkButtonDisplay() {
-    const widthRequired = this.orientation === 'horizontal' ? Math.ceil(this.loadedButtons / this.rows) * this.buttonWidth : this.columns * this.buttonWidth;
-    const containerWidth = this._elContainer.getBoundingClientRect().width;
-    if (widthRequired < containerWidth) {
-      this.style.display = 'inline-block';
-    }
-    // stretch Behaviour
-    if (!this.parentElement) { return; }
-
-    // ch5-button-list--stretch-button-container-width class is removed and added only if the list does not need scrollbar and allows the buttons to stretch.  
-    this._elContainer.classList.remove(Ch5ButtonList.COMPONENT_DATA.STRETCH.classListPrefix + 'button-container-width');
-    if (this.stretch) {
-      this._elContainer.classList.add(Ch5ButtonList.COMPONENT_DATA.STRETCH.classListPrefix + this.stretch);
-      if (this.stretch === 'both' || this.stretch === 'width') {
-        if (this.scrollbarDimension === 100) {
-          this._elContainer.classList.add(Ch5ButtonList.COMPONENT_DATA.STRETCH.classListPrefix + 'button-container-width');
-        }
-        this.style.removeProperty('display');
-      }
-      if (this.stretch === 'both' || this.stretch === 'height') {
-        this._elContainer.style.removeProperty('height');
-        const scrollbarHeight = this._elContainer.classList.contains(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX) ? this._scrollbarContainer.getBoundingClientRect().height : 0;
-        this._elContainer.style.height = this.parentElement.getBoundingClientRect().height + scrollbarHeight + 'px';
+    if (this.orientation === 'horizontal') {
+      const widthRequired = Math.ceil(this.loadedButtons / this.rows) * this.buttonWidth;
+      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      if (widthRequired < containerWidth) {
+        this.style.display = 'inline-block';
       }
     }
   }

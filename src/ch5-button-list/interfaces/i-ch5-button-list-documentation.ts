@@ -96,8 +96,7 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tnumberOfItems=\"${6:10}\"",
  *       "\trows=\"${7:1}\"",
  *       "\tcolumns=\"${8:1}\"",
- *       "\tstretch=\"${9:both}\"",
- *       "\tindexId=\"${10:idx}\">",
+ *       "\tindexId=\"${9:idx}\">",
  *       "</ch5-button-list>$0"
  *       ]
  *    },
@@ -123,7 +122,7 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\trows=\"${16:1}\"",
  *       "\tcolumns=\"${17:1}\"",
  *       "\tbuttonMode=\"${18:}\"",
- *       "\tstretch=\"${19:both}\"",
+ *       "\tbuttonStretch=\"${19:}\">",
  *       "\tbuttonSendEventOnClick=\"${20:}\"",
  *       "\tbuttonIconClass=\"${21:}\"",
  *       "\tbuttonIconUrl=\"${22:}\"",
@@ -134,8 +133,7 @@ import { ICh5ButtonListAttributes } from "./i-ch5-button-list-attributes";
  *       "\tbuttonReceiveStateLabel=\"${27:}\"",
  *       "\tbuttonReceiveStateScriptLabelHtml=\"${28:}\"",
  *       "\tbuttonReceiveStateIconClass=\"${29:}\"",
- *       "\tbuttonReceiveStateIconUrl=\"${30:}\"",
- *       "\tbuttonStretch=\"${31:}\">",
+ *       "\tbuttonReceiveStateIconUrl=\"${30:}\">",
  *       "</ch5-button-list>$0"
  *       ]
  *    }

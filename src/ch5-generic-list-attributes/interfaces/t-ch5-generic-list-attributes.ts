@@ -6,5 +6,3 @@
 // under which you licensed this source code.
 
 export type TCh5GenericListAttributesOrientation = 'horizontal' | 'vertical';
-export type TCh5GenericListAttributesStretch = 'both' | 'width' | 'height';
-

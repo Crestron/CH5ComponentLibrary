@@ -1,5 +1,5 @@
 import { ICh5GenericListAttributes } from "../../ch5-common/interfaces/i-ch5-generic-list-attributes";
-import { TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch, } from './t-ch5-generic-list-attributes';
+import { TCh5GenericListAttributesOrientation } from './t-ch5-generic-list-attributes';
 
 /**
  * @ignore
@@ -17,17 +17,6 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   * @attributeType "EnumeratedValue"
   */
   orientation: TCh5GenericListAttributesOrientation;
-  /**
-  * @documentation
-  * [
-  * "`stretch` attribute",
-  * "***",
-  * "default empty. When not empty provides adds CSS classes to define width, height or both as size of containing element"
-  * ]
-  * @name stretch
-  * @attributeType "EnumeratedValue"
-  */
-  stretch: TCh5GenericListAttributesStretch | null;
   /**
    * @documentation
    * [
