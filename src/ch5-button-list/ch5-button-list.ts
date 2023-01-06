@@ -807,10 +807,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._elContainer.classList.add(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
   }
 
-  public handleReceiveStateNumberOfItems() {
-    this.debounceButtonDisplay();
-  }
-
   public handleEndless() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     // This behavior is handled in scroll event

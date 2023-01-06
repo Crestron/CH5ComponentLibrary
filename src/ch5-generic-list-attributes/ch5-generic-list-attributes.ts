@@ -81,11 +81,11 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
       isObservableProperty: true
     },
     {
-      default: "idx",
+      default: "",
       name: "indexId",
       removeAttributeOnNull: true,
       type: "string",
-      valueOnAttributeEmpty: "idx",
+      valueOnAttributeEmpty: "",
       isObservableProperty: true,
     },
     {
@@ -196,7 +196,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   public set receiveStateNumberOfItems(value: string) {
     this._ch5PropertiesBase.set("receiveStateNumberOfItems", value, null, (newValue: number) => {
       this._ch5PropertiesBase.setForSignalResponse<number>("numberOfItems", newValue, () => {
-        this.handleReceiveStateNumberOfItems();
+        this.handleRowsAndColumn();
       });
     });
   }
@@ -281,7 +281,6 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   abstract handleCenterItems(): void;
   abstract handleEndless(): void;
   abstract handleRowsAndColumn(): void;
-  abstract handleReceiveStateNumberOfItems(): void;
 
   //#endregion
 
