@@ -74,6 +74,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * "Valid values: 'width', 'height', 'both'. When the buttonStretch attribute is set to height, the button stretches in height as much as its button-container allows. When the buttonStretch attribute is set to width, the button stretches in width, as much as its button-container allows. When the buttonStretch attribute is set to both, the button stretches in both width and height, as much as its button-container allows."
   * ]
   * @name buttonstretch
+  * @default both
   * @attributeType "EnumeratedValue"
   */
   buttonStretch: TCh5ButtonListButtonStretch | null;

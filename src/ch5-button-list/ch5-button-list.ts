@@ -33,7 +33,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   public static readonly BUTTON_CHECKBOX_POSITIONS: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
   public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rounded-rectangle', 'rectangle'];
-  public static readonly BUTTON_STRETCH: TCh5ButtonListButtonStretch[] = ['width', 'height', 'both'];
+  public static readonly BUTTON_STRETCH: TCh5ButtonListButtonStretch[] = ['both', 'width', 'height'];
 
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
@@ -154,12 +154,12 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       isObservableProperty: true
     },
     {
-      default: null,
+      default: Ch5ButtonList.BUTTON_STRETCH[0],
       enumeratedValues: Ch5ButtonList.BUTTON_STRETCH,
       name: "buttonStretch",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: null,
+      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_STRETCH[0],
       isObservableProperty: true,
       isNullable: true,
     },
@@ -978,6 +978,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
             if (attrValue) {
               btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue);
             }
+          } else if (attr.name === 'buttonStretch' && !this.hasAttribute(attr.name)) {
+            btn.setAttribute('stretch', 'both');
           }
         }
       } else {
@@ -986,6 +988,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
           if (attrValue) {
             btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
           }
+        } else if (attr.name === 'buttonStretch' && !this.hasAttribute(attr.name)) {
+          btn.setAttribute('stretch', 'both');
         }
       }
     });
@@ -1135,7 +1139,9 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       const widthRequired = Math.ceil(this.loadedButtons / this.rows) * this.buttonWidth;
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       if (widthRequired < containerWidth) {
-        this.style.display = 'inline-block';
+        this._elContainer.classList.add('ch5-button-list--button-container-stretch-width');
+      } else {
+        this._elContainer.classList.remove('ch5-button-list--button-container-stretch-width');
       }
     }
   }
