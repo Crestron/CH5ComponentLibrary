@@ -801,10 +801,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   public handleCenterItems() {
-    this._elContainer.classList.remove(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + true.toString());
-    if (this.centerItems) {
-      this._elContainer.classList.add(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems.toString());
-    }
+    [true, false].forEach((bool: boolean) => {
+      this._elContainer.classList.remove(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + bool.toString());
+    });
+    this._elContainer.classList.add(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
   }
 
   public handleReceiveStateNumberOfItems() {
@@ -830,7 +830,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     Array.from(this._elContainer.children).forEach(container => container.remove());
 
     if (this.orientation === 'horizontal') {
-      this.style.removeProperty('display');
       // Find the number of initial buttons which can be loaded based on container width
       const containerWidth = this._elContainer.getBoundingClientRect().width;
       this.loadedButtons = Math.floor(containerWidth / this.buttonWidth) * this.rows + this.rows * 2;
@@ -849,7 +848,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
     // init the scrollbar after loading the initial buttons 
     this.initScrollbar();
-    this.checkButtonDisplay();
   }
 
 
@@ -1008,6 +1006,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this._elContainer.classList.add(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rows);
     // Sets default scroll bar class
     this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
+    // sets default center item class
+    this._elContainer.classList.add(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
     this.logger.stop();
   }
 
@@ -1132,18 +1132,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private resizeHandler = () => {
     this.setButtonContainerDimension();
     this.debounceButtonDisplay();
-  }
-
-  private checkButtonDisplay() {
-    if (this.orientation === 'horizontal') {
-      const widthRequired = Math.ceil(this.loadedButtons / this.rows) * this.buttonWidth;
-      const containerWidth = this._elContainer.getBoundingClientRect().width;
-      if (widthRequired < containerWidth) {
-        this._elContainer.classList.add('ch5-button-list--button-container-stretch-width');
-      } else {
-        this._elContainer.classList.remove('ch5-button-list--button-container-stretch-width');
-      }
-    }
   }
 
   private initMembers() {
