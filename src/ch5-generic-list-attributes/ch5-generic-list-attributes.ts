@@ -42,6 +42,14 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
     },
     {
       default: false,
+      name: "stretch",
+      removeAttributeOnNull: true,
+      type: "boolean",
+      valueOnAttributeEmpty: true,
+      isObservableProperty: true,
+    },
+    {
+      default: false,
       name: "endless",
       removeAttributeOnNull: true,
       type: "boolean",
@@ -148,6 +156,15 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   }
   public get centerItems(): boolean {
     return this._ch5PropertiesBase.get<boolean>("centerItems");
+  }
+
+  public set stretch(value: boolean) {
+    this._ch5PropertiesBase.set<boolean>("stretch", value, () => {
+      this.handleStretch();
+    });
+  }
+  public get stretch(): boolean {
+    return this._ch5PropertiesBase.get<boolean>("stretch");
   }
 
   public set endless(value: boolean) {
@@ -281,6 +298,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   abstract handleCenterItems(): void;
   abstract handleEndless(): void;
   abstract handleRowsAndColumn(): void;
+  abstract handleStretch(): void;
 
   //#endregion
 

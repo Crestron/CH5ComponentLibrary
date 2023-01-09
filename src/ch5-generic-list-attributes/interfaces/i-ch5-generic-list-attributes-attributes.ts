@@ -44,6 +44,18 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
   /**
    * @documentation
    * [
+   * "`stretch` attribute",
+   * "***",
+   * "The default value is false. NOTE: stretch is set to false whenever there are multiple rows and columns. Stretch attribute always override centerItems."
+   * ]
+   * @name stretch
+   * @default false
+   * @attributeType "Boolean"
+   */
+  stretch: boolean;
+  /**
+   * @documentation
+   * [
    * "`endless` attribute",
    * "***",
    * "The default value is false. If false, continued swiping when reaching end of list reveals no items beyond the last. If true, if the attribute is added without a value, the first list item will virtually follow the last item when the end of the list is reached. Swiping towards the beginning of the list items will also show the last item prior to the first."
