@@ -13,7 +13,7 @@ import { Ch5ButtonListModeState } from "../ch5-button-list/ch5-button-list-mode-
 import { Ch5ButtonModeState } from "../ch5-button/ch5-button-mode-state";
 import { resizeObserver } from "../ch5-core/resize-observer";
 
-export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
+export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
 
   //#region Variables
 
@@ -37,57 +37,57 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
-      default: Ch5ButtonList.ORIENTATION[0],
-      values: Ch5ButtonList.ORIENTATION,
+      default: Ch5ButtonListBase.ORIENTATION[0],
+      values: Ch5ButtonListBase.ORIENTATION,
       key: 'orientation',
       attribute: 'orientation',
       classListPrefix: 'ch5-button-list--orientation-'
     },
     BUTTON_TYPE: {
-      default: Ch5ButtonList.BUTTON_TYPES[0],
-      values: Ch5ButtonList.BUTTON_TYPES,
+      default: Ch5ButtonListBase.BUTTON_TYPES[0],
+      values: Ch5ButtonListBase.BUTTON_TYPES,
       key: 'buttonType',
       attribute: 'buttonType',
       classListPrefix: 'ch5-button-list--button-type-'
     },
     BUTTON_HALIGN_LABEL: {
-      default: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
-      values: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS,
+      default: Ch5ButtonListBase.BUTTON_HALIGN_LABEL_POSITIONS[0],
+      values: Ch5ButtonListBase.BUTTON_HALIGN_LABEL_POSITIONS,
       key: 'buttonHAlignLabel',
       attribute: 'buttonHAlignLabel',
       classListPrefix: 'ch5-button-list--button-halign-label-'
     },
     BUTTON_VALIGN_LABEL: {
-      default: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
-      values: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS,
+      default: Ch5ButtonListBase.BUTTON_VALIGN_LABEL_POSITIONS[0],
+      values: Ch5ButtonListBase.BUTTON_VALIGN_LABEL_POSITIONS,
       key: 'buttonVAlignLabel',
       attribute: 'buttonVAlignLabel',
       classListPrefix: 'ch5-button-list--button-valign-label-'
     },
     BUTTON_CHECKBOX_POSITION: {
-      default: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
-      values: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS,
+      default: Ch5ButtonListBase.BUTTON_CHECKBOX_POSITIONS[0],
+      values: Ch5ButtonListBase.BUTTON_CHECKBOX_POSITIONS,
       key: 'buttonCheckboxPosition',
       attribute: 'buttonCheckboxPosition',
       classListPrefix: 'ch5-button-list--button-checkbox-position-'
     },
     BUTTON_ICON_POSITION: {
-      default: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
-      values: Ch5ButtonList.BUTTON_ICON_POSITIONS,
+      default: Ch5ButtonListBase.BUTTON_ICON_POSITIONS[0],
+      values: Ch5ButtonListBase.BUTTON_ICON_POSITIONS,
       key: 'buttonIconPosition',
       attribute: 'buttonIconPosition',
       classListPrefix: 'ch5-button-list--button-icon-position-'
     },
     BUTTON_SHAPE: {
-      default: Ch5ButtonList.BUTTON_SHAPES[0],
-      values: Ch5ButtonList.BUTTON_SHAPES,
+      default: Ch5ButtonListBase.BUTTON_SHAPES[0],
+      values: Ch5ButtonListBase.BUTTON_SHAPES,
       key: 'buttonShape',
       attribute: 'buttonShape',
       classListPrefix: 'ch5-button-list--button-shape-'
     },
     BUTTON_STRETCH: {
-      default: Ch5ButtonList.BUTTON_STRETCH[0],
-      values: Ch5ButtonList.BUTTON_STRETCH,
+      default: Ch5ButtonListBase.BUTTON_STRETCH[0],
+      values: Ch5ButtonListBase.BUTTON_STRETCH,
       key: 'buttonStretch',
       attribute: 'buttonStretch',
       classListPrefix: 'ch5-button-list--button-stretch-'
@@ -100,66 +100,66 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show', 'receiveStateEnable', 'receiveStateShow'];
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
-      default: Ch5ButtonList.BUTTON_TYPES[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_TYPES,
+      default: Ch5ButtonListBase.BUTTON_TYPES[0],
+      enumeratedValues: Ch5ButtonListBase.BUTTON_TYPES,
       name: "buttonType",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_TYPES[0],
+      valueOnAttributeEmpty: Ch5ButtonListBase.BUTTON_TYPES[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS,
+      default: Ch5ButtonListBase.BUTTON_HALIGN_LABEL_POSITIONS[0],
+      enumeratedValues: Ch5ButtonListBase.BUTTON_HALIGN_LABEL_POSITIONS,
       name: "buttonHAlignLabel",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_HALIGN_LABEL_POSITIONS[0],
+      valueOnAttributeEmpty: Ch5ButtonListBase.BUTTON_HALIGN_LABEL_POSITIONS[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS,
+      default: Ch5ButtonListBase.BUTTON_VALIGN_LABEL_POSITIONS[0],
+      enumeratedValues: Ch5ButtonListBase.BUTTON_VALIGN_LABEL_POSITIONS,
       name: "buttonVAlignLabel",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS[0],
+      valueOnAttributeEmpty: Ch5ButtonListBase.BUTTON_VALIGN_LABEL_POSITIONS[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS,
+      default: Ch5ButtonListBase.BUTTON_CHECKBOX_POSITIONS[0],
+      enumeratedValues: Ch5ButtonListBase.BUTTON_CHECKBOX_POSITIONS,
       name: "buttonCheckboxPosition",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_CHECKBOX_POSITIONS[0],
+      valueOnAttributeEmpty: Ch5ButtonListBase.BUTTON_CHECKBOX_POSITIONS[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_ICON_POSITIONS,
+      default: Ch5ButtonListBase.BUTTON_ICON_POSITIONS[0],
+      enumeratedValues: Ch5ButtonListBase.BUTTON_ICON_POSITIONS,
       name: "buttonIconPosition",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_ICON_POSITIONS[0],
+      valueOnAttributeEmpty: Ch5ButtonListBase.BUTTON_ICON_POSITIONS[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_SHAPES[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_SHAPES,
+      default: Ch5ButtonListBase.BUTTON_SHAPES[0],
+      enumeratedValues: Ch5ButtonListBase.BUTTON_SHAPES,
       name: "buttonShape",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_SHAPES[0],
+      valueOnAttributeEmpty: Ch5ButtonListBase.BUTTON_SHAPES[0],
       isObservableProperty: true
     },
     {
-      default: Ch5ButtonList.BUTTON_STRETCH[0],
-      enumeratedValues: Ch5ButtonList.BUTTON_STRETCH,
+      default: Ch5ButtonListBase.BUTTON_STRETCH[0],
+      enumeratedValues: Ch5ButtonListBase.BUTTON_STRETCH,
       name: "buttonStretch",
       removeAttributeOnNull: true,
       type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonList.BUTTON_STRETCH[0],
+      valueOnAttributeEmpty: Ch5ButtonListBase.BUTTON_STRETCH[0],
       isObservableProperty: true,
       isNullable: true,
     },
@@ -285,7 +285,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
   ];
 
-  public static readonly ELEMENT_NAME = 'ch5-button-list';
+  public static ELEMENT_NAME = 'ch5-button-list';
 
   public cssClassPrefix = 'ch5-button-list';
   public primaryCssClass = 'ch5-button-list';
@@ -516,15 +516,15 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   //#region Static Methods
 
   public static registerSignalAttributeTypes() {
-    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ButtonList.ELEMENT_NAME, Ch5ButtonList.SIGNAL_ATTRIBUTE_TYPES);
+    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ButtonListBase.ELEMENT_NAME, Ch5ButtonListBase.SIGNAL_ATTRIBUTE_TYPES);
   }
 
   public static registerCustomElement() {
     if (typeof window === "object"
       && typeof window.customElements === "object"
       && typeof window.customElements.define === "function"
-      && window.customElements.get(Ch5ButtonList.ELEMENT_NAME) === undefined) {
-      window.customElements.define(Ch5ButtonList.ELEMENT_NAME, Ch5ButtonList);
+      && window.customElements.get(Ch5ButtonListBase.ELEMENT_NAME) === undefined) {
+      window.customElements.define(Ch5ButtonListBase.ELEMENT_NAME, Ch5ButtonListBase);
     }
   }
 
@@ -534,21 +534,21 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public constructor() {
     super();
-    this.logger.start('constructor()', Ch5ButtonList.ELEMENT_NAME);
+    this.logger.start('constructor()', Ch5ButtonListBase.ELEMENT_NAME);
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
     this._wasInstatiated = true;
-    this._ch5Properties = new Ch5Properties(this, Ch5ButtonList.COMPONENT_PROPERTIES);
+    this._ch5Properties = new Ch5Properties(this, Ch5ButtonListBase.COMPONENT_PROPERTIES);
     this.initCssClass();
   }
 
   public static get observedAttributes(): string[] {
     const inheritedObsAttrs = Ch5GenericListAttributes.observedAttributes;
     const newObsAttrs: string[] = [];
-    for (let i: number = 0; i < Ch5ButtonList.COMPONENT_PROPERTIES.length; i++) {
-      if (Ch5ButtonList.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-        newObsAttrs.push(Ch5ButtonList.COMPONENT_PROPERTIES[i].name.toLowerCase());
+    for (let i: number = 0; i < Ch5ButtonListBase.COMPONENT_PROPERTIES.length; i++) {
+      if (Ch5ButtonListBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+        newObsAttrs.push(Ch5ButtonListBase.COMPONENT_PROPERTIES[i].name.toLowerCase());
       }
     }
     return inheritedObsAttrs.concat(newObsAttrs);
@@ -558,7 +558,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.logger.start("attributeChangedCallback", this.primaryCssClass);
     if (oldValue !== newValue) {
       this.logger.log('ch5-button-list attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
-      const attributeChangedProperty = Ch5ButtonList.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
+      const attributeChangedProperty = Ch5ButtonListBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
         const thisRef: any = this;
         const key = attributeChangedProperty.name;
@@ -571,10 +571,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   /**
-   * Called when the Ch5ButtonList component is first connected to the DOM
+   * Called when the Ch5ButtonListBase component is first connected to the DOM
    */
   public connectedCallback() {
-    this.logger.start('connectedCallback()', Ch5ButtonList.ELEMENT_NAME);
+    this.logger.start('connectedCallback()', Ch5ButtonListBase.ELEMENT_NAME);
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonList);
@@ -587,7 +587,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.debounceButtonDisplay();
     resizeObserver(this._elContainer, this.resizeHandler);
     customElements.whenDefined('ch5-button-list').then(() => {
-      this.componentLoadedEvent(Ch5ButtonList.ELEMENT_NAME, this.id);
+      this.componentLoadedEvent(Ch5ButtonListBase.ELEMENT_NAME, this.id);
     });
     this.logger.stop();
   }
@@ -617,10 +617,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     super.initAttributes();
 
     const thisRef: any = this;
-    for (let i: number = 0; i < Ch5ButtonList.COMPONENT_PROPERTIES.length; i++) {
-      if (Ch5ButtonList.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
-        if (this.hasAttribute(Ch5ButtonList.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
-          const key = Ch5ButtonList.COMPONENT_PROPERTIES[i].name;
+    for (let i: number = 0; i < Ch5ButtonListBase.COMPONENT_PROPERTIES.length; i++) {
+      if (Ch5ButtonListBase.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+        if (this.hasAttribute(Ch5ButtonListBase.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+          const key = Ch5ButtonListBase.COMPONENT_PROPERTIES[i].name;
           thisRef[key] = this.getAttribute(key);
         }
       }
@@ -722,8 +722,8 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
     // check whether all the buttons are loaded
     if (this.loadedButtons !== this.numberOfItems) {
-      for (let i = this.loadedButtons; i < this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER && i < this.numberOfItems; i++) { this.createButton(i); }
-      this.loadedButtons = this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER > this.numberOfItems ? this.numberOfItems : this.loadedButtons + rowColumnValue * Ch5ButtonList.BUTTON_CONTAINER_BUFFER;
+      for (let i = this.loadedButtons; i < this.loadedButtons + rowColumnValue * Ch5ButtonListBase.BUTTON_CONTAINER_BUFFER && i < this.numberOfItems; i++) { this.createButton(i); }
+      this.loadedButtons = this.loadedButtons + rowColumnValue * Ch5ButtonListBase.BUTTON_CONTAINER_BUFFER > this.numberOfItems ? this.numberOfItems : this.loadedButtons + rowColumnValue * Ch5ButtonListBase.BUTTON_CONTAINER_BUFFER;
     }
 
     // working of endless for right and bottom scroll
@@ -757,18 +757,18 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   public handleOrientation() {
-    Array.from(Ch5ButtonList.COMPONENT_DATA.ORIENTATION.values).forEach((orientation: any) => {
-      this._elContainer.classList.remove(Ch5ButtonList.COMPONENT_DATA.ORIENTATION.classListPrefix + orientation);
+    Array.from(Ch5ButtonListBase.COMPONENT_DATA.ORIENTATION.values).forEach((orientation: any) => {
+      this._elContainer.classList.remove(Ch5ButtonListBase.COMPONENT_DATA.ORIENTATION.classListPrefix + orientation);
     });
-    this._elContainer.classList.add(Ch5ButtonList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
+    this._elContainer.classList.add(Ch5ButtonListBase.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     this.handleRowsAndColumn();
   }
 
   public handleScrollbar() {
     [true, false].forEach((bool: boolean) => {
-      this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + bool.toString());
+      this._elContainer.classList.remove(Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + bool.toString());
     });
-    this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
+    this._elContainer.classList.add(Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     this.initScrollbar();
   }
 
@@ -777,25 +777,25 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     if (this.stretch) { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     if (this.orientation === "horizontal") {
       // Remove Previous loaded class for both rows and columns
-      this._elContainer.classList.remove(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
-      this._elContainer.classList.remove(Ch5ButtonList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.classList.remove(Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.classList.remove(Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
 
       // Calculate New Row class value
       this.rowClassValue = this.rows < this.numberOfItems ? this.rows : this.numberOfItems;
 
       // Add the new class to the container
-      this._elContainer.classList.add(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.classList.add(Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
     } else {
 
       // Remove Previous loaded class for both rows and columns
-      this._elContainer.classList.remove(Ch5ButtonList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
-      this._elContainer.classList.remove(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
+      this._elContainer.classList.remove(Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.classList.remove(Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
 
       // Calculate New Row class value
       this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
       // Add the new class to the container
-      this._elContainer.classList.add(Ch5ButtonList.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.classList.add(Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
     }
     this.debounceButtonDisplay();
   }
@@ -811,9 +811,9 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public handleCenterItems() {
     [true, false].forEach((bool: boolean) => {
-      this._elContainer.classList.remove(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + bool.toString());
+      this._elContainer.classList.remove(Ch5ButtonListBase.CENTER_ITEMS_CLASSLIST_PREFIX + bool.toString());
     });
-    this._elContainer.classList.add(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
+    this._elContainer.classList.add(Ch5ButtonListBase.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
   }
 
   public handleEndless() {
@@ -865,10 +865,10 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.buttonModeHelper(btn, index);
     this.buttonLabelHelper(btn, index);
     this.buttonHelper(btn, index);
-    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType);
-    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
-    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
-    btn.addContainerClass(Ch5ButtonList.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
+    btn.addContainerClass(Ch5ButtonListBase.COMPONENT_DATA.BUTTON_TYPE.classListPrefix + this.buttonType);
+    btn.addContainerClass(Ch5ButtonListBase.COMPONENT_DATA.BUTTON_SHAPE.classListPrefix + this.buttonShape);
+    btn.addContainerClass(Ch5ButtonListBase.COMPONENT_DATA.BUTTON_ICON_POSITION.classListPrefix + this.buttonIconPosition);
+    btn.addContainerClass(Ch5ButtonListBase.COMPONENT_DATA.BUTTON_CHECKBOX_POSITION.classListPrefix + this.buttonCheckboxPosition);
   }
 
   private buttonModeHelper(btn: Ch5Button, i: number) {
@@ -876,7 +876,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     if (buttonListModes && buttonListModes.length > 0) {
       Array.from(buttonListModes).forEach((buttonListMode, index) => {
         if (index < Ch5Button.MODES.MAX_LENGTH) {
-          if (buttonListMode.parentElement instanceof Ch5ButtonList) {
+          if (buttonListMode.parentElement instanceof Ch5ButtonListBase) {
             const ch5ButtonMode = new Ch5ButtonMode(btn);
             Ch5ButtonMode.observedAttributes.forEach((attr) => {
               if (buttonListMode.hasAttribute(attr)) {
@@ -940,7 +940,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     const buttonListLabels = this.getElementsByTagName('ch5-button-list-label');
     if (buttonListLabels && buttonListLabels.length > 0) {
       Array.from(buttonListLabels).forEach((buttonListLabel) => {
-        if (buttonListLabel.parentElement instanceof Ch5ButtonList) {
+        if (buttonListLabel.parentElement instanceof Ch5ButtonListBase) {
           const buttonListLabelTemplate = buttonListLabel.getElementsByTagName("template");
           if (buttonListLabelTemplate && buttonListLabelTemplate.length > 0) {
             const ch5ButtonLabel = new Ch5ButtonLabel();
@@ -957,7 +957,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private buttonHelper(btn: Ch5Button, index: number) {
     const individualButtons = this.getElementsByTagName('ch5-button-list-individual-button');
     const individualButtonsLength = individualButtons.length;
-    Ch5ButtonList.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
+    Ch5ButtonListBase.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
       if (index < individualButtonsLength) {
         if (attr.name.toLowerCase() === 'buttonlabelinnerhtml') {
           if (individualButtons[index].hasAttribute('buttonlabelinnerhtml')) {
@@ -1017,7 +1017,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       }
     });
 
-    Ch5ButtonList.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
+    Ch5ButtonListBase.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
       if (this.hasAttribute(attr)) {
         btn.setAttribute(attr, this.getAttribute(attr) + '');
       }
@@ -1034,13 +1034,13 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   private initCssClass() {
     this.logger.start('initializeCssClass');
     // Default Orientation
-    this._elContainer.classList.add(Ch5ButtonList.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
+    this._elContainer.classList.add(Ch5ButtonListBase.COMPONENT_DATA.ORIENTATION.classListPrefix + this.orientation);
     // Set default rows 
-    this._elContainer.classList.add(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rows);
+    this._elContainer.classList.add(Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rows);
     // Sets default scroll bar class
-    this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
+    this._elContainer.classList.add(Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + this.scrollbar);
     // sets default center item class
-    this._elContainer.classList.add(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
+    this._elContainer.classList.add(Ch5ButtonListBase.CENTER_ITEMS_CLASSLIST_PREFIX + this.centerItems);
     this.logger.stop();
   }
 
@@ -1074,11 +1074,11 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     }
     if (this.scrollbar) {
       if (this.scrollbarDimension === 100) {
-        this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
-        this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
+        this._elContainer.classList.remove(Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+        this._elContainer.classList.add(Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + 'false');
       } else {
-        this._elContainer.classList.remove(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'false');
-        this._elContainer.classList.add(Ch5ButtonList.SCROLLBAR_CLASSLIST_PREFIX + 'true');
+        this._elContainer.classList.remove(Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + 'false');
+        this._elContainer.classList.add(Ch5ButtonListBase.SCROLLBAR_CLASSLIST_PREFIX + 'true');
       }
     }
   }
@@ -1183,6 +1183,3 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   //#endregion
 
 }
-
-Ch5ButtonList.registerCustomElement();
-Ch5ButtonList.registerSignalAttributeTypes();
