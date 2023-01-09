@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
@@ -20,20 +22,61 @@
       </ch5-button-list>
     </template>
   </test-fixture>
+
+  <test-fixture id="ch5-button-list-mode-state-iconPosition-attributes-1">
+    <template>
+      <ch5-button-list numberOfItems="4" indexId="idx">
+        <ch5-button-list-mode type="default" vAlignLabel="middle" hAlignLabel="center">
+          <ch5-button-list-mode-state>
+            <template>
+              normal_{{idx}}
+            </template>
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-button-list-mode-state-iconPosition-attributes-value', () => {
       let ch5ButtonList;
       let ch5ButtonListMode;
       let ch5ButtonListModeState;
+      let ch5ButtonList1;
 
       setup(async () => {
         ch5ButtonList = fixture('ch5-button-list-mode-state-iconPosition-attributes');
-        ch5ButtonListMode = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+        ch5ButtonList1 = fixture('ch5-button-list-mode-state-iconPosition-attributes-1');
+        ch5ButtonListMode = ch5ButtonList1.getElementsByTagName('ch5-button-list-mode')[0];
         ch5ButtonListModeState = ch5ButtonListMode.getElementsByTagName('ch5-button-list-mode-state')[0];
       });
 
       let testCases = ['a', '', ' ', 'number', 'first', 'last', 'top', 'bottom'];
       let expectedResult = ['first', 'first', 'first', 'first', 'first', 'last', 'top', 'bottom'];
+      const iconPositionList = [
+        {
+          iconClass: "material-icons md-alarm_on",
+          position: "top"
+        },
+        {
+          iconClass: "material-icons md-alarm_on",
+          position: "bottom"
+        },
+        {
+          iconClass: "material-icons md-alarm_on",
+          position: "first"
+        },
+        {
+          iconClass: "material-icons md-alarm_on",
+          position: "last"
+        }
+      ];
+      const iconUrlArray = [
+        "./../assets/img/finger.svg",
+        "./../assets/img/something.svg",
+        "./../assets/img/video.svg",
+        "https://www.searchpng.com/wp-content/uploads/2018/12/Splash-Instagraam-Icon-Png-1024x1024.png",
+        "https://e1.pngegg.com/pngimages/298/527/png-clipart-snoopy.png"
+      ];
       testCases.forEach((ele, i) => {
         test('Check Value "iconPosition"', () => {
           ch5ButtonListModeState.setAttribute('iconPosition', ele);
@@ -41,6 +84,74 @@
         });
       });
 
+      iconPositionList.forEach((val, i) => {
+        test(`Check iconPosition ${val.position} for state normal`, (done) => {
+          ch5ButtonList1.setAttribute('buttonIconPosition', val.position);
+          ch5ButtonList1.setAttribute('buttonIconClass', val.iconClass);
+          ch5ButtonList1.setAttribute('state', "normal");
+          setTimeout(() => {
+            expect(ch5ButtonList1.numberOfItems).to.be.equal(4);
+            expect(getSpan(ch5ButtonList1).children[0].classList.contains('md-alarm_on')).to.be.equal(true);
+            for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
+              expect(getSpan(ch5ButtonList1).children[0].classList.contains('material-icons')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--iconposition-' + val.position)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--default')).to.be.equal(true);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+
+        test(`Check iconPosition ${val.position} for state selected`, (done) => {
+          ch5ButtonList1.setAttribute('buttonIconPosition', val.position);
+          ch5ButtonList1.setAttribute('buttonIconClass', val.iconClass);
+          ch5ButtonListModeState.setAttribute('state', 'selected');
+          setTimeout(() => {
+            expect(ch5ButtonList1.numberOfItems).to.be.equal(4);
+            expect(getSpan(ch5ButtonList1).children[0].classList.contains('md-alarm_on')).to.be.equal(true);
+            for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
+              expect(getSpan(ch5ButtonList1).children[0].classList.contains('material-icons')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--iconposition-' + val.position)).to.be.equal(true);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+
+        test(`Check iconPosition ${val.position} for state pressed`, (done) => {
+          ch5ButtonList1.setAttribute('buttonIconPosition', val.position);
+          ch5ButtonList1.setAttribute('buttonIconClass', val.iconClass);
+          ch5ButtonListModeState.setAttribute('state', 'pressed');
+          setTimeout(() => {
+            expect(ch5ButtonList1.numberOfItems).to.be.equal(4);
+            expect(getSpan(ch5ButtonList1).children[0].classList.contains('md-alarm_on')).to.be.equal(true);
+            for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
+              expect(getSpan(ch5ButtonList1).children[0].classList.contains('material-icons')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--iconposition-' + val.position)).to.be.equal(true);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+
+        iconUrlArray.forEach((iconUrl, i) => {
+          test(`Check attribute iconUrl: "${iconUrl}"`, (done) => {
+            ch5ButtonList1.setAttribute('buttonIconUrl', iconUrl);
+            ch5ButtonList1.setAttribute('buttonIconPosition', val.position);
+            ch5ButtonList1.setAttribute('state', "normal");
+            flush(() => {
+              setTimeout(() => {
+                expect(ch5ButtonList1.buttonIconUrl).to.be.equal(iconUrl);
+                const expectedValueForIconUrl = iconUrl;
+                const getObjectClassListForIconUrl = getITagInSpanForIcon(ch5ButtonList1).classList;
+                for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
+                  expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--iconposition-' + val.position)).to.be.equal(true);
+                  expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].classList.contains('ch5-button--default')).to.be.equal(true);
+                }
+                expect(getObjectClassListForIconUrl.contains("cx-button-icon-pos-" + val.position)).to.be.equal(true);
+                done();
+              }, COMPONENT_TESTING_TIMEOUT);
+            });
+          });
+        });
+      });
     });
   </script>
 </body>

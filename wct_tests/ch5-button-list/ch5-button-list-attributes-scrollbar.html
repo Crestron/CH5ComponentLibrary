@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
@@ -16,16 +18,117 @@
       <ch5-button-list></ch5-button-list>
     </template>
   </test-fixture>
+  <test-fixture id="ch5-button-list-scrollbar-attributes-1">
+    <template>
+      <ch5-button-list scrollbar buttonType="danger"></ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-scrollbar-attributes-2">
+    <template>
+      <ch5-button-list scrollbar buttonShape="rounded-rectangle" buttonIconClass="material-icons md-alarm_on">
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-scrollbar-attributes-3">
+    <template>
+      <ch5-button-list buttonType="text" scrollbar buttonShape="rectangle" buttonIconClass="material-icons md-alarm_on">
+        <ch5-button-list-mode type="default">
+          <ch5-button-list-mode-state state="normal" type="success">
+            <ch5-button-list-label>
+              <template>
+                Mode-0-normal_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+        <ch5-button-list-mode type="danger">
+          <ch5-button-list-mode-state state="normal" type="success">
+            <ch5-button-list-label>
+              <template>
+                Mode-1-normal_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+        <ch5-button-list-mode type="text">
+          <ch5-button-list-mode-state state="normal" type="success">
+            <ch5-button-list-label>
+              <template>
+                Mode-2-normal_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+        <ch5-button-list-mode type="danger">
+          <ch5-button-list-mode-state state="normal" type="success">
+            <ch5-button-list-label>
+              <template>
+                Mode-3-normal_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+        <ch5-button-list-mode type="danger">
+          <ch5-button-list-mode-state state="normal" type="success">
+            <ch5-button-list-label>
+              <template>
+                Mode-4-normal_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
   <script>
     suite('ch5-button-list-scrollbar-attributes-value', () => {
       let ch5ButtonList;
+      let ch5ButtonList1;
+      let ch5ButtonList2;
+      let ch5ButtonList3;
 
       setup(async () => {
         ch5ButtonList = fixture('ch5-button-list-scrollbar-attributes');
+        ch5ButtonList1 = fixture('ch5-button-list-scrollbar-attributes-1');
+        ch5ButtonList2 = fixture('ch5-button-list-scrollbar-attributes-2');
+        ch5ButtonList3 = fixture('ch5-button-list-scrollbar-attributes-3');
       });
 
       let testCases = ['a', '', ' ', 'number', true, false];
       let expectedResult = ['false', 'true', 'false', 'false', 'true', 'false'];
+      const numberOfRows = [10, 50, 100, 500];
+      const scrollBarVal = [
+        {
+          rows: 10,
+          columns: 5,
+          numberOfItems: 50
+        },
+        {
+          rows: 50,
+          columns: 10,
+          numberOfItems: 150
+        },
+        {
+          rows: 150,
+          columns: 50,
+          numberOfItems: 450
+        },
+        {
+          rows: 100,
+          columns: 40,
+          numberOfItems: 301
+        },
+        {
+          rows: 150,
+          columns: 10,
+          numberOfItems: 200
+        },
+        {
+          rows: 10,
+          columns: 50,
+          numberOfItems: 430
+        }
+      ];
       testCases.forEach((ele, i) => {
         test('Check Value "scrollbar"', () => {
           ch5ButtonList.setAttribute('scrollbar', ele);
@@ -33,6 +136,203 @@
         });
       });
 
+      test(`Check attribute scrollbar`, () => {
+        ch5ButtonList.setAttribute('rows', 1);
+        ch5ButtonList.setAttribute('scrollbar', true);
+        ch5ButtonList.setAttribute('numberOfItems', 20);
+        ch5ButtonList.setAttribute('customStyle', 'width:50%;');
+        ch5ButtonList.setAttribute('orientation', 'horizontal');
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.rows).to.be.equal(1);
+            expect(ch5ButtonList.scrollbar).to.be.equal(true);
+            expect(ch5ButtonList.numberOfItems).to.be.equal(20);
+            expect(ch5ButtonList.orientation).to.be.equal('horizontal');
+            expect(ch5ButtonList.customStyle).to.be.equal('width:50%;');
+            expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
+            expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+            expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+      numberOfRows.forEach((val, i) => {
+        test(`Check attribute scrollbar with multiple rows ${val}`, () => {
+          ch5ButtonList1.setAttribute('rows', val);
+          ch5ButtonList1.setAttribute('scrollbar', true);
+          ch5ButtonList1.setAttribute('numberOfItems', val);
+          ch5ButtonList1.setAttribute('customStyle', 'width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList1.orientation).to.be.equal('horizontal');
+              expect(ch5ButtonList1.rows).to.be.equal(2);
+              expect(ch5ButtonList1.rows).to.be.equal(val);
+              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(val);
+              console.log(getDiv(ch5ButtonList1), ch5ButtonList1.scrollbar)
+              expect(ch5ButtonList1.customStyle).to.be.equal('width:50%;');
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute scrollbar false with multiple rows ${val}`, () => {
+          ch5ButtonList1.setAttribute('rows', val);
+          ch5ButtonList1.setAttribute('scrollbar', false);
+          ch5ButtonList1.setAttribute('numberOfItems', val);
+          ch5ButtonList1.setAttribute('customStyle', 'width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList1.rows).to.be.equal(val);
+              expect(ch5ButtonList1.rows).to.be.equal(2);
+              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(val);
+              expect(ch5ButtonList1.orientation).to.be.equal('horizontal');
+              expect(ch5ButtonList1.customStyle).to.be.equal('width:50%;');
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + val)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      scrollBarVal.forEach((val, i) => {
+        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns}`, () => {
+          ch5ButtonList1.setAttribute('rows', val.rows);
+          ch5ButtonList1.setAttribute('scrollbar', true);
+          ch5ButtonList1.setAttribute('columns', val.columns);
+          ch5ButtonList1.setAttribute('orientation', 'vertical');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50z%;');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+              expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
+              expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns}`, () => {
+          ch5ButtonList1.setAttribute('rows', val.rows);
+          ch5ButtonList1.setAttribute('scrollbar', false);
+          ch5ButtonList1.setAttribute('columns', val.columns);
+          ch5ButtonList1.setAttribute('orientation', 'vertical');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList1.scrollbar).to.be.equal(false);
+              expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
+              expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, () => {
+          ch5ButtonList2.setAttribute('rows', val.rows);
+          ch5ButtonList2.setAttribute('scrollbar', true);
+          ch5ButtonList2.setAttribute('columns', val.columns);
+          ch5ButtonList2.setAttribute('orientation', 'vertical');
+          ch5ButtonList2.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList2.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList2.scrollbar).to.be.equal(true);
+              expect(ch5ButtonList2.rows).to.be.equal(scrollBarVal[i].rows);
+              expect(ch5ButtonList2.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5ButtonList2.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList2.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getSpan(ch5ButtonList2).classList.contains('material-icons md-alarm_on')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--button-shape-rounded-rectangle')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute scrollbar false for rows ${val.rows} and columns ${val.columns} with buttonShape and buttonIconClass`, () => {
+          ch5ButtonList2.setAttribute('rows', val.rows);
+          ch5ButtonList2.setAttribute('scrollbar', false);
+          ch5ButtonList2.setAttribute('columns', val.columns);
+          ch5ButtonList2.setAttribute('orientation', 'vertical');
+          ch5ButtonList2.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList2.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList2.scrollbar).to.be.equal(false);
+              expect(ch5ButtonList2.rows).to.be.equal(scrollBarVal[i].rows);
+              expect(ch5ButtonList2.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5ButtonList2.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList2.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getSpan(ch5ButtonList2).classList.contains('material-icons md-alarm_on')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--button-shape-rounded-rectangle')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList2).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute scrollbar for rows ${val.rows} and columns ${val.columns} with buttonMode`, () => {
+          ch5ButtonList3.setAttribute('buttonMode', i);
+          ch5ButtonList3.setAttribute('rows', val.rows);
+          ch5ButtonList3.setAttribute('scrollbar', true);
+          ch5ButtonList3.setAttribute('columns', val.columns);
+          ch5ButtonList3.setAttribute('orientation', 'horizontal');
+          ch5ButtonList3.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList3.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              console.log("dom");
+              expect(ch5ButtonList3.buttonMode).to.be.equal(i);
+              expect(ch5ButtonList3.scrollbar).to.be.equal(true);
+              expect(ch5ButtonList3.rows).to.be.equal(scrollBarVal[i].rows);
+              expect(ch5ButtonList3.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5ButtonList3.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(getSpan(ch5ButtonList3).innerText).to.be.equal(`Mode-${i}-normal_${i}`);
+              expect(ch5ButtonList3.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button--text')).to.be.equal(true);
+              expect(getSpan(ch5ButtonList3).classList.contains('material-icons md-alarm_on')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--button-shape-rectangle')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList3).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
     });
   </script>
 </body>
