@@ -20,6 +20,7 @@ export * from './ch5-select/index';
 export * from './ch5-select-option/index';
 export * from './ch5-toggle/index';
 export * from './ch5-slider/index';
+export * from './ch5-tab-button/index';
 export * from './ch5-triggerview/index';
 export * from './ch5-textinput/index';
 export * from './ch5-form/index';
