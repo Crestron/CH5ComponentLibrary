@@ -584,7 +584,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.initAttributes();
     this.initMembers();
     this.initCommonMutationObserver(this);
-    this.setButtonContainerDimension();
     this.debounceButtonDisplay();
     resizeObserver(this._elContainer, this.resizeHandler);
     customElements.whenDefined('ch5-button-list').then(() => {
@@ -800,6 +799,15 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     this.debounceButtonDisplay();
   }
 
+  public handleStretch(): void {
+    if (this.stretch) {
+      this.stretch = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1;
+      // stretch functionality is handled in buttonDisplay
+    } else {
+      this._elContainer.classList.remove(this.primaryCssClass + '--stretch-true');
+    }
+  }
+
   public handleCenterItems() {
     [true, false].forEach((bool: boolean) => {
       this._elContainer.classList.remove(Ch5ButtonList.CENTER_ITEMS_CLASSLIST_PREFIX + bool.toString());
@@ -812,18 +820,17 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     // This behavior is handled in scroll event
   }
 
-  private setButtonContainerDimension() {
-    const btnContainer = document.createElement("div");
-    btnContainer.classList.add("ch5-button-list--button-container");
-    this._elContainer.appendChild(btnContainer);
-    this.buttonWidth = this._elContainer.children[0].getBoundingClientRect().width;
-    this.buttonHeight = this._elContainer.children[0].getBoundingClientRect().height;
-    this._elContainer.children[0].remove();
-  }
-
   public buttonDisplay() {
+    // The below line is added to remove the stretch class before calculating the button dimension
+    this._elContainer.classList.remove(this.primaryCssClass + '--stretch-true');
+
     // Remove all the children containers from the container
     Array.from(this._elContainer.children).forEach(container => container.remove());
+
+    // create first button and find the dimension of the button
+    this.createButton(0);
+    this.buttonWidth = this._elContainer.children[0].getBoundingClientRect().width;
+    this.buttonHeight = this._elContainer.children[0].getBoundingClientRect().height;
 
     if (this.orientation === 'horizontal') {
       // Find the number of initial buttons which can be loaded based on container width
@@ -839,11 +846,12 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
       }
     }
     this.loadedButtons = this.loadedButtons > this.numberOfItems ? this.numberOfItems : this.loadedButtons;
-    for (let index = 0; index < this.loadedButtons && index < this.numberOfItems; index++) {
+    for (let index = 1; index < this.loadedButtons; index++) {
       this.createButton(index);
     }
     // init the scrollbar after loading the initial buttons 
     this.initScrollbar();
+    if (this.stretch) { this._elContainer.classList.add(this.primaryCssClass + '--stretch-true'); }
   }
 
 
@@ -1126,7 +1134,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
   }
 
   private resizeHandler = () => {
-    this.setButtonContainerDimension();
     this.debounceButtonDisplay();
   }
 
