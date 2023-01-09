@@ -26,6 +26,8 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   // Button container dimension and Buffer values
   public static readonly BUTTON_CONTAINER_BUFFER: number = 2;
 
+  public static readonly MODES_MAX_COUNT: number = 5;
+
   // Enum types
   public static readonly BUTTON_TYPES: TCh5ButtonListButtonType[] = ['default', 'danger', 'text', 'warning', 'info', 'success', 'primary', 'secondary'];
   public static readonly BUTTON_HALIGN_LABEL_POSITIONS: TCh5ButtonListButtonHAlignLabel[] = ['center', 'left', 'right'];
@@ -875,7 +877,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     const buttonListModes = this.getElementsByTagName('ch5-button-list-mode');
     if (buttonListModes && buttonListModes.length > 0) {
       Array.from(buttonListModes).forEach((buttonListMode, index) => {
-        if (index < Ch5Button.MODES.MAX_LENGTH) {
+        if (index < Ch5ButtonListBase.MODES_MAX_COUNT) {
           if (buttonListMode.parentElement instanceof Ch5ButtonListBase) {
             const ch5ButtonMode = new Ch5ButtonMode(btn);
             Ch5ButtonMode.observedAttributes.forEach((attr) => {
