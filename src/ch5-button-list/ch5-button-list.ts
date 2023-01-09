@@ -774,6 +774,7 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
 
   public handleRowsAndColumn() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
+    if (this.stretch) { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     if (this.orientation === "horizontal") {
       // Remove Previous loaded class for both rows and columns
       this._elContainer.classList.remove(Ch5ButtonList.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
@@ -849,7 +850,6 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     for (let index = 1; index < this.loadedButtons; index++) {
       this.createButton(index);
     }
-    // init the scrollbar after loading the initial buttons 
     this.initScrollbar();
     if (this.stretch) { this._elContainer.classList.add(this.primaryCssClass + '--stretch-true'); }
   }
@@ -960,19 +960,40 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
     Ch5ButtonList.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
       if (index < individualButtonsLength) {
         if (attr.name.toLowerCase() === 'buttonlabelinnerhtml') {
-          const attrValue = individualButtons[index].getAttribute('buttonlabelinnerhtml');
-          if (attrValue) {
-            btn.setAttribute('labelinnerhtml', attrValue);
+          if (individualButtons[index].hasAttribute('buttonlabelinnerhtml')) {
+            const attrValue = individualButtons[index].getAttribute('buttonlabelinnerhtml')?.trim().replace(`{{${this.indexId}}}`, index + '');
+            if (attrValue) {
+              btn.setAttribute('labelinnerhtml', attrValue);
+            }
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
+            if (attrValue) {
+              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+            }
           }
         } else if (attr.name.toLowerCase() === 'buttoniconclass') {
-          const attrValue = individualButtons[index].getAttribute('iconclass');
-          if (attrValue) {
-            btn.setAttribute('iconclass', attrValue);
+          if (individualButtons[index].hasAttribute('iconclass')) {
+            const attrValue = individualButtons[index].getAttribute('iconclass')?.trim().replace(`{{${this.indexId}}}`, index + '');
+            if (attrValue) {
+              btn.setAttribute('iconclass', attrValue);
+            }
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
+            if (attrValue) {
+              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+            }
           }
         } else if (attr.name.toLowerCase() === 'buttoniconurl') {
-          const attrValue = individualButtons[index].getAttribute('iconurl');
-          if (attrValue) {
-            btn.setAttribute('iconurl', attrValue);
+          if (individualButtons[index].hasAttribute('iconurl')) {
+            const attrValue = individualButtons[index].getAttribute('iconurl')?.trim().replace(`{{${this.indexId}}}`, index + '');
+            if (attrValue) {
+              btn.setAttribute('iconurl', attrValue);
+            }
+          } else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+            const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
+            if (attrValue) {
+              btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
+            }
           }
         } else {
           if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
@@ -995,11 +1016,19 @@ export class Ch5ButtonList extends Ch5GenericListAttributes implements ICh5Butto
         }
       }
     });
+
     Ch5ButtonList.COMPONENT_COMMON_PROPERTIES.forEach((attr: string) => {
       if (this.hasAttribute(attr)) {
         btn.setAttribute(attr, this.getAttribute(attr) + '');
       }
     });
+
+    if (index < individualButtonsLength && individualButtons[index].hasAttribute('onRelease')) {
+      const attrValue = individualButtons[index].getAttribute('onRelease')?.trim().replace(`{{${this.indexId}}}`, index + '');
+      if (attrValue) {
+        btn.setAttribute('onRelease', attrValue);
+      }
+    }
   }
 
   private initCssClass() {

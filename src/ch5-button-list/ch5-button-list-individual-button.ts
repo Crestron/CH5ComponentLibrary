@@ -35,6 +35,14 @@ export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonL
 			valueOnAttributeEmpty: "",
 			isObservableProperty: true,
 		},
+		{
+			default: "",
+			name: "onRelease",
+			removeAttributeOnNull: true,
+			type: "string",
+			valueOnAttributeEmpty: "",
+			isObservableProperty: true,
+		}
 	];
 
 	public static readonly ELEMENT_NAME = 'ch5-button-list-individual-button';
@@ -80,6 +88,17 @@ export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonL
 	}
 	public get iconClass(): string {
 		return this._ch5Properties.get<string>("iconClass");
+	}
+
+	public set onRelease(value: string) {
+		this._ch5Properties.set<string>("onRelease", value, () => {
+			if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
+				this._parentCh5ButtonList.debounceButtonDisplay();
+			}
+		});
+	}
+	public get onRelease(): string {
+		return this._ch5Properties.get<string>("onRelease");
 	}
 
 	//#endregion

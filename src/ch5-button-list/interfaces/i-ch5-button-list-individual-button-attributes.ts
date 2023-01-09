@@ -38,5 +38,17 @@ export interface ICh5ButtonListIndividualButtonAttributes {
    * @attributeType "String"
    */
   iconClass: string;
+  /**
+   * @documentation
+   * [
+   * "`onRelease` attribute",
+   * "***",
+   * "The onRelease attribute"
+   * ]
+   * @name onrelease
+   * @default 
+   * @attributeType "String"
+   */
+  onRelease: string;
 
 }
