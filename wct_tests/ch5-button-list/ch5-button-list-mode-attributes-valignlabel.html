@@ -8,10 +8,19 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
   <test-fixture id="ch5-button-list-mode-vAlignLabel-attributes">
+    <template>
+      <ch5-button-list>
+        <ch5-button-list-mode></ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-mode-vAlignLabel-attributes1">
     <template>
       <ch5-button-list>
         <ch5-button-list-mode></ch5-button-list-mode>
@@ -37,6 +46,56 @@
         });
       });
 
+    });
+    suite('ch5-button-list-mode-vAlignLabel-attributes-classList', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-vAlignLabel-attributes1');
+        ch5ButtonListMode = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+      });
+
+
+      const valid_vAlignLabel = CrComLib.Ch5ButtonList.BUTTON_VALIGN_LABEL_POSITIONS;
+      const invalid_vAlignLabel = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'center', 'left', 'right'];
+
+      valid_vAlignLabel.forEach((vAlignLabelName, i) => {
+        test(`Check attribute vAlignLabel: "${vAlignLabelName}"`, (done) => {
+          ch5ButtonListMode.setAttribute('vAlignLabel', vAlignLabelName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonListMode.vAlignLabel).to.be.equal(vAlignLabelName);
+              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--vertical-" + vAlignLabelName)).to.be.equal(true);
+              valid_vAlignLabel.forEach((vAlignLabelNameErrorCheck, j) => {
+                if (vAlignLabelNameErrorCheck !== vAlignLabelName) {
+                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--vertical-" + vAlignLabelNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalid_vAlignLabel.forEach((vAlignLabelName, i) => {
+        test(`Check attribute vAlignLabel: "${vAlignLabelName}" for invalid values`, (done) => {
+          ch5ButtonListMode.setAttribute('vAlignLabel', vAlignLabelName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonListMode.vAlignLabel).to.be.equal("middle");
+              expect(getSpan(ch5ButtonList).classList.contains("ch5-button--vertical-middle")).to.be.equal(true);
+              valid_vAlignLabel.forEach((vAlignLabelNameErrorCheck, j) => {
+                if (vAlignLabelNameErrorCheck !== "middle") {
+                  expect(getSpan(ch5ButtonList).classList.contains("ch5-button--vertical-" + vAlignLabelNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
     });
   </script>
 </body>
