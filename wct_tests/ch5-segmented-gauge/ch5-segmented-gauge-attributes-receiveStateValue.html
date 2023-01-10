@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-segmented-gauge-receiveStateValue-attributes">
+    <template>
+      <ch5-segmented-gauge receiveStateValue="trigger_event_listener" value="45"></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-segmented-gauge-receiveStateValue-attributes-value', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestatevalue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-receiveStateValue-attributes');
+      });
+
+      test('receiveStateValue', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SegmentedGauge.getAttribute('value')).to.be.equal('200');
+            done();
+          }, 100);
+        });
+      });
+
+      test('receiveStateValue < 0', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_2', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SegmentedGauge.getAttribute('value')).to.be.equal('0');
+            done();
+          }, 100);
+        });
+      });
+
+      test('receiveStateValue > 65535', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_3', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5SegmentedGauge.getAttribute('value')).to.be.equal('65535');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

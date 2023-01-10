@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-wifi-signal-level-gauge-receiveStateValue-attributes">
+    <template>
+      <ch5-wifi-signal-level-gauge receiveStateValue="trigger_event_listener"></ch5-wifi-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-wifi-signal-level-gauge-receiveStateValue-attributes-less-than-minValue">
+    <template>
+      <ch5-wifi-signal-level-gauge receiveStateValue="trigger_event_listener1"></ch5-wifi-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-wifi-signal-level-gauge-receiveStateValue-attributes-greater-than-max-value">
+    <template>
+      <ch5-wifi-signal-level-gauge receiveStateValue="trigger_event_listener2"></ch5-wifi-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-wifi-signal-level-gauge-receiveStateValue-attributes-value', () => {
+      let ch5wifiSignalLevelGauge;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receiveStateValue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5wifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-receiveStateValue-attributes');
+      });
+
+      test('receiveStateValue', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5wifiSignalLevelGauge.getAttribute('value')).to.be.equal('35');
+            done();
+          }, 100);
+        });
+      });
+    });
+    suite('ch5-wifi-signal-level-gauge-receiveStateValue-attributes-less-than-minValue', () => {
+      let ch5wifiSignalLevelGauge;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receiveStateValue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5wifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-receiveStateValue-attributes-less-than-minValue');
+      });
+      test('receiveStateValue-less-than-minValue', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_2', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5wifiSignalLevelGauge.getAttribute('value')).to.be.equal('100');
+            done();
+          }, 100);
+        });
+      });
+    });
+    suite('ch5-wifi-signal-level-gauge-receiveStateValue-attributes-greater-than-max-value', () => {
+      let ch5wifiSignalLevelGauge;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receiveStateValue.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5wifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-receiveStateValue-attributes-greater-than-max-value');
+      });
+      test('receiveStateValue', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_3', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5wifiSignalLevelGauge.getAttribute('value')).to.be.equal('0');
+            done();
+          }, 100);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

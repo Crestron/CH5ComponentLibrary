@@ -1,0 +1,43 @@
+{
+  "cues": [
+    {
+      "type": "boolean",
+      "event": "trigger_event_1",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "increment",
+          "offset": 35
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_2",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener1",
+          "type": "n",
+          "logic": "set",
+          "value": 200
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "event": "trigger_event_3",
+      "trigger": true,
+      "actions": [
+        {
+          "state": "trigger_event_listener2",
+          "type": "n",
+          "logic": "set",
+          "value": -200
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-animation-preload-cache-page0">
+    <template>
+      <div data-ch5-noshow-type="remove">
+        <ch5-animation id="animation-obj-0" receiveStateAnimate="trigger_event_listener"
+          receiveStateAnimationStyle="trigger_event_listener" receiveStateFramesPerSecond="trigger_event_listener"
+          startAnimating="false" animationStyle="roller" size="small"></ch5-animation>
+      </div>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-animation-preload-cache-page1">
+    <template>
+      <div data-ch5-noshow-type="visibility">
+        <ch5-animation id="animation-obj-1" receiveStateAnimate="trigger_event_listener"
+          receiveStateAnimationStyle="trigger_event_listener" receiveStateFramesPerSecond="trigger_event_listener"
+          animationStyle="roller" size="small"></ch5-animation>
+      </div>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-animation-preload-cache-page2">
+    <template>
+      <div data-ch5-noshow-type="display">
+        <ch5-animation id="animation-obj-2" receiveStateAnimate="trigger_event_listener"
+          receiveStateAnimationStyle="trigger_event_listener" receiveStateFramesPerSecond="trigger_event_listener"
+          animationStyle="roller" size="small"></ch5-animation>
+      </div>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-animation-preload-cache-page-noshowtype-remove', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/preloadcachepage.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-preload-cache-page0');
+      });
+
+      test('Check preload cache value', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            let ch5AnimationComponent = document.getElementById('animation-obj-0');
+            expect(ch5AnimationComponent.getAttribute('startAnimating')).to.be.equal('true');
+            expect(ch5AnimationComponent.getAttribute('animationStyle')).to.be.equal('spinner');
+            expect(ch5AnimationComponent.getAttribute('size')).to.be.equal('small');
+            for (i = 1; i <= 50; i++) {
+              let framesPerSecondMatch = (100 - i) * 15;
+              ch5AnimationComponent.setAttribute('style', `animation-duration:${framesPerSecondMatch}ms`);
+              expect(ch5AnimationComponent.style.animationDuration).to.be.equal(`${framesPerSecondMatch}ms`);
+            }
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-animation-preload-cache-page-noshowtype-visibility', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/preloadcachepage.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-preload-cache-page1');
+      });
+
+      test('Check preload cache value', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            let ch5AnimationComponent = document.getElementById('animation-obj-1');
+            expect(ch5AnimationComponent.getAttribute('startAnimating')).to.be.equal('false');
+            expect(ch5AnimationComponent.getAttribute('animationStyle')).to.be.equal('spinner');
+            expect(ch5AnimationComponent.getAttribute('size')).to.be.equal('small');
+            for (i = 1; i <= 50; i++) {
+              let framesPerSecondMatch = (100 - i) * 15;
+              ch5AnimationComponent.setAttribute('style', `animation-duration:${framesPerSecondMatch}ms`);
+              expect(ch5AnimationComponent.style.animationDuration).to.be.equal(`${framesPerSecondMatch}ms`);
+            }
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-animation-preload-cache-page-noshowtype-display', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/preloadcachepage.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-preload-cache-page2');
+      });
+
+      test('Check preload cache value', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event', true);
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            let ch5AnimationComponent = document.getElementById('animation-obj-2');
+            expect(ch5AnimationComponent.getAttribute('startAnimating')).to.be.equal('false');
+            expect(ch5AnimationComponent.getAttribute('animationStyle')).to.be.equal('spinner');
+            expect(ch5AnimationComponent.getAttribute('size')).to.be.equal('small');
+            for (i = 1; i <= 50; i++) {
+              let framesPerSecondMatch = (100 - i) * 15;
+              ch5AnimationComponent.setAttribute('style', `animation-duration:${framesPerSecondMatch}ms`);
+              expect(ch5AnimationComponent.style.animationDuration).to.be.equal(`${framesPerSecondMatch}ms`);
+            }
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -8,13 +8,13 @@
     "engines": {
         "node": ">=16.13.0"
     }, 
-    "name": "@crestron/ch5-crcomlib", 
+    "description": "Crestron HTML5 (CH5) Components Library", 
     "repository": {
         "url": "https://github.com/Crestron/CH5ComponentLibrary.git", 
         "type": "git"
     }, 
     "author": "Crestron", 
-    "version": "2.1.0", 
+    "version": "2.2.0", 
     "dependencies": {
         "@raghavendradabbir/mycolorpicker": "^1.0.0", 
         "axios": "^0.21.1", 
@@ -26,7 +26,7 @@
     }, 
     "scripts": {
         "compile:ts": "npm-run-all clean:compiled && tsc -p tsconfig.umd.json", 
-        "build:dev:umd": "cross-env NODE_ENV=dev MODULE_TYPE=umd webpack --progress --config=webpack.dev.config.js", 
+        "clean:build": "rimraf build_bundles", 
         "test:mocha": "npm-run-all clean:compiled && tsc -p tsconfig.umd.json --target ES6 && mocha", 
         "clean:docs": "rimraf docs", 
         "doc:html": "typedoc --target ES6 --mode file --hideGenerator --tsconfig tsconfig.cjs.json --out docs/html src/ ", 
@@ -35,7 +35,7 @@
         "build:prod_publish": "npm-run-all clean:* build:prod:amd build:prod:cjs build:prod:umd", 
         "build:prod:cjs-no-ce": "cross-env NODE_ENV=prod MODULE_TYPE=cjs NO_CE=1 webpack --progress --config=webpack.prod.config.js", 
         "build:ci:dev_publish": "npm-run-all clean:ci:dev build:ci:dev:*", 
-        "clean:build": "rimraf build_bundles", 
+        "build:dev:umd": "cross-env NODE_ENV=dev MODULE_TYPE=umd webpack --progress --config=webpack.dev.config.js", 
         "build:dev:esm-no-ce": "cross-env NODE_ENV=dev MODULE_TYPE=esm NO_CE=1 tsc --outDir build_bundles/lib-esm-no-ce --declarationDir build_bundles/lib-esm-no-ce -p tsconfig.esm.json", 
         "build:prod": "npm-run-all clean:build && cross-env NODE_ENV=prod webpack --progress --config=webpack.prod.config.js", 
         "build:ci:dev:cjs": "cross-env NODE_ENV=dev MODULE_TYPE=cjs CI=true webpack --progress --config=webpack.dev.config.js", 
@@ -58,7 +58,7 @@
         "compile:ts:cjs": "tsc -p tsconfig.cjs.json", 
         "build:dev:cjs-no-ce": "cross-env NODE_ENV=dev MODULE_TYPE=cjs NO_CE=1 webpack --progress --config=webpack.dev.config.js", 
         "compile:ts:umd": "tsc -p tsconfig.umd.json", 
-        "build:dev:amd-no-ce": "cross-env NODE_ENV=dev MODULE_TYPE=amd NO_CE=1 webpack --progress --config=webpack.dev.config.js", 
+        "build:ci:dev:amd": "cross-env NODE_ENV=dev MODULE_TYPE=amd CI=true webpack --progress --config=webpack.dev.config.js", 
         "build:prod:umd": "cross-env NODE_ENV=prod MODULE_TYPE=umd webpack --progress --config=webpack.prod.config.js", 
         "test:wct": "ws -o", 
         "clean:compiled": "rimraf compiled_bundles", 
@@ -67,7 +67,7 @@
         "doc": "npm-run-all clean:docs && npm-run-all doc:*", 
         "clean:dist": "rimraf dist", 
         "clean": "npm-run-all clean:*", 
-        "build:ci:dev:amd": "cross-env NODE_ENV=dev MODULE_TYPE=amd CI=true webpack --progress --config=webpack.dev.config.js", 
+        "build:dev:amd-no-ce": "cross-env NODE_ENV=dev MODULE_TYPE=amd NO_CE=1 webpack --progress --config=webpack.dev.config.js", 
         "build:prod:cjs": "cross-env NODE_ENV=prod MODULE_TYPE=cjs webpack --progress --config=webpack.prod.config.js"
     }, 
     "keywords": [
@@ -122,5 +122,5 @@
         "**/event-stream": "^4.0.1"
     }, 
     "types": "build_bundles/umd/@types/index.d.ts", 
-    "description": "Crestron HTML5 (CH5) Components Library"
+    "name": "@crestron/ch5-crcomlib"
 }

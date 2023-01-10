@@ -35,7 +35,7 @@
         flush(() => {
           setTimeout(() => {
 
-            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(0, 0, 134)');
+            expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgb(0, 0, 134)');
             done();
           }, 200);
         });
@@ -46,7 +46,7 @@
         CrComLib.publishEvent('b', 'trigger_event_2', true);
         flush(() => {
           setTimeout(() => {
-            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(0, 0, 176)');
+            expect(getComputedStyle(ch5ColorChip.children[0]).getPropertyValue('background-color')).to.be.equal('rgb(0, 0, 176)');
             done();
           }, 100);
         });

@@ -8,6 +8,19 @@ export interface ICh5SignalLevelGaugeAttributes extends ICh5CommonAttributesSet3
   /**
   * @documentation
   * [
+  * "`value` attribute",
+  * "***",
+  * "It sets the value of signal level gauge."
+  * ]
+  * @name value
+  * @default 0
+  * @limits [{"min": 0, "max": 65535}]
+  * @attributeType "number"
+  */
+  value: number;
+  /**
+  * @documentation
+  * [
   * "`orientation` attribute",
   * "***",
   * "Sets the orientation (horizontal or vertical) of the gauge. Default value is 'horizontal'."

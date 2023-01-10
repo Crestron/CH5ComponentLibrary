@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-segmented-gauge-primaryStateGraphic-attributes">
+    <template>
+      <ch5-segmented-gauge></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-segmented-gauge-primaryStateGraphic-attributes-invalid">
+    <template>
+      <ch5-segmented-gauge primaryStateGraphic="violet"></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-segmented-gauge-primaryStateGraphic-attributes-value', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-primaryStateGraphic-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'green', 'inactive', 'yellow', 'red', 'blue', 'orange', 'white'];
+      let expectedResult = ['green', 'green', 'green', 'green', 'green', 'inactive', 'yellow', 'red', 'blue', 'orange', 'white'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "primaryStateGraphic"', () => {
+          ch5SegmentedGauge.setAttribute('primaryStateGraphic', ele);
+          expect(ch5SegmentedGauge.getAttribute('primaryStateGraphic')).to.be.equal(expectedResult[i]);
+        });
+      });
+    });
+
+    suite('ch5-segmented-gauge-primaryStateGraphic-attributes-invalid', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-primaryStateGraphic-attributes-invalid');
+      });
+
+      test('Check value for "primaryStateGraphic"', () => {
+        expect(ch5SegmentedGauge.getAttribute('primaryStateGraphic')).to.be.equal('green');
+      });
+    });
+  </script>
+</body>
+
+</html>

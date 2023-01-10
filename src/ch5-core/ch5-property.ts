@@ -44,13 +44,19 @@ export class Ch5Property {
 	private _propertyValue: boolean | string | object | any;
 	private _propertySignalValue: boolean | string | object | any = null;
 	private initializedValue: boolean = false;
-
+	private _propertySignalType: string = "";
 	// private _hasChangedSinceInit: boolean = false;
 
 	constructor(public ch5Component: Ch5Common, public property: ICh5PropertySettings) {
 		this._attributeName = property.name.toLowerCase();
 		this._propertyName = property.name;
 		this._propertyValue = property.default;
+		if (property.signalType) {
+			this._propertySignalType = property.signalType;
+		}
+	}
+	public get signalType(): string {
+		return this._propertySignalType;
 	}
 
 	public get value(): boolean | string | object | any {
@@ -176,11 +182,12 @@ export class Ch5Property {
 					return true;
 				}
 			} else if (this.property.type === "number") {
+				if (isNaN(value) || !Number.isInteger(parseInt(value, 10))) {
+					value = this.property.default;
+					this.ch5Component.setAttribute(this._attributeName, String(value));
+				}
+				value = Number(value);
 				if (this._propertyValue !== value) {
-					if (isNaN(value) || !Number.isInteger(parseInt(value, 10))) {
-						value = this.property.default;
-					}
-					value = Number(value);
 					if (this.property.numberProperties) {
 						if (value < this.property.numberProperties.min || value > this.property.numberProperties.max) {
 							if (value > this.property.numberProperties.conditionalMax) {
@@ -189,7 +196,7 @@ export class Ch5Property {
 								value = this.property.numberProperties.conditionalMinValue;
 							}
 						}
-						this._propertyValue = value + "";
+						this._propertyValue = value;
 						this.ch5Component.setAttribute(this._attributeName, String(value));
 					} else {
 						// TODO - check for attributes has attribute etc for all number string etc

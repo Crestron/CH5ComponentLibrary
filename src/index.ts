@@ -14,6 +14,7 @@ export * from './ch5-emulator/index';
 export * from './ch5-list/index';
 export * from './ch5-custom-attrs/index';
 export * from './ch5-image/index';
+export * from './ch5-segmented-gauge';
 export * from './ch5-select/index';
 export * from './ch5-select-option/index';
 export * from './ch5-toggle/index';
@@ -38,5 +39,5 @@ export * from './ch5-jointotext-boolean';
 export * from './ch5-jointotext-string';
 export * from './ch5-jointotext-numeric';
 export * from './ch5-animation';
-// Shared models used for WCT tests
 export * from './utility-models/index'; // Use CrComLib.Ch5RoleAttributeMapping to access
+export * from './ch5-wifi-signal-level-gauge';

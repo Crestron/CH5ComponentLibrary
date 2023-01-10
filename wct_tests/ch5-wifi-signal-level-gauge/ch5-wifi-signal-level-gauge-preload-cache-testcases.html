@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-wifi-signal-level-gauge-preload-cache-page1-testCases">
+    <template>
+      <div data-ch5-noshow-type="remove">
+        <ch5-wifi-signal-level-gauge minValue="0" maxValue="3" receiveStateValue="trigger_event_listener" size="large">
+        </ch5-wifi-signal-level-gauge>
+      </div>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-wifi-signal-level-gauge-preload-cache-page2-testCases">
+    <template>
+      <div data-ch5-noshow-type="display">
+        <ch5-wifi-signal-level-gauge minValue="0" maxValue="3" receiveStateValue="trigger_event_listener" size="large">
+        </ch5-wifi-signal-level-gauge>
+      </div>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-wifi-signal-level-gauge-preload-cache-page3-testCases">
+    <template>
+      <div data-ch5-noshow-type="visibility">
+        <ch5-wifi-signal-level-gauge minValue="0" maxValue="3" receiveStateValue="trigger_event_listener" size="large">
+        </ch5-wifi-signal-level-gauge>
+      </div>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-wifi-signal-level-gauge-preload-cache-page1-testCases', () => {
+      let ch5WifiSignalLevelGauge;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/preload-cache-test-cases.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-preload-cache-page1-testCases');
+      });
+
+      test('preload-cache-page1', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5WifiSignalLevelGauge.children[0].getAttribute('value')).to.be.equal('1');
+            done();
+          }, 100);
+        });
+      });
+    });
+    suite('ch5-wifi-signal-level-gauge-preload-cache-page2-testCases', () => {
+      let ch5WifiSignalLevelGauge;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/preload-cache-test-cases.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-preload-cache-page2-testCases');
+      });
+
+      test('preload-cache-page1', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5WifiSignalLevelGauge.children[0].getAttribute('value')).to.be.equal('1');
+            done();
+          }, 100);
+        });
+      });
+    });
+    suite('ch5-wifi-signal-level-gauge-preload-cache-page3-testCases', () => {
+      let ch5WifiSignalLevelGauge;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/preload-cache-test-cases.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-preload-cache-page3-testCases');
+      });
+
+      test('preload-cache-page1', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5WifiSignalLevelGauge.children[0].getAttribute('value')).to.be.equal('1');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

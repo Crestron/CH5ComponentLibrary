@@ -21,11 +21,27 @@ export class Ch5Properties {
 		for (const eachSignal of this._properties) {
 			if (eachSignal.signalState !== '' && eachSignal.signalValue !== '') {
 				const receiveValueSigName: string = Ch5Signal.getSubscriptionSignalName(eachSignal.signalValue);
-				const receiveSignal: Ch5Signal<string> | null = csf.getStringSignal(receiveValueSigName);
-				if (null !== receiveSignal) {
-					receiveSignal.unsubscribe(eachSignal.signalState);
-					eachSignal.signalValue = "";
-					eachSignal.signalState = "";
+				if (eachSignal.signalType === "string") {
+					const receiveSignal: Ch5Signal<string> | null = csf.getStringSignal(receiveValueSigName);
+					if (null !== receiveSignal) {
+						receiveSignal.unsubscribe(eachSignal.signalState);
+						eachSignal.signalValue = "";
+						eachSignal.signalState = "";
+					}
+				} else if (eachSignal.signalType === "number") {
+					const receiveSignal: Ch5Signal<number> | null = csf.getNumberSignal(receiveValueSigName);
+					if (null !== receiveSignal) {
+						receiveSignal.unsubscribe(eachSignal.signalState);
+						eachSignal.signalValue = "";
+						eachSignal.signalState = "";
+					}
+				} else if (eachSignal.signalType === "boolean") {
+					const receiveSignal: Ch5Signal<boolean> | null = csf.getBooleanSignal(receiveValueSigName);
+					if (null !== receiveSignal) {
+						receiveSignal.unsubscribe(eachSignal.signalState);
+						eachSignal.signalValue = "";
+						eachSignal.signalState = "";
+					}
 				}
 			}
 			eachSignal.clearProperty();

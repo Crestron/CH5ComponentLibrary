@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-wifi-signal-level-gauge-size-attributes">
+    <template>
+      <ch5-wifi-signal-level-gauge></ch5-wifi-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-wifisignalLevelGauge-sizes-fixture">
+    <template>
+      <ch5-wifi-signal-level-gauge></ch5-wifi-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-wifi-signal-level-gauge-size-attributes-value', () => {
+      let ch5WifiSignalLevelGauge;
+
+      setup(async () => {
+        ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-size-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'regular', 'small', 'large', 'x-large'];
+      let expectedResult = ['regular', 'regular', 'regular', 'regular', 'regular', 'small', 'large', 'x-large'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "size"', () => {
+          ch5WifiSignalLevelGauge.setAttribute('size', ele);
+          expect(ch5WifiSignalLevelGauge.getAttribute('size')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+    suite('ch5-wifisignalLevelGauge-size', () => {
+
+      let ch5wifiSignalLevelGauge;
+
+      setup(async () => {
+        ch5wifiSignalLevelGauge = fixture('ch5-wifisignalLevelGauge-sizes-fixture');
+      });
+
+      test(`Check attribute size if not added by default to the wifiSignalLevelGauge `, (done) => {
+
+
+        expect(ch5wifiSignalLevelGauge.size).to.be.equal("regular");
+        done();
+
+      });
+      test(`Check ch5-wifiSignalLevelGauge css class name for size if not added by default to the wifi-signal-level-gauge`, () => {
+
+        expect(ch5wifiSignalLevelGauge.children[0].classList.contains("ch5-wifi-signal-level-gauge--size-regular")).to.be.equal(true);
+      });
+
+
+      const valid_sizes = ['small', 'regular', 'large', 'x-large'];
+      const default_size = 'regular';
+      const invalid_sizes = ['x-small', '', 'junk', 'null', 'undefined', '0', '1', null, undefined, 'Regular', "X-LARGE"];
+
+      valid_sizes.forEach((sizeName, i) => {
+        test(`Check attribute size: "${sizeName}"`, () => {
+          ch5wifiSignalLevelGauge.setAttribute('size', sizeName);
+
+          expect(ch5wifiSignalLevelGauge.size).to.be.equal(sizeName);
+
+          expect(ch5wifiSignalLevelGauge.children[0].classList.contains("ch5-wifi-signal-level-gauge--size-" + sizeName)).to.be.equal(true);
+
+        });
+      });
+
+      invalid_sizes.forEach((sizeName, i) => {
+        test(`Check attribute size: "${sizeName}" for invalid values`, () => {
+          ch5wifiSignalLevelGauge.setAttribute('size', sizeName);
+
+          expect(ch5wifiSignalLevelGauge.size).to.be.equal(default_size);
+          expect(ch5wifiSignalLevelGauge.children[0].classList.contains("ch5-wifi-signal-level-gauge--size-" + default_size)).to.be.equal(true);
+
+
+        });
+      });
+
+      test(`Check attribute type "regular" by not adding the size attribute in HTML or through javascript to the wifi-signal-level-gauge`, () => {
+        console.log(ch5wifiSignalLevelGauge);
+        expect(ch5wifiSignalLevelGauge.size).to.be.equal(default_size);
+
+
+      });
+      test(`Check ch5-wifi-signal-level-gauge > div css class name for attribute type "regular" by not adding the size attribute in HTML or through javascript to the ch5-wifi-signal-level-gauge`, () => {
+
+        expect(ch5wifiSignalLevelGauge.children[0].classList.contains("ch5-wifi-signal-level-gauge--size-" + default_size)).to.be.equal(true);
+
+      });
+
+    });
+  </script>
+</body>
+
+</html>

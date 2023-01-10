@@ -120,32 +120,26 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   private colorPicker: ColorPicker | null = null;
   private _colorChangedSubscription: Subscription | null = null;
   private readonly COLOR_BLACK = "#000000";
-
-  // Last value set by user
-  private _dirtyValue: string = this.COLOR_BLACK;
-
+  private _dirty: boolean = false;
+  private isSendReceiveSignalEqual: boolean = false;
+  private sendingValue: boolean = false;
+  private receiveingValue: boolean = false;
   // Initial value or last value received from signal
   private _cleanValue: string = this.COLOR_BLACK;
 
   private debounceSendSignals = this.debounce(() => {
     this.handleSendSignals();
-    this.debounceDirtyHandler();
-  }, 10);
+    this.debounceSetColor();
+  }, 100);
 
-  private debounceDirtyHandler = this.debounce(() => {
-    if (this._dirtyValue !== this._cleanValue && this.colorPicker) {
-      // set ui view value
-      const colorValue = Ch5ColorUtils.col2rgb(this._cleanValue);
-      this.redValue = Number(colorValue[0]);
-      this.greenValue = Number(colorValue[1]);
-      this.blueValue = Number(colorValue[2]);
-      const hexColor = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue)
-      this.colorPicker.setColor(hexColor);
-      // set state as clean
-      this._cleanValue = hexColor;
+  private debounceSetColor = this.debounce(() => {
+    if (this.colorPicker && !((this.sendingValue && this.receiveingValue && this.isSendReceiveSignalEqual) || this.sendingValue)) {
+      if (this.colorPicker.picker.get().css() !== Ch5ColorUtils.hexToRgb(this._cleanValue)) {
+        this.colorPicker.setColor(this._cleanValue);
+      }
     }
+    this.receiveingValue = false;
   }, 1500);
-
   //#endregion
 
   //#region Getters and Setters
@@ -281,7 +275,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5ColorPicker.ELEMENT_NAME);
-    this.initializeVariables();
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ColorPicker);
@@ -302,8 +295,11 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
           this.redValue = value[0];
           this.greenValue = value[1];
           this.blueValue = value[2];
-          this._dirtyValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);
           this.debounceSendSignals();
+          this._dirty = true;
+          if (this.isSendReceiveSignalEqual) {
+            this._cleanValue = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);;
+          }
         }
       }
     });
@@ -320,7 +316,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   public disconnectedCallback() {
     this.logger.start('disconnectedCallback()', Ch5ColorPicker.ELEMENT_NAME);
     this._elColorPicker.replaceChildren(); // Remove all content
-    this.initializeVariables();
     this.removeEventListeners();
     this.unsubscribeFromSignals();
     if (this._colorChangedSubscription !== null) {
@@ -335,11 +330,15 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   //#region Protected / Private Methods
 
   private setColor() {
+    this.receiveingValue = true;
+    if (this.redValuePrevious === this.redValue && this.greenValuePrevious === this.greenValue && this.blueValuePrevious === this.blueValue && this._dirty === true) {
+      this.isSendReceiveSignalEqual = true;
+    }
+    const color: string = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);
+    this._cleanValue = color;
     if (this.colorPicker) {
-      if (this.redValuePrevious !== this.redValue || this.greenValuePrevious !== this.greenValue || this.blueValuePrevious !== this.blueValue) {
-        const newColor: string = Ch5ColorUtils.rgbToHex(this.redValue, this.greenValue, this.blueValue);
-        this._cleanValue = newColor;
-        this.debounceSendSignals();
+      if ((this.colorPicker.picker.get().css() !== Ch5ColorUtils.hexToRgb(color))) {
+        this.debounceSetColor();
       }
     }
   }
@@ -387,19 +386,6 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     });
   }
 
-  private initializeVariables() {
-    this.redValue = 0;
-    this.greenValue = 0;
-    this.blueValue = 0;
-    this.redValuePrevious = 0;
-    this.greenValuePrevious = 0;
-    this.blueValuePrevious = 0;
-    this.colorPicker = null;
-    this._colorChangedSubscription = null;
-    this._dirtyValue = this.COLOR_BLACK;
-    this._cleanValue = this.COLOR_BLACK;
-  }
-
   protected getTargetElementForCssClassesAndStyle(): HTMLElement {
     return this._elContainer;
   }
@@ -409,6 +395,13 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
   }
 
   private handleSendSignals() {
+    this.sendingValue = true;
+    if (this.colorPicker) {
+      const colorValue = Ch5ColorUtils.rgbFormat(this.colorPicker.picker.get().css());
+      this.redValue = Number(colorValue[0]);
+      this.greenValue = Number(colorValue[1]);
+      this.blueValue = Number(colorValue[2]);
+    }
     if (this.sendEventColorRedOnChange !== "" && this.redValue !== this.redValuePrevious) {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorRedOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.redValue, this.maxValue));
     }
@@ -418,6 +411,8 @@ export class Ch5ColorPicker extends Ch5Common implements ICh5ColorPickerAttribut
     if (this.sendEventColorBlueOnChange !== "" && this.blueValue !== this.blueValuePrevious) {
       Ch5SignalFactory.getInstance().getNumberSignal(this.sendEventColorBlueOnChange)?.publish(Ch5ColorUtils.getAnalogValue(this.blueValue, this.maxValue));
     }
+    if (!this.receiveingValue)
+      this.sendingValue = false;
   }
 
   //#endregion

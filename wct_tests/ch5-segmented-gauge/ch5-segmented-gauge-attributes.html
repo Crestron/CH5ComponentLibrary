@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-segmented-gauge-default-attributes">
+    <template>
+      <ch5-segmented-gauge></ch5-segmented-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-segmented-gauge-default-attributes-value', () => {
+      let ch5SegmentedGauge;
+
+      setup(async () => {
+        ch5SegmentedGauge = fixture('ch5-segmented-gauge-default-attributes');
+      });
+
+      test('Check Default value for orientation', () => {
+        expect(ch5SegmentedGauge.getAttribute("orientation")).to.be.equal(null);
+        ch5SegmentedGauge.setAttribute('orientation', 'horizontal');
+        expect(ch5SegmentedGauge.children[0].classList.contains('ch5-segmented-gauge--orientation-horizontal')).to.be.equal(true);
+        expect(ch5SegmentedGauge.getAttribute("orientation")).to.be.equal('horizontal');
+        ch5SegmentedGauge.removeAttribute("orientation");
+        expect(ch5SegmentedGauge.getAttribute("orientation")).to.be.equal('horizontal');
+      });
+
+      test('Check Default value for gaugeLedStyle', () => {
+        expect(ch5SegmentedGauge.getAttribute("gaugeLedStyle")).to.be.equal(null);
+        ch5SegmentedGauge.setAttribute('gaugeLedStyle', 'rectangle');
+        expect(ch5SegmentedGauge.children[0].classList.contains('ch5-segmented-gauge--gauge-led-style-rectangle')).to.be.equal(true);
+        expect(ch5SegmentedGauge.getAttribute("gaugeLedStyle")).to.be.equal('rectangle');
+        ch5SegmentedGauge.removeAttribute("gaugeLedStyle");
+        expect(ch5SegmentedGauge.getAttribute("gaugeLedStyle")).to.be.equal('rectangle');
+      });
+
+      test('Check Default value for primaryStateGraphic', () => {
+        expect(ch5SegmentedGauge.getAttribute("primaryStateGraphic")).to.be.equal(null);
+        ch5SegmentedGauge.setAttribute('primaryStateGraphic', 'green');
+        expect(ch5SegmentedGauge.getAttribute("primaryStateGraphic")).to.be.equal('green');
+      });
+
+      test('Check Default value for secondaryStateGraphic', () => {
+        expect(ch5SegmentedGauge.getAttribute("secondaryStateGraphic")).to.be.equal(null);
+        ch5SegmentedGauge.setAttribute('secondaryStateGraphic', 'yellow');
+        expect(ch5SegmentedGauge.getAttribute("secondaryStateGraphic")).to.be.equal('yellow');
+      });
+
+      test('Check Default value for tertiaryStateGraphic', () => {
+        expect(ch5SegmentedGauge.getAttribute("tertiaryStateGraphic")).to.be.equal(null);
+        ch5SegmentedGauge.setAttribute('tertiaryStateGraphic', 'red');
+        expect(ch5SegmentedGauge.getAttribute("tertiaryStateGraphic")).to.be.equal('red');
+      });
+
+      test('Check Default value for numberOfSegments', () => {
+        expect(ch5SegmentedGauge.getAttribute("numberOfSegments")).to.be.equal(null);
+        ch5SegmentedGauge.setAttribute('numberOfSegments', '20');
+        expect(ch5SegmentedGauge.getAttribute("numberOfSegments")).to.be.equal('20');
+      });
+
+      test('Check Default value for minValue', () => {
+        expect(ch5SegmentedGauge.getAttribute("minValue")).to.be.equal(null);
+        ch5SegmentedGauge.setAttribute('minValue', '0');
+        expect(ch5SegmentedGauge.getAttribute("minValue")).to.be.equal('0');
+      });
+
+      test('Check Default value for maxValue', () => {
+        expect(ch5SegmentedGauge.getAttribute("maxValue")).to.be.equal(null);
+        ch5SegmentedGauge.setAttribute('maxValue', '65535');
+        expect(ch5SegmentedGauge.getAttribute("maxValue")).to.be.equal('65535');
+      });
+    });
+  </script>
+</body>
+
+</html>
