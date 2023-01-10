@@ -110,7 +110,7 @@ export class Ch5Pressable {
 	 *
 	 * @private
 	 */
-	 public _released: boolean = true;
+	public _released: boolean = true;
 
 	/**
 	 * HammerManger used for managing gestures like press
@@ -186,8 +186,7 @@ export class Ch5Pressable {
 	private get pressDelayTime(): number {
 		if (this._options !== null && !_.isNil(this._options.pressDelayTime)) {
 			return this._options.pressDelayTime;
-		}
-		else {
+		} else {
 			return this.TOUCH_TIMEOUT;
 		}
 	}
@@ -331,7 +330,7 @@ export class Ch5Pressable {
 		if (this._hammerManager !== null) {
 			this._hammerManager.on('press', this._onHold);
 			this._hammerManager.on('pressup', this._onRelease);
-			this._hammerManager.on('panend', this._onPanEnd);			
+			this._hammerManager.on('panend', this._onPanEnd);
 		}
 	}
 
@@ -430,7 +429,7 @@ export class Ch5Pressable {
 		if (this.isTouch) {
 			return;
 		}
-	
+
 		const mouseEvent: MouseEvent = inEvent as MouseEvent;
 		if (mouseEvent !== null) {
 			if (this._fingerState.mode === Ch5PressableFingerStateMode.Start) {

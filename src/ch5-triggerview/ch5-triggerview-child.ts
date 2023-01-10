@@ -127,7 +127,7 @@ export class Ch5TriggerViewChild extends Ch5Common implements ICh5TriggerViewChi
 			}
 
 			if (newValue !== this.show && hasSignalChanged) {
-				this.setAttribute('show', '' + newValue);
+				this.show = newValue;
 			}
 		});
 	}

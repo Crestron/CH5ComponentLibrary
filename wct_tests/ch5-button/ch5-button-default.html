@@ -42,15 +42,20 @@
                 expect(ch5Button.getAttribute("role")).to.be.equal('button');
             });
 
-            test('Verify style attribute for ch5-button', () => {                
+            test('Verify style attribute for ch5-button', () => {
                 expect(ch5Button.getAttribute("style")).to.be.equal('touch-action: auto; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);');
             });
 
-            test('Verify ch5-button > div classes', () => {
-                expect(getDiv(ch5Button).classList.contains("ch5-button")).to.be.equal(true);
-                expect(getDiv(ch5Button).classList.contains("ch5-button--rounded-rectangle")).to.be.equal(true);
-                expect(getDiv(ch5Button).classList.contains("ch5-button--default")).to.be.equal(true);
-                expect(getDiv(ch5Button).classList.contains("ch5-button--size-regular")).to.be.equal(true);
+            test('Verify ch5-button > div classes', (done) => {
+                flush(() => {
+                    setTimeout(() => {
+                        expect(getDiv(ch5Button).classList.contains("ch5-button")).to.be.equal(true);
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--rounded-rectangle")).to.be.equal(true);
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--default")).to.be.equal(true); // This is set once component loads
+                        expect(getDiv(ch5Button).classList.contains("ch5-button--size-regular")).to.be.equal(true);
+                        done();
+                    }, BASIC_TESTING_TIMEOUT);
+                });
             });
 
             test('Verify ch5-button > div > button class attribute', () => {

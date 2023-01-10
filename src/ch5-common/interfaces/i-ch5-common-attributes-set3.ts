@@ -11,12 +11,18 @@ import { ICh5CommonAttributesForCustomStyle } from "./common/i-ch5-common-attrib
 import { ICh5CommonAttributesForDir } from "./common/i-ch5-common-attributes-dir";
 import { ICh5CommonAttributesForId } from "./common/i-ch5-common-attributes-id";
 import { ICh5CommonAttributesForNoShowType } from "./common/i-ch5-common-attributes-noshowtype";
+import { ICh5CommonAttributesForReceiveStateEnable } from "./common/i-ch5-common-attributes-receivestateenable";
+import { ICh5CommonAttributesForReceiveStateShow } from "./common/i-ch5-common-attributes-receivestateshow";
+import { ICh5CommonAttributesForShow } from "./common/i-ch5-common-attributes-show";
 
 /**
  * @ignore
  */
-export interface ICh5CommonAttributesSet2 extends ICh5CommonAttributesForDir,
+export interface ICh5CommonAttributesSet3 extends ICh5CommonAttributesForDir,
+	ICh5CommonAttributesForShow,
 	ICh5CommonAttributesForAppendClassWhenInViewPort,
+	ICh5CommonAttributesForReceiveStateEnable,
+	ICh5CommonAttributesForReceiveStateShow,
 	ICh5CommonAttributesForNoShowType,
 	ICh5CommonAttributesForCustomStyle,
 	ICh5CommonAttributesForCustomClass,

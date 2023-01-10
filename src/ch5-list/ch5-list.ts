@@ -22,6 +22,8 @@ import { Ch5ListSizeResolver } from './ch5-list-size-resolver';
 import { subscribeInViewPortChange, unSubscribeInViewPortChange } from '../ch5-core';
 import { Ch5RoleAttributeMapping } from '../utility-models';
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
+import { Ch5Properties } from "../ch5-core/ch5-properties";
+import { ICh5PropertySettings } from "../ch5-core/ch5-property";
 
 /**
  * An object containing information about a item.
@@ -104,6 +106,16 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			classListPrefix: 'ch5-orientation--'
 		},
 	};
+	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
+		{
+			default: false,
+			name: "scrollbar",
+			removeAttributeOnNull: true,
+			type: "boolean",
+			valueOnAttributeEmpty: true,
+			isObservableProperty: true,
+		},
+	];
 	/**
 	 * Default css class name
 	 */
@@ -111,6 +123,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	public static ENABLED_CLASS_NAME = 'ch5-list';
 
 	public static ITEMCLASS = 'list-item';
+	private _ch5Properties: Ch5Properties;
 
 	public cssClassPrefix = 'ch5-list';
 
@@ -209,7 +222,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	private _maxHeight: string | null = null;
 	private _pagedSwipe: boolean = false;
 	private _endless: boolean = false;
-	private _scrollbar: boolean = false;
 	private _scrollToTime: number = 500;
 	private _indexId: string | null = null;
 	private _direction: string = Ch5Common.DIRECTION[0];
@@ -468,6 +480,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		this.eventManager = new Ch5ListEventManager(this);
 		this.bufferdItemsHelper = new Ch5ListBufferedItems(this);
 
+		this._ch5Properties = new Ch5Properties(this, Ch5List.COMPONENT_PROPERTIES);
 		this.eventManager.addAnimationHelper(this.animationHelper);
 		this.eventManager.addTemplateHelper(this.templateHelper);
 
@@ -619,178 +632,175 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 		this.info('ch5-list attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 
 		this.info('attribute changed callback:', attr);
+		const attributeChangedProperty = Ch5List.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => {
+			return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true;
+		});
+		if (attributeChangedProperty) {
+			const thisRef: any = this;
+			const key = attributeChangedProperty.name;
+			thisRef[key] = newValue;
+		} else {
+			switch (attr) {
+				case 'selected':
+					const parsedNewValue = parseInt(newValue, 10);
 
-		switch (attr) {
-			case 'selected':
-				const parsedNewValue = parseInt(newValue, 10);
-
-				// Accept only numbers between `0` and `this._lastViewIndex`.
-				if (!Number.isFinite(parsedNewValue) ||
-					parsedNewValue > this._lastViewIndex ||
-					parsedNewValue < 0) {
-					this.selected = Number(oldValue) || 0;
-					return;
-				}
-
-				if (this._infiniteLoop) {
-					const effectiveLayoutIndex = this.selected +
-						this._selectedIteration * (this._lastViewIndex + 1);
-
-					// Get the "jump" between the current layout position and the previous
-					// one. This gives the indication of which items need to be moved to
-					// a different location.
-					// selectionDelta: if negative, we're selecting a item to the right
-					// The absolute value is shows by how many items the "jump" is.
-					// If selectionDelta === 0, no action is needed.
-					const selectionDelta = this._previousEffectiveLayoutIndex -
-						effectiveLayoutIndex;
-
-					// Compute which items are going to be in view in the upcoming
-					// transition.
-					const itemsInViewIndexes = [];
-					const indexOffset = selectionDelta < 0 ?
-						this.getItemsPerPage() + selectionDelta : 0;
-					// Starting at -1 means that we're also shifting the item to the left
-					// of the current one. Useful to not brake the itemr while dragging
-					// left.
-					for (let i = -1; i < Math.abs(selectionDelta); i++) {
-						// The index is compute by adding up:
-						// - i: the current iteration's index
-						// - effectiveLayoutIndex: where the itemr is currently at
-						// - indexOffset: compensates when scrolling right by taking into
-						//   account the number of itemsPerView and selectionDelta
-						itemsInViewIndexes.push(i + effectiveLayoutIndex + indexOffset);
+					// Accept only numbers between `0` and `this._lastViewIndex`.
+					if (!Number.isFinite(parsedNewValue) ||
+						parsedNewValue > this._lastViewIndex ||
+						parsedNewValue < 0) {
+						this.selected = Number(oldValue) || 0;
+						return;
 					}
 
-					this._previousEffectiveLayoutIndex = effectiveLayoutIndex;
-				}
+					if (this._infiniteLoop) {
+						const effectiveLayoutIndex = this.selected +
+							this._selectedIteration * (this._lastViewIndex + 1);
 
-				break;
-			case 'disableanimation':
-				this.animationHelper.disableAnimation = (newValue !== null);
+						// Get the "jump" between the current layout position and the previous
+						// one. This gives the indication of which items need to be moved to
+						// a different location.
+						// selectionDelta: if negative, we're selecting a item to the right
+						// The absolute value is shows by how many items the "jump" is.
+						// If selectionDelta === 0, no action is needed.
+						const selectionDelta = this._previousEffectiveLayoutIndex -
+							effectiveLayoutIndex;
 
-				break;
-			case 'size':
-				const newSize: number = newValue ? Number(newValue) : 1;
-				if (this._initCompleted && newSize !== this.size) {
-					// trigger list resize only if all initializations are done and size prop has a different value
-					// (otherwise resizeList will run twice on firs load)
-					this.size = newSize;
-					this.templateHelper.resizeList(this.divList, this.templateVars);
-				}
-				break;
-			case 'orientation':
-				if (this.hasAttribute('orientation')) {
-					this.orientation = newValue as TCh5ListElementOrientation;
-				} else {
-					this.orientation = Ch5List.ORIENTATION[0];
-				}
-				break;
-			case 'bufferamount':
-				if (this.hasAttribute('bufferamount')) {
-					this.bufferAmount = Number(newValue);
-				} else {
-					this.bufferAmount = 0;
-				}
-				break;
-			case 'itemheight':
-				if (this.hasAttribute('itemheight')) {
-					this.itemHeight = newValue;
-				}
-				break;
-			case 'itemwidth':
-				if (this.hasAttribute('itemwidth')) {
-					this.itemWidth = newValue;
-				}
-				break;
-			case 'minwidth':
-				if (this.hasAttribute('minwidth')) {
-					this.minWidth = newValue;
-				}
-				break;
-			case 'maxwidth':
-				if (this.hasAttribute('maxwidth')) {
-					this.maxWidth = newValue;
-				}
-				break;
-			case 'minheight':
-				if (this.hasAttribute('minheight')) {
-					this.minHeight = newValue;
-				}
-				break;
-			case 'maxheight':
-				if (this.hasAttribute('maxheight')) {
-					this.maxHeight = newValue;
-				}
-				break;
-			case 'indexid':
-				if (this.hasAttribute('indexid')) {
-					this.indexId = newValue;
-				}
-				break;
-			case 'pagedswipe':
-				if (this.hasAttribute('pagedswipe')) {
-					this.pagedSwipe = newValue === 'true' ? true : false;
-				}
-				break;
-			case 'endless':
-				if (this.hasAttribute('endless') && newValue !== 'false') {
-					this.endless = true;
-				} else {
-					this.endless = false;
-				}
+						// Compute which items are going to be in view in the upcoming
+						// transition.
+						const itemsInViewIndexes: any = [];
+						const indexOffset = selectionDelta < 0 ?
+							this.getItemsPerPage() + selectionDelta : 0;
+						// Starting at -1 means that we're also shifting the item to the left
+						// of the current one. Useful to not brake the itemr while dragging
+						// left.
+						for (let i = -1; i < Math.abs(selectionDelta); i++) {
+							// The index is compute by adding up:
+							// - i: the current iteration's index
+							// - effectiveLayoutIndex: where the itemr is currently at
+							// - indexOffset: compensates when scrolling right by taking into
+							//   account the number of itemsPerView and selectionDelta
+							itemsInViewIndexes.push(i + effectiveLayoutIndex + indexOffset);
+						}
 
-				this._updateInfiniteLoop();
-				this._computeItemsPerViewLayout();
-				break;
-			case 'scrollbar':
+						this._previousEffectiveLayoutIndex = effectiveLayoutIndex;
+					}
 
-				this.templateHelper.removeScrollbar();
+					break;
+				case 'disableanimation':
+					this.animationHelper.disableAnimation = (newValue !== null);
 
-				if (this.hasAttribute('scrollbar')) {
-					this.scrollbar = newValue === 'true' ? true : false;
-					this.templateHelper.customScrollbar(this.divList);
-				} else {
-					this.scrollbar = false;
-				}
-				break;
-			case 'scrolltotime':
-				if (this.hasAttribute('scrolltotime')) {
-					this.scrollToTime = Number(newValue);
-				}
-				break;
+					break;
+				case 'size':
+					const newSize: number = newValue ? Number(newValue) : 1;
+					if (this._initCompleted && newSize !== this.size) {
+						// trigger list resize only if all initializations are done and size prop has a different value
+						// (otherwise resizeList will run twice on firs load)
+						this.size = newSize;
+						this.templateHelper.resizeList(this.divList, this.templateVars);
+					}
+					break;
+				case 'orientation':
+					if (this.hasAttribute('orientation')) {
+						this.orientation = newValue as TCh5ListElementOrientation;
+					} else {
+						this.orientation = Ch5List.ORIENTATION[0];
+					}
+					break;
+				case 'bufferamount':
+					if (this.hasAttribute('bufferamount')) {
+						this.bufferAmount = Number(newValue);
+					} else {
+						this.bufferAmount = 0;
+					}
+					break;
+				case 'itemheight':
+					if (this.hasAttribute('itemheight')) {
+						this.itemHeight = newValue;
+					}
+					break;
+				case 'itemwidth':
+					if (this.hasAttribute('itemwidth')) {
+						this.itemWidth = newValue;
+					}
+					break;
+				case 'minwidth':
+					if (this.hasAttribute('minwidth')) {
+						this.minWidth = newValue;
+					}
+					break;
+				case 'maxwidth':
+					if (this.hasAttribute('maxwidth')) {
+						this.maxWidth = newValue;
+					}
+					break;
+				case 'minheight':
+					if (this.hasAttribute('minheight')) {
+						this.minHeight = newValue;
+					}
+					break;
+				case 'maxheight':
+					if (this.hasAttribute('maxheight')) {
+						this.maxHeight = newValue;
+					}
+					break;
+				case 'indexid':
+					if (this.hasAttribute('indexid')) {
+						this.indexId = newValue;
+					}
+					break;
+				case 'pagedswipe':
+					if (this.hasAttribute('pagedswipe')) {
+						this.pagedSwipe = newValue === 'true' ? true : false;
+					}
+					break;
+				case 'endless':
+					if (this.hasAttribute('endless') && newValue !== 'false') {
+						this.endless = true;
+					} else {
+						this.endless = false;
+					}
 
-			case 'dir':
-				if (this.hasAttribute('dir')) {
-					this.direction = newValue;
-				}
-				break;
-			case 'receivestatesize':
-				if (this.hasAttribute('receivestatesize')) {
-					this.receiveStateSize = newValue;
-				} else {
-					this.receiveStateSize = '';
-				}
-				break;
-			case 'receivestatescrollto':
-				if (this.hasAttribute('receivestatescrollto')) {
-					this.receiveStateScrollTo = newValue;
-				} else {
-					this.receiveStateScrollTo = '';
-				}
+					this._updateInfiniteLoop();
+					this._computeItemsPerViewLayout();
+					break;
+				case 'scrolltotime':
+					if (this.hasAttribute('scrolltotime')) {
+						this.scrollToTime = Number(newValue);
+					}
+					break;
 
-				break;
-			case 'receivestatetemplatevars':
-				if (this.hasAttribute('receivestatetemplatevars')) {
-					this.receiveStateTemplateVars = newValue;
-				} else {
-					this.receiveStateTemplateVars = '';
-				}
-				break;
-			default:
-				super.attributeChangedCallback(attr, oldValue, newValue);
-				break;
+				case 'dir':
+					if (this.hasAttribute('dir')) {
+						this.direction = newValue;
+					}
+					break;
+				case 'receivestatesize':
+					if (this.hasAttribute('receivestatesize')) {
+						this.receiveStateSize = newValue;
+					} else {
+						this.receiveStateSize = '';
+					}
+					break;
+				case 'receivestatescrollto':
+					if (this.hasAttribute('receivestatescrollto')) {
+						this.receiveStateScrollTo = newValue;
+					} else {
+						this.receiveStateScrollTo = '';
+					}
 
+					break;
+				case 'receivestatetemplatevars':
+					if (this.hasAttribute('receivestatetemplatevars')) {
+						this.receiveStateTemplateVars = newValue;
+					} else {
+						this.receiveStateTemplateVars = '';
+					}
+					break;
+				default:
+					super.attributeChangedCallback(attr, oldValue, newValue);
+					break;
+
+			}
 		}
 	}
 
@@ -899,6 +909,12 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 
 	public static get observedAttributes() {
 		const commonAttributes = Ch5Common.observedAttributes;
+		const newObsAttrs: string[] = [];
+		for (let i: number = 0; i < Ch5List.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5List.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				newObsAttrs.push(Ch5List.COMPONENT_PROPERTIES[i].name.toLowerCase());
+			}
+		}
 		const listAttributes = [
 			'selected',
 			'disableanimation',
@@ -914,7 +930,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			'indexid',
 			'pagedswipe',
 			'endless',
-			'scrollbar',
 			'scrolltotime',
 			'direction',
 			'receivestateshow',
@@ -1285,24 +1300,16 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			this.removeAttribute('endless')
 		}
 	}
-
-	public get scrollbar() {
-		return this._scrollbar;
-	}
-
 	public set scrollbar(value: boolean) {
-		if (isNil(value)) {
-			value = false;
-		}
-		if (value === this._scrollbar) {
-			return;
-		}
-		this._scrollbar = value;
-		if (value === true) {
-			this.setAttribute('scrollbar', value.toString());
-		} else {
-			this.removeAttribute('scrollbar')
-		}
+		this._ch5Properties.set<boolean>("scrollbar", value, () => {
+			this.templateHelper.removeScrollbar();
+			if (this.hasAttribute('scrollbar')) {
+				this.templateHelper.customScrollbar(this.divList);
+			}
+		});
+	}
+	public get scrollbar(): boolean {
+		return this._ch5Properties.get<boolean>("scrollbar");
 	}
 
 	public get scrollToTime() {
@@ -2353,6 +2360,15 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 	private initializeAttributes() {
 		this.info('initializeAttributes()');
 		super.initAttributes();
+		const thisRef: any = this;
+		for (let i: number = 0; i < Ch5List.COMPONENT_PROPERTIES.length; i++) {
+			if (Ch5List.COMPONENT_PROPERTIES[i].isObservableProperty === true) {
+				if (this.hasAttribute(Ch5List.COMPONENT_PROPERTIES[i].name.toLowerCase())) {
+					const key = Ch5List.COMPONENT_PROPERTIES[i].name;
+					thisRef[key] = this.getAttribute(key);
+				}
+			}
+		}
 		if (this.hasAttribute('size')) {
 			this.size = this.previousSize = Number(this.getAttribute('size'));
 		} else {
@@ -2394,11 +2410,6 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			this.endless = this.toBoolean(this.getAttribute('endless'));
 		} else {
 			this.endless = false;
-		}
-		if (this.hasAttribute('scrollbar')) {
-			this.scrollbar = this.toBoolean(this.getAttribute('scrollbar'), true);
-		} else {
-			this.scrollbar = false;
 		}
 		if (this.hasAttribute('scrolltotime')) {
 			this.scrollToTime = Number(this.getAttribute('scrolltotime'));

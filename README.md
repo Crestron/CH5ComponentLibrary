@@ -82,11 +82,3 @@ http://localhost:3000/?ipId=0x99&host=10.0.0.203
 
   cd CH5Sandbox\shell-template\
   npm link @crestron/ch5-crcomlib
-
-### yarn link
-
-  cd crestron-components-lib
-  yarn link
-
-  cd CH5Sandbox\shell-template\
-  yarn link @crestron/ch5-crcomlib

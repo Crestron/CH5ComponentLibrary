@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-signal-level-gauge-maxValue-attributes">
+    <template>
+      <ch5-signal-level-gauge></ch5-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-signal-level-gauge-maxValue-attributes-value', () => {
+      let ch5SignalLevelGauge;
+
+      setup(async () => {
+        ch5SignalLevelGauge = fixture('ch5-signal-level-gauge-maxValue-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', '0', '1', '2', '65534', '65535', '65536'];
+      let expectedResult = ['65535', '65535', '65535', '65535', '65535', '1', '2', '65534', '65535', '65535'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "maxValue"', () => {
+          ch5SignalLevelGauge.setAttribute('maxValue', ele);
+          expect(ch5SignalLevelGauge.getAttribute('maxValue')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

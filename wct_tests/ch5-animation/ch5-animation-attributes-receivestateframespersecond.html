@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-animation-receiveStateFramesPerSecond-attributes">
+    <template>
+      <ch5-animation receiveStateFramesPerSecond="trigger_event_listener"></ch5-animation>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-animation-receiveStateFramesPerSecond-invalid-value">
+    <template>
+      <ch5-animation receiveStateFramesPerSecond="trigger_event_listener_2"></ch5-animation>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-animation-receiveStateFramesPerSecond-attributes-value', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateframespersecond.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-receiveStateFramesPerSecond-attributes');
+      });
+
+      test('receiveStateFramesPerSecond', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_1', true);
+        flush(() => {
+          setTimeout(() => {
+            for (i = 1; i <= 50; i++) {
+              let framesPerSecondMatch = (100 - i) * 15;
+              ch5Animation.setAttribute('style', `animation-duration:${framesPerSecondMatch}ms`);
+              expect(ch5Animation.style.animationDuration).to.be.equal(`${framesPerSecondMatch}ms`);
+            }
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-animation-receiveStateFramesPerSecond-attributes-invalid-value', () => {
+      let ch5Animation;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/receivestateframespersecond.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5Animation = fixture('ch5-animation-receiveStateFramesPerSecond-invalid-value');
+      });
+
+      test('receiveStateFramesPerSecond Invalid Value', (done) => {
+        CrComLib.publishEvent('b', 'trigger_event_2', true);
+        flush(() => {
+          setTimeout(() => {
+            ch5Animation.setAttribute('style', `animation-duration:1500ms`);
+            expect(ch5Animation.style.animationDuration).to.be.equal('1500ms');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

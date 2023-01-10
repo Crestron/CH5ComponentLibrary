@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-color-chip-sendEventOnClick-attributes">
+    <template>
+      <ch5-color-chip previewcolor='black' sendEventOnClick="trigger_event"
+        receiveStateRedValue="trigger_event_listener"></ch5-color-chip>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-color-chip-sendEventOnClickInvalid-attributes">
+    <template>
+      <ch5-color-chip previewcolor='black' sendEventOnClick="trigger_event1"
+        receiveStateRedValue="trigger_event_listener1"></ch5-color-chip>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-color-chip-sendEventOnClickRGB-attributes">
+    <template>
+      <ch5-color-chip previewcolor='black' sendEventOnClick="trigger_event2"
+        receiveStateRedValue="trigger_event_listener2" receiveStateGreenValue="trigger_event_listener2"
+        receiveStateBlueValue="trigger_event_listener2"></ch5-color-chip>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-color-chip-sendEventOnClick-attributes-value', () => {
+      let ch5ColorChip;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/sendEventOnClick.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ColorChip = fixture('ch5-color-chip-sendEventOnClick-attributes');
+      });
+
+      test('sendEventOnClick', (done) => {
+        ch5ColorChip.click();
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(255, 0, 0)');
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-color-chip-sendEventOnClickInvalid-attributes-value', () => {
+      let ch5ColorChip;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/sendEventOnClick.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ColorChip = fixture('ch5-color-chip-sendEventOnClickInvalid-attributes');
+      });
+
+      test('sendEventOnClick', (done) => {
+        ch5ColorChip.click();
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(0, 0, 0)');
+            done();
+          }, 100);
+        });
+      });
+    });
+
+    suite('ch5-color-chip-sendEventOnClickRGB-attributes-value', () => {
+      let ch5ColorChip;
+
+      setup(async () => {
+        const emulatorJson = await fetch('./emulator/sendEventOnClick.json').then((response) => response.json());
+        const emulator = CrComLib.Ch5Emulator.getInstance();
+        emulator.loadScenario(emulatorJson);
+        ch5ColorChip = fixture('ch5-color-chip-sendEventOnClickRGB-attributes');
+      });
+
+      test('sendEventOnClick', (done) => {
+        ch5ColorChip.click();
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ColorChip.getAttribute('previewcolor')).to.be.equal('rgb(128, 128, 128)');
+            done();
+          }, 100);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

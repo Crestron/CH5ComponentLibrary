@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-signal-level-gauge-numberOfBars-attributes">
+    <template>
+      <ch5-signal-level-gauge></ch5-signal-level-gauge>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-signal-level-gauge-numberOfBars-attributes-value', () => {
+      let ch5SignalLevelGauge;
+
+      setup(async () => {
+        ch5SignalLevelGauge = fixture('ch5-signal-level-gauge-numberOfBars-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', '0', '1', '2', '14', '15', '16'];
+      let expectedResult = ['6', '6', '6', '6', '1', '1', '2', '14', '15', '15'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "numberOfBars"', () => {
+          ch5SignalLevelGauge.setAttribute('numberOfBars', ele);
+          expect(ch5SignalLevelGauge.getAttribute('numberOfBars')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

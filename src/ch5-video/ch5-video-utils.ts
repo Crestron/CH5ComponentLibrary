@@ -59,7 +59,6 @@ export class CH5VideoUtils {
     public static getParentElementOffsetAndDimension = (ele: Element): IVideoElementDimensions => {
         let totalWidth = ele.clientWidth;
         let totalHeight = ele.clientHeight;
-        console.log(ele.className, totalHeight, totalWidth);
         let offsetTop = ele.getBoundingClientRect().top + ele.clientTop;
         let offsetLeft = ele.getBoundingClientRect().left + ele.clientLeft;
         const paddingObj = {

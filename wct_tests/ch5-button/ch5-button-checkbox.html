@@ -304,7 +304,6 @@
 					ch5Button3.setAttribute('selected', (selectionObj));
 					flush(() => {
 						setTimeout(() => {
-							console.log("ch5Button3", ch5Button3);
 							const expectedValue = selectionObj === true ? "right" : "left";
 							expect(ch5Button3.getAttribute('checkboxPosition')).to.be.equal("right");
 							expect(ch5Button3.checkboxPosition).to.be.equal(expectedValue);
