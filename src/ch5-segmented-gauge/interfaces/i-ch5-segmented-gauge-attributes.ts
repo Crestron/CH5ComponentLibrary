@@ -107,6 +107,19 @@ export interface ICh5SegmentedGaugeAttributes extends ICh5CommonAttributesSet3 {
   /**
   * @documentation
   * [
+  * "`value` attribute",
+  * "***",
+  * "It sets the value for segmented gauge. It can range from 0 to 65535. Default value is 0."
+  * ]
+  * @name value
+  * @default 0
+  * @limits [{"min": 0, "max": 65535}]
+  * @attributeType "number"
+  */
+  value: number;
+  /**
+  * @documentation
+  * [
   * "`touchSettable` attribute",
   * "***",
   * "Enables or disables whether the control is touch settable. Default value is true."
