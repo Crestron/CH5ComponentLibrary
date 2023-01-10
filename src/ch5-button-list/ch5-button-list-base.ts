@@ -25,7 +25,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   // Button container dimension and Buffer values
   public static readonly BUTTON_CONTAINER_BUFFER: number = 2;
-
   public static readonly MODES_MAX_COUNT: number = 5;
 
   // Enum types
@@ -311,7 +310,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   private buttonWidth: number = 0;
   private buttonHeight: number = 0;
 
-
   // Default Row and Column value
   private rowClassValue: number = 1;
   private columnClassValue: number = 1;
@@ -559,7 +557,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
     this.logger.start("attributeChangedCallback", this.primaryCssClass);
     if (oldValue !== newValue) {
-      this.logger.log('ch5-button-list attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+      this.logger.log(Ch5ButtonListBase.ELEMENT_NAME + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
       const attributeChangedProperty = Ch5ButtonListBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
         const thisRef: any = this;

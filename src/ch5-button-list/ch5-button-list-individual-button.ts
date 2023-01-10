@@ -175,7 +175,6 @@ export class Ch5ButtonListIndividualButton extends Ch5Log implements ICh5ButtonL
 
 	//#region Protected / Private Methods
 
-
 	protected initAttributes() {
 		super.initAttributes();
 
