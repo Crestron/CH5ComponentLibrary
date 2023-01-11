@@ -1,4 +1,7 @@
 import { Ch5ButtonListLabelBase } from "./../ch5-button-list/base-classes/ch5-button-list-label-base";
+import { Ch5TabButton } from "./ch5-tab-button";
+import { Ch5TabButtonMode } from "./ch5-tab-button-mode";
+import { Ch5TabButtonModeState } from "./ch5-tab-button-mode-state";
 
 export class Ch5TabButtonLabel extends Ch5ButtonListLabelBase {
 
@@ -20,6 +23,14 @@ export class Ch5TabButtonLabel extends Ch5ButtonListLabelBase {
   }
 
   //#endregion
+
+
+  public connectedCallback() {
+    if (!(this.parentElement instanceof Ch5TabButton || this.parentElement instanceof Ch5TabButtonMode || this.parentElement instanceof Ch5TabButtonModeState)) {
+      throw new Error(`Invalid parent element for ${Ch5TabButtonLabel.ELEMENT_NAME}.`);
+    }
+    super.connectedCallback();
+  }
 
 }
 

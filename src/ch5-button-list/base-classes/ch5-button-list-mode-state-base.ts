@@ -270,9 +270,9 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
   }
 
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-    this.logger.start("attributeChangedCallback ch5-button-list-mode-state");
+    this.logger.start("attributeChangedCallback " + Ch5ButtonListModeStateBase.ELEMENT_NAME);
     if (oldValue !== newValue) {
-      this.logger.log('ch5-button-list-mode-state attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+      this.logger.log(Ch5ButtonListModeStateBase.ELEMENT_NAME + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
       const attributeChangedProperty = Ch5ButtonListModeStateBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
         const thisRef: any = this;
@@ -292,10 +292,10 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
     this.logger.start('connectedCallback()', Ch5ButtonListModeStateBase.ELEMENT_NAME);
 
     if (!(this.parentElement instanceof Ch5ButtonListModeBase)) {
-      throw new Error(`Invalid parent element for ch5-button-list-mode-state.`);
+      throw new Error(`Invalid parent element for ${Ch5ButtonListModeStateBase.ELEMENT_NAME}.`);
     }
     if (_.isNil(this._parentCh5ButtonList)) {
-      throw new Error(`Missing parent ch5-button-list element for ch5-button-list-mode-state.`);
+      throw new Error(`Missing parent ${Ch5ButtonList.ELEMENT_NAME} element for ${Ch5ButtonListModeStateBase.ELEMENT_NAME}.`);
     }
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonListModeState);
@@ -337,7 +337,7 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
     }
     return getTheMatchingParent(this.parentElement as Node);
   }
-  
+
   //#endregion
 
 }

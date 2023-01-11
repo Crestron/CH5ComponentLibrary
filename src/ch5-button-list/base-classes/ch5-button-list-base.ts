@@ -12,6 +12,9 @@ import { Ch5ButtonListMode } from "../../ch5-button-list/ch5-button-list-mode";
 import { Ch5ButtonListModeState } from "../../ch5-button-list/ch5-button-list-mode-state";
 import { Ch5ButtonModeState } from "../../ch5-button/ch5-button-mode-state";
 import { resizeObserver } from "../../ch5-core/resize-observer";
+import { Ch5ButtonListLabelBase } from "./ch5-button-list-label-base";
+import { Ch5ButtonListModeBase } from "./ch5-button-list-mode-base";
+import { Ch5ButtonListModeStateBase } from "./ch5-button-list-mode-state-base";
 
 export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
 
@@ -92,9 +95,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       attribute: 'buttonShape',
       classListPrefix: 'ch5-button-list--button-shape-'
     }
-  };
-  public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
-    ...Ch5GenericListAttributes.SIGNAL_ATTRIBUTE_TYPES,
   };
 
   public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
@@ -529,19 +529,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   //#region Static Methods
 
-  public static registerSignalAttributeTypes() {
-    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ButtonListBase.ELEMENT_NAME, Ch5ButtonListBase.SIGNAL_ATTRIBUTE_TYPES);
-  }
-
-  public static registerCustomElement() {
-    if (typeof window === "object"
-      && typeof window.customElements === "object"
-      && typeof window.customElements.define === "function"
-      && window.customElements.get(Ch5ButtonListBase.ELEMENT_NAME) === undefined) {
-      window.customElements.define(Ch5ButtonListBase.ELEMENT_NAME, Ch5ButtonListBase);
-    }
-  }
-
   //#endregion
 
   //#region Component Lifecycle
@@ -600,7 +587,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     this.initCommonMutationObserver(this);
     this.debounceButtonDisplay();
     resizeObserver(this._elContainer, this.resizeHandler);
-    customElements.whenDefined('ch5-button-list').then(() => {
+    customElements.whenDefined(Ch5ButtonListBase.ELEMENT_NAME).then(() => {
       this.componentLoadedEvent(Ch5ButtonListBase.ELEMENT_NAME, this.id);
     });
     this.logger.stop();
@@ -872,7 +859,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   private createButton(index: number, append: boolean = true) {
     const btn = new Ch5Button();
     const btnContainer = document.createElement("div");
-    btnContainer.classList.add("ch5-button-list--button-container");
+    btnContainer.classList.add(Ch5ButtonListBase.ELEMENT_NAME + "--button-container");
     btnContainer.appendChild(btn);
     append ? this._elContainer.appendChild(btnContainer) : this._elContainer.prepend(btnContainer);
     // button attributes helper
@@ -886,7 +873,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   private buttonModeHelper(btn: Ch5Button, i: number) {
-    const buttonListModes = this.getElementsByTagName('ch5-button-list-mode');
+    const buttonListModes = this.getElementsByTagName(Ch5ButtonListModeBase.ELEMENT_NAME);
     if (buttonListModes && buttonListModes.length > 0) {
       Array.from(buttonListModes).forEach((buttonListMode, index) => {
         if (index < Ch5ButtonListBase.MODES_MAX_COUNT) {
@@ -898,7 +885,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
               }
             });
 
-            const buttonListModeStates = buttonListMode.getElementsByTagName('ch5-button-list-mode-state');
+            const buttonListModeStates = buttonListMode.getElementsByTagName(Ch5ButtonListModeStateBase.ELEMENT_NAME);
             if (buttonListModeStates && buttonListModeStates.length > 0) {
               Array.from(buttonListModeStates).forEach(buttonListModeState => {
                 if (buttonListModeState.parentElement instanceof Ch5ButtonListMode) {
@@ -909,7 +896,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
                     }
                   });
 
-                  const buttonModeStateLabels = buttonListModeState.getElementsByTagName("ch5-button-list-label");
+                  const buttonModeStateLabels = buttonListModeState.getElementsByTagName(this.nodeName + "-label");
                   if (buttonModeStateLabels && buttonModeStateLabels.length > 0) {
                     Array.from(buttonModeStateLabels).forEach((buttonModeStateLabel) => {
                       if (buttonModeStateLabel.parentElement instanceof Ch5ButtonListModeState) {
@@ -928,7 +915,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
                 }
               });
             }
-            const buttonListModeLabels = buttonListMode.getElementsByTagName('ch5-button-list-label');
+            const buttonListModeLabels = buttonListMode.getElementsByTagName(this.nodeName + "-label");
             if (buttonListModeLabels && buttonListModeLabels.length > 0) {
               Array.from(buttonListModeLabels).forEach((buttonListModeLabel) => {
                 if (buttonListModeLabel.parentElement instanceof Ch5ButtonListMode) {
@@ -951,7 +938,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   private buttonLabelHelper(btn: Ch5Button, index: number) {
-    const buttonListLabels = this.getElementsByTagName('ch5-button-list-label');
+    const buttonListLabels = this.getElementsByTagName(this.nodeName + "-label");
     if (buttonListLabels && buttonListLabels.length > 0) {
       Array.from(buttonListLabels).forEach((buttonListLabel) => {
         if (buttonListLabel.parentElement instanceof Ch5ButtonListBase) {
@@ -969,7 +956,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   private buttonHelper(btn: Ch5Button, index: number) {
-    const individualButtons = this.getElementsByTagName('ch5-button-list-individual-button');
+    const individualButtons = this.getElementsByTagName(this.nodeName + '-individual-button');
     const individualButtonsLength = individualButtons.length;
     btn.setAttribute('stretch', 'both');
     Ch5ButtonListBase.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
@@ -1108,7 +1095,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   private checkInternalHTML() {
     if (this._elContainer.parentElement !== this) {
-      this._elContainer.classList.add('ch5-button-list');
+      this._elContainer.classList.add(this.nodeName.toLowerCase());
       this.appendChild(this._elContainer);
     }
     if (this._scrollbar.parentElement !== this._scrollbarContainer) {

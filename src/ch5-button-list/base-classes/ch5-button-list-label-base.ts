@@ -26,10 +26,6 @@ export class Ch5ButtonListLabelBase extends Ch5Log implements ICh5ButtonListLabe
    */
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5ButtonListLabelBase.ELEMENT_NAME);
-
-    if (!(this.parentElement instanceof Ch5ButtonList || this.parentElement instanceof Ch5ButtonListMode || this.parentElement instanceof Ch5ButtonListModeState)) {
-      throw new Error(`Invalid parent element for ch5-button-list-label.`);
-    }
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonListLabel);
     }
