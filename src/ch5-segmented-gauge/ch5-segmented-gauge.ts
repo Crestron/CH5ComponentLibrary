@@ -211,7 +211,6 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   ];
 
   public static readonly ELEMENT_NAME = 'ch5-segmented-gauge';
-  public cssClassPrefix = 'ch5-segmented-gauge';
   public primaryCssClass = 'ch5-segmented-gauge';
 
   private _ch5Properties: Ch5Properties;
@@ -695,7 +694,7 @@ export class Ch5SegmentedGauge extends Ch5Common implements ICh5SegmentedGaugeAt
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   //#endregion

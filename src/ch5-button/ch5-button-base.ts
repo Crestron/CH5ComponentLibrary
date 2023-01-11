@@ -308,7 +308,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 	public readonly ELEMENT_NAME: string = 'ch5-button';
 	public primaryCssClass: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
-	public cssClassPrefix: string = 'ch5-button'; // These are not readonly because they can be changed in extended components
 
 	private DEBOUNCE_BUTTON_DISPLAY: number = 25;
 
@@ -2393,17 +2392,17 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 			Ch5ButtonBase.ICON_POSITIONS.forEach((iconPositionObj, i) => {
 				if (this.iconPosition === iconPositionObj) {
-					this._elContainer.classList.add(`${this.cssClassPrefix}--iconposition-${iconPositionObj}`);
+					this._elContainer.classList.add(`${this.primaryCssClass}--iconposition-${iconPositionObj}`);
 					this._elIcon.classList.add(`cx-button-icon-pos-${iconPositionObj}`);
 				} else {
-					this._elContainer.classList.remove(`${this.cssClassPrefix}--iconposition-${iconPositionObj}`);
+					this._elContainer.classList.remove(`${this.primaryCssClass}--iconposition-${iconPositionObj}`);
 					this._elIcon.classList.remove(`cx-button-icon-pos-${iconPositionObj}`);
 				}
 			});
 
 			// // Handle vertical button with iconPosition top or bottom
 			// if (['top', 'bottom'].indexOf(this.iconPosition) >= 0 && this.orientation === Ch5ButtonBase.ORIENTATIONS[1]) {
-			// 	this._elButton.classList.add(`${this.cssClassPrefix}--vertical--icon-${this.iconPosition}`);
+			// 	this._elButton.classList.add(`${this.primaryCssClass}--vertical--icon-${this.iconPosition}`);
 			// }
 
 			let hasIcon = false;

@@ -116,7 +116,6 @@ export class Ch5Keypad extends Ch5Common implements ICh5KeypadAttributes {
 	};
 
 	public readonly primaryCssClass = 'ch5-keypad';
-	public readonly cssClassPrefix = 'ch5-keypad';
 
 	private readonly KEYPAD_PROPERTIES: {
 		SHOW_EXTRA_BUTTON: ICh5AttributeAndPropertySettings

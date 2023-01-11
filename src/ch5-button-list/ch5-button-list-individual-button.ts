@@ -6,8 +6,6 @@ export class Ch5ButtonListIndividualButton extends Ch5ButtonListIndividualButton
 	//#region Variables
 
 	public static ELEMENT_NAME = 'ch5-button-list-individual-button';
-
-	public cssClassPrefix = 'ch5-button-list-individual-button';
 	public primaryCssClass = 'ch5-button-list-individual-button';
 
 	//#endregion

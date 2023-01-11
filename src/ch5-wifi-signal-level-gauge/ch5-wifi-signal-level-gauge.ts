@@ -139,7 +139,6 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
 
   public static readonly ELEMENT_NAME = 'ch5-wifi-signal-level-gauge';
 
-  public cssClassPrefix = 'ch5-wifi-signal-level-gauge';
   public primaryCssClass = 'ch5-wifi-signal-level-gauge';
 
   private _ch5Properties: Ch5Properties;
@@ -459,7 +458,7 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   //#endregion

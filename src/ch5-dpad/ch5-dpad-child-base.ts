@@ -31,7 +31,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 
 	//#region 1.1 readonly variables
 	public primaryCssClass = '';
-	public cssClassPrefix = '';
 	public readonly pressedCssClassPostfix = '--pressed';
 
 	private readonly LABEL_CLASS: string = 'dpad-btn-label';
@@ -278,7 +277,6 @@ export class Ch5DpadChildBase extends Ch5Common implements ICh5DpadChildBaseAttr
 			this.CSS_CLASS_LIST.defaultArrowClass = params.defaultArrowClass;
 		}
 		this.primaryCssClass = this.componentPrefix + params.btnType;
-		this.cssClassPrefix = this.componentPrefix + params.btnType;
 		this.updatePressedClass(this.primaryCssClass + this.pressedCssClassPostfix);
 	}
 

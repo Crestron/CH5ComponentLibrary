@@ -101,7 +101,6 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   public static readonly MAX_FRAMES_PER_SECOND = 1;
   public static readonly FRAMES_PER_SECOND_MIN = 3;
   public static readonly FRAMES_PER_SECOND_MAX = 100;
-  public cssClassPrefix = 'ch5-animation';
   public primaryCssClass = 'ch5-animation';
 
   private _ch5Properties: Ch5Properties;
@@ -344,7 +343,7 @@ export class Ch5Animation extends Ch5Common implements ICh5AnimationAttributes {
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   //#endregion

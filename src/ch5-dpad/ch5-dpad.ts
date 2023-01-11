@@ -90,7 +90,6 @@ export class Ch5Dpad extends Ch5Common implements ICh5DpadAttributes {
 	};
 
 	public readonly primaryCssClass = 'ch5-dpad';
-	public readonly cssClassPrefix = 'ch5-dpad';
 
 	//#endregion
 

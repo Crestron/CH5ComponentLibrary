@@ -176,7 +176,6 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * CSS classes
 	 */
 	public primaryCssClass = 'ch5-slider';
-	public cssClassPrefix = 'ch5-slider';
 
 	/**
 	 * Reflects render state
@@ -1148,7 +1147,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		this._pressable = new Ch5Pressable(this, {
 			cssTargetElement: this.getTargetElementForCssClassesAndStyle(),
-			cssPressedClass: this.cssClassPrefix + '--pressed'
+			cssPressedClass: this.primaryCssClass + '--pressed'
 		});
 
 		if (!this._wasInstatiated) {
@@ -1431,7 +1430,7 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 	 * @return {string }
 	 */
 	public getCssClassDisabled(): string {
-		return this.cssClassPrefix + '--disabled';
+		return this.primaryCssClass + '--disabled';
 	}
 
 	/**
@@ -1652,22 +1651,22 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 		setOfCssClassesToBeApplied.add(this.primaryCssClass);
 
 		// shape
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--shape--' + this.handleShape);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--shape--' + this.handleShape);
 
 		// size
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--size--' + this.size);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--size--' + this.size);
 
 		// handleSize
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--handle-size--' + this.handleSize);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--handle-size--' + this.handleSize);
 
 		// stretch
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--stretch--' + this.stretch);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--stretch--' + this.stretch);
 
 		// orientation
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--orientation--' + this.orientation);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--orientation--' + this.orientation);
 
 		// tooltip
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--tooltip--' + this.toolTipShowType);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--tooltip--' + this.toolTipShowType);
 
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (typeof targetEl.classList !== 'undefined') {
@@ -1742,32 +1741,32 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 
 		// shapes
 		Ch5Slider.SHAPES.forEach((shape: TCh5SliderShape) => {
-			cssClasses.push(this.cssClassPrefix + '--shape--' + shape);
+			cssClasses.push(this.primaryCssClass + '--shape--' + shape);
 		});
 
 		// sizes
 		Ch5Slider.SIZES.forEach((size: TCh5SliderSize) => {
-			cssClasses.push(this.cssClassPrefix + '--size--' + size);
+			cssClasses.push(this.primaryCssClass + '--size--' + size);
 		});
 
 		// handle sizes
 		Ch5Slider.SIZES.forEach((size: TCh5SliderSize) => {
-			cssClasses.push(this.cssClassPrefix + '--handle-size--' + size);
+			cssClasses.push(this.primaryCssClass + '--handle-size--' + size);
 		});
 
 		// stretches
 		Ch5Slider.STRETCHES.forEach((stretch: TCh5SliderStretch) => {
-			cssClasses.push(this.cssClassPrefix + '--stretch--' + stretch);
+			cssClasses.push(this.primaryCssClass + '--stretch--' + stretch);
 		});
 
 		// orientation
 		Ch5Slider.ORIENTATIONS.forEach((orientation: TCh5SliderOrientation) => {
-			cssClasses.push(this.cssClassPrefix + '--orientation--' + orientation);
+			cssClasses.push(this.primaryCssClass + '--orientation--' + orientation);
 		});
 
 		// orientation
 		Ch5Slider.TOOLTIPS.forEach((tooltip: TCh5SliderTooltipType) => {
-			cssClasses.push(this.cssClassPrefix + '--tooltip--' + tooltip);
+			cssClasses.push(this.primaryCssClass + '--tooltip--' + tooltip);
 		});
 
 		return cssClasses;

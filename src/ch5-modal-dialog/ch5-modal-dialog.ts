@@ -104,7 +104,6 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 	};
 
 	public primaryCssClass = 'ch5-modal-dialog';
-	public cssClassPrefix = 'ch5-modal-dialog';
 
 	/**
 	 * A div element that is external to this component. Its role is to provide mask that stretches over the entire
@@ -294,7 +293,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		if (!this._crModalWasInstatiated) {
 			this._rebindEventCallbacks();
 			this.createInternalHtml();
-			this._closeIcon = this.cssClassPrefix + '-default-close-icon';
+			this._closeIcon = this.primaryCssClass + '-default-close-icon';
 		}
 		this._crModalWasInstatiated = true;
 
@@ -679,7 +678,7 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 		setOfCssClassesToBeApplied.add(this.primaryCssClass);
 
 		// overflow
-		setOfCssClassesToBeApplied.add(this.cssClassPrefix + '--overflow-' + this.overflow);
+		setOfCssClassesToBeApplied.add(this.primaryCssClass + '--overflow-' + this.overflow);
 
 		const targetEl: HTMLElement = this.getTargetElementForCssClassesAndStyle();
 		if (typeof targetEl.classList !== 'undefined') {
@@ -856,43 +855,43 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 			this._elCloseIconBtn = document.createElement('button');
 			this._elCloseIconBtn.setAttribute('type', 'button');
-			this._elCloseIconBtn.classList.add(this.cssClassPrefix + '-close-icon-btn');
+			this._elCloseIconBtn.classList.add(this.primaryCssClass + '-close-icon-btn');
 			this._elCloseIconBtn.setAttribute('aria-label', 'Close');
 
 			this._elCloseIcon = document.createElement('span');
 			this._elCloseIcon.setAttribute('aria-hidden', 'true');
-			this._elCloseIcon.classList.add(this.cssClassPrefix + '-close-icon');
-			this._elCloseIcon.classList.add(this.cssClassPrefix + '-default-close-icon');
+			this._elCloseIcon.classList.add(this.primaryCssClass + '-close-icon');
+			this._elCloseIcon.classList.add(this.primaryCssClass + '-default-close-icon');
 
 			this._elCloseIconBtn.appendChild(this._elCloseIcon);
 
 			this._elHeader = document.createElement('div');
-			this._elHeader.classList.add(this.cssClassPrefix + '-header');
+			this._elHeader.classList.add(this.primaryCssClass + '-header');
 
 			this._elPrompt = document.createElement('div');
-			this._elPrompt.classList.add(this.cssClassPrefix + '-prompt');
+			this._elPrompt.classList.add(this.primaryCssClass + '-prompt');
 			this._elPromptIcon = document.createElement('img');
-			this._elPromptIcon.classList.add(this.cssClassPrefix + '-prompt-icon');
+			this._elPromptIcon.classList.add(this.primaryCssClass + '-prompt-icon');
 			this._elPromptText = document.createElement('span');
-			this._elPromptText.classList.add(this.cssClassPrefix + '-prompt-text');
+			this._elPromptText.classList.add(this.primaryCssClass + '-prompt-text');
 
 			this._elFooter = document.createElement('div');
-			this._elFooter.classList.add(this.cssClassPrefix + '-footer');
+			this._elFooter.classList.add(this.primaryCssClass + '-footer');
 
 			this._elBtnOk = new Ch5Button();
 			this._elBtnOk.setAttribute('type', 'success');
 			this._elBtnOk.setAttribute('label', this._btnOkDefaultLabelText);
-			// this._elBtnOk.setAttribute('customClass', this.cssClassPrefix + '-btn-ok');
-			this._elBtnOk.classList.add(this.cssClassPrefix + '-btn-ok');
+			// this._elBtnOk.setAttribute('customClass', this.primaryCssClass + '-btn-ok');
+			this._elBtnOk.classList.add(this.primaryCssClass + '-btn-ok');
 
 			this._elBtnCancel = new Ch5Button();
 			this._elBtnCancel.setAttribute('type', 'warning');
 			this._elBtnCancel.setAttribute('label', this._btnCancelDefaultLabelText);
-			// this._elBtnCancel.setAttribute('customClass', this.cssClassPrefix + '-btn-cancel');
-			this._elBtnCancel.classList.add(this.cssClassPrefix + '-btn-cancel');
+			// this._elBtnCancel.setAttribute('customClass', this.primaryCssClass + '-btn-cancel');
+			this._elBtnCancel.classList.add(this.primaryCssClass + '-btn-cancel');
 
 			this._elContents = document.createElement('div');
-			this._elContents.classList.add(this.cssClassPrefix + '-contents');
+			this._elContents.classList.add(this.primaryCssClass + '-contents');
 
 			this._elContainer.classList.add(this.primaryCssClass);
 			this._elContainer.setAttribute('data-ch5-id', this.getCrId());
@@ -902,22 +901,22 @@ export class Ch5ModalDialog extends Ch5OverlayPanel implements ICh5ModalDialogAt
 
 
 			this._elMask = document.createElement('div');
-			this._elMask.classList.add(this.cssClassPrefix + '-mask');
-			this._elMask.classList.add(this.cssClassPrefix + '-mask-default-style');
+			this._elMask.classList.add(this.primaryCssClass + '-mask');
+			this._elMask.classList.add(this.primaryCssClass + '-mask-default-style');
 			this._elMask.setAttribute('cr-id', this.getCrId() + '-mask');
 		} else {
-			this._elCloseIconBtn = this.querySelector(`.${this.cssClassPrefix}-close-icon-btn`) as HTMLElement;
-			this._elCloseIcon = this.querySelector(`.${this.cssClassPrefix}-close-icon`) as HTMLElement;
-			this._elHeader = this.querySelector(`.${this.cssClassPrefix}-header`) as HTMLElement;
-			this._elPrompt = this.querySelector(`.${this.cssClassPrefix}-prompt`) as HTMLElement;
-			this._elPromptIcon = this.querySelector(`.${this.cssClassPrefix}-prompt-icon`) as HTMLElement;
-			this._elPromptText = this.querySelector(`.${this.cssClassPrefix}-prompt-text`) as HTMLElement;
-			this._elFooter = this.querySelector(`.${this.cssClassPrefix}-footer`) as HTMLElement;
-			this._elBtnOk = this.querySelector(`.${this.cssClassPrefix}-btn-ok`) as Ch5Button;
-			this._elBtnCancel = this.querySelector(`.${this.cssClassPrefix}-btn-cancel`) as Ch5Button;
-			this._elContents = this.querySelector(`.${this.cssClassPrefix}-contents`) as HTMLElement;
+			this._elCloseIconBtn = this.querySelector(`.${this.primaryCssClass}-close-icon-btn`) as HTMLElement;
+			this._elCloseIcon = this.querySelector(`.${this.primaryCssClass}-close-icon`) as HTMLElement;
+			this._elHeader = this.querySelector(`.${this.primaryCssClass}-header`) as HTMLElement;
+			this._elPrompt = this.querySelector(`.${this.primaryCssClass}-prompt`) as HTMLElement;
+			this._elPromptIcon = this.querySelector(`.${this.primaryCssClass}-prompt-icon`) as HTMLElement;
+			this._elPromptText = this.querySelector(`.${this.primaryCssClass}-prompt-text`) as HTMLElement;
+			this._elFooter = this.querySelector(`.${this.primaryCssClass}-footer`) as HTMLElement;
+			this._elBtnOk = this.querySelector(`.${this.primaryCssClass}-btn-ok`) as Ch5Button;
+			this._elBtnCancel = this.querySelector(`.${this.primaryCssClass}-btn-cancel`) as Ch5Button;
+			this._elContents = this.querySelector(`.${this.primaryCssClass}-contents`) as HTMLElement;
 			this._elContainer = existingModal as HTMLElement;
-			this._elMask = this.querySelector(`.${this.cssClassPrefix}-mask`) as HTMLElement;
+			this._elMask = this.querySelector(`.${this.primaryCssClass}-mask`) as HTMLElement;
 		}
 
 	}

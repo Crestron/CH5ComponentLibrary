@@ -26,7 +26,6 @@ export class Ch5KeypadButton extends Ch5Common implements ICh5KeypadButtonAttrib
 	//#region 1.1 readonly variables
 
 	public readonly primaryCssClass = 'keypad-btn';
-	public readonly cssClassPrefix = 'keypad-btn-';
 	public readonly pressedCssClassPostfix = '-pressed';
 
 	//#endregion

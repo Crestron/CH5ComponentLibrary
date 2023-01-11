@@ -7,7 +7,6 @@ export class Ch5TabButtonIndividualButton extends Ch5ButtonListIndividualButtonB
 
 	public static ELEMENT_NAME = 'ch5-tab-button-individual-button';
 
-	public cssClassPrefix = 'ch5-tab-button-individual-button';
 	public primaryCssClass = 'ch5-tab-button-individual-button';
 
 	//#endregion

@@ -401,7 +401,7 @@ export class Ch5SpinnerTemplate {
   public addChild(child: HTMLElement): HTMLElement {
 
     if (child !== undefined && child !== null) {
-      child.classList.add(Ch5Spinner.cssClassPrefix + '__item');
+      child.classList.add(Ch5Spinner.primaryCssClass + '__item');
       child.style.display = 'flex';
 
       if (this.childrenObject === undefined || this.childrenObject === null) {
@@ -435,12 +435,12 @@ export class Ch5SpinnerTemplate {
     // create the overlay element
     // this will be appended to the document body
     this.overlayElement = document.createElement('div');
-    this.overlayElement.classList.add(Ch5Spinner.cssClassPrefix + '__overlay');
+    this.overlayElement.classList.add(Ch5Spinner.primaryCssClass + '__overlay');
 
     // create the wrapper element
     // there will be saved the child elements
     this.wrapperElement = document.createElement('div');
-    this.wrapperElement.classList.add(Ch5Spinner.cssClassPrefix + '__wrapper');
+    this.wrapperElement.classList.add(Ch5Spinner.primaryCssClass + '__wrapper');
 
     // adjust the width by resize attribute
     if (this.element.resize === true) {
@@ -448,12 +448,12 @@ export class Ch5SpinnerTemplate {
     }
 
     this.scrollableArea = document.createElement('div');
-    this.scrollableArea.classList.add(Ch5Spinner.cssClassPrefix + '__scrollarea--animate');
+    this.scrollableArea.classList.add(Ch5Spinner.primaryCssClass + '__scrollarea--animate');
 
     this.highlightElement = document.createElement('div');
     this.highlightElement.style.height = this._element.itemHeight;
     this.highlightElement.style.top = this.element.getHighlightOffset();
-    this.highlightElement.classList.add(Ch5Spinner.cssClassPrefix + '__highlight');
+    this.highlightElement.classList.add(Ch5Spinner.primaryCssClass + '__highlight');
 
     // create the default template if this is not defined
     // by a <template> element inside component
@@ -518,10 +518,10 @@ export class Ch5SpinnerTemplate {
     this.wrapperElement.appendChild(this.scrollableArea);
 
     // remove  wrapper if exist
-    if (this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__overlay').length
-      || this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__wrapper').length) {
-      const overlayEle = Array.from(this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__overlay'));
-      const wrapperEle = Array.from(this._element.querySelectorAll('.' + Ch5Spinner.cssClassPrefix + '__wrapper'));
+    if (this._element.querySelectorAll('.' + Ch5Spinner.primaryCssClass + '__overlay').length
+      || this._element.querySelectorAll('.' + Ch5Spinner.primaryCssClass + '__wrapper').length) {
+      const overlayEle = Array.from(this._element.querySelectorAll('.' + Ch5Spinner.primaryCssClass + '__overlay'));
+      const wrapperEle = Array.from(this._element.querySelectorAll('.' + Ch5Spinner.primaryCssClass + '__wrapper'));
       overlayEle.forEach(e => e.parentNode!.removeChild(e));
       wrapperEle.forEach(e => e.parentNode!.removeChild(e));
     }
@@ -531,7 +531,7 @@ export class Ch5SpinnerTemplate {
     if (this.childrenObject !== null && this.childrenObject !== undefined) {
       for (let i = (this.childrenObject as [HTMLElement]).length - 1; i >= 0; i--) {
         const child = (this.childrenObject as [HTMLElement])[i];
-        const label = child.querySelector('.' + Ch5Spinner.cssClassPrefix + '__label') as HTMLElement;
+        const label = child.querySelector('.' + Ch5Spinner.primaryCssClass + '__label') as HTMLElement;
 
         if (label !== null && label.hasAttribute('data-ch5-textcontent-placeholder')) {
           const textcontent = label.getAttribute('data-ch5-textcontent-placeholder') as string;
@@ -586,7 +586,7 @@ export class Ch5SpinnerTemplate {
 
       if (element !== null) {
         this.removeActiveItemClass();
-        element.classList.add(Ch5Spinner.cssClassPrefix + '--active');
+        element.classList.add(Ch5Spinner.primaryCssClass + '--active');
         this.element.selectedItem = element;
       }
     } catch (e) {
@@ -693,8 +693,8 @@ export class Ch5SpinnerTemplate {
     try {
 
       if (this.templateElement !== null && this.templateElement.content !== undefined) {
-        const icon = this.templateElement.content.querySelector('.' + Ch5Spinner.cssClassPrefix + '__icon') as HTMLElement;
-        const label = this.templateElement.content.querySelector('.' + Ch5Spinner.cssClassPrefix + '__label') as HTMLElement;
+        const icon = this.templateElement.content.querySelector('.' + Ch5Spinner.primaryCssClass + '__icon') as HTMLElement;
+        const label = this.templateElement.content.querySelector('.' + Ch5Spinner.primaryCssClass + '__label') as HTMLElement;
         const iconPosition = this.element.iconPosition as string;
 
         if (icon !== null && label !== null) {
@@ -810,7 +810,7 @@ export class Ch5SpinnerTemplate {
 
     const indexId = this.element.indexId;
 
-    icon.classList.add(Ch5Spinner.cssClassPrefix + '__icon');
+    icon.classList.add(Ch5Spinner.primaryCssClass + '__icon');
 
     if (this.element.receiveStateUrl !== '') {
       icon.setAttribute('receiveStateUrl', this.element.receiveStateUrl);
@@ -818,7 +818,7 @@ export class Ch5SpinnerTemplate {
       wrapper.appendChild(icon);
     }
 
-    label.classList.add(Ch5Spinner.cssClassPrefix + '__label');
+    label.classList.add(Ch5Spinner.primaryCssClass + '__label');
 
     if (this.element.receiveStateLabel !== '') {
       label.setAttribute('data-ch5-textcontent-placeholder', this.element.receiveStateLabel);
@@ -875,7 +875,7 @@ export class Ch5SpinnerTemplate {
 
       for (let i = childrenObject.length - 1; i >= 0; i--) {
         const element = childrenObject[i];
-        const activeClassName = Ch5Spinner.cssClassPrefix + '--active';
+        const activeClassName = Ch5Spinner.primaryCssClass + '--active';
 
         if (element.classList.contains(activeClassName)) {
           element.classList.remove(activeClassName);

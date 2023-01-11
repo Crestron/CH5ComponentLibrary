@@ -34,7 +34,6 @@ export class Ch5ButtonList extends Ch5ButtonListBase {
   constructor() {
     super();
     this.primaryCssClass = Ch5ButtonList.ELEMENT_NAME;
-    this.cssClassPrefix = Ch5ButtonList.ELEMENT_NAME;
   }
 }
 

@@ -859,7 +859,6 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
 
 
   public static primaryCssClass = 'ch5-spinner';
-  public static cssClassPrefix = 'ch5-spinner';
 
   public static VISIBLEITEMSCROLL = 3;
 
@@ -1750,7 +1749,7 @@ export class Ch5Spinner extends Ch5Common implements ICh5SpinnerAttributes {
   protected initUtilities() {
     this.info("<ch5-spinner />.initUtilities()");
 
-    this.classList.add(Ch5Spinner.cssClassPrefix);
+    this.classList.add(Ch5Spinner.primaryCssClass);
 
     this.initAttributes();
 

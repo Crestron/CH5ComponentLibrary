@@ -288,12 +288,10 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-    },
+    }
   ];
 
   public static ELEMENT_NAME = 'ch5-button-list';
-
-  public cssClassPrefix = 'ch5-button-list';
   public primaryCssClass = 'ch5-button-list';
 
   private _ch5Properties: Ch5Properties;
@@ -1195,7 +1193,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   public getCssClassDisabled() {
-    return this.cssClassPrefix + '--disabled';
+    return this.primaryCssClass + '--disabled';
   }
 
   //#endregion

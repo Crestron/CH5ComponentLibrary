@@ -31,8 +31,6 @@ export class Ch5TabButton extends Ch5ButtonListBase {
   constructor() {
     super();
     this.primaryCssClass = Ch5TabButton.ELEMENT_NAME;
-    this.cssClassPrefix = Ch5TabButton.ELEMENT_NAME;
-
   }
 
   public connectedCallback() {

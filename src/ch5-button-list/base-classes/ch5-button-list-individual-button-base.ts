@@ -46,8 +46,6 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 	];
 
 	public static  ELEMENT_NAME = 'ch5-button-list-individual-button';
-
-	public cssClassPrefix = 'ch5-button-list-individual-button';
 	public primaryCssClass = 'ch5-button-list-individual-button';
 
 	private _ch5Properties: Ch5Properties;
