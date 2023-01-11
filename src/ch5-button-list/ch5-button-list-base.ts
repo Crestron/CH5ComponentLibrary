@@ -4,7 +4,7 @@ import { Ch5ButtonLabel } from "../ch5-button/ch5-button-label";
 import { Ch5GenericListAttributes } from "../ch5-generic-list-attributes/ch5-generic-list-attributes";
 import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
 import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape, TCh5ButtonListButtonStretch } from './interfaces/t-ch5-button-list';
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape } from './interfaces/t-ch5-button-list';
 import { ICh5ButtonListAttributes } from './interfaces/i-ch5-button-list-attributes';
 import { Ch5Properties } from "../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../ch5-core/ch5-property";
@@ -34,7 +34,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   public static readonly BUTTON_CHECKBOX_POSITIONS: TCh5ButtonListButtonCheckboxPosition[] = ['left', 'right'];
   public static readonly BUTTON_ICON_POSITIONS: TCh5ButtonListButtonIconPosition[] = ['first', 'last', 'top', 'bottom'];
   public static readonly BUTTON_SHAPES: TCh5ButtonListButtonShape[] = ['rounded-rectangle', 'rectangle'];
-  public static readonly BUTTON_STRETCH: TCh5ButtonListButtonStretch[] = ['both', 'width', 'height'];
 
   public static readonly COMPONENT_DATA: any = {
     ORIENTATION: {
@@ -43,6 +42,13 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       key: 'orientation',
       attribute: 'orientation',
       classListPrefix: 'ch5-button-list--orientation-'
+    },
+    STRETCH: {
+      default: Ch5ButtonListBase.STRETCH[0],
+      values: Ch5ButtonListBase.STRETCH,
+      key: 'stretch',
+      attribute: 'stretch',
+      classListPrefix: 'ch5-button-list--stretch-'
     },
     BUTTON_TYPE: {
       default: Ch5ButtonListBase.BUTTON_TYPES[0],
@@ -85,14 +91,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       key: 'buttonShape',
       attribute: 'buttonShape',
       classListPrefix: 'ch5-button-list--button-shape-'
-    },
-    BUTTON_STRETCH: {
-      default: Ch5ButtonListBase.BUTTON_STRETCH[0],
-      values: Ch5ButtonListBase.BUTTON_STRETCH,
-      key: 'buttonStretch',
-      attribute: 'buttonStretch',
-      classListPrefix: 'ch5-button-list--button-stretch-'
-    },
+    }
   };
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5GenericListAttributes.SIGNAL_ATTRIBUTE_TYPES,
@@ -153,16 +152,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       type: "enum",
       valueOnAttributeEmpty: Ch5ButtonListBase.BUTTON_SHAPES[0],
       isObservableProperty: true
-    },
-    {
-      default: Ch5ButtonListBase.BUTTON_STRETCH[0],
-      enumeratedValues: Ch5ButtonListBase.BUTTON_STRETCH,
-      name: "buttonStretch",
-      removeAttributeOnNull: true,
-      type: "enum",
-      valueOnAttributeEmpty: Ch5ButtonListBase.BUTTON_STRETCH[0],
-      isObservableProperty: true,
-      isNullable: true,
     },
     {
       default: false,
@@ -374,15 +363,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
   public get buttonShape(): TCh5ButtonListButtonShape {
     return this._ch5Properties.get<TCh5ButtonListButtonShape>("buttonShape");
-  }
-
-  public set buttonStretch(value: TCh5ButtonListButtonStretch | null) {
-    this._ch5Properties.set<TCh5ButtonListButtonStretch | null>("buttonStretch", value, () => {
-      this.debounceButtonDisplay();
-    });
-  }
-  public get buttonStretch(): TCh5ButtonListButtonStretch | null {
-    return this._ch5Properties.get<TCh5ButtonListButtonStretch | null>("buttonStretch");
   }
 
   public set buttonCheckboxShow(value: boolean) {
@@ -774,7 +754,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   public handleRowsAndColumn() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
-    if (this.stretch) { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
+    if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
     if (this.orientation === "horizontal") {
       // Remove Previous loaded class for both rows and columns
       this._elContainer.classList.remove(Ch5ButtonListBase.ROWS_CLASSLIST_PREFIX + this.rowClassValue);
@@ -801,12 +781,8 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   public handleStretch(): void {
-    if (this.stretch) {
-      this.stretch = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1;
-      // stretch functionality is handled in buttonDisplay
-    } else {
-      this._elContainer.classList.remove(this.primaryCssClass + '--stretch-true');
-    }
+    if (this.stretch === 'both') { this.stretch = this.orientation === 'horizontal' ? this.rows === 1 ? 'both' : null : this.columns === 1 ? 'both' : null; }
+    if (this.stretch === null) { this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both'); }
   }
 
   public handleCenterItems() {
@@ -823,7 +799,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   public buttonDisplay() {
     // The below line is added to remove the stretch class before calculating the button dimension
-    this._elContainer.classList.remove(this.primaryCssClass + '--stretch-true');
+    this._elContainer.classList.remove(this.primaryCssClass + '--stretch-both');
 
     // Remove all the children containers from the container
     Array.from(this._elContainer.children).forEach(container => container.remove());
@@ -851,7 +827,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       this.createButton(index);
     }
     this.initScrollbar();
-    if (this.stretch) { this._elContainer.classList.add(this.primaryCssClass + '--stretch-true'); }
+    if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
   }
 
 
@@ -957,6 +933,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   private buttonHelper(btn: Ch5Button, index: number) {
     const individualButtons = this.getElementsByTagName('ch5-button-list-individual-button');
     const individualButtonsLength = individualButtons.length;
+    btn.setAttribute('stretch', 'both');
     Ch5ButtonListBase.COMPONENT_PROPERTIES.forEach((attr: ICh5PropertySettings) => {
       if (index < individualButtonsLength) {
         if (attr.name.toLowerCase() === 'buttonlabelinnerhtml') {
@@ -1001,8 +978,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
             if (attrValue) {
               btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue);
             }
-          } else if (attr.name === 'buttonStretch' && !this.hasAttribute(attr.name)) {
-            btn.setAttribute('stretch', 'both');
           }
         }
       } else {
@@ -1011,8 +986,6 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
           if (attrValue) {
             btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
           }
-        } else if (attr.name === 'buttonStretch' && !this.hasAttribute(attr.name)) {
-          btn.setAttribute('stretch', 'both');
         }
       }
     });

@@ -1,5 +1,5 @@
 import { ICh5GenericListAttributes } from "../../ch5-common/interfaces/i-ch5-generic-list-attributes";
-import { TCh5GenericListAttributesOrientation } from './t-ch5-generic-list-attributes';
+import { TCh5GenericListAttributesOrientation, TCh5GenericListAttributesStretch } from './t-ch5-generic-list-attributes';
 
 /**
  * @ignore
@@ -46,13 +46,13 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * [
    * "`stretch` attribute",
    * "***",
-   * "The default value is false. NOTE: stretch is set to false whenever there are multiple rows and columns. Stretch attribute always override centerItems."
+   * "The default value is null. Valid values are null and 'both'. NOTE: stretch is set to null whenever there are multiple rows and columns. Stretch attribute always override centerItems."
    * ]
    * @name stretch
    * @default false
    * @attributeType "Boolean"
    */
-  stretch: boolean;
+  stretch: TCh5GenericListAttributesStretch | null;
   /**
    * @documentation
    * [
