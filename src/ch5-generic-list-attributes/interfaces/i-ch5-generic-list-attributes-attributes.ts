@@ -130,5 +130,30 @@ export interface ICh5GenericListAttributesAttributes extends ICh5GenericListAttr
    * @attributeType "Join"
    */
   receiveStateNumberOfItems: string;
+  /**
+  * @documentation
+  * [
+  * "`scrollToPosition` attribute",
+  * "***",
+  * "Indicates the index of the button to scrollTo. This is applicable only for single row and column."
+  * ]
+  * @name scrolltoposition
+  * @default 0
+  * limits [{"min": 0, "max": 499}]
+  * @attributeType "Integer"
+  */
+  scrollToPosition: number;
+  /**
+   * @documentation
+   * [
+   * "`receiveStateScrollToPosition` attribute",
+   * "***",
+   * "Signal indicates the index of the button to scrollTo. This is applicable only for single row and column."
+   * ]
+   * @name receivestatescrolltoposition
+   * @join {"direction": "state", "isContractName": true, "numericJoin": 1}
+   * @attributeType "Join"
+   */
+  receiveStateScrollToPosition: string;
 
 }

@@ -272,7 +272,23 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true
-    }
+    },
+    {
+      default: "",
+      name: "buttonReceiveStateShow",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
+    {
+      default: "",
+      name: "buttonReceiveStateEnable",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
   ];
 
   public static ELEMENT_NAME = 'ch5-button-list';
@@ -489,6 +505,24 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
   public get buttonSendEventOnClick(): string {
     return this._ch5Properties.get<string>("buttonSendEventOnClick");
+  }
+
+  public set buttonReceiveStateShow(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateShow", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonReceiveStateShow(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateShow");
+  }
+
+  public set buttonReceiveStateEnable(value: string) {
+    this._ch5Properties.set<string>("buttonReceiveStateEnable", value, () => {
+      this.debounceButtonDisplay();
+    });
+  }
+  public get buttonReceiveStateEnable(): string {
+    return this._ch5Properties.get<string>("buttonReceiveStateEnable");
   }
 
   //#endregion
@@ -795,6 +829,9 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   public handleEndless() {
     if (this.endless) { this.endless = this.orientation === 'horizontal' ? this.rows === 1 : this.columns === 1; }
     // This behavior is handled in scroll event
+  }
+  public handleScrollToPosition() {
+    //
   }
 
   public buttonDisplay() {

@@ -14,6 +14,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5Common.SIGNAL_ATTRIBUTE_TYPES,
     receiveStateNumberOfItems: { direction: "state", numericJoin: 1, contractName: true },
+    receiveStateScrollToPosition: { direction: "state", numericJoin: 1, contractName: true },
   };
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
@@ -125,7 +126,34 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
       type: "string",
       valueOnAttributeEmpty: "",
       isObservableProperty: true,
-    }
+    },
+    {
+      default: 0,
+      name: "scrollToPosition",
+      removeAttributeOnNull: true,
+      nameForSignal: "receiveStateScrollToPosition",
+      type: "number",
+      valueOnAttributeEmpty: null,
+      numberProperties: {
+        min: 0,
+        max: 499,
+        conditionalMin: 0,
+        conditionalMax: 499,
+        conditionalMinValue: 0,
+        conditionalMaxValue: 499
+      },
+      isObservableProperty: true
+    },
+    {
+      default: "",
+      isSignal: true,
+      name: "receiveStateScrollToPosition",
+      signalType: "number",
+      removeAttributeOnNull: true,
+      type: "string",
+      valueOnAttributeEmpty: "",
+      isObservableProperty: true,
+    },
   ];
 
   private _ch5PropertiesBase: Ch5Properties;
@@ -224,6 +252,25 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
     return this._ch5PropertiesBase.get<string>('receiveStateNumberOfItems');
   }
 
+  public set scrollToPosition(value: number) {
+    this._ch5PropertiesBase.set<number>("scrollToPosition", value, () => {
+      this.handleScrollToPosition();
+    });
+  }
+  public get scrollToPosition(): number {
+    return this._ch5PropertiesBase.get<number>("scrollToPosition");
+  }
+
+  public set receiveStateScrollToPosition(value: string) {
+    this._ch5PropertiesBase.set("receiveStateScrollToPosition", value, null, (newValue: number) => {
+      this._ch5PropertiesBase.setForSignalResponse<number>("scrollToPosition", newValue, () => {
+        this.handleScrollToPosition();
+      });
+    });
+  }
+  public get receiveStateScrollToPosition(): string {
+    return this._ch5PropertiesBase.get<string>('receiveStateScrollToPosition');
+  }
   //#endregion
 
   //#region Component Lifecycle
@@ -307,6 +354,7 @@ export abstract class Ch5GenericListAttributes extends Ch5Common implements ICh5
   abstract handleEndless(): void;
   abstract handleRowsAndColumn(): void;
   abstract handleStretch(): void;
+  abstract handleScrollToPosition(): void;
 
   //#endregion
 

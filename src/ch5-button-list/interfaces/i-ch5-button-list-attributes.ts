@@ -247,4 +247,28 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
    * @attributeType "String"
    */
   buttonSendEventOnClick: string;
+  /**
+  * @documentation
+  * [
+  * "`buttonReceiveStateShow` attribute",
+  * "***",
+  * ". When the signal is low, the component will not be displayed, and the area will not be pressable."
+  * ]
+  * @name buttonreceivestateshow
+  * @default 
+  * @attributeType "String"
+  */
+  buttonReceiveStateShow: string;
+  /**
+   * @documentation
+   * [
+   * "`buttonReceiveStateEnable` attribute",
+   * "***",
+   * "When the signal is low, the look of the component will change to represent a disabled state and the component will not be pressable."
+   * ]
+   * @name buttonreceivestateenable
+   * @default 
+   * @attributeType "String"
+   */
+  buttonReceiveStateEnable: string;
 }
