@@ -828,6 +828,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     }
     this.initScrollbar();
     if (this.stretch === 'both') { this._elContainer.classList.add(this.primaryCssClass + '--stretch-both'); }
+    if (this.centerItems === true && this.scrollbarDimension < 100) { this.centerItems = false; }
   }
 
 
