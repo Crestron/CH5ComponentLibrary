@@ -1,17 +1,17 @@
-import { Ch5Button } from "../ch5-button/ch5-button";
-import { Ch5ButtonMode } from "../ch5-button/ch5-button-mode";
-import { Ch5ButtonLabel } from "../ch5-button/ch5-button-label";
-import { Ch5GenericListAttributes } from "../ch5-generic-list-attributes/ch5-generic-list-attributes";
-import { Ch5RoleAttributeMapping } from "../utility-models/ch5-role-attribute-mapping";
-import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../ch5-common/ch5-signal-attribute-registry";
-import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape } from './interfaces/t-ch5-button-list';
-import { ICh5ButtonListAttributes } from './interfaces/i-ch5-button-list-attributes';
-import { Ch5Properties } from "../ch5-core/ch5-properties";
-import { ICh5PropertySettings } from "../ch5-core/ch5-property";
-import { Ch5ButtonListMode } from "../ch5-button-list/ch5-button-list-mode";
-import { Ch5ButtonListModeState } from "../ch5-button-list/ch5-button-list-mode-state";
-import { Ch5ButtonModeState } from "../ch5-button/ch5-button-mode-state";
-import { resizeObserver } from "../ch5-core/resize-observer";
+import { Ch5Button } from "../../ch5-button/ch5-button";
+import { Ch5ButtonMode } from "../../ch5-button/ch5-button-mode";
+import { Ch5ButtonLabel } from "../../ch5-button/ch5-button-label";
+import { Ch5GenericListAttributes } from "../../ch5-generic-list-attributes/ch5-generic-list-attributes";
+import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
+import { Ch5SignalAttributeRegistry, Ch5SignalElementAttributeRegistryEntries } from "../../ch5-common/ch5-signal-attribute-registry";
+import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonShape } from './../interfaces/t-ch5-button-list';
+import { ICh5ButtonListAttributes } from './../interfaces/i-ch5-button-list-attributes';
+import { Ch5Properties } from "../../ch5-core/ch5-properties";
+import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
+import { Ch5ButtonListMode } from "../../ch5-button-list/ch5-button-list-mode";
+import { Ch5ButtonListModeState } from "../../ch5-button-list/ch5-button-list-mode-state";
+import { Ch5ButtonModeState } from "../../ch5-button/ch5-button-mode-state";
+import { resizeObserver } from "../../ch5-core/resize-observer";
 
 export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5ButtonListAttributes {
 

@@ -1,5 +1,5 @@
 import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
-import { Ch5ButtonListBase } from "../ch5-button-list/ch5-button-list-base";
+import { Ch5ButtonListBase } from "../ch5-button-list/base-classes/ch5-button-list-base";
 
 export class Ch5TabButton extends Ch5ButtonListBase {
 
@@ -9,10 +9,6 @@ export class Ch5TabButton extends Ch5ButtonListBase {
 
   public cssClassPrefix = 'ch5-tab-button';
   public primaryCssClass = 'ch5-tab-button';
-
-  //#endregion
-
-  //#region Getters and Setters
 
   //#endregion
 

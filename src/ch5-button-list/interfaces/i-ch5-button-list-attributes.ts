@@ -10,7 +10,7 @@ export interface ICh5ButtonListAttributes extends ICh5GenericListAttributesAttri
   * [
   * "`buttonType` attribute",
   * "***",
-  * "buttonType sets the button background for all the buttons in the list. Possible values are default, danger, text, warning, info, success, primary, secondary."
+  * "buttonType sets the button backgrountd for all the buttons in the list. Possible values are default, danger, text, warning, info, success, primary, secondary."
   * ]
   * @name buttontype
   * @default default

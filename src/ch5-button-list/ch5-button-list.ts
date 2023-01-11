@@ -1,5 +1,4 @@
-import { Ch5SignalAttributeRegistry } from "../ch5-common/ch5-signal-attribute-registry";
-import { Ch5ButtonListBase } from "./ch5-button-list-base";
+import { Ch5ButtonListBase } from "./base-classes/ch5-button-list-base";
 
 export class Ch5ButtonList extends Ch5ButtonListBase {
 
@@ -12,10 +11,6 @@ export class Ch5ButtonList extends Ch5ButtonListBase {
   //#endregion
 
   //#region Static Methods
-
-  public static registerSignalAttributeTypes() {
-    Ch5SignalAttributeRegistry.instance.addElementAttributeEntries(Ch5ButtonList.ELEMENT_NAME, Ch5ButtonList.SIGNAL_ATTRIBUTE_TYPES);
-  }
 
   public static registerCustomElement() {
     if (typeof window === "object"
@@ -31,4 +26,3 @@ export class Ch5ButtonList extends Ch5ButtonListBase {
 }
 
 Ch5ButtonList.registerCustomElement();
-Ch5ButtonList.registerSignalAttributeTypes();
