@@ -97,7 +97,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     ...Ch5GenericListAttributes.SIGNAL_ATTRIBUTE_TYPES,
   };
 
-  public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show', 'receiveStateEnable', 'receiveStateShow'];
+  public static readonly COMPONENT_COMMON_PROPERTIES = ['disabled', 'show'];
   public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [
     {
       default: Ch5ButtonListBase.BUTTON_TYPES[0],
@@ -1011,7 +1011,13 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
             }
           }
         } else {
-          if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+          if (attr.name.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
+            btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
+          }
+          else if (attr.name.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
+            btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
+          }
+          else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
             const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
             if (attrValue) {
               btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue);
@@ -1019,7 +1025,13 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
           }
         }
       } else {
-        if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
+        if (attr.name.toLowerCase() === 'buttonreceivestateshow' && this.hasAttribute('receivestateshow')) {
+          btn.setAttribute('receivestateshow', this.getAttribute('receivestateshow') + '');
+        }
+        else if (attr.name.toLowerCase() === 'buttonreceivestateenable' && this.hasAttribute('receivestateenable')) {
+          btn.setAttribute('receivestateenable', this.getAttribute('receivestateenable') + '');
+        }
+        else if (attr.name.toLowerCase().includes('button') && this.hasAttribute(attr.name)) {
           const attrValue = this.getAttribute(attr.name)?.trim().replace(`{{${this.indexId}}}`, index + '');
           if (attrValue) {
             btn.setAttribute(attr.name.toLowerCase().replace('button', ''), attrValue.trim());
