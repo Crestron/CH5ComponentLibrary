@@ -28,7 +28,6 @@
         <ch5-button-list-mode type="text"></ch5-button-list-mode>
         <ch5-button-list-mode type="info"></ch5-button-list-mode>
         <ch5-button-list-mode type="primary"></ch5-button-list-mode>
-        <ch5-button-list-mode type="secondary"></ch5-button-list-mode>
       </ch5-button-list>
     </template>
   </test-fixture>
@@ -62,7 +61,7 @@
       });
 
       const valid_types = CrComLib.Ch5ButtonList.BUTTON_TYPES;
-      const valid_types1 = ['default', 'warning', 'text', 'info', 'primary', 'secondary'];
+      const valid_types1 = ['default', 'warning', 'text', 'info', 'primary'];
       const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', null].concat(CrComLib.Ch5Button.TYPES).filter(data => { return !valid_types.includes(data) });
       const default_type = valid_types[0];
 

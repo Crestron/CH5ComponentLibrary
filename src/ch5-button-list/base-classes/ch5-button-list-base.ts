@@ -1186,7 +1186,15 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   private resizeHandler = () => {
-    this.debounceButtonDisplay();
+    if (this.orientation === 'horizontal' && this._elContainer.children.length !== 0) {
+      const containerWidth = this._elContainer.getBoundingClientRect().width;
+      let loadableButtons = Math.floor(containerWidth / this.buttonWidth) * this.rows + this.rows * 2;
+      loadableButtons = loadableButtons > this.numberOfItems ? this.numberOfItems : loadableButtons;
+      for (let i = this.loadedButtons; i < loadableButtons; i++) {
+        this.createButton(this.loadedButtons++);
+      }
+    }
+    this.initScrollbar();
   }
 
   private initMembers() {
