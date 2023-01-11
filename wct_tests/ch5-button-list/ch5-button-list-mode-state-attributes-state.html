@@ -8,14 +8,66 @@
   <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
 
   <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
 </head>
 
 <body>
   <test-fixture id="ch5-button-list-mode-state-state-attributes">
     <template>
-      <ch5-button-list>
-        <ch5-button-list-mode>
-          <ch5-button-list-mode-state></ch5-button-list-mode-state>
+      <ch5-button-list buttonType="text" numberOfItems="5" indexId="idx" buttonReceiveStateMode="btn-mode-{{idx}}">
+        <ch5-button-list-mode type="default" vAlignLabel="middle" hAlignLabel="center">
+          <ch5-button-list-mode-state state="normal">
+            <ch5-button-list-label>
+              <template>
+                normal_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state state="pressed" type="danger">
+            <ch5-button-list-label>
+              <template>
+                pressed_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state state="selected">
+            <ch5-button-list-label>
+              <template>
+                selected_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+        </ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-mode-state-state-attributes-1">
+    <template>
+      <ch5-button-list numberOfItems="5" indexId="idx" buttonReceiveStateMode="btn-mode-{{idx}}">
+        <ch5-button-list-mode type="default" vAlignLabel="middle" hAlignLabel="center">
+          <ch5-button-list-mode-state>
+            <ch5-button-list-label>
+              <template>
+                normal_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state>
+            <ch5-button-list-label>
+              <template>
+                pressed_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
+          <ch5-button-list-mode-state>
+            <ch5-button-list-label>
+              <template>
+                selected_{{idx}}
+              </template>
+            </ch5-button-list-label>
+          </ch5-button-list-mode-state>
         </ch5-button-list-mode>
       </ch5-button-list>
     </template>
@@ -25,9 +77,13 @@
       let ch5ButtonList;
       let ch5ButtonListMode;
       let ch5ButtonListModeState;
+      let ch5ButtonList1;
+      let ch5ButtonList1Mode;
+      let ch5ButtonList1ModeState;
 
       setup(async () => {
         ch5ButtonList = fixture('ch5-button-list-mode-state-state-attributes');
+        ch5ButtonList1 = fixture('ch5-button-list-mode-state-state-attributes-1');
         ch5ButtonListMode = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
         ch5ButtonListModeState = ch5ButtonListMode.getElementsByTagName('ch5-button-list-mode-state')[0];
       });
@@ -35,12 +91,63 @@
       let testCases = ['a', '', ' ', 'number', 'normal', 'pressed', 'selected'];
       let expectedResult = ['normal', 'normal', 'normal', 'normal', 'normal', 'pressed', 'selected'];
       testCases.forEach((ele, i) => {
-        test('Check Value "state"', () => {
-          ch5ButtonListModeState.setAttribute('state', ele);
-          expect(ch5ButtonListModeState.getAttribute('state')).to.be.equal(expectedResult[i]);
+        test('Check Value "state"', (done) => {
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.numberOfItems).to.be.equal(5);
+              expect(ch5ButtonList.buttonType).to.be.equal('text');
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                expect(ch5ButtonList.children[1].children[i].children[0].children[0].classList.contains("ch5-button--default")).to.be.equal(true);
+                expect(ch5ButtonList.children[1].children[i].children[0].children[0].children[0].children[0].children[0].innerText).to.be.equal('normal_' + i);
+                expect(ch5ButtonList.children[1].children[i].children[0].children[0].children[0].children[0].classList.contains('ch5-button--horizontal-center'));
+                expect(ch5ButtonList.children[1].children[i].children[0].children[0].children[0].children[0].classList.contains('ch5-button--vertical-middle'));
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
         });
       });
 
+      test(`Check button mode state selected`, (done) => {
+        flush(() => {
+          ch5ButtonList1.setAttribute('state', 'selected');
+          setTimeout(() => {
+            for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
+              console.log("state", ch5ButtonList1.state);
+              expect(ch5ButtonList.children[1].children[i].children[0].children[0].classList.contains("ch5-button--selected"));
+              expect(ch5ButtonList.children[1].children[i].children[0].children[0].children[0].children[0].children[0].innerText).to.be.equal('selected_' + i);
+
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+      test(`Check button mode state pressed`, (done) => {
+        flush(() => {
+          ch5ButtonList1.setAttribute('state', 'pressed');
+          setTimeout(() => {
+            for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
+              expect(ch5ButtonList.children[1].children[i].children[0].children[0].classList.contains("ch5-button--pressed"));
+              expect(ch5ButtonList.children[1].children[i].children[0].children[0].children[0].children[0].children[0].innerText).to.be.equal('pressed_' + i);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+      test(`Check button mode state normal`, (done) => {
+        flush(() => {
+          ch5ButtonList1.setAttribute('state', 'normal');
+          setTimeout(() => {
+            for (let i = 0; i < getDiv(ch5ButtonList1).children.length; i++) {
+              expect(ch5ButtonList.children[1].children[i].children[0].children[0].classList.contains("ch5-button--default"));
+              expect(ch5ButtonList.children[1].children[i].children[0].children[0].children[0].children[0].children[0].innerText).to.be.equal('normal_' + i);
+            }
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
     });
   </script>
 </body>
