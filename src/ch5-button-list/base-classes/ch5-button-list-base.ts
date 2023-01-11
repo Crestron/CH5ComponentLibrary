@@ -12,7 +12,6 @@ import { Ch5ButtonListMode } from "../../ch5-button-list/ch5-button-list-mode";
 import { Ch5ButtonListModeState } from "../../ch5-button-list/ch5-button-list-mode-state";
 import { Ch5ButtonModeState } from "../../ch5-button/ch5-button-mode-state";
 import { resizeObserver } from "../../ch5-core/resize-observer";
-import { Ch5ButtonListLabelBase } from "./ch5-button-list-label-base";
 import { Ch5ButtonListModeBase } from "./ch5-button-list-mode-base";
 import { Ch5ButtonListModeStateBase } from "./ch5-button-list-mode-state-base";
 
@@ -794,7 +793,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
       this.columnClassValue = this.columns < this.numberOfItems ? this.columns : this.numberOfItems;
 
       // Add the new class to the container
-      this._elContainer.classList.add(Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
+      this._elContainer.classList.add(this.nodeName.toLowerCase() + Ch5ButtonListBase.COLUMNS_CLASSLIST_PREFIX + this.columnClassValue);
     }
     this.debounceButtonDisplay();
   }

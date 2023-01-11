@@ -1,12 +1,12 @@
 import _ from "lodash";
 import { Ch5Log } from "../../ch5-common/ch5-log";
-import { Ch5ButtonList } from "./../ch5-button-list";
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { Ch5ButtonListModeBase } from "./ch5-button-list-mode-base";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
 import { ICh5ButtonListModeStateAttributes } from './../interfaces/i-ch5-button-list-mode-state-attributes';
 import { TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonIconPosition, TCh5ButtonListButtonModeState, TCh5ButtonListButtonType, TCh5ButtonListButtonVAlignLabel } from "./../interfaces/t-ch5-button-list";
+import { Ch5ButtonListBase } from "./ch5-button-list-base";
 
 export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonListModeStateAttributes {
 
@@ -119,7 +119,7 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
   public static ELEMENT_NAME = 'ch5-button-list-mode-state';
 
   private _ch5Properties: Ch5Properties;
-  private _parentCh5ButtonList: Ch5ButtonList;
+  private _parentCh5ButtonList: Ch5ButtonListBase;
 
   //#endregion
 
@@ -256,7 +256,6 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
     this._ch5Properties = new Ch5Properties(this, Ch5ButtonListModeStateBase.COMPONENT_PROPERTIES);
     this._parentCh5ButtonList = this.getParentButton();
     this.logger.stop();
-
   }
 
   public static get observedAttributes(): string[] {
@@ -295,7 +294,7 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
       throw new Error(`Invalid parent element for ${Ch5ButtonListModeStateBase.ELEMENT_NAME}.`);
     }
     if (_.isNil(this._parentCh5ButtonList)) {
-      throw new Error(`Missing parent ${Ch5ButtonList.ELEMENT_NAME} element for ${Ch5ButtonListModeStateBase.ELEMENT_NAME}.`);
+      throw new Error(`Missing parent element for ${Ch5ButtonListModeStateBase.ELEMENT_NAME}.`);
     }
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonListModeState);
@@ -328,12 +327,12 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
     }
   }
 
-  public getParentButton(): Ch5ButtonList {
-    const getTheMatchingParent = (node: Node): Ch5ButtonList => {
+  public getParentButton(): Ch5ButtonListBase {
+    const getTheMatchingParent = (node: Node): Ch5ButtonListBase => {
       if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-BUTTON-LIST") {
         return getTheMatchingParent(node.parentNode as Node);
       }
-      return node as Ch5ButtonList;
+      return node as Ch5ButtonListBase;
     }
     return getTheMatchingParent(this.parentElement as Node);
   }
@@ -341,4 +340,3 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
   //#endregion
 
 }
-

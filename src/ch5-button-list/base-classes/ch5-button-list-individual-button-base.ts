@@ -1,10 +1,11 @@
 import _ from "lodash";
 import { Ch5Log } from "../../ch5-common/ch5-log";
-import { Ch5ButtonList } from "./../ch5-button-list";
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
+import { Ch5ButtonList } from "../ch5-button-list";
 import { ICh5ButtonListIndividualButtonAttributes } from './../interfaces/i-ch5-button-list-individual-button-attributes';
+import { Ch5ButtonListBase } from "./ch5-button-list-base";
 
 export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5ButtonListIndividualButtonAttributes {
 
@@ -45,11 +46,10 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 		}
 	];
 
-	public static  ELEMENT_NAME = 'ch5-button-list-individual-button';
-	public primaryCssClass = 'ch5-button-list-individual-button';
+	public static ELEMENT_NAME = 'ch5-button-list-individual-button';
 
 	private _ch5Properties: Ch5Properties;
-	private _parentCh5ButtonList: Ch5ButtonList;
+	private _parentCh5ButtonList: Ch5ButtonListBase;
 
 	//#endregion
 
@@ -122,7 +122,7 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-		this.logger.start("attributeChangedCallback", this.primaryCssClass);
+		this.logger.start("attributeChangedCallback", Ch5ButtonListIndividualButtonBase.ELEMENT_NAME);
 		if (oldValue !== newValue) {
 			this.logger.log('ch5-button-list-individual-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 			const attributeChangedProperty = Ch5ButtonListIndividualButtonBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
@@ -142,9 +142,6 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 	 */
 	public connectedCallback() {
 		this.logger.start('connectedCallback()', Ch5ButtonListIndividualButtonBase.ELEMENT_NAME);
-		if (_.isNil(this._parentCh5ButtonList)) {
-			throw new Error(`Invalid parent element for ch5-button-list-individual-button.`);
-		}
 		this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonListIndividualButton);
 		this.setAttribute('data-ch5-id', this.getCrId());
 		this.initAttributes();
@@ -174,15 +171,18 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 		}
 	}
 
-	public getParentButton(): Ch5ButtonList {
-		const getTheMatchingParent = (node: Node): Ch5ButtonList => {
+	public getParentButton(): Ch5ButtonListBase {
+		console.log("*****", this.parentElement, this.parentElement instanceof Ch5ButtonList, this.parentElement instanceof Ch5ButtonListBase);
+
+		const getTheMatchingParent = (node: Node): Ch5ButtonListBase => {
 			if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-BUTTON-LIST") {
 				return getTheMatchingParent(node.parentNode as Node);
 			}
-			return node as Ch5ButtonList;
+			return node as Ch5ButtonListBase;
 		}
 		return getTheMatchingParent(this.parentElement as Node);
 	}
+
 	//#endregion
 
 }

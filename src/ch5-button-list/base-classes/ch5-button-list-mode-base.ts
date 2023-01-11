@@ -5,7 +5,7 @@ import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute
 import { ICh5ButtonListModeAttributes } from './../interfaces/i-ch5-button-list-mode-attributes';
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
 import { TCh5ButtonListButtonType, TCh5ButtonListButtonHAlignLabel, TCh5ButtonListButtonVAlignLabel, TCh5ButtonListButtonCheckboxPosition, TCh5ButtonListButtonIconPosition } from "./../interfaces/t-ch5-button-list";
-import { Ch5ButtonList } from "./../ch5-button-list";
+import { Ch5ButtonListBase } from "./ch5-button-list-base";
 
 export class Ch5ButtonListModeBase extends Ch5Log implements ICh5ButtonListModeAttributes {
 
@@ -108,7 +108,7 @@ export class Ch5ButtonListModeBase extends Ch5Log implements ICh5ButtonListModeA
   public static ELEMENT_NAME = 'ch5-button-list-mode';
 
   private _ch5Properties: Ch5Properties;
-  private _parentCh5ButtonList: Ch5ButtonList;
+  private _parentCh5ButtonList: Ch5ButtonListBase;
 
   //#endregion
 
@@ -247,7 +247,7 @@ export class Ch5ButtonListModeBase extends Ch5Log implements ICh5ButtonListModeA
 
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
     if (oldValue !== newValue) {
-      this.logger.log(Ch5ButtonListModeBase.ELEMENT_NAME + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+      this.logger.log(this.nodeName + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
       const attributeChangedProperty = Ch5ButtonListModeBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
         const thisRef: any = this;
@@ -266,7 +266,7 @@ export class Ch5ButtonListModeBase extends Ch5Log implements ICh5ButtonListModeA
   public connectedCallback() {
     this.logger.start('connectedCallback()', Ch5ButtonListModeBase.ELEMENT_NAME);
     if (_.isNil(this._parentCh5ButtonList)) {
-      throw new Error(`Invalid parent element for ${Ch5ButtonListModeBase.ELEMENT_NAME}.`);
+      throw new Error(`Invalid parent element for ${this.nodeName}.`);
     }
     this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonListMode);
     this.setAttribute('data-ch5-id', this.getCrId());
@@ -297,13 +297,13 @@ export class Ch5ButtonListModeBase extends Ch5Log implements ICh5ButtonListModeA
     }
   }
 
-  public getParentButton(): Ch5ButtonList {
-    const getTheMatchingParent = (node: Node): Ch5ButtonList => {
+  public getParentButton(): Ch5ButtonListBase {
+    const getTheMatchingParent = (node: Node): Ch5ButtonListBase => {
       // TODO - Rags
       if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-BUTTON-LIST") {
         return getTheMatchingParent(node.parentNode as Node);
       }
-      return node as Ch5ButtonList;
+      return node as Ch5ButtonListBase;
     }
     return getTheMatchingParent(this.parentElement as Node);
   }

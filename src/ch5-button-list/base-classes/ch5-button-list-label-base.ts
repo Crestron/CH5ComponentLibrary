@@ -1,9 +1,6 @@
 import { Ch5Log } from "../../ch5-common/ch5-log";
-import { Ch5ButtonList } from "./../ch5-button-list";
-import { Ch5ButtonListMode } from "./../ch5-button-list-mode";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
 import { ICh5ButtonListLabelDocumentation } from "./../interfaces/i-ch5-button-list-label-documentation";
-import { Ch5ButtonListModeState } from "../ch5-button-list-mode-state";
 
 export class Ch5ButtonListLabelBase extends Ch5Log implements ICh5ButtonListLabelDocumentation {
 
