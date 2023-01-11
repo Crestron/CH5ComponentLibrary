@@ -77,19 +77,19 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 			default: Ch5OverlayPanel.POSITION_OFFSETS[0],
 			values: Ch5OverlayPanel.POSITION_OFFSETS,
 			key: 'position_offset',
-			classListPrefix: 'ch5-overlay-panel--pos-'
+			classListPrefix: '--pos-'
 		},
 		STRETCH: {
 			default: Ch5OverlayPanel.STRETCHES[0],
 			values: Ch5OverlayPanel.STRETCHES,
 			key: 'stretch',
-			classListPrefix: 'ch5-overlay-panel--stretch-'
+			classListPrefix: '--stretch-'
 		},
 		OVERFLOWS: {
 			default: Ch5OverlayPanel.OVERFLOWS[0],
 			values: Ch5OverlayPanel.OVERFLOWS,
 			key: 'overflow',
-			classListPrefix: 'ch5-overlay-panel--overflow-'
+			classListPrefix: '--overflow-'
 		},
 	};
 
@@ -342,7 +342,7 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		}
 
 		if (!this.hasAttribute('show')) {
-			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
+			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
 		}
 
 		this._ready.then(() => {
@@ -650,13 +650,13 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 	protected _handleKeyPress(event: KeyboardEvent) {
 		if (this.getAttribute('show') !== 'false' && event.key === 'Escape') {
 			this.info('_handleKeyPress()');
-			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
+			this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
 		}
 	}
 
 	protected _clickedOnClose(inEvent: Event) {
 		this.info('_clickedOnClose()');
-		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
+		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
 	}
 
 	protected _getReadyCheckPromise(): Promise<any> {
@@ -925,8 +925,8 @@ export class Ch5OverlayPanel extends Ch5Common implements ICh5OverlayPanelAttrib
 		}
 
 		this.info('_dismissElement() inEvent', inEvent);
-		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true); 
-		}
+		this.setAttributeAndProperty(this.COMMON_PROPERTIES.SHOW, false, true);
+	}
 
 	protected _clickAndTouchEvent(event: Event) {
 		event.stopPropagation();

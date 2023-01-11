@@ -1119,31 +1119,31 @@ export class Ch5TextInput extends Ch5CommonInput implements ICh5TextInputAttribu
 			default: Ch5TextInput.TYPES[0],
 			values: Ch5TextInput.TYPES,
 			key: 'type',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		SIZES: {
 			default: Ch5TextInput.SIZES[0],
 			values: Ch5TextInput.SIZES,
 			key: 'size',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		STRETCH: {
 			default: Ch5TextInput.STRETCH[0],
 			values: Ch5TextInput.STRETCH,
 			key: 'stretch',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		TEXT_TRANSFORM: {
 			default: Ch5TextInput.TEXTTRANSFORM[0],
 			values: Ch5TextInput.TEXTTRANSFORM,
 			key: 'text_transform',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		},
 		ICON_POSITION: {
 			default: Ch5TextInput.ICONPOSITION[0],
 			values: Ch5TextInput.ICONPOSITION,
 			key: 'icon_position',
-			classListPrefix: 'ch5-textinput--'
+			classListPrefix: '--'
 		}
 	};
 

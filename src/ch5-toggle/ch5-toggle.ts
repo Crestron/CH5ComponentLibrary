@@ -536,25 +536,25 @@ export class Ch5Toggle extends Ch5CommonInput implements ICh5ToggleAttributes {
 			default: Ch5Toggle.SHAPES[0],
 			values: Ch5Toggle.SHAPES,
 			key: 'shape',
-			classListPrefix: 'ch5-toggle--'
+			classListPrefix: '--'
 		},
 		ORIENTATIONS: {
 			default: Ch5Toggle.ORIENTATIONS[0],
 			values: Ch5Toggle.ORIENTATIONS,
 			key: 'orientation',
-			classListPrefix: 'ch5-toggle--'
+			classListPrefix: '--'
 		},
 		MODES: {
 			default: Ch5Toggle.MODES[0],
 			values: Ch5Toggle.MODES,
 			key: 'mode',
-			classListPrefix: 'ch5-toggle--'
+			classListPrefix: '--'
 		},
 		DIRECTION: {
 			default: Ch5Common.DIRECTION[0],
 			values: Ch5Common.DIRECTION,
 			key: 'mode',
-			classListPrefix: 'ch5-toggle--dir--'
+			classListPrefix: '--dir--'
 		},
 	};
 

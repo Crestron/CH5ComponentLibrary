@@ -25,21 +25,21 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
       values: Ch5WifiSignalLevelGauge.GAUGE_STYLES,
       key: 'gaugeStyle',
       attribute: 'gaugeStyle',
-      classListPrefix: 'ch5-wifi-signal-level-gauge--gauge-style-'
+      classListPrefix: '--gauge-style-'
     },
     ALIGNMENT: {
       default: Ch5WifiSignalLevelGauge.ALIGNMENTS[0],
       values: Ch5WifiSignalLevelGauge.ALIGNMENTS,
       key: 'alignment',
       attribute: 'alignment',
-      classListPrefix: 'ch5-wifi-signal-level-gauge--alignment-'
+      classListPrefix: '--alignment-'
     },
     SIZE: {
       default: Ch5WifiSignalLevelGauge.SIZES[0],
       values: Ch5WifiSignalLevelGauge.SIZES,
       key: 'size',
       attribute: 'size',
-      classListPrefix: 'ch5-wifi-signal-level-gauge--size-'
+      classListPrefix: '--size-'
     }
   };
 
@@ -395,15 +395,15 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
 
   private handleGaugeStyle() {
     Array.from(Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.values).forEach((gaugeStyle: any) => {
-      this._elContainer.classList.remove(Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.classListPrefix + gaugeStyle);
+      this._elContainer.classList.remove(Ch5WifiSignalLevelGauge.ELEMENT_NAME + Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.classListPrefix + gaugeStyle);
     });
-    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.classListPrefix + this.gaugeStyle);
+    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.ELEMENT_NAME + Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.classListPrefix + this.gaugeStyle);
   }
   private handleAlignment() {
     Array.from(Ch5WifiSignalLevelGauge.COMPONENT_DATA.ALIGNMENT.values).forEach((alignment: any) => {
-      this._elContainer.classList.remove(Ch5WifiSignalLevelGauge.COMPONENT_DATA.ALIGNMENT.classListPrefix + alignment);
+      this._elContainer.classList.remove(Ch5WifiSignalLevelGauge.ELEMENT_NAME + Ch5WifiSignalLevelGauge.COMPONENT_DATA.ALIGNMENT.classListPrefix + alignment);
     });
-    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.COMPONENT_DATA.ALIGNMENT.classListPrefix + this.alignment);
+    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.ELEMENT_NAME + Ch5WifiSignalLevelGauge.COMPONENT_DATA.ALIGNMENT.classListPrefix + this.alignment);
   }
 
   private handleValue() {
@@ -441,16 +441,16 @@ export class Ch5WifiSignalLevelGauge extends Ch5Common implements ICh5WifiSignal
 
   private handleSize() {
     Array.from(Ch5WifiSignalLevelGauge.COMPONENT_DATA.SIZE.values).forEach((e: any) => {
-      this._elContainer.classList.remove(Ch5WifiSignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + e);
+      this._elContainer.classList.remove(Ch5WifiSignalLevelGauge.ELEMENT_NAME + Ch5WifiSignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + e);
     });
-    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.ELEMENT_NAME + Ch5WifiSignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + this.size);
   }
 
   private initCssClass() {
     this.logger.start('initCssClass');
-    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.classListPrefix + this.gaugeStyle);
-    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.COMPONENT_DATA.ALIGNMENT.classListPrefix + this.alignment);
-    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + this.size);
+    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.ELEMENT_NAME + Ch5WifiSignalLevelGauge.COMPONENT_DATA.GAUGE_STYLE.classListPrefix + this.gaugeStyle);
+    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.ELEMENT_NAME + Ch5WifiSignalLevelGauge.COMPONENT_DATA.ALIGNMENT.classListPrefix + this.alignment);
+    this._elContainer.classList.add(Ch5WifiSignalLevelGauge.ELEMENT_NAME + Ch5WifiSignalLevelGauge.COMPONENT_DATA.SIZE.classListPrefix + this.size);
     this.logger.stop();
   }
 

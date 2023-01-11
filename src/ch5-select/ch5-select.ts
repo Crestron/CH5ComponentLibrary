@@ -55,13 +55,13 @@ export class Ch5Select extends Ch5Common implements ICh5SelectAttributes {
 			default: Ch5Select.MODE_VALUES[0],
 			values: Ch5Select.MODE_VALUES,
 			key: 'mode_values',
-			classListPrefix: 'ch5-select--'
+			classListPrefix: '--'
 		},
 		FEEDBACK_MODE_VALUES: {
 			default: Ch5Select.FEEDBACK_MODE_VALUES[0],
 			values: Ch5Select.FEEDBACK_MODE_VALUES,
 			key: 'feedback_mode_values',
-			classListPrefix: 'ch5-select--'
+			classListPrefix: '--'
 		},
 	};
 	public static DEFAULT_SIGNAL_VALUE_SYNC_TIMEOUT: number = 1500;

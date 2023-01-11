@@ -90,49 +90,49 @@ export class Ch5Slider extends Ch5CommonInput implements ICh5SliderAttributes {
 			default: Ch5Slider.SHAPES[0],
 			values: Ch5Slider.SHAPES,
 			key: 'shape',
-			classListPrefix: 'ch5-slider--shape--'
+			classListPrefix: '--shape--'
 		},
 		ORIENTATIONS: {
 			default: Ch5Slider.ORIENTATIONS[0],
 			values: Ch5Slider.ORIENTATIONS,
 			key: 'orientation',
-			classListPrefix: 'ch5-slider--orientation'
+			classListPrefix: '--orientation'
 		},
 		SIZES: {
 			default: Ch5Slider.SIZES[0],
 			values: Ch5Slider.SIZES,
 			key: 'size',
-			classListPrefix: 'ch5-slider--size'
+			classListPrefix: '--size'
 		},
 		HANDLE_SIZE: {
 			default: Ch5Slider.SIZES[0],
 			values: Ch5Slider.SIZES,
 			key: 'handle_size',
-			classListPrefix: 'ch5-slider--handle-size--'
+			classListPrefix: '--handle-size--'
 		},
 		STRETCH: {
 			default: Ch5Slider.STRETCHES[0],
 			values: Ch5Slider.STRETCHES,
 			key: 'stretch',
-			classListPrefix: 'ch5-slider--stretch'
+			classListPrefix: '--stretch'
 		},
 		DIRECTION: {
 			default: Ch5Slider.DIRECTION[0],
 			values: Ch5Slider.DIRECTION,
 			key: 'direction',
-			classListPrefix: 'ch5-slider--direction'
+			classListPrefix: '--direction'
 		},
 		TOOLTIPS: {
 			default: Ch5Slider.TOOLTIPS[0],
 			values: Ch5Slider.TOOLTIPS,
 			key: 'tooltip',
-			classListPrefix: 'ch5-slider--tooltip'
+			classListPrefix: '--tooltip'
 		},
 		TDISPLAY: {
 			default: Ch5Slider.TDISPLAY[0],
 			values: Ch5Slider.TDISPLAY,
 			key: 'tdisplay',
-			classListPrefix: 'ch5-slider--'
+			classListPrefix: '--'
 		},
 	};
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [

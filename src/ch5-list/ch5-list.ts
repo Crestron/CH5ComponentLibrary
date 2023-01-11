@@ -103,7 +103,7 @@ export class Ch5List extends Ch5Common implements ICh5ListAttributes {
 			default: Ch5List.ORIENTATION[0],
 			values: Ch5List.ORIENTATION,
 			key: 'scale',
-			classListPrefix: 'ch5-orientation--'
+			classListPrefix: '--'
 		},
 	};
 	public static readonly COMPONENT_PROPERTIES: ICh5PropertySettings[] = [

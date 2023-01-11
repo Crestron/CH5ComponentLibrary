@@ -42,8 +42,8 @@ export class Ch5Image extends Ch5Common implements ICh5ImageAttributes {
 			default: Ch5Common.DIRECTION[0],
 			values: Ch5Common.DIRECTION,
 			key: 'direction',
-			classListPrefix: 'ch5-image--dir--'
-		},
+			classListPrefix: '--dir--'
+		}
 	};
 
 	private readonly MODES: {

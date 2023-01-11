@@ -7,8 +7,6 @@ export class Ch5ButtonList extends Ch5ButtonListBase {
   //#region Variables
 
   public static ELEMENT_NAME = 'ch5-button-list';
-  public cssClassPrefix = 'ch5-button-list';
-  public primaryCssClass = 'ch5-button-list';
 
   public static readonly SIGNAL_ATTRIBUTE_TYPES: Ch5SignalElementAttributeRegistryEntries = {
     ...Ch5GenericListAttributes.SIGNAL_ATTRIBUTE_TYPES,
@@ -33,6 +31,11 @@ export class Ch5ButtonList extends Ch5ButtonListBase {
 
   //#endregion
 
+  constructor() {
+    super();
+    this.primaryCssClass = Ch5ButtonList.ELEMENT_NAME;
+    this.cssClassPrefix = Ch5ButtonList.ELEMENT_NAME;
+  }
 }
 
 Ch5ButtonList.registerCustomElement();

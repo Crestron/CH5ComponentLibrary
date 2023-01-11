@@ -7,9 +7,6 @@ export class Ch5TabButton extends Ch5ButtonListBase {
 
   public static ELEMENT_NAME = 'ch5-tab-button';
 
-  public cssClassPrefix = 'ch5-tab-button';
-  public primaryCssClass = 'ch5-tab-button';
-
   //#endregion
 
   //#region Static Methods
@@ -33,6 +30,9 @@ export class Ch5TabButton extends Ch5ButtonListBase {
 
   constructor() {
     super();
+    this.primaryCssClass = Ch5TabButton.ELEMENT_NAME;
+    this.cssClassPrefix = Ch5TabButton.ELEMENT_NAME;
+
   }
 
   public connectedCallback() {
@@ -46,8 +46,8 @@ export class Ch5TabButton extends Ch5ButtonListBase {
   public static get observedAttributes() {
     const availableAttributes: string[] = super.observedAttributes;
     // Remove attributes that should not follow changes to DOM
-    availableAttributes.splice(availableAttributes.indexOf("scrollbar"), 1); 
-    availableAttributes.splice(availableAttributes.indexOf("endless"), 1); 
+    availableAttributes.splice(availableAttributes.indexOf("scrollbar"), 1);
+    availableAttributes.splice(availableAttributes.indexOf("endless"), 1);
     return availableAttributes;
   }
 
