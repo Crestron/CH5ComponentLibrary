@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-mode-default-attributes">
+    <template>
+      <ch5-button-list>
+        <ch5-button-list-mode></ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-mode-default-attributes-value', () => {
+      let ch5ButtonList;
+      let ch5ButtonListMode;
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-mode-default-attributes');
+        ch5ButtonListMode = ch5ButtonList.getElementsByTagName('ch5-button-list-mode')[0];
+      });
+
+      test('Check Default value for type', () => {
+        expect(ch5ButtonListMode.getAttribute("type")).to.be.equal(null);
+        ch5ButtonListMode.setAttribute('type', 'default');
+        expect(ch5ButtonListMode.getAttribute("type")).to.be.equal('default');
+        ch5ButtonListMode.removeAttribute("type");
+        expect(ch5ButtonListMode.getAttribute("type")).to.be.equal('default');
+      });
+
+      test('Check Default value for hAlignLabel', () => {
+        expect(ch5ButtonListMode.getAttribute("hAlignLabel")).to.be.equal(null);
+        ch5ButtonListMode.setAttribute('hAlignLabel', 'center');
+        expect(ch5ButtonListMode.getAttribute("hAlignLabel")).to.be.equal('center');
+        ch5ButtonListMode.removeAttribute("hAlignLabel");
+        expect(ch5ButtonListMode.getAttribute("hAlignLabel")).to.be.equal('center');
+      });
+
+      test('Check Default value for vAlignLabel', () => {
+        expect(ch5ButtonListMode.getAttribute("vAlignLabel")).to.be.equal(null);
+        ch5ButtonListMode.setAttribute('vAlignLabel', 'middle');
+        expect(ch5ButtonListMode.getAttribute("vAlignLabel")).to.be.equal('middle');
+        ch5ButtonListMode.removeAttribute("vAlignLabel");
+        expect(ch5ButtonListMode.getAttribute("vAlignLabel")).to.be.equal('middle');
+      });
+
+      test('Check Default value for checkboxPosition', () => {
+        expect(ch5ButtonListMode.getAttribute("checkboxPosition")).to.be.equal(null);
+        ch5ButtonListMode.setAttribute('checkboxPosition', 'left');
+        expect(ch5ButtonListMode.getAttribute("checkboxPosition")).to.be.equal('left');
+        ch5ButtonListMode.removeAttribute("checkboxPosition");
+        expect(ch5ButtonListMode.getAttribute("checkboxPosition")).to.be.equal('left');
+      });
+
+      test('Check Default value for iconPosition', () => {
+        expect(ch5ButtonListMode.getAttribute("iconPosition")).to.be.equal(null);
+        ch5ButtonListMode.setAttribute('iconPosition', 'first');
+        expect(ch5ButtonListMode.getAttribute("iconPosition")).to.be.equal('first');
+        ch5ButtonListMode.removeAttribute("iconPosition");
+        expect(ch5ButtonListMode.getAttribute("iconPosition")).to.be.equal('first');
+      });
+
+    });
+  </script>
+</body>
+
+</html>

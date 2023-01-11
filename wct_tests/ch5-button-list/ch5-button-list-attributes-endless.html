@@ -1,0 +1,332 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-endless-attributes">
+    <template>
+      <ch5-button-list numberOfItems="30" rows="1">
+        <ch5-button-list-label>
+          <template><span>btn_{{idx}}</span></template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-endless-attributes-1">
+    <template>
+      <ch5-button-list numberOfItems="30" rows="2">
+        <ch5-button-list-label>
+          <template><span>btn_{{idx}}</span></template>
+        </ch5-button-list-label>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-endless-attributes-value', () => {
+      let ch5ButtonList;
+      let ch5ButtonList1;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-endless-attributes');
+        ch5ButtonList1 = fixture('ch5-button-list-endless-attributes-1');
+      });
+
+      validTest = [true, false];
+      invalidTest = ['', '1', 'color', '-1', '0', 'color1', 'fal', 'tru'];
+      const scrollBarVal = [
+        {
+          columns: 1,
+          numberOfItems: 50
+        },
+        {
+          columns: 1,
+          numberOfItems: 150
+        },
+        {
+          columns: 1,
+          numberOfItems: 450
+        },
+        {
+          columns: 1,
+          numberOfItems: 301
+        },
+      ];
+      const scrollBarRow = [
+        {
+          rows: 1,
+          numberOfItems: 50
+        },
+        {
+          rows: 1,
+          numberOfItems: 150
+        },
+        {
+          rows: 1,
+          numberOfItems: 450
+        },
+        {
+          rows: 1,
+          numberOfItems: 301
+        },
+      ];
+      validTest.forEach((val, i) => {
+        test(`Check attribute endless "${val}" for button list`, () => {
+          ch5ButtonList.setAttribute('endless', val);
+          ch5ButtonList.setAttribute('scrollbar', val);
+          ch5ButtonList.setAttribute('customStyle', 'width:100%');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-button-list").scrollLeft = 100;
+              expect(ch5ButtonList.rows).to.be.equal(1);
+              expect(ch5ButtonList.endless).to.be.equal(val);
+              expect(ch5ButtonList.scrollbar).to.be.equal(val);
+              expect(ch5ButtonList.numberOfItems).to.be.equal(30);
+              expect(ch5ButtonList.customStyle).to.be.equal('width:100%');
+              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--rows-1')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--scrollbar-' + val)).to.be.equal(true);
+              expect(getDiv(ch5ButtonList).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                document.querySelector(".ch5-button-list").scrollLeft += 100;
+                expect(getDiv(ch5ButtonList).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      scrollBarVal.forEach((val, i) => {
+        test(`Check attribute endless columns ${val.columns} with scrollbar & orientation vertical`, () => {
+          ch5ButtonList1.setAttribute('endless', true);
+          ch5ButtonList1.setAttribute('scrollbar', true);
+          ch5ButtonList1.setAttribute('columns', val.columns);
+          ch5ButtonList1.setAttribute('orientation', 'vertical');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-button-list").scrollTop = 100;
+              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+              expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                document.querySelector(".ch5-button-list").scrollTop += 100;
+                expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute endless columns ${val.columns} without scrollbar & orientation vertical`, () => {
+          ch5ButtonList1.setAttribute('endless', true);
+          ch5ButtonList1.setAttribute('scrollbar', false);
+          ch5ButtonList1.setAttribute('columns', val.columns);
+          ch5ButtonList1.setAttribute('orientation', 'vertical');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-button-list").scrollTop = 100;
+              expect(ch5ButtonList1.scrollbar).to.be.equal(false);
+              expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                document.querySelector(".ch5-button-list").scrollTop += 100;
+                expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+              } done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute endless for columns ${val.columns} with scrollbar & orientation horizontal`, () => {
+          ch5ButtonList1.setAttribute('endless', true);
+          ch5ButtonList1.setAttribute('scrollbar', true);
+          ch5ButtonList1.setAttribute('columns', val.columns);
+          ch5ButtonList1.setAttribute('orientation', 'horizontal');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-button-list").scrollLeft = 100;
+              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+              expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                document.querySelector(".ch5-button-list").scrollLeft += 100;
+                expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute endless for columns ${val.columns} without scrollbar & orientation horizontal`, () => {
+          ch5ButtonList1.setAttribute('endless', true);
+          ch5ButtonList1.setAttribute('scrollbar', false);
+          ch5ButtonList1.setAttribute('columns', val.columns);
+          ch5ButtonList1.setAttribute('orientation', 'horizontal');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-button-list").scrollLeft = 100;
+              expect(ch5ButtonList1.scrollbar).to.be.equal(false);
+              expect(ch5ButtonList1.columns).to.be.equal(scrollBarVal[i].columns);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--columns-' + scrollBarVal[i].columns)).to.be.equal(true);
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                document.querySelector(".ch5-button-list").scrollLeft += 100;
+                expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      scrollBarRow.forEach((val, i) => {
+        test(`Check attribute endless rows ${val.rows} with scrollbar & orientation vertical`, () => {
+          ch5ButtonList1.setAttribute('endless', true);
+          ch5ButtonList1.setAttribute('scrollbar', true);
+          ch5ButtonList1.setAttribute('rows', val.rows);
+          ch5ButtonList1.setAttribute('orientation', 'vertical');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-button-list").scrollTop = 100;
+              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+              expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                document.querySelector(".ch5-button-list").scrollLTop += 100;
+                expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute endless rows ${val.rows} without scrollbar & orientation vertical`, () => {
+          ch5ButtonList1.setAttribute('endless', true);
+          ch5ButtonList1.setAttribute('scrollbar', false);
+          ch5ButtonList1.setAttribute('rows', val.rows);
+          ch5ButtonList1.setAttribute('orientation', 'vertical');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-button-list").scrollTop = 100;
+              expect(ch5ButtonList1.scrollbar).to.be.equal(false);
+              expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-vertical')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                document.querySelector(".ch5-button-list").scrollTop += 100;
+                expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute endless for rows ${val.rows} with scrollbar & orientation horizontal`, () => {
+          ch5ButtonList1.setAttribute('endless', true);
+          ch5ButtonList1.setAttribute('scrollbar', true);
+          ch5ButtonList1.setAttribute('rows', val.rows);
+          ch5ButtonList1.setAttribute('orientation', 'horizontal');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-button-list").scrollLeft = 100;
+              expect(ch5ButtonList1.scrollbar).to.be.equal(true);
+              expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-true')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                document.querySelector(".ch5-button-list").scrollLeft += 100;
+                expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+
+        test(`Check attribute endless for rows ${val.rows} without scrollbar & orientation horizontal`, () => {
+          ch5ButtonList1.setAttribute('endless', true);
+          ch5ButtonList1.setAttribute('scrollbar', false);
+          ch5ButtonList1.setAttribute('rows', val.rows);
+          ch5ButtonList1.setAttribute('orientation', 'horizontal');
+          ch5ButtonList1.setAttribute('numberOfItems', val.numberOfItems);
+          ch5ButtonList1.setAttribute('customStyle', 'height:50%; width:50%;');
+          flush(() => {
+            setTimeout(() => {
+              document.querySelector(".ch5-button-list").scrollLeft = 100;
+              expect(ch5ButtonList1.scrollbar).to.be.equal(false);
+              expect(ch5ButtonList1.rows).to.be.equal(scrollBarVal[i].rows);
+              expect(ch5ButtonList1.customStyle).to.be.equal('height:50%; width:50%;');
+              expect(ch5ButtonList1.numberOfItems).to.be.equal(scrollBarVal[i].numberOfItems);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button--danger')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--scrollbar-false')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--orientation-horizontal')).to.be.equal(true);
+              expect(getDiv(ch5ButtonList1).classList.contains('ch5-button-list--rows-' + scrollBarVal[i].rows)).to.be.equal(true);
+              for (let i = 0; i < getDiv(ch5ButtonList).children.length; i++) {
+                document.querySelector(".ch5-button-list").scrollLeft += 100;
+                expect(getDiv(ch5ButtonList1).children[i].children[0].children[0].children[0].children[0].children[0].children[0].textContent).to.be.equal('btn_' + i);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+    });
+  </script>
+</body>
+
+</html>

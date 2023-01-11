@@ -125,10 +125,14 @@ export class Ch5ButtonModeState extends Ch5Log implements ICh5ButtonModeStateAtt
 
   //#region 3. Life Cycle Hooks
 
-  constructor() {
+  constructor(public parentButton?: Ch5Button) {
     super();
     this.logger.start('constructor');
-    this._parentCh5Button = this.getParentButton();
+    if (!_.isNil(parentButton)) {
+      this._parentCh5Button = parentButton;
+    } else {
+      this._parentCh5Button = this.getParentButton();
+    }
     this.logger.stop();
   }
 

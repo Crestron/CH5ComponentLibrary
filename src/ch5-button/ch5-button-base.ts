@@ -149,6 +149,14 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	 */
 	public static readonly ORIENTATIONS: TCh5ButtonOrientation[] = ['horizontal', 'vertical'];
 
+	public static readonly MODES: {
+		MIN_LENGTH: number,
+		MAX_LENGTH: number
+	} = {
+			MIN_LENGTH: 0,
+			MAX_LENGTH: 99
+		};
+
 	public static readonly COMPONENT_DATA: any = {
 		TYPES: {
 			default: Ch5ButtonBase.TYPES[0],
@@ -293,14 +301,6 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 	private readonly pressedCssClassPostfix: string = '--pressed';
 	private readonly selectedCssClassPostfix: string = '--selected';
 	private readonly iosCssClassPostfix: string = '--ios-vertical';
-
-	private readonly MODES: {
-		MIN_LENGTH: number,
-		MAX_LENGTH: number
-	} = {
-			MIN_LENGTH: 0,
-			MAX_LENGTH: 99
-		};
 
 	//#endregion
 
@@ -629,7 +629,7 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 			if (Number.isNaN(value)) {
 				this._mode = 0;
 			} else {
-				if (value >= this.MODES.MIN_LENGTH && value <= this.MODES.MAX_LENGTH) {
+				if (value >= Ch5ButtonBase.MODES.MIN_LENGTH && value <= Ch5ButtonBase.MODES.MAX_LENGTH) {
 					const buttonModesArray = this.getElementsByTagName("ch5-button-mode");
 					if (buttonModesArray && buttonModesArray.length > 0) {
 						if (value < buttonModesArray.length) {
@@ -1774,6 +1774,18 @@ export class Ch5ButtonBase extends Ch5Common implements ICh5ButtonAttributes {
 
 		this._elContainer.appendChild(this._elButton);
 		this.logger.stop();
+	}
+
+	public addContainerClass(input: string) {
+		if (!this._elContainer.classList.contains(input)) {
+			this._elContainer.classList.add(input);
+		}
+	}
+
+	public removeContainerClass(input: string) {
+		if (this._elContainer.classList.contains(input)) {
+			this._elContainer.classList.remove(input);
+		}
 	}
 
 	// adding ellipsis in iOS device with vertical button

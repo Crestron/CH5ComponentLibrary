@@ -1,0 +1,38 @@
+{
+  "cues": [
+    {
+      "type": "number",
+      "event": "trigger_signal",
+      "trigger": "&change",
+      "actions": [
+        {
+          "state": "trigger_event_listener",
+          "type": "n",
+          "logic": "link"
+        }
+      ]
+    }
+  ],
+  "onStart": [
+    {
+      "state": "trigger_event_listener-0",
+      "type": "string",
+      "value": "a"
+    },
+    {
+      "state": "trigger_event_listener-1",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "state": "trigger_event_listener-2",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "state": "trigger_event_listener-3",
+      "type": "number",
+      "value": 10
+    }
+  ]
+}

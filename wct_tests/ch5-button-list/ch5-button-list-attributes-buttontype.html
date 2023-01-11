@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-types-attributes">
+    <template>
+      <ch5-button-list></ch5-button-list>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="ch5-button-list-types-fixture2">
+    <template>
+      <ch5-button-list buttonMode="0" buttonType="danger">
+        <ch5-button-list-mode type="default"></ch5-button-list-mode>
+        <ch5-button-list-mode type="warning"></ch5-button-list-mode>
+      </ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-buttonType-attributes', () => {
+      let ch5ButtonList;
+      let ch5ButtonList2;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-types-attributes');
+        ch5ButtonList2 = fixture('ch5-button-list-types-fixture2');
+      });
+
+      const valid_types = CrComLib.Ch5ButtonList.BUTTON_TYPES;
+      const invalid_types = ['', 'junk', 'null', 'undefined', '0', '1', null].concat(CrComLib.Ch5Button.TYPES).filter(data => { return !valid_types.includes(data) });
+      const default_type = valid_types[0];
+
+      valid_types.forEach((typeName, i) => {
+        test(`Check attribute type: "${typeName}"`, (done) => {
+          ch5ButtonList.setAttribute('buttonType', typeName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.buttonType).to.be.equal(typeName);
+              const allButtons = getAllButtons(ch5ButtonList);
+              for (let i = 0; i < allButtons.length; i++) {
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + typeName)).to.be.equal(true);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button-list--button-type-" + typeName)).to.be.equal(true);
+                expect(ch5ButtonList.getAttribute('buttonType')).to.be.equal(typeName);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      test(`Check ch5-button-list > div css class name for attribute buttonType "default" by not adding the buttonType attribute in HTML or through javascript to the button-list`, (done) => {
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList.buttonType).to.be.equal(default_type);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+
+      invalid_types.forEach((typeName, i) => {
+        test(`Check invalid attribute type: "${typeName}"`, (done) => {
+          ch5ButtonList.setAttribute('type', typeName);
+          flush(() => {
+            setTimeout(() => {
+              const allButtons = getAllButtons(ch5ButtonList);
+              for (let i = 0; i < allButtons.length; i++) {
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button--" + default_type)).to.be.equal(true);
+                expect(getDiv(allButtons[i]).classList.contains("ch5-button-list--button-type-" + default_type)).to.be.equal(true);
+              }
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      test(`Check attribute type for ch5-button-list-mode and mode value=0`, (done) => {
+        ch5ButtonList2.setAttribute('buttonMode', "0");
+        const expectedValue = "default";
+        flush(() => {
+          setTimeout(() => {
+            expect(ch5ButtonList2.getAttribute('buttonType')).to.be.equal("danger");
+            expect(ch5ButtonList2.children[2].children[0].children[0].children[0].classList.contains("ch5-button--" + expectedValue)).to.be.equal(true);
+            done();
+          }, COMPONENT_TESTING_TIMEOUT);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

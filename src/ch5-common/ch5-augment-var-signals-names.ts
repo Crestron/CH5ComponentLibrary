@@ -22,7 +22,7 @@ type IterateElementsInTemplateFn = (element: Element) => void;
  *         - N is NOT numeric => data-ch5-appendclass = N + base 0 item idx
  *          (ex: N = item, data-ch5-appendclass = item[0] | item[1] | item[2] ...)
  *
- *         - N is numberic => data-ch5-appendclass = N + base 0 item idx
+ *         - N is numeric => data-ch5-appendclass = N + base 0 item idx
  *          (ex: N = 201, data-ch5-appendclass = 201 | 202 | 203)
  *
  */

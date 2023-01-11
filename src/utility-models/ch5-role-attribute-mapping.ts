@@ -12,6 +12,11 @@ export class Ch5RoleAttributeMapping {
     public static readonly ch5ButtonLabel = 'label';
     public static readonly ch5ButtonMode = 'template';
     public static readonly ch5ButtonModeState = 'template';
+    public static readonly ch5ButtonList = 'button-list';
+    public static readonly ch5ButtonListMode = 'template';
+    public static readonly ch5ButtonListModeState = 'template';
+    public static readonly ch5ButtonListLabel = 'label';
+    public static readonly ch5ButtonListIndividualButton = 'template';
     public static readonly ch5ColorChip = 'color-chip';
     public static readonly ch5ColorPicker = 'color-picker';
     public static readonly ch5Dpad = 'dpad';

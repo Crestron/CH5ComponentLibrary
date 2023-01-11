@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/bower_components/web-component-tester/browser.js"></script>
+  <link rel="stylesheet" type="text/css" href="/wct_tests/themes/crestron-components-assets/base.css">
+
+  <script src="/build_bundles/umd/cr-com-lib.js"></script>
+  <script src="/wct_tests/js/helpers.js"></script>
+  <script src="/wct_tests/ch5-button-list/js/helpers.js"></script>
+</head>
+
+<body>
+  <test-fixture id="ch5-button-list-buttonIconPosition-attributes">
+    <template>
+      <ch5-button-list></ch5-button-list>
+    </template>
+  </test-fixture>
+  <test-fixture id="ch5-button-list-buttonIconPosition-attributes1">
+    <template>
+      <ch5-button-list></ch5-button-list>
+    </template>
+  </test-fixture>
+  <script>
+    suite('ch5-button-list-buttonIconPosition-attributes-value', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-buttonIconPosition-attributes');
+      });
+
+      let testCases = ['a', '', ' ', 'number', 'first', 'last', 'top', 'bottom'];
+      let expectedResult = ['first', 'first', 'first', 'first', 'first', 'last', 'top', 'bottom'];
+      testCases.forEach((ele, i) => {
+        test('Check Value "buttonIconPosition"', () => {
+          ch5ButtonList.setAttribute('buttonIconPosition', ele);
+          expect(ch5ButtonList.getAttribute('buttonIconPosition')).to.be.equal(expectedResult[i]);
+        });
+      });
+
+    });
+    suite('ch5-button-list-buttonIconPosition-attributes-classList', () => {
+      let ch5ButtonList;
+
+      setup(async () => {
+        ch5ButtonList = fixture('ch5-button-list-buttonIconPosition-attributes1');
+      });
+
+
+      const valid_buttonIconPosition = CrComLib.Ch5ButtonList.BUTTON_ICON_POSITIONS;
+      const invalid_buttonIconPosition = ['', 'junk', 'null', null, undefined, 'undefined', '0', '1', 'left', 'center', 'middle'];
+
+      valid_buttonIconPosition.forEach((buttonIconPositionName, i) => {
+        test(`Check attribute buttonIconPosition: "${buttonIconPositionName}"`, (done) => {
+          ch5ButtonList.setAttribute('buttonIconPosition', buttonIconPositionName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.buttonIconPosition).to.be.equal(buttonIconPositionName);
+              expect(getFirstButton(ch5ButtonList).children[0].classList.contains("ch5-button--iconposition-" + buttonIconPositionName)).to.be.equal(true);
+              valid_buttonIconPosition.forEach((buttonIconPositionNameErrorCheck, j) => {
+                if (buttonIconPositionNameErrorCheck !== buttonIconPositionName) {
+                  expect(getFirstButton(ch5ButtonList).children[0].classList.contains("ch5-button--iconposition-" + buttonIconPositionNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+
+      invalid_buttonIconPosition.forEach((buttonIconPositionName, i) => {
+        test(`Check attribute buttonIconPosition: "${buttonIconPositionName}" for invalid values`, (done) => {
+          ch5ButtonList.setAttribute('buttonIconPosition', buttonIconPositionName);
+          flush(() => {
+            setTimeout(() => {
+              expect(ch5ButtonList.buttonIconPosition).to.be.equal("first");
+              expect(getFirstButton(ch5ButtonList).children[0].classList.contains("ch5-button--iconposition-first")).to.be.equal(true);
+              valid_buttonIconPosition.forEach((buttonIconPositionNameErrorCheck, j) => {
+                if (buttonIconPositionNameErrorCheck !== "first") {
+                  expect(getFirstButton(ch5ButtonList).children[0].classList.contains("ch5-button--iconposition-" + buttonIconPositionNameErrorCheck)).to.be.equal(false);
+                }
+              });
+              done();
+            }, COMPONENT_TESTING_TIMEOUT);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
