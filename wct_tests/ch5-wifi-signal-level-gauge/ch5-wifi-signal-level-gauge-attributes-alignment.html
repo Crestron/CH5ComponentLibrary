@@ -24,8 +24,8 @@
         ch5WifiSignalLevelGauge = fixture('ch5-wifi-signal-level-gauge-alignment-attributes');
       });
 
-      let testCases = ['a', '', ' ', 'number', 'up', 'down', 'left', 'right'];
-      let expectedResult = ['up', 'up', 'up', 'up', 'up', 'down', 'left', 'right'];
+      let testCases = ['a', '', ' ', 'number', 'up', 'down', 'left', 'right', 'RIGHT', 'LEFT'];
+      let expectedResult = ['up', 'up', 'up', 'up', 'up', 'down', 'left', 'right', 'up', 'up'];
       testCases.forEach((ele, i) => {
         test('Check Value "alignment"', () => {
           ch5WifiSignalLevelGauge.setAttribute('alignment', ele);
