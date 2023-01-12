@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { Ch5ButtonListModeBase } from "./../ch5-button-list/base-classes/ch5-button-list-mode-base";
+import { Ch5TabButton } from "./ch5-tab-button";
 
 export class Ch5TabButtonMode extends Ch5ButtonListModeBase {
 
@@ -21,6 +22,28 @@ export class Ch5TabButtonMode extends Ch5ButtonListModeBase {
   }
 
   //#endregion
+
+  /**
+   * Called when the Ch5ButtonListModeBase component is first connected to the DOM
+   */
+  public connectedCallback() {
+    const _parentCh5TabButton = this.getParentButton();
+    if (_.isNil(_parentCh5TabButton)) {
+      throw new Error(`Invalid parent element for ${this.nodeName}.`);
+    }
+    super.connectedCallback();
+    this.parentComponent = _parentCh5TabButton;
+  }
+
+  public getParentButton(): Ch5TabButton {
+    const getTheMatchingParent = (node: Node): Ch5TabButton => {
+      if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-TAB-BUTTON") {
+        return getTheMatchingParent(node.parentNode as Node);
+      }
+      return node as Ch5TabButton;
+    }
+    return getTheMatchingParent(this.parentElement as Node);
+  }
 
 }
 

@@ -24,7 +24,9 @@ export class Ch5TabButtonLabel extends Ch5ButtonListLabelBase {
 
   //#endregion
 
-
+  /**
+   * Called when the Ch5ButtonListLabel component is first connected to the DOM
+   */
   public connectedCallback() {
     if (!(this.parentElement instanceof Ch5TabButton || this.parentElement instanceof Ch5TabButtonMode || this.parentElement instanceof Ch5TabButtonModeState)) {
       throw new Error(`Invalid parent element for ${Ch5TabButtonLabel.ELEMENT_NAME}.`);

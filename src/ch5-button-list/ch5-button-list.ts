@@ -31,6 +31,8 @@ export class Ch5ButtonList extends Ch5ButtonListBase {
 
   //#endregion
 
+  //#region Component Lifecycle
+
   constructor() {
     super();
     this.primaryCssClass = Ch5ButtonList.ELEMENT_NAME;
@@ -67,3 +69,4 @@ export class Ch5ButtonList extends Ch5ButtonListBase {
 }
 
 Ch5ButtonList.registerCustomElement();
+Ch5ButtonList.registerSignalAttributeTypes();
