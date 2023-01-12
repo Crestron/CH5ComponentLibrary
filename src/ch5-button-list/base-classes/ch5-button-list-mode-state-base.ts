@@ -116,19 +116,25 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
     },
   ];
 
-  public static ELEMENT_NAME = 'ch5-button-list-mode-state';
-
   private _ch5Properties: Ch5Properties;
-  private _parentCh5ButtonList: Ch5ButtonListBase;
+  private _parentCh5ButtonList: Ch5ButtonListBase | null = null;
 
   //#endregion
 
   //#region Getters and Setters
 
+  public set parentComponent(value: Ch5ButtonListBase | null) {
+    this._parentCh5ButtonList = value;
+  }
+  public get parentComponent(): Ch5ButtonListBase | null {
+    return this._parentCh5ButtonList;
+  }
+
+
   public set state(value: TCh5ButtonListButtonModeState) {
     this._ch5Properties.set<TCh5ButtonListButtonModeState>("state", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -138,8 +144,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set type(value: TCh5ButtonListButtonType) {
     this._ch5Properties.set<TCh5ButtonListButtonType>("type", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -149,8 +155,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set hAlignLabel(value: TCh5ButtonListButtonHAlignLabel) {
     this._ch5Properties.set<TCh5ButtonListButtonHAlignLabel>("hAlignLabel", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -160,8 +166,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set vAlignLabel(value: TCh5ButtonListButtonVAlignLabel) {
     this._ch5Properties.set<TCh5ButtonListButtonVAlignLabel>("vAlignLabel", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -171,8 +177,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set checkboxPosition(value: TCh5ButtonListButtonCheckboxPosition) {
     this._ch5Properties.set<TCh5ButtonListButtonCheckboxPosition>("checkboxPosition", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -182,8 +188,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set iconPosition(value: TCh5ButtonListButtonIconPosition) {
     this._ch5Properties.set<TCh5ButtonListButtonIconPosition>("iconPosition", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -193,8 +199,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set iconClass(value: string) {
     this._ch5Properties.set<string>("iconClass", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -204,8 +210,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set iconUrl(value: string) {
     this._ch5Properties.set<string>("iconUrl", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -215,8 +221,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set customClass(value: string) {
     this._ch5Properties.set<string>("customClass", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -226,8 +232,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set customStyle(value: string) {
     this._ch5Properties.set<string>("customStyle", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -237,8 +243,8 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public set labelInnerHTML(value: string) {
     this._ch5Properties.set<string>("labelInnerHTML", value, () => {
-      if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-        this._parentCh5ButtonList.debounceButtonDisplay();
+      if (this.parentComponent) {
+        this.parentComponent.debounceButtonDisplay();
       }
     });
   }
@@ -252,7 +258,7 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
 
   public constructor() {
     super();
-    this.logger.start('constructor()', Ch5ButtonListModeStateBase.ELEMENT_NAME);
+    this.logger.start('constructor()');
     this._ch5Properties = new Ch5Properties(this, Ch5ButtonListModeStateBase.COMPONENT_PROPERTIES);
     this._parentCh5ButtonList = this.getParentButton();
     this.logger.stop();
@@ -269,9 +275,9 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
   }
 
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-    this.logger.start("attributeChangedCallback " + Ch5ButtonListModeStateBase.ELEMENT_NAME);
+    this.logger.start("attributeChangedCallback");
     if (oldValue !== newValue) {
-      this.logger.log(Ch5ButtonListModeStateBase.ELEMENT_NAME + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+      this.logger.log('attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
       const attributeChangedProperty = Ch5ButtonListModeStateBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
         const thisRef: any = this;
@@ -288,14 +294,7 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
    * Called when the Ch5ButtonListModeStateBase component is first connected to the DOM
    */
   public connectedCallback() {
-    this.logger.start('connectedCallback()', Ch5ButtonListModeStateBase.ELEMENT_NAME);
-
-    if (!(this.parentElement instanceof Ch5ButtonListModeBase)) {
-      throw new Error(`Invalid parent element for ${Ch5ButtonListModeStateBase.ELEMENT_NAME}.`);
-    }
-    if (_.isNil(this._parentCh5ButtonList)) {
-      throw new Error(`Missing parent element for ${Ch5ButtonListModeStateBase.ELEMENT_NAME}.`);
-    }
+    this.logger.start('connectedCallback()');
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonListModeState);
     }
@@ -305,7 +304,7 @@ export class Ch5ButtonListModeStateBase extends Ch5Log implements ICh5ButtonList
   }
 
   public disconnectedCallback() {
-    this.logger.start('disconnectedCallback()', Ch5ButtonListModeStateBase.ELEMENT_NAME);
+    this.logger.start('disconnectedCallback()');
     this.logger.stop();
   }
 

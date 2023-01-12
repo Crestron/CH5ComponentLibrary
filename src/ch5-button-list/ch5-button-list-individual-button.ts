@@ -32,6 +32,7 @@ export class Ch5ButtonListIndividualButton extends Ch5ButtonListIndividualButton
 			throw new Error(`Invalid parent element for ch5-button-list-individual-button.`);
 		}
 		super.connectedCallback();
+		this.parentComponent = _parentCh5ButtonList;
 	}
 
 	public getParentButton(): Ch5ButtonList {

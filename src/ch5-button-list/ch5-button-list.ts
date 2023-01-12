@@ -34,6 +34,35 @@ export class Ch5ButtonList extends Ch5ButtonListBase {
   constructor() {
     super();
     this.primaryCssClass = Ch5ButtonList.ELEMENT_NAME;
+    // this.componentStructure = {
+    //   key: Ch5ButtonList.ELEMENT_NAME,
+    //   children: [
+    //     {
+    //       key: "ch5-button-list-individual-button",
+    //       children: []
+    //     },
+    //     {
+    //       key: "ch5-button-list-label",
+    //       children: []
+    //     },
+    //     {
+    //       key: "ch5-button-list-mode",
+    //       children: [
+    //         {
+    //           key: "ch5-button-list-mode-state",
+    //           children: [{
+    //             key: "ch5-button-list-label",
+    //             children: []
+    //           }]
+    //         },
+    //         {
+    //           key: "ch5-button-list-label",
+    //           children: []
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // };
   }
 }
 

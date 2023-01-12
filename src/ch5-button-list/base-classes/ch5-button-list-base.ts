@@ -290,9 +290,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     }
   ];
 
-  public static ELEMENT_NAME = 'ch5-button-list';
-  public primaryCssClass = 'ch5-button-list';
-
+  public primaryCssClass = '';
   private _ch5Properties: Ch5Properties;
   private _elContainer: HTMLElement = {} as HTMLElement;
   private _scrollbarContainer: HTMLElement = {} as HTMLElement;
@@ -532,7 +530,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
 
   public constructor() {
     super();
-    this.logger.start('constructor()', Ch5ButtonListBase.ELEMENT_NAME);
+    this.logger.start('constructor()');
     if (!this._wasInstatiated) {
       this.createInternalHtml();
     }
@@ -555,7 +553,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
     this.logger.start("attributeChangedCallback", this.nodeName);
     if (oldValue !== newValue) {
-      this.logger.log(Ch5ButtonListBase.ELEMENT_NAME + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+      this.logger.log('attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
       const attributeChangedProperty = Ch5ButtonListBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
       if (attributeChangedProperty) {
         const thisRef: any = this;
@@ -572,7 +570,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
    * Called when the Ch5ButtonListBase component is first connected to the DOM
    */
   public connectedCallback() {
-    this.logger.start('connectedCallback()', Ch5ButtonListBase.ELEMENT_NAME);
+    this.logger.start('connectedCallback()');
     // WAI-ARIA Attributes
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonList);
@@ -584,8 +582,8 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
     this.initCommonMutationObserver(this);
     this.debounceButtonDisplay();
     resizeObserver(this._elContainer, this.resizeHandler);
-    customElements.whenDefined(Ch5ButtonListBase.ELEMENT_NAME).then(() => {
-      this.componentLoadedEvent(Ch5ButtonListBase.ELEMENT_NAME, this.id);
+    customElements.whenDefined(this.nodeName.toLowerCase()).then(() => {
+      this.componentLoadedEvent(this.nodeName.toLowerCase(), this.id);
     });
     this.logger.stop();
   }
@@ -870,7 +868,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
   }
 
   private buttonModeHelper(btn: Ch5Button, i: number) {
-    const buttonListModes = this.getElementsByTagName(Ch5ButtonListModeBase.ELEMENT_NAME);
+    const buttonListModes = this.getElementsByTagName(this.nodeName.toLowerCase() + "-mode");
     if (buttonListModes && buttonListModes.length > 0) {
       Array.from(buttonListModes).forEach((buttonListMode, index) => {
         if (index < Ch5ButtonListBase.MODES_MAX_COUNT) {
@@ -882,7 +880,7 @@ export class Ch5ButtonListBase extends Ch5GenericListAttributes implements ICh5B
               }
             });
 
-            const buttonListModeStates = buttonListMode.getElementsByTagName(Ch5ButtonListModeStateBase.ELEMENT_NAME);
+            const buttonListModeStates = buttonListMode.getElementsByTagName(this.nodeName.toLowerCase() + "-mode-state");
             if (buttonListModeStates && buttonListModeStates.length > 0) {
               Array.from(buttonListModeStates).forEach(buttonListModeState => {
                 if (buttonListModeState.parentElement instanceof Ch5ButtonListMode) {

@@ -4,17 +4,11 @@ import { ICh5ButtonListLabelDocumentation } from "./../interfaces/i-ch5-button-l
 
 export class Ch5ButtonListLabelBase extends Ch5Log implements ICh5ButtonListLabelDocumentation {
 
-  //#region Variables
-
-  public static ELEMENT_NAME = 'ch5-button-list-label';
-
-  //#endregion
-
   //#region Component Lifecycle
 
   public constructor() {
     super();
-    this.logger.start('constructor()', Ch5ButtonListLabelBase.ELEMENT_NAME);
+    this.logger.start('constructor()');
     this.logger.stop();
   }
 
@@ -22,7 +16,7 @@ export class Ch5ButtonListLabelBase extends Ch5Log implements ICh5ButtonListLabe
    * Called when the Ch5ButtonListLabel component is first connected to the DOM
    */
   public connectedCallback() {
-    this.logger.start('connectedCallback()', Ch5ButtonListLabelBase.ELEMENT_NAME);
+    this.logger.start('connectedCallback()');
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonListLabel);
     }
@@ -32,7 +26,7 @@ export class Ch5ButtonListLabelBase extends Ch5Log implements ICh5ButtonListLabe
   }
 
   public disconnectedCallback() {
-    this.logger.start('disconnectedCallback()', Ch5ButtonListLabelBase.ELEMENT_NAME);
+    this.logger.start('disconnectedCallback()');
     this.logger.stop();
   }
 

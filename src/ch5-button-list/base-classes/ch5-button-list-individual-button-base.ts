@@ -3,7 +3,6 @@ import { Ch5Log } from "../../ch5-common/ch5-log";
 import { Ch5Properties } from "../../ch5-core/ch5-properties";
 import { ICh5PropertySettings } from "../../ch5-core/ch5-property";
 import { Ch5RoleAttributeMapping } from "../../utility-models/ch5-role-attribute-mapping";
-import { Ch5ButtonList } from "../ch5-button-list";
 import { ICh5ButtonListIndividualButtonAttributes } from './../interfaces/i-ch5-button-list-individual-button-attributes';
 import { Ch5ButtonListBase } from "./ch5-button-list-base";
 
@@ -46,19 +45,24 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 		}
 	];
 
-	public static ELEMENT_NAME = 'ch5-button-list-individual-button';
-
 	private _ch5Properties: Ch5Properties;
-	private _parentCh5ButtonList: Ch5ButtonListBase;
+	private _parentCh5ButtonList: Ch5ButtonListBase |null = null;
 
 	//#endregion
 
 	//#region Getters and Setters
 
+	public set parentComponent(value: Ch5ButtonListBase|null) {
+		this._parentCh5ButtonList = value;
+	}
+	public get parentComponent(): Ch5ButtonListBase|null {
+		return this._parentCh5ButtonList;
+	}
+
 	public set buttonLabelInnerHTML(value: string) {
 		this._ch5Properties.set<string>("buttonLabelInnerHTML", value, () => {
-			if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-				this._parentCh5ButtonList.debounceButtonDisplay();
+			if ( this.parentComponent) {
+					this.parentComponent.debounceButtonDisplay();
 			}
 		});
 	}
@@ -68,8 +72,8 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 
 	public set iconUrl(value: string) {
 		this._ch5Properties.set<string>("iconUrl", value, () => {
-			if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-				this._parentCh5ButtonList.debounceButtonDisplay();
+			if ( this.parentComponent) {
+				this.parentComponent.debounceButtonDisplay();
 			}
 		});
 	}
@@ -79,8 +83,8 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 
 	public set iconClass(value: string) {
 		this._ch5Properties.set<string>("iconClass", value, () => {
-			if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-				this._parentCh5ButtonList.debounceButtonDisplay();
+			if ( this.parentComponent) {
+				this.parentComponent.debounceButtonDisplay();
 			}
 		});
 	}
@@ -90,8 +94,8 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 
 	public set onRelease(value: string) {
 		this._ch5Properties.set<string>("onRelease", value, () => {
-			if (typeof this._parentCh5ButtonList.debounceButtonDisplay === "function") {
-				this._parentCh5ButtonList.debounceButtonDisplay();
+			if ( this.parentComponent) {
+				this.parentComponent.debounceButtonDisplay();
 			}
 		});
 	}
@@ -105,9 +109,8 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 
 	public constructor() {
 		super();
-		this.logger.start('constructor()', Ch5ButtonListIndividualButtonBase.ELEMENT_NAME);
+		this.logger.start('constructor()');
 		this._ch5Properties = new Ch5Properties(this, Ch5ButtonListIndividualButtonBase.COMPONENT_PROPERTIES);
-		this._parentCh5ButtonList = this.getParentButton();
 	}
 
 	public static get observedAttributes(): string[] {
@@ -122,9 +125,9 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 	}
 
 	public attributeChangedCallback(attr: string, oldValue: string, newValue: string): void {
-		this.logger.start("attributeChangedCallback", Ch5ButtonListIndividualButtonBase.ELEMENT_NAME);
+		this.logger.start("attributeChangedCallback");
 		if (oldValue !== newValue) {
-			this.logger.log('ch5-button-list-individual-button attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
+			this.logger.log(this.nodeName + ' attributeChangedCallback("' + attr + '","' + oldValue + '","' + newValue + '")');
 			const attributeChangedProperty = Ch5ButtonListIndividualButtonBase.COMPONENT_PROPERTIES.find((property: ICh5PropertySettings) => { return property.name.toLowerCase() === attr.toLowerCase() && property.isObservableProperty === true });
 			if (attributeChangedProperty) {
 				const thisRef: any = this;
@@ -141,7 +144,7 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 	 * Called when the Ch5ButtonListIndividualButtonBase component is first connected to the DOM
 	 */
 	public connectedCallback() {
-		this.logger.start('connectedCallback()', Ch5ButtonListIndividualButtonBase.ELEMENT_NAME);
+		this.logger.start('connectedCallback()');
 		this.setAttribute('role', Ch5RoleAttributeMapping.ch5ButtonListIndividualButton);
 		this.setAttribute('data-ch5-id', this.getCrId());
 		this.initAttributes();
@@ -169,18 +172,6 @@ export class Ch5ButtonListIndividualButtonBase extends Ch5Log implements ICh5But
 				}
 			}
 		}
-	}
-
-	public getParentButton(): Ch5ButtonListBase {
-		console.log("*****", this.parentElement, this.parentElement instanceof Ch5ButtonList, this.parentElement instanceof Ch5ButtonListBase);
-
-		const getTheMatchingParent = (node: Node): Ch5ButtonListBase => {
-			if (!_.isNil(node) && node.nodeName.toString().toUpperCase() !== "CH5-BUTTON-LIST") {
-				return getTheMatchingParent(node.parentNode as Node);
-			}
-			return node as Ch5ButtonListBase;
-		}
-		return getTheMatchingParent(this.parentElement as Node);
 	}
 
 	//#endregion
